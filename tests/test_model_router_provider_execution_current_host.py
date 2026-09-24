@@ -12,8 +12,6 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("cross_provider_silent_fallback_denied_pass",REQUIRED_CHECKS)
         self.assertIn("raw_secret_absent_from_evidence_pass",REQUIRED_CHECKS)
         self.assertIn("credential_authentication_enforced_pass",REQUIRED_CHECKS)
-        self.assertIn("credential_a_identity_preflight_pass",REQUIRED_CHECKS)
-        self.assertIn("credential_b_identity_preflight_pass",REQUIRED_CHECKS)
         self.assertIn("credential_a_upstream_preflight_pass",REQUIRED_CHECKS)
         self.assertIn("credential_b_upstream_preflight_pass",REQUIRED_CHECKS)
         self.assertIn("runtime_model_discovery_pass",REQUIRED_CHECKS)
@@ -28,7 +26,6 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertNotIn('str(root / "bin/fa3-secretctl")',producer)
         self.assertIn("credential_authentication_enforced",producer)
         self.assertIn("discover_working_chat_model",producer)
-        self.assertIn("credential_identity_preflight",producer)
         self.assertIn("credential_upstream_preflight",producer)
         self.assertIn("parse_provider_error",producer)
         self.assertNotIn('error.get("message")',producer)
@@ -60,6 +57,28 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
             ("unspecified","unspecified"),
         )
 
+    def test_terminal_billing_blocker_is_fail_closed(self):
+        spec=importlib.util.spec_from_file_location(
+            "fa3_provider_execution_current_host_billing_test",
+            ROOT/"bin/fa3-model-router-provider-execution-current-host.py",
+        )
+        self.assertIsNotNone(spec)
+        module=importlib.util.module_from_spec(spec)
+        self.assertIsNotNone(spec.loader)
+        spec.loader.exec_module(module)
+        self.assertTrue(module.terminal_billing_blocker(
+            module.ProviderHTTPError(429,"insufficient_quota","credit_balance_exhausted")
+        ))
+        self.assertTrue(module.terminal_billing_blocker(
+            module.ProviderHTTPError(429,"insufficient_quota","project_spend_limit_exceeded")
+        ))
+        self.assertFalse(module.terminal_billing_blocker(
+            module.ProviderHTTPError(429,"rate_limit_error","rate_limit_exceeded")
+        ))
+        self.assertFalse(module.terminal_billing_blocker(
+            module.ProviderHTTPError(404,"invalid_request_error","model_not_found")
+        ))
+
     def test_endpoint_paths_are_relative_to_api_base(self):
         spec=importlib.util.spec_from_file_location(
             "fa3_provider_execution_current_host",
@@ -69,10 +88,6 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         module=importlib.util.module_from_spec(spec)
         self.assertIsNotNone(spec.loader)
         spec.loader.exec_module(module)
-        self.assertEqual(
-            module.url_join("http://127.0.0.1:12345/v1","me"),
-            "http://127.0.0.1:12345/v1/me",
-        )
         self.assertEqual(
             module.url_join("http://127.0.0.1:12345/v1","models"),
             "http://127.0.0.1:12345/v1/models",
@@ -93,10 +108,8 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn('"allowed_executables":[]',harness)
         self.assertNotIn('"allowed_executables":[python_exe]',harness)
         self.assertIn('"allowed_systemd_units":[unit]',harness)
-        self.assertIn('"identity_path":"me"',harness)
         self.assertIn('"models_path":"models"',harness)
         self.assertIn('"chat_path":"chat/completions"',harness)
-        self.assertNotIn('"identity_path":"/v1/me"',harness)
         self.assertNotIn('"models_path":"/v1/models"',harness)
         self.assertNotIn('"chat_path":"/v1/chat/completions"',harness)
         self.assertIn("CURRENT_HOST_PASS",harness)
@@ -135,7 +148,6 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         provider=json.loads((ROOT/"canonical/providers/FA3-PROVIDER-OPENAI-API-001.json").read_text(encoding="utf-8"))
         policy=json.loads((ROOT/"canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json").read_text(encoding="utf-8"))
         self.assertIn("https://api.openai.com/v1",bridge)
-        self.assertIn('("GET", "/v1/me")',bridge)
         subprocess.run([sys.executable,"-m","py_compile",str(ROOT/"bin/fa3-openai-loopback-bridge.py")],check=True)
         self.assertIn("HTTPSHandler(context=ssl.create_default_context())",bridge)
         self.assertNotIn("open(req, timeout=180.0, context=",bridge)
@@ -168,9 +180,6 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertLess(closer.index("PROVISION_RC=$?"),closer.index("FA3 OPENAI PROVIDER EXECUTION CURRENT-HOST CLOSURE: PASS"))
         self.assertFalse(provider["normal_application_routing_enabled"])
         self.assertEqual("FA3-SECRET-BROKER-001",provider["authority_boundaries"]["secrets"])
-        self.assertIn("/v1/me",policy["egress"]["allowed_paths"])
-        self.assertIn("/v1/me",policy["local_adapter"]["allowed_public_paths"])
-        self.assertEqual("GET /v1/me BEFORE MODEL_CATALOG",policy["local_adapter"]["credential_identity_preflight"])
         self.assertFalse(policy["activation"]["automatic_activation"])
         self.assertFalse(policy["activation"]["silent_local_to_cloud_fallback"])
 if __name__=="__main__": unittest.main()

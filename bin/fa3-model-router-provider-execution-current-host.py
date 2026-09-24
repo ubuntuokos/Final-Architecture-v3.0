@@ -251,28 +251,6 @@ def discover_models(api_base: str, models_path: str, token: str, preferred: list
     return models_from_payload(payload, preferred)
 
 
-def credential_identity_preflight(api_base: str, identity_path: str, token: str, label: str) -> bool:
-    try:
-        request_json("GET", url_join(api_base, identity_path), token, timeout=30.0)
-    except ProviderHTTPError as exc:
-        print(
-            f"Credential {label} identity preflight: FAIL "
-            f"HTTP {exc.status} type={exc.error_type} code={exc.error_code}",
-            file=sys.stderr,
-            flush=True,
-        )
-        return False
-    except ProbeDenied:
-        print(
-            f"Credential {label} identity preflight: FAIL transport_or_protocol",
-            file=sys.stderr,
-            flush=True,
-        )
-        return False
-    print(f"Credential {label} identity preflight: PASS", file=sys.stderr, flush=True)
-    return True
-
-
 def credential_upstream_preflight(api_base: str, models_path: str, token: str, label: str) -> dict[str, Any] | None:
     try:
         payload = request_json("GET", url_join(api_base, models_path), token, timeout=30.0)
@@ -295,11 +273,36 @@ def credential_upstream_preflight(api_base: str, models_path: str, token: str, l
     return payload
 
 
+TERMINAL_BILLING_CODES = {
+    "credit_balance_exhausted",
+    "organization_usage_limit_exceeded",
+    "organization_spend_limit_exceeded",
+    "project_spend_limit_exceeded",
+}
+
+
+def terminal_billing_blocker(exc: ProviderHTTPError) -> bool:
+    return (
+        exc.status == 429
+        and (
+            exc.error_type == "insufficient_quota"
+            or exc.error_code in TERMINAL_BILLING_CODES
+        )
+    )
+
+
 def discover_working_chat_model(api_base: str, chat_path: str, token: str, candidates: list[str]) -> tuple[str, str]:
     failures: list[str] = []
     for model in candidates[:32]:
         try:
             return model, run_chat(api_base, chat_path, token, model)
+        except ProviderHTTPError as exc:
+            if terminal_billing_blocker(exc):
+                raise ProbeDenied(
+                    "provider execution blocked by upstream billing/quota: "
+                    f"HTTP {exc.status} type={exc.error_type} code={exc.error_code}"
+                ) from exc
+            failures.append(f"{model}:{str(exc)}")
         except ProbeDenied as exc:
             failures.append(f"{model}:{str(exc)}")
     suffix = " | ".join(failures[-5:]) if failures else "no candidates attempted"
@@ -421,7 +424,6 @@ def main() -> int:
     preferred = cfg.get("preferred_models", [])
     if not isinstance(preferred, list) or any(not isinstance(v, str) for v in preferred):
         raise ProbeDenied("preferred_models must be a string array")
-    identity_path = str(cfg.get("identity_path", "me"))
     models_path = str(cfg.get("models_path", "models"))
     chat_path = str(cfg.get("chat_path", "chat/completions"))
 
@@ -442,12 +444,6 @@ def main() -> int:
             secret_values.append(project_secret(root, secret_id=secret_id, consumer_id=consumer_id, output=path))
 
         tokens = [decode_token(value) for value in secret_values]
-        identity_a = credential_identity_preflight(api_base, identity_path, tokens[0], "A")
-        identity_b = credential_identity_preflight(api_base, identity_path, tokens[1], "B")
-        checks["credential_a_identity_preflight_pass"] = identity_a
-        checks["credential_b_identity_preflight_pass"] = identity_b
-        if not identity_a or not identity_b:
-            raise ProbeDenied("provider credential identity preflight failed; inspect sanitized status above")
         preflight_a = credential_upstream_preflight(api_base, models_path, tokens[0], "A")
         preflight_b = credential_upstream_preflight(api_base, models_path, tokens[1], "B")
         checks["credential_a_upstream_preflight_pass"] = preflight_a is not None

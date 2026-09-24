@@ -13,7 +13,6 @@ UPSTREAM_BASE: Final[str] = "https://api.openai.com/v1"
 MAX_REQUEST_BYTES: Final[int] = 2 * 1024 * 1024
 MAX_RESPONSE_BYTES: Final[int] = 16 * 1024 * 1024
 ALLOWED = {
-    ("GET", "/v1/me"),
     ("GET", "/v1/models"),
     ("POST", "/v1/chat/completions"),
 }

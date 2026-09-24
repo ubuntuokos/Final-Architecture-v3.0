@@ -92,7 +92,7 @@ python3 - "$API_BASE" <<'PY'
 import sys,urllib.error,urllib.request
 base=sys.argv[1]
 req=urllib.request.Request(
-    base+"/me",
+    base+"/models",
     method="GET",
     headers={"Authorization":"Bearer fa3-intentionally-invalid-current-host-probe","Accept":"application/json"},
 )

@@ -20,7 +20,6 @@
     "host": "api.openai.com",
     "port": 443,
     "allowed_paths": [
-      "/v1/me",
       "/v1/models",
       "/v1/chat/completions"
     ],
@@ -32,7 +31,6 @@
     "bind_scope": "LOOPBACK_ONLY",
     "allowed_public_paths": [
       "/healthz",
-      "/v1/me",
       "/v1/models",
       "/v1/chat/completions"
     ],
@@ -42,8 +40,7 @@
     "authorization_passthrough_only": true,
     "request_logging": false,
     "model_selection": "PROJECT_VISIBLE_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE",
-    "explicit_model_override": "OPTIONAL_FAIL_CLOSED_IF_UNAVAILABLE",
-    "credential_identity_preflight": "GET /v1/me BEFORE MODEL_CATALOG"
+    "explicit_model_override": "OPTIONAL_FAIL_CLOSED_IF_UNAVAILABLE"
   },
   "secret_boundary": {
     "authority": "FA3-SECRET-BROKER-001",

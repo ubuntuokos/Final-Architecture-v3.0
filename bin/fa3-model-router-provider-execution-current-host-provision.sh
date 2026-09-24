@@ -301,7 +301,6 @@ cfg={
  "consumer_id":consumer,
  "provider_current_host_admission_receipt":admission,
  "secret_broker_current_host_receipt":secret_receipt,
- "identity_path":"me",
  "models_path":"models",
  "chat_path":"chat/completions",
  "preferred_models":[preferred] if preferred else [],
