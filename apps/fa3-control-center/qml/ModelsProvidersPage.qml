@@ -52,11 +52,18 @@ Item {
         anchors.margins: 18
         spacing: 13
 
-        ColumnLayout {
+        RowLayout {
             Layout.fillWidth: true
-            spacing: 2
-            Label { text: "Models & Providers"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
-            Label { text: "Model Registry, provider projections and local inference surfaces"; color: root.textMuted; font.pixelSize: 11 }
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: 2
+                Label { text: "Models & Providers"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
+                Label { text: "Model Registry, provider projections and local inference surfaces"; color: root.textMuted; font.pixelSize: 11 }
+            }
+            Button {
+                text: "Provider Explorer"
+                onClicked: providerExplorerDialog.open()
+            }
         }
 
         RowLayout {
@@ -121,6 +128,37 @@ Item {
                         Label { text: modelData.status || "REGISTERED"; color: (modelData.status || "").indexOf("PENDING") >= 0 ? root.orange : root.green; font.pixelSize: 9; font.bold: true; Layout.preferredWidth: 170; elide: Text.ElideRight }
                     }
                 }
+            }
+        }
+    }
+
+    Dialog {
+        id: providerExplorerDialog
+        modal: true
+        title: "Provider Explorer"
+        anchors.centerIn: parent
+        width: Math.min(1220, Math.max(900, root.width - 64))
+        height: Math.min(760, Math.max(560, root.height - 64))
+        standardButtons: Dialog.Close
+
+        contentItem: ProviderExplorerView {
+            id: providerExplorerView
+            panel: root.panel
+            panelRaised: root.panelRaised
+            border: root.border
+            textPrimary: root.textPrimary
+            textMuted: root.textMuted
+            accent: root.accent
+            green: root.green
+            orange: root.orange
+            onAdmissionDraftRequested: function(providerKey, providerName) {
+                lastDraftResult = fa3Repository.createDraftChangeSet(
+                    "MODEL_PROVIDER_ADMISSION",
+                    "propose.external-llm-provider-admission",
+                    providerKey,
+                    "External LLM catalog discovery only for " + providerName
+                    + "; security/privacy/egress/credential/provider admission and Model Router policy remain mandatory."
+                )
             }
         }
     }
