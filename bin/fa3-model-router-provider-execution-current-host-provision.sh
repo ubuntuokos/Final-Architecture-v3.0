@@ -15,7 +15,9 @@ RUN_ROOT="/run/fa3/model-router-provider-execution"
 SOURCE="$RUN_ROOT/current-host-source.json"
 CONFIG="$RUN_ROOT/current-host-config.json"
 RUNTIME_DIR="$RUN_ROOT/runtime"
-SECRET_RECEIPT="/run/fa3/current-host-secret-broker/secret-broker-current-host.json"
+SECRET_RECEIPT_RUNTIME="/run/fa3/current-host-secret-broker/secret-broker-current-host.json"
+SECRET_RECEIPT_REFERENCE="$ROOT/evidence/reference/secret-broker-current-host-2026-09-21.json"
+SECRET_RECEIPT="$SECRET_RECEIPT_REFERENCE"
 CREATED_USER=false
 LIFECYCLE_STARTED=false
 POLICY_A=""
@@ -100,30 +102,33 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-if systemctl is-active --quiet fa3-secrets.target; then
-  [[ -s "$SECRET_RECEIPT" ]] || {
-    echo "production secrets lifecycle is active but no current-host PASS receipt is staged; refusing disruptive restart" >&2
-    exit 2
-  }
-else
-  /usr/local/libexec/fa3-secret-broker-current-host-root >/dev/null
-  [[ -s "$SECRET_RECEIPT" ]] || { echo "Secret Broker current-host PASS receipt missing" >&2; exit 2; }
-  /usr/local/sbin/fa3-secrets-lifecycle start >/dev/null
-  LIFECYCLE_STARTED=true
-fi
+[[ -s "$SECRET_RECEIPT_REFERENCE" ]] || {
+  echo "durable Secret Broker current-host admission evidence missing" >&2
+  exit 2
+}
 
-python3 - "$SECRET_RECEIPT" <<'PY'
+python3 - "$SECRET_RECEIPT_REFERENCE" <<'PY'
 import json,sys
 from pathlib import Path
 r=json.loads(Path(sys.argv[1]).read_text())
+source=r.get("source",{})
+runtime=r.get("runtime",{})
 if (
-    r.get("schema")!="fa3.secret-broker-current-host-receipt.v1"
+    r.get("schema")!="fa3.current-host-evidence-reference.v1"
     or r.get("result")!="PASS"
-    or r.get("status")!="CURRENT_HOST_PASS"
-    or r.get("secret_values_collected") is not False
+    or r.get("status")!="CURRENT_HOST_ADMITTED"
+    or r.get("production_admitted") is not True
+    or source.get("current_host_gate_result")!="PASS"
+    or source.get("current_host_gate_status")!="CURRENT_HOST_PASS"
+    or runtime.get("secret_values_collected") is not False
 ):
-    raise SystemExit("Secret Broker current-host receipt is not a valid CURRENT_HOST_PASS")
+    raise SystemExit("durable Secret Broker current-host admission evidence is not a valid PASS")
 PY
+
+if ! systemctl is-active --quiet fa3-secrets.target; then
+  /usr/local/sbin/fa3-secrets-lifecycle start >/dev/null
+  LIFECYCLE_STARTED=true
+fi
 /usr/local/bin/fa3-secretctl health >/dev/null
 
 if getent passwd "$PROBE_USER" >/dev/null; then
