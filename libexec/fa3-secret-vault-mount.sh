@@ -86,11 +86,38 @@ assert_closed(){
 
 close_mapper(){
   require_root
+  local attempts="${FA3_MAPPER_CLOSE_ATTEMPTS:-20}"
+  local delay="${FA3_MAPPER_CLOSE_DELAY:-0.1}"
+  local i
+
+  [[ "$attempts" =~ ^[0-9]+$ ]] && (( attempts > 0 )) || {
+    echo "invalid FA3_MAPPER_CLOSE_ATTEMPTS: $attempts" >&2
+    return 2
+  }
+
   if mountpoint -q "$MNT"; then
     echo "refusing LUKS close while vault mount is active: $MNT" >&2
     return 2
   fi
-  if [[ -e "/dev/mapper/$MAPPER" ]]; then cryptsetup close "$MAPPER"; fi
+
+  if findmnt -rn -S "/dev/mapper/$MAPPER" >/dev/null 2>&1; then
+    echo "refusing LUKS close while mapper still has a mounted filesystem: $MAPPER" >&2
+    return 2
+  fi
+
+  if [[ -e "/dev/mapper/$MAPPER" ]]; then
+    for ((i=1; i<=attempts; i++)); do
+      if cryptsetup close "$MAPPER" >/dev/null 2>&1; then
+        break
+      fi
+      if (( i == attempts )); then
+        echo "LUKS mapper remained busy after $attempts bounded close attempts: $MAPPER" >&2
+        return 2
+      fi
+      sleep "$delay"
+    done
+  fi
+
   assert_closed
 }
 
