@@ -62,12 +62,18 @@ done
 [[ "$SECRET_ID_A" != "$SECRET_ID_B" ]] || { echo "credential SecretReferences must be distinct" >&2; exit 2; }
 [[ -r /dev/tty && -w /dev/tty ]] || { echo "interactive /dev/tty is required" >&2; exit 2; }
 
-for cmd in python3 systemctl systemd-run getent useradd userdel readlink install; do
+for cmd in python3 systemctl systemd-run getent useradd userdel readlink install cmp; do
   command -v "$cmd" >/dev/null || { echo "missing prerequisite: $cmd" >&2; exit 2; }
 done
-for path in /usr/local/bin/fa3-secretctl /usr/local/sbin/fa3-secret-policyctl /usr/local/sbin/fa3-secrets-lifecycle /usr/local/libexec/fa3-secret-broker-current-host-root; do
+for path in /usr/local/bin/fa3-secretctl /usr/local/sbin/fa3-secret-policyctl /usr/local/sbin/fa3-secrets-lifecycle /usr/local/libexec/fa3-secret-vault-mount /usr/local/libexec/fa3-secret-broker-current-host-root; do
   [[ -x "$path" ]] || { echo "missing installed FA3 secrets component: $path" >&2; exit 2; }
 done
+if ! cmp -s "$ROOT/libexec/fa3-secret-vault-mount.sh" /usr/local/libexec/fa3-secret-vault-mount \
+  || ! cmp -s "$ROOT/libexec/fa3-secrets-lifecycle.sh" /usr/local/sbin/fa3-secrets-lifecycle; then
+  echo "installed Secret Broker runtime differs from this repository HEAD" >&2
+  echo "refresh it with: sudo bash bin/fa3-secret-broker-install" >&2
+  exit 2
+fi
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing" >&2; exit 2; }
 getent group fa3-secret-broker >/dev/null || { echo "fa3-secret-broker group missing" >&2; exit 2; }
 
