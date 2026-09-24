@@ -9,15 +9,25 @@ jobs:
       - uses: actions/checkout@v4
       - name: Syntax and receipt-contract tests
         run: |
-          python -m py_compile src/fa3_model_router_provider_execution_current_host_gate.py evidence/collect-model-router-provider-execution-current-host.py
+          python -m py_compile src/fa3_model_router_provider_execution_current_host_gate.py evidence/collect-model-router-provider-execution-current-host.py bin/fa3-model-router-provider-execution-current-host.py
           PYTHONPATH=src python -m unittest tests.test_model_router_provider_execution_current_host
-      - name: Require externally produced real-provider probe
+      - name: Produce or accept real-provider probe
         shell: bash
         run: |
           set -euo pipefail
           INPUT="${FA3_PROVIDER_EXECUTION_CURRENT_HOST_INPUT:-/run/fa3/model-router-provider-execution/current-host-source.json}"
-          test -f "$INPUT"
-          test ! -L "$INPUT"
+          CONFIG="${FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG:-/etc/fa3/model-router/provider-execution-current-host.json}"
+          if [[ -f "$INPUT" && ! -L "$INPUT" ]]; then
+            :
+          else
+            test -f "$CONFIG"
+            test ! -L "$CONFIG"
+            INPUT="$RUNNER_TEMP/model-router-provider-execution-live-probe.json"
+            PYTHONPATH=src python bin/fa3-model-router-provider-execution-current-host.py \
+              --root . \
+              --config "$CONFIG" \
+              --output "$INPUT"
+          fi
           echo "FA3_PROVIDER_EXECUTION_INPUT=$INPUT" >> "$GITHUB_ENV"
       - name: Sanitize and bind current-host evidence
         run: |
