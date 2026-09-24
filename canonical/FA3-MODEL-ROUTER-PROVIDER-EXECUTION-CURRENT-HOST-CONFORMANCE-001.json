@@ -56,7 +56,7 @@
     "credential_authentication": "INVALID_BEARER_MUST_BE_REJECTED_401_OR_403_BEFORE_PASS",
     "provisioning": "INTERACTIVE_TTY_ONLY_REAL_CREDENTIALS_TEMPORARY_SECRETREF_POLICIES_AND_PROBE_IDENTITY_CLEANED",
     "preferred_model": "OPTIONAL_OPERATOR_OVERRIDE_ONLY; OTHERWISE_RUNTIME_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE",
-    "secret_broker_prerequisite": "FRESH_ACTIVE_CURRENT_HOST_ADMISSION_EVIDENCE_REQUIRED; HISTORICAL_SUPERSEDED_REFERENCE_DENIED; LIVE_BROKER_HEALTH_AND_SECRET_PROJECTION_REQUIRED",
+    "secret_broker_prerequisite": "FRESH_ACTIVE_CURRENT_HOST_ADMISSION_EVIDENCE REQUIRED AND SATISFIED BY 2026-09-24 REQUALIFICATION; HISTORICAL SUPERSEDED REFERENCE DENIED; LIVE BROKER HEALTH AND SECRET PROJECTION STILL REQUIRED",
     "provisioning_cleanup": "PASS_WITHHELD_UNTIL_TEMPORARY_SECRETREFS_POLICIES_PROBE_IDENTITY_AND_STARTED_SECRET_BROKER_LIFECYCLE_ARE_CLEANED"
   },
   "provisioning_harness": "bin/fa3-model-router-provider-execution-current-host-provision.sh",
@@ -75,8 +75,10 @@
     "model_selection": "RUNTIME_API_PROJECT_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE"
   },
   "dependency_status": {
-    "secret_broker_current_host": "BLOCKED_REQUALIFICATION_PENDING_FRESH_2026_09_24_EVIDENCE",
-    "required_reference": "evidence/reference/secret-broker-current-host-2026-09-24.json",
-    "superseded_reference_denied": "evidence/reference/secret-broker-current-host-2026-09-21.json"
+    "secret_broker_current_host": "CURRENT_HOST_ADMITTED",
+    "active_reference": "evidence/reference/secret-broker-current-host-2026-09-24.json",
+    "tested_source_commit": "d18ba667f1e07c2f347d009713b865ce760b88ca",
+    "superseded_reference_denied": "evidence/reference/secret-broker-current-host-2026-09-21.json",
+    "provider_execution_physical_e2e": "PENDING_REAL_OPENAI_TWO_CREDENTIAL_EXECUTION"
   }
 }
