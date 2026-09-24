@@ -3162,6 +3162,73 @@ def gate(root: Path):
             missing_manifest_paths=sorted(agency_agent_definition_paths - manifest_paths),
         ))
 
+    external_llm = projection.get("external_llm_catalog_reconciliation", {})
+    external_llm_paths = {
+        "canonical/profiles/FA3-EXTERNAL-LLM-CATALOG-001.json",
+        "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json",
+        "canonical/references/FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24.json",
+        "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json",
+        "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json",
+        "canonical/FA3-GATE-EXTERNAL-LLM-CATALOG-001.json",
+        "canonical/external-llm-catalog-enforcement.json",
+        "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "canonical/distribution-registry.json",
+        "canonical/distribution-manifest.json",
+        "canonical/enforcement-policy.json",
+        "src/fa3_external_llm_catalog.py",
+        "src/fa3_external_llm_catalog_gate.py",
+        "src/fa3_enforce.py",
+        "scripts/fa3_reconcile_release_projection.py",
+        "apps/fa3-control-center/src/ExternalLlmCatalogModel.h",
+        "apps/fa3-control-center/src/ExternalLlmCatalogModel.cpp",
+        "apps/fa3-control-center/src/main.cpp",
+        "apps/fa3-control-center/qml/ProviderExplorerView.qml",
+        "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+        "apps/fa3-control-center/CMakeLists.txt",
+        "tests/test_external_llm_catalog_gate.py",
+        "tests/fixtures/freellm-readme-mini.md",
+        "docs/external-llm-catalog.md",
+        "evidence/reference/external-llm-catalog-ci-2026-09-24.json",
+        ".github/workflows/fa3-external-llm-catalog.yml",
+        ".github/workflows/fa3-permanent-enforcement.yml",
+    }
+    if (
+        external_llm.get("profile_id") != "FA3-EXTERNAL-LLM-CATALOG-001"
+        or external_llm.get("contract_id") != "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001"
+        or external_llm.get("decision_id") != "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24"
+        or external_llm.get("assessment_id") != "FA3-EXTERNAL-LLM-CATALOG-2026-09-24"
+        or external_llm.get("reference_id") != "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24"
+        or external_llm.get("gate_id") != "FA3-EXTERNAL-LLM-CATALOG-GATESET-001"
+        or external_llm.get("executable_gate_id") != "FA3-GATE-EXTERNAL-LLM-CATALOG-001"
+        or external_llm.get("source_commit") != "4a91e1d93a6df0753ade804f75b4e17fbad89886"
+        or external_llm.get("source_distribution_class") != "REFERENCE_ONLY"
+        or external_llm.get("source_release_bundle_status") != "EXCLUDED"
+        or external_llm.get("state_machine") != ["DISCOVERED", "OBSERVED", "VERIFIED", "ADMITTED", "ENABLED"]
+        or external_llm.get("parser_initial_state") != "DISCOVERED"
+        or external_llm.get("model_routing_authority") != "FA3-AUTH-MODEL-ROUTER-001"
+        or external_llm.get("decision_fabric_role") != "BOUNDED_ADVISORY_RANKING_ONLY"
+        or external_llm.get("decision_candidate_expansion") is not False
+        or external_llm.get("silent_local_to_cloud_fallback") is not False
+        or external_llm.get("gui_surface_id") != "models.provider-explorer"
+        or external_llm.get("gui_parent_route") != "models.providers"
+        or external_llm.get("gui_mode") != "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT"
+        or external_llm.get("current_host_remote_provider_status") != "PROVIDER_ADMISSION_AND_ENTITLEMENT_SEPARATE"
+        or external_llm.get("current_host_runtime_promotion_claim") is not False
+        or external_llm.get("global_promotion_claim") is not False
+        or external_llm.get("new_capabilities") != 0
+        or external_llm.get("new_architectural_authorities") != 0
+        or external_llm.get("capability_count_after") != CAPABILITY_COUNT
+        or external_llm.get("reconciliation_status") != "CANONICAL_DISCOVERY_CATALOG_GUI_STATIC_RECONCILED_REMOTE_PROVIDER_ADMISSION_SEPARATE"
+        or "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in projection_gates
+        or "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in policy_gates
+        or not external_llm_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-121",
+            "External LLM Catalog global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(external_llm_paths - manifest_paths),
+        ))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -3201,6 +3268,8 @@ def gate(root: Path):
             "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
             "agency_agents_agent_definition_reconciliation": agency_agent_definition.get("reconciliation_status"),
             "agency_agents_gui_current_host_status": agency_agent_definition.get("gui_current_host_status"),
+            "external_llm_catalog_reconciliation": external_llm.get("reconciliation_status"),
+            "external_llm_catalog_remote_provider_status": external_llm.get("current_host_remote_provider_status"),
             "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
