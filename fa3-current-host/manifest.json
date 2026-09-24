@@ -154,7 +154,8 @@
     "evidence/collect-gui-current-host.py",
     "src/fa3_gui_current_host.py",
     "src/fa3_gui_current_host_gate.py",
-    "tests/test_fa3_gui_current_host.py"
+    "tests/test_fa3_gui_current_host.py",
+    "evidence/receipts/fa3-gui-current-host.json"
   ],
   "registered_current_host_surfaces": [
     {
@@ -325,17 +326,19 @@
       "gate": "gui-current-host",
       "workflow": ".github/workflows/fa3-gui-current-host.yml",
       "activation": "REAL_LOCAL_WAYLAND_OR_X11_SESSION_SAME_SOURCE_QT6_BUILD_REQUIRED",
-      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+      "collection_status": "REAL_CURRENT_HOST_PASS_GUI_PROCESS_RUNTIME_ONLY",
       "global_promotion_claim": false,
       "receipt": "evidence/receipts/fa3-gui-current-host.json",
-      "production_runtime_promoted": false,
+      "production_runtime_promoted": true,
       "secret_backend_status": "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED",
       "secret_backend_authority_owner": "CAP-003",
       "tested_path": "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED",
       "secret_backend_required_for_tested_path": false,
       "secret_backend_authority": "AUTH-SECRETS",
       "secret_backend_capability": "CAP-003",
-      "secret_backend_pass_claimed": false
+      "secret_backend_pass_claimed": false,
+      "tested_source_commit": "9ad0f68ada7083267149c2828bb668c2c86cb741",
+      "evidence_id": "EVID-FA3-GUI-CURRENT-HOST-001"
     }
   ],
   "global_gate_sequence": [
