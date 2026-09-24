@@ -109,6 +109,11 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         and gui_conformance.get("promotion_blockers") == []
         and gui_conformance.get("admission_scope") == "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
         and gui_conformance.get("secret_backend_admission") == "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
+        and gui_conformance.get("tested_path") == "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+        and gui_conformance.get("secret_backend_authority") == "AUTH-SECRETS"
+        and gui_conformance.get("secret_backend_capability") == "CAP-003"
+        and gui_conformance.get("secret_backend_required_for_tested_path") is False
+        and gui_conformance.get("secret_backend_pass_claimed") is False
     )
 
     base = projection.get("base_release_commit")
@@ -285,6 +290,11 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
         "admission_scope": gui_conformance.get("admission_scope"),
         "secret_backend_admission": gui_conformance.get("secret_backend_admission"),
+        "tested_path": gui_conformance.get("tested_path"),
+        "secret_backend_authority": gui_conformance.get("secret_backend_authority"),
+        "secret_backend_capability": gui_conformance.get("secret_backend_capability"),
+        "secret_backend_required_for_tested_path": gui_conformance.get("secret_backend_required_for_tested_path"),
+        "secret_backend_pass_claimed": gui_conformance.get("secret_backend_pass_claimed"),
         "secret_backend_authority_owner": "CAP-003",
         "secret_backend_used_for_gui_runtime_admission": False,
         "tested_source_commit": gui_conformance.get("tested_source_commit"),
