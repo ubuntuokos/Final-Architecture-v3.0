@@ -60,5 +60,13 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS"
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER",
+      "status": "MATERIALIZED",
+      "validated_implementation_commit": "816ac14a720b039926b72fad05c49f593101057f",
+      "evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json"
+    }
+  ]
 }

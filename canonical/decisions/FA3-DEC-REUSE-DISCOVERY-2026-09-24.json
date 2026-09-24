@@ -2,7 +2,7 @@
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-REUSE-DISCOVERY-2026-09-24",
   "date": "2026-09-24",
-  "status": "CANONICAL_DECISION",
+  "status": "CANONICAL_CLOSED",
   "title": "Mandatory FA3 capability, contract, pattern and implementation reuse discovery before new-project materialization",
   "decision": "MATERIALIZE_PROVIDER_NEUTRAL_REUSE_DISCOVERY_WITHOUT_NEW_CAPABILITY_OR_AUTHORITY",
   "profile_id": "FA3-REUSE-DISCOVERY-001",
@@ -53,5 +53,12 @@
     "existing_projects": "REUSE_ASSESSMENT_REQUIRED_ON_NEXT_MATERIAL_CHANGE;KNOWN_AUTHORITY_OR_COEXISTENCE_DEFECTS_REQUIRE_IMMEDIATE_REMEDIATION",
     "adoption_marker": "FIRST_COMMIT_CONTAINING_THIS_DECISION"
   },
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "closure": {
+    "validated_implementation_commit": "816ac14a720b039926b72fad05c49f593101057f",
+    "reference_evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json",
+    "reference_evidence_status": "PASS",
+    "runtime_or_current_host_promotion_required": false,
+    "global_promotion_claim": false
+  }
 }
