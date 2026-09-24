@@ -86,7 +86,7 @@ def gate(root: Path) -> dict[str, Any]:
     else:
         producer_text=producer.read_text(encoding="utf-8")
         schema=loadj(config_schema)
-        if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or "credential_authentication_enforced" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential/auth-enforcement producer boundary missing"))
+        if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or "credential_authentication_enforced" not in producer_text or "discover_working_chat_model" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential/auth-enforcement producer boundary missing"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
 
@@ -121,7 +121,7 @@ def gate(root: Path) -> dict[str, Any]:
         for token in ("https://api.openai.com/v1","/v1/models","/v1/chat/completions","fixed FA3 provider-execution probe content","credential_storage"):
             if token not in bridge_text:
                 f.append(finding("PEX-OPENAI-004",f"OpenAI loopback bridge contract token missing: {token}"))
-        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","gpt-4o-mini","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty"):
+        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","runtime discovery from this API project","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty"):
             if token not in close_text:
                 f.append(finding("PEX-OPENAI-005",f"OpenAI closure harness contract token missing: {token}"))
     reg=regressions()
