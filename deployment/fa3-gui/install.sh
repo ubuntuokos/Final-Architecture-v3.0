@@ -43,6 +43,7 @@ required_markers=(
   'routeId: "home.work-management"'
   'routeId: "system.accelerator-guard"'
   'routeId: "system.updates"'
+  'routeId: "create.tools"'
   'routeId: "integrations.fa3-os"'
   'text: "⌕  Keresés"'
   'label: "Model Manager"'

@@ -1,0 +1,127 @@
+{
+  "schema": "fa3.provider.convertx.v1",
+  "id": "FA3-PROVIDER-CONVERTX-001",
+  "name": "ConvertX",
+  "status": "QUARANTINED",
+  "priority": "P2",
+  "target_priority_after_promotion": "P1",
+  "profile_id": "FA3-FILE-CONVERSION-001",
+  "provider_role": "OPTIONAL_LONG_TAIL_FALLBACK",
+  "upstream": {
+    "repository": "https://github.com/C4illin/ConvertX",
+    "reference_release": "v0.18.0",
+    "license": "AGPL-3.0",
+    "production_tag_floating_allowed": false,
+    "production_main_branch_allowed": false,
+    "image_digest_required": true
+  },
+  "machine_interface": {
+    "official_public_api_available": false,
+    "fa3_owned_adapter_required": true,
+    "fa3_adapter_contract_id": "FA3-CONVERTX-ADAPTER-CONTRACTS-001",
+    "fa3_adapter_execution_contract_materialized": true,
+    "fa3_candidate_executor": "src/fa3_convertx_v018_http.py",
+    "fa3_candidate_executor_materialized": true,
+    "candidate_validation_allowed_while_quarantined": true,
+    "candidate_validation_is_production_routing": false,
+    "direct_agent_to_convertx_http": false,
+    "direct_n8n_to_convertx_http": false,
+    "direct_mcp_to_convertx_http": false,
+    "web_ui_is_execution_authority": false,
+    "current_web_route_contract": "PINNED_V0_18_0_COOKIE_JOB_FLOW_INTERNAL_ONLY",
+    "machine_execution_enabled": false
+  },
+  "human_ui": {
+    "allowed_when_runtime_isolated": true,
+    "control_center_surface": "Tools/Conversion",
+    "quarantine_state_must_be_visible": true,
+    "launch_before_runtime_promotion": false
+  },
+  "sandbox": {
+    "non_root": true,
+    "read_only_root": true,
+    "cap_drop_all": true,
+    "no_new_privileges": true,
+    "host_mounts": "DENY",
+    "workspace": "PER_JOB_EPHEMERAL_ONLY",
+    "outbound_network": "DENY_BY_DEFAULT",
+    "loopback_exposure_only": true,
+    "seccomp_required": true,
+    "apparmor_required_when_available": true
+  },
+  "resource_governance": {
+    "authoritative_resource_admission_required": true,
+    "current_authoritative_cpu_memory_verifier": "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED",
+    "accelerator_execution_lease_substitution_allowed": false,
+    "provider_internal_max_process_is_secondary_guard_only": true,
+    "timeout_required": true,
+    "cpu_limit_required": true,
+    "memory_limit_required": true,
+    "pids_limit_required": true,
+    "output_quota_required": true,
+    "authoritative_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "conversion_policy": "FA3-CONVERTX-CONVERSION-ALLOWLIST-001",
+  "known_security_constraints": {
+    "path_traversal_regression": "MANDATORY",
+    "xelatex": "DENY",
+    "latex_local_file_read_regression": "MANDATORY",
+    "malformed_media_regression": "MANDATORY",
+    "archive_bomb_regression": "MANDATORY",
+    "egress_denial_regression": "MANDATORY"
+  },
+  "supply_chain": {
+    "digest_pin_required": true,
+    "sbom_required": true,
+    "source_and_image_identity_recorded": true,
+    "converter_versions_recorded": true,
+    "input_output_sha256_required": true
+  },
+  "promotion_requirements": [
+    "STATIC_CONFORMANCE_PASS",
+    "SECURITY_REGRESSION_PASS",
+    "FA3_ADAPTER_EXECUTION_CONTRACT_MATERIALIZED",
+    "FA3_CANDIDATE_EXECUTOR_MATERIALIZED",
+    "AUTHORITATIVE_CPU_MEMORY_RESOURCE_ADMISSION_PASS",
+    "DIGEST_PINNED_RUNTIME_PASS",
+    "REAL_CURRENT_HOST_SAFE_PAIR_E2E_PASS",
+    "PAIR_SPECIFIC_EVIDENCE_PASS",
+    "EGRESS_DENIAL_PASS",
+    "RESOURCE_LIMIT_PASS",
+    "PROVENANCE_RECEIPT_PASS"
+  ],
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "document_only_promotion_forbidden": true,
+  "fail_closed": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "distribution_class": "USER_LOCAL_EXTERNAL",
+  "product_bundle_allowed": false,
+  "distribution": {
+    "class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "rationale": "ConvertX is an optional user-local external runtime. FA3 distributes its own provider-neutral contracts and adapter code but does not bundle or imply redistribution rights for the upstream ConvertX runtime.",
+    "runtime_admission_separate": true
+  },
+  "execution_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action_ids": [
+      "file.convert.plan",
+      "file.convert.execute",
+      "file.convert.inspect"
+    ],
+    "direct_gui_provider_bypass": false,
+    "direct_agent_provider_bypass": false,
+    "direct_mcp_provider_bypass": false,
+    "direct_automation_provider_bypass": false,
+    "provider_execution_authority": false
+  },
+  "decision_fabric": {
+    "role": "OPTIONAL_INTENT_ADVISORY_ONLY",
+    "provider_selection_authority": false,
+    "candidate_expansion": false
+  }
+}

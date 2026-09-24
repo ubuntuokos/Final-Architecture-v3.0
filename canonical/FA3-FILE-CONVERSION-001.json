@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.file-conversion-profile.v1",
+  "id": "FA3-FILE-CONVERSION-001",
+  "name": "FA3 Generic File Conversion",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "class": "EXECUTION_PROFILE",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "purpose": "Provider-neutral admission, routing, execution and provenance contract for long-tail file conversion while preserving specialized FA3 providers as first choice.",
+  "authority": {
+    "policy_authority": false,
+    "resource_authority": false,
+    "provider_authority": false,
+    "inherits_existing_policy_authority": true,
+    "inherits_host_resource_broker": true
+  },
+  "request_contract": {
+    "required": [
+      "profile_id",
+      "input_path",
+      "input_media_type",
+      "output_media_type"
+    ],
+    "profile_id_must_equal": "FA3-FILE-CONVERSION-001",
+    "arbitrary_cli_arguments_allowed": false,
+    "provider_specific_arguments_allowed": false,
+    "unknown_media_type_policy": "DENY",
+    "unknown_conversion_pair_policy": "DENY"
+  },
+  "routing": {
+    "policy": "SPECIALIZED_PROVIDER_FIRST",
+    "order": [
+      "FA3_SPECIALIZED_NATIVE_PROVIDER",
+      "FA3_APPROVED_LONG_TAIL_PROVIDER"
+    ],
+    "convertx_role": "LONG_TAIL_FALLBACK_ONLY",
+    "direct_provider_bypass": false,
+    "silent_fallback": false,
+    "authority": "DETERMINISTIC_FA3_POLICY_NOT_DECISION_FABRIC"
+  },
+  "admission": {
+    "pair_allowlist_required": true,
+    "resource_admission_required": true,
+    "hrb_lease_required_for_resource_intensive_execution": true,
+    "per_job_ephemeral_workspace_required": true,
+    "host_filesystem_mounts_forbidden": true,
+    "outbound_network_default": "DENY",
+    "read_only_root_required": true,
+    "non_root_required": true,
+    "no_new_privileges_required": true,
+    "capabilities_drop_all_required": true,
+    "timeout_required": true,
+    "input_size_limit_required": true,
+    "output_size_limit_required": true,
+    "output_count_limit_required": true,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "non_accelerator_current_host_state": "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED"
+  },
+  "security": {
+    "latex_family_default": "DENY",
+    "xelatex": "DENY",
+    "archive_bomb_protection_required": true,
+    "path_traversal_regression_required": true,
+    "malformed_media_regression_required": true,
+    "process_exhaustion_regression_required": true,
+    "egress_denial_regression_required": true
+  },
+  "provenance": {
+    "required_fields": [
+      "request_id",
+      "profile_id",
+      "provider_id",
+      "provider_version",
+      "provider_image_digest",
+      "converter_name",
+      "converter_version",
+      "input_sha256",
+      "output_sha256",
+      "wall_time_ms",
+      "exit_code",
+      "resource_lease_id"
+    ],
+    "input_output_hashing": "SHA-256",
+    "unsigned_runtime_claims": "DENY"
+  },
+  "promotion": {
+    "document_only_promotion_forbidden": true,
+    "current_host_claim_requires_real_execution": true,
+    "current_host_claim_may_be_emitted_by_ci": false
+  },
+  "fail_closed": true,
+  "version": "2.0.0",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "uaf_actions": [
+    "file.convert.plan",
+    "file.convert.execute",
+    "file.convert.inspect"
+  ],
+  "decision_fabric": {
+    "assessment": "FA3-TOOLS-FILE-CONVERSION-DECISION-ASSESSMENT-2026-09-24",
+    "role": "OPTIONAL_INTENT_ADVISORY_ONLY",
+    "provider_selection_authority": false,
+    "candidate_expansion": false
+  }
+}

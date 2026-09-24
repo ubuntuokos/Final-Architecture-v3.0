@@ -1,0 +1,130 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "file.convert.plan",
+  "version": "1.0.0",
+  "description": "Create a provider-neutral file-conversion plan using the canonical allowlist and specialized-provider-first routing without executing a provider.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "operation_id",
+      "input_ref",
+      "input_media_type",
+      "output_media_type"
+    ],
+    "properties": {
+      "operation_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "input_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "input_media_type": {
+        "type": "string",
+        "minLength": 1
+      },
+      "output_media_type": {
+        "type": "string",
+        "minLength": 1
+      },
+      "plan_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "execution_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "resource_admission_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "context_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "plan_ref": {
+        "type": "string"
+      },
+      "execution_ref": {
+        "type": "string"
+      },
+      "provider_id": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-FILE-CONVERSION-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": false
+  }
+}

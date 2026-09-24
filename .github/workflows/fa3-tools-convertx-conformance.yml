@@ -1,0 +1,91 @@
+name: FA3 Tools + ConvertX Conformance
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-TOOLS-FABRIC-001.json'
+      - 'canonical/FA3-FILE-CONVERSION-001.json'
+      - 'canonical/FA3-PROVIDER-CONVERTX-001.json'
+      - 'canonical/FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json'
+      - 'canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/contracts/FA3-CONVERTX-ADAPTER-CONTRACTS-001.json'
+      - 'canonical/actions/file.convert.*.json'
+      - 'canonical/assessments/FA3-TOOLS-FILE-CONVERSION-DECISION-ASSESSMENT-2026-09-24.json'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'src/fa3_convertx_*.py'
+      - 'evidence/collect-convertx-current-host.py'
+      - 'evidence/reference/fa3-convertx-reference-pending.json'
+      - 'tests/test_convertx_gate.py'
+      - 'tests/test_convertx_v018_http.py'
+      - 'tests/test_tools_fabric.py'
+      - 'docs/FA3-TOOLS-CONVERTX-INTEGRATION.md'
+      - 'apps/fa3-control-center/**'
+      - 'deployment/fa3-gui/install.sh'
+      - 'bin/fa3-enforce'
+      - 'bin/fa3-convertx-gate'
+      - '.github/workflows/fa3-tools-convertx-conformance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: src
+
+jobs:
+  static-conformance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile ConvertX Python materialization
+        run: python -m py_compile src/fa3_convertx_adapter.py src/fa3_convertx_gate.py src/fa3_convertx_v018_http.py evidence/collect-convertx-current-host.py
+      - name: ConvertX and Tools regressions
+        run: |
+          python -m unittest discover -s tests -p 'test_convertx_gate.py' -v
+          python -m unittest discover -s tests -p 'test_convertx_v018_http.py' -v
+          python -m unittest discover -s tests -p 'test_tools_fabric.py' -v
+      - name: Current parent authority gates
+        run: |
+          ./bin/fa3-enforce uaf
+          ./bin/fa3-enforce decision-fabric
+      - name: Canonical ConvertX gate
+        run: ./bin/fa3-enforce convertx
+      - name: Decision Fabric adoption assessment
+        run: ./bin/fa3-enforce decision-adoption --base-ref origin/main
+      - name: Distribution adoption assessment
+        run: python src/fa3_distribution_adoption_gate.py --root . --base-ref origin/main
+      - name: GUI semantic-route contract
+        run: |
+          python src/fa3_gui_gate.py
+          deployment/fa3-gui/install.sh --check-source-contract
+      - name: Native quality gate for changed artifacts
+        run: ./bin/fa3-enforce quality-anti-slop --changed --base-ref origin/main
+      - name: Assert no current-host or production claim from hosted CI
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          provider=json.loads(Path('canonical/FA3-PROVIDER-CONVERTX-001.json').read_text())
+          evidence=json.loads(Path('evidence/reference/fa3-convertx-reference-pending.json').read_text())
+          conformance=json.loads(Path('canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json').read_text())
+          assert provider['status']=='QUARANTINED'
+          assert provider['distribution_class']=='USER_LOCAL_EXTERNAL'
+          assert provider['product_bundle_allowed'] is False
+          assert provider['machine_interface']['machine_execution_enabled'] is False
+          assert provider['current_host_status']=='PENDING_REAL_HOST_EXECUTION'
+          assert conformance['resource_admission']['current_authoritative_cpu_memory_verifier']=='HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED'
+          assert evidence['status']=='PENDING_CURRENT_HOST'
+          assert evidence['runtime_claimed'] is False
+          assert evidence['production_admitted'] is False
+          print('PASS: Tools/UAF materialized while ConvertX production/current-host promotion remains fail-closed')
+          PY
