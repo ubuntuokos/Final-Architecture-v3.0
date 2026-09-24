@@ -3,7 +3,7 @@
   "id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
   "profile_id": "FA3-DESKTOP-001",
   "implementation": "apps/fa3-control-center",
-  "status": "PENDING_CURRENT_HOST",
+  "status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN",
   "production_admitted": false,
   "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
   "reference_gate_status": "PASS",
@@ -23,5 +23,20 @@
     "static_contract_job_id": 107350714237,
     "qt_reference_build_job_id": 107350713871,
     "installer_source_contract_regression": "PASS"
+  },
+  "current_host_gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
+  "current_host_workflow": ".github/workflows/fa3-gui-current-host.yml",
+  "current_host_collector": "evidence/collect-gui-current-host.py",
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "promotion_semantics": {
+    "reference_or_hosted_build_may_promote_runtime": false,
+    "physical_current_host_receipt_required": true,
+    "gui_runtime_pass_is_global_fa3_promotion": false,
+    "offscreen_or_minimal_smoke_accepted": false
   }
 }
