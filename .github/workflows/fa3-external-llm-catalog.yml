@@ -10,6 +10,12 @@ on:
       - "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json"
       - "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json"
       - "canonical/external-llm-catalog-enforcement.json"
+      - "canonical/FA3-GATE-EXTERNAL-LLM-CATALOG-001.json"
+      - "canonical/enforcement-policy.json"
+      - "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+      - "src/fa3_enforce.py"
+      - "src/fa3_release_projection_gate.py"
+      - "scripts/fa3_reconcile_release_projection.py"
       - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
       - "src/fa3_external_llm_catalog.py"
       - "src/fa3_external_llm_catalog_gate.py"
@@ -35,6 +41,12 @@ on:
       - "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json"
       - "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json"
       - "canonical/external-llm-catalog-enforcement.json"
+      - "canonical/FA3-GATE-EXTERNAL-LLM-CATALOG-001.json"
+      - "canonical/enforcement-policy.json"
+      - "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+      - "src/fa3_enforce.py"
+      - "src/fa3_release_projection_gate.py"
+      - "scripts/fa3_reconcile_release_projection.py"
       - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
       - "src/fa3_external_llm_catalog.py"
       - "src/fa3_external_llm_catalog_gate.py"
@@ -75,6 +87,9 @@ jobs:
 
       - name: External LLM catalog fail-closed gate
         run: PYTHONPATH=src python3 src/fa3_external_llm_catalog_gate.py --root .
+
+      - name: Global permanent-enforcement command binding
+        run: ./bin/fa3-enforce external-llm-catalog
 
       - name: Existing Model Router regression
         run: PYTHONPATH=src python3 src/fa3_model_router_gate.py --root .
