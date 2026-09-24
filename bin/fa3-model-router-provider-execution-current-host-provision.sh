@@ -246,10 +246,10 @@ TMP="$(mktemp -d)"
 POLICY_A="$TMP/a.json"
 POLICY_B="$TMP/b.json"
 
-python3 - "$POLICY_A" "$POLICY_B" "$SECRET_ID_A" "$SECRET_ID_B" "$CONSUMER_ID" "$PROBE_USER" "$PYTHON_EXE" "$PROBE_UNIT" <<'PY'
+python3 - "$POLICY_A" "$POLICY_B" "$SECRET_ID_A" "$SECRET_ID_B" "$CONSUMER_ID" "$PROBE_USER" "$PROBE_UNIT" <<'PY'
 import json,sys
 from pathlib import Path
-pa,pb,ida,idb,consumer,user,python_exe,unit=sys.argv[1:]
+pa,pb,ida,idb,consumer,user,unit=sys.argv[1:]
 def policy(sid):
     return {
         "schema":"fa3.secret-projection-policy.v1",
@@ -259,7 +259,7 @@ def policy(sid):
         "allowed_consumers":[{
             "consumer_id":consumer,
             "allowed_unix_users":[user],
-            "allowed_executables":[python_exe],
+            "allowed_executables":[],
             "allowed_systemd_units":[unit],
         }],
         "allowed_projections":["UDS_SINGLE_SECRET"],
