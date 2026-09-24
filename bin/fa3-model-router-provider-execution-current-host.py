@@ -171,6 +171,26 @@ def run_chat(api_base: str, chat_path: str, token: str, model: str) -> str:
         raise ProbeDenied("provider chat response content is empty")
     return hashlib.sha256(str(message["content"]).encode("utf-8")).hexdigest()
 
+def credential_authentication_enforced(api_base: str, chat_path: str, model: str) -> bool:
+    invalid_token = "fa3-invalid-" + hashlib.sha256(os.urandom(32)).hexdigest()
+    try:
+        request_json(
+            "POST",
+            url_join(api_base, chat_path),
+            invalid_token,
+            {
+                "model": model,
+                "temperature": 0,
+                "max_tokens": 1,
+                "messages": [{"role": "user", "content": "FA3 credential enforcement negative probe."}],
+            },
+            timeout=30.0,
+        )
+    except ProbeDenied as exc:
+        message = str(exc)
+        return "HTTP 401" in message or "HTTP 403" in message
+    return False
+
 
 def resolve_selected_token(lease: dict[str, Any], refs: list[str], values: list[bytes]) -> tuple[str, bytes]:
     digest = str(lease.get("credential_ref_sha256", ""))
@@ -262,6 +282,11 @@ def main() -> int:
 
         token0 = decode_token(secret_values[0])
         physical_model = discover_model(api_base, models_path, token0, preferred)
+        checks["credential_authentication_enforced_pass"] = credential_authentication_enforced(
+            api_base, chat_path, physical_model
+        )
+        if not checks["credential_authentication_enforced_pass"]:
+            raise ProbeDenied("provider endpoint does not enforce bearer credential authentication")
 
         candidates = [
             CredentialCandidate(provider_id, ref, "HEALTHY", True, active_sessions=0, quota_pressure=float(idx) / max(1, len(refs)))
