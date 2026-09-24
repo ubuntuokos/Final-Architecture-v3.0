@@ -23,7 +23,7 @@ P0 = [
     "GUI_CURRENT_HOST_ACTIVE_LOCAL_GRAPHICAL_SESSION_REQUIRED",
     "GUI_CURRENT_HOST_WAYLAND_OR_X11_ONLY",
     "GUI_CURRENT_HOST_DISPLAY_ENDPOINT_PROVEN",
-    "GUI_CURRENT_HOST_DESKTOP_ADMISSION_PASS_REQUIRED",
+    "GUI_CURRENT_HOST_DESKTOP_RUNTIME_SCOPE_ADMISSION_REQUIRED",
     "GUI_CURRENT_HOST_SAME_SOURCE_QT6_BUILD_REQUIRED",
     "GUI_CURRENT_HOST_NETWORK_FETCH_AND_PACKAGE_INSTALL_FORBIDDEN",
     "GUI_CURRENT_HOST_BINARY_SHA256_REQUIRED",
@@ -49,6 +49,7 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
     host = receipt.get("host", {})
     session = receipt.get("session", {})
     desktop = receipt.get("desktop_admission", {})
+    desktop_scope = receipt.get("desktop_runtime_scope", {})
     build = receipt.get("build", {})
     launch = receipt.get("launch", {})
     security = receipt.get("security", {})
@@ -90,8 +91,27 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
         (session.get("display_endpoint_proven") is True, "display endpoint not proven"),
         (session.get("qpa_platform") == expected_qpa, "Qt QPA does not match session"),
         (
-            desktop.get("result") == "PASS" and desktop.get("mode") == "LOCAL_GUI",
-            "desktop admission not PASS",
+            desktop.get("mode") == "LOCAL_GUI",
+            "desktop admission is not local GUI observation",
+        ),
+        (
+            desktop_scope.get("result") == "PASS",
+            "GUI desktop runtime scoped admission not PASS",
+        ),
+        (
+            desktop_scope.get("secret_backend_used_for_gui_runtime_admission") is False,
+            "GUI runtime scope improperly depends on Secret Backend",
+        ),
+        (
+            desktop_scope.get("secrets_authority_owner") == "CAP-003",
+            "Secret Backend authority ownership drift",
+        ),
+        (
+            not (
+                desktop.get("result") == "FAIL"
+                and desktop_scope.get("full_desktop_required_failures") != ["secret_backend"]
+            ),
+            "full desktop failure exceeds separately-owned Secret Backend scope",
         ),
         (build.get("status") == "PASS", "same-source Qt build not PASS"),
         (
@@ -134,6 +154,10 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
         (
             security.get("secret_material_recorded") is False,
             "receipt may contain secret material",
+        ),
+        (
+            security.get("secret_backend_promoted_by_gui_receipt") is False,
+            "GUI receipt falsely promotes Secret Backend",
         ),
         (bool(checks) and all(checks.values()), "receipt P0 check set not all PASS"),
         (receipt.get("capability_count") == CAPABILITY_COUNT, "capability count drift"),
@@ -307,6 +331,8 @@ def gate(
     for token in (
         "discover_current_user_session_environment",
         "evaluate_desktop",
+        "gui_desktop_runtime_scoped_admission",
+        "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
         "QT_QPA_PLATFORM",
         '"wayland"',
         '"xcb"',
