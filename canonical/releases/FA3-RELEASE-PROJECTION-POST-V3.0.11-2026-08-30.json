@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "72e539de790ca18a22e562d2cac79df1bc568c96",
-    "pre_projection_root_tree_sha": "c18bcad4e504158af41497de63097b3c2e7784cc",
-    "pre_projection_canonical_tree_sha": "de5a8be4c574916efb866d292bacb2726c12740d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 590,
-    "total_post_baseline_commits": 590,
-    "delta_file_count": 1885,
-    "delta_added_files": 1880,
+    "pre_projection_head_sha": "f61e557da3b4c5437039e9275a4d3471ed5a73df",
+    "pre_projection_root_tree_sha": "f2d787d9b68c42ceee37b9e193d607efd5ffae2f",
+    "pre_projection_canonical_tree_sha": "657aef0735b36378b18caccf628afb2de65e0996",
+    "commits_ahead_of_v3_0_11_conformance_commit": 640,
+    "total_post_baseline_commits": 640,
+    "delta_file_count": 1902,
+    "delta_added_files": 1897,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 889,
+    "canonical_files_in_post_baseline_delta": 896,
     "evidence_files_in_post_baseline_delta": 148,
-    "source_files_in_post_baseline_delta": 255,
-    "test_files_in_post_baseline_delta": 217,
-    "workflow_files_in_post_baseline_delta": 89,
+    "source_files_in_post_baseline_delta": 257,
+    "test_files_in_post_baseline_delta": 218,
+    "workflow_files_in_post_baseline_delta": 90,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -245,6 +245,7 @@
       "canonical/profiles/FA3-OS-RUNTIME-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
+      "canonical/profiles/FA3-QUALITY-ANTI-SLOP-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
       "canonical/profiles/FA3-SCS-001.json",
@@ -345,6 +346,7 @@
       "canonical/contracts/FA3-OS-EVENT-001.schema.json",
       "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
+      "canonical/contracts/FA3-QUALITY-ANTI-SLOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
@@ -482,6 +484,7 @@
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
+      "canonical/decisions/FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.json",
       "canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json",
@@ -517,6 +520,7 @@
     "upstream_reference_records": [
       "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
+      "canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json",
       "canonical/references/FA3-ANY-GUARDRAIL-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -748,6 +752,7 @@
     "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
     "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
     "FA3-SKILL-FABRIC-GATESET-001",
+    "FA3-QUALITY-ANTI-SLOP-GATESET-001",
     "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
   ],
   "evidence_registry": {
@@ -874,7 +879,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1878,
+  "manifest_entry_count": 1895,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -1008,7 +1013,7 @@
     },
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
-      "git_blob_sha": "3d2a14593ca6b172603683e46916887398199f83",
+      "git_blob_sha": "fe855170fc0bc88224666f2cda92fc329e4f5970",
       "baseline_delta_status": "added"
     },
     {
@@ -1193,7 +1198,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "fd743b31eb98879927d53e6763009468da09a381",
+      "git_blob_sha": "e3f40e9faa7047ed9371e0bdec8e916e266ae2c6",
       "baseline_delta_status": "added"
     },
     {
@@ -1209,6 +1214,11 @@
     {
       "path": ".github/workflows/fa3-pytorch3d-current-host.yml",
       "git_blob_sha": "554382e4bd474722746602ee62983d103e191e13",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-quality-anti-slop.yml",
+      "git_blob_sha": "d4a1dc601928a91df124f8d909f64be9107e6017",
       "baseline_delta_status": "added"
     },
     {
@@ -1743,7 +1753,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "2655c0d9bf50ba4de1642f4ee8de5304ba8363aa",
+      "git_blob_sha": "d76bf170b7d3b0584d14ef147ed8239179f0a83d",
       "baseline_delta_status": "modified"
     },
     {
@@ -2248,7 +2258,7 @@
     },
     {
       "path": "canonical/FA3-GATE-GUI-001.json",
-      "git_blob_sha": "f3f506ec6d4aa720e432a0c33832c6fe4a07e38a",
+      "git_blob_sha": "8f654ab8b0234d8818629e7833c96e95a98f9803",
       "baseline_delta_status": "added"
     },
     {
@@ -2424,6 +2434,11 @@
     {
       "path": "canonical/FA3-GATE-PYTORCH3D-001.json",
       "git_blob_sha": "373da080db752405633dadbfec0291b3cdd6560b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-QUALITY-ANTI-SLOP-001.json",
+      "git_blob_sha": "e145e6fd56548e545a4f5e2f493f5c40e959f726",
       "baseline_delta_status": "added"
     },
     {
@@ -3042,6 +3057,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-QUALITY-ANTI-SLOP-DECISION-ASSESSMENT-2026-09-23.json",
+      "git_blob_sha": "d4a9e44f92ec52fe6be022cb4aad151968ec0f35",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SKILL-DISTRIBUTION-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "cbd732a4cfd9c5c87871faa1ed42b60537ed903a",
       "baseline_delta_status": "added"
@@ -3512,6 +3532,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-QUALITY-ANTI-SLOP-CONTRACTS-001.json",
+      "git_blob_sha": "40d1e88844c71aa781eb6f87a9d0d747cdd9b637",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "git_blob_sha": "c55b9b55194055baab137656d92990e23391c69d",
       "baseline_delta_status": "added"
@@ -3533,7 +3558,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "5d19a757677014af760e261e0fd201196a68c82f",
+      "git_blob_sha": "038acbe186342d38abf11809eac9d8cd4b0a1df5",
       "baseline_delta_status": "added"
     },
     {
@@ -4242,6 +4267,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.json",
+      "git_blob_sha": "3a472e1115134198d9b9514ffc29f8f2487abc51",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json",
       "git_blob_sha": "79f3c800638506236d13cb54651525d4bc23ac2c",
       "baseline_delta_status": "added"
@@ -4413,17 +4443,17 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "93e781e4f9b88b41c1397e84fd696477b2c87a80",
+      "git_blob_sha": "973320b2c2ad6fc2bd16746c9f4ad0c580619ad4",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "3c34aa3f5148bb3901bc7968778f67293ca0d1ec",
+      "git_blob_sha": "516d6b2ecde99ada86991a3cda40931edfcdd2a2",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "05d74da42ca5d605a8068d297ca291ef1f28e940",
+      "git_blob_sha": "f020f7d87324716a6b45cbe56350f12ad3082ad2",
       "baseline_delta_status": "modified"
     },
     {
@@ -4823,7 +4853,7 @@
     },
     {
       "path": "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json",
-      "git_blob_sha": "6013888cc055363bc19332f7d25570f9b339a208",
+      "git_blob_sha": "4b2493523a7c8c099f526090951a5d8311ac470a",
       "baseline_delta_status": "added"
     },
     {
@@ -4898,7 +4928,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DECISION-FABRIC-001.json",
-      "git_blob_sha": "652dc412ba57a06db7e1944137b9d241652b4ace",
+      "git_blob_sha": "a674a1e776152016bd6c2f44052656234f5c6740",
       "baseline_delta_status": "added"
     },
     {
@@ -5122,6 +5152,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-QUALITY-ANTI-SLOP-001.json",
+      "git_blob_sha": "9ece1377572222ce032d74af489004233f3e2e25",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
       "git_blob_sha": "f43786a68fc94b4cdd5d31ab85acd554bcdf3d95",
       "baseline_delta_status": "added"
@@ -5153,7 +5188,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SKILL-FABRIC-001.json",
-      "git_blob_sha": "78f1fea210319ca74f79046b343705adf8199489",
+      "git_blob_sha": "702a6e043596ad22815affb2d4be1dfa14562fa1",
       "baseline_delta_status": "added"
     },
     {
@@ -5877,6 +5912,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/quality/FA3-QUALITY-RULE-REGISTRY-001.json",
+      "git_blob_sha": "fb6865708c1f9867e59d9ba4d12c33ebc1697998",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "e6155e40ceb72cab4e58767426f172c5378984ea",
       "baseline_delta_status": "added"
@@ -5884,6 +5924,11 @@
     {
       "path": "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "761f16f7b270fcf4a80514e2b46f35344f24e8c1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json",
+      "git_blob_sha": "b0c2f355fbe4dc2fcc00fa4a51d1a27a2fd745a8",
       "baseline_delta_status": "added"
     },
     {
@@ -6373,7 +6418,7 @@
     },
     {
       "path": "canonical/skill-registry.json",
-      "git_blob_sha": "137d7368affb7bc7780a2716ec0ca374e95fb5dc",
+      "git_blob_sha": "ae631f46c6d06146834e0de00ffcf90f2f3850f7",
       "baseline_delta_status": "added"
     },
     {
@@ -6704,6 +6749,11 @@
     {
       "path": "docs/FA3-ORCHESTRATION-WORKFORCE-001.md",
       "git_blob_sha": "22efdf09a9873f45ebe80a0c2cd7f550d7bdf26d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.md",
+      "git_blob_sha": "68931811e8eede3c873241918f0ef553c5d8c519",
       "baseline_delta_status": "added"
     },
     {
@@ -7833,12 +7883,37 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "d536063d828f087b62549129cfbb7741b4d6427c",
+      "git_blob_sha": "09152975baa083b7abafb4bbe9a27c6638e7078f",
       "baseline_delta_status": "added"
     },
     {
       "path": "scripts/fa3_reconcile_resource_admission_evidence.py",
       "git_blob_sha": "4ed0d97b6d60f3e0bc4d972646a0927c0af84cd8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "skills/fa3-quality-code/SKILL.md",
+      "git_blob_sha": "1888e01cad45a9be71d61544037e27d6fdf82329",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "skills/fa3-quality-copy/SKILL.md",
+      "git_blob_sha": "464d54386aa0d2770d980438925e11115a061795",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "skills/fa3-quality-human/SKILL.md",
+      "git_blob_sha": "37ba77d42c09455a5911a0551f549bc89334b689",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "skills/fa3-quality-responsive/SKILL.md",
+      "git_blob_sha": "c273688e53c886972ee5bf336b064575a17450d4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "skills/fa3-quality-ui/SKILL.md",
+      "git_blob_sha": "a765bb48de680c38e7e605e41dbd478b6fe74dec",
       "baseline_delta_status": "added"
     },
     {
@@ -8233,7 +8308,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "473c6bd7e2c6d6e68e49ac15c0b6bc9e44bc1773",
+      "git_blob_sha": "0d576e057356c30966356cace44da7fe5688eea9",
       "baseline_delta_status": "modified"
     },
     {
@@ -8897,6 +8972,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_quality_filter.py",
+      "git_blob_sha": "59dcb213278d461d06c670b56612b99bd977108e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_quality_gate.py",
+      "git_blob_sha": "aa4ac03981318f613471a4ab7833b5fa8094336a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_release_baseline.py",
       "git_blob_sha": "47c8a50fb9d4320e49bfd77c1a74cd0d862aee5d",
       "baseline_delta_status": "added"
@@ -9008,7 +9093,7 @@
     },
     {
       "path": "src/fa3_skill_discovery.py",
-      "git_blob_sha": "e341aaff895c66bfdf38311e694a2b8996adfd34",
+      "git_blob_sha": "5f03d8717ceffd37cd20f971b8470b49e2967b8b",
       "baseline_delta_status": "added"
     },
     {
@@ -9982,6 +10067,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_quality_filter.py",
+      "git_blob_sha": "bfae06babab860748ecf967b211e215ab6ccb56d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_release_evidence_scope_gate.py",
       "git_blob_sha": "9b01906a585ff713a5b87c578666726fcafc982c",
       "baseline_delta_status": "added"
@@ -10073,7 +10163,7 @@
     },
     {
       "path": "tests/test_skill_discovery.py",
-      "git_blob_sha": "d42606fda053a5c7601cc49bf752fcb5a0bdfc54",
+      "git_blob_sha": "e33309120c7bf92692665c890ee0857c645acd03",
       "baseline_delta_status": "added"
     },
     {
@@ -10464,7 +10554,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-23",
+  "last_reconciled_at": "2026-09-24",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
@@ -11883,6 +11973,23 @@
     "autoskills_distribution_class": "REFERENCE_ONLY",
     "external_redistributable_supported": true,
     "auto_bundle_external_redistributable": false,
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  },
+  "quality_anti_slop_reconciliation": {
+    "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+    "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
+    "decision_id": "FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+    "decision_assessment_id": "FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+    "gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
+    "rule_registry_id": "FA3-QUALITY-RULE-REGISTRY-001",
+    "upstream_reference_id": "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23",
+    "upstream_distribution_class": "REFERENCE_ONLY",
+    "native_quality_skill_count": 5,
+    "upstream_runtime_dependency": false,
+    "upstream_installer_dependency": false,
+    "current_host_runtime_promotion_claim": false,
     "capability_count_after": 143,
     "new_capabilities": 0,
     "new_architectural_authorities": 0
