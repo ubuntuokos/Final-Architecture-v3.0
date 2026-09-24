@@ -17,6 +17,8 @@ CONFIG="$RUN_ROOT/current-host-config.json"
 RUNTIME_DIR="$RUN_ROOT/runtime"
 SECRET_RECEIPT_REFERENCE="$ROOT/evidence/reference/secret-broker-current-host-2026-09-21.json"
 SECRET_RECEIPT="$SECRET_RECEIPT_REFERENCE"
+PRODUCTION_VAULT_IMAGE="/var/lib/fa3/state/fa3-machine-state.img"
+PRODUCTION_VAULT_CREDENTIAL="/etc/credstore.encrypted/fa3-machine-state-key.cred"
 CREATED_USER=false
 LIFECYCLE_STARTED=false
 POLICY_A=""
@@ -126,6 +128,14 @@ if (
 PY
 
 if ! systemctl is-active --quiet fa3-secrets.target; then
+  if [[ ! -f "$PRODUCTION_VAULT_IMAGE" || ! -f "$PRODUCTION_VAULT_CREDENTIAL" ]]; then
+    echo "production Secret Broker vault is not initialized" >&2
+    echo "missing expected production artifacts:" >&2
+    [[ -f "$PRODUCTION_VAULT_IMAGE" ]] || echo "  $PRODUCTION_VAULT_IMAGE" >&2
+    [[ -f "$PRODUCTION_VAULT_CREDENTIAL" ]] || echo "  $PRODUCTION_VAULT_CREDENTIAL" >&2
+    echo "initialize once with: sudo /usr/local/sbin/fa3-secret-vault-init" >&2
+    exit 2
+  fi
   echo "Starting production Secret Broker lifecycle..."
   /usr/local/sbin/fa3-secrets-lifecycle start >/dev/null
   LIFECYCLE_STARTED=true
