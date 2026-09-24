@@ -16,6 +16,118 @@ jobs:
         run: |
           python -m py_compile src/fa3_model_router_provider_execution_current_host_gate.py evidence/collect-model-router-provider-execution-current-host.py bin/fa3-model-router-provider-execution-current-host.py
           PYTHONPATH=src python -m unittest tests.test_model_router_provider_execution_current_host
+      - name: Current-host non-secret preflight
+        shell: bash
+        run: |
+          set -u
+          echo "PRECHECK_HEAD=$(git rev-parse HEAD)"
+          echo "PRECHECK_USER=$(id -un)"
+          echo "PRECHECK_GROUPS=$(id -nG | tr ' ' ',')"
+          for unit in fa3-secrets.target fa3-secret-broker.service ollama.service; do
+            state="$(systemctl is-active "$unit" 2>/dev/null || true)"
+            user_state="$(systemctl --user is-active "$unit" 2>/dev/null || true)"
+            echo "PRECHECK_UNIT $unit system=${state:-unknown} user=${user_state:-unknown}"
+          done
+          for path in \
+            /run/fa3-secret-broker/broker.sock \
+            /run/fa3/current-host-secret-broker/secret-broker-current-host.json \
+            /etc/fa3/model-router/provider-execution-current-host.json \
+            "$HOME/.config/fa3/model-router/providers.json"; do
+            if [[ -e "$path" || -S "$path" ]]; then
+              echo "PRECHECK_PATH present $path"
+            else
+              echo "PRECHECK_PATH absent $path"
+            fi
+          done
+          if [[ -S /run/fa3-secret-broker/broker.sock ]]; then
+            if bin/fa3-secretctl health >/dev/null 2>&1; then
+              echo "PRECHECK_SECRET_BROKER_HEALTH=PASS"
+            else
+              echo "PRECHECK_SECRET_BROKER_HEALTH=FAIL"
+            fi
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          from src.fa3_secret_broker import request
+          try:
+              r=request(Path("/run/fa3-secret-broker/broker.sock"),{"op":"list_metadata"})
+          except Exception as exc:
+              print("PRECHECK_SECRET_METADATA=UNAVAILABLE:"+type(exc).__name__)
+          else:
+              if r.get("ok") is not True:
+                  print("PRECHECK_SECRET_METADATA=DENIED")
+              else:
+                  rows=r.get("secrets") or []
+                  safe=[{
+                      "secret_id":str(x.get("secret_id","")),
+                      "classification":str(x.get("classification","")),
+                      "secret_kind":str(x.get("secret_kind","")),
+                      "version":x.get("version"),
+                  } for x in rows if isinstance(x,dict)]
+                  print("PRECHECK_SECRET_METADATA="+json.dumps(safe,sort_keys=True))
+          PY
+          fi
+          if [[ -f /run/fa3/current-host-secret-broker/secret-broker-current-host.json ]]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("/run/fa3/current-host-secret-broker/secret-broker-current-host.json")
+          try:
+              r=json.loads(p.read_text())
+          except Exception as exc:
+              print("PRECHECK_SECRET_RECEIPT=INVALID:"+type(exc).__name__)
+          else:
+              print("PRECHECK_SECRET_RECEIPT="+json.dumps({
+                  "schema":r.get("schema"),
+                  "status":r.get("status"),
+                  "result":r.get("result"),
+                  "secret_values_collected":r.get("secret_values_collected"),
+                  "bridge_source_commit":r.get("bridge_source_commit"),
+              },sort_keys=True))
+          PY
+          fi
+          python - <<'PY'
+          import json, urllib.request
+          for base in ("http://127.0.0.1:11434","http://127.0.0.1:1234","http://127.0.0.1:4000"):
+              for path in ("/api/version","/v1/models"):
+                  try:
+                      req=urllib.request.Request(base+path,headers={"Accept":"application/json"})
+                      with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(req,timeout=2) as resp:
+                          if 200 <= int(resp.status) < 300:
+                              print("PRECHECK_ENDPOINT PASS "+base+path)
+                              break
+                  except Exception:
+                      pass
+          PY
+      - name: Refresh admitted local provider evidence
+        shell: bash
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          python evidence/collect-model-manager-current-host.py --root . --preserve-serving-runtime > "$RUNNER_TEMP/model-manager-provider-preflight.json"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/receipts/model-manager-current-host.json").read_text())
+          safe={
+              "status":r.get("status"),
+              "evidence_level":r.get("evidence_level"),
+              "admitted_provider_ids":r.get("admitted_provider_ids"),
+              "serving_provider_ids":r.get("serving_provider_ids"),
+              "providers":{},
+          }
+          for pid,item in (r.get("providers") or {}).items():
+              if not isinstance(item,dict): continue
+              h=item.get("runtime_handoff") if isinstance(item.get("runtime_handoff"),dict) else {}
+              safe["providers"][pid]={
+                  "status":item.get("status"),
+                  "evidence_level":item.get("evidence_level"),
+                  "api_base":h.get("api_base"),
+                  "native_api_base":h.get("native_api_base"),
+                  "server_cpu_only":h.get("server_cpu_only"),
+              }
+          print("PRECHECK_PROVIDER_EVIDENCE="+json.dumps(safe,sort_keys=True))
+          PY
       - name: Produce or accept real-provider probe
         shell: bash
         run: |
