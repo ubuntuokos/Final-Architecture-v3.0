@@ -43,10 +43,7 @@ if getent passwd fa3-provider-exec-probe >/dev/null; then
     echo "provider execution probe identity is active; refusing cleanup or reuse" >&2
     exit 2
   fi
-  echo "stale provider execution probe identity detected from an interrupted prior run" >&2
-  echo "safe recovery: sudo userdel fa3-provider-exec-probe" >&2
-  echo "then rerun this closure command" >&2
-  exit 2
+  echo "stale provider execution probe identity detected; provisioner recovery will validate and remove it"
 fi
 
 install -d -m0755 "$RUN_ROOT"
