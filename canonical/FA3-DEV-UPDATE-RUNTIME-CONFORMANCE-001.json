@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.dev-update-runtime-conformance.v1",
+  "id": "FA3-DEV-UPDATE-RUNTIME-CONFORMANCE-001",
+  "profiles": [
+    "FA3-DEV-MODE-001",
+    "FA3-UPDATE-FABRIC-001",
+    "FA3-SECURITY-UPDATE-001",
+    "FA3-UPDATE-RESTART-001"
+  ],
+  "status": "EXECUTABLE_REFERENCE_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "host_execution_policy": "TRUSTED_SOURCE_ONLY",
+  "untrusted_pull_request_execution": "DENY",
+  "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "hardware_boundary": {
+    "discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "accelerator_cardinality": "0..N",
+    "cpu_only_valid": true,
+    "global_vendor_pin": null,
+    "provider_specific_probes_optional": true
+  },
+  "required_current_host_receipts": [
+    "development workspace filesystem write-boundary proof",
+    "canonical and production evidence read-only boundary proof",
+    "ephemeral HRB lease lifecycle proof",
+    "ACCEL-GUARD delegation proof for accelerator contention",
+    "OS-managed update discovery proof",
+    "background low-risk security update proof",
+    "host-critical provider-neutral update staging without blind activation",
+    "protected-workload restart postponement proof",
+    "persistent restart-required notification proof",
+    "user-selected restart timing proof",
+    "provider rollback/health validation proof"
+  ],
+  "promotion_requirements": {
+    "hosted_static_gate": "PASS_REQUIRED",
+    "current_host_e2e": "PASS_REQUIRED",
+    "protected_workload_non_interruption": "PASS_REQUIRED",
+    "silent_forced_reboot": "MUST_BE_ABSENT"
+  },
+  "claims": [],
+  "non_claims": [
+    "CURRENT_HOST_E2E_PASS",
+    "GLOBAL_FA3_PROMOTION"
+  ]
+}

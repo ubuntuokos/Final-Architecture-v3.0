@@ -42,6 +42,7 @@ required_markers=(
   'routeId: "decision.project-radar"'
   'routeId: "home.work-management"'
   'routeId: "system.accelerator-guard"'
+  'routeId: "system.updates"'
   'routeId: "integrations.fa3-os"'
   'text: "⌕  Keresés"'
   'label: "Model Manager"'
