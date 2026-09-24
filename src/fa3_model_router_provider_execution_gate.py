@@ -128,7 +128,7 @@ def gate(root: Path) -> dict[str, Any]:
         for token in ("https://api.openai.com/v1","/v1/models","/v1/chat/completions","fixed FA3 provider-execution probe content","credential_storage"):
             if token not in bridge_text:
                 f.append(finding("PEX-OPENAI-004",f"OpenAI loopback bridge contract token missing: {token}"))
-        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","runtime discovery from this API project","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty","PROVISION_RC=$?","closure PASS withheld","fa3.model-router-provider-execution-current-host.v1","CURRENT_HOST_REAL_PROVIDER_EXECUTION_E2E_PASS","provisioning_cleanup_pass","/run/fa3/model-router-provider-execution/current-host-receipt.json"):
+        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","runtime discovery from this API project","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty","PROVISION_RC=$?","closure PASS withheld","fa3.model-router-provider-execution-current-host.v1","CURRENT_HOST_REAL_PROVIDER_EXECUTION_E2E_PASS","provisioning_cleanup_pass",'PROVIDER_RUN_ROOT="/run/fa3/model-router-provider-execution"','PROVIDER_RECEIPT="$PROVIDER_RUN_ROOT/current-host-receipt.json"'):
             if token not in close_text:
                 f.append(finding("PEX-OPENAI-005",f"OpenAI closure harness contract token missing: {token}"))
         if "/run/fa3/model-router/provider-execution/current-host-receipt.json" in close_text or "trap cleanup EXIT INT TERM" in close_text:
