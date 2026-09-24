@@ -12,5 +12,12 @@
   "executable": "PYTHONPATH=src python src/fa3_skill_fabric_gate.py --root .",
   "report_path": "reports/skill-fabric-gate-report.json",
   "provider_specific": false,
-  "current_host_runtime_claim": false
+  "current_host_runtime_claim": false,
+  "profile_version": "1.2.0",
+  "companion_gate": {
+    "id": "FA3-GATE-SKILL-ECOSYSTEM-001",
+    "executable": "PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .",
+    "report_path": "reports/skill-ecosystem-gate-report.json",
+    "same_gateset": true
+  }
 }
