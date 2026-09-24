@@ -74,6 +74,8 @@ REQUIRED_LIFECYCLE_INVARIANTS = {
     "BOOT_ID_AND_MONOTONIC_EXPIRY_BIND_LEASE_TO_CURRENT_BOOT",
     "CPU_ONLY_WORKLOAD_MUST_NOT_REQUIRE_ACCELERATOR_ASSIGNMENT",
     "SHARED_ACCELERATOR_EVICTION_MUST_NOT_RESET_GLOBAL_DEVICE",
+    "HRB_TTL_EVICTION_MUST_REVOKE_PROJECTION_LEASE_NOT_UNDERLYING_SECRET",
+    "SECRET_PROJECTION_ZEROIZE_TARGET_REQUIRES_IMMUTABLE_FILE_IDENTITY",
 }
 
 
@@ -186,8 +188,14 @@ def evaluate(root: Path) -> dict[str, Any]:
             "secret-authority-preserved",
             secret.get("authority_id") == "FA3-AUTH-SECRETS-001"
             and secret.get("hrb_may_become_secret_authority") is False
-            and secret.get("revoke_zeroize_before_runtime_termination") is True,
-            "HRB coordinates Secret Broker lifecycle without becoming the secrets authority",
+            and secret.get("revoke_zeroize_before_runtime_termination") is True
+            and secret.get("projection_lease_id_semantics") == "OPAQUE_SPL_HANDLE_ONLY"
+            and secret.get("underlying_secret_id_in_hrb_lease_record") == "FORBIDDEN"
+            and secret.get("underlying_secret_revoke_for_hrb_ttl_eviction") == "FORBIDDEN"
+            and secret.get("persistent_projection_path_scope") == "ABSOLUTE_BELOW_RUN_ONLY"
+            and "SecretBrokerProjectionLifecycleHook" in core
+            and "_zeroize_projection_target" in core,
+            "HRB coordinates opaque SecretProjectionLease revoke/zeroize without mutating credential objects",
         ),
         _check(
             "wrong-runtime-no-kill",
