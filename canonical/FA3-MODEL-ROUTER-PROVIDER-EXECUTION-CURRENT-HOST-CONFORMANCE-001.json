@@ -36,7 +36,8 @@
     "security_relevant_schema_loss_denied_pass",
     "raw_secret_absent_from_logs_pass",
     "raw_secret_absent_from_evidence_pass",
-    "rollback_pass"
+    "rollback_pass",
+    "provisioning_cleanup_pass"
   ],
   "synthetic_or_mock_provider_pass": "FORBIDDEN",
   "network_fetch_or_install_by_workflow": "FORBIDDEN",
@@ -55,7 +56,8 @@
     "credential_authentication": "INVALID_BEARER_MUST_BE_REJECTED_401_OR_403_BEFORE_PASS",
     "provisioning": "INTERACTIVE_TTY_ONLY_REAL_CREDENTIALS_TEMPORARY_SECRETREF_POLICIES_AND_PROBE_IDENTITY_CLEANED",
     "preferred_model": "OPTIONAL_OPERATOR_OVERRIDE_ONLY; OTHERWISE_RUNTIME_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE",
-    "secret_broker_prerequisite": "REUSE_DURABLE_CURRENT_HOST_ADMISSION_EVIDENCE_PLUS_LIVE_BROKER_HEALTH_AND_SECRET_PROJECTION; DO_NOT_RERUN_FULL_SECRET_BROKER_E2E"
+    "secret_broker_prerequisite": "REUSE_DURABLE_CURRENT_HOST_ADMISSION_EVIDENCE_PLUS_LIVE_BROKER_HEALTH_AND_SECRET_PROJECTION; DO_NOT_RERUN_FULL_SECRET_BROKER_E2E",
+    "provisioning_cleanup": "PASS_WITHHELD_UNTIL_TEMPORARY_SECRETREFS_POLICIES_PROBE_IDENTITY_AND_STARTED_SECRET_BROKER_LIFECYCLE_ARE_CLEANED"
   },
   "provisioning_harness": "bin/fa3-model-router-provider-execution-current-host-provision.sh",
   "openai_evidence_adapter": {
