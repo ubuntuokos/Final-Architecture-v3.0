@@ -22,6 +22,9 @@ GATE_ID = "FA3-GUI-CURRENT-HOST-GATESET-001"
 CONFORMANCE_ID = "FA3-GUI-RUNTIME-CONFORMANCE-001"
 EVIDENCE_ID = "EVID-FA3-GUI-CURRENT-HOST-001"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
+SECRET_BACKEND_AUTHORITY = "AUTH-SECRETS"
+SECRET_BACKEND_CAPABILITY = "CAP-003"
+TESTED_PATH_ID = "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
 
 SAFE_ENV_KEYS = {
     "PATH", "HOME", "USER", "LOGNAME", "SHELL", "LANG", "LC_ALL", "LC_CTYPE",
@@ -162,8 +165,12 @@ def gui_desktop_runtime_scoped_admission(
             "full_desktop_admission_result": report.get("result"),
             "full_desktop_required_failures": [],
             "secret_backend_status": None,
+            "secret_backend_required_for_tested_path": False,
+            "secret_backend_authority": SECRET_BACKEND_AUTHORITY,
+            "secret_backend_capability": SECRET_BACKEND_CAPABILITY,
+            "secret_backend_pass_claimed": False,
             "secret_backend_used_for_gui_runtime_admission": False,
-            "secrets_authority_owner": "CAP-003",
+            "secrets_authority_owner": SECRET_BACKEND_CAPABILITY,
             "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
         }
 
@@ -210,8 +217,12 @@ def gui_desktop_runtime_scoped_admission(
         "full_desktop_admission_result": report.get("result"),
         "full_desktop_required_failures": full_required_failures,
         "secret_backend_status": capabilities.get("secret_backend"),
+        "secret_backend_required_for_tested_path": False,
+        "secret_backend_authority": SECRET_BACKEND_AUTHORITY,
+        "secret_backend_capability": SECRET_BACKEND_CAPABILITY,
+        "secret_backend_pass_claimed": False,
         "secret_backend_used_for_gui_runtime_admission": False,
-        "secrets_authority_owner": "CAP-003",
+        "secrets_authority_owner": SECRET_BACKEND_CAPABILITY,
         "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
     }
 
@@ -223,12 +234,20 @@ def collect(
     output_dir: Path,
     smoke_seconds: float = 8.0,
     env: Mapping[str, str] | None = None,
+    tested_path: str = TESTED_PATH_ID,
 ) -> dict[str, Any]:
     root = root.resolve()
     executable = executable.resolve()
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     base_env = dict(os.environ if env is None else env)
+    if tested_path != TESTED_PATH_ID:
+        raise RuntimeError(f"unsupported GUI current-host tested path: {tested_path}")
+
+    secret_independent_vault_image = output_dir / "session-vault-not-configured.img"
+    if secret_independent_vault_image.exists():
+        secret_independent_vault_image.unlink()
+    session_vault_image_present_before_launch = secret_independent_vault_image.exists()
 
     discovery = discover_current_user_session_environment(base_env)
     session_env = discovery["environment"]
@@ -305,6 +324,7 @@ def collect(
 
     if prerequisites:
         child_env = safe_child_environment(session_env)
+        child_env["FA3_SESSION_VAULT_IMAGE"] = str(secret_independent_vault_image)
         stdout_path = output_dir / "fa3-control-center.stdout.log"
         stderr_path = output_dir / "fa3-control-center.stderr.log"
         started = time.monotonic()
@@ -342,6 +362,16 @@ def collect(
             stdout_text + "\n" + stderr_text
         )
 
+    session_vault_image_present_after_launch = secret_independent_vault_image.exists()
+    tested_path_evidence = {
+        "id": TESTED_PATH_ID,
+        "secret_dependency": "NONE",
+        "session_vault_configuration": "NOT_CONFIGURED",
+        "session_vault_image_present_before_launch": session_vault_image_present_before_launch,
+        "session_vault_image_present_after_launch": session_vault_image_present_after_launch,
+        "secret_lookup_required": False,
+    }
+
     checks = {
         "github_actions_context": source_binding["github_actions"],
         "repository_binding_exact": source_binding["repository_exact"],
@@ -354,6 +384,13 @@ def collect(
         "supported_session_type": session_type in {"wayland", "x11"},
         "display_endpoint_proven": display_endpoint_proven,
         "desktop_runtime_scope_admission_pass": desktop_runtime_scope.get("result") == "PASS",
+        "secret_independent_tested_path": (
+            desktop_runtime_scope.get("secret_backend_required_for_tested_path") is False
+            and desktop_runtime_scope.get("secret_backend_pass_claimed") is False
+            and desktop_runtime_scope.get("secret_backend_authority") == SECRET_BACKEND_AUTHORITY
+            and not session_vault_image_present_before_launch
+            and not session_vault_image_present_after_launch
+        ),
         "same_source_binary_present": build_pass,
         "explicit_native_qpa": qpa in {"wayland", "xcb"},
         "offscreen_or_minimal_forbidden": qpa not in {"offscreen", "minimal"},
@@ -406,6 +443,12 @@ def collect(
             "secret_backend_evidence": desktop.get("secret_backend_evidence"),
         },
         "desktop_runtime_scope": desktop_runtime_scope,
+        "tested_path": tested_path_evidence,
+        "secret_backend_status": desktop_runtime_scope.get("secret_backend_status"),
+        "secret_backend_required_for_tested_path": False,
+        "secret_backend_authority": SECRET_BACKEND_AUTHORITY,
+        "secret_backend_capability": SECRET_BACKEND_CAPABILITY,
+        "secret_backend_pass_claimed": False,
         "build": build,
         "launch": launch,
         "security": {
