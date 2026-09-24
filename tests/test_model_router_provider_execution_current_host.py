@@ -1,4 +1,4 @@
-import json, tempfile, unittest
+import json, tempfile, unittest, subprocess
 from pathlib import Path
 from fa3_model_router_provider_execution_current_host_gate import REQUIRED_CHECKS
 
@@ -20,4 +20,10 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("fa3-secretctl",producer)
         self.assertIn("credential_authentication_enforced",producer)
         self.assertEqual(schema["properties"]["credentials"]["minItems"],2)
+    def test_provisioning_harness_shell_syntax(self):
+        subprocess.run(["bash","-n",str(ROOT/"bin/fa3-model-router-provider-execution-current-host-provision.sh")],check=True)
+        harness=(ROOT/"bin/fa3-model-router-provider-execution-current-host-provision.sh").read_text(encoding="utf-8")
+        self.assertIn("/dev/tty",harness)
+        self.assertIn("fa3-provider-exec-probe.service",harness)
+        self.assertIn("SupplementaryGroups=fa3-secret-clients",harness)
 if __name__=="__main__": unittest.main()
