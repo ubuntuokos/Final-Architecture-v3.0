@@ -113,8 +113,7 @@ python3 - "$SECRET_RECEIPT" <<'PY'
 import json,sys
 from pathlib import Path
 r=json.loads(Path(sys.argv[1]).read_text())
-if r.get("schema")!="fa3.secret-broker-current-host-receipt.v1" or r.get("status")!="PASS" or r.get("secret_values_collected") is not False:
-    raise SystemExit("Secret Broker current-host receipt is not a valid PASS")
+if (\n    r.get("schema")!="fa3.secret-broker-current-host-receipt.v1"\n    or r.get("result")!="PASS"\n    or r.get("status")!="CURRENT_HOST_PASS"\n    or r.get("secret_values_collected") is not False\n):\n    raise SystemExit("Secret Broker current-host receipt is not a valid CURRENT_HOST_PASS")
 PY
 /usr/local/bin/fa3-secretctl health >/dev/null
 
