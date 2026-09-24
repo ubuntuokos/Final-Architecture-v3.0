@@ -361,7 +361,9 @@ class LeaseLedger:
         if source == "EVICTING" and target == "ACTIVE":
             raise LeaseStateError("EVICTING generation can never become ACTIVE")
         record["state"] = target
-        record["state_changed_at_utc"] = self._wall_utc()
+        changed = self._wall_utc()
+        record["state_changed_at_utc"] = changed
+        record.setdefault("state_history", []).append({"state": target, "at_utc": changed})
         self._resign(record)
 
     def issue(self, binding_seed: dict[str, Any], ttl_seconds: float, lease_id: str | None = None, generation: int = 1) -> dict[str, Any]:
@@ -387,6 +389,7 @@ class LeaseLedger:
             "lease_id": lease_id,
             "generation": generation,
             "state": "ISSUED",
+            "state_history": [{"state": "ISSUED", "at_utc": issued}],
             "boot_id": self._boot_id_reader(),
             "issued_monotonic_ns": now_mono,
             "expires_monotonic_ns": now_mono + int(ttl_seconds * 1_000_000_000),
@@ -450,7 +453,9 @@ class LeaseLedger:
             old = self._records[(lease_id, generation)]
             old["state"] = "REVOKING"
             old["superseded_by_generation"] = new_generation
-            old["state_changed_at_utc"] = self._wall_utc()
+            changed = self._wall_utc()
+            old["state_changed_at_utc"] = changed
+            old.setdefault("state_history", []).append({"state": "REVOKING", "at_utc": changed, "reason": "RENEWAL_SUPERSEDED"})
             self._resign(old)
             activated = self._records[(lease_id, new_generation)]
             self._transition(activated, "ACTIVE")
