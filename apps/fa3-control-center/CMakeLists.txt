@@ -43,6 +43,7 @@ set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS Jou
 set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS WebWorkspace.qml)
 set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelsProvidersPage.qml)
 set_source_files_properties(qml/ProviderExplorerView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExplorerView.qml)
+set_source_files_properties(qml/ProviderExecutionView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExecutionView.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
@@ -78,6 +79,7 @@ qt_add_qml_module(fa3-control-center
         qml/WebWorkspace.qml
         qml/ModelsProvidersPage.qml
         qml/ProviderExplorerView.qml
+        qml/ProviderExecutionView.qml
         qml/AiStudioPage.qml
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml

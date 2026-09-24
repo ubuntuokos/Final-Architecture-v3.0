@@ -64,6 +64,10 @@ Item {
                 text: "Provider Explorer"
                 onClicked: providerExplorerDialog.open()
             }
+            Button {
+                text: "Provider Execution"
+                onClicked: providerExecutionDialog.open()
+            }
         }
 
         RowLayout {
@@ -129,6 +133,26 @@ Item {
                     }
                 }
             }
+        }
+    }
+
+    Dialog {
+        id: providerExecutionDialog
+        modal: true
+        title: "Provider Execution"
+        anchors.centerIn: parent
+        width: Math.min(1040, Math.max(760, root.width - 96))
+        height: Math.min(720, Math.max(540, root.height - 96))
+        standardButtons: Dialog.Close
+        contentItem: ProviderExecutionView {
+            panel: root.panel
+            panelRaised: root.panelRaised
+            border: root.border
+            textPrimary: root.textPrimary
+            textMuted: root.textMuted
+            accent: root.accent
+            green: root.green
+            orange: root.orange
         }
     }
 
