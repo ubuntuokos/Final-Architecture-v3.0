@@ -18,7 +18,7 @@
   "required_bindings": [
     "exact repository HEAD",
     "admitted provider receipt SHA-256",
-    "Secret Broker projection receipt SHA-256",
+    "Secret Broker current-host admission evidence SHA-256",
     "credential SecretReference SHA-256",
     "logical route",
     "physical model"
@@ -54,7 +54,8 @@
     "direct_provider_access": "CURRENT_HOST_EVIDENCE_HARNESS_ONLY_NOT_APPLICATION_PATH",
     "credential_authentication": "INVALID_BEARER_MUST_BE_REJECTED_401_OR_403_BEFORE_PASS",
     "provisioning": "INTERACTIVE_TTY_ONLY_REAL_CREDENTIALS_TEMPORARY_SECRETREF_POLICIES_AND_PROBE_IDENTITY_CLEANED",
-    "preferred_model": "OPTIONAL_OPERATOR_OVERRIDE_ONLY; OTHERWISE_RUNTIME_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE"
+    "preferred_model": "OPTIONAL_OPERATOR_OVERRIDE_ONLY; OTHERWISE_RUNTIME_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE",
+    "secret_broker_prerequisite": "REUSE_DURABLE_CURRENT_HOST_ADMISSION_EVIDENCE_PLUS_LIVE_BROKER_HEALTH_AND_SECRET_PROJECTION; DO_NOT_RERUN_FULL_SECRET_BROKER_E2E"
   },
   "provisioning_harness": "bin/fa3-model-router-provider-execution-current-host-provision.sh",
   "openai_evidence_adapter": {
