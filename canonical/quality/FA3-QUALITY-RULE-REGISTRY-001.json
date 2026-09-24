@@ -24,7 +24,7 @@
       "concern": "CORE",
       "tier": "HARD_GATE",
       "blocking": true,
-      "pattern": "(?i)\\b(?:TODO[_ -]?COPY|PLACEHOLDER[_ -]?(?:COPY|TEXT|METRIC)|DUMMY[_ -]?METRIC)\\b",
+      "pattern": "(?i)\\b(?:TODO[_ -]?COPY|PLACEHOLDER[_ -]+(?:COPY|TEXT|METRIC)|DUMMY[_ -]?METRIC)\\b",
       "message": "Placeholder copy or metric markers must not ship."
     },
     {
