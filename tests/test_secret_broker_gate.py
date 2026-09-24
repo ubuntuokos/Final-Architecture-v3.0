@@ -206,6 +206,11 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("fa3-secret-broker-current-host.lock",current_host)
         self.assertIn("fa3-machine-state-e2e-*",current_host)
         self.assertIn("preserving E2E backing image because systemd mount/mapper cleanup is incomplete",current_host)
+        for phase in ("[1/4]","[2/4]","[3/4]","[4/4]"):
+            self.assertIn(phase,current_host)
+        self.assertIn('FA3_MACHINE_STATE_MAPPER="$MAPPER"',current_host)
+        self.assertIn('FA3_MACHINE_STATE_MAPPER="$RMAPPER"',current_host)
+        self.assertIn('/usr/local/libexec/fa3-secret-vault-mount close-mapper',current_host)
         self.assertIn("/dev/mapper/fa3-machine-state",current_host)
 
     def test_current_host_reference_collector_requires_new_evidence_matrix(self):
