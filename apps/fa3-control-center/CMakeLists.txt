@@ -62,6 +62,7 @@ set_source_files_properties(qml/DecisionInspectorPage.qml PROPERTIES QT_RESOURCE
 set_source_files_properties(qml/ProjectRadarPage.qml PROPERTIES QT_RESOURCE_ALIAS ProjectRadarPage.qml)
 set_source_files_properties(qml/ContextInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS ContextInspectorPage.qml)
 set_source_files_properties(qml/AgentActionCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS AgentActionCenterPage.qml)
+set_source_files_properties(qml/UpdateCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS UpdateCenterPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -95,6 +96,7 @@ qt_add_qml_module(fa3-control-center
         qml/ProjectRadarPage.qml
         qml/ContextInspectorPage.qml
         qml/AgentActionCenterPage.qml
+        qml/UpdateCenterPage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"

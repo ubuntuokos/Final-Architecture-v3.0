@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.update-restart.v1",
+  "id": "FA3-UPDATE-RESTART-001",
+  "name": "Workload-Aware Restart & Reboot Coordinator",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "decision": "USER_CHOOSES_ACTIVATION_TIME_PROTECTED_WORKLOADS_TAKE_PRECEDENCE",
+  "states": [
+    "NONE",
+    "RESTART_REQUIRED_SERVICE",
+    "REBOOT_REQUIRED_HOST",
+    "DEFERRED",
+    "SCHEDULED",
+    "WAITING_FOR_IDLE",
+    "READY_TO_RESTART"
+  ],
+  "choices": [
+    "RESTART_NOW",
+    "WHEN_IDLE_SAFE",
+    "SCHEDULE",
+    "LATER"
+  ],
+  "recommended_default": "WHEN_IDLE_SAFE",
+  "protected_workloads": [
+    "accelerator_workload",
+    "render",
+    "inference",
+    "training",
+    "media_export",
+    "agent_task",
+    "critical_file_operation",
+    "model_download"
+  ],
+  "scheduling": {
+    "scheduled_time_overrides_protected_workload": false,
+    "on_conflict": "POSTPONE_AND_NOTIFY",
+    "later_state_persistent": true
+  },
+  "notification": {
+    "required_after_background_update": true,
+    "must_report_restart_kind": true,
+    "must_report_active_protected_workloads": true,
+    "must_remain_visible_until_resolved": true
+  },
+  "execution_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action": "update.restart-choice",
+    "gui_agent_automation_direct_restart": "DENY",
+    "user_choice_authoritative": true,
+    "decision_fabric_authority": false
+  },
+  "invariants": [
+    "BACKGROUND_UPDATE_COMPLETION_IS_REPORTED",
+    "RESTART_OR_REBOOT_REQUIREMENT_IS_ALWAYS_REPORTED",
+    "HOST_REBOOT_IS_NEVER_SILENTLY_FORCED",
+    "USER_SELECTS_ACTIVATION_TIME",
+    "WHEN_IDLE_SAFE_IS_DEFAULT_RECOMMENDATION",
+    "PROTECTED_WORKLOADS_POSTPONE_SCHEDULED_RESTART",
+    "RESTART_REQUIRED_STATE_PERSISTS_UNTIL_RESOLVED",
+    "SERVICE_RESTART_AND_HOST_REBOOT_ARE_DISTINCT",
+    "DECISION_FABRIC_CANNOT_OVERRIDE_USER_RESTART_CHOICE"
+  ]
+}

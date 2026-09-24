@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.update-policy.v1",
+  "policy_id": "FA3-UPDATE-POLICY-001",
+  "default_channel": "STABLE",
+  "allow_check_all": true,
+  "allow_blind_update_all": false,
+  "automatic_security_updates": true,
+  "security": {
+    "os_user_space": "AUTO_INSTALL_BACKGROUND",
+    "service": "AUTO_INSTALL_RESTART_WHEN_SAFE",
+    "host_critical": "AUTO_DOWNLOAD_AND_STAGE",
+    "external_provider": "VALIDATE_THEN_PROMOTE"
+  },
+  "restart": {
+    "recommended_default": "WHEN_IDLE_SAFE",
+    "allow_silent_forced_reboot": false,
+    "choices": [
+      "RESTART_NOW",
+      "WHEN_IDLE_SAFE",
+      "SCHEDULE",
+      "LATER"
+    ],
+    "scheduled_conflict_policy": "POSTPONE_AND_NOTIFY",
+    "persistent_restart_required_state": true
+  },
+  "batches": {
+    "dependency_aware": true,
+    "health_gate_required": true,
+    "rollback_boundary_required": true,
+    "block_dependents_on_failure": true
+  },
+  "models": {
+    "separate_queue": true,
+    "implicit_large_download": false
+  },
+  "host_critical": {
+    "classes": [
+      "kernel",
+      "accelerator_driver",
+      "accelerator_runtime",
+      "critical_host_runtime"
+    ],
+    "maintenance_transaction_required": true,
+    "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "provider_specific_backend_discovered_at_runtime": true,
+    "global_vendor_pin": null
+  }
+}

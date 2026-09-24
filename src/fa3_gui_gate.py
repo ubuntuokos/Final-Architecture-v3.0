@@ -20,6 +20,7 @@ REQUIRED = {
     "action_center_qml": ROOT / "apps/fa3-control-center/qml/AgentActionCenterPage.qml",
     "work_management_qml": ROOT / "apps/fa3-control-center/qml/WorkManagementPage.qml",
     "accelerator_guard_qml": ROOT / "apps/fa3-control-center/qml/AcceleratorGuardPage.qml",
+    "update_center_qml": ROOT / "apps/fa3-control-center/qml/UpdateCenterPage.qml",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
     "cmake": ROOT / "apps/fa3-control-center/CMakeLists.txt",
     "main_cpp": ROOT / "apps/fa3-control-center/src/main.cpp",
@@ -49,7 +50,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Rendszerbeállítások", "System"]
+NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
 NAVIGATION_GROUPS = ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
@@ -230,7 +231,11 @@ def validate() -> list[str]:
         if token not in qml: failures.append(f"qml-accelerator-guard-handler-missing:{token}")
     if "operationNotice" not in work_qml or "operationNotice" not in accel_qml:
         failures.append("qml-draft-intent-feedback-missing")
-
+    update_qml = REQUIRED["update_center_qml"].read_text(encoding="utf-8")
+    for token in ["FA3 Update Center", "UAF DRAFT ONLY", "DRAFT_NOT_SUBMITTED", "stageActionIntentRequested", "update.check", "update.apply-selected", "update.security", "update.restart-choice"]:
+        if token not in update_qml: failures.append(f"qml-update-center-missing:{token}")
+    if 'routeId: "system.updates"' not in qml or "UpdateCenterPage" not in qml:
+        failures.append("qml-update-center-route-wiring-missing")
     agency_surface = next((item for item in surface_registry.get("surfaces", []) if item.get("route_id") == "agents.workflows"), {})
     agency_children = {item.get("surface_id"): item for item in agency_surface.get("children", [])}
     agency_pack = agency_children.get("agency-agents.imported-pack", {})
@@ -259,6 +264,7 @@ def validate() -> list[str]:
         'routeId: "decision.fabric"',
         'routeId: "home.work-management"',
         'routeId: "system.accelerator-guard"',
+        'routeId: "system.updates"',
         'routeId: "integrations.fa3-os"',
         'text: "⌕  Keresés"',
         'Generic Linux · Wayland primary / X11 supported',
@@ -296,7 +302,7 @@ def validate() -> list[str]:
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
-    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml", "AgentActionCenterPage.qml"]:
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml", "AgentActionCenterPage.qml", "UpdateCenterPage.qml"]:
         if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")

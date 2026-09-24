@@ -173,6 +173,7 @@ if [[ "${1:-}" == "resource-evidence-normalization" ]]; then
 fi
 
 if [[ "${1:-}" == "static" || "${1:-}" == "promote" || "${1:-}" == "all" ]]; then
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_dev_update_gate.py" >/dev/null
   python3 "$ROOT/src/fa3_model_router_gate.py" --root "$ROOT" >/dev/null
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" >/dev/null
   python3 "$ROOT/src/fa3_resource_evidence_normalization_gate.py" --root "$ROOT" >/dev/null

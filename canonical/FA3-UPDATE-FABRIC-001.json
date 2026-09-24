@@ -1,0 +1,144 @@
+{
+  "schema": "fa3.update-fabric.v1",
+  "id": "FA3-UPDATE-FABRIC-001",
+  "name": "Unified Update, Compatibility & Rollback Fabric",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "decision": "UNIFIED_USER_EXPERIENCE_PROVIDER_SPECIFIC_UPDATE_EXECUTION",
+  "classes": {
+    "OS_MANAGED": [
+      "APT",
+      "distribution_repository"
+    ],
+    "FA3_MANAGED": [
+      "FA3_release",
+      "FA3_control_plane"
+    ],
+    "EXTERNAL_PROVIDER": [
+      "git",
+      "GitHub_release",
+      "uv",
+      "pip",
+      "AppImage",
+      "deb",
+      "binary_archive",
+      "custom_provider"
+    ],
+    "MODEL": [
+      "model_revision",
+      "model_bundle"
+    ],
+    "HOST_CRITICAL": [
+      "kernel",
+      "accelerator_driver",
+      "accelerator_runtime",
+      "critical_host_runtime"
+    ]
+  },
+  "subcomponents": [
+    "FA3-UPDATE-INVENTORY-001",
+    "FA3-UPDATE-SOURCE-ADAPTERS-001",
+    "FA3-UPDATE-COMPAT-001",
+    "FA3-UPDATE-STAGING-001",
+    "FA3-UPDATE-HEALTH-001",
+    "FA3-UPDATE-ROLLBACK-001",
+    "FA3-UPDATE-HOST-001",
+    "FA3-UPDATE-PROVIDER-001",
+    "FA3-UPDATE-MODEL-001"
+  ],
+  "channels": [
+    "PINNED",
+    "STABLE",
+    "FAST",
+    "DEVELOPMENT"
+  ],
+  "default_production_channel": "STABLE",
+  "impact_classes": [
+    "QUICK",
+    "NORMAL",
+    "HEAVY",
+    "HOST_CRITICAL"
+  ],
+  "operations": {
+    "check_all": true,
+    "blind_update_all": false,
+    "update_selected": true,
+    "update_recommended": true,
+    "update_security": true,
+    "update_component": true,
+    "update_group": true
+  },
+  "agent_native_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "gui_agent_automation_direct_execution": "DENY",
+    "actions": [
+      "update.check",
+      "update.apply-selected",
+      "update.security",
+      "update.restart-choice",
+      "update.rollback"
+    ]
+  },
+  "hardware_boundary": {
+    "discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_cardinality": "0..N",
+    "cpu_only_valid": true,
+    "global_vendor_pin": null
+  },
+  "decision_fabric": {
+    "assessment": "NOT_APPLICABLE_FOR_AUTHORITY_OR_ACTIVATION",
+    "authorization_authority": false,
+    "restart_timing_authority": false,
+    "candidate_expansion": false
+  },
+  "transaction_model": {
+    "dependency_aware_ordering": true,
+    "bounded_batches": true,
+    "batch_health_gate": true,
+    "dependent_batches_block_on_failure": true,
+    "rollback_boundary_per_batch": true
+  },
+  "provider_runtime": {
+    "isolated_python_environment_required": true,
+    "cross_provider_python_mutation": "DENY",
+    "pre_update_snapshot": true,
+    "post_update_health_check": true
+  },
+  "models": {
+    "separate_queue": true,
+    "large_downloads_implicit": false,
+    "overwrite_active_model_in_place": false,
+    "activation_requires_validation": true
+  },
+  "host_critical": {
+    "automatic_blind_activation": false,
+    "impact_analysis_required": true,
+    "maintenance_transaction_required": true,
+    "restart_policy": "FA3-UPDATE-RESTART-001",
+    "provider_specific_backend_discovered_at_runtime": true
+  },
+  "rollback_modes": [
+    "FULL",
+    "CONFIG_ONLY",
+    "PACKAGE_MANAGER",
+    "NONE"
+  ],
+  "invariants": [
+    "NO_GLOBAL_BLIND_UPDATE_ALL",
+    "CHECK_ALL_IS_DISCOVERY_ONLY",
+    "DEPENDENCY_AWARE_BATCHING_REQUIRED",
+    "FAILED_BATCH_BLOCKS_DEPENDENTS",
+    "HOST_CRITICAL_UPDATES_USE_MAINTENANCE_TRANSACTION",
+    "MODEL_DOWNLOADS_NEVER_IMPLICIT_IN_APPLICATION_UPDATE",
+    "PROVIDER_RUNTIMES_REMAIN_ISOLATED",
+    "UPDATE_ACTIVATION_REQUIRES_HEALTH_VALIDATION",
+    "GUI_AGENT_AUTOMATION_EXECUTION_ENTERS_THROUGH_UAF",
+    "NO_GLOBAL_ACCELERATOR_VENDOR_PIN",
+    "CPU_ONLY_HOST_IS_VALID"
+  ]
+}
