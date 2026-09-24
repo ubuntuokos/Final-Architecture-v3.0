@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-AGENCY-AGENTS-AGENT-DEFINITION-2026-09-24",
+  "covered_ids": [
+    "FA3-AGENT-DEFINITION-001",
+    "FA3-PROVIDER-AGENCY-AGENTS-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "Agency source curation, immutable provenance validation, FA3-native Agent Definition normalization, authority separation, distribution classification and admission are deterministic fail-closed governance operations. Decision Fabric must not decide source trust, content admission, distribution status, role-definition canonicality, runtime-provider admission or GUI runtime promotion. Any later advisory specialist ranking remains governed by the already-canonical FA3-ORCHESTRATION-WORKFORCE-DECISION-ASSESSMENT-2026-09-23 over the pre-filtered eligible specialist set.",
+  "decision_points": [],
+  "not_delegated": [
+    "source trust or provenance admission",
+    "persona or runbook content admission",
+    "distribution or release-bundle classification",
+    "canonical role-definition admission",
+    "security identity or authorization",
+    "capability/tool/model/secret/resource grants",
+    "runtime provider admission",
+    "model/provider/runtime routing",
+    "workforce candidate-set construction or expansion",
+    "authorized AI participant-set expansion",
+    "GUI current-host runtime promotion",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Agency Agents immutable source snapshot and current FA3 agent/workforce/skill/provider architecture",
+    "result": "NO_NEW_DECISION_FABRIC_DECISION_POINT_REQUIRED",
+    "note": "Agency-derived definitions remain inert metadata. Runtime specialist advisory selection, if used, is inherited from the existing Workforce assessment rather than duplicated here."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

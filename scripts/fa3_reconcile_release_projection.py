@@ -265,6 +265,34 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
     }
 
+    projection["agency_agents_agent_definition_reconciliation"] = {
+        "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+        "source_reference_id": "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23",
+        "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+        "profile_id": "FA3-AGENT-DEFINITION-001",
+        "contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+        "registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+        "agency_gate_id": "FA3-AGENCY-AGENTS-GATESET-001",
+        "agent_definition_gate_id": "FA3-AGENT-DEFINITION-GATESET-001",
+        "canonical_role_definition_count": 12,
+        "canonical_template_definition_count": 5,
+        "upstream_bodies_vendored": False,
+        "source_distribution_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "gui_surface_id": "agency-agents.imported-pack",
+        "gui_parent_route": "agents.workflows",
+        "gui_mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+        "gui_current_host_status": "PENDING_CURRENT_HOST",
+        "gui_runtime_promotion_claim": False,
+        "runtime_provider_admission_by_reference_provider": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING",
+    }
+
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
     for record in ls.split("\0"):

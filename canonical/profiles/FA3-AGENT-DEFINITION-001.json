@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AGENT-DEFINITION-001",
+  "name": "Provider-Neutral Agent Role, Persona Reference & Template Definition Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "relationship": "SUBPROFILE-OF",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-028",
+    "CAP-080"
+  ],
+  "contract_family": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+  "registry": "FA3-AGENT-DEFINITION-REGISTRY-001",
+  "gate_id": "FA3-AGENT-DEFINITION-GATESET-001",
+  "role": "CANONICAL_METADATA_DEFINITION_AND_ADMISSION_FABRIC_NOT_EXECUTION_AUTHORITY",
+  "authority_boundaries": {
+    "canonical_registry": "FA3-REGISTRY-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001_OR_AUTH-HUMAN",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001_AND_FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "workforce": "FA3-ORCHESTRATION-WORKFORCE-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "communication": "FA3-AI-COMMS-001",
+    "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001"
+  },
+  "invariants": [
+    "AGENT_DEFINITION_IS_METADATA_NOT_SECURITY_IDENTITY",
+    "AGENT_DEFINITION_IS_NOT_RUNTIME_PROVIDER",
+    "AGENT_DEFINITION_IS_NOT_WORKFORCE_SPECIALIST_AUTHORITY",
+    "AGENT_DEFINITION_CANNOT_GRANT_CAPABILITY_TOOL_MODEL_SECRET_RESOURCE_OR_AUTHORIZATION",
+    "AGENT_DEFINITION_CANNOT_EXPAND_ELIGIBLE_SPECIALIST_OR_AUTHORIZED_AI_PARTICIPANT_SET",
+    "AGENT_DEFINITION_CANNOT_OVERRIDE_WORKFORCE_HARD_FILTERS",
+    "AGENT_DEFINITION_CANNOT_ROUTE_MODEL_OR_SELECT_PROVIDER",
+    "EXTERNAL_SOURCE_IMMUTABLE_PROVENANCE_REQUIRED",
+    "EXTERNAL_SOURCE_DISTRIBUTION_CLASSIFICATION_REQUIRED",
+    "UPSTREAM_BODY_NOT_IMPLICITLY_VENDORED",
+    "FA3_NATIVE_NORMALIZATION_HUMAN_READABLE_REQUIRED",
+    "PRIVATE_MODEL_LANGUAGE_AND_EMERGENT_CODEBOOK_FORBIDDEN",
+    "RUNBOOK_TEMPLATE_NOT_DURABLE_WORKFLOW_AUTHORITY",
+    "CURRENT_HOST_RUNTIME_PASS_NOT_IMPLIED_BY_DEFINITION_PASS",
+    "CAPABILITY_COUNT_REMAINS_143"
+  ],
+  "source_provider_policy": {
+    "external_source_allowed": true,
+    "source_provider_is_authority": false,
+    "source_body_default": "REFERENCE_ONLY_NOT_IMPORTED",
+    "fa3_native_derived_summary_allowed": true,
+    "verbatim_or_substantial_future_import_requires_distribution_and_content_admission": true
+  },
+  "runtime_policy": {
+    "runtime_dependency": false,
+    "runtime_provider_binding_in_definition": false,
+    "current_host_runtime_evidence_required_for_definition_metadata": false,
+    "runtime_promotion_claim": false
+  }
+}

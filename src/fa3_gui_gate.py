@@ -236,6 +236,23 @@ def validate() -> list[str]:
         if token not in update_qml: failures.append(f"qml-update-center-missing:{token}")
     if 'routeId: "system.updates"' not in qml or "UpdateCenterPage" not in qml:
         failures.append("qml-update-center-route-wiring-missing")
+    agency_surface = next((item for item in surface_registry.get("surfaces", []) if item.get("route_id") == "agents.workflows"), {})
+    agency_children = {item.get("surface_id"): item for item in agency_surface.get("children", [])}
+    agency_pack = agency_children.get("agency-agents.imported-pack", {})
+    if not (
+        agency_pack.get("provider_id") == "FA3-PROVIDER-AGENCY-AGENTS-001"
+        and agency_pack.get("candidate_catalog_id") == "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
+        and agency_pack.get("agent_definition_registry_id") == "FA3-AGENT-DEFINITION-REGISTRY-001"
+        and agency_pack.get("mode") == "READ_ONLY_CANONICAL_DEFINITIONS"
+        and agency_pack.get("activation_status") == "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE"
+        and agency_pack.get("execution_intent_route") == "agents.action-center"
+        and agency_pack.get("direct_provider_execution") is False
+        and agency_pack.get("authority") is False
+    ):
+        failures.append("gui-agency-agents-imported-pack-boundary-invalid")
+    for token in ["Imported Packs · Agency Agents", "12 canonical FA3 role + 5 canonical template", "runtime/provider külön admission", "nincs közvetlen provider execution"]:
+        if token not in qml:
+            failures.append(f"qml-agency-agents-imported-pack-missing:{token}")
     if "Generic Linux · Wayland primary / X11 supported" not in qml:
         failures.append("qml-desktop-portability-label-missing")
 

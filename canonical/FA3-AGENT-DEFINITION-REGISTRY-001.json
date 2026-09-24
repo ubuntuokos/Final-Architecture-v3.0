@@ -1,0 +1,849 @@
+{
+  "schema": "fa3.agent-definition-registry.v1",
+  "id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "authority_role": "METADATA_SSOT_NOT_IDENTITY_AUTHORIZATION_EXECUTION_OR_WORKFORCE_AUTHORITY",
+  "canonical_registry_authority": "FA3-REGISTRY-001",
+  "contract_family": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+  "parent_profile": "FA3-AGENT-DEFINITION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "invariants": [
+    "ROLE_DEFINITION_IS_NOT_SECURITY_IDENTITY",
+    "ROLE_DEFINITION_IS_NOT_RUNTIME_PROVIDER",
+    "ROLE_DEFINITION_CANNOT_GRANT_CAPABILITY_TOOL_MODEL_SECRET_OR_RESOURCE_ACCESS",
+    "ROLE_DEFINITION_CANNOT_EXPAND_WORKFORCE_SPECIALIST_OR_AI_PARTICIPANT_SET",
+    "EXTERNAL_SOURCE_PROVENANCE_IMMUTABLE",
+    "UPSTREAM_BODY_NOT_REQUIRED_OR_IMPLICITLY_VENDORED",
+    "NORMALIZED_DEFINITION_HUMAN_READABLE",
+    "PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
+    "RUNBOOK_TEMPLATE_NOT_DURABLE_WORKFLOW_AUTHORITY",
+    "CAPABILITY_COUNT_REMAINS_143"
+  ],
+  "definitions": [
+    {
+      "definition_id": "FA3-AGENT-ROLE-MULTI-AGENT-SYSTEMS-ARCHITECT-001",
+      "display_name": "Multi-Agent Systems Architect",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-001",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "engineering/engineering-multi-agent-systems-architect.md",
+        "blob_sha": "4ca4ebef41d7ec024158d8ed2a9221c2037a72cc",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "agent-architecture",
+        "multi-agent-governance"
+      ],
+      "competency_intents": [
+        "topology_design",
+        "context_architecture",
+        "failure_recovery",
+        "hitl_design",
+        "agent_observability"
+      ],
+      "anti_capabilities": [
+        "security_authorization",
+        "runtime_provider_selection",
+        "model_routing",
+        "tool_authorization",
+        "host_resource_admission"
+      ],
+      "risk_class": "MEDIUM_ADVISORY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Designs and reviews bounded multi-agent structures, context boundaries, handoffs, failure recovery and human gates without becoming an execution or authorization authority.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-AI-ENGINEERING-001",
+      "display_name": "AI Engineer",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-002",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "engineering/engineering-ai-engineer.md",
+        "blob_sha": "a4a8f6d548894bafaf1dfe651f44f3e7179bf569",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "ai-engineering",
+        "model-integration"
+      ],
+      "competency_intents": [
+        "model_integration",
+        "inference_pipeline_design",
+        "ml_system_validation",
+        "production_ai_engineering"
+      ],
+      "anti_capabilities": [
+        "model_routing_authority",
+        "provider_self_admission",
+        "resource_self_admission",
+        "secret_authority"
+      ],
+      "risk_class": "MEDIUM_TECHNICAL",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Provides AI and ML implementation guidance for production features while leaving provider, model, resource and security decisions to existing FA3 authorities.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-DEVOPS-AUTOMATION-001",
+      "display_name": "DevOps Automator",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-003",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "engineering/engineering-devops-automator.md",
+        "blob_sha": "a9e7cac04c8e78e812d230aae9f9f676b20413ac",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "devops",
+        "ci-cd",
+        "operations"
+      ],
+      "competency_intents": [
+        "ci_design",
+        "deployment_automation",
+        "infrastructure_workflow",
+        "operational_reliability"
+      ],
+      "anti_capabilities": [
+        "privilege_escalation",
+        "direct_host_mutation_without_authorization",
+        "secret_storage",
+        "release_self_approval"
+      ],
+      "risk_class": "HIGH_MUTATION_CAPABLE",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Plans CI/CD and infrastructure automation through typed, reviewable changes; host mutation, secrets and release promotion remain externally authorized.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-EVIDENCE-COLLECTOR-001",
+      "display_name": "Evidence Collector",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-004",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "testing/testing-evidence-collector.md",
+        "blob_sha": "187a2d010abb3439d91ea59aa75de8c5ee860560",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "testing",
+        "evidence",
+        "qa"
+      ],
+      "competency_intents": [
+        "evidence_collection",
+        "visual_qa",
+        "acceptance_traceability",
+        "defect_documentation"
+      ],
+      "anti_capabilities": [
+        "evidence_self_attestation_authority",
+        "promotion_authority",
+        "test_bypass"
+      ],
+      "risk_class": "LOW_READ_MOSTLY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Collects attributable QA evidence and defect observations; evidence authority and promotion decisions remain external.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-READINESS-REVIEWER-001",
+      "display_name": "Reality Checker",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-005",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "testing/testing-reality-checker.md",
+        "blob_sha": "e534cfbd20d3115d5265387f19db7d3b25649421",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "testing",
+        "production-readiness"
+      ],
+      "competency_intents": [
+        "readiness_review",
+        "requirement_verification",
+        "risk_identification",
+        "evidence_gap_detection"
+      ],
+      "anti_capabilities": [
+        "promotion_authority",
+        "authorization_authority",
+        "fabricated_pass"
+      ],
+      "risk_class": "LOW_READ_MOSTLY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Performs adversarial production-readiness review and identifies missing proof without being able to promote, authorize or fabricate PASS evidence.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-PERFORMANCE-BENCHMARKER-001",
+      "display_name": "Performance Benchmarker",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-006",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "testing/testing-performance-benchmarker.md",
+        "blob_sha": "1845fb5f30af4063440dbae22a67cd8554c4c9bf",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "performance",
+        "benchmarking"
+      ],
+      "competency_intents": [
+        "benchmark_design",
+        "performance_measurement",
+        "regression_analysis",
+        "bottleneck_analysis"
+      ],
+      "anti_capabilities": [
+        "hardware_policy_authority",
+        "resource_admission",
+        "benchmark_result_as_portable_default"
+      ],
+      "risk_class": "LOW_READ_MOSTLY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Designs and interprets reproducible performance measurements while keeping hardware facts evidence-scoped and resource admission external.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-API-TESTER-001",
+      "display_name": "API Tester",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-007",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "testing/testing-api-tester.md",
+        "blob_sha": "1ea5e50cba0bc36a9a8ec8bfd9ca997d9e450a5c",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "testing",
+        "api",
+        "integration"
+      ],
+      "competency_intents": [
+        "api_contract_testing",
+        "negative_testing",
+        "integration_validation",
+        "protocol_conformance"
+      ],
+      "anti_capabilities": [
+        "credential_authority",
+        "direct_production_mutation",
+        "provider_admission"
+      ],
+      "risk_class": "MEDIUM_NETWORKED",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Validates API and integration behavior with negative and conformance testing; credentials, provider admission and consequential mutations remain externally governed.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-WORKFLOW-OPTIMIZER-001",
+      "display_name": "Workflow Optimizer",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-008",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "testing/testing-workflow-optimizer.md",
+        "blob_sha": "eecb0a47c0f295648f454687f9666bb6affe7a34",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "workflow",
+        "process-improvement"
+      ],
+      "competency_intents": [
+        "workflow_analysis",
+        "bottleneck_detection",
+        "automation_opportunity_analysis",
+        "process_design"
+      ],
+      "anti_capabilities": [
+        "durable_workflow_authority",
+        "automatic_process_rewrite",
+        "candidate_set_expansion"
+      ],
+      "risk_class": "LOW_ADVISORY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Analyzes workflows and proposes bounded improvements without owning durable lifecycle or automatically rewriting canonical process definitions.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-APPLICATION-SECURITY-REVIEWER-001",
+      "display_name": "Application Security Engineer",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-009",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "security/security-appsec-engineer.md",
+        "blob_sha": "e5f82dc0ad7c164d03e156cf4696f5570273453e",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "security",
+        "appsec"
+      ],
+      "competency_intents": [
+        "threat_modeling",
+        "secure_code_review",
+        "security_test_planning",
+        "remediation_guidance"
+      ],
+      "anti_capabilities": [
+        "security_policy_authority",
+        "credential_access",
+        "self_authorization",
+        "evidence_authority"
+      ],
+      "risk_class": "HIGH_SECURITY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Performs application-security review and threat-model analysis while canonical security policy, authorization, secrets and evidence remain independent.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-COMPLIANCE-RESEARCHER-001",
+      "display_name": "Legal Compliance Checker",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-010",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "support/support-legal-compliance-checker.md",
+        "blob_sha": "9afc088ff2a7c788781097d14ce3c3af89dd67cd",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "compliance",
+        "policy-research"
+      ],
+      "competency_intents": [
+        "compliance_research",
+        "requirement_mapping",
+        "checklist_generation",
+        "risk_flagging"
+      ],
+      "anti_capabilities": [
+        "legal_decision_authority",
+        "distribution_decision_authority",
+        "automatic_policy_change"
+      ],
+      "risk_class": "MEDIUM_ADVISORY",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Researches compliance requirements and produces traceable checklists; legal conclusions and distribution decisions remain human or canonical-policy decisions.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-XR-INTERFACE-ARCHITECT-001",
+      "display_name": "XR Interface Architect",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-011",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "spatial-computing/xr-interface-architect.md",
+        "blob_sha": "3c9d16e6750cd13c4889dff5447d668fc021e0e5",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "xr",
+        "spatial-ui",
+        "rt3d"
+      ],
+      "competency_intents": [
+        "spatial_interaction_design",
+        "immersive_ui",
+        "comfort_review",
+        "xr_information_architecture"
+      ],
+      "anti_capabilities": [
+        "rt3d_engine_authority",
+        "device_admission",
+        "runtime_provider_selection"
+      ],
+      "risk_class": "LOW_DESIGN",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Designs spatial and immersive interaction patterns as a UI/UX role without selecting execution engines, devices or runtime providers.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    },
+    {
+      "definition_id": "FA3-AGENT-ROLE-3D-SCENE-VISUALIZATION-001",
+      "display_name": "3D & Scene Developer",
+      "version": "1.0.0",
+      "status": "CANONICAL_ROLE_DEFINITION",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-AGENT-012",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "gis/gis-3d-scene-developer.md",
+        "blob_sha": "7350a782b4a0e14c89eac2fa39faba9de7230e67",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_SUMMARY_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      },
+      "domains": [
+        "3d",
+        "scene-visualization",
+        "gis"
+      ],
+      "competency_intents": [
+        "scene_composition",
+        "point_cloud_visualization",
+        "terrain_visualization",
+        "web_3d_design"
+      ],
+      "anti_capabilities": [
+        "geometry_root_authority",
+        "render_backend_authority",
+        "resource_admission"
+      ],
+      "risk_class": "LOW_DESIGN",
+      "human_gate_policy": "REQUIRED_FOR_MUTATION_CONSEQUENTIAL_ACTION_OR_AUTHORITY_ESCALATION",
+      "summary": "Advises on 3D scene and spatial visualization while FA3 geometry, rendering and resource authorities remain unchanged.",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "runtime_provider_binding": null,
+      "activation_mode": "EXPLICIT_TASK_SCOPED_ROLE_PROJECTION_ONLY",
+      "authority_grants": [],
+      "capability_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "direct_provider_execution": false,
+      "candidate_set_expansion": false,
+      "private_model_language": false,
+      "execution_runtime_claim": false
+    }
+  ],
+  "templates": [
+    {
+      "template_id": "FA3-AGENT-TEMPLATE-PROJECT-BUILD-001",
+      "display_name": "Startup MVP Build",
+      "version": "1.0.0",
+      "status": "CANONICAL_TEMPLATE_DEFINITION",
+      "kind": "RUNBOOK",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-TEMPLATE-001",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "strategy/runbooks/scenario-startup-mvp.md",
+        "blob_sha": "0c2afbc330fecbf8f852a19477bf3e48bcced137",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_STRUCTURE_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "summary": "Project build lifecycle template that separates discovery, planning, build, QA, hardening and launch handoffs without becoming durable workflow authority.",
+      "automatic_execution": false,
+      "durable_workflow_authority": false,
+      "provider_selection_authority": false,
+      "mutation_requires_authorization_or_approval": true,
+      "coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "authority_grants": [],
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      }
+    },
+    {
+      "template_id": "FA3-AGENT-TEMPLATE-FEATURE-DELIVERY-001",
+      "display_name": "Enterprise Feature Development",
+      "version": "1.0.0",
+      "status": "CANONICAL_TEMPLATE_DEFINITION",
+      "kind": "RUNBOOK",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-TEMPLATE-002",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "strategy/runbooks/scenario-enterprise-feature.md",
+        "blob_sha": "ed37680287b7c1b060c179922c00488a6540a8e2",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_STRUCTURE_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "summary": "Controlled feature-delivery template for requirements, implementation, QA, release preparation and evidence-bound handoff.",
+      "automatic_execution": false,
+      "durable_workflow_authority": false,
+      "provider_selection_authority": false,
+      "mutation_requires_authorization_or_approval": true,
+      "coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "authority_grants": [],
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      }
+    },
+    {
+      "template_id": "FA3-AGENT-TEMPLATE-MARKETING-CAMPAIGN-001",
+      "display_name": "Multi-Channel Marketing Campaign",
+      "version": "1.0.0",
+      "status": "CANONICAL_TEMPLATE_DEFINITION",
+      "kind": "RUNBOOK",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-TEMPLATE-003",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "strategy/runbooks/scenario-marketing-campaign.md",
+        "blob_sha": "280263c7f917273b58e5f9ea28db79127a651908",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_STRUCTURE_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "summary": "Marketing campaign coordination template for research, creative production, channel preparation, review and measurement under existing marketing governance.",
+      "automatic_execution": false,
+      "durable_workflow_authority": false,
+      "provider_selection_authority": false,
+      "mutation_requires_authorization_or_approval": true,
+      "coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "authority_grants": [],
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      }
+    },
+    {
+      "template_id": "FA3-AGENT-TEMPLATE-INCIDENT-RESPONSE-001",
+      "display_name": "Incident Response",
+      "version": "1.0.0",
+      "status": "CANONICAL_TEMPLATE_DEFINITION",
+      "kind": "RUNBOOK",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-TEMPLATE-004",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "strategy/runbooks/scenario-incident-response.md",
+        "blob_sha": "fb519f53bb13d96d61047858381a7b1130720852",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_STRUCTURE_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "summary": "Incident-response coordination template for triage, containment, remediation, evidence and recovery handoffs without replacing security or durable-workflow authority.",
+      "automatic_execution": false,
+      "durable_workflow_authority": false,
+      "provider_selection_authority": false,
+      "mutation_requires_authorization_or_approval": true,
+      "coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "authority_grants": [],
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      }
+    },
+    {
+      "template_id": "FA3-AGENT-TEMPLATE-HANDOFF-001",
+      "display_name": "NEXUS Handoff Templates",
+      "version": "1.0.0",
+      "status": "CANONICAL_TEMPLATE_DEFINITION",
+      "kind": "HANDOFF_PATTERN_SET",
+      "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+      "source_candidate_id": "AGA-CAND-TEMPLATE-005",
+      "source": {
+        "repository": "msitarzewski/agency-agents",
+        "commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+        "path": "strategy/coordination/handoff-templates.md",
+        "blob_sha": "71bff4dbe71d533d992aa7734093bd95cfb0968d",
+        "body_status": "REFERENCE_ONLY_NOT_IMPORTED",
+        "normalization": "FA3_NATIVE_DERIVED_STRUCTURE_NO_UPSTREAM_BODY_VENDORED"
+      },
+      "summary": "Human-auditable handoff template set mapped to AgentTask, AgentDelegation, AgentMessage, AgentResult, HumanEscalation and ExecutionEvidence.",
+      "automatic_execution": false,
+      "durable_workflow_authority": false,
+      "provider_selection_authority": false,
+      "mutation_requires_authorization_or_approval": true,
+      "coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+      "communication_contract": "FA3-AI-COMMS-001",
+      "authority_grants": [],
+      "distribution": {
+        "source_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "upstream_body_embedded": false,
+        "external_source_content_in_product_bundle": false
+      }
+    }
+  ],
+  "admission_summary": {
+    "definition_count": 12,
+    "template_count": 5,
+    "upstream_persona_bodies_vendored": false,
+    "runtime_providers_admitted_by_this_registry": false,
+    "current_host_runtime_claim": false,
+    "global_promotion_claim": false,
+    "normalized_definition_distribution_class": "FA3_NATIVE",
+    "external_source_content_bundled": false
+  },
+  "profile_id": "FA3-AGENT-DEFINITION-001",
+  "parent_execution_profile": "FA3-AGENT-EXEC-001"
+}
