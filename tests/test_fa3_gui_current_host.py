@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -194,6 +196,15 @@ class GuiCurrentHostTests(unittest.TestCase):
         errors = validate_receipt(receipt)
         self.assertTrue(any("Secret Backend" in item for item in errors))
 
+    def test_explicit_fresh_receipt_is_independent_of_canonical_tested_source(self):
+        receipt = good_receipt()
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "fresh.json"
+            path.write_text(json.dumps(receipt) + "\n", encoding="utf-8")
+            result = gate(ROOT, receipt_path=path, require_evidence=True)
+        self.assertEqual(result["result"], "PASS")
+        self.assertEqual(result["runtime_evidence_status"], "PASS")
+
     def test_offscreen_or_global_promotion_claim_fails(self):
         receipt = good_receipt()
         receipt["session"]["qpa_platform"] = "offscreen"
@@ -214,7 +225,7 @@ class GuiCurrentHostTests(unittest.TestCase):
     def test_repository_materialization_gate_matches_canonical_runtime_state(self):
         result = gate(ROOT)
         self.assertEqual(result["result"], "PASS")
-        conformance = __import__("json").loads(
+        conformance = json.loads(
             (ROOT / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json").read_text(
                 encoding="utf-8"
             )
