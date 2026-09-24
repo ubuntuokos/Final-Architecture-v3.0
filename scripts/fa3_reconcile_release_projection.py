@@ -101,6 +101,14 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     projection = loadj(projection_path)
     policy = loadj(policy_path)
 
+    gui_conformance = loadj(root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json")
+    gui_runtime_pass = (
+        gui_conformance.get("status") == "CURRENT_HOST_PASS"
+        and gui_conformance.get("production_admitted") is True
+        and gui_conformance.get("current_host_receipt_present") is True
+        and gui_conformance.get("promotion_blockers") == []
+    )
+
     base = projection.get("base_release_commit")
     if not base:
         raise RuntimeError("projection base_release_commit is missing")
@@ -265,6 +273,29 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
     }
 
+    projection["gui_current_host_closure_reconciliation"] = {
+        "profile_id": "FA3-DESKTOP-001",
+        "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+        "gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
+        "gate_record_id": "FA3-GATE-GUI-CURRENT-HOST-001",
+        "workflow": ".github/workflows/fa3-gui-current-host.yml",
+        "collector": "evidence/collect-gui-current-host.py",
+        "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
+        "status": gui_conformance.get("status"),
+        "current_host_receipt_present": gui_conformance.get("current_host_receipt_present") is True,
+        "production_admitted": gui_conformance.get("production_admitted") is True,
+        "runtime_promotion_claim": gui_runtime_pass,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": (
+            "CURRENT_HOST_PHYSICAL_GUI_RUNTIME_PASS"
+            if gui_runtime_pass
+            else "EXECUTABLE_CLOSURE_MATERIALIZED_CURRENT_HOST_PENDING"
+        ),
+    }
+
     projection["agency_agents_agent_definition_reconciliation"] = {
         "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
         "source_reference_id": "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23",
@@ -283,14 +314,18 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "gui_surface_id": "agency-agents.imported-pack",
         "gui_parent_route": "agents.workflows",
         "gui_mode": "READ_ONLY_CANONICAL_DEFINITIONS",
-        "gui_current_host_status": "PENDING_CURRENT_HOST",
-        "gui_runtime_promotion_claim": False,
+        "gui_current_host_status": "CURRENT_HOST_PASS" if gui_runtime_pass else "PENDING_CURRENT_HOST",
+        "gui_runtime_promotion_claim": gui_runtime_pass,
         "runtime_provider_admission_by_reference_provider": False,
         "global_promotion_claim": False,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
-        "reconciliation_status": "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING",
+        "reconciliation_status": (
+            "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_CURRENT_HOST_PASS"
+            if gui_runtime_pass
+            else "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
+        ),
     }
 
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
