@@ -8,6 +8,7 @@ import os
 import re
 import select
 import signal
+import socket
 import stat
 import subprocess
 import threading
@@ -273,6 +274,144 @@ class SecretProjectionHook(Protocol):
     def revoke_and_zeroize(self, lease: dict[str, Any]) -> bool: ...
 
 
+def _safe_projection_target(descriptor: dict[str, Any]) -> tuple[Path, os.stat_result]:
+    if not isinstance(descriptor, dict):
+        raise LeaseBindingError("projection zeroize descriptor must be object")
+    raw = str(descriptor.get("path", ""))
+    path = Path(raw)
+    if not path.is_absolute():
+        raise LeaseBindingError("projection target path must be absolute")
+    run_root = Path("/run").resolve(strict=True)
+    current = run_root
+    try:
+        rel = path.relative_to("/run")
+    except ValueError as exc:
+        raise LeaseBindingError("projection target must be below /run") from exc
+    for part in rel.parts:
+        candidate = current / part
+        st = candidate.lstat()
+        if stat.S_ISLNK(st.st_mode):
+            raise LeaseBindingError("symlink in projection target path")
+        current = candidate
+    resolved = current.resolve(strict=True)
+    if run_root not in resolved.parents:
+        raise LeaseBindingError("projection target escapes /run")
+    st = resolved.stat()
+    expected = (
+        int(descriptor.get("st_dev", -1)),
+        int(descriptor.get("st_ino", -1)),
+        int(descriptor.get("owner_uid", -1)),
+        int(descriptor.get("owner_gid", -1)),
+    )
+    actual = (st.st_dev, st.st_ino, st.st_uid, st.st_gid)
+    if expected != actual:
+        raise LeaseBindingError("projection target identity changed")
+    if not stat.S_ISREG(st.st_mode):
+        raise LeaseBindingError("projection target must be a regular file")
+    declared_size = int(descriptor.get("size", -1))
+    if declared_size < 0 or declared_size != st.st_size or declared_size > 512 * 1024:
+        raise LeaseBindingError("projection target size invalid")
+    return resolved, st
+
+
+def _zeroize_projection_target(descriptor: dict[str, Any]) -> None:
+    path, expected_st = _safe_projection_target(descriptor)
+    flags = os.O_WRONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
+    fd = os.open(path, flags)
+    try:
+        st = os.fstat(fd)
+        if (st.st_dev, st.st_ino, st.st_uid, st.st_gid) != (
+            expected_st.st_dev, expected_st.st_ino, expected_st.st_uid, expected_st.st_gid
+        ):
+            raise LeaseBindingError("projection target changed after open")
+        remaining = st.st_size
+        chunk = b"\x00" * min(65536, max(1, remaining))
+        os.lseek(fd, 0, os.SEEK_SET)
+        while remaining > 0:
+            part = chunk if remaining >= len(chunk) else b"\x00" * remaining
+            written = os.write(fd, part)
+            if written <= 0:
+                raise LeaseBindingError("projection zeroize short write")
+            remaining -= written
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+    post = path.lstat()
+    if (post.st_dev, post.st_ino) != (expected_st.st_dev, expected_st.st_ino):
+        raise LeaseBindingError("projection target substituted before unlink")
+    path.unlink()
+
+
+class SecretBrokerProjectionLifecycleHook:
+    """Revoke only SecretProjectionLease handles; never revoke/delete the underlying credential object."""
+
+    def __init__(
+        self,
+        socket_path: Path = Path("/run/fa3-secret-broker/broker.sock"),
+        *,
+        request_fn: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+    ) -> None:
+        self.socket_path = Path(socket_path)
+        self._request_fn = request_fn
+
+    def _request(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if self._request_fn is not None:
+            return self._request_fn(payload)
+        raw = (json.dumps(payload, separators=(",", ":")) + "\n").encode("utf-8")
+        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
+            sock.connect(str(self.socket_path))
+            sock.sendall(raw)
+            data = b""
+            while not data.endswith(b"\n"):
+                chunk = sock.recv(65536)
+                if not chunk:
+                    break
+                data += chunk
+                if len(data) > 1024 * 1024:
+                    raise LeaseBindingError("oversized Secret Broker lifecycle response")
+        response = json.loads(data)
+        if not isinstance(response, dict):
+            raise LeaseBindingError("invalid Secret Broker lifecycle response")
+        return response
+
+    def revoke_and_zeroize(self, lease: dict[str, Any]) -> bool:
+        refs = lease.get("secret_projection_leases", [])
+        if refs is None:
+            refs = []
+        if not isinstance(refs, list):
+            return False
+        for ref in refs:
+            if not isinstance(ref, dict) or set(ref) != {"projection_lease_id"}:
+                return False
+            projection_lease_id = str(ref.get("projection_lease_id", ""))
+            if not re.fullmatch(r"spl-[0-9a-f]{32}", projection_lease_id):
+                return False
+            revoke = self._request({
+                "op": "projection_revoke",
+                "projection_lease_id": projection_lease_id,
+                "hrb_lease_id": lease.get("lease_id"),
+                "hrb_generation": lease.get("generation"),
+                "consumer_id": "FA3-HRB-LEASE-LIFECYCLE",
+                "projection": "OPAQUE_SECRET_PROJECTION_LEASE",
+            })
+            if revoke.get("ok") is not True or revoke.get("state") != "REVOKED":
+                return False
+            target = revoke.get("zeroize_target")
+            if target is not None:
+                _zeroize_projection_target(target)
+            ack = self._request({
+                "op": "projection_zeroized",
+                "projection_lease_id": projection_lease_id,
+                "hrb_lease_id": lease.get("lease_id"),
+                "hrb_generation": lease.get("generation"),
+                "consumer_id": "FA3-HRB-LEASE-LIFECYCLE",
+                "projection": "OPAQUE_SECRET_PROJECTION_LEASE",
+            })
+            if ack.get("ok") is not True or ack.get("state") != "ZEROIZED":
+                return False
+        return True
+
+
 class RuntimeAdapter(Protocol):
     backend: str
     def block_restart(self, binding: dict[str, Any]) -> bool: ...
@@ -366,7 +505,14 @@ class LeaseLedger:
         record.setdefault("state_history", []).append({"state": target, "at_utc": changed})
         self._resign(record)
 
-    def issue(self, binding_seed: dict[str, Any], ttl_seconds: float, lease_id: str | None = None, generation: int = 1) -> dict[str, Any]:
+    def issue(
+        self,
+        binding_seed: dict[str, Any],
+        ttl_seconds: float,
+        lease_id: str | None = None,
+        generation: int = 1,
+        secret_projection_leases: list[dict[str, str]] | None = None,
+    ) -> dict[str, Any]:
         if ttl_seconds <= 0:
             raise ValueError("ttl must be positive")
         lease_id = lease_id or f"lease-{os.urandom(12).hex()}"
@@ -394,6 +540,7 @@ class LeaseLedger:
             "issued_monotonic_ns": now_mono,
             "expires_monotonic_ns": now_mono + int(ttl_seconds * 1_000_000_000),
             "runtime_binding": binding,
+            "secret_projection_leases": list(secret_projection_leases or []),
             "admission_restart_blocked": False,
             "record_retention": "IMMUTABLE_UNTIL_EVIDENCE_RETENTION_POLICY",
             "authentication": {},
@@ -460,6 +607,20 @@ class LeaseLedger:
             activated = self._records[(lease_id, new_generation)]
             self._transition(activated, "ACTIVE")
             return json.loads(json.dumps(activated))
+
+    def attach_secret_projection_lease(self, lease_id: str, generation: int, projection_lease_id: str) -> dict[str, Any]:
+        if not re.fullmatch(r"spl-[0-9a-f]{32}", projection_lease_id):
+            raise LeaseBindingError("invalid opaque SecretProjectionLease id")
+        with self._lock:
+            record = self.assert_current_valid(lease_id, generation)
+            if record.get("state") != "ACTIVE":
+                raise LeaseStateError("SecretProjectionLease may attach only to current ACTIVE generation")
+            refs = record.setdefault("secret_projection_leases", [])
+            if any(x.get("projection_lease_id") == projection_lease_id for x in refs if isinstance(x, dict)):
+                return json.loads(json.dumps(record))
+            refs.append({"projection_lease_id": projection_lease_id})
+            self._resign(record)
+            return json.loads(json.dumps(record))
 
     def begin_revoke(self, lease_id: str, generation: int) -> dict[str, Any]:
         with self._lock:
