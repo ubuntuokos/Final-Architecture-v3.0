@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c0c462ab5b417319f495f5282f5f4249300b39aa",
-    "pre_projection_root_tree_sha": "ac8a932d1b5f165bd9c9b7412106a10cbd969906",
-    "pre_projection_canonical_tree_sha": "d28cc497ef7404e8d0df2689f9a4c111f696dd2e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 648,
-    "total_post_baseline_commits": 648,
-    "delta_file_count": 2034,
-    "delta_added_files": 2029,
+    "pre_projection_head_sha": "4fc979a8f6250a1ccead2ed14d4609d986fc940b",
+    "pre_projection_root_tree_sha": "041def577e0f0c561ffb85424ff0d71018969399",
+    "pre_projection_canonical_tree_sha": "447ca4940e2aaa631e6926b33b6c41912e6d84a6",
+    "commits_ahead_of_v3_0_11_conformance_commit": 670,
+    "total_post_baseline_commits": 670,
+    "delta_file_count": 2038,
+    "delta_added_files": 2033,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 969,
+    "canonical_files_in_post_baseline_delta": 971,
     "evidence_files_in_post_baseline_delta": 153,
     "source_files_in_post_baseline_delta": 271,
     "test_files_in_post_baseline_delta": 227,
@@ -133,6 +133,7 @@
       "canonical/providers/FA3-PROVIDER-OPEN-MULTI-AGENT-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENAI-API-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
@@ -916,7 +917,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2027,
+  "manifest_entry_count": 2031,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1225,7 +1226,7 @@
     },
     {
       "path": ".github/workflows/fa3-model-router-provider-execution-gate.yml",
-      "git_blob_sha": "e84e1bb4c14b3047804f88f0ee558e0d8a8a4731",
+      "git_blob_sha": "3fa450f4443973fe7af311824145505474e5af2d",
       "baseline_delta_status": "added"
     },
     {
@@ -2005,12 +2006,12 @@
     },
     {
       "path": "bin/fa3-model-router-provider-execution-current-host-provision.sh",
-      "git_blob_sha": "ec3b39eea4e0472ed71a561a0d697d507693ed71",
+      "git_blob_sha": "0106057e8936979c906801576de897033f839f34",
       "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-model-router-provider-execution-current-host.py",
-      "git_blob_sha": "9162d11c07ebd906cfe59584e3bfe3e7c9a4253c",
+      "git_blob_sha": "56ee15cf76b5c6d4ccd44d447252a8735ac6499e",
       "baseline_delta_status": "added"
     },
     {
@@ -2031,6 +2032,16 @@
     {
       "path": "bin/fa3-modular-current-host.sh",
       "git_blob_sha": "52b52d079fce4612ef5619a86a26159a829a694a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-openai-loopback-bridge.py",
+      "git_blob_sha": "ee69d08caef23955e0f76cca775ed5db4c23787e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-openai-provider-execution-current-host-close.sh",
+      "git_blob_sha": "625b2fcf2a2b79ba396799319367fe8fb6468bc3",
       "baseline_delta_status": "added"
     },
     {
@@ -2900,7 +2911,7 @@
     },
     {
       "path": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json",
-      "git_blob_sha": "e1459ba17d2ffdd0d53c6f98a5bebf2e1acecb3c",
+      "git_blob_sha": "8a64c24dd8b0e21166bc0c7fe570e381903fa997",
       "baseline_delta_status": "added"
     },
     {
@@ -2916,6 +2927,11 @@
     {
       "path": "canonical/FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "2ff7d2bc27391b849e1c47ae95d7af4d4dbecdea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json",
+      "git_blob_sha": "1cb205cfeeba84579cf5c11620989a2d78e3ac19",
       "baseline_delta_status": "added"
     },
     {
@@ -4870,12 +4886,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "d9615d592dd7f400f3ba284050f65f0fd6ae9b0e",
+      "git_blob_sha": "16fecf92cfd53eb72bd8093d5ef38644db3a5dbd",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "471224725ac5632402acd2cb6f1e5836f6a82340",
+      "git_blob_sha": "a9552d4c82753403fc6c5fc095770e1fe155856f",
       "baseline_delta_status": "added"
     },
     {
@@ -6121,6 +6137,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
       "git_blob_sha": "72840d3ada2d9bad486eb3afde7890741e33148f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPENAI-API-001.json",
+      "git_blob_sha": "2f2b12287b62766dca8dd4b62d4d2b0d95d6c437",
       "baseline_delta_status": "added"
     },
     {
@@ -7400,7 +7421,7 @@
     },
     {
       "path": "docs/model-router-provider-execution.md",
-      "git_blob_sha": "07c7ce024c53cbc7182a4d756e7e900cf0699046",
+      "git_blob_sha": "feb60dee3cacb71bbb391ae0d33cd0736c6cc29f",
       "baseline_delta_status": "added"
     },
     {
@@ -9395,7 +9416,7 @@
     },
     {
       "path": "src/fa3_model_router_provider_execution_gate.py",
-      "git_blob_sha": "61ef99bd2f36617a904be9bd8ec385e41b0fbf17",
+      "git_blob_sha": "5e182d921672dba395eeb83c7b5b7f27f0cafd3b",
       "baseline_delta_status": "added"
     },
     {
@@ -10625,7 +10646,7 @@
     },
     {
       "path": "tests/test_model_router_provider_execution_current_host.py",
-      "git_blob_sha": "8be16f2638f796a1b6aef46b1ead1a58c8946ada",
+      "git_blob_sha": "0845f81c00463041bfcabd02d36b3305e35092ef",
       "baseline_delta_status": "added"
     },
     {
