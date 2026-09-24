@@ -30,11 +30,11 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("SupplementaryGroups=fa3-secret-clients",harness)
         self.assertIn("CURRENT_HOST_PASS",harness)
         self.assertIn("--preferred-model",harness)
-        marker="python3 - \"$SECRET_RECEIPT\" <<'PY'\\n"
+        marker="python3 - \"$SECRET_RECEIPT\" <<'PY'\n"
         self.assertIn(marker,harness)
-        embedded=harness.split(marker,1)[1].split("\\nPY\\n",1)[0]
+        embedded=harness.split(marker,1)[1].split("\nPY\n",1)[0]
         compile(embedded,"secret-receipt-validator","exec")
-        self.assertNotIn('if (\\\\n',embedded)
+        self.assertNotIn('if (\\n',embedded)
 
     def test_openai_evidence_adapter_is_bounded_and_explicit(self):
         subprocess.run(["bash","-n",str(ROOT/"bin/fa3-openai-provider-execution-current-host-close.sh")],check=True)
