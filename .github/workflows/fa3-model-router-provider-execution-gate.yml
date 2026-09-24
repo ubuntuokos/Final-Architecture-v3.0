@@ -9,7 +9,14 @@ on:
       - 'canonical/model-router-provider-execution-enforcement.json'
       - 'src/fa3_model_router_provider_execution.py'
       - 'src/fa3_model_router_provider_execution_gate.py'
+      - 'bin/fa3-model-router-provider-execution-current-host.py'
+      - 'bin/fa3-model-router-provider-execution-current-host-provision.sh'
+      - 'bin/fa3-openai-loopback-bridge.py'
+      - 'bin/fa3-openai-provider-execution-current-host-close.sh'
+      - 'canonical/providers/FA3-PROVIDER-OPENAI-API-001.json'
+      - 'canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json'
       - 'tests/test_model_router_provider_execution.py'
+      - 'tests/test_model_router_provider_execution_current_host.py'
       - '.github/workflows/fa3-model-router-provider-execution-gate.yml'
   push:
     paths:
@@ -17,7 +24,14 @@ on:
       - 'canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json'
       - 'src/fa3_model_router_provider_execution.py'
       - 'src/fa3_model_router_provider_execution_gate.py'
+      - 'bin/fa3-model-router-provider-execution-current-host.py'
+      - 'bin/fa3-model-router-provider-execution-current-host-provision.sh'
+      - 'bin/fa3-openai-loopback-bridge.py'
+      - 'bin/fa3-openai-provider-execution-current-host-close.sh'
+      - 'canonical/providers/FA3-PROVIDER-OPENAI-API-001.json'
+      - 'canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json'
       - 'tests/test_model_router_provider_execution.py'
+      - 'tests/test_model_router_provider_execution_current_host.py'
   workflow_dispatch:
 jobs:
   reference-gate:
@@ -25,8 +39,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Syntax
-        run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py
+        run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py bin/fa3-model-router-provider-execution-current-host.py bin/fa3-openai-loopback-bridge.py
+      - name: Shell syntax
+        run: bash -n bin/fa3-model-router-provider-execution-current-host-provision.sh bin/fa3-openai-provider-execution-current-host-close.sh
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_model_router_provider_execution
+        run: PYTHONPATH=src python -m unittest tests.test_model_router_provider_execution tests.test_model_router_provider_execution_current_host
       - name: Canonical gate
         run: PYTHONPATH=src python src/fa3_model_router_provider_execution_gate.py --root .
