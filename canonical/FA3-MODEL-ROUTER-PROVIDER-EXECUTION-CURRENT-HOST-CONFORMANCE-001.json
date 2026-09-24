@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.model-router-provider-execution-current-host-conformance.v1",
+  "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
+  "status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_REAL_PROVIDER_E2E",
+  "priority": "P0",
+  "requirement": "MUST-IF-PROVIDER-EXECUTION-PROMOTED",
+  "parent_profile": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+  "gate": "src/fa3_model_router_provider_execution_current_host_gate.py",
+  "collector": "evidence/collect-model-router-provider-execution-current-host.py",
+  "workflow": ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
+  "runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "required_evidence_scope": "REAL_PROVIDER_CURRENT_HOST",
+  "required_bindings": [
+    "exact repository HEAD",
+    "admitted provider receipt SHA-256",
+    "Secret Broker projection receipt SHA-256",
+    "credential SecretReference SHA-256",
+    "logical route",
+    "physical model"
+  ],
+  "required_checks": [
+    "real_provider_request_pass",
+    "session_affinity_pass",
+    "intra_provider_rebind_pass",
+    "cross_provider_silent_fallback_denied_pass",
+    "unadmitted_provider_denied_pass",
+    "unadmitted_credential_denied_pass",
+    "protocol_lossless_or_declared_degradation_pass",
+    "security_relevant_schema_loss_denied_pass",
+    "raw_secret_absent_from_logs_pass",
+    "raw_secret_absent_from_evidence_pass",
+    "rollback_pass"
+  ],
+  "synthetic_or_mock_provider_pass": "FORBIDDEN",
+  "network_fetch_or_install_by_workflow": "FORBIDDEN",
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false
+}

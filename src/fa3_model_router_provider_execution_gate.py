@@ -50,6 +50,7 @@ def gate(root: Path) -> dict[str, Any]:
     agent_definition=loadj(root/"canonical/profiles/FA3-AGENT-DEFINITION-001.json")
     gui=loadj(root/"canonical/FA3-GUI-SURFACE-REGISTRY-001.json")
     policy=loadj(root/"canonical/enforcement-policy.json")
+    current_host=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json")
     if router.get("id")!="FA3-AUTH-MODEL-ROUTER-001" or router.get("data_plane",{}).get("single_routing_plane") is not True: f.append(finding("PEX-CANON-001","single Model Router authority drift"))
     if gateway.get("id")!="FA3-LLM-GATEWAY-001" or gateway.get("model_router_materialization",{}).get("role")!="REFERENCE_DATA_PLANE_ONLY": f.append(finding("PEX-CANON-002","LiteLLM data-plane boundary drift"))
     if p.get("parent_authority")!="FA3-AUTH-MODEL-ROUTER-001" or p.get("new_architectural_authority") is not False or p.get("capability_count")!=143: f.append(finding("PEX-CANON-003","provider execution profile governance drift"))
@@ -66,6 +67,7 @@ def gate(root: Path) -> dict[str, Any]:
     surface=next((r for r in model_route.get("children",[]) if r.get("surface_id")=="models.provider-execution"),{})
     if surface.get("direct_provider_execution") is not False or surface.get("direct_credential_entry") is not False or surface.get("credential_values_visible") is not False or surface.get("authority") is not False: f.append(finding("PEX-GUI-001","Provider Execution GUI boundary drift"))
     if GATESET_ID not in policy.get("mandatory_reference_gates",[]): f.append(finding("PEX-GLOBAL-001","provider execution gate not bound into global enforcement"))
+    if current_host.get("status")!="EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_REAL_PROVIDER_E2E" or current_host.get("synthetic_or_mock_provider_pass")!="FORBIDDEN" or current_host.get("global_promotion_claim") is not False: f.append(finding("PEX-CH-001","current-host fail-closed closure drift"))
     reg=regressions()
     if reg["result"]!="PASS": f.append(finding("PEX-REG-001","provider execution regression matrix failed"))
     return {"schema":"fa3.gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"regressions":reg,"current_host_claim":False}

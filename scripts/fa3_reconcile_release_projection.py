@@ -345,6 +345,8 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "gui_surface_id": "models.provider-execution",
         "gui_parent_route": "models.providers",
         "gui_mode": "READ_ONLY_EXECUTION_AND_COMPATIBILITY_PROJECTION",
+        "current_host_conformance_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
+        "current_host_workflow": ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
         "current_host_status": "PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE",
         "global_promotion_claim": False,
         "new_capabilities": 0,
