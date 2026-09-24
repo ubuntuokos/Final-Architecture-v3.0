@@ -65,6 +65,7 @@ def definition_valid(row: dict[str, Any]) -> bool:
 
 def template_valid(row: dict[str, Any]) -> bool:
     source = row.get("source", {})
+    distribution = row.get("distribution", {})
     return (
         bool(row.get("template_id"))
         and row.get("status") == "CANONICAL_TEMPLATE_DEFINITION"
