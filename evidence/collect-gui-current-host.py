@@ -19,6 +19,11 @@ def main() -> int:
         default="reports/gui-current-host/current-host-receipt.json",
     )
     parser.add_argument("--smoke-seconds", type=float, default=8.0)
+    parser.add_argument(
+        "--tested-path",
+        default="CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED",
+        choices=["CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"],
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
@@ -34,6 +39,7 @@ def main() -> int:
         executable,
         output_dir=output.parent,
         smoke_seconds=max(5.0, args.smoke_seconds),
+        tested_path=args.tested_path,
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
