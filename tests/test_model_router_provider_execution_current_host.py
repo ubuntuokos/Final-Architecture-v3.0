@@ -10,6 +10,7 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("unadmitted_provider_denied_pass",REQUIRED_CHECKS)
         self.assertIn("cross_provider_silent_fallback_denied_pass",REQUIRED_CHECKS)
         self.assertIn("raw_secret_absent_from_evidence_pass",REQUIRED_CHECKS)
+        self.assertIn("credential_authentication_enforced_pass",REQUIRED_CHECKS)
     def test_no_mock_semantic_in_required_checks(self):
         self.assertFalse(any("mock" in name or "synthetic" in name for name in REQUIRED_CHECKS))
     def test_real_producer_and_two_credential_contract_are_materialized(self):
@@ -17,5 +18,6 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         schema=json.loads((ROOT/"canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json").read_text(encoding="utf-8"))
         self.assertIn("receipt_proves_provider",producer)
         self.assertIn("fa3-secretctl",producer)
+        self.assertIn("credential_authentication_enforced",producer)
         self.assertEqual(schema["properties"]["credentials"]["minItems"],2)
 if __name__=="__main__": unittest.main()
