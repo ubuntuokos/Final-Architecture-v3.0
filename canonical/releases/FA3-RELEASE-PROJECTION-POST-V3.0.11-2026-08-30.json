@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c4a90e38dab84a1ac1859e1b9a968e2d53d8bfe4",
-    "pre_projection_root_tree_sha": "6d192ca49fd2187b3cfb9749d1e09cde8acd0766",
-    "pre_projection_canonical_tree_sha": "7c6c0fe85382276cd7110fa9e299eeb0f9fea7b1",
-    "commits_ahead_of_v3_0_11_conformance_commit": 625,
-    "total_post_baseline_commits": 625,
-    "delta_file_count": 2033,
-    "delta_added_files": 2028,
+    "pre_projection_head_sha": "78adf00702e6778c74dc458cef3c114ff66e9ca1",
+    "pre_projection_root_tree_sha": "335010343b3e46e872bf6a13c9344e7278cab469",
+    "pre_projection_canonical_tree_sha": "9963fc95386e56245ccea8b229572883fbe83202",
+    "commits_ahead_of_v3_0_11_conformance_commit": 640,
+    "total_post_baseline_commits": 640,
+    "delta_file_count": 2034,
+    "delta_added_files": 2029,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -916,11 +916,16 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2026,
+  "manifest_entry_count": 2027,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
       "git_blob_sha": "532ccca3a43e339232c16d57887529ae984cca43",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/fa3-model-router-provider-execution-current-host.trigger",
+      "git_blob_sha": "8ac3df10215f9782a67d1576836ec9e97d0400be",
       "baseline_delta_status": "added"
     },
     {
@@ -1220,7 +1225,7 @@
     },
     {
       "path": ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
-      "git_blob_sha": "d7fe2b8b98c9274456f3f84900aeb35f46b8f802",
+      "git_blob_sha": "f05ca6d1dc03a68db445f978d15acae12aa937df",
       "baseline_delta_status": "added"
     },
     {
@@ -2005,7 +2010,7 @@
     },
     {
       "path": "bin/fa3-model-router-provider-execution-current-host.py",
-      "git_blob_sha": "546b3617feebe3b5279ac481e3e3947be88e3079",
+      "git_blob_sha": "9162d11c07ebd906cfe59584e3bfe3e7c9a4253c",
       "baseline_delta_status": "added"
     },
     {
@@ -2550,7 +2555,7 @@
     },
     {
       "path": "canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
-      "git_blob_sha": "d3cfef24d380d8e9c0bba7d663ee2cc0f81c5445",
+      "git_blob_sha": "edc8093666a55c0ea999b13200491506fa611b89",
       "baseline_delta_status": "added"
     },
     {
@@ -2895,7 +2900,7 @@
     },
     {
       "path": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json",
-      "git_blob_sha": "5be67bc80315b80efab260930ec9134bcb09e166",
+      "git_blob_sha": "da13dd98529f9ae5dcc559b7ad5ca7d6f985359d",
       "baseline_delta_status": "added"
     },
     {
@@ -7395,7 +7400,7 @@
     },
     {
       "path": "docs/model-router-provider-execution.md",
-      "git_blob_sha": "4f41f2d8f8ebc95c0556589208ff6e323aaa60fc",
+      "git_blob_sha": "a3a1c92dcfb46ff4ec67c79396e0ba0c950610b9",
       "baseline_delta_status": "added"
     },
     {
@@ -9385,12 +9390,12 @@
     },
     {
       "path": "src/fa3_model_router_provider_execution_current_host_gate.py",
-      "git_blob_sha": "0546391fa77aed1aee913841d94c0e546fe907d6",
+      "git_blob_sha": "531a362021859641f5d113c20842c5af2329c9a6",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_model_router_provider_execution_gate.py",
-      "git_blob_sha": "d66943d4d5b6fb85719740579994500b27de6f8f",
+      "git_blob_sha": "1e75d33344cb4af3c6f2fd546542ef8cd5ff0d99",
       "baseline_delta_status": "added"
     },
     {
@@ -10620,7 +10625,7 @@
     },
     {
       "path": "tests/test_model_router_provider_execution_current_host.py",
-      "git_blob_sha": "6de1324c46ed3779ce9c2f18d9bd4b2b4511ac57",
+      "git_blob_sha": "d70e424b0034b2c246ced36833b9602608988722",
       "baseline_delta_status": "added"
     },
     {
