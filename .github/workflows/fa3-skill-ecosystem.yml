@@ -1,0 +1,59 @@
+name: FA3 Skill Fabric Agent Skills Ecosystem
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json'
+      - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
+      - 'src/fa3_skill_ecosystem.py'
+      - 'src/fa3_skill_ecosystem_gate.py'
+      - 'src/fa3_skill_fabric_gate.py'
+      - 'tests/test_skill_ecosystem.py'
+      - '.github/workflows/fa3-skill-ecosystem.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json'
+      - 'src/fa3_skill_ecosystem.py'
+      - 'src/fa3_skill_ecosystem_gate.py'
+      - 'src/fa3_skill_fabric_gate.py'
+      - 'tests/test_skill_ecosystem.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_gate.py
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem -v
+      - name: Agent Skills ecosystem gate
+        run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
+      - name: Parent Skill Fabric gate
+        run: PYTHONPATH=src python src/fa3_skill_fabric_gate.py --root .
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-skill-ecosystem-gate
+          path: |
+            reports/skill-ecosystem-gate-report.json
+            reports/skill-fabric-gate-report.json

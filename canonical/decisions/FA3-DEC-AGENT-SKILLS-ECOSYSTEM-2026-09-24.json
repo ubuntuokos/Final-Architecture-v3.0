@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24",
+  "date": "2026-09-24",
+  "status": "CANONICAL_DECISION",
+  "subject": "Agent Skills ecosystem compatibility, security, evaluation and bounded improvement",
+  "decision": "EXTEND_EXISTING_FA3_SKILL_FABRIC_WITH_COMPATIBILITY_SECURITY_ROUTING_EVAL_IMPROVEMENT_CANDIDATES_AND_EXTERNAL_RADAR",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "adopted": [
+    "Agent Skills SKILL.md format compatibility adapter",
+    "immutable external skill snapshot before parsing",
+    "FA3-enriched normalization rather than relaxing FA3 admission requirements",
+    "security inspection taxonomy under existing FA3-SCS-001",
+    "positive negative adversarial routing non-selection and minimal-composition evals",
+    "offline skill-improvement candidate generation with held-out validation",
+    "external skill radar as discovery/reference only"
+  ],
+  "rejected": [
+    "automatic marketplace installation",
+    "external catalog as trust authority",
+    "allowed-tools metadata as FA3 authorization",
+    "runtime remote skill fetch",
+    "in-place mutation of admitted skills",
+    "automatic optimizer promotion",
+    "external scanner as admission authority",
+    "new model router MCP security evidence workflow or resource authority"
+  ],
+  "authority_effect": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_count_after": 143
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "static_parser_scanner_and_eval_harness_cpu_only": true,
+    "optional_model_assisted_review_routes_via_model_router_and_hrb": true,
+    "exact_host_model_requirement": false
+  },
+  "coexistence": {
+    "replaces_upstream_tools": false,
+    "modifies_upstream_installations": false,
+    "namespaced_fa3_artifacts": true,
+    "external_tools_may_coexist_independently": true
+  }
+}
