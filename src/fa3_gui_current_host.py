@@ -35,6 +35,18 @@ FATAL_LOG_MARKERS = (
     "no Qt platform plugin could be initialized",
 )
 
+RUNTIME_SURFACE_ROOTS = ("apps/fa3-control-center",)
+RUNTIME_SURFACE_FILES = (
+    "src/fa3_desktop_admission.py",
+    "src/fa3_gui_current_host.py",
+    "src/fa3_gui_current_host_gate.py",
+    "src/fa3_release_baseline.py",
+    "evidence/collect-gui-current-host.py",
+    ".github/workflows/fa3-gui-current-host.yml",
+    "canonical/FA3-DESKTOP-BASE-001.json",
+    "canonical/FA3-DESKTOP-PLASMA-001.json",
+)
+
 
 def sha256_path(path: Path) -> str:
     digest = hashlib.sha256()
@@ -42,6 +54,38 @@ def sha256_path(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def git_blob_sha(path: Path) -> str:
+    data = path.read_bytes()
+    header = f"blob {len(data)}\0".encode()
+    return hashlib.sha1(header + data).hexdigest()
+
+
+def runtime_surface_paths(root: Path) -> list[str]:
+    proc = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "-z", "--", *RUNTIME_SURFACE_ROOTS, *RUNTIME_SURFACE_FILES],
+        check=False,
+        capture_output=True,
+        timeout=10,
+    )
+    if proc.returncode != 0:
+        return []
+    return sorted(
+        item.decode("utf-8", "surrogateescape")
+        for item in proc.stdout.split(b"\0")
+        if item
+    )
+
+
+def runtime_surface_git_blobs(root: Path) -> dict[str, str]:
+    result: dict[str, str] = {}
+    for rel in runtime_surface_paths(root):
+        path = root / rel
+        if not path.is_file():
+            return {}
+        result[rel] = git_blob_sha(path)
+    return result
 
 
 def git_head(root: Path) -> str:
@@ -218,6 +262,8 @@ def collect(
         "source_commit_exact": bool(expected_source) and expected_source == source_commit,
         "workflow_run_id": base_env.get("GITHUB_RUN_ID"),
         "workflow_job": base_env.get("GITHUB_JOB"),
+        "runtime_surface_policy": "EXACT_TRACKED_GIT_BLOBS",
+        "runtime_surface_git_blobs": runtime_surface_git_blobs(root),
     }
 
     build_pass = executable.is_file() and os.access(executable, os.X_OK)
