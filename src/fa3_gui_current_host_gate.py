@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_gui_current_host import runtime_surface_git_blobs
 
 GATESET_ID = "FA3-GUI-CURRENT-HOST-GATESET-001"
 GATE_RECORD_ID = "FA3-GATE-GUI-CURRENT-HOST-001"
@@ -21,6 +22,7 @@ SHA64 = re.compile(r"^[0-9a-f]{64}$")
 P0 = [
     "GUI_CURRENT_HOST_EXACT_SELF_HOSTED_RUNNER_LABELS",
     "GUI_CURRENT_HOST_SOURCE_COMMIT_BOUND",
+    "GUI_CURRENT_HOST_RUNTIME_SURFACE_GIT_BLOBS_EXACT",
     "GUI_CURRENT_HOST_NON_ROOT_EXECUTION",
     "GUI_CURRENT_HOST_ACTIVE_LOCAL_GRAPHICAL_SESSION_REQUIRED",
     "GUI_CURRENT_HOST_WAYLAND_OR_X11_ONLY",
@@ -46,7 +48,7 @@ def load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def validate_receipt(receipt: dict[str, Any]) -> list[str]:
+def validate_receipt(receipt: dict[str, Any], *, root: Path | None = None) -> list[str]:
     errors: list[str] = []
     source = receipt.get("source_binding", {})
     host = receipt.get("host", {})
@@ -79,6 +81,15 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
         ),
         (SHA40.fullmatch(str(source.get("source_commit", ""))) is not None, "source commit invalid"),
         (source.get("source_commit_exact") is True, "source commit not exact"),
+        (
+            source.get("runtime_surface_policy") == "EXACT_TRACKED_GIT_BLOBS",
+            "runtime surface policy drift",
+        ),
+        (
+            isinstance(source.get("runtime_surface_git_blobs"), dict)
+            and bool(source.get("runtime_surface_git_blobs")),
+            "runtime surface Git-blob map missing",
+        ),
         (host.get("runner_class") == "fa3-current-host", "runner class drift"),
         (
             str(host.get("fingerprint_sha256", "")).startswith("sha256:"),
@@ -185,6 +196,12 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
     for ok, message in required:
         if not ok:
             errors.append(message)
+    if root is not None:
+        current_surface = runtime_surface_git_blobs(root.resolve())
+        if not current_surface:
+            errors.append("current runtime surface could not be enumerated")
+        elif source.get("runtime_surface_git_blobs") != current_surface:
+            errors.append("runtime surface Git-blob map is stale or mismatched")
     return errors
 
 
@@ -408,7 +425,7 @@ def gate(
             errors.append(f"current-host receipt missing: {candidate}")
         else:
             receipt = load(candidate)
-            receipt_errors = validate_receipt(receipt)
+            receipt_errors = validate_receipt(receipt, root=root)
             errors.extend(f"receipt: {item}" for item in receipt_errors)
             evidence_state = "PASS" if not receipt_errors else "FAIL"
             if promoted and receipt_path is None and not receipt_errors:
