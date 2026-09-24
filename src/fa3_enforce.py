@@ -55,8 +55,6 @@ from fa3_marketing_agent_native_gate import gate as marketing_agent_native_gate
 from fa3_marketingskills_gate import gate as marketingskills_gate
 from fa3_skill_fabric_gate import gate as skill_fabric_gate
 from fa3_distribution_compliance_gate import gate as distribution_compliance_gate
-from fa3_agency_agents_gate import gate as agency_agents_gate
-from fa3_agent_definition_gate import gate as agent_definition_gate
 from fa3_whisper_stt_gate import gate as whisper_stt_gate
 from fa3_whisper_stt_provider import run_executable_conformance as whisper_stt_provider_conformance
 from fa3_cosyvoice_gate import gate as cosyvoice_gate, current_host_gate as cosyvoice_current_host_gate
@@ -73,6 +71,9 @@ from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
+from fa3_quality_gate import evaluate as quality_anti_slop_gate
+from fa3_agency_agents_gate import gate as agency_agents_gate
+from fa3_agent_definition_gate import gate as agent_definition_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
@@ -168,6 +169,16 @@ def static_check(root:Path):
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
+
+    quality_anti_slop_ref=quality_anti_slop_gate(root)
+    if quality_anti_slop_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-124","Native anti-slop quality gate failed",quality_anti_slop_gate=quality_anti_slop_ref))
+    agency_agents_ref=agency_agents_gate(root)
+    if agency_agents_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider normalization gate failed",agency_agents_gate=agency_agents_ref))
+    agent_definition_ref=agent_definition_gate(root)
+    if agent_definition_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-126","Agent Definition admission gate failed",agent_definition_gate=agent_definition_ref))
 
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
@@ -284,9 +295,9 @@ def static_check(root:Path):
     if "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-123","Distribution Compliance gate is not bound into global enforcement policy"))
     if "FA3-AGENCY-AGENTS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-124","Agency Agents reference-provider gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider gate is not bound into global enforcement policy"))
     if "FA3-AGENT-DEFINITION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-125","Agent Definition gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-126","Agent Definition gate is not bound into global enforcement policy"))
     if "FA3-WHISPER-STT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-026","Whisper STT provider gate is not bound into global enforcement policy"))
     if "FA3-MENTOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -468,12 +479,6 @@ def static_check(root:Path):
     distribution_compliance_ref=distribution_compliance_gate(root)
     if distribution_compliance_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-123","Distribution Compliance gate failed",distribution_compliance_gate=distribution_compliance_ref))
-    agency_agents_ref=agency_agents_gate(root)
-    if agency_agents_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-124","Agency Agents reference-provider normalization gate failed",agency_agents_gate=agency_agents_ref))
-    agent_definition_ref=agent_definition_gate(root)
-    if agent_definition_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-125","Agent Definition admission gate failed",agent_definition_gate=agent_definition_ref))
     marketingskills_ref=marketingskills_gate(root)
     if marketingskills_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-083","MarketingSkills skill-package admission gate failed",marketingskills_gate=marketingskills_ref))

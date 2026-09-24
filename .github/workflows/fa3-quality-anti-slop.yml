@@ -1,0 +1,113 @@
+name: FA3 Native Anti-Slop Quality Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-QUALITY-ANTI-SLOP-001.json'
+      - 'canonical/contracts/FA3-QUALITY-ANTI-SLOP-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.json'
+      - 'canonical/FA3-GATE-QUALITY-ANTI-SLOP-001.json'
+      - 'canonical/quality/FA3-QUALITY-RULE-REGISTRY-001.json'
+      - 'canonical/skill-registry.json'
+      - 'canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json'
+      - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/profiles/FA3-DECISION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json'
+      - 'canonical/assessments/FA3-QUALITY-ANTI-SLOP-DECISION-ASSESSMENT-2026-09-23.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'scripts/fa3_reconcile_release_projection.py'
+      - 'skills/fa3-quality-*/**'
+      - 'src/fa3_quality_filter.py'
+      - 'src/fa3_quality_gate.py'
+      - 'src/fa3_skill_discovery.py'
+      - 'tests/test_quality_filter.py'
+      - 'tests/test_skill_discovery.py'
+      - 'apps/**'
+      - 'src/**'
+      - 'bin/fa3-enforce'
+      - '.github/workflows/fa3-quality-anti-slop.yml'
+      - '.github/workflows/fa3-gui-gate.yml'
+      - '.github/workflows/fa3-permanent-enforcement.yml'
+  push:
+    branches:
+      - main
+      - 'fa3/**'
+    paths:
+      - 'canonical/profiles/FA3-QUALITY-ANTI-SLOP-001.json'
+      - 'canonical/contracts/FA3-QUALITY-ANTI-SLOP-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.json'
+      - 'canonical/FA3-GATE-QUALITY-ANTI-SLOP-001.json'
+      - 'canonical/quality/FA3-QUALITY-RULE-REGISTRY-001.json'
+      - 'canonical/skill-registry.json'
+      - 'canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json'
+      - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/profiles/FA3-DECISION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json'
+      - 'canonical/assessments/FA3-QUALITY-ANTI-SLOP-DECISION-ASSESSMENT-2026-09-23.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'scripts/fa3_reconcile_release_projection.py'
+      - 'skills/fa3-quality-*/**'
+      - 'src/fa3_quality_filter.py'
+      - 'src/fa3_quality_gate.py'
+      - 'src/fa3_skill_discovery.py'
+      - 'tests/test_quality_filter.py'
+      - 'tests/test_skill_discovery.py'
+      - 'apps/**'
+      - 'src/**'
+      - 'bin/fa3-enforce'
+      - '.github/workflows/fa3-quality-anti-slop.yml'
+      - '.github/workflows/fa3-gui-gate.yml'
+      - '.github/workflows/fa3-permanent-enforcement.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-native-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Syntax check
+        run: python -m py_compile src/fa3_quality_filter.py src/fa3_quality_gate.py src/fa3_skill_discovery.py
+
+      - name: Native quality unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_quality_filter -v
+
+      - name: Skill discovery regression
+        run: PYTHONPATH=src python -m unittest tests.test_skill_discovery -v
+
+      - name: Canonical quality gate
+        run: PYTHONPATH=src python src/fa3_quality_gate.py --root .
+
+      - name: Changed-artifact quality scan
+        if: github.ref_name != 'main'
+        run: PYTHONPATH=src python src/fa3_quality_gate.py --root . --scope repo --changed-from origin/main
+
+      - name: Upload quality report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-native-anti-slop-quality-gate
+          path: reports/quality-anti-slop-gate-report.json
+          if-no-files-found: error
