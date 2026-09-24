@@ -1,0 +1,32 @@
+name: FA3 Model Router Provider Execution Gate
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json'
+      - 'canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json'
+      - 'canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json'
+      - 'canonical/model-router-provider-execution-enforcement.json'
+      - 'src/fa3_model_router_provider_execution.py'
+      - 'src/fa3_model_router_provider_execution_gate.py'
+      - 'tests/test_model_router_provider_execution.py'
+      - '.github/workflows/fa3-model-router-provider-execution-gate.yml'
+  push:
+    paths:
+      - 'canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json'
+      - 'canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json'
+      - 'src/fa3_model_router_provider_execution.py'
+      - 'src/fa3_model_router_provider_execution_gate.py'
+      - 'tests/test_model_router_provider_execution.py'
+  workflow_dispatch:
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax
+        run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py
+      - name: Unit tests
+        run: PYTHONPATH=. python -m unittest tests.test_model_router_provider_execution
+      - name: Canonical gate
+        run: PYTHONPATH=src python src/fa3_model_router_provider_execution_gate.py --root .
