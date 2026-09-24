@@ -6,7 +6,7 @@ from typing import Any
 
 SHA256=re.compile(r"^[0-9a-f]{64}$")
 REQUIRED_CHECKS=[
- "real_provider_request_pass","session_affinity_pass","intra_provider_rebind_pass",
+ "real_provider_request_pass","credential_authentication_enforced_pass","session_affinity_pass","intra_provider_rebind_pass",
  "cross_provider_silent_fallback_denied_pass","unadmitted_provider_denied_pass","unadmitted_credential_denied_pass",
  "protocol_lossless_or_declared_degradation_pass","security_relevant_schema_loss_denied_pass",
  "raw_secret_absent_from_logs_pass","raw_secret_absent_from_evidence_pass","rollback_pass",
