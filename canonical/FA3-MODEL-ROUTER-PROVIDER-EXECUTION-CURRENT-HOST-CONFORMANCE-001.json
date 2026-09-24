@@ -52,7 +52,21 @@
     "provider_requests_before_and_after_rebind": "REQUIRED",
     "direct_provider_access": "CURRENT_HOST_EVIDENCE_HARNESS_ONLY_NOT_APPLICATION_PATH",
     "credential_authentication": "INVALID_BEARER_MUST_BE_REJECTED_401_OR_403_BEFORE_PASS",
-    "provisioning": "INTERACTIVE_TTY_ONLY_REAL_CREDENTIALS_TEMPORARY_SECRETREF_POLICIES_AND_PROBE_IDENTITY_CLEANED"
+    "provisioning": "INTERACTIVE_TTY_ONLY_REAL_CREDENTIALS_TEMPORARY_SECRETREF_POLICIES_AND_PROBE_IDENTITY_CLEANED",
+    "preferred_model": "EXPLICIT_PREFERRED_MODEL_MUST_EXIST_OR_FAIL_CLOSED"
   },
-  "provisioning_harness": "bin/fa3-model-router-provider-execution-current-host-provision.sh"
+  "provisioning_harness": "bin/fa3-model-router-provider-execution-current-host-provision.sh",
+  "openai_evidence_adapter": {
+    "provider_id": "FA3-PROVIDER-OPENAI-API-001",
+    "explicit_external_policy_id": "FA3-OPENAI-API-EXTERNAL-POLICY-001",
+    "loopback_bridge": "bin/fa3-openai-loopback-bridge.py",
+    "one_command_closure": "bin/fa3-openai-provider-execution-current-host-close.sh",
+    "normal_application_routing_enabled": false,
+    "credential_storage": false,
+    "remote_origin": "https://api.openai.com/v1",
+    "preferred_probe_model": "gpt-6-luna",
+    "invalid_bearer_rejection_required": true,
+    "two_real_credentials_required": true,
+    "global_promotion_claim": false
+  }
 }
