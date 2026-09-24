@@ -19,6 +19,7 @@ command -v systemd-run >/dev/null || { echo "systemd-run missing" >&2; exit 2; }
 command -v systemctl >/dev/null || { echo "systemctl missing" >&2; exit 2; }
 command -v getent >/dev/null || { echo "getent missing" >&2; exit 2; }
 command -v pgrep >/dev/null || { echo "pgrep missing" >&2; exit 2; }
+getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing" >&2; exit 2; }
 
 [[ -f "$ROOT/canonical/providers/$PROVIDER_ID.json" ]] || {
   echo "canonical OpenAI provider record missing" >&2
@@ -138,6 +139,12 @@ obj={
 Path(out).write_text(json.dumps(obj,indent=2)+"\n",encoding="utf-8")
 Path(out).chmod(0o600)
 PY
+
+# The admission receipt is sanitized metadata (no credential value) and must be
+# readable by the deliberately non-root provider-execution probe. Keep access
+# limited to root plus the existing Secret Broker client transport group.
+chown root:fa3-secret-clients "$ADMISSION_RECEIPT"
+chmod 0640 "$ADMISSION_RECEIPT"
 
 echo "OpenAI loopback adapter admitted for evidence scope:"
 echo "  provider: $PROVIDER_ID"
