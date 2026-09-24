@@ -27,3 +27,16 @@ The real current-host producer is `bin/fa3-model-router-provider-execution-curre
 The workflow may consume an externally staged live-probe receipt or create one from `FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG`. If neither is available it fails closed. Raw credentials are never written to canonical state or evidence; temporary Secret Broker projections are removed before `rollback_pass` can be asserted.
 
 Production promotion still requires a real current-host PASS plus the normal FA3 acceptance/promotion receipts. A repository/reference PASS never upgrades current-host or global production status.
+
+## Physical credential provisioning
+
+Credential-bearing closure is intentionally not auto-provisioned from CI. After the PR head is stable, an operator with two **real credentials for the same already-admitted, loopback, Bearer-authenticated provider** runs:
+
+```bash
+sudo bash bin/fa3-model-router-provider-execution-current-host-provision.sh \
+  --provider-id <FA3-PROVIDER-ID> \
+  --api-base http://127.0.0.1:<port>/v1 \
+  --admission-receipt /absolute/path/to/provider-current-host.json
+```
+
+The harness reads both credential values only from `/dev/tty`, stores them temporarily under the Secret Broker as distinct `SecretReference` objects, restricts projection to a dedicated transient probe identity/unit, performs the real before/after-rebind provider calls, writes the secret-free live probe to `/run/fa3/model-router-provider-execution/current-host-source.json`, and removes the temporary credential objects/policies afterwards. An unauthenticated provider endpoint cannot satisfy the gate.
