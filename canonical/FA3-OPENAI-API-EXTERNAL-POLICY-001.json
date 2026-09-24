@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.external-provider-policy.v1",
+  "id": "FA3-OPENAI-API-EXTERNAL-POLICY-001",
+  "provider_id": "FA3-PROVIDER-OPENAI-API-001",
+  "status": "CANONICAL_EXPLICIT_EVIDENCE_POLICY",
+  "priority": "P0",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "activation": {
+    "mode": "EXPLICIT_OPERATOR_CURRENT_HOST_EVIDENCE_ONLY",
+    "automatic_activation": false,
+    "normal_application_routing_enabled": false,
+    "baseline_local_route_mutation": false,
+    "silent_local_to_cloud_fallback": false
+  },
+  "egress": {
+    "scheme": "https",
+    "host": "api.openai.com",
+    "port": 443,
+    "allowed_paths": [
+      "/v1/models",
+      "/v1/chat/completions"
+    ],
+    "redirect_following": false,
+    "environment_proxy_use": false,
+    "arbitrary_host_forwarding": false
+  },
+  "local_adapter": {
+    "bind_scope": "LOOPBACK_ONLY",
+    "allowed_public_paths": [
+      "/healthz",
+      "/v1/models",
+      "/v1/chat/completions"
+    ],
+    "open_proxy": false,
+    "fixed_probe_content_only": true,
+    "model_allowlist_cardinality": 1,
+    "credential_storage": false,
+    "authorization_passthrough_only": true,
+    "request_logging": false
+  },
+  "secret_boundary": {
+    "authority": "FA3-SECRET-BROKER-001",
+    "command_line_secret_input": false,
+    "environment_secret_input": false,
+    "canonical_secret_value": false,
+    "evidence_secret_value": false,
+    "log_secret_value": false
+  },
+  "promotion": {
+    "adapter_ready_receipt_is_provider_execution_pass": false,
+    "two_real_credentials_required_for_provider_execution_pass": true,
+    "invalid_bearer_must_be_rejected": true,
+    "real_request_before_and_after_rebind_required": true,
+    "global_production_promotion_claim": false
+  }
+}
