@@ -345,6 +345,35 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         ),
     }
 
+    projection["external_llm_catalog_reconciliation"] = {
+        "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+        "contract_id": "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001",
+        "decision_id": "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24",
+        "assessment_id": "FA3-EXTERNAL-LLM-CATALOG-2026-09-24",
+        "reference_id": "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24",
+        "gate_id": "FA3-EXTERNAL-LLM-CATALOG-GATESET-001",
+        "executable_gate_id": "FA3-GATE-EXTERNAL-LLM-CATALOG-001",
+        "source_commit": "4a91e1d93a6df0753ade804f75b4e17fbad89886",
+        "source_distribution_class": "REFERENCE_ONLY",
+        "source_release_bundle_status": "EXCLUDED",
+        "state_machine": ["DISCOVERED", "OBSERVED", "VERIFIED", "ADMITTED", "ENABLED"],
+        "parser_initial_state": "DISCOVERED",
+        "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+        "decision_fabric_role": "BOUNDED_ADVISORY_RANKING_ONLY",
+        "decision_candidate_expansion": False,
+        "silent_local_to_cloud_fallback": False,
+        "gui_surface_id": "models.provider-explorer",
+        "gui_parent_route": "models.providers",
+        "gui_mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+        "current_host_remote_provider_status": "PROVIDER_ADMISSION_AND_ENTITLEMENT_SEPARATE",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_DISCOVERY_CATALOG_GUI_STATIC_RECONCILED_REMOTE_PROVIDER_ADMISSION_SEPARATE",
+    }
+
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
     for record in ls.split("\0"):
