@@ -62,6 +62,9 @@ DROPIN="$DROPIN_DIR/90-fa3-secret-e2e-$RUN_ID.conf"
 MOUNT_DROPIN_DIR="/etc/systemd/system/$MOUNT_UNIT.d"
 MOUNT_DROPIN="$MOUNT_DROPIN_DIR/90-fa3-secret-e2e-$RUN_ID.conf"
 SYSTEMD_PHASE_ACTIVE=false
+SYSTEMD_POLICY_INSTALLED=false
+SYSTEMD_SECRET_ID="test/systemd-write-$RUN_ID"
+SYSTEMD_POLICY_SRC="$TMP/systemd-write-policy.json"
 cleanup(){
   if [[ -f "$DROPIN" || -f "$MOUNT_DROPIN" || "$SYSTEMD_PHASE_ACTIVE" == true ]]; then
     systemctl stop fa3-secrets.target >/dev/null 2>&1 || true
@@ -87,6 +90,7 @@ cleanup(){
   mountpoint -q "$MNT" && umount "$MNT" || true
   [[ -e "/dev/mapper/$MAPPER" ]] && cryptsetup close "$MAPPER" || true
   if [[ "$PROBE_CREATED" == true ]]; then userdel "$PROBE_USER" >/dev/null 2>&1 || true; fi
+  if [[ "$SYSTEMD_POLICY_INSTALLED" == true ]]; then /usr/local/sbin/fa3-secret-policyctl remove "$SYSTEMD_SECRET_ID" >/dev/null 2>&1 || true; fi
   if [[ "$ADMIN_CREATED" == true ]]; then userdel "$ADMIN_USER" >/dev/null 2>&1 || true; fi
   rm -rf "$PROJ" "$TMP"
 }
@@ -203,13 +207,6 @@ bad=request(Path(sys.argv[1]),{"op":"put","secret_id":"test/not-credential","cla
 if bad.get("ok") is not False or "credential secrets only" not in str(bad.get("error","")):
     raise SystemExit(2)
 PY
-userdel "$ADMIN_USER"
-ADMIN_CREATED=false
-if getent passwd "$ADMIN_USER" >/dev/null; then
-  echo "ephemeral admin probe identity persisted after authorization proof" >&2
-  exit 2
-fi
-EPHEMERAL_ADMIN_PROBE_REMOVED_PASS=true
 ! grep -Fq "$CANARY1" "$AUDIT"
 ! grep -Fq "$CANARY2" "$AUDIT"
 ! grep -Fq "$REVOKE_CANARY" "$AUDIT"
@@ -258,6 +255,7 @@ ConditionPathExists=$SIMG
 Environment=FA3_MACHINE_STATE_IMAGE=$SIMG
 Environment=FA3_MACHINE_STATE_MAPPER=$SMAPPER
 Environment=FA3_MACHINE_STATE_MOUNT=/run/fa3/machine-state
+ReadWritePaths=$SIMG
 LoadCredentialEncrypted=
 LoadCredentialEncrypted=fa3-machine-state-key:$ECRED
 EOF
@@ -279,11 +277,63 @@ HOST_SOURCE="$(findmnt -rn -T /run/fa3/machine-state -o SOURCE)"
   exit 2
 }
 HOST_MOUNT_NAMESPACE_VISIBILITY_PASS=true
+HOST_OPTS="$(findmnt -rn -T /run/fa3/machine-state -o OPTIONS)"
+grep -qw rw <<<"${HOST_OPTS//,/ }" || { echo "FAIL: systemd vault mount is not writable" >&2; exit 2; }
+! grep -qw ro <<<"${HOST_OPTS//,/ }" || { echo "FAIL: systemd vault mount is read-only" >&2; exit 2; }
+SYSTEMD_VAULT_RW_MOUNT_PASS=true
+
 if ! /usr/local/bin/fa3-secretctl health >/dev/null; then
   echo "FAIL: broker health failed after lifecycle readiness PASS" >&2
   FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle status >&2 || true
   exit 2
 fi
+
+cat > "$SYSTEMD_POLICY_SRC" <<EOF
+{
+  "schema": "fa3.secret-projection-policy.v1",
+  "secret_id": "$SYSTEMD_SECRET_ID",
+  "classification": "MACHINE_SERVICE_SECRET",
+  "secret_kind": "API_TOKEN",
+  "allowed_consumers": [
+    {
+      "consumer_id": "FA3-CURRENT-HOST-SYSTEMD-RW-PROBE",
+      "allowed_unix_users": ["$PROBE_USER"],
+      "allowed_executables": [],
+      "allowed_systemd_units": []
+    }
+  ],
+  "allowed_projections": ["UDS_SINGLE_SECRET"],
+  "exportable": false
+}
+EOF
+chmod 0600 "$SYSTEMD_POLICY_SRC"
+/usr/local/sbin/fa3-secret-policyctl check "$SYSTEMD_POLICY_SRC" >/dev/null
+/usr/local/sbin/fa3-secret-policyctl install "$SYSTEMD_POLICY_SRC" >/dev/null
+SYSTEMD_POLICY_INSTALLED=true
+
+SYSTEMD_CANARY="FA3_SECRET_BROKER_SYSTEMD_RW_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+SYSTEMD_CANARY_HASH="$(printf '%s' "$SYSTEMD_CANARY" | sha256sum | cut -d' ' -f1)"
+printf '%s' "$SYSTEMD_CANARY" | runuser -u "$ADMIN_USER" -- /usr/local/bin/fa3-secretctl put "$SYSTEMD_SECRET_ID" --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+SYSTEMD_READ_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl get "$SYSTEMD_SECRET_ID" --consumer FA3-CURRENT-HOST-SYSTEMD-RW-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
+[[ "$SYSTEMD_READ_HASH" == "$SYSTEMD_CANARY_HASH" ]] || { echo "FAIL: systemd broker write/read mismatch" >&2; exit 2; }
+runuser -u "$ADMIN_USER" -- /usr/local/bin/fa3-secretctl revoke "$SYSTEMD_SECRET_ID" >/dev/null
+if runuser -u "$ADMIN_USER" -- /usr/local/bin/fa3-secretctl admin-metadata "$SYSTEMD_SECRET_ID" >/dev/null 2>&1; then
+  echo "FAIL: systemd write/revoke probe secret still active" >&2
+  exit 2
+fi
+! grep -Fq "$SYSTEMD_CANARY" /run/fa3-secret-broker/audit.jsonl
+/usr/local/sbin/fa3-secret-policyctl remove "$SYSTEMD_SECRET_ID"
+SYSTEMD_POLICY_INSTALLED=false
+SYSTEMD_BROKER_WRITE_READ_REVOKE_PASS=true
+
+userdel "$ADMIN_USER"
+ADMIN_CREATED=false
+if getent passwd "$ADMIN_USER" >/dev/null; then
+  echo "ephemeral admin probe identity persisted after systemd write proof" >&2
+  exit 2
+fi
+EPHEMERAL_ADMIN_PROBE_REMOVED_PASS=true
+
 if ! FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle exit >/dev/null; then
   echo "FAIL: systemd secrets lifecycle exit did not reach CLOSED state" >&2
   FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle status >&2 || true
@@ -335,7 +385,7 @@ systemctl daemon-reload
 [[ ! -e "$DROPIN" && ! -e "$MOUNT_DROPIN" && ! -e "$SIMG" && ! -e "$ECRED" && ! -e "$REKEY_NEW" ]]
 SYSTEMD_E2E_ARTIFACT_CLEANUP_PASS=true
 
-opts='["nodev","nosuid","noexec"]'
+opts='["rw","nodev","nosuid","noexec"]'
 mkdir -p "$(dirname "$RECEIPT")"
 python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" "$BRIDGE_SOURCE_COMMIT" <<'PY'
 import json,sys
@@ -344,9 +394,9 @@ from pathlib import Path
 x={
  "schema":"fa3.secret-broker-current-host-receipt.v1","status":"PASS","real_execution":True,"synthetic":False,
  "executed_at":datetime.now(timezone.utc).isoformat(),"bridge_source_commit":sys.argv[4],"luks2":True,"filesystem":"ext4",
- "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
+ "mount_options":["rw","nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"current_host_privileged_bridge_source_binding_pass":True,"non_root_admin_authorization_pass":True,"ephemeral_admin_probe_removed_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"host_mount_namespace_visibility_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"current_host_privileged_bridge_source_binding_pass":True,"systemd_vault_rw_mount_pass":True,"systemd_broker_write_read_revoke_pass":True,"non_root_admin_authorization_pass":True,"ephemeral_admin_probe_removed_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"host_mount_namespace_visibility_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},
