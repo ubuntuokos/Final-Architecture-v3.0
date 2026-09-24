@@ -9,6 +9,8 @@ import time
 from pathlib import Path
 from typing import Any, Mapping
 
+from fa3_release_baseline import module_active_capability_count
+
 from fa3_desktop_admission import (
     collect_runtime_probes,
     discover_current_user_session_environment,
@@ -19,7 +21,7 @@ REPOSITORY = "ubuntuokos/Final-Architecture-v3.0"
 GATE_ID = "FA3-GUI-CURRENT-HOST-GATESET-001"
 CONFORMANCE_ID = "FA3-GUI-RUNTIME-CONFORMANCE-001"
 EVIDENCE_ID = "EVID-FA3-GUI-CURRENT-HOST-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 SAFE_ENV_KEYS = {
     "PATH", "HOME", "USER", "LOGNAME", "SHELL", "LANG", "LC_ALL", "LC_CTYPE",
