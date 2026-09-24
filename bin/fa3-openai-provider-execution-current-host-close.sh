@@ -9,6 +9,9 @@ BRIDGE_COPY="$RUN_ROOT/fa3-openai-loopback-bridge.py"
 ADMISSION_RECEIPT="$RUN_ROOT/openai-current-host-admission.json"
 UNIT="fa3-openai-provider-bridge.service"
 POLICY_ID="FA3-OPENAI-API-EXTERNAL-POLICY-001"
+PROVIDER_RUN_ROOT="/run/fa3/model-router-provider-execution"
+PROVIDER_SOURCE="$PROVIDER_RUN_ROOT/current-host-source.json"
+PROVIDER_RECEIPT="$PROVIDER_RUN_ROOT/current-host-receipt.json"
 
 [[ ${EUID:-$(id -u)} -eq 0 ]] || { echo "run with sudo/root" >&2; exit 2; }
 command -v python3 >/dev/null || { echo "python3 missing" >&2; exit 2; }
@@ -50,7 +53,9 @@ cleanup() {
   systemctl stop "$UNIT" >/dev/null 2>&1 || true
   systemctl reset-failed "$UNIT" >/dev/null 2>&1 || true
 }
-trap cleanup EXIT INT TERM
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 cleanup
 
 systemd-run --quiet   --unit="$UNIT"   --property="DynamicUser=yes"   --property="NoNewPrivileges=yes"   --property="PrivateTmp=yes"   --property="ProtectSystem=strict"   --property="ProtectHome=yes"   --property="RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX"   --working-directory="$RUN_ROOT"   /usr/bin/python3 "$BRIDGE_COPY" --bind 127.0.0.1 --port "$PORT"
@@ -144,10 +149,49 @@ PROVISION_ARGS=(
 if [[ -n "$PREFERRED_MODEL" ]]; then
   PROVISION_ARGS+=(--preferred-model "$PREFERRED_MODEL")
 fi
+
+rm -f "$PROVIDER_SOURCE" "$PROVIDER_RECEIPT"
+
+set +e
 bash "$ROOT/bin/fa3-model-router-provider-execution-current-host-provision.sh" "${PROVISION_ARGS[@]}"
+PROVISION_RC=$?
+set -e
+
+if (( PROVISION_RC != 0 )); then
+  echo "provider execution provisioning failed with exit code $PROVISION_RC; closure PASS withheld" >&2
+  exit "$PROVISION_RC"
+fi
+
+[[ -s "$PROVIDER_RECEIPT" ]] || {
+  echo "provider execution sanitized receipt missing after successful provisioner exit" >&2
+  exit 2
+}
+
+python3 - "$PROVIDER_RECEIPT" "$PROVIDER_ID" "$ROOT" <<'PY'
+import json,subprocess,sys
+from pathlib import Path
+receipt_path,provider_id,root=sys.argv[1:]
+x=json.loads(Path(receipt_path).read_text(encoding="utf-8"))
+head=subprocess.check_output(["git","-C",root,"rev-parse","HEAD"],text=True).strip()
+checks=x.get("checks",{})
+if (
+    x.get("schema")!="fa3.model-router-provider-execution-current-host-receipt.v1"
+    or x.get("result")!="PASS"
+    or x.get("evidence_level")!="CURRENT_HOST_REAL_PROVIDER_EXECUTION_PASS"
+    or x.get("repository_head")!=head
+    or x.get("provider_id")!=provider_id
+    or x.get("raw_secret_present") is not False
+    or x.get("synthetic_or_mock_provider") is not False
+    or x.get("global_promotion_claim") is not False
+    or checks.get("provisioning_cleanup_pass") is not True
+    or not checks
+    or any(v is not True for v in checks.values())
+):
+    raise SystemExit("provider execution sanitized receipt is not an exact-head clean PASS")
+PY
 
 echo
 echo "FA3 OPENAI PROVIDER EXECUTION CURRENT-HOST CLOSURE: PASS"
 echo "ADMISSION_RECEIPT=$ADMISSION_RECEIPT"
-echo "PROVIDER_EXECUTION_RECEIPT=/run/fa3/model-router/provider-execution/current-host-receipt.json"
+echo "PROVIDER_EXECUTION_RECEIPT=$PROVIDER_RECEIPT"
 echo "Repository HEAD: $(git -C "$ROOT" rev-parse HEAD)"
