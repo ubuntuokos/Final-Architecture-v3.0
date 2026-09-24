@@ -7,6 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class CurrentHostReceiptContractTests(unittest.TestCase):
     def test_required_matrix_contains_rollback_and_negative_boundaries(self):
         self.assertIn("rollback_pass",REQUIRED_CHECKS)
+        self.assertIn("provisioning_cleanup_pass",REQUIRED_CHECKS)
         self.assertIn("unadmitted_provider_denied_pass",REQUIRED_CHECKS)
         self.assertIn("cross_provider_silent_fallback_denied_pass",REQUIRED_CHECKS)
         self.assertIn("raw_secret_absent_from_evidence_pass",REQUIRED_CHECKS)
@@ -38,6 +39,8 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("sudo /usr/local/sbin/fa3-secret-vault-init",harness)
         self.assertIn("cmp -s",harness)
         self.assertIn("sudo bash bin/fa3-secret-broker-install",harness)
+        self.assertIn("provisioning_cleanup_pass",harness)
+        self.assertLess(harness.index('if ! cleanup; then'),harness.index('echo "FA3 PROVIDER EXECUTION CURRENT-HOST: PASS"'))
         marker="python3 - \"$SECRET_RECEIPT_REFERENCE\" <<'PY'\n"
         self.assertIn(marker,harness)
         embedded=harness.split(marker,1)[1].split("\nPY\n",1)[0]
