@@ -81,7 +81,8 @@ def gate(root: Path) -> dict[str, Any]:
     producer=root/"bin/fa3-model-router-provider-execution-current-host.py"
     config_schema=root/"canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
     workflow=root/".github/workflows/fa3-model-router-provider-execution-current-host.yml"
-    if not producer.is_file() or not config_schema.is_file(): f.append(finding("PEX-CH-002","current-host producer/config contract missing"))
+    provisioner=root/"bin/fa3-model-router-provider-execution-current-host-provision.sh"
+    if not producer.is_file() or not config_schema.is_file() or not provisioner.is_file(): f.append(finding("PEX-CH-002","current-host producer/config/provisioning contract missing"))
     else:
         producer_text=producer.read_text(encoding="utf-8")
         schema=loadj(config_schema)
