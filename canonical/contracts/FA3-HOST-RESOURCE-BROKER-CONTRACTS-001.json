@@ -307,7 +307,24 @@
       "authority_id": "FA3-AUTH-SECRETS-001",
       "hrb_may_become_secret_authority": false,
       "revoke_zeroize_before_runtime_termination": true,
-      "failure_semantics": "CONTAIN_WORKLOAD_THEN_QUARANTINE_LEASE"
+      "failure_semantics": "CONTAIN_WORKLOAD_THEN_QUARANTINE_LEASE",
+      "projection_lease_contract": "SecretProjectionLease",
+      "projection_lease_id_semantics": "OPAQUE_SPL_HANDLE_ONLY",
+      "underlying_secret_id_in_hrb_lease_record": "FORBIDDEN",
+      "underlying_secret_revoke_for_hrb_ttl_eviction": "FORBIDDEN",
+      "projection_revoke_operation": "projection_revoke",
+      "projection_zeroize_ack_operation": "projection_zeroized",
+      "persistent_projection_artifact_identity": [
+        "path",
+        "st_dev",
+        "st_ino",
+        "owner_uid",
+        "owner_gid",
+        "size"
+      ],
+      "persistent_projection_path_scope": "ABSOLUTE_BELOW_RUN_ONLY",
+      "zeroize_max_bytes": 524288,
+      "artifact_substitution": "FAIL_CLOSED"
     },
     "failure_semantics": {
       "delete_lease_on_kill_failure": false,
@@ -361,7 +378,9 @@
       "DURABLE_EVIDENCE_USES_EXISTING_ASYMMETRIC_EVIDENCE_PKI_AUTHORITY",
       "BOOT_ID_AND_MONOTONIC_EXPIRY_BIND_LEASE_TO_CURRENT_BOOT",
       "CPU_ONLY_WORKLOAD_MUST_NOT_REQUIRE_ACCELERATOR_ASSIGNMENT",
-      "SHARED_ACCELERATOR_EVICTION_MUST_NOT_RESET_GLOBAL_DEVICE"
+      "SHARED_ACCELERATOR_EVICTION_MUST_NOT_RESET_GLOBAL_DEVICE",
+      "HRB_TTL_EVICTION_MUST_REVOKE_PROJECTION_LEASE_NOT_UNDERLYING_SECRET",
+      "SECRET_PROJECTION_ZEROIZE_TARGET_REQUIRES_IMMUTABLE_FILE_IDENTITY"
     ]
   }
 }
