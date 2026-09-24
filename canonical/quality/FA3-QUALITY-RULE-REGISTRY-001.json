@@ -24,8 +24,8 @@
       "concern": "CORE",
       "tier": "HARD_GATE",
       "blocking": true,
-      "pattern": "(?i)\\b(?:TODO[_ -]?COPY|PLACEHOLDER[_ -]?(?:COPY|TEXT|METRIC)|DUMMY[_ -]?METRIC)\\b",
-      "message": "Placeholder copy or metric markers must not ship."
+      "pattern": "(?i)\\b(?:TODO[_ -]?COPY|PLACEHOLDER[_ -]+(?:COPY|TEXT|METRIC)|DUMMY[_ -]?METRIC)\\b",
+      "message": "Explicit placeholder-copy or dummy-metric markers must not ship; framework property names such as QML placeholderText are not markers."
     },
     {
       "id": "Q-CORE-003",
