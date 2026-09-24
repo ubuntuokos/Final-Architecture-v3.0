@@ -9,6 +9,8 @@ SCHEMA = "fa3.secret-broker-current-host-receipt.v1"
 
 REQUIRED_CHECKS = [
     "current_host_privileged_bridge_source_binding_pass",
+    "systemd_vault_rw_mount_pass",
+    "systemd_broker_write_read_revoke_pass",
     "non_root_admin_authorization_pass",
     "ephemeral_admin_probe_removed_pass",
     "authorized_single_secret_get",
@@ -64,7 +66,7 @@ def validate(x: dict) -> list[str]:
     req(
         x.get("luks2") is True
         and x.get("filesystem") == "ext4"
-        and set(x.get("mount_options", [])) == {"nodev", "nosuid", "noexec"},
+        and set(x.get("mount_options", [])) == {"rw", "nodev", "nosuid", "noexec"},
         "SBH-003",
     )
     req(

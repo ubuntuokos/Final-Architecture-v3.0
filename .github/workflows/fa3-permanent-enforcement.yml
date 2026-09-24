@@ -133,6 +133,10 @@ jobs:
         run: ./bin/fa3-enforce agent-definition
       - name: External LLM Catalog discovery and admission-boundary gate
         run: ./bin/fa3-enforce external-llm-catalog
+      - name: Provider Execution core syntax check
+        run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py
+      - name: Credential-aware Model Router provider execution gate
+        run: ./bin/fa3-enforce model-router-provider-execution
       - name: Agent Workload Runtime canonical and authority-boundary gate
         run: ./bin/fa3-enforce agent-workload-runtime
       - name: Blackhole Kdenlive integration gate

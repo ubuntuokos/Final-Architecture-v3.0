@@ -59,6 +59,27 @@ force_host_cleanup() {
   (( failed == 0 )) || return 2
 }
 
+assert_broker_transport_boundary() {
+  local dir socket_owner socket_group socket_mode dir_owner dir_group dir_mode
+  dir="$(dirname "$BROKER_SOCKET")"
+  [[ -d "$dir" ]] || { echo "FA3 secrets start incomplete: broker runtime directory missing: $dir" >&2; return 2; }
+  [[ -S "$BROKER_SOCKET" ]] || { echo "FA3 secrets start incomplete: broker socket missing: $BROKER_SOCKET" >&2; return 2; }
+
+  dir_owner="$(stat -c '%U' "$dir")"
+  dir_group="$(stat -c '%G' "$dir")"
+  dir_mode="$(stat -c '%a' "$dir")"
+  socket_owner="$(stat -c '%U' "$BROKER_SOCKET")"
+  socket_group="$(stat -c '%G' "$BROKER_SOCKET")"
+  socket_mode="$(stat -c '%a' "$BROKER_SOCKET")"
+
+  [[ "$dir_owner" == "fa3-secret-broker" ]] || { echo "FA3 broker runtime owner mismatch: $dir_owner" >&2; return 2; }
+  [[ "$dir_group" == "fa3-secret-clients" ]] || { echo "FA3 broker runtime group mismatch: $dir_group" >&2; return 2; }
+  [[ "$dir_mode" == "750" ]] || { echo "FA3 broker runtime mode mismatch: $dir_mode" >&2; return 2; }
+  [[ "$socket_owner" == "fa3-secret-broker" ]] || { echo "FA3 broker socket owner mismatch: $socket_owner" >&2; return 2; }
+  [[ "$socket_group" == "fa3-secret-clients" ]] || { echo "FA3 broker socket group mismatch: $socket_group" >&2; return 2; }
+  [[ "$socket_mode" == "660" ]] || { echo "FA3 broker socket mode mismatch: $socket_mode" >&2; return 2; }
+}
+
 rollback_to_closed() {
   local failed=0
   systemctl stop fa3-secrets.target >/dev/null 2>&1 || failed=1

@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.model-router-provider-execution-core-closure.v1",
+  "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001",
+  "status": "CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS",
+  "priority": "P0",
+  "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+  "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
+  "reference_evidence": "evidence/reference/model-router-provider-execution-ci-2026-09-24.json",
+  "closure_basis": [
+    "CANONICAL_PROFILE_AND_CONTRACTS_PRESENT",
+    "DETERMINISTIC_POSITIVE_NEGATIVE_REGRESSION_MATRIX_PASS",
+    "SESSION_AFFINITY_STATE_MACHINE_PASS",
+    "INTRA_PROVIDER_REBIND_STATE_MACHINE_PASS",
+    "CROSS_PROVIDER_SILENT_FALLBACK_DENIED",
+    "SECRET_REFERENCE_ONLY_AND_RAW_SECRET_EXCLUSION_ENFORCED",
+    "PROTOCOL_SECURITY_RELEVANT_LOSS_FAIL_CLOSED",
+    "CURRENT_HOST_HARNESS_AND_PROVIDER_ADMISSION_PATH_MATERIALIZED"
+  ],
+  "physical_provider_evidence": {
+    "blocks_core_closure": false,
+    "required_for_provider_runtime_promotion": true,
+    "required_for_global_provider_promotion": true,
+    "current_openai_status": "PENDING_EXTERNAL_BILLING",
+    "provider_specific_failures_reopen_core": false
+  },
+  "provider_admission_model": {
+    "new_provider_requires": [
+      "PROVIDER_SPECIFIC_AUTHENTICATION_OR_IDENTITY_PROOF",
+      "PROVIDER_OR_MODEL_DISCOVERY_IF_SUPPORTED",
+      "AT_LEAST_ONE_REAL_PROVIDER_REQUEST_FOR_RUNTIME_PROMOTION",
+      "PROVIDER_SPECIFIC_PROTOCOL_AND_ERROR_TAXONOMY_MAPPING",
+      "SECRET_BROKER_BOUND_CREDENTIAL_HANDLING_WHEN_CREDENTIALS_EXIST"
+    ],
+    "multi_credential_physical_rebind_required_only_when": "THAT_PROVIDER_OR_DEPLOYMENT_IS_PROMOTED_FOR_MULTI_CREDENTIAL_FAILOVER",
+    "generic_core_recertification_per_provider": false
+  },
+  "global_promotion_claim": false,
+  "current_host_real_provider_execution_claim": false,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "gui_provider_completion_obligation": {
+    "registry": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+    "route_id": "models.providers",
+    "status": "MANDATORY_ON_PROVIDER_GUI_FINALIZATION",
+    "pending_provider_admission_backlog_must_be_reconciled": true,
+    "unresolved_items_require_explicit_blocker": true,
+    "silent_omission_forbidden": true
+  }
+}

@@ -323,6 +323,41 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "reconciliation_status": "CANONICAL_DISCOVERY_CATALOG_GUI_STATIC_RECONCILED_REMOTE_PROVIDER_ADMISSION_SEPARATE",
     }
 
+    projection["model_router_provider_execution_reconciliation"] = {
+        "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+        "protocol_profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
+        "contract_id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
+        "protocol_contract_id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
+        "decision_id": "FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24",
+        "assessment_id": "FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24",
+        "decision_fabric_assessment_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24",
+        "reference_id": "FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24",
+        "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
+        "executable_gate_id": "FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+        "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+        "gateway_data_plane": "FA3-LLM-GATEWAY-001",
+        "secret_authority": "FA3-SECRET-BROKER-001",
+        "decision_fabric_role": "BOUNDED_ADVISORY_ONLY",
+        "agent_definition_provider_model_credential_selection": False,
+        "silent_local_to_cloud_fallback": False,
+        "silent_protocol_schema_loss": False,
+        "upstream_code_imported": False,
+        "upstream_runtime_dependency": False,
+        "gui_surface_id": "models.provider-execution",
+        "gui_parent_route": "models.providers",
+        "gui_mode": "READ_ONLY_EXECUTION_AND_COMPATIBILITY_PROJECTION",
+        "current_host_conformance_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
+        "current_host_workflow": ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
+        "current_host_producer": "bin/fa3-model-router-provider-execution-current-host.py",
+        "current_host_config_schema": "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
+        "current_host_status": "PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE",
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING",
+    }
+
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
     for record in ls.split("\0"):
