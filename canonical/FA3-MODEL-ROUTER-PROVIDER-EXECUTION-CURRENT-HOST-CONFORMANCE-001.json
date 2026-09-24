@@ -1,7 +1,7 @@
 {
   "schema": "fa3.model-router-provider-execution-current-host-conformance.v1",
   "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
-  "status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_REAL_PROVIDER_E2E",
+  "status": "EXECUTABLE_CURRENT_HOST_PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_E2E",
   "priority": "P0",
   "requirement": "MUST-IF-PROVIDER-EXECUTION-PROMOTED",
   "parent_profile": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
@@ -41,5 +41,14 @@
   "global_promotion_claim": false,
   "capability_count": 143,
   "new_capability": false,
-  "new_architectural_authority": false
+  "new_architectural_authority": false,
+  "producer": "bin/fa3-model-router-provider-execution-current-host.py",
+  "config_schema": "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
+  "real_provider_probe_semantics": {
+    "provider": "REAL_CURRENT_HOST_ADMITTED_PROVIDER_ONLY",
+    "credentials": "AT_LEAST_TWO_REAL_SECRET_BROKER_PROJECTED_SECRETREFS",
+    "failure_probe": "DETERMINISTIC_RUNTIME_STATE_MACHINE_INJECTION_ONLY",
+    "provider_requests_before_and_after_rebind": "REQUIRED",
+    "direct_provider_access": "CURRENT_HOST_EVIDENCE_HARNESS_ONLY_NOT_APPLICATION_PATH"
+  }
 }
