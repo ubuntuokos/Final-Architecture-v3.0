@@ -330,6 +330,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "protocol_contract_id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
         "decision_id": "FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24",
         "assessment_id": "FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24",
+        "decision_fabric_assessment_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24",
         "reference_id": "FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24",
         "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
         "executable_gate_id": "FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001",
