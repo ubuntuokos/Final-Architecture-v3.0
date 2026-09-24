@@ -1,6 +1,7 @@
 import json,os,pwd,subprocess,tempfile,unittest
 from pathlib import Path
 from src import fa3_secret_broker_gate as g
+from src.fa3_secret_broker_current_host_gate import REQUIRED_CHECKS
 ROOT=Path(__file__).resolve().parents[1]
 
 class SecretBrokerGateTests(unittest.TestCase):
@@ -194,6 +195,46 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("fa3-secret-broker-current-host.lock",current_host)
         self.assertIn("fa3-machine-state-e2e-*",current_host)
         self.assertIn("preserving E2E backing image because systemd mount/mapper cleanup is incomplete",current_host)
+
+    def test_current_host_reference_collector_requires_new_evidence_matrix(self):
+        collector=ROOT/"evidence/collect-secret-broker-current-host-reference.py"
+        subprocess.run(["python3","-m","py_compile",str(collector)],check=True)
+        head=subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True).strip()
+        with tempfile.TemporaryDirectory() as td_raw:
+            td=Path(td_raw)
+            receipt=td/"receipt.json"
+            report=td/"gate.json"
+            output=td/"reference.json"
+            receipt.write_text(json.dumps({
+                "schema":"fa3.secret-broker-current-host-receipt.v1",
+                "status":"PASS","real_execution":True,"synthetic":False,
+                "executed_at":"2026-09-24T00:00:00+00:00",
+                "bridge_source_commit":head,"luks2":True,"filesystem":"ext4",
+                "mount_options":["rw","nodev","nosuid","noexec"],
+                "broker_unprivileged":True,"broker_user":"fa3-secret-broker",
+                "checks":{name:True for name in REQUIRED_CHECKS},
+                "test_unlock_key_ephemeral":True,"secret_values_collected":False,
+                "runtime_promotion_eligible":True,"global_promotion_claim":False,
+                "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143
+            }))
+            report.write_text(json.dumps({
+                "schema":"fa3.secret-broker-current-host-gate-report.v1",
+                "gate_id":"FA3-GATE-SECRET-BROKER-CURRENT-HOST-001",
+                "result":"PASS","status":"CURRENT_HOST_PASS","findings":[],
+                "global_promotion_claim":False
+            }))
+            env=dict(os.environ); env["PYTHONPATH"]=str(ROOT/"src")
+            subprocess.run([
+                "python3",str(collector),"--root",str(ROOT),
+                "--receipt",str(receipt),"--gate-report",str(report),
+                "--output",str(output)
+            ],check=True,env=env,capture_output=True,text=True)
+            ref=json.loads(output.read_text())
+            self.assertEqual("PASS",ref["result"])
+            self.assertEqual("CURRENT_HOST_ADMITTED",ref["status"])
+            self.assertEqual(head,ref["source"]["tested_repository_head"])
+            self.assertTrue(ref["checks"]["systemd_vault_rw_mount_pass"])
+            self.assertTrue(ref["checks"]["systemd_broker_write_read_revoke_pass"])
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
