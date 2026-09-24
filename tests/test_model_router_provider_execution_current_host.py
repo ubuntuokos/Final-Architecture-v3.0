@@ -33,6 +33,9 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("--preferred-model",harness)
         self.assertIn("evidence/reference/secret-broker-current-host-2026-09-21.json",harness)
         self.assertNotIn('/usr/local/libexec/fa3-secret-broker-current-host-root >/dev/null',harness)
+        self.assertIn("/var/lib/fa3/state/fa3-machine-state.img",harness)
+        self.assertIn("/etc/credstore.encrypted/fa3-machine-state-key.cred",harness)
+        self.assertIn("sudo /usr/local/sbin/fa3-secret-vault-init",harness)
         marker="python3 - \"$SECRET_RECEIPT_REFERENCE\" <<'PY'\n"
         self.assertIn(marker,harness)
         embedded=harness.split(marker,1)[1].split("\nPY\n",1)[0]
