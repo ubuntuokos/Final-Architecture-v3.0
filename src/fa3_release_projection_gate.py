@@ -3265,6 +3265,7 @@ def gate(root: Path):
             "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
             "agency_agents_agent_definition_reconciliation": agency_agent_definition.get("reconciliation_status"),
             "agency_agents_gui_current_host_status": agency_agent_definition.get("gui_current_host_status"),
+            "gui_current_host_closure_status": gui_current_host.get("reconciliation_status"),
             "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
