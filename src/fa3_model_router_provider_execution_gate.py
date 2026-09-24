@@ -90,6 +90,8 @@ def gate(root: Path) -> dict[str, Any]:
         if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or "credential_authentication_enforced" not in producer_text or "discover_working_chat_model" not in producer_text or "fa3.current-host-evidence-reference.v1" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential/auth-enforcement producer boundary missing"))
         if "evidence/reference/secret-broker-current-host-2026-09-21.json" not in provisioner_text or "/usr/local/libexec/fa3-secret-broker-current-host-root >/dev/null" in provisioner_text:
             f.append(finding("PEX-CH-005","provider probe must reuse admitted Secret Broker evidence instead of rerunning full Secret Broker qualification"))
+        if "/var/lib/fa3/state/fa3-machine-state.img" not in provisioner_text or "/etc/credstore.encrypted/fa3-machine-state-key.cred" not in provisioner_text or "fa3-secret-vault-init" not in provisioner_text:
+            f.append(finding("PEX-CH-006","provider probe must fail fast when the production Secret Broker vault is uninitialized"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
 
