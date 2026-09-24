@@ -1,4 +1,4 @@
-import json, tempfile, unittest, subprocess
+import json, tempfile, unittest, subprocess, sys
 from pathlib import Path
 from fa3_model_router_provider_execution_current_host_gate import REQUIRED_CHECKS
 
@@ -30,6 +30,11 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("SupplementaryGroups=fa3-secret-clients",harness)
         self.assertIn("CURRENT_HOST_PASS",harness)
         self.assertIn("--preferred-model",harness)
+        marker="python3 - \"$SECRET_RECEIPT\" <<'PY'\\n"
+        self.assertIn(marker,harness)
+        embedded=harness.split(marker,1)[1].split("\\nPY\\n",1)[0]
+        compile(embedded,"secret-receipt-validator","exec")
+        self.assertNotIn('if (\\\\n',embedded)
 
     def test_openai_evidence_adapter_is_bounded_and_explicit(self):
         subprocess.run(["bash","-n",str(ROOT/"bin/fa3-openai-provider-execution-current-host-close.sh")],check=True)
@@ -38,6 +43,9 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         provider=json.loads((ROOT/"canonical/providers/FA3-PROVIDER-OPENAI-API-001.json").read_text(encoding="utf-8"))
         policy=json.loads((ROOT/"canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json").read_text(encoding="utf-8"))
         self.assertIn("https://api.openai.com/v1",bridge)
+        subprocess.run([sys.executable,"-m","py_compile",str(ROOT/"bin/fa3-openai-loopback-bridge.py")],check=True)
+        self.assertIn("HTTPSHandler(context=ssl.create_default_context())",bridge)
+        self.assertNotIn("open(req, timeout=180.0, context=",bridge)
         self.assertIn("fixed FA3 provider-execution probe content",bridge)
         self.assertIn("FA3-PROVIDER-OPENAI-API-001",closer)
         self.assertIn("runtime discovery from this API project",closer)
