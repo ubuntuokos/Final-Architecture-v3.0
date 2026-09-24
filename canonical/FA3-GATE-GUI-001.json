@@ -6,7 +6,7 @@
   "contract_id": "FA3-DESKTOP-CONTRACTS-001",
   "priority": "P0",
   "fail_closed": true,
-  "rule_count": 31,
+  "rule_count": 32,
   "executable": "PYTHONPATH=src python src/fa3_gui_gate.py",
   "reference_evidence": "evidence/reference/fa3-gui-reconciliation-reference-pass.json",
   "qt_reference_build_required": true,
@@ -25,5 +25,8 @@
   ],
   "quality_filter_profile_id": "FA3-QUALITY-ANTI-SLOP-001",
   "quality_filter_gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
-  "quality_filter_scope": "CHANGED_GUI_ARTIFACTS"
+  "quality_filter_scope": "CHANGED_GUI_ARTIFACTS",
+  "current_host_gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
+  "current_host_gate_record_id": "FA3-GATE-GUI-CURRENT-HOST-001",
+  "current_host_workflow": ".github/workflows/fa3-gui-current-host.yml"
 }
