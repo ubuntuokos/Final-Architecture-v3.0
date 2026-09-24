@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROVIDER_ID="FA3-PROVIDER-OPENAI-API-001"
-PREFERRED_MODEL="${FA3_OPENAI_PROBE_MODEL:-gpt-4o-mini}"
+PREFERRED_MODEL="${FA3_OPENAI_PROBE_MODEL:-}"
 RUN_ROOT="/run/fa3/openai-provider"
 BRIDGE_COPY="$RUN_ROOT/fa3-openai-loopback-bridge.py"
 ADMISSION_RECEIPT="$RUN_ROOT/openai-current-host-admission.json"
@@ -112,7 +112,8 @@ obj={
   "loopback_adapter":True,
   "credential_storage":False,
   "invalid_bearer_rejected":True,
-  "preferred_probe_model":model,
+  "preferred_probe_model":model if model else None,
+  "model_selection":"RUNTIME_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE" if not model else "EXPLICIT_OPERATOR_MODEL",
   "bridge_sha256":hashlib.sha256(bridge.read_bytes()).hexdigest(),
   "raw_secret_present":False,
   "provider_execution_pass_claim":False,
@@ -125,13 +126,25 @@ PY
 echo "OpenAI loopback adapter admitted for evidence scope:"
 echo "  provider: $PROVIDER_ID"
 echo "  api_base: $API_BASE"
-echo "  model:    $PREFERRED_MODEL"
+if [[ -n "$PREFERRED_MODEL" ]]; then
+  echo "  model:    $PREFERRED_MODEL (operator override)"
+else
+  echo "  model:    runtime discovery from this API project"
+fi
 echo
 echo "The next step asks for Credential A and Credential B on /dev/tty."
 echo "Do not paste either API key into chat, a command line, or an environment variable."
 echo
 
-bash "$ROOT/bin/fa3-model-router-provider-execution-current-host-provision.sh"   --provider-id "$PROVIDER_ID"   --api-base "$API_BASE"   --admission-receipt "$ADMISSION_RECEIPT"   --preferred-model "$PREFERRED_MODEL"
+PROVISION_ARGS=(
+  --provider-id "$PROVIDER_ID"
+  --api-base "$API_BASE"
+  --admission-receipt "$ADMISSION_RECEIPT"
+)
+if [[ -n "$PREFERRED_MODEL" ]]; then
+  PROVISION_ARGS+=(--preferred-model "$PREFERRED_MODEL")
+fi
+bash "$ROOT/bin/fa3-model-router-provider-execution-current-host-provision.sh" "${PROVISION_ARGS[@]}"
 
 echo
 echo "FA3 OPENAI PROVIDER EXECUTION CURRENT-HOST CLOSURE: PASS"
