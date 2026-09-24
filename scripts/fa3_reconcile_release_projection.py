@@ -348,12 +348,14 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "gui_mode": "READ_ONLY_EXECUTION_AND_COMPATIBILITY_PROJECTION",
         "current_host_conformance_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
         "current_host_workflow": ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
-        "current_host_status": "PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE",
+        "current_host_producer": "bin/fa3-model-router-provider-execution-current-host.py",
+        "current_host_config_schema": "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
+        "current_host_status": "PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE",
         "global_promotion_claim": False,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
-        "reconciliation_status": "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING",
+        "reconciliation_status": "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING",
     }
 
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
