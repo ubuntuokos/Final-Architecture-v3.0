@@ -89,6 +89,41 @@ def gate(root: Path) -> dict[str, Any]:
         if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or "credential_authentication_enforced" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential/auth-enforcement producer boundary missing"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
+
+    openai_provider_path=root/"canonical/providers/FA3-PROVIDER-OPENAI-API-001.json"
+    openai_policy_path=root/"canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json"
+    openai_bridge=root/"bin/fa3-openai-loopback-bridge.py"
+    openai_close=root/"bin/fa3-openai-provider-execution-current-host-close.sh"
+    if not all(path.is_file() for path in (openai_provider_path,openai_policy_path,openai_bridge,openai_close)):
+        f.append(finding("PEX-OPENAI-001","OpenAI explicit external provider evidence adapter is incomplete"))
+    else:
+        openai_provider=loadj(openai_provider_path)
+        openai_policy=loadj(openai_policy_path)
+        bridge_text=openai_bridge.read_text(encoding="utf-8")
+        close_text=openai_close.read_text(encoding="utf-8")
+        if not (
+            openai_provider.get("architectural_authority") is False
+            and openai_provider.get("normal_application_routing_enabled") is False
+            and openai_provider.get("fa3_usage_policy",{}).get("silent_local_to_cloud_fallback")=="FORBIDDEN"
+            and openai_provider.get("authority_boundaries",{}).get("model_routing")=="FA3-AUTH-MODEL-ROUTER-001"
+            and openai_provider.get("authority_boundaries",{}).get("secrets")=="FA3-SECRET-BROKER-001"
+        ):
+            f.append(finding("PEX-OPENAI-002","OpenAI provider authority/routing/secrets boundary drift"))
+        if not (
+            openai_policy.get("provider_id")=="FA3-PROVIDER-OPENAI-API-001"
+            and openai_policy.get("fail_closed") is True
+            and openai_policy.get("activation",{}).get("automatic_activation") is False
+            and openai_policy.get("activation",{}).get("silent_local_to_cloud_fallback") is False
+            and openai_policy.get("egress",{}).get("host")=="api.openai.com"
+            and openai_policy.get("secret_boundary",{}).get("authority")=="FA3-SECRET-BROKER-001"
+        ):
+            f.append(finding("PEX-OPENAI-003","OpenAI explicit external policy drift"))
+        for token in ("https://api.openai.com/v1","/v1/models","/v1/chat/completions","fixed FA3 provider-execution probe content","credential_storage"):
+            if token not in bridge_text:
+                f.append(finding("PEX-OPENAI-004",f"OpenAI loopback bridge contract token missing: {token}"))
+        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","gpt-6-luna","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty"):
+            if token not in close_text:
+                f.append(finding("PEX-OPENAI-005",f"OpenAI closure harness contract token missing: {token}"))
     reg=regressions()
     if reg["result"]!="PASS": f.append(finding("PEX-REG-001","provider execution regression matrix failed"))
     return {"schema":"fa3.gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"regressions":reg,"current_host_claim":False}
