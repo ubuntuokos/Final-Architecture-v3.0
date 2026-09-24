@@ -7,12 +7,14 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 GATESET_ID = "FA3-GUI-CURRENT-HOST-GATESET-001"
 GATE_RECORD_ID = "FA3-GATE-GUI-CURRENT-HOST-001"
 CONFORMANCE_ID = "FA3-GUI-RUNTIME-CONFORMANCE-001"
 PROFILE_ID = "FA3-DESKTOP-001"
 REPOSITORY = "ubuntuokos/Final-Architecture-v3.0"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA64 = re.compile(r"^[0-9a-f]{64}$")
 
