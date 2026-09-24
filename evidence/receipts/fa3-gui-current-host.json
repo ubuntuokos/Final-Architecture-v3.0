@@ -1,0 +1,159 @@
+{
+  "schema": "fa3.gui-current-host-receipt.v1",
+  "evidence_id": "EVID-FA3-GUI-CURRENT-HOST-001",
+  "gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
+  "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+  "result": "PASS",
+  "fail_closed": true,
+  "captured_unix": 1790224695,
+  "source_binding": {
+    "github_actions": true,
+    "repository": "ubuntuokos/Final-Architecture-v3.0",
+    "repository_exact": true,
+    "expected_source_commit": "8b8cfc3a598f426ed8fe98a95f0ae7dbd42f7e9b",
+    "source_commit": "8b8cfc3a598f426ed8fe98a95f0ae7dbd42f7e9b",
+    "source_commit_exact": true,
+    "workflow_run_id": "35956407725",
+    "workflow_job": "current-host"
+  },
+  "host": {
+    "fingerprint_sha256": "sha256:2e30958ae9e66642ad50018339bdb969d254ff7e18624ecc410e7a1b1601f30b",
+    "runner_class": "fa3-current-host",
+    "platform": "Linux",
+    "architecture": "x86_64"
+  },
+  "session": {
+    "type": "wayland",
+    "desktop_class": "KDE_PLASMA",
+    "active_local_graphical_session_proven": true,
+    "runtime_dir_proven": true,
+    "user_bus_socket_proven": true,
+    "display_endpoint_proven": true,
+    "wayland_socket_proven": true,
+    "qpa_platform": "wayland"
+  },
+  "desktop_admission": {
+    "gate_id": "FA3-GATE-DESKTOP-PORTABILITY-001",
+    "result": "FAIL",
+    "mode": "LOCAL_GUI",
+    "desktop": {
+      "desktop": "KDE_PLASMA",
+      "tier": 1,
+      "support": "REFERENCE"
+    },
+    "session": {
+      "type": "wayland",
+      "support": "PREFERRED"
+    },
+    "capabilities": {
+      "linux_host": "PASS",
+      "xdg_runtime": "PASS",
+      "dbus_session": "PASS",
+      "uri_open": "PASS",
+      "secret_backend": "FAIL",
+      "local_gui_session": "PASS",
+      "xdg_desktop_portal": "PASS",
+      "notifications": "PASS",
+      "clipboard": "PASS",
+      "power_inhibit": "PASS",
+      "system_tray": "LIMITED",
+      "global_shortcuts": "LIMITED",
+      "screen_capture_portal": "PASS"
+    },
+    "secret_backend_evidence": {
+      "secret_service_available": false,
+      "standard_name_verified": false,
+      "standard_interface_verified": false,
+      "standard_activation_attempted": true,
+      "reference_activation_attempted": true,
+      "reference_activation_succeeded": true,
+      "reference_activation_method": "DBUS_START_SERVICE_BY_NAME",
+      "reference_activation_errors": [],
+      "compatibility_endpoint_verified": false,
+      "reference_owner_verified": false,
+      "reference_owner_unique_name": null,
+      "fa3_reference_adapter_only": false,
+      "system_secret_service_interop": "LIMITED",
+      "introspection_format": "BUSCTL_XML_INTERFACE",
+      "fa3_vault_available": false
+    }
+  },
+  "desktop_runtime_scope": {
+    "result": "PASS",
+    "required_capabilities": {
+      "linux_host": true,
+      "xdg_runtime": true,
+      "dbus_session": true,
+      "uri_open": true,
+      "local_gui_session": true
+    },
+    "session_checks": {
+      "active_local_graphical_session": true,
+      "runtime_dir_proven": true,
+      "user_bus_socket_proven": true
+    },
+    "failed_checks": [],
+    "full_desktop_admission_result": "FAIL",
+    "full_desktop_required_failures": [
+      "secret_backend"
+    ],
+    "secret_backend_status": "FAIL",
+    "secret_backend_used_for_gui_runtime_admission": false,
+    "secrets_authority_owner": "CAP-003",
+    "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION"
+  },
+  "build": {
+    "status": "PASS",
+    "executable": ".fa3-current-host/gui/build/fa3-control-center",
+    "binary_sha256": "4e502c5d63d71cf7a8ef506190df5c6db6427982848e313b3ffe5ea23be9b828"
+  },
+  "launch": {
+    "attempted": true,
+    "qpa_platform": "wayland",
+    "process_alive_after_smoke": true,
+    "smoke_seconds": 8,
+    "observed_runtime_seconds": 8.001,
+    "terminated_by_probe": true,
+    "cleanup_completed": true,
+    "early_returncode": null,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "aca1c6db9eee0278da14e9ed5f1af2c974e3508c9037cbfae1aed7079bae3ff9",
+    "fatal_qt_startup_marker_absent": true
+  },
+  "security": {
+    "root_execution": false,
+    "sudo_or_pkexec_used": false,
+    "package_install_or_network_fetch_used": false,
+    "webengine_sandbox_disabled": false,
+    "offscreen_or_minimal_platform_used": false,
+    "secret_material_recorded": false,
+    "secret_backend_promoted_by_gui_receipt": false
+  },
+  "checks": {
+    "github_actions_context": true,
+    "repository_binding_exact": true,
+    "source_commit_binding_exact": true,
+    "runner_class_exact": true,
+    "non_root_runner": true,
+    "active_local_graphical_session": true,
+    "supported_session_type": true,
+    "display_endpoint_proven": true,
+    "desktop_runtime_scope_admission_pass": true,
+    "same_source_binary_present": true,
+    "explicit_native_qpa": true,
+    "offscreen_or_minimal_forbidden": true,
+    "webengine_sandbox_override_absent": true,
+    "real_gui_process_started": true,
+    "process_survived_smoke_window": true,
+    "smoke_window_minimum_5s": true,
+    "probe_cleanup_completed": true,
+    "fatal_qt_startup_marker_absent": true
+  },
+  "blocking_findings": [],
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "gui_runtime_promotion_eligible": true,
+  "current_host_runtime_promotion_claimed": true,
+  "global_fa3_promotion_claim": false
+}
