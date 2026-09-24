@@ -139,8 +139,9 @@ def collect(ttl_seconds: float = 2.0) -> dict[str, Any]:
                 "--unit",
                 unit_base,
                 "--quiet",
-                "/bin/sleep",
-                "120",
+                "/bin/sh",
+                "-c",
+                "trap '' TERM; exec /bin/sleep 120",
             ],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.PIPE,
@@ -148,7 +149,9 @@ def collect(ttl_seconds: float = 2.0) -> dict[str, Any]:
         )
         ready, cgroup_path = _wait_scope(unit_scope)
         if not ready:
-            stderr = process.stderr.read()[-2000:] if process.stderr else ""
+            stderr = ""
+            if process.poll() is not None and process.stderr:
+                stderr = process.stderr.read()[-2000:]
             raise RuntimeError(f"dedicated transient scope did not become active: {stderr}")
 
         binding = capture_systemd_scope_binding(
