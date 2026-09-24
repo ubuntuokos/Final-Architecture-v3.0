@@ -27,6 +27,6 @@ jobs:
       - name: Syntax
         run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py
       - name: Unit tests
-        run: PYTHONPATH=. python -m unittest tests.test_model_router_provider_execution
+        run: PYTHONPATH=src python -m unittest tests.test_model_router_provider_execution
       - name: Canonical gate
         run: PYTHONPATH=src python src/fa3_model_router_provider_execution_gate.py --root .

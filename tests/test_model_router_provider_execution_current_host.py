@@ -1,6 +1,6 @@
 import json, tempfile, unittest
 from pathlib import Path
-from src.fa3_model_router_provider_execution_current_host_gate import REQUIRED_CHECKS
+from fa3_model_router_provider_execution_current_host_gate import REQUIRED_CHECKS
 
 class CurrentHostReceiptContractTests(unittest.TestCase):
     def test_required_matrix_contains_rollback_and_negative_boundaries(self):

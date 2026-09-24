@@ -1,6 +1,6 @@
 import unittest
-from src.fa3_model_router_provider_execution import CredentialCandidate, ExecutionDenied, choose_credential, rebind_action, protocol_projection_status, execution_receipt
-from src.fa3_model_router_provider_execution_gate import regressions
+from fa3_model_router_provider_execution import CredentialCandidate, ExecutionDenied, choose_credential, rebind_action, protocol_projection_status, execution_receipt
+from fa3_model_router_provider_execution_gate import regressions
 
 class ProviderExecutionTests(unittest.TestCase):
     def test_regression_matrix(self): self.assertEqual(regressions()["result"],"PASS")

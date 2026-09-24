@@ -10,7 +10,7 @@ jobs:
       - name: Syntax and receipt-contract tests
         run: |
           python -m py_compile src/fa3_model_router_provider_execution_current_host_gate.py evidence/collect-model-router-provider-execution-current-host.py
-          PYTHONPATH=. python -m unittest tests.test_model_router_provider_execution_current_host
+          PYTHONPATH=src python -m unittest tests.test_model_router_provider_execution_current_host
       - name: Require externally produced real-provider probe
         shell: bash
         run: |
