@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROVIDER_ID=""
 API_BASE=""
 ADMISSION_RECEIPT=""
+PREFERRED_MODEL=""
 SECRET_ID_A="probe/provider-execution/a"
 SECRET_ID_B="probe/provider-execution/b"
 CONSUMER_ID="FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-001"
@@ -29,6 +30,7 @@ Usage:
     --provider-id PROVIDER_ID \
     --api-base http://127.0.0.1:PORT/v1 \
     --admission-receipt /ABSOLUTE/PATH/provider-current-host.json \
+    [--preferred-model MODEL_ID] \
     [--secret-id-a ID] [--secret-id-b ID]
 
 The provider endpoint must already be current-host admitted and must enforce
@@ -44,6 +46,7 @@ while [[ $# -gt 0 ]]; do
     --provider-id) PROVIDER_ID="$2"; shift 2;;
     --api-base) API_BASE="$2"; shift 2;;
     --admission-receipt) ADMISSION_RECEIPT="$2"; shift 2;;
+    --preferred-model) PREFERRED_MODEL="$2"; shift 2;;
     --secret-id-a) SECRET_ID_A="$2"; shift 2;;
     --secret-id-b) SECRET_ID_B="$2"; shift 2;;
     -h|--help) usage; exit 0;;
@@ -178,10 +181,10 @@ SECRET_B_CREATED=true
 unset CRED_A CRED_B
 
 install -d -o "$PROBE_USER" -g fa3-secret-clients -m0700 "$RUN_ROOT" "$RUNTIME_DIR"
-python3 - "$CONFIG" "$PROVIDER_ID" "$API_BASE" "$ADMISSION_RECEIPT" "$SECRET_RECEIPT" "$CONSUMER_ID" "$SECRET_ID_A" "$SECRET_ID_B" <<'PY'
+python3 - "$CONFIG" "$PROVIDER_ID" "$API_BASE" "$ADMISSION_RECEIPT" "$SECRET_RECEIPT" "$CONSUMER_ID" "$SECRET_ID_A" "$SECRET_ID_B" "$PREFERRED_MODEL" <<'PY'
 import json,sys
 from pathlib import Path
-out,provider,api,admission,secret_receipt,consumer,a,b=sys.argv[1:]
+out,provider,api,admission,secret_receipt,consumer,a,b,preferred=sys.argv[1:]
 cfg={
  "schema":"fa3.model-router-provider-execution-current-host-config.v1",
  "provider_id":provider,
@@ -192,7 +195,7 @@ cfg={
  "secret_broker_current_host_receipt":secret_receipt,
  "models_path":"/v1/models",
  "chat_path":"/v1/chat/completions",
- "preferred_models":[],
+ "preferred_models":[preferred] if preferred else [],
  "credentials":[
    {"credential_ref":"secretref:"+a,"secret_id":a},
    {"credential_ref":"secretref:"+b,"secret_id":b},
