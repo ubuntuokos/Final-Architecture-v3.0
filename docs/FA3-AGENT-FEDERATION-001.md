@@ -45,3 +45,15 @@ LOCAL_MULTI_NODE_PROTOCOL_PASS may exercise independent peers, identities and so
 CROSS_HOST_PRODUCTION_E2E_PASS requires at least two distinct host identities and real cross-host authenticated transport. A local protocol PASS must never promote CAP-070 to cross-host production status.
 
 The Evidence Registry remains PENDING_CURRENT_HOST until the cross-host obligation is actually satisfied.
+
+## Adaptive coordination
+
+Ruflo-style hook, trajectory and background-worker ideas are normalized into existing FA3 authorities rather than becoming a new hook daemon.
+
+Federation lifecycle events are non-authoritative projections into the existing FA3 Journal and Closed-Loop Agent Operations run ledger. The canonical lifecycle projection covers task, delegation, claim and action transitions and preserves human-readable semantics and evidence provenance.
+
+Execution trajectories are derived, append-only lineage objects. They do not become evidence or memory authority. An outcome evaluation may create a PatternCandidate only when source trajectory and evidence lineage are preserved.
+
+A PatternCandidate cannot grant authority or capability and cannot promote itself. Promotion requires explicit review plus evidence; HIGH/CRITICAL patterns additionally require human approval. Persistent patterns use existing Agent Memory Asset Governance, while Decision Fabric may rank candidates only as advisory input.
+
+Adaptive/background workers remain ordinary bounded FA3 work. Event-driven or change-watch triggers are preferred. Polling requires an early-exit path, budget gate and no-op path. Durable lifecycle remains Temporal, execution enters through UAF, and resource admission remains HRB. Hidden resident worker authority and unbounded polling are forbidden.
