@@ -93,6 +93,83 @@ def fatal_qt_startup_marker_present(text: str) -> bool:
     return any(marker.lower() in lower for marker in FATAL_LOG_MARKERS)
 
 
+GUI_RUNTIME_REQUIRED_CAPABILITIES = (
+    "linux_host",
+    "xdg_runtime",
+    "dbus_session",
+    "uri_open",
+    "local_gui_session",
+)
+
+
+def gui_desktop_runtime_scoped_admission(
+    report: dict[str, Any],
+    session_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    capabilities = report.get("capabilities")
+    if not isinstance(capabilities, dict):
+        return {
+            "result": "FAIL",
+            "reason": "DESKTOP_CAPABILITIES_MISSING",
+            "required_capabilities": {},
+            "failed_checks": ["desktop_capabilities_missing"],
+            "full_desktop_admission_result": report.get("result"),
+            "full_desktop_required_failures": [],
+            "secret_backend_status": None,
+            "secret_backend_used_for_gui_runtime_admission": False,
+            "secrets_authority_owner": "CAP-003",
+            "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
+        }
+
+    required = {
+        key: capabilities.get(key) == "PASS"
+        for key in GUI_RUNTIME_REQUIRED_CAPABILITIES
+    }
+    session_checks = {
+        "active_local_graphical_session": (
+            session_evidence.get("active_local_graphical_session_proven") is True
+        ),
+        "runtime_dir_proven": session_evidence.get("runtime_dir_proven") is True,
+        "user_bus_socket_proven": session_evidence.get("user_bus_socket_proven") is True,
+    }
+
+    failed = sorted(
+        [key for key, ok in required.items() if not ok]
+        + [key for key, ok in session_checks.items() if not ok]
+    )
+    full_required_failures = sorted(
+        key
+        for key in (
+            "linux_host",
+            "xdg_runtime",
+            "dbus_session",
+            "uri_open",
+            "secret_backend",
+            "local_gui_session",
+        )
+        if capabilities.get(key) == "FAIL"
+    )
+    non_scoped_failures = [
+        key for key in full_required_failures if key != "secret_backend"
+    ]
+    failed.extend(
+        f"full_desktop_failure:{key}" for key in non_scoped_failures
+    )
+
+    return {
+        "result": "PASS" if not failed else "FAIL",
+        "required_capabilities": required,
+        "session_checks": session_checks,
+        "failed_checks": sorted(set(failed)),
+        "full_desktop_admission_result": report.get("result"),
+        "full_desktop_required_failures": full_required_failures,
+        "secret_backend_status": capabilities.get("secret_backend"),
+        "secret_backend_used_for_gui_runtime_admission": False,
+        "secrets_authority_owner": "CAP-003",
+        "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
+    }
+
+
 def collect(
     root: Path,
     executable: Path,
@@ -112,6 +189,10 @@ def collect(
     session_evidence = discovery["evidence"]
     probes = collect_runtime_probes(session_env)
     desktop = evaluate_desktop(session_env, probes, require_gui=True)
+    desktop_runtime_scope = gui_desktop_runtime_scoped_admission(
+        desktop,
+        session_evidence,
+    )
 
     session_type = str(session_env.get("XDG_SESSION_TYPE", "")).strip().lower()
     qpa = qpa_for_session(session_type)
@@ -166,7 +247,7 @@ def collect(
         and source_binding["source_commit_exact"]
         and runner_class == "fa3-current-host"
         and os.geteuid() != 0
-        and desktop.get("result") == "PASS"
+        and desktop_runtime_scope.get("result") == "PASS"
         and session_evidence.get("active_local_graphical_session_proven") is True
         and session_type in {"wayland", "x11"}
         and display_endpoint_proven
@@ -224,7 +305,7 @@ def collect(
         ),
         "supported_session_type": session_type in {"wayland", "x11"},
         "display_endpoint_proven": display_endpoint_proven,
-        "desktop_admission_pass": desktop.get("result") == "PASS",
+        "desktop_runtime_scope_admission_pass": desktop_runtime_scope.get("result") == "PASS",
         "same_source_binary_present": build_pass,
         "explicit_native_qpa": qpa in {"wayland", "xcb"},
         "offscreen_or_minimal_forbidden": qpa not in {"offscreen", "minimal"},
@@ -274,7 +355,9 @@ def collect(
             "desktop": desktop.get("desktop"),
             "session": desktop.get("session"),
             "capabilities": desktop.get("capabilities"),
+            "secret_backend_evidence": desktop.get("secret_backend_evidence"),
         },
+        "desktop_runtime_scope": desktop_runtime_scope,
         "build": build,
         "launch": launch,
         "security": {
@@ -284,6 +367,7 @@ def collect(
             "webengine_sandbox_disabled": False,
             "offscreen_or_minimal_platform_used": False,
             "secret_material_recorded": False,
+            "secret_backend_promoted_by_gui_receipt": False,
         },
         "checks": checks,
         "blocking_findings": blocking,
