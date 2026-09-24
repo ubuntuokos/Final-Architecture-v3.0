@@ -211,10 +211,20 @@ class GuiCurrentHostTests(unittest.TestCase):
         receipt["checks"]["smoke_window_minimum_5s"] = False
         self.assertTrue(validate_receipt(receipt))
 
-    def test_repository_materialization_gate_passes_while_runtime_pending(self):
+    def test_repository_materialization_gate_matches_canonical_runtime_state(self):
         result = gate(ROOT)
         self.assertEqual(result["result"], "PASS")
-        self.assertEqual(result["runtime_evidence_status"], "PENDING_CURRENT_HOST")
+        conformance = __import__("json").loads(
+            (ROOT / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        expected = (
+            "PASS"
+            if conformance.get("status") == "CURRENT_HOST_PASS"
+            else "PENDING_CURRENT_HOST"
+        )
+        self.assertEqual(result["runtime_evidence_status"], expected)
 
     def test_workflow_is_current_host_bounded_and_non_mutating(self):
         text = (ROOT / ".github/workflows/fa3-gui-current-host.yml").read_text(
