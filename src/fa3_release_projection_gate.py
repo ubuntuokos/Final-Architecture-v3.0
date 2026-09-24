@@ -3139,6 +3139,11 @@ def gate(root: Path):
         != "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS"
         or gui_current_host.get("admission_scope") != "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
         or gui_current_host.get("secret_backend_admission") != "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
+        or gui_current_host.get("tested_path") != "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+        or gui_current_host.get("secret_backend_authority") != "AUTH-SECRETS"
+        or gui_current_host.get("secret_backend_capability") != "CAP-003"
+        or gui_current_host.get("secret_backend_required_for_tested_path") is not False
+        or gui_current_host.get("secret_backend_pass_claimed") is not False
         or gui_current_host.get("secret_backend_authority_owner") != "CAP-003"
         or gui_current_host.get("secret_backend_used_for_gui_runtime_admission") is not False
         or not (gui_state_pending or gui_state_pass)
