@@ -96,6 +96,7 @@ cleanup(){
   rm -rf "$PROJ" "$TMP"
 }
 trap cleanup EXIT INT TERM
+echo "FA3 Secret Broker E2E [1/4]: isolated vault, authorization, rotation and projection checks"
 if ! getent passwd "$PROBE_USER" >/dev/null; then
   useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients "$PROBE_USER"
   PROBE_CREATED=true
@@ -217,9 +218,11 @@ PY
 ! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY2"
 kill "$BROKER_PID"; wait "$BROKER_PID" 2>/dev/null || true; BROKER_PID=""
 umount "$MNT"; PRIMARY_UNMOUNT=true
-cryptsetup close "$MAPPER"; PRIMARY_CLOSE=true
+FA3_MACHINE_STATE_IMAGE="$IMG" FA3_MACHINE_STATE_MAPPER="$MAPPER" FA3_MACHINE_STATE_MOUNT="$MNT" /usr/local/libexec/fa3-secret-vault-mount close-mapper
+PRIMARY_CLOSE=true
 FA3_MACHINE_STATE_IMAGE="$IMG" FA3_MACHINE_STATE_MAPPER="$MAPPER" FA3_MACHINE_STATE_MOUNT="$MNT" /usr/local/libexec/fa3-secret-vault-mount assert-closed
 FA3_EXIT_CLOSED_STATE=true
+echo "FA3 Secret Broker E2E [2/4]: opaque backup and restore verification"
 cp --reflink=never --sparse=always --preserve=mode,timestamps "$IMG" "$BACKUP"; cmp -s "$IMG" "$BACKUP"
 OPAQUE_BACKUP=true
 cryptsetup open --readonly --type luks2 --key-file "$KEY" "$BACKUP" "$RMAPPER"
@@ -237,8 +240,10 @@ RESTORE_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socke
 RESTORE_HEALTH=true
 RESTORE_SECRET_READ_PASS=true
 kill "$RESTORE_PID"; wait "$RESTORE_PID" 2>/dev/null || true; RESTORE_PID=""
-umount "$RMNT"; cryptsetup close "$RMAPPER"
+umount "$RMNT"
+FA3_MACHINE_STATE_IMAGE="$BACKUP" FA3_MACHINE_STATE_MAPPER="$RMAPPER" FA3_MACHINE_STATE_MOUNT="$RMNT" /usr/local/libexec/fa3-secret-vault-mount close-mapper
 
+echo "FA3 Secret Broker E2E [3/4]: systemd rw mount, broker put/get/revoke and clean shutdown"
 # Real systemd lifecycle proof using an isolated image and encrypted systemd credential.
 # Production image and production credential are not modified.
 FA3_MACHINE_STATE_MAPPER="fa3-machine-state" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle assert-closed >/dev/null
@@ -354,6 +359,7 @@ SYSTEMD_TARGET_LIFECYCLE_PASS=true
 ENCRYPTED_SYSTEMD_UNLOCK_RUNTIME_PASS=true
 HARDWARE_NEUTRAL_SYSTEMD_CREDENTIAL_HOST_KEY_MODE_PASS=true
 
+echo "FA3 Secret Broker E2E [4/4]: unlock-key rotation and final CLOSED-state proof"
 head -c 64 /dev/urandom > "$REKEY_NEW"
 chmod 0600 "$REKEY_NEW"
 FA3_MACHINE_STATE_IMAGE="$SIMG" \
