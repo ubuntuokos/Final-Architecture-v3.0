@@ -31,6 +31,8 @@ jobs:
         run: chmod +x bin/fa3-enforce
       - name: Native quality gate syntax check
         run: python -m py_compile src/fa3_quality_filter.py src/fa3_quality_gate.py
+      - name: Skill Fabric ecosystem syntax check
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_gate.py
       - name: Syntax check
         run: python -m py_compile src/fa3_enforce.py src/fa3_uaf.py src/fa3_uaf_gate.py src/fa3_secret_broker.py src/fa3_secret_broker_gate.py src/fa3_secret_broker_current_host_gate.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openyak_gate.py src/fa3_obsidian_knowledge_workspace_gate.py src/fa3_lynxhub_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_inference_cache_hardening_gate.py src/fa3_inference_portability_reconciliation_gate.py src/fa3_inference_provider_current_host.py src/fa3_inference_provider_current_host_gate.py evidence/collect-inference-provider-current-host.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_pageindex_mcp_adapter.py src/fa3_pageindex_mcp_gate.py src/fa3_hybrid_retrieval.py src/fa3_pageindex_local_provider.py src/fa3_knowledge_hybrid_retrieval_gate.py src/fa3_runtime_hardening.py src/fa3_runtime_hardening_gate.py src/fa3_runtime_hardening_current_host.py src/fa3_runtime_hardening_current_host_gate.py src/fa3_external_rt3d_engine_exclusion_gate.py src/fa3_cap028_agent_execution_current_host.py evidence/collect-runtime-isolation-sandbox-current-host.py evidence/collect-media-gpu-zerocopy-current-host.py evidence/collect-hu-aqc-current-host.py evidence/collect-promotion-shadow-current-host.py evidence/collect-pageindex-mcp-current-host.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py src/fa3_pytorch3d_provider.py src/fa3_pytorch3d_gate.py src/fa3_pytorch3d_runtime_probe.py src/fa3_openfx_interop.py src/fa3_openfx_interop_gate.py src/fa3_os_event_privacy_gate.py evidence/collect-pytorch3d-current-host.py tools/fa3_pytorch3d_global_reconcile.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py evidence/collect-lynxhub-current-host.py
       - name: Agency / Agent Definition / External LLM Catalog / Agent Workload syntax check
@@ -125,6 +127,8 @@ jobs:
         run: ./bin/fa3-enforce marketing-agent-native
       - name: MarketingSkills skill-package admission regression gate
         run: ./bin/fa3-enforce marketingskills
+      - name: Skill Fabric 1.2 Agent Skills ecosystem gate
+        run: ./bin/fa3-enforce skill-fabric
       - name: FA3 native anti-slop quality gate
         run: ./bin/fa3-enforce quality-anti-slop
       - name: Agency Agents reference-provider normalization gate
@@ -224,6 +228,8 @@ jobs:
             reports/marketing-gate-report.json
             reports/marketing-agent-native-gate-report.json
             reports/marketingskills-skill-admission-gate-report.json
+            reports/skill-fabric-gate-report.json
+            reports/skill-ecosystem-gate-report.json
             reports/quality-anti-slop-gate-report.json
             reports/agency-agents-gate-report.json
             reports/agent-definition-gate-report.json
