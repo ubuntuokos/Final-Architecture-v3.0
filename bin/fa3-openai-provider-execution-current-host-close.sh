@@ -17,6 +17,8 @@ PROVIDER_RECEIPT="$PROVIDER_RUN_ROOT/current-host-receipt.json"
 command -v python3 >/dev/null || { echo "python3 missing" >&2; exit 2; }
 command -v systemd-run >/dev/null || { echo "systemd-run missing" >&2; exit 2; }
 command -v systemctl >/dev/null || { echo "systemctl missing" >&2; exit 2; }
+command -v getent >/dev/null || { echo "getent missing" >&2; exit 2; }
+command -v pgrep >/dev/null || { echo "pgrep missing" >&2; exit 2; }
 
 [[ -f "$ROOT/canonical/providers/$PROVIDER_ID.json" ]] || {
   echo "canonical OpenAI provider record missing" >&2
