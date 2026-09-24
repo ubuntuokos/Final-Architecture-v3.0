@@ -113,9 +113,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 **({"Content-Type": "application/json"} if body is not None else {}),
             },
         )
-        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        opener = urllib.request.build_opener(
+            urllib.request.ProxyHandler({}),
+            urllib.request.HTTPSHandler(context=ssl.create_default_context()),
+        )
         try:
-            with opener.open(req, timeout=180.0, context=ssl.create_default_context()) as response:
+            with opener.open(req, timeout=180.0) as response:
                 raw = response.read(MAX_RESPONSE_BYTES + 1)
                 if len(raw) > MAX_RESPONSE_BYTES:
                     self._json(502, {"error": {"message": "upstream response exceeds FA3 bridge limit"}})
