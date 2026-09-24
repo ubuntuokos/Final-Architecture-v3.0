@@ -3,7 +3,7 @@
   "id": "FA3-ADK2-DERIVED-AGENT-RUNTIME-CI-2026-09-24",
   "subject_id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
   "reference_id": "FA3-GOOGLE-ADK2-UPSTREAM-REFERENCE-2026-09-24",
-  "status": "PENDING_CI",
+  "status": "PASS",
   "evidence_class": "REFERENCE_STATIC_CONFORMANCE",
   "expected_gate_id": "FA3-GATE-ADK2-DERIVED-AGENT-RUNTIME-001",
   "upstream_release": "v2.9.2",
@@ -12,5 +12,17 @@
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "capability_delta": 0,
-  "authority_delta": 0
+  "authority_delta": 0,
+  "verified_materialization_head": "918b6181e69c6e4132fc934b55b1c32ffc92a9d1",
+  "workflow_run_id": 36033459815,
+  "workflow_conclusion": "success",
+  "verified_checks": {
+    "syntax": "PASS",
+    "unit_and_fail_closed_regressions": "PASS",
+    "adk2_runtime_semantics_gate": "PASS",
+    "parent_agent_workload_runtime_gate": "PASS",
+    "distribution_compliance": "PASS",
+    "diff_whitespace": "PASS"
+  },
+  "regression_case_count": 18
 }
