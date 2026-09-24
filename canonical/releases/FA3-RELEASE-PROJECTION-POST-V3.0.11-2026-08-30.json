@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f61e557da3b4c5437039e9275a4d3471ed5a73df",
-    "pre_projection_root_tree_sha": "f2d787d9b68c42ceee37b9e193d607efd5ffae2f",
-    "pre_projection_canonical_tree_sha": "657aef0735b36378b18caccf628afb2de65e0996",
-    "commits_ahead_of_v3_0_11_conformance_commit": 640,
-    "total_post_baseline_commits": 640,
-    "delta_file_count": 1902,
-    "delta_added_files": 1897,
+    "pre_projection_head_sha": "edd5ac80e4cd7b834e58619ecf3631de2bf84162",
+    "pre_projection_root_tree_sha": "72f44388bb4b7acb358a2c74122e539729e8daf5",
+    "pre_projection_canonical_tree_sha": "62163db5eb2cdfcca6689c2fb13a222ed742b1f6",
+    "commits_ahead_of_v3_0_11_conformance_commit": 708,
+    "total_post_baseline_commits": 708,
+    "delta_file_count": 1923,
+    "delta_added_files": 1918,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,13 +45,14 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 896,
+    "canonical_files_in_post_baseline_delta": 909,
     "evidence_files_in_post_baseline_delta": 148,
-    "source_files_in_post_baseline_delta": 257,
-    "test_files_in_post_baseline_delta": 218,
-    "workflow_files_in_post_baseline_delta": 90,
+    "source_files_in_post_baseline_delta": 259,
+    "test_files_in_post_baseline_delta": 220,
+    "workflow_files_in_post_baseline_delta": 92,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
+      "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
       "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
@@ -184,6 +185,7 @@
     "profile_records": [
       "canonical/profiles/FA3-3D-GEOM-001.json",
       "canonical/profiles/FA3-ACCEL-GUARD-001.json",
+      "canonical/profiles/FA3-AGENT-DEFINITION-001.json",
       "canonical/profiles/FA3-AGENT-EXEC-001.json",
       "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json",
       "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
@@ -268,6 +270,8 @@
     ],
     "contract_records": [
       "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
+      "canonical/contracts/FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
@@ -380,6 +384,7 @@
     "decision_records": [
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
+      "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
       "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json",
       "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
       "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
@@ -518,6 +523,7 @@
       "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json"
     ],
     "upstream_reference_records": [
+      "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
       "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json",
@@ -753,7 +759,9 @@
     "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
     "FA3-SKILL-FABRIC-GATESET-001",
     "FA3-QUALITY-ANTI-SLOP-GATESET-001",
-    "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
+    "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001",
+    "FA3-AGENCY-AGENTS-GATESET-001",
+    "FA3-AGENT-DEFINITION-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -879,7 +887,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1895,
+  "manifest_entry_count": 1916,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -894,6 +902,16 @@
     {
       "path": ".github/workflows/fa3-accelerator-guard.yml",
       "git_blob_sha": "92a3668b0b4cbaf131bbf597b881e3d4376b99ba",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-agency-agents-gate.yml",
+      "git_blob_sha": "3a9a5b5f40d840fda837711d68f508d583a4e4a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-agent-definition-gate.yml",
+      "git_blob_sha": "eda7267e5abe16565b09427cb2f5b34f2d68aa17",
       "baseline_delta_status": "added"
     },
     {
@@ -1198,7 +1216,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "e3f40e9faa7047ed9371e0bdec8e916e266ae2c6",
+      "git_blob_sha": "d619926d064fe0fafffef56899e174f8f21ea74a",
       "baseline_delta_status": "added"
     },
     {
@@ -1443,7 +1461,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "31c171489df604aa3b0848a19d074df00c373d66",
+      "git_blob_sha": "0815e8ca9d4afc85d601248b6dad108b3b62b355",
       "baseline_delta_status": "added"
     },
     {
@@ -2062,6 +2080,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json",
+      "git_blob_sha": "deee9220f34da4685104be1f38bd2fa8e5b43545",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
       "git_blob_sha": "491922e872aaee835b8db1d30af93a3fe00db84c",
       "baseline_delta_status": "added"
@@ -2169,6 +2192,16 @@
     {
       "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "009f194101184e93e87ae45474d38f2597648b83",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
+      "git_blob_sha": "34df2c73790481ccede68dff3fe22d805c013247",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-AGENT-DEFINITION-001.json",
+      "git_blob_sha": "a3ec9aef94cead2cdaaac7fd804da885c197a635",
       "baseline_delta_status": "added"
     },
     {
@@ -2573,7 +2606,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "204698816c034e7f8b472f7caaff42f91dd3192b",
+      "git_blob_sha": "7c93adfe1af8dce5fe15ac377cf5ce71a43a71ad",
       "baseline_delta_status": "added"
     },
     {
@@ -2723,7 +2756,7 @@
     },
     {
       "path": "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json",
-      "git_blob_sha": "70ac88a9143988477bfc179839c3fe8eebb7d43a",
+      "git_blob_sha": "6731967f9f2775ff3956d3d408c149e4840508c1",
       "baseline_delta_status": "added"
     },
     {
@@ -3007,6 +3040,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/agency-agents-enforcement.json",
+      "git_blob_sha": "c82a036cae6f1800fbbc3547504a5ea0202334a8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/agent-definition-enforcement.json",
+      "git_blob_sha": "3dd4e32bf7e26caf681fe3180bb4ab0276da6424",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/ai-comms-enforcement.json",
       "git_blob_sha": "d4cad1d7301da5658ce6adeff51c90ab69153be2",
       "baseline_delta_status": "added"
@@ -3029,6 +3072,11 @@
     {
       "path": "canonical/any-guardrail-runtime-enforcement.json",
       "git_blob_sha": "122f8ee3457c0c48cbcb53dfa2d59da7009e7230",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-AGENCY-AGENTS-AGENT-DEFINITION-ASSESSMENT-2026-09-24.json",
+      "git_blob_sha": "a67ac9f1c69d5d1aa40244f231b11dd762531a5f",
       "baseline_delta_status": "added"
     },
     {
@@ -3139,6 +3187,16 @@
     {
       "path": "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
       "git_blob_sha": "c677a3e9780ce940885829266f0961807cfaec41",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001.json",
+      "git_blob_sha": "871fd4e7158b102a20cfdc9cefdc5cf0b0ccd905",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
+      "git_blob_sha": "c66847ebe3b5309c2565a4fb7f6901ac46261c03",
       "baseline_delta_status": "added"
     },
     {
@@ -3744,6 +3802,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "git_blob_sha": "c33f176ea0b612884b4464777e44e30518a2d695",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
+      "git_blob_sha": "c812cdf6a5a1ed61ea3ffd5a8dd6df595fd29b8a",
       "baseline_delta_status": "added"
     },
     {
@@ -4443,17 +4506,17 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "973320b2c2ad6fc2bd16746c9f4ad0c580619ad4",
+      "git_blob_sha": "caffd4bdbc17ea40192a83ac251ecdc95f3b3dda",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "516d6b2ecde99ada86991a3cda40931edfcdd2a2",
+      "git_blob_sha": "129f01643eae161241697397ab24c46a60a4f24c",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "f020f7d87324716a6b45cbe56350f12ad3082ad2",
+      "git_blob_sha": "2f2518e507522a73c664a0d12fed30e7601d01a8",
       "baseline_delta_status": "modified"
     },
     {
@@ -4844,6 +4907,11 @@
     {
       "path": "canonical/profiles/FA3-ACCEL-GUARD-001.json",
       "git_blob_sha": "08b788a9c67249aa4dad9f6847cc18b7cfbda3bf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-AGENT-DEFINITION-001.json",
+      "git_blob_sha": "8270fc1b1c4c053e2c241145bb39b134cf036b7b",
       "baseline_delta_status": "added"
     },
     {
@@ -5254,6 +5322,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "git_blob_sha": "e1175a29a35147b219740689a8ecdcf131557303",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
+      "git_blob_sha": "bb4af94bf42cad9bf35641f7f57a8ee7e1b48956",
       "baseline_delta_status": "added"
     },
     {
@@ -5917,6 +5990,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
+      "git_blob_sha": "f3d09754261777b6479a74827732f8bc648d31c7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "e6155e40ceb72cab4e58767426f172c5378984ea",
       "baseline_delta_status": "added"
@@ -6254,6 +6332,11 @@
     {
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json",
+      "git_blob_sha": "788c25b7a224849f291c004ee55ae16d243de50a",
       "baseline_delta_status": "added"
     },
     {
@@ -6724,6 +6807,16 @@
     {
       "path": "deployment/step-ca/fa3-step-ca.service",
       "git_blob_sha": "725c7489cb84e64c5c3f276e597d3b4c74592d8b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-AGENCY-AGENTS-INTEGRATION-2026-09-23.md",
+      "git_blob_sha": "f2a9e08008cf7865c5ec1413ea18f664b9f8a72f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-AGENT-DEFINITION-001.md",
+      "git_blob_sha": "a897eb57b57c252534ce975b51a428c41197f5e9",
       "baseline_delta_status": "added"
     },
     {
@@ -7883,7 +7976,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "09152975baa083b7abafb4bbe9a27c6638e7078f",
+      "git_blob_sha": "0fdcebbc39a940b0bec8337c35e0689eb25cb5b6",
       "baseline_delta_status": "added"
     },
     {
@@ -7949,6 +8042,16 @@
     {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_agency_agents_gate.py",
+      "git_blob_sha": "b924f6bb6aaf739c00cc48b6791e8b20dc983182",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_agent_definition_gate.py",
+      "git_blob_sha": "3598513037347af9e78e78ff0aa7f55d0e7dd793",
       "baseline_delta_status": "added"
     },
     {
@@ -8308,7 +8411,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "0d576e057356c30966356cace44da7fe5688eea9",
+      "git_blob_sha": "c8ae1af412b12324aae3278c716676ae7fd0a1cb",
       "baseline_delta_status": "modified"
     },
     {
@@ -8383,7 +8486,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "329d497ecc73fbf7e1a3d28015d7521d52523b99",
+      "git_blob_sha": "dd2bc357c4fc6c7926ac491b0f15d077ff716419",
       "baseline_delta_status": "added"
     },
     {
@@ -8868,7 +8971,7 @@
     },
     {
       "path": "src/fa3_orchestration_workforce_gate.py",
-      "git_blob_sha": "45859ac9bbc804eb049e6c4b319e5fdf854cb597",
+      "git_blob_sha": "a384d9758d7a9ca86eaa6a6ea260aad4215013d8",
       "baseline_delta_status": "added"
     },
     {
@@ -8993,7 +9096,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "f5ddc0ada103375c045a90fb08db21d59261ce93",
+      "git_blob_sha": "517ec1793edff315d4ec6b1f070c0bb0b094fd14",
       "baseline_delta_status": "added"
     },
     {
@@ -9224,6 +9327,16 @@
     {
       "path": "tests/test_acestep_gate.py",
       "git_blob_sha": "8704a54799ec8aa0c1493b8526152cc1261a2fde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_agency_agents_gate.py",
+      "git_blob_sha": "f70b4e10438ab873fdceb6dc01e7c4f5a3045760",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_agent_definition_gate.py",
+      "git_blob_sha": "32a2ee0688ed2892f9333273882ff349ba5fa323",
       "baseline_delta_status": "added"
     },
     {
@@ -9518,7 +9631,7 @@
     },
     {
       "path": "tests/test_fa3_gui_gate.py",
-      "git_blob_sha": "00cf98ac0566bbc22fe071a736be512b83a4944f",
+      "git_blob_sha": "04ad967daaa828352a834d059a92f2c67d5332a9",
       "baseline_delta_status": "added"
     },
     {
@@ -11993,5 +12106,32 @@
     "capability_count_after": 143,
     "new_capabilities": 0,
     "new_architectural_authorities": 0
+  },
+  "agency_agents_agent_definition_reconciliation": {
+    "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+    "source_reference_id": "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23",
+    "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+    "profile_id": "FA3-AGENT-DEFINITION-001",
+    "contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+    "registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "agency_gate_id": "FA3-AGENCY-AGENTS-GATESET-001",
+    "agent_definition_gate_id": "FA3-AGENT-DEFINITION-GATESET-001",
+    "canonical_role_definition_count": 12,
+    "canonical_template_definition_count": 5,
+    "upstream_bodies_vendored": false,
+    "source_distribution_class": "EXTERNAL_REDISTRIBUTABLE",
+    "source_release_bundle_status": "EXCLUDED",
+    "normalized_definition_distribution_class": "FA3_NATIVE",
+    "gui_surface_id": "agency-agents.imported-pack",
+    "gui_parent_route": "agents.workflows",
+    "gui_mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+    "gui_current_host_status": "PENDING_CURRENT_HOST",
+    "gui_runtime_promotion_claim": false,
+    "runtime_provider_admission_by_reference_provider": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "reconciliation_status": "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
   }
 }
