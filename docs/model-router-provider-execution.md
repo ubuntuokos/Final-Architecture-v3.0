@@ -38,7 +38,7 @@ For OpenAI, the operator runs only:
 sudo bash bin/fa3-openai-provider-execution-current-host-close.sh
 ```
 
-The wrapper starts a transient loopback-only adapter for `FA3-PROVIDER-OPENAI-API-001`, verifies that a deliberately invalid Bearer token is rejected by the real OpenAI upstream, writes a current-host adapter admission receipt, and then invokes the generic provider-execution provisioning harness. The preferred evidence model is `gpt-6-luna`; if that exact model is not available to the project, the probe fails closed instead of silently choosing another model.
+The wrapper starts a transient loopback-only adapter for `FA3-PROVIDER-OPENAI-API-001`, verifies that a deliberately invalid Bearer token is rejected by the real OpenAI upstream, writes a current-host adapter admission receipt, and then invokes the generic provider-execution provisioning harness. The preferred evidence model is `gpt-4o-mini`; if that exact model is not available to the project, the probe fails closed instead of silently choosing another model.
 
 The adapter is evidence-scope only. It does not enable normal application routing, does not alter baseline local routes, and does not create a local-to-cloud fallback. External egress is bounded by `FA3-OPENAI-API-EXTERNAL-POLICY-001` to `https://api.openai.com/v1` for `GET /v1/models` and `POST /v1/chat/completions`. The bridge accepts only fixed FA3 provider-execution probe content.
 
