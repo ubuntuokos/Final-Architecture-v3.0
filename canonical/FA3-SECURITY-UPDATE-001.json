@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.security-update.v1",
+  "id": "FA3-SECURITY-UPDATE-001",
+  "name": "Automatic Security Update Policy",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "decision": "BACKGROUND_SECURITY_MAINTENANCE_WITH_WORKLOAD_AWARE_ACTIVATION",
+  "policy": {
+    "os_user_space_security": "AUTO_INSTALL_BACKGROUND",
+    "service_security": "AUTO_INSTALL_RESTART_WHEN_SAFE",
+    "host_critical_security": "AUTO_DOWNLOAD_AND_STAGE_REVIEW_ACTIVATION",
+    "external_ai_provider_security": "VALIDATE_THEN_PROMOTE"
+  },
+  "trusted_source_required": true,
+  "audit_required": true,
+  "protected_workload_interruption": "DENY",
+  "silent_forced_reboot": "DENY",
+  "restart_coordinator": "FA3-UPDATE-RESTART-001",
+  "uaf_action": "update.security",
+  "host_critical_classes": [
+    "kernel",
+    "accelerator_driver",
+    "accelerator_runtime",
+    "critical_host_runtime"
+  ],
+  "hardware_boundary": {
+    "provider_specific_backend_discovered_at_runtime": true,
+    "global_vendor_pin": null,
+    "accelerator_cardinality": "0..N",
+    "cpu_only_valid": true
+  },
+  "failure_policy": {
+    "health_check_failure": "ROLLBACK_OR_BLOCK",
+    "unknown_source": "DENY",
+    "unknown_security_classification": "REVIEW_REQUIRED",
+    "restart_required": "NOTIFY_AND_DEFER_TO_RESTART_COORDINATOR"
+  },
+  "invariants": [
+    "LOW_RISK_OS_SECURITY_UPDATES_MAY_INSTALL_AUTOMATICALLY",
+    "AUTOMATIC_UPDATE_MUST_NOT_INTERRUPT_PROTECTED_WORKLOAD",
+    "RESTARTS_ARE_WORKLOAD_AWARE",
+    "HOST_REBOOT_IS_NEVER_SILENTLY_FORCED",
+    "HOST_CRITICAL_ACCELERATOR_SECURITY_CHANGES_USE_PROVIDER_NEUTRAL_STAGING",
+    "EXTERNAL_AI_SECURITY_UPDATES_REQUIRE_PROVENANCE_AND_VALIDATION",
+    "EVERY_AUTOMATIC_SECURITY_UPDATE_PRODUCES_AUDIT_EVIDENCE"
+  ]
+}

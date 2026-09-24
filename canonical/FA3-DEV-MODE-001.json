@@ -1,0 +1,138 @@
+{
+  "schema": "fa3.dev-mode.v1",
+  "id": "FA3-DEV-MODE-001",
+  "name": "Development & Experimental Execution Domain",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "decision": "SEPARATE_BOUNDED_DEVELOPMENT_TRUST_DOMAIN",
+  "production_invariant": "FAIL_CLOSED_UNCHANGED",
+  "trust_domains": {
+    "sandbox": {
+      "mutable": true,
+      "canonical_write": "DENY",
+      "production_secrets": "DENY",
+      "evidence": "DISPOSABLE"
+    },
+    "development": {
+      "mutable": true,
+      "canonical_write": "DENY",
+      "production_evidence_write": "DENY",
+      "production_secrets": "DENY",
+      "evidence": "NON_AUTHORITATIVE",
+      "taint_allowed": true
+    },
+    "production": {
+      "mutable": false,
+      "canonical_write": "CONTROLLED_PROMOTION_ONLY",
+      "evidence": "AUTHORITATIVE",
+      "enforcement": "FAIL_CLOSED"
+    }
+  },
+  "subcomponents": [
+    "FA3-DEV-SESSION-001",
+    "FA3-DEV-POLICY-001",
+    "FA3-DEV-WORKSPACE-001",
+    "FA3-DEV-HRB-001",
+    "FA3-MCP-DEV-GATE-001",
+    "FA3-DEV-EVIDENCE-001",
+    "FA3-DEV-GIT-HOOKS-001",
+    "FA3-DEV-FREEZE-001",
+    "FA3-DEV-CI-PROMOTION-GATE-001",
+    "FA3-DEV-PROMOTION-001"
+  ],
+  "lifecycle": [
+    "DEV_DRAFT",
+    "DEV_TAINTED",
+    "DEV_VERIFIED",
+    "CANDIDATE_FROZEN",
+    "STATIC_PASS",
+    "HOST_PASS",
+    "PROMOTION_READY",
+    "PRODUCTION"
+  ],
+  "operations": {
+    "snapshot": {
+      "automatic": true,
+      "canonical_write": false,
+      "source": "GIT_INDEX",
+      "uaf_action": "development.snapshot"
+    },
+    "freeze": {
+      "canonical_write": false,
+      "output": "IMMUTABLE_PROMOTION_CANDIDATE",
+      "uaf_action": "development.freeze"
+    },
+    "promote": {
+      "canonical_write": true,
+      "requires": [
+        "STATIC_PASS",
+        "HOST_PASS",
+        "PROMOTION_READY"
+      ]
+    }
+  },
+  "agent_native_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "gui_agent_automation_direct_execution": "DENY",
+    "cli_compatibility_adapter": "POLICY_ENGINE_ONLY_NO_PRIVILEGED_HOST_MUTATION",
+    "actions": [
+      "development.enter",
+      "development.snapshot",
+      "development.freeze"
+    ]
+  },
+  "development_policy": {
+    "hash_mismatch": "ALLOW_TAINTED_AND_LOG",
+    "unknown_artifact": "SANDBOX_PROBE_ONLY",
+    "implicit_cpu_fallback": "ALLOW_WITH_PROVENANCE",
+    "license_uncertainty": "WARN_AND_BLOCK_PROMOTION",
+    "maker_checker": "DEFERRED_UNTIL_FREEZE",
+    "unknown_network_egress": "MOCK_OR_DENY",
+    "canonical_write": "DENY",
+    "production_secret_forwarding": "DENY"
+  },
+  "resource_policy": {
+    "hrb_lease": "EPHEMERAL_AUTO",
+    "default_ttl_seconds": 900,
+    "max_auto_renewals": 4,
+    "hardware_discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_conflict_authority": "FA3-ACCEL-GUARD-001",
+    "accelerator_cardinality": "0..N",
+    "cpu_only_valid": true,
+    "global_vendor_pin": null,
+    "fallback_backend": "AUTO_COMPATIBLE_DISCOVERED_BACKEND",
+    "default_conflict_resolution": "USER_DECISION"
+  },
+  "workspace": {
+    "direct_write_paths": [
+      "src/dev-playground/**",
+      "examples/drafts/**"
+    ],
+    "protected_paths": [
+      "canonical/**",
+      "release/**",
+      "evidence/production/**"
+    ]
+  },
+  "invariants": [
+    "PRODUCTION_FAIL_CLOSED_UNCHANGED",
+    "DEVELOPMENT_CANNOT_WRITE_CANONICAL_SSOT",
+    "DEVELOPMENT_EVIDENCE_IS_NEVER_AUTHORITATIVE",
+    "POLICY_RELAXATION_SETS_STICKY_TAINT",
+    "TAINT_CANNOT_BE_MANUALLY_CLEARED",
+    "FREEZE_IS_NOT_PROMOTION",
+    "PROMOTION_REQUIRES_STATIC_AND_CURRENT_HOST_EVIDENCE",
+    "GIT_HOOK_IS_AUTOMATION_NOT_AUTHORITY",
+    "CI_REMAINS_FAIL_CLOSED_WHEN_HOOKS_ARE_BYPASSED",
+    "GUI_AGENT_AUTOMATION_EXECUTION_ENTERS_THROUGH_UAF",
+    "HARDWARE_DISCOVERY_IS_PROVIDER_NEUTRAL",
+    "CPU_ONLY_HOST_IS_VALID",
+    "NO_GLOBAL_ACCELERATOR_VENDOR_PIN",
+    "CAPABILITY_COUNT_REMAINS_143"
+  ]
+}
