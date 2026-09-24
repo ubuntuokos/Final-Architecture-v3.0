@@ -48,7 +48,9 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn('systemctl is-active --quiet "$PROBE_UNIT"',harness)
         self.assertIn('pgrep -u "$PROBE_USER"',harness)
         self.assertIn("stale reserved provider-execution SecretRef detected",harness)
-        self.assertIn("stale reserved provider-execution policy detected",harness)
+        self.assertIn("stale reserved provider-execution policy detected and removed",harness)
+        self.assertIn('/usr/local/sbin/fa3-secret-policyctl remove "$sid"',harness)
+        self.assertNotIn('/usr/local/sbin/fa3-secret-policyctl show "$sid"',harness)
         self.assertIn('userdel "$PROBE_USER"',harness)
         self.assertLess(harness.index('if ! cleanup; then'),harness.index('echo "FA3 PROVIDER EXECUTION CURRENT-HOST: PASS"'))
         marker='python3 - "$SECRET_RECEIPT_REFERENCE" "$ROOT/canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json" "$ROOT/canonical/FA3-GATE-SECRET-BROKER-001.json" "$ROOT/canonical/secret-broker-enforcement.json" <<\'PY\'\n'
