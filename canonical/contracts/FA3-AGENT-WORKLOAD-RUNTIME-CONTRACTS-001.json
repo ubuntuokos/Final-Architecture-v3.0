@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
   "name": "Agent Workload Task, Workspace, Runner, Network and Checkpoint Contracts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "provider_neutral": true,
@@ -15,7 +15,11 @@
     "FA3-AGENT-WORKSPACE-001.schema.json",
     "FA3-AGENT-RUNNER-CONTRACT-001.schema.json",
     "FA3-EXECUTION-NETWORK-ENVELOPE-001.schema.json",
-    "FA3-AGENT-CHECKPOINT-MANIFEST-001.schema.json"
+    "FA3-AGENT-CHECKPOINT-MANIFEST-001.schema.json",
+    "FA3-AGENT-WORKFLOW-GRAPH-001.schema.json",
+    "FA3-MODEL-CAPABILITY-DESCRIPTOR-001.schema.json",
+    "FA3-AGENT-EXECUTION-LEDGER-001.schema.json",
+    "FA3-TOOL-CONFIRMATION-001.schema.json"
   ],
   "task_contract": {
     "canonical_schema": "fa3.agent-workload-task.v1",
@@ -88,7 +92,12 @@
     "SUSPEND_CAPABILITY_MUST_NOT_BE_FABRICATED",
     "CURRENT_HOST_PROMOTION_REQUIRES_REAL_EVIDENCE",
     "NO_SILENT_SANDBOX_DOWNGRADE",
-    "WORK_ITEM_AND_AGENT_WORKLOAD_TASK_IDENTITIES_REMAIN_DISTINCT"
+    "WORK_ITEM_AND_AGENT_WORKLOAD_TASK_IDENTITIES_REMAIN_DISTINCT",
+    "ADK2_DERIVED_RUNTIME_SEMANTICS_FAIL_CLOSED",
+    "MODEL_CAPABILITIES_EXPLICIT_NOT_MODEL_ID_HEURISTIC",
+    "SIDE_EFFECTING_RESUME_RETRY_REQUIRES_IDEMPOTENCY_OR_COMPENSATION",
+    "TOOL_CONFIRMATION_BOOLEAN_AND_RECEIPT_STRICT",
+    "RELAYED_AGENT_OUTPUT_IS_UNTRUSTED_DATA_NOT_INSTRUCTION"
   ],
   "failure_policy": {
     "malformed_task": "FAIL_CLOSED",
@@ -100,5 +109,6 @@
     "checkpoint_incompatible": "FAIL_CLOSED",
     "network_destination_not_allowed": "FAIL_CLOSED",
     "runner_failure": "REPORT_AND_EXISTING_ORCHESTRATION_RETRY_POLICY"
-  }
+  },
+  "runtime_semantics_contract": "FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001"
 }

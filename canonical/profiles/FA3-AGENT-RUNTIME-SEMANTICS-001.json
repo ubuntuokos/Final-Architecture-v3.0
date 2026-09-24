@@ -1,0 +1,117 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
+  "name": "Provider-Neutral Agent Graph, Resume, Budget, Transfer & Boundary Semantics",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "relationship": "SUBPROFILE-OF",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-028"
+  ],
+  "contract_id": "FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001",
+  "decision_id": "FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24",
+  "reference_id": "FA3-GOOGLE-ADK2-UPSTREAM-REFERENCE-2026-09-24",
+  "gate_id": "FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001",
+  "authority_boundaries": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "task_local_execution": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001_OR_AUTH-HUMAN",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "ai_communication": "FA3-AI-COMMS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "journal": "FA3-JOURNAL-001"
+  },
+  "adopted_mechanisms": [
+    "TYPED_DECLARATIVE_WORKFLOW_GRAPH",
+    "EXPLICIT_MODEL_CAPABILITY_DESCRIPTOR",
+    "HARD_EXECUTION_BUDGET_LEDGER",
+    "DIGEST_BOUND_RESUME_AND_RETRY",
+    "STRICT_BOOLEAN_TOOL_CONFIRMATION_WITH_APPROVAL_RECEIPT",
+    "AUTHORIZED_BOUNDED_AGENT_TRANSFER_WITH_REASON",
+    "RELAYED_AGENT_OUTPUT_FENCED_AS_UNTRUSTED_DATA",
+    "MCP_STANDARD_FIELDS_PLUS_META_NORMALIZATION",
+    "SESSION_THREAD_SCOPING_AND_EVENT_DEDUPLICATION",
+    "ARTIFACT_SCOPE_SIZE_AND_ATOMIC_VERSION_BOUNDARY"
+  ],
+  "deliberately_not_adopted": [
+    "GOOGLE_ADK_AS_RUNTIME_AUTHORITY",
+    "GOOGLE_ADK_SESSION_OR_MEMORY_BACKEND_AS_FA3_AUTHORITY",
+    "GOOGLE_ADK_DEPLOYMENT_AUTHORITY",
+    "AUTOMATIC_CROSS_PROVIDER_MODEL_FAILOVER",
+    "LIVEKIT_OR_VOICE_RUNTIME_FROM_ADK",
+    "ADK_SKILL_REGISTRY_AS_PARALLEL_SKILL_AUTHORITY",
+    "ADK_EVALUATION_AS_PARALLEL_EVIDENCE_AUTHORITY"
+  ],
+  "graph_policy": {
+    "canonical_ir": "FA3_TYPED_JSON_CONTRACT",
+    "yaml_role": "OPTIONAL_IMPORT_ONLY",
+    "unsafe_yaml_object_construction_forbidden": true,
+    "graph_is_durable_workflow_authority": false,
+    "side_effecting_retry_or_resume_requires_idempotency_or_compensation": true,
+    "failed_node_resume": "RERUN_FAILED_NODE",
+    "completed_node_reuse": "DIGEST_BOUND_RECEIPT_REQUIRED"
+  },
+  "model_capability_policy": {
+    "explicit_descriptor_required": true,
+    "model_id_heuristics_forbidden": true,
+    "accepted_sources": [
+      "PROVIDER_DECLARED",
+      "ADMITTED_PROBE",
+      "PROVIDER_DECLARED_AND_PROBED"
+    ],
+    "model_router_remains_authority": true
+  },
+  "execution_budget_policy": {
+    "hard_dimensions": [
+      "model_calls",
+      "tool_calls",
+      "retries",
+      "transfer_hops"
+    ],
+    "exhaustion": "FAIL_CLOSED",
+    "workload_cannot_raise_admitted_limit": true
+  },
+  "tool_confirmation_policy": {
+    "boolean_type_must_be_exact": true,
+    "truthy_cast_not_authorization": true,
+    "required_confirmation_requires_approval_receipt": true
+  },
+  "transfer_policy": {
+    "target_must_be_pre_authorized": true,
+    "transfer_reason_required": true,
+    "self_transfer_forbidden": true,
+    "transfer_hop_budget_required": true,
+    "relayed_output_instruction_authority": false
+  },
+  "mcp_policy": {
+    "gateway_authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "standard_result_fields": [
+      "content",
+      "isError",
+      "structuredContent",
+      "_meta"
+    ],
+    "vendor_extensions_outside_meta": "FAIL_CLOSED"
+  },
+  "session_artifact_policy": {
+    "unknown_session_append": "FAIL_CLOSED",
+    "cross_thread_append": "FAIL_CLOSED",
+    "duplicate_event": "FAIL_CLOSED",
+    "artifact_path_escape": "FAIL_CLOSED",
+    "artifact_size_over_policy": "FAIL_CLOSED",
+    "artifact_versioning": "ATOMIC_MONOTONIC"
+  },
+  "upstream_runtime_dependency": false,
+  "current_host_runtime_claim": false
+}

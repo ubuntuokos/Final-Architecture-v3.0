@@ -1,0 +1,61 @@
+name: FA3 ADK2-derived Agent Runtime Semantics
+on:
+  push:
+    branches: ["fa3/**"]
+    paths:
+      - "canonical/profiles/FA3-AGENT-RUNTIME-SEMANTICS-001.json"
+      - "canonical/contracts/FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001.json"
+      - "canonical/contracts/FA3-AGENT-WORKFLOW-GRAPH-001.schema.json"
+      - "canonical/contracts/FA3-MODEL-CAPABILITY-DESCRIPTOR-001.schema.json"
+      - "canonical/contracts/FA3-AGENT-EXECUTION-LEDGER-001.schema.json"
+      - "canonical/contracts/FA3-TOOL-CONFIRMATION-001.schema.json"
+      - "canonical/references/FA3-GOOGLE-ADK2-UPSTREAM-REFERENCE-2026-09-24.json"
+      - "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json"
+      - "canonical/adk2-derived-agent-runtime-enforcement.json"
+      - "canonical/FA3-GATE-ADK2-DERIVED-AGENT-RUNTIME-001.json"
+      - "canonical/distribution-registry.json"
+      - "canonical/distribution-manifest.json"
+      - "src/fa3_agent_runtime_semantics.py"
+      - "src/fa3_adk2_runtime_gate.py"
+      - "tests/test_adk2_runtime_semantics.py"
+      - "evidence/reference/adk2-derived-agent-runtime-ci-2026-09-24.json"
+      - "docs/FA3-AGENT-RUNTIME-SEMANTICS-001.md"
+      - ".github/workflows/fa3-adk2-runtime-semantics.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  semantics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_agent_runtime_semantics.py src/fa3_adk2_runtime_gate.py
+      - name: Unit and fail-closed regressions
+        run: PYTHONPATH=src python3 -m unittest tests.test_adk2_runtime_semantics -v
+      - name: ADK2-derived runtime semantics gate
+        run: PYTHONPATH=src python3 src/fa3_adk2_runtime_gate.py --root .
+      - name: Parent Agent Workload Runtime gate
+        run: ./bin/fa3-enforce agent-workload-runtime
+      - name: Distribution compliance
+        run: ./bin/fa3-enforce distribution-compliance
+      - name: Diff whitespace
+        run: git diff --check HEAD^ HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-adk2-derived-runtime-semantics
+          path: |
+            reports/adk2-derived-agent-runtime-gate-report.json
+            reports/agent-workload-runtime-gate-report.json
+            reports/distribution-compliance-gate-report.json
+          if-no-files-found: warn
