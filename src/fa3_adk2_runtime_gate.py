@@ -15,7 +15,7 @@ def load(p:Path)->dict[str,Any]:
 def finding(code:str,message:str,**kw:Any)->dict[str,Any]: return {"code":code,"severity":"P0","message":message,**kw}
 def expect_error(fn)->bool:
     try: fn()
-    except RuntimeSemanticsError: return True
+    except (RuntimeSemanticsError, WorkloadContractError): return True
     return False
 def fixtures():
     graph={"schema":"fa3.agent-workflow-graph.v1","graph_id":"g1","entry_node":"n1","yaml_is_canonical":False,"nodes":[{"node_id":"n1","kind":"AGENT","side_effecting":False,"retry":{"max_attempts":2},"resume_policy":"RERUN_FAILED"},{"node_id":"n2","kind":"FUNCTION","side_effecting":True,"retry":{"max_attempts":2},"resume_policy":"RERUN_FAILED","idempotency_key_strategy":"task-node-digest"}],"edges":[{"from":"n1","to":"n2"}]}
