@@ -15,52 +15,272 @@
     "direct_authority_from_surface": false,
     "search_and_shortcuts_resolve_semantic_routes": true
   },
-  "groups": ["HOME","CREATE","AGENTS","MODELS & DATA","DECISION & CONTEXT","INTEGRATIONS","GOVERNANCE","SYSTEM"],
+  "groups": [
+    "HOME",
+    "CREATE",
+    "AGENTS",
+    "MODELS & DATA",
+    "DECISION & CONTEXT",
+    "INTEGRATIONS",
+    "GOVERNANCE",
+    "SYSTEM"
+  ],
   "surfaces": [
-    {"route_id":"home.command-center","title":"Dashboard","group":"HOME","projection":"COMMAND_CENTER"},
-    {"route_id":"home.projects","title":"Projects","group":"HOME","projection":"PROJECTS_WORKSPACES"},
-    {"route_id":"home.work-management","title":"Work Management","group":"HOME","projection":"WORK_MANAGEMENT","mutation":"DRAFT_ONLY"},
-    {"route_id":"create.ai-studio","title":"AI Studio","group":"CREATE","projection":"CREATIVE_OFFICE_PUBLISHING","agent_native":"CONSUMER"},
-    {"route_id":"create.knowledge","title":"Knowledge & Retrieval","group":"CREATE","projection":"KNOWLEDGE","decision_fabric":"ADVISORY_CONSUMER"},
-    {"route_id":"agents.action-center","title":"Agent Action Center","group":"AGENTS","projection":"UAF_ACTION_CONTRACTS","agent_native":"PRIMARY_GUI_PROJECTION","mutation":"DRAFT_ONLY"},
     {
-      "route_id":"agents.workflows","title":"Agents & Workflows","group":"AGENTS","projection":"AGENT_WORKFLOW_STATUS",
-      "children":[
-        {"surface_id":"agency-agents.imported-pack","title":"Agency Agents","projection":"CANONICAL_AGENT_DEFINITION_REFERENCE","provider_id":"FA3-PROVIDER-AGENCY-AGENTS-001","candidate_catalog_id":"FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001","mode":"READ_ONLY_CANONICAL_DEFINITIONS","activation_status":"DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE","execution_intent_route":"agents.action-center","direct_provider_execution":false,"authority":false,"agent_definition_registry_id":"FA3-AGENT-DEFINITION-REGISTRY-001","current_host_runtime_status":"PENDING_CURRENT_HOST","runtime_conformance_id":"FA3-GUI-RUNTIME-CONFORMANCE-001","runtime_promotion_claim":false}
+      "route_id": "home.command-center",
+      "title": "Dashboard",
+      "group": "HOME",
+      "projection": "COMMAND_CENTER"
+    },
+    {
+      "route_id": "home.projects",
+      "title": "Projects",
+      "group": "HOME",
+      "projection": "PROJECTS_WORKSPACES"
+    },
+    {
+      "route_id": "home.work-management",
+      "title": "Work Management",
+      "group": "HOME",
+      "projection": "WORK_MANAGEMENT",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "create.ai-studio",
+      "title": "AI Studio",
+      "group": "CREATE",
+      "projection": "CREATIVE_OFFICE_PUBLISHING",
+      "agent_native": "CONSUMER"
+    },
+    {
+      "route_id": "create.knowledge",
+      "title": "Knowledge & Retrieval",
+      "group": "CREATE",
+      "projection": "KNOWLEDGE",
+      "decision_fabric": "ADVISORY_CONSUMER"
+    },
+    {
+      "route_id": "agents.action-center",
+      "title": "Agent Action Center",
+      "group": "AGENTS",
+      "projection": "UAF_ACTION_CONTRACTS",
+      "agent_native": "PRIMARY_GUI_PROJECTION",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "agents.workflows",
+      "title": "Agents & Workflows",
+      "group": "AGENTS",
+      "projection": "AGENT_WORKFLOW_STATUS",
+      "children": [
+        {
+          "surface_id": "agency-agents.imported-pack",
+          "title": "Agency Agents",
+          "projection": "CANONICAL_AGENT_DEFINITION_REFERENCE",
+          "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+          "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+          "mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+          "activation_status": "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE",
+          "execution_intent_route": "agents.action-center",
+          "direct_provider_execution": false,
+          "authority": false,
+          "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+          "current_host_runtime_status": "PENDING_CURRENT_HOST",
+          "runtime_conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+          "runtime_promotion_claim": false
+        }
       ]
     },
     {
-      "route_id":"models.providers","title":"Models & Providers","group":"MODELS & DATA","projection":"MODEL_PROVIDER_STATUS",
-      "children":[
-        {"surface_id":"models.provider-explorer","title":"Provider Explorer","projection":"EXTERNAL_LLM_PROVIDER_DISCOVERY","profile_id":"FA3-EXTERNAL-LLM-CATALOG-001","mode":"READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT","execution_intent_route":"models.external-providers","direct_provider_execution":false,"direct_credential_entry":false,"direct_router_mutation":false,"authority":false,"runtime_promotion_claim":false}
+      "route_id": "models.providers",
+      "title": "Models & Providers",
+      "group": "MODELS & DATA",
+      "projection": "MODEL_PROVIDER_STATUS",
+      "children": [
+        {
+          "surface_id": "models.provider-explorer",
+          "title": "Provider Explorer",
+          "projection": "EXTERNAL_LLM_PROVIDER_DISCOVERY",
+          "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+          "mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+          "execution_intent_route": "models.external-providers",
+          "direct_provider_execution": false,
+          "direct_credential_entry": false,
+          "direct_router_mutation": false,
+          "authority": false,
+          "runtime_promotion_claim": false
+        }
       ]
     },
-    {"route_id":"models.manager","title":"Model Manager","group":"MODELS & DATA","projection":"MODEL_MANAGER"},
-    {"route_id":"models.checkpoints","title":"Checkpoint Manager","group":"MODELS & DATA","projection":"MODEL_ARTIFACT_GOVERNANCE"},
-    {"route_id":"models.remote-ai","title":"Remote AI Hub","group":"MODELS & DATA","projection":"REMOTE_AI_EXEC"},
-    {"route_id":"models.rtd","title":"RTD Providers","group":"MODELS & DATA","projection":"REAL_TIME_DATA"},
-    {"route_id":"models.external-providers","title":"External Providers Setup","group":"MODELS & DATA","projection":"PROVIDER_SETUP","mutation":"DRAFT_ONLY"},
-    {"route_id":"decision.fabric","title":"Decision Fabric","group":"DECISION & CONTEXT","projection":"DECISION_FABRIC","decision_fabric":"READ_ONLY"},
-    {"route_id":"decision.inspector","title":"Decision Inspector","group":"DECISION & CONTEXT","projection":"DECISION_TRACE","decision_fabric":"READ_ONLY"},
-    {"route_id":"decision.context-inspector","title":"Context Inspector","group":"DECISION & CONTEXT","projection":"CONTEXT_SELECTION","decision_fabric":"BOUNDED_RESTORE"},
-    {"route_id":"decision.project-radar","title":"External Project Radar","group":"DECISION & CONTEXT","projection":"PROJECT_RADAR","decision_fabric":"READ_ONLY"},
-    {"route_id":"integrations.root","title":"Integrations","group":"INTEGRATIONS","projection":"INTEGRATIONS"},
-    {"route_id":"integrations.mcp-gateway","title":"MCP Gateway","group":"INTEGRATIONS","projection":"MCP_GATEWAY"},
-    {"route_id":"integrations.fa3-os","title":"FA3 OS","group":"INTEGRATIONS","projection":"FA3_OS"},
-    {"route_id":"governance.security","title":"Security & Approvals","group":"GOVERNANCE","projection":"SECURITY_APPROVALS"},
-    {"route_id":"governance.tokens","title":"Token Control Center","group":"GOVERNANCE","projection":"TOKEN_GOVERNANCE"},
-    {"route_id":"governance.trust","title":"Trust & Certificates","group":"GOVERNANCE","projection":"TRUST_PKI"},
-    {"route_id":"governance.session-vault","title":"Session Vault / Kulcsvault","group":"GOVERNANCE","projection":"SESSION_VAULT"},
-    {"route_id":"governance.evidence","title":"Evidence","group":"GOVERNANCE","projection":"EVIDENCE"},
-    {"route_id":"governance.observability","title":"Observability","group":"GOVERNANCE","projection":"OBSERVABILITY"},
-    {"route_id":"governance.architecture","title":"Architecture","group":"GOVERNANCE","projection":"ARCHITECTURE"},
-    {"route_id":"governance.journal","title":"Napló / Journal","group":"GOVERNANCE","projection":"JOURNAL"},
-    {"route_id":"system.resources","title":"Resources","group":"SYSTEM","projection":"RESOURCE_STATUS"},
-    {"route_id":"system.accelerator-guard","title":"Accelerator Guard","group":"SYSTEM","projection":"ACCELERATOR_GUARD","mutation":"DRAFT_ONLY"},
-    {"route_id":"system.updates","title":"Update Center","group":"SYSTEM","projection":"UPDATE_FABRIC","agent_native":"UAF_DRAFT_CONSUMER","mutation":"DRAFT_ONLY"},
-    {"route_id":"system.settings","title":"Rendszerbeállítások","group":"SYSTEM","projection":"SETTINGS"},
-    {"route_id":"system.runtime","title":"System","group":"SYSTEM","projection":"RUNTIME_INFO"},
-    {"route_id":"global.search","title":"Keresés","group":"GLOBAL_TOOL","projection":"SEARCH"},
-    {"route_id":"global.language","title":"Tolmács","group":"GLOBAL_TOOL","projection":"LANGUAGE_CONTROL"}
+    {
+      "route_id": "models.manager",
+      "title": "Model Manager",
+      "group": "MODELS & DATA",
+      "projection": "MODEL_MANAGER"
+    },
+    {
+      "route_id": "models.checkpoints",
+      "title": "Checkpoint Manager",
+      "group": "MODELS & DATA",
+      "projection": "MODEL_ARTIFACT_GOVERNANCE"
+    },
+    {
+      "route_id": "models.remote-ai",
+      "title": "Remote AI Hub",
+      "group": "MODELS & DATA",
+      "projection": "REMOTE_AI_EXEC"
+    },
+    {
+      "route_id": "models.rtd",
+      "title": "RTD Providers",
+      "group": "MODELS & DATA",
+      "projection": "REAL_TIME_DATA"
+    },
+    {
+      "route_id": "models.external-providers",
+      "title": "External Providers Setup",
+      "group": "MODELS & DATA",
+      "projection": "PROVIDER_SETUP",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "decision.fabric",
+      "title": "Decision Fabric",
+      "group": "DECISION & CONTEXT",
+      "projection": "DECISION_FABRIC",
+      "decision_fabric": "READ_ONLY"
+    },
+    {
+      "route_id": "decision.inspector",
+      "title": "Decision Inspector",
+      "group": "DECISION & CONTEXT",
+      "projection": "DECISION_TRACE",
+      "decision_fabric": "READ_ONLY"
+    },
+    {
+      "route_id": "decision.context-inspector",
+      "title": "Context Inspector",
+      "group": "DECISION & CONTEXT",
+      "projection": "CONTEXT_SELECTION",
+      "decision_fabric": "BOUNDED_RESTORE"
+    },
+    {
+      "route_id": "decision.project-radar",
+      "title": "External Project Radar",
+      "group": "DECISION & CONTEXT",
+      "projection": "PROJECT_RADAR",
+      "decision_fabric": "READ_ONLY"
+    },
+    {
+      "route_id": "integrations.root",
+      "title": "Integrations",
+      "group": "INTEGRATIONS",
+      "projection": "INTEGRATIONS"
+    },
+    {
+      "route_id": "integrations.mcp-gateway",
+      "title": "MCP Gateway",
+      "group": "INTEGRATIONS",
+      "projection": "MCP_GATEWAY"
+    },
+    {
+      "route_id": "integrations.fa3-os",
+      "title": "FA3 OS",
+      "group": "INTEGRATIONS",
+      "projection": "FA3_OS"
+    },
+    {
+      "route_id": "governance.security",
+      "title": "Security & Approvals",
+      "group": "GOVERNANCE",
+      "projection": "SECURITY_APPROVALS"
+    },
+    {
+      "route_id": "governance.tokens",
+      "title": "Token Control Center",
+      "group": "GOVERNANCE",
+      "projection": "TOKEN_GOVERNANCE"
+    },
+    {
+      "route_id": "governance.trust",
+      "title": "Trust & Certificates",
+      "group": "GOVERNANCE",
+      "projection": "TRUST_PKI"
+    },
+    {
+      "route_id": "governance.session-vault",
+      "title": "Session Vault / Kulcsvault",
+      "group": "GOVERNANCE",
+      "projection": "SESSION_VAULT"
+    },
+    {
+      "route_id": "governance.evidence",
+      "title": "Evidence",
+      "group": "GOVERNANCE",
+      "projection": "EVIDENCE"
+    },
+    {
+      "route_id": "governance.observability",
+      "title": "Observability",
+      "group": "GOVERNANCE",
+      "projection": "OBSERVABILITY"
+    },
+    {
+      "route_id": "governance.architecture",
+      "title": "Architecture",
+      "group": "GOVERNANCE",
+      "projection": "ARCHITECTURE"
+    },
+    {
+      "route_id": "governance.journal",
+      "title": "Napló / Journal",
+      "group": "GOVERNANCE",
+      "projection": "JOURNAL"
+    },
+    {
+      "route_id": "system.resources",
+      "title": "Resources",
+      "group": "SYSTEM",
+      "projection": "RESOURCE_STATUS"
+    },
+    {
+      "route_id": "system.accelerator-guard",
+      "title": "Accelerator Guard",
+      "group": "SYSTEM",
+      "projection": "ACCELERATOR_GUARD",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "system.updates",
+      "title": "Update Center",
+      "group": "SYSTEM",
+      "projection": "UPDATE_FABRIC",
+      "agent_native": "UAF_DRAFT_CONSUMER",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "system.settings",
+      "title": "Rendszerbeállítások",
+      "group": "SYSTEM",
+      "projection": "SETTINGS"
+    },
+    {
+      "route_id": "system.runtime",
+      "title": "System",
+      "group": "SYSTEM",
+      "projection": "RUNTIME_INFO"
+    },
+    {
+      "route_id": "global.search",
+      "title": "Keresés",
+      "group": "GLOBAL_TOOL",
+      "projection": "SEARCH"
+    },
+    {
+      "route_id": "global.language",
+      "title": "Tolmács",
+      "group": "GLOBAL_TOOL",
+      "projection": "LANGUAGE_CONTROL"
+    }
   ]
 }
