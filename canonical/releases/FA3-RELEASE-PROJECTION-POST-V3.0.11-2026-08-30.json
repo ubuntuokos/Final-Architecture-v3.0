@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c0c462ab5b417319f495f5282f5f4249300b39aa",
-    "pre_projection_root_tree_sha": "ac8a932d1b5f165bd9c9b7412106a10cbd969906",
-    "pre_projection_canonical_tree_sha": "d28cc497ef7404e8d0df2689f9a4c111f696dd2e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 648,
-    "total_post_baseline_commits": 648,
-    "delta_file_count": 2034,
-    "delta_added_files": 2029,
+    "pre_projection_head_sha": "94024722ac01460f6917dbc8a59b0278b87ac6ac",
+    "pre_projection_root_tree_sha": "c887b423a6dc26007ca74a2732e71ad13fc4fabe",
+    "pre_projection_canonical_tree_sha": "7a55a55c8215adc6f983a53323f103acfb436dd7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 651,
+    "total_post_baseline_commits": 651,
+    "delta_file_count": 2036,
+    "delta_added_files": 2031,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 969,
+    "canonical_files_in_post_baseline_delta": 971,
     "evidence_files_in_post_baseline_delta": 153,
     "source_files_in_post_baseline_delta": 271,
     "test_files_in_post_baseline_delta": 227,
@@ -133,6 +133,7 @@
       "canonical/providers/FA3-PROVIDER-OPEN-MULTI-AGENT-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENAI-API-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
@@ -916,7 +917,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2027,
+  "manifest_entry_count": 2029,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2916,6 +2917,11 @@
     {
       "path": "canonical/FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "2ff7d2bc27391b849e1c47ae95d7af4d4dbecdea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-OPENAI-API-EXTERNAL-POLICY-001.json",
+      "git_blob_sha": "1cb205cfeeba84579cf5c11620989a2d78e3ac19",
       "baseline_delta_status": "added"
     },
     {
@@ -6121,6 +6127,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
       "git_blob_sha": "72840d3ada2d9bad486eb3afde7890741e33148f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPENAI-API-001.json",
+      "git_blob_sha": "b13710f4981dbf13fe145f7f42c8efd0fc44f37e",
       "baseline_delta_status": "added"
     },
     {
