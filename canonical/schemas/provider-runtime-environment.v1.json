@@ -12,7 +12,8 @@
     "secret_delivery",
     "host_global_reconfiguration",
     "upstream_uninstall_required",
-    "supply_chain_receipt_status"
+    "supply_chain_receipt_status",
+    "supply_chain_receipt_sha256"
   ],
   "properties": {
     "schema": {
@@ -47,6 +48,10 @@
     },
     "supply_chain_receipt_status": {
       "const": "PASS"
+    },
+    "supply_chain_receipt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
     }
   }
 }
