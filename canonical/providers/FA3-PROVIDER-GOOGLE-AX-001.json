@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-GOOGLE-AX-001",
   "name": "Google AX Optional Agent Workload Runtime Provider",
-  "status": "CANONICAL_OPTIONAL_PROVIDER_STATIC_BRIDGE_AND_CUSTOM_RUNNER_SOURCE_MATERIALIZED_CLUSTER_E2E_PENDING",
+  "status": "CANONICAL_OPTIONAL_PROVIDER_STATIC_BRIDGE_CUSTOM_RUNNER_AND_CLUSTER_APPLY_SOURCE_MATERIALIZED_CLUSTER_E2E_PENDING",
   "provider_role": "OPTIONAL_EXTERNAL_CLUSTER_EXECUTION_PROVIDER",
   "canonical_root": false,
   "architectural_authority": false,
@@ -56,13 +56,17 @@
     "upstream_schema_bound": true,
     "custom_runner_materialized": false,
     "custom_runner_required_for_full_fa3_workspace_semantics": true,
-    "cluster_apply_adapter_materialized": false,
+    "cluster_apply_adapter_materialized": true,
     "cluster_e2e_required": true,
     "debug_requires_fa3_authorization": true,
     "custom_runner_source_materialized": true,
     "custom_runner_plan_compiler": "src/fa3_google_ax_custom_runner.py",
     "custom_runner_plan_contract": "FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001",
-    "runner_image_build_evidence": false
+    "runner_image_build_evidence": false,
+    "cluster_apply_adapter": "src/fa3_google_ax_cluster_apply.py",
+    "cluster_apply_plan_contract": "FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001",
+    "cluster_apply_requires_verified_runner_image_evidence": true,
+    "cluster_apply_requires_scope_bound_security_approval": true
   },
   "upstream_infrastructure": {
     "kubernetes": true,
@@ -79,7 +83,7 @@
     "filesystem_isolation": true,
     "accelerator_passthrough": "PROVIDER_AND_HRB_ADMISSION_REQUIRED"
   },
-  "runtime_activation_status": "PENDING_RUNNER_IMAGE_CLUSTER_APPLY_AND_CLUSTER_E2E",
+  "runtime_activation_status": "PENDING_RUNNER_IMAGE_BUILD_EVIDENCE_AND_SCOPE_BOUND_CLUSTER_E2E",
   "distribution": {
     "class": "EXTERNAL_REDISTRIBUTABLE",
     "release_bundle_status": "EXCLUDED",
