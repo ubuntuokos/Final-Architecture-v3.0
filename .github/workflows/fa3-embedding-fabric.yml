@@ -1,0 +1,56 @@
+name: FA3 Embedding Fabric
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-EMBEDDING-FABRIC-001.json'
+      - 'canonical/contracts/FA3-EMBEDDING-FABRIC-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TEI-001.json'
+      - 'canonical/providers/FA3-PROVIDER-MODEL2VEC-001.json'
+      - 'canonical/providers/FA3-PROVIDER-FLAG-EMBEDDING-001.json'
+      - 'canonical/embedding-fabric-enforcement.json'
+      - 'canonical/FA3-GATE-EMBEDDING-FABRIC-001.json'
+      - 'canonical/decisions/FA3-DEC-EMBEDDING-FABRIC-2026-09-25.json'
+      - 'canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json'
+      - 'canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MODEL-MANAGER-001.json'
+      - 'canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json'
+      - 'canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json'
+      - 'src/fa3_embedding_fabric_gate.py'
+      - 'tests/test_embedding_fabric_gate.py'
+      - 'docs/FA3-EMBEDDING-FABRIC-001.md'
+  push:
+    branches: ['fa3/embedding-fabric-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Syntax
+        run: python -m py_compile src/fa3_embedding_fabric_gate.py
+      - name: Unit regressions
+        run: PYTHONPATH=. python -m unittest tests.test_embedding_fabric_gate -v
+      - name: Embedding Fabric gate
+        run: PYTHONPATH=src python src/fa3_embedding_fabric_gate.py --root .
+      - name: Reuse Discovery regression
+        run: ./bin/fa3-enforce reuse-discovery
+      - name: Supply/runtime hardening regression
+        run: ./bin/fa3-enforce supply-runtime-hardening
+      - name: Hardware portability regression
+        run: ./bin/fa3-enforce hardware-portability
+      - name: Diff whitespace
+        run: git diff --check HEAD^ HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-embedding-fabric-gate
+          path: reports/embedding-fabric-gate-report.json
+          if-no-files-found: error
