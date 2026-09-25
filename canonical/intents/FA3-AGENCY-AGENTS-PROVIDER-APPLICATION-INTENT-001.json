@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AGENCY-AGENTS-PROVIDER-APPLICATION-INTENT-001",
+  "project_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+  "project_type": "PROVIDER",
+  "goal": "Reconcile the Agency Agents reference provider with the physical FA3 GUI current-host closure while keeping it a non-authoritative catalog/persona/runbook projection and reusing existing agent, GUI, security and evidence boundaries.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "gui-current-host",
+    "agent-catalog",
+    "persona-projection",
+    "runbook-projection",
+    "reference-provider"
+  ],
+  "task_classes": [
+    "gui-current-host",
+    "agent-catalog",
+    "persona-projection",
+    "runbook-projection",
+    "reference-provider"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "AGENCY_AGENTS_GUI_CURRENT_HOST_PROJECTION_CLOSURE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-agency-agents-provider",
+    "service_prefix": "fa3-agency-agents-provider",
+    "config_root": "$XDG_CONFIG_HOME/fa3/agency-agents-provider",
+    "cache_root": "$XDG_CACHE_HOME/fa3/agency-agents-provider",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/agency-agents-provider",
+    "socket_namespace": "fa3/agency-agents-provider",
+    "data_root": "$XDG_DATA_HOME/fa3/agency-agents-provider",
+    "desktop_prefix": "org.fa3.agency.agents.provider",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}
