@@ -1,11 +1,13 @@
 import sys
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_quality_filter import analyze_text, infer_concerns, load_rules, select_quality_skills
+from fa3_quality_filter import _git_changed_paths, analyze_text, infer_concerns, load_rules, select_quality_skills
 
 class QualityFilterTests(unittest.TestCase):
     @classmethod
@@ -68,6 +70,13 @@ class QualityFilterTests(unittest.TestCase):
             ["fa3-quality-ui", "fa3-quality-copy", "fa3-quality-human", "fa3-quality-responsive"],
         )
         self.assertNotIn("fa3-quality-code", selected)
+
+    @patch("fa3_quality_filter.subprocess.run")
+    def test_changed_file_scan_excludes_deleted_paths(self, run):
+        run.return_value = SimpleNamespace(returncode=0, stdout="src/kept.py\n", stderr="")
+        self.assertEqual(_git_changed_paths(ROOT, "origin/main"), ["src/kept.py"])
+        argv = run.call_args.args[0]
+        self.assertIn("--diff-filter=ACMRTUXB", argv)
 
     def test_registry_shape(self):
         ids = [r["id"] for r in self.registry["rules"]]
