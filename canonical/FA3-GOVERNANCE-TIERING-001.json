@@ -2,14 +2,14 @@
   "schema": "fa3.governance-tiering.projection.v1",
   "id": "FA3-GOVERNANCE-TIERING-001",
   "title": "Governance Tiering Derived Projection",
-  "architecture_release": "2026-08-23/v3.0.11",
+  "architecture_release": "2026-09-26/v3.1.0",
   "type": "DERIVED_GOVERNANCE_PROJECTION",
   "status": "CANONICAL_PROJECTION",
-  "semantic_effect": "NO_BASELINE_SEMANTIC_CHANGE",
+  "semantic_effect": "CAPABILITY_MODEL_EXPANSION_143_TO_175",
   "authority_delta": 0,
-  "capability_delta": 0,
+  "capability_delta": 32,
   "canonical_capability_count_before": 143,
-  "canonical_capability_count_after": 143,
+  "canonical_capability_count_after": 175,
   "purpose": "Expose a single read-only lifecycle view over existing FA3 canonical, evidence, acceptance and promotion authorities while formalizing only the non-authoritative assurance rings LAB, CANDIDATE and STAGING.",
   "non_authority": {
     "may_promote_runtime": false,
@@ -165,5 +165,6 @@
     ],
     "unknown_must_be_visible": true,
     "never_render_unknown_as_pass": true
-  }
+  },
+  "capability_model_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
