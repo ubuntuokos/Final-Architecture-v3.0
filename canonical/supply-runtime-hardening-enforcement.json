@@ -26,7 +26,8 @@
       "OCI",
       "HOST_NATIVE"
     ],
-    "conda_mamba_baseline": "DENY"
+    "conda_mamba_baseline": "DENY",
+    "supply_chain_receipt_digest_required": true
   },
   "hrb": {
     "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
@@ -38,7 +39,9 @@
   "upstream": {
     "patchset_schema": "fa3.upstream-patch-set.v1",
     "unmanaged_patch": "DENY",
-    "reference_only_runtime_admission": "DENY"
+    "reference_only_runtime_admission": "DENY",
+    "patched_vendor_supply_chain_receipt_digest_required": true,
+    "patched_vendor_distribution_admission_required": true
   },
   "hu_aqc": {
     "profile_id": "FA3-HU-AQC-001",
