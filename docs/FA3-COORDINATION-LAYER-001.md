@@ -84,7 +84,9 @@ Derived readiness is a projection. It is not authorization to run a node.
 
 ## GUI
 
-The Control Center keeps one top-level **Work Management** surface. A child tab named **Coordination** projects Objective / Dependency / Handoff / Blocker state. It is read-only; mutating operations must continue through typed UAF intent and the existing approval/authority chain.
+The canonical Work Management projection reserves a read-only **Coordination** child view for Objective / Dependency / Handoff / Blocker state. The QML/runtime binding is intentionally **not materialized in this core PR** because changing the physical Control Center runtime surface invalidates the current-host GUI receipt and requires a separate physical desktop requalification. Mutating operations must continue through typed UAF intent and the existing approval/authority chain.
+
+Current status: `PENDING_SEPARATE_GUI_REQUALIFICATION`; no GUI current-host promotion is claimed by this Objective Coordination materialization.
 
 ## Materialization plan
 
@@ -105,12 +107,13 @@ The Control Center keeps one top-level **Work Management** surface. A child tab 
 - replay-safe event correlation;
 - fail-closed authority claims.
 
-### Phase 3 — Work Management projection — MATERIALIZED
+### Phase 3 — Work Management canonical projection — MATERIALIZED; QML runtime binding — PENDING
 
-- Coordination child view;
+- canonical Coordination child-view contract;
 - no duplicate top-level task manager;
-- objective/blocker/handoff lists;
-- provider-neutral projection.
+- objective/blocker/handoff projection semantics;
+- provider-neutral and read-only projection;
+- QML/runtime surface binding deferred to a separate GUI work item that must obtain fresh physical desktop evidence.
 
 ### Phase 4 — Live adapters — PENDING
 
@@ -137,7 +140,7 @@ Required before any production/current-host closure claim:
 - provider disconnect/reconnect reconciliation;
 - no-authority negative tests;
 - CPU-only run;
-- GUI projection evidence;
+- GUI projection evidence after the separate QML/runtime binding is materialized;
 - rollback/cleanup evidence.
 
 ## Gate
