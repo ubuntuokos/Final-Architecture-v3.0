@@ -4,12 +4,14 @@ import argparse, json, shutil, subprocess, tempfile
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_supply_chain_admission import canonical_json_sha256, evaluate_receipt, sha256_file
+from fa3_supply_chain_admission import canonical_json_sha256, evaluate_license_policy, evaluate_receipt, sha256_file, sha256_tree
 
 def version(binary:str)->str:
-    p=subprocess.run([binary,"version"],text=True,capture_output=True,timeout=20)
-    text=(p.stdout or p.stderr).strip().splitlines()
-    return text[0][:200] if text else "UNKNOWN"
+    for arg in ("version","--version"):
+        p=subprocess.run([binary,arg],text=True,capture_output=True,timeout=20)
+        text=(p.stdout or p.stderr).strip().splitlines()
+        if p.returncode==0 and text:return text[0][:200]
+    return "UNKNOWN"
 
 def run(cmd:list[str])->str:
     p=subprocess.run(cmd,text=True,capture_output=True,timeout=600)
@@ -20,7 +22,7 @@ def main()->int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--target",required=True); ap.add_argument("--source-repository",required=True); ap.add_argument("--source-commit",required=True)
     ap.add_argument("--dependency-lock"); ap.add_argument("--declared-license",required=True)
-    ap.add_argument("--commercial-compatible",action="store_true"); ap.add_argument("--redistribution-compatible",action="store_true")
+    ap.add_argument("--license-policy",default="canonical/supply-chain-license-policy.json")
     ap.add_argument("--output",default="evidence/receipts/supply-chain-admission.json")
     a=ap.parse_args(); target=Path(a.target).resolve()
     syft=shutil.which("syft"); grype=shutil.which("grype"); scancode=shutil.which("scancode")
@@ -40,12 +42,16 @@ def main()->int:
             for d in f.get("license_detections",[]):
                 expr=d.get("license_expression_spdx") or d.get("license_expression")
                 if expr: detected.add(expr)
+        policy_path=Path(a.license_policy)
+        if not policy_path.is_absolute(): policy_path=Path.cwd()/policy_path
+        policy=json.loads(policy_path.read_text(encoding="utf-8"))
+        license_eval=evaluate_license_policy(a.declared_license,sorted(detected),policy)
         receipt={"schema":"fa3.software-supply-chain-receipt.v1","source":{"repository":a.source_repository,"commit":a.source_commit},
-          "artifact":{"path":str(target),"sha256":sha256_file(target) if target.is_file() else canonical_json_sha256({"path":str(target)})},
+          "artifact":{"path":str(target),"sha256":sha256_tree(target),"hash_scope":"FILE_CONTENT" if target.is_file() else "DETERMINISTIC_TREE_CONTENT"},
           "dependency_lock":{"required":bool(a.dependency_lock),"sha256":sha256_file(Path(a.dependency_lock)) if a.dependency_lock else None},
           "sbom":{"format":"CYCLONEDX_JSON","sha256":sha256_file(sbom),"scanner":"syft","scanner_version":version(syft)},
           "license":{"scanner":"scancode","scanner_version":version(scancode),"declared_expression":a.declared_license,
-            "detected_expressions":sorted(detected),"conflicts":[],"commercial_compatible":a.commercial_compatible,"redistribution_compatible":a.redistribution_compatible},
+            "detected_expressions":sorted(detected),"conflicts":[],"commercial_compatible":license_eval["commercial_compatible"],"redistribution_compatible":license_eval["redistribution_compatible"],"declaration_matches_detection":license_eval["declaration_matches_detection"],"policy_id":policy.get("id"),"policy_result":license_eval["result"],"policy_reasons":license_eval["reasons"]},
           "vulnerabilities":{"scanner":"grype","scanner_version":version(grype),"findings":findings},
           "provenance":{"builder":"fa3_supply_chain_scan.py","build_recipe_sha256":canonical_json_sha256({"target":str(target),"source":a.source_repository,"commit":a.source_commit})}}
         receipt["admission"]=evaluate_receipt(receipt)
