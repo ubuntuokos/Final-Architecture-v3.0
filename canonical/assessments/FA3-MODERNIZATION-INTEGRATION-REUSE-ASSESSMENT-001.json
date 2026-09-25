@@ -1,0 +1,128 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-MODERNIZATION-INTEGRATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-MODERNIZATION-INTEGRATION-001",
+  "intent_id": "FA3-MODERNIZATION-INTEGRATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-MODERNIZATION-INTEGRATION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-MODERNIZATION-INTEGRATION-001",
+    "FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001",
+    "FA3-DEC-MODERNIZATION-INTEGRATION-2026-09-25",
+    "FA3-MODERNIZATION-PROVIDER-CANDIDATES-2026-09-25"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-INFERENCE-PORTABILITY-001",
+      "use": "PORTABLE_INFERENCE_AND_COMPILER_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_AND_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-PROVIDER-RUNTIME-001",
+      "use": "RUNTIME_ENVIRONMENT_AND_SUPPLY_CHAIN_BOUNDARY"
+    },
+    {
+      "id": "FA3-RUNTIME-ISOLATION-001",
+      "use": "EXISTING_RUNTIME_HARDENING_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_AND_RIGHTS_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "SECRET_AND_PRIVATE_KEY_DELIVERY_BOUNDARY"
+    },
+    {
+      "id": "FA3-KNOWLEDGE-001",
+      "use": "KNOWLEDGE_AND_RETRIEVAL_AUTHORITY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ACTION_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-QUALITY-ANTI-SLOP-001",
+      "use": "EXISTING_QUALITY_REGRESSION_BOUNDARY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_UNIFIED_EXECUTION_ENGINE_AUTHORITY",
+      "reason": "INFERENCE_PORTABILITY_MODEL_ROUTER_AND_HRB_ALREADY_OWN_THE_REQUIRED_BOUNDARIES"
+    },
+    {
+      "id": "NEW_DISTRIBUTED_HRB_AUTHORITY",
+      "reason": "AGENT_FEDERATION_PLUS_REMOTE_HRB_ALREADY_DEFINE_CROSS_HOST_EXECUTION"
+    },
+    {
+      "id": "NEW_SEMANTIC_ROUTER_AUTHORITY",
+      "reason": "FA3_KNOWLEDGE_HYBRID_RETRIEVAL_ALREADY_EXISTS"
+    },
+    {
+      "id": "NEW_HRB_FINANCIAL_AUTHORITY",
+      "reason": "COST_IS_DERIVED_FROM_USAGE_RECEIPTS_NOT_RESOURCE_ADMISSION"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "MODERNIZATION_CROSS_CUTTING_CONTRACT",
+    "REFERENCE_ONLY_PROVIDER_CANDIDATE_MATRIX",
+    "EXECUTABLE_AUTHORITY_AND_EVIDENCE_BOUNDARY_GATE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION_PROVIDER_RUNTIME_ADMISSION_SEPARATE",
+  "gap_resolution": [
+    {
+      "gap": "MODERNIZATION_CROSS_CUTTING_CONTRACT",
+      "status": "MATERIALIZED_BY_THIS_CHANGE",
+      "evidence": "FA3-MODERNIZATION-INTEGRATION-GATESET-001"
+    },
+    {
+      "gap": "REFERENCE_ONLY_PROVIDER_CANDIDATE_MATRIX",
+      "status": "MATERIALIZED_REFERENCE_ONLY",
+      "evidence": "FA3-MODERNIZATION-PROVIDER-CANDIDATES-2026-09-25"
+    },
+    {
+      "gap": "EXECUTABLE_AUTHORITY_AND_EVIDENCE_BOUNDARY_GATE",
+      "status": "MATERIALIZED_BY_THIS_CHANGE",
+      "evidence": "FA3-GATE-MODERNIZATION-INTEGRATION-001"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

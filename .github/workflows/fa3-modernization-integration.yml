@@ -1,0 +1,64 @@
+name: FA3 Modernization Integration
+on:
+  push:
+    branches: ["fa3/**"]
+    paths:
+      - "canonical/*MODERNIZATION*"
+      - "canonical/**/*MODERNIZATION*"
+      - "canonical/modernization-integration-enforcement.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_modernization_integration*.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_modernization_integration.py"
+      - "docs/FA3-MODERNIZATION-INTEGRATION-2026-09-25.md"
+      - ".github/workflows/fa3-modernization-integration.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-materialization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Syntax
+        run: python -m py_compile src/fa3_modernization_integration.py src/fa3_modernization_integration_gate.py tests/test_modernization_integration.py
+      - name: Modernization regressions
+        run: PYTHONPATH=src python -m unittest tests.test_modernization_integration -v
+      - name: Reuse Discovery
+        run: ./bin/fa3-enforce reuse-discovery
+      - name: Mandatory Hardware Audit
+        run: ./bin/fa3-enforce hardware-portability
+      - name: Existing inference portability boundary
+        run: ./bin/fa3-enforce inference-portability
+      - name: Existing runtime hardening boundary
+        run: ./bin/fa3-enforce runtime-hardening
+      - name: Existing provider runtime / supply-chain boundary
+        run: ./bin/fa3-enforce supply-runtime-hardening
+      - name: Existing Model Router provider-execution boundary
+        run: ./bin/fa3-enforce model-router-provider-execution
+      - name: Modernization integration gate
+        run: ./bin/fa3-enforce modernization-integration
+      - name: No synthetic current-host promotion
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("reports/modernization-integration-gate-report.json"))
+          assert r["result"]=="PASS",r
+          assert r["status"]=="STATIC_MATERIALIZED_CURRENT_HOST_PENDING",r
+          assert r["current_host_promotion_claim"] is False,r
+          assert r["global_promotion_claim"] is False,r
+          PY
+      - name: Diff whitespace
+        run: git diff --check HEAD^ HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-modernization-integration-gate
+          path: reports/modernization-integration-gate-report.json
+          if-no-files-found: error

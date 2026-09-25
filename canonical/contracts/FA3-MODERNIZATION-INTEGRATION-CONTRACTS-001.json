@@ -1,0 +1,169 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "scope": "CROSS_CUTTING_MATERIAL_EXTENSION_OVER_EXISTING_AUTHORITIES",
+  "authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "provider_runtime": "FA3-PROVIDER-RUNTIME-001"
+  },
+  "contracts": {
+    "inference_compilation_and_serving": {
+      "new_execution_authority": false,
+      "model_selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "provider_runtime_profile": "FA3-PROVIDER-RUNTIME-001",
+      "supply_chain_admission_required": true,
+      "compiled_artifact_is_derived": true,
+      "compiled_artifact_lineage_required": true,
+      "runtime_physical_model_pin_in_canonical_route_forbidden": true,
+      "silent_fallback_forbidden": true,
+      "candidate_classes": [
+        "SERVING_RUNTIME",
+        "PORTABLE_IR",
+        "COMPILER_BACKEND"
+      ]
+    },
+    "runtime_enforcement": {
+      "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+      "provider_is_authority": false,
+      "phases": [
+        "OBSERVE",
+        "SHADOW_ENFORCE",
+        "ENFORCE"
+      ],
+      "production_block_claim_requires_operation_prevention_evidence": true,
+      "signal_only_claim_is_not_operation_prevention": true,
+      "privileged_host_mutation_requires_existing_authorization": true,
+      "provider_runtime_and_supply_chain_admission_required": true
+    },
+    "usage_rights": {
+      "generalizes_existing_voice_consent_semantics": true,
+      "asset_types": [
+        "VOICE",
+        "FACE",
+        "LIKENESS",
+        "AVATAR",
+        "MOTION",
+        "IMAGE",
+        "VIDEO",
+        "DATASET",
+        "PERSONA",
+        "TRAINING_MATERIAL"
+      ],
+      "required_fields": [
+        "rights_asset_id",
+        "subject_ref",
+        "asset_type",
+        "issuer",
+        "valid_from",
+        "valid_until",
+        "allowed_purposes",
+        "forbidden_purposes",
+        "source_asset_hashes",
+        "signature",
+        "signature_key_id",
+        "evidence_refs"
+      ],
+      "signature_verification_required": true,
+      "issuer_trust_required": true,
+      "revocation_freshness_required": true,
+      "purpose_scope_match_required": true,
+      "private_key_storage": "EXISTING_SECRET_BROKER_PKI_ONLY",
+      "plaintext_private_key_forbidden": true,
+      "fail_closed": true
+    },
+    "knowledge_acceleration": {
+      "authority": "FA3-KNOWLEDGE-001",
+      "provider_is_authority": false,
+      "native_source_preservation_required": true,
+      "index_is_derived_rebuildable": true,
+      "embedding_model_self_selection_forbidden": true,
+      "direct_application_bypass_forbidden": true,
+      "provider_native_snapshot_preferred_for_backup": true,
+      "restore_validation_and_evidence_required": true
+    },
+    "finops_projection": {
+      "hrb_financial_authority": false,
+      "inputs": [
+        "HRB_LEASE_RECEIPT",
+        "RUNTIME_TELEMETRY",
+        "ENERGY_TELEMETRY",
+        "PROVIDER_BILLING_REFERENCE"
+      ],
+      "derived_projection": true,
+      "authoritative_promotion_evidence": false,
+      "tariffs_dynamic_input": true,
+      "hardcoded_tariffs_forbidden": true,
+      "hardcoded_exchange_rates_forbidden": true,
+      "hardcoded_amortization_forbidden": true
+    },
+    "quality_regression": {
+      "reuse": [
+        "FA3-QUALITY-ANTI-SLOP-001",
+        "FA3-HU-AQC-001"
+      ],
+      "ai_judge_authority": false,
+      "ai_judge_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "single_ai_score_fail_closed_truth_authority": false,
+      "required_layers": [
+        "DETERMINISTIC_VALIDATORS",
+        "QUANTITATIVE_METRICS",
+        "OPTIONAL_AI_EVALUATOR",
+        "HUMAN_OR_GOLDEN_BENCHMARK_WHEN_REQUIRED"
+      ]
+    },
+    "degraded_execution": {
+      "silent_fallback_forbidden": true,
+      "reroute_requires_explicit_policy": true,
+      "reroute_requires_new_resource_admission": true,
+      "executed_provider_model_device_receipt_required": true
+    },
+    "reproducibility": {
+      "nix_or_equivalent_role": "OPTIONAL_BUILD_DEV_CI_PROVIDER",
+      "mandatory_runtime_dependency": false,
+      "vendor_specific_overlay_must_not_be_global_baseline": true
+    },
+    "confidential_execution": {
+      "status": "DEFERRED_P2_PROVIDER_PROFILE",
+      "global_hardware_requirement": false,
+      "attestation_required_before_future_admission": true
+    }
+  },
+  "mandatory_invariants": [
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "MODEL_ROUTING_REMAINS_FA3_AUTH_MODEL_ROUTER_001",
+    "HOST_RESOURCE_ADMISSION_REMAINS_FA3_AUTH_HOST_RESOURCE_BROKER_001",
+    "KNOWLEDGE_AUTHORITY_REMAINS_FA3_KNOWLEDGE_001",
+    "SECURITY_POLICY_REMAINS_FA3_AUTH_SECURITY_GOV_001",
+    "UAF_REMAINS_ACTION_MEDIATION_BOUNDARY",
+    "EVIDENCE_AUTHORITY_REMAINS_FA3_AUTH_OBS_EVIDENCE_001",
+    "PROVIDER_RUNTIME_AND_SUPPLY_CHAIN_ADMISSION_REQUIRED",
+    "CPU_ONLY_BASELINE_REMAINS_CONFORMANT",
+    "ACCELERATOR_CARDINALITY_REMAINS_0_TO_N",
+    "GLOBAL_VENDOR_SKU_RUNTIME_PIN_FORBIDDEN",
+    "SILENT_MODEL_PROVIDER_DEVICE_OR_CLOUD_FALLBACK_FORBIDDEN",
+    "FIXED_DEFAULT_PORT_CLAIM_FORBIDDEN",
+    "PLAINTEXT_PRIVATE_KEY_OR_SECRET_IN_REPO_ENV_OR_COMMAND_LINE_FORBIDDEN",
+    "RUNTIME_ENFORCEMENT_PROVIDER_CANNOT_BECOME_SECURITY_AUTHORITY",
+    "USAGE_RIGHTS_FAIL_CLOSED_FOR_RESTRICTED_GENERATIVE_USE",
+    "KNOWLEDGE_ACCELERATOR_DERIVED_REBUILDABLE_AND_NON_AUTHORITY",
+    "FINOPS_IS_DERIVED_PROJECTION_NOT_HRB_AUTHORITY",
+    "HARDCODED_TARIFF_EXCHANGE_RATE_OR_AMORTIZATION_AS_CANONICAL_POLICY_FORBIDDEN",
+    "AI_JUDGE_ADVISORY_ONLY_AND_MODEL_ROUTER_MEDIATED",
+    "CURRENT_HOST_PASS_CANNOT_BE_DOCUMENT_DERIVED",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED",
+    "OPEN_PR_OVERLAP_MUST_BE_RECONCILED_BEFORE_PROMOTION"
+  ]
+}

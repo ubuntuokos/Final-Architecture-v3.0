@@ -1,0 +1,93 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODERNIZATION-INTEGRATION-2026-09-25",
+  "date": "2026-09-25",
+  "status": "ACCEPTED_STATIC_MATERIALIZED_CURRENT_HOST_PENDING",
+  "title": "OpenXLA/vLLM, runtime enforcement, usage-rights, knowledge acceleration and FinOps modernization reconciliation",
+  "baseline": {
+    "main_commit_audited": "1b8f373c31f8c272d803ccedc834ba4c3084c84d",
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_architectural_authorities": 0,
+    "current_host_promotion_claim": false,
+    "global_promotion_claim": false
+  },
+  "mandatory_reuse": {
+    "inference_portability": "FA3-INFERENCE-PORTABILITY-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_runtime": "FA3-PROVIDER-RUNTIME-001",
+    "runtime_hardening": "FA3-RUNTIME-ISOLATION-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secret_broker": "FA3-SECRET-BROKER-001",
+    "quality": "FA3-QUALITY-ANTI-SLOP-001"
+  },
+  "open_pr_reconciliation": [
+    {
+      "pr": 390,
+      "topic": "Embedding Fabric",
+      "rule": "DO_NOT_DUPLICATE_EMBEDDING_AUTHORITY_OR_CONTRACTS",
+      "status_at_audit": "OPEN_DRAFT_MERGEABLE"
+    },
+    {
+      "pr": 241,
+      "topic": "PageIndex/Knowledge closure",
+      "rule": "PRESERVE_KNOWLEDGE_AUTHORITY_AND_HYBRID_RETRIEVAL_BOUNDARY",
+      "status_at_audit": "OPEN_NON_MERGEABLE"
+    },
+    {
+      "pr": 177,
+      "topic": "Marketing consent/suppression hardening",
+      "rule": "REUSE_VALID_CONSENT_REVOCATION_SEMANTICS_WITHOUT_REBASING_STALE_IMPLEMENTATION",
+      "status_at_audit": "OPEN_NON_MERGEABLE"
+    },
+    {
+      "pr": 176,
+      "topic": "Measured compute",
+      "rule": "REUSE_MEASURED_USAGE_IDEA_WITHOUT_CREATING_HRB_FINANCIAL_AUTHORITY",
+      "status_at_audit": "OPEN_NON_MERGEABLE"
+    }
+  ],
+  "accepted": [
+    "VLLM_AS_OPTIONAL_MODEL_ROUTER_MEDIATED_SERVING_RUNTIME_CANDIDATE",
+    "STABLEHLO_OPENXLA_AS_PORTABLE_IR_COMPILER_CANDIDATE_NOT_EXECUTION_AUTHORITY",
+    "TVM_AS_COMPILER_BACKEND_CANDIDATE_NOT_RESOURCE_AUTHORITY",
+    "TETRAGON_AS_SECURITY_GOVERNANCE_MEDIATED_RUNTIME_ENFORCEMENT_CANDIDATE",
+    "GENERALIZED_SIGNED_USAGE_RIGHTS_ASSET_REUSING_EXISTING_CONSENT_PKI_SECRET_BOUNDARIES",
+    "LANCEDB_AS_DERIVED_REBUILDABLE_KNOWLEDGE_ACCELERATOR_CANDIDATE",
+    "FINOPS_AS_DERIVED_USAGE_LEDGER_PROJECTION",
+    "AI_JUDGE_AS_ADVISORY_QUALITY_SIGNAL_ONLY",
+    "NIX_OR_EQUIVALENT_AS_OPTIONAL_REPRODUCIBILITY_PROVIDER"
+  ],
+  "rejected": [
+    "NEW_UNIFIED_EXECUTION_ENGINE_AUTHORITY",
+    "NEW_DISTRIBUTED_HRB_AUTHORITY",
+    "NEW_SEMANTIC_ROUTER_AUTHORITY",
+    "NEW_HRB_FINANCIAL_AUTHORITY",
+    "MODEL_PROVIDER_DEVICE_OR_CLOUD_SILENT_FALLBACK",
+    "GLOBAL_VENDOR_ACCELERATOR_RUNTIME_PIN",
+    "FIXED_DEFAULT_PORT_OWNERSHIP",
+    "PLAINTEXT_SECRET_OR_PRIVATE_KEY_IN_REPOSITORY_ENVIRONMENT_OR_COMMAND_LINE",
+    "DOCUMENT_DERIVED_CURRENT_HOST_PASS",
+    "UPSTREAM_REPLACEMENT_UNINSTALL_OR_HOST_GLOBAL_HIJACK"
+  ],
+  "deferred": [
+    "PHYSICAL_VLLM_PROVIDER_ADMISSION",
+    "PHYSICAL_TETRAGON_PROVIDER_ADMISSION",
+    "PHYSICAL_STABLEHLO_TVM_COMPILER_ADMISSION",
+    "PHYSICAL_LANCEDB_PROVIDER_ADMISSION",
+    "CONFIDENTIAL_EXECUTION_PROVIDER_PROFILE",
+    "GRAPH_PROVIDER_SELECTION",
+    "GUI_SURFACES_UNTIL_PR_380_STABILIZES"
+  ],
+  "closure_semantics": {
+    "this_change": "STATIC_CONTRACT_REFERENCE_AND_EXECUTABLE_GATE_ONLY",
+    "provider_admission": "SEPARATE_REUSE_SUPPLY_CHAIN_PROVIDER_RUNTIME_AND_CURRENT_HOST_EVIDENCE_REQUIRED",
+    "current_host_surfaces": "PENDING_CURRENT_HOST",
+    "global_promotion_claim": false,
+    "fabricated_current_host_pass_forbidden": true
+  }
+}
