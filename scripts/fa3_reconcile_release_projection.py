@@ -247,6 +247,32 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
     }
 
+    projection["reuse_discovery_reconciliation"] = {
+        "profile_id": "FA3-REUSE-DISCOVERY-001",
+        "contract_id": "FA3-REUSE-DISCOVERY-CONTRACTS-001",
+        "catalog_id": "FA3-REUSE-CATALOG-001",
+        "decision_id": "FA3-DEC-REUSE-DISCOVERY-2026-09-24",
+        "decision_fabric_assessment_id": "FA3-REUSE-DISCOVERY-2026-09-24",
+        "gate_id": "FA3-REUSE-DISCOVERY-GATESET-001",
+        "executable_gate_id": "FA3-GATE-REUSE-DISCOVERY-001",
+        "application_intent_contract_id": "FA3-APPLICATION-INTENT-001",
+        "reuse_assessment_contract_id": "FA3-REUSE-ASSESSMENT-001",
+        "reusable_pattern_contract_id": "FA3-REUSABLE-PATTERN-001",
+        "catalog_semantics": "DERIVED_REBUILDABLE_NON_AUTHORITATIVE",
+        "decision_fabric_role": "POST_FILTER_BOUNDED_ADVISORY_RANKING_ONLY",
+        "agent_native_role": "REUSE_PROPOSAL_ONLY_NOT_ADMISSION",
+        "hardware_profile_id": "FA3-HARDWARE-BASELINE-001",
+        "software_coexistence_required": True,
+        "golden_project_id": "FA3-EMBEDDING-FABRIC-001",
+        "golden_project_status": "PLANNED_NOT_MATERIALIZED_BY_REUSE_DISCOVERY",
+        "reference_evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json",
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
+    }
+
     projection["quality_anti_slop_reconciliation"] = {
         "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
         "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",

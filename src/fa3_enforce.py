@@ -55,6 +55,7 @@ from fa3_marketing_agent_native_gate import gate as marketing_agent_native_gate
 from fa3_marketingskills_gate import gate as marketingskills_gate
 from fa3_skill_fabric_gate import gate as skill_fabric_gate
 from fa3_distribution_compliance_gate import gate as distribution_compliance_gate
+from fa3_reuse_gate import gate as reuse_discovery_gate
 from fa3_whisper_stt_gate import gate as whisper_stt_gate
 from fa3_whisper_stt_provider import run_executable_conformance as whisper_stt_provider_conformance
 from fa3_cosyvoice_gate import gate as cosyvoice_gate, current_host_gate as cosyvoice_current_host_gate
@@ -307,6 +308,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-122","Provider-neutral Skill Fabric gate is not bound into global enforcement policy"))
     if "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-123","Distribution Compliance gate is not bound into global enforcement policy"))
+    if "FA3-REUSE-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-130","Reuse Discovery gate is not bound into global enforcement policy"))
     if "FA3-AGENCY-AGENTS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider gate is not bound into global enforcement policy"))
     if "FA3-AGENT-DEFINITION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -498,6 +501,9 @@ def static_check(root:Path):
     distribution_compliance_ref=distribution_compliance_gate(root)
     if distribution_compliance_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-123","Distribution Compliance gate failed",distribution_compliance_gate=distribution_compliance_ref))
+    reuse_discovery_ref=reuse_discovery_gate(root)
+    if reuse_discovery_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-131","Reuse Discovery mandatory pre-implementation gate failed",reuse_discovery_gate=reuse_discovery_ref))
     marketingskills_ref=marketingskills_gate(root)
     if marketingskills_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-083","MarketingSkills skill-package admission gate failed",marketingskills_gate=marketingskills_ref))
@@ -645,7 +651,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","skill-fabric","distribution-compliance","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -767,6 +773,8 @@ def main():
             x=skill_fabric_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="distribution-compliance":
             x=distribution_compliance_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="reuse-discovery":
+            x=reuse_discovery_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="agency-agents":
             x=agency_agents_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="agent-definition":

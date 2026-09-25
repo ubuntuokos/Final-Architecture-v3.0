@@ -1,0 +1,155 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-REUSE-DISCOVERY-CONTRACTS-001",
+  "version": "1.1.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": {
+    "CapabilityNeedSet": {
+      "required": [
+        "required_capabilities",
+        "optional_capabilities",
+        "problem_classes"
+      ],
+      "derived": true
+    },
+    "ReuseCandidate": {
+      "required": [
+        "candidate_id",
+        "candidate_class",
+        "source_path",
+        "score",
+        "reuse_mode",
+        "authority"
+      ],
+      "source_truth": "CANONICAL_SOURCE_RECORD"
+    },
+    "ReuseContext": {
+      "required": [
+        "project_id",
+        "intent_id",
+        "eligible_candidates",
+        "existing_authority_bindings",
+        "reusable_patterns",
+        "gaps",
+        "constraints"
+      ],
+      "agent_native_read_only": true
+    },
+    "ReuseProposal": {
+      "required": [
+        "project_id",
+        "selected_candidates",
+        "rejected_candidates",
+        "gap_implementations",
+        "rationale"
+      ],
+      "admission_authority": false
+    },
+    "GapAnalysis": {
+      "states": [
+        "SATISFIED",
+        "PARTIALLY_SATISFIED",
+        "REAL_GAP",
+        "CONFLICT",
+        "BLOCKED"
+      ]
+    },
+    "AuthorityCollisionReport": {
+      "states": [
+        "NONE",
+        "PROJECTION_ONLY",
+        "PROVIDER_LOCAL_ONLY",
+        "COLLISION"
+      ],
+      "collision_effect": "FAIL_CLOSED"
+    },
+    "CoexistenceAssessment": {
+      "required": [
+        "package_prefix",
+        "service_prefix",
+        "config_root",
+        "cache_root",
+        "runtime_root",
+        "socket_namespace",
+        "data_root",
+        "desktop_prefix"
+      ],
+      "forbidden": [
+        "requires_upstream_uninstall",
+        "global_environment_mutation",
+        "claims_default_port"
+      ]
+    },
+    "HardwareAuditProjection": {
+      "required": [
+        "vendor_neutral",
+        "cpu_only_viable",
+        "accelerator_cardinality",
+        "global_accelerator_requirement",
+        "live_discovery_authority"
+      ]
+    },
+    "ReuseDiscoveryReceipt": {
+      "required": [
+        "project_id",
+        "intent_digest",
+        "catalog_policy_id",
+        "candidate_ids",
+        "result",
+        "findings"
+      ],
+      "runtime_promotion": false
+    },
+    "SkillReuseProjection": {
+      "required": [
+        "skill_id",
+        "admission_status",
+        "version",
+        "trigger",
+        "task_scoped",
+        "source_path",
+        "reuse_mode"
+      ],
+      "admitted_status_required_for_task_context": "ADMITTED",
+      "authority": false,
+      "activation_authority": false,
+      "task_scoped_required": true,
+      "selection_is_activation": false,
+      "use_requires_skill_fabric_materialization": true
+    },
+    "ExternalSkillSourceProjection": {
+      "required": [
+        "repository",
+        "commit",
+        "role",
+        "classification",
+        "reuse_mode"
+      ],
+      "classification_required": "REFERENCE_ONLY",
+      "authority": false,
+      "install_authority": false,
+      "admission_authority": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false
+    }
+  },
+  "invariants": [
+    "CANONICAL_RECORDS_REMAIN_SOURCE_OF_TRUTH",
+    "REUSE_CATALOG_IS_DERIVED_AND_REBUILDABLE",
+    "GAP_MUST_BE_EXPLICIT_BEFORE_NEW_IMPLEMENTATION",
+    "REJECTION_REASON_REQUIRED_FOR_CONSIDERED_CANDIDATES",
+    "AUTHORITY_COLLISION_FAILS_CLOSED",
+    "COEXISTENCE_REVIEW_REQUIRED",
+    "HARDWARE_AUDIT_REQUIRED",
+    "DECISION_FABRIC_CANNOT_EXPAND_ELIGIBLE_SET",
+    "AGENT_PROPOSAL_CANNOT_SELF_ADMIT",
+    "ADMITTED_SKILLS_ARE_REUSE_DISCOVERY_INPUTS_NOT_AUTHORITIES",
+    "SKILL_REUSE_REMAINS_TASK_SCOPED_AND_SKILL_FABRIC_GOVERNED",
+    "EXTERNAL_SKILL_RADAR_IS_REFERENCE_ONLY_NOT_INSTALLATION_OR_ADMISSION"
+  ]
+}

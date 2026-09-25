@@ -204,7 +204,19 @@
       "title": "External Project Radar",
       "group": "DECISION & CONTEXT",
       "projection": "PROJECT_RADAR",
-      "decision_fabric": "READ_ONLY"
+      "decision_fabric": "READ_ONLY",
+      "children": [
+        {
+          "surface_id": "decision.reusable-assets",
+          "title": "Reusable Assets",
+          "projection": "REUSE_DISCOVERY_DERIVED_CATALOG",
+          "profile_id": "FA3-REUSE-DISCOVERY-001",
+          "mode": "READ_ONLY_DISCOVERY",
+          "direct_runtime_execution": false,
+          "mutation": "NONE",
+          "authority": false
+        }
+      ]
     },
     {
       "route_id": "integrations.root",

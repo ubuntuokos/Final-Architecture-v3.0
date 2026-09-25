@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-REUSABLE-PATTERN-001.schema.json",
+  "x-fa3-contract-id": "FA3-REUSABLE-PATTERN-001",
+  "title": "FA3 Reusable Architectural Pattern",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "name",
+    "status",
+    "problem_classes",
+    "source_records",
+    "applicability",
+    "authority",
+    "code_reuse"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.reusable-pattern.v1"
+    },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "CANONICAL",
+        "REFERENCE",
+        "SUPERSEDED"
+      ]
+    },
+    "problem_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "source_records": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "applicability": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "authority": {
+      "const": false
+    },
+    "code_reuse": {
+      "enum": [
+        "NONE",
+        "REVIEWED_COPY",
+        "PATTERN_REIMPLEMENTATION",
+        "PROTOCOL_COMPATIBILITY",
+        "ALGORITHM_REFERENCE"
+      ]
+    },
+    "license_implications": {
+      "type": "string"
+    },
+    "known_consumers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
