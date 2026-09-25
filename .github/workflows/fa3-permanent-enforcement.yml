@@ -38,7 +38,7 @@ jobs:
       - name: Reuse Discovery syntax check
         run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py
       - name: Agency / Agent Definition / External LLM Catalog / Agent Workload / Federation syntax check
-        run: python -m py_compile src/fa3_agency_agents_gate.py src/fa3_agent_definition_gate.py src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py src/fa3_agent_workload.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_federation.py src/fa3_agent_federation_gate.py src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py evidence/collect-agent-workload-runtime-current-host.py
+        run: python -m py_compile src/fa3_agency_agents_gate.py src/fa3_agent_definition_gate.py src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py src/fa3_agent_workload.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_federation.py src/fa3_agent_federation_gate.py src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py src/fa3_supply_runtime_hardening_current_host_gate.py evidence/collect-hrb-composite-current-host.py evidence/collect-hu-aqc-golden-corpus-current-host.py evidence/collect-agent-workload-runtime-current-host.py
       - name: Primary hardware audit gate
         run: ./bin/fa3-enforce hardware-portability
       - name: Marketing Agent Native syntax check
@@ -149,6 +149,8 @@ jobs:
         run: ./bin/fa3-enforce agent-federation
       - name: Supply-chain / Provider Runtime / HRB composite hardening gate
         run: ./bin/fa3-enforce supply-runtime-hardening
+      - name: Supply/runtime/HRB current-host closure stays pending in hosted CI
+        run: ./bin/fa3-enforce supply-runtime-hardening-current-host
       - name: Blackhole Kdenlive integration gate
         run: ./bin/fa3-enforce blackhole-kdenlive
       - name: Whisper STT mandatory provider gate
