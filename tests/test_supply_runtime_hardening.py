@@ -25,7 +25,7 @@ class SupplyRuntimeHardeningTests(unittest.TestCase):
         self.assertEqual("OCI",select_runtime_class(reproducible_venv=False,native_abi_complexity=True))
         with self.assertRaises(ProviderRuntimeError): select_runtime_class(reproducible_venv=False,native_abi_complexity=False)
     def test_conda_refused(self):
-        p={"schema":"fa3.provider-runtime-environment.v1","provider_id":"P","execution_class":"VENV","hrb_admission_required":True,"secret_delivery":"NONE","host_global_reconfiguration":False,"upstream_uninstall_required":False,"supply_chain_receipt_status":"PASS","venv":{"manager":"uv","dependency_lock_sha256":H,"environment_identity_sha256":H,"system_site_packages":False,"note":"conda"}}
+        p={"schema":"fa3.provider-runtime-environment.v1","provider_id":"P","execution_class":"VENV","hrb_admission_required":True,"secret_delivery":"NONE","host_global_reconfiguration":False,"upstream_uninstall_required":False,"supply_chain_receipt_status":"PASS","supply_chain_receipt_sha256":H,"venv":{"manager":"uv","dependency_lock_sha256":H,"environment_identity_sha256":H,"system_site_packages":False,"note":"conda"}}
         self.assertEqual("FAIL",validate_runtime_environment(p)["result"])
     def test_reference_only_cannot_promote(self):
         r={"schema":"fa3.upstream-patch-set.v1","disposition":"REFERENCE_ONLY","runtime_admission":True,"license_disposition":{}}
