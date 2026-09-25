@@ -18,7 +18,7 @@ def finding(code,msg,**kw): return {"code":code,"severity":"P0","message":msg,**
 
 def regressions()->dict[str,Any]:
     H="a"*64; C="b"*40
-    receipt={"schema":"fa3.software-supply-chain-receipt.v1","source":{"repository":"example/repo","commit":C},"artifact":{"sha256":H},
+    receipt={"schema":"fa3.software-supply-chain-receipt.v1","source":{"repository":"example/repo","commit":C},"artifact":{"kind":"SOURCE_BUILD","sha256":H},
       "dependency_lock":{"required":True,"sha256":H},"sbom":{"format":"CYCLONEDX_JSON","sha256":H,"scanner":"syft","scanner_version":"1"},
       "license":{"scanner":"scancode","scanner_version":"1","declared_expression":"MIT","detected_expressions":["MIT"],"conflicts":[],"commercial_compatible":True,"redistribution_compatible":True,"declaration_matches_detection":True},
       "vulnerabilities":{"scanner":"grype","scanner_version":"1","findings":[]},"provenance":{"builder":"fixture","build_recipe_sha256":H}}
