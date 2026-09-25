@@ -7,7 +7,7 @@
   "covered_ids": [
     "FA3-PROVIDER-AGENCY-AGENTS-001"
   ],
-  "project_status": "MATERIALIZED_IN_EXISTING_PR_PENDING_MAIN_REBASE_AND_FINAL_REQUALIFICATION",
+  "project_status": "MATERIALIZED_GUI_CURRENT_HOST_PASS_MAIN_RECONCILED",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -72,15 +72,27 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "gap_resolution": [
     {
       "gap": "AGENCY_AGENTS_GUI_CURRENT_HOST_PROJECTION_CLOSURE",
-      "status": "MATERIALIZED_IN_PR_PENDING_MAIN_REBASE_AND_FINAL_CI",
+      "status": "MATERIALIZED_GUI_CURRENT_HOST_PASS",
       "source_branch": "fa3/gui-current-host-closure-20260924",
-      "source_head_before_reconciliation": "f912710a4cde32199c5fc3de83fd891294cfe6e2"
+      "source_head_before_reconciliation": "f912710a4cde32199c5fc3de83fd891294cfe6e2",
+      "validated_implementation_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+      "workflow_run_id": 36162187066,
+      "current_host_job_id": 108161294296,
+      "artifact_id": 10876237119
     }
   ],
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "gui_current_host_validation": {
+    "status": "PASS",
+    "tested_source_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+    "runtime_scope": "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY",
+    "provider_runtime_admission": false,
+    "secret_backend_admission": false,
+    "global_promotion_claim": false
+  }
 }
