@@ -68,7 +68,9 @@
     "ENGINE_BUILD_CORRECTNESS_BENCHMARK_PROMOTION_REQUIRED",
     "ENGINE_PORTABILITY_MODE_EXPLICIT_AND_EVIDENCED",
     "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
-    "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
+    "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE",
+    "EMBEDDING_WORKLOADS_USE_EXISTING_PROVIDER_ADMISSION",
+    "EMBEDDING_BACKEND_SELECTION_REMAINS_DISTINCT_FROM_MODEL_ROUTING"
   ],
   "implementation_status": "CANONICAL_WITH_PROVIDER_SPECIFIC_CURRENT_HOST_ADMISSION_FRAMEWORK_RUNTIME_ADMISSION_SCOPE_BOUND",
   "hardware_execution_fabric": {
@@ -140,5 +142,15 @@
     "host_wide_absence_claim": false,
     "automatic_environment_scanning": false,
     "absence_status": "NOT_PRESENT_IN_PROBE_ENVIRONMENT"
+  },
+  "embedding_fabric_extension": {
+    "profile_id": "FA3-EMBEDDING-FABRIC-001",
+    "typed_workloads": [
+      "EMBEDDING",
+      "RERANK",
+      "CLASSIFICATION"
+    ],
+    "provider_scope_admission_required": true,
+    "no_parallel_embedding_admission_authority": true
   }
 }
