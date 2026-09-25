@@ -26,7 +26,8 @@
           "id",
           "category",
           "audio",
-          "metrics_json"
+          "metrics_json",
+          "provenance_ref"
         ],
         "properties": {
           "id": {
@@ -50,6 +51,14 @@
               "GRANTED",
               "NOT_APPLICABLE"
             ]
+          },
+          "provenance_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "consent_ref": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }
