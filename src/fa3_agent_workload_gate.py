@@ -223,8 +223,7 @@ def gate(root: Path) -> dict[str, Any]:
     rr=regression_cases()
     if rr["result"]!="PASS": findings.append(finding("AWR-040","runtime contract regression failed",regressions=rr))
     report={"schema":"fa3.agent-workload-runtime-gate.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"regressions":rr,"capability_delta":0,"authority_delta":0,"current_host_runtime_claim":False,"child_gates":{"FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001":child["result"]}}
-    out=root/"reports/agent-workload-runtime-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"
-",encoding="utf-8")
+    out=root/"reports/agent-workload-runtime-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     return report
 
 def main() -> int:
