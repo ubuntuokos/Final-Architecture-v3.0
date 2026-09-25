@@ -189,6 +189,7 @@ def execute(selection_path: Path, manifest_path: Path, ir_path: Path, *, hrb_pat
       "transport":manifest["transport"],
       "cost_class":manifest["cost_class"],
       "execution_topology":manifest.get("execution_topology"),
+      "requires_accelerator":bool(manifest.get("requires_accelerator")),
       "artifact_reference":artifact,
       "artifact_sha256":result.get("artifact_sha256"),
       "provider_native_result":{k:v for k,v in result.items() if k not in {"raw_secret","api_key","token","authorization"}},
