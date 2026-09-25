@@ -76,11 +76,11 @@
     "candidate_families": [
       {
         "name": "Wan-family",
-        "status": "DISCOVERED_CANDIDATE_REQUIRES_PROVIDER_ADMISSION"
+        "status": "WAN22_MATERIALIZED_EXECUTION_CANDIDATE_CURRENT_HOST_E2E_PENDING"
       },
       {
         "name": "LTX-family",
-        "status": "DISCOVERED_CANDIDATE_REQUIRES_PROVIDER_ADMISSION"
+        "status": "SECONDARY_CANDIDATE_REQUIRES_SEPARATE_LICENSE_AND_PROVIDER_ADMISSION"
       },
       {
         "name": "FramePack-derived execution strategy",
@@ -136,5 +136,14 @@
     "replaces_h3_executable_adapter": true,
     "replaces_h3_billable_current_host_workflow": true,
     "billable_ack_applies_only_when_selected_cost_class": "BILLABLE_REMOTE"
+  },
+  "initial_materialized_provider": {
+    "provider_id": "FA3-PROVIDER-WAN22-001",
+    "upstream_reference": "FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26",
+    "status": "STATIC_MATERIALIZED_REAL_CURRENT_HOST_E2E_PENDING",
+    "cost_class": "FREE_LOCAL",
+    "model_router_projection": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "current_host_conformance": "FA3-WAN22-CURRENT-HOST-CONFORMANCE-001",
+    "direct_h3_dependency": false
   }
 }
