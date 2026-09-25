@@ -1,8 +1,12 @@
 from __future__ import annotations
+import importlib.util
 import unittest
 from pathlib import Path
 from src.fa3_supply_runtime_hardening_current_host_gate import gate,validate_scs,validate_provider,validate_hrb,validate_hu
 ROOT=Path(__file__).resolve().parents[1]
+_spec=importlib.util.spec_from_file_location("fa3_hrb_composite_current_host",ROOT/"evidence/collect-hrb-composite-current-host.py")
+assert _spec is not None and _spec.loader is not None
+_hrb_collector=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(_hrb_collector)
 class CurrentHostHardeningTests(unittest.TestCase):
     def test_hosted_reference_stays_pending(self):
         r=gate(ROOT);self.assertEqual("PASS",r["result"]);self.assertEqual("PENDING_CURRENT_HOST",r["status"]);self.assertFalse(r["global_promotion_claim"])
@@ -19,4 +23,20 @@ class CurrentHostHardeningTests(unittest.TestCase):
     def test_provider_runtime_overclaim_rejected(self):
         row={"schema":"fa3.provider-runtime-current-host-receipt.v1","status":"CURRENT_HOST_PASS","execution_class":"VENV","synthetic":False,"global_promotion_claim":True}
         self.assertTrue(validate_provider(row))
+    def test_live_hrb_plan_is_vendor_neutral_and_cpu_only_safe(self):
+        discovery={"cpu":{"logical_cpu_count":4},"accelerators":{"devices":[]}}
+        plan,capacity=_hrb_collector.derive_live_plan_capacity(discovery)
+        self.assertEqual([],plan["accelerators"])
+        self.assertEqual(0,capacity["vram_bytes"])
+        self.assertEqual(False,plan["hold_and_wait"])
+        self.assertEqual(True,plan["atomic_admission"])
+        self.assertGreater(plan["queue_policy"]["deadline_seconds"],0)
+
+    def test_live_hrb_plan_uses_stable_accelerator_identity_not_ordinal(self):
+        discovery={"cpu":{"logical_cpu_count":8},"accelerators":{"devices":[{"stable_id":"pci:0000:01:00.0","eligible_for_workload_admission":True,"vram_mib_evidence_only":8192}]}}
+        plan,capacity=_hrb_collector.derive_live_plan_capacity(discovery)
+        self.assertEqual("pci:0000:01:00.0",plan["accelerators"][0]["stable_id"])
+        self.assertFalse(plan["accelerators"][0]["runtime_ordinal_is_identity"])
+        self.assertGreater(capacity["vram_bytes"],0)
+
 if __name__=="__main__":unittest.main()
