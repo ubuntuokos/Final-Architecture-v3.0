@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 from fa3_release_baseline import module_active_capability_count
 from fa3_supply_runtime_hardening_gate import gate as parent_gate
+from fa3_supply_chain_admission import evaluate_receipt, sha256_file
 
 CONF="canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json"
 GATE_RECORD="canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json"
@@ -20,7 +21,8 @@ def finding(code,msg,**kw):return {"code":code,"severity":"P0","message":msg,**k
 def validate_scs(row:dict[str,Any])->list[dict[str,Any]]:
     fs=[]
     if row.get("schema")!="fa3.software-supply-chain-receipt.v1" or row.get("current_host_execution") is not True or row.get("synthetic") is not False:fs.append(finding("SRH-HOST-051","SCS receipt is not explicit real current-host execution"))
-    if row.get("admission",{}).get("result")!="PASS" or row.get("admission",{}).get("admitted") is not True:fs.append(finding("SRH-HOST-052","SCS automated admission did not PASS"))
+    reevaluated=evaluate_receipt(row)
+    if row.get("admission",{}).get("result")!="PASS" or row.get("admission",{}).get("admitted") is not True or reevaluated.get("result")!="PASS":fs.append(finding("SRH-HOST-052","SCS automated admission did not independently re-evaluate to PASS"))
     lic=row.get("license",{})
     if lic.get("policy_result")!="PASS" or lic.get("declaration_matches_detection") is not True:fs.append(finding("SRH-HOST-053","SCS automated license policy did not PASS"))
     if row.get("artifact",{}).get("hash_scope") not in {"FILE_CONTENT","DETERMINISTIC_TREE_CONTENT"}:fs.append(finding("SRH-HOST-054","SCS artifact content hash scope missing"))
@@ -71,6 +73,10 @@ def gate(root:Path,*,require_evidence:bool=False)->dict[str,Any]:
             except Exception as exc:fs.append(finding("SRH-HOST-005","receipt unreadable",path=rel,error=repr(exc)))
     if "scs" in receipts:fs.extend(validate_scs(receipts["scs"]))
     if "provider" in receipts:fs.extend(validate_provider(receipts["provider"]))
+    if "scs" in receipts and "provider" in receipts:
+        actual_scs_sha=sha256_file(root/SCS_RECEIPT)
+        if receipts["provider"].get("supply_chain_receipt_sha256")!=actual_scs_sha:
+            fs.append(finding("SRH-HOST-074","provider runtime receipt is not bound to the exact SCS current-host receipt"))
     if "hrb" in receipts:fs.extend(validate_hrb(receipts["hrb"]))
     if "hu" in receipts:fs.extend(validate_hu(receipts["hu"],hu_profile))
     missing=[name for name in ("scs","provider","hrb","hu") if name not in receipts]
