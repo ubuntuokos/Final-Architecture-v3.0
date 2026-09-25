@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "cf279993d0bde9aec7b0b38b10fe197940150fcd",
-    "pre_projection_root_tree_sha": "fd99f22296375746d6db5ca90742889c7ade4983",
-    "pre_projection_canonical_tree_sha": "e1da69696e364f9a579172daebddb4d58593243e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 638,
-    "total_post_baseline_commits": 638,
-    "delta_file_count": 2084,
-    "delta_added_files": 2079,
+    "pre_projection_head_sha": "59f8e15898a4198d0feb09a504c0fc786385a06b",
+    "pre_projection_root_tree_sha": "2cd8137f42db0fbbd70ac9a3f7adca645b2dfa53",
+    "pre_projection_canonical_tree_sha": "0a6c5a0faf948a06744c7518b2a675b691478515",
+    "commits_ahead_of_v3_0_11_conformance_commit": 641,
+    "total_post_baseline_commits": 641,
+    "delta_file_count": 2086,
+    "delta_added_files": 2081,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 997,
+    "canonical_files_in_post_baseline_delta": 999,
     "evidence_files_in_post_baseline_delta": 157,
     "source_files_in_post_baseline_delta": 277,
     "test_files_in_post_baseline_delta": 229,
@@ -933,7 +933,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2076,
+  "manifest_entry_count": 2078,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3496,6 +3496,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-SKILL-FABRIC-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "868c9c4c0f8b758ffaf532cbd9735e924b404669",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/autogpt-enforcement.json",
       "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
       "baseline_delta_status": "added"
@@ -5153,6 +5158,11 @@
     {
       "path": "canonical/intents/FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001.json",
       "git_blob_sha": "823f44e3898c67d5e2be84cba9406bb1d6f1f1e1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SKILL-FABRIC-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "14dbcb50a9ba573348e83030921295ddb682ce00",
       "baseline_delta_status": "added"
     },
     {
