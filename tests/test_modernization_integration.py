@@ -20,6 +20,16 @@ class ModernizationIntegrationTests(unittest.TestCase):
         self.assertTrue(contracts["structured_knowledge_metadata"]["metadata_is_derived_projection"]); self.assertTrue(contracts["structured_knowledge_metadata"]["native_source_preservation_required"])
         self.assertTrue(contracts["degraded_execution"]["explicit_reroute_receipt_required"]); self.assertTrue(contracts["degraded_execution"]["reroute_requires_new_resource_admission"])
 
+    def test_mandatory_rule_sets_are_consistent(self):
+        contract=json.loads((REPO/"canonical/contracts/FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        enforcement=json.loads((REPO/"canonical/modernization-integration-enforcement.json").read_text(encoding="utf-8"))
+        gate_record=json.loads((REPO/"canonical/FA3-GATE-MODERNIZATION-INTEGRATION-001.json").read_text(encoding="utf-8"))
+        policy=json.loads((REPO/"canonical/enforcement-policy.json").read_text(encoding="utf-8"))
+        rules=enforcement["p0_invariants"]
+        self.assertEqual(enforcement["mandatory_rule_count"],len(rules))
+        self.assertEqual(contract["mandatory_invariants"],rules)
+        self.assertEqual(gate_record["mandatory_rules"],rules)
+        self.assertEqual(policy["modernization_integration_mandatory_p0_rules"],rules)
     def test_hardware_and_coexistence_are_vendor_neutral(self):
         intent=json.loads((REPO/"canonical/intents/FA3-MODERNIZATION-INTEGRATION-APPLICATION-INTENT-001.json").read_text(encoding="utf-8")); hw=intent["hardware_audit"]; self.assertTrue(hw["vendor_neutral"]); self.assertTrue(hw["cpu_only_viable"]); self.assertEqual(hw["accelerator_cardinality"],"0..N"); self.assertFalse(hw["global_accelerator_requirement"]); ns=intent["namespace_claims"]; self.assertFalse(ns["requires_upstream_uninstall"]); self.assertFalse(ns["global_environment_mutation"]); self.assertFalse(ns["claims_default_port"])
 if __name__=="__main__": unittest.main()

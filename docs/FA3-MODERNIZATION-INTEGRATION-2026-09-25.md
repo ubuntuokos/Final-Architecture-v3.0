@@ -25,7 +25,8 @@ The extension is additive and namespaced. It must not uninstall, replace, shadow
 | Security / rights policy | `FA3-AUTH-SECURITY-GOV-001` |
 | Actions | `FA3-UNIFIED-ACTION-FABRIC-001` |
 | Evidence | `FA3-AUTH-OBS-EVIDENCE-001` |
-| Provider runtime | `FA3-PROVIDER-RUNTIME-001` |\n| Cross-host coordination | `FA3-AGENT-FEDERATION-001` with remote HRB admission |
+| Provider runtime | `FA3-PROVIDER-RUNTIME-001` |
+| Cross-host coordination | `FA3-AGENT-FEDERATION-001` with remote HRB admission |
 | Secrets / private keys | existing Secret Broker / PKI boundary |
 
 ## Materialized lanes

@@ -72,6 +72,7 @@ def gate(root:Path)->dict[str,Any]:
         if policy.get("modernization_integration_gate_id")!=GATE_ID: findings.append(_finding("MODERN-013","Permanent policy missing modernization gate identity"))
         if policy.get("modernization_integration_contract_id")!=contract.get("id"): findings.append(_finding("MODERN-014","Permanent policy missing modernization contract identity"))
         if policy.get("modernization_integration_mandatory_p0_rules")!=enforcement.get("p0_invariants"): findings.append(_finding("MODERN-015","Permanent policy modernization P0 rule set drift"))
+        if contract.get("mandatory_invariants")!=enforcement.get("p0_invariants") or gate_record.get("mandatory_rules")!=enforcement.get("p0_invariants"): findings.append(_finding("MODERN-020","Contract/gate/enforcement mandatory rule sets drift"))
     rows=regressions()
     if any(row["result"]!="PASS" for row in rows): findings.append(_finding("MODERN-016","Executable modernization boundary regression failed"))
     return {"schema":"fa3.modernization-integration-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","status":"STATIC_MATERIALIZED_CURRENT_HOST_PENDING" if not findings else "BLOCKED","capability_count":capability_count,"new_capabilities":0,"new_architectural_authorities":0,"current_host_promotion_claim":False,"global_promotion_claim":False,"regressions":rows,"findings":findings}

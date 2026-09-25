@@ -30,6 +30,12 @@ jobs:
         run: python -m py_compile src/fa3_modernization_integration.py src/fa3_modernization_integration_gate.py tests/test_modernization_integration.py
       - name: Modernization regressions
         run: PYTHONPATH=src python -m unittest tests.test_modernization_integration -v
+      - name: Distribution Compliance
+        run: |
+          ./bin/fa3-enforce distribution-compliance
+          PYTHONPATH=src python src/fa3_distribution_adoption_gate.py --root . --base-ref origin/main
+      - name: Capability-count de-hardcode regression
+        run: PYTHONPATH=src python -m unittest tests.test_capability_count_dehardcode.ReleaseBaselineLoaderTests.test_repository_dehardcode_gate_passes -v
       - name: Reuse Discovery
         run: ./bin/fa3-enforce reuse-discovery
       - name: Mandatory Hardware Audit
