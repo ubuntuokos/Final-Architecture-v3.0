@@ -156,7 +156,7 @@
     "upstream_references": "REFERENCE_ONLY",
     "distribution_profile": "FA3-DISTRIBUTION-COMPLIANCE-001"
   },
-  "implementation_status": "CANONICAL_NATIVE_RUNTIME_AND_REFERENCE_GUI_MATERIALIZED_CURRENT_HOST_PENDING",
+  "implementation_status": "CANONICAL_NATIVE_RUNTIME_AND_REFERENCE_GUI_MATERIALIZED_CAPTION_APPLICATION_CURRENT_HOST_PASS_GUI_PHYSICAL_VOICE_OCR_SEPARATE",
   "native_provider": "FA3-PROVIDER-CAPTION-NATIVE-001",
   "uaf_actions": [
     "caption.import",
@@ -175,10 +175,13 @@
   ],
   "current_host": {
     "gate_id": "FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001",
-    "status": "PENDING_CURRENT_HOST_APPLICATION_E2E",
+    "status": "CURRENT_HOST_APPLICATION_E2E_PASS",
     "required_evidence_level": "CURRENT_HOST_APPLICATION_E2E_PASS",
     "voice_provider_audio_e2e": "SEPARATE_EXISTING_VOICE_PROVIDER_ADMISSION",
     "hardsub_ocr_e2e": "SEPARATE_OCR_PROVIDER_ADMISSION",
-    "global_promotion_claim": false
+    "global_promotion_claim": false,
+    "evidence": "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
+    "validated_implementation_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7",
+    "gui_physical_status": "PENDING_MANUAL_REQUALIFICATION"
   }
 }
