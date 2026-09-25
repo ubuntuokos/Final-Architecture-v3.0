@@ -37,7 +37,8 @@
   "proposed_authority_roles": [],
   "declared_new_capabilities": [],
   "declared_gaps": [
-    "CURRENT_HOST_EXTENSION_NATIVE_MESSAGING_AND_BORROW_RETURN_EVIDENCE"
+    "CURRENT_HOST_PHYSICAL_EXTENSION_NATIVE_MESSAGING_E2E_EVIDENCE",
+    "MANUAL_REAL_EXISTING_PROFILE_LOGIN_AND_HUMAN_ASSISTANCE_COMPLETION_QUALIFICATION"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
@@ -57,12 +58,16 @@
     "desktop_prefix": "org.fa3.browser.session",
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
-    "claims_default_port": false
+    "claims_default_port": false,
+    "default_port": null,
+    "upstream_uninstall_required": false
   },
   "security_requirements": [
     "PAGE_CONTENT_UNTRUSTED",
     "CREDENTIAL_COOKIE_TOKEN_EXPORT_FORBIDDEN",
-    "TAB_LEASE_TTL_AND_SCOPE_REQUIRED"
+    "TAB_LEASE_TTL_ORIGIN_ACTION_SCOPE_REQUIRED",
+    "BORROW_REQUIRES_EXPLICIT_HUMAN_OR_POLICY_APPROVAL",
+    "HUMAN_ASSISTANCE_AUTOMATION_CANNOT_SELF_ATTEST_HUMAN_COMPLETION"
   ],
   "integration_requirements": [
     "FA3-BROWSER-ACTION-RUNTIME-001",
