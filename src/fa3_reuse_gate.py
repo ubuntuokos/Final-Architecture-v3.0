@@ -265,6 +265,8 @@ def gate(root: Path) -> dict[str, Any]:
     skill_binding = profile.get("skill_fabric_binding", {})
     skill_contract = contract.get("contracts", {}).get("SkillReuseProjection", {})
     external_contract = contract.get("contracts", {}).get("ExternalSkillSourceProjection", {})
+    registry_binding = skill_registry.get("reuse_discovery_binding", {})
+    radar_binding = external_skill_radar.get("reuse_discovery_binding", {})
     if not (
         skill_binding.get("profile_id") == "FA3-SKILL-FABRIC-001"
         and skill_binding.get("registry_id") == "FA3-SKILL-REGISTRY-001"
@@ -278,6 +280,17 @@ def gate(root: Path) -> dict[str, Any]:
         and external_contract.get("classification_required") == "REFERENCE_ONLY"
         and external_contract.get("install_authority") is False
         and external_contract.get("admission_authority") is False
+        and registry_binding.get("profile_id") == "FA3-REUSE-DISCOVERY-001"
+        and registry_binding.get("admitted_entries_discoverable") is True
+        and registry_binding.get("registry_entry_is_selection") is False
+        and registry_binding.get("registry_entry_is_activation") is False
+        and registry_binding.get("task_scoped_materialization_still_required") is True
+        and radar_binding.get("profile_id") == "FA3-REUSE-DISCOVERY-001"
+        and radar_binding.get("role") == "REFERENCE_IDEA_SOURCE_ONLY"
+        and radar_binding.get("discovery_is_installation") is False
+        and radar_binding.get("discovery_is_admission") is False
+        and radar_binding.get("discovery_is_activation") is False
+        and radar_binding.get("catalog_is_trust_authority") is False
     ):
         findings.append(finding("REUSE-023", "Skill Fabric / external skill source reuse contract boundary drift"))
 
