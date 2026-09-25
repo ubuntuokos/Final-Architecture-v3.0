@@ -17,6 +17,7 @@ HRB_AUTHORITY = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 BILLABLE_ACK = "I_ACKNOWLEDGE_BILLABLE_FA3_VIDEO_E2E"
 ALLOWED_COSTS = {"FREE_LOCAL", "FREE_REMOTE", "BILLABLE_REMOTE"}
 ALLOWED_TRANSPORTS = {"FA3_HTTP_BRIDGE", "FA3_EXECUTOR_COMMAND"}
+ROOT = Path(__file__).resolve().parents[1]
 
 class MotionVideoDenied(RuntimeError):
     pass
@@ -73,6 +74,24 @@ def validate_selection(selection: dict[str,Any], manifest: dict[str,Any]) -> str
         raise MotionVideoDenied("silent fallback must be disabled")
     assert_no_secret_values(manifest, "manifest")
     return provider_id
+
+def validate_admission(manifest: dict[str,Any], provider_id: str) -> None:
+    ref=str(manifest.get("admission_receipt","")).strip()
+    expected=str(manifest.get("admission_receipt_sha256","")).strip().lower()
+    if not ref or len(expected)!=64:
+        raise MotionVideoDenied("provider admission receipt binding missing")
+    path=Path(ref).expanduser()
+    if not path.is_absolute():
+        path=(ROOT/path).resolve()
+    if not path.is_file() or sha256_file(path)!=expected:
+        raise MotionVideoDenied("provider admission receipt missing or SHA256 mismatch")
+    receipt=loadj(path)
+    if receipt.get("provider_id") != provider_id:
+        raise MotionVideoDenied("provider admission receipt provider mismatch")
+    if receipt.get("status") not in {"PASS","ADMITTED"} and receipt.get("result") not in {"PASS","ADMITTED"}:
+        raise MotionVideoDenied("provider admission receipt is not admitted")
+    if receipt.get("synthetic_or_mock_provider") is True:
+        raise MotionVideoDenied("synthetic/mock provider admission forbidden")
 
 def validate_hrb(manifest: dict[str,Any], hrb: dict[str,Any] | None) -> None:
     local=manifest.get("execution_topology") == "LOCAL"
@@ -167,12 +186,14 @@ def execute(selection_path: Path, manifest_path: Path, ir_path: Path, *, hrb_pat
     if ir.get("schema") not in {"fa3.video-generation-ir.v1","fa3.video-generation-ir.v2"}:
         raise MotionVideoDenied("VideoGenerationIR schema mismatch")
     assert_no_secret_values(ir,"video generation IR")
+    validate_admission(manifest,provider_id)
     validate_hrb(manifest,loadj(hrb_path) if hrb_path else None)
     validate_billing(manifest)
     if manifest["transport"]=="FA3_HTTP_BRIDGE":
         result=execute_http(manifest,ir,timeout)
     else:
         result=execute_command(manifest,ir_path,output_path,timeout)
+    assert_no_secret_values(result,"provider result")
     if str(result.get("status","")).upper() not in {"COMPLETE","SUCCEEDED","PASS"}:
         raise MotionVideoDenied("execution result is not successful")
     artifact=result.get("artifact_path") or result.get("artifact_url")
