@@ -55,7 +55,7 @@ def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int])->dict[s
             if a.get("runtime_ordinal_is_identity") is not False: findings.append("runtime ordinal cannot be accelerator identity")
     return {"result":"PASS" if not findings else "FAIL","atomic_admitted":not findings,"reservation_ceiling":ceiling,"findings":findings}
 
-def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,keyring:LeaseKeyring)->dict[str,Any]:
+def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,keyring:LeaseKeyring,allocated_resources:dict[str,int]|None=None)->dict[str,Any]:
     try:
         keyring.verify(parent)
     except Exception as exc:
@@ -64,7 +64,7 @@ def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,keyring:Leas
     if parent.get("state")!="ACTIVE": raise CompositeLeaseError("parent lease not active")
     if request.get("expires_at_utc","")>parent.get("expires_at_utc",""): raise CompositeLeaseError("child expiry exceeds parent")
     parent_res=_resources(parent); child_res=_resources(request)
-    allocated=parent.get("child_allocated_resources",{})
+    allocated=allocated_resources if allocated_resources is not None else parent.get("child_allocated_resources",{})
     for k,v in child_res.items():
         if v+int(allocated.get(k,0))>parent_res[k]: raise CompositeLeaseError(f"child budget exceeds parent {k}")
     parent_acc={a.get("stable_id") for a in parent.get("accelerator_assignments",[])}
@@ -138,8 +138,7 @@ class CompositeLeaseIssuer:
     def derive(self,parent_id:str,request:dict[str,Any])->dict[str,Any]:
         if parent_id not in self._parents: raise CompositeLeaseError("parent not registered")
         parent=deepcopy(self._parents[parent_id])
-        parent["child_allocated_resources"]=deepcopy(self._allocated[parent_id])
-        child=derive_child_lease(parent,request,keyring=self._keyring)
+        child=derive_child_lease(parent,request,keyring=self._keyring,allocated_resources=deepcopy(self._allocated[parent_id]))
         cid=str(child["lease_id"])
         if cid in self._children[parent_id]: raise CompositeLeaseError("duplicate child lease id")
         for k,v in _resources(child).items(): self._allocated[parent_id][k]+=v
