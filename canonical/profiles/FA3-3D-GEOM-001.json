@@ -9,15 +9,23 @@
   "canonical_root": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
-  "contracts": ["FA3-GEOMETRY-CONTRACTS-001"],
+  "capability_count": 175,
+  "contracts": [
+    "FA3-GEOMETRY-CONTRACTS-001"
+  ],
   "authority_role": "SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY",
-  "children": ["FA3-MESH-GEN-001", "FA3-DIFFERENTIABLE-3D-001", "FA3-HUMAN-MOTION-001"],
+  "children": [
+    "FA3-MESH-GEN-001",
+    "FA3-DIFFERENTIABLE-3D-001",
+    "FA3-HUMAN-MOTION-001"
+  ],
   "invariants": [
     "SINGLE_GEOMETRY_ROOT",
     "GEOMETRY_IDENTITY_TOPOLOGY_VALIDATION_LIFECYCLE_INTERCHANGE_DEFINED_ONLY_HERE",
     "CHILD_PROFILES_REFERENCE_PARENT_CONTRACTS",
     "NO_PARALLEL_GEOMETRY_AUTHORITY"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
