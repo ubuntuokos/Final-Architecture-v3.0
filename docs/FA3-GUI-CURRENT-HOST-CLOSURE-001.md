@@ -2,6 +2,8 @@
 
 The Control Center reference/static build is not physical runtime evidence. GUI runtime promotion requires a real local graphical session on the exact `[self-hosted, linux, x64, fa3-current-host]` runner.
 
+The **physical desktop smoke is manual-only** via `workflow_dispatch`. Pull-request and push activity may run materialization/headless checks, but must not launch a visible Control Center window on the operator workstation. A fresh physical run is requested only when current-host GUI requalification evidence is intentionally needed.
+
 The closure is fail-closed:
 
 1. check out the exact PR/source SHA;
