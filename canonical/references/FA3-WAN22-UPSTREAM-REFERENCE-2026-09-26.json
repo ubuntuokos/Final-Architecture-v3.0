@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26",
+  "observed_at": "2026-09-26",
+  "upstream": "Wan-Video/Wan2.2",
+  "observed_default_branch": "main",
+  "observed_commit": "1ea34ff48f87168174e12956e200b1d908b1c5ff",
+  "license_path": "LICENSE.txt",
+  "license_classification": "APACHE-2.0_CODE_AND_MODELS_PER_UPSTREAM_README",
+  "observed_capabilities": [
+    "T2V",
+    "I2V",
+    "TI2V",
+    "S2V",
+    "CHARACTER_ANIMATION_AND_REPLACEMENT"
+  ],
+  "relevant_upstream_entrypoint": "generate.py",
+  "relevant_cli_fields": [
+    "--task",
+    "--size",
+    "--frame_num",
+    "--ckpt_dir",
+    "--save_file",
+    "--prompt",
+    "--image",
+    "--audio",
+    "--base_seed",
+    "--sample_steps",
+    "--sample_shift",
+    "--sample_guide_scale"
+  ],
+  "rules": {
+    "floating_main_for_promotion_evidence": false,
+    "network_download_during_fa3_admission": false,
+    "upstream_hardware_claims_reference_only": true,
+    "model_artifact_admission_separate": true,
+    "runtime_promotion_requires_real_current_host_e2e": true
+  }
+}
