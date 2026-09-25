@@ -82,7 +82,9 @@
     "PROVIDER_OUTAGE_PRESERVES_READABLE_CANONICAL_INVENTORY_PROJECTION",
     "MUTATING_MOVE_DELETE_RELINK_REQUIRES_EXPLICIT_AUTHORIZATION",
     "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
-    "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
+    "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE",
+    "EMBEDDING_MODEL_DESCRIPTOR_PROJECTED_WITHOUT_ROUTING_AUTHORITY",
+    "EMBEDDING_SPACE_IDENTITY_BOUND_TO_IMMUTABLE_MODEL_REVISION"
   ],
   "implementation_status": "CANONICAL_V2_CURRENT_HOST_ADMISSION_MATERIALIZED_REAL_PROVIDER_E2E_PENDING",
   "model_registry": "FA3-MODEL-REGISTRY-001",
@@ -145,5 +147,20 @@
     "runtime_provider_direct_download_bypass": "FORBIDDEN",
     "scanner_pass_is_promotion_authority": false,
     "current_host_toolchain_e2e": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  },
+  "embedding_fabric_extension": {
+    "profile_id": "FA3-EMBEDDING-FABRIC-001",
+    "model_descriptor_contract": "EmbeddingModelDescriptor",
+    "embedding_space_identity_required": true,
+    "derived_static_quantized_lineage_preserved": true,
+    "llmfit_role": "ADVISORY_ONLY_NOT_ROUTING_RESOURCE_OR_EVIDENCE_AUTHORITY",
+    "llmfit_embedding_workloads": [
+      "CPU_ONLY_STATIC_EMBEDDING",
+      "DENSE_CPU",
+      "DENSE_GPU",
+      "TEI_DYNAMIC_BATCHING",
+      "RERANKER",
+      "MULTIMODAL_EMBEDDING"
+    ]
   }
 }
