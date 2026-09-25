@@ -41,7 +41,11 @@ def evaluate_receipt(receipt: dict[str,Any]) -> dict[str,Any]:
         findings.append("immutable source identity missing")
     artifact=receipt.get("artifact",{})
     if not _digest(artifact.get("sha256")): findings.append("artifact sha256 missing")
+    kind=artifact.get("kind")
+    if kind not in {"SOURCE_BUILD","OCI_IMAGE_EXPORT","PREBUILT_BINARY"}: findings.append("artifact kind invalid")
     lock=receipt.get("dependency_lock",{})
+    expected_lock_required=kind in {"SOURCE_BUILD","OCI_IMAGE_EXPORT"}
+    if lock.get("required") is not expected_lock_required: findings.append("dependency lock requirement inconsistent with artifact kind")
     if lock.get("required") is True and not _digest(lock.get("sha256")):
         findings.append("required dependency lock digest missing")
     sbom=receipt.get("sbom",{})
