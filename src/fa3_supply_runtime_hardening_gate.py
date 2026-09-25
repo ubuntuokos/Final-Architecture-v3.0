@@ -8,6 +8,7 @@ from fa3_provider_runtime import validate_runtime_environment
 from fa3_upstream_patchset import evaluate_patchset
 from fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,RESOURCE_ORDER
 from fa3_release_baseline import module_active_capability_count
+from fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring
 
 GATESET_ID="FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
 CAPABILITY_COUNT=module_active_capability_count(__file__)
@@ -36,14 +37,17 @@ def regressions()->dict[str,Any]:
     hrb=evaluate_reservation_plan(plan,{"cpu_threads":16,"ram_bytes":32,"vram_bytes":24,"io_bytes_per_second":0,"network_bytes_per_second":0})
     hrb_ok=hrb["atomic_admitted"]
     too_small=evaluate_reservation_plan(plan,{"cpu_threads":16,"ram_bytes":32,"vram_bytes":10,"io_bytes_per_second":0,"network_bytes_per_second":0})["result"]=="FAIL"
-    parent={"lease_id":"p","generation":1,"state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-test"}]}
+    keyring=LeaseKeyring([LeaseKey("test",b"x"*32)],"test")
+    parent={"lease_id":"p","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-test"}],"authentication":{}}
+    parent["authentication"]=keyring.sign(parent)
     req={"lease_id":"c","issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6},"accelerator_assignments":[{"stable_id":"GPU-test"}],"scope":{"purpose":"demucs"}}
-    child=derive_child_lease(parent,req,issuer="FA3-AUTH-HOST-RESOURCE-BROKER-001")
+    child=derive_child_lease(parent,req,keyring=keyring)
     derived_ok=child["parent_lease_id"]=="p" and child["may_mint_child_lease"] is False
     non_hrb=False
-    try: derive_child_lease(parent,req,issuer="PROVIDER")
+    forged=json.loads(json.dumps(parent)); forged["authentication"]["mac"]="0"*64
+    try: derive_child_lease(forged,req,keyring=keyring)
     except CompositeLeaseError: non_hrb=True
-    parent["state"]="REVOKING"; casc=cascade_revocation(parent,[{**child,"state":"ACTIVE"}]); cascade_ok=casc[0]["state"]=="REVOKING"
+    parent["state"]="REVOKING"; parent["authentication"]=keyring.sign(parent); active_child=json.loads(json.dumps(child)); active_child["state"]="ACTIVE"; active_child["authentication"]=keyring.sign(active_child); casc=cascade_revocation(parent,[active_child],keyring=keyring); cascade_ok=casc[0]["state"]=="REVOKING"
     cases={"scs_positive":scs_ok,"scs_license_conflict_refused":scs_bad,"venv_positive":rt_ok,"oci_positive":oci_ok,"rootful_oci_refused":oci_refusal,"patch_positive":patch_ok,"patch_license_failure_not_overridden":patch_license_refusal,"hrb_atomic_positive":hrb_ok,"hrb_insufficient_capacity_refused":too_small,"derived_lease_positive":derived_ok,"non_hrb_issuer_refused":non_hrb,"parent_revocation_cascades":cascade_ok}
     return {"result":"PASS" if all(cases.values()) else "FAIL","cases":[{"case_id":k,"status":"PASS" if v else "FAIL"} for k,v in cases.items()]}
 
