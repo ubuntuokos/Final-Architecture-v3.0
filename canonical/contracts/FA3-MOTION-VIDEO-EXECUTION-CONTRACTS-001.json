@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+  "profile_id": "FA3-VIDEO-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "MotionVideoExecutionManifest",
+    "MotionVideoRouteSelectionReceipt",
+    "MotionVideoExecutionRequest",
+    "MotionVideoExecutionReceipt",
+    "MotionVideoBillingDecision"
+  ],
+  "rules": {
+    "application_direct_provider_selection_forbidden": true,
+    "model_router_selection_receipt_required": true,
+    "provider_admission_manifest_required": true,
+    "provider_id_must_match_selection_receipt": true,
+    "provider_native_ir_must_not_be_canonical": true,
+    "video_generation_ir_required": true,
+    "local_accelerator_execution_requires_hrb_receipt": true,
+    "cpu_only_execution_requires_no_accelerator_lease": true,
+    "billable_remote_execution_requires_manual_ack": true,
+    "secret_value_in_manifest_forbidden": true,
+    "secret_broker_reference_allowed": true,
+    "silent_provider_fallback_forbidden": true,
+    "execution_result_requires_provenance": true,
+    "provider_runtime_promotion_requires_real_current_host_e2e": true
+  },
+  "cost_classes": [
+    "FREE_LOCAL",
+    "FREE_REMOTE",
+    "BILLABLE_REMOTE"
+  ],
+  "transport_classes": [
+    "FA3_HTTP_BRIDGE",
+    "FA3_EXECUTOR_COMMAND"
+  ],
+  "authority_boundaries": {
+    "provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_license": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  }
+}
