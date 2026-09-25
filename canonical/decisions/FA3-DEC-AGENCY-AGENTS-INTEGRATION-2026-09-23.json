@@ -3,7 +3,7 @@
   "id": "FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23",
   "title": "Integrate Agency Agents as an immutable non-authoritative agent catalog, persona and runbook reference provider",
   "date": "2026-09-23",
-  "status": "CANONICAL_STATIC_MATERIALIZED_GUI_CURRENT_HOST_PENDING",
+  "status": "CANONICAL_MATERIALIZED_GUI_CURRENT_HOST_PASS",
   "decision": "ADMIT_AS_OPTIONAL_IMMUTABLE_REFERENCE_PROVIDER_WITH_FA3_NATIVE_NORMALIZATION",
   "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
   "parent_profile": "FA3-AGENT-EXEC-001",
@@ -34,9 +34,7 @@
     "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
-  "open_reconciliations": [
-    "GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING"
-  ],
+  "open_reconciliations": [],
   "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
   "current_host_runtime_claim": false,
   "new_capabilities": 0,
@@ -82,14 +80,18 @@
   },
   "gui_runtime_validation": {
     "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
-    "status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN",
-    "production_admitted": false,
+    "status": "CURRENT_HOST_PASS",
+    "production_admitted": true,
     "current_host_receipt": "evidence/receipts/fa3-gui-current-host.json",
-    "current_host_receipt_present": false,
+    "current_host_receipt_present": true,
     "agency_surface_static_reconciliation": "RECONCILED",
-    "agency_surface_runtime_promotion_claim": false,
-    "tested_source_commit": null,
-    "evidence_id": null
+    "agency_surface_runtime_promotion_claim": true,
+    "tested_source_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+    "evidence_id": "EVID-FA3-GUI-CURRENT-HOST-001",
+    "runtime_scope": "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY",
+    "reference_provider_runtime_admission": false,
+    "secret_backend_admission": "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED",
+    "global_fa3_promotion_claim": false
   },
   "validation_policy": {
     "unified_release_projection": "MANAGED_BY_REPOSITORY_RECONCILER_MUST_PASS_BEFORE_MERGE",
