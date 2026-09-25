@@ -7,9 +7,10 @@ from fa3_supply_chain_admission import evaluate_receipt
 from fa3_provider_runtime import validate_runtime_environment
 from fa3_upstream_patchset import evaluate_patchset
 from fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,RESOURCE_ORDER
+from fa3_release_baseline import module_active_capability_count
 
 GATESET_ID="FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
-CAPABILITY_COUNT=143
+CAPABILITY_COUNT=module_active_capability_count(__file__)
 
 def loadj(p:Path)->dict[str,Any]: return json.loads(p.read_text(encoding="utf-8"))
 def finding(code,msg,**kw): return {"code":code,"severity":"P0","message":msg,**kw}
