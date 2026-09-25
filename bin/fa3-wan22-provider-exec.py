@@ -91,6 +91,9 @@ def execute(cfg_path:Path,ir_path:Path,output:Path)->dict[str,Any]:
     if not uuid or not bdf:raise WanExecutionDenied("HRB accelerator binding environment missing")
     ordinal=select_nvidia_ordinal(uuid,bdf)
     cmd=[str(python),str(root/"generate.py"),"--task",task,"--ckpt_dir",str(ckpt),"--save_file",str(output),"--prompt",prompt.strip(),"--size",size_from_ir(ir),"--frame_num",str(frame_num(ir)),"--base_seed",str(int(ir.get("seed",-1)))]
+    if cfg.get("offload_model",True): cmd += ["--offload_model","True"]
+    if cfg.get("convert_model_dtype",True): cmd += ["--convert_model_dtype"]
+    if cfg.get("t5_cpu",False): cmd += ["--t5_cpu"]
     images=references(ir,"image");audios=references(ir,"audio")
     if task in {"i2v-A14B","ti2v-5B"}:
         if not images:raise WanExecutionDenied("selected Wan task requires image reference")
