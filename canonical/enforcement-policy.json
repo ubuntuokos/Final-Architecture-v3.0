@@ -1,10 +1,10 @@
 {
   "schema": "fa3.enforcement.policy.v1",
-  "architecture_release": "2026-08-23/v3.0.11",
+  "architecture_release": "2026-09-26/v3.1.0",
   "canonical_release_projection": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
   "canonical_release_projection_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
-  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
-  "canonical_capability_count": 143,
+  "projection_semantics": "CAPABILITY_MODEL_EXPANSION_143_TO_175",
+  "canonical_capability_count": 175,
   "fail_closed": true,
   "forbidden_statuses": [
     "OPEN",
@@ -2089,5 +2089,7 @@
   "caption_subtitle_profile_id": "FA3-CAPTION-SUBTITLE-001",
   "caption_subtitle_contract_id": "FA3-CAPTION-SUBTITLE-CONTRACTS-001",
   "caption_subtitle_gate_id": "FA3-CAPTION-SUBTITLE-GATESET-001",
-  "caption_subtitle_native_provider_id": "FA3-PROVIDER-CAPTION-NATIVE-001"
+  "caption_subtitle_native_provider_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+  "previous_canonical_capability_count": 143,
+  "capability_model_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
