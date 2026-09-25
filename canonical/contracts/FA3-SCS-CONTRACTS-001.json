@@ -48,6 +48,11 @@
     "license_conflict": "FAIL_CLOSED",
     "unknown_required_distribution_fact": "FAIL_CLOSED",
     "provider_runtime_receipt_digest_binding_required": true,
-    "patched_vendor_receipt_digest_binding_required": true
+    "patched_vendor_receipt_digest_binding_required": true,
+    "dependency_lock_policy": {
+      "SOURCE_BUILD": "REQUIRED",
+      "OCI_IMAGE_EXPORT": "REQUIRED",
+      "PREBUILT_BINARY": "NOT_INTRINSICALLY_REQUIRED"
+    }
   }
 }
