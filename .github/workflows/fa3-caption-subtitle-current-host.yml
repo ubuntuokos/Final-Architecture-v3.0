@@ -18,9 +18,21 @@ jobs:
   current-host:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 10
+    env:
+      FA3_RUNNER_CLASS: fa3-current-host
+      FA3_EXPECTED_SOURCE_SHA: ${{ github.sha }}
     steps:
-      - uses: actions/checkout@v4
-        with: {persist-credentials: false, fetch-depth: 0}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Assert exact non-root source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test "$(git rev-parse HEAD)" = "$FA3_EXPECTED_SOURCE_SHA"
+          test "$GITHUB_REPOSITORY" = "ubuntuokos/Final-Architecture-v3.0"
       - name: Current-host caption and UAF application E2E
         run: |
           chmod +x bin/fa3-caption-studio bin/fa3-narration-studio
