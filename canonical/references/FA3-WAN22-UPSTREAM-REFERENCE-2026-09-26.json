@@ -35,5 +35,11 @@
     "upstream_hardware_claims_reference_only": true,
     "model_artifact_admission_separate": true,
     "runtime_promotion_requires_real_current_host_e2e": true
+  },
+  "distribution": {
+    "class": "EXTERNAL_REDISTRIBUTABLE",
+    "release_bundle_status": "EXCLUDED",
+    "classification_basis": "Pinned upstream reference identifies Apache-2.0 code/model source; reference record itself does not authorize bundle inclusion",
+    "inclusion_requires_distribution_decision_receipt": true
   }
 }
