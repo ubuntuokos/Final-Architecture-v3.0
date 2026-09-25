@@ -38,7 +38,7 @@ def collect(root:Path,plan_path:Path,capacity_path:Path,output:Path)->dict[str,A
             c=issuer.derive(parent["lease_id"],req);keyring.verify(c);children.append(c)
         overflow_refused=False
         try:
-            issuer.derive(parent["lease_id"],{"lease_id":"overflow-"+os.urandom(4).hex(),"issued_at_utc":utc(now),"expires_at_utc":utc(now+timedelta(minutes=5)),"resources":{"cpu_threads":1,"ram_bytes":1,"vram_bytes":1,"io_bytes_per_second":1,"network_bytes_per_second":1},"accelerator_assignments":first_acc,"scope":{"negative_test":True}})
+            issuer.derive(parent["lease_id"],{"lease_id":"overflow-"+os.urandom(4).hex(),"issued_at_utc":utc(now),"expires_at_utc":utc(now+timedelta(minutes=5)),"resources":{"cpu_threads":1,"ram_bytes":1,"vram_bytes":1,"io_bytes_per_second":1,"network_bytes_per_second":1},"accelerator_assignments":first_acc,"scope":{"workload_id":peak[0]}})
         except CompositeLeaseError: overflow_refused=True
         forged_refused=False
         forged=json.loads(json.dumps(parent));forged["authentication"]["mac"]="0"*64
