@@ -29,7 +29,7 @@ def regressions()->dict[str,Any]:
     oci={"schema":"fa3.provider-runtime-environment.v1","provider_id":"P","execution_class":"OCI","hrb_admission_required":True,"secret_delivery":"SECRETREF","host_global_reconfiguration":False,"upstream_uninstall_required":False,"supply_chain_receipt_status":"PASS","supply_chain_receipt_sha256":H,"oci":{"engine":"podman","rootless":True,"image_digest":"sha256:"+H,"build_recipe_sha256":H,"mutable_tag_only":False,"network_default":"DENY","explicit_mounts_only":True,"accelerator_device_projection_from_hrb":True}}
     oci_ok=validate_runtime_environment(oci)["result"]=="PASS"
     oci_bad=json.loads(json.dumps(oci)); oci_bad["oci"]["rootless"]=False; oci_refusal=validate_runtime_environment(oci_bad)["result"]=="FAIL"
-    patch={"schema":"fa3.upstream-patch-set.v1","disposition":"PATCHED_VENDOR","upstream_repository":"x/y","upstream_commit":C,"patched_commit":"c"*40,"patch_series_sha256":H,"patched_tree_sha256":H,"dependency_lock_sha256":H,"reason":"security fix","upstream_issue_refs":["#1"],"security_disposition":"PASS","supply_chain_receipt_status":"PASS","review_by":"2099-01-01","license_disposition":{"commercial_compatible":True,"redistribution_compatible":True,"conflicts":[]}}
+    patch={"schema":"fa3.upstream-patch-set.v1","disposition":"PATCHED_VENDOR","upstream_repository":"x/y","upstream_commit":C,"patched_commit":"c"*40,"patch_series_sha256":H,"patched_tree_sha256":H,"dependency_lock_sha256":H,"reason":"security fix","upstream_issue_refs":["#1"],"security_disposition":"PASS","supply_chain_receipt_status":"PASS","supply_chain_receipt_sha256":H,"review_by":"2099-01-01","license_disposition":{"commercial_compatible":True,"redistribution_compatible":True,"conflicts":[]}}
     patch_ok=evaluate_patchset(patch)["distribution_admitted"] is True
     lp=json.loads(json.dumps(patch)); lp["license_disposition"]["redistribution_compatible"]=False
     patch_license_refusal=evaluate_patchset(lp)["distribution_admitted"] is False
@@ -72,6 +72,7 @@ def gate(root:Path)->dict[str,Any]:
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
       "binder":"tools/fa3_bind_provider_runtime.py",
+      "patch_tool":"tools/fa3_prepare_upstream_patchset.py",
       "license_policy":"canonical/supply-chain-license-policy.json",
       "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
       "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
