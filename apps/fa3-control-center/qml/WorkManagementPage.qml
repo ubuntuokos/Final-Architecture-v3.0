@@ -18,6 +18,9 @@ Item {
     property var workItems: []
     property var activityRows: []
     property var agentWorkloads: []
+    property var objectives: []
+    property var coordinationBlockers: []
+    property var coordinationHandoffs: []
     property string projectionState: "ADAPTER-GATED"
     property string operationNotice: ""
 
@@ -92,6 +95,7 @@ Item {
             TabButton { text: "Projects / Boards / Tasks" }
             TabButton { text: "Automations" }
             TabButton { text: "Agent Workloads" }
+            TabButton { text: "Coordination" }
             TabButton { text: "Activity" }
             TabButton { text: "Providers" }
         }
@@ -238,6 +242,75 @@ Item {
                                     Label { text: "HRB: " + (modelData.hrb_state || "UNKNOWN") + " · evidence: " + (modelData.evidence_state || "PENDING"); color: root.textMuted; font.pixelSize: 9 }
                                 }
                                 Label { text: modelData.phase || "UNKNOWN"; color: root.accent; font.bold: true }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item {
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 8
+                    Label { text: "Coordination"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Read-only Objective / Dependency / Handoff / Blocker projection. A ready állapot nem végrehajtási engedély: execution továbbra is az existing workflow/UAF útvonalon, resource admission a HRB-n, döntési advisory a Decision Fabricen keresztül történik."
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 8
+                        Repeater {
+                            model: [
+                                {title: "Objectives", value: root.objectives.length},
+                                {title: "Open blockers", value: root.coordinationBlockers.length},
+                                {title: "Handoffs", value: root.coordinationHandoffs.length}
+                            ]
+                            delegate: Rectangle {
+                                Layout.fillWidth: true
+                                implicitHeight: 58
+                                radius: 7
+                                color: root.panel
+                                border.color: root.border
+                                ColumnLayout {
+                                    anchors.fill: parent
+                                    anchors.margins: 9
+                                    Label { text: modelData.title; color: root.textMuted; font.pixelSize: 9 }
+                                    Label { text: String(modelData.value); color: root.accent; font.pixelSize: 18; font.bold: true }
+                                }
+                            }
+                        }
+                    }
+                    Label {
+                        visible: root.objectives.length === 0
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Nincs betöltött Objective snapshot. A GUI nem gyárt READY/RUNNING/BLOCKED állapotot evidence vagy adapter-adat nélkül."
+                    }
+                    ListView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        model: root.objectives
+                        spacing: 4
+                        delegate: Rectangle {
+                            width: ListView.view.width
+                            height: 72
+                            radius: 6
+                            color: root.panel
+                            border.color: root.border
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.margins: 10
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    Label { text: modelData.title || modelData.objective_id || "Objective"; color: root.textPrimary; font.bold: true }
+                                    Label { text: (modelData.objective_id || "") + " · ready " + ((modelData.ready_node_ids || []).length) + " · blocked " + ((modelData.blocked_node_ids || []).length); color: root.textMuted; font.pixelSize: 9 }
+                                }
+                                Label { text: modelData.objective_state || "UNKNOWN"; color: root.accent; font.bold: true }
                             }
                         }
                     }
