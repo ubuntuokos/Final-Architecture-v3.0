@@ -8,7 +8,7 @@
     "FA3-AGENT-RUNTIME-SEMANTICS-001",
     "FA3-AGENT-WORKLOAD-RUNTIME-001"
   ],
-  "project_status": "MATERIALIZED_IN_EXISTING_PR_PENDING_MAIN_REBASE_AND_FINAL_REQUALIFICATION",
+  "project_status": "MATERIALIZED_REFERENCE_EXECUTABLE_PASS_MAIN_RECONCILED",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -88,15 +88,28 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "gap_resolution": [
     {
       "gap": "PROVIDER_NEUTRAL_AGENT_GRAPH_RESUME_BUDGET_TRANSFER_SEMANTICS",
-      "status": "MATERIALIZED_IN_PR_PENDING_MAIN_REBASE_AND_FINAL_CI",
+      "status": "MATERIALIZED_REFERENCE_EXECUTABLE_PASS",
       "source_branch": "fa3/adk2-derived-runtime-semantics-20260924",
-      "source_head_before_reconciliation": "b05c1cfd93a3bc93db5ccd045e614f048533f67e"
+      "source_head_before_reconciliation": "b05c1cfd93a3bc93db5ccd045e614f048533f67e",
+      "validated_implementation_commit": "fcda0b3a99b3fdb0076ab3ae3b05e6f160b78afc",
+      "evidence": "evidence/reference/adk2-derived-agent-runtime-ci-2026-09-24.json"
     }
   ],
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "final_requalification": {
+    "status": "PASS",
+    "validated_head": "fcda0b3a99b3fdb0076ab3ae3b05e6f160b78afc",
+    "adk2_workflow_run_id": 36096101398,
+    "reuse_discovery_workflow_run_id": 36096101419,
+    "permanent_canonical_workflow_run_id": 36096101499,
+    "unified_current_host_projection_workflow_run_id": 36096101505,
+    "parent_agent_workload_runtime_workflow_run_id": 36096101516,
+    "current_host_runtime_evidence_required": false,
+    "reason": "PROFILE_IS_PROVIDER_NEUTRAL_FA3_NATIVE_SEMANTICS_WITH_NO_ADK_RUNTIME_DEPENDENCY_AND_NO_CURRENT_HOST_RUNTIME_CLAIM"
+  }
 }
