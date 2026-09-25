@@ -88,6 +88,10 @@ Every new FA3 application, provider, profile, derived implementation, GUI module
 
 The project records an `FA3-APPLICATION-INTENT-001` intent and a machine-readable `FA3-REUSE-ASSESSMENT-001`. Existing capabilities, contracts, providers, patterns, GUI projections and references are discovered before gap analysis. A new implementation is permitted only for a real documented gap or an explicitly bounded provider-local mechanism. Reuse Discovery cannot admit a provider, grant authority or promote runtime state.
 
+Skill discovery is part of the same mandatory stage. `FA3-REUSE-CATALOG-001` federates `FA3-SKILL-REGISTRY-001` and `FA3-EXTERNAL-SKILL-RADAR-001`: admitted FA3 skills may be proposed as task-scoped reusable context, while external skill repositories are reference/idea sources only. A skill selection is not activation; activation still requires the Skill Fabric materialization/use path. External skill sources never gain install, admission, activation, MCP, model, secret, resource or mutation authority through Reuse Discovery.
+
+`ApplicationIntent.task_classes` and `ApplicationIntent.skill_triggers` can narrow deterministic skill discovery. Only `ADMITTED` registry skills can receive `ADMITTED_SKILL_REUSE`; non-admitted skill material remains reference/admission-pending, and External Skill Radar sources remain `REFERENCE_ONLY`.
+
 After deterministic reuse eligibility filtering, every new FA3 profile/provider or material capability extension must carry an `FA3-DECISION-FABRIC-ASSESSMENT-001` assessment with one of:
 
 `REQUIRED`, `RECOMMENDED`, `OPTIONAL`, `NOT_APPLICABLE`, `PROHIBITED`.
