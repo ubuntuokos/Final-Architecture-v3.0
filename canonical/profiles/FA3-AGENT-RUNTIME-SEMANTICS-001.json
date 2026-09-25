@@ -70,7 +70,18 @@
       "ADMITTED_PROBE",
       "PROVIDER_DECLARED_AND_PROBED"
     ],
-    "model_router_remains_authority": true
+    "model_router_remains_authority": true,
+    "embedding_capabilities": [
+      "embedding_static",
+      "embedding_dense",
+      "embedding_sparse",
+      "embedding_multivector",
+      "embedding_multimodal",
+      "rerank",
+      "classification"
+    ],
+    "infer_capability_from_model_name": false,
+    "embedding_candidate_selection": "FA3-AUTH-MODEL-ROUTER-001_ONLY"
   },
   "execution_budget_policy": {
     "hard_dimensions": [
