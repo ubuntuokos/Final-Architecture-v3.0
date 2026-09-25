@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-PROVIDER-RUNTIME-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    "ProviderRuntimeEnvironment",
+    "ProviderRuntimeReceipt"
+  ],
+  "provider_runtime_environment": {
+    "schema": "fa3.provider-runtime-environment.v1",
+    "classes": [
+      "VENV",
+      "OCI",
+      "HOST_NATIVE"
+    ],
+    "hrb_admission_required": true,
+    "supply_chain_receipt_required": true,
+    "secret_delivery": [
+      "NONE",
+      "SECRETREF",
+      "CREDENTIAL_LEASE"
+    ],
+    "host_global_reconfiguration": false,
+    "upstream_uninstall_required": false
+  },
+  "venv": {
+    "allowed_managers": [
+      "uv",
+      "python-venv",
+      "pip-venv"
+    ],
+    "dependency_lock_sha256_required": true,
+    "environment_identity_sha256_required": true,
+    "system_site_packages": false
+  },
+  "oci": {
+    "engine": "podman",
+    "rootless": true,
+    "image_digest_required": true,
+    "build_recipe_digest_required": true,
+    "mutable_tag_only": false,
+    "network_default": [
+      "DENY",
+      "LOOPBACK_ONLY"
+    ],
+    "explicit_mounts_only": true,
+    "accelerator_device_projection": "HRB_ONLY"
+  },
+  "host_native": {
+    "explicit_justification_required": true,
+    "package_identity_required": true,
+    "namespaced_state_required": true,
+    "global_environment_mutation": false
+  }
+}
