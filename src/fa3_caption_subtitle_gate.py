@@ -10,6 +10,7 @@ CONTRACT="canonical/contracts/FA3-CAPTION-SUBTITLE-CONTRACTS-001.json"
 DECISION="canonical/decisions/FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23.json"
 REFERENCE="canonical/references/FA3-CAPTION-SUBTITLE-UPSTREAM-REFERENCE-2026-09-23.json"
 ENFORCEMENT="canonical/caption-subtitle-enforcement.json"
+CURRENT_HOST_EVIDENCE="evidence/reference/caption-subtitle-current-host-2026-09-25.json"
 
 def load(root:Path,rel:str):
     return json.loads((root/rel).read_text(encoding="utf-8"))
@@ -18,7 +19,7 @@ def gate(root:Path)->dict:
     findings=[]
     def chk(ok:bool,code:str,message:str):
         if not ok: findings.append({"code":code,"severity":"P0","message":message})
-    for rel in (PROFILE,CONTRACT,DECISION,REFERENCE,ENFORCEMENT,"src/fa3_caption_subtitle.py","src/fa3_caption_studio_server.py","bin/fa3-caption-studio","bin/fa3-narration-studio","apps/fa3-control-center/qml/SubtitleStudioPage.qml","apps/fa3-control-center/qml/NarrationStudioPage.qml",
+    for rel in (PROFILE,CONTRACT,DECISION,REFERENCE,ENFORCEMENT,CURRENT_HOST_EVIDENCE,"src/fa3_caption_subtitle.py","src/fa3_caption_studio_server.py","bin/fa3-caption-studio","bin/fa3-narration-studio","apps/fa3-control-center/qml/SubtitleStudioPage.qml","apps/fa3-control-center/qml/NarrationStudioPage.qml",
                 "src/fa3_caption_workflows.py", "src/fa3_caption_uaf.py",
                 "src/fa3_caption_subtitle_current_host_gate.py",
                 "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
@@ -26,7 +27,7 @@ def gate(root:Path)->dict:
         chk((root/rel).exists(),"CAPSUB-001",f"missing materialization path: {rel}")
     if findings: return {"schema":"fa3.caption-subtitle-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
 
-    p,c,d,r,e=(load(root,x) for x in (PROFILE,CONTRACT,DECISION,REFERENCE,ENFORCEMENT))
+    p,c,d,r,e,ch_evidence=(load(root,x) for x in (PROFILE,CONTRACT,DECISION,REFERENCE,ENFORCEMENT,CURRENT_HOST_EVIDENCE))
     chk(p.get("id")=="FA3-CAPTION-SUBTITLE-001" and p.get("status")=="CANONICAL","CAPSUB-002","profile identity/state drift")
     chk(p.get("capability_count")==143 and not p.get("new_capability") and not p.get("new_architectural_authority"),"CAPSUB-003","capability/authority drift")
     chk(c.get("profile")==p.get("id") and c.get("provider_neutral") is True,"CAPSUB-004","contract boundary drift")
@@ -46,7 +47,28 @@ def gate(root:Path)->dict:
     chk(desktop.get("wayland")=="PREFERRED_WHEN_AVAILABLE" and desktop.get("x11")=="SUPPORTED","CAPSUB-013","desktop portability drift")
     chk(p.get("distribution",{}).get("implementation_class")=="FA3_NATIVE" and p.get("distribution",{}).get("upstream_projects_embedded") is False,"CAPSUB-014","distribution classification drift")
     chk(r.get("code_embedded") is False and all(x.get("reuse","").startswith("REFERENCE_ONLY") for x in r.get("projects",[])),"CAPSUB-015","upstream reference-only boundary drift")
-    chk(e.get("fail_closed") is True and e.get("current_host_status")=="PENDING_CURRENT_HOST","CAPSUB-016","promotion boundary drift")
+    chk(
+        e.get("fail_closed") is True
+        and e.get("current_host_status")=="PARTIAL_SCOPE_CURRENT_HOST_PASS_GUI_VOICE_OCR_SEPARATE"
+        and e.get("application_current_host_status")=="PASS"
+        and e.get("gui_physical_current_host_status")=="PENDING_MANUAL_REQUALIFICATION"
+        and e.get("voice_provider_current_host_status")=="SEPARATE_ADMISSION"
+        and e.get("hardsub_ocr_current_host_status")=="SEPARATE_ADMISSION"
+        and e.get("global_promotion_claim") is False,
+        "CAPSUB-016","promotion boundary drift"
+    )
+    chk(
+        ch_evidence.get("id")=="FA3-CAPTION-SUBTITLE-CURRENT-HOST-2026-09-25"
+        and ch_evidence.get("status")=="PASS"
+        and ch_evidence.get("evidence_level")=="CURRENT_HOST_APPLICATION_E2E_PASS"
+        and ch_evidence.get("validated_implementation_commit")=="aac58ecfa5cb4dd2b8450794e270a19d885b1bb7"
+        and ch_evidence.get("receipt",{}).get("caption_runtime_executed") is True
+        and ch_evidence.get("receipt",{}).get("uaf_native_provider_executed") is True
+        and ch_evidence.get("receipt",{}).get("voice_provider_audio_executed") is False
+        and ch_evidence.get("receipt",{}).get("hardsub_ocr_provider_executed") is False
+        and ch_evidence.get("authority_effect",{}).get("global_promotion_claim") is False,
+        "CAPSUB-016A","scoped current-host evidence boundary drift"
+    )
     chk(c.get("narration",{}).get("provider_selection_by_application_forbidden") is True and c.get("narration",{}).get("subtitle_source_text_mutation_by_timing_engine_forbidden") is True,"CAPSUB-017","narration authority/text-mutation rule drift")
 
     sample="1\n00:00:01,000 --> 00:00:02,500\nElső sor.\n\n2\n00:00:03,000 --> 00:00:04,000\nMásodik sor.\n"
@@ -89,8 +111,17 @@ def gate(root:Path)->dict:
     action_files={x.stem for x in (root/"canonical/actions").glob("*.json")}
     chk(expected_actions.issubset(action_files),"CAPSUB-034","caption/narration UAF action contract missing")
     ch=p.get("current_host",{})
-    chk(ch.get("gate_id")=="FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001" and ch.get("global_promotion_claim") is False,"CAPSUB-035","current-host boundary drift")
-    return {"schema":"fa3.caption-subtitle-gate-report.v1","gate_id":GATE_ID,"profile_id":p.get("id"),"result":"PASS" if not findings else "FAIL","current_host_status":"PENDING_CURRENT_HOST","findings":findings}
+    chk(
+        ch.get("gate_id")=="FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001"
+        and ch.get("status")=="CURRENT_HOST_APPLICATION_E2E_PASS"
+        and ch.get("required_evidence_level")=="CURRENT_HOST_APPLICATION_E2E_PASS"
+        and ch.get("evidence")==CURRENT_HOST_EVIDENCE
+        and ch.get("validated_implementation_commit")=="aac58ecfa5cb4dd2b8450794e270a19d885b1bb7"
+        and ch.get("gui_physical_status")=="PENDING_MANUAL_REQUALIFICATION"
+        and ch.get("global_promotion_claim") is False,
+        "CAPSUB-035","current-host boundary drift"
+    )
+    return {"schema":"fa3.caption-subtitle-gate-report.v1","gate_id":GATE_ID,"profile_id":p.get("id"),"result":"PASS" if not findings else "FAIL","current_host_status":"CURRENT_HOST_APPLICATION_E2E_PASS_GUI_PHYSICAL_PENDING","findings":findings}
 
 def main()->int:
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default="."); ap.add_argument("--report"); args=ap.parse_args()
