@@ -1,0 +1,54 @@
+name: FA3 Caption Subtitle Narration Gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**CAPTION*'
+      - 'canonical/**caption*'
+      - 'src/fa3_caption_*'
+      - 'canonical/actions/caption.*'
+      - 'canonical/actions/narration.*'
+      - 'canonical/actions/audio-description.plan.json'
+      - 'canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json'
+      - 'canonical/actions/caption.*'
+      - 'canonical/actions/narration.*'
+      - 'canonical/actions/audio-description.plan.json'
+      - 'canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json'
+      - 'tests/test_caption_subtitle_fabric.py'
+      - 'bin/fa3-caption-studio'
+      - 'bin/fa3-narration-studio'
+      - 'apps/fa3-control-center/qml/SubtitleStudioPage.qml'
+      - 'apps/fa3-control-center/qml/NarrationStudioPage.qml'
+      - 'apps/fa3-control-center/qml/Main.qml'
+      - 'apps/fa3-control-center/CMakeLists.txt'
+  push:
+    paths:
+      - 'canonical/**CAPTION*'
+      - 'canonical/**caption*'
+      - 'src/fa3_caption_*'
+      - 'tests/test_caption_subtitle_fabric.py'
+      - 'bin/fa3-caption-studio'
+      - 'bin/fa3-narration-studio'
+      - 'apps/fa3-control-center/qml/SubtitleStudioPage.qml'
+      - 'apps/fa3-control-center/qml/NarrationStudioPage.qml'
+      - 'apps/fa3-control-center/qml/Main.qml'
+      - 'apps/fa3-control-center/CMakeLists.txt'
+permissions:
+  contents: read
+jobs:
+  caption-subtitle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m py_compile src/fa3_caption_subtitle.py src/fa3_caption_workflows.py src/fa3_caption_uaf.py src/fa3_caption_studio_server.py src/fa3_caption_subtitle_gate.py src/fa3_caption_subtitle_current_host_gate.py
+      - run: PYTHONPATH=src python -m unittest tests.test_caption_subtitle_fabric tests.test_caption_workflows -v
+      - run: PYTHONPATH=src python src/fa3_caption_subtitle_gate.py --root . --report reports/caption-subtitle-gate.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-caption-subtitle-reports
+          path: reports/caption-subtitle-gate.json

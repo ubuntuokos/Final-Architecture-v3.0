@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-CAPTION-SUBTITLE-CONTRACTS-001",
+  "profile": "FA3-CAPTION-SUBTITLE-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "contracts": [
+    "CanonicalCaptionDocument",
+    "CaptionTrack",
+    "CaptionCue",
+    "CaptionWordTiming",
+    "CaptionStyle",
+    "CaptionAccessibilityMetadata",
+    "CaptionRevision",
+    "CaptionProvenance",
+    "CaptionImportReceipt",
+    "CaptionExportReceipt",
+    "CaptionLossReceipt",
+    "CaptionQualityEvidence",
+    "SubtitleTimingRepairDecision",
+    "SubtitleSynchronizationReceipt",
+    "HardsubRecoveryRequest",
+    "HardsubRecoveryResult",
+    "NarrationPlan",
+    "NarrationSegmentPlan",
+    "NarrationTimingReceipt",
+    "VoiceOverSpeakerMap",
+    "DubbingMixPlan",
+    "AudioDescriptionGapPlan",
+    "CaptionApplicationProjectionDescriptor"
+  ],
+  "caption_document": {
+    "schema": "fa3.caption-document.v1",
+    "required": [
+      "schema",
+      "revision",
+      "timebase",
+      "tracks",
+      "provenance"
+    ],
+    "timebase": "explicit milliseconds or rational media timebase",
+    "cue_required": [
+      "id",
+      "start_ms",
+      "end_ms",
+      "text"
+    ],
+    "source_text_preserved_when_translation_exists": true,
+    "immutable_parent_digest_required_after_revision_1": true
+  },
+  "format_policy": {
+    "import": [
+      "SRT",
+      "WebVTT",
+      "ASS",
+      "SSA",
+      "SBV",
+      "TTML",
+      "MicroDVD",
+      "MPL2",
+      "FA3 Caption JSON"
+    ],
+    "export": [
+      "SRT",
+      "WebVTT",
+      "ASS",
+      "SSA",
+      "SBV",
+      "TTML",
+      "FA3 Caption JSON"
+    ],
+    "canonical_format": "FA3 Caption JSON semantics, not a provider-native subtitle format",
+    "lossy_export_receipt_required": true
+  },
+  "timing_policy": {
+    "negative_time_forbidden": true,
+    "non_positive_duration_forbidden": true,
+    "default_overlap_policy": "REJECT",
+    "word_timing_must_fit_parent_cue": true,
+    "silent_timebase_conversion_forbidden": true,
+    "sync_offset_and_drift_must_be_explicit": true
+  },
+  "narration": {
+    "voice_contract": "FA3-VOICE-CONTRACTS-001",
+    "voice_request_schema": "fa3.voice-synthesis-request.v2",
+    "provider_selection_by_application_forbidden": true,
+    "subtitle_source_text_mutation_by_timing_engine_forbidden": true,
+    "bounded_rate_adjustment_requires_receipt": true,
+    "material_overrun_requires_human_review": true,
+    "voice_clone_requires_consent_proof": true,
+    "generated_audio_requires_synthetic_disclosure": true
+  },
+  "editorial_projection": {
+    "canonical_timeline_ir": "OpenTimelineIO",
+    "kdenlive": "existing Kdenlive subtitle import descriptor",
+    "quickclip": "editable caption track retained in project handoff",
+    "creative_studio": "editable caption track retained in project handoff",
+    "browser_overlay": "presentation projection only; never canonical state"
+  },
+  "ai_policy": {
+    "agent_native_actions_use_uaf": true,
+    "direct_model_or_provider_invocation": false,
+    "decision_fabric_candidate_expansion": false,
+    "private_model_language_or_emergent_slang": false,
+    "automated_changes_create_new_revision": true,
+    "human_review_required_for_material_text_adaptation": true
+  },
+  "security_and_distribution": {
+    "local_web_gui_binds_loopback_only": true,
+    "arbitrary_remote_bind_forbidden": true,
+    "external_project_code_embedded": false,
+    "external_project_references_class": "REFERENCE_ONLY",
+    "supply_chain_profile": "FA3-SCS-001",
+    "distribution_profile": "FA3-DISTRIBUTION-COMPLIANCE-001"
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "uaf": {
+    "profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action_ids": [
+      "caption.import",
+      "caption.edit",
+      "caption.sync",
+      "caption.qc",
+      "caption.export",
+      "caption.translate",
+      "caption.hardsub.recover",
+      "caption.overlay.project",
+      "caption.editorial.project",
+      "narration.plan",
+      "narration.synthesize",
+      "narration.mix",
+      "audio-description.plan"
+    ],
+    "native_provider": "FA3-PROVIDER-CAPTION-NATIVE-001",
+    "direct_agent_provider_bypass_forbidden": true,
+    "provider_dependent_actions": {
+      "caption.translate": "existing language/model routing",
+      "caption.hardsub.recover": "admitted OCR provider required",
+      "narration.synthesize": "FA3-VOICE-001",
+      "narration.mix": "existing media/audio fabric"
+    }
+  }
+}

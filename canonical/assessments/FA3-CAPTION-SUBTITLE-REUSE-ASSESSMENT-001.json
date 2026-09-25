@@ -1,0 +1,114 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CAPTION-SUBTITLE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-CAPTION-SUBTITLE-001",
+  "intent_id": "FA3-CAPTION-SUBTITLE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CAPTION-SUBTITLE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-CAPTION-SUBTITLE-001",
+    "FA3-PROVIDER-CAPTION-NATIVE-001"
+  ],
+  "project_status": "MATERIALIZED_RECONCILED_WITH_MAIN_REFERENCE_CI_PASS_CURRENT_HOST_APPLICATION_E2E_PASS_GUI_PHYSICAL_MANUAL_REQUALIFICATION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-STT-MEDIA-001",
+      "use": "SPEECH_RECOGNITION"
+    },
+    {
+      "id": "FA3-VOICE-001",
+      "use": "VOICE_SYNTHESIS_AND_CLONING"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "PROVIDER_AND_MODEL_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_SEMANTIC_ADVISORY"
+    },
+    {
+      "id": "FA3-AI-COMMS-001",
+      "use": "AI_COMMUNICATION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_ARCHITECTURAL_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "UPSTREAM_REPLACEMENT_OR_HOST_HIJACK",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "speech_recognition": "FA3-STT-MEDIA-001",
+    "voice_synthesis_and_cloning": "FA3-VOICE-001",
+    "provider_and_model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution_boundary": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "bounded_semantic_advisory": "FA3-DECISION-FABRIC-001",
+    "ai_communication_boundary": "FA3-AI-COMMS-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "UNIFIED_CAPTION_SUBTITLE_NARRATION_PROJECT_MODEL_AND_NATIVE_PLANNING_PROVIDER"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "UNIFIED_CAPTION_SUBTITLE_NARRATION_PROJECT_MODEL_AND_NATIVE_PLANNING_PROVIDER",
+      "status": "MATERIALIZED",
+      "source_branch": "fa3/caption-narration-fabric-20260923",
+      "source_head_before_reconciliation": "3945b99c5ffdf57ea8e030662eee5fd25d2e3c6e",
+      "validated_reference_commit": "e2ab6b21eb9cadec1414b72030cfac974143d85e",
+      "current_host_application_evidence": "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
+      "gui_physical_requalification": "PENDING_MANUAL_WORKFLOW_DISPATCH"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "requalification": {
+    "status": "PASS",
+    "validated_reference_commit": "e2ab6b21eb9cadec1414b72030cfac974143d85e",
+    "caption_gate_run_id": 36178962532,
+    "reuse_discovery_run_id": 36178962639,
+    "permanent_enforcement_run_id": 36178962628,
+    "projection_run_id": 36178962424,
+    "distribution_run_id": 36178962687,
+    "gui_reference_run_id": 36178962577,
+    "gui_current_host_materialization_run_id": 36178962621,
+    "gui_physical_smoke": "PENDING_MANUAL_WORKFLOW_DISPATCH",
+    "current_host_application_e2e_evidence_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7",
+    "global_promotion_claim": false
+  }
+}
