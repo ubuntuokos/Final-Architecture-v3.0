@@ -26,6 +26,7 @@ def validate_runtime_environment(plan:dict[str,Any])->dict[str,Any]:
     if plan.get("host_global_reconfiguration") is not False: findings.append("host global reconfiguration forbidden")
     if plan.get("upstream_uninstall_required") is not False: findings.append("upstream uninstall/replacement forbidden")
     if plan.get("supply_chain_receipt_status")!="PASS": findings.append("supply-chain admission missing")
+    if not SHA256.fullmatch(str(plan.get("supply_chain_receipt_sha256",""))): findings.append("supply-chain receipt digest missing")
     text=str(plan).lower()
     if any(tok in text for tok in CONDA_TOKENS): findings.append("conda/mamba baseline forbidden")
     if cls=="VENV":
