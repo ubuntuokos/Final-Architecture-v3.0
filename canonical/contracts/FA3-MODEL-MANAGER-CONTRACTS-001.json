@@ -30,7 +30,8 @@
     "ProviderOperationRequest",
     "ReadOnlyProviderInventoryScan",
     "CrossProviderInventorySnapshot",
-    "CurrentHostInventoryEvidenceReceipt"
+    "CurrentHostInventoryEvidenceReceipt",
+    "EmbeddingModelDescriptor"
   ],
   "required_semantics": {
     "model_identity": "STABLE_LOGICAL_IDENTITY_INDEPENDENT_OF_ABSOLUTE_PATH",
@@ -140,5 +141,36 @@
     "model_store_mutation": "FORBIDDEN",
     "physical_dedup": "FORBIDDEN",
     "canonical_admission": "FORBIDDEN"
-  }
+  },
+  "embedding_model_descriptor_required_fields": [
+    "embedding_roles",
+    "modalities",
+    "dimension",
+    "max_input_length",
+    "pooling",
+    "normalization",
+    "query_template",
+    "document_template",
+    "sparse_output",
+    "multi_vector_output",
+    "token_level_output",
+    "distance_metrics",
+    "embedding_space_identity",
+    "representation_support",
+    "precision_quantization_support",
+    "provider_backend_compatibility"
+  ],
+  "embedding_lineage": {
+    "immutable_model_revision": true,
+    "derived_static_quantized_distinct_artifact_identity": true,
+    "space_identity_recomputed_when_identity_fields_change": true
+  },
+  "llmfit_embedding_advisory_workloads": [
+    "CPU_ONLY_STATIC_EMBEDDING",
+    "DENSE_CPU",
+    "DENSE_GPU",
+    "TEI_DYNAMIC_BATCHING",
+    "RERANKER",
+    "MULTIMODAL_EMBEDDING"
+  ]
 }
