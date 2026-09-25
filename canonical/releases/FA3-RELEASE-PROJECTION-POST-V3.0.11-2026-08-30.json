@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8fb0961e67b76caf1f8358d150e277519246a181",
-    "pre_projection_root_tree_sha": "7865c9ea92c8fe3a21db21d4a5f69f241a3a55a9",
-    "pre_projection_canonical_tree_sha": "f1cee1155988dc7cae9f38eec7a6709d8f2bec0f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 935,
-    "total_post_baseline_commits": 935,
-    "delta_file_count": 2243,
-    "delta_added_files": 2238,
+    "pre_projection_head_sha": "db847b4e99a349c736ca37fbb5abbc966273f8d2",
+    "pre_projection_root_tree_sha": "84d693369e840078729365a8a9724fba3c81099f",
+    "pre_projection_canonical_tree_sha": "bf6b8b76759fe2e6fde548d8446000711fc1f5e6",
+    "commits_ahead_of_v3_0_11_conformance_commit": 942,
+    "total_post_baseline_commits": 942,
+    "delta_file_count": 2248,
+    "delta_added_files": 2243,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1082,
+    "canonical_files_in_post_baseline_delta": 1086,
     "evidence_files_in_post_baseline_delta": 167,
     "source_files_in_post_baseline_delta": 300,
     "test_files_in_post_baseline_delta": 241,
-    "workflow_files_in_post_baseline_delta": 111,
+    "workflow_files_in_post_baseline_delta": 112,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -304,6 +304,7 @@
       "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-AI-SECURITY-TESTING-FABRIC-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-APPLICATION-INTENT-001.schema.json",
       "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
@@ -967,7 +968,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2234,
+  "manifest_entry_count": 2239,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -977,6 +978,11 @@
     {
       "path": ".github/workflows/AGENTS.md",
       "git_blob_sha": "40f643f01a90208da3c96fc668a0871cf54f1f11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/ai-security-testing-fabric-reference-gate.yml",
+      "git_blob_sha": "2c96492a34f827446450a5ec372dc5363f457e80",
       "baseline_delta_status": "added"
     },
     {
@@ -2530,6 +2536,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-AI-SECURITY-TESTING-FABRIC-001.json",
+      "git_blob_sha": "758e1a65e0f944711e478b10c0845f96fd135038",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-BROWSER-ACTION-RUNTIME-001.json",
       "git_blob_sha": "11a51f55571691a683eb88aecb77cc4deb68231c",
       "baseline_delta_status": "added"
@@ -3635,6 +3646,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/ai-security-testing-fabric-enforcement.json",
+      "git_blob_sha": "4cfa099f9dedc8e3775bb7f9f539eb6f034f4325",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/any-guardrail-runtime-enforcement.json",
       "git_blob_sha": "122f8ee3457c0c48cbcb53dfa2d59da7009e7230",
       "baseline_delta_status": "added"
@@ -3662,6 +3678,11 @@
     {
       "path": "canonical/assessments/FA3-AGENT-WORKLOAD-RUNTIME-DECISION-ASSESSMENT-2026-09-24.json",
       "git_blob_sha": "a8616ec8d83123a1689534379fb0701c3a9d6924",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-AI-SECURITY-TESTING-FABRIC-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "694df0fe436537c6018b318006e7b0573861f4d6",
       "baseline_delta_status": "added"
     },
     {
@@ -3962,6 +3983,11 @@
     {
       "path": "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
       "git_blob_sha": "51f01b5bf41392d22e55ec25b4265eaa6088e5fd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AI-SECURITY-TESTING-FABRIC-CONTRACTS-001.json",
+      "git_blob_sha": "4ca25f87a288379a7374e6f0f764e3db937a7211",
       "baseline_delta_status": "added"
     },
     {
