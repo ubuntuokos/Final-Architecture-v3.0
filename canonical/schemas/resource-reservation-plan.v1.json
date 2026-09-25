@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.resource-reservation-plan.v1",
+  "title": "FA3 HRB Resource Reservation Plan",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "authority_id",
+    "atomic_admission",
+    "hold_and_wait",
+    "acquisition_order",
+    "workloads"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.resource-reservation-plan.v1"
+    },
+    "authority_id": {
+      "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    "atomic_admission": {
+      "const": true
+    },
+    "hold_and_wait": {
+      "const": false
+    },
+    "acquisition_order": {
+      "const": [
+        "CPU",
+        "RAM",
+        "NUMA",
+        "ACCELERATOR",
+        "VRAM",
+        "IO",
+        "NETWORK"
+      ]
+    },
+    "workloads": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "resources"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resources": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "overlap_groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
