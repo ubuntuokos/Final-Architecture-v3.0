@@ -59,6 +59,9 @@ def gate(root:Path,*,require_evidence:bool=False)->dict[str,Any]:
     except Exception as exc:
         return {"schema":"fa3.supply-runtime-hardening-current-host-gate-report.v1","gateset_id":GATESET,"result":"FAIL","status":"BLOCKED","findings":[finding("SRH-HOST-002","current-host materialization unreadable",error=repr(exc))]}
     if conf.get("current_host_gate")!=GATESET or conf.get("capability_count")!=count or conf.get("new_architectural_authorities")!=0 or conf.get("global_promotion_claim") is not False:fs.append(finding("SRH-HOST-003","current-host conformance invariant drift"))
+    required_surface_ids={"SCS_AUTOMATED_ADMISSION","PROVIDER_RUNTIME_ENVIRONMENT","HRB_COMPOSITE_RESERVATION_CONTROL_PLANE","HU_AQC_GOLDEN_CORPUS"}
+    declared_surface_ids={str(x.get("id")) for x in conf.get("surfaces",[]) if isinstance(x,dict)}
+    if not required_surface_ids.issubset(declared_surface_ids):fs.append(finding("SRH-HOST-007","current-host conformance surface set incomplete",missing=sorted(required_surface_ids-declared_surface_ids)))
     if gr.get("gateset_id")!=GATESET or gr.get("fail_closed") is not True or gr.get("global_promotion_claim") is not False:fs.append(finding("SRH-HOST-004","current-host gate record drift"))
     receipts={}
     for name,rel in (("scs",SCS_RECEIPT),("provider",PROVIDER_RECEIPT),("hrb",HRB_RECEIPT),("hu",HU_RECEIPT)):
