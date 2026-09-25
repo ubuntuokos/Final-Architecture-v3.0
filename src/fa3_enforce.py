@@ -57,6 +57,7 @@ from fa3_caption_subtitle_current_host_gate import gate as caption_subtitle_curr
 from fa3_marketingskills_gate import gate as marketingskills_gate
 from fa3_skill_fabric_gate import gate as skill_fabric_gate
 from fa3_distribution_compliance_gate import gate as distribution_compliance_gate
+from fa3_reuse_gate import gate as reuse_discovery_gate
 from fa3_whisper_stt_gate import gate as whisper_stt_gate
 from fa3_whisper_stt_provider import run_executable_conformance as whisper_stt_provider_conformance
 from fa3_cosyvoice_gate import gate as cosyvoice_gate, current_host_gate as cosyvoice_current_host_gate
@@ -73,6 +74,17 @@ from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
+from fa3_quality_gate import evaluate as quality_anti_slop_gate
+from fa3_agency_agents_gate import gate as agency_agents_gate
+from fa3_agent_definition_gate import gate as agent_definition_gate
+from fa3_external_llm_catalog_gate import reference_check as external_llm_catalog_gate
+from fa3_model_router_provider_execution_gate import gate as model_router_provider_execution_gate
+from fa3_agent_workload_gate import gate as agent_workload_runtime_gate
+from fa3_agent_workload_current_host_gate import gate as agent_workload_runtime_current_host_gate
+from fa3_agent_federation_gate import gate as agent_federation_gate
+from fa3_gui_current_host_gate import gate as gui_current_host_gate
+from fa3_supply_runtime_hardening_gate import gate as supply_runtime_hardening_gate
+from fa3_supply_runtime_hardening_current_host_gate import gate as supply_runtime_hardening_current_host_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
@@ -164,13 +176,35 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-118","Marketing Agent Native / bounded advisory gate failed",marketing_agent_native_gate=marketing_agent_native_ref))
     caption_subtitle_ref=caption_subtitle_gate(root)
     if caption_subtitle_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-124","Caption/Subtitle/Narration Fabric canonical/runtime-reference gate failed",caption_subtitle_gate=caption_subtitle_ref))
+        fs.append(finding("FA3-STATIC-135","Caption/Subtitle/Narration Fabric canonical/runtime-reference gate failed",caption_subtitle_gate=caption_subtitle_ref))
     neural_rendering_ref=neural_rendering_gate(root)
     if neural_rendering_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-119","Neural Rendering / OpenDLSS-NR provider projection gate failed",neural_rendering_gate=neural_rendering_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
+
+    quality_anti_slop_ref=quality_anti_slop_gate(root)
+    if quality_anti_slop_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-124","Native anti-slop quality gate failed",quality_anti_slop_gate=quality_anti_slop_ref))
+    agency_agents_ref=agency_agents_gate(root)
+    if agency_agents_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider normalization gate failed",agency_agents_gate=agency_agents_ref))
+    agent_definition_ref=agent_definition_gate(root)
+    if agent_definition_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-126","Agent Definition admission gate failed",agent_definition_gate=agent_definition_ref))
+    gui_current_host_ref=gui_current_host_gate(root)
+    if gui_current_host_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-134","GUI current-host closure materialization gate failed",gui_current_host_gate=gui_current_host_ref))
+    external_llm_catalog_ref=external_llm_catalog_gate(root)
+    if external_llm_catalog_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-127","External LLM Catalog discovery/admission-boundary gate failed",external_llm_catalog_gate=external_llm_catalog_ref))
+    model_router_provider_execution_ref=model_router_provider_execution_gate(root)
+    if model_router_provider_execution_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-129","Model Router Provider Execution gate failed",model_router_provider_execution_gate=model_router_provider_execution_ref))
+    agent_workload_runtime_ref=agent_workload_runtime_gate(root)
+    if agent_workload_runtime_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-128","Agent Workload Runtime canonical/boundary gate failed",agent_workload_runtime_gate=agent_workload_runtime_ref))
 
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
@@ -279,7 +313,7 @@ def static_check(root:Path):
     if "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-118","Marketing Agent Native gate is not bound into global enforcement policy"))
     if "FA3-CAPTION-SUBTITLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-124","Caption/Subtitle/Narration Fabric gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-135","Caption/Subtitle/Narration Fabric gate is not bound into global enforcement policy"))
     if "FA3-NEURAL-RENDERING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-119","Neural Rendering gate is not bound into global enforcement policy"))
     if "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -288,6 +322,25 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-122","Provider-neutral Skill Fabric gate is not bound into global enforcement policy"))
     if "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-123","Distribution Compliance gate is not bound into global enforcement policy"))
+    if "FA3-REUSE-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-130","Reuse Discovery gate is not bound into global enforcement policy"))
+    if "FA3-AGENCY-AGENTS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-DEFINITION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-126","Agent Definition gate is not bound into global enforcement policy"))
+    if "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-127","External LLM Catalog gate is not bound into global enforcement policy"))
+    if "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-129","Model Router Provider Execution gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-128","Agent Workload Runtime gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-FEDERATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-132","Agent Federation gate is not bound into global enforcement policy"))
+    if "FA3-GUI-CURRENT-HOST-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-134","GUI current-host closure gate is not bound into global enforcement policy"))
+    supply_runtime_ref=supply_runtime_hardening_gate(root)
+    if supply_runtime_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-133","Supply-chain / Provider Runtime / HRB composite hardening gate failed",supply_runtime_hardening_gate=supply_runtime_ref))
     if "FA3-WHISPER-STT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-026","Whisper STT provider gate is not bound into global enforcement policy"))
     if "FA3-MENTOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -469,6 +522,9 @@ def static_check(root:Path):
     distribution_compliance_ref=distribution_compliance_gate(root)
     if distribution_compliance_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-123","Distribution Compliance gate failed",distribution_compliance_gate=distribution_compliance_ref))
+    reuse_discovery_ref=reuse_discovery_gate(root)
+    if reuse_discovery_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-131","Reuse Discovery mandatory pre-implementation gate failed",reuse_discovery_gate=reuse_discovery_ref))
     marketingskills_ref=marketingskills_gate(root)
     if marketingskills_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-083","MarketingSkills skill-package admission gate failed",marketingskills_gate=marketingskills_ref))
@@ -616,7 +672,8 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -742,6 +799,28 @@ def main():
             x=skill_fabric_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="distribution-compliance":
             x=distribution_compliance_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="reuse-discovery":
+            x=reuse_discovery_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agency-agents":
+            x=agency_agents_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-definition":
+            x=agent_definition_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="external-llm-catalog":
+            x=external_llm_catalog_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="model-router-provider-execution":
+            x=model_router_provider_execution_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-workload-runtime":
+            x=agent_workload_runtime_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-workload-runtime-current-host":
+            x=agent_workload_runtime_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-federation":
+            x=agent_federation_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="gui-current-host":
+            x=gui_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="supply-runtime-hardening":
+            x=supply_runtime_hardening_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="supply-runtime-hardening-current-host":
+            x=supply_runtime_hardening_current_host_gate(root,require_evidence=a.require_evidence); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="blackhole-kdenlive":
             x=blackhole_kdenlive_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="whisper-stt":
