@@ -6,6 +6,14 @@ The static/canonical hardening gate does not claim physical runtime promotion. T
 
 The test remains vendor-neutral and CPU-only compatible. Accelerator cardinality is 0..N. Any accelerator-bearing plan uses a live stable accelerator identity; runtime ordinals are not identity. The example files are templates only and are not evidence.
 
+## Automated supply-chain admission
+
+Select a real local artifact/source tree with an immutable source repository + commit and declared SPDX license. Syft, Grype and ScanCode must already be installed on the host; the workflow never downloads scanners. The scan computes a content hash, generates a CycloneDX SBOM, evaluates vulnerabilities, derives license compatibility from `FA3-SCS-LICENSE-POLICY-001`, and writes `supply-chain-admission-current-host.json`.
+
+## Provider runtime environment
+
+Prepare one `fa3.provider-runtime-environment.v1` plan for the admitted provider being proven. Three non-evidence templates are included for VENV, OCI and HOST_NATIVE. VENV proof checks the real environment, dependency-lock binding and isolated Python identity. OCI proof requires a preloaded digest-matching image and executes it rootlessly with `--pull=never --network none --read-only`. HOST_NATIVE proof is identity-only: the collector hashes the declared non-symlink executable and does not execute arbitrary host-native code.
+
 ## HRB composite control plane
 
 Prepare a real current-host resource plan and capacity input from the live host audit. Do not use the checked-in example values as evidence. The collector exercises the atomic reservation plan, authenticated HRB-internal derived leases, aggregate child-budget refusal, forged-parent refusal and parent revocation cascade. It deliberately uses a one-run ephemeral HMAC key that is never persisted.
@@ -24,6 +32,8 @@ Run the **FA3 Supply Runtime HRB Current-Host Closure** workflow with `execute_c
 
 Required outputs:
 
+- `evidence/receipts/supply-chain-admission-current-host.json`
+- `evidence/receipts/provider-runtime-current-host.json`
 - `evidence/receipts/hrb-composite-current-host.json`
 - `evidence/receipts/hu-aqc-golden-corpus-current-host.json`
 - `reports/supply-runtime-hardening-current-host-gate-report.json`
