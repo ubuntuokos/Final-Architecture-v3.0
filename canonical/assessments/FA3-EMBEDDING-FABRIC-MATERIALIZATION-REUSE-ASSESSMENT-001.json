@@ -1,0 +1,144 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-EMBEDDING-FABRIC-MATERIALIZATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-EMBEDDING-FABRIC-001",
+  "intent_id": "FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-AGENT-RUNTIME-SEMANTICS-001",
+    "FA3-BROWSER-SEMANTIC-FIND-001",
+    "FA3-EMBEDDING-FABRIC-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+    "FA3-INFERENCE-PORTABILITY-001",
+    "FA3-LLM-PROTOCOL-COMPAT-001",
+    "FA3-MODEL-MANAGER-001",
+    "FA3-WEB-AI-001",
+    "FA3-PROVIDER-FLAG-EMBEDDING-001",
+    "FA3-PROVIDER-MODEL2VEC-001",
+    "FA3-PROVIDER-TEI-001",
+    "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001"
+  ],
+  "project_status": "MATERIALIZED_STATIC_RUNTIME_EVIDENCE_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+      "use": "KNOWLEDGE_RETRIEVAL_PARENT_AND_CONSUMER_BINDING"
+    },
+    {
+      "id": "FA3-INFERENCE-PORTABILITY-001",
+      "use": "BACKEND_EXECUTION_PORTABILITY"
+    },
+    {
+      "id": "FA3-MODEL-MANAGER-001",
+      "use": "MODEL_ARTIFACT_IDENTITY_AND_LINEAGE"
+    },
+    {
+      "id": "FA3-WEB-AI-001",
+      "use": "BROWSER_SEMANTIC_EXECUTION_DOMAIN"
+    },
+    {
+      "id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
+      "use": "AGENT_RUNTIME_CONSUMER_BINDING_ONLY"
+    },
+    {
+      "id": "FA3-LLM-PROTOCOL-COMPAT-001",
+      "use": "PROTOCOL_COMPATIBILITY_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_LOGICAL_MODEL_AND_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_AND_TRUST_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-KNOWLEDGE-001",
+      "use": "KNOWLEDGE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_EMBEDDING_MODEL_ROUTER",
+      "reason": "MODEL_ROUTER_IS_SINGLE_FA3_AUTHORITY"
+    },
+    {
+      "id": "PARALLEL_EMBEDDING_RESOURCE_SCHEDULER",
+      "reason": "HRB_IS_SINGLE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "PROVIDER_LOCAL_KNOWLEDGE_AUTHORITY",
+      "reason": "PROVIDERS_REMAIN_NON_AUTHORITATIVE_EXECUTION_ADAPTERS"
+    },
+    {
+      "id": "AUTOMATIC_EXTERNAL_PROVIDER_ADMISSION",
+      "reason": "PROVIDER_ADMISSION_REQUIRES_EXISTING_CANONICAL_GATES_AND_EVIDENCE"
+    },
+    {
+      "id": "ImageBind",
+      "reason": "REFERENCE_ONLY_NON_COMMERCIAL_CORE_EXCLUDED"
+    },
+    {
+      "id": "MetaVec",
+      "reason": "ALGORITHM_REFERENCE_ONLY_NO_DIRECT_CODE_REUSE"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-SHADOW-MIGRATION-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001"
+  ],
+  "existing_authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "knowledge": "FA3-KNOWLEDGE-001"
+  },
+  "gaps": [
+    "EMBEDDING_FABRIC_CURRENT_HOST_E2E",
+    "PROVIDER_SPECIFIC_RUNTIME_ADMISSION_REMAINS_SEPARATE"
+  ],
+  "gap_resolution": [
+    {
+      "gap": "EMBEDDING_FABRIC_CURRENT_HOST_E2E",
+      "status": "PENDING_REAL_CURRENT_HOST_EXECUTION_AND_EVIDENCE"
+    },
+    {
+      "gap": "PROVIDER_SPECIFIC_RUNTIME_ADMISSION_REMAINS_SEPARATE",
+      "status": "GOVERNED_BY_EXISTING_PROVIDER_ADMISSION_GATES"
+    }
+  ],
+  "skill_reuse": [],
+  "external_skill_sources": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "accelerator_execution_requires_hrb_lease": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "upstream_or_independent_install_may_coexist": true,
+    "global_mutation": false
+  },
+  "implementation_readiness": "STATIC_MATERIALIZED_RUNTIME_EVIDENCE_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
