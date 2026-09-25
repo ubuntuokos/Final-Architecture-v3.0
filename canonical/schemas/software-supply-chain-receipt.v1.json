@@ -111,7 +111,10 @@
         "detected_expressions",
         "conflicts",
         "commercial_compatible",
-        "redistribution_compatible"
+        "redistribution_compatible",
+        "declaration_matches_detection",
+        "policy_id",
+        "policy_result"
       ],
       "properties": {
         "scanner": {
@@ -138,6 +141,22 @@
         },
         "redistribution_compatible": {
           "type": "boolean"
+        },
+        "declaration_matches_detection": {
+          "const": true
+        },
+        "policy_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_result": {
+          "const": "PASS"
+        },
+        "policy_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
