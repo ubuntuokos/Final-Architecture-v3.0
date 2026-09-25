@@ -35,11 +35,15 @@
     "FA3-GUI-SURFACE-REGISTRY-001",
     "FA3-DISTRIBUTION-REGISTRY-001",
     "FA3-JEV-CODE-REUSE-001",
-    "External Project Radar"
+    "External Project Radar",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-SKILL-REGISTRY-001",
+    "FA3-EXTERNAL-SKILL-RADAR-001"
   ],
   "lifecycle": [
     "INTENT",
     "DISCOVER",
+    "DISCOVER_SKILLS_AND_EXTERNAL_SKILL_SOURCES",
     "FILTER",
     "ASSESS_REUSE",
     "IDENTIFY_GAPS",
@@ -73,5 +77,16 @@
   "implementation_status": "MATERIALIZED_STATIC_REFERENCE_EXECUTABLE_PASS_RUNTIME_PROMOTION_NOT_APPLICABLE",
   "current_host_runtime_promotion_claim": false,
   "reference_evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json",
-  "reference_evidence_status": "PASS"
+  "reference_evidence_status": "PASS",
+  "skill_fabric_binding": {
+    "profile_id": "FA3-SKILL-FABRIC-001",
+    "registry_id": "FA3-SKILL-REGISTRY-001",
+    "external_radar_id": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "only_admitted_skill_may_be_selected_for_task_context": true,
+    "activation_remains_task_scoped": true,
+    "external_skill_source_is_reference_only": true,
+    "external_catalog_is_trust_authority": false,
+    "automatic_install": false,
+    "automatic_activation": false
+  }
 }
