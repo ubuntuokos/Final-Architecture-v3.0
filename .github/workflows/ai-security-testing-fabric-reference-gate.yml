@@ -1,0 +1,49 @@
+name: FA3 AI Security Testing Fabric
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "canonical/*AI-SECURITY-TESTING*"
+      - "canonical/**/*AI-SECURITY-TESTING*"
+      - "canonical/ai-security-testing-fabric-enforcement.json"
+      - "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json"
+      - "src/fa3_ai_security_testing_fabric_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_ai_security_testing_fabric_gate.py"
+      - ".github/workflows/ai-security-testing-fabric-reference-gate.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Syntax
+        run: python -m py_compile src/fa3_ai_security_testing_fabric_gate.py tests/test_ai_security_testing_fabric_gate.py
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_ai_security_testing_fabric_gate -v
+      - name: Fabric gate
+        run: PYTHONPATH=src python src/fa3_ai_security_testing_fabric_gate.py
+      - name: Distribution Compliance
+        run: ./bin/fa3-enforce distribution-compliance
+      - name: Reuse Discovery
+        run: ./bin/fa3-enforce reuse-discovery
+      - name: Hardware Audit
+        run: ./bin/fa3-enforce hardware-portability
+      - name: Provider runtime / supply chain
+        run: ./bin/fa3-enforce supply-runtime-hardening
+      - name: Model Router execution
+        run: ./bin/fa3-enforce model-router-provider-execution
+      - name: Diff whitespace
+        run: git diff --check origin/main...HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-ai-security-testing-fabric-gate
+          path: reports/ai-security-testing-fabric-gate-report.json
+          if-no-files-found: error
