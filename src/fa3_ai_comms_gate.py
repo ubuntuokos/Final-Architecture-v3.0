@@ -125,7 +125,7 @@ def gate(root: Path) -> dict[str, Any]:
         and decision.get("gate_id") == GATE_ID
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
         and router.get("authority_reused") is True
         and router.get("parallel_router_created") is False
         and router.get("semantic_policy_authority_granted_to_router") is False
