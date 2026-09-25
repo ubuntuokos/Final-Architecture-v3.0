@@ -188,7 +188,8 @@
     "HOLD_AND_WAIT_FOR_CHILD_RESOURCE_LEASE_IS_FORBIDDEN",
     "DERIVED_EXECUTION_LEASE_MUST_BE_MINTED_BY_HRB_ONLY",
     "DERIVED_LEASE_RESOURCE_SCOPE_AND_EXPIRY_MUST_BE_SUBSET_OF_PARENT",
-    "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES"
+    "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
+    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION"
   ],
   "version": "1.6.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
@@ -422,6 +423,7 @@
     "child_scope_subset_of_parent": true,
     "sum_child_budget_not_above_parent": true,
     "parent_revocation_cascades": true,
-    "provider_may_mint_derived_lease": false
+    "provider_may_mint_derived_lease": false,
+    "derived_lease_authentication": "EXISTING_HRB_INTERNAL_EPHEMERAL_HMAC_KEYRING"
   }
 }
