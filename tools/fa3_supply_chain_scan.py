@@ -23,6 +23,7 @@ def main()->int:
     ap.add_argument("--target",required=True); ap.add_argument("--source-repository",required=True); ap.add_argument("--source-commit",required=True)
     ap.add_argument("--dependency-lock"); ap.add_argument("--declared-license",required=True)
     ap.add_argument("--license-policy",default="canonical/supply-chain-license-policy.json")
+    ap.add_argument("--current-host",action="store_true")
     ap.add_argument("--output",default="evidence/receipts/supply-chain-admission.json")
     a=ap.parse_args(); target=Path(a.target).resolve()
     syft=shutil.which("syft"); grype=shutil.which("grype"); scancode=shutil.which("scancode")
@@ -46,7 +47,7 @@ def main()->int:
         if not policy_path.is_absolute(): policy_path=Path.cwd()/policy_path
         policy=json.loads(policy_path.read_text(encoding="utf-8"))
         license_eval=evaluate_license_policy(a.declared_license,sorted(detected),policy)
-        receipt={"schema":"fa3.software-supply-chain-receipt.v1","source":{"repository":a.source_repository,"commit":a.source_commit},
+        receipt={"schema":"fa3.software-supply-chain-receipt.v1","current_host_execution":bool(a.current_host),"synthetic":False,"source":{"repository":a.source_repository,"commit":a.source_commit},
           "artifact":{"path":str(target),"sha256":sha256_tree(target),"hash_scope":"FILE_CONTENT" if target.is_file() else "DETERMINISTIC_TREE_CONTENT"},
           "dependency_lock":{"required":bool(a.dependency_lock),"sha256":sha256_file(Path(a.dependency_lock)) if a.dependency_lock else None},
           "sbom":{"format":"CYCLONEDX_JSON","sha256":sha256_file(sbom),"scanner":"syft","scanner_version":version(syft)},
