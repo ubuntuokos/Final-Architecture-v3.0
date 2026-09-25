@@ -32,10 +32,15 @@ def collect(root:Path,manifest_path:Path,output:Path)->dict[str,Any]:
             category=str(e.get("category",""));eid=str(e.get("id") or f"entry-{i}")
             audio=Path(str(e.get("audio","")));audio=audio if audio.is_absolute() else root/audio
             metrics=Path(str(e.get("metrics_json","")));metrics=metrics if metrics.is_absolute() else root/metrics
-            if category=="VOICE_CLONING_WITH_CONSENT_WHEN_APPLICABLE" and e.get("consent_status")!="GRANTED":raise RuntimeError("voice-cloning golden sample lacks GRANTED consent")
+            provenance_ref=str(e.get("provenance_ref","")).strip()
+            if not provenance_ref:raise RuntimeError("golden sample provenance_ref missing")
+            bundle=loadj(metrics)
+            cloning=bool(bundle.get("cloning",False))
+            if category=="VOICE_CLONING_WITH_CONSENT_WHEN_APPLICABLE" and not cloning:raise RuntimeError("voice-cloning category requires cloning=true scorer bundle")
+            if cloning and (e.get("consent_status")!="GRANTED" or not str(e.get("consent_ref","")).strip()):raise RuntimeError("cloning sample lacks GRANTED consent and consent_ref")
             child_out=tmp/(eid+".json")
             row=single.collect(root,audio=audio.resolve(),metrics_path=metrics.resolve(),output=child_out)
-            results.append({"id":eid,"category":category,"result":row.get("result"),"status":row.get("status"),"asr_metrics":row.get("asr_metrics"),"aqc":row.get("aqc"),"audio_sha256":row.get("audio_sha256"),"metrics_input_sha256":row.get("metrics_input_sha256")})
+            results.append({"id":eid,"category":category,"provenance_ref":provenance_ref,"consent_ref":e.get("consent_ref") if cloning else None,"result":row.get("result"),"status":row.get("status"),"asr_metrics":row.get("asr_metrics"),"aqc":row.get("aqc"),"audio_sha256":row.get("audio_sha256"),"metrics_input_sha256":row.get("metrics_input_sha256")})
         failed=[x for x in results if x["result"]!="PASS"]
         if failed:raise RuntimeError("one or more golden-corpus samples failed")
         wers=[float(x["asr_metrics"]["wer"]) for x in results];cers=[float(x["asr_metrics"]["cer"]) for x in results]
