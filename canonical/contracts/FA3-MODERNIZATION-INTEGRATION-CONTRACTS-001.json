@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "new_capability": false,
@@ -127,7 +127,9 @@
       "silent_fallback_forbidden": true,
       "reroute_requires_explicit_policy": true,
       "reroute_requires_new_resource_admission": true,
-      "executed_provider_model_device_receipt_required": true
+      "executed_provider_model_device_receipt_required": true,
+      "explicit_reroute_receipt_required": true,
+      "original_route_failure_or_unavailability_evidence_required": true
     },
     "reproducibility": {
       "nix_or_equivalent_role": "OPTIONAL_BUILD_DEV_CI_PROVIDER",
@@ -138,6 +140,33 @@
       "status": "DEFERRED_P2_PROVIDER_PROFILE",
       "global_hardware_requirement": false,
       "attestation_required_before_future_admission": true
+    },
+    "cross_host_execution": {
+      "coordination_profile": "FA3-AGENT-FEDERATION-001",
+      "federation_is_resource_authority": false,
+      "remote_resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "local_multi_node_protocol_pass_is_not_cross_host_production_pass": true,
+      "authenticated_signed_bounded_transport_required": true,
+      "remote_provider_runtime_admission_required": true
+    },
+    "structured_knowledge_metadata": {
+      "authority": "FA3-KNOWLEDGE-001",
+      "metadata_is_derived_projection": true,
+      "native_source_preservation_required": true,
+      "required_fields": [
+        "schema_version",
+        "document_id",
+        "content_type",
+        "source_type",
+        "created_at",
+        "provenance",
+        "language",
+        "approval_state",
+        "evidence_refs"
+      ],
+      "ai_generated_state_explicit": true,
+      "human_modified_state_explicit": true,
+      "domain_extensions_must_not_replace_core_metadata": true
     }
   },
   "mandatory_invariants": [
@@ -164,6 +193,9 @@
     "AI_JUDGE_ADVISORY_ONLY_AND_MODEL_ROUTER_MEDIATED",
     "CURRENT_HOST_PASS_CANNOT_BE_DOCUMENT_DERIVED",
     "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED",
-    "OPEN_PR_OVERLAP_MUST_BE_RECONCILED_BEFORE_PROMOTION"
+    "OPEN_PR_OVERLAP_MUST_BE_RECONCILED_BEFORE_PROMOTION",
+    "CROSS_HOST_EXECUTION_REUSES_AGENT_FEDERATION_AND_REMOTE_HRB",
+    "STRUCTURED_KNOWLEDGE_METADATA_IS_DERIVED_AND_PRESERVES_NATIVE_SOURCE",
+    "DEGRADED_EXECUTION_REQUIRES_EXPLICIT_REROUTE_RECEIPT"
   ]
 }
