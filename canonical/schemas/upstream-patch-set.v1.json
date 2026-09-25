@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.upstream-patch-set.v1",
+  "title": "FA3 Upstream Patch Set",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "disposition"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.upstream-patch-set.v1"
+    },
+    "disposition": {
+      "enum": [
+        "DIRECT_PINNED",
+        "REFERENCE_ONLY",
+        "PATCHED_VENDOR",
+        "FA3_NATIVE_REIMPLEMENTATION",
+        "REJECTED"
+      ]
+    },
+    "runtime_admission": {
+      "type": "boolean"
+    },
+    "upstream_repository": {
+      "type": "string"
+    },
+    "upstream_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{40,64}$"
+    },
+    "license_disposition": {
+      "type": "object"
+    }
+  }
+}
