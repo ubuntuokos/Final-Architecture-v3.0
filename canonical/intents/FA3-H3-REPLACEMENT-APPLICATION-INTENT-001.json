@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-H3-REPLACEMENT-APPLICATION-INTENT-001",
+  "project_id": "FA3-H3-REPLACEMENT-001",
+  "project_type": "PROFILE_RECONCILIATION",
+  "goal": "Retire MiniMax H3 as an executable FA3 dependency and replace its runtime role with the existing provider-neutral FA3 video generation architecture plus a reusable motion/video execution adapter, without adding capability or authority.",
+  "required_capabilities": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "multimodal-video-generation",
+    "provider-runtime-replacement",
+    "current-host-execution",
+    "provider-admission"
+  ],
+  "task_classes": [
+    "video-generation",
+    "motion-video-execution",
+    "provider-routing",
+    "current-host-e2e"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_VIDEO_GENERATION_IR",
+    "MODEL_ROUTER_SELECTION_RECEIPT",
+    "PROVIDER_ADMISSION_RECEIPT",
+    "OPTIONAL_HRB_RECEIPT"
+  ],
+  "output_modalities": [
+    "GENERATED_VIDEO_ASSET",
+    "MACHINE_READABLE_EXECUTION_RECEIPT",
+    "QC_AND_PROVENANCE_EVIDENCE"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR",
+    "OPTIONAL_REMOTE_PROVIDER"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-motion-video",
+    "service_prefix": "fa3-motion-video",
+    "config_root": "$XDG_CONFIG_HOME/fa3/motion-video",
+    "cache_root": "$XDG_CACHE_HOME/fa3/motion-video",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/motion-video",
+    "socket_namespace": "fa3-motion-video",
+    "data_root": "$XDG_DATA_HOME/fa3/motion-video",
+    "desktop_prefix": "org.fa3.MotionVideo",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-VIDEO-001",
+    "FA3-MMG-CONTEXT-IR-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-PROVIDER-WAN22-001"
+  ]
+}

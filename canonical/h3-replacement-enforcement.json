@@ -1,0 +1,149 @@
+{
+  "schema": "fa3.h3-replacement-enforcement.v1",
+  "id": "FA3-H3-REPLACEMENT-001",
+  "gate_id": "FA3-H3-REPLACEMENT-GATESET-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "mandatory": true,
+  "fail_closed": true,
+  "applies_retroactively": true,
+  "applies_prospectively": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count": 143,
+  "prohibited_dependency": {
+    "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+    "direct_dependency_forbidden": true,
+    "provider_selection_forbidden": true,
+    "runtime_execution_forbidden": true,
+    "hosted_billable_execution_forbidden": true,
+    "historical_reference_allowed": true
+  },
+  "replacement": {
+    "surface": "FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
+    "profile_id": "FA3-VIDEO-001",
+    "canonical_ir": [
+      "FA3-MMG-CONTEXT-IR-001",
+      "VideoGenerationIR"
+    ],
+    "mandatory_execution_chain": [
+      "creative_intent",
+      "video_context_compiler",
+      "FA3-MMG-CONTEXT-IR-001",
+      "VideoGenerationIR",
+      "security_license_gate",
+      "provider_capability_matching",
+      "FA3-AUTH-MODEL-ROUTER-001",
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "provider_admission",
+      "provider_projection",
+      "ProviderProjectionLossReport",
+      "generation",
+      "qc_and_provenance"
+    ],
+    "direct_provider_pin_forbidden": true,
+    "silent_fallback_forbidden": true,
+    "provider_native_ir_canonicalization_forbidden": true
+  },
+  "capability_contract": [
+    "TEXT_TO_VIDEO",
+    "IMAGE_TO_VIDEO",
+    "VIDEO_TO_VIDEO",
+    "REFERENCE_TO_VIDEO",
+    "CHARACTER_ANIMATION",
+    "CHARACTER_CONSISTENCY",
+    "IDENTITY_CONDITIONING",
+    "POSE_CONDITIONING",
+    "MOTION_TRANSFER",
+    "DEPTH_CONDITIONING",
+    "CAMERA_CONDITIONING",
+    "KEYFRAME_CONDITIONING",
+    "VIDEO_EXTENSION",
+    "TEMPORAL_INPAINT",
+    "REGION_REGENERATION",
+    "STYLE_TRANSFER",
+    "SYNCHRONIZED_AUDIO_VIDEO",
+    "DIALOGUE_CONDITIONING",
+    "AMBIENCE_GENERATION",
+    "FRAME_INTERPOLATION",
+    "SUPER_RESOLUTION",
+    "SHOT_VARIATION",
+    "SHOT_CONTINUATION",
+    "MULTI_SHOT_CONSISTENCY"
+  ],
+  "provider_strategy": {
+    "rule": "USE_ONE_OR_MORE_ADMITTED_FREE_OR_OPEN_COMPONENTS_BEHIND_FA3_CANONICAL_INTERFACES",
+    "candidate_families": [
+      {
+        "name": "Wan-family",
+        "status": "WAN22_MATERIALIZED_EXECUTION_CANDIDATE_CURRENT_HOST_E2E_PENDING"
+      },
+      {
+        "name": "LTX-family",
+        "status": "SECONDARY_CANDIDATE_REQUIRES_SEPARATE_LICENSE_AND_PROVIDER_ADMISSION"
+      },
+      {
+        "name": "FramePack-derived execution strategy",
+        "status": "PATTERN_CANDIDATE_REQUIRES_REUSE_AND_LICENSE_REVIEW"
+      },
+      {
+        "name": "depth/motion/enhancement providers",
+        "status": "CAPABILITY_PROVIDER_CLASS_REQUIRES_ADMISSION"
+      }
+    ],
+    "paid_application_dependency_forbidden": true,
+    "no_provider_is_architectural_authority": true
+  },
+  "hardware_audit": {
+    "required": true,
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_architecture_supported": true,
+    "accelerator_cardinality": "0..N",
+    "supported_vendor_classes": [
+      "CPU_ONLY",
+      "NVIDIA",
+      "AMD",
+      "INTEL",
+      "NPU",
+      "OTHER"
+    ],
+    "routing_must_not_pin_current_host_gpu": true,
+    "local_accelerator_execution_requires_hrb": true,
+    "insufficient_resources_must_fail_closed_or_route_to_admitted_remote_provider": true
+  },
+  "coexistence": {
+    "software_coexistence_and_host_non_interference_required": true,
+    "upstream_app_uninstall_forbidden": true,
+    "namespaced_paths_services_configs_required": true,
+    "global_runtime_hijack_forbidden": true
+  },
+  "evidence_rules": {
+    "document_only_runtime_promotion_forbidden": true,
+    "current_host_claim_requires_real_current_host_evidence": true,
+    "cross_host_claim_requires_cross_host_evidence": true,
+    "provider_runtime_claim_requires_provider_specific_e2e": true
+  },
+  "executable_replacement": {
+    "runtime_admission_id": "FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001",
+    "contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "current_host_conformance_id": "FA3-MOTION-VIDEO-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+    "adapter": "src/fa3_motion_video_provider_adapter.py",
+    "collector": "evidence/collect-motion-video-current-host.py",
+    "runner": "bin/fa3-motion-video-current-host.sh",
+    "workflow": ".github/workflows/fa3-motion-video-current-host.yml",
+    "replaces_h3_executable_adapter": true,
+    "replaces_h3_billable_current_host_workflow": true,
+    "billable_ack_applies_only_when_selected_cost_class": "BILLABLE_REMOTE"
+  },
+  "initial_materialized_provider": {
+    "provider_id": "FA3-PROVIDER-WAN22-001",
+    "upstream_reference": "FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26",
+    "status": "STATIC_MATERIALIZED_REAL_CURRENT_HOST_E2E_PENDING",
+    "cost_class": "FREE_LOCAL",
+    "model_router_projection": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "current_host_conformance": "FA3-WAN22-CURRENT-HOST-CONFORMANCE-001",
+    "direct_h3_dependency": false
+  }
+}

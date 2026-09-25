@@ -1,0 +1,185 @@
+name: FA3 Wan2.2 Current-Host E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-WAN22-001.json'
+      - 'canonical/references/FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26.json'
+      - 'canonical/FA3-WAN22-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-WAN22-CURRENT-HOST-001.json'
+      - 'canonical/contracts/FA3-WAN22-RUNTIME-CONFIG-001.schema.json'
+      - 'canonical/contracts/FA3-WAN22-MODEL-SET-MANIFEST-001.schema.json'
+      - 'bin/fa3-wan22-model-set-admit.py'
+      - 'src/fa3_wan22_gate.py'
+      - 'src/fa3_wan22_current_host_gate.py'
+      - 'src/fa3_video_model_router.py'
+      - 'src/fa3_motion_video_provider_adapter.py'
+      - 'bin/fa3-wan22-provider-exec.py'
+      - 'bin/fa3-wan22-current-host-admit.py'
+      - 'bin/fa3-wan22-build-motion-video-manifest.py'
+      - 'tests/test_wan22_gate.py'
+      - 'tests/test_video_model_router.py'
+      - '.github/workflows/fa3-wan22-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute real pre-provisioned Wan2.2 current-host E2E'
+        required: true
+        default: false
+        type: boolean
+      runtime_config:
+        description: 'Wan2.2 pre-provisioned runtime config'
+        required: false
+        default: '.fa3-current-host/input/wan22-runtime.json'
+        type: string
+      model_set_manifest:
+        description: 'Wan2.2 model-set manifest binding each checkpoint file to an existing FA3 artifact-admission receipt'
+        required: false
+        default: '.fa3-current-host/input/wan22-model-set-manifest.json'
+        type: string
+      video_ir:
+        description: 'Canonical VideoGenerationIR'
+        required: false
+        default: '.fa3-current-host/input/wan22-video-ir.json'
+        type: string
+      resource_admission:
+        description: 'Canonical CURRENT_HOST_ADMISSION resource evidence with active HRB accelerator lease'
+        required: false
+        default: '.fa3-current-host/input/wan22-resource-admission.json'
+        type: string
+      operation:
+        description: 'Provider-neutral route operation'
+        required: false
+        default: 'TEXT_TO_VIDEO'
+        type: choice
+        options: [TEXT_TO_VIDEO, IMAGE_TO_VIDEO, TEXT_IMAGE_TO_VIDEO, SPEECH_TO_VIDEO]
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: wan22 / static-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Static and syntax
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m py_compile src/fa3_wan22_gate.py src/fa3_wan22_current_host_gate.py src/fa3_video_model_router.py src/fa3_motion_video_provider_adapter.py bin/fa3-wan22-provider-exec.py bin/fa3-wan22-model-set-admit.py bin/fa3-wan22-current-host-admit.py bin/fa3-wan22-build-motion-video-manifest.py tests/test_wan22_projection.py tests/test_wan22_current_host_gate.py
+          python -m unittest tests.test_wan22_gate tests.test_video_model_router tests.test_wan22_projection tests.test_wan22_current_host_gate -v
+          ./bin/fa3-enforce wan22-video
+      - name: Physical Wan receipt absent must fail closed
+        run: |
+          set +e
+          PYTHONPATH=src python src/fa3_wan22_current_host_gate.py --root .
+          rc=$?
+          set -e
+          test "$rc" -ne 0
+
+  current-host:
+    name: wan22 / real-provider-e2e
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify pre-provisioned evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test -f "${{ inputs.runtime_config }}"
+          test -f "${{ inputs.model_set_manifest }}"
+          test -f "${{ inputs.video_ir }}"
+          test -f "${{ inputs.resource_admission }}"
+          command -v nvidia-smi
+          command -v ffprobe
+      - name: Admit exact Wan2.2 runtime without install or download
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/receipts evidence/runtime/wan22-current-host
+          python3 bin/fa3-wan22-current-host-admit.py             --runtime-config "${{ inputs.runtime_config }}"             --model-admission "${{ inputs.model_admission }}"             --output evidence/receipts/wan22-provider-admission.json
+          python3 bin/fa3-wan22-build-motion-video-manifest.py             --runtime-config "${{ inputs.runtime_config }}"             --admission-receipt evidence/receipts/wan22-provider-admission.json             --output evidence/runtime/wan22-current-host/provider-manifest.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          m=Path("evidence/runtime/wan22-current-host/provider-manifest.json").resolve()
+          Path("evidence/runtime/wan22-current-host/candidate-manifests.json").write_text(json.dumps({
+            "schema":"fa3.motion-video-candidate-manifests.v1",
+            "manifests":[str(m)]
+          },indent=2)+"\n")
+          PY
+      - name: Create provider-neutral route request
+        shell: bash
+        env:
+          FA3_WAN22_ROUTE_OPERATION: ${{ inputs.operation }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          Path("evidence/runtime/wan22-current-host/route-request.json").write_text(json.dumps({
+            "schema":"fa3.motion-video-route-request.v1",
+            "request_id":"wan22-current-host-e2e",
+            "operation":os.environ["FA3_WAN22_ROUTE_OPERATION"],
+            "allowed_cost_classes":["FREE_LOCAL"],
+            "allowed_execution_topologies":["LOCAL"],
+            "allow_billable":False
+          },indent=2)+"\n")
+          PY
+      - name: Route with Model Router authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-video-route-select
+          bin/fa3-video-route-select             --request evidence/runtime/wan22-current-host/route-request.json             --manifest-list evidence/runtime/wan22-current-host/candidate-manifests.json             --output evidence/runtime/wan22-current-host/selection.json
+      - name: Execute real Wan2.2 through generic Motion Video Fabric
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-motion-video-current-host.sh
+          bin/fa3-motion-video-current-host.sh             evidence/runtime/wan22-current-host/selection.json             evidence/runtime/wan22-current-host/provider-manifest.json             "${{ inputs.video_ir }}"             "${{ inputs.resource_admission }}"
+          PYTHONPATH=src python src/fa3_wan22_current_host_gate.py --root .
+      - name: Real artifact media sanity
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact="$(python3 - <<'PY'
+          import json
+          print(json.load(open("evidence/receipts/motion-video-current-host.json"))["artifact_reference"])
+          PY
+          )"
+          test -s "$artifact"
+          ffprobe -v error -show_entries stream=codec_type,width,height,r_frame_rate -of json "$artifact" > evidence/runtime/wan22-current-host/ffprobe.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("evidence/runtime/wan22-current-host/ffprobe.json"))
+          assert any(s.get("codec_type")=="video" and int(s.get("width",0))>0 and int(s.get("height",0))>0 for s in r.get("streams",[]))
+          PY
+      - name: Upload Wan2.2 current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-wan22-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/wan22-model-set-admission.json
+            evidence/receipts/wan22-provider-admission.json
+            evidence/receipts/motion-video-current-host.json
+            evidence/runtime/wan22-current-host/**
+            reports/wan22-current-host-gate-report.json
+            reports/motion-video-current-host-gate-report.json

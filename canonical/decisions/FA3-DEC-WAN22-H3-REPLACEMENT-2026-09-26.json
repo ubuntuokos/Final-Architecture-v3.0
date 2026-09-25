@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-WAN22-H3-REPLACEMENT-2026-09-26",
+  "date": "2026-09-26",
+  "status": "CANONICAL_CLOSED_STATIC_MATERIALIZED_CURRENT_HOST_PENDING",
+  "title": "Materialize Wan2.2 as the first free/open execution provider behind the FA3 H3 replacement fabric",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_PROVIDER_MATERIALIZATION",
+  "decision": "ADMIT_WAN22_AS_INITIAL_FREE_LOCAL_EXECUTION_CANDIDATE_BEHIND_PROVIDER_NEUTRAL_VIDEO_ROUTER_AND_MOTION_VIDEO_FABRIC",
+  "parent_decision": "FA3-DEC-H3-REPLACEMENT-2026-09-25",
+  "provider_id": "FA3-PROVIDER-WAN22-001",
+  "upstream_reference": "FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26",
+  "source_revision": "1ea34ff48f87168174e12956e200b1d908b1c5ff",
+  "rationale": [
+    "Reuse the existing FA3 VideoGenerationIR/MMG contracts, Model Router authority, HRB authority and Model Artifact Security admission rather than introduce a Wan-specific application authority.",
+    "Use Wan2.2 as an initial free/open local execution candidate because upstream publishes code and model weights under Apache-2.0 and exposes T2V, I2V, TI2V, S2V and character animation paths.",
+    "Do not treat upstream performance or hardware claims as current-host evidence.",
+    "Keep LTX-family integration separate until its current model licence and runtime admission are independently evaluated."
+  ],
+  "execution_chain": [
+    "VideoGenerationIR",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-PROVIDER-WAN22-001 admission manifest",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3 Native Motion & Video Generation Fabric",
+    "Wan2.2 pinned executor",
+    "real artifact QC/provenance"
+  ],
+  "security_and_supply_chain": {
+    "model_artifact_security_overlay": "FA3-MODEL-ARTIFACT-SECURITY-001",
+    "per_artifact_existing_admission_receipt_required": true,
+    "model_set_aggregator_is_authority": false,
+    "automatic_model_download": false,
+    "automatic_runtime_install": false,
+    "network_fetch_during_admission": false
+  },
+  "hardware_audit": {
+    "result": "PASS_ARCHITECTURAL_SCOPE",
+    "vendor_neutral_architecture": true,
+    "cpu_only_architecture_valid": true,
+    "accelerator_cardinality": "0..N",
+    "wan_current_runtime_class": "LOCAL_ACCELERATOR",
+    "stable_device_identity_from_hrb": true,
+    "runtime_ordinal_is_canonical_identity": false,
+    "current_host_runtime_claim": false
+  },
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-H3-REPLACEMENT-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-H3-REPLACEMENT-001",
+  "intent_id": "FA3-H3-REPLACEMENT-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-H3-REPLACEMENT-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-VIDEO-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-WAN22-001"
+  ],
+  "project_status": "MATERIALIZED_PROVIDER_NEUTRAL_RUNTIME_REPLACEMENT_CURRENT_HOST_PROVIDER_E2E_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "EXISTING_CANONICAL_VIDEO_PROFILE"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_MULTIMODAL_CONTEXT_IR"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_PROVIDER_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_DISCOVERY_AND_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_LICENSE_AND_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_RUNTIME_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+      "use": "EXECUTION_ADAPTER_PATTERN"
+    },
+    {
+      "id": "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+      "use": "FAIL_CLOSED_ADMISSION_PATTERN"
+    },
+    {
+      "id": "FA3-PROVIDER-WAN22-001",
+      "use": "INITIAL_FREE_OPEN_VIDEO_EXECUTION_PROVIDER_CANDIDATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "MINIMAX_H3_DIRECT_RUNTIME",
+      "reason": "SUPERSEDED; DIRECT H3 DEPENDENCY FORBIDDEN"
+    },
+    {
+      "id": "NEW_VIDEO_ROUTING_AUTHORITY",
+      "reason": "MODEL ROUTER ALREADY OWNS PROVIDER SELECTION"
+    },
+    {
+      "id": "NEW_RESOURCE_AUTHORITY",
+      "reason": "HRB ALREADY OWNS HOST RESOURCE DISCOVERY AND ADMISSION"
+    },
+    {
+      "id": "APPLICATION_DIRECT_PROVIDER_PIN",
+      "reason": "PROVIDER NEUTRALITY AND SILENT FALLBACK RULES REQUIRE ROUTER SELECTION"
+    },
+    {
+      "id": "PARALLEL_VIDEO_IR",
+      "reason": "EXISTING VideoGenerationIR AND MMG Context IR MUST BE REUSED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "video_profile": "FA3-VIDEO-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_PROVIDER_ADMISSION_AND_REAL_CURRENT_HOST_E2E",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

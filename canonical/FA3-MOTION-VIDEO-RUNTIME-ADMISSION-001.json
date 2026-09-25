@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.provider-runtime-admission.v1",
+  "id": "FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+  "gate_id": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+  "status": "MATERIALIZED_PROVIDER_NEUTRAL_EXECUTION_SURFACE_RUNTIME_PROVIDER_E2E_PENDING",
+  "execution_surface": "FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
+  "replaces_runtime_surface": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+  "active": true,
+  "provider_specific": false,
+  "provider_selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "supported_cost_classes": [
+    "FREE_LOCAL",
+    "FREE_REMOTE",
+    "BILLABLE_REMOTE"
+  ],
+  "billing_policy": {
+    "free_execution_ack_required": false,
+    "billable_remote_manual_ack_required": true,
+    "required_ack_value": "I_ACKNOWLEDGE_BILLABLE_FA3_VIDEO_E2E",
+    "automatic_free_to_billable_fallback_forbidden": true,
+    "automatic_provider_cost_class_switch_forbidden": true
+  },
+  "hardware_policy": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_valid": true,
+    "accelerator_cardinality": "0..N",
+    "local_accelerator_requires_hrb": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_execution_claim": false,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false
+}

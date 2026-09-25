@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.wan22-current-host-conformance.v1",
+  "id": "FA3-WAN22-CURRENT-HOST-CONFORMANCE-001",
+  "status": "MATERIALIZED_REAL_PROVIDER_E2E_PENDING",
+  "priority": "P0",
+  "requirement": "MUST_IF_WAN22_RUNTIME_PROMOTED",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_id": "FA3-PROVIDER-WAN22-001",
+  "provider_gate_id": "FA3-WAN22-GATESET-001",
+  "motion_video_gate_id": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+  "workflow": ".github/workflows/fa3-wan22-current-host.yml",
+  "source_revision": "1ea34ff48f87168174e12956e200b1d908b1c5ff",
+  "runtime_config_schema": "canonical/contracts/FA3-WAN22-RUNTIME-CONFIG-001.schema.json",
+  "required_inputs": [
+    "PREPROVISIONED_PINNED_WAN22_CHECKOUT",
+    "ISOLATED_RUNTIME_PYTHON",
+    "PREADMITTED_MODEL_CHECKPOINT_DIRECTORY",
+    "FA3_MODEL_ARTIFACT_SECURITY_ADMISSION_RECEIPT",
+    "CANONICAL_VIDEO_GENERATION_IR",
+    "CURRENT_HOST_ADMISSION_RESOURCE_EVIDENCE"
+  ],
+  "execution_chain": [
+    "WAN22_STATIC_GATE",
+    "WAN22_PROVIDER_ADMISSION",
+    "WAN22_EXECUTION_MANIFEST_COMPILATION",
+    "PROVIDER_NEUTRAL_ROUTE_REQUEST",
+    "FA3_VIDEO_MODEL_ROUTER_SELECTION",
+    "CANONICAL_HRB_RESOURCE_ADMISSION",
+    "FA3_MOTION_VIDEO_PROVIDER_ADAPTER",
+    "WAN22_PINNED_EXECUTOR",
+    "REAL_VIDEO_ARTIFACT",
+    "MOTION_VIDEO_CURRENT_HOST_GATE"
+  ],
+  "forbidden": [
+    "AUTO_INSTALL",
+    "NETWORK_MODEL_FETCH_DURING_ADMISSION_OR_E2E",
+    "APPLICATION_PROVIDER_PIN",
+    "PROVIDER_SELF_SELECTED_ACCELERATOR",
+    "SILENT_CPU_GPU_REMOTE_FALLBACK",
+    "MODEL_SELF_ADMISSION"
+  ],
+  "hardware_audit": {
+    "canonical_architecture_vendor_neutral": true,
+    "cpu_only_architecture_valid": true,
+    "accelerator_cardinality": "0..N",
+    "provider_current_execution_class": "LOCAL_ACCELERATOR",
+    "accelerator_selection_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "stable_identity": [
+      "accelerator_uuid",
+      "pci_bus_id"
+    ],
+    "runtime_ordinal_is_identity": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_execution_claim": false,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false
+}

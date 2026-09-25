@@ -190,6 +190,28 @@ if [[ "${1:-}" == "static" || "${1:-}" == "promote" || "${1:-}" == "all" ]]; the
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_fabric_gate.py" --root "$ROOT" >/dev/null
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_adoption_gate.py" --root "$ROOT" >/dev/null
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_jev_reuse_gate.py" --root "$ROOT" >/dev/null
+  python3 "$ROOT/src/fa3_h3_replacement_gate.py" >/dev/null
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_wan22_gate.py" >/dev/null
+fi
+
+if [[ "${1:-}" == "wan22-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_wan22_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "wan22-video" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_wan22_gate.py" "$@"
+fi
+
+if [[ "${1:-}" == "motion-video-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_motion_video_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "h3-replacement" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_h3_replacement_gate.py" "$@"
 fi
 
 if [[ "${1:-}" == "quality-extension-lock" ]]; then

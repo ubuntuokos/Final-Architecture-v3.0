@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-H3-REPLACEMENT-2026-09-25",
+  "date": "2026-09-25",
+  "status": "CANONICAL_CLOSED",
+  "title": "Replace all MiniMax H3 dependencies with the FA3-native Motion & Video Generation Fabric",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_PROVIDER_DEPENDENCY_RETIREMENT",
+  "decision": "RETIRE_H3_AS_EXECUTABLE_PROVIDER_AND_ROUTE_ALL_H3_LIKE_REQUIREMENTS_THROUGH_FA3_NATIVE_PROVIDER_NEUTRAL_VIDEO_GENERATION_FABRIC",
+  "rationale": [
+    "FA3 must not depend on MiniMax H3 for any application, workflow or future implementation.",
+    "H3-like capabilities are canonicalized as provider-neutral FA3 generation intents and IR, not as a provider-specific API.",
+    "One or more admitted free/open components may satisfy a requirement behind the Model Router, HRB and provider admission boundary."
+  ],
+  "supersedes_active_use_of": [
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+    "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001"
+  ],
+  "historical_records_preserved": true,
+  "direct_h3_dependency_forbidden": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "hardware_audit": {
+    "result": "PASS_ARCHITECTURAL_SCOPE",
+    "basis": [
+      "vendor-neutral and accelerator-neutral",
+      "CPU-only architecture remains valid",
+      "accelerator cardinality remains 0..N",
+      "all local accelerator execution remains HRB-admitted",
+      "no RTX/NVIDIA-specific canonical routing introduced"
+    ],
+    "current_host_runtime_claim": false
+  },
+  "current_host_runtime_claim": false,
+  "cross_host_runtime_claim": false,
+  "provider_runtime_promotion_claim": false
+}
