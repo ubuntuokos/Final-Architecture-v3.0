@@ -32,7 +32,9 @@
     "MemoryDeletionTombstone",
     "SkillAssetVersion",
     "KnowledgeAssetProjection",
-    "MemoryEvidenceExport"
+    "MemoryEvidenceExport",
+    "MemoryCorrectionChain",
+    "MemoryEmbeddingState"
   ],
   "layered_memory": {
     "levels": {
@@ -134,5 +136,18 @@
     "SKILL_ASSET_GRANTS_NEW_CAPABILITY",
     "PROXY_BYPASSES_CANONICAL_POLICY_OR_MEMORY_GATEWAY",
     "PROVIDER_SELECTS_MODEL_OR_ACCELERATOR_DIRECTLY"
-  ]
+  ],
+  "embedding_integrity": {
+    "premise_scope_identity_required": true,
+    "source_monitoring_required": true,
+    "contradiction_detection_required": true,
+    "supersession_required": true,
+    "retraction_required": true,
+    "correction_chain_required": true,
+    "low_confidence_isolation_required": true,
+    "prompt_injection_safe_rendering_required": true,
+    "embedding_space_identity_required": true,
+    "stale_reembed_status_required": true,
+    "cross_space_direct_similarity": "DENY_FAIL_CLOSED"
+  }
 }
