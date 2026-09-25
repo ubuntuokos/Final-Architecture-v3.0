@@ -416,6 +416,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         "agent_definition_contract": root / "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
         "agent_definition_registry": root / "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json",
         "gui_surface_registry": root / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "gui_runtime": root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
         "enforcement": root / "canonical/agency-agents-enforcement.json",
         "gate": root / "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
         "policy": root / "canonical/enforcement-policy.json",
@@ -445,6 +446,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
     agent_definition_contract = _load(paths["agent_definition_contract"])
     agent_definition_registry = _load(paths["agent_definition_registry"])
     gui_surface_registry = _load(paths["gui_surface_registry"])
+    gui_runtime = _load(paths["gui_runtime"])
     enforcement = _load(paths["enforcement"])
     gate = _load(paths["gate"])
     policy = _load(paths["policy"])
@@ -460,6 +462,29 @@ def canonical_check(root: Path) -> dict[str, Any]:
     distribution_contract = _load(paths["distribution_contract"])
     distribution_registry = _load(paths["distribution_registry"])
     distribution_manifest = _load(paths["distribution_manifest"])
+
+    gui_runtime_pending = (
+        gui_runtime.get("status")
+        == "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN"
+        and gui_runtime.get("production_admitted") is False
+        and gui_runtime.get("current_host_receipt_present") is False
+    )
+    gui_runtime_pass = (
+        gui_runtime.get("status") == "CURRENT_HOST_PASS"
+        and gui_runtime.get("production_admitted") is True
+        and gui_runtime.get("current_host_receipt_present") is True
+        and gui_runtime.get("promotion_blockers") == []
+    )
+    if not (gui_runtime_pending or gui_runtime_pass):
+        findings.append(_finding("AGA-CANON-015", "GUI runtime conformance state is neither materialized-pending nor evidence-promoted PASS"))
+    gui_runtime_claim = gui_runtime_pass
+    gui_runtime_status = gui_runtime.get("status")
+    expected_decision_status = (
+        "CANONICAL_MATERIALIZED_GUI_CURRENT_HOST_PASS"
+        if gui_runtime_pass
+        else "CANONICAL_STATIC_MATERIALIZED_GUI_CURRENT_HOST_PENDING"
+    )
+    expected_open_reconciliations = [] if gui_runtime_pass else ["GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING"]
 
     if not (
         provider.get("id") == PROVIDER_ID
@@ -508,21 +533,21 @@ def canonical_check(root: Path) -> dict[str, Any]:
         decision.get("id") == DECISION_ID
         and decision.get("provider_id") == PROVIDER_ID
         and decision.get("upstream_pin") == UPSTREAM_PIN
-        and decision.get("status") == "CANONICAL_STATIC_MATERIALIZED_GUI_CURRENT_HOST_PENDING"
+        and decision.get("status") == expected_decision_status
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
         and decision.get("capability_count_after") == count
         and decision.get("current_host_runtime_claim") is False
-        and decision.get("open_reconciliations") == ["GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING"]
+        and decision.get("open_reconciliations") == expected_open_reconciliations
         and decision.get("validation_policy", {}).get("unified_release_projection") == "MANAGED_BY_REPOSITORY_RECONCILER_MUST_PASS_BEFORE_MERGE"
         and decision.get("validation_policy", {}).get("fresh_reference_ci") == "MANDATORY_BEFORE_MERGE"
         and decision.get("validation_policy", {}).get("reference_ci_is_runtime_promotion") is False
         and decision.get("validation_policy", {}).get("metadata_only_agent_definitions_require_current_host_runtime_evidence") is False
         and decision.get("gui_runtime_validation", {}).get("conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
-        and decision.get("gui_runtime_validation", {}).get("status") == "PENDING_CURRENT_HOST"
-        and decision.get("gui_runtime_validation", {}).get("production_admitted") is False
-        and decision.get("gui_runtime_validation", {}).get("current_host_receipt_present") is False
-        and decision.get("gui_runtime_validation", {}).get("agency_surface_runtime_promotion_claim") is False
+        and decision.get("gui_runtime_validation", {}).get("status") == gui_runtime_status
+        and decision.get("gui_runtime_validation", {}).get("production_admitted") is gui_runtime_claim
+        and decision.get("gui_runtime_validation", {}).get("current_host_receipt_present") is gui_runtime_claim
+        and decision.get("gui_runtime_validation", {}).get("agency_surface_runtime_promotion_claim") is gui_runtime_claim
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("provider_target_class") == "EXTERNAL_REDISTRIBUTABLE"
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("status") == "RECONCILED_CANONICAL_MAIN"
         and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("target_surface_route") == "agents.workflows"
@@ -665,8 +690,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and surface.get("mode") == "READ_ONLY_CANONICAL_DEFINITIONS"
         and surface.get("direct_provider_execution") is False
         and surface.get("runtime_conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
-        and surface.get("current_host_runtime_status") == "PENDING_CURRENT_HOST"
-        and surface.get("current_host_runtime_claim") is False
+        and surface.get("current_host_runtime_status") == gui_runtime_status
+        and surface.get("current_host_runtime_claim") is gui_runtime_claim
         and provider.get("agent_definition_projection", {}).get("profile_id") == "FA3-AGENT-DEFINITION-001"
         and provider.get("agent_definition_projection", {}).get("contract_id") == AGENT_DEFINITION_CONTRACT_ID
         and provider.get("agent_definition_projection", {}).get("registry_id") == AGENT_DEFINITION_REGISTRY_ID
@@ -691,9 +716,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and child.get("execution_intent_route") == "agents.action-center"
         and child.get("direct_provider_execution") is False
         and child.get("authority") is False
-        and child.get("current_host_runtime_status") == "PENDING_CURRENT_HOST"
+        and child.get("current_host_runtime_status") == gui_runtime_status
         and child.get("runtime_conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
-        and child.get("runtime_promotion_claim") is False
+        and child.get("runtime_promotion_claim") is gui_runtime_claim
     ):
         findings.append(_finding("AGA-CANON-014", "Agency GUI imported-pack projection drift"))
 
@@ -741,7 +766,12 @@ def gate(root: Path) -> dict[str, Any]:
         "curated_source_selection": "MATERIALIZED_INERT_REFERENCE_ONLY",
         "agent_definition_normalization": "CANONICAL_12_ROLE_5_TEMPLATE_NO_UPSTREAM_BODY_VENDORED",
         "gui_surface_reconciliation": "RECONCILED_CANONICAL_GUI_READ_ONLY_DEFINITIONS",
-        "gui_current_host_runtime": "PENDING_CURRENT_HOST_RECEIPT_REQUIRED",
+        "gui_current_host_runtime": (
+            "CURRENT_HOST_PASS"
+            if canonical["result"] == "PASS"
+            and _load(root.resolve() / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json").get("status") == "CURRENT_HOST_PASS"
+            else "EXECUTABLE_CLOSURE_MATERIALIZED_CURRENT_HOST_PENDING"
+        ),
         "runtime_provider_admission": "SEPARATE_NOT_CLAIMED_BY_REFERENCE_PROVIDER",
         "external_redistributable_binding": "CANONICAL_RECONCILED_EXTERNAL_REDISTRIBUTABLE_BUNDLE_EXCLUDED",
         "current_host_runtime_claim": False,

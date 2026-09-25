@@ -59,6 +59,32 @@
       "agent_native": "CONSUMER"
     },
     {
+      "route_id": "create.narration-studio",
+      "title": "Narration Studio",
+      "group": "CREATE",
+      "projection": "CAPTION_TO_NARRATION_PLANNING",
+      "profile_id": "FA3-CAPTION-SUBTITLE-001",
+      "voice_authority": "FA3-VOICE-001",
+      "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "mode": "BOUNDED_PLANNING_UI",
+      "direct_provider_execution": false,
+      "provider_selection_authority": false,
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "create.subtitle-studio",
+      "title": "Subtitle Studio",
+      "group": "CREATE",
+      "projection": "CAPTION_SUBTITLE_AUTHORING",
+      "profile_id": "FA3-CAPTION-SUBTITLE-001",
+      "provider_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+      "mode": "FA3_NATIVE_AUTHORING_UI",
+      "direct_provider_execution": false,
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
       "route_id": "create.knowledge",
       "title": "Knowledge & Retrieval",
       "group": "CREATE",
@@ -91,9 +117,12 @@
           "direct_provider_execution": false,
           "authority": false,
           "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
-          "current_host_runtime_status": "PENDING_CURRENT_HOST",
+          "current_host_runtime_status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN",
           "runtime_conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
-          "runtime_promotion_claim": false
+          "runtime_promotion_claim": false,
+          "runtime_promotion_scope": "GUI_IMPORTED_PACK_SURFACE_ONLY_REQUIRES_FRESH_GUI_CURRENT_HOST",
+          "provider_runtime_admission": false,
+          "global_promotion_claim": false
         }
       ]
     },

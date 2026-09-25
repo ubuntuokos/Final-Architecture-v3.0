@@ -71,7 +71,9 @@ ApplicationWindow {
         "decision.project-radar": 33,
         "decision.context-inspector": 34,
         "agents.action-center": 35,
-        "system.updates": 36
+        "system.updates": 36,
+        "create.subtitle-studio": 37,
+        "create.narration-studio": 38
     })
 
     function routeIndex(routeId) {
@@ -155,6 +157,8 @@ ApplicationWindow {
         {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", routeId: "system.accelerator-guard"},
         {title: "Update Center", detail: "Provider-neutral frissítés, security maintenance és workload-aware restart UAF draft felület", category: "FUNCTION", routeId: "system.updates"},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
+        {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -679,6 +683,8 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "CREATE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; routeId: "create.ai-studio" }
+                        NavButton { iconText: "CC"; label: "Subtitle Studio"; routeId: "create.subtitle-studio" }
+                        NavButton { iconText: "VO"; label: "Narration Studio"; routeId: "create.narration-studio" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
 
                         Item { Layout.preferredHeight: 8 }
@@ -1700,6 +1706,27 @@ ApplicationWindow {
                     onStageActionIntentRequested: function(actionId, target, rationale) {
                         operationNotice = fa3Repository.createDraftChangeSet("UPDATE_FABRIC", actionId, target, rationale)
                     }
+                }
+
+                SubtitleStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                }
+
+                NarrationStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.magenta
+                    green: window.green
+                    orange: window.orange
                 }
             }
 

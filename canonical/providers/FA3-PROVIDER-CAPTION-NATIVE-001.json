@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+  "name": "FA3 Native Caption and Narration Planning Provider",
+  "version": "1.0.0",
+  "status": "CANONICAL_NATIVE_PROVIDER",
+  "provider_role": "DETERMINISTIC_LOCAL_CAPTION_AUTHORING_AND_NARRATION_PLANNING",
+  "profiles": [
+    "FA3-CAPTION-SUBTITLE-001"
+  ],
+  "distribution_class": "FA3_NATIVE",
+  "product_bundle_allowed": true,
+  "architectural_authority": false,
+  "canonical_root": false,
+  "provider_selection_authority": false,
+  "direct_model_or_external_provider_invocation": false,
+  "actions": [
+    "caption.import",
+    "caption.edit",
+    "caption.sync",
+    "caption.qc",
+    "caption.export",
+    "caption.overlay.project",
+    "caption.editorial.project",
+    "narration.plan",
+    "audio-description.plan"
+  ],
+  "external_provider_actions": {
+    "caption.translate": "DELEGATE_EXISTING_LANGUAGE_ROUTING",
+    "caption.hardsub.recover": "PENDING_ADMITTED_OCR_PROVIDER_FAIL_CLOSED",
+    "narration.synthesize": "DELEGATE_FA3-VOICE-001",
+    "narration.mix": "DELEGATE_EXISTING_MEDIA_AUDIO_FABRICS"
+  },
+  "hardware": {
+    "cpu_only_valid": true,
+    "accelerator_required": false,
+    "accelerator_cardinality": "0..N",
+    "vendor_pin": false
+  },
+  "implementation": {
+    "module": "src/fa3_caption_workflows.py",
+    "uaf_adapter": "src/fa3_caption_uaf.py"
+  },
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false
+}

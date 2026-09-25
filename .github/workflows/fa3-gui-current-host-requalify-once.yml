@@ -1,0 +1,67 @@
+name: FA3 GUI Current Host One-Shot Requalification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-gui-current-host-requalify-once
+  cancel-in-progress: true
+
+jobs:
+  current-host:
+    name: gui-current-host / one-shot-physical-requalification
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 25
+    env:
+      FA3_RUNNER_CLASS: fa3-current-host
+      FA3_EXPECTED_SOURCE_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Assert exact non-root source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test "$(git rev-parse HEAD)" = "$FA3_EXPECTED_SOURCE_SHA"
+          test "$GITHUB_REPOSITORY" = "ubuntuokos/Final-Architecture-v3.0"
+      - name: Configure same-source Qt6 build
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .fa3-current-host/gui/build
+          mkdir -p .fa3-current-host/gui/build reports/gui-current-host
+          cmake -S apps/fa3-control-center -B .fa3-current-host/gui/build -GNinja -DCMAKE_BUILD_TYPE=Release
+      - name: Build same-source Control Center
+        run: cmake --build .fa3-current-host/gui/build --parallel
+      - name: Collect real desktop-session smoke receipt
+        env:
+          PYTHONPATH: src
+        run: |
+          python3 evidence/collect-gui-current-host.py \
+            --root . \
+            --executable .fa3-current-host/gui/build/fa3-control-center \
+            --output reports/gui-current-host/current-host-receipt.json \
+            --smoke-seconds 8 \
+            --tested-path CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED
+      - name: Validate physical receipt fail-closed
+        env:
+          PYTHONPATH: src
+        run: |
+          python3 src/fa3_gui_current_host_gate.py \
+            --root . \
+            --receipt reports/gui-current-host/current-host-receipt.json \
+            --require-evidence
+      - name: Upload scoped GUI current-host evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: fa3-gui-current-host-requalification-evidence
+          path: reports/gui-current-host/
+          if-no-files-found: error

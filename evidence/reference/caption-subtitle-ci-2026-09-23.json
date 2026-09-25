@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.caption-subtitle-reference-evidence.v1",
+  "id": "FA3-CAPTION-SUBTITLE-CI-2026-09-23",
+  "date": "2026-09-23",
+  "status": "PASS",
+  "evidence_level": "STATIC_AND_REFERENCE_PASS_NOT_PROVIDER_RUNTIME",
+  "decision_id": "FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23",
+  "gate_id": "FA3-CAPTION-SUBTITLE-GATESET-001",
+  "verified": [
+    "CANONICAL_CAPTION_IR_AND_FORMAT_ADAPTERS",
+    "STANDALONE_SUBTITLE_STUDIO",
+    "EMBEDDED_SUBTITLE_WORKSPACE",
+    "STANDALONE_NARRATION_STUDIO",
+    "NATIVE_CAPTION_EDIT_SYNC_QC_EXPORT",
+    "UAF_TYPED_ACTION_CONTRACTS",
+    "VOICE_DELEGATION_NO_DIRECT_PROVIDER_SELECTION",
+    "HARDWARE_VENDOR_NEUTRALITY",
+    "GUI_STATIC_AND_QT_REFERENCE_BUILD",
+    "DISTRIBUTION_REFERENCE_EXCLUSION",
+    "REUSE_DISCOVERY_FINAL_REFERENCE_PASS",
+    "PERMANENT_CANONICAL_P0_PASS",
+    "PROMOTION_SAFETY_FAIL_CLOSED_PASS",
+    "UNIFIED_RELEASE_PROJECTION_PASS",
+    "DISTRIBUTION_COMPLIANCE_PASS",
+    "GUI_QT_REFERENCE_BUILD_PASS"
+  ],
+  "current_host_application_e2e_claim": true,
+  "voice_provider_audio_runtime_claim": false,
+  "hardsub_ocr_runtime_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "requalified_at": "2026-09-25",
+  "validated_reference_commit": "e2ab6b21eb9cadec1414b72030cfac974143d85e",
+  "github_actions": {
+    "caption_subtitle": {
+      "run_id": 36178962532,
+      "conclusion": "success"
+    },
+    "reuse_discovery": {
+      "run_id": 36178962639,
+      "conclusion": "success"
+    },
+    "permanent_enforcement": {
+      "run_id": 36178962628,
+      "conclusion": "success"
+    },
+    "unified_projection": {
+      "run_id": 36178962424,
+      "conclusion": "success"
+    },
+    "distribution_compliance": {
+      "run_id": 36178962687,
+      "conclusion": "success"
+    },
+    "gui_reference": {
+      "run_id": 36178962577,
+      "conclusion": "success"
+    },
+    "gui_current_host_materialization": {
+      "run_id": 36178962621,
+      "conclusion": "success",
+      "physical_desktop_smoke": "skipped_manual_only"
+    }
+  },
+  "not_proven": [
+    "physical Qt Control Center GUI current-host requalification after Caption/Narration QML changes; manual workflow_dispatch required",
+    "FA3 Voice provider audio synthesis current-host execution",
+    "voice cloning production admission",
+    "hardsub OCR provider execution or admission",
+    "global FA3 runtime promotion"
+  ],
+  "current_host_application_e2e_evidence": "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
+  "physical_gui_current_host_claim": false
+}
