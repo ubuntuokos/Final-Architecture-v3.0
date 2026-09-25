@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-DESKTOP-001",
+  "intent_id": "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-DESKTOP-001"
+  ],
+  "project_status": "MATERIALIZED_RECONCILED_REFERENCE_PASS_CURRENT_HOST_REQUALIFICATION_PENDING_AFTER_CAPTION_NARRATION_SURFACE_CHANGE",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-DESKTOP-001",
+      "use": "EXISTING_DESKTOP_PROFILE"
+    },
+    {
+      "id": "FA3-UI-COMPONENT-FABRIC-001",
+      "use": "GUI_COMPONENT_COMPOSITION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_ADVISORY_ONLY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_DISCOVERY_AND_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "CURRENT_HOST_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_GUI_OR_DESKTOP_AUTHORITY",
+      "reason": "EXISTING_FA3_DESKTOP_AND_GUI_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "DIRECT_PROVIDER_OR_HOST_MUTATION_FROM_GUI",
+      "reason": "UAF_AND_EXISTING_HOST_AUTHORITIES_REMAIN_MANDATORY"
+    },
+    {
+      "id": "UPSTREAM_REPLACEMENT_OR_HOST_HIJACK",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001"
+  ],
+  "existing_authority_bindings": {
+    "desktop_profile": "FA3-DESKTOP-001",
+    "gui_component_composition": "FA3-UI-COMPONENT-FABRIC-001",
+    "action_execution_boundary": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "bounded_semantic_advisory": "FA3-DECISION-FABRIC-001",
+    "resource_discovery_and_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "requalification": {
+    "status": "PENDING_PHYSICAL_GUI_REQUALIFICATION",
+    "reason": "CONTROL_CENTER_RUNTIME_SURFACE_CHANGED_BY_CAPTION_AND_NARRATION_STUDIO_INTEGRATION",
+    "previous_physical_gui_evidence_invalidated": true,
+    "physical_wayland_or_x11_smoke_required": true,
+    "secret_backend_admission": "SEPARATE_SCOPE_NOT_PROMOTED",
+    "global_promotion_claim": false
+  },
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
