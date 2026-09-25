@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HU-AQC-001",
   "name": "Hungarian Automated Quality Control for Text and Speech",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -86,5 +86,28 @@
   "current_host_runtime_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
   "current_host_runtime_promotion_claimed": false,
   "current_host_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
-  "current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+  "current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "golden_corpus": {
+    "required": true,
+    "categories": [
+      "NATIVE_HUNGARIAN_PROSE",
+      "NUMBERS_DATES_ABBREVIATIONS",
+      "FOREIGN_PROPER_NAMES_IN_HUNGARIAN_CONTEXT",
+      "MORPHOLOGY_AND_SUFFIXATION",
+      "TEGEZES_MAGAZAS_REGISTER",
+      "SPOKEN_AND_NOISY_SPEECH",
+      "TTS_INTELLIGIBILITY",
+      "VOICE_CLONING_WITH_CONSENT_WHEN_APPLICABLE"
+    ],
+    "provenance_required": true,
+    "voice_consent_required_when_voice_identity_present": true
+  },
+  "current_host_closure": {
+    "collector": "evidence/collect-hu-aqc-current-host.py",
+    "real_audio_required": true,
+    "synthetic_promotion_forbidden": true,
+    "admitted_scorers_required": true,
+    "threshold_relaxation_requires_calibration_evidence_and_review": true,
+    "document_only_promotion_forbidden": true
+  }
 }

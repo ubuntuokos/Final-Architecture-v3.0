@@ -56,7 +56,11 @@
     "LeaseGeneration",
     "LeaseEvictionReceipt",
     "LeaseQuarantineRecord",
-    "LeaseEvidenceHandoff"
+    "LeaseEvidenceHandoff",
+    "ResourceReservationPlan",
+    "LeaseGroup",
+    "DerivedExecutionLease",
+    "LeaseLineageReceipt"
   ],
   "accelerator_identity": {
     "canonical": [
@@ -179,9 +183,15 @@
     "HRB_ACCELERATOR_ASSIGNMENT_BINDS_COMPATIBLE_EXECUTION_PATH",
     "PHYSICAL_DEVICE_PRESENCE_IS_NOT_SUFFICIENT_FOR_ACCELERATOR_ADMISSION",
     "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_WORKLOAD_POLICY",
-    "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION"
+    "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION",
+    "COMPOSITE_RESOURCE_RESERVATION_MUST_BE_ATOMIC",
+    "HOLD_AND_WAIT_FOR_CHILD_RESOURCE_LEASE_IS_FORBIDDEN",
+    "DERIVED_EXECUTION_LEASE_MUST_BE_MINTED_BY_HRB_ONLY",
+    "DERIVED_LEASE_RESOURCE_SCOPE_AND_EXPIRY_MUST_BE_SUBSET_OF_PARENT",
+    "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
+    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION"
   ],
-  "version": "1.5.0",
+  "version": "1.6.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
   "accelerator_execution_path": {
@@ -390,5 +400,30 @@
       "SECRET_PROJECTION_ZEROIZE_TARGET_REQUIRES_IMMUTABLE_FILE_IDENTITY",
       "SECRET_PROJECTION_LEASE_MUST_MATCH_HRB_ID_GENERATION_AND_RUNTIME_BINDING_DIGEST"
     ]
+  },
+  "composite_reservation": {
+    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "reservation_schema": "fa3.resource-reservation-plan.v1",
+    "derived_lease_schema": "FA3-HOST-RESOURCE-BROKER-001/DerivedExecutionLease@1",
+    "atomic_multi_resource_admission": true,
+    "hold_and_wait": false,
+    "canonical_acquisition_order": [
+      "CPU",
+      "RAM",
+      "NUMA",
+      "ACCELERATOR",
+      "VRAM",
+      "IO",
+      "NETWORK"
+    ],
+    "bounded_queue": true,
+    "queue_deadline_required": true,
+    "child_resources_subset_of_parent": true,
+    "child_expiry_not_after_parent": true,
+    "child_scope_subset_of_parent": true,
+    "sum_child_budget_not_above_parent": true,
+    "parent_revocation_cascades": true,
+    "provider_may_mint_derived_lease": false,
+    "derived_lease_authentication": "EXISTING_HRB_INTERNAL_EPHEMERAL_HMAC_KEYRING"
   }
 }

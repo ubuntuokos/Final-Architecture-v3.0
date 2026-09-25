@@ -733,6 +733,82 @@ def gate(root: Path):
             missing_manifest_paths=sorted(neural_rendering_paths - manifest_paths),
         ))
 
+    supply_runtime = projection.get("supply_runtime_hardening_reconciliation", {})
+    supply_runtime_required_paths = {
+        "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
+        "canonical/contracts/FA3-PROVIDER-RUNTIME-CONTRACTS-001.json",
+        "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
+        "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
+        "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-001.json",
+        "canonical/supply-runtime-hardening-enforcement.json",
+        "canonical/supply-chain-license-policy.json",
+        "src/fa3_supply_chain_admission.py",
+        "src/fa3_provider_runtime.py",
+        "src/fa3_upstream_patchset.py",
+        "src/fa3_hrb_composite_lease.py",
+        "src/fa3_supply_runtime_hardening_gate.py",
+        "tools/fa3_supply_chain_scan.py",
+        "tools/fa3_bind_provider_runtime.py",
+        "tools/fa3_prepare_upstream_patchset.py",
+        "tests/test_supply_runtime_hardening.py",
+        ".github/workflows/fa3-supply-runtime-hardening.yml",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
+        "canonical/schemas/software-supply-chain-receipt.v1.json",
+        "canonical/schemas/provider-runtime-environment.v1.json",
+        "canonical/schemas/resource-reservation-plan.v1.json",
+        "canonical/schemas/upstream-patch-set.v1.json",
+        "canonical/hrb-deterministic-locality-enforcement.json",
+        "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HRB-COMPOSITE-RESERVATION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
+        "canonical/assessments/FA3-PROVIDER-RUNTIME-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+        "canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/schemas/hu-aqc-golden-corpus-manifest.v1.json",
+        "src/fa3_supply_runtime_hardening_current_host_gate.py",
+        "evidence/collect-hrb-composite-current-host.py",
+        "evidence/collect-provider-runtime-current-host.py",
+        "fa3-current-host/templates/provider-runtime-venv.example.json",
+        "fa3-current-host/templates/provider-runtime-oci.example.json",
+        "fa3-current-host/templates/provider-runtime-host-native.example.json",
+        "evidence/collect-hu-aqc-golden-corpus-current-host.py",
+        "tests/test_supply_runtime_hardening_current_host.py",
+        ".github/workflows/fa3-supply-runtime-hardening-current-host.yml",
+        "fa3-current-host/templates/hrb-composite-plan.example.json",
+        "fa3-current-host/templates/hrb-composite-capacity.example.json",
+        "fa3-current-host/templates/hu-aqc-golden-corpus.example.json",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-CURRENT-HOST.md",
+    }
+    if (
+        supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
+        or supply_runtime.get("provider_runtime_profile_id") != "FA3-PROVIDER-RUNTIME-001"
+        or supply_runtime.get("provider_runtime_contract_id") != "FA3-PROVIDER-RUNTIME-CONTRACTS-001"
+        or supply_runtime.get("gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
+        or supply_runtime.get("capability_count_after") != CAPABILITY_COUNT
+        or supply_runtime.get("new_capabilities") != 0
+        or supply_runtime.get("new_architectural_authorities") != 0
+        or supply_runtime.get("hu_aqc_current_host_promotion_claim") is not False
+        or supply_runtime.get("current_host_conformance_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        or supply_runtime.get("current_host_gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or supply_runtime.get("hrb_current_host_scope") != "CONTROL_PLANE_ONLY_NO_PRODUCTION_BROKER_PROMOTION"
+        or supply_runtime.get("scs_current_host_status") != "PENDING_REAL_LOCAL_SCANNER_EXECUTION"
+        or supply_runtime.get("provider_runtime_current_host_status") != "PENDING_REAL_SELECTED_PROVIDER_RUNTIME_EXECUTION"
+        or supply_runtime.get("hrb_composite_current_host_status") != "PENDING_REAL_CONTROL_PLANE_EXECUTION"
+        or supply_runtime.get("hu_aqc_golden_corpus_current_host_status") != "PENDING_REAL_CORPUS_EXECUTION"
+        or supply_runtime.get("global_promotion_claim") is not False
+        or "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" not in projection_gates
+        or not supply_runtime_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding("FA3-RELEASE-PROJECTION-123","Supply-chain / Provider Runtime / HRB composite hardening reconciliation invariant mismatch"))
+
     runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
     runtime_hardening_required_paths = {
         "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
@@ -3101,6 +3177,66 @@ def gate(root: Path):
             missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
         ))
 
+    gui_current_host = projection.get("gui_current_host_closure_reconciliation", {})
+    gui_current_host_paths = {
+        "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
+        "canonical/gui-current-host-enforcement.json",
+        "src/fa3_gui_current_host.py",
+        "src/fa3_gui_current_host_gate.py",
+        "evidence/collect-gui-current-host.py",
+        ".github/workflows/fa3-gui-current-host.yml",
+        "tests/test_fa3_gui_current_host.py",
+    }
+    gui_state_pending = (
+        gui_current_host.get("status") == "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN"
+        and gui_current_host.get("current_host_receipt_present") is False
+        and gui_current_host.get("production_admitted") is False
+        and gui_current_host.get("runtime_promotion_claim") is False
+        and gui_current_host.get("reconciliation_status")
+        == "EXECUTABLE_CLOSURE_MATERIALIZED_CURRENT_HOST_PENDING"
+    )
+    gui_state_pass = (
+        gui_current_host.get("status") == "CURRENT_HOST_PASS"
+        and gui_current_host.get("current_host_receipt_present") is True
+        and gui_current_host.get("production_admitted") is True
+        and gui_current_host.get("runtime_promotion_claim") is True
+        and gui_current_host.get("reconciliation_status")
+        == "CURRENT_HOST_PHYSICAL_GUI_RUNTIME_PASS"
+    )
+    if (
+        gui_current_host.get("profile_id") != "FA3-DESKTOP-001"
+        or gui_current_host.get("conformance_id") != "FA3-GUI-RUNTIME-CONFORMANCE-001"
+        or gui_current_host.get("gate_id") != "FA3-GUI-CURRENT-HOST-GATESET-001"
+        or gui_current_host.get("gate_record_id") != "FA3-GATE-GUI-CURRENT-HOST-001"
+        or gui_current_host.get("workflow") != ".github/workflows/fa3-gui-current-host.yml"
+        or gui_current_host.get("collector") != "evidence/collect-gui-current-host.py"
+        or gui_current_host.get("required_evidence_level")
+        != "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS"
+        or gui_current_host.get("admission_scope") != "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+        or gui_current_host.get("secret_backend_admission") != "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
+        or gui_current_host.get("tested_path") != "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+        or gui_current_host.get("secret_backend_authority") != "AUTH-SECRETS"
+        or gui_current_host.get("secret_backend_capability") != "CAP-003"
+        or gui_current_host.get("secret_backend_required_for_tested_path") is not False
+        or gui_current_host.get("secret_backend_pass_claimed") is not False
+        or gui_current_host.get("secret_backend_authority_owner") != "CAP-003"
+        or gui_current_host.get("secret_backend_used_for_gui_runtime_admission") is not False
+        or not (gui_state_pending or gui_state_pass)
+        or gui_current_host.get("global_promotion_claim") is not False
+        or gui_current_host.get("new_capabilities") != 0
+        or gui_current_host.get("new_architectural_authorities") != 0
+        or gui_current_host.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-GUI-CURRENT-HOST-GATESET-001" not in projection_gates
+        or "FA3-GUI-CURRENT-HOST-GATESET-001" not in policy_gates
+        or not gui_current_host_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-124",
+            "GUI physical current-host closure reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(gui_current_host_paths - manifest_paths),
+        ))
+
     agency_agent_definition = projection.get("agency_agents_agent_definition_reconciliation", {})
     agency_agent_definition_paths = {
         "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -3142,14 +3278,27 @@ def gate(root: Path):
         or agency_agent_definition.get("gui_surface_id") != "agency-agents.imported-pack"
         or agency_agent_definition.get("gui_parent_route") != "agents.workflows"
         or agency_agent_definition.get("gui_mode") != "READ_ONLY_CANONICAL_DEFINITIONS"
-        or agency_agent_definition.get("gui_current_host_status") != "PENDING_CURRENT_HOST"
-        or agency_agent_definition.get("gui_runtime_promotion_claim") is not False
+        or (
+            (
+                agency_agent_definition.get("gui_current_host_status") == "PENDING_CURRENT_HOST"
+                and agency_agent_definition.get("gui_runtime_promotion_claim") is False
+                and agency_agent_definition.get("reconciliation_status")
+                == "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
+                and gui_state_pending
+            )
+            or (
+                agency_agent_definition.get("gui_current_host_status") == "CURRENT_HOST_PASS"
+                and agency_agent_definition.get("gui_runtime_promotion_claim") is True
+                and agency_agent_definition.get("reconciliation_status")
+                == "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_CURRENT_HOST_PASS"
+                and gui_state_pass
+            )
+        ) is not True
         or agency_agent_definition.get("runtime_provider_admission_by_reference_provider") is not False
         or agency_agent_definition.get("global_promotion_claim") is not False
         or agency_agent_definition.get("new_capabilities") != 0
         or agency_agent_definition.get("new_architectural_authorities") != 0
         or agency_agent_definition.get("capability_count_after") != CAPABILITY_COUNT
-        or agency_agent_definition.get("reconciliation_status") != "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
         or "FA3-AGENCY-AGENTS-GATESET-001" not in projection_gates
         or "FA3-AGENT-DEFINITION-GATESET-001" not in projection_gates
         or "FA3-AGENCY-AGENTS-GATESET-001" not in policy_gates
@@ -3342,6 +3491,7 @@ def gate(root: Path):
             "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
             "agency_agents_agent_definition_reconciliation": agency_agent_definition.get("reconciliation_status"),
             "agency_agents_gui_current_host_status": agency_agent_definition.get("gui_current_host_status"),
+            "gui_current_host_closure_status": gui_current_host.get("reconciliation_status"),
             "external_llm_catalog_reconciliation": external_llm.get("reconciliation_status"),
             "external_llm_catalog_remote_provider_status": external_llm.get("current_host_remote_provider_status"),
             "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),

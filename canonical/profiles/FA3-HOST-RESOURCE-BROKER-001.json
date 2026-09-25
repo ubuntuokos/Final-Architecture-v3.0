@@ -215,5 +215,14 @@
     "validated_implementation_commit": "0cbcfe4057d27151b62cfb920de418bf5d6ae278",
     "global_promotion_claim": false,
     "current_host_component_scope": "HRB_LEASE_LIFECYCLE_ONLY"
+  },
+  "composite_reservation": {
+    "contract_family": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "engine": "src/fa3_hrb_composite_lease.py",
+    "gate_id": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001",
+    "atomic_admission": true,
+    "hold_and_wait": false,
+    "derived_lease_hrb_only": true,
+    "parent_revocation_cascades": true
   }
 }

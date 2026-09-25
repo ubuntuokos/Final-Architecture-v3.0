@@ -21,6 +21,23 @@
     "shadow_authoritative_output": "DENY",
     "shadow_external_side_effects": "DENY",
     "shadow_can_assign_promoted": "DENY",
-    "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS"
+    "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS",
+    "provider_runtime_class_explicit": "REQUIRED",
+    "conda_mamba_baseline": "DENY",
+    "oci_rootless_digest_pinned_when_selected": "REQUIRED"
+  },
+  "provider_runtime": {
+    "profile_id": "FA3-PROVIDER-RUNTIME-001",
+    "classes": [
+      "VENV",
+      "OCI",
+      "HOST_NATIVE"
+    ],
+    "conda_mamba_baseline": "DENY",
+    "oci_rootless_required": true,
+    "oci_digest_pin_required": true,
+    "hrb_admission_required": true,
+    "supply_chain_receipt_required": true,
+    "supply_chain_receipt_digest_required": true
   }
 }
