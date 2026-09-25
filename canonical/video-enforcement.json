@@ -51,112 +51,82 @@
     "current_host_runtime_claim": false,
     "provider_runtime_execution_claim": false
   },
-  "h3_promotion_requirements": {
-    "historical_only": true,
-    "promotion_disabled": true,
-    "superseded_by": "FA3-H3-REPLACEMENT-001",
-    "legacy": [
-      "license_admission_pass",
-      "artifact_trust_pass",
-      "host_resource_broker_admission_pass",
-      "immutable_runtime_version_pin_pass",
-      "selected_execution_adapter_conformance_pass",
-      "known_compatibility_regression_pass_when_applicable",
-      "video_execution_e2e_pass",
-      "qc_and_provenance_evidence_pass"
-    ]
-  },
-  "h3_integration_targets": {
-    "historical_only": true,
-    "promotion_disabled": true,
-    "superseded_by": "FA3-H3-REPLACEMENT-001",
-    "legacy": [
-      "sglang",
-      "vllm",
-      "diffusers",
-      "comfyui"
-    ]
-  },
+  "h3_promotion_requirements": [
+    "license_admission_pass",
+    "artifact_trust_pass",
+    "host_resource_broker_admission_pass",
+    "immutable_runtime_version_pin_pass",
+    "selected_execution_adapter_conformance_pass",
+    "known_compatibility_regression_pass_when_applicable",
+    "video_execution_e2e_pass",
+    "qc_and_provenance_evidence_pass"
+  ],
+  "h3_integration_targets": [
+    "sglang",
+    "vllm",
+    "diffusers",
+    "comfyui"
+  ],
   "h3_prompt_knowledge_policy": {
-    "historical_only": true,
-    "promotion_disabled": true,
-    "superseded_by": "FA3-H3-REPLACEMENT-001",
-    "legacy": {
-      "source": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
-      "classification": "REFERENCE_KNOWLEDGE_ONLY",
-      "provider_prompt_projection_allowed": true,
-      "canonical_ir_authority": false,
-      "context_compiler_authority": false,
-      "provider_selection_authority": false,
-      "execution_authority": false
-    }
+    "source": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+    "classification": "REFERENCE_KNOWLEDGE_ONLY",
+    "provider_prompt_projection_allowed": true,
+    "canonical_ir_authority": false,
+    "context_compiler_authority": false,
+    "provider_selection_authority": false,
+    "execution_authority": false
   },
   "h3_comfyui_promotion_policy": {
-    "historical_only": true,
-    "promotion_disabled": true,
-    "superseded_by": "FA3-H3-REPLACEMENT-001",
-    "legacy": {
-      "fail_closed": true,
-      "immutable_runtime_version_pin_required": true,
-      "adapter_compatibility_regression_required": true,
-      "audio_path_regression_required": true,
-      "current_host_e2e_required": true,
-      "observed_open_risks": [
-        "Comfy-Org/ComfyUI#15960",
-        "Comfy-Org/ComfyUI#15970"
-      ]
-    }
+    "fail_closed": true,
+    "immutable_runtime_version_pin_required": true,
+    "adapter_compatibility_regression_required": true,
+    "audio_path_regression_required": true,
+    "current_host_e2e_required": true,
+    "observed_open_risks": [
+      "Comfy-Org/ComfyUI#15960",
+      "Comfy-Org/ComfyUI#15970"
+    ]
   },
   "h3_service_access_policy": {
-    "historical_only": true,
-    "promotion_disabled": true,
-    "superseded_by": "FA3-H3-REPLACEMENT-001",
-    "legacy": {
-      "decision_id": "FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07",
-      "reference_id": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
-      "evidence_path": "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
-      "fail_closed": true,
-      "local_open_weight_and_hosted_service_separate": true,
-      "payg_api_key_and_subscription_key_interchangeable": false,
-      "commercial_plan_availability_discovered_at_admission": true,
-      "team_plan_hard_dependency_forbidden": true,
-      "historical_notice_is_not_current_entitlement_evidence": true,
-      "automatic_billing_mode_switch_forbidden": true,
-      "automatic_credential_class_switch_forbidden": true,
-      "hosted_service_terms_evaluated_separately_from_open_weight_license": true,
-      "hosted_pricing_is_noncanonical_dynamic_metadata": true,
-      "current_host_runtime_promotion_claim": false
-    }
+    "decision_id": "FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07",
+    "reference_id": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
+    "evidence_path": "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
+    "fail_closed": true,
+    "local_open_weight_and_hosted_service_separate": true,
+    "payg_api_key_and_subscription_key_interchangeable": false,
+    "commercial_plan_availability_discovered_at_admission": true,
+    "team_plan_hard_dependency_forbidden": true,
+    "historical_notice_is_not_current_entitlement_evidence": true,
+    "automatic_billing_mode_switch_forbidden": true,
+    "automatic_credential_class_switch_forbidden": true,
+    "hosted_service_terms_evaluated_separately_from_open_weight_license": true,
+    "hosted_pricing_is_noncanonical_dynamic_metadata": true,
+    "current_host_runtime_promotion_claim": false
   },
   "h3_runtime_admission": {
-    "historical_only": true,
-    "promotion_disabled": true,
-    "superseded_by": "FA3-H3-REPLACEMENT-001",
-    "legacy": {
-      "runtime_admission_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
-      "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
-      "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
-      "decision_id": "FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07",
-      "fail_closed": true,
-      "hosted_remote_promotion_formula": [
-        "SERVICE_TERMS_PASS",
-        "CREDENTIAL_CLASS_PASS",
-        "ENTITLEMENT_DISCOVERY_PASS",
-        "PROVIDER_ADAPTER_CONFORMANCE_PASS",
-        "REAL_VIDEO_E2E_PASS",
-        "QC_PASS",
-        "PROVENANCE_PASS"
-      ],
-      "non_pass_states": [
-        "PENDING_EXTERNAL_ADMISSION",
-        "PENDING_CURRENT_HOST",
-        "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE"
-      ],
-      "billable_execution_manual_only": true,
-      "secret_persistence_forbidden": true,
-      "local_execution_without_license_evidence": "DENY",
-      "current_host_runtime_promotion_claim": false
-    }
+    "runtime_admission_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+    "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+    "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
+    "decision_id": "FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07",
+    "fail_closed": true,
+    "hosted_remote_promotion_formula": [
+      "SERVICE_TERMS_PASS",
+      "CREDENTIAL_CLASS_PASS",
+      "ENTITLEMENT_DISCOVERY_PASS",
+      "PROVIDER_ADAPTER_CONFORMANCE_PASS",
+      "REAL_VIDEO_E2E_PASS",
+      "QC_PASS",
+      "PROVENANCE_PASS"
+    ],
+    "non_pass_states": [
+      "PENDING_EXTERNAL_ADMISSION",
+      "PENDING_CURRENT_HOST",
+      "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE"
+    ],
+    "billable_execution_manual_only": true,
+    "secret_persistence_forbidden": true,
+    "local_execution_without_license_evidence": "DENY",
+    "current_host_runtime_promotion_claim": false
   },
   "provider_lifecycle_gate": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
   "provider_lifecycle_contract": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
@@ -171,5 +141,12 @@
     "capability_delta": 0,
     "authority_delta": 0,
     "capability_count": 143
+  },
+  "h3_legacy_policy_state": {
+    "historical_only": true,
+    "promotion_disabled": true,
+    "superseded_by": "FA3-H3-REPLACEMENT-001",
+    "runtime_execution_forbidden": true,
+    "provider_selection_forbidden": true
   }
 }
