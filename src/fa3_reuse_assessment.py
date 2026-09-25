@@ -33,16 +33,25 @@ def assess_intent(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
     all_gaps = sorted(set(declared_gaps + discovered_gaps))
     readiness = "BLOCKED" if blocking else ("PENDING_GAPS" if all_gaps else "READY_FOR_NORMAL_ADMISSION")
 
-    selected = [
-        {
+    selected = []
+    for row in resolution["candidates"][:20]:
+        projected = {
             "id": row["candidate_id"],
             "class": row["candidate_class"],
             "reuse_mode": row["reuse_mode"],
             "score": row["score"],
             "source_path": row["source_path"],
         }
-        for row in resolution["candidates"][:20]
-    ]
+        for key in (
+            "admission_status", "package_id", "skill_version", "skill_trigger",
+            "skill_task_classes", "task_scoped", "distribution_class",
+            "repository", "source_commit", "reference_role", "activation_candidate",
+        ):
+            if key in row:
+                projected[key] = row[key]
+        selected.append(projected)
+    skill_reuse = [row for row in selected if row.get("class") == "SKILL"]
+    external_skill_sources = [row for row in selected if row.get("class") == "EXTERNAL_SKILL_SOURCE"]
     return {
         "schema": "fa3.reuse-assessment.generated.v1",
         "project_id": intent.get("project_id"),
@@ -50,6 +59,8 @@ def assess_intent(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         "result": "FAIL" if blocking else "PASS",
         "blocking_findings": blocking,
         "selected_reuse": selected,
+        "skill_reuse": skill_reuse,
+        "external_skill_sources": external_skill_sources,
         "gaps": all_gaps,
         "existing_authority_bindings": resolution["existing_authority_bindings"],
         "authority_collisions": resolution["authority_collisions"],
@@ -58,6 +69,8 @@ def assess_intent(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         "implementation_readiness": readiness,
         "candidate_set_expansion": False,
         "runtime_promotion_claim": False,
+        "skill_activation_authority": False,
+        "external_skill_install_authority": False,
     }
 
 
