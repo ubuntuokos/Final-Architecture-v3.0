@@ -2,6 +2,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +22,8 @@ from fa3_hrb_lease_lifecycle import (
     LeaseStateError,
     RuntimeAdapterRegistry,
     StaleGenerationError,
+    SystemdCgroupV2ScopeAdapter,
+    _cgroup_unpopulated,
     _safe_cgroup_path,
     validate_runtime_binding,
 )
@@ -227,6 +230,49 @@ class HrbLeaseLifecycleTests(unittest.TestCase):
             (root / "link").symlink_to(real, target_is_directory=True)
             with self.assertRaises(LeaseBindingError):
                 _safe_cgroup_path("/link", root=root)
+
+    def test_cgroup_events_populated_zero_is_authoritative(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td)
+            (path / "cgroup.events").write_text("populated 0\nfrozen 0\n", encoding="utf-8")
+            (path / "cgroup.procs").write_text("123\n", encoding="utf-8")
+            self.assertTrue(_cgroup_unpopulated(path))
+            (path / "cgroup.events").write_text("populated 1\nfrozen 0\n", encoding="utf-8")
+            (path / "cgroup.procs").write_text("", encoding="utf-8")
+            self.assertFalse(_cgroup_unpopulated(path))
+
+    def test_verify_dead_accepts_gone_original_pid_and_removed_cgroup(self):
+        adapter = SystemdCgroupV2ScopeAdapter()
+        read_fd, write_fd = os.pipe()
+        ident = "pid:123:start:456:cgroup:789"
+        adapter._pidfds[ident] = read_fd
+        binding = binding_seed()
+        binding["runtime_instance_identity"] = ident
+        try:
+            with patch("fa3_hrb_lease_lifecycle._proc_start_ticks", side_effect=FileNotFoundError()), \
+                 patch("fa3_hrb_lease_lifecycle._safe_cgroup_path", side_effect=LeaseBindingError("gone")):
+                self.assertTrue(adapter.verify_dead(binding, timeout=0.2))
+        finally:
+            os.close(write_fd)
+
+    def test_verify_dead_remains_fail_closed_for_live_pid_or_populated_cgroup(self):
+        adapter = SystemdCgroupV2ScopeAdapter()
+        read_fd, write_fd = os.pipe()
+        ident = "pid:123:start:456:cgroup:789"
+        adapter._pidfds[ident] = read_fd
+        binding = binding_seed()
+        binding["runtime_instance_identity"] = ident
+        with tempfile.TemporaryDirectory() as td:
+            cg = Path(td)
+            (cg / "cgroup.events").write_text("populated 1\n", encoding="utf-8")
+            (cg / "cgroup.procs").write_text("123\n", encoding="utf-8")
+            try:
+                with patch("fa3_hrb_lease_lifecycle._proc_start_ticks", return_value=456), \
+                     patch("fa3_hrb_lease_lifecycle._proc_state", return_value="S"), \
+                     patch("fa3_hrb_lease_lifecycle._safe_cgroup_path", return_value=cg):
+                    self.assertFalse(adapter.verify_dead(binding, timeout=0.1))
+            finally:
+                os.close(write_fd)
 
     def test_systemd_restart_race(self):
         _, _, ledger = make_env()
