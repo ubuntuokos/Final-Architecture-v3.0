@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "37383166bef3c2286ce4fc89911037af05d22b6b",
-    "pre_projection_root_tree_sha": "d2b9fed3b6b890522d53bd62b39a37413903b93c",
-    "pre_projection_canonical_tree_sha": "a4124efd9f9d94fbac92f545ba1f7e829c9eac24",
-    "commits_ahead_of_v3_0_11_conformance_commit": 947,
-    "total_post_baseline_commits": 947,
-    "delta_file_count": 2274,
-    "delta_added_files": 2269,
+    "pre_projection_head_sha": "c0775fb524b890e33264e705dfdb22aa5d0c6f4f",
+    "pre_projection_root_tree_sha": "9d8303c791ea528185284cc60ef84644ba8726f6",
+    "pre_projection_canonical_tree_sha": "432fd71bec6c1c70532412db4d72236ae9bf3019",
+    "commits_ahead_of_v3_0_11_conformance_commit": 955,
+    "total_post_baseline_commits": 955,
+    "delta_file_count": 2277,
+    "delta_added_files": 2272,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1102,
+    "canonical_files_in_post_baseline_delta": 1103,
     "evidence_files_in_post_baseline_delta": 167,
-    "source_files_in_post_baseline_delta": 303,
-    "test_files_in_post_baseline_delta": 245,
+    "source_files_in_post_baseline_delta": 304,
+    "test_files_in_post_baseline_delta": 246,
     "workflow_files_in_post_baseline_delta": 111,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -338,6 +338,7 @@
       "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json",
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001.schema.json",
       "canonical/contracts/FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json",
       "canonical/contracts/FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json",
       "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
@@ -977,7 +978,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2265,
+  "manifest_entry_count": 2268,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1031,7 +1032,7 @@
     },
     {
       "path": ".github/workflows/fa3-agent-workload-runtime.yml",
-      "git_blob_sha": "b9958b9ee447c3c1f698760a179e17b621a7cecb",
+      "git_blob_sha": "d7dd584aaf40ecfec74476feeeed609d294acaff",
       "baseline_delta_status": "added"
     },
     {
@@ -2531,7 +2532,7 @@
     },
     {
       "path": "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-001.json",
-      "git_blob_sha": "837e89be9416d2293538aeda2bfa484dcfa6374c",
+      "git_blob_sha": "40d10e02ac2072c89586100b6c4d1abac031c9ea",
       "baseline_delta_status": "added"
     },
     {
@@ -3626,7 +3627,7 @@
     },
     {
       "path": "canonical/agent-workload-runtime-enforcement.json",
-      "git_blob_sha": "b961425eda234e2a322b8ef56fae8bbb88144bfe",
+      "git_blob_sha": "d97057cad43310d98fc98f56767114b089c88bd6",
       "baseline_delta_status": "added"
     },
     {
@@ -3976,7 +3977,7 @@
     },
     {
       "path": "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
-      "git_blob_sha": "f1f1bf5373f91c7d95f7b46f5f3bd54a41a5ac41",
+      "git_blob_sha": "c4e0ec75496d8046d2d723feb8de6118296de446",
       "baseline_delta_status": "added"
     },
     {
@@ -4167,6 +4168,11 @@
     {
       "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001.schema.json",
+      "git_blob_sha": "e4d0dc3c63fe97c30570990d2b1d67209872186e",
       "baseline_delta_status": "added"
     },
     {
@@ -6606,7 +6612,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-GOOGLE-AX-001.json",
-      "git_blob_sha": "f4916ea9254dba17b25267101de9780f21babc90",
+      "git_blob_sha": "bf4bac466c568324c721cb9ecb28e3dc6eb1b776",
       "baseline_delta_status": "added"
     },
     {
@@ -8096,7 +8102,7 @@
     },
     {
       "path": "docs/FA3-AGENT-WORKLOAD-RUNTIME-001.md",
-      "git_blob_sha": "de3ad49a5a344939cba50e13869b94c463c57171",
+      "git_blob_sha": "0251fb5869f9d2a6f0997fa5cb2d2f740d173345",
       "baseline_delta_status": "added"
     },
     {
@@ -8746,7 +8752,7 @@
     },
     {
       "path": "evidence/reference/agent-workload-runtime-ci-2026-09-24.json",
-      "git_blob_sha": "8eaec3aea83e1cd664a4786a2fd2243440ef2b63",
+      "git_blob_sha": "04b07fa42c441bd45a99d071fe79fc116716e222",
       "baseline_delta_status": "added"
     },
     {
@@ -9566,7 +9572,7 @@
     },
     {
       "path": "src/fa3_agent_workload_gate.py",
-      "git_blob_sha": "6d89ebd49240d6875c16f4b4497092794bb43fcd",
+      "git_blob_sha": "f02e3f52e5b05808472eb177bdace5395137d6de",
       "baseline_delta_status": "added"
     },
     {
@@ -10017,6 +10023,11 @@
     {
       "path": "src/fa3_full_current_host_preflight.py",
       "git_blob_sha": "72c2336ad0f495acc6b2bc2b73e2d8a1c1b105d9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_google_ax_cluster_apply.py",
+      "git_blob_sha": "4900bc12b5c662e42f6f7a14a5b5faa8421e741f",
       "baseline_delta_status": "added"
     },
     {
@@ -11435,6 +11446,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_google_ax_cluster_apply.py",
+      "git_blob_sha": "0f8be27c0ca6058992f53ffc7433c8fce423e52c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_google_ax_custom_runner.py",
       "git_blob_sha": "c0b8e3e4ea1dd71ba2f17c880683b943f1e6e330",
       "baseline_delta_status": "added"
@@ -12502,7 +12518,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-25",
+  "last_reconciled_at": "2026-09-26",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
