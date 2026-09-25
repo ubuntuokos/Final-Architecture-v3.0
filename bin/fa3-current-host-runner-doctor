@@ -12,6 +12,8 @@ VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
 VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
 ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
+ADMISSION_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"
+ADMISSION_HELPER="/usr/local/libexec/fa3-host-resource-broker-admission-root"
 ACQUIRE_ENV='Environment="FA3_HRB_ACQUIRE_COMMAND=/usr/local/bin/fa3-host-resource-broker-acquire --workload {workload} --lease-output {lease} --accelerator-uuid {gpu_uuid}"'
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
@@ -35,6 +37,10 @@ sudo -n -l "$ACQUIRE_HELPER" /dev/null >/dev/null 2>&1 \
   || { echo "FAIL: HRB acquire bridge is not available non-interactively" >&2; exit 41; }
 "$ACQUIRE_CLIENT" --doctor >/dev/null \
   || { echo "FAIL: HRB acquire client doctor failed" >&2; exit 42; }
+[[ -x "$ADMISSION_CLIENT" ]] || { echo "FAIL: HRB admission client missing" >&2; exit 46; }
+[[ -x "$ADMISSION_HELPER" ]] || { echo "FAIL: HRB admission privileged helper missing" >&2; exit 47; }
+"$ADMISSION_CLIENT" --doctor >/dev/null \
+  || { echo "FAIL: HRB admission bridge is not available non-interactively" >&2; exit 48; }
 [[ -s "$DROPIN_PATH" ]] || { echo "FAIL: runner acquire adapter drop-in missing" >&2; exit 43; }
 grep -Fqx "$ACQUIRE_ENV" "$DROPIN_PATH" \
   || { echo "FAIL: runner acquire adapter drop-in drift" >&2; exit 44; }
@@ -101,6 +107,7 @@ receipt = {
     "systemd_user_linger_enabled": True,
     "hrb_validator_bridge_ready": True,
     "hrb_acquire_bridge_ready": True,
+    "hrb_admission_authorization_bridge_ready": True,
     "hrb_acquire_adapter_dropin_ready": True,
     "hrb_hmac_key_exposed_to_runner": False,
     "normal_runtime_root_required": False,

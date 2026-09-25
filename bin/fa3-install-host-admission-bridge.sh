@@ -24,6 +24,7 @@ fi
 
 "$ROOT/bin/fa3-install-hrb-validator-bridge.sh" --user "$TARGET_USER"
 "$ROOT/bin/fa3-install-hrb-acquire-bridge.sh" --user "$TARGET_USER"
+"$ROOT/bin/fa3-install-hrb-admission-bridge.sh" --user "$TARGET_USER"
 
 echo "FA3 HOST ADMISSION BRIDGE: INSTALLED"
 echo "NORMAL_RUNTIME_ROOT_REQUIRED: NO"
