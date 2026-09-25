@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "provider_neutral": true,
   "capability_count": 143,
   "contracts": [
@@ -15,7 +15,9 @@
     "HungarianQualityReceipt",
     "ShadowExecutionPlan",
     "ShadowExecutionReceipt",
-    "PromotionEligibilityReceipt"
+    "PromotionEligibilityReceipt",
+    "ProviderRuntimeEnvironment",
+    "ProviderRuntimeReceipt"
   ],
   "runtime_isolation": {
     "hrb_resource_decision_required": true,
@@ -82,5 +84,20 @@
     "envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
     "current_host_surfaces_require_payload_sha256": true,
     "component_pass_never_implies_global_promotion": true
+  },
+  "provider_runtime": {
+    "profile_id": "FA3-PROVIDER-RUNTIME-001",
+    "classes": [
+      "VENV",
+      "OCI",
+      "HOST_NATIVE"
+    ],
+    "venv_default_when_reproducible": true,
+    "oci_rootless_podman": true,
+    "oci_digest_pin_required": true,
+    "host_native_explicit_justification": true,
+    "conda_mamba_baseline": "FORBIDDEN",
+    "hrb_admission_required": true,
+    "supply_chain_receipt_required": true
   }
 }

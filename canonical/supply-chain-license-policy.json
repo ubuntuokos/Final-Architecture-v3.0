@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.supply-chain-license-policy.v1",
+  "id": "FA3-SCS-LICENSE-POLICY-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "distribution_policy_binding": "FA3-DISTRIBUTION-COMPLIANCE-001",
+  "status": "CANONICAL_FAIL_CLOSED",
+  "rule": "AUTO_ADMIT_ONLY_EXACT_SINGLE_SPDX_EXPRESSIONS_IN_ALLOWLIST",
+  "admitted_exact_spdx": [
+    "0BSD",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "CC0-1.0",
+    "ISC",
+    "MIT",
+    "Unlicense",
+    "Zlib"
+  ],
+  "review_required_examples": [
+    "MPL-2.0",
+    "LGPL-2.1-only",
+    "LGPL-2.1-or-later",
+    "LGPL-3.0-only",
+    "LGPL-3.0-or-later",
+    "GPL-2.0-only",
+    "GPL-2.0-or-later",
+    "GPL-3.0-only",
+    "GPL-3.0-or-later",
+    "AGPL-3.0-only",
+    "AGPL-3.0-or-later"
+  ],
+  "denied_or_nonstandard_examples": [
+    "BUSL-1.1",
+    "SSPL-1.0",
+    "LicenseRef-Proprietary"
+  ],
+  "unknown_or_compound_expression": "FAIL_CLOSED_REVIEW_REQUIRED",
+  "scanner_detection_must_match_declared": true,
+  "commercial_compatible_is_derived": true,
+  "redistribution_compatible_is_derived": true
+}

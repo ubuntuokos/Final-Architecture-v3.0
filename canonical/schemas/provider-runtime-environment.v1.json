@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.provider-runtime-environment.v1",
+  "title": "FA3 Provider Runtime Environment",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "provider_id",
+    "execution_class",
+    "hrb_admission_required",
+    "secret_delivery",
+    "host_global_reconfiguration",
+    "upstream_uninstall_required",
+    "supply_chain_receipt_status",
+    "supply_chain_receipt_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.provider-runtime-environment.v1"
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_class": {
+      "enum": [
+        "VENV",
+        "OCI",
+        "HOST_NATIVE"
+      ]
+    },
+    "hrb_admission_required": {
+      "const": true
+    },
+    "secret_delivery": {
+      "enum": [
+        "NONE",
+        "SECRETREF",
+        "CREDENTIAL_LEASE"
+      ]
+    },
+    "host_global_reconfiguration": {
+      "const": false
+    },
+    "upstream_uninstall_required": {
+      "const": false
+    },
+    "supply_chain_receipt_status": {
+      "const": "PASS"
+    },
+    "supply_chain_receipt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
