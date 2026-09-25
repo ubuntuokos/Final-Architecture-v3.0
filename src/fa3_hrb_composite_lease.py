@@ -2,6 +2,7 @@
 from __future__ import annotations
 from copy import deepcopy
 from typing import Any
+from fa3_hrb_lease_lifecycle import LeaseKeyring
 
 HRB_AUTHORITY_ID="FA3-AUTH-HOST-RESOURCE-BROKER-001"
 RESOURCE_ORDER=("CPU","RAM","NUMA","ACCELERATOR","VRAM","IO","NETWORK")
@@ -54,8 +55,12 @@ def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int])->dict[s
             if a.get("runtime_ordinal_is_identity") is not False: findings.append("runtime ordinal cannot be accelerator identity")
     return {"result":"PASS" if not findings else "FAIL","atomic_admitted":not findings,"reservation_ceiling":ceiling,"findings":findings}
 
-def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,issuer:str)->dict[str,Any]:
-    if issuer!=HRB_AUTHORITY_ID: raise CompositeLeaseError("only HRB may derive a lease")
+def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,keyring:LeaseKeyring)->dict[str,Any]:
+    try:
+        keyring.verify(parent)
+    except Exception as exc:
+        raise CompositeLeaseError("parent lease is not authenticated by the HRB internal lease keyring") from exc
+    if parent.get("issuer")!=HRB_AUTHORITY_ID: raise CompositeLeaseError("parent issuer is not HRB")
     if parent.get("state")!="ACTIVE": raise CompositeLeaseError("parent lease not active")
     if request.get("expires_at_utc","")>parent.get("expires_at_utc",""): raise CompositeLeaseError("child expiry exceeds parent")
     parent_res=_resources(parent); child_res=_resources(request)
@@ -82,15 +87,25 @@ def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,issuer:str)-
       "may_mint_child_lease":False,
     }
     if not child["lease_id"]: raise CompositeLeaseError("child lease id missing")
+    child["authentication"]=keyring.sign(child)
     return child
 
-def cascade_revocation(parent:dict[str,Any],children:list[dict[str,Any]])->list[dict[str,Any]]:
+def cascade_revocation(parent:dict[str,Any],children:list[dict[str,Any]],*,keyring:LeaseKeyring)->list[dict[str,Any]]:
+    try:
+        keyring.verify(parent)
+    except Exception as exc:
+        raise CompositeLeaseError("parent lease authentication invalid") from exc
     if parent.get("state") not in {"REVOKING","EVICTING","EVICTED","QUARANTINED"}:
         raise CompositeLeaseError("parent is not revoking/terminal")
     out=[]
     for c in children:
+        try:
+            keyring.verify(c)
+        except Exception as exc:
+            raise CompositeLeaseError("derived child authentication invalid") from exc
         x=deepcopy(c)
         if x.get("parent_lease_id")!=parent.get("lease_id"): raise CompositeLeaseError("foreign child in cascade")
         if x.get("state") not in {"EVICTED","QUARANTINED"}: x["state"]="REVOKING"
+        x["authentication"]=keyring.sign(x)
         out.append(x)
     return out
