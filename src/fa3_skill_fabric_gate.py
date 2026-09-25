@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 from fa3_distribution_compliance_gate import classification_valid
 from fa3_skill_ecosystem_gate import evaluate as skill_ecosystem_gate
+from fa3_skill_fabric_v13 import activation_preview_allowed, context_budget_allowed, evaluate as skill_fabric_v13_gate, interface_allowed, provenance_attestation_allowed
 PROFILE="canonical/profiles/FA3-SKILL-FABRIC-001.json"; CONTRACT="canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json"
 DISCOVERY_CONTRACT="canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
 MATERIALIZATION_CONTRACT="canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json"
@@ -38,6 +39,10 @@ def good_package() -> dict[str,Any]:
         "direct_credential_access":False,"direct_external_mutation":False},
       "tool_boundary":{"central_mcp_required":True,"discovery_is_authorization":False},
       "permissions":{"network":False,"filesystem_write":False,"exec":False,"secrets":False},
+      "interface":{"typed":True,"inputs":[{"name":"input","type":"text/plain"}],"outputs":[{"name":"output","type":"text/plain"}],"preconditions":["task_scope_bound"],"postconditions":["acceptance_checked"],"grants_authority":False},
+      "context_budget":{"metadata_max_tokens":256,"instructions_max_tokens":2048,"references_max_tokens":4096,"metadata_used_tokens":64,"instructions_used_tokens":512,"references_used_tokens":0,"overflow_policy":"FAIL_CLOSED"},
+      "activation_preview":{"result":"PASS","side_effects_performed":False,"authority_expansion":False,"allowed_tools_is_authorization":False,"admitted_permissions":{"network":False,"filesystem_write":False,"exec":False,"secrets":False},"requested_permissions":{"network":False,"filesystem_write":False,"exec":False,"secrets":False},"routes":{"tool":"FA3-AUTH-MCP-GATEWAY-001","model":"FA3-AUTH-MODEL-ROUTER-001","resource":"FA3-AUTH-HOST-RESOURCE-BROKER-001","secret":"FA3-AUTH-SECRETS"}},
+      "provenance_attestation":{"present":False,"required":False},
       "compatibility":{"apps":["developer"],"agents":["generic"],"task_classes":["task.example"]},
       "hardware":{"portable":True,"exact_host_model_required":False},"files":["skills/example/SKILL.md"],"symlinks":[]}
 def good_use_receipt() -> dict[str,Any]:
@@ -86,6 +91,10 @@ def package_admission_allowed(p: dict[str,Any]) -> bool:
       if tb.get("central_mcp_required") is not True or tb.get("discovery_is_authorization") is not False: return False
       perms=p.get("permissions")
       if not isinstance(perms,dict) or any(v not in (True,False) for v in perms.values()): return False
+      if not interface_allowed(p.get("interface",{})): return False
+      if not context_budget_allowed(p.get("context_budget",{})): return False
+      if not activation_preview_allowed(p.get("activation_preview",{})): return False
+      if not provenance_attestation_allowed(p.get("provenance_attestation",{"present":False,"required":False})): return False
       comp=p.get("compatibility",{})
       if not all(isinstance(comp.get(k),list) and comp.get(k) for k in ("apps","agents","task_classes")): return False
       if p.get("hardware",{}).get("exact_host_model_required"): return False
@@ -166,9 +175,9 @@ def canonical_check(root: Path) -> list[str]:
     if not m.get("invariants"): findings.append("materialization contract missing")
     return findings
 def gate(root: Path) -> dict[str,Any]:
-    root=Path(root).resolve();findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root)
-    result="PASS" if not findings and regressions["result"]=="PASS" and ecosystem["result"]=="PASS" else "FAIL"
-    report={"schema":"fa3.skill-fabric-gate-report.v1","gate_id":GATE_ID,"gateset_id":GATESET_ID,"result":result,"findings":findings,"regressions":regressions,"agent_skills_ecosystem":ecosystem,"provider_specific":False,"capability_count":143,"current_host_runtime_claim":False}
+    root=Path(root).resolve();findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root)
+    result="PASS" if not findings and regressions["result"]=="PASS" and ecosystem["result"]=="PASS" and v13["result"]=="PASS" else "FAIL"
+    report={"schema":"fa3.skill-fabric-gate-report.v1","gate_id":GATE_ID,"gateset_id":GATESET_ID,"result":result,"findings":findings,"regressions":regressions,"agent_skills_ecosystem":ecosystem,"skill_fabric_v13":v13,"provider_specific":False,"capability_count":143,"current_host_runtime_claim":False}
     out=root/"reports/skill-fabric-gate-report.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8");return report
 def main()->int:
     ap=argparse.ArgumentParser();ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));a=ap.parse_args();report=gate(Path(a.root));print(json.dumps(report,ensure_ascii=False,indent=2));return 0 if report["result"]=="PASS" else 2
