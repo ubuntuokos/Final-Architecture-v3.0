@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-EXECUTION-PLAN-001",
+  "title": "FA3 Agent Execution Plan",
+  "type": "object",
+  "required": [
+    "schema",
+    "task_id",
+    "task_spec_digest",
+    "workflow_graph",
+    "model_capability_descriptor",
+    "required_model_capabilities",
+    "ledger",
+    "authorities"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-execution-plan.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_spec_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_graph": {
+      "type": "object"
+    },
+    "model_capability_descriptor": {
+      "type": "object"
+    },
+    "required_model_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "ledger": {
+      "type": "object"
+    },
+    "authorities": {
+      "type": "object",
+      "required": [
+        "durable_workflow",
+        "model_routing",
+        "tool_mediation",
+        "resources"
+      ],
+      "properties": {
+        "durable_workflow": {
+          "const": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
+        },
+        "model_routing": {
+          "const": "FA3-AUTH-MODEL-ROUTER-001"
+        },
+        "tool_mediation": {
+          "const": "FA3-AUTH-MCP-GATEWAY-001"
+        },
+        "resources": {
+          "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

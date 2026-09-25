@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SKILL-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-SKILL-FABRIC-001",
+  "project_type": "PROFILE",
+  "goal": "Provide provider-neutral declarative, versioned and task-scoped skill/procedure reuse while preserving existing FA3 authorization, execution, security, routing, evidence, distribution and resource authorities.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "skill",
+    "procedure",
+    "agent-context",
+    "skill-discovery",
+    "skill-admission",
+    "skill-security",
+    "skill-routing",
+    "skill-evaluation",
+    "external-skill-compatibility"
+  ],
+  "task_classes": [
+    "skill",
+    "procedure",
+    "agent",
+    "developer",
+    "quality"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "DECLARATIVE_SKILL_PACKAGE",
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "TASK_SCOPED_CONTEXT",
+    "SKILL_RECEIPT",
+    "REUSE_PROPOSAL"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT",
+    "OPTIONAL_MODEL_ASSISTED_REVIEW"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-skill",
+    "service_prefix": "fa3-skill",
+    "config_root": "$XDG_CONFIG_HOME/fa3/skills",
+    "cache_root": "$XDG_CACHE_HOME/fa3/skills",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/skills",
+    "socket_namespace": "fa3/skills",
+    "data_root": "$XDG_DATA_HOME/fa3/skills",
+    "desktop_prefix": "org.fa3.skills",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FA3-SCS-001",
+    "EXTERNAL_SKILL_UNTRUSTED_BY_DEFAULT",
+    "SKILL_PERMISSION_DECLARATION_DOES_NOT_GRANT_AUTHORITY"
+  ],
+  "integration_requirements": [
+    "FA3-CONTEXT-SELECTION-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

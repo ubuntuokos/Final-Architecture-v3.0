@@ -50,6 +50,7 @@ ARCHIVE_PATHS=(
   "deployment/secrets/run-fa3-machine\\x2dstate.mount"
   "deployment/secrets/fa3-secret-broker.service"
   "deployment/secrets/fa3-secrets.target"
+  "deployment/secrets/90-fa3-secret-broker-udisks.rules"
 )
 
 TMP="$(mktemp -d)"

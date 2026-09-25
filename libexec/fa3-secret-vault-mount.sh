@@ -23,9 +23,13 @@ assert_mount_common(){
   fstype="$(findmnt -rn -T "$MNT" -o FSTYPE)"
   [[ "$fstype" == "ext4" ]] || { echo "mounted vault filesystem must be ext4" >&2; return 2; }
   opts="$(findmnt -rn -T "$MNT" -o OPTIONS)"
-  for o in nodev nosuid noexec; do
+  for o in rw nodev nosuid noexec; do
     grep -qw "$o" <<<"${opts//,/ }" || { echo "mount option missing: $o" >&2; return 2; }
   done
+  if grep -qw ro <<<"${opts//,/ }"; then
+    echo "vault mount must be writable during active Secret Broker lifecycle" >&2
+    return 2
+  fi
   owner="$(stat -c '%U:%G' "$MNT")"
   mode="$(stat -c '%a' "$MNT")"
   [[ "$owner" == "fa3-secret-broker:fa3-secret-broker" ]] || { echo "vault root ownership mismatch: $owner" >&2; return 2; }
@@ -86,11 +90,42 @@ assert_closed(){
 
 close_mapper(){
   require_root
+  local attempts="${FA3_MAPPER_CLOSE_ATTEMPTS:-20}"
+  local delay="${FA3_MAPPER_CLOSE_DELAY:-0.1}"
+  local i
+
+  [[ "$attempts" =~ ^[0-9]+$ ]] && (( attempts > 0 )) || {
+    echo "invalid FA3_MAPPER_CLOSE_ATTEMPTS: $attempts" >&2
+    return 2
+  }
+  [[ "$delay" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
+    echo "invalid FA3_MAPPER_CLOSE_DELAY: $delay" >&2
+    return 2
+  }
+
   if mountpoint -q "$MNT"; then
     echo "refusing LUKS close while vault mount is active: $MNT" >&2
     return 2
   fi
-  if [[ -e "/dev/mapper/$MAPPER" ]]; then cryptsetup close "$MAPPER"; fi
+
+  if findmnt -rn -S "/dev/mapper/$MAPPER" >/dev/null 2>&1; then
+    echo "refusing LUKS close while mapper still has a mounted filesystem: $MAPPER" >&2
+    return 2
+  fi
+
+  if [[ -e "/dev/mapper/$MAPPER" ]]; then
+    for ((i=1; i<=attempts; i++)); do
+      if cryptsetup close "$MAPPER" >/dev/null 2>&1; then
+        break
+      fi
+      if (( i == attempts )); then
+        echo "LUKS mapper remained busy after $attempts bounded close attempts: $MAPPER" >&2
+        return 2
+      fi
+      sleep "$delay"
+    done
+  fi
+
   assert_closed
 }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, base64, grp, hashlib, json, os, pwd, re, secrets, socket, socketserver, struct, tempfile
+import argparse, base64, grp, hashlib, json, os, pwd, re, secrets, socket, socketserver, struct, tempfile, time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -18,6 +18,7 @@ DEFAULT_SOCKET = "/run/fa3-secret-broker/broker.sock"
 DEFAULT_VAULT = "/run/fa3/machine-state"
 DEFAULT_POLICY = "/etc/fa3/secret-policy.d"
 DEFAULT_AUDIT = "/run/fa3-secret-broker/audit.jsonl"
+DEFAULT_PROJECTION_STATE = "/run/fa3-secret-broker/projection-leases.json"
 
 def _atomic_write(path: Path, data: bytes, mode: int = 0o600) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -99,6 +100,71 @@ class SecretStore:
         _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
         return True
 
+class ProjectionLeaseStore:
+    """Ephemeral SecretProjectionLease metadata only. Secret values are never stored here."""
+    def __init__(self,path:Path):
+        self.path=path
+        self.path.parent.mkdir(parents=True,exist_ok=True)
+        if not self.path.exists():
+            _atomic_write(self.path,b'{"schema":"fa3.secret-projection-lease-state.v1","leases":{}}\n')
+        elif self.path.stat().st_mode & 0o077:
+            raise RuntimeError("projection lease state permissions too broad")
+    def _load(self)->dict[str,Any]:
+        x=json.loads(self.path.read_text())
+        if x.get("schema")!="fa3.secret-projection-lease-state.v1" or not isinstance(x.get("leases"),dict):
+            raise RuntimeError("invalid projection lease state")
+        return x
+    def _save(self,x:dict[str,Any])->None:
+        _atomic_write(self.path,(json.dumps(x,sort_keys=True,separators=(",",":"))+"\n").encode())
+    def issue(self,*,grant_id:str,projection:str,consumer_identity_ref:dict[str,Any],expires_monotonic_ns:int,
+              boot_id:str,secret_ref_sha256:str,hrb_lease_id:str,hrb_generation:int,
+              hrb_runtime_binding_sha256:str,execution_binding:dict[str,Any])->dict[str,Any]:
+        if (not grant_id or not hrb_lease_id or not isinstance(hrb_generation,int) or hrb_generation<1
+                or not re.fullmatch(r"[0-9a-f]{64}",hrb_runtime_binding_sha256)):
+            raise ValueError("projection lease binding invalid")
+        lease_id="spl-"+secrets.token_hex(16);x=self._load()
+        item={"lease_id":lease_id,"grant_id":grant_id,"projection":projection,
+              "consumer_identity_ref":consumer_identity_ref,"expires_monotonic_ns":expires_monotonic_ns,
+              "boot_id":boot_id,"secret_ref_sha256":secret_ref_sha256,"hrb_lease_id":hrb_lease_id,
+              "hrb_generation":hrb_generation,"hrb_runtime_binding_sha256":hrb_runtime_binding_sha256,
+              "execution_binding":execution_binding,"state":"ACTIVE",
+              "artifact":None,"secret_values_collected":False}
+        x["leases"][lease_id]=item;self._save(x);return json.loads(json.dumps(item))
+    def get(self,lease_id:str)->dict[str,Any]|None:
+        item=self._load()["leases"].get(lease_id);return json.loads(json.dumps(item)) if item else None
+    def bind_artifact(self,lease_id:str,artifact:dict[str,Any],uid:int)->dict[str,Any]:
+        x=self._load();item=x["leases"].get(lease_id)
+        if not item or item.get("state")!="ACTIVE":raise ValueError("projection lease not active")
+        if item.get("boot_id")!=Path("/proc/sys/kernel/random/boot_id").read_text().strip():raise ValueError("projection lease boot changed")
+        if time.monotonic_ns()>=int(item.get("expires_monotonic_ns",0)):raise ValueError("projection lease expired")
+        if int(item.get("consumer_identity_ref",{}).get("uid",-1))!=uid:raise PermissionError("projection lease peer mismatch")
+        required={"path","st_dev","st_ino","owner_uid","owner_gid","size"}
+        if set(artifact)!=required:raise ValueError("projection artifact descriptor fields invalid")
+        p=Path(str(artifact.get("path","")))
+        if not p.is_absolute():
+            raise ValueError("projection artifact path must be absolute")
+        try:p.relative_to("/run")
+        except ValueError as exc:raise ValueError("projection artifact path must be below /run") from exc
+        if int(artifact.get("owner_uid",-1))!=uid or int(artifact.get("size",-1))<0 or int(artifact.get("size",-1))>MAX_SECRET_BYTES:
+            raise ValueError("projection artifact owner/size invalid")
+        item["artifact"]=artifact;self._save(x);return json.loads(json.dumps(item))
+    def revoke(self,lease_id:str,hrb_lease_id:str,hrb_generation:int,hrb_runtime_binding_sha256:str)->dict[str,Any]:
+        x=self._load();item=x["leases"].get(lease_id)
+        if not item:raise KeyError("projection lease not found")
+        if (item.get("hrb_lease_id")!=hrb_lease_id or item.get("hrb_generation")!=hrb_generation
+                or item.get("hrb_runtime_binding_sha256")!=hrb_runtime_binding_sha256):
+            raise PermissionError("projection lease HRB binding mismatch")
+        if item.get("state") not in {"ACTIVE","REVOKED"}:raise ValueError("projection lease state invalid for revoke")
+        item["state"]="REVOKED";self._save(x);return json.loads(json.dumps(item))
+    def zeroized(self,lease_id:str,hrb_lease_id:str,hrb_generation:int,hrb_runtime_binding_sha256:str)->dict[str,Any]:
+        x=self._load();item=x["leases"].get(lease_id)
+        if not item:raise KeyError("projection lease not found")
+        if (item.get("hrb_lease_id")!=hrb_lease_id or item.get("hrb_generation")!=hrb_generation
+                or item.get("hrb_runtime_binding_sha256")!=hrb_runtime_binding_sha256):
+            raise PermissionError("projection lease HRB binding mismatch")
+        if item.get("state")!="REVOKED":raise ValueError("projection lease must be revoked before zeroize acknowledgement")
+        item["state"]="ZEROIZED";item["artifact"]=None;self._save(x);return json.loads(json.dumps(item))
+
 class PolicyStore:
     def __init__(self, root:Path): self.root=root
     def get(self, secret_id:str)->dict[str,Any]|None:
@@ -151,9 +217,10 @@ def authorize(policy:dict[str,Any],uid:int,pid:int,consumer_id:str,projection:st
     return False
 
 class Broker:
-    def __init__(self,vault:Path,policies:Path,audit:Path):
+    def __init__(self,vault:Path,policies:Path,audit:Path,projection_state:Path|None=None):
         self.store=SecretStore(vault);self.policies=PolicyStore(policies);self.audit=audit
         self.audit.parent.mkdir(parents=True,exist_ok=True)
+        self.projection_leases=ProjectionLeaseStore(projection_state or (self.audit.parent/"projection-leases.json"))
     def _audit(self,operation:str,secret_id:str,consumer_id:str,uid:int,projection:str,decision:str)->None:
         ev={"schema":"fa3.secret-audit-event.v1","event_id":"sae-"+secrets.token_hex(12),
             "timestamp":datetime.now(timezone.utc).isoformat(),"operation":operation,
@@ -165,6 +232,34 @@ class Broker:
         op=str(req.get("op",""));sid=str(req.get("secret_id",""));consumer=str(req.get("consumer_id",""))
         projection=str(req.get("projection","UDS_SINGLE_SECRET"))
         if op=="health":return {"ok":True,"schema":"fa3.secret-broker-health.v1","raw_vault_export":False}
+        if op in {"projection_revoke","projection_zeroized"}:
+            if not _is_admin(uid):
+                self._audit(op,"_projection_lease",consumer or "HRB",uid,projection,"DENY_ADMIN_REQUIRED")
+                return {"ok":False,"error":"admin authorization required"}
+            lease_id=str(req.get("projection_lease_id",""));hrb_lease_id=str(req.get("hrb_lease_id",""))
+            runtime_digest=str(req.get("runtime_binding_sha256",""))
+            try:hrb_generation=int(req.get("hrb_generation",0))
+            except (TypeError,ValueError):hrb_generation=0
+            try:
+                item=(self.projection_leases.revoke(lease_id,hrb_lease_id,hrb_generation,runtime_digest)
+                      if op=="projection_revoke"
+                      else self.projection_leases.zeroized(lease_id,hrb_lease_id,hrb_generation,runtime_digest))
+            except Exception as exc:
+                self._audit(op,"_projection_lease",consumer or "HRB",uid,projection,"DENY_BINDING")
+                return {"ok":False,"error":str(exc)}
+            self._audit(op,"_projection_lease",consumer or "HRB",uid,projection,"ALLOW")
+            return {"ok":True,"projection_lease_id":lease_id,"state":item["state"],
+                    "zeroize_target":item.get("artifact"),"secret_values_collected":False}
+        if op=="projection_bind_artifact":
+            lease_id=str(req.get("projection_lease_id",""));artifact=req.get("artifact")
+            if not isinstance(artifact,dict):
+                return {"ok":False,"error":"artifact descriptor required"}
+            try:item=self.projection_leases.bind_artifact(lease_id,artifact,uid)
+            except Exception as exc:
+                self._audit(op,"_projection_lease",consumer,uid,projection,"DENY_BINDING")
+                return {"ok":False,"error":str(exc)}
+            self._audit(op,"_projection_lease",consumer,uid,projection,"ALLOW")
+            return {"ok":True,"projection_lease_id":lease_id,"state":item["state"],"secret_values_collected":False}
         if op in {"put","rotate","delete","revoke","list_metadata","admin_metadata"}:
             if not _is_admin(uid):
                 self._audit(op,sid,consumer,uid,projection,"DENY_ADMIN_REQUIRED");return {"ok":False,"error":"admin authorization required"}
@@ -222,7 +317,44 @@ class Broker:
             return {"ok":False,"error":"policy metadata mismatch"}
         self._audit(op,sid,consumer,uid,projection,"ALLOW")
         out={"ok":True,"metadata":{"secret_id":sid,"version":meta["version"],"classification":meta["classification"],"secret_kind":meta["secret_kind"]}}
-        if op=="get":out["secret_b64"]=base64.b64encode(value).decode("ascii")
+        if op=="get":
+            out["secret_b64"]=base64.b64encode(value).decode("ascii")
+            lease_req=req.get("projection_lease_request")
+            if lease_req is not None:
+                if not isinstance(lease_req,dict) or lease_req.get("schema")!="fa3.secret-lease-request.v1":
+                    return {"ok":False,"error":"invalid projection lease request"}
+                binding=lease_req.get("execution_binding")
+                required={"cgroup_v2_path","pidfd_subject_ref"}
+                if not isinstance(binding,dict) or not required.issubset(binding):
+                    return {"ok":False,"error":"projection lease execution binding incomplete"}
+                try:
+                    ttl=float(lease_req.get("ttl_seconds",0));generation=int(lease_req.get("hrb_generation",0))
+                except (TypeError,ValueError):
+                    return {"ok":False,"error":"projection lease ttl/generation invalid"}
+                runtime_digest=str(lease_req.get("runtime_binding_sha256",""))
+                if (ttl<=0 or generation<1 or not str(lease_req.get("hrb_lease_id",""))
+                        or not re.fullmatch(r"[0-9a-f]{64}",runtime_digest)):
+                    return {"ok":False,"error":"projection lease ttl/HRB binding invalid"}
+                item=self.projection_leases.issue(
+                    grant_id=str(lease_req.get("request_id","")),
+                    projection=projection,
+                    consumer_identity_ref={"uid":uid,"gid":gid,"pid":pid,"consumer_id":consumer},
+                    expires_monotonic_ns=time.monotonic_ns()+int(ttl*1_000_000_000),
+                    boot_id=Path("/proc/sys/kernel/random/boot_id").read_text().strip(),
+                    secret_ref_sha256=hashlib.sha256(sid.encode()).hexdigest(),
+                    hrb_lease_id=str(lease_req.get("hrb_lease_id","")),
+                    hrb_generation=generation,
+                    hrb_runtime_binding_sha256=runtime_digest,
+                    execution_binding=binding,
+                )
+                out["projection_lease"]={
+                    "lease_id":item["lease_id"],"grant_id":item["grant_id"],"projection":item["projection"],
+                    "consumer_identity_ref":item["consumer_identity_ref"],
+                    "expires_at":"MONOTONIC_BOUND_CURRENT_BOOT","hrb_lease_id":item["hrb_lease_id"],
+                    "hrb_generation":item["hrb_generation"],
+                    "runtime_binding_sha256":item["hrb_runtime_binding_sha256"],
+                    "secret_values_collected":False,
+                }
         return out
 
 class Handler(socketserver.StreamRequestHandler):
@@ -235,11 +367,11 @@ class Handler(socketserver.StreamRequestHandler):
 class UnixServer(socketserver.UnixStreamServer):
     def __init__(self,path:str,broker:Broker):self.broker=broker;super().__init__(path,Handler)
 
-def serve(vault:Path,policy:Path,sock:Path,audit:Path)->None:
+def serve(vault:Path,policy:Path,sock:Path,audit:Path,projection_state:Path|None=None)->None:
     sock.parent.mkdir(parents=True,exist_ok=True)
     try:sock.unlink()
     except FileNotFoundError:pass
-    with UnixServer(str(sock),Broker(vault,policy,audit)) as srv:
+    with UnixServer(str(sock),Broker(vault,policy,audit,projection_state)) as srv:
         os.chmod(sock,0o660)
         try:os.chown(sock,-1,grp.getgrnam("fa3-secret-clients").gr_gid)
         except KeyError:pass
@@ -258,6 +390,6 @@ def request(sock:Path,payload:dict[str,Any])->dict[str,Any]:
 def main()->int:
     ap=argparse.ArgumentParser();sub=ap.add_subparsers(dest="cmd",required=True);sp=sub.add_parser("serve")
     sp.add_argument("--vault-root",default=DEFAULT_VAULT);sp.add_argument("--policy-dir",default=DEFAULT_POLICY)
-    sp.add_argument("--socket",default=DEFAULT_SOCKET);sp.add_argument("--audit-log",default=DEFAULT_AUDIT)
-    a=ap.parse_args();serve(Path(a.vault_root),Path(a.policy_dir),Path(a.socket),Path(a.audit_log));return 0
+    sp.add_argument("--socket",default=DEFAULT_SOCKET);sp.add_argument("--audit-log",default=DEFAULT_AUDIT);sp.add_argument("--projection-state",default=DEFAULT_PROJECTION_STATE)
+    a=ap.parse_args();serve(Path(a.vault_root),Path(a.policy_dir),Path(a.socket),Path(a.audit_log),Path(a.projection_state));return 0
 if __name__=="__main__":raise SystemExit(main())

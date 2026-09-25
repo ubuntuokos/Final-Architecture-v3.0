@@ -60,6 +60,9 @@ QVariantMap Fa3RepositoryModel::recordFromJson(const QString &absolutePath, cons
     else if (relativePath.startsWith("providers/")) category = "provider";
     else if (relativePath.startsWith("decisions/")) category = "decision";
     else if (relativePath.startsWith("contracts/")) category = "contract";
+    else if (relativePath.startsWith("patterns/")) category = "pattern";
+    else if (relativePath.startsWith("intents/")) category = "intent";
+    else if (relativePath.startsWith("assessments/")) category = "assessment";
     else if (id.contains("GATE")) category = "gate";
     else if (id.contains("RUNTIME-CONFORMANCE")) category = "runtime";
 

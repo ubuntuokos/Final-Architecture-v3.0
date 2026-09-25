@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.reuse-catalog-policy.v1",
+  "id": "FA3-REUSE-CATALOG-001",
+  "status": "CANONICAL_DERIVED_POLICY",
+  "authority": false,
+  "derived": true,
+  "rebuildable": true,
+  "canonical_source_of_truth": false,
+  "generation_mode": "DETERMINISTIC_QUERY_TIME_INDEX",
+  "source_roots": [
+    "canonical/profiles",
+    "canonical/contracts",
+    "canonical/providers",
+    "canonical/actions",
+    "canonical/references",
+    "canonical/patterns",
+    "canonical/third-party"
+  ],
+  "explicit_sources": [
+    "canonical/mcp-capability-registry.json",
+    "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+    "canonical/distribution-registry.json",
+    "canonical/skill-registry.json",
+    "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
+  ],
+  "classes": [
+    "CAPABILITY",
+    "PROFILE",
+    "CONTRACT",
+    "PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "REUSABLE_PATTERN",
+    "UAF_ACTION",
+    "GUI_PROJECTION",
+    "COMPATIBILITY_SURFACE",
+    "UPSTREAM_REFERENCE",
+    "THIRD_PARTY_REFERENCE",
+    "DERIVED_IMPLEMENTATION",
+    "SKILL",
+    "EXTERNAL_SKILL_SOURCE"
+  ],
+  "deterministic_filters": [
+    "EXACT_CAPABILITY_MATCH",
+    "DOMAIN_AND_PROBLEM_CLASS_MATCH",
+    "DEPENDENCY_AND_CONTRACT_MATCH",
+    "LICENSE_AND_DISTRIBUTION_BOUNDARY",
+    "AUTHORITY_COLLISION_FILTER",
+    "SOFTWARE_COEXISTENCE_FILTER",
+    "HARDWARE_AUDIT_FILTER",
+    "SKILL_TASK_CLASS_AND_TRIGGER_MATCH",
+    "SKILL_ADMISSION_STATUS_FILTER",
+    "EXTERNAL_SKILL_SOURCE_REFERENCE_ONLY_FILTER"
+  ],
+  "decision_fabric_post_filter_ranking_only": true,
+  "candidate_set_expansion_by_semantic_provider": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "skill_fabric_binding": {
+    "profile_id": "FA3-SKILL-FABRIC-001",
+    "registry_id": "FA3-SKILL-REGISTRY-001",
+    "external_radar_id": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "admitted_skill_is_reuse_candidate": true,
+    "non_admitted_skill_is_activation_candidate": false,
+    "external_skill_source_is_reference_only": true,
+    "automatic_external_install": false,
+    "automatic_external_activation": false
+  }
+}

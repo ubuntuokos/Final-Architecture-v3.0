@@ -5,6 +5,8 @@ import copy
 import re
 from typing import Any
 
+from fa3_agent_runtime_semantics import capabilities_satisfy, make_execution_ledger, validate_graph, validate_model_capability_descriptor
+
 TASK_SCHEMA = "fa3.agent-workload-task.v1"
 WORKSPACE_SCHEMA = "fa3.agent-workspace.v1"
 NETWORK_SCHEMA = "fa3.execution-network-envelope.v1"
@@ -231,3 +233,42 @@ def compile_orchestration_workload(
         "provenance_refs": [],
     }
     return validate_task(task)
+
+
+def compile_execution_plan(
+    task: dict[str, Any],
+    workflow_graph: dict[str, Any],
+    model_capability_descriptor: dict[str, Any],
+    *,
+    task_spec_digest: str,
+    max_transfer_hops: int,
+) -> dict[str, Any]:
+    checked_task = validate_task(task)
+    if not _nonempty(task_spec_digest):
+        raise WorkloadContractError("task_spec_digest required for execution plan")
+    checked_graph = validate_graph(workflow_graph)
+    checked_model = validate_model_capability_descriptor(model_capability_descriptor)
+    required_caps = checked_task.get("model_intent", {}).get("required_capabilities", [])
+    if not isinstance(required_caps, list) or any(not _nonempty(x) for x in required_caps):
+        raise WorkloadContractError("model_intent.required_capabilities must be a string list")
+    if not capabilities_satisfy(checked_model, set(required_caps)):
+        raise WorkloadContractError("admitted model capability descriptor does not satisfy task intent")
+    try:
+        ledger = make_execution_ledger(checked_task["fanout_limits"], max_transfer_hops=max_transfer_hops)
+    except ValueError as exc:
+        raise WorkloadContractError(str(exc)) from exc
+    return {
+        "schema": "fa3.agent-execution-plan.v1",
+        "task_id": checked_task["task_id"],
+        "task_spec_digest": task_spec_digest,
+        "workflow_graph": checked_graph,
+        "model_capability_descriptor": checked_model,
+        "required_model_capabilities": sorted(set(required_caps)),
+        "ledger": ledger,
+        "authorities": {
+            "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+            "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+            "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+            "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+        },
+    }
