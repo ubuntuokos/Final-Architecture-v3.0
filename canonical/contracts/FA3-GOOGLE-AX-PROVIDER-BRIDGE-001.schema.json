@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json",
+  "x-fa3-contract-id": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-001",
+  "title": "FA3 Google AX Provider Bridge Binding",
+  "type": "object",
+  "required": [
+    "schema",
+    "provider_id",
+    "atespace",
+    "runner_image",
+    "command",
+    "workspace_order",
+    "workspace_paths",
+    "gateway_name",
+    "resources",
+    "hrb_admission_ref",
+    "resource_authority",
+    "model_router_binding_ref",
+    "model_router_authority",
+    "mcp_gateway_binding_ref",
+    "mcp_gateway_authority",
+    "network_envelope_ref",
+    "debug"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.google-ax-provider-binding.v1"
+    },
+    "provider_id": {
+      "const": "FA3-PROVIDER-GOOGLE-AX-001"
+    },
+    "atespace": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?$"
+    },
+    "runner_image": {
+      "type": "string",
+      "pattern": "^.+@sha256:[0-9a-f]{64}$"
+    },
+    "command": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "workspace_order": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "workspace_paths": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^/workspace(?:/[A-Za-z0-9._-]+)*$"
+      }
+    },
+    "gateway_name": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?$"
+    },
+    "resources": {
+      "type": "object"
+    },
+    "hrb_admission_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resource_authority": {
+      "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    "model_router_binding_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_router_authority": {
+      "const": "FA3-AUTH-MODEL-ROUTER-001"
+    },
+    "mcp_gateway_binding_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mcp_gateway_authority": {
+      "const": "FA3-AUTH-MCP-GATEWAY-001"
+    },
+    "network_envelope_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "debug": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

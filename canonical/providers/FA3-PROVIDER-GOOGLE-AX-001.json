@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-GOOGLE-AX-001",
   "name": "Google AX Optional Agent Workload Runtime Provider",
-  "status": "CANONICAL_OPTIONAL_PROVIDER_CURRENT_HOST_OR_CLUSTER_PENDING",
+  "status": "CANONICAL_OPTIONAL_PROVIDER_STATIC_BRIDGE_MATERIALIZED_CLUSTER_E2E_PENDING",
   "provider_role": "OPTIONAL_EXTERNAL_CLUSTER_EXECUTION_PROVIDER",
   "canonical_root": false,
   "architectural_authority": false,
@@ -40,15 +40,24 @@
   },
   "translation": {
     "fa3_agent_workload_task_to_ax_task": true,
-    "fa3_agent_workspace_to_ax_workspace": true,
+    "fa3_agent_workspace_to_ax_workspace": "PARTIAL_FAIL_CLOSED",
     "execution_network_envelope_to_ax_gateway": true,
     "ax_model_to_fa3_model_resource": false,
     "canonical_ax_schema": false,
-    "fa3_model_intent_remains_model_router_owned": true
+    "fa3_model_intent_remains_model_router_owned": true,
+    "immutable_git_commit_projection": "UNREPRESENTABLE_AT_PINNED_AX_V1ALPHA1",
+    "ax_native_mcp_projection": false,
+    "ax_native_skill_projection": false
   },
   "runner_bridge": {
-    "custom_runner_supported_upstream": true,
-    "fa3_runner_bridge_planned": true,
+    "manifest_compiler_materialized": true,
+    "manifest_compiler": "src/fa3_google_ax_provider.py",
+    "binding_contract": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-001",
+    "upstream_schema_bound": true,
+    "custom_runner_materialized": false,
+    "custom_runner_required_for_full_fa3_workspace_semantics": true,
+    "cluster_apply_adapter_materialized": false,
+    "cluster_e2e_required": true,
     "debug_requires_fa3_authorization": true
   },
   "upstream_infrastructure": {
@@ -66,7 +75,7 @@
     "filesystem_isolation": true,
     "accelerator_passthrough": "PROVIDER_AND_HRB_ADMISSION_REQUIRED"
   },
-  "runtime_activation_status": "PENDING_CURRENT_HOST_OR_CLUSTER",
+  "runtime_activation_status": "PENDING_CUSTOM_RUNNER_AND_CLUSTER_E2E",
   "distribution": {
     "class": "EXTERNAL_REDISTRIBUTABLE",
     "release_bundle_status": "EXCLUDED",

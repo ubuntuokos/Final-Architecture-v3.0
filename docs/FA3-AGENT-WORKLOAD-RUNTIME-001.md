@@ -38,7 +38,13 @@ Execution network envelopes are default-deny. Direct model-provider and direct e
 
 Pinned reference: `FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24` at commit `e6211f84a9e30dd309304167b8f1d51cbdaf8dab`.
 
-AX remains optional and disabled by default. Its `ax.io/v1alpha1` resources are provider schemas, not canonical FA3 IR. AX `Model` does not become a Model Router authority and AX `Gateway` does not become an MCP/network authority. Production activation remains `PENDING_CURRENT_HOST_OR_CLUSTER` until scope-bound E2E evidence exists.
+AX remains optional and disabled by default. Its `ax.io/v1alpha1` resources are provider schemas, not canonical FA3 IR. AX `Model` does not become a Model Router authority and AX `Gateway` does not become an MCP/network authority.
+
+The provider now has a pinned-schema manifest compiler (`src/fa3_google_ax_provider.py`) for the subset that AX can represent without weakening FA3 invariants. It emits only upstream-valid `Task`, `Workspace` and `Gateway` objects, requires a digest-pinned runner image, keeps debug guest services off, emits no AX `Model`, and preserves HRB / Model Router / MCP Gateway references outside AX authority.
+
+At pinned commit `e6211f84a9e30dd309304167b8f1d51cbdaf8dab`, AX `Workspace.spec.git` supports a floating `branch` but no immutable commit field. Therefore a FA3 workspace containing an immutable Git source is **not** downgraded to a branch: provider compilation fails closed with `AX_V1ALPHA1_IMMUTABLE_GIT_COMMIT_UNREPRESENTABLE`. AX-native MCP/Skill registry discovery is likewise not used to bypass Central MCP Gateway or Skill Fabric.
+
+The static manifest bridge does not promote the provider. A FA3-compatible custom AX runner plus scope-bound cluster E2E remain required; runtime activation is `PENDING_CUSTOM_RUNNER_AND_CLUSTER_E2E`.
 
 ## Static closure versus runtime closure
 
