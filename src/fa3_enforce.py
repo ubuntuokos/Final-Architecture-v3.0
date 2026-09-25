@@ -81,12 +81,14 @@ from fa3_model_router_provider_execution_gate import gate as model_router_provid
 from fa3_agent_workload_gate import gate as agent_workload_runtime_gate
 from fa3_agent_workload_current_host_gate import gate as agent_workload_runtime_current_host_gate
 from fa3_agent_federation_gate import gate as agent_federation_gate
+from fa3_gui_current_host_gate import gate as gui_current_host_gate
 from fa3_supply_runtime_hardening_gate import gate as supply_runtime_hardening_gate
 from fa3_supply_runtime_hardening_current_host_gate import gate as supply_runtime_hardening_current_host_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
+from fa3_modernization_integration_gate import gate as modernization_integration_gate
 from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
 
 OK=0
@@ -188,6 +190,9 @@ def static_check(root:Path):
     agent_definition_ref=agent_definition_gate(root)
     if agent_definition_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-126","Agent Definition admission gate failed",agent_definition_gate=agent_definition_ref))
+    gui_current_host_ref=gui_current_host_gate(root)
+    if gui_current_host_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-134","GUI current-host closure materialization gate failed",gui_current_host_gate=gui_current_host_ref))
     external_llm_catalog_ref=external_llm_catalog_gate(root)
     if external_llm_catalog_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-127","External LLM Catalog discovery/admission-boundary gate failed",external_llm_catalog_gate=external_llm_catalog_ref))
@@ -205,6 +210,9 @@ def static_check(root:Path):
     runtime_hardening_ref=runtime_hardening_gate(root)
     if runtime_hardening_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-108","Cross-cutting runtime hardening gate failed",runtime_hardening_gate=runtime_hardening_ref))
+    modernization_integration_ref=modernization_integration_gate(root)
+    if modernization_integration_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-135","Modernization integration authority/evidence boundary gate failed",modernization_integration_gate=modernization_integration_ref))
 
     if pol.get("architecture_release")!=RELEASE or pol.get("canonical_capability_count")!=CAPS:
         fs.append(finding("FA3-STATIC-001","Enforcement policy release/capability invariant mismatch"))
@@ -326,6 +334,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-128","Agent Workload Runtime gate is not bound into global enforcement policy"))
     if "FA3-AGENT-FEDERATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-132","Agent Federation gate is not bound into global enforcement policy"))
+    if "FA3-GUI-CURRENT-HOST-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-134","GUI current-host closure gate is not bound into global enforcement policy"))
     supply_runtime_ref=supply_runtime_hardening_gate(root)
     if supply_runtime_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-133","Supply-chain / Provider Runtime / HRB composite hardening gate failed",supply_runtime_hardening_gate=supply_runtime_ref))
@@ -364,9 +374,8 @@ def static_check(root:Path):
 
     if "FA3-WORK-MANAGEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-106","Work Management mandatory GUI/provider-neutral gate is not bound into global enforcement policy"))
-
     if "FA3-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-134","Objective Coordination mandatory zero-authority gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-136","Objective Coordination mandatory zero-authority gate is not bound into global enforcement policy"))
 
     if "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-111","External RT3D engine exclusion gate is not bound into global enforcement policy"))
@@ -563,10 +572,9 @@ def static_check(root:Path):
     work_management_ref=work_management_gate(root)
     if work_management_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-107","Work Management provider-neutral GUI gate failed",work_management_gate=work_management_ref))
-
     coordination_ref=coordination_gate(root)
     if coordination_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-135","Objective Coordination zero-authority regression gate failed",coordination_gate=coordination_ref))
+        fs.append(finding("FA3-STATIC-137","Objective Coordination zero-authority regression gate failed",coordination_gate=coordination_ref))
 
     external_rt3d_exclusion_ref=external_rt3d_engine_exclusion_gate(root)
     if external_rt3d_exclusion_ref["result"]!="PASS":
@@ -668,7 +676,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","coordination","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","coordination","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -687,7 +695,7 @@ def main():
         if a.command=="work-management":
             x=work_management_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="coordination":
-            x=coordination_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+            x=coordination_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="buzz":
             x=buzz_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="xcmd":
@@ -808,6 +816,8 @@ def main():
             x=agent_workload_runtime_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="agent-federation":
             x=agent_federation_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="gui-current-host":
+            x=gui_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="supply-runtime-hardening":
             x=supply_runtime_hardening_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="supply-runtime-hardening-current-host":
@@ -840,6 +850,8 @@ def main():
             x=fa3_os_event_privacy_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="runtime-hardening":
             x=runtime_hardening_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="modernization-integration":
+            x=modernization_integration_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
