@@ -19,6 +19,15 @@ def _resources(row:dict[str,Any])->dict[str,int]:
         out[k]=v
     return out
 
+
+def _scope_subset(parent:Any,child:Any)->bool:
+    if isinstance(parent,dict):
+        return isinstance(child,dict) and all(k in parent and _scope_subset(parent[k],v) for k,v in child.items())
+    if isinstance(parent,list):
+        if isinstance(child,list): return all(v in parent for v in child)
+        return child in parent
+    return parent==child
+
 def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int])->dict[str,Any]:
     findings=[]
     if plan.get("schema")!="fa3.resource-reservation-plan.v1": findings.append("schema mismatch")
@@ -26,6 +35,9 @@ def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int])->dict[s
     if plan.get("atomic_admission") is not True: findings.append("atomic admission required")
     if plan.get("hold_and_wait") is not False: findings.append("hold-and-wait forbidden")
     if tuple(plan.get("acquisition_order",[]))!=RESOURCE_ORDER: findings.append("canonical acquisition order required")
+    queue=plan.get("queue_policy",{})
+    if not isinstance(queue,dict) or not isinstance(queue.get("max_waiters"),int) or queue.get("max_waiters",0)<1: findings.append("bounded queue max_waiters required")
+    if not isinstance(queue,dict) or not isinstance(queue.get("deadline_seconds"),(int,float)) or queue.get("deadline_seconds",0)<=0: findings.append("positive queue deadline required")
     workloads=plan.get("workloads",[])
     if not isinstance(workloads,list) or not workloads: findings.append("workloads missing"); workloads=[]
     byid={}
@@ -63,6 +75,9 @@ def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,keyring:Leas
     if parent.get("issuer")!=HRB_AUTHORITY_ID: raise CompositeLeaseError("parent issuer is not HRB")
     if parent.get("state")!="ACTIVE": raise CompositeLeaseError("parent lease not active")
     if request.get("expires_at_utc","")>parent.get("expires_at_utc",""): raise CompositeLeaseError("child expiry exceeds parent")
+    parent_scope=parent.get("scope",{})
+    child_scope=request.get("scope",{})
+    if not _scope_subset(parent_scope,child_scope): raise CompositeLeaseError("child scope exceeds parent scope")
     parent_res=_resources(parent); child_res=_resources(request)
     allocated=allocated_resources if allocated_resources is not None else parent.get("child_allocated_resources",{})
     for k,v in child_res.items():
