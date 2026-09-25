@@ -76,7 +76,7 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
     if not history:
         return {"result": "PASS", "state": "ADOPTION_MARKER_NOT_COMMITTED_YET", "checked": []}
     marker = history.splitlines()[0]
-    changed = _git(root, "diff", "--name-only", "--diff-filter=A", f"{marker}..HEAD", "--", "canonical/profiles", "canonical/providers")
+    changed = _git(root, "diff", "--name-only", "--diff-filter=AM", f"{marker}..HEAD", "--", "canonical/profiles", "canonical/providers")
     if changed is None:
         return {"result": "PASS", "state": "GIT_DIFF_UNAVAILABLE", "checked": []}
     assessments = _assessment_index(root)
@@ -105,7 +105,7 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
                 valid = True
                 break
         if not valid:
-            findings.append(finding("REUSE-ADOPT-002", "post-adoption new profile/provider lacks PASS reuse assessment + ApplicationIntent", record_id=rid, path=rel))
+            findings.append(finding("REUSE-ADOPT-002", "post-adoption new or materially modified profile/provider lacks PASS reuse assessment + ApplicationIntent", record_id=rid, path=rel))
     return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
 
 
