@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.resource-reservation-plan.v1",
+  "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "atomic_admission": true,
+  "hold_and_wait": false,
+  "acquisition_order": [
+    "CPU",
+    "RAM",
+    "NUMA",
+    "ACCELERATOR",
+    "VRAM",
+    "IO",
+    "NETWORK"
+  ],
+  "workloads": [
+    {
+      "id": "blackhole-whisper",
+      "resources": {
+        "cpu_threads": 8,
+        "ram_bytes": 17179869184,
+        "vram_bytes": 8589934592,
+        "io_bytes_per_second": 0,
+        "network_bytes_per_second": 0
+      }
+    },
+    {
+      "id": "blackhole-demucs",
+      "resources": {
+        "cpu_threads": 8,
+        "ram_bytes": 17179869184,
+        "vram_bytes": 6442450944,
+        "io_bytes_per_second": 0,
+        "network_bytes_per_second": 0
+      }
+    }
+  ],
+  "overlap_groups": [
+    [
+      "blackhole-whisper",
+      "blackhole-demucs"
+    ]
+  ],
+  "accelerators": [
+    {
+      "stable_id": "REPLACE_WITH_LIVE_ACCELERATOR_STABLE_ID",
+      "runtime_ordinal_is_identity": false
+    }
+  ],
+  "template_only": true
+}
