@@ -118,6 +118,18 @@ class AceStepGateTests(unittest.TestCase):
         self.assertEqual(report["passed"], report["total"])
         self.assertGreaterEqual(report["total"], 17)
 
+    def test_reintegration_tracks_current_fa3_boundaries(self):
+        provider = json.loads((ROOT / "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json").read_text())
+        decision = json.loads((ROOT / "canonical/decisions/FA3-DEC-ACE-STEP-REINTEGRATION-2026-09-25.json").read_text())
+        self.assertEqual(provider["router_policy"]["authority"], "FA3-AUTH-MODEL-ROUTER-001")
+        self.assertTrue(provider["hardware_policy"]["vendor_neutral"])
+        self.assertEqual(provider["hardware_policy"]["accelerator_cardinality"], "0_TO_N")
+        self.assertTrue(provider["coexistence_policy"]["upstream_or_independent_install_must_coexist"])
+        self.assertFalse(provider["gui_projection"]["provider_is_separate_app"])
+        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertFalse(decision["new_architectural_authority"])
+        self.assertEqual(decision["promotion"], "PENDING_REAL_CURRENT_HOST_EXECUTION_AND_EVIDENCE")
+
 
 if __name__ == "__main__":
     unittest.main()
