@@ -26,6 +26,15 @@ on:
         required: false
         default: '.fa3-current-host/input/scs-target'
         type: string
+      scs_artifact_kind:
+        description: 'Scanned artifact class; build/export classes require dependency lock'
+        required: true
+        default: 'SOURCE_BUILD'
+        type: choice
+        options:
+          - SOURCE_BUILD
+          - OCI_IMAGE_EXPORT
+          - PREBUILT_BINARY
       scs_source_repository:
         description: 'Canonical source repository identity for scanned artifact'
         required: false
@@ -133,6 +142,7 @@ jobs:
           test -n "${{ inputs.scs_source_repository }}"
           test -n "${{ inputs.scs_source_commit }}"
           test -n "${{ inputs.scs_declared_license }}"
+          if [[ "${{ inputs.scs_artifact_kind }}" != "PREBUILT_BINARY" ]]; then test -n "${{ inputs.scs_dependency_lock }}"; fi
       - name: Collect automated supply-chain admission evidence
         shell: bash
         run: |
@@ -141,6 +151,7 @@ jobs:
             --target "${{ inputs.scs_target }}"
             --source-repository "${{ inputs.scs_source_repository }}"
             --source-commit "${{ inputs.scs_source_commit }}"
+            --artifact-kind "${{ inputs.scs_artifact_kind }}"
             --declared-license "${{ inputs.scs_declared_license }}"
             --current-host
             --output evidence/receipts/supply-chain-admission-current-host.json
