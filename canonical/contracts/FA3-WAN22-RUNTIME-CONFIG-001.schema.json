@@ -42,6 +42,18 @@
         "ti2v-5B",
         "s2v-14B"
       ]
+    },
+    "offload_model": {
+      "type": "boolean",
+      "default": true
+    },
+    "convert_model_dtype": {
+      "type": "boolean",
+      "default": true
+    },
+    "t5_cpu": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
