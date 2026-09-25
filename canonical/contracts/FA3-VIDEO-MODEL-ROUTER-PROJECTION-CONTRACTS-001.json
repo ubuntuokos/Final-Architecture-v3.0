@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-VIDEO-001",
+  "authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "MotionVideoRouteRequest",
+    "MotionVideoRouteSelectionReceipt",
+    "MotionVideoCandidateManifestSet"
+  ],
+  "rules": {
+    "application_provider_pin_forbidden": true,
+    "application_model_pin_forbidden": true,
+    "admitted_manifest_required": true,
+    "provider_capability_match_required": true,
+    "cost_class_policy_required": true,
+    "billable_route_requires_explicit_permission": true,
+    "silent_fallback_forbidden": true,
+    "deterministic_selection_required": true,
+    "decision_fabric_may_not_expand_candidates": true
+  }
+}
