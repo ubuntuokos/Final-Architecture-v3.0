@@ -10,7 +10,8 @@
     "atomic_admission",
     "hold_and_wait",
     "acquisition_order",
-    "workloads"
+    "workloads",
+    "queue_policy"
   ],
   "properties": {
     "schema": {
@@ -63,6 +64,24 @@
         "minItems": 1,
         "items": {
           "type": "string"
+        }
+      }
+    },
+    "queue_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_waiters",
+        "deadline_seconds"
+      ],
+      "properties": {
+        "max_waiters": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "deadline_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
         }
       }
     }
