@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
+import subprocess
 import threading
 import urllib.request
 from http.server import ThreadingHTTPServer
@@ -23,6 +25,16 @@ def gate(root: Path) -> dict:
     def check(case_id: str, ok: bool, detail: str):
         cases.append({"id":case_id,"result":"PASS" if ok else "FAIL","detail":detail})
         if not ok: findings.append({"code":case_id,"message":detail})
+    runner_class=os.environ.get("FA3_RUNNER_CLASS","")
+    expected_sha=os.environ.get("FA3_EXPECTED_SOURCE_SHA","")
+    repository=os.environ.get("GITHUB_REPOSITORY","")
+    try:
+        actual_sha=subprocess.check_output(["git","rev-parse","HEAD"],cwd=root,text=True).strip()
+    except Exception:
+        actual_sha=""
+    check("CAPSUB-CH-000A", runner_class=="fa3-current-host", "self-hosted runner class bound")
+    check("CAPSUB-CH-000B", repository=="ubuntuokos/Final-Architecture-v3.0", "repository identity bound")
+    check("CAPSUB-CH-000C", bool(re.fullmatch(r"[0-9a-f]{40}",expected_sha)) and actual_sha==expected_sha, "exact Git source head bound")
     check("CAPSUB-CH-001", (os.cpu_count() or 0)>0, "generic CPU discovery available")
     check("CAPSUB-CH-002", os.access(root/"bin/fa3-caption-studio",os.X_OK) and os.access(root/"bin/fa3-narration-studio",os.X_OK), "standalone launchers executable")
     Handler.mode="subtitle"
@@ -67,6 +79,10 @@ def gate(root: Path) -> dict:
         "gate_id":"FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001",
         "result":result,
         "evidence_level":"CURRENT_HOST_APPLICATION_E2E_PASS" if result=="PASS" else "CURRENT_HOST_APPLICATION_E2E_FAIL",
+        "tested_source_commit":actual_sha,
+        "expected_source_commit":expected_sha,
+        "runner_class":runner_class,
+        "repository":repository,
         "caption_runtime_executed":True,
         "uaf_native_provider_executed":True if result=="PASS" else False,
         "voice_provider_audio_executed":False,
