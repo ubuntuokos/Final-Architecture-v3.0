@@ -27,7 +27,7 @@ def collect(root:Path,plan_path:Path,capacity_path:Path,output:Path)->dict[str,A
         key_id="current-host-"+os.urandom(4).hex()
         keyring=LeaseKeyring([LeaseKey(key_id,os.urandom(32))],key_id)
         accelerators=[{"stable_id":a["stable_id"]} for a in plan.get("accelerators",[]) if a.get("stable_id")]
-        parent={"lease_id":"current-host-parent-"+os.urandom(6).hex(),"generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","issued_at_utc":utc(now),"expires_at_utc":utc(now+timedelta(minutes=10)),"resources":result["reservation_ceiling"],"accelerator_assignments":accelerators,"authentication":{}}
+        parent={"lease_id":"current-host-parent-"+os.urandom(6).hex(),"generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","issued_at_utc":utc(now),"expires_at_utc":utc(now+timedelta(minutes=10)),"resources":result["reservation_ceiling"],"accelerator_assignments":accelerators,"scope":{"workload_id":peak},"authentication":{}}
         parent["authentication"]=keyring.sign(parent)
         issuer=CompositeLeaseIssuer(keyring);issuer.register_parent(parent)
         children=[]
