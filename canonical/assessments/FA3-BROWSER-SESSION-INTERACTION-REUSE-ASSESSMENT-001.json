@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-BROWSER-SESSION-INTERACTION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-BROWSER-SESSION-INTERACTION-001",
+  "intent_id": "FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-BROWSER-SESSION-INTERACTION-001"
+  ],
+  "project_status": "STATIC_MATERIALIZATION_CURRENT_HOST_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "use": "OBSERVATION_BOUNDED_ACTION_REVALIDATION_VERIFICATION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "HOST_RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-SCS-001",
+      "use": "SUPPLY_CHAIN_AND_SECURITY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "TENCENT_BROWSERSKILL_RUNTIME_AS_AUTHORITY",
+      "reason": "REFERENCE_ONLY_PATTERN_SOURCE"
+    },
+    {
+      "id": "SECOND_BROWSER_ACTION_RUNTIME",
+      "reason": "FA3_BROWSER_ACTION_RUNTIME_ALREADY_CANONICAL"
+    },
+    {
+      "id": "BROWSER_SESSION_AS_SECRET_STORE",
+      "reason": "SECRET_AUTHORITY_REMAINS_EXISTING_FA3_SECRET_BOUNDARY"
+    },
+    {
+      "id": "REMOTE_BROWSER_AUTO_ADMISSION",
+      "reason": "SEPARATE_SECURITY_AND_CURRENT_HOST_ADMISSION_REQUIRED"
+    }
+  ],
+  "gaps": [
+    "PHYSICAL_EXTENSION_NATIVE_MESSAGING_BORROW_RETURN_HUMAN_TAKEOVER_EVIDENCE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "external_browser_tools_may_coexist_independently": true
+  },
+  "implementation_readiness": "STATIC_READY_CURRENT_HOST_PENDING"
+}
