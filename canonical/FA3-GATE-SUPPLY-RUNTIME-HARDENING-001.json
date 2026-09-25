@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001",
+  "gateset_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "decision_id": "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25",
+  "entrypoint": "src/fa3_supply_runtime_hardening_gate.py",
+  "unit_test": "tests/test_supply_runtime_hardening.py",
+  "report_path": "reports/supply-runtime-hardening-gate-report.json",
+  "mandatory_rules": [
+    "SCS_SBOM_LICENSE_VULNERABILITY_AUTOMATION_REQUIRED",
+    "PROVIDER_RUNTIME_CLASS_EXPLICIT",
+    "CONDA_MAMBA_NOT_BASELINE",
+    "OCI_ROOTLESS_DIGEST_PINNED_WHEN_SELECTED",
+    "HRB_ATOMIC_COMPOSITE_RESERVATION_REQUIRED",
+    "HRB_DERIVED_LEASE_HRB_ONLY",
+    "PARENT_REVOCATION_CASCADES",
+    "PATCHED_VENDOR_PROVENANCE_REQUIRED",
+    "LICENSE_FAILURE_CANNOT_BE_PATCHED_AWAY",
+    "HU_AQC_REAL_CURRENT_HOST_EVIDENCE_REQUIRED_FOR_PROMOTION"
+  ]
+}
