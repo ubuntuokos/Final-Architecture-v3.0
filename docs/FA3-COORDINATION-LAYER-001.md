@@ -1,9 +1,9 @@
 # FA3 Objective Coordination Layer
 
-Date: **2026-09-25**  
-Profile: `FA3-COORDINATION-LAYER-001`  
-Capability delta: **0**  
-Authority delta: **0**  
+Date: **2026-09-25**
+Profile: `FA3-COORDINATION-LAYER-001`
+Capability delta: **0**
+Authority delta: **0**
 Current-host promotion claim: **none**
 
 ## Purpose
