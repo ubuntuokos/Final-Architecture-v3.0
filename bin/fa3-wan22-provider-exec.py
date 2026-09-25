@@ -7,7 +7,7 @@ from typing import Any
 
 PINNED_REVISION="1ea34ff48f87168174e12956e200b1d908b1c5ff"
 PROVIDER_ID="FA3-PROVIDER-WAN22-001"
-SUPPORTED_TASKS={"t2v-A14B","i2v-A14B","ti2v-5B","s2v-14B","animate-14B"}
+SUPPORTED_TASKS={"t2v-A14B","i2v-A14B","ti2v-5B","s2v-14B"}
 
 class WanExecutionDenied(RuntimeError): pass
 
@@ -96,8 +96,8 @@ def execute(cfg_path:Path,ir_path:Path,output:Path)->dict[str,Any]:
         if not images:raise WanExecutionDenied("selected Wan task requires image reference")
         cmd += ["--image",images[0]]
     if task=="s2v-14B":
-        if not audios:raise WanExecutionDenied("selected Wan S2V task requires audio reference")
-        cmd += ["--audio",audios[0]]
+        if not images or not audios:raise WanExecutionDenied("selected Wan S2V task requires image and audio references")
+        cmd += ["--image",images[0],"--audio",audios[0]]
     output.parent.mkdir(parents=True,exist_ok=True)
     env=os.environ.copy();env["CUDA_VISIBLE_DEVICES"]=ordinal
     env["HF_HUB_OFFLINE"]="1";env["TRANSFORMERS_OFFLINE"]="1";env["PIP_NO_INDEX"]="1";env["WANDB_MODE"]="disabled"
