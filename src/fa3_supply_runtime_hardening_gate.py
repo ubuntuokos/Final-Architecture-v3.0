@@ -26,11 +26,13 @@ def regressions()->dict[str,Any]:
     bad=json.loads(json.dumps(receipt)); bad["license"]["conflicts"]=["MIT vs proprietary"]; scs_bad=evaluate_receipt(bad)["result"]=="FAIL"
     venv={"schema":"fa3.provider-runtime-environment.v1","provider_id":"P","execution_class":"VENV","hrb_admission_required":True,"secret_delivery":"NONE","host_global_reconfiguration":False,"upstream_uninstall_required":False,"supply_chain_receipt_status":"PASS","supply_chain_receipt_sha256":H,"venv":{"manager":"uv","dependency_lock_sha256":H,"environment_identity_sha256":H,"system_site_packages":False}}
     rt_ok=validate_runtime_environment(venv)["result"]=="PASS"
+    venv_unbound=json.loads(json.dumps(venv)); venv_unbound.pop("supply_chain_receipt_sha256",None); rt_unbound=validate_runtime_environment(venv_unbound)["result"]=="FAIL"
     oci={"schema":"fa3.provider-runtime-environment.v1","provider_id":"P","execution_class":"OCI","hrb_admission_required":True,"secret_delivery":"SECRETREF","host_global_reconfiguration":False,"upstream_uninstall_required":False,"supply_chain_receipt_status":"PASS","supply_chain_receipt_sha256":H,"oci":{"engine":"podman","rootless":True,"image_digest":"sha256:"+H,"build_recipe_sha256":H,"mutable_tag_only":False,"network_default":"DENY","explicit_mounts_only":True,"accelerator_device_projection_from_hrb":True}}
     oci_ok=validate_runtime_environment(oci)["result"]=="PASS"
     oci_bad=json.loads(json.dumps(oci)); oci_bad["oci"]["rootless"]=False; oci_refusal=validate_runtime_environment(oci_bad)["result"]=="FAIL"
     patch={"schema":"fa3.upstream-patch-set.v1","disposition":"PATCHED_VENDOR","upstream_repository":"x/y","upstream_commit":C,"patched_commit":"c"*40,"patch_series_sha256":H,"patched_tree_sha256":H,"dependency_lock_sha256":H,"reason":"security fix","upstream_issue_refs":["#1"],"security_disposition":"PASS","supply_chain_receipt_status":"PASS","supply_chain_receipt_sha256":H,"review_by":"2099-01-01","license_disposition":{"commercial_compatible":True,"redistribution_compatible":True,"conflicts":[]}}
     patch_ok=evaluate_patchset(patch)["distribution_admitted"] is True
+    patch_unbound=json.loads(json.dumps(patch)); patch_unbound.pop("supply_chain_receipt_sha256",None); patch_unbound_refusal=evaluate_patchset(patch_unbound)["result"]=="FAIL"
     lp=json.loads(json.dumps(patch)); lp["license_disposition"]["redistribution_compatible"]=False
     patch_license_refusal=evaluate_patchset(lp)["distribution_admitted"] is False
     plan={"schema":"fa3.resource-reservation-plan.v1","authority_id":"FA3-AUTH-HOST-RESOURCE-BROKER-001","atomic_admission":True,"hold_and_wait":False,"acquisition_order":list(RESOURCE_ORDER),"queue_policy":{"max_waiters":8,"deadline_seconds":30},"workloads":[{"id":"whisper","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":8}},{"id":"demucs","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6}}],"overlap_groups":[["whisper","demucs"]],"accelerators":[{"stable_id":"GPU-test","runtime_ordinal_is_identity":False}]}
@@ -55,7 +57,7 @@ def regressions()->dict[str,Any]:
     aggregate_refusal=False
     try: issuer.derive("p2",{**json.loads(json.dumps(base_req)),"lease_id":"c"})
     except CompositeLeaseError: aggregate_refusal=True
-    cases={"scs_positive":scs_ok,"scs_license_conflict_refused":scs_bad,"venv_positive":rt_ok,"oci_positive":oci_ok,"rootful_oci_refused":oci_refusal,"patch_positive":patch_ok,"patch_license_failure_not_overridden":patch_license_refusal,"hrb_atomic_positive":hrb_ok,"hrb_insufficient_capacity_refused":too_small,"derived_lease_positive":derived_ok,"forged_parent_refused":non_hrb,"parent_revocation_cascades":cascade_ok,"aggregate_child_budget_refused":aggregate_refusal}
+    cases={"scs_positive":scs_ok,"scs_license_conflict_refused":scs_bad,"venv_positive":rt_ok,"provider_runtime_without_scs_digest_refused":rt_unbound,"oci_positive":oci_ok,"rootful_oci_refused":oci_refusal,"patch_positive":patch_ok,"patched_vendor_without_scs_digest_refused":patch_unbound_refusal,"patch_license_failure_not_overridden":patch_license_refusal,"hrb_atomic_positive":hrb_ok,"hrb_insufficient_capacity_refused":too_small,"derived_lease_positive":derived_ok,"forged_parent_refused":non_hrb,"parent_revocation_cascades":cascade_ok,"aggregate_child_budget_refused":aggregate_refusal}
     return {"result":"PASS" if all(cases.values()) else "FAIL","cases":[{"case_id":k,"status":"PASS" if v else "FAIL"} for k,v in cases.items()]}
 
 def gate(root:Path)->dict[str,Any]:
@@ -87,8 +89,8 @@ def gate(root:Path)->dict[str,Any]:
         except Exception as e: findings.append(finding("SRH-000","required materialization unreadable",path=p,error=repr(e)))
     if not findings:
         p=data["profile"]; c=data["contract"]; d=data["decision"]; g=data["gate"]; e=data["enforcement"]
-        if not(p.get("id")=="FA3-PROVIDER-RUNTIME-001" and p.get("capability_count")==CAPABILITY_COUNT and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append(finding("SRH-001","provider runtime profile invariant drift"))
-        if c.get("id")!="FA3-PROVIDER-RUNTIME-CONTRACTS-001" or c.get("new_architectural_authority") is not False: findings.append(finding("SRH-002","provider runtime contract invariant drift"))
+        if not(p.get("id")=="FA3-PROVIDER-RUNTIME-001" and p.get("capability_count")==CAPABILITY_COUNT and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("selection_policy",{}).get("supply_chain_receipt_digest_required") is True): findings.append(finding("SRH-001","provider runtime profile invariant drift"))
+        if c.get("id")!="FA3-PROVIDER-RUNTIME-CONTRACTS-001" or c.get("new_architectural_authority") is not False or c.get("provider_runtime_environment",{}).get("supply_chain_receipt_sha256_required") is not True: findings.append(finding("SRH-002","provider runtime contract invariant drift"))
         if d.get("new_capabilities")!=0 or d.get("new_architectural_authorities")!=0 or d.get("capability_count_after")!=CAPABILITY_COUNT: findings.append(finding("SRH-003","decision changes capability/authority baseline"))
         if g.get("gateset_id")!=GATESET_ID or g.get("fail_closed") is not True: findings.append(finding("SRH-004","gate record drift"))
         if e.get("gateset_id")!=GATESET_ID or e.get("hrb",{}).get("hold_and_wait") is not False: findings.append(finding("SRH-005","enforcement drift"))
