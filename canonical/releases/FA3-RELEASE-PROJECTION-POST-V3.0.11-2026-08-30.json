@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "04c6bfe4ce31370fa72fdbd1de006e6a287dffdc",
-    "pre_projection_root_tree_sha": "ad0b072b555a3646ac0c1ccaf3d5cef03f867dbc",
-    "pre_projection_canonical_tree_sha": "2bf8ced22d2c7ec0dc6d5da98f0c172ec2c8ea32",
-    "commits_ahead_of_v3_0_11_conformance_commit": 740,
-    "total_post_baseline_commits": 740,
-    "delta_file_count": 2132,
-    "delta_added_files": 2127,
+    "pre_projection_head_sha": "7d37edeb147e5385225893fd124626d1c0cd70fe",
+    "pre_projection_root_tree_sha": "80a7d02407c720f124c081a60755c9d84a1606bc",
+    "pre_projection_canonical_tree_sha": "da9bcb645c0fe8d4bfa3495638c3fab428dda261",
+    "commits_ahead_of_v3_0_11_conformance_commit": 749,
+    "total_post_baseline_commits": 749,
+    "delta_file_count": 2133,
+    "delta_added_files": 2128,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1024,
+    "canonical_files_in_post_baseline_delta": 1025,
     "evidence_files_in_post_baseline_delta": 160,
     "source_files_in_post_baseline_delta": 284,
     "test_files_in_post_baseline_delta": 235,
@@ -421,6 +421,7 @@
     "decision_records": [
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
+      "canonical/decisions/FA3-DEC-ACE-STEP-REINTEGRATION-2026-09-25.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
       "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
       "canonical/decisions/FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24.json",
@@ -950,7 +951,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2124,
+  "manifest_entry_count": 2125,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1519,7 +1520,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/AiStudioPage.qml",
-      "git_blob_sha": "298e4a4837be6a618857dc13fc07e5ae50ef9515",
+      "git_blob_sha": "085f43a34d7d44203117f1653565130f09e95760",
       "baseline_delta_status": "added"
     },
     {
@@ -3194,7 +3195,7 @@
     },
     {
       "path": "canonical/ace-step-enforcement.json",
-      "git_blob_sha": "eeeea47eca02cc97e1e997c772d3dbe2f3c1e0ad",
+      "git_blob_sha": "4101e4102b670fdbe55a130c897f5b0f6401a2e6",
       "baseline_delta_status": "added"
     },
     {
@@ -4393,6 +4394,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-ACE-STEP-REINTEGRATION-2026-09-25.json",
+      "git_blob_sha": "c03000840701cb9fa3278b8eee13b361c72f7bbe",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
       "git_blob_sha": "84f35db57548c81228d9721333d2f60e5c4bdd8f",
       "baseline_delta_status": "added"
@@ -5144,7 +5150,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "e453d61572453cbcb12a5f35bbd2a59274d6eb55",
+      "git_blob_sha": "de941f5f82f35c0f74dd872b88aea3b6a8bedbca",
       "baseline_delta_status": "modified"
     },
     {
@@ -6044,7 +6050,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
-      "git_blob_sha": "e1175a29a35147b219740689a8ecdcf131557303",
+      "git_blob_sha": "7cbb9341ff39c418b8041e213d663a747d39a697",
       "baseline_delta_status": "added"
     },
     {
@@ -8939,7 +8945,7 @@
     },
     {
       "path": "src/fa3_acestep_gate.py",
-      "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
+      "git_blob_sha": "35c475a54a72a9b697db9afd8f3dc36e145b1590",
       "baseline_delta_status": "added"
     },
     {
@@ -10359,7 +10365,7 @@
     },
     {
       "path": "tests/test_acestep_gate.py",
-      "git_blob_sha": "8704a54799ec8aa0c1493b8526152cc1261a2fde",
+      "git_blob_sha": "5648c2a9638d687103a62f2ceb5caaa425a1ba57",
       "baseline_delta_status": "added"
     },
     {
