@@ -20,12 +20,32 @@
     "SigningKeyReference",
     "DistributionCompatibilityAttestation",
     "ThirdPartyNoticeAttestation",
-    "ReleaseBundleDecision"
+    "ReleaseBundleDecision",
+    "SBOMAttestation",
+    "VulnerabilityDispositionReceipt",
+    "SoftwareSupplyChainReceipt",
+    "UpstreamPatchSet"
   ],
   "secret_contract_semantics": {
     "raw_secret_values_in_canonical_or_evidence": "FORBIDDEN",
     "secret_reference_resolution": "FA3-SECRET-BROKER-001_OR_ADMITTED_SECRET_PROVIDER",
     "runtime_secret_delivery": "LEASE_OR_POLICY_GATED_PROJECTION"
   },
-  "distribution_contract_binding": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
+  "distribution_contract_binding": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+  "version": "1.2.0",
+  "automated_admission": {
+    "sbom_formats": [
+      "SPDX_JSON",
+      "CYCLONEDX_JSON"
+    ],
+    "baseline_tools": {
+      "sbom": "Syft",
+      "vulnerability": "Grype",
+      "license": "ScanCode_OR_ORT"
+    },
+    "scanner_identity_and_version_required": true,
+    "immutable_source_and_artifact_binding_required": true,
+    "license_conflict": "FAIL_CLOSED",
+    "unknown_required_distribution_fact": "FAIL_CLOSED"
+  }
 }
