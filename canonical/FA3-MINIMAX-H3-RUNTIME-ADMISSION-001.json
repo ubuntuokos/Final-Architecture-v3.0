@@ -5,7 +5,7 @@
   "profile_id": "FA3-VIDEO-001",
   "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
   "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
-  "status": "CANONICAL_ADMISSION_MATERIALIZED_RUNTIME_PENDING",
+  "status": "RETIRED_SUPERSEDED",
   "priority": "P0",
   "new_capability": false,
   "new_architectural_authority": false,
@@ -52,5 +52,10 @@
   "missing_secret_or_entitlement_state": "PENDING_EXTERNAL_ADMISSION",
   "missing_local_license_state": "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE",
   "runtime_promotion_claim": false,
-  "fail_closed": true
+  "fail_closed": true,
+  "active": false,
+  "runtime_execution_forbidden": true,
+  "superseded_by": "FA3-H3-REPLACEMENT-001",
+  "superseding_decision": "FA3-DEC-H3-REPLACEMENT-2026-09-25",
+  "historical_reference_only": true
 }
