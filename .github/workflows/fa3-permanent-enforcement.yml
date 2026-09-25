@@ -39,6 +39,8 @@ jobs:
         run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py
       - name: Agency / Agent Definition / External LLM Catalog / Agent Workload / Federation syntax check
         run: python -m py_compile src/fa3_agency_agents_gate.py src/fa3_agent_definition_gate.py src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py src/fa3_agent_workload.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_federation.py src/fa3_agent_federation_gate.py src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py tools/fa3_bind_provider_runtime.py tools/fa3_prepare_upstream_patchset.py src/fa3_supply_runtime_hardening_current_host_gate.py evidence/collect-provider-runtime-current-host.py evidence/collect-hrb-composite-current-host.py evidence/collect-hu-aqc-golden-corpus-current-host.py evidence/collect-agent-workload-runtime-current-host.py
+      - name: GUI current-host closure syntax check
+        run: python -m py_compile src/fa3_gui_current_host.py src/fa3_gui_current_host_gate.py evidence/collect-gui-current-host.py
       - name: Primary hardware audit gate
         run: ./bin/fa3-enforce hardware-portability
       - name: Marketing Agent Native syntax check
@@ -147,6 +149,8 @@ jobs:
         run: ./bin/fa3-enforce agent-workload-runtime
       - name: Agent Federation CAP-070 canonical and evidence-boundary gate
         run: ./bin/fa3-enforce agent-federation
+      - name: GUI current-host closure materialization gate
+        run: ./bin/fa3-enforce gui-current-host
       - name: Supply-chain / Provider Runtime / HRB composite hardening gate
         run: ./bin/fa3-enforce supply-runtime-hardening
       - name: Supply/runtime/HRB current-host closure stays pending in hosted CI
@@ -246,6 +250,7 @@ jobs:
             reports/agent-definition-gate-report.json
             reports/external-llm-catalog-gate-report.json
             reports/agent-workload-runtime-gate-report.json
+            reports/gui-current-host-gate-report.json
             reports/marketing-reference-e2e-report.json
             evidence/receipts/marketing-ci-reference-e2e.json
             reports/blackhole-kdenlive-gate-report.json
