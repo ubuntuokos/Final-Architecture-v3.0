@@ -1,8 +1,8 @@
 # FA3 Embedding Fabric
 
-**Profile:** `FA3-EMBEDDING-FABRIC-001`  
-**Capability delta:** 0  
-**Architectural-authority delta:** 0  
+**Profile:** `FA3-EMBEDDING-FABRIC-001`
+**Capability delta:** 0
+**Architectural-authority delta:** 0
 **Canonical capability count:** 143
 
 The Embedding Fabric is a provider-neutral cross-cutting profile. It connects the existing Model Manager, Model Router, Inference Portability, HRB, Knowledge/Retrieval, Evidence, Security, Secret Broker and MCP boundaries. No embedding provider becomes an authority.
