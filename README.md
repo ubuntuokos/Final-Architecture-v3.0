@@ -139,6 +139,9 @@ Initial provider registry roles:
 
 MiniMax H3 execution is **retired and superseded** by `FA3-H3-REPLACEMENT-001`. Historical H3 projection, licence, service-access and evidence records remain for auditability only; they cannot be used for routing or runtime promotion. All current and future H3-like video-generation needs route through `FA3-VIDEO-001` + `FA3-MMG-CONTEXT-IR-001` / `VideoGenerationIR` -> Model Router -> HRB -> fail-closed provider admission. The implementation may combine one or more admitted free/open providers or derived mechanisms; no provider becomes architectural authority and no silent fallback is permitted.
 
+
+`FA3-PROVIDER-WAN22-001` is the first materialized free/open execution candidate behind this fabric. It is pinned to `Wan-Video/Wan2.2@1ea34ff48f87168174e12956e200b1d908b1c5ff`; provider routing is performed by the FA3 video projection of `FA3-AUTH-MODEL-ROUTER-001`, model files require existing FA3 Model Artifact Security admissions, and local accelerator execution requires canonical Resource Admission/HRB evidence. The provider is **not current-host promoted by static materialization**; real Wan2.2 video output, media sanity and provenance evidence are required before promotion. Stability Matrix/WanGP may be reused as a managed runtime only after separate adapter-compatibility evidence; it is not silently treated as equivalent to the pinned official checkout.
+
 Registry regression coverage:
 
 ```bash
