@@ -59,6 +59,10 @@
     },
     "unresolved_risk_prs": {
       "lora_cpu_offload_decoder_validation_skip": "#1319"
+    },
+    "reconciled_open_risks": {
+      "PR-1329": "XL_SFT_COVER_RENOISE_NEAR_SILENCE_OPEN_RISK",
+      "ISSUE-1332": "PUBLIC_CLOUD_API_504_NOT_LOCAL_PROVIDER_PROMOTION_EVIDENCE"
     }
   },
   "production_policy": {
@@ -94,5 +98,35 @@
     "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY"
   },
   "implementation_status": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED",
-  "last_upstream_reconciled_at": "2026-09-10"
+  "last_upstream_reconciled_at": "2026-09-25",
+  "integration_revision": "2026-09-25-reintegration",
+  "hardware_policy": {
+    "baseline": "FA3-HARDWARE-BASELINE-001",
+    "vendor_neutral": true,
+    "accelerator_cardinality": "0_TO_N",
+    "cpu_only_host_supported_by_fa3_globally": true,
+    "provider_accelerator_execution": "REQUIRES_DISCOVERED_COMPATIBLE_DEVICE_AND_HRB_LEASE",
+    "no_fixed_gpu_sku_or_vram_as_canonical_requirement": true,
+    "missing_required_accelerator": "FAIL_CLOSED_NO_SILENT_DEVICE_OR_CLOUD_FALLBACK"
+  },
+  "router_policy": {
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "route_provider_model_selection": "RUNTIME_DISCOVERY_AND_ADMISSION",
+    "fixed_ollama_lmstudio_or_private_router_pin_forbidden": true,
+    "silent_fallback_forbidden": true,
+    "route_selection_receipt_required": true
+  },
+  "coexistence_policy": {
+    "upstream_or_independent_install_must_coexist": true,
+    "uninstall_replace_shadow_hijack_forbidden": true,
+    "namespaced_state_config_cache_service_socket_and_port_required": true,
+    "isolated_python_runtime_required": true,
+    "global_python_or_gpu_runtime_reconfiguration_forbidden": true
+  },
+  "gui_projection": {
+    "surface": "FA3 Control Center > AI Studio > Music",
+    "provider_is_separate_app": false,
+    "provider_visibility": "CANONICAL_PROVIDER_STATUS_AND_WORKSPACE_ACTIONS",
+    "runtime_promotion_badge": "PENDING_CURRENT_HOST_UNTIL_REAL_EVIDENCE"
+  }
 }

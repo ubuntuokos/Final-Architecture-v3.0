@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-ACE-STEP-REINTEGRATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-PROVIDER-ACE-STEP-001",
+  "intent_id": "FA3-ACE-STEP-REINTEGRATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-ACE-STEP-REINTEGRATION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-ACE-STEP-001"
+  ],
+  "project_status": "MATERIALIZED_REINTEGRATION_RUNTIME_PROMOTION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-MUSIC-001",
+      "use": "PARENT_MUSIC_AND_AUDIO_WORKFLOW_PROFILE"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_PROVIDER_MODEL_ROUTE_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "ACCELERATOR_DISCOVERY_ADMISSION_RESERVATION_AND_LEASE"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "POLICY_AND_TRUST_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "RUNTIME_AND_PROMOTION_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REG-ARTIFACT-MODEL-001",
+      "use": "MODEL_AND_ARTIFACT_IDENTITY_REGISTRY"
+    },
+    {
+      "id": "TEMPORAL_EXISTING_AUTHORITY",
+      "use": "DURABLE_ORCHESTRATION"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "VENDOR_NEUTRAL_0_TO_N_ACCELERATOR_POLICY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "ACE_STEP_PRIVATE_MODEL_ROUTER",
+      "reason": "MODEL_ROUTER_IS_SINGLE_FA3_AUTHORITY"
+    },
+    {
+      "id": "ACE_STEP_PRIVATE_RESOURCE_SCHEDULER",
+      "reason": "HRB_IS_SINGLE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "ACE_STEP_GUI_AS_SEPARATE_APPLICATION_AUTHORITY",
+      "reason": "PROVIDER_IS_AI_STUDIO_MUSIC_WORKSPACE_PROJECTION"
+    },
+    {
+      "id": "UPSTREAM_INSTALL_REPLACEMENT_OR_SHADOWING",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    },
+    {
+      "id": "OPEN_UPSTREAM_FIX_AS_PROMOTION_EVIDENCE",
+      "reason": "UPSTREAM_PATCH_STATE_DOES_NOT_PROVE_CURRENT_HOST_RUNTIME"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "parent_profile": "FA3-MUSIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY"
+  },
+  "gaps": [
+    "ACE_STEP_CURRENT_HOST_RUNTIME_AND_AUDIO_QUALITY_PROMOTION_EVIDENCE"
+  ],
+  "gap_resolution": [
+    {
+      "gap": "ACE_STEP_CURRENT_HOST_RUNTIME_AND_AUDIO_QUALITY_PROMOTION_EVIDENCE",
+      "status": "PENDING_REAL_CURRENT_HOST_EXECUTION_AND_EVIDENCE",
+      "promotion_requirements_source": "canonical/ace-step-enforcement.json"
+    }
+  ],
+  "skill_reuse": [],
+  "external_skill_sources": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "accelerator_execution_requires_hrb_lease": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "upstream_or_independent_install_may_coexist": true,
+    "global_python_or_gpu_runtime_mutation": false,
+    "isolated_python_runtime_required": true
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
