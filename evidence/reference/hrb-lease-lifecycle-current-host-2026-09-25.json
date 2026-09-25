@@ -7,15 +7,20 @@
   "status": "PASS",
   "evidence_class": "CURRENT_HOST_COMPONENT_RUNTIME",
   "evidence_level": "CURRENT_HOST_HRB_LEASE_LIFECYCLE_DEDICATED_TTL_EVICTION_PASS",
-  "validated_implementation_commit": "459c6d63d37c0d0ec4f27b00856490529bfe16c1",
+  "validated_implementation_commit": "0cbcfe4057d27151b62cfb920de418bf5d6ae278",
   "github_actions": {
     "workflow": "FA3 HRB Lease Lifecycle",
-    "run_id": 36093869454,
-    "reference_job_id": 107941857534,
-    "current_host_job_id": 107941884360,
+    "run_id": 36094530468,
+    "reference_job_id": 107943867269,
+    "current_host_job_id": 107943907547,
     "conclusion": "success",
-    "artifact_id": 10846905335,
-    "artifact_name": "fa3-hrb-lease-lifecycle-current-host"
+    "artifact_id": 10846658722,
+    "artifact_name": "fa3-hrb-lease-lifecycle-current-host",
+    "reuse_discovery_run_id": 36094530516,
+    "permanent_enforcement_run_id": 36094530514,
+    "reuse_discovery_conclusion": "success",
+    "permanent_canonical_conclusion": "success",
+    "promotion_safety_conclusion": "success"
   },
   "proven": [
     "dedicated harmless systemd user transient scope created on fa3-current-host",
@@ -27,7 +32,10 @@
     "test-only secret projection zeroized and revoked before runtime termination",
     "lease reached EVICTED with cleanup_verified=true",
     "typed evidence hash chain verified",
-    "no GPU global reset CUDA device reset or preexisting FA3 workload targeting occurred"
+    "no GPU global reset CUDA device reset or preexisting FA3 workload targeting occurred",
+    "current-main reconciled Reuse Discovery gate passed on the validated implementation head",
+    "current-main Permanent Canonical static enforcement passed on the validated implementation head",
+    "promotion-safety fail-closed evidence passed on the validated implementation head"
   ],
   "not_proven": [
     "global FA3 runtime promotion",
@@ -61,5 +69,6 @@
     "secret_projection_zeroized": true,
     "secret_projection_revoked": true,
     "typed_hash_chain_valid": true
-  }
+  },
+  "requalified_at": "2026-09-25"
 }
