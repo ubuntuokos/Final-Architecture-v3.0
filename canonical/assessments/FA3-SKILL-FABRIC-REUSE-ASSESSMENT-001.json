@@ -7,7 +7,7 @@
   "covered_ids": [
     "FA3-SKILL-FABRIC-001"
   ],
-  "project_status": "MATERIALIZED_RECONCILED_AFTER_AGENT_SKILLS_ECOSYSTEM_EXTENSION",
+  "project_status": "MATERIALIZED_RECONCILED_SKILL_FABRIC_1_3_STATIC_CURRENT_HOST_PARTIAL",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -57,6 +57,14 @@
     {
       "id": "FA3-EXTERNAL-SKILL-RADAR-001",
       "use": "REFERENCE_ONLY_EXTERNAL_SKILL_IDEA_SOURCE"
+    },
+    {
+      "id": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "use": "EXISTING_BROWSER_OBSERVATION_BOUNDED_ACTION_AND_VERIFICATION_RUNTIME"
+    },
+    {
+      "id": "FA3-AGENT-FEDERATION-001",
+      "use": "EXISTING_CROSS_HOST_AGENT_DELEGATION_WITHOUT_SKILL_AUTHORITY_TRANSFER"
     }
   ],
   "rejected_candidates": [
@@ -93,7 +101,9 @@
     "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001",
     "decision_assistance": "FA3-DECISION-FABRIC-001_ADVISORY_ONLY"
   },
-  "gaps": [],
+  "gaps": [
+    "BROWSER_SESSION_PHYSICAL_EXTENSION_NATIVE_MESSAGING_BORROW_RETURN_HUMAN_TAKEOVER_EVIDENCE"
+  ],
   "skill_reuse": [],
   "external_skill_sources": [
     {
@@ -117,11 +127,10 @@
     "global_mutation": false,
     "external_skill_tools_may_coexist_independently": true
   },
-  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "implementation_readiness": "STATIC_READY_PHYSICAL_BROWSER_SESSION_EVIDENCE_PENDING",
   "validated_material_change": {
-    "description": "FA3 Skill Fabric 1.2 Agent Skills ecosystem extension",
-    "merged_main_commit": "2081e5176ec7dfffb022244999687218d6be7e8f",
-    "pull_request": 386,
+    "description": "FA3 Skill Fabric 1.3 unified skills/browser reconciliation",
+    "branch": "fa3/skill-fabric-unified-20260925",
     "runtime_promotion_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0

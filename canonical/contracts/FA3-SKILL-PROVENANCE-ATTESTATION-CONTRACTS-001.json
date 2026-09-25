@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-PROVENANCE-ATTESTATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillProvenanceAttestation",
+    "SkillExpectedSourcePolicy",
+    "SkillExpectedBuilderPolicy"
+  ],
+  "semantics": {
+    "cryptographic_attestation_optional_unless_distribution_or_policy_requires_it": true,
+    "signature_alone_never_sufficient_for_admission": true,
+    "source_repository_commit_content_digest_manifest_digest_binding_required_when_present": true,
+    "expected_source_identity_required_when_present": true,
+    "expected_builder_identity_required_for_build_attestation": true,
+    "builder_isolation_claim_must_be_explicit_not_inferred": true,
+    "attestation_is_evidence_input_not_security_authority": true,
+    "security_owner": "FA3-SCS-001",
+    "evidence_owner": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "rationale": [
+    "A valid signature proves the asserted signer path, not that the build or source was safe.",
+    "FA3 therefore verifies expected source and builder identity in addition to digest binding.",
+    "Unsigned immutable source snapshots remain admissible only through the existing FA3 digest, license, security and evaluation path."
+  ]
+}

@@ -17,7 +17,13 @@
     "skill-security",
     "skill-routing",
     "skill-evaluation",
-    "external-skill-compatibility"
+    "external-skill-compatibility",
+    "skill-interface",
+    "context-budget",
+    "activation-preview",
+    "host-projection",
+    "skill-provenance-attestation",
+    "browser-session-pattern"
   ],
   "task_classes": [
     "skill",
@@ -34,7 +40,9 @@
   "output_modalities": [
     "TASK_SCOPED_CONTEXT",
     "SKILL_RECEIPT",
-    "REUSE_PROPOSAL"
+    "REUSE_PROPOSAL",
+    "HOST_SKILL_PROJECTION_RECEIPT",
+    "SKILL_ACTIVATION_PREVIEW"
   ],
   "execution_classes": [
     "CPU_LIGHTWEIGHT",
@@ -42,7 +50,9 @@
   ],
   "proposed_authority_roles": [],
   "declared_new_capabilities": [],
-  "declared_gaps": [],
+  "declared_gaps": [
+    "PHYSICAL_BROWSER_SESSION_EXTENSION_BRIDGE_EVIDENCE"
+  ],
   "hardware_audit": {
     "vendor_neutral": true,
     "cpu_only_viable": true,
@@ -74,6 +84,8 @@
     "FA3-UNIFIED-ACTION-FABRIC-001",
     "FA3-AUTH-MCP-GATEWAY-001",
     "FA3-DISTRIBUTION-COMPLIANCE-001",
-    "FA3-REUSE-DISCOVERY-001"
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-BROWSER-ACTION-RUNTIME-001",
+    "FA3-AGENT-FEDERATION-001"
   ]
 }

@@ -2,7 +2,7 @@
   "schema": "fa3.profile.v1",
   "id": "FA3-SKILL-FABRIC-001",
   "name": "Portable Skill, Procedure & Capability Composition Fabric",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -58,17 +58,19 @@
     "extract_reusable_capability_or_pattern",
     "check_existing_canonical_overlap",
     "normalize_skill_package",
+    "validate_typed_interface_context_budget_and_side_effect_free_activation_preview",
     "admit_under_FA3_SKILL_PACKAGE_ADMISSION_CONTRACTS_001",
-    "register_version_digest_dependencies_triggers_and_distribution_class",
+    "register_version_digest_dependencies_triggers_distribution_class_and_optional_attestation",
     "derive_deterministic_eligible_candidate_set",
     "select_minimum_eligible_skill_set_via_context_selection_and_bounded_decision_fabric",
     "emit_SkillSelectionReceipt",
-    "materialize_task_scoped_context",
+    "materialize_task_scoped_context_within_budget",
     "activate_only_for_bound_task_scope",
     "propose_tool_intent_if_needed",
     "route_execution_through_existing_authority",
     "verify_acceptance_checks",
-    "emit_skill_use_materialization_and_evidence_receipts"
+    "optionally_project_admitted_skill_to_host_specific_surface_with_collision_fail_closed",
+    "emit_skill_use_materialization_projection_and_evidence_receipts"
   ],
   "extraction_ledger": {
     "required_for_external_pattern_sources": true,
@@ -94,7 +96,13 @@
     "unadmitted_skill_activation_forbidden": true,
     "task_scoped_materialization_required": true,
     "quality_skill_candidates_deterministically_prefiltered": true,
-    "quality_skill_global_auto_injection": false
+    "quality_skill_global_auto_injection": false,
+    "typed_interface_compatibility_required": true,
+    "explicit_context_budget_required": true,
+    "context_budget_overflow_fails_closed": true,
+    "side_effect_free_activation_preview_required": true,
+    "activation_preview_cannot_expand_permissions": true,
+    "host_projection_collision_fails_closed": true
   },
   "authority_boundaries": {
     "identity": false,
@@ -144,7 +152,14 @@
     "SKILL_ROUTING_NON_SELECTION_AND_MINIMALITY_EVAL_REQUIRED",
     "SKILL_IMPROVEMENT_CANDIDATE_REQUIRES_NEW_ADMISSION",
     "SKILL_OPTIMIZER_AUTO_PROMOTION_FORBIDDEN",
-    "EXTERNAL_SKILL_RADAR_DISCOVERY_IS_NOT_INSTALLATION_OR_TRUST"
+    "EXTERNAL_SKILL_RADAR_DISCOVERY_IS_NOT_INSTALLATION_OR_TRUST",
+    "SKILL_TYPED_INTERFACE_REQUIRED",
+    "SKILL_CONTEXT_BUDGET_REQUIRED_AND_FAIL_CLOSED",
+    "SKILL_ACTIVATION_PREVIEW_SIDE_EFFECT_FREE",
+    "SKILL_HOST_PROJECTION_ONLY_AFTER_ADMISSION",
+    "SKILL_HOST_PROJECTION_COLLISION_FAIL_CLOSED",
+    "SKILL_PROVENANCE_SIGNATURE_ALONE_NOT_ADMISSION",
+    "BROWSER_SESSION_INTERACTION_REUSES_BROWSER_ACTION_RUNTIME"
   ],
   "discovery_contract_id": "FA3-SKILL-DISCOVERY-CONTRACTS-001",
   "materialization_contract_id": "FA3-SKILL-MATERIALIZATION-CONTRACTS-001",
@@ -158,7 +173,13 @@
     "registry": "FA3-REGISTRY-001",
     "quality_filter": "FA3-QUALITY-ANTI-SLOP-001",
     "skill_security_owner": "FA3-SCS-001",
-    "external_skill_radar": "FA3-EXTERNAL-SKILL-RADAR-001"
+    "external_skill_radar": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "host_projection": "FA3-SKILL-HOST-PROJECTION-CONTRACTS-001",
+    "interface_context_preview": "FA3-SKILL-INTERFACE-CONTEXT-PREVIEW-CONTRACTS-001",
+    "provenance_attestation": "FA3-SKILL-PROVENANCE-ATTESTATION-CONTRACTS-001",
+    "browser_action_runtime": "FA3-BROWSER-ACTION-RUNTIME-001",
+    "browser_session_interaction": "FA3-BROWSER-SESSION-INTERACTION-001",
+    "agent_federation": "FA3-AGENT-FEDERATION-001"
   },
   "agent_skills_ecosystem": {
     "compatibility_mode": "SAFE_IMMUTABLE_PARSE_THEN_FA3_NORMALIZATION",
@@ -175,5 +196,17 @@
     "allowed_tools_metadata_is_authorization": false,
     "admitted_skill_in_place_self_modification": false,
     "optimizer_auto_promotion": false
+  },
+  "skill_fabric_v13": {
+    "decision_id": "FA3-DEC-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25",
+    "contract_ids": [
+      "FA3-SKILL-INTERFACE-CONTEXT-PREVIEW-CONTRACTS-001",
+      "FA3-SKILL-HOST-PROJECTION-CONTRACTS-001",
+      "FA3-SKILL-PROVENANCE-ATTESTATION-CONTRACTS-001"
+    ],
+    "browser_session_profile": "FA3-BROWSER-SESSION-INTERACTION-001",
+    "cross_host_projection_is_install_authority": false,
+    "browser_session_is_secret_authority": false,
+    "current_host_runtime_claim": false
   }
 }

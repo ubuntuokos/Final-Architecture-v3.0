@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-HOST-PROJECTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillHostProjectionIntent",
+    "SkillHostCollisionReport",
+    "SkillHostProjectionReceipt"
+  ],
+  "known_projection_targets": [
+    {
+      "host": "agent-skills-generic",
+      "path": ".agents/skills"
+    },
+    {
+      "host": "github-copilot",
+      "path": ".github/skills"
+    },
+    {
+      "host": "claude-compatible",
+      "path": ".claude/skills"
+    },
+    {
+      "host": "openai-codex",
+      "path": ".codex/skills"
+    },
+    {
+      "host": "gemini-cli",
+      "path": ".gemini/skills"
+    },
+    {
+      "host": "antigravity",
+      "path": ".agent/skills"
+    },
+    {
+      "host": "opencode",
+      "path": ".opencode/skills"
+    },
+    {
+      "host": "cursor",
+      "path": ".cursor/skills"
+    }
+  ],
+  "invariants": [
+    "ONLY_ADMITTED_SKILL_MAY_PROJECT",
+    "PROJECTION_NEVER_GRANTS_FA3_AUTHORITY",
+    "NO_AUTOMATIC_GLOBAL_OR_PERSONAL_INSTALL",
+    "NO_GLOBAL_AGENT_CONFIGURATION_MUTATION",
+    "HOST_PRECEDENCE_NEVER_USED_TO_HIDE_COLLISION",
+    "DUPLICATE_SKILL_NAME_FAILS_CLOSED_UNLESS_EXACT_DIGEST_REUSE_EXPLICIT",
+    "PROJECTION_PRESERVES_SKILL_VERSION_CONTENT_DIGEST_AND_PROVENANCE",
+    "NO_SYMLINK_ESCAPE_OR_PARENT_TRAVERSAL",
+    "HOST_SPECIFIC_ALLOWED_TOOLS_NEVER_BECOMES_FA3_AUTHORIZATION"
+  ],
+  "coexistence": {
+    "upstream_installations_may_coexist": true,
+    "existing_host_skill_files_not_replaced": true,
+    "explicit_materialization_required": true,
+    "collision_policy": "FAIL_CLOSED",
+    "exact_digest_reuse_requires_explicit_receipt": true
+  }
+}

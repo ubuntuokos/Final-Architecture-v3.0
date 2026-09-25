@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-BROWSER-ACTION-RUNTIME-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "BrowserSessionDescriptor",
+    "BrowserTabLease",
+    "BrowserHumanAssistanceRequest",
+    "BrowserSessionCleanupReceipt"
+  ],
+  "lease": {
+    "explicit_human_or_policy_approval_required": true,
+    "scopes_required": [
+      "session_id",
+      "tab_ref",
+      "origin_scope",
+      "action_scope",
+      "issued_at",
+      "expires_at"
+    ],
+    "ttl_required": true,
+    "borrowed_tab_return_required": true,
+    "sibling_tab_authority_inheritance": false,
+    "popup_authority_inheritance": false,
+    "lease_expiry_result": "DENY"
+  },
+  "security": {
+    "page_content": "UNTRUSTED_EXTERNAL_CONTENT",
+    "credential_extraction": "DENY",
+    "cookie_export": "DENY",
+    "token_export": "DENY",
+    "browser_profile_export": "DENY",
+    "secret_authority": "FA3-AUTH-SECRETS",
+    "action_authority": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "stale_observation": "DENY_AND_REOBSERVE",
+    "blind_mutation_retry": "DENY"
+  },
+  "human_assistance": {
+    "first_class": true,
+    "use_cases": [
+      "LOGIN",
+      "CAPTCHA",
+      "OTP",
+      "CONSENT",
+      "PAYMENT_CONFIRMATION",
+      "HUMAN_ONLY_VERIFICATION",
+      "AUTOMATION_BLOCKED"
+    ],
+    "request_does_not_expand_agent_authority": true,
+    "resume_requires_fresh_observation_and_authorization": true
+  },
+  "transport": {
+    "preferred_existing_profile_bridge": "BROWSER_EXTENSION_NATIVE_MESSAGING_TO_FA3_NAMESPACED_UNIX_SOCKET",
+    "random_fixed_localhost_port_required": false,
+    "isolated_cdp_backend_remains_separate": true,
+    "remote_browser_initial_status": "NOT_ADMITTED"
+  }
+}

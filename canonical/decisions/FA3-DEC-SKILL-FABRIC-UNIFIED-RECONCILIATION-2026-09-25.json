@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25",
+  "date": "2026-09-25",
+  "status": "CANONICAL_DECISION",
+  "subject": "Unified Agent Skills, host projection, browser-session interaction and skill quality hardening",
+  "decision": "EXTEND_EXISTING_SKILL_FABRIC_WITH_TYPED_INTERFACES_CONTEXT_BUDGET_ACTIVATION_PREVIEW_HOST_PROJECTION_PROVENANCE_ATTESTATION_AND_BROWSER_SESSION_PATTERN_REUSE",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "adopted": [
+    "typed skill input/output/precondition/postcondition descriptors",
+    "task-scoped context budgets with fail-closed overflow",
+    "side-effect-free activation preview before materialization",
+    "cross-host skill projection with collision fail-closed semantics",
+    "optional digest-bound provenance attestations with expected source/builder verification",
+    "BrowserSkill-derived Agent Window, explicit tab lease, human assistance and cleanup patterns",
+    "external skill radar expansion for engineering, UI, code-review and host compatibility sources"
+  ],
+  "rejected": [
+    "new skill marketplace authority",
+    "host precedence as silent collision resolution",
+    "automatic global skill installation",
+    "signature alone as admission proof",
+    "skill-local model router",
+    "skill-local execution authority",
+    "BrowserSkill runtime as FA3 authority",
+    "browser session credential cookie or token export",
+    "remote browser automatic admission"
+  ],
+  "authority_effect": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_count_after": 143
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "replaces_upstream_tools": false,
+    "modifies_upstream_installations": false,
+    "namespaced_fa3_artifacts": true,
+    "external_tools_may_coexist_independently": true
+  },
+  "evidence_boundary": {
+    "static_materialization_is_current_host_runtime_proof": false,
+    "browser_session_current_host_pending": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-BROWSERSKILL-UPSTREAM-REFERENCE-2026-09-25",
+  "date": "2026-09-25",
+  "status": "STATIC_REFERENCE_SNAPSHOT_RECORDED",
+  "repository": "Tencent/BrowserSkill",
+  "commit": "147727a0e2ded65a7d0f364beea8cc2ebcdec8af",
+  "license": "MIT",
+  "classification": "REFERENCE_ONLY",
+  "adopted_patterns": [
+    "AGENT_WINDOW_SEPARATION",
+    "EXPLICIT_TAB_BORROW_RETURN",
+    "HUMAN_ASSISTANCE",
+    "SESSION_CLEANUP",
+    "EXISTING_LOGGED_IN_PROFILE_USE_WITHOUT_CREDENTIAL_DISCLOSURE"
+  ],
+  "rejected_as_authority": [
+    "UPSTREAM_BROWSER_RUNTIME_AUTHORITY",
+    "UPSTREAM_SKILL_AUTHORIZATION",
+    "DIRECT_CREDENTIAL_COOKIE_TOKEN_EXPORT",
+    "AUTOMATIC_GLOBAL_INSTALL"
+  ],
+  "current_host_claim": false,
+  "imported_upstream_payload": false,
+  "distribution_class": "REFERENCE_ONLY",
+  "product_bundle_allowed": false
+}

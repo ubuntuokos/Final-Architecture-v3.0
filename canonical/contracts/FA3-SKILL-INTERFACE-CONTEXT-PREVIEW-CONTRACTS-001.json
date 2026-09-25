@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-INTERFACE-CONTEXT-PREVIEW-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillInterfaceDescriptor",
+    "SkillContextBudget",
+    "SkillActivationPreview"
+  ],
+  "interface": {
+    "typed_inputs_required": true,
+    "typed_outputs_required": true,
+    "preconditions_explicit": true,
+    "postconditions_explicit": true,
+    "interface_does_not_grant_authority": true,
+    "composition_requires_type_compatible_edges": true
+  },
+  "context_budget": {
+    "explicit_budget_required": true,
+    "metadata_instruction_reference_budgets_separate": true,
+    "used_must_not_exceed_max": true,
+    "minimum_matching_skill_set_required": true,
+    "reference_files_on_demand_only": true,
+    "global_corpus_auto_injection_forbidden": true,
+    "overflow_result": "FAIL_CLOSED_RESELECT_OR_REDUCE_CONTEXT",
+    "budget_owner": "FA3-CONTEXT-SELECTION-001"
+  },
+  "activation_preview": {
+    "required_before_active_materialization": true,
+    "side_effects_performed": false,
+    "records_requested_tools_resources_models_secrets_network_filesystem_and_browser_session": true,
+    "admitted_permission_subset_required": true,
+    "authority_expansion_forbidden": true,
+    "allowed_tools_metadata_is_not_authorization": true,
+    "preview_result_required": "PASS"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_required": false
+  }
+}
