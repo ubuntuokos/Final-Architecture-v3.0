@@ -8,6 +8,7 @@ HRB="FA3-AUTH-HOST-RESOURCE-BROKER-001"
 SECURITY="FA3-AUTH-SECURITY-GOV-001"
 KNOWLEDGE="FA3-KNOWLEDGE-001"
 PROVIDER_RUNTIME="FA3-PROVIDER-RUNTIME-001"
+AGENT_FEDERATION="FA3-AGENT-FEDERATION-001"
 
 def _parse_utc(value:str)->datetime:
     text=str(value).strip()
@@ -57,3 +58,29 @@ def finops_projection_valid(d:dict[str,Any])->bool:
 
 def ai_quality_evaluator_valid(d:dict[str,Any])->bool:
     return all([d.get("advisory_only") is True,d.get("model_router_authority")==MODEL_ROUTER,d.get("single_score_truth_authority") is False,bool(str(d.get("evaluation_trace_ref","")).strip())])
+
+def cross_host_execution_valid(d:dict[str,Any])->bool:
+    if d.get("coordination_profile")!=AGENT_FEDERATION or d.get("federation_is_resource_authority") is not False: return False
+    if d.get("remote_resource_authority")!=HRB or d.get("remote_provider_runtime_admitted") is not True: return False
+    if not str(d.get("remote_hrb_receipt","")).strip(): return False
+    if not all(d.get(k) is True for k in ("authenticated_transport","signed_envelope","hop_bounded")): return False
+    if d.get("production_cross_host_claim") is True:
+        if d.get("distinct_host_identities_proven") is not True or d.get("cross_host_transport_proven") is not True: return False
+        if d.get("local_multi_node_only") is True: return False
+    return True
+
+def structured_knowledge_metadata_valid(d:dict[str,Any])->bool:
+    required={"schema_version","document_id","content_type","source_type","created_at","provenance","language","approval_state","evidence_refs"}
+    if d.get("knowledge_authority")!=KNOWLEDGE or d.get("metadata_is_derived_projection") is not True: return False
+    if d.get("native_source_preserved") is not True or d.get("domain_extension_replaces_core") is not False: return False
+    if not required.issubset(d): return False
+    if not str(d.get("document_id","")).strip() or not isinstance(d.get("evidence_refs"),list): return False
+    if not isinstance(d.get("ai_generated"),bool) or not isinstance(d.get("human_modified"),bool): return False
+    return True
+
+def degraded_execution_valid(d:dict[str,Any])->bool:
+    if d.get("silent_fallback") is not False or d.get("explicit_reroute_policy") is not True: return False
+    if d.get("new_resource_admission") is not True: return False
+    if not str(d.get("original_route_evidence","")).strip(): return False
+    if not str(d.get("reroute_receipt","")).strip() or not str(d.get("execution_receipt","")).strip(): return False
+    return True
