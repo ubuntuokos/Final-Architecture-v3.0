@@ -3230,6 +3230,8 @@ def gate(root: Path):
 
     gui_current_host = projection.get("gui_current_host_closure_reconciliation", {})
     gui_current_host_paths = {
+        "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
+        "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
         "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
         "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
         "canonical/gui-current-host-enforcement.json",
@@ -3257,6 +3259,8 @@ def gate(root: Path):
     )
     if (
         gui_current_host.get("profile_id") != "FA3-DESKTOP-001"
+        or gui_current_host.get("application_intent_id") != "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001"
+        or gui_current_host.get("reuse_assessment_id") != "FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001"
         or gui_current_host.get("conformance_id") != "FA3-GUI-RUNTIME-CONFORMANCE-001"
         or gui_current_host.get("gate_id") != "FA3-GUI-CURRENT-HOST-GATESET-001"
         or gui_current_host.get("gate_record_id") != "FA3-GATE-GUI-CURRENT-HOST-001"
@@ -3273,6 +3277,14 @@ def gate(root: Path):
         or gui_current_host.get("secret_backend_pass_claimed") is not False
         or gui_current_host.get("secret_backend_authority_owner") != "CAP-003"
         or gui_current_host.get("secret_backend_used_for_gui_runtime_admission") is not False
+        or gui_current_host.get("hardware_audit", {}).get("vendor_neutral") is not True
+        or gui_current_host.get("hardware_audit", {}).get("cpu_only_viable") is not True
+        or gui_current_host.get("hardware_audit", {}).get("accelerator_cardinality") != "0..N"
+        or gui_current_host.get("hardware_audit", {}).get("global_accelerator_requirement") is not False
+        or gui_current_host.get("software_coexistence", {}).get("required") is not True
+        or gui_current_host.get("software_coexistence", {}).get("namespaced") is not True
+        or gui_current_host.get("software_coexistence", {}).get("upstream_uninstall_required") is not False
+        or gui_current_host.get("software_coexistence", {}).get("global_mutation") is not False
         or not (gui_state_pending or gui_state_pass)
         or gui_current_host.get("global_promotion_claim") is not False
         or gui_current_host.get("new_capabilities") != 0
