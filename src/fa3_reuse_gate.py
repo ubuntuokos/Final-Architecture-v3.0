@@ -31,6 +31,8 @@ DIST_MANIFEST = "canonical/distribution-manifest.json"
 EVIDENCE = "evidence/reference/reuse-discovery-ci-2026-09-24.json"
 SKILL_REGISTRY = "canonical/skill-registry.json"
 EXTERNAL_SKILL_RADAR = "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
+GUI_INTENT = "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json"
+GUI_REUSE_ASSESSMENT = "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json"
 WORKFLOW = ".github/workflows/fa3-permanent-enforcement.yml"
 DEDICATED_WORKFLOW = ".github/workflows/fa3-reuse-discovery.yml"
 DECISION_DOC = "docs/decision-fabric.md"
@@ -123,7 +125,7 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/assessments/FA3-REUSE-DISCOVERY-REUSE-ASSESSMENT-001.json",
         "src/fa3_reuse_catalog.py", "src/fa3_reuse_resolver.py", "src/fa3_reuse_assessment.py",
         "bin/fa3-reuse-assess", "tests/test_reuse_discovery_gate.py", DECISION_DOC,
-        SKILL_REGISTRY, EXTERNAL_SKILL_RADAR,
+        SKILL_REGISTRY, EXTERNAL_SKILL_RADAR, GUI_INTENT, GUI_REUSE_ASSESSMENT,
     ]
     for rel in required:
         if not (root / rel).is_file():
@@ -148,6 +150,38 @@ def gate(root: Path) -> dict[str, Any]:
     evidence = load(root, EVIDENCE)
     skill_registry = load(root, SKILL_REGISTRY)
     external_skill_radar = load(root, EXTERNAL_SKILL_RADAR)
+    gui_intent = load(root, GUI_INTENT)
+    gui_reuse_assessment = load(root, GUI_REUSE_ASSESSMENT)
+
+    if not (
+        gui_intent.get("schema") == "fa3.application-intent.v1"
+        and gui_intent.get("project_id") == "FA3-DESKTOP-001"
+        and gui_intent.get("declared_new_capabilities") == []
+        and gui_intent.get("proposed_authority_roles") == []
+        and gui_intent.get("hardware_audit", {}).get("vendor_neutral") is True
+        and gui_intent.get("hardware_audit", {}).get("cpu_only_viable") is True
+        and gui_intent.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N"
+        and gui_intent.get("namespace_claims", {}).get("requires_upstream_uninstall") is False
+        and gui_intent.get("namespace_claims", {}).get("global_environment_mutation") is False
+    ):
+        findings.append(finding("REUSE-024", "GUI current-host ApplicationIntent boundary drift"))
+
+    if not (
+        gui_reuse_assessment.get("schema") == "fa3.reuse-assessment.v1"
+        and gui_reuse_assessment.get("project_id") == "FA3-DESKTOP-001"
+        and gui_reuse_assessment.get("intent_id") == "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001"
+        and gui_reuse_assessment.get("result") == "PASS"
+        and gui_reuse_assessment.get("coexistence", {}).get("result") == "PASS"
+        and gui_reuse_assessment.get("coexistence", {}).get("upstream_uninstall_required") is False
+        and gui_reuse_assessment.get("coexistence", {}).get("global_mutation") is False
+        and gui_reuse_assessment.get("hardware_audit", {}).get("cpu_only_viable") is True
+        and gui_reuse_assessment.get("current_host_runtime_promotion_claim") is False
+        and gui_reuse_assessment.get("global_promotion_claim") is False
+        and gui_reuse_assessment.get("capability_count_after") == capability_count
+        and gui_reuse_assessment.get("new_capabilities") == 0
+        and gui_reuse_assessment.get("new_architectural_authorities") == 0
+    ):
+        findings.append(finding("REUSE-025", "GUI current-host ReuseAssessment boundary drift"))
 
     if not (
         profile.get("id") == "FA3-REUSE-DISCOVERY-001"
