@@ -18,12 +18,14 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "decision_assistance": "FA3-DECISION-FABRIC-001_ADVISORY_ONLY",
-    "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001"
+    "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "skill_fabric": "FA3-SKILL-FABRIC-001_DECLARATIVE_TASK_SCOPED_ONLY"
   },
   "mandatory_flow": [
     "APPLICATION_INTENT",
     "CAPABILITY_DISCOVERY",
     "EXISTING_ASSET_DISCOVERY",
+    "SKILL_AND_EXTERNAL_SKILL_SOURCE_DISCOVERY",
     "PATTERN_REFERENCE_DISCOVERY",
     "REUSE_ASSESSMENT",
     "GAP_ANALYSIS",
@@ -46,7 +48,9 @@
     "UNKNOWN_OR_BLOCKED_LICENSE_FORBIDS_SOURCE_COPY",
     "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED",
     "HARDWARE_AUDIT_VENDOR_NEUTRAL_CPU_ONLY_0_TO_N_ACCELERATOR",
-    "STATIC_DESIGN_PASS_IS_NOT_RUNTIME_OR_CURRENT_HOST_PROMOTION"
+    "STATIC_DESIGN_PASS_IS_NOT_RUNTIME_OR_CURRENT_HOST_PROMOTION",
+    "ADMITTED_SKILL_REUSE_IS_DISCOVERABLE_BUT_REMAINS_TASK_SCOPED",
+    "EXTERNAL_SKILL_RADAR_SOURCE_IS_REFERENCE_ONLY_NOT_INSTALLATION_OR_ADMISSION"
   ],
   "rollout": {
     "applies_to": "ALL_NEW_FA3_APPLICATIONS_PROVIDERS_PROFILES_DERIVED_IMPLEMENTATIONS_GUI_MODULES_AGENT_NATIVE_COMPONENTS_AND_MATERIAL_EXTENSIONS",
@@ -55,9 +59,9 @@
   },
   "current_host_runtime_promotion_claim": false,
   "closure": {
-    "validated_implementation_commit": "816ac14a720b039926b72fad05c49f593101057f",
+    "validated_implementation_commit": null,
     "reference_evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json",
-    "reference_evidence_status": "PASS",
+    "reference_evidence_status": "PENDING_CI_REQUALIFICATION",
     "runtime_or_current_host_promotion_required": false,
     "global_promotion_claim": false
   }
