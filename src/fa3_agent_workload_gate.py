@@ -12,7 +12,8 @@ from fa3_agent_workload import (
     suspension_semantics, transition_allowed, validate_checkpoint, validate_network_envelope,
     validate_task, validate_workspace,
 )
-from fa3_google_ax_provider import AxProviderBridgeError, compile_ax_provider_bridge\nfrom fa3_google_ax_custom_runner import AxCustomRunnerError, compile_custom_runner_plan
+from fa3_google_ax_provider import AxProviderBridgeError, compile_ax_provider_bridge
+from fa3_google_ax_custom_runner import AxCustomRunnerError, compile_custom_runner_plan
 from fa3_release_baseline import load_active_release_baseline
 from fa3_adk2_runtime_gate import gate as adk2_runtime_semantics_gate
 from fa3_uaf import ActionRegistry
@@ -50,6 +51,11 @@ def expect_ax_error(fn) -> bool:
     except AxProviderBridgeError: return True
     return False
 
+def expect_ax_runner_error(fn) -> bool:
+    try: fn()
+    except AxCustomRunnerError: return True
+    return False
+
 def regression_cases() -> dict[str, Any]:
     task={"schema":"fa3.agent-workload-task.v1","task_id":"t1","root_task_id":"t1","action_ref":"orchestration.execute",
           "agent_definition_ref":"agent:def:1","workspace_refs":["ws:1"],"resource_requirements":{"cpu_physical_cores":1},
@@ -81,7 +87,11 @@ def regression_cases() -> dict[str, Any]:
       "mcp_gateway_binding_ref":"mcp-session:1","mcp_gateway_authority":"FA3-AUTH-MCP-GATEWAY-001",
       "network_envelope_ref":"net:1","debug":False,
     }
-    ax_projection=compile_ax_provider_bridge(ax_task,[ax_ws],ax_net,ax_binding)\n    ax_runner_ws=copy.deepcopy(ax_ws); ax_runner_ws[\"sources\"]=[{\"kind\":\"GIT\",\"repo\":\"https://github.com/example/repo.git\",\"commit\":\"a\"*40}]\n    ax_runner_net=copy.deepcopy(ax_net); ax_runner_net[\"egress\"]=[{\"host\":\"github.com\",\"port\":443}]\n    ax_runner_plan=compile_custom_runner_plan(ax_task,[ax_runner_ws],ax_runner_net,ax_binding)\n    ax_runner_bad_net=copy.deepcopy(ax_runner_net); ax_runner_bad_net[\"egress\"]=[]
+    ax_projection=compile_ax_provider_bridge(ax_task,[ax_ws],ax_net,ax_binding)
+    ax_runner_ws=copy.deepcopy(ax_ws); ax_runner_ws["sources"]=[{"kind":"GIT","repo":"https://github.com/example/repo.git","commit":"a"*40}]
+    ax_runner_net=copy.deepcopy(ax_net); ax_runner_net["egress"]=[{"host":"github.com","port":443}]
+    ax_runner_plan=compile_custom_runner_plan(ax_task,[ax_runner_ws],ax_runner_net,ax_binding)
+    ax_runner_bad_net=copy.deepcopy(ax_runner_net); ax_runner_bad_net["egress"]=[]
     ax_git_ws=copy.deepcopy(ax_ws); ax_git_ws["sources"]=[{"kind":"GIT","repo":"https://example.invalid/repo.git","commit":"a"*40}]
     ax_debug=copy.deepcopy(ax_binding); ax_debug["debug"]=True
     ax_wild=copy.deepcopy(ax_net); ax_wild["egress"]=[{"host":"*","port":443}]
@@ -102,7 +112,9 @@ def regression_cases() -> dict[str, Any]:
       ("AX_MODEL_RESOURCE_NOT_EMITTED", "Model" not in {x["kind"] for x in ax_projection["manifests"]}),
       ("AX_PINNED_SCHEMA_IMMUTABLE_GIT_GAP_FAILS_CLOSED", expect_ax_error(lambda: compile_ax_provider_bridge(ax_task,[ax_git_ws],ax_net,ax_binding))),
       ("AX_DEBUG_WITHOUT_APPROVAL_FAILS_CLOSED", expect_ax_error(lambda: compile_ax_provider_bridge(ax_task,[ax_ws],ax_net,ax_debug))),
-      ("AX_WILDCARD_EGRESS_FAILS_CLOSED", expect_ax_error(lambda: compile_ax_provider_bridge(ax_task,[ax_ws],ax_wild,ax_binding))),\n      ("AX_CUSTOM_RUNNER_IMMUTABLE_GIT_PLAN", ax_runner_plan["workspace_materializations"][0]["mode"]=="IMMUTABLE_GIT_COMMIT" and ax_runner_plan["workspace_materializations"][0]["detached_checkout"] is True and ax_runner_plan["google_ax_runtime_promotion_claim"] is False),\n      ("AX_CUSTOM_RUNNER_GIT_EGRESS_FAILS_CLOSED", expect_ax_runner_error(lambda: compile_custom_runner_plan(ax_task,[ax_runner_ws],ax_runner_bad_net,ax_binding))),
+      ("AX_WILDCARD_EGRESS_FAILS_CLOSED", expect_ax_error(lambda: compile_ax_provider_bridge(ax_task,[ax_ws],ax_wild,ax_binding))),
+      ("AX_CUSTOM_RUNNER_IMMUTABLE_GIT_PLAN", ax_runner_plan["workspace_materializations"][0]["mode"]=="IMMUTABLE_GIT_COMMIT" and ax_runner_plan["workspace_materializations"][0]["detached_checkout"] is True and ax_runner_plan["google_ax_runtime_promotion_claim"] is False),
+      ("AX_CUSTOM_RUNNER_GIT_EGRESS_FAILS_CLOSED", expect_ax_runner_error(lambda: compile_custom_runner_plan(ax_task,[ax_runner_ws],ax_runner_bad_net,ax_binding))),
       ("FANOUT_LIMITS_REQUIRED", expect_error(lambda: validate_task(bad_fan))),
       ("ORCHESTRATION_ROUTE_COMPILES_TO_UAF_WORKLOAD",
        compile_orchestration_workload(
@@ -143,7 +155,8 @@ def gate(root: Path) -> dict[str, Any]:
       "current_host_gate":root/"canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-001.json",
       "ax_bridge_schema":root/"canonical/contracts/FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json",
       "ax_bridge_intent":root/"canonical/intents/FA3-GOOGLE-AX-PROVIDER-BRIDGE-APPLICATION-INTENT-001.json",
-      "ax_bridge_reuse":root/"canonical/assessments/FA3-GOOGLE-AX-PROVIDER-BRIDGE-REUSE-ASSESSMENT-001.json",\n      "ax_runner_schema":root/"canonical/contracts/FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json",
+      "ax_bridge_reuse":root/"canonical/assessments/FA3-GOOGLE-AX-PROVIDER-BRIDGE-REUSE-ASSESSMENT-001.json",
+      "ax_runner_schema":root/"canonical/contracts/FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json",
     }
     for name,path in paths.items():
         if not path.is_file(): findings.append(finding("AWR-001","required file missing",name=name,path=path.as_posix()))
@@ -173,7 +186,8 @@ def gate(root: Path) -> dict[str, Any]:
       (p.get("runtime_semantics_profile",{}).get("profile_id")=="FA3-AGENT-RUNTIME-SEMANTICS-001" and c.get("runtime_semantics_contract")=="FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001" and "FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001" in set(g.get("child_gates",[])),"AWR-036","ADK2-derived runtime semantics child binding drift"),
       (ax_bridge_schema.get("x-fa3-contract-id")=="FA3-GOOGLE-AX-PROVIDER-BRIDGE-001" and "FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json" in c.get("contract_schemas",[]),"AWR-037","Google AX provider bridge contract binding drift"),
       (ax_bridge_intent.get("project_id")=="FA3-GOOGLE-AX-PROVIDER-BRIDGE-001" and ax_bridge_intent.get("hardware_audit",{}).get("cpu_only_viable") is True and ax_bridge_intent.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N","AWR-038","Google AX provider bridge ApplicationIntent/Hardware Audit drift"),
-      (ax_bridge_reuse.get("result")=="PASS" and ax_bridge_reuse.get("implementation_readiness")=="READY_FOR_STATIC_PROVIDER_BRIDGE_ONLY" and ax_bridge_reuse.get("google_ax_runtime_promotion_claim") is False,"AWR-039","Google AX provider bridge ReuseAssessment drift"),\n      (ax_runner_schema.get("x-fa3-contract-id")=="FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001" and "FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json" in c.get("contract_schemas",[]),"AWR-042","Google AX custom runner plan contract binding drift"),
+      (ax_bridge_reuse.get("result")=="PASS" and ax_bridge_reuse.get("implementation_readiness")=="READY_FOR_STATIC_PROVIDER_BRIDGE_ONLY" and ax_bridge_reuse.get("google_ax_runtime_promotion_claim") is False,"AWR-039","Google AX provider bridge ReuseAssessment drift"),
+      (ax_runner_schema.get("x-fa3-contract-id")=="FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001" and "FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json" in c.get("contract_schemas",[]),"AWR-042","Google AX custom runner plan contract binding drift"),
     ]
     for ok,code,msg in checks:
         if not ok: findings.append(finding(code,msg))
@@ -209,7 +223,8 @@ def gate(root: Path) -> dict[str, Any]:
     rr=regression_cases()
     if rr["result"]!="PASS": findings.append(finding("AWR-040","runtime contract regression failed",regressions=rr))
     report={"schema":"fa3.agent-workload-runtime-gate.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"regressions":rr,"capability_delta":0,"authority_delta":0,"current_host_runtime_claim":False,"child_gates":{"FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001":child["result"]}}
-    out=root/"reports/agent-workload-runtime-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+    out=root/"reports/agent-workload-runtime-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"
+",encoding="utf-8")
     return report
 
 def main() -> int:
