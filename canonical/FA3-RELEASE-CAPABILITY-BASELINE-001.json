@@ -4,16 +4,26 @@
   "title": "Release-Scoped Capability Baseline",
   "type": "CANONICAL_RELEASE_BASELINE_POLICY",
   "status": "CANONICAL_POLICY",
-  "architecture_release": "2026-08-23/v3.0.11",
+  "architecture_release": "2026-09-26/v3.1.0",
   "authority_delta": 0,
-  "capability_delta": 0,
+  "capability_delta": 32,
   "baseline_semantics": "RELEASE_SCOPED",
-  "current_release": "2026-08-23/v3.0.11",
-  "current_release_capability_count": 143,
+  "current_release": "2026-09-26/v3.1.0",
+  "current_release_capability_count": 175,
   "release_baselines": [
     {
       "release": "2026-08-23/v3.0.11",
       "capability_count": 143,
+      "canonical_registry": "canonical/conformance-matrix.csv",
+      "evidence_registry": "evidence/evidence-registry.json",
+      "release_projection": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+      "status": "HISTORICAL_BASELINE"
+    },
+    {
+      "release": "2026-09-26/v3.1.0",
+      "capability_count": 175,
+      "previous_capability_count": 143,
+      "capability_delta": 32,
       "canonical_registry": "canonical/conformance-matrix.csv",
       "evidence_registry": "evidence/evidence-registry.json",
       "release_projection": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
@@ -41,11 +51,15 @@
     "NEW_PROVIDER_IMPLIES_NEW_CAPABILITY",
     "NEW_FILE_IMPLIES_NEW_CAPABILITY",
     "PROJECTION_IMPLIES_NEW_CAPABILITY",
-    "FUTURE_RELEASE_INHERITS_143_WITHOUT_DECLARATION"
+    "FUTURE_RELEASE_INHERITS_143_WITHOUT_DECLARATION",
+    "NEW_CAPABILITY_MAY_RENUMBER_EXISTING_CAPABILITY_ID",
+    "PREVIOUS_429_CLOSURE_IMPLIES_525_CLOSURE"
   ],
   "compatibility": {
     "legacy_current_release_literals_allowed_only_when_equal_to_active_release_baseline": true,
     "legacy_literal_mismatch_is_fail_closed": true,
     "migration_target": "CENTRAL_ENFORCEMENT_READS_ACTIVE_RELEASE_BASELINE"
-  }
+  },
+  "previous_release": "2026-08-23/v3.0.11",
+  "previous_release_capability_count": 143
 }
