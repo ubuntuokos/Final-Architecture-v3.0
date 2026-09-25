@@ -33,12 +33,12 @@ def regressions()->dict[str,Any]:
     patch_ok=evaluate_patchset(patch)["distribution_admitted"] is True
     lp=json.loads(json.dumps(patch)); lp["license_disposition"]["redistribution_compatible"]=False
     patch_license_refusal=evaluate_patchset(lp)["distribution_admitted"] is False
-    plan={"schema":"fa3.resource-reservation-plan.v1","authority_id":"FA3-AUTH-HOST-RESOURCE-BROKER-001","atomic_admission":True,"hold_and_wait":False,"acquisition_order":list(RESOURCE_ORDER),"workloads":[{"id":"whisper","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":8}},{"id":"demucs","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6}}],"overlap_groups":[["whisper","demucs"]],"accelerators":[{"stable_id":"GPU-test","runtime_ordinal_is_identity":False}]}
+    plan={"schema":"fa3.resource-reservation-plan.v1","authority_id":"FA3-AUTH-HOST-RESOURCE-BROKER-001","atomic_admission":True,"hold_and_wait":False,"acquisition_order":list(RESOURCE_ORDER),"queue_policy":{"max_waiters":8,"deadline_seconds":30},"workloads":[{"id":"whisper","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":8}},{"id":"demucs","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6}}],"overlap_groups":[["whisper","demucs"]],"accelerators":[{"stable_id":"GPU-test","runtime_ordinal_is_identity":False}]}
     hrb=evaluate_reservation_plan(plan,{"cpu_threads":16,"ram_bytes":32,"vram_bytes":24,"io_bytes_per_second":0,"network_bytes_per_second":0})
     hrb_ok=hrb["atomic_admitted"]
     too_small=evaluate_reservation_plan(plan,{"cpu_threads":16,"ram_bytes":32,"vram_bytes":10,"io_bytes_per_second":0,"network_bytes_per_second":0})["result"]=="FAIL"
     keyring=LeaseKeyring([LeaseKey("test",b"x"*32)],"test")
-    parent={"lease_id":"p","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-test"}],"authentication":{}}
+    parent={"lease_id":"p","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-test"}],"scope":{"purpose":["demucs","whisper"]},"authentication":{}}
     parent["authentication"]=keyring.sign(parent)
     req={"lease_id":"c","issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6},"accelerator_assignments":[{"stable_id":"GPU-test"}],"scope":{"purpose":"demucs"}}
     child=derive_child_lease(parent,req,keyring=keyring)
@@ -55,7 +55,7 @@ def regressions()->dict[str,Any]:
     aggregate_refusal=False
     try: issuer.derive("p2",{**json.loads(json.dumps(base_req)),"lease_id":"c"})
     except CompositeLeaseError: aggregate_refusal=True
-    cases={"scs_positive":scs_ok,"scs_license_conflict_refused":scs_bad,"venv_positive":rt_ok,"oci_positive":oci_ok,"rootful_oci_refused":oci_refusal,"patch_positive":patch_ok,"patch_license_failure_not_overridden":patch_license_refusal,"hrb_atomic_positive":hrb_ok,"hrb_insufficient_capacity_refused":too_small,"derived_lease_positive":derived_ok,"non_hrb_issuer_refused":non_hrb,"parent_revocation_cascades":cascade_ok,"aggregate_child_budget_refused":aggregate_refusal}
+    cases={"scs_positive":scs_ok,"scs_license_conflict_refused":scs_bad,"venv_positive":rt_ok,"oci_positive":oci_ok,"rootful_oci_refused":oci_refusal,"patch_positive":patch_ok,"patch_license_failure_not_overridden":patch_license_refusal,"hrb_atomic_positive":hrb_ok,"hrb_insufficient_capacity_refused":too_small,"derived_lease_positive":derived_ok,"forged_parent_refused":non_hrb,"parent_revocation_cascades":cascade_ok,"aggregate_child_budget_refused":aggregate_refusal}
     return {"result":"PASS" if all(cases.values()) else "FAIL","cases":[{"case_id":k,"status":"PASS" if v else "FAIL"} for k,v in cases.items()]}
 
 def gate(root:Path)->dict[str,Any]:
