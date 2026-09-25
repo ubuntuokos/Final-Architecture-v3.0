@@ -797,6 +797,11 @@ def gate(root: Path):
         or supply_runtime.get("current_host_conformance_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
         or supply_runtime.get("current_host_gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
         or supply_runtime.get("hrb_current_host_scope") != "CONTROL_PLANE_ONLY_NO_PRODUCTION_BROKER_PROMOTION"
+        or supply_runtime.get("scs_current_host_status") != "PENDING_REAL_LOCAL_SCANNER_EXECUTION"
+        or supply_runtime.get("provider_runtime_current_host_status") != "PENDING_REAL_SELECTED_PROVIDER_RUNTIME_EXECUTION"
+        or supply_runtime.get("hrb_composite_current_host_status") != "PENDING_REAL_CONTROL_PLANE_EXECUTION"
+        or supply_runtime.get("hu_aqc_golden_corpus_current_host_status") != "PENDING_REAL_CORPUS_EXECUTION"
+        or supply_runtime.get("global_promotion_claim") is not False
         or "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" not in projection_gates
         or not supply_runtime_required_paths.issubset(manifest_paths)
     ):
