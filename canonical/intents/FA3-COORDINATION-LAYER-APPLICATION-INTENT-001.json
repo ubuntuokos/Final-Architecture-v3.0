@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-COORDINATION-LAYER-APPLICATION-INTENT-001",
+  "project_id": "FA3-COORDINATION-LAYER-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Materialize a provider-neutral Objective/Dependency/Handoff/Blocker coordination layer above existing FA3 work-management and orchestration surfaces without creating a new execution, authorization, resource, decision, evidence, model-routing, secret, artifact-transfer or application-lifecycle authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "cross-application-coordination",
+    "objective-tracking",
+    "dependency-graph",
+    "handoff",
+    "blocker-detection",
+    "cross-system-correlation"
+  ],
+  "input_modalities": [
+    "TYPED_STATE",
+    "TYPED_EVENT",
+    "CANONICAL_REFERENCE"
+  ],
+  "output_modalities": [
+    "COORDINATION_SNAPSHOT",
+    "READY_SET",
+    "BLOCKER_SET",
+    "HANDOFF_PROJECTION",
+    "DEPENDENCY_BATCHES"
+  ],
+  "execution_classes": [
+    "CPU_ONLY"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "OBJECTIVE_IDENTITY_AND_STATE_PROJECTION",
+    "CROSS_WORKFLOW_DEPENDENCY_GRAPH",
+    "HANDOFF_RECORD",
+    "BLOCKER_DERIVATION",
+    "CROSS_SYSTEM_CORRELATION_CONTEXT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "accelerator_required_by_default": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-coordination",
+    "service_prefix": "fa3-coordination",
+    "config_root": "$XDG_CONFIG_HOME/fa3/coordination",
+    "cache_root": "$XDG_CACHE_HOME/fa3/coordination",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/coordination",
+    "data_root": "$XDG_DATA_HOME/fa3/coordination",
+    "socket_namespace": "fa3/coordination",
+    "desktop_prefix": "org.fa3.coordination",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-JOURNAL-001"
+  ],
+  "gui_requirements": [
+    "WORK_MANAGEMENT_CHILD_VIEW_ONLY",
+    "READ_ONLY_COORDINATION_STATE_PROJECTION"
+  ]
+}

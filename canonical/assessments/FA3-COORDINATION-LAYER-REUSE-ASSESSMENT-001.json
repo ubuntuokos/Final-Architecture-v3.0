@@ -1,0 +1,103 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-COORDINATION-LAYER-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-COORDINATION-LAYER-001",
+  "intent_id": "FA3-COORDINATION-LAYER-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-COORDINATION-LAYER-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-COORDINATION-LAYER-001"
+  ],
+  "project_status": "REFERENCE_RUNTIME_AND_GUI_PROJECTION_MATERIALIZED_CURRENT_HOST_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+      "use": "OPERATOR_WORK_ITEM_AND_COORDINATION_PROJECTION"
+    },
+    {
+      "id": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+      "use": "PROVIDER_NEUTRAL_WORK_ITEM_REFERENCES"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ONLY_ALLOWED_MUTATION_INTENT_PATH"
+    },
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_ADVISORY_ONLY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-JOURNAL-001",
+      "use": "EVENT_AND_PROVENANCE_REFERENCE_SOURCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "Temporal",
+      "reason": "FULL_RUNTIME_WOULD_OVERLAP_EXISTING_FA3_WORKFLOW_ORCHESTRATION_AUTHORITY;PATTERN_ONLY"
+    },
+    {
+      "id": "Dagster",
+      "reason": "FULL_ASSET_ORCHESTRATOR_NOT_REQUIRED;DEPENDENCY_LINEAGE_PATTERN_ONLY"
+    },
+    {
+      "id": "Prefect",
+      "reason": "FULL_AUTOMATION_RUNTIME_NOT_REQUIRED;EVENT_TRIGGER_PATTERN_ONLY"
+    },
+    {
+      "id": "Kestra",
+      "reason": "FULL_FLOW_EXECUTOR_NOT_REQUIRED;TYPED_DEPENDENCY_PATTERN_ONLY"
+    },
+    {
+      "id": "Backstage",
+      "reason": "FULL_CATALOG_PLATFORM_NOT_REQUIRED;ENTITY_REFERENCE_RELATION_PATTERN_ONLY"
+    },
+    {
+      "id": "OpenTelemetry",
+      "reason": "FULL_TELEMETRY_DEPENDENCY_NOT_REQUIRED_FOR_REFERENCE_CORE;CORRELATION_CONTEXT_PATTERN_ONLY"
+    }
+  ],
+  "pattern_reuse": [
+    "DURABLE_EVENT_IDEMPOTENCY",
+    "DEPENDENCY_AND_LINEAGE_GRAPH",
+    "EVENT_OR_ABSENCE_AS_BLOCKER_INPUT_NOT_AUTHORIZATION",
+    "TYPED_DEPENDENCY_RELATIONS_AND_PARALLEL_BATCHES",
+    "CANONICAL_ENTITY_REFERENCES_AND_DIRECTIONAL_RELATIONS",
+    "CORRELATION_AND_CAUSATION_CONTEXT"
+  ],
+  "existing_authority_bindings": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "execution": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "decisions": "FA3-DECISION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY"
+  },
+  "gaps": [
+    "OBJECTIVE_IDENTITY_AND_STATE_PROJECTION",
+    "CROSS_WORKFLOW_DEPENDENCY_GRAPH",
+    "HANDOFF_RECORD",
+    "BLOCKER_DERIVATION",
+    "CROSS_SYSTEM_CORRELATION_CONTEXT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION"
+}

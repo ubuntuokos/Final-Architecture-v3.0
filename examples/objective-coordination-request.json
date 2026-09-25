@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.objective-coordination.v1",
+  "objective_id": "OBJ-QUICKCLIP-DEMO-001",
+  "title": "Create a short video and hand it to the FA3 Video Editor",
+  "authority": false,
+  "trace_context": {
+    "correlation_id": "corr-quickclip-demo-001",
+    "causation_id": "user-request-demo"
+  },
+  "nodes": [
+    {
+      "node_id": "story",
+      "kind": "WORK_ITEM",
+      "state": "COMPLETED",
+      "work_item_ref": "fa3-work://story-001"
+    },
+    {
+      "node_id": "voice",
+      "kind": "WORKFLOW",
+      "state": "PENDING",
+      "workflow_ref": "fa3-workflow://voice-001"
+    },
+    {
+      "node_id": "quickclip",
+      "kind": "APPLICATION_OPERATION",
+      "state": "PENDING",
+      "application_ref": "fa3-app://quickclip"
+    },
+    {
+      "node_id": "video-editor",
+      "kind": "APPLICATION_OPERATION",
+      "state": "PENDING",
+      "application_ref": "fa3-app://video-editor"
+    }
+  ],
+  "dependencies": [
+    {
+      "upstream": "story",
+      "downstream": "voice",
+      "relation": "REQUIRES"
+    },
+    {
+      "upstream": "voice",
+      "downstream": "quickclip",
+      "relation": "HANDOFF_AFTER"
+    },
+    {
+      "upstream": "quickclip",
+      "downstream": "video-editor",
+      "relation": "HANDOFF_AFTER"
+    }
+  ],
+  "handoffs": [
+    {
+      "handoff_id": "voice-to-quickclip",
+      "source_node": "voice",
+      "target_node": "quickclip",
+      "state": "PLANNED",
+      "artifact_refs": [
+        "artifact://audio/narration"
+      ],
+      "provenance_refs": [
+        "journal://voice/generation"
+      ]
+    },
+    {
+      "handoff_id": "clip-to-editor",
+      "source_node": "quickclip",
+      "target_node": "video-editor",
+      "state": "PLANNED",
+      "artifact_refs": [
+        "artifact://project/example.fa3clip"
+      ],
+      "provenance_refs": [
+        "journal://quickclip/export"
+      ]
+    }
+  ],
+  "blockers": []
+}
