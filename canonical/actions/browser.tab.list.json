@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "version": "1.0.0",
+  "exposure": {
+    "cli": false,
+    "mcp": true
+  },
+  "resources": {
+    "hrb_required": true,
+    "accelerator_required": false
+  },
+  "provider": {
+    "selection": "capability-match",
+    "architectural_authority": false,
+    "browser_session_runtime_is_execution_domain_not_authority": true
+  },
+  "evidence": {
+    "required": true,
+    "global_promotion_claim": false
+  },
+  "id": "browser.tab.list",
+  "description": "List opaque browser tab/window references, origins and FA3 session scope without exposing full URLs, titles, cookies or credentials.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "session_id"
+    ],
+    "properties": {
+      "session_id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "tabs",
+      "execution_receipt_ref"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "minLength": 1
+      },
+      "tabs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "tab_ref",
+            "window_ref",
+            "index",
+            "active",
+            "origin",
+            "scope"
+          ],
+          "properties": {
+            "tab_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "window_ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "index": {
+              "type": "integer"
+            },
+            "active": {
+              "type": "boolean"
+            },
+            "origin": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "AGENT",
+                "BORROWED"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "execution_receipt_ref": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "blind_retry": "NOT_APPLICABLE",
+    "credential_surface": "REDACTED_ORIGIN_ONLY"
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "page_content_trust": "UNTRUSTED_EXTERNAL_CONTENT"
+  }
+}
