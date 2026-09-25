@@ -193,7 +193,12 @@ if [[ "${1:-}" == "static" || "${1:-}" == "promote" || "${1:-}" == "all" ]]; the
   python3 "$ROOT/src/fa3_h3_replacement_gate.py" >/dev/null
 fi
 
-if [[ "${1:-}" == "motion-video-current-host" ]]; then\n  shift\n  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_motion_video_current_host_gate.py" --root "$ROOT" "$@"\nfi\n\nif [[ "${1:-}" == "h3-replacement" ]]; then
+if [[ "${1:-}" == "motion-video-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_motion_video_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "h3-replacement" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_h3_replacement_gate.py" "$@"
 fi
