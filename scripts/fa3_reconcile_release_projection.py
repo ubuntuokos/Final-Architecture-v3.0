@@ -349,6 +349,28 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "reconciliation_status": "CANONICAL_DISCOVERY_CATALOG_GUI_STATIC_RECONCILED_REMOTE_PROVIDER_ADMISSION_SEPARATE",
     }
 
+    projection["embedding_fabric_reconciliation"] = {
+        "profile_id": "FA3-EMBEDDING-FABRIC-001",
+        "contract_id": "FA3-EMBEDDING-FABRIC-CONTRACTS-001",
+        "decision_id": "FA3-DEC-EMBEDDING-FABRIC-2026-09-25",
+        "gate_id": "FA3-EMBEDDING-FABRIC-GATESET-001",
+        "provider_ids": [
+            "FA3-PROVIDER-TEI-001",
+            "FA3-PROVIDER-MODEL2VEC-001",
+            "FA3-PROVIDER-FLAG-EMBEDDING-001",
+        ],
+        "browser_semantic_find_profile_id": "FA3-BROWSER-SEMANTIC-FIND-001",
+        "memory_requalification": "REOPENED_EMBEDDING_SPACE_SEMANTICS",
+        "distribution_status": "USER_LOCAL_EXTERNAL_EXCLUDED_PENDING_LICENSE_SUPPLY_CHAIN_REDISTRIBUTION_ADMISSION",
+        "current_host_status": "PENDING_REAL_PROVIDER_AND_RETRIEVAL_E2E",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_STATIC_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+    }
+
     projection["model_router_provider_execution_reconciliation"] = {
         "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
         "protocol_profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
