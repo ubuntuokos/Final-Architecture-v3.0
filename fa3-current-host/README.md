@@ -48,59 +48,48 @@ No GitHub-hosted runner may claim current-host production evidence for the works
 
 ## Multidimensional resource admission current-host closure
 
-`FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001` is the executable current-host closure for `FA3-RESOURCE-ADMISSION-CONTRACTS-001`.
+`FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001` requires live Host Attestation, a measured Compute Profile, a non-empty workload envelope, a current scope-bound HRB admission authorization, and PASS for every declared resource dimension.
 
-It requires all of the following from the real target host:
+Every workload requires HRB admission authorization. The mechanism depends on the workload:
 
-- a live `FA3-HOST-ATTESTATION-001` projection with exact host identity and accelerator UUID + PCI BDF discovery;
-- a measured `FA3-COMPUTE-PROFILE-001` bound to the host-attestation SHA-256;
-- a non-empty workload-specific `fa3.workload-resource-envelope.v1`;
-- a current `FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1` verified by the external Host Resource Broker;
-- every declared resource dimension PASS with no cross-metric compensation.
+- **CPU-only / non-accelerator:** a short-lived `fa3.hrb-admission-authorization.v1` is issued by the existing HRB authority and bound to host, workload ID, exact workload-envelope SHA-256 and requested resource classes. It is not a lease.
+- **Accelerator workload:** the existing `FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1` remains required and can serve as the HRB authorization source for that accelerated execution.
 
-`CU`/`TU` values may be reported as diagnostics, but they are forbidden as workload-admission requirements and cannot authorize production execution.
+A CPU-only workload must not require accelerator discovery or an accelerator lease. `CU`/`TU` values remain diagnostic-only and are forbidden as admission requirements.
 
-### HRB validation privilege separation
+### HRB privilege separation
 
-The Host Resource Broker HMAC key remains root-only. The current-host collector and GitHub runner must never be granted read access to `/etc/fa3/host-resource-broker/lease-hmac.key`.
-
-A one-time host bootstrap installs a validate-only privilege bridge:
+Use the combined one-time installer:
 
 ```bash
-sudo ./bin/fa3-install-hrb-validator-bridge.sh --user "$USER"
+sudo ./bin/fa3-install-host-admission-bridge.sh --user "$USER"
 ```
 
-The non-root collector invokes `/usr/local/bin/fa3-host-resource-broker-validator validate-lease <absolute-lease-path>`. That client may only delegate to the root-owned `/usr/local/libexec/fa3-host-resource-broker-validate-root` helper through a narrowly scoped `NOPASSWD` sudo rule. The helper accepts one absolute caller-owned, non-group/world-writable regular JSON lease, opens it with `O_NOFOLLOW`, checks the lease schema, copies only its bytes into a root-owned temporary file, and invokes the authoritative HRB `validate-lease` operation. It does not expose the HMAC key and grants no issue/revoke authority.
+It installs the generic admission client, accelerator acquire client and accelerator validator. Both HMAC secret domains remain root-only. The non-root runner can request only typed authorization/validation operations through narrow sudo helpers; collector, provider and orchestrator cannot mint their own authorization.
 
-`bin/fa3-current-host-runner-bootstrap.sh` installs this bridge automatically when missing. `bin/fa3-current-host-runner-doctor` fails closed if the non-interactive validate-only bridge is unavailable.
-
-For a fixed, SKU-independent admission-chain smoke test, use the single bootstrap command with a real HRB lease:
+The default smoke now exercises the vendor-neutral CPU-only path:
 
 ```bash
-./bin/fa3-resource-admission-current-host.sh smoke \
-  --hrb-lease /path/to/current-real-lease.json
+./bin/fa3-resource-admission-current-host.sh smoke
 ```
 
-If the host HRB exposes a separate authoritative acquire client, the bootstrap may delegate to it without becoming an authority:
+For a custom CPU-only workload, the lower-level path is:
 
 ```bash
-FA3_HRB_ACQUIRE_COMMAND='fa3-hrb-client acquire --workload {workload} --output {lease} --gpu {gpu_uuid}' \
-  ./bin/fa3-resource-admission-current-host.sh smoke
-```
+/usr/local/bin/fa3-host-resource-broker-admission authorize \
+  --workload .fa3-current-host/input/resource-workload-envelope.json \
+  --output .fa3-current-host/input/resource-hrb-authorization.json
 
-The command template is tokenized without a shell. The bootstrap never mints or signs a lease itself. If neither a real `--hrb-lease` nor an external acquire command is available, it writes `reports/resource-admission-smoke-bootstrap-report.json`, remains fail-closed, and exits `2`. `--prepare-only` also exits `2` after creating the fixed smoke workload and accelerator hint. PASS requires the existing collector plus the `resource-admission-current-host` gate, so the canonical scoped receipt remains the proof artifact. A smoke PASS is not a global promotion claim.
-
-For a custom workload envelope, the lower-level path remains available:
-
-```bash
 ./bin/fa3-resource-admission-current-host.sh collect \
   --workload-envelope .fa3-current-host/input/resource-workload-envelope.json \
-  --hrb-lease .fa3-current-host/input/resource-hrb-lease.json
+  --hrb-authorization .fa3-current-host/input/resource-hrb-authorization.json
 
 ./bin/fa3-enforce resource-admission-current-host
 ```
 
-A successful receipt may claim only `CURRENT_HOST_RESOURCE_ADMISSION_PASS`. It must explicitly list `GLOBAL_FA3_PROMOTION` as a non-claim. Global promotion still requires the independent runtime Evidence Registry and all 19 acceptance criteria.
+Accelerator workflows continue to use `--hrb-lease` or the admitted acquire bridge and are not silently rerouted to CPU.
+
+A successful receipt may claim only `CURRENT_HOST_RESOURCE_ADMISSION_PASS` and must keep `GLOBAL_FA3_PROMOTION` as a non-claim.
 
 ## FFmpeg neural-media current-host closure
 

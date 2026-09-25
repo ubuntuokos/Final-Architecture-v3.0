@@ -1,8 +1,12 @@
 # FA3 Host Bootstrap / Admission Orchestrator
 
-`FA3-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-001` converts the current-host resource-admission proof chain into a product-facing flow without creating a second resource authority.
+`FA3-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-001` exposes the current-host resource-admission proof chain without creating a second resource authority.
 
-The Host Resource Broker remains the sole authority for lease issuance, accelerator placement, memory budget, validity, and conflict resolution. The orchestrator only validates workload input, discovers a candidate accelerator as a request hint, delegates lease acquisition through the root-separated HRB bridge, executes the existing current-host collector and gate, and emits a scoped report.
+`FA3-AUTH-HOST-RESOURCE-BROKER-001` remains the sole admission, placement, reservation and lease authority. The orchestrator may prepare typed requests and invoke privilege-separated clients, but it cannot mint or sign an admission authorization or an accelerator lease.
+
+## Hardware Audit
+
+The baseline is vendor-neutral and CPU-only viable. Accelerator cardinality is `0..N`. A CPU-only workload must not invoke accelerator discovery or require an accelerator lease. Accelerator discovery is performed only after the workload envelope explicitly requests an accelerator resource class.
 
 ## One-time host bootstrap
 
@@ -12,52 +16,46 @@ Run once for the interactive/current-host runner user:
 sudo ./bin/fa3-install-host-admission-bridge.sh --user "$USER"
 ```
 
-This installs both privilege-separated bridges:
+This installs three privilege-separated clients:
 
-- validate-only client: `/usr/local/bin/fa3-host-resource-broker-validator`
-- acquire client: `/usr/local/bin/fa3-host-resource-broker-acquire`
+- generic admission authorization: `/usr/local/bin/fa3-host-resource-broker-admission`;
+- accelerator lease acquire: `/usr/local/bin/fa3-host-resource-broker-acquire`;
+- accelerator lease validate: `/usr/local/bin/fa3-host-resource-broker-validator`.
 
-The authoritative HRB binary and its HMAC key remain root-owned. The runtime user receives no HMAC-key read permission and no direct generic root shell. The acquire bridge accepts only a typed, caller-owned request and delegates explicit `issue-lease` / `validate-lease` operations to the existing HRB.
+The admission HMAC keyring and accelerator lease HMAC key remain root-only. The runtime user gets no key read access and no generic root shell.
 
-## Normal runtime UX
+## Runtime selection
 
-Check readiness:
-
-```bash
-./bin/fa3-host-admission doctor
-```
-
-Run the fixed current-host admission smoke without manually issuing a lease:
-
-```bash
-./bin/fa3-host-admission smoke
-```
-
-Admit a provider/application workload envelope:
+For any admitted workload envelope:
 
 ```bash
 ./bin/fa3-host-admission admit \
   --workload .fa3-current-host/input/my-workload-envelope.json
 ```
 
-The custom workload must use schema `fa3.workload-resource-envelope.v1`, contain a non-empty `workload_id`, and include an explicit `gpu.vram_gib >= N` requirement when an accelerator lease is required. `CU`/`TU` and aliases remain forbidden as production admission requirements.
+For CPU/memory/storage/NUMA-only workloads, the orchestrator requests a short-lived `fa3.hrb-admission-authorization.v1` bound to host, workload ID, exact workload-envelope SHA-256 and requested resource classes. That artifact is explicitly **not** a resource lease.
 
-## Execution boundary
+For accelerator workloads, the existing acquire bridge remains in force. The workload must carry an explicit accelerator requirement; the bridge requests an `AcceleratorExecutionLease@1`, and the canonical collector independently validates it. The accelerator lease may serve as the HRB admission authorization source for that accelerated execution.
 
-The orchestrator discovers NVIDIA UUID/BDF, physical VRAM and CUDA compute capability only to select a candidate for the lease request. It does not authorize that candidate. The real lease returned by `FA3-HOST-RESOURCE-BROKER-001` is still revalidated by the existing root-separated validator and the canonical `resource-admission-current-host` collector/gate.
+`CU`/`TU` and aliases remain forbidden as admission requirements.
 
-A PASS from this surface may claim only `CURRENT_HOST_RESOURCE_ADMISSION_PASS`. It does not claim `GLOBAL_FA3_PROMOTION` or provider runtime E2E. Global promotion still requires the independent Evidence Registry and all 19 acceptance criteria.
+## Smoke and doctor
 
-## Self-hosted runner
+```bash
+./bin/fa3-host-admission doctor
+./bin/fa3-host-admission smoke
+```
 
-`bin/fa3-current-host-runner-bootstrap.sh` installs both bridges if needed and writes the fixed `FA3_HRB_ACQUIRE_COMMAND` adapter into the runner's systemd user unit. Existing current-host resource-admission smoke workflows therefore acquire a fresh HRB lease automatically instead of requiring a dispatch-time raw lease path.
+The default smoke is CPU-only and therefore exercises the generic HRB admission authorization path. `nvidia-smi` is not a global readiness requirement. Accelerator-specific workflows may still invoke the explicit accelerator smoke path.
 
-`bin/fa3-current-host-runner-doctor` fails closed unless both validation and acquire bridges are available non-interactively while the runner remains non-root.
+## Evidence boundary
 
-## Failure semantics
+Both paths converge on `evidence/collect-resource-admission-current-host.py` and `./bin/fa3-enforce resource-admission-current-host`.
 
-- exit `0`: scoped PASS from the existing canonical proof chain
-- exit `2`: BLOCKED/PENDING, including missing bridge, denied lease, insufficient resources, invalid/stale lease, or failed admission
-- exit `3`: implementation/input error
+A PASS may claim only `CURRENT_HOST_RESOURCE_ADMISSION_PASS`. It does not imply provider runtime E2E or `GLOBAL_FA3_PROMOTION`. Missing bridges, expired/invalid authorization, failed lease validation, or skipped physical execution remain fail-closed.
 
-No missing bridge, skipped production job, hosted-CI test, or documentation state is promoted to current-host PASS.
+## Self-hosted Agent Workload path
+
+The Agent Workload Runtime workflow now creates its own exact CPU-only workload envelope for `fa3-agent-workload-native-current-host`, obtains a fresh same-run HRB admission authorization, produces a resource-admission receipt, and only then executes the native systemd/cgroup-v2 pause/resume probe.
+
+Google AX and Podman remain separate provider subclaims; this path does not promote either one.
