@@ -752,6 +752,8 @@ def gate(root: Path):
         "tests/test_supply_runtime_hardening.py",
         ".github/workflows/fa3-supply-runtime-hardening.yml",
         "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
     }
     if (
         supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
