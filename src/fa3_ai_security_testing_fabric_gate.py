@@ -38,6 +38,9 @@ PATHS={
 "sources":"canonical/references/FA3-AI-SECURITY-TESTING-SOURCES-2026-09-25.json",
 "enforcement":"canonical/ai-security-testing-fabric-enforcement.json",
 "evidence":"evidence/reference/ai-security-testing-fabric-reference-pass.json",
+"policy":"canonical/enforcement-policy.json",
+"distribution_registry":"canonical/distribution-registry.json",
+"distribution_manifest":"canonical/distribution-manifest.json",
 }
 def loadj(p:Path)->dict[str,Any]:
     return json.loads(p.read_text(encoding="utf-8"))
@@ -58,6 +61,7 @@ def gate(root:Path)->dict[str,Any]:
     c=loadj(root/PATHS["contract"]); d=loadj(root/PATHS["decision"])
     i=loadj(root/PATHS["intent"]); a=loadj(root/PATHS["assessment"])
     s=loadj(root/PATHS["sources"]); e=loadj(root/PATHS["enforcement"]); ev=loadj(root/PATHS["evidence"])
+    policy=loadj(root/PATHS["policy"]); distreg=loadj(root/PATHS["distribution_registry"]); distman=loadj(root/PATHS["distribution_manifest"])
     if not (p.get("id")==PROFILE_ID and p.get("parent_profile")=="FA3-AI-SEC-VALIDATION-001" and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==CAPABILITY_COUNT):
         fs.append(finding("AISEC-FABRIC-003","Fabric profile boundary drift"))
     if "FA3-PROVIDER-PYRIT-001" in json.dumps(parent):
@@ -85,6 +89,25 @@ def gate(root:Path)->dict[str,Any]:
         fs.append(finding("AISEC-FABRIC-013","Enforcement record drift"))
     if not (ev.get("status")=="PASS" and ev.get("current_host_runtime_evidence") is False and ev.get("production_runtime_promoted") is False):
         fs.append(finding("AISEC-FABRIC-014","Reference evidence scope drift"))
+    if not (
+        GATE_ID in policy.get("mandatory_reference_gates",[])
+        and policy.get("ai_security_testing_fabric_profile_id")==PROFILE_ID
+        and policy.get("ai_security_testing_fabric_contract_id")==CONTRACT_ID
+        and policy.get("ai_security_testing_fabric_gate_id")==GATE_ID
+        and policy.get("ai_security_testing_fabric_mandatory_p0_rules")==e.get("mandatory_rules",[])
+        and policy.get("legacy_pyrit_integration_files_allowed") is False
+    ):
+        fs.append(finding("AISEC-FABRIC-016","Global enforcement policy binding drift"))
+    source_id="FA3-AI-SECURITY-TESTING-SOURCES-2026-09-25"
+    distrows={x.get("subject_id"):x for x in distreg.get("records",[]) if isinstance(x,dict)}
+    excluded={x.get("subject_id"):x for x in distman.get("excluded",[]) if isinstance(x,dict)}
+    if not (
+        distrows.get(source_id,{}).get("class")=="REFERENCE_ONLY"
+        and distrows.get(source_id,{}).get("release_bundle_status")=="EXCLUDED"
+        and excluded.get(source_id,{}).get("class")=="REFERENCE_ONLY"
+        and excluded.get(source_id,{}).get("release_bundle_status")=="EXCLUDED"
+    ):
+        fs.append(finding("AISEC-FABRIC-017","Security testing source-set distribution classification drift"))
     legacy_ids=("FA3-PROVIDER-PYRIT-001","FA3-PYRIT-RUNTIME-ADMISSION-001","FA3-PYRIT-RUNTIME-CONFORMANCE-001","FA3-PYRIT-GATESET-001")
     for path in (root/"canonical").rglob("*.json"):
         if path in [root/PATHS["decision"]]:
