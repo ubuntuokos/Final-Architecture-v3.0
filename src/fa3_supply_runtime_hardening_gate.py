@@ -60,6 +60,10 @@ def gate(root:Path)->dict[str,Any]:
       "runtime":"canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
+      "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
+      "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
+      "reservation_schema":"canonical/schemas/resource-reservation-plan.v1.json",
+      "patch_schema":"canonical/schemas/upstream-patch-set.v1.json",
       "tencent_patch":"canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
       "opencut_patch":"canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
     }
@@ -85,6 +89,7 @@ def gate(root:Path)->dict[str,Any]:
             if x not in runtime: findings.append(finding("SRH-008","runtime hardening provider environment contract missing",contract=x))
         if data["hu"].get("current_host_runtime_promotion_claimed") is not False: findings.append(finding("SRH-009","HU-AQC document-only promotion forbidden"))
         if GATESET_ID not in set(data["policy"].get("mandatory_reference_gates",[])): findings.append(finding("SRH-010","global enforcement binding missing"))
+        if data["scs_schema"].get("$id")!="fa3.software-supply-chain-receipt.v1" or data["runtime_schema"].get("$id")!="fa3.provider-runtime-environment.v1" or data["reservation_schema"].get("$id")!="fa3.resource-reservation-plan.v1" or data["patch_schema"].get("$id")!="fa3.upstream-patch-set.v1": findings.append(finding("SRH-014","typed schema identity drift"))
         tp=evaluate_patchset(data["tencent_patch"])
         if tp["result"]!="PASS" or data["tencent_patch"].get("disposition")!="REFERENCE_ONLY" or data["tencent_patch"].get("runtime_admission") is not False or data["tencent_patch"].get("license_disposition",{}).get("conflicts")==[]: findings.append(finding("SRH-012","TencentDB security/license blockers must remain fail-closed reference-only"))
         op=evaluate_patchset(data["opencut_patch"])
