@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import datetime as dt, hashlib, json, re
+import datetime as dt, hashlib, json, os, re
 from pathlib import Path
 from typing import Any
 
@@ -107,8 +107,13 @@ def sha256_tree(path: Path) -> str:
     if root.is_file(): return sha256_file(root)
     if not root.is_dir(): raise FileNotFoundError(root)
     h=hashlib.sha256()
-    for item in sorted((p for p in root.rglob("*") if p.is_file()),key=lambda p:p.relative_to(root).as_posix()):
+    for item in sorted(root.rglob("*"),key=lambda p:p.relative_to(root).as_posix()):
+        if not (item.is_file() or item.is_symlink()): continue
         rel=item.relative_to(root).as_posix().encode("utf-8")
-        digest=bytes.fromhex(sha256_file(item))
-        h.update(len(rel).to_bytes(4,"big"));h.update(rel);h.update(digest)
+        h.update(len(rel).to_bytes(4,"big"));h.update(rel)
+        if item.is_symlink():
+            target=os.readlink(item).encode("utf-8")
+            h.update(b"L");h.update(len(target).to_bytes(4,"big"));h.update(target)
+        else:
+            h.update(b"F");h.update(bytes.fromhex(sha256_file(item)))
     return h.hexdigest()
