@@ -73,6 +73,9 @@ The secret-free receipt is written to:
 .fa3-current-host/runner/doctor.json
 ```
 
+The doctor also **reports** whether the generic HRB admission-authorization bridge is currently installed, but that bridge is not a global runner-health prerequisite. Resource-admission consumers, Agent Workload current-host execution, and the Host Admission Orchestrator each require that bridge explicitly and fail closed at their own execution boundary. This prevents unrelated OS/GUI/current-host jobs from becoming dependent on an admission surface they do not invoke.
+
+
 ## Repository smoke test
 
 After registration, dispatch **FA3 Current Host Runner Control Plane** with `execute_current_host=true`. The `current-host-runner / real-smoke` job can start only if GitHub can actually assign the required label set.
