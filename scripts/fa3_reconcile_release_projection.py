@@ -330,6 +330,8 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
 
     projection["gui_current_host_closure_reconciliation"] = {
         "profile_id": "FA3-DESKTOP-001",
+        "application_intent_id": "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001",
+        "reuse_assessment_id": "FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001",
         "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
         "gate_record_id": "FA3-GATE-GUI-CURRENT-HOST-001",
@@ -345,6 +347,18 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "secret_backend_pass_claimed": gui_conformance.get("secret_backend_pass_claimed"),
         "secret_backend_authority_owner": "CAP-003",
         "secret_backend_used_for_gui_runtime_admission": False,
+        "hardware_audit": {
+            "vendor_neutral": True,
+            "cpu_only_viable": True,
+            "accelerator_cardinality": "0..N",
+            "global_accelerator_requirement": False,
+        },
+        "software_coexistence": {
+            "required": True,
+            "namespaced": True,
+            "upstream_uninstall_required": False,
+            "global_mutation": False,
+        },
         "tested_source_commit": gui_conformance.get("tested_source_commit"),
         "status": gui_conformance.get("status"),
         "current_host_receipt_present": gui_conformance.get("current_host_receipt_present") is True,
