@@ -73,6 +73,20 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "REFERENCE_ONLY" for row in external))
         self.assertTrue(all(row["automatic_activation"] is False for row in external))
 
+    def test_security_intent_can_surface_external_skill_idea_source_without_trust(self):
+        intent = copy.deepcopy(self.intent)
+        intent["required_capabilities"] = []
+        intent["optional_capabilities"] = []
+        intent["problem_classes"] = ["security"]
+        intent["declared_gaps"] = []
+        resolution = resolve(ROOT, intent)
+        refs = [row for row in resolution["candidates"] if row["candidate_class"] == "EXTERNAL_SKILL_SOURCE"]
+        skillspector = next(row for row in refs if row.get("repository") == "NVIDIA/SkillSpector")
+        self.assertEqual(skillspector["reuse_mode"], "REFERENCE_ONLY")
+        self.assertFalse(skillspector["activation_candidate"])
+        self.assertFalse(skillspector["authority"])
+        self.assertFalse(skillspector["automatic_install"])
+
     def test_existing_authority_collision_fails(self):
         intent = copy.deepcopy(self.intent)
         intent["proposed_authority_roles"] = ["model_routing"]
