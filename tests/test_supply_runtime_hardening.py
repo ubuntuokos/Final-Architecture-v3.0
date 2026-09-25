@@ -4,7 +4,7 @@ from pathlib import Path
 from src.fa3_supply_chain_admission import evaluate_receipt
 from src.fa3_provider_runtime import validate_runtime_environment,select_runtime_class,ProviderRuntimeError
 from src.fa3_upstream_patchset import evaluate_patchset
-from src.fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,RESOURCE_ORDER
+from src.fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,CompositeLeaseIssuer,RESOURCE_ORDER
 from src.fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring
 from src.fa3_supply_runtime_hardening_gate import gate,regressions
 
@@ -41,4 +41,23 @@ class SupplyRuntimeHardeningTests(unittest.TestCase):
         with self.assertRaises(CompositeLeaseError): derive_child_lease(parent,bad,keyring=keyring)
         forged=copy.deepcopy(parent); forged["authentication"]["mac"]="0"*64
         with self.assertRaises(CompositeLeaseError): derive_child_lease(forged,req,keyring=keyring)
+
+    def test_stateful_child_budget_accounting(self):
+        keyring=LeaseKeyring([LeaseKey("test",b"y"*32)],"test")
+        parent={"lease_id":"p2","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"accelerator_assignments":[{"stable_id":"GPU-x"}],"authentication":{}}
+        parent["authentication"]=keyring.sign(parent)
+        issuer=CompositeLeaseIssuer(keyring); issuer.register_parent(parent)
+        base={"issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6},"accelerator_assignments":[{"stable_id":"GPU-x"}],"scope":{}}
+        a=issuer.derive("p2",{**copy.deepcopy(base),"lease_id":"a"})
+        b=issuer.derive("p2",{**copy.deepcopy(base),"lease_id":"b"})
+        self.assertEqual(12,issuer.allocation("p2")["vram_bytes"])
+        with self.assertRaises(CompositeLeaseError):
+            issuer.derive("p2",{**copy.deepcopy(base),"lease_id":"c"})
+        issuer.release("p2","a")
+        c=issuer.derive("p2",{**copy.deepcopy(base),"lease_id":"c"})
+        keyring.verify(c)
+        casc=issuer.revoke_parent("p2")
+        self.assertTrue(all(x["state"]=="REVOKING" for x in casc))
+        for row in casc:keyring.verify(row)
+
 if __name__=="__main__": unittest.main()
