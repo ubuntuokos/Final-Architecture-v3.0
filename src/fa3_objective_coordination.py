@@ -357,4 +357,3 @@ def compile_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
         "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
         "decision_fabric": "FA3-DECISION-FABRIC-001_BOUNDED_ADVISORY_ONLY",
     }
-}
