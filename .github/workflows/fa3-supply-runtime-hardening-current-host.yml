@@ -149,7 +149,7 @@ jobs:
           fi
           python3 tools/fa3_supply_chain_scan.py "${args[@]}"
       - name: Collect provider-runtime evidence
-        run: PYTHONPATH=src python3 evidence/collect-provider-runtime-current-host.py --plan "${{ inputs.provider_runtime_plan }}"
+        run: PYTHONPATH=src python3 evidence/collect-provider-runtime-current-host.py --plan "${{ inputs.provider_runtime_plan }}" --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
       - name: Collect HRB composite control-plane evidence
         run: PYTHONPATH=src python3 evidence/collect-hrb-composite-current-host.py --plan "${{ inputs.hrb_plan }}" --capacity "${{ inputs.hrb_capacity }}"
       - name: Collect hu-HU golden corpus evidence
