@@ -9,13 +9,17 @@ on:
       - 'src/fa3_host_bootstrap_admission_orchestrator.py'
       - 'libexec/fa3-host-resource-broker-acquire-root.py'
       - 'libexec/fa3-host-resource-broker-acquire.py'
+      - 'libexec/fa3-host-resource-broker-admission-root.py'
+      - 'libexec/fa3-host-resource-broker-admission.py'
       - 'bin/fa3-host-admission'
       - 'bin/fa3-install-hrb-acquire-bridge.sh'
+      - 'bin/fa3-install-hrb-admission-bridge.sh'
       - 'bin/fa3-install-host-admission-bridge.sh'
       - 'bin/fa3-current-host-runner-bootstrap.sh'
       - 'bin/fa3-current-host-runner-doctor'
       - 'tests/test_host_bootstrap_admission_orchestrator.py'
       - 'tests/test_hrb_acquire_bridge.py'
+      - 'tests/test_hrb_admission_bridge.py'
       - 'fa3-current-host/HOST-ADMISSION-ORCHESTRATOR.md'
       - 'fa3-current-host/manifest.json'
       - '.github/workflows/fa3-host-bootstrap-admission-orchestrator.yml'
@@ -47,10 +51,13 @@ jobs:
           python -m py_compile \
             src/fa3_host_bootstrap_admission_orchestrator.py \
             libexec/fa3-host-resource-broker-acquire-root.py \
-            libexec/fa3-host-resource-broker-acquire.py
+            libexec/fa3-host-resource-broker-acquire.py \
+            libexec/fa3-host-resource-broker-admission-root.py \
+            libexec/fa3-host-resource-broker-admission.py
           bash -n \
             bin/fa3-host-admission \
             bin/fa3-install-hrb-acquire-bridge.sh \
+            bin/fa3-install-hrb-admission-bridge.sh \
             bin/fa3-install-host-admission-bridge.sh \
             bin/fa3-current-host-runner-bootstrap.sh \
             bin/fa3-current-host-runner-doctor
@@ -58,7 +65,8 @@ jobs:
         run: >-
           PYTHONPATH=src python -m unittest
           tests.test_host_bootstrap_admission_orchestrator
-          tests.test_hrb_acquire_bridge -v
+          tests.test_hrb_acquire_bridge
+          tests.test_hrb_admission_bridge -v
       - name: Canonical authority invariants
         run: |
           python - <<'PY'
@@ -70,6 +78,9 @@ jobs:
           assert p['fail_closed'] is True
           assert p['authority']['resource_admission'] == 'FA3-AUTH-HOST-RESOURCE-BROKER-001'
           assert p['authority']['orchestrator_is_authority'] is False
+          assert p['authority']['admission_authorization_signing'] == 'FORBIDDEN'
+          assert p['runtime_invariants']['cpu_only_viable'] is True
+          assert p['runtime_invariants']['cpu_only_requires_accelerator_discovery'] is False
           assert p['runtime_invariants']['cu_tu_admission_authority'] == 'FORBIDDEN'
           assert p['runtime_invariants']['raw_hmac_key_access_by_user_or_runner'] == 'FORBIDDEN'
           assert 'GLOBAL_FA3_PROMOTION' in p['non_claims']
@@ -95,13 +106,16 @@ jobs:
           set -euo pipefail
           test -x /usr/local/bin/fa3-host-resource-broker-validator
           test -x /usr/local/bin/fa3-host-resource-broker-acquire
+          test -x /usr/local/bin/fa3-host-resource-broker-admission
           test -x /usr/local/libexec/fa3-host-resource-broker-validate-root
           test -x /usr/local/libexec/fa3-host-resource-broker-acquire-root
+          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root
           sudo -n -l /usr/local/libexec/fa3-host-resource-broker-validate-root /dev/null >/dev/null
           sudo -n -l /usr/local/libexec/fa3-host-resource-broker-acquire-root /dev/null >/dev/null
+          /usr/local/bin/fa3-host-resource-broker-admission --doctor
       - name: Host admission doctor
         run: ./bin/fa3-host-admission doctor
-      - name: Real current-host admission smoke with automatic HRB lease acquisition
+      - name: Real current-host admission smoke with automatic HRB authorization
         run: ./bin/fa3-host-admission smoke
       - name: Re-validate canonical scoped receipt
         run: ./bin/fa3-enforce resource-admission-current-host

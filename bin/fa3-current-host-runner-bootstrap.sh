@@ -21,6 +21,8 @@ VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
 VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
 ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
+ADMISSION_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"
+ADMISSION_HELPER="/usr/local/libexec/fa3-host-resource-broker-admission-root"
 ACQUIRE_TEMPLATE="/usr/local/bin/fa3-host-resource-broker-acquire --workload {workload} --lease-output {lease} --accelerator-uuid {gpu_uuid}"
 SECRET_BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-secret-broker-current-host-bridge.sh"
 SECRET_BRIDGE_CLIENT="/usr/local/bin/fa3-secret-broker-current-host-bridge"
@@ -38,9 +40,12 @@ done
 if [[ ! -x "$VALIDATOR_CLIENT" ]] \
   || [[ ! -x "$ACQUIRE_CLIENT" ]] \
   || [[ ! -x "$ACQUIRE_HELPER" ]] \
+  || [[ ! -x "$ADMISSION_CLIENT" ]] \
+  || [[ ! -x "$ADMISSION_HELPER" ]] \
   || ! sudo -n -l "$VALIDATOR_HELPER" /dev/null >/dev/null 2>&1 \
-  || ! sudo -n -l "$ACQUIRE_HELPER" /dev/null >/dev/null 2>&1; then
-  echo "INFO: installing root-separated HRB validation + acquire bridges"
+  || ! sudo -n -l "$ACQUIRE_HELPER" /dev/null >/dev/null 2>&1 \
+  || ! "$ADMISSION_CLIENT" --doctor >/dev/null 2>&1; then
+  echo "INFO: installing root-separated HRB validation + acquire + generic admission bridges"
   sudo "$BRIDGE_INSTALLER" --user "$USER"
 fi
 

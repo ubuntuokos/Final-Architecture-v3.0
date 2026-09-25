@@ -18,6 +18,7 @@ from fa3_resource_admission_policy import classify_requirements
 WORKLOAD_ID = "fa3-resource-admission-current-host-smoke-v2"
 WORKLOAD_SCHEMA = "fa3.workload-resource-envelope.v1"
 CUDA_COMPUTE_CAPABILITY_MIN = 8.6
+AUTH_CLIENT_DEFAULT = "/usr/local/bin/fa3-host-resource-broker-admission"
 _BDF_RE = re.compile(r"^(?P<domain>[0-9a-fA-F]{4,8}):(?P<bus>[0-9a-fA-F]{2}):(?P<device>[0-9a-fA-F]{2})\.(?P<function>[0-7])$")
 _ALLOWED_PLACEHOLDERS = {"workload", "lease", "gpu_uuid", "pci_bdf", "hostname", "workload_id"}
 
@@ -146,6 +147,8 @@ def run_smoke(
     *,
     workload_envelope: Path | None = None,
     hrb_lease: Path | None = None,
+    hrb_authorization: Path | None = None,
+    authorization_client: str = AUTH_CLIENT_DEFAULT,
     prepare_only: bool = False,
     hrb_acquire_command: str | None = None,
     accelerator_required: bool = False,
@@ -162,10 +165,53 @@ def run_smoke(
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     if not accelerator_required:
-        reason = "PREPARED_AWAITING_HRB_NON_ACCELERATOR_AUTHORIZATION" if prepare_only else "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED"
-        report = _report("PENDING", reason, workload=workload)
+        if prepare_only:
+            report = _report("PENDING", "PREPARED_AWAITING_HRB_NON_ACCELERATOR_AUTHORIZATION", workload=workload)
+            report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            return 2, report
+        authorization_path = hrb_authorization
+        acquire_meta: dict[str, Any] = {}
+        if authorization_path is None:
+            authorization_path = root / ".fa3-current-host/input/resource-smoke-hrb-authorization.json"
+            authorization_path.parent.mkdir(parents=True, exist_ok=True)
+            authorized = runner([
+                authorization_client,
+                "authorize",
+                "--workload", str(workload_path.resolve()),
+                "--output", str(authorization_path.resolve()),
+            ], timeout=30)
+            acquire_meta = {"return_code": authorized.returncode, "command_name": authorization_client}
+            if authorized.returncode != 0 or not authorization_path.is_file():
+                result = "PENDING" if authorized.returncode == 127 else "BLOCKED"
+                reason = "HRB_AUTHORIZATION_BRIDGE_UNAVAILABLE" if result == "PENDING" else "HRB_AUTHORIZATION_FAILED"
+                report = _report(result, reason, workload=workload, acquire=acquire_meta)
+                report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+                return 2, report
+        else:
+            authorization_path = authorization_path if authorization_path.is_absolute() else root / authorization_path
+
+        collector = root / "evidence/collect-resource-admission-current-host.py"
+        receipt = root / "evidence/receipts/resource-admission-current-host.json"
+        collected = runner([
+            sys.executable,
+            str(collector),
+            "--root", str(root),
+            "--workload-envelope", str(workload_path.resolve()),
+            "--hrb-authorization", str(authorization_path.resolve()),
+            "--receipt", str(receipt),
+        ], timeout=60)
+        if collected.returncode != 0:
+            report = _report("BLOCKED", "CURRENT_HOST_COLLECTOR_BLOCKED", workload=workload, acquire=acquire_meta)
+            report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            return 2, report
+        gated = runner([str(root / "bin/fa3-enforce"), "resource-admission-current-host"], timeout=60)
+        if gated.returncode != 0:
+            report = _report("BLOCKED", "CURRENT_HOST_GATE_BLOCKED", workload=workload, acquire=acquire_meta)
+            report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            return 2, report
+        report = _report("PASS", "CURRENT_HOST_RESOURCE_ADMISSION_PASS", workload=workload, acquire=acquire_meta, claims=["CURRENT_HOST_RESOURCE_ADMISSION_PASS"])
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-        return 2, report
+        return 0, report
 
     accelerator, discovery_error = discover_accelerator(runner)
     if discovery_error or accelerator is None:
@@ -242,6 +288,8 @@ def main() -> int:
     parser.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--workload-envelope")
     parser.add_argument("--hrb-lease")
+    parser.add_argument("--hrb-authorization")
+    parser.add_argument("--authorization-client", default=AUTH_CLIENT_DEFAULT)
     parser.add_argument("--hrb-acquire-command")
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--accelerator-required", action="store_true")
@@ -251,6 +299,8 @@ def main() -> int:
         root,
         workload_envelope=Path(args.workload_envelope) if args.workload_envelope else None,
         hrb_lease=Path(args.hrb_lease) if args.hrb_lease else None,
+        hrb_authorization=Path(args.hrb_authorization) if args.hrb_authorization else None,
+        authorization_client=args.authorization_client,
         prepare_only=args.prepare_only,
         hrb_acquire_command=args.hrb_acquire_command,
         accelerator_required=args.accelerator_required,

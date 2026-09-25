@@ -20,7 +20,7 @@
   "capability_count": 143,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
-  "mandatory_rule_count": 56,
+  "mandatory_rule_count": 61,
   "p0_invariants": [
     "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
     "TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY",
@@ -77,7 +77,12 @@
     "DERIVED_EXECUTION_LEASE_MUST_BE_MINTED_BY_HRB_ONLY",
     "DERIVED_LEASE_RESOURCE_SCOPE_AND_EXPIRY_MUST_BE_SUBSET_OF_PARENT",
     "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
-    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION"
+    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION",
+    "ALL_WORKLOADS_REQUIRE_CURRENT_SCOPE_BOUND_HRB_ADMISSION_AUTHORIZATION",
+    "CPU_ONLY_ADMISSION_AUTHORIZATION_IS_NOT_ACCELERATOR_LEASE",
+    "COLLECTOR_PROVIDER_AND_ORCHESTRATOR_MUST_NOT_MINT_HRB_AUTHORIZATION",
+    "HRB_ADMISSION_AUTHENTICATION_KEY_REMAINS_ROOT_ONLY",
+    "HRB_ADMISSION_HMAC_IS_INTERNAL_EPHEMERAL_AUTH_NOT_DURABLE_EVIDENCE_SIGNATURE"
   ],
   "rules": [
     {
@@ -413,6 +418,36 @@
     {
       "id": "HRB-LOC-044",
       "invariant": "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-045",
+      "invariant": "ALL_WORKLOADS_REQUIRE_CURRENT_SCOPE_BOUND_HRB_ADMISSION_AUTHORIZATION",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-046",
+      "invariant": "CPU_ONLY_ADMISSION_AUTHORIZATION_IS_NOT_ACCELERATOR_LEASE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-047",
+      "invariant": "COLLECTOR_PROVIDER_AND_ORCHESTRATOR_MUST_NOT_MINT_HRB_AUTHORIZATION",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-048",
+      "invariant": "HRB_ADMISSION_AUTHENTICATION_KEY_REMAINS_ROOT_ONLY",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-049",
+      "invariant": "HRB_ADMISSION_HMAC_IS_INTERNAL_EPHEMERAL_AUTH_NOT_DURABLE_EVIDENCE_SIGNATURE",
       "priority": "P0",
       "mandatory": true
     }

@@ -34,7 +34,15 @@ class CurrentHostProjectionTests(unittest.TestCase):
         self.assertIsNotNone(resource)
         self.assertEqual(resource["collector"], "evidence/collect-resource-admission-current-host.py")
         self.assertEqual(resource["gate"], "resource-admission-current-host")
-        self.assertEqual(resource["activation"], "WORKLOAD_SPECIFIC_REAL_HRB_LEASE_REQUIRED")
+        self.assertEqual(
+            resource["activation"],
+            "WORKLOAD_SPECIFIC_CURRENT_SCOPE_BOUND_HRB_AUTHORIZATION_AND_CONDITIONAL_ACCELERATOR_LEASE",
+        )
+        self.assertTrue(resource["hardware_audit"]["vendor_neutral"])
+        self.assertTrue(resource["hardware_audit"]["cpu_only_viable"])
+        self.assertEqual(resource["hardware_audit"]["accelerator_cardinality"], "0..N")
+        self.assertEqual(resource["cpu_only_authorization_schema"], "fa3.hrb-admission-authorization.v1")
+        self.assertTrue(resource["accelerator_lease_conditional"])
         self.assertEqual(resource["machine_model_pin"], "FORBIDDEN")
         self.assertFalse(resource["global_promotion_claim"])
 

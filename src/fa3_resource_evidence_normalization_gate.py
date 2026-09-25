@@ -105,15 +105,19 @@ def validate_evidence_envelope(envelope: dict[str, Any]) -> list[str]:
 def evaluate_resource_admission(
     measured_metrics: dict[str, Any],
     requirements: list[dict[str, Any]],
-    hrb_lease: dict[str, Any] | None,
+    hrb_authorization: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    if not isinstance(hrb_lease, dict) or hrb_lease.get("status") != "VALID" or not hrb_lease.get("lease_id"):
+    authorization_id = (
+        hrb_authorization.get("authorization_id") or hrb_authorization.get("lease_id")
+        if isinstance(hrb_authorization, dict) else None
+    )
+    if not isinstance(hrb_authorization, dict) or hrb_authorization.get("status") != "VALID" or not authorization_id:
         return normalized_result(
             gate_id="FA3-RESOURCE-ADMISSION-CONTRACTS-001",
             mode="ADMISSION",
             result="BLOCKED",
-            reason_code="HRB_LEASE_INVALID",
-            findings=[{"severity": "P0", "status": "FAIL", "message": "A valid HRB lease is required."}],
+            reason_code="HRB_AUTHORIZATION_INVALID",
+            findings=[{"severity": "P0", "status": "FAIL", "message": "A valid HRB admission authorization is required."}],
         )
 
     failed: list[dict[str, Any]] = []
@@ -248,7 +252,7 @@ def run_reference_scenarios() -> dict[str, Any]:
             {"metric": "pcie.h2d_gbps", "operator": ">=", "value": 20},
             {"metric": "numa.remote_latency_p95_ns", "operator": "<=", "value": 250},
         ],
-        hrb_lease={"status": "VALID", "lease_id": "FA3-HRB-LEASE-REF-001"},
+        hrb_authorization={"status": "VALID", "authorization_id": "FA3-HRB-AUTH-REF-001"},
     )
     missing_current_host = normalized_result(
         gate_id="FA3-REFERENCE-SCENARIO-001",
@@ -317,7 +321,7 @@ def gate(root: Path) -> dict[str, Any]:
     check("cu_tu_diagnostic_only", compute.get("aggregate_scores", {}).get("cu_tu_allowed_for_diagnostics_or_gui") is True and compute.get("aggregate_scores", {}).get("cu_tu_allowed_for_production_admission") is False, "CU/TU may be diagnostic only and must not authorize production admission.")
     check("resource_all_dimensions_fail_closed", workload.get("evaluation", {}).get("all_requirements_must_pass") is True and workload.get("evaluation", {}).get("missing_metric") == "FAIL" and workload.get("evaluation", {}).get("cross_metric_compensation") is False, "Workload Resource Envelope must fail closed per required dimension.")
     check("hrb_exclusive_authority", resource.get("authoritative_admission_authority") == "FA3-AUTH-HOST-RESOURCE-BROKER-001" and resource.get("provider_self_admission_forbidden") is True, "HRB must remain the exclusive resource admission/placement/lease authority.")
-    check("resource_chain_complete", resource.get("required_inputs") == ["FA3-HOST-ATTESTATION-001", "FA3-COMPUTE-PROFILE-001", "FA3-WORKLOAD-RESOURCE-ENVELOPE-001", "HRB_LEASE"], "Resource admission must bind attestation, measured compute, workload requirements and HRB lease.")
+    check("resource_chain_complete", resource.get("required_inputs") == ["FA3-HOST-ATTESTATION-001", "FA3-COMPUTE-PROFILE-001", "FA3-WORKLOAD-RESOURCE-ENVELOPE-001", "HRB_ADMISSION_AUTHORIZATION"], "Resource admission must bind attestation, measured compute, workload requirements and current scope-bound HRB authorization.")
     check("evidence_envelope_non_authority", evidence.get("authority_delta") == 0 and evidence.get("envelope_is_registry_authority") is False and evidence.get("envelope_is_promotion_authority") is False, "Evidence Envelope must normalize typed receipts without replacing Registry/Evidence/Promotion authority.")
     check("evidence_claims_non_claims_required", evidence.get("required_result_fields") == ["status", "scope", "claims", "non_claims"], "Evidence results must explicitly state claims and non-claims.")
     check("enforcement_result_states", result_contract.get("result_states") == ["PASS", "BLOCKED", "PENDING", "NOT_APPLICABLE", "ERROR"], "Enforcement Result must use the normalized five-state contract.")

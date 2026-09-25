@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -28,7 +28,8 @@
     "typed systemd manager-default neutrality and per-workload systemd/cgroup projection",
     "filesystem page-cache speculative prefetch admission and rollback policy",
     "runtime isolation resource-envelope and cgroup/device projection",
-    "lease lifecycle revoke eviction verification quarantine"
+    "lease lifecycle revoke eviction verification quarantine",
+    "short-lived generic workload admission authorization"
   ],
   "deterministic_execution_fabric": {
     "topology_discovery": [
@@ -224,5 +225,22 @@
     "hold_and_wait": false,
     "derived_lease_hrb_only": true,
     "parent_revocation_cascades": true
+  },
+  "admission_authorization": {
+    "schema": "fa3.hrb-admission-authorization.v1",
+    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "relationship_to_lease": "DISTINCT_AUTHORIZATION_NOT_RESOURCE_LEASE",
+    "cpu_only_supported": true,
+    "accelerator_lease_still_required_when_accelerator_requested": true,
+    "authentication": {
+      "algorithm": "HMAC-SHA256",
+      "scope": "HRB_INTERNAL_EPHEMERAL_ADMISSION_AUTH",
+      "key_boundary": "HRB_ROOT_ONLY",
+      "durable_evidence_signature": false
+    },
+    "privileged_helper": "/usr/local/libexec/fa3-host-resource-broker-admission-root",
+    "non_root_client": "/usr/local/bin/fa3-host-resource-broker-admission",
+    "current_host_status": "MATERIALIZED_EXECUTABLE_PENDING_REAL_CPU_ONLY_EVIDENCE",
+    "new_architectural_authority": false
   }
 }
