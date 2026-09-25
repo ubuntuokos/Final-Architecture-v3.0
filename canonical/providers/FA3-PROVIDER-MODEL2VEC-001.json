@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MODEL2VEC-001",
+  "name": "Model2Vec CPU/static embedding projection",
+  "status": "MATERIALIZED_STATIC_CURRENT_HOST_ADMISSION_PENDING",
+  "provider_role": "OPTIONAL_CPU_STATIC_AND_BROWSER_WASM_EMBEDDING_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "CPU_ONLY_CAPABLE",
+    "STATIC_EMBEDDING",
+    "BROWSER_WASM_COMPATIBLE"
+  ],
+  "parent_profile": "FA3-EMBEDDING-FABRIC-001",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "execution_classes": [
+    "STATIC",
+    "DENSE"
+  ],
+  "runtime_profile": "FA3-PROVIDER-RUNTIME-001",
+  "preferred_uses": [
+    "ROUTING",
+    "CLASSIFICATION",
+    "PREFILTER",
+    "BROWSER_SEMANTIC_SEARCH"
+  ],
+  "authority_boundaries": {
+    "routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "execution": "FA3-INFERENCE-PORTABILITY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "browser_path": {
+    "default_local": true,
+    "wasm_allowed": true,
+    "silent_host_or_remote_fallback": false
+  },
+  "coexistence": {
+    "namespaced_state": true,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false
+  },
+  "current_host_production_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "runtime_activation_status": "NOT_ADMITTED_BY_STATIC_MATERIALIZATION",
+  "global_promotion_claim": false
+}
