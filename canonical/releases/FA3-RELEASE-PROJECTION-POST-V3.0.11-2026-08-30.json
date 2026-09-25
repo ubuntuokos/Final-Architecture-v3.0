@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8fb0961e67b76caf1f8358d150e277519246a181",
-    "pre_projection_root_tree_sha": "7865c9ea92c8fe3a21db21d4a5f69f241a3a55a9",
-    "pre_projection_canonical_tree_sha": "f1cee1155988dc7cae9f38eec7a6709d8f2bec0f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 935,
-    "total_post_baseline_commits": 935,
-    "delta_file_count": 2243,
-    "delta_added_files": 2238,
+    "pre_projection_head_sha": "38748dee62f14005fe14cf39dfaba6c3ec9b882a",
+    "pre_projection_root_tree_sha": "d30ddf2af020aedeb3b5db55c8d2f7b06e8d95f2",
+    "pre_projection_canonical_tree_sha": "cce09c2db21c77251855c42d79eb3a5e1a5b5be1",
+    "commits_ahead_of_v3_0_11_conformance_commit": 943,
+    "total_post_baseline_commits": 943,
+    "delta_file_count": 2245,
+    "delta_added_files": 2240,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1082,
+    "canonical_files_in_post_baseline_delta": 1084,
     "evidence_files_in_post_baseline_delta": 167,
     "source_files_in_post_baseline_delta": 300,
     "test_files_in_post_baseline_delta": 241,
@@ -967,7 +967,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2234,
+  "manifest_entry_count": 2236,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3705,6 +3705,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "394b733d03a24e537cf5ef6e98fe165704d812de",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "7be229d5581e7a0a150aa3e7273004750982b4d2",
       "baseline_delta_status": "added"
@@ -5547,6 +5552,11 @@
     {
       "path": "canonical/intents/FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "277b5cd3488a13839978932cac08ba4ae5c7ac54",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "7c66088d73ba41678a766f91473e6c4b7a118077",
       "baseline_delta_status": "added"
     },
     {
@@ -9316,7 +9326,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "a15682d9d70df40b1bd08a1fa3602539dc1ac367",
+      "git_blob_sha": "9ef65ce978e0e5a0ef774710a23361c457cfc960",
       "baseline_delta_status": "added"
     },
     {
@@ -9926,7 +9936,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "c4cf4c5cbe4983ce53c0cc9c750c0b60277b9b7a",
+      "git_blob_sha": "fcae8c94f51a5c94b4e27d9982e9bd9e3c6c3dc0",
       "baseline_delta_status": "added"
     },
     {
@@ -10586,7 +10596,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "ca6fac558eb82a62b6c16d2d3eaf2e31b522a72b",
+      "git_blob_sha": "9819def3875c8be7d926c140418c58c6916e31a9",
       "baseline_delta_status": "added"
     },
     {
@@ -10631,7 +10641,7 @@
     },
     {
       "path": "src/fa3_reuse_gate.py",
-      "git_blob_sha": "9459179a7b1d1b9d820b8c6d924508f935b2539b",
+      "git_blob_sha": "fe1da2cf08809b939a15efd1b9120310c49d937d",
       "baseline_delta_status": "added"
     },
     {
@@ -13936,6 +13946,8 @@
   },
   "gui_current_host_closure_reconciliation": {
     "profile_id": "FA3-DESKTOP-001",
+    "application_intent_id": "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001",
+    "reuse_assessment_id": "FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001",
     "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
     "gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
     "gate_record_id": "FA3-GATE-GUI-CURRENT-HOST-001",
@@ -13951,6 +13963,18 @@
     "secret_backend_pass_claimed": false,
     "secret_backend_authority_owner": "CAP-003",
     "secret_backend_used_for_gui_runtime_admission": false,
+    "hardware_audit": {
+      "vendor_neutral": true,
+      "cpu_only_viable": true,
+      "accelerator_cardinality": "0..N",
+      "global_accelerator_requirement": false
+    },
+    "software_coexistence": {
+      "required": true,
+      "namespaced": true,
+      "upstream_uninstall_required": false,
+      "global_mutation": false
+    },
     "tested_source_commit": null,
     "status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN",
     "current_host_receipt_present": false,
