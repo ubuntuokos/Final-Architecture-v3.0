@@ -22,5 +22,26 @@
     "security_relevant_loss": "FAIL_CLOSED",
     "tool_semantic_loss": "FAIL_CLOSED_UNLESS_EXPLICITLY_ALLOWED_BY_CALLER_POLICY",
     "receipt_required": true
+  },
+  "embedding_protocol_extension": {
+    "typed_capabilities": [
+      "EMBEDDING_PROTOCOL",
+      "RERANK_PROTOCOL"
+    ],
+    "endpoint_shapes": [
+      "OPENAI_COMPATIBLE_V1_EMBEDDINGS",
+      "PROVIDER_NATIVE_EMBED",
+      "PROVIDER_NATIVE_RERANK"
+    ],
+    "semantic_compatibility_from_wire_shape": "FORBIDDEN",
+    "preserved_semantics": [
+      "query_document_prefix",
+      "normalization",
+      "pooling",
+      "dimensions",
+      "immutable_model_revision",
+      "embedding_space_identity"
+    ],
+    "semantic_loss": "FAIL_CLOSED"
   }
 }
