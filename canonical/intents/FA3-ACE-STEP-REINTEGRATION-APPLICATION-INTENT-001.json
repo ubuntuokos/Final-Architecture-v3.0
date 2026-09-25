@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-ACE-STEP-REINTEGRATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-PROVIDER-ACE-STEP-001",
+  "project_type": "PROVIDER",
+  "goal": "Reintegrate ACE-Step as the required primary local generative-music provider under the existing FA3 Music, Model Router, HRB, security, evidence, artifact/model registry and orchestration authorities while preserving vendor-neutral hardware policy and software coexistence.",
+  "required_capabilities": [
+    "CAP-017",
+    "CAP-066",
+    "CAP-131"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "generative-music",
+    "song-planning",
+    "audio-editing",
+    "music-personalization",
+    "provider-reintegration",
+    "runtime-promotion-evidence"
+  ],
+  "task_classes": [
+    "music",
+    "audio",
+    "generation",
+    "editing"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "TEXT",
+    "AUDIO",
+    "MODEL_ARTIFACT"
+  ],
+  "output_modalities": [
+    "AUDIO",
+    "LOSSLESS_MEDIA_ARTIFACT",
+    "PROVENANCE"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_HOST_VALID_GLOBALLY",
+    "OPTIONAL_ACCELERATOR_PROVIDER_EXECUTION"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "ACE_STEP_CURRENT_HOST_RUNTIME_AND_AUDIO_QUALITY_PROMOTION_EVIDENCE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "workload_accelerator_execution_requires_hrb_lease": true,
+    "fixed_gpu_sku_or_vram_requirement": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-ace-step",
+    "service_prefix": "fa3-ace-step",
+    "config_root": "$XDG_CONFIG_HOME/fa3/ace-step",
+    "cache_root": "$XDG_CACHE_HOME/fa3/ace-step",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/ace-step",
+    "socket_namespace": "fa3/ace-step",
+    "data_root": "$XDG_DATA_HOME/fa3/ace-step",
+    "desktop_prefix": "org.fa3.ace-step",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "AUTHENTICATED_LOOPBACK_REST_ADAPTER",
+    "IMMUTABLE_RUNTIME_AND_MODEL_IDENTITY",
+    "FAIL_CLOSED_NUMERIC_INTEGRITY"
+  ],
+  "integration_requirements": [
+    "FA3-MUSIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REG-ARTIFACT-MODEL-001",
+    "TEMPORAL_EXISTING_AUTHORITY",
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "gui_requirements": [
+    "FA3_CONTROL_CENTER_AI_STUDIO_MUSIC_PROVIDER_PROJECTION_ONLY"
+  ]
+}
