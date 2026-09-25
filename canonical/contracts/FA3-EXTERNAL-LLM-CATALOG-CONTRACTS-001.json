@@ -8,7 +8,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "source_contract": {
     "immutable_revision_required_for_evidence": true,
     "source_bytes_sha256_recorded_on_normalization": true,
@@ -30,7 +30,13 @@
     "source_attribution"
   ],
   "state_machine": {
-    "ordered_states": ["DISCOVERED", "OBSERVED", "VERIFIED", "ADMITTED", "ENABLED"],
+    "ordered_states": [
+      "DISCOVERED",
+      "OBSERVED",
+      "VERIFIED",
+      "ADMITTED",
+      "ENABLED"
+    ],
     "parser_initial_state": "DISCOVERED",
     "state_skip": "DENY",
     "catalog_source_may_set_verified_or_higher": false,
@@ -91,5 +97,7 @@
     "invalid_state_transition": "FAIL_CLOSED",
     "missing_admission_evidence": "NOT_RUNTIME_ELIGIBLE",
     "source_unavailable": "KEEP_LAST_VALID_LOCAL_RUNTIME_CATALOG_NO_AUTO_PROMOTION"
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
