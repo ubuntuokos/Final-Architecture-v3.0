@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-WAN22-001",
+  "name": "Wan2.2 Motion/Video Provider",
+  "status": "ACCEPTED_EXECUTION_CANDIDATE_CURRENT_HOST_PENDING",
+  "provider_role": "FREE_OPEN_LOCAL_MULTIMODAL_VIDEO_EXECUTION_PROVIDER",
+  "requirement": "OPTIONAL",
+  "profile": "FA3-VIDEO-001",
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_ADMITTED_ONLY",
+  "upstream": {
+    "repository": "Wan-Video/Wan2.2",
+    "commit": "1ea34ff48f87168174e12956e200b1d908b1c5ff",
+    "code_license": "Apache-2.0",
+    "model_license": "Apache-2.0",
+    "reference_id": "FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26"
+  },
+  "supported_projection_classes": [
+    "TEXT_TO_VIDEO",
+    "IMAGE_TO_VIDEO",
+    "TEXT_IMAGE_TO_VIDEO",
+    "SPEECH_TO_VIDEO",
+    "CHARACTER_ANIMATION",
+    "CHARACTER_REPLACEMENT"
+  ],
+  "execution": {
+    "fabric": "FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
+    "contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "transport": "FA3_EXECUTOR_COMMAND",
+    "wrapper": "bin/fa3-wan22-provider-exec.py",
+    "cost_class": "FREE_LOCAL",
+    "execution_topology": "LOCAL",
+    "direct_application_execution_forbidden": true,
+    "model_router_selection_required": true,
+    "provider_admission_receipt_required": true,
+    "local_accelerator_requires_hrb": true,
+    "silent_fallback_allowed": false
+  },
+  "runtime_sources": {
+    "official_checkout": {
+      "status": "SUPPORTED_ADMISSION_TARGET",
+      "immutable_commit_required": true,
+      "isolated_environment_required": true,
+      "network_fetch_during_admission": false
+    },
+    "stability_matrix_wangp": {
+      "status": "COMPATIBILITY_RUNTIME_CANDIDATE",
+      "lifecycle_owner": "FA3 Stability Matrix fabric",
+      "reuse_existing_installation_preferred": true,
+      "separate_adapter_compatibility_evidence_required": true,
+      "automatic_equivalence_to_official_runtime": false
+    }
+  },
+  "model_policy": {
+    "no_fixed_model_pin_in_application": true,
+    "admitted_model_artifact_required": true,
+    "artifact_identity_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "runtime_variant_selected_after_capability_and_resource_admission": true,
+    "known_upstream_families": [
+      "ti2v-5B",
+      "t2v-A14B",
+      "i2v-A14B",
+      "s2v-14B",
+      "animate-14B"
+    ]
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "hardware_policy": {
+    "vendor_neutral_architecture": true,
+    "cpu_only_architecture_valid": true,
+    "accelerator_cardinality": "0..N",
+    "provider_runtime_may_have_stricter_workload_requirements": true,
+    "current_host_gpu_pin_forbidden": true
+  },
+  "coexistence": {
+    "upstream_uninstall_forbidden": true,
+    "namespaced_runtime_required": true,
+    "stability_matrix_installation_must_not_be_hijacked": true,
+    "global_python_or_gpu_runtime_mutation_forbidden": true
+  },
+  "current_host_production_evidence": "PENDING",
+  "global_promotion_claim": false
+}
