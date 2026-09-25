@@ -57,12 +57,30 @@ def _score(intent: dict[str, Any], entry: dict[str, Any]) -> tuple[int, list[str
         score += 40 * len(exact_optional)
         reasons.append("EXACT_OPTIONAL_CAPABILITY:" + ",".join(exact_optional))
 
-    intent_terms = _terms(list(intent.get("problem_classes", [])) + list(intent.get("execution_classes", [])))
+    intent_terms = _terms(
+        list(intent.get("problem_classes", []))
+        + list(intent.get("execution_classes", []))
+        + list(intent.get("task_classes", []))
+        + list(intent.get("skill_triggers", []))
+    )
     candidate_terms = set(entry.get("tokens", []))
     overlap = sorted(intent_terms & candidate_terms)
     if overlap:
         score += min(30, 5 * len(overlap))
         reasons.append("TERM_MATCH:" + ",".join(overlap[:6]))
+
+    if entry.get("candidate_class") == "SKILL":
+        requested_tasks = set(intent.get("task_classes", []))
+        skill_tasks = set(entry.get("skill_task_classes", []))
+        task_overlap = sorted(requested_tasks & skill_tasks)
+        if task_overlap:
+            score += 60 * len(task_overlap)
+            reasons.append("SKILL_TASK_CLASS_MATCH:" + ",".join(task_overlap))
+        requested_triggers = set(intent.get("skill_triggers", []))
+        trigger = entry.get("skill_trigger")
+        if trigger and trigger in requested_triggers:
+            score += 80
+            reasons.append("SKILL_TRIGGER_MATCH:" + str(trigger))
     return score, reasons
 
 
@@ -72,7 +90,11 @@ def _reuse_mode(entry: dict[str, Any]) -> str:
     status = str(entry.get("status", ""))
     if cls == "REUSABLE_PATTERN":
         return "PATTERN_REUSE"
-    if cls in {"UPSTREAM_REFERENCE", "THIRD_PARTY_REFERENCE"} or dist == "REFERENCE_ONLY":
+    if cls == "SKILL":
+        if entry.get("admitted") is True and status == "ADMITTED" and entry.get("task_scoped") is True:
+            return "ADMITTED_SKILL_REUSE"
+        return "SKILL_REFERENCE_ADMISSION_REQUIRED"
+    if cls in {"UPSTREAM_REFERENCE", "THIRD_PARTY_REFERENCE", "EXTERNAL_SKILL_SOURCE"} or dist == "REFERENCE_ONLY":
         return "REFERENCE_ONLY"
     if cls == "PROVIDER" and ("PENDING" in status or "NOT_ADMITTED" in status or "BLOCKED" in status):
         return "DESIGN_REUSE_RUNTIME_PENDING"
@@ -138,6 +160,12 @@ def resolve(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         row["score"] = score
         row["match_reasons"] = reasons
         row["reuse_mode"] = _reuse_mode(entry)
+        if row.get("candidate_class") == "SKILL" and row["reuse_mode"] != "ADMITTED_SKILL_REUSE":
+            row["activation_candidate"] = False
+        elif row.get("candidate_class") == "SKILL":
+            row["activation_candidate"] = True
+        else:
+            row["activation_candidate"] = False
         candidates.append(row)
     candidates.sort(key=lambda row: (-row["score"], row["candidate_class"], row["candidate_id"]))
 
@@ -176,4 +204,6 @@ def resolve(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         "existing_authority_bindings": AUTHORITY_ROLE_MAP,
         "decision_fabric_candidate_expansion": "DENY",
         "agent_native_output": "PROPOSAL_ONLY",
+        "skill_activation_authority": False,
+        "external_skill_source_install_authority": False,
     }
