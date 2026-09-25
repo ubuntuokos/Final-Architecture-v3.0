@@ -750,6 +750,7 @@ def gate(root: Path):
         "src/fa3_hrb_composite_lease.py",
         "src/fa3_supply_runtime_hardening_gate.py",
         "tools/fa3_supply_chain_scan.py",
+        "tools/fa3_bind_provider_runtime.py",
         "tests/test_supply_runtime_hardening.py",
         ".github/workflows/fa3-supply-runtime-hardening.yml",
         "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
