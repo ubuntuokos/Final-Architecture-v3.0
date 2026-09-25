@@ -4,10 +4,10 @@ import argparse,json
 from datetime import datetime,timezone
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import load_active_release_baseline
 from fa3_modernization_integration import ai_quality_evaluator_valid,finops_projection_valid,inference_execution_valid,knowledge_accelerator_valid,runtime_enforcement_valid,usage_rights_valid
 
 GATE_ID="FA3-MODERNIZATION-INTEGRATION-GATESET-001"
-CAPABILITY_COUNT=143
 PATHS={"contract":"canonical/contracts/FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001.json","decision":"canonical/decisions/FA3-DEC-MODERNIZATION-INTEGRATION-2026-09-25.json","reference":"canonical/references/FA3-MODERNIZATION-PROVIDER-CANDIDATES-2026-09-25.json","intent":"canonical/intents/FA3-MODERNIZATION-INTEGRATION-APPLICATION-INTENT-001.json","assessment":"canonical/assessments/FA3-MODERNIZATION-INTEGRATION-REUSE-ASSESSMENT-001.json","enforcement":"canonical/modernization-integration-enforcement.json","gate":"canonical/FA3-GATE-MODERNIZATION-INTEGRATION-001.json","policy":"canonical/enforcement-policy.json"}
 
 def _load(path:Path)->dict[str,Any]: return json.loads(path.read_text(encoding="utf-8"))
@@ -32,13 +32,13 @@ def regressions()->list[dict[str,Any]]:
     return cases
 
 def gate(root:Path)->dict[str,Any]:
-    root=root.resolve(); findings=[]; data={}
+    root=root.resolve(); capability_count=load_active_release_baseline(root).capability_count; findings=[]; data={}
     for key,rel in PATHS.items():
         try: data[key]=_load(root/rel)
         except Exception as exc: findings.append(_finding("MODERN-000","Required modernization materialization unreadable",path=rel,error=repr(exc)))
     if not findings:
         contract=data["contract"]; decision=data["decision"]; reference=data["reference"]; intent=data["intent"]; assessment=data["assessment"]; enforcement=data["enforcement"]; gate_record=data["gate"]; policy=data["policy"]
-        if not (contract.get("id")=="FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001" and contract.get("provider_neutral") is True and contract.get("new_capability") is False and contract.get("new_architectural_authority") is False and contract.get("capability_count")==CAPABILITY_COUNT): findings.append(_finding("MODERN-001","Modernization contract authority/capability invariant drift"))
+        if not (contract.get("id")=="FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001" and contract.get("provider_neutral") is True and contract.get("new_capability") is False and contract.get("new_architectural_authority") is False and contract.get("capability_count")==capability_count): findings.append(_finding("MODERN-001","Modernization contract authority/capability invariant drift"))
         expected={"model_routing":"FA3-AUTH-MODEL-ROUTER-001","host_resources":"FA3-AUTH-HOST-RESOURCE-BROKER-001","knowledge":"FA3-KNOWLEDGE-001","security":"FA3-AUTH-SECURITY-GOV-001","actions":"FA3-UNIFIED-ACTION-FABRIC-001","evidence":"FA3-AUTH-OBS-EVIDENCE-001","provider_runtime":"FA3-PROVIDER-RUNTIME-001"}
         if contract.get("authority_bindings",{})!=expected: findings.append(_finding("MODERN-002","Existing authority bindings changed or duplicated"))
         hw=intent.get("hardware_audit",{})
@@ -48,21 +48,21 @@ def gate(root:Path)->dict[str,Any]:
         if not (assessment.get("result")=="PASS" and assessment.get("intent_id")==intent.get("id") and assessment.get("hardware_audit",{}).get("cpu_only_viable") is True and assessment.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N" and assessment.get("coexistence",{}).get("result")=="PASS" and assessment.get("current_host_runtime_promotion_claim") is False and assessment.get("global_promotion_claim") is False): findings.append(_finding("MODERN-005","Reuse assessment is not fail-closed PASS with hardware/coexistence boundaries"))
         req={"NEW_UNIFIED_EXECUTION_ENGINE_AUTHORITY","NEW_DISTRIBUTED_HRB_AUTHORITY","NEW_SEMANTIC_ROUTER_AUTHORITY","NEW_HRB_FINANCIAL_AUTHORITY","MODEL_PROVIDER_DEVICE_OR_CLOUD_SILENT_FALLBACK","DOCUMENT_DERIVED_CURRENT_HOST_PASS"}
         if not req.issubset(set(decision.get("rejected",[]))): findings.append(_finding("MODERN-006","Decision no longer rejects known authority/fallback anti-patterns"))
-        if not (decision.get("baseline",{}).get("capability_count_after")==CAPABILITY_COUNT and decision.get("baseline",{}).get("new_architectural_authorities")==0 and decision.get("closure_semantics",{}).get("current_host_surfaces")=="PENDING_CURRENT_HOST" and decision.get("closure_semantics",{}).get("global_promotion_claim") is False): findings.append(_finding("MODERN-007","Decision overclaims closure or changes authority/capability baseline"))
+        if not (decision.get("baseline",{}).get("capability_count_after")==capability_count and decision.get("baseline",{}).get("new_architectural_authorities")==0 and decision.get("closure_semantics",{}).get("current_host_surfaces")=="PENDING_CURRENT_HOST" and decision.get("closure_semantics",{}).get("global_promotion_claim") is False): findings.append(_finding("MODERN-007","Decision overclaims closure or changes authority/capability baseline"))
         candidates=reference.get("candidates",[]); seen={str(c.get("candidate_id")) for c in candidates}
         if seen!={"VLLM","STABLEHLO","TVM","TETRAGON","LANCEDB"}: findings.append(_finding("MODERN-008","Provider candidate reference set drift",seen=sorted(seen)))
         for c in candidates:
             commit=str(c.get("immutable_reference_commit",""))
             if c.get("admission_status")!="NOT_ADMITTED_REFERENCE_ONLY" or c.get("supply_chain_admission_required") is not True or c.get("current_host_e2e_required") is not True or len(commit)!=40 or any(ch not in "0123456789abcdef" for ch in commit.lower()): findings.append(_finding("MODERN-009","Reference candidate illegally implies admission or lacks immutable identity",candidate=c.get("candidate_id")))
-        if not (enforcement.get("gate_id")==GATE_ID and enforcement.get("fail_closed") is True and enforcement.get("capability_count")==CAPABILITY_COUNT and enforcement.get("authority_delta")==0 and enforcement.get("mandatory_rule_count")==len(enforcement.get("p0_invariants",[])) and enforcement.get("current_host_promotion_claim") is False and enforcement.get("global_promotion_claim") is False): findings.append(_finding("MODERN-010","Enforcement record invariant drift"))
-        if not (gate_record.get("gateset_id")==GATE_ID and gate_record.get("fail_closed") is True and gate_record.get("capability_count")==CAPABILITY_COUNT and gate_record.get("new_capability") is False and gate_record.get("new_architectural_authority") is False and gate_record.get("current_host_promotion_claim") is False and gate_record.get("global_promotion_claim") is False): findings.append(_finding("MODERN-011","Executable gate record invariant drift"))
+        if not (enforcement.get("gate_id")==GATE_ID and enforcement.get("fail_closed") is True and enforcement.get("capability_count")==capability_count and enforcement.get("authority_delta")==0 and enforcement.get("mandatory_rule_count")==len(enforcement.get("p0_invariants",[])) and enforcement.get("current_host_promotion_claim") is False and enforcement.get("global_promotion_claim") is False): findings.append(_finding("MODERN-010","Enforcement record invariant drift"))
+        if not (gate_record.get("gateset_id")==GATE_ID and gate_record.get("fail_closed") is True and gate_record.get("capability_count")==capability_count and gate_record.get("new_capability") is False and gate_record.get("new_architectural_authority") is False and gate_record.get("current_host_promotion_claim") is False and gate_record.get("global_promotion_claim") is False): findings.append(_finding("MODERN-011","Executable gate record invariant drift"))
         if GATE_ID not in policy.get("mandatory_reference_gates",[]): findings.append(_finding("MODERN-012","Modernization gate is not bound into permanent enforcement policy"))
         if policy.get("modernization_integration_gate_id")!=GATE_ID: findings.append(_finding("MODERN-013","Permanent policy missing modernization gate identity"))
         if policy.get("modernization_integration_contract_id")!=contract.get("id"): findings.append(_finding("MODERN-014","Permanent policy missing modernization contract identity"))
         if policy.get("modernization_integration_mandatory_p0_rules")!=enforcement.get("p0_invariants"): findings.append(_finding("MODERN-015","Permanent policy modernization P0 rule set drift"))
     rows=regressions()
     if any(row["result"]!="PASS" for row in rows): findings.append(_finding("MODERN-016","Executable modernization boundary regression failed"))
-    return {"schema":"fa3.modernization-integration-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","status":"STATIC_MATERIALIZED_CURRENT_HOST_PENDING" if not findings else "BLOCKED","capability_count":CAPABILITY_COUNT,"new_capabilities":0,"new_architectural_authorities":0,"current_host_promotion_claim":False,"global_promotion_claim":False,"regressions":rows,"findings":findings}
+    return {"schema":"fa3.modernization-integration-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","status":"STATIC_MATERIALIZED_CURRENT_HOST_PENDING" if not findings else "BLOCKED","capability_count":capability_count,"new_capabilities":0,"new_architectural_authorities":0,"current_host_promotion_claim":False,"global_promotion_claim":False,"regressions":rows,"findings":findings}
 
 def main()->int:
     p=argparse.ArgumentParser(description="FA3 modernization integration canonical gate"); p.add_argument("--root",default=str(Path(__file__).resolve().parents[1])); a=p.parse_args(); root=Path(a.root).resolve(); report=gate(root)
