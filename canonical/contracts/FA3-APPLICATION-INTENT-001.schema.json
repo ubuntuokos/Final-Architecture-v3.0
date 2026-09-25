@@ -135,6 +135,22 @@
       "items": {
         "type": "string"
       }
+    },
+    "task_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "description": "Task classes used to discover admitted FA3 Skill Fabric candidates."
+    },
+    "skill_triggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "description": "Optional exact Skill Fabric triggers to consider during reuse discovery."
     }
   },
   "additionalProperties": true
