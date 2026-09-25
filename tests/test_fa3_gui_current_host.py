@@ -304,6 +304,10 @@ class GuiCurrentHostTests(unittest.TestCase):
             text,
         )
         self.assertIn(
+            "github.event_name == 'workflow_dispatch'",
+            text,
+        )
+        self.assertNotIn(
             "github.event.pull_request.head.repo.full_name == github.repository",
             text,
         )
