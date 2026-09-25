@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "5f273a8f712f31f59e4b8e75d6cea2e31c9e919c",
-    "pre_projection_root_tree_sha": "f1e2382524e9191084ed7b7314010198d18d61ac",
-    "pre_projection_canonical_tree_sha": "8d82fedacb20a45df56b45b9857181ae9e3c2ee9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 694,
-    "total_post_baseline_commits": 694,
-    "delta_file_count": 1980,
-    "delta_added_files": 1975,
+    "pre_projection_head_sha": "cf5bb9d8d8f2136e9efe0895d193babbe78f4a71",
+    "pre_projection_root_tree_sha": "d8c0758fb1a7338294b38450865c1aed0ea4dd16",
+    "pre_projection_canonical_tree_sha": "af3d2c152ba16f75b8ee9ed4bef3ca440e18c184",
+    "commits_ahead_of_v3_0_11_conformance_commit": 697,
+    "total_post_baseline_commits": 697,
+    "delta_file_count": 1982,
+    "delta_added_files": 1977,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 932,
+    "canonical_files_in_post_baseline_delta": 934,
     "evidence_files_in_post_baseline_delta": 151,
     "source_files_in_post_baseline_delta": 267,
     "test_files_in_post_baseline_delta": 224,
@@ -894,7 +894,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1972,
+  "manifest_entry_count": 1974,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3227,6 +3227,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-AGENCY-AGENTS-PROVIDER-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "c9e5a96214d6e0397d029e4fe46236efd13bd3a2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-BROWSER-ACTION-RUNTIME-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "4296d2f890ac279be1212db0d45824d80ca10552",
       "baseline_delta_status": "added"
@@ -4814,6 +4819,11 @@
     {
       "path": "canonical/integration-broker-enforcement.json",
       "git_blob_sha": "8418c5ac02c2de777f50f84d7cd116b1b541988a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-AGENCY-AGENTS-PROVIDER-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "37db712579c6847870d05631fbba06fcb8f879f7",
       "baseline_delta_status": "added"
     },
     {
@@ -10954,7 +10964,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-24",
+  "last_reconciled_at": "2026-09-25",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
