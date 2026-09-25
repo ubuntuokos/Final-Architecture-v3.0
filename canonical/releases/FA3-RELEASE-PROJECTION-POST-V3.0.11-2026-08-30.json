@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "459c6d63d37c0d0ec4f27b00856490529bfe16c1",
-    "pre_projection_root_tree_sha": "19bff82db2f7080e30375419c660db31c6b2525f",
-    "pre_projection_canonical_tree_sha": "c36db661cf54f4e31f095c34f48e8b3b98fb293a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 619,
-    "total_post_baseline_commits": 619,
-    "delta_file_count": 1914,
-    "delta_added_files": 1909,
+    "pre_projection_head_sha": "8d5f4bdf84582b28855f0c29af757ed6f9d0912f",
+    "pre_projection_root_tree_sha": "f43c74ee7dda94f6eb52fbf61aa5fb148dd75a04",
+    "pre_projection_canonical_tree_sha": "a2255ac3e2325a1d2ae5b6eb9be1415c70e0dddc",
+    "commits_ahead_of_v3_0_11_conformance_commit": 622,
+    "total_post_baseline_commits": 622,
+    "delta_file_count": 1915,
+    "delta_added_files": 1910,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 899,
-    "evidence_files_in_post_baseline_delta": 149,
+    "evidence_files_in_post_baseline_delta": 150,
     "source_files_in_post_baseline_delta": 260,
     "test_files_in_post_baseline_delta": 222,
     "workflow_files_in_post_baseline_delta": 91,
@@ -622,6 +622,7 @@
       "evidence/reference/gtcrn-reference-pass.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
+      "evidence/reference/hrb-lease-lifecycle-current-host-2026-09-25.json",
       "evidence/reference/hrb-systemd-manager-portable-ci-2026-09-09.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
       "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
@@ -879,7 +880,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1907,
+  "manifest_entry_count": 1908,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -4998,7 +4999,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "249539469752413fc0cf289f9fb2acf31d0c6cdd",
+      "git_blob_sha": "e32c4d0184684517afb46ae6e35666d3585f2868",
       "baseline_delta_status": "added"
     },
     {
@@ -7444,6 +7445,11 @@
     {
       "path": "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "git_blob_sha": "99ac7fd84a53e123d0d941aededcb41f0b65958a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/hrb-lease-lifecycle-current-host-2026-09-25.json",
+      "git_blob_sha": "d5f1e1dad34007fa6ea074654439ad3a425327c8",
       "baseline_delta_status": "added"
     },
     {
