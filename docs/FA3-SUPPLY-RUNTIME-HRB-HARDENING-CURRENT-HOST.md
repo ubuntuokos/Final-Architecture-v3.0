@@ -8,7 +8,7 @@ The test remains vendor-neutral and CPU-only compatible. Accelerator cardinality
 
 ## Automated supply-chain admission
 
-Select a real local artifact/source tree with an immutable source repository + commit and declared SPDX license. Syft, Grype and ScanCode must already be installed on the host; the workflow never downloads scanners. The scan computes a content hash, generates a CycloneDX SBOM, evaluates vulnerabilities, derives license compatibility from `FA3-SCS-LICENSE-POLICY-001`, and writes `supply-chain-admission-current-host.json`.
+Select a real local artifact/source tree with an immutable source repository + commit, artifact kind and declared SPDX license. `SOURCE_BUILD` and `OCI_IMAGE_EXPORT` require a dependency lock; only `PREBUILT_BINARY` may omit it. Syft, Grype and ScanCode must already be installed on the host; the workflow never downloads scanners. The scan computes a content hash, generates a CycloneDX SBOM, evaluates vulnerabilities, derives license compatibility from `FA3-SCS-LICENSE-POLICY-001`, and writes `supply-chain-admission-current-host.json`.
 
 ## Provider runtime environment
 
@@ -22,7 +22,7 @@ This surface proves control-plane semantics only. It does **not** claim that a p
 
 ## hu-HU golden corpus
 
-Prepare a corpus manifest covering every canonical FA3-HU-AQC-001 category. Each entry points to a real local PCM16 WAV plus a current-host scorer bundle accepted by the existing single-sample HU-AQC collector. Voice-cloning entries require explicit GRANTED consent. Threshold relaxation is forbidden for closure.
+Prepare a corpus manifest covering every canonical FA3-HU-AQC-001 category. Each entry points to a real local PCM16 WAV plus a current-host scorer bundle accepted by the existing single-sample HU-AQC collector. Every entry requires an opaque provenance reference. Any scorer bundle with `cloning=true` requires explicit `GRANTED` consent plus an opaque consent reference; the dedicated voice-cloning category additionally requires `cloning=true`. Threshold relaxation is forbidden for closure.
 
 The corpus and audio are operator inputs and are not committed to the repository.
 
