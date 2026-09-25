@@ -127,11 +127,40 @@ def license_reuse_mode(license_name: str | None) -> str:
     return "MANUAL_LICENSE_REVIEW_REQUIRED"
 
 
+def reuse_hints(row: dict[str, Any]) -> dict[str, Any]:
+    hay = " ".join(str(row.get(k, "")) for k in ("name", "category", "offering", "decision_point")).lower()
+    capabilities: list[str] = []
+    patterns: list[str] = []
+    consumers: list[str] = []
+    collisions: list[str] = []
+    if "browser" in hay:
+        capabilities.append("fa3.browser.navigate")
+        consumers.append("FA3-WEB-AI-001")
+    if any(token in hay for token in ("memory", "knowledge", "rag", "retrieval")):
+        capabilities.extend(["fa3.memory.retrieve", "fa3.document.retrieve"])
+        consumers.append("FA3-KNOWLEDGE-001")
+    if any(token in hay for token in ("model", "inference", "embedding", "llm")):
+        consumers.extend(["FA3-MODEL-MANAGER-001", "FA3-INFERENCE-PORTABILITY-001"])
+        patterns.append("FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001")
+    if any(token in hay for token in ("migration", "version", "upgrade")):
+        patterns.append("FA3-PATTERN-SHADOW-MIGRATION-001")
+    if any(token in hay for token in ("router", "scheduler", "registry", "authority")):
+        collisions.extend(["MODEL_ROUTING_OR_RESOURCE_OR_REGISTRY_AUTHORITY_REVIEW_REQUIRED"])
+    return {
+        "problem_classes": sorted(set(re.findall(r"[a-z0-9-]+", str(row.get("category", "")).lower()))),
+        "potential_capability_bindings": sorted(set(capabilities)),
+        "reusable_patterns": sorted(set(patterns)),
+        "possible_existing_fa3_consumers": sorted(set(consumers)),
+        "authority_collision_candidates": sorted(set(collisions)),
+    }
+
+
 def build_normalized(snapshot_dir: Path) -> dict[str, Any]:
     manifest = validate_manifest(snapshot_dir / "manifest.json")
     rows = normalize_readme(snapshot_dir)
     for row in rows:
         row["reuse_mode"] = license_reuse_mode(row.get("declared_license"))
+        row.update(reuse_hints(row))
     return {
         "schema": "fa3.external-project-radar.normalized.v1",
         "source_repository": manifest["source_repository"],

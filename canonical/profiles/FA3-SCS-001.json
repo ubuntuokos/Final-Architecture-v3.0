@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-SCS-001",
   "name": "Software & Model Supply-Chain Security, Provenance and Trust Overlay",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -29,12 +29,25 @@
     "RUNTIME_SECRET_DELIVERY_REQUIRES_SECRETREF_OR_CREDENTIAL_LEASE",
     "COMMERCIAL_AND_REDISTRIBUTION_COMPATIBILITY_ARE_EXPLICIT_ATTESTATIONS",
     "UNKNOWN_REQUIRED_DISTRIBUTION_FACT_FAILS_CLOSED",
-    "RELEASE_BUNDLE_INCLUSION_REQUIRES_DISTRIBUTION_DECISION_RECEIPT"
+    "RELEASE_BUNDLE_INCLUSION_REQUIRES_DISTRIBUTION_DECISION_RECEIPT",
+    "AUTOMATED_SBOM_LICENSE_VULNERABILITY_ATTESTATION_REQUIRED_FOR_DISTRIBUTED_RUNTIME_ARTIFACTS",
+    "UNMANAGED_UPSTREAM_PATCHSET_FORBIDDEN"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "cross_cutting_bindings": {
     "secret_broker": "FA3-SECRET-BROKER-001",
     "human_credential_vault": "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001",
     "distribution_compliance": "FA3-DISTRIBUTION-COMPLIANCE-001"
+  },
+  "automated_admission": {
+    "gate_id": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001",
+    "sbom_formats": [
+      "SPDX",
+      "CycloneDX"
+    ],
+    "local_first": true,
+    "cloud_scanner_required": false,
+    "license_policy_id": "FA3-SCS-LICENSE-POLICY-001",
+    "operator_supplied_commercial_compatibility": false
   }
 }

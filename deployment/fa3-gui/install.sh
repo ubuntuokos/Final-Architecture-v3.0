@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+CHECK_SOURCE_CONTRACT_ONLY=0
+if [[ "${1:-}" == "--check-source-contract" ]]; then
+  CHECK_SOURCE_CONTRACT_ONLY=1
+  shift
+fi
+if [[ $# -ne 0 ]]; then
+  echo "Usage: $0 [--check-source-contract]" >&2
+  exit 2
+fi
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 APP_SRC="$REPO_ROOT/apps/fa3-control-center"
 MAIN_QML="$APP_SRC/qml/Main.qml"
@@ -23,14 +33,26 @@ required_markers=(
   'linkText: "CivitAI"'
   'linkText: "OpenModelDB"'
   'text: "Kérdezd: "'
+  'property var routeTable'
+  'function navigate(routeId)'
+  'routeId: "agents.action-center"'
+  'routeId: "decision.fabric"'
+  'routeId: "decision.inspector"'
+  'routeId: "decision.context-inspector"'
+  'routeId: "decision.project-radar"'
+  'routeId: "home.work-management"'
+  'routeId: "system.accelerator-guard"'
+  'routeId: "system.updates"'
+  'routeId: "integrations.fa3-os"'
+  'text: "⌕  Keresés"'
   'label: "Model Manager"'
-  'label: "Keresés"'
   'label: "Rendszerbeállítások"'
   'title: "Weboldal"'
   'title: "Prezentáció"'
   'labelText: "CPU"'
   'labelText: "GPU"'
   'labelText: "NPU"'
+  'Generic Linux · Wayland primary / X11 supported'
   'import QtWebEngine'
   'openInternalWeb'
 )
@@ -42,9 +64,23 @@ for marker in "${required_markers[@]}"; do
   fi
 done
 
+nav_start="$(grep -n 'component NavButton' "$MAIN_QML" | head -n1 | cut -d: -f1 || true)"
+module_start="$(grep -n 'component ModuleCard' "$MAIN_QML" | head -n1 | cut -d: -f1 || true)"
+if [[ -n "$nav_start" && -n "$module_start" ]]; then
+  if sed -n "${nav_start},${module_start}p" "$MAIN_QML" | grep -Fq 'property int pageIndex'; then
+    echo "FA3 GUI source-contract check FAILED: NavButton is still coupled to pageIndex" >&2
+    exit 3
+  fi
+fi
+
 if grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then
   echo "FA3 GUI source-contract check FAILED: QuickLink still escapes to an external browser" >&2
   exit 3
+fi
+
+if [[ "$CHECK_SOURCE_CONTRACT_ONLY" -eq 1 ]]; then
+  echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
+  exit 0
 fi
 
 if command -v git >/dev/null 2>&1 && git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then

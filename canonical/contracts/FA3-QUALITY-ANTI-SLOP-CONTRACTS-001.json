@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
+  "name": "FA3 Native Deliverable Quality Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "QualityInput",
+    "QualityConcernSelection",
+    "QualityRule",
+    "QualityJustification",
+    "QualityFinding",
+    "QualityReport",
+    "QualitySkillSelectionReceipt"
+  ],
+  "quality_input": {
+    "required": [
+      "path",
+      "content_digest",
+      "concerns"
+    ],
+    "content_may_be_untrusted": true,
+    "input_cannot_grant_authority": true
+  },
+  "concern_selection": {
+    "deterministic_prefilter_required": true,
+    "decision_fabric_candidate_expansion": "DENY",
+    "minimum_matching_set_required": true
+  },
+  "rule_contract": {
+    "required": [
+      "id",
+      "concern",
+      "tier",
+      "blocking",
+      "pattern",
+      "message"
+    ],
+    "allowed_tiers": [
+      "HARD_GATE",
+      "PURPOSE_GATE",
+      "QUALITY_LOCK"
+    ],
+    "hard_gate_waiver_allowed": false,
+    "purpose_gate_requires_justification": true
+  },
+  "justification_contract": {
+    "marker": "FA3-QUALITY-JUSTIFY <RULE_ID>: <reason>",
+    "task_scoped": true,
+    "must_name_rule": true,
+    "blank_reason_rejected": true,
+    "cannot_waive_hard_gate": true
+  },
+  "finding_contract": {
+    "required": [
+      "rule_id",
+      "path",
+      "tier",
+      "status",
+      "message"
+    ],
+    "statuses": [
+      "FAIL",
+      "WARN"
+    ],
+    "line_optional": true
+  },
+  "report_contract": {
+    "schema": "fa3.quality-report.v1",
+    "pass_requires_zero_blocking_findings": true,
+    "quality_lock_is_nonblocking": true,
+    "current_host_claim": false
+  },
+  "execution_boundary": {
+    "network_required": false,
+    "model_required": false,
+    "provider_required": false,
+    "tool_execution_authority": false,
+    "mutation_authority": false
+  },
+  "invariants": [
+    "DETERMINISTIC_RULES_RUN_WITHOUT_MODEL",
+    "QUALITY_INPUT_DOES_NOT_BECOME_INSTRUCTION_AUTHORITY",
+    "RULE_JUSTIFICATION_IS_AUDIT_DATA_NOT_AUTHORIZATION",
+    "QUALITY_PASS_IS_NOT_RUNTIME_OR_SECURITY_PROMOTION",
+    "DECISION_FABRIC_CANNOT_EXPAND_QUALITY_SKILL_CANDIDATES"
+  ]
+}

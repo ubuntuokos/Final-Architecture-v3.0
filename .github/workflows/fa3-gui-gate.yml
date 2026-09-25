@@ -6,8 +6,14 @@ on:
       - 'canonical/profiles/FA3-DESKTOP-001.json'
       - 'canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json'
       - 'canonical/decisions/FA3-DEC-GUI-2026-09-12.json'
+      - 'canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
       - 'canonical/FA3-GATE-GUI-001.json'
       - 'canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/profiles/FA3-QUALITY-ANTI-SLOP-001.json'
+      - 'canonical/quality/FA3-QUALITY-RULE-REGISTRY-001.json'
+      - 'src/fa3_quality_filter.py'
+      - 'src/fa3_quality_gate.py'
       - 'apps/fa3-control-center/**'
       - 'deployment/fa3-gui/**'
       - 'src/fa3_gui_gate.py'
@@ -26,13 +32,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Run GUI canonical regression gate
         run: PYTHONPATH=. python src/fa3_gui_gate.py
+      - name: Run changed-GUI native quality gate
+        run: PYTHONPATH=src python src/fa3_quality_gate.py --root . --scope gui --changed-from origin/main
       - name: Run GUI unit regression
         run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v
+      - name: Run installer source-contract regression
+        run: bash deployment/fa3-gui/install.sh --check-source-contract
 
   qt-reference-build:
     runs-on: ubuntu-latest

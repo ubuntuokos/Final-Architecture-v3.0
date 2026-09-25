@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AGENT-WORKLOAD-RUNTIME-AX-DERIVED-2026-09-24",
+  "date": "2026-09-24",
+  "status": "CANONICAL_MATERIALIZED_REFERENCE_CURRENT_HOST_PENDING",
+  "title": "Materialize AX-derived provider-neutral Agent Workload Runtime without creating a parallel authority",
+  "change_type": "CROSS_CUTTING_EXECUTION_PROFILE_NO_CAPABILITY_OR_AUTHORITY_DELTA",
+  "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "contract_id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+  "reference_id": "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24",
+  "capability_bindings": [
+    "CAP-028"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "decisions": [
+    "Materialize Task, Workspace, Runner, network-envelope and lifecycle patterns as FA3-native provider-neutral contracts.",
+    "Preserve Temporal as sole global durable workflow lifecycle authority; the workload reconciler is task-local only.",
+    "Preserve UAF as the action execution boundary and Security Governance as authorization authority.",
+    "Preserve HRB as the sole host resource admission, placement, reservation and lease authority.",
+    "Preserve Model Router as sole model/provider/runtime routing authority and Central MCP Gateway as the tool boundary.",
+    "Treat Work Management work items and Agent Workload Tasks as distinct identities linked only by optional reference.",
+    "Separate PAUSE from durable APPLICATION, PROCESS and VM checkpoint semantics and forbid fabricated suspend capability.",
+    "Require fresh HRB admission on resume and forbid reactivation of an old lease.",
+    "Forbid secret material in workload specs and checkpoints; resume obtains fresh secret projections.",
+    "Materialize native and Podman runner records as current-host-pending reference implementations.",
+    "Materialize Google AX as optional disabled-by-default external provider pinned to an immutable upstream reference; its v1alpha1 API is not canonical FA3 IR.",
+    "Do not adopt AX Model or Gateway objects as FA3 routing, credential, MCP or network authorities.",
+    "Google AX provider remains PENDING_CURRENT_HOST_OR_CLUSTER until scope-bound production E2E evidence exists."
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

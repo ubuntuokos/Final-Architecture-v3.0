@@ -72,8 +72,14 @@ def gate(root:Path)->dict:
 
     main=(root/"apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
     cmake=(root/"apps/fa3-control-center/CMakeLists.txt").read_text(encoding="utf-8")
-    for token in ('label: "Subtitle Studio"; pageIndex: 35','label: "Narration Studio"; pageIndex: 36',"SubtitleStudioPage {","NarrationStudioPage {"):
-        chk(token in main,"CAPSUB-029",f"Control Center wiring missing: {token}")
+    for token in ('label: "Subtitle Studio"; routeId: "create.subtitle-studio"','label: "Narration Studio"; routeId: "create.narration-studio"','"create.subtitle-studio": 37','"create.narration-studio": 38',"SubtitleStudioPage {","NarrationStudioPage {"):
+        chk(token in main,"CAPSUB-029",f"Control Center semantic-route wiring missing: {token}")
+    surface_registry=load(root,"canonical/FA3-GUI-SURFACE-REGISTRY-001.json")
+    surfaces={x.get("route_id"):x for x in surface_registry.get("surfaces",[]) if isinstance(x,dict)}
+    subtitle_surface=surfaces.get("create.subtitle-studio",{})
+    narration_surface=surfaces.get("create.narration-studio",{})
+    chk(subtitle_surface.get("profile_id")==p.get("id") and subtitle_surface.get("authority") is False and subtitle_surface.get("direct_provider_execution") is False,"CAPSUB-029A","Subtitle Studio semantic surface boundary drift")
+    chk(narration_surface.get("profile_id")==p.get("id") and narration_surface.get("voice_authority")=="FA3-VOICE-001" and narration_surface.get("authority") is False and narration_surface.get("provider_selection_authority") is False,"CAPSUB-029B","Narration Studio semantic surface boundary drift")
     chk("qml/SubtitleStudioPage.qml" in cmake and "qml/NarrationStudioPage.qml" in cmake,"CAPSUB-030","QML resource registration missing")
     expected_actions={"caption.import","caption.edit","caption.sync","caption.qc","caption.export","caption.translate","caption.hardsub.recover","caption.overlay.project","caption.editorial.project","narration.plan","narration.synthesize","narration.mix","audio-description.plan"}
     chk(set(p.get("uaf_actions",[]))==expected_actions,"CAPSUB-031","UAF caption/narration action inventory drift")

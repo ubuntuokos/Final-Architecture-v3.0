@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LLM-PROTOCOL-COMPAT-001",
+  "name": "Provider-Neutral LLM Protocol Compatibility Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-PROTOCOL-TRANSLATION-USED",
+  "parent_profile": "FA3-LLM-GATEWAY-001",
+  "relationship": "CHILD-PROJECTION-OF",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "protocols": [
+    "OPENAI",
+    "ANTHROPIC",
+    "GEMINI"
+  ],
+  "surfaces": [
+    "messages and responses",
+    "streaming and SSE",
+    "tool and function calls",
+    "JSON Schema",
+    "reasoning metadata",
+    "multimodal payloads",
+    "usage metadata",
+    "provider error normalization"
+  ],
+  "degradation_states": [
+    "LOSSLESS",
+    "TRANSLATABLE_WITH_DECLARED_DEGRADATION",
+    "UNSUPPORTED_FAIL_CLOSED"
+  ],
+  "invariants": [
+    "LITELLM_REMAINS_SINGLE_DATA_PLANE",
+    "ADAPTER_CANNOT_ROUTE_PROVIDER_OR_MODEL",
+    "SILENT_SCHEMA_STRIPPING_FORBIDDEN",
+    "SECURITY_RELEVANT_SCHEMA_LOSS_FAILS_CLOSED",
+    "MULTIMODAL_PAYLOADS_BOUNDED",
+    "SECRET_FORWARDING_DEFAULT_DENY"
+  ],
+  "contract_id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
+  "fail_closed": true
+}

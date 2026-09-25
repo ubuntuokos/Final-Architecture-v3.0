@@ -1,0 +1,101 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-REUSE-DISCOVERY-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-REUSE-DISCOVERY-001",
+  "intent_id": "FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_ADVISORY_RANKING_ONLY"
+    },
+    {
+      "id": "FA3-JEV-CODE-REUSE-001",
+      "use": "THIRD_PARTY_PROVENANCE_POLICY"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "LICENSE_AND_RELEASE_CLASSIFICATION"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "HARDWARE_AUDIT_POLICY"
+    },
+    {
+      "id": "FA3-GUI-SURFACE-REGISTRY-001",
+      "use": "READ_ONLY_GUI_PROJECTION"
+    },
+    {
+      "id": "canonical/mcp-capability-registry.json",
+      "use": "CAPABILITY_DISCOVERY_SOURCE"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "TASK_SCOPED_ADMITTED_SKILL_GOVERNANCE"
+    },
+    {
+      "id": "FA3-SKILL-REGISTRY-001",
+      "use": "ADMITTED_SKILL_DISCOVERY_SOURCE"
+    },
+    {
+      "id": "FA3-EXTERNAL-SKILL-RADAR-001",
+      "use": "REFERENCE_ONLY_EXTERNAL_SKILL_IDEA_SOURCE"
+    }
+  ],
+  "rejected_candidates": [],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "skill_fabric": "FA3-SKILL-FABRIC-001_DECLARATIVE_TASK_SCOPED_ONLY"
+  },
+  "gaps": [
+    "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER",
+    "SKILL_FABRIC_REUSE_FEDERATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER",
+      "status": "MATERIALIZED_PREVIOUSLY",
+      "validated_implementation_commit": "816ac14a720b039926b72fad05c49f593101057f",
+      "evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json"
+    },
+    {
+      "gap": "SKILL_FABRIC_REUSE_FEDERATION",
+      "status": "MATERIALIZED",
+      "validated_implementation_commit": "69295479681c1c816f41ebcef2ca3c8937d8edd8",
+      "evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json"
+    }
+  ],
+  "requalification": {
+    "status": "PASS",
+    "validated_implementation_commit": "69295479681c1c816f41ebcef2ca3c8937d8edd8",
+    "targeted_tests": 12,
+    "full_repository_tests": 1717,
+    "full_repository_skipped": 1,
+    "reuse_discovery_run_id": 36091773680,
+    "permanent_enforcement_run_id": 36091773595
+  }
+}

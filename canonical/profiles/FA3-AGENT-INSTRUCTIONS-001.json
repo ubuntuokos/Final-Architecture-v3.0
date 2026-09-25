@@ -132,6 +132,16 @@
     "ACCELERATOR_CARDINALITY_REMAINS_DYNAMIC_0_TO_N",
     "CURRENT_HOST_EVIDENCE_MUST_NOT_BECOME_GLOBAL_REQUIREMENT",
     "SKILL_CONTEXT_CANNOT_OVERRIDE_AGENT_INSTRUCTION_PRECEDENCE",
-    "SKILL_CONTEXT_CANNOT_CREATE_CANONICAL_AUTHORITY"
-  ]
+    "SKILL_CONTEXT_CANNOT_CREATE_CANONICAL_AUTHORITY",
+    "GENERATED_DELIVERABLES_PASS_NATIVE_QUALITY_FILTER",
+    "QUALITY_CONTEXT_CANNOT_OVERRIDE_CANONICAL_OR_APPLICATION_DESIGN_CONTRACTS"
+  ],
+  "generated_deliverable_quality": {
+    "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+    "gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
+    "core_filter_required_for_generated_deliverables": true,
+    "specialized_quality_skills_task_scoped": true,
+    "skill_context_cannot_create_authority": true,
+    "application_design_contract_precedence_preserved": true
+  }
 }

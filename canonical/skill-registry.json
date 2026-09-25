@@ -4,13 +4,140 @@
   "status": "CANONICAL",
   "authority_role": "METADATA_IDENTITY_STATUS_RELATIONSHIP_SSOT_NOT_RUNTIME_AUTHORITY",
   "capability_count": 143,
-  "entries": [],
+  "entries": [
+    {
+      "skill_id": "fa3-quality-ui",
+      "package_id": "fa3.native.quality.ui",
+      "version": "1.0.0",
+      "admission_status": "ADMITTED",
+      "distribution_class": "FA3_NATIVE",
+      "entrypoint": "skills/fa3-quality-ui/SKILL.md",
+      "trigger": "quality.ui",
+      "task_scoped": true,
+      "authority": false,
+      "remote_fetch": false,
+      "eligibility": {
+        "task_classes": [
+          "ui",
+          "gui",
+          "frontend",
+          "layout"
+        ]
+      },
+      "profile_id": "FA3-QUALITY-ANTI-SLOP-001"
+    },
+    {
+      "skill_id": "fa3-quality-copy",
+      "package_id": "fa3.native.quality.copy",
+      "version": "1.0.0",
+      "admission_status": "ADMITTED",
+      "distribution_class": "FA3_NATIVE",
+      "entrypoint": "skills/fa3-quality-copy/SKILL.md",
+      "trigger": "quality.copy",
+      "task_scoped": true,
+      "authority": false,
+      "remote_fetch": false,
+      "eligibility": {
+        "task_classes": [
+          "copy",
+          "text",
+          "marketing",
+          "publishing",
+          "ui"
+        ]
+      },
+      "profile_id": "FA3-QUALITY-ANTI-SLOP-001"
+    },
+    {
+      "skill_id": "fa3-quality-human",
+      "package_id": "fa3.native.quality.human",
+      "version": "1.0.0",
+      "admission_status": "ADMITTED",
+      "distribution_class": "FA3_NATIVE",
+      "entrypoint": "skills/fa3-quality-human/SKILL.md",
+      "trigger": "quality.human",
+      "task_scoped": true,
+      "authority": false,
+      "remote_fetch": false,
+      "eligibility": {
+        "task_classes": [
+          "ui",
+          "gui",
+          "accessibility",
+          "human"
+        ]
+      },
+      "profile_id": "FA3-QUALITY-ANTI-SLOP-001"
+    },
+    {
+      "skill_id": "fa3-quality-responsive",
+      "package_id": "fa3.native.quality.responsive",
+      "version": "1.0.0",
+      "admission_status": "ADMITTED",
+      "distribution_class": "FA3_NATIVE",
+      "entrypoint": "skills/fa3-quality-responsive/SKILL.md",
+      "trigger": "quality.responsive",
+      "task_scoped": true,
+      "authority": false,
+      "remote_fetch": false,
+      "eligibility": {
+        "task_classes": [
+          "ui",
+          "gui",
+          "frontend",
+          "responsive",
+          "mobile"
+        ]
+      },
+      "profile_id": "FA3-QUALITY-ANTI-SLOP-001"
+    },
+    {
+      "skill_id": "fa3-quality-code",
+      "package_id": "fa3.native.quality.code",
+      "version": "1.0.0",
+      "admission_status": "ADMITTED",
+      "distribution_class": "FA3_NATIVE",
+      "entrypoint": "skills/fa3-quality-code/SKILL.md",
+      "trigger": "quality.code",
+      "task_scoped": true,
+      "authority": false,
+      "remote_fetch": false,
+      "eligibility": {
+        "task_classes": [
+          "code",
+          "source",
+          "developer"
+        ]
+      },
+      "profile_id": "FA3-QUALITY-ANTI-SLOP-001"
+    }
+  ],
   "reference_providers": [
     "FA3-PROVIDER-MARKETINGSKILLS-001",
     "FA3-PROVIDER-MENGTO-SKILLS-001"
   ],
   "invariants": [
     "NO_SKILL_RECORD_NO_ADMITTED_STATUS",
-    "REGISTRY_RECORD_DOES_NOT_GRANT_EXECUTION_AUTHORITY"
-  ]
+    "REGISTRY_RECORD_DOES_NOT_GRANT_EXECUTION_AUTHORITY",
+    "QUALITY_SKILL_ADMISSION_DOES_NOT_GRANT_EXECUTION_OR_DESIGN_AUTHORITY",
+    "QUALITY_SKILLS_ARE_TASK_SCOPED_AND_FA3_NATIVE",
+    "EXTERNAL_RADAR_RECORD_IS_NOT_SKILL_REGISTRY_ADMISSION",
+    "IMPROVEMENT_CANDIDATE_IS_NOT_ADMITTED_SKILL"
+  ],
+  "ecosystem_bindings": {
+    "compatibility_contract": "FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001",
+    "security_contract": "FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001",
+    "evaluation_contract": "FA3-SKILL-EVALUATION-CONTRACTS-001",
+    "improvement_contract": "FA3-SKILL-IMPROVEMENT-CONTRACTS-001",
+    "external_radar": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "external_candidates_are_registered_only_after_admission": true
+  },
+  "reuse_discovery_binding": {
+    "profile_id": "FA3-REUSE-DISCOVERY-001",
+    "catalog_id": "FA3-REUSE-CATALOG-001",
+    "admitted_entries_discoverable": true,
+    "registry_entry_is_selection": false,
+    "registry_entry_is_activation": false,
+    "task_scoped_materialization_still_required": true
+  }
 }

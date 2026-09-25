@@ -1,0 +1,103 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23",
+  "title": "Integrate Agency Agents as an immutable non-authoritative agent catalog, persona and runbook reference provider",
+  "date": "2026-09-23",
+  "status": "CANONICAL_MATERIALIZED_GUI_CURRENT_HOST_PASS",
+  "decision": "ADMIT_AS_OPTIONAL_IMMUTABLE_REFERENCE_PROVIDER_WITH_FA3_NATIVE_NORMALIZATION",
+  "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "contract_id": "FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001",
+  "gate_id": "FA3-GATE-AGENCY-AGENTS-001",
+  "gateset_id": "FA3-AGENCY-AGENTS-GATESET-001",
+  "upstream_repository": "msitarzewski/agency-agents",
+  "upstream_pin": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+  "rationale": [
+    "Agency Agents provides a broad agent persona catalog, domain taxonomy, machine-readable team/runbook rosters, handoff templates and multi-runtime conversion patterns.",
+    "FA3 already owns agent execution, delegation, communication, action execution, decision advisory, resource, security, evidence and durable orchestration boundaries, so importing NEXUS or runtime-specific converter outputs as authority would create duplicate control planes.",
+    "The upstream corpus is therefore treated as immutable untrusted scoped reference content and normalized into existing FA3 contracts only after explicit admission.",
+    "The upstream MIT license is recorded as provenance; source redistribution must preserve the applicable MIT copyright and permission notice."
+  ],
+  "superseded_planning_items": [
+    "CREATE_NEW_FA3_AGENT_HANDOFF_RESULT_ESCALATION_CONTRACT_FAMILY",
+    "IMPORT_NEXUS_AS_ORCHESTRATOR",
+    "DIRECTLY_INSTALL_UPSTREAM_RUNTIME_CONVERTER_OUTPUTS"
+  ],
+  "reused_fa3_authorities": {
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "developer_coordination": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "decision_advisory": "FA3-DECISION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "open_reconciliations": [],
+  "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "current_host_runtime_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "parallel_change_reconciliation": {
+    "skill_distribution": {
+      "target_profile": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "target_contract": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+      "provider_target_class": "EXTERNAL_REDISTRIBUTABLE",
+      "provider_release_bundle_status": "EXCLUDED",
+      "upstream_reference_target_class": "REFERENCE_ONLY",
+      "hard_dependency_before_parallel_change_merges": false,
+      "status": "RECONCILED_CANONICAL_MAIN",
+      "main_commit": "53df1a20262449863c629f18ee587c9e947c4feb"
+    },
+    "gui": {
+      "target_surface_route": "agents.workflows",
+      "imported_pack_view": "CHILD_VIEW",
+      "child_surface_id": "agency-agents.imported-pack",
+      "execution_intent_target": "agents.action-center",
+      "new_top_level_route": false,
+      "direct_provider_execution": false,
+      "status": "RECONCILED_CANONICAL_MAIN",
+      "merged_gui_commit": "0c146d81b417cb3a9e4d871c596516f7afe285c3",
+      "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001"
+    }
+  },
+  "curated_candidate_selection": {
+    "catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+    "status": "SOURCE_CANDIDATES_NORMALIZED_TO_FA3_NATIVE_DEFINITIONS",
+    "agent_candidates": 12,
+    "template_candidates": 5,
+    "persona_bodies_vendored": false,
+    "source_candidate_activation_enabled": false,
+    "definition_contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+    "definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "canonical_role_definitions": 12,
+    "canonical_template_definitions": 5,
+    "runtime_provider_admission_performed": false,
+    "runtime_provider_admission_required_for_definition_metadata": false
+  },
+  "gui_runtime_validation": {
+    "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+    "status": "CURRENT_HOST_PASS",
+    "production_admitted": true,
+    "current_host_receipt": "evidence/receipts/fa3-gui-current-host.json",
+    "current_host_receipt_present": true,
+    "agency_surface_static_reconciliation": "RECONCILED",
+    "agency_surface_runtime_promotion_claim": true,
+    "tested_source_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+    "evidence_id": "EVID-FA3-GUI-CURRENT-HOST-001",
+    "runtime_scope": "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY",
+    "reference_provider_runtime_admission": false,
+    "secret_backend_admission": "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED",
+    "global_fa3_promotion_claim": false
+  },
+  "validation_policy": {
+    "unified_release_projection": "MANAGED_BY_REPOSITORY_RECONCILER_MUST_PASS_BEFORE_MERGE",
+    "fresh_reference_ci": "MANDATORY_BEFORE_MERGE",
+    "reference_ci_is_runtime_promotion": false,
+    "gui_current_host_evidence_required_for_gui_runtime_promotion": true,
+    "metadata_only_agent_definitions_require_current_host_runtime_evidence": false
+  }
+}

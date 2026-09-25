@@ -7,8 +7,10 @@ The competency-driven Workforce and provider-neutral Director remain. Runtime ex
 ```text
 deterministic eligibility -> optional bounded Decision Fabric advisory
 -> typed UAF action -> policy/security -> provider discovery
--> provider-neutral hardware compatibility -> HRB admission/lease as required
--> provider adapter -> execution -> AI-COMMS validation -> evidence
+-> provider-neutral hardware compatibility -> AgentWorkloadTask
+-> FA3-AGENT-WORKLOAD-RUNTIME-001 task-local execution projection
+-> HRB admission/lease as required -> admitted runner adapter
+-> execution -> AI-COMMS validation -> Journal/Evidence
 ```
 
 Key invariants:
@@ -31,3 +33,8 @@ The media reference plan no longer routes a fake HRB specialist task; resource r
 
 CrewAI, Conductor, Open Multi-Agent, LangGraph, Kestra, Pipecat, n8n and Haystack are classified `USER_LOCAL_EXTERNAL` and are excluded from the FA3 product bundle. This classification does not grant runtime admission; current-host admission remains a separate evidence-bound decision.
 
+
+
+## Agent Workload Runtime reconciliation — 2026-09-24
+
+The Orchestration Director still decomposes and routes work but does not execute providers directly. A ROUTED decision can be compiled into an immutable `fa3.agent-workload-task.v1` only through the Agent Workload Runtime contract. This runtime is task-local and non-authoritative; Temporal remains the sole global durable lifecycle authority. Workload runner selection cannot expand the already-eligible provider set and production execution requires runtime admission plus the existing Security/UAF/HRB boundaries.

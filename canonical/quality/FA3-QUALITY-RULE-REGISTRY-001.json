@@ -1,0 +1,252 @@
+{
+  "schema": "fa3.quality-rule-registry.v1",
+  "id": "FA3-QUALITY-RULE-REGISTRY-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+  "tiers": [
+    "HARD_GATE",
+    "PURPOSE_GATE",
+    "QUALITY_LOCK"
+  ],
+  "justification_marker": "FA3-QUALITY-JUSTIFY <RULE_ID>: <reason>",
+  "rules": [
+    {
+      "id": "Q-CORE-001",
+      "concern": "CORE",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\blorem ipsum\\b",
+      "message": "Placeholder prose must not ship."
+    },
+    {
+      "id": "Q-CORE-002",
+      "concern": "CORE",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:TODO[_ -]?COPY|PLACEHOLDER[_ -]+(?:COPY|TEXT|METRIC)|DUMMY[_ -]?METRIC)\\b",
+      "message": "Placeholder copy or metric markers must not ship."
+    },
+    {
+      "id": "Q-CORE-003",
+      "concern": "CORE",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:fabricated|invented)[ _-]?(?:telemetry|metric|benchmark|rating)\\b",
+      "message": "Fabricated metrics or telemetry are forbidden."
+    },
+    {
+      "id": "Q-CORE-004",
+      "concern": "CORE",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:next[- ]gen AI 2\\.0|10,000% ROI|500,000 founders)\\b",
+      "message": "Generic hype or unsupported showcase claims require explicit purpose and evidence."
+    },
+    {
+      "id": "Q-UI-001",
+      "concern": "UI",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:fake terminal|terminal decoration)\\b",
+      "message": "Terminal-like decoration requires an explicit functional purpose."
+    },
+    {
+      "id": "Q-UI-002",
+      "concern": "UI",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\bbento(?:[- ]grid)?\\b",
+      "message": "Bento layout is permitted only when justified by the information architecture."
+    },
+    {
+      "id": "Q-UI-003",
+      "concern": "UI",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?:✨|🚀|🔥){2,}",
+      "message": "Repeated decorative emoji can indicate generic AI styling."
+    },
+    {
+      "id": "Q-UI-004",
+      "concern": "UI",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:ollama\\s+run|nvidia-smi|subprocess\\.|QProcess\\b|Process\\s*\\{)",
+      "message": "GUI artifacts must not directly execute providers or shell processes."
+    },
+    {
+      "id": "Q-COPY-001",
+      "concern": "COPY",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?i)\\b(?:revolutionary|game[- ]changing|unleash the power|transform your workflow forever)\\b",
+      "message": "Generic hype language should be replaced with concrete claims."
+    },
+    {
+      "id": "Q-COPY-002",
+      "concern": "COPY",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "(?m)^\\s*[-*]\\s*[🚀✨🔥✅💡]",
+      "message": "Emoji-led marketing bullets require an explicit content purpose."
+    },
+    {
+      "id": "Q-COPY-003",
+      "concern": "COPY",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:best[- ]in[- ]class|world[- ]class)\\b",
+      "message": "Superlative product claims require explicit justification and evidence."
+    },
+    {
+      "id": "Q-COPY-004",
+      "concern": "COPY",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:100% accurate|guaranteed results|zero risk)\\b",
+      "message": "Absolute unsupported claims are forbidden."
+    },
+    {
+      "id": "Q-HUMAN-001",
+      "concern": "HUMAN",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "\\bfocusPolicy\\s*:\\s*Qt\\.NoFocus\\b",
+      "message": "Disabling keyboard focus on an interactive surface requires explicit justification."
+    },
+    {
+      "id": "Q-HUMAN-002",
+      "concern": "HUMAN",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "\\bAccessible\\.ignored\\s*:\\s*true\\b",
+      "message": "Suppressing accessibility exposure requires explicit justification."
+    },
+    {
+      "id": "Q-HUMAN-003",
+      "concern": "HUMAN",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "\\bopacity\\s*:\\s*0\\.[0-3]\\b",
+      "message": "Very low opacity can reduce readability and should be reviewed."
+    },
+    {
+      "id": "Q-HUMAN-004",
+      "concern": "HUMAN",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?i)\\b(?:click here|tap here)\\b",
+      "message": "Interaction copy should describe the action rather than the gesture."
+    },
+    {
+      "id": "Q-RESP-001",
+      "concern": "RESPONSIVE",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "\\bwidth\\s*:\\s*(?:1[3-9]\\d{2}|[2-9]\\d{3,})\\b",
+      "message": "Large fixed widths should be reviewed against responsive behavior."
+    },
+    {
+      "id": "Q-RESP-002",
+      "concern": "RESPONSIVE",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "\\bheight\\s*:\\s*(?:1[0-9]\\d{2}|[2-9]\\d{3,})\\b",
+      "message": "Large fixed heights should be reviewed against responsive behavior."
+    },
+    {
+      "id": "Q-RESP-003",
+      "concern": "RESPONSIVE",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "\\b(?:minimumWidth|maximumWidth)\\s*:\\s*[2-9]\\d{3,}\\b",
+      "message": "Extreme fixed width constraints are forbidden on general FA3 UI surfaces."
+    },
+    {
+      "id": "Q-RESP-004",
+      "concern": "RESPONSIVE",
+      "tier": "PURPOSE_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:desktop only|not supported on mobile)\\b",
+      "message": "Platform-size exclusions require explicit product justification."
+    },
+    {
+      "id": "Q-CODE-001",
+      "concern": "CODE",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?m)^\\s*(?:#|//)\\s*[=\\-_*]{8,}\\s*$",
+      "message": "Decorative comment banners should be removed unless they aid navigation."
+    },
+    {
+      "id": "Q-CODE-002",
+      "concern": "CODE",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?im)^\\s*(?:#|//)\\s*(?:AI[- ]generated|generated by (?:AI|ChatGPT))\\b",
+      "message": "Generic generation-origin comments add little maintenance value."
+    },
+    {
+      "id": "Q-CODE-003",
+      "concern": "CODE",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?im)^\\s*(?:#|//)\\s*(?:TODO|FIXME)\\s*:\\s*(?:clean up|improve|refactor)\\s*$",
+      "message": "Vague maintenance comments should be made actionable or removed."
+    },
+    {
+      "id": "Q-CODE-004",
+      "concern": "CODE",
+      "tier": "QUALITY_LOCK",
+      "blocking": false,
+      "pattern": "(?i)\\b(?:sleep\\(\\s*[1-9]\\d*\\s*\\)|time\\.sleep\\(\\s*[1-9]\\d*\\s*\\))\\b",
+      "message": "Fixed sleeps in automation code should be justified by deterministic behavior."
+    },
+    {
+      "id": "Q-FA3-001",
+      "concern": "FA3",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:fake|mock|pretend)[ _-]?capability\\b",
+      "message": "Fake capability representation is forbidden."
+    },
+    {
+      "id": "Q-FA3-002",
+      "concern": "FA3",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:fake|placeholder|dummy)[ _-]?(?:provider|model)\\b",
+      "message": "Fake provider or model representation is forbidden."
+    },
+    {
+      "id": "Q-FA3-003",
+      "concern": "FA3",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\bbypass\\s+(?:UAF|HRB|Model Router|MCP Gateway|Secret Broker)\\b",
+      "message": "User-facing or generated artifacts must not instruct authority bypass."
+    },
+    {
+      "id": "Q-FA3-004",
+      "concern": "FA3",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:silently fallback|silent fallback)\\b",
+      "message": "Silent fallback representation is forbidden."
+    },
+    {
+      "id": "Q-FA3-005",
+      "concern": "FA3",
+      "tier": "HARD_GATE",
+      "blocking": true,
+      "pattern": "(?i)\\b(?:unverified.{0,40}(?:PASS|VERIFIED)|(?:PASS|VERIFIED).{0,40}without evidence)\\b",
+      "message": "PASS or VERIFIED claims without evidence are forbidden."
+    }
+  ],
+  "legacy_adoption": {
+    "existing_untouched_artifacts": "NOT_RETROACTIVELY_REWRITTEN",
+    "changed_or_new_artifacts": "ENFORCED_BY_SCOPE",
+    "purpose_gate_annotation": "FA3-QUALITY-JUSTIFY"
+  }
+}

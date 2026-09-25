@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL",
+  "title": "Native FA3 anti-slop quality filtering without external runtime dependency",
+  "decision": "Implement anti-slop-derived quality methodology as FA3-native deterministic policy, reusable task-scoped quality skills and delivery gates; do not install or depend on upstream anti-slop runtime or installer.",
+  "rationale": [
+    "The method is useful as a filter but must not become a design authority.",
+    "FA3 already has Agent Native, Skill Fabric, Decision Fabric, GUI gates, UAF and supply-chain boundaries that should remain authoritative.",
+    "A native implementation avoids external runtime, installer and agent-entry-file mutation dependencies while preserving the useful quality concepts."
+  ],
+  "upstream_observation": {
+    "repository": "miqdadbadjuber/anti-slop",
+    "observed_version": "3.2.15",
+    "license": "MIT",
+    "readme_blob_sha": "04b81aa3fa0683c684528b1d613d1d79dcaa8b58",
+    "license_blob_sha": "5fdb95f1efdbd865b9e8958d6ec5f20a06bcb951",
+    "package_blob_sha": "9d4a481d4e5644d9f74ce5f3f5a072ec67aa695e",
+    "security_blob_sha": "5ad6a74e1ca6b6bff373f4f2ac09db819c37501f",
+    "observed_properties": [
+      "filter_not_style_guide",
+      "tiered_rules",
+      "delivery_gate",
+      "concern_specific_skills",
+      "installer_can_modify_agent_entry_files",
+      "local_contrast_helper"
+    ],
+    "code_reuse": "NONE",
+    "runtime_dependency": "NONE",
+    "observed_commit": "0e384b7bff3301c8ec56dea300330772fed28e6a",
+    "reference_id": "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23"
+  },
+  "authority_effect": {
+    "new_capability": false,
+    "new_authority": false,
+    "capability_count_after": 143
+  },
+  "bindings": [
+    "FA3-QUALITY-ANTI-SLOP-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AGENT-INSTRUCTIONS-001",
+    "FA3-GUI-GATESET-001",
+    "FA3-SCS-001"
+  ],
+  "excluded": [
+    "upstream_npx_installer",
+    "automatic_AGENT_or_CLAUDE_entry_file_edit",
+    "external_quality_runtime_service",
+    "quality_filter_as_design_system",
+    "quality_filter_as_execution_authority"
+  ]
+}

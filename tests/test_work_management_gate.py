@@ -67,7 +67,7 @@ class WorkManagementGateTests(unittest.TestCase):
         td, dst = self._copy_repo()
         try:
             main = dst / "apps/fa3-control-center/qml/Main.qml"
-            text = main.read_text(encoding="utf-8").replace('label: "Work Management"; pageIndex: 24', 'label: "Work"; pageIndex: 24', 1)
+            text = main.read_text(encoding="utf-8").replace('label: "Work Management"; routeId: "home.work-management"', 'label: "Work"; routeId: "home.work-management"', 1)
             main.write_text(text, encoding="utf-8")
             report = wm.gate(dst)
             self.assertEqual("FAIL", report["result"])

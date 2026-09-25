@@ -49,7 +49,18 @@
     "TopologyChangeEvent",
     "AcceleratorExecutionPath",
     "AcceleratorBackendRequirement",
-    "BackendCompatibilityReceipt"
+    "BackendCompatibilityReceipt",
+    "LeaseLifecycleState",
+    "LeaseRuntimeBinding",
+    "LeaseAuthenticationEnvelope",
+    "LeaseGeneration",
+    "LeaseEvictionReceipt",
+    "LeaseQuarantineRecord",
+    "LeaseEvidenceHandoff",
+    "ResourceReservationPlan",
+    "LeaseGroup",
+    "DerivedExecutionLease",
+    "LeaseLineageReceipt"
   ],
   "accelerator_identity": {
     "canonical": [
@@ -172,9 +183,15 @@
     "HRB_ACCELERATOR_ASSIGNMENT_BINDS_COMPATIBLE_EXECUTION_PATH",
     "PHYSICAL_DEVICE_PRESENCE_IS_NOT_SUFFICIENT_FOR_ACCELERATOR_ADMISSION",
     "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_WORKLOAD_POLICY",
-    "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION"
+    "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION",
+    "COMPOSITE_RESOURCE_RESERVATION_MUST_BE_ATOMIC",
+    "HOLD_AND_WAIT_FOR_CHILD_RESOURCE_LEASE_IS_FORBIDDEN",
+    "DERIVED_EXECUTION_LEASE_MUST_BE_MINTED_BY_HRB_ONLY",
+    "DERIVED_LEASE_RESOURCE_SCOPE_AND_EXPIRY_MUST_BE_SUBSET_OF_PARENT",
+    "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
+    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION"
   ],
-  "version": "1.4.0",
+  "version": "1.6.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
   "accelerator_execution_path": {
@@ -206,5 +223,207 @@
     "current_identifier_constraint": "GPU_UUID",
     "disposition": "LEGACY_NVIDIA_CUDA_PROJECTION_RETAINED_UNTIL_GENERIC_PRIVILEGED_BROKER_CLI_IS_MATERIALIZED",
     "authority_change": false
+  },
+  "lease_lifecycle": {
+    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "states": [
+      "ISSUED",
+      "ACTIVE",
+      "REVOKING",
+      "EVICTING",
+      "VERIFYING",
+      "EVICTED",
+      "EVICTION_FAILED",
+      "QUARANTINED"
+    ],
+    "success_path": [
+      "ISSUED",
+      "ACTIVE",
+      "REVOKING",
+      "EVICTING",
+      "VERIFYING",
+      "EVICTED"
+    ],
+    "failure_path": [
+      "EVICTION_FAILED",
+      "QUARANTINED"
+    ],
+    "renewal": {
+      "new_generation_required": true,
+      "stale_generation_privileged_operation": "DENY",
+      "evicting_generation_reactivation": "FORBIDDEN"
+    },
+    "authentication": {
+      "algorithm": "HMAC-SHA256",
+      "scope": "HRB_INTERNAL_EPHEMERAL_LEASE_AUTH",
+      "master_key_boundary": "HRB_ROOT_ONLY",
+      "provider_agent_master_key_access": "FORBIDDEN",
+      "key_id_required": true,
+      "rotation_required": true,
+      "durable_evidence_signature": false
+    },
+    "runtime_binding": {
+      "required_fields": [
+        "lease_id",
+        "generation",
+        "workload_identity",
+        "runtime_instance_identity",
+        "host_attestation_digest",
+        "cgroup_v2_identity",
+        "pidfd_subject_reference",
+        "systemd_unit_scope",
+        "runtime_backend",
+        "backend_instance_id",
+        "accelerator_assignments",
+        "execution_path",
+        "issued_at_utc",
+        "expires_at_utc",
+        "ttl_seconds"
+      ],
+      "cgroup_identity_required": [
+        "path",
+        "st_dev",
+        "st_ino",
+        "owner_uid",
+        "owner_gid"
+      ],
+      "pidfd_subject_reference_required": [
+        "pid",
+        "start_time_ticks"
+      ],
+      "container_id_semantics": "RUNTIME_ADAPTER_SPECIFIC_ONLY",
+      "privileged_target_derivation_from_client_identity": false,
+      "privileged_target_derivation_from_generated_container_name": false,
+      "binding_mismatch_action": "QUARANTINE_WITHOUT_PRIVILEGED_KILL",
+      "pid_reuse_detection": "PIDFD_PLUS_PROC_START_TIME_REQUIRED",
+      "cgroup_substitution_detection": "PATH_DEVICE_INODE_OWNER_AND_SYSTEMD_CONTROLGROUP_MATCH_REQUIRED",
+      "symlink_path_attack": "FAIL_CLOSED"
+    },
+    "eviction_order": [
+      "ATOMIC_LEASE_REVOKE",
+      "BLOCK_NEW_ADMISSION_AND_RESTART",
+      "SECRET_BROKER_PROJECTION_REVOKE_ZEROIZE",
+      "VERIFY_TRUSTED_RUNTIME_BINDING",
+      "SYSTEMD_CGROUP_LIFECYCLE_TERMINATION",
+      "CGROUP_V2_GROUP_LEVEL_KILL",
+      "PIDFD_AND_CGROUP_DEATH_VERIFICATION",
+      "RUNTIME_ADAPTER_CLEANUP_IMMUTABLE_BACKEND_INSTANCE_ID",
+      "RESOURCE_RELEASE",
+      "IMMUTABLE_TYPED_EVIDENCE_HANDOFF"
+    ],
+    "secret_broker_hook": {
+      "authority_id": "FA3-AUTH-SECRETS-001",
+      "hrb_may_become_secret_authority": false,
+      "revoke_zeroize_before_runtime_termination": true,
+      "failure_semantics": "CONTAIN_WORKLOAD_THEN_QUARANTINE_LEASE",
+      "projection_lease_contract": "SecretProjectionLease",
+      "projection_lease_id_semantics": "OPAQUE_SPL_HANDLE_ONLY",
+      "underlying_secret_id_in_hrb_lease_record": "FORBIDDEN",
+      "underlying_secret_revoke_for_hrb_ttl_eviction": "FORBIDDEN",
+      "projection_revoke_operation": "projection_revoke",
+      "projection_zeroize_ack_operation": "projection_zeroized",
+      "persistent_projection_artifact_identity": [
+        "path",
+        "st_dev",
+        "st_ino",
+        "owner_uid",
+        "owner_gid",
+        "size"
+      ],
+      "persistent_projection_path_scope": "ABSOLUTE_BELOW_RUN_ONLY",
+      "zeroize_max_bytes": 524288,
+      "artifact_substitution": "FAIL_CLOSED",
+      "runtime_binding_digest_required": true,
+      "runtime_binding_digest_semantics": "SHA256_CANONICAL_TRUSTED_HRB_RUNTIME_BINDING",
+      "projection_lease_binding_required": [
+        "hrb_lease_id",
+        "hrb_generation",
+        "runtime_binding_sha256"
+      ]
+    },
+    "failure_semantics": {
+      "delete_lease_on_kill_failure": false,
+      "terminal_failure_state": "QUARANTINED",
+      "lease_record_retention": "REQUIRED",
+      "runtime_binding_mismatch": "NO_PRIVILEGED_KILL",
+      "cleanup_failure": "QUARANTINE_AND_RETAIN_RECORD"
+    },
+    "clock_semantics": {
+      "runtime_expiry_source": "MONOTONIC",
+      "utc_timestamps": "AUDIT_AND_INTERCHANGE",
+      "boot_id_change": "INVALIDATE_LEASE",
+      "wall_clock_jump_may_extend_ttl": false
+    },
+    "accelerator_semantics": {
+      "cpu_only_workload_allowed": true,
+      "accelerator_assignment_optional": true,
+      "shared_accelerator_requires_share_group_id": true,
+      "global_device_reset_normal_eviction": false
+    },
+    "durable_evidence": {
+      "authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "trust_profile": "FA3-TRUST-PKI-001",
+      "asymmetric_signature_required": true,
+      "hmac_signature_allowed": false,
+      "phase_one_handoff": "TYPED_HASH_CHAIN_TO_EXISTING_EVIDENCE_AUTHORITY"
+    },
+    "current_host_test": {
+      "workload_prefix": "fa3-hrb-ttl-test-",
+      "dedicated_transient_scope": true,
+      "cgroup_v2": true,
+      "pidfd": true,
+      "short_ttl": true,
+      "existing_fa3_workload_targeting": "FORBIDDEN",
+      "production_hmac_master_key_read": "FORBIDDEN"
+    },
+    "invariants": [
+      "HRB_LEASE_LIFECYCLE_REMAINS_UNDER_EXISTING_HRB_AUTHORITY",
+      "HRB_LEASE_HMAC_IS_INTERNAL_EPHEMERAL_AUTH_NOT_DURABLE_EVIDENCE_SIGNATURE",
+      "HRB_HMAC_MASTER_KEY_ROOT_ONLY_AND_PROVIDER_AGENT_INACCESSIBLE",
+      "HRB_HMAC_REQUIRES_KEY_ID_SCOPE_AND_ROTATION",
+      "RENEWAL_CREATES_NEW_GENERATION",
+      "EVICTING_GENERATION_MUST_NEVER_REACTIVATE",
+      "PRIVILEGED_EVICTION_TARGETS_TRUSTED_RUNTIME_BINDING_NOT_CLIENT_IDENTITY_OR_GENERATED_NAME",
+      "SECRET_BROKER_PROJECTION_REVOKE_ZEROIZE_PRECEDES_RUNTIME_TERMINATION",
+      "WRONG_RUNTIME_BINDING_MUST_FAIL_CLOSED_WITHOUT_KILL",
+      "CGROUP_V2_EVICTION_REQUIRES_GROUP_LEVEL_KILL",
+      "PIDFD_AND_CGROUP_DEATH_VERIFICATION_REQUIRED",
+      "FAILED_EVICTION_RETAINS_LEASE_RECORD_AND_QUARANTINES",
+      "NORMAL_EVICTION_FORBIDS_GPU_GLOBAL_OR_DEVICE_RESET",
+      "DURABLE_EVIDENCE_USES_EXISTING_ASYMMETRIC_EVIDENCE_PKI_AUTHORITY",
+      "BOOT_ID_AND_MONOTONIC_EXPIRY_BIND_LEASE_TO_CURRENT_BOOT",
+      "CPU_ONLY_WORKLOAD_MUST_NOT_REQUIRE_ACCELERATOR_ASSIGNMENT",
+      "SHARED_ACCELERATOR_EVICTION_MUST_NOT_RESET_GLOBAL_DEVICE",
+      "HRB_TTL_EVICTION_MUST_REVOKE_PROJECTION_LEASE_NOT_UNDERLYING_SECRET",
+      "SECRET_PROJECTION_ZEROIZE_TARGET_REQUIRES_IMMUTABLE_FILE_IDENTITY",
+      "SECRET_PROJECTION_LEASE_MUST_MATCH_HRB_ID_GENERATION_AND_RUNTIME_BINDING_DIGEST"
+    ]
+  },
+  "composite_reservation": {
+    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "reservation_schema": "fa3.resource-reservation-plan.v1",
+    "derived_lease_schema": "FA3-HOST-RESOURCE-BROKER-001/DerivedExecutionLease@1",
+    "atomic_multi_resource_admission": true,
+    "hold_and_wait": false,
+    "canonical_acquisition_order": [
+      "CPU",
+      "RAM",
+      "NUMA",
+      "ACCELERATOR",
+      "VRAM",
+      "IO",
+      "NETWORK"
+    ],
+    "bounded_queue": true,
+    "queue_deadline_required": true,
+    "child_resources_subset_of_parent": true,
+    "child_expiry_not_after_parent": true,
+    "child_scope_subset_of_parent": true,
+    "sum_child_budget_not_above_parent": true,
+    "parent_revocation_cascades": true,
+    "provider_may_mint_derived_lease": false,
+    "derived_lease_authentication": "EXISTING_HRB_INTERNAL_EPHEMERAL_HMAC_KEYRING"
   }
 }

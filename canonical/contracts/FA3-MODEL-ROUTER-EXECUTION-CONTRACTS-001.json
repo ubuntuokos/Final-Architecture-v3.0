@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    "ProviderExecutionCandidate",
+    "CredentialReference",
+    "CredentialEligibilityState",
+    "CredentialHealthSnapshot",
+    "QuotaStateSnapshot",
+    "ProviderRateLimitState",
+    "CredentialLease",
+    "SessionAffinityBinding",
+    "CircuitBreakerState",
+    "ProviderTransitionPolicy",
+    "RouteExecutionIntent",
+    "RouteExecutionReceipt",
+    "RouteRebindReceipt"
+  ],
+  "secret_semantics": {
+    "raw_secret_value": "FORBIDDEN",
+    "reference_only": true,
+    "receipt_identity": "SHA256_OF_SECRET_REFERENCE_IDENTIFIER_ONLY"
+  },
+  "selection_semantics": {
+    "provider_candidate_source": "FA3-AUTH-MODEL-ROUTER-001_ADMITTED_SET_ONLY",
+    "candidate_expansion": "DENY",
+    "cross_provider_selection": "FA3-AUTH-MODEL-ROUTER-001_ONLY"
+  }
+}

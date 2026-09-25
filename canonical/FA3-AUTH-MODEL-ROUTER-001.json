@@ -63,5 +63,13 @@
     "workflow": ".github/workflows/fa3-model-router-current-host.yml",
     "receipt": "evidence/receipts/model-router-current-host.json"
   },
-  "fail_closed": true
+  "fail_closed": true,
+  "execution_projection": {
+    "profile": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "contracts": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
+    "credential_pool_is_child_projection": true,
+    "credential_values_owned_by": "FA3-SECRET-BROKER-001",
+    "cross_provider_authority_remains_here": true,
+    "decision_fabric_role": "BOUNDED_ADVISORY_ONLY"
+  }
 }

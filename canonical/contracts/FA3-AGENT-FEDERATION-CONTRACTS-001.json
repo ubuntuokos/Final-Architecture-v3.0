@@ -1,0 +1,147 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AGENT-FEDERATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-FEDERATION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-070"
+  ],
+  "contracts": [
+    "FederationPeerIdentity",
+    "FederationPeerManifest",
+    "FederationEnvelope",
+    "FederationReplayReceipt",
+    "FederationExecutionBudget",
+    "CoordinationClaim",
+    "CoordinationClaimAck",
+    "CoordinationClaimRenewal",
+    "CoordinationClaimHandoff",
+    "CoordinationClaimRelease",
+    "CoordinationClaimExpiry",
+    "PeerCircuitBreakerState",
+    "RemoteExecutionAdmissionReceipt",
+    "FederationAuditEvent"
+  ],
+  "federation_envelope": {
+    "schema": "fa3.federation-envelope.v1",
+    "required_fields": [
+      "schema",
+      "message_id",
+      "task_id",
+      "sender_peer_id",
+      "sender_agent_id",
+      "recipient_peer_id",
+      "recipient_agent_id",
+      "issued_at",
+      "expires_at",
+      "nonce",
+      "hop",
+      "max_hops",
+      "budget",
+      "payload_digest",
+      "payload",
+      "signature_algorithm",
+      "signing_key_id",
+      "signature"
+    ],
+    "signature_algorithm": "ED25519",
+    "payload_contract": "FA3-AI-COMMS-CONTRACTS-001",
+    "payload_human_readable_authoritative": true,
+    "payload_digest": "SHA256_CANONICAL_JSON",
+    "unknown_signature_or_identity": "FAIL_CLOSED",
+    "replay": "FAIL_CLOSED",
+    "expired": "FAIL_CLOSED",
+    "hop_overrun": "FAIL_CLOSED"
+  },
+  "execution_budget": {
+    "required_fields": [
+      "max_hops",
+      "max_tokens",
+      "max_wall_time_seconds",
+      "max_children",
+      "max_remote_delegations",
+      "max_model_cost_microunits",
+      "max_cpu_seconds",
+      "max_gpu_seconds"
+    ],
+    "values_non_negative": true,
+    "child_must_be_componentwise_lte_parent_remaining": true,
+    "missing_budget": "FAIL_CLOSED"
+  },
+  "coordination_claim": {
+    "required_fields": [
+      "claim_id",
+      "resource_id",
+      "task_id",
+      "owner_peer_id",
+      "owner_agent_id",
+      "issued_at",
+      "expires_at",
+      "generation",
+      "status"
+    ],
+    "statuses": [
+      "ACTIVE",
+      "RELEASED",
+      "EXPIRED"
+    ],
+    "one_active_claim_per_resource": true,
+    "ttl_required": true,
+    "owner_required_for_renew_release_handoff": true,
+    "generation_monotonic": true,
+    "explicit_handoff_required": true,
+    "semantics": "COORDINATION_ONLY_NOT_RESOURCE_ADMISSION",
+    "forbidden_semantics": [
+      "CLAIM_IS_HRB_LEASE",
+      "CLAIM_ALLOCATES_CPU_GPU_RAM_VRAM_NUMA",
+      "CLAIM_GRANTS_SECURITY_AUTHORIZATION",
+      "CLAIM_GRANTS_TOOL_MODEL_SECRET_ACCESS"
+    ]
+  },
+  "remote_execution_admission": {
+    "required_assertions": [
+      "peer_identity_verified",
+      "security_authorized",
+      "agent_runtime_admitted",
+      "uaf_route_present",
+      "remote_hrb_admission_present",
+      "provider_runtime_admission_present"
+    ],
+    "all_required": true,
+    "trust_level_alone_sufficient": false,
+    "missing_assertion": "DENY"
+  },
+  "trust": {
+    "observed_interaction_history": "ADVISORY_SIGNAL_ONLY",
+    "learned_reputation": "ADVISORY_SIGNAL_ONLY",
+    "automatic_authorization_expansion": false,
+    "automatic_capability_expansion": false,
+    "automatic_remote_spawn": false
+  },
+  "evidence": {
+    "local_protocol_pass": "LOCAL_MULTI_NODE_PROTOCOL_PASS",
+    "local_protocol_scope": "SAME_PHYSICAL_HOST_LOOPBACK_OR_EQUIVALENT_ISOLATED_LOCAL_PEERS",
+    "local_protocol_pass_is_cross_host_production": false,
+    "cross_host_production_pass": "CROSS_HOST_PRODUCTION_E2E_PASS",
+    "minimum_distinct_host_identities": 2,
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "forbidden_semantics": [
+    "RUFLO_RUNTIME_AS_FA3_AUTHORITY",
+    "FEDERATION_AS_GLOBAL_ORCHESTRATOR",
+    "PEER_TRUST_AS_AUTHORIZATION",
+    "REMOTE_PROVIDER_BYPASS",
+    "REMOTE_MODEL_ROUTER_BYPASS",
+    "REMOTE_MCP_BYPASS",
+    "REMOTE_HRB_BYPASS",
+    "REMOTE_SECRET_BROKER_BYPASS",
+    "PRIVATE_MODEL_LANGUAGE",
+    "LOCAL_LOOPBACK_TEST_CLAIMED_AS_CROSS_HOST_E2E",
+    "COORDINATION_CLAIM_CONFUSED_WITH_RESOURCE_LEASE"
+  ]
+}

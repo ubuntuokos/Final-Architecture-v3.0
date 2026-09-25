@@ -1,6 +1,7 @@
 import json,os,pwd,subprocess,tempfile,unittest
 from pathlib import Path
 from src import fa3_secret_broker_gate as g
+from src.fa3_secret_broker_current_host_gate import REQUIRED_CHECKS
 ROOT=Path(__file__).resolve().parents[1]
 
 class SecretBrokerGateTests(unittest.TestCase):
@@ -48,6 +49,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("AmbientCapabilities=CAP_SYS_ADMIN",unit)
         self.assertNotIn("CAP_CHOWN",unit)
         self.assertNotIn("CAP_FOWNER",unit)
+        self.assertIn("ReadWritePaths=/run /var/lib/fa3/state/fa3-machine-state.img",unit)
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
         self.assertIn("diagnose_runtime",lifecycle)
         self.assertIn('journalctl --no-pager -n 160 -u fa3-secret-vault.service -u "$MOUNT_UNIT" -u fa3-secret-broker.service',lifecycle)
@@ -67,13 +69,22 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("What=/dev/mapper/fa3-machine-state",mount_unit)
         self.assertIn("Where=/run/fa3/machine-state",mount_unit)
         self.assertIn("Type=ext4",mount_unit)
-        self.assertIn("Options=nodev,nosuid,noexec",mount_unit)
+        self.assertIn("Options=rw,nodev,nosuid,noexec",mount_unit)
         helper=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
         self.assertNotIn("/proc/1/ns/mnt",helper)
         self.assertIn("open_mapper",helper)
         self.assertIn("close_mapper",helper)
         self.assertIn("vault mount source mismatch",helper)
+        self.assertIn("for o in rw nodev nosuid noexec",helper)
+        self.assertIn("vault mount must be writable",helper)
+        self.assertIn("FA3_MAPPER_CLOSE_ATTEMPTS",helper)
+        self.assertIn('findmnt -rn -S "/dev/mapper/$MAPPER"',helper)
+        self.assertIn("bounded close attempts",helper)
         broker=(ROOT/"deployment/secrets/fa3-secret-broker.service").read_text()
+        self.assertIn("Group=fa3-secret-clients",broker)
+        self.assertIn("SupplementaryGroups=fa3-secret-broker",broker)
+        self.assertIn("RuntimeDirectoryMode=0750",broker)
+        self.assertNotIn("chgrp fa3-secret-clients /run/fa3-secret-broker",broker)
         self.assertIn("Requires=run-fa3-machine\\x2dstate.mount",broker)
         self.assertIn("ExecStartPre=/usr/local/libexec/fa3-secret-vault-mount assert-broker-open",broker)
         self.assertIn("PrivateDevices=true",broker)
@@ -81,42 +92,64 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn('systemctl stop "$MOUNT_UNIT"',lifecycle)
         self.assertIn('"$VAULT_MOUNT_HELPER" close-mapper',lifecycle)
 
-    def test_current_host_runtime_is_durably_admitted_without_global_promotion(self):
+    def test_current_host_runtime_requalification_is_durably_admitted(self):
         conformance=json.loads((ROOT/"canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json").read_text())
         gate=json.loads((ROOT/"canonical/FA3-GATE-SECRET-BROKER-001.json").read_text())
         enforcement=json.loads((ROOT/"canonical/secret-broker-enforcement.json").read_text())
-        evidence=json.loads((ROOT/"evidence/reference/secret-broker-current-host-2026-09-21.json").read_text())
+        admitted=json.loads((ROOT/"evidence/reference/secret-broker-current-host-2026-09-24.json").read_text())
+        historical=json.loads((ROOT/"evidence/reference/secret-broker-current-host-2026-09-21.json").read_text())
+        decision=json.loads((ROOT/"canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json").read_text())
         registry=json.loads((ROOT/"evidence/evidence-registry.json").read_text())
+        active="evidence/reference/secret-broker-current-host-2026-09-24.json"
+        historical_ref="evidence/reference/secret-broker-current-host-2026-09-21.json"
         self.assertEqual("CURRENT_HOST_ADMITTED",conformance["status"])
         self.assertTrue(conformance["production_runtime_promoted"])
-        self.assertEqual("FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",conformance["runtime_promotion_scope"])
-        self.assertFalse(conformance["global_promotion_claim"])
+        self.assertEqual(active,conformance["current_host_evidence_ref"])
+        self.assertEqual(historical_ref,conformance["superseded_current_host_evidence_ref"])
+        self.assertIn("SYSTEMD_VAULT_RW_MOUNT_PASS",conformance["required_checks"])
+        self.assertIn("SYSTEMD_BROKER_WRITE_READ_REVOKE_PASS",conformance["required_checks"])
         self.assertTrue(gate["production_runtime_promoted"])
-        self.assertFalse(gate["global_promotion_claim"])
+        self.assertEqual(active,gate["current_host_evidence_ref"])
         self.assertTrue(enforcement["production_runtime_promoted"])
-        self.assertEqual("FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",enforcement["runtime_promotion_scope"])
-        self.assertFalse(enforcement["global_promotion_claim"])
-        self.assertEqual("PASS",evidence["result"])
-        self.assertTrue(evidence["runtime"]["real_execution"])
-        self.assertFalse(evidence["runtime"]["synthetic"])
-        self.assertFalse(evidence["runtime"]["secret_values_collected"])
-        self.assertEqual(36,len(evidence["checks"]))
-        self.assertTrue(all(evidence["checks"].values()))
+        self.assertEqual(active,enforcement["current_host_evidence_ref"])
+        self.assertEqual("PASS",admitted["result"])
+        self.assertEqual("CURRENT_HOST_ADMITTED",admitted["status"])
+        self.assertTrue(admitted["checks"]["systemd_vault_rw_mount_pass"])
+        self.assertTrue(admitted["checks"]["systemd_broker_write_read_revoke_pass"])
+        self.assertEqual("PASS",historical["result"])
+        self.assertEqual("CURRENT_HOST_ADMITTED",historical["status"])
+        self.assertEqual("CANONICAL_CLOSED",decision["status"])
+        self.assertTrue(decision["decision"]["production_runtime_promoted"])
+        self.assertFalse(decision["decision"]["requalification_required"])
         cap3=next(x for x in registry["records"] if x["subject_id"]=="CAP-003")
         self.assertEqual("PENDING_CURRENT_HOST",cap3["status"])
         self.assertEqual("CURRENT_HOST_ADMITTED",cap3["secret_broker_projection_status"]["runtime_status"])
         self.assertTrue(cap3["secret_broker_projection_status"]["production_runtime_admitted"])
+        self.assertEqual(active,cap3["secret_broker_projection_status"]["current_host_evidence"])
         self.assertFalse(cap3["secret_broker_projection_status"]["global_promotion_claim"])
+
+    def test_current_host_receipt_schema_requires_rw_and_systemd_write_proof(self):
+        schema=json.loads((ROOT/"canonical/schemas/secret-broker-current-host-receipt.v1.json").read_text())
+        self.assertEqual(["rw","nodev","nosuid","noexec"],schema["properties"]["mount_options"]["const"])
+        required=set(schema["properties"]["checks"]["required"])
+        self.assertIn("systemd_vault_rw_mount_pass",required)
+        self.assertIn("systemd_broker_write_read_revoke_pass",required)
+        self.assertTrue(schema["properties"]["checks"]["properties"]["systemd_vault_rw_mount_pass"]["const"])
+        self.assertTrue(schema["properties"]["checks"]["properties"]["systemd_broker_write_read_revoke_pass"]["const"])
 
     def test_lifecycle_start_requires_broker_readiness_and_health(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
-        expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
+        expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","VAULT_MOUNT_WRITABLE","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_TRANSPORT_BOUNDARY_VALIDATED","BROKER_HEALTH_PASS"}
         self.assertEqual(expected,set(profile["lifecycle"]["start_completion_requires"]))
         self.assertEqual("FAIL_CLOSED_ROLLBACK_TO_CLOSED",profile["lifecycle"]["start_readiness_timeout"])
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
         self.assertIn("wait_broker_ready",lifecycle)
         self.assertIn('[[ -S "$BROKER_SOCKET" ]]',lifecycle)
         self.assertIn('"$BROKER_HEALTH_CLI" --socket "$BROKER_SOCKET" health',lifecycle)
+        self.assertIn("assert_broker_transport_boundary",lifecycle)
+        self.assertIn('"fa3-secret-clients"',lifecycle)
+        self.assertIn('"660"',lifecycle)
+        self.assertIn('"750"',lifecycle)
         self.assertIn("broker readiness/health timeout",lifecycle)
         self.assertIn("systemctl stop fa3-secrets.target",lifecycle)
         current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
@@ -170,6 +203,8 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("SOURCE_COMMIT",helper)
         self.assertIn("privileged bridge source drift",client)
         self.assertIn("/usr/local/bin/fa3-secret-broker-current-host-bridge run",workflow)
+        self.assertIn("collect-secret-broker-current-host-reference.py",workflow)
+        self.assertIn("secret-broker-current-host-reference-candidate.json",workflow)
         self.assertNotIn('run: sudo FA3_REPO_ROOT',workflow)
         self.assertEqual("DEDICATED_EPHEMERAL_NON_ROOT",boundary["broker_admin_e2e_identity"])
         self.assertEqual({"fa3-secret-admin","fa3-secret-clients"},set(boundary["broker_admin_required_groups"]))
@@ -182,9 +217,58 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn('userdel "$ADMIN_USER"',current_host)
         self.assertIn('"ephemeral_admin_probe_removed_pass":True',current_host)
         self.assertIn('"host_mount_namespace_visibility_pass":True',current_host)
+        self.assertIn('"systemd_vault_rw_mount_pass":True',current_host)
+        self.assertIn('"systemd_broker_write_read_revoke_pass":True',current_host)
+        self.assertIn("ReadWritePaths=$SIMG",current_host)
         self.assertIn("fa3-secret-broker-current-host.lock",current_host)
         self.assertIn("fa3-machine-state-e2e-*",current_host)
         self.assertIn("preserving E2E backing image because systemd mount/mapper cleanup is incomplete",current_host)
+        for phase in ("[1/4]","[2/4]","[3/4]","[4/4]"):
+            self.assertIn(phase,current_host)
+        self.assertIn('FA3_MACHINE_STATE_MAPPER="$MAPPER"',current_host)
+        self.assertIn('FA3_MACHINE_STATE_MAPPER="$RMAPPER"',current_host)
+        self.assertIn('/usr/local/libexec/fa3-secret-vault-mount close-mapper',current_host)
+        self.assertIn("/dev/mapper/fa3-machine-state",current_host)
+
+    def test_current_host_reference_collector_requires_new_evidence_matrix(self):
+        collector=ROOT/"evidence/collect-secret-broker-current-host-reference.py"
+        subprocess.run(["python3","-m","py_compile",str(collector)],check=True)
+        head=subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True).strip()
+        with tempfile.TemporaryDirectory() as td_raw:
+            td=Path(td_raw)
+            receipt=td/"receipt.json"
+            report=td/"gate.json"
+            output=td/"reference.json"
+            receipt.write_text(json.dumps({
+                "schema":"fa3.secret-broker-current-host-receipt.v1",
+                "status":"PASS","real_execution":True,"synthetic":False,
+                "executed_at":"2026-09-24T00:00:00+00:00",
+                "bridge_source_commit":head,"luks2":True,"filesystem":"ext4",
+                "mount_options":["rw","nodev","nosuid","noexec"],
+                "broker_unprivileged":True,"broker_user":"fa3-secret-broker",
+                "checks":{name:True for name in REQUIRED_CHECKS},
+                "test_unlock_key_ephemeral":True,"secret_values_collected":False,
+                "runtime_promotion_eligible":True,"global_promotion_claim":False,
+                "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143
+            }))
+            report.write_text(json.dumps({
+                "schema":"fa3.secret-broker-current-host-gate-report.v1",
+                "gate_id":"FA3-GATE-SECRET-BROKER-CURRENT-HOST-001",
+                "result":"PASS","status":"CURRENT_HOST_PASS","findings":[],
+                "global_promotion_claim":False
+            }))
+            env=dict(os.environ); env["PYTHONPATH"]=str(ROOT/"src")
+            subprocess.run([
+                "python3",str(collector),"--root",str(ROOT),
+                "--receipt",str(receipt),"--gate-report",str(report),
+                "--output",str(output)
+            ],check=True,env=env,capture_output=True,text=True)
+            ref=json.loads(output.read_text())
+            self.assertEqual("PASS",ref["result"])
+            self.assertEqual("CURRENT_HOST_ADMITTED",ref["status"])
+            self.assertEqual(head,ref["source"]["tested_repository_head"])
+            self.assertTrue(ref["checks"]["systemd_vault_rw_mount_pass"])
+            self.assertTrue(ref["checks"]["systemd_broker_write_read_revoke_pass"])
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
