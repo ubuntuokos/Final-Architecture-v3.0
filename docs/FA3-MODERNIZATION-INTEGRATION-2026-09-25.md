@@ -25,7 +25,7 @@ The extension is additive and namespaced. It must not uninstall, replace, shadow
 | Security / rights policy | `FA3-AUTH-SECURITY-GOV-001` |
 | Actions | `FA3-UNIFIED-ACTION-FABRIC-001` |
 | Evidence | `FA3-AUTH-OBS-EVIDENCE-001` |
-| Provider runtime | `FA3-PROVIDER-RUNTIME-001` |
+| Provider runtime | `FA3-PROVIDER-RUNTIME-001` |\n| Cross-host coordination | `FA3-AGENT-FEDERATION-001` with remote HRB admission |
 | Secrets / private keys | existing Secret Broker / PKI boundary |
 
 ## Materialized lanes
@@ -35,6 +35,9 @@ The extension is additive and namespaced. It must not uninstall, replace, shadow
 - **Knowledge:** LanceDB is only a future derived/rebuildable accelerator. It cannot become Knowledge authority, self-select embeddings, bypass retrieval, or replace native source/project files. PR #390 remains the owner of active Embedding Fabric work.
 - **FinOps:** a derived projection over HRB/runtime/energy/provider billing receipts. HRB never becomes financial authority; tariffs, FX and amortization are versioned runtime inputs.
 - **Quality:** existing Anti-Slop and hu-HU AQC are reused. AI evaluation is advisory and Model-Router-mediated only.
+- **Cross-host execution:** CAP-070 Agent Federation carries authenticated, signed and bounded coordination only. It is not a resource authority; the remote host must independently pass remote HRB and provider-runtime admission. Local multi-node protocol evidence is not cross-host production evidence.
+- **Structured knowledge metadata:** metadata is a derived Knowledge projection. Native files/project formats remain authoritative source assets; domain extensions cannot replace the core provenance/approval/evidence fields.
+- **Degraded execution:** any fallback/reroute is explicit, policy-authorized, receives fresh resource admission, records the original route failure/unavailability, and emits reroute plus execution receipts. Silent fallback remains forbidden.
 
 ## Current-host truth boundary
 This change materializes contracts, immutable upstream references and an executable static gate. It does **not** install candidates and does **not** claim current-host or production admission.
