@@ -29,6 +29,8 @@ JEV_REUSE = "canonical/third-party/FA3-JEV-CODE-REUSE-001.json"
 DIST_REGISTRY = "canonical/distribution-registry.json"
 DIST_MANIFEST = "canonical/distribution-manifest.json"
 EVIDENCE = "evidence/reference/reuse-discovery-ci-2026-09-24.json"
+SKILL_REGISTRY = "canonical/skill-registry.json"
+EXTERNAL_SKILL_RADAR = "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
 WORKFLOW = ".github/workflows/fa3-permanent-enforcement.yml"
 DEDICATED_WORKFLOW = ".github/workflows/fa3-reuse-discovery.yml"
 DECISION_DOC = "docs/decision-fabric.md"
@@ -121,6 +123,7 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/assessments/FA3-REUSE-DISCOVERY-REUSE-ASSESSMENT-001.json",
         "src/fa3_reuse_catalog.py", "src/fa3_reuse_resolver.py", "src/fa3_reuse_assessment.py",
         "bin/fa3-reuse-assess", "tests/test_reuse_discovery_gate.py", DECISION_DOC,
+        SKILL_REGISTRY, EXTERNAL_SKILL_RADAR,
     ]
     for rel in required:
         if not (root / rel).is_file():
@@ -143,6 +146,8 @@ def gate(root: Path) -> dict[str, Any]:
     dist = load(root, DIST_REGISTRY)
     manifest = load(root, DIST_MANIFEST)
     evidence = load(root, EVIDENCE)
+    skill_registry = load(root, SKILL_REGISTRY)
+    external_skill_radar = load(root, EXTERNAL_SKILL_RADAR)
 
     if not (
         profile.get("id") == "FA3-REUSE-DISCOVERY-001"
@@ -181,8 +186,8 @@ def gate(root: Path) -> dict[str, Any]:
     if not (
         gate_record.get("gateset_id") == "FA3-REUSE-DISCOVERY-GATESET-001"
         and gate_record.get("fail_closed") is True
-        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 20
-        and len(enforcement.get("p0_invariants", [])) == 20
+        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 23
+        and len(enforcement.get("p0_invariants", [])) == 23
     ):
         findings.append(finding("REUSE-006", "gate/enforcement inventory drift"))
 
@@ -201,6 +206,80 @@ def gate(root: Path) -> dict[str, Any]:
     for rid in ("FA3-HARDWARE-BASELINE-001", "FA3-DISTRIBUTION-COMPLIANCE-001", "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001", "FA3-INFERENCE-PORTABILITY-001"):
         if rid not in ids:
             findings.append(finding("REUSE-008", "derived catalog missed required canonical reuse source", record_id=rid))
+
+    skill_rows = {
+        row["candidate_id"]: row
+        for row in built["entries"]
+        if row.get("candidate_class") == "SKILL"
+    }
+    admitted_skill_ids = {
+        str(row.get("skill_id"))
+        for row in skill_registry.get("entries", [])
+        if isinstance(row, dict) and row.get("admission_status") == "ADMITTED" and row.get("skill_id")
+    }
+    if not admitted_skill_ids or not admitted_skill_ids.issubset(set(skill_rows)):
+        findings.append(finding(
+            "REUSE-021",
+            "derived reuse catalog does not federate all admitted Skill Registry entries",
+            missing=sorted(admitted_skill_ids - set(skill_rows)),
+        ))
+    for skill_id in sorted(admitted_skill_ids):
+        row = skill_rows.get(skill_id, {})
+        if not (
+            row.get("status") == "ADMITTED"
+            and row.get("task_scoped") is True
+            and row.get("authority") is False
+            and row.get("remote_fetch") is False
+        ):
+            findings.append(finding("REUSE-021", "admitted skill reuse boundary drift", skill_id=skill_id, row=row))
+
+    external_rows = {
+        (row.get("repository"), row.get("source_commit")): row
+        for row in built["entries"]
+        if row.get("candidate_class") == "EXTERNAL_SKILL_SOURCE"
+    }
+    radar_sources = [
+        row for row in external_skill_radar.get("sources", [])
+        if isinstance(row, dict) and row.get("repository") and row.get("commit")
+    ]
+    missing_external = [
+        f"{row.get('repository')}@{row.get('commit')}"
+        for row in radar_sources
+        if (row.get("repository"), row.get("commit")) not in external_rows
+    ]
+    if missing_external:
+        findings.append(finding("REUSE-022", "external skill radar sources missing from reuse catalog", missing=missing_external))
+    for source in radar_sources:
+        row = external_rows.get((source.get("repository"), source.get("commit")), {})
+        if not (
+            source.get("classification") == "REFERENCE_ONLY"
+            and row.get("status") == "REFERENCE_ONLY"
+            and row.get("distribution_class") == "REFERENCE_ONLY"
+            and row.get("authority") is False
+            and row.get("automatic_fetch") is False
+            and row.get("automatic_install") is False
+            and row.get("automatic_activation") is False
+        ):
+            findings.append(finding("REUSE-022", "external skill source gained trust/install semantics", source=source, row=row))
+
+    skill_binding = profile.get("skill_fabric_binding", {})
+    skill_contract = contract.get("contracts", {}).get("SkillReuseProjection", {})
+    external_contract = contract.get("contracts", {}).get("ExternalSkillSourceProjection", {})
+    if not (
+        skill_binding.get("profile_id") == "FA3-SKILL-FABRIC-001"
+        and skill_binding.get("registry_id") == "FA3-SKILL-REGISTRY-001"
+        and skill_binding.get("external_radar_id") == "FA3-EXTERNAL-SKILL-RADAR-001"
+        and skill_binding.get("only_admitted_skill_may_be_selected_for_task_context") is True
+        and skill_binding.get("activation_remains_task_scoped") is True
+        and skill_binding.get("automatic_install") is False
+        and skill_binding.get("automatic_activation") is False
+        and skill_contract.get("activation_authority") is False
+        and skill_contract.get("task_scoped_required") is True
+        and external_contract.get("classification_required") == "REFERENCE_ONLY"
+        and external_contract.get("install_authority") is False
+        and external_contract.get("admission_authority") is False
+    ):
+        findings.append(finding("REUSE-023", "Skill Fabric / external skill source reuse contract boundary drift"))
 
     generated = assess_intent(root, golden_intent)
     selected_ids = {row["id"] for row in generated.get("selected_reuse", [])}
