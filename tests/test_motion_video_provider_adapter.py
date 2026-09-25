@@ -73,9 +73,11 @@ class MotionVideoAdapterTests(unittest.TestCase):
             )
             executable.chmod(0o755)
             digest=hashlib.sha256(executable.read_bytes()).hexdigest()
-            selection=root/"selection.json";manifest=root/"manifest.json";ir=root/"ir.json";artifact=root/"out.bin"
+            selection=root/"selection.json";manifest=root/"manifest.json";ir=root/"ir.json";artifact=root/"out.bin";admission=root/"admission.json"
             selection.write_text(json.dumps(self.base_selection()),encoding="utf-8")
-            m=self.base_manifest();m.update({"executable":str(executable),"executable_sha256":digest,"argv":["{ir}","{output}"]})
+            admission.write_text(json.dumps({"provider_id":"FA3-PROVIDER-TEST-VIDEO-001","status":"PASS","synthetic_or_mock_provider":False}),encoding="utf-8")
+            admission_digest=hashlib.sha256(admission.read_bytes()).hexdigest()
+            m=self.base_manifest();m.update({"executable":str(executable),"executable_sha256":digest,"argv":["{ir}","{output}"],"admission_receipt":str(admission),"admission_receipt_sha256":admission_digest})
             manifest.write_text(json.dumps(m),encoding="utf-8")
             ir.write_text(json.dumps({"schema":"fa3.video-generation-ir.v1","request_id":"T"}),encoding="utf-8")
             receipt=execute(selection,manifest,ir,hrb_path=None,output_path=artifact,timeout=10)
