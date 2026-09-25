@@ -102,6 +102,14 @@ def gate(root: Path) -> dict[str, Any]:
     optional_rule = by_id(rules, "EVID-SCOPE-OPTIONAL-DISABLED")
     release_invariants = release.get("invariants", {})
     registry_records = registry.get("records", [])
+    previous_count = baseline.get("previous_release_capability_count")
+    declared_delta = baseline.get("capability_delta")
+    migration_consistent = (
+        isinstance(previous_count, int)
+        and isinstance(declared_delta, int)
+        and declared_delta == baseline_count - previous_count
+        and declared_delta >= 0
+    )
 
     expected_negative_checks = {
         "NO_UNEXPECTED_PROCESS",
@@ -132,9 +140,9 @@ def gate(root: Path) -> dict[str, Any]:
         (
             "RESCOPE-002",
             baseline.get("authority_delta") == 0
-            and baseline.get("capability_delta") == 0
-            and baseline.get("baseline_semantics") == "RELEASE_SCOPED",
-            "release baseline gained authority/capability delta or stopped being release-scoped",
+            and baseline.get("baseline_semantics") == "RELEASE_SCOPED"
+            and migration_consistent,
+            "release baseline capability delta is undeclared/inconsistent, gained authority, or stopped being release-scoped",
         ),
         (
             "RESCOPE-003",
@@ -142,7 +150,7 @@ def gate(root: Path) -> dict[str, Any]:
             and baseline_count == CURRENT_RELEASE_COUNT
             and active_release.get("capability_count") == CURRENT_RELEASE_COUNT
             and active_release.get("status") == "ACTIVE_BASELINE",
-            "active v3.0.11 release baseline drift",
+            "active release baseline drift",
         ),
         (
             "RESCOPE-004",
@@ -163,7 +171,7 @@ def gate(root: Path) -> dict[str, Any]:
             "RESCOPE-006",
             release.get("base_release") == CURRENT_RELEASE
             and release_invariants.get("canonical_capability_count") == baseline_count
-            and release_invariants.get("new_capabilities") == 0
+            and release_invariants.get("new_capabilities") == declared_delta
             and release_invariants.get("new_architectural_authorities") == 0,
             "release projection baseline/capability/authority invariant drift",
         ),
@@ -270,10 +278,11 @@ def gate(root: Path) -> dict[str, Any]:
             "RESCOPE-018",
             decision.get("id") == DECISION_ID
             and decision.get("status") == "CANONICAL_CLOSED"
-            and decision.get("decision", {}).get("v3_0_11_capability_count") == baseline_count
+            and decision.get("decision", {}).get("v3_0_11_capability_count") == previous_count
             and decision.get("decision", {}).get("capability_count_semantics") == "RELEASE_SCOPED"
             and governance.get("authority_delta") == 0
-            and governance.get("capability_delta") == 0
+            and governance.get("capability_delta") == declared_delta
+            and governance.get("canonical_capability_count_before") == previous_count
             and governance.get("canonical_capability_count_after") == baseline_count,
             "criteria decision or governance-tiering compatibility drift",
         ),
