@@ -2,7 +2,7 @@
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23",
   "date": "2026-09-23",
-  "status": "CANONICAL_IMPLEMENTED_STATIC_AND_REFERENCE",
+  "status": "CANONICAL_IMPLEMENTED_REFERENCE_AND_CAPTION_APPLICATION_CURRENT_HOST_PASS",
   "subject": "Unified materialization of Caption/Subtitle Fabric, standalone Subtitle Studio, embedded subtitle workspaces and Subtitle-to-Narration/Dubbing Studio",
   "decision": "IMPLEMENT_ALL_SURFACES_IN_ONE_MATERIALIZATION_WITH_SHARED_CANONICAL_CAPTION_IR",
   "profile_id": "FA3-CAPTION-SUBTITLE-001",
@@ -51,7 +51,13 @@
   },
   "runtime_promotion": {
     "static_and_reference_materialization": "IMPLEMENTED",
-    "current_host_gui_and_end_to_end_voice_execution": "PENDING_CURRENT_HOST",
+    "caption_application_and_native_uaf_provider": "CURRENT_HOST_APPLICATION_E2E_PASS",
+    "caption_application_evidence": "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
+    "validated_implementation_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7",
+    "control_center_gui_physical": "PENDING_MANUAL_REQUALIFICATION_AFTER_CAPTION_NARRATION_QML_CHANGE",
+    "voice_provider_audio_execution": "SEPARATE_FA3_VOICE_ADMISSION",
+    "hardsub_ocr_execution": "SEPARATE_OCR_PROVIDER_ADMISSION",
+    "global_promotion_claim": false,
     "document_only_runtime_promotion": "FORBIDDEN"
   }
 }
