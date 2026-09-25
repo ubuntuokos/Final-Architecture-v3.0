@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9a55fb2a2d256a455d7610adcbf903c849865ab0",
-    "pre_projection_root_tree_sha": "1ec1512a2562fe33fc626edb9de2a1dedaf9c8bd",
-    "pre_projection_canonical_tree_sha": "74a24e1828620fba8c59c7bddf7c706647ddf28b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 593,
-    "total_post_baseline_commits": 593,
-    "delta_file_count": 1902,
-    "delta_added_files": 1897,
+    "pre_projection_head_sha": "3f6163b221680751a9f44989a9bbda1977281930",
+    "pre_projection_root_tree_sha": "9695736a8e1a3f26239af50ca28a5bc02e4be67d",
+    "pre_projection_canonical_tree_sha": "c36db661cf54f4e31f095c34f48e8b3b98fb293a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 617,
+    "total_post_baseline_commits": 617,
+    "delta_file_count": 1914,
+    "delta_added_files": 1909,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 896,
-    "evidence_files_in_post_baseline_delta": 148,
-    "source_files_in_post_baseline_delta": 257,
-    "test_files_in_post_baseline_delta": 218,
-    "workflow_files_in_post_baseline_delta": 90,
+    "canonical_files_in_post_baseline_delta": 899,
+    "evidence_files_in_post_baseline_delta": 149,
+    "source_files_in_post_baseline_delta": 260,
+    "test_files_in_post_baseline_delta": 222,
+    "workflow_files_in_post_baseline_delta": 91,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -879,7 +879,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1895,
+  "manifest_entry_count": 1907,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -1024,6 +1024,11 @@
     {
       "path": ".github/workflows/fa3-host-bootstrap-admission-orchestrator.yml",
       "git_blob_sha": "60812c3435ed8eb436935ef435e2789728d450ed",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hrb-lease-lifecycle.yml",
+      "git_blob_sha": "aa18661bc6ca7a3bdad565ec23c18ab530b5fcea",
       "baseline_delta_status": "added"
     },
     {
@@ -1973,7 +1978,7 @@
     },
     {
       "path": "bin/fa3-secretctl",
-      "git_blob_sha": "275e68c41b16fba0cd14a07e3936aa38d03303e9",
+      "git_blob_sha": "b66d442192f019029a2083de7981de6166ba16d1",
       "baseline_delta_status": "added"
     },
     {
@@ -2269,6 +2274,11 @@
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
       "git_blob_sha": "305931e1158c46167f403b588c37ae3e7690bf21",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-HRB-LEASE-LIFECYCLE-001.json",
+      "git_blob_sha": "468452c6b98b18a44e82feeedfa4f5ae49f3161f",
       "baseline_delta_status": "added"
     },
     {
@@ -3042,6 +3052,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-HRB-LEASE-LIFECYCLE-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "607c8dbb012f669308705d65e7bd8d276b47497b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-JEV-DECISION-FABRIC-2026-09-23.json",
       "git_blob_sha": "6ec684d154412c8381afb1e5248904085d030e93",
       "baseline_delta_status": "added"
@@ -3333,7 +3348,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "1f202a6ce302fbdf073bad6d91bb83cdf1e0ab22",
+      "git_blob_sha": "abe62c3b7fd39a85de1743b539574606d8d9abaa",
       "baseline_delta_status": "added"
     },
     {
@@ -4577,6 +4592,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-HRB-LEASE-LIFECYCLE-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "135e9de18981e208eb015b71cf59a3563eb980bc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/journal-enforcement.json",
       "git_blob_sha": "490224e10506b44ac1df8cec9e947b3c2e960efb",
       "baseline_delta_status": "added"
@@ -4978,7 +4998,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "4e4189e53efcf553fbb1b81251d548c4ed8a3506",
+      "git_blob_sha": "249539469752413fc0cf289f9fb2acf31d0c6cdd",
       "baseline_delta_status": "added"
     },
     {
@@ -7092,6 +7112,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-hrb-lease-lifecycle-current-host.py",
+      "git_blob_sha": "776333832617f2389968dd8a5816cfdd3e559098",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-hrb-systemd-manager-current-host.py",
       "git_blob_sha": "b9eef6191e52660a2b55b3acc7eaa9c4c36cfa5d",
       "baseline_delta_status": "added"
@@ -8407,6 +8432,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_hrb_lease_lifecycle.py",
+      "git_blob_sha": "2c548f0a985dc78ca1152d72c541948aa84f28a8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hrb_lease_lifecycle_current_host_gate.py",
+      "git_blob_sha": "632b0bbad2ffd4d20ef4b9ba51bf1aa1a18045ad",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hrb_lease_lifecycle_gate.py",
+      "git_blob_sha": "826cfbea4da2f85bdc5a943f210c9c1b06503959",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hrb_systemd_manager_current_host_gate.py",
       "git_blob_sha": "bd7343912b9cc403b19ee64dee1f405655548b6f",
       "baseline_delta_status": "added"
@@ -9053,7 +9093,7 @@
     },
     {
       "path": "src/fa3_secret_broker.py",
-      "git_blob_sha": "245bcd6887a9508e95a535306c2fdbc7a203a221",
+      "git_blob_sha": "c5bab431b7a2f80e7ab150c1734f9fb734876784",
       "baseline_delta_status": "added"
     },
     {
@@ -9619,6 +9659,26 @@
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "350db10ae6322586099b95a00b2752839eaaac7c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_lease_lifecycle.py",
+      "git_blob_sha": "070fd78a24dfad33f33950617945728d8a0b6787",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_lease_lifecycle_current_host_gate.py",
+      "git_blob_sha": "5054d953bb8dcc8c868154a80cb83de870ab56ec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_lease_lifecycle_gate.py",
+      "git_blob_sha": "3c18b047e55d6799ec251d6aa168dc408a7d4632",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_secret_projection_lifecycle.py",
+      "git_blob_sha": "7a8b33f50b944ce4bc2aa5c5a81f48cc9625d3c5",
       "baseline_delta_status": "added"
     },
     {
@@ -10554,7 +10614,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-24",
+  "last_reconciled_at": "2026-09-25",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
