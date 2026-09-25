@@ -16,6 +16,11 @@ Prepare one `fa3.provider-runtime-environment.v1` plan for the admitted provider
 
 ## HRB composite control plane
 
+By default the collector derives a bounded two-child control-plane reservation from the **live vendor-neutral hardware discovery** already used by the HRB systemd-manager current-host collector. CPU capacity comes from live sysfs, RAM from the live kernel, and accelerator identity from PCI/sysfs with optional provider enrichment. CPU-only hosts remain valid and accelerator cardinality remains 0..N.
+
+The checked-in plan/capacity files are optional operator override templates only; they are not required for the default current-host run and are never evidence by themselves.
+
+
 Prepare a real current-host resource plan and capacity input from the live host audit. Do not use the checked-in example values as evidence. The collector exercises the atomic reservation plan, authenticated HRB-internal derived leases, aggregate child-budget refusal, forged-parent refusal and parent revocation cascade. It deliberately uses a one-run ephemeral HMAC key that is never persisted.
 
 This surface proves control-plane semantics only. It does **not** claim that a production Blackhole, Whisper or Demucs workload has been physically resource-enforced by the installed privileged broker.
