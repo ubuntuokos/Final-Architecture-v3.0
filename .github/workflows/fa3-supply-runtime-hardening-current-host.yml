@@ -1,0 +1,91 @@
+name: FA3 Supply Runtime HRB Current-Host Closure
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json'
+      - 'src/fa3_supply_runtime_hardening_current_host_gate.py'
+      - 'evidence/collect-hrb-composite-current-host.py'
+      - 'evidence/collect-hu-aqc-golden-corpus-current-host.py'
+      - 'tests/test_supply_runtime_hardening_current_host.py'
+      - '.github/workflows/fa3-supply-runtime-hardening-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute HRB composite control-plane and hu-HU golden-corpus current-host closure'
+        required: true
+        default: false
+        type: boolean
+      hrb_plan:
+        description: 'Current-host ResourceReservationPlan JSON'
+        required: false
+        default: '.fa3-current-host/input/hrb-composite-plan.json'
+        type: string
+      hrb_capacity:
+        description: 'Current-host resource capacity JSON'
+        required: false
+        default: '.fa3-current-host/input/hrb-composite-capacity.json'
+        type: string
+      hu_corpus_manifest:
+        description: 'hu-HU golden corpus manifest with local audio and scorer-bundle paths'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-golden-corpus.json'
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: fa3-supply-runtime-hardening-current-host-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Syntax
+        run: python -m py_compile src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_current_host_gate.py evidence/collect-hrb-composite-current-host.py evidence/collect-hu-aqc-golden-corpus-current-host.py
+      - name: Current-host closure regressions
+        run: PYTHONPATH=src python -m unittest tests.test_supply_runtime_hardening_current_host -v
+      - name: Hosted CI must remain pending
+        run: |
+          rm -f evidence/receipts/hrb-composite-current-host.json evidence/receipts/hu-aqc-golden-corpus-current-host.json
+          PYTHONPATH=src python src/fa3_supply_runtime_hardening_current_host_gate.py
+          python - <<'PY'
+          import json
+          r=json.load(open('reports/supply-runtime-hardening-current-host-gate-report.json'))
+          assert r['result']=='PASS' and r['status']=='PENDING_CURRENT_HOST' and r['global_promotion_claim'] is False,r
+          PY
+  current-host:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - name: Prove runner identity
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          chmod +x bin/fa3-current-host-runner-doctor
+          ./bin/fa3-current-host-runner-doctor
+      - name: Collect HRB composite control-plane evidence
+        run: PYTHONPATH=src python evidence/collect-hrb-composite-current-host.py --plan "${{ inputs.hrb_plan }}" --capacity "${{ inputs.hrb_capacity }}"
+      - name: Collect hu-HU golden corpus evidence
+        run: PYTHONPATH=src python evidence/collect-hu-aqc-golden-corpus-current-host.py --manifest "${{ inputs.hu_corpus_manifest }}"
+      - name: Enforce scoped current-host closure
+        run: PYTHONPATH=src python src/fa3_supply_runtime_hardening_current_host_gate.py --require-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-supply-runtime-hardening-current-host
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/hrb-composite-current-host.json
+            evidence/receipts/hu-aqc-golden-corpus-current-host.json
+            reports/supply-runtime-hardening-current-host-gate-report.json
+            .fa3-current-host/hu-aqc-golden/*.json
