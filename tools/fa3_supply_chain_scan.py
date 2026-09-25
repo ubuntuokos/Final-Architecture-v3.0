@@ -11,9 +11,10 @@ def version(binary:str)->str:
     text=(p.stdout or p.stderr).strip().splitlines()
     return text[0][:200] if text else "UNKNOWN"
 
-def run(cmd:list[str])->None:
+def run(cmd:list[str])->str:
     p=subprocess.run(cmd,text=True,capture_output=True,timeout=600)
     if p.returncode: raise RuntimeError(f"{cmd[0]} failed: {(p.stderr or p.stdout)[-2000:]}")
+    return p.stdout
 
 def main()->int:
     ap=argparse.ArgumentParser()
@@ -27,7 +28,7 @@ def main()->int:
     with tempfile.TemporaryDirectory(prefix="fa3-scs-") as td:
         td=Path(td); sbom=td/"sbom.json"; vul=td/"grype.json"; lic=td/"scancode.json"
         run([syft,str(target),"-o",f"cyclonedx-json={sbom}"])
-        run([grype,f"sbom:{sbom}","-o","json","--file",str(vul)])
+        vul.write_text(run([grype,f"sbom:{sbom}","-o","json"]),encoding="utf-8")
         run([scancode,"--license","--json",str(lic),str(target)])
         vuldoc=json.loads(vul.read_text()); licdoc=json.loads(lic.read_text())
         findings=[]
