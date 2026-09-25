@@ -233,6 +233,8 @@ def build_catalog(root: Path) -> dict[str, Any]:
                 commit = row.get("commit")
                 if not isinstance(repository, str) or not repository or not isinstance(commit, str) or not commit:
                     continue
+                expanded_tokens = set(_tokens(row))
+                expanded_tokens.update(re.findall(r"[a-z0-9]+", " ".join(_flatten_strings(row)).lower()))
                 add({
                     "candidate_id": f"EXTERNAL_SKILL_SOURCE:{repository}@{commit}",
                     "candidate_class": "EXTERNAL_SKILL_SOURCE",
@@ -240,7 +242,7 @@ def build_catalog(root: Path) -> dict[str, Any]:
                     "status": "REFERENCE_ONLY",
                     "authority": False,
                     "capabilities": [],
-                    "tokens": _tokens(row),
+                    "tokens": sorted(expanded_tokens),
                     "distribution_class": row.get("classification"),
                     "release_bundle_status": "EXCLUDED",
                     "license": row.get("license"),
