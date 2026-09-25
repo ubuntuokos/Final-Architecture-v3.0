@@ -5,7 +5,7 @@
     "FA3-REUSE-DISCOVERY-001"
   ],
   "assessment": "RECOMMENDED",
-  "rationale": "Candidate eligibility, license/security exclusion, authority collision and coexistence filtering are deterministic. Decision Fabric may only rank the already eligible candidate set when several compatible reuse options remain.",
+  "rationale": "Candidate eligibility, admitted-skill eligibility, external-skill reference classification, license/security exclusion, authority collision and coexistence filtering are deterministic. Decision Fabric may only rank the already eligible candidate set when several compatible reuse options remain.",
   "decision_points": [
     {
       "id": "REUSE-CANDIDATE-RANKING",
@@ -26,7 +26,9 @@
     "may_expand_candidate_set": false,
     "may_create_agent": false,
     "may_admit_model": false,
-    "may_admit_provider": false
+    "may_admit_provider": false,
+    "may_activate_skill": false,
+    "may_install_external_skill": false
   },
   "capability_delta": 0,
   "authority_delta": 0
