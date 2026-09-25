@@ -87,6 +87,7 @@ jobs:
             src/fa3_provider_runtime.py \
             src/fa3_supply_runtime_hardening_current_host_gate.py \
             tools/fa3_supply_chain_scan.py \
+            tools/fa3_bind_provider_runtime.py \
             evidence/collect-provider-runtime-current-host.py \
             evidence/collect-hrb-composite-current-host.py \
             evidence/collect-hu-aqc-golden-corpus-current-host.py
@@ -148,8 +149,10 @@ jobs:
             args+=(--dependency-lock "${{ inputs.scs_dependency_lock }}")
           fi
           python3 tools/fa3_supply_chain_scan.py "${args[@]}"
+      - name: Bind provider-runtime plan to generated SCS receipt
+        run: python3 tools/fa3_bind_provider_runtime.py --plan "${{ inputs.provider_runtime_plan }}" --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
       - name: Collect provider-runtime evidence
-        run: PYTHONPATH=src python3 evidence/collect-provider-runtime-current-host.py --plan "${{ inputs.provider_runtime_plan }}" --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
+        run: PYTHONPATH=src python3 evidence/collect-provider-runtime-current-host.py --plan .fa3-current-host/runtime/provider-runtime-bound.json --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
       - name: Collect HRB composite control-plane evidence
         run: PYTHONPATH=src python3 evidence/collect-hrb-composite-current-host.py --plan "${{ inputs.hrb_plan }}" --capacity "${{ inputs.hrb_capacity }}"
       - name: Collect hu-HU golden corpus evidence
@@ -167,4 +170,5 @@ jobs:
             evidence/receipts/hrb-composite-current-host.json
             evidence/receipts/hu-aqc-golden-corpus-current-host.json
             reports/supply-runtime-hardening-current-host-gate-report.json
+            .fa3-current-host/runtime/provider-runtime-bound.json
             .fa3-current-host/hu-aqc-golden/*.json
