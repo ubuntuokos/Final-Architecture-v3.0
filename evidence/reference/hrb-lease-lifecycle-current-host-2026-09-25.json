@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-HRB-LEASE-LIFECYCLE-CURRENT-HOST-2026-09-25",
+  "date": "2026-09-25",
+  "subject_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "component": "HRB_LEASE_LIFECYCLE_TTL_EVICTION_AND_LEASE_INTEGRITY",
+  "status": "PASS",
+  "evidence_class": "CURRENT_HOST_COMPONENT_RUNTIME",
+  "evidence_level": "CURRENT_HOST_HRB_LEASE_LIFECYCLE_DEDICATED_TTL_EVICTION_PASS",
+  "validated_implementation_commit": "459c6d63d37c0d0ec4f27b00856490529bfe16c1",
+  "github_actions": {
+    "workflow": "FA3 HRB Lease Lifecycle",
+    "run_id": 36093869454,
+    "reference_job_id": 107941857534,
+    "current_host_job_id": 107941884360,
+    "conclusion": "success",
+    "artifact_id": 10846905335,
+    "artifact_name": "fa3-hrb-lease-lifecycle-current-host"
+  },
+  "proven": [
+    "dedicated harmless systemd user transient scope created on fa3-current-host",
+    "CPU-only workload admitted without accelerator assignment",
+    "short TTL expiration drove revoke and eviction lifecycle",
+    "runtime binding preserved cgroup device inode owner and PID start-time identity",
+    "cgroup v2 group-level kill executed via cgroup.kill",
+    "PID and cgroup death verification passed using pidfd plus cgroup populated state and original PID identity",
+    "test-only secret projection zeroized and revoked before runtime termination",
+    "lease reached EVICTED with cleanup_verified=true",
+    "typed evidence hash chain verified",
+    "no GPU global reset CUDA device reset or preexisting FA3 workload targeting occurred"
+  ],
+  "not_proven": [
+    "global FA3 runtime promotion",
+    "unrelated provider or application current-host admission",
+    "accelerator-backed lease eviction",
+    "shared-accelerator production eviction",
+    "production HRB root HMAC key handling",
+    "durable Evidence Authority asymmetric signature completion beyond typed handoff"
+  ],
+  "authority_effect": {
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "global_promotion_claim": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_used": false,
+    "global_accelerator_requirement": false,
+    "live_execution_host_class": "fa3-current-host"
+  },
+  "receipt": {
+    "schema": "fa3.hrb-lease-lifecycle-current-host-receipt.v1",
+    "status": "PASS",
+    "final_state": "EVICTED",
+    "group_kill_method": "CGROUP_V2_CGROUP_KILL",
+    "cleanup_verified": true,
+    "secret_projection_zeroized": true,
+    "secret_projection_revoked": true,
+    "typed_hash_chain_valid": true
+  }
+}
