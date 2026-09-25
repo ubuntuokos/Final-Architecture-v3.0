@@ -825,7 +825,8 @@
     "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
     "FA3-REUSE-DISCOVERY-GATESET-001",
     "FA3-AGENT-FEDERATION-GATESET-001",
-    "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
+    "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+    "FA3-COORDINATION-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -951,7 +952,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2171,
+  "manifest_entry_count": 2182,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1335,7 +1336,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "2aad643184cd7eb1416a772d655f99e4eac8a84a",
+      "git_blob_sha": "1cbb9f0ac2c1333e7eb059c70280eac11aa7bdba",
       "baseline_delta_status": "added"
     },
     {
@@ -1655,7 +1656,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/WorkManagementPage.qml",
-      "git_blob_sha": "ed77f446988d67b8ff2df41f9e97576546df628c",
+      "git_blob_sha": "538bdd523a501ef0457a6a1c231374331eeb9988",
       "baseline_delta_status": "added"
     },
     {
@@ -2594,6 +2595,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-COORDINATION-LAYER-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "e9159a70c027f6a733e79ae9e54dd56ffa7e4858",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-DEV-UPDATE-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "ba1982c830c5efc2cb02d628bb5b9998acad0ea1",
       "baseline_delta_status": "added"
@@ -3209,6 +3215,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-OBJECTIVE-COORDINATION-CONTRACTS-001.json",
+      "git_blob_sha": "e99329d1cfe93654b3a64fd333319df11b367bae",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "git_blob_sha": "b59b58917732838ec6c2be46d6c07b23d78994fe",
       "baseline_delta_status": "added"
@@ -3444,6 +3455,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coordination-enforcement.json",
+      "git_blob_sha": "5ee652c7ae285ed419b4a7f3014286e938fcdf31",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/cosyvoice-enforcement.json",
       "git_blob_sha": "591bc1e852d7f530afcf88645c2cf4c5861dd173",
       "baseline_delta_status": "added"
@@ -3611,6 +3627,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
       "git_blob_sha": "a62273f04b63ab7867d5e3fb0622b99555957b36",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-COORDINATION-LAYER-2026-09-25.json",
+      "git_blob_sha": "331ccac3c340b2cd129f5132483dfce6f7657956",
       "baseline_delta_status": "added"
     },
     {
@@ -4260,7 +4281,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "24bd26a89f2a705a7f73f005cca8aa15845ab8b7",
+      "git_blob_sha": "6549ce63ca44c38d086e7afe9a6c7ff0ad7cd10d",
       "baseline_delta_status": "modified"
     },
     {
@@ -5210,7 +5231,7 @@
     },
     {
       "path": "canonical/FA3-WORK-MANAGEMENT-PROJECTION-001.json",
-      "git_blob_sha": "1091a4ac01883af567912b1de028c25aad73ab7d",
+      "git_blob_sha": "73df2fd395f80b9a018a76a245c493946af1ad2c",
       "baseline_delta_status": "added"
     },
     {
@@ -5331,6 +5352,11 @@
     {
       "path": "canonical/intents/FA3-AGENT-RUNTIME-SEMANTICS-APPLICATION-INTENT-001.json",
       "git_blob_sha": "de3c8bc4ad63693e8ec4eba9f4d225fd84040e5f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-COORDINATION-LAYER-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "a0079bbb90604d826af702aeb493e58d9fc3c98c",
       "baseline_delta_status": "added"
     },
     {
@@ -5751,6 +5777,11 @@
     {
       "path": "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
       "git_blob_sha": "4acbf641658571df20a655aa2d7edd98e47223b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-COORDINATION-LAYER-001.json",
+      "git_blob_sha": "0241df77c91cb15a39c39048b0b03b50f30f1a11",
       "baseline_delta_status": "added"
     },
     {
@@ -7799,6 +7830,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-COORDINATION-LAYER-001.md",
+      "git_blob_sha": "f184696f0160b55c4d3c68192f72fcc06ab28937",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-DEV-UPDATE-FABRIC-001.md",
       "git_blob_sha": "40f841fb1f2f4c64d85e57fb20151ee9d5a554f3",
       "baseline_delta_status": "added"
@@ -8909,6 +8945,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "examples/objective-coordination-request.json",
+      "git_blob_sha": "60b9462b414051054a5a595fb3bb2d47d10cf73e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "examples/orchestration-workforce-media.json",
       "git_blob_sha": "6ee0b2871fe929923f6b95eb75a706c31f6b1e22",
       "baseline_delta_status": "added"
@@ -9349,6 +9390,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_coordination_gate.py",
+      "git_blob_sha": "6e3f96091f7df6acca44c1c5529b7dd53174e42a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_cosyvoice_gate.py",
       "git_blob_sha": "ee6f7ff73d9c650f040d3d0c7061fabafc261f1e",
       "baseline_delta_status": "added"
@@ -9540,7 +9586,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "d072b403d75c317b548606eb7027d0228c39db7a",
+      "git_blob_sha": "02ce861604e469c6808fe0f06ecef78c35e9721e",
       "baseline_delta_status": "modified"
     },
     {
@@ -10081,6 +10127,11 @@
     {
       "path": "src/fa3_neural_rendering.py",
       "git_blob_sha": "c0cfd5a9e39563eb02534d2928da024d3bd98f42",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_objective_coordination.py",
+      "git_blob_sha": "1c6d4495bb8bf68d2ece99e63375c0b101618a1b",
       "baseline_delta_status": "added"
     },
     {
@@ -11386,6 +11437,11 @@
     {
       "path": "tests/test_neural_rendering.py",
       "git_blob_sha": "11b09e682bb34cd008dd15f5e4583a316a44dd52",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_objective_coordination.py",
+      "git_blob_sha": "51f758ac74b93623a516895eb83b494243562dee",
       "baseline_delta_status": "added"
     },
     {
