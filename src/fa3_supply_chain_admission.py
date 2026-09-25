@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, json, re
+import datetime as dt, hashlib, json, re
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +17,21 @@ def _digest(v: Any) -> bool:
 
 def _nonempty(v: Any) -> bool:
     return isinstance(v,str) and bool(v.strip())
+
+def evaluate_license_policy(declared:str,detected:list[str],policy:dict[str,Any])->dict[str,Any]:
+    allow={str(x).casefold():str(x) for x in policy.get("admitted_exact_spdx",[])}
+    declared_norm=str(declared).strip().casefold()
+    detected_norm={str(x).strip().casefold() for x in detected if str(x).strip()}
+    exact_single=bool(re.fullmatch(r"[A-Za-z0-9.+-]+",str(declared).strip()))
+    declaration_matches=declared_norm in detected_norm
+    admitted=exact_single and declared_norm in allow and bool(detected_norm) and all(x in allow for x in detected_norm) and declaration_matches
+    reasons=[]
+    if not exact_single: reasons.append("declared license is compound or non-SPDX-simple")
+    if declared_norm not in allow: reasons.append("declared license not auto-admit allowlisted")
+    if not detected_norm: reasons.append("scanner detected no license")
+    if any(x not in allow for x in detected_norm): reasons.append("detected license requires review or is denied")
+    if not declaration_matches: reasons.append("declared license not confirmed by scanner detection")
+    return {"result":"PASS" if admitted else "FAIL","commercial_compatible":admitted,"redistribution_compatible":admitted,"declaration_matches_detection":declaration_matches,"reasons":reasons}
 
 def evaluate_receipt(receipt: dict[str,Any]) -> dict[str,Any]:
     findings=[]
@@ -39,6 +54,8 @@ def evaluate_receipt(receipt: dict[str,Any]) -> dict[str,Any]:
         findings.append("license scanner identity/version missing")
     if not _nonempty(lic.get("declared_expression")):
         findings.append("declared license expression missing")
+    if lic.get("declaration_matches_detection") is not True:
+        findings.append("declared license not confirmed by scanner detection")
     detected=lic.get("detected_expressions")
     if not isinstance(detected,list) or not detected:
         findings.append("detected license expressions missing")
@@ -59,8 +76,16 @@ def evaluate_receipt(receipt: dict[str,Any]) -> dict[str,Any]:
             if not isinstance(row,dict): findings.append("vulnerability finding malformed"); continue
             sev=str(row.get("severity","UNKNOWN")).upper()
             disposition=str(row.get("disposition","OPEN")).upper()
-            if sev in BLOCKING_SEVERITIES and disposition not in {"FIXED","NOT_AFFECTED","ACCEPTED_WITH_EXPIRY"}:
-                findings.append(f"blocking vulnerability: {row.get('id','UNKNOWN')}")
+            if sev in BLOCKING_SEVERITIES:
+                if disposition in {"FIXED","NOT_AFFECTED"}: continue
+                if disposition=="ACCEPTED_WITH_EXPIRY":
+                    try:
+                        expiry=dt.date.fromisoformat(str(row.get("waiver_expires_on","")))
+                        if expiry < dt.date.today(): findings.append(f"expired vulnerability waiver: {row.get('id','UNKNOWN')}")
+                        if not _nonempty(row.get("waiver_authority")): findings.append(f"vulnerability waiver authority missing: {row.get('id','UNKNOWN')}")
+                    except Exception: findings.append(f"invalid vulnerability waiver expiry: {row.get('id','UNKNOWN')}")
+                else:
+                    findings.append(f"blocking vulnerability: {row.get('id','UNKNOWN')}")
     prov=receipt.get("provenance",{})
     if not _nonempty(prov.get("builder")) or not _digest(prov.get("build_recipe_sha256")):
         findings.append("build provenance incomplete")
