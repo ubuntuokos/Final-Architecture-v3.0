@@ -73,8 +73,8 @@ jobs:
         env:
           PYTHONPATH: src
         run: |
-          python -m py_compile src/fa3_wan22_gate.py src/fa3_wan22_current_host_gate.py src/fa3_video_model_router.py src/fa3_motion_video_provider_adapter.py bin/fa3-wan22-provider-exec.py bin/fa3-wan22-model-set-admit.py bin/fa3-wan22-current-host-admit.py bin/fa3-wan22-build-motion-video-manifest.py
-          python -m unittest tests.test_wan22_gate tests.test_video_model_router -v
+          python -m py_compile src/fa3_wan22_gate.py src/fa3_wan22_current_host_gate.py src/fa3_video_model_router.py src/fa3_motion_video_provider_adapter.py bin/fa3-wan22-provider-exec.py bin/fa3-wan22-model-set-admit.py bin/fa3-wan22-current-host-admit.py bin/fa3-wan22-build-motion-video-manifest.py tests/test_wan22_projection.py tests/test_wan22_current_host_gate.py
+          python -m unittest tests.test_wan22_gate tests.test_video_model_router tests.test_wan22_projection tests.test_wan22_current_host_gate -v
           ./bin/fa3-enforce wan22-video
       - name: Physical Wan receipt absent must fail closed
         run: |
