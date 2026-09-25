@@ -7,7 +7,6 @@ from typing import Any
 
 PINNED_REVISION="1ea34ff48f87168174e12956e200b1d908b1c5ff"
 PROVIDER_ID="FA3-PROVIDER-WAN22-001"
-MODEL_SECURITY_PROFILE="FA3-MODEL-ARTIFACT-SECURITY-001"
 ROOT=Path(__file__).resolve().parents[1]
 
 class AdmissionDenied(RuntimeError):pass
@@ -25,13 +24,15 @@ def run(cmd:list[str])->str:
 
 def validate_model_receipt(p:Path,cfg:dict[str,Any])->dict[str,Any]:
     r=loadj(p)
-    if r.get("schema")!="fa3.model-artifact-admission-receipt.v1":raise AdmissionDenied("model artifact receipt schema mismatch")
-    if r.get("authority")!=MODEL_SECURITY_PROFILE:raise AdmissionDenied("model artifact receipt authority mismatch")
-    if r.get("status")!="PASS":raise AdmissionDenied("model artifact receipt not PASS")
-    if r.get("provider_id")!=PROVIDER_ID:raise AdmissionDenied("model artifact receipt provider mismatch")
-    if r.get("artifact_root")!=str(Path(cfg["checkpoint_dir"]).expanduser().resolve()):raise AdmissionDenied("model artifact root mismatch")
-    if not isinstance(r.get("artifact_set_sha256"),str) or len(r["artifact_set_sha256"])!=64:raise AdmissionDenied("content-addressed model artifact identity missing")
+    if r.get("schema")!="fa3.wan22-model-set-admission.v1":raise AdmissionDenied("Wan2.2 model-set admission schema mismatch")
+    if r.get("provider_id")!=PROVIDER_ID or r.get("status")!="PASS":raise AdmissionDenied("Wan2.2 model-set admission not PASS")
+    if r.get("checkpoint_dir")!=str(Path(cfg["checkpoint_dir"]).expanduser().resolve()):raise AdmissionDenied("model-set checkpoint root mismatch")
+    if r.get("upstream_revision")!=PINNED_REVISION:raise AdmissionDenied("model-set upstream revision mismatch")
+    if r.get("all_artifacts_individually_security_admitted") is not True:raise AdmissionDenied("individual model security admissions incomplete")
+    if r.get("aggregator_is_security_authority") is not False:raise AdmissionDenied("model-set aggregator cannot become security authority")
+    if not isinstance(r.get("artifact_set_sha256"),str) or len(r["artifact_set_sha256"])!=64:raise AdmissionDenied("content-addressed model artifact-set identity missing")
     if r.get("license_decision")!="ALLOW":raise AdmissionDenied("model license decision not ALLOW")
+    if r.get("network_fetch_performed") is not False:raise AdmissionDenied("model-set admission performed network fetch")
     return r
 
 def admit(cfg_path:Path,model_receipt_path:Path,out:Path)->dict[str,Any]:
