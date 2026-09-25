@@ -24,10 +24,8 @@ def collect(root:Path,plan_path:Path,capacity_path:Path,output:Path)->dict[str,A
         def score(group:list[str])->int:
             return sum(sum(int(v) for v in byid[i].get("resources",{}).values() if isinstance(v,int)) for i in group)
         peak=max(groups,key=score)
-        keyring=LeaseKeyring([LeaseKey("current-host-"+os.urandom(4).hex(),os.urandom(32))],"current-host-"+("PLACEHOLDER"))
-        # Re-create with the generated active id without serializing the secret.
-        key=list(keyring._keys.values())[0]  # confined to this one-run test process
-        keyring=LeaseKeyring([key],key.key_id)
+        key_id="current-host-"+os.urandom(4).hex()
+        keyring=LeaseKeyring([LeaseKey(key_id,os.urandom(32))],key_id)
         accelerators=[{"stable_id":a["stable_id"]} for a in plan.get("accelerators",[]) if a.get("stable_id")]
         parent={"lease_id":"current-host-parent-"+os.urandom(6).hex(),"generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","issued_at_utc":utc(now),"expires_at_utc":utc(now+timedelta(minutes=10)),"resources":result["reservation_ceiling"],"accelerator_assignments":accelerators,"authentication":{}}
         parent["authentication"]=keyring.sign(parent)
