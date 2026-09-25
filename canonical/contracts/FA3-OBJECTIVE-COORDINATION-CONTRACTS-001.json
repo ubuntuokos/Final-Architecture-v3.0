@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.objective-coordination-contracts.v1",
+  "id": "FA3-OBJECTIVE-COORDINATION-CONTRACTS-001",
+  "profile_id": "FA3-COORDINATION-LAYER-001",
+  "status": "P0_MUST",
+  "fail_closed": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "objective_contract": {
+    "required_fields": [
+      "objective_id",
+      "title",
+      "authority",
+      "trace_context",
+      "nodes",
+      "dependencies",
+      "handoffs",
+      "blockers"
+    ],
+    "authority_must_equal": false,
+    "provider_neutral_identity": true,
+    "provider_may_own_objective_identity": false,
+    "state_is_derived_projection": true,
+    "state_mutation_authority": false
+  },
+  "node_contract": {
+    "allowed_states": [
+      "PENDING",
+      "RUNNING",
+      "WAITING",
+      "BLOCKED",
+      "COMPLETED",
+      "FAILED",
+      "CANCELLED"
+    ],
+    "node_is_reference_not_execution_owner": true,
+    "authority_claim_forbidden": true
+  },
+  "dependency_contract": {
+    "allowed_relations": [
+      "REQUIRES",
+      "HANDOFF_AFTER",
+      "APPROVAL_BEFORE",
+      "ARTIFACT_BEFORE"
+    ],
+    "directional": true,
+    "required_cycles": "DENY_FAIL_CLOSED",
+    "ready_set_is_derived": true,
+    "parallel_batches_are_advisory_projection": true
+  },
+  "handoff_contract": {
+    "required_fields": [
+      "handoff_id",
+      "source_node",
+      "target_node",
+      "state",
+      "artifact_refs",
+      "provenance_refs"
+    ],
+    "artifact_refs_required": true,
+    "provenance_refs_required": true,
+    "transfer_execution_authority": "EXISTING_FA3_ARTIFACT_LOGISTICS_AUTHORITY_ONLY"
+  },
+  "blocker_contract": {
+    "kinds": [
+      "DEPENDENCY",
+      "HUMAN_APPROVAL",
+      "ARTIFACT",
+      "PROVIDER",
+      "RESOURCE",
+      "RECONCILIATION",
+      "HANDOFF",
+      "POLICY",
+      "EXTERNAL"
+    ],
+    "observed_and_derived_allowed": true,
+    "resolution_does_not_authorize_action": true
+  },
+  "event_contract": {
+    "required_fields": [
+      "event_id",
+      "event_type",
+      "correlation_id",
+      "source_ref"
+    ],
+    "causation_id_optional": true,
+    "identical_replay": "NOOP",
+    "same_event_id_different_payload": "DENY_FAIL_CLOSED",
+    "event_occurrence_implies_action_authorization": false
+  },
+  "mutation_contract": {
+    "direct_execution": false,
+    "direct_authorization": false,
+    "direct_resource_allocation": false,
+    "direct_artifact_transfer": false,
+    "direct_model_provider_selection": false,
+    "allowed_output": "TYPED_UAF_DRAFT_INTENT_OR_READ_ONLY_RECOMMENDATION"
+  },
+  "authority_contract": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "execution": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "decision_advisory": "FA3-DECISION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001"
+  }
+}
