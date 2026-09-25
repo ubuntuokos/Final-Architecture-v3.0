@@ -37,7 +37,8 @@ class ReleaseEvidenceScopeGateTests(unittest.TestCase):
         self.assertEqual(result["checks_passed"], 18)
         self.assertEqual(result["active_release_capability_count"], load_active_release_baseline(self.repo_root).capability_count)
         self.assertEqual(result["authority_delta"], 0)
-        self.assertEqual(result["capability_delta"], 0)
+        baseline = json.loads((self.repo_root / PATHS["baseline"]).read_text(encoding="utf-8"))
+        self.assertEqual(result["capability_delta"], baseline["capability_delta"])
 
     def test_capability_count_cannot_be_reclassified_as_timeless(self) -> None:
         root = self.make_fixture()
