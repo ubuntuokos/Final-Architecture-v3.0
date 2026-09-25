@@ -6,7 +6,7 @@
   "registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
   "parent_profile": "FA3-AGENT-EXEC-001",
   "fail_closed": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
   "mandatory_rules": [
@@ -31,5 +31,7 @@
   ],
   "executable": "PYTHONPATH=src python3 src/fa3_agent_definition_gate.py --root .",
   "report_path": "reports/agent-definition-gate-report.json",
-  "profile_id": "FA3-AGENT-DEFINITION-001"
+  "profile_id": "FA3-AGENT-DEFINITION-001",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
