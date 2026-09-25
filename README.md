@@ -1246,4 +1246,3 @@ Current pinned compatibility references are OpenVINO 2026.4.0, ONNX Runtime 1.30
 Agent Native execution uses typed UAF actions. Decision Fabric may advise only inside an already eligible candidate set. Hardsub OCR fails closed until an OCR provider is separately admitted; static Caption Fabric PASS never implies OCR runtime or voice-provider production admission.
 
 Hardware semantics remain portable: CPU-only hosts are valid, accelerators are dynamic `0..N`, no vendor/SKU/CUDA/ROCm pin is introduced, and accelerated execution requires the existing Host Resource Broker lease boundary.
-
