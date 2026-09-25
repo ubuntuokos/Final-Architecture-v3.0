@@ -211,6 +211,12 @@ def execute_command(manifest: dict[str,Any], ir_path: Path, output_path: Path, t
 def execute(selection_path: Path, manifest_path: Path, ir_path: Path, *, hrb_path: Path | None, output_path: Path, timeout: float) -> dict[str,Any]:
     selection=loadj(selection_path); manifest=loadj(manifest_path); ir=loadj(ir_path)
     provider_id=validate_selection(selection,manifest)
+    expected_manifest_sha=str(selection.get("provider_manifest_sha256","")).lower()
+    if len(expected_manifest_sha)!=64 or expected_manifest_sha!=sha256_file(manifest_path):
+        raise MotionVideoDenied("Model Router selection is not bound to the exact provider manifest")
+    selected_manifest_path=str(selection.get("provider_manifest_path","")).strip()
+    if selected_manifest_path and Path(selected_manifest_path).expanduser().resolve()!=manifest_path.expanduser().resolve():
+        raise MotionVideoDenied("Model Router selection manifest path mismatch")
     if ir.get("schema") not in {"fa3.video-generation-ir.v1","fa3.video-generation-ir.v2"}:
         raise MotionVideoDenied("VideoGenerationIR schema mismatch")
     assert_no_secret_values(ir,"video generation IR")
