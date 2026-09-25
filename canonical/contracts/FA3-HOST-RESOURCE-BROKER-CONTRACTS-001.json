@@ -60,7 +60,9 @@
     "ResourceReservationPlan",
     "LeaseGroup",
     "DerivedExecutionLease",
-    "LeaseLineageReceipt"
+    "LeaseLineageReceipt",
+    "AdmissionAuthorization",
+    "AdmissionAuthorizationAuthenticationEnvelope"
   ],
   "accelerator_identity": {
     "canonical": [
@@ -189,9 +191,14 @@
     "DERIVED_EXECUTION_LEASE_MUST_BE_MINTED_BY_HRB_ONLY",
     "DERIVED_LEASE_RESOURCE_SCOPE_AND_EXPIRY_MUST_BE_SUBSET_OF_PARENT",
     "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
-    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION"
+    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION",
+    "ALL_WORKLOADS_REQUIRE_CURRENT_SCOPE_BOUND_HRB_ADMISSION_AUTHORIZATION",
+    "CPU_ONLY_ADMISSION_AUTHORIZATION_IS_NOT_ACCELERATOR_LEASE",
+    "COLLECTOR_PROVIDER_AND_ORCHESTRATOR_MUST_NOT_MINT_HRB_AUTHORIZATION",
+    "HRB_ADMISSION_AUTHENTICATION_KEY_REMAINS_ROOT_ONLY",
+    "HRB_ADMISSION_HMAC_IS_INTERNAL_EPHEMERAL_AUTH_NOT_DURABLE_EVIDENCE_SIGNATURE"
   ],
-  "version": "1.6.0",
+  "version": "1.7.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
   "accelerator_execution_path": {
@@ -425,5 +432,35 @@
     "parent_revocation_cascades": true,
     "provider_may_mint_derived_lease": false,
     "derived_lease_authentication": "EXISTING_HRB_INTERNAL_EPHEMERAL_HMAC_KEYRING"
+  },
+  "admission_authorization": {
+    "schema": "fa3.hrb-admission-authorization.v1",
+    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "required_scope_binding": [
+      "host",
+      "workload_id",
+      "workload_envelope_sha256",
+      "requested_resource_classes",
+      "issued_epoch",
+      "expires_epoch"
+    ],
+    "ttl_seconds_max": 300,
+    "cpu_only_path_requires_accelerator_discovery": false,
+    "cpu_only_path_requires_accelerator_lease": false,
+    "accelerator_path_may_use_valid_accelerator_lease_as_authorization_source": true,
+    "authentication": {
+      "algorithm": "HMAC-SHA256",
+      "scope": "HRB_INTERNAL_EPHEMERAL_ADMISSION_AUTH",
+      "master_key_boundary": "HRB_ROOT_ONLY",
+      "key_id_required": true,
+      "rotation_ready": true,
+      "durable_evidence_signature": false
+    },
+    "privilege_separation": {
+      "client_is_authority": false,
+      "root_helper_operates_under_existing_hrb_authority": true,
+      "collector_minting_forbidden": true,
+      "provider_minting_forbidden": true
+    }
   }
 }

@@ -12,13 +12,18 @@
     "orchestrator_is_authority": false,
     "lease_signing": "FORBIDDEN",
     "lease_validation": "DELEGATE_TO_ROOT_SEPARATED_HRB_BRIDGE",
-    "placement_request": "HINT_ONLY_UNTIL_HRB_ISSUES_VALID_LEASE"
+    "placement_request": "HINT_ONLY_UNTIL_HRB_ISSUES_VALID_LEASE",
+    "admission_authorization_signing": "FORBIDDEN",
+    "admission_authorization_request": "DELEGATE_TO_ROOT_SEPARATED_HRB_ADMISSION_BRIDGE",
+    "generic_authorization_is_resource_lease": false
   },
   "scope": [
     "ONE_TIME_LEAST_PRIVILEGE_HOST_BOOTSTRAP",
-    "AUTOMATIC_HOST_ACCELERATOR_DISCOVERY",
     "WORKLOAD_RESOURCE_ENVELOPE_VALIDATION",
-    "HRB_LEASE_ACQUISITION_DELEGATION",
+    "WORKLOAD_RESOURCE_CLASSIFICATION",
+    "GENERIC_HRB_ADMISSION_AUTHORIZATION_DELEGATION",
+    "CONDITIONAL_HOST_ACCELERATOR_DISCOVERY_WHEN_REQUESTED",
+    "HRB_ACCELERATOR_LEASE_ACQUISITION_DELEGATION",
     "CANONICAL_CURRENT_HOST_ADMISSION_GATE_COORDINATION",
     "SCOPED_EVIDENCE_REPORTING"
   ],
@@ -29,24 +34,42 @@
     "cu_tu_admission_authority": "FORBIDDEN",
     "named_gpu_sku_admission_default": "FORBIDDEN",
     "global_promotion_from_component_pass": "FORBIDDEN",
-    "shell_interpolation_for_hrb_acquire": "FORBIDDEN"
+    "shell_interpolation_for_hrb_acquire": "FORBIDDEN",
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "cpu_only_requires_accelerator_discovery": false,
+    "cpu_only_requires_accelerator_lease": false,
+    "generic_admission_authorization_is_resource_lease": false,
+    "collector_provider_orchestrator_may_mint_hrb_authorization": "FORBIDDEN",
+    "generic_admission_authorization_hmac_scope": "HRB_INTERNAL_EPHEMERAL_ADMISSION_AUTH",
+    "generic_admission_authorization_is_durable_evidence_signature": false
   },
   "exit_codes": {
     "PASS": 0,
     "BLOCKED_OR_PENDING": 2,
     "ERROR_OR_INPUT": 3
   },
-  "proof_chain": [
-    "WORKLOAD_RESOURCE_ENVELOPE",
-    "HOST_ACCELERATOR_DISCOVERY",
-    "ROOT_SEPARATED_HRB_ACQUIRE_BRIDGE",
-    "ACCELERATOR_EXECUTION_LEASE",
-    "RESOURCE_ADMISSION_CURRENT_HOST_COLLECTOR",
-    "RESOURCE_ADMISSION_CURRENT_HOST_GATE",
-    "SCOPED_RECEIPT"
-  ],
+  "proof_chain": {
+    "common": [
+      "WORKLOAD_RESOURCE_ENVELOPE",
+      "WORKLOAD_RESOURCE_CLASSIFICATION",
+      "RESOURCE_ADMISSION_CURRENT_HOST_COLLECTOR",
+      "RESOURCE_ADMISSION_CURRENT_HOST_GATE",
+      "SCOPED_RECEIPT"
+    ],
+    "cpu_only": [
+      "ROOT_SEPARATED_HRB_ADMISSION_AUTHORIZATION_BRIDGE",
+      "GENERIC_SCOPE_BOUND_ADMISSION_AUTHORIZATION"
+    ],
+    "accelerator": [
+      "CONDITIONAL_HOST_ACCELERATOR_DISCOVERY",
+      "ROOT_SEPARATED_HRB_ACQUIRE_BRIDGE",
+      "ACCELERATOR_EXECUTION_LEASE"
+    ]
+  },
   "non_claims": [
     "GLOBAL_FA3_PROMOTION",
     "PROVIDER_RUNTIME_E2E"
-  ]
+  ],
+  "version": "2.0.0"
 }

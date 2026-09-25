@@ -4,18 +4,35 @@
   "date": "2026-09-15",
   "status": "ACCEPTED",
   "subject": "Productize current-host resource admission without creating a second admission authority",
-  "decision": "Materialize a host bootstrap/admission orchestrator with a root-separated HRB acquire bridge, non-root runtime client, automatic smoke adapter, and generic workload admission command.",
+  "decision": "Materialize a host bootstrap/admission orchestrator with two HRB-authorized execution paths: generic short-lived scope-bound admission authorization for CPU-only/non-accelerator workloads, and the existing accelerator lease path only when an accelerator resource class is requested.",
   "rationale": [
-    "Manual inventory/conformance/issue-lease/raw-JSON choreography is unsuitable as normal product UX.",
-    "The Host Resource Broker remains the sole authority for lease issuance, placement acceptance, validation, and conflict decisions.",
-    "The orchestrator may discover candidates and prepare requests but cannot mint, sign, validate cryptographically, or override a lease.",
+    "Manual inventory/conformance/raw-artifact choreography is unsuitable as normal product UX.",
+    "The Host Resource Broker remains the sole resource admission, placement, reservation and lease authority.",
+    "CPU-only operation is a mandatory hardware baseline and must not depend on accelerator discovery or a fake accelerator lease.",
+    "The orchestrator may prepare typed requests and invoke privileged HRB bridges but cannot mint, sign, cryptographically validate or override either authorization class.",
+    "Accelerator discovery remains conditional and request-hint-only until HRB issues a valid accelerator lease.",
     "Normal application/runtime execution stays non-root after one-time bridge installation."
   ],
   "security": {
-    "hmac_key": "ROOT_ONLY",
-    "privilege_boundary": "ROOT_SEPARATED_HRB_ACQUIRE_BRIDGE",
+    "lease_hmac_key": "ROOT_ONLY",
+    "admission_authorization_hmac_keyring": "ROOT_ONLY",
+    "admission_authorization_hmac_scope": "HRB_INTERNAL_EPHEMERAL_ADMISSION_AUTH",
+    "admission_authorization_is_durable_evidence_signature": false,
+    "privilege_boundaries": [
+      "ROOT_SEPARATED_HRB_ADMISSION_AUTHORIZATION_BRIDGE",
+      "ROOT_SEPARATED_HRB_ACQUIRE_BRIDGE",
+      "ROOT_SEPARATED_HRB_VALIDATE_BRIDGE"
+    ],
     "subprocess_shell": false,
-    "lease_binding": [
+    "generic_authorization_binding": [
+      "host",
+      "workload_id",
+      "workload_envelope_sha256",
+      "requested_resource_classes",
+      "issued_epoch",
+      "expires_epoch"
+    ],
+    "accelerator_lease_binding": [
       "host",
       "workload_id/purpose",
       "accelerator_uuid",
@@ -27,5 +44,13 @@
   },
   "capability_delta": 0,
   "authority_delta": 0,
-  "promotion": "NO_GLOBAL_PROMOTION_CLAIM"
+  "promotion": "NO_GLOBAL_PROMOTION_CLAIM",
+  "amended_at": "2026-09-25",
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "cpu_only_accelerator_discovery_required": false,
+    "cpu_only_accelerator_lease_required": false
+  }
 }

@@ -45,15 +45,16 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
 
         def runner(command, **kwargs):
             calls.append(list(command))
-            return CommandResult(99, "", "unexpected")
+            return CommandResult(127, "", "missing")
 
         with tempfile.TemporaryDirectory() as tmp:
-            code, report = run_smoke(Path(tmp), runner=runner)
+            code, report = run_smoke(Path(tmp), authorization_client="fa3-hrb-auth", runner=runner)
         self.assertEqual(code, 2)
         self.assertEqual(report["result"], "PENDING")
-        self.assertEqual(report["decision"]["reason_code"], "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED")
+        self.assertEqual(report["decision"]["reason_code"], "HRB_AUTHORIZATION_BRIDGE_UNAVAILABLE")
         self.assertFalse(report["accelerator_required"])
-        self.assertEqual(calls, [])
+        self.assertEqual(calls[0][0], "fa3-hrb-auth")
+        self.assertFalse(any(call and call[0] == "nvidia-smi" for call in calls))
 
     def test_cpu_only_prepare_is_pending_not_fake_pass(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -62,6 +63,32 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
         self.assertEqual(report["result"], "PENDING")
         self.assertEqual(report["decision"]["reason_code"], "PREPARED_AWAITING_HRB_NON_ACCELERATOR_AUTHORIZATION")
         self.assertEqual(report["claims"], [])
+
+    def test_cpu_only_authorization_path_reaches_collector_and_gate(self) -> None:
+        calls: list[list[str]] = []
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "evidence/receipts").mkdir(parents=True)
+            (root / "evidence/collect-resource-admission-current-host.py").write_text("# fixture\n", encoding="utf-8")
+            (root / "bin").mkdir()
+            enforcer = root / "bin/fa3-enforce"
+            enforcer.write_text("#!/bin/sh\n", encoding="utf-8")
+            enforcer.chmod(0o755)
+            def runner(command, **kwargs):
+                command=list(command); calls.append(command)
+                if command[0] == "fa3-hrb-auth":
+                    Path(command[command.index("--output")+1]).write_text("{}\n", encoding="utf-8")
+                    return CommandResult(0, "", "")
+                if "collect-resource-admission-current-host.py" in " ".join(command):
+                    return CommandResult(0, "", "")
+                if command == [str(enforcer), "resource-admission-current-host"]:
+                    return CommandResult(0, "", "")
+                return CommandResult(99, "", "unexpected")
+            code, report = run_smoke(root, authorization_client="fa3-hrb-auth", runner=runner)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["result"], "PASS")
+        self.assertFalse(any(call and call[0] == "nvidia-smi" for call in calls))
+        self.assertTrue(any("--hrb-authorization" in call for call in calls))
 
     def test_bdf_normalization_handles_eight_digit_domain(self) -> None:
         self.assertEqual(normalize_bdf("00000000:01:00.0"), "0000:01:00.0")

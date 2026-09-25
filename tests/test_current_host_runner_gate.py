@@ -80,6 +80,13 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         self.assertIn("labels = {label.lower() for label in raw_labels}", text)
         self.assertIn('"labels": sorted(raw_labels)', text)
 
+    def test_generic_hrb_admission_bridge_is_consumer_scoped_not_global_runner_health(self) -> None:
+        text = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
+        self.assertIn("ADMISSION_READY=false", text)
+        self.assertIn('"hrb_admission_authorization_bridge_required_for_runner_doctor_pass": False', text)
+        self.assertNotIn("FAIL: HRB admission client missing", text)
+        self.assertNotIn("FAIL: HRB admission privileged helper missing", text)
+
     def test_wrong_runner_labels_workflow_is_rejected(self) -> None:
         text = (ROOT / ".github/workflows/fa3-current-host-runner.yml").read_text()
         text = text.replace(

@@ -114,7 +114,14 @@ def gpu_fixture() -> dict:
             "authorization_id": "lease-test",
             "status": "VALID",
             "workload_id": "fixture",
+            "workload_envelope_sha256": "b" * 64,
+            "requested_resource_classes": ["accelerator"],
+            "accelerator_required": True,
+            "host": "test-host",
+            "issued_epoch": int(time.time()) - 5,
+            "expires_epoch": 9999999999,
             "broker_validation": True,
+            "source": "ACCELERATOR_EXECUTION_LEASE",
         },
         "hrb_lease_identity": {
             "schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
@@ -175,11 +182,19 @@ def cpu_fixture() -> dict:
         "requested_resource_classes": ["cpu", "memory"],
         "accelerator_required": False,
         "hrb_authorization": {
+            "schema": "fa3.hrb-admission-authorization.v1",
             "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
             "authorization_id": "hrb-auth-cpu-fixture",
             "status": "VALID",
             "workload_id": "cpu-fixture",
+            "workload_envelope_sha256": "d" * 64,
+            "requested_resource_classes": ["cpu", "memory"],
+            "accelerator_required": False,
+            "host": "cpu-host",
+            "issued_epoch": int(time.time()) - 5,
+            "expires_epoch": 9999999999,
             "broker_validation": True,
+            "source": "ADMISSION_AUTHORIZATION",
         },
         "hrb_lease_identity": {},
         "admission": {
@@ -221,6 +236,12 @@ class ResourceAdmissionCurrentHostTests(unittest.TestCase):
         receipt["payload"]["hrb_authorization"]["broker_validation"] = False
         refresh_payload_hash(receipt)
         self.assertTrue(any(item["code"] == "RA-HOST-012" for item in validate_receipt(receipt)))
+
+    def test_generic_authorization_digest_mismatch_is_blocked(self) -> None:
+        receipt = cpu_fixture()
+        receipt["payload"]["hrb_authorization"]["workload_envelope_sha256"] = "e" * 64
+        refresh_payload_hash(receipt)
+        self.assertTrue(any(item["code"] == "RA-HOST-029" for item in validate_receipt(receipt)))
 
     def test_cu_as_workload_requirement_is_blocked(self) -> None:
         receipt = gpu_fixture()

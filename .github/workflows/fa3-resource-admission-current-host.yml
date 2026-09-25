@@ -24,6 +24,10 @@ on:
       - 'tests/test_resource_admission_evidence_acceptance.py'
       - 'tests/test_resource_admission_evidence_reconciliation.py'
       - 'tests/test_hrb_validator_bridge.py'
+      - 'tests/test_hrb_admission_bridge.py'
+      - 'libexec/fa3-host-resource-broker-admission-root.py'
+      - 'libexec/fa3-host-resource-broker-admission.py'
+      - 'bin/fa3-install-hrb-admission-bridge.sh'
       - 'libexec/fa3-host-resource-broker-validate-root.py'
       - 'libexec/fa3-host-resource-broker-validator.sh'
       - 'bin/fa3-install-hrb-validator-bridge.sh'
@@ -46,8 +50,13 @@ on:
         required: false
         default: '.fa3-current-host/input/resource-smoke-workload-envelope.json'
         type: string
+      accelerator_required:
+        description: 'Also exercise accelerator lease path; false exercises vendor-neutral CPU-only HRB authorization'
+        required: true
+        default: false
+        type: boolean
       hrb_lease:
-        description: 'Optional path to a pre-existing real HRB AcceleratorExecutionLease; leave empty to use the runner-preconfigured external HRB acquire adapter'
+        description: 'Optional accelerator lease path when accelerator_required=true; leave empty to use the runner-preconfigured acquire adapter'
         required: false
         default: ''
         type: string
@@ -77,6 +86,8 @@ jobs:
           src/fa3_resource_admission_evidence_acceptance.py
           scripts/fa3_reconcile_resource_admission_evidence.py
           libexec/fa3-host-resource-broker-validate-root.py
+          libexec/fa3-host-resource-broker-admission-root.py
+          libexec/fa3-host-resource-broker-admission.py
       - name: Current-host contract, workload policy, smoke, evidence acceptance and HRB validator bridge regressions
         run: >-
           PYTHONPATH=src python -m unittest
@@ -85,7 +96,8 @@ jobs:
           tests.test_resource_admission_smoke
           tests.test_resource_admission_evidence_acceptance
           tests.test_resource_admission_evidence_reconciliation
-          tests.test_hrb_validator_bridge -v
+          tests.test_hrb_validator_bridge
+          tests.test_hrb_admission_bridge -v
       - name: Parent normalization gate
         run: ./bin/fa3-enforce resource-evidence-normalization
       - name: Missing real current-host receipt must fail closed
@@ -110,21 +122,26 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify root-separated HRB validator bridge
+      - name: Verify root-separated HRB bridges
         shell: bash
         run: |
           set -euo pipefail
           test -x /usr/local/bin/fa3-host-resource-broker-validator
           test -x /usr/local/libexec/fa3-host-resource-broker-validate-root
-          sudo -n -l /usr/local/libexec/fa3-host-resource-broker-validate-root /dev/null >/dev/null
-      - name: Run fail-closed resource-admission accelerator smoke bootstrap
+          test -x /usr/local/bin/fa3-host-resource-broker-admission
+          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root
+          /usr/local/bin/fa3-host-resource-broker-admission --doctor
+      - name: Run fail-closed resource-admission smoke bootstrap
         shell: bash
         run: |
           set -euo pipefail
           chmod +x bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-resource-admission-current-host.py
-          args=(smoke --accelerator-required --workload-envelope "${{ inputs.workload_envelope }}")
-          if [[ -n "${{ inputs.hrb_lease }}" ]]; then
-            args+=(--hrb-lease "${{ inputs.hrb_lease }}")
+          args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")
+          if [[ "${{ inputs.accelerator_required }}" == "true" ]]; then
+            args+=(--accelerator-required)
+            if [[ -n "${{ inputs.hrb_lease }}" ]]; then
+              args+=(--hrb-lease "${{ inputs.hrb_lease }}")
+            fi
           fi
           ./bin/fa3-resource-admission-current-host.sh "${args[@]}"
       - name: Re-validate current-host receipt independently

@@ -20,8 +20,10 @@
     "fresh_scope_bound_authorization_required": true,
     "accepted_parent_gate": "FA3-RESOURCE-ADMISSION-CURRENT-HOST-GATESET-001",
     "workload_id": "fa3-agent-workload-native-current-host",
-    "generic_cpu_authorization_bootstrap_status": "PENDING_EXISTING_HRB_GENERIC_NON_ACCELERATOR_AUTHORIZATION_MATERIALIZATION",
-    "accelerator_lease_is_not_substitute_for_cpu_only_authorization": true
+    "generic_cpu_authorization_bootstrap_status": "MATERIALIZED_EXECUTABLE_PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "accelerator_lease_is_not_substitute_for_cpu_only_authorization": true,
+    "generic_cpu_authorization_schema": "fa3.hrb-admission-authorization.v1",
+    "generic_cpu_authorization_client": "/usr/local/bin/fa3-host-resource-broker-admission"
   },
   "native_runner": {
     "provider_id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",

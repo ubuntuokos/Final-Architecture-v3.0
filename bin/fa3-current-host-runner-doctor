@@ -12,6 +12,8 @@ VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
 VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
 ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
+ADMISSION_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"
+ADMISSION_HELPER="/usr/local/libexec/fa3-host-resource-broker-admission-root"
 ACQUIRE_ENV='Environment="FA3_HRB_ACQUIRE_COMMAND=/usr/local/bin/fa3-host-resource-broker-acquire --workload {workload} --lease-output {lease} --accelerator-uuid {gpu_uuid}"'
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
@@ -35,6 +37,11 @@ sudo -n -l "$ACQUIRE_HELPER" /dev/null >/dev/null 2>&1 \
   || { echo "FAIL: HRB acquire bridge is not available non-interactively" >&2; exit 41; }
 "$ACQUIRE_CLIENT" --doctor >/dev/null \
   || { echo "FAIL: HRB acquire client doctor failed" >&2; exit 42; }
+ADMISSION_READY=false
+if [[ -x "$ADMISSION_CLIENT" ]] && [[ -x "$ADMISSION_HELPER" ]] \
+  && "$ADMISSION_CLIENT" --doctor >/dev/null 2>&1; then
+  ADMISSION_READY=true
+fi
 [[ -s "$DROPIN_PATH" ]] || { echo "FAIL: runner acquire adapter drop-in missing" >&2; exit 43; }
 grep -Fqx "$ACQUIRE_ENV" "$DROPIN_PATH" \
   || { echo "FAIL: runner acquire adapter drop-in drift" >&2; exit 44; }
@@ -53,7 +60,7 @@ gh api "repos/${REPO}/actions/runners?per_page=100" >"$TMP"
 mkdir -p "$(dirname "$OUT")"
 chmod 700 "$(dirname "$OUT")"
 
-python3 - "$RUNNER_ROOT/.runner" "$TMP" "$OUT" "$REPO" "$RUNNER_VERSION" "$REQUIRED_LABELS" <<'PY'
+python3 - "$RUNNER_ROOT/.runner" "$TMP" "$OUT" "$REPO" "$RUNNER_VERSION" "$REQUIRED_LABELS" "$ADMISSION_READY" <<'PY'
 from __future__ import annotations
 import datetime as dt
 import json
@@ -62,7 +69,7 @@ import socket
 import sys
 from pathlib import Path
 
-runner_file, api_file, out_file, repo, expected_version, labels_json = sys.argv[1:]
+runner_file, api_file, out_file, repo, expected_version, labels_json, admission_ready_text = sys.argv[1:]
 required = set(json.loads(labels_json))
 local = json.loads(Path(runner_file).read_text(encoding="utf-8-sig"))
 api = json.loads(Path(api_file).read_text(encoding="utf-8-sig"))
@@ -101,6 +108,8 @@ receipt = {
     "systemd_user_linger_enabled": True,
     "hrb_validator_bridge_ready": True,
     "hrb_acquire_bridge_ready": True,
+    "hrb_admission_authorization_bridge_ready": admission_ready_text == "true",
+    "hrb_admission_authorization_bridge_required_for_runner_doctor_pass": False,
     "hrb_acquire_adapter_dropin_ready": True,
     "hrb_hmac_key_exposed_to_runner": False,
     "normal_runtime_root_required": False,

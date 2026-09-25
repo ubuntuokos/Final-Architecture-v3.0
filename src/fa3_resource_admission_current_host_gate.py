@@ -16,6 +16,7 @@ GATE_ID = "FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001"
 RECEIPT = Path("evidence/receipts/resource-admission-current-host.json")
 CLAIM = "CURRENT_HOST_RESOURCE_ADMISSION_PASS"
 ACCELERATOR_LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
+ADMISSION_AUTH_SCHEMA = "fa3.hrb-admission-authorization.v1"
 HRB_AUTHORITY = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 _BDF_RE = re.compile(r"^(?P<domain>[0-9a-fA-F]{4,8}):(?P<bus>[0-9a-fA-F]{2}):(?P<device>[0-9a-fA-F]{2})\.(?P<function>[0-7])$")
 
@@ -54,7 +55,13 @@ def approx_equal(left: Any, right: Any, tolerance: float = 0.002) -> bool:
         return False
 
 
-def _validate_hrb_authorization(payload: dict[str, Any], workload_id: Any) -> list[dict[str, Any]]:
+def _validate_hrb_authorization(
+    payload: dict[str, Any],
+    workload_id: Any,
+    attestation: dict[str, Any],
+    requested_classes: list[str],
+    accelerator_required: bool,
+) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     authorization = payload.get("hrb_authorization", {})
     if not isinstance(authorization, dict):
@@ -66,8 +73,31 @@ def _validate_hrb_authorization(payload: dict[str, Any], workload_id: Any) -> li
         or authorization.get("broker_validation") is not True
     ):
         findings.append(finding("RA-HOST-012", "Current workload lacks externally validated HRB admission authorization"))
-    if not purpose_matches_workload(authorization.get("workload_id"), workload_id):
+        return findings
+    if str(authorization.get("workload_id", "")) != str(workload_id or ""):
         findings.append(finding("RA-HOST-015", "HRB admission authorization is not workload-scope-bound"))
+    source = authorization.get("source")
+    if source == "ADMISSION_AUTHORIZATION":
+        if authorization.get("schema") != ADMISSION_AUTH_SCHEMA:
+            findings.append(finding("RA-HOST-027", "Generic HRB admission authorization schema mismatch"))
+        if authorization.get("host") != attestation.get("host"):
+            findings.append(finding("RA-HOST-028", "Generic HRB admission authorization host binding mismatch"))
+        if authorization.get("workload_envelope_sha256") != payload.get("workload_resource_envelope_sha256"):
+            findings.append(finding("RA-HOST-029", "Generic HRB admission authorization workload digest mismatch"))
+        if authorization.get("requested_resource_classes") != requested_classes or authorization.get("accelerator_required") is not accelerator_required:
+            findings.append(finding("RA-HOST-030", "Generic HRB admission authorization resource scope mismatch"))
+        try:
+            if int(authorization.get("expires_epoch", 0)) <= int(time.time()):
+                findings.append(finding("RA-HOST-031", "Generic HRB admission authorization expired"))
+        except (TypeError, ValueError):
+            findings.append(finding("RA-HOST-031", "Generic HRB admission authorization expiry invalid"))
+        if accelerator_required:
+            findings.append(finding("RA-HOST-032", "Accelerator workload must use accelerator lease as its HRB authorization source"))
+    elif source == "ACCELERATOR_EXECUTION_LEASE":
+        if not accelerator_required:
+            findings.append(finding("RA-HOST-033", "CPU-only workload cannot use accelerator lease as authorization source"))
+    else:
+        findings.append(finding("RA-HOST-034", "Unknown HRB admission authorization source"))
     return findings
 
 
@@ -190,7 +220,7 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     if payload.get("accelerator_required") is not accelerator_required:
         findings.append(finding("RA-HOST-025", "Receipt accelerator_required does not match workload requirements", expected=accelerator_required))
 
-    findings.extend(_validate_hrb_authorization(payload, workload_id))
+    findings.extend(_validate_hrb_authorization(payload, workload_id, attestation, requested_classes, accelerator_required))
     if accelerator_required:
         findings.extend(_validate_accelerator_lease(payload, attestation, profile, workload_id))
     else:

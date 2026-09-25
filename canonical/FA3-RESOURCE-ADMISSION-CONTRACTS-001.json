@@ -13,12 +13,12 @@
     "FA3-HOST-ATTESTATION-001",
     "FA3-COMPUTE-PROFILE-001",
     "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
-    "HRB_LEASE"
+    "HRB_ADMISSION_AUTHORIZATION"
   ],
   "required_input_semantics": {
-    "HRB_LEASE": "CONDITIONAL_ACCELERATOR_LEASE_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED",
     "HRB_ADMISSION_AUTHORIZATION": "REQUIRED_FOR_ALL_WORKLOADS_AND_MUST_ORIGINATE_FROM_FA3_AUTH_HOST_RESOURCE_BROKER_001",
-    "ACCELERATOR_EXECUTION_PATH": "REQUIRED_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED_AND_WORKLOAD_DECLARES_EXECUTION_PATH_CONSTRAINTS"
+    "ACCELERATOR_EXECUTION_PATH": "REQUIRED_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED_AND_WORKLOAD_DECLARES_EXECUTION_PATH_CONSTRAINTS",
+    "HRB_ACCELERATOR_LEASE": "CONDITIONAL_ACCELERATOR_LEASE_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED"
   },
   "admission_semantics": {
     "all_required_dimensions_must_pass": true,
@@ -34,7 +34,9 @@
     "silent_device_or_cpu_fallback_forbidden": true,
     "accelerator_execution_path_must_match_workload": true,
     "translation_backend_requires_explicit_opt_in": true,
-    "silent_backend_fallback_forbidden": true
+    "silent_backend_fallback_forbidden": true,
+    "cpu_only_workload_requires_generic_hrb_authorization": true,
+    "cpu_only_authorization_is_not_accelerator_lease": true
   },
   "provider_neutral_core": {
     "required": true,
@@ -64,7 +66,9 @@
     "MISSING_REQUIRED_METRIC_FAILS_CLOSED",
     "ACCELERATOR_EXECUTION_PATH_MUST_MATCH_WORKLOAD_REQUIREMENT",
     "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_OPT_IN",
-    "NO_SILENT_ACCELERATOR_BACKEND_FALLBACK"
+    "NO_SILENT_ACCELERATOR_BACKEND_FALLBACK",
+    "ALL_WORKLOADS_REQUIRE_CURRENT_SCOPE_BOUND_HRB_ADMISSION_AUTHORIZATION",
+    "CPU_ONLY_WORKLOAD_REQUIRES_GENERIC_HRB_AUTHORIZATION_NOT_ACCELERATOR_LEASE"
   ],
-  "version": "1.1.0"
+  "version": "1.2.0"
 }
