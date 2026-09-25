@@ -24,6 +24,7 @@ def evaluate_patchset(record:dict[str,Any],*,today:dt.date|None=None)->dict[str,
         if not isinstance(record.get("upstream_issue_refs"),list): findings.append("upstream issue refs missing")
         if record.get("security_disposition")!="PASS": findings.append("security disposition not PASS")
         if record.get("supply_chain_receipt_status")!="PASS": findings.append("supply-chain receipt not PASS")
+        if not SHA256.fullmatch(str(record.get("supply_chain_receipt_sha256","")).lower()): findings.append("supply-chain receipt digest invalid")
         review=record.get("review_by")
         try:
             review_date=dt.date.fromisoformat(str(review))
