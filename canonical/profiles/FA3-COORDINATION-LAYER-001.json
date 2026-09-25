@@ -1,0 +1,151 @@
+{
+  "schema": "fa3.coordination-layer-profile.v1",
+  "id": "FA3-COORDINATION-LAYER-001",
+  "name": "FA3 Objective Coordination Layer",
+  "date": "2026-09-25",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "classification": "CROSS_APPLICATION_COORDINATION_PROJECTION_AND_REFERENCE_RUNTIME",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "authority": false,
+  "purpose": [
+    "GROUP_EXISTING_WORK_ITEMS_WORKFLOWS_AND_HANDOFFS_UNDER_PROVIDER_NEUTRAL_OBJECTIVES",
+    "DERIVE_DEPENDENCY_READINESS_AND_BLOCKERS_WITHOUT_EXECUTING_ACTIONS",
+    "PRESERVE_CROSS_SYSTEM_CORRELATION_CAUSATION_AND_PROVENANCE",
+    "PROJECT_COORDINATION_STATE_IN_WORK_MANAGEMENT"
+  ],
+  "authority_boundaries": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "execution": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "decision_support": "FA3-DECISION-FABRIC-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "application_lifecycle": "EXISTING_FA3_APPLICATION_FABRIC_AUTHORITY_ONLY",
+    "artifact_transfer": "EXISTING_FA3_ARTIFACT_LOGISTICS_AUTHORITY_ONLY"
+  },
+  "prohibited_roles": [
+    "AUTHORIZATION_AUTHORITY",
+    "WORKFLOW_EXECUTION_AUTHORITY",
+    "RESOURCE_AUTHORITY",
+    "DECISION_AUTHORITY",
+    "MODEL_ROUTING_AUTHORITY",
+    "SECRET_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "APPLICATION_LIFECYCLE_AUTHORITY",
+    "ARTIFACT_TRANSFER_AUTHORITY",
+    "CANONICAL_PROVIDER_STATE_OWNER"
+  ],
+  "model": {
+    "objective": "Provider-neutral grouping identity and derived state projection.",
+    "node": "Reference to an existing work item, workflow, agent workload, application operation, artifact step or approval.",
+    "dependency": "Typed directional prerequisite relation. Required cycles fail closed.",
+    "handoff": "Artifact/provenance-bearing transfer expectation between existing participants.",
+    "blocker": "Observed or derived reason a node cannot proceed.",
+    "event": "Typed observation with stable event_id, correlation_id and optional causation_id."
+  },
+  "external_pattern_sources": [
+    {
+      "name": "Temporal",
+      "license": "MIT",
+      "reuse_mode": "PATTERN_ONLY",
+      "code_copied": false,
+      "patterns": [
+        "DURABLE_EXECUTION_HISTORY",
+        "IDEMPOTENT_REPLAY"
+      ],
+      "runtime_dependency": false
+    },
+    {
+      "name": "Dagster",
+      "license": "Apache-2.0",
+      "reuse_mode": "PATTERN_ONLY",
+      "code_copied": false,
+      "patterns": [
+        "DEPENDENCY_GRAPH",
+        "LINEAGE"
+      ],
+      "runtime_dependency": false
+    },
+    {
+      "name": "Prefect",
+      "license": "Apache-2.0",
+      "reuse_mode": "PATTERN_ONLY",
+      "code_copied": false,
+      "patterns": [
+        "EVENT_TRIGGER",
+        "ABSENCE_AS_SIGNAL"
+      ],
+      "runtime_dependency": false
+    },
+    {
+      "name": "Kestra",
+      "license": "Apache-2.0",
+      "reuse_mode": "PATTERN_ONLY",
+      "code_copied": false,
+      "patterns": [
+        "TYPED_DEPENDENCIES",
+        "SEQUENTIAL_PARALLEL_BATCHING"
+      ],
+      "runtime_dependency": false
+    },
+    {
+      "name": "Backstage",
+      "license": "Apache-2.0",
+      "reuse_mode": "PATTERN_ONLY",
+      "code_copied": false,
+      "patterns": [
+        "ENTITY_REFERENCES",
+        "DIRECTIONAL_RELATIONS"
+      ],
+      "runtime_dependency": false
+    },
+    {
+      "name": "OpenTelemetry",
+      "license": "Apache-2.0",
+      "reuse_mode": "PATTERN_ONLY",
+      "code_copied": false,
+      "patterns": [
+        "CORRELATION_CONTEXT",
+        "CAUSATION_LINEAGE"
+      ],
+      "runtime_dependency": false
+    }
+  ],
+  "reference_runtime": {
+    "implementation": "src/fa3_objective_coordination.py",
+    "dependencies": "PYTHON_STDLIB_ONLY",
+    "resident_daemon_required": false,
+    "background_polling_required": false,
+    "network_required": false,
+    "accelerator_required": false,
+    "mutation_authority": false
+  },
+  "gui_projection": {
+    "parent": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "child_view_id": "coordination",
+    "label": "Coordination",
+    "view_kind": "READ_ONLY_COORDINATION_STATE_PROJECTION",
+    "separate_top_level_application": false,
+    "gui_is_authority": false
+  },
+  "future_optional_bindings": {
+    "task_manager": "PENDING_CANONICAL_MATERIALIZATION",
+    "logistics": "PENDING_CANONICAL_MATERIALIZATION",
+    "hard_dependency": false,
+    "rule": "BIND_ONLY_AFTER_SEPARATE_CANONICAL_ADMISSION;CURRENT_REFERENCE_RUNTIME_MUST_REMAIN_VALID_WITHOUT_EITHER"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_required": false,
+    "hrb_remains_authority": true
+  },
+  "current_host_status": "PENDING_CURRENT_HOST_EVIDENCE"
+}
