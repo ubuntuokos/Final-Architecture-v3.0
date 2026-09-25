@@ -24,7 +24,7 @@ This package materializes the 2026-09-25 hardening decision without adding capab
 
 ## Controlled upstream patching
 
-The allowed dispositions are DIRECT_PINNED, REFERENCE_ONLY, PATCHED_VENDOR, FA3_NATIVE_REIMPLEMENTATION and REJECTED. PATCHED_VENDOR requires immutable upstream/patched identities, patch-series and tree digests, dependency-lock identity, security disposition, SCS admission and review expiry. A security patch never converts unresolved license incompatibility into distribution admission.
+The allowed dispositions are DIRECT_PINNED, REFERENCE_ONLY, PATCHED_VENDOR, FA3_NATIVE_REIMPLEMENTATION and REJECTED. `tools/fa3_prepare_upstream_patchset.py` materializes PATCHED_VENDOR records from immutable upstream/patched commits, a content-hashed patch series, patched tree, dependency lock and admitted SCS receipt. PATCHED_VENDOR requires immutable upstream/patched identities, patch-series and tree digests, dependency-lock identity, security disposition, SCS admission and review expiry. A security patch never converts unresolved license incompatibility into distribution admission. PATCHED_VENDOR also binds the exact SoftwareSupplyChainReceipt SHA-256, so a later or unrelated scan cannot satisfy admission.
 
 ## Hungarian AQC
 
