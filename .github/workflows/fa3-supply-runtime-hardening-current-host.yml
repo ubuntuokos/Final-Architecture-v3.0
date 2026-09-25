@@ -1,0 +1,202 @@
+name: FA3 Supply Runtime Hardening Current-Host Closure
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json'
+      - 'canonical/supply-chain-license-policy.json'
+      - 'canonical/schemas/hu-aqc-golden-corpus-manifest.v1.json'
+      - 'fa3-current-host/templates/provider-runtime-venv.example.json'
+      - 'fa3-current-host/templates/provider-runtime-oci.example.json'
+      - 'fa3-current-host/templates/provider-runtime-host-native.example.json'
+      - 'fa3-current-host/templates/hrb-composite-plan.example.json'
+      - 'fa3-current-host/templates/hrb-composite-capacity.example.json'
+      - 'fa3-current-host/templates/hu-aqc-golden-corpus.example.json'
+      - 'docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-CURRENT-HOST.md'
+      - 'src/fa3_supply_runtime_hardening_current_host_gate.py'
+      - 'src/fa3_provider_runtime.py'
+      - 'tools/fa3_supply_chain_scan.py'
+      - 'evidence/collect-provider-runtime-current-host.py'
+      - 'evidence/collect-hrb-composite-current-host.py'
+      - 'evidence/collect-hu-aqc-golden-corpus-current-host.py'
+      - 'tests/test_supply_runtime_hardening_current_host.py'
+      - '.github/workflows/fa3-supply-runtime-hardening-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute all four hardening current-host evidence surfaces'
+        required: true
+        default: false
+        type: boolean
+      scs_target:
+        description: 'Local artifact or source tree to scan; no runtime download is permitted'
+        required: false
+        default: '.fa3-current-host/input/scs-target'
+        type: string
+      scs_artifact_kind:
+        description: 'Scanned artifact class; build/export classes require dependency lock'
+        required: true
+        default: 'SOURCE_BUILD'
+        type: choice
+        options:
+          - SOURCE_BUILD
+          - OCI_IMAGE_EXPORT
+          - PREBUILT_BINARY
+      scs_source_repository:
+        description: 'Canonical source repository identity for scanned artifact'
+        required: false
+        default: ''
+        type: string
+      scs_source_commit:
+        description: 'Immutable 40-64 hex source commit for scanned artifact'
+        required: false
+        default: ''
+        type: string
+      scs_declared_license:
+        description: 'Declared single SPDX license expression'
+        required: false
+        default: ''
+        type: string
+      scs_dependency_lock:
+        description: 'Optional dependency lock file bound into the receipt'
+        required: false
+        default: ''
+        type: string
+      provider_runtime_plan:
+        description: 'ProviderRuntimeEnvironment JSON for the selected provider'
+        required: false
+        default: '.fa3-current-host/input/provider-runtime.json'
+        type: string
+      hrb_plan:
+        description: 'Current-host ResourceReservationPlan JSON'
+        required: false
+        default: ''
+        type: string
+      hrb_capacity:
+        description: 'Current-host resource capacity JSON'
+        required: false
+        default: ''
+        type: string
+      hu_corpus_manifest:
+        description: 'hu-HU golden corpus manifest with local audio and scorer-bundle paths'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-golden-corpus.json'
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: fa3-supply-runtime-hardening-current-host-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Syntax
+        run: |
+          python -m py_compile \
+            src/fa3_hrb_composite_lease.py \
+            src/fa3_provider_runtime.py \
+            src/fa3_supply_runtime_hardening_current_host_gate.py \
+            tools/fa3_supply_chain_scan.py \
+            tools/fa3_bind_provider_runtime.py \
+            evidence/collect-provider-runtime-current-host.py \
+            evidence/collect-hrb-composite-current-host.py \
+            evidence/collect-hu-aqc-golden-corpus-current-host.py
+      - name: Current-host closure regressions
+        run: PYTHONPATH=src python -m unittest tests.test_supply_runtime_hardening_current_host -v
+      - name: Hosted CI must remain pending
+        run: |
+          rm -f \
+            evidence/receipts/supply-chain-admission-current-host.json \
+            evidence/receipts/provider-runtime-current-host.json \
+            evidence/receipts/hrb-composite-current-host.json \
+            evidence/receipts/hu-aqc-golden-corpus-current-host.json
+          PYTHONPATH=src python src/fa3_supply_runtime_hardening_current_host_gate.py
+          python - <<'PY'
+          import json
+          r=json.load(open('reports/supply-runtime-hardening-current-host-gate-report.json'))
+          assert r['result']=='PASS',r
+          assert r['status']=='PENDING_CURRENT_HOST',r
+          assert r['surface_pass_count']==0,r
+          assert set(r['missing_surfaces'])=={'scs','provider','hrb','hu'},r
+          assert r['global_promotion_claim'] is False,r
+          PY
+  current-host:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, persist-credentials: false}
+      - name: Prove runner identity
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          chmod +x bin/fa3-current-host-runner-doctor
+          ./bin/fa3-current-host-runner-doctor
+      - name: Prove supply-chain scanner dependencies are preinstalled
+        run: |
+          set -euo pipefail
+          command -v syft
+          command -v grype
+          command -v scancode
+          test -n "${{ inputs.scs_source_repository }}"
+          test -n "${{ inputs.scs_source_commit }}"
+          test -n "${{ inputs.scs_declared_license }}"
+          if [[ "${{ inputs.scs_artifact_kind }}" != "PREBUILT_BINARY" ]]; then test -n "${{ inputs.scs_dependency_lock }}"; fi
+      - name: Collect automated supply-chain admission evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --target "${{ inputs.scs_target }}"
+            --source-repository "${{ inputs.scs_source_repository }}"
+            --source-commit "${{ inputs.scs_source_commit }}"
+            --artifact-kind "${{ inputs.scs_artifact_kind }}"
+            --declared-license "${{ inputs.scs_declared_license }}"
+            --current-host
+            --output evidence/receipts/supply-chain-admission-current-host.json
+          )
+          if [[ -n "${{ inputs.scs_dependency_lock }}" ]]; then
+            args+=(--dependency-lock "${{ inputs.scs_dependency_lock }}")
+          fi
+          python3 tools/fa3_supply_chain_scan.py "${args[@]}"
+      - name: Bind provider-runtime plan to generated SCS receipt
+        run: python3 tools/fa3_bind_provider_runtime.py --plan "${{ inputs.provider_runtime_plan }}" --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
+      - name: Collect provider-runtime evidence
+        run: PYTHONPATH=src python3 evidence/collect-provider-runtime-current-host.py --plan .fa3-current-host/runtime/provider-runtime-bound.json --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
+      - name: Collect HRB composite control-plane evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          if [[ -n "${{ inputs.hrb_plan }}" || -n "${{ inputs.hrb_capacity }}" ]]; then
+            test -n "${{ inputs.hrb_plan }}"
+            test -n "${{ inputs.hrb_capacity }}"
+            args+=(--plan "${{ inputs.hrb_plan }}" --capacity "${{ inputs.hrb_capacity }}")
+          fi
+          PYTHONPATH=src python3 evidence/collect-hrb-composite-current-host.py "${args[@]}"
+      - name: Collect hu-HU golden corpus evidence
+        run: PYTHONPATH=src python3 evidence/collect-hu-aqc-golden-corpus-current-host.py --manifest "${{ inputs.hu_corpus_manifest }}"
+      - name: Enforce scoped current-host closure
+        run: PYTHONPATH=src python3 src/fa3_supply_runtime_hardening_current_host_gate.py --require-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-supply-runtime-hardening-current-host
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/supply-chain-admission-current-host.json
+            evidence/receipts/provider-runtime-current-host.json
+            evidence/receipts/hrb-composite-current-host.json
+            evidence/receipts/hu-aqc-golden-corpus-current-host.json
+            reports/supply-runtime-hardening-current-host-gate-report.json
+            .fa3-current-host/runtime/provider-runtime-bound.json
+            .fa3-current-host/hu-aqc-golden/*.json

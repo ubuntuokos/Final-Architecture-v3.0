@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.current-host-conformance.v1",
+  "id": "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+  "parent_gate": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "current_host_gate": "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "architectural_authority": false,
+  "global_promotion_claim": false,
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "surfaces": [
+    {
+      "id": "SCS_AUTOMATED_ADMISSION",
+      "receipt": "evidence/receipts/supply-chain-admission-current-host.json",
+      "collector": "tools/fa3_supply_chain_scan.py",
+      "scope": "LOCAL_FIRST_SCANNER_EXECUTION_ON_OPERATOR_SELECTED_ARTIFACT",
+      "pass_requires": [
+        "SYFT_SBOM_REAL_EXECUTION",
+        "GRYPE_VULNERABILITY_REAL_EXECUTION",
+        "SCANCODE_LICENSE_REAL_EXECUTION",
+        "DETERMINISTIC_ARTIFACT_CONTENT_HASH",
+        "AUTOMATED_LICENSE_POLICY_PASS",
+        "BUILD_PROVENANCE_BOUND"
+      ],
+      "runtime_downloads_allowed": false,
+      "global_promotion_claim": false
+    },
+    {
+      "id": "PROVIDER_RUNTIME_ENVIRONMENT",
+      "receipt": "evidence/receipts/provider-runtime-current-host.json",
+      "collector": "evidence/collect-provider-runtime-current-host.py",
+      "scope": "SELECTED_PROVIDER_RUNTIME_CLASS_CURRENT_HOST_CONFORMANCE",
+      "pass_requires": [
+        "STATIC_RUNTIME_PLAN_PASS",
+        "ACTUAL_VENV_OR_ROOTLESS_OCI_OR_HOST_NATIVE_IDENTITY_PROOF",
+        "SCS_RECEIPT_STATUS_PASS",
+        "NO_GLOBAL_HOST_RECONFIGURATION"
+      ],
+      "global_promotion_claim": false
+    },
+    {
+      "id": "HRB_COMPOSITE_RESERVATION_CONTROL_PLANE",
+      "receipt": "evidence/receipts/hrb-composite-current-host.json",
+      "collector": "evidence/collect-hrb-composite-current-host.py",
+      "scope": "CONTROL_PLANE_SEMANTICS_ONLY_NOT_PRODUCTION_WORKLOAD_PROMOTION",
+      "pass_requires": [
+        "ATOMIC_PLAN_PASS",
+        "OVERLAP_GROUP_DERIVED_LEASES_HRB_KEYRING_AUTHENTICATED",
+        "AGGREGATE_CHILD_BUDGET_ENFORCED",
+        "FORGED_PARENT_REFUSED",
+        "PARENT_REVOCATION_CASCADES",
+        "BOUNDED_EXECUTION",
+        "LIVE_VENDOR_NEUTRAL_HARDWARE_DISCOVERY_OR_EXPLICIT_OPERATOR_PLAN"
+      ],
+      "production_broker_promotion_claim": false,
+      "default_input_mode": "AUTO_LIVE_HARDWARE_DISCOVERY",
+      "explicit_plan_override_supported": true
+    },
+    {
+      "id": "HU_AQC_GOLDEN_CORPUS",
+      "receipt": "evidence/receipts/hu-aqc-golden-corpus-current-host.json",
+      "collector": "evidence/collect-hu-aqc-golden-corpus-current-host.py",
+      "scope": "REAL_HU_HU_GOLDEN_CORPUS_QUALITY_EVIDENCE",
+      "pass_requires": [
+        "ALL_REQUIRED_GOLDEN_CATEGORIES_PRESENT",
+        "ALL_SAMPLES_REAL_CURRENT_HOST",
+        "ADMITTED_SCORER_PROVENANCE",
+        "ALL_SAMPLES_PASS_CANONICAL_THRESHOLDS",
+        "VOICE_CONSENT_WHEN_APPLICABLE",
+        "NO_THRESHOLD_RELAXATION"
+      ]
+    }
+  ],
+  "admission": {
+    "all_surfaces_required_for_scoped_pass": true,
+    "missing_dependency_status": "PENDING_CURRENT_HOST",
+    "hosted_ci_may_claim_current_host_pass": false,
+    "document_only_promotion_forbidden": true,
+    "global_production_promotion_claim": false
+  },
+  "operator_scaffolds": [
+    "fa3-current-host/templates/provider-runtime-venv.example.json",
+    "fa3-current-host/templates/provider-runtime-oci.example.json",
+    "fa3-current-host/templates/provider-runtime-host-native.example.json",
+    "fa3-current-host/templates/hrb-composite-plan.example.json",
+    "fa3-current-host/templates/hrb-composite-capacity.example.json",
+    "fa3-current-host/templates/hu-aqc-golden-corpus.example.json",
+    "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-CURRENT-HOST.md"
+  ],
+  "operator_scaffolds_are_evidence": false
+}

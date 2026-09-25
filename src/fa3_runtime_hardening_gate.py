@@ -22,6 +22,7 @@ PROFILE_IDS = (
     "FA3-MEDIA-GPU-ZEROCOPY-001",
     "FA3-HU-AQC-001",
     "FA3-PROMOTION-SHADOW-001",
+    "FA3-PROVIDER-RUNTIME-001",
 )
 
 PATHS = {
@@ -30,6 +31,7 @@ PATHS = {
     "media_zero": "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
     "hu_aqc": "canonical/profiles/FA3-HU-AQC-001.json",
     "shadow": "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
+    "provider_runtime": "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
     "contract": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
     "provider": "canonical/providers/FA3-PROVIDER-PYNVVIDEOCODEC-001.json",
     "decision": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
@@ -208,7 +210,7 @@ def gate(root: Path) -> dict[str, Any]:
     if findings:
         return _report(root, findings, [])
 
-    for key in ("runtime_isolation", "agent_sandbox", "media_zero", "hu_aqc", "shadow"):
+    for key in ("runtime_isolation", "agent_sandbox", "media_zero", "hu_aqc", "shadow", "provider_runtime"):
         record = data[key]
         if (
             record.get("id") not in PROFILE_IDS
@@ -252,6 +254,9 @@ def gate(root: Path) -> dict[str, Any]:
         "accelerated_neural_media_claim": "CLASSIFIED_AS_ZERO_COPY_PROVEN_TRANSFER_MINIMIZED_OR_NOT_ZERO_COPY",
         "shadow_can_assign_promoted": "DENY",
         "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS",
+        "provider_runtime_class_explicit": "REQUIRED",
+        "conda_mamba_baseline": "DENY",
+        "oci_rootless_digest_pinned_when_selected": "REQUIRED",
     }
     for key, value in expected.items():
         if rules.get(key) != value:

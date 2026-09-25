@@ -733,6 +733,82 @@ def gate(root: Path):
             missing_manifest_paths=sorted(neural_rendering_paths - manifest_paths),
         ))
 
+    supply_runtime = projection.get("supply_runtime_hardening_reconciliation", {})
+    supply_runtime_required_paths = {
+        "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
+        "canonical/contracts/FA3-PROVIDER-RUNTIME-CONTRACTS-001.json",
+        "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
+        "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
+        "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-001.json",
+        "canonical/supply-runtime-hardening-enforcement.json",
+        "canonical/supply-chain-license-policy.json",
+        "src/fa3_supply_chain_admission.py",
+        "src/fa3_provider_runtime.py",
+        "src/fa3_upstream_patchset.py",
+        "src/fa3_hrb_composite_lease.py",
+        "src/fa3_supply_runtime_hardening_gate.py",
+        "tools/fa3_supply_chain_scan.py",
+        "tools/fa3_bind_provider_runtime.py",
+        "tools/fa3_prepare_upstream_patchset.py",
+        "tests/test_supply_runtime_hardening.py",
+        ".github/workflows/fa3-supply-runtime-hardening.yml",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
+        "canonical/schemas/software-supply-chain-receipt.v1.json",
+        "canonical/schemas/provider-runtime-environment.v1.json",
+        "canonical/schemas/resource-reservation-plan.v1.json",
+        "canonical/schemas/upstream-patch-set.v1.json",
+        "canonical/hrb-deterministic-locality-enforcement.json",
+        "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HRB-COMPOSITE-RESERVATION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
+        "canonical/assessments/FA3-PROVIDER-RUNTIME-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+        "canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/schemas/hu-aqc-golden-corpus-manifest.v1.json",
+        "src/fa3_supply_runtime_hardening_current_host_gate.py",
+        "evidence/collect-hrb-composite-current-host.py",
+        "evidence/collect-provider-runtime-current-host.py",
+        "fa3-current-host/templates/provider-runtime-venv.example.json",
+        "fa3-current-host/templates/provider-runtime-oci.example.json",
+        "fa3-current-host/templates/provider-runtime-host-native.example.json",
+        "evidence/collect-hu-aqc-golden-corpus-current-host.py",
+        "tests/test_supply_runtime_hardening_current_host.py",
+        ".github/workflows/fa3-supply-runtime-hardening-current-host.yml",
+        "fa3-current-host/templates/hrb-composite-plan.example.json",
+        "fa3-current-host/templates/hrb-composite-capacity.example.json",
+        "fa3-current-host/templates/hu-aqc-golden-corpus.example.json",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-CURRENT-HOST.md",
+    }
+    if (
+        supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
+        or supply_runtime.get("provider_runtime_profile_id") != "FA3-PROVIDER-RUNTIME-001"
+        or supply_runtime.get("provider_runtime_contract_id") != "FA3-PROVIDER-RUNTIME-CONTRACTS-001"
+        or supply_runtime.get("gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
+        or supply_runtime.get("capability_count_after") != CAPABILITY_COUNT
+        or supply_runtime.get("new_capabilities") != 0
+        or supply_runtime.get("new_architectural_authorities") != 0
+        or supply_runtime.get("hu_aqc_current_host_promotion_claim") is not False
+        or supply_runtime.get("current_host_conformance_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        or supply_runtime.get("current_host_gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or supply_runtime.get("hrb_current_host_scope") != "CONTROL_PLANE_ONLY_NO_PRODUCTION_BROKER_PROMOTION"
+        or supply_runtime.get("scs_current_host_status") != "PENDING_REAL_LOCAL_SCANNER_EXECUTION"
+        or supply_runtime.get("provider_runtime_current_host_status") != "PENDING_REAL_SELECTED_PROVIDER_RUNTIME_EXECUTION"
+        or supply_runtime.get("hrb_composite_current_host_status") != "PENDING_REAL_CONTROL_PLANE_EXECUTION"
+        or supply_runtime.get("hu_aqc_golden_corpus_current_host_status") != "PENDING_REAL_CORPUS_EXECUTION"
+        or supply_runtime.get("global_promotion_claim") is not False
+        or "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" not in projection_gates
+        or not supply_runtime_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding("FA3-RELEASE-PROJECTION-123","Supply-chain / Provider Runtime / HRB composite hardening reconciliation invariant mismatch"))
+
     runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
     runtime_hardening_required_paths = {
         "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",

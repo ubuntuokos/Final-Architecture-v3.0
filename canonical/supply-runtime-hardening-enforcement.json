@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.supply-runtime-hardening-enforcement.v1",
+  "gate_id": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001",
+  "gateset_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "supply_chain": {
+    "receipt_schema": "fa3.software-supply-chain-receipt.v1",
+    "required_attestations": [
+      "immutable_source",
+      "artifact_hash",
+      "dependency_lock_when_building",
+      "SBOM",
+      "license",
+      "vulnerability",
+      "build_provenance"
+    ],
+    "unknown_required_fact": "FAIL_CLOSED"
+  },
+  "provider_runtime": {
+    "profile_id": "FA3-PROVIDER-RUNTIME-001",
+    "classes": [
+      "VENV",
+      "OCI",
+      "HOST_NATIVE"
+    ],
+    "conda_mamba_baseline": "DENY",
+    "supply_chain_receipt_digest_required": true
+  },
+  "hrb": {
+    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "reservation_schema": "fa3.resource-reservation-plan.v1",
+    "derived_lease_schema": "FA3-HOST-RESOURCE-BROKER-001/DerivedExecutionLease@1",
+    "atomic_admission": true,
+    "hold_and_wait": false
+  },
+  "upstream": {
+    "patchset_schema": "fa3.upstream-patch-set.v1",
+    "unmanaged_patch": "DENY",
+    "reference_only_runtime_admission": "DENY",
+    "patched_vendor_supply_chain_receipt_digest_required": true,
+    "patched_vendor_distribution_admission_required": true
+  },
+  "hu_aqc": {
+    "profile_id": "FA3-HU-AQC-001",
+    "document_only_promotion": false,
+    "current_host_receipt_required": true
+  }
+}

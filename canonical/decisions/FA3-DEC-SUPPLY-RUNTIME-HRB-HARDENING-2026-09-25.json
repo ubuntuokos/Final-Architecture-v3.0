@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25",
+  "date": "2026-09-25",
+  "status": "FINAL",
+  "decision": "AUTOMATE_SUPPLY_CHAIN_ADMISSION_FORMALIZE_PROVIDER_RUNTIME_AND_EXTEND_HRB_WITH_ATOMIC_COMPOSITE_RESERVATION_AND_DERIVED_LEASES",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "existing_authorities_only": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECRETS-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "supply_chain": {
+    "baseline_scanners": [
+      "Syft",
+      "Grype",
+      "ScanCode"
+    ],
+    "fossa_role": "OPTIONAL_EXTERNAL_PROVIDER_NOT_BASELINE",
+    "formats": [
+      "SPDX",
+      "CycloneDX"
+    ],
+    "fail_closed": true
+  },
+  "provider_runtime": {
+    "classes": [
+      "VENV",
+      "OCI",
+      "HOST_NATIVE"
+    ],
+    "conda_mamba_baseline": "FORBIDDEN",
+    "rootless_podman_for_oci": true
+  },
+  "hrb": {
+    "atomic_reservation": true,
+    "hold_and_wait": false,
+    "derived_lease_hrb_only": true,
+    "parent_revocation_cascades": true
+  },
+  "upstream": {
+    "dispositions": [
+      "DIRECT_PINNED",
+      "REFERENCE_ONLY",
+      "PATCHED_VENDOR",
+      "FA3_NATIVE_REIMPLEMENTATION",
+      "REJECTED"
+    ],
+    "security_patch_does_not_override_license_failure": true
+  },
+  "hu_aqc": {
+    "architecture_redesign": false,
+    "current_host_real_evidence_required": true,
+    "existing_profile": "FA3-HU-AQC-001"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-PROVIDER-RUNTIME-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-PROVIDER-RUNTIME-001",
+  "intent_id": "FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-RUNTIME-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+      "use": "EXISTING_RUNTIME_HARDENING_BOUNDARY"
+    },
+    {
+      "id": "FA3-SCS-001",
+      "use": "SUPPLY_CHAIN_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_ONLY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "SECRET_DELIVERY_ONLY"
+    }
+  ],
+  "rejected_candidates": [],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "gaps": [
+    "PROVIDER_RUNTIME_ENVIRONMENT_CONTRACT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "PROVIDER_RUNTIME_ENVIRONMENT_CONTRACT",
+      "status": "MATERIALIZED_IN_PR_388",
+      "evidence": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001"
+    }
+  ]
+}
