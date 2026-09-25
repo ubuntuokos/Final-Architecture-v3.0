@@ -71,12 +71,12 @@ on:
       hrb_plan:
         description: 'Current-host ResourceReservationPlan JSON'
         required: false
-        default: '.fa3-current-host/input/hrb-composite-plan.json'
+        default: ''
         type: string
       hrb_capacity:
         description: 'Current-host resource capacity JSON'
         required: false
-        default: '.fa3-current-host/input/hrb-composite-capacity.json'
+        default: ''
         type: string
       hu_corpus_manifest:
         description: 'hu-HU golden corpus manifest with local audio and scorer-bundle paths'
@@ -173,7 +173,16 @@ jobs:
       - name: Collect provider-runtime evidence
         run: PYTHONPATH=src python3 evidence/collect-provider-runtime-current-host.py --plan .fa3-current-host/runtime/provider-runtime-bound.json --supply-chain-receipt evidence/receipts/supply-chain-admission-current-host.json
       - name: Collect HRB composite control-plane evidence
-        run: PYTHONPATH=src python3 evidence/collect-hrb-composite-current-host.py --plan "${{ inputs.hrb_plan }}" --capacity "${{ inputs.hrb_capacity }}"
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          if [[ -n "${{ inputs.hrb_plan }}" || -n "${{ inputs.hrb_capacity }}" ]]; then
+            test -n "${{ inputs.hrb_plan }}"
+            test -n "${{ inputs.hrb_capacity }}"
+            args+=(--plan "${{ inputs.hrb_plan }}" --capacity "${{ inputs.hrb_capacity }}")
+          fi
+          PYTHONPATH=src python3 evidence/collect-hrb-composite-current-host.py "${args[@]}"
       - name: Collect hu-HU golden corpus evidence
         run: PYTHONPATH=src python3 evidence/collect-hu-aqc-golden-corpus-current-host.py --manifest "${{ inputs.hu_corpus_manifest }}"
       - name: Enforce scoped current-host closure
