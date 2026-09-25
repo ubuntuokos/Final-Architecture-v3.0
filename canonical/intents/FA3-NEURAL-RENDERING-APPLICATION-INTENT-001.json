@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-NEURAL-RENDERING-APPLICATION-INTENT-001",
+  "project_id": "FA3-NEURAL-RENDERING-001",
+  "project_type": "PROFILE",
+  "goal": "Provide provider-neutral neural rendering, temporal reconstruction and evidence-bounded execution for Creative Studio, neural media, DCC/RT3D and browser projections while preserving existing FA3 resource, model, security, geometry, action and evidence authorities.",
+  "required_capabilities": [
+    "render.neural.evaluate"
+  ],
+  "optional_capabilities": [
+    "render.neural.execute",
+    "render.neural.browser.execute"
+  ],
+  "problem_classes": [
+    "neural-rendering",
+    "temporal-reconstruction",
+    "render-quality-evidence",
+    "provider-parity",
+    "multi-backend-render-execution"
+  ],
+  "input_modalities": [
+    "IMAGE",
+    "VIDEO_FRAME",
+    "MOTION_VECTOR",
+    "DEPTH",
+    "NORMAL",
+    "MASK",
+    "TEMPORAL_HISTORY"
+  ],
+  "output_modalities": [
+    "IMAGE",
+    "VIDEO_FRAME",
+    "QUALITY_RECEIPT",
+    "EVIDENCE_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_CONTROL_PLANE",
+    "OPTIONAL_HOST_ACCELERATOR",
+    "BROWSER_WEBGPU"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "provider_specific_accelerator_requirements_are_scoped": true,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "static_device_ordinal_forbidden": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-neural-rendering",
+    "service_prefix": "fa3-neural-rendering",
+    "config_root": "$XDG_CONFIG_HOME/fa3/neural-rendering",
+    "cache_root": "$XDG_CACHE_HOME/fa3/neural-rendering",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/neural-rendering",
+    "socket_namespace": "fa3/neural-rendering",
+    "data_root": "$XDG_DATA_HOME/fa3/neural-rendering",
+    "desktop_prefix": "org.fa3.neural-rendering",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FAIL_CLOSED_PROVIDER_ADMISSION",
+    "NO_SILENT_PROVIDER_OR_BACKEND_FALLBACK",
+    "MODEL_ARTIFACT_PROVENANCE_AND_RIGHTS_ADMISSION",
+    "SUPPLY_CHAIN_ADMISSION_BEFORE_PRODUCTION"
+  ],
+  "integration_requirements": [
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-MODEL-REGISTRY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-WEB-AI-001",
+    "FA3-3D-GEOM-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}

@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "594a80af5610bc7397af16c16a489f1ab78fcf77",
-    "pre_projection_root_tree_sha": "c693ccfc3c4077140ba046b6cf49e72e66f8055b",
-    "pre_projection_canonical_tree_sha": "a04e9525f9d466de32518fb1ba6baacc1cdfc6de",
-    "commits_ahead_of_v3_0_11_conformance_commit": 965,
-    "total_post_baseline_commits": 965,
-    "delta_file_count": 2263,
-    "delta_added_files": 2258,
+    "pre_projection_head_sha": "c941cafaa9d31c13127f86793878589269c84c5a",
+    "pre_projection_root_tree_sha": "7df375a6cd6160f05bead9c403d22ef338ab01f5",
+    "pre_projection_canonical_tree_sha": "b3f166df157c1bca89388289162ccfdd7e1d615d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 948,
+    "total_post_baseline_commits": 948,
+    "delta_file_count": 2266,
+    "delta_added_files": 2261,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1095,
+    "canonical_files_in_post_baseline_delta": 1098,
     "evidence_files_in_post_baseline_delta": 167,
     "source_files_in_post_baseline_delta": 301,
     "test_files_in_post_baseline_delta": 243,
@@ -632,6 +632,7 @@
       "canonical/references/FA3-OBSIDIAN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02.json",
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENDLSS-NR-DERIVED-PATTERNS-001.json",
       "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
       "canonical/references/FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
@@ -974,7 +975,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2254,
+  "manifest_entry_count": 2257,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2812,6 +2813,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-NEURAL-RENDERING-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "d17e72045df3e8c8aefc679c76c2351e985c2d87",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-ORCHESTRATION-WORKFORCE-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "6d6fb9d7ebc63e299cff082e39630ec3f02ac53b",
       "baseline_delta_status": "added"
@@ -4478,12 +4484,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "c4dc6343eaa45d9a81e3c514230e3878b2a6f15f",
+      "git_blob_sha": "578b73e83e722b25184154bcad23c2b02f2a6f20",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "94c85d138b42763f403e91521eed8def3d4eb5b7",
+      "git_blob_sha": "5d25dc4763cb2ec1db9ebd495010a96c2a48cbc0",
       "baseline_delta_status": "added"
     },
     {
@@ -5632,6 +5638,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-NEURAL-RENDERING-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "a4c03bf5a3c4f19daf4c78f5879ee9c50980d4a3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
       "git_blob_sha": "b684edb2466d5d0b32c0fae8f935b8651fec3c32",
       "baseline_delta_status": "added"
@@ -5828,7 +5839,7 @@
     },
     {
       "path": "canonical/neural-rendering-enforcement.json",
-      "git_blob_sha": "382e34410280d9344dd1d3507be8fc5f0a04940a",
+      "git_blob_sha": "49ccbe3e5cb22061095cf270768684f109516450",
       "baseline_delta_status": "added"
     },
     {
@@ -7349,6 +7360,11 @@
     {
       "path": "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "da36e3529290852ed2768a2d463877e4686226ab",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-OPENDLSS-NR-DERIVED-PATTERNS-001.json",
+      "git_blob_sha": "cf3d100dc9132f8e9d3ccf775bb4bccb97c783f7",
       "baseline_delta_status": "added"
     },
     {
@@ -10473,7 +10489,7 @@
     },
     {
       "path": "src/fa3_neural_rendering_gate.py",
-      "git_blob_sha": "a2f4418684f3dc8ca4b595ada72261be1c787ead",
+      "git_blob_sha": "8eabcb926961e89118bdc974354e15db537c87ef",
       "baseline_delta_status": "added"
     },
     {

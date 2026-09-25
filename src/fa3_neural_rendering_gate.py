@@ -36,7 +36,10 @@ def validate(root:Path)->list[dict[str,Any]]:
       "upstream_reference":root/"canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
       "jev_adapter":root/"src/fa3_neural_rendering_jev_adapter.py",
       "projection":root/"canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
-      "adapter":root/"src/fa3_opendlss_nr_provider.py","decision_impl":root/"src/fa3_neural_rendering.py"}
+      "adapter":root/"src/fa3_opendlss_nr_provider.py","decision_impl":root/"src/fa3_neural_rendering.py",
+      "intent":root/"canonical/intents/FA3-NEURAL-RENDERING-APPLICATION-INTENT-001.json",
+      "reuse_assessment":root/"canonical/assessments/FA3-NEURAL-RENDERING-REUSE-ASSESSMENT-001.json",
+      "derived_patterns":root/"canonical/references/FA3-OPENDLSS-NR-DERIVED-PATTERNS-001.json"}
     for name,path in paths.items():
         if not path.is_file(): findings.append(_finding("NR-GATE-001","required file missing",name=name,path=path.as_posix()))
     if findings: return findings
@@ -45,6 +48,7 @@ def validate(root:Path)->list[dict[str,Any]]:
     gate_record=_load(paths["gate"]); runtime=_load(paths["runtime"]); enforcement=_load(paths["enforcement"]); lock=_load(paths["lock"])
     neural_media=_load(paths["neural_media"]); web_ai=_load(paths["web_ai"]); registry=_load(paths["evidence_registry"])
     reference=_load(paths["reference"]); projection=_load(paths["projection"])
+    intent=_load(paths["intent"]); reuse_assessment=_load(paths["reuse_assessment"]); derived_patterns=_load(paths["derived_patterns"])
     checks=[
       (count==143,"NR-GATE-002","active capability baseline is not 143"),
       (profile.get("id")==PROFILE_ID and profile.get("provider_neutral") is True and profile.get("fail_closed") is True,"NR-GATE-003","profile identity/provider-neutral/fail-closed mismatch"),
@@ -69,7 +73,15 @@ def validate(root:Path)->list[dict[str,Any]]:
       (web_ai.get("neural_rendering_projection",{}).get("provider_id")==PROVIDER_ID and web_ai.get("neural_rendering_projection",{}).get("authority") is False,"NR-GATE-021","Web-AI projection missing/authoritative"),
       (registry.get("neural_rendering_reconciliation",{}).get("provider_id")==PROVIDER_ID and registry.get("neural_rendering_reconciliation",{}).get("production_provider_admission") is False,"NR-GATE-022","Evidence Registry reconciliation missing or promoted"),
       (projection.get("neural_rendering_reconciliation",{}).get("provider_id")==PROVIDER_ID and projection.get("neural_rendering_reconciliation",{}).get("capability_count_after")==count,"NR-GATE-023","release projection reconciliation missing"),
-      (enforcement.get("new_capabilities")==0 and enforcement.get("new_architectural_authorities")==0 and enforcement.get("capability_count")==count,"NR-GATE-024","enforcement baseline mismatch")]
+      (enforcement.get("new_capabilities")==0 and enforcement.get("new_architectural_authorities")==0 and enforcement.get("capability_count")==count,"NR-GATE-024","enforcement baseline mismatch"),
+      (intent.get("schema")=="fa3.application-intent.v1" and intent.get("project_id")==PROFILE_ID and intent.get("proposed_authority_roles")==[] and intent.get("declared_new_capabilities")==[],"NR-GATE-034","ApplicationIntent identity or baseline delta invalid"),
+      (intent.get("hardware_audit",{}).get("vendor_neutral") is True and intent.get("hardware_audit",{}).get("cpu_only_viable") is True and intent.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N" and intent.get("hardware_audit",{}).get("global_accelerator_requirement") is False,"NR-GATE-035","ApplicationIntent hardware audit invalid"),
+      (intent.get("namespace_claims",{}).get("requires_upstream_uninstall") is False and intent.get("namespace_claims",{}).get("global_environment_mutation") is False and intent.get("namespace_claims",{}).get("claims_default_port") is False,"NR-GATE-036","ApplicationIntent coexistence namespace boundary invalid"),
+      (reuse_assessment.get("schema")=="fa3.reuse-assessment.v1" and reuse_assessment.get("project_id")==PROFILE_ID and reuse_assessment.get("result")=="PASS" and PROFILE_ID in reuse_assessment.get("covered_ids",[]) and PROVIDER_ID in reuse_assessment.get("covered_ids",[]),"NR-GATE-037","ReuseAssessment missing profile/provider PASS coverage"),
+      (reuse_assessment.get("coexistence",{}).get("result")=="PASS" and reuse_assessment.get("coexistence",{}).get("upstream_uninstall_required") is False and reuse_assessment.get("coexistence",{}).get("global_mutation") is False and reuse_assessment.get("coexistence",{}).get("default_port_hijack") is False,"NR-GATE-038","ReuseAssessment coexistence boundary invalid"),
+      (reuse_assessment.get("hardware_audit",{}).get("vendor_neutral") is True and reuse_assessment.get("hardware_audit",{}).get("cpu_only_viable") is True and reuse_assessment.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N" and reuse_assessment.get("current_host_runtime_promotion_claim") is False and reuse_assessment.get("global_promotion_claim") is False,"NR-GATE-039","ReuseAssessment hardware/promotion boundary invalid"),
+      (reuse_assessment.get("new_capabilities")==0 and reuse_assessment.get("new_architectural_authorities")==0 and reuse_assessment.get("capability_count_after")==count,"NR-GATE-040","ReuseAssessment changes capability or authority baseline"),
+      (derived_patterns.get("authority") is False and derived_patterns.get("runtime_dependency_implied") is False and derived_patterns.get("current_host_claim") is False and len(derived_patterns.get("patterns",[]))>=5,"NR-GATE-041","OpenDLSS-NR derived-pattern reference boundary invalid")]
     for ok,code,message in checks:
         if not ok: findings.append(_finding(code,message))
     opendlss_lock=lock.get("locks",{}).get("opendlss_nr",{})

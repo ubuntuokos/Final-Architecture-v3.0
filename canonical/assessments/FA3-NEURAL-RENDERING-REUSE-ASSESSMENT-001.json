@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-NEURAL-RENDERING-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-NEURAL-RENDERING-001",
+  "intent_id": "FA3-NEURAL-RENDERING-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-NEURAL-RENDERING-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-NEURAL-RENDERING-001",
+    "FA3-PROVIDER-OPENDLSS-NR-001"
+  ],
+  "project_status": "MATERIALIZED_STATIC_REFERENCE_PROVIDER_E2E_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {"id": "FA3-NEURAL-MEDIA-EXECUTION-001", "use": "MEDIA_EXECUTION_PARENT"},
+    {"id": "FA3-GPU-KERNEL-RUNTIME-001", "use": "ACCELERATOR_KERNEL_EXECUTION_BOUNDARY"},
+    {"id": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "use": "RESOURCE_DISCOVERY_ADMISSION_PLACEMENT_AND_LEASE"},
+    {"id": "FA3-UNIFIED-ACTION-FABRIC-001", "use": "TYPED_ACTION_EXECUTION_BOUNDARY"},
+    {"id": "FA3-MODEL-REGISTRY-001", "use": "MODEL_ARTIFACT_IDENTITY_AND_PROVENANCE"},
+    {"id": "FA3-AUTH-MODEL-ROUTER-001", "use": "MODEL_PROVIDER_ROUTING_WHEN_MODEL_ROUTE_IS_USED"},
+    {"id": "FA3-WEB-AI-001", "use": "BROWSER_WEBGPU_EXECUTION_DOMAIN"},
+    {"id": "FA3-3D-GEOM-001", "use": "GEOMETRY_SEMANTIC_AUTHORITY"},
+    {"id": "FA3-AUTH-OBS-EVIDENCE-001", "use": "EVIDENCE_AUTHORITY"}
+  ],
+  "rejected_candidates": [
+    {
+      "id": "DIRECT_NVIDIA_DLSS_RUNTIME_AUTHORITY",
+      "reason": "VENDOR_RUNTIME_MUST_NOT_BECOME_FA3_ARCHITECTURAL_AUTHORITY"
+    },
+    {
+      "id": "OPENDLSS_NR_AS_CORE_BUNDLED_RUNTIME",
+      "reason": "KEEP_AS_REPLACEABLE_CONDITIONAL_PROVIDER_WITH_SEPARATE_MODEL_RIGHTS_AND_SUPPLY_CHAIN_ADMISSION"
+    },
+    {
+      "id": "SILENT_CPU_GPU_BROWSER_OR_PRECISION_FALLBACK",
+      "reason": "FA3_FAIL_CLOSED_AND_EXPLICIT_RESELECTION_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001"
+  ],
+  "existing_authority_bindings": {
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "model_identity": "FA3-MODEL-REGISTRY-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "geometry": "FA3-3D-GEOM-001",
+    "browser": "FA3-WEB-AI-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "provider_specific_requirements_are_scoped": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "upstream_paths_shadowed": false,
+    "provider_source_and_model_data_external_to_fa3_core": true
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
