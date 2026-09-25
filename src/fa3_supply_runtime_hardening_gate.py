@@ -73,8 +73,6 @@ def gate(root:Path)->dict[str,Any]:
       "runtime":"canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
-      "binder":"tools/fa3_bind_provider_runtime.py",
-      "patch_tool":"tools/fa3_prepare_upstream_patchset.py",
       "license_policy":"canonical/supply-chain-license-policy.json",
       "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
       "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
@@ -87,6 +85,9 @@ def gate(root:Path)->dict[str,Any]:
     for k,p in paths.items():
         try:data[k]=loadj(root/p)
         except Exception as e: findings.append(finding("SRH-000","required materialization unreadable",path=p,error=repr(e)))
+    for rel in ("tools/fa3_bind_provider_runtime.py","tools/fa3_prepare_upstream_patchset.py"):
+        if not (root/rel).is_file():
+            findings.append(finding("SRH-000","required executable hardening tool missing",path=rel))
     if not findings:
         p=data["profile"]; c=data["contract"]; d=data["decision"]; g=data["gate"]; e=data["enforcement"]
         if not(p.get("id")=="FA3-PROVIDER-RUNTIME-001" and p.get("capability_count")==CAPABILITY_COUNT and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("selection_policy",{}).get("supply_chain_receipt_digest_required") is True): findings.append(finding("SRH-001","provider runtime profile invariant drift"))
