@@ -733,6 +733,40 @@ def gate(root: Path):
             missing_manifest_paths=sorted(neural_rendering_paths - manifest_paths),
         ))
 
+    supply_runtime = projection.get("supply_runtime_hardening_reconciliation", {})
+    supply_runtime_required_paths = {
+        "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
+        "canonical/contracts/FA3-PROVIDER-RUNTIME-CONTRACTS-001.json",
+        "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
+        "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
+        "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-001.json",
+        "canonical/supply-runtime-hardening-enforcement.json",
+        "src/fa3_supply_chain_admission.py",
+        "src/fa3_provider_runtime.py",
+        "src/fa3_upstream_patchset.py",
+        "src/fa3_hrb_composite_lease.py",
+        "src/fa3_supply_runtime_hardening_gate.py",
+        "tools/fa3_supply_chain_scan.py",
+        "tests/test_supply_runtime_hardening.py",
+        ".github/workflows/fa3-supply-runtime-hardening.yml",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
+    }
+    if (
+        supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
+        or supply_runtime.get("provider_runtime_profile_id") != "FA3-PROVIDER-RUNTIME-001"
+        or supply_runtime.get("provider_runtime_contract_id") != "FA3-PROVIDER-RUNTIME-CONTRACTS-001"
+        or supply_runtime.get("gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
+        or supply_runtime.get("capability_count_after") != CAPABILITY_COUNT
+        or supply_runtime.get("new_capabilities") != 0
+        or supply_runtime.get("new_architectural_authorities") != 0
+        or supply_runtime.get("hu_aqc_current_host_promotion_claim") is not False
+        or "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" not in projection_gates
+        or not supply_runtime_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding("FA3-RELEASE-PROJECTION-123","Supply-chain / Provider Runtime / HRB composite hardening reconciliation invariant mismatch"))
+
     runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
     runtime_hardening_required_paths = {
         "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
