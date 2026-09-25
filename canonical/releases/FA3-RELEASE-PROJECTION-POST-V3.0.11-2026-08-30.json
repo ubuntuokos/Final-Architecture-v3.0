@@ -3,9 +3,9 @@
   "id": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
   "date": "2026-08-30",
   "status": "CANONICAL_PROJECTED",
-  "base_release": "2026-08-23/v3.0.11",
+  "base_release": "2026-09-26/v3.1.0",
   "base_release_commit": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "projection_semantics": "CAPABILITY_MODEL_EXPANSION_143_TO_175_WITH_COMPATIBILITY_STABLE_PROJECTION_PATH",
   "decision_id": "FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30",
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
@@ -34,15 +34,16 @@
     "missing_evidence_mappings": 0
   },
   "invariants": {
-    "canonical_capability_count": 143,
-    "new_capabilities": 0,
+    "canonical_capability_count": 175,
+    "new_capabilities": 32,
     "new_architectural_authorities": 0,
     "authority_model_changed": false,
     "baseline_semantics_frozen": true,
     "linux_recovery_rebuild_projection_out_of_scope": true,
     "geometry_root": "FA3-3D-GEOM-001",
     "geometry_specialized_child": "FA3-MESH-GEN-001",
-    "geometry_relationship": "SUBPROFILE-OF"
+    "geometry_relationship": "SUBPROFILE-OF",
+    "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1102,
@@ -14202,5 +14203,6 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
-  }
+  },
+  "capability_model_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
