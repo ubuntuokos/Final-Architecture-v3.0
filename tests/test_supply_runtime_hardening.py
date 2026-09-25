@@ -5,6 +5,7 @@ from src.fa3_supply_chain_admission import evaluate_receipt
 from src.fa3_provider_runtime import validate_runtime_environment,select_runtime_class,ProviderRuntimeError
 from src.fa3_upstream_patchset import evaluate_patchset
 from src.fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,RESOURCE_ORDER
+from src.fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring
 from src.fa3_supply_runtime_hardening_gate import gate,regressions
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -27,11 +28,17 @@ class SupplyRuntimeHardeningTests(unittest.TestCase):
         p={"schema":"fa3.resource-reservation-plan.v1","authority_id":"FA3-AUTH-HOST-RESOURCE-BROKER-001","atomic_admission":True,"hold_and_wait":True,"acquisition_order":list(RESOURCE_ORDER),"workloads":[{"id":"a","resources":{}}],"accelerators":[]}
         self.assertEqual("FAIL",evaluate_reservation_plan(p,{k:0 for k in ("cpu_threads","ram_bytes","vram_bytes","io_bytes_per_second","network_bytes_per_second")})["result"])
     def test_child_scope_and_revocation(self):
-        parent={"lease_id":"p","generation":1,"state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-x"}]}
+        keyring=LeaseKeyring([LeaseKey("test",b"x"*32)],"test")
+        parent={"lease_id":"p","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-x"}],"authentication":{}}
+        parent["authentication"]=keyring.sign(parent)
         req={"lease_id":"c","issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6},"accelerator_assignments":[{"stable_id":"GPU-x"}],"scope":{}}
-        c=derive_child_lease(parent,req,issuer="FA3-AUTH-HOST-RESOURCE-BROKER-001"); self.assertFalse(c["may_mint_child_lease"])
-        parent["state"]="REVOKING"; self.assertEqual("REVOKING",cascade_revocation(parent,[{**c,"state":"ACTIVE"}])[0]["state"])
-        parent["state"]="ACTIVE"
+        c=derive_child_lease(parent,req,keyring=keyring); self.assertFalse(c["may_mint_child_lease"]); keyring.verify(c)
+        parent["state"]="REVOKING"; parent["authentication"]=keyring.sign(parent)
+        active=copy.deepcopy(c); active["state"]="ACTIVE"; active["authentication"]=keyring.sign(active)
+        casc=cascade_revocation(parent,[active],keyring=keyring); self.assertEqual("REVOKING",casc[0]["state"]); keyring.verify(casc[0])
+        parent["state"]="ACTIVE"; parent["authentication"]=keyring.sign(parent)
         bad=copy.deepcopy(req); bad["resources"]["vram_bytes"]=13
-        with self.assertRaises(CompositeLeaseError): derive_child_lease(parent,bad,issuer="FA3-AUTH-HOST-RESOURCE-BROKER-001")
+        with self.assertRaises(CompositeLeaseError): derive_child_lease(parent,bad,keyring=keyring)
+        forged=copy.deepcopy(parent); forged["authentication"]["mac"]="0"*64
+        with self.assertRaises(CompositeLeaseError): derive_child_lease(forged,req,keyring=keyring)
 if __name__=="__main__": unittest.main()
