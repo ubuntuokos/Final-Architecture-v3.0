@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-BROWSER-ACTION-RUNTIME-001",
   "provider_neutral": true,
@@ -12,7 +12,9 @@
     "BrowserSessionDescriptor",
     "BrowserTabLease",
     "BrowserHumanAssistanceRequest",
-    "BrowserSessionCleanupReceipt"
+    "BrowserSessionCleanupReceipt",
+    "BrowserSessionBridgeMessage",
+    "BrowserSessionCurrentHostReceipt"
   ],
   "lease": {
     "explicit_human_or_policy_approval_required": true,
@@ -28,7 +30,12 @@
     "borrowed_tab_return_required": true,
     "sibling_tab_authority_inheritance": false,
     "popup_authority_inheritance": false,
-    "lease_expiry_result": "DENY"
+    "lease_expiry_result": "DENY_AND_REVOKE",
+    "origin_scope_required": true,
+    "action_scope_required": true,
+    "logical_borrow_without_tab_reparenting_preferred": true,
+    "tab_reparenting_required": false,
+    "origin_change_requires_new_authorization": true
   },
   "security": {
     "page_content": "UNTRUSTED_EXTERNAL_CONTENT",
@@ -39,7 +46,8 @@
     "secret_authority": "FA3-AUTH-SECRETS",
     "action_authority": "FA3-UNIFIED-ACTION-FABRIC-001",
     "stale_observation": "DENY_AND_REOBSERVE",
-    "blind_mutation_retry": "DENY"
+    "blind_mutation_retry": "DENY",
+    "full_url_and_title_export_from_tab_inventory": "DENY"
   },
   "human_assistance": {
     "first_class": true,
@@ -53,12 +61,37 @@
       "AUTOMATION_BLOCKED"
     ],
     "request_does_not_expand_agent_authority": true,
-    "resume_requires_fresh_observation_and_authorization": true
+    "resume_requires_fresh_observation_and_authorization": true,
+    "request_is_not_completion": true,
+    "cancel_is_not_completion": true,
+    "automated_overlay_evidence_is_not_human_completion_evidence": true,
+    "manual_human_completion_qualification_separate": true
   },
   "transport": {
     "preferred_existing_profile_bridge": "BROWSER_EXTENSION_NATIVE_MESSAGING_TO_FA3_NAMESPACED_UNIX_SOCKET",
     "random_fixed_localhost_port_required": false,
     "isolated_cdp_backend_remains_separate": true,
-    "remote_browser_initial_status": "NOT_ADMITTED"
+    "remote_browser_initial_status": "NOT_ADMITTED",
+    "native_host_name": "org.fa3.browser.session_bridge",
+    "socket_path": "$XDG_RUNTIME_DIR/fa3/browser-session/bridge.sock",
+    "fixed_tcp_listener_required": false
+  },
+  "typed_actions": [
+    "browser.action.execute",
+    "browser.session.start",
+    "browser.session.stop",
+    "browser.tab.list",
+    "browser.tab.borrow",
+    "browser.tab.return",
+    "browser.human_assistance.request",
+    "browser.human_assistance.cancel"
+  ],
+  "current_host": {
+    "gate_id": "FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001",
+    "provider_id": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+    "real_hrb_admission_required": true,
+    "physical_extension_native_messaging_required": true,
+    "synthetic_human_completion_forbidden": true,
+    "global_promotion_claim": false
   }
 }
