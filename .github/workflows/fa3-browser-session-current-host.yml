@@ -1,0 +1,147 @@
+name: FA3 Browser Session Current-Host E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json'
+      - 'canonical/contracts/FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001.json'
+      - 'canonical/intents/FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-BROWSER-SESSION-INTERACTION-REUSE-ASSESSMENT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json'
+      - 'canonical/browser-session-current-host-enforcement.json'
+      - 'canonical/FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001.json'
+      - 'canonical/actions/browser.session.start.json'
+      - 'canonical/actions/browser.session.stop.json'
+      - 'canonical/actions/browser.tab.list.json'
+      - 'canonical/actions/browser.tab.borrow.json'
+      - 'canonical/actions/browser.tab.return.json'
+      - 'canonical/actions/browser.human_assistance.request.json'
+      - 'canonical/actions/browser.human_assistance.cancel.json'
+      - 'browser/fa3-session-extension/**'
+      - 'libexec/fa3-browser-session-native-host.py'
+      - 'src/fa3_browser_session_bridge.py'
+      - 'src/fa3_browser_session_provider.py'
+      - 'src/fa3_browser_session_gate.py'
+      - 'src/fa3_browser_session_current_host_gate.py'
+      - 'tests/test_browser_session_bridge.py'
+      - 'tests/test_browser_session_gate.py'
+      - '.github/workflows/fa3-browser-session-current-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json'
+      - 'canonical/contracts/FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json'
+      - 'canonical/browser-session-current-host-enforcement.json'
+      - 'browser/fa3-session-extension/**'
+      - 'libexec/fa3-browser-session-native-host.py'
+      - 'src/fa3_browser_session_bridge.py'
+      - 'src/fa3_browser_session_provider.py'
+      - 'src/fa3_browser_session_gate.py'
+      - 'src/fa3_browser_session_current_host_gate.py'
+      - '.github/workflows/fa3-browser-session-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      browser_binary:
+        description: 'Optional explicit Chromium-compatible browser binary'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-browser-session-current-host-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_browser_session_bridge.py src/fa3_browser_session_provider.py src/fa3_browser_session_gate.py src/fa3_browser_session_current_host_gate.py libexec/fa3-browser-session-native-host.py
+      - name: Unit regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_browser_session_bridge tests.test_browser_session_gate -v
+      - name: Static Browser Session gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_browser_session_gate.py --root .
+
+  current-host:
+    needs: static
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          clean: true
+      - name: Prepare native host
+        run: chmod 0755 libexec/fa3-browser-session-native-host.py
+      - name: Verify HRB admission bridge
+        run: /usr/local/bin/fa3-host-resource-broker-admission --doctor
+      - name: Static Browser Session gate
+        env:
+          PYTHONPATH: src
+        run: python3 src/fa3_browser_session_gate.py --root .
+      - name: Real physical extension + Native Messaging + UDS + HRB E2E
+        shell: bash
+        env:
+          BROWSER_INPUT: ${{ inputs.browser_binary || '' }}
+        run: |
+          set -euo pipefail
+          rm -f evidence/receipts/browser-session-current-host.json
+          args=(--root .)
+          if [ -n "$BROWSER_INPUT" ]; then args+=(--browser-binary "$BROWSER_INPUT"); fi
+          PYTHONPATH=src python3 src/fa3_browser_session_current_host_gate.py "${args[@]}"
+      - name: Validate physical current-host receipt and non-claims
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('evidence/receipts/browser-session-current-host.json').read_text())
+          assert r['result']=='PASS', r
+          assert r['physical_current_host'] is True
+          assert r['synthetic'] is False
+          assert r['current_host_bridge_admitted'] is True
+          assert r['physical_extension_native_messaging_proven'] is True
+          assert r['policy_approved_borrow_return_proven'] is True
+          assert r['logical_borrow_without_reparenting_proven'] is True
+          assert r['human_assistance_overlay_proven'] is True
+          assert r['human_assistance_completion_proven'] is False
+          assert r['real_existing_user_profile_login_proven'] is False
+          assert r['global_promotion_claim'] is False
+          c=r['checks']
+          assert c['physical_bridge']['pass'] is True
+          assert c['hrb']['pass'] is True and c['hrb']['cpu_only'] is True
+          assert c['negative_missing_approval']['pass'] is True
+          assert c['negative_origin_scope']['pass'] is True
+          assert c['borrow']['pass'] is True and c['borrow']['reparented'] is False
+          assert c['bounded_action']['pass'] is True
+          assert c['negative_stale']['pass'] is True
+          assert c['human_assistance_presented']['pass'] is True
+          assert c['lease_expiry']['pass'] is True
+          assert c['return']['pass'] is True
+          assert c['session_stop']['pass'] is True
+          assert c['uaf']['pass'] is True
+          assert c['rollback']['pass'] is True
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-browser-session-current-host
+          path: |
+            evidence/receipts/browser-session-current-host.json
+            reports/browser-session-gate-report.json
+          if-no-files-found: warn
