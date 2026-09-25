@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-APPLICATION-INTENT-001",
+  "project_id": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-001",
+  "project_type": "PROVIDER_ADAPTER",
+  "goal": "Materialize a fail-closed FA3-to-Google-AX v1alpha1 provider manifest bridge for the upstream-valid subset without weakening immutable workspace, Model Router, MCP Gateway, Skill Fabric, Security Governance or HRB authority boundaries.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "agent-runtime-provider",
+    "schema-translation",
+    "fail-closed-compatibility"
+  ],
+  "task_classes": [
+    "agent-runtime",
+    "provider-adapter"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_PROVIDER_PROJECTION"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "GOOGLE_AX_V1ALPHA1_PROVIDER_MANIFEST_BRIDGE",
+    "AX_IMMUTABLE_GIT_COMMIT_SCHEMA_GAP"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-google-ax-provider",
+    "service_prefix": "fa3-google-ax-provider",
+    "config_root": "$XDG_CONFIG_HOME/fa3/google-ax",
+    "cache_root": "$XDG_CACHE_HOME/fa3/google-ax",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/google-ax",
+    "socket_namespace": "fa3/google-ax",
+    "data_root": "$XDG_DATA_HOME/fa3/google-ax",
+    "desktop_prefix": "org.fa3.google.ax",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001"
+  ]
+}

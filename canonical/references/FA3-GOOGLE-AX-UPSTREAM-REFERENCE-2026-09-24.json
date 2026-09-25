@@ -27,7 +27,17 @@
     "runner_replaceable": true,
     "task_runner_pid1": true,
     "durable_workspace_survives_suspend_resume": true,
-    "debug_guest_services_allow_arbitrary_process_execution_inside_sandbox": true
+    "debug_guest_services_allow_arbitrary_process_execution_inside_sandbox": true,
+    "workspace_git_fields": [
+      "name",
+      "repo",
+      "branch",
+      "dir",
+      "depth"
+    ],
+    "workspace_git_immutable_commit_supported": false,
+    "task_image_digest_can_be_expressed": true,
+    "task_debug_enables_guest_process_and_file_access": true
   },
   "fa3_interpretation": {
     "role": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_EXTERNAL_EXECUTION_PROVIDER",
@@ -40,7 +50,10 @@
     "gateway_resource_adopted_as_fa3_authority": false,
     "task_workspace_runner_lifecycle_patterns_adopted_as_fa3_native_contracts": true,
     "plain_language_workspace_goal_is_not_execution_authority": true,
-    "debug_shell_requires_fa3_uaf_security_and_audit": true
+    "debug_shell_requires_fa3_uaf_security_and_audit": true,
+    "immutable_git_workspace_projection": "FAIL_CLOSED_UNREPRESENTABLE_AT_PINNED_V1ALPHA1",
+    "native_ax_mcp_discovery_used_as_fa3_tool_authority": false,
+    "native_ax_skill_discovery_used_as_fa3_skill_authority": false
   },
   "floating_latest_allowed_as_promotion_evidence": false,
   "current_host_runtime_promotion_claim": false,
