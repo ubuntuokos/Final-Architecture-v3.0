@@ -114,7 +114,7 @@ def _without_authentication(lease: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in lease.items() if k != "authentication"}
 
 
-def _proc_start_ticks(pid: int) -> int:
+def _proc_stat_fields(pid: int) -> list[str]:
     text = Path(f"/proc/{pid}/stat").read_text(encoding="utf-8")
     close = text.rfind(")")
     if close < 0:
@@ -122,7 +122,29 @@ def _proc_start_ticks(pid: int) -> int:
     fields = text[close + 2 :].split()
     if len(fields) < 20:
         raise LeaseBindingError("short /proc stat")
-    return int(fields[19])
+    return fields
+
+
+def _proc_start_ticks(pid: int) -> int:
+    return int(_proc_stat_fields(pid)[19])
+
+
+def _proc_state(pid: int) -> str:
+    return str(_proc_stat_fields(pid)[0])
+
+
+def _cgroup_unpopulated(path: Path) -> bool:
+    events = path / "cgroup.events"
+    if events.is_file():
+        values = {}
+        for line in events.read_text(encoding="utf-8").splitlines():
+            parts = line.split()
+            if len(parts) == 2:
+                values[parts[0]] = parts[1]
+        if "populated" in values:
+            return values["populated"] == "0"
+    procs = path / "cgroup.procs"
+    return procs.is_file() and not procs.read_text(encoding="utf-8").strip()
 
 
 def _read_boot_id() -> str:
@@ -815,25 +837,55 @@ class SystemdCgroupV2ScopeAdapter:
     def verify_dead(self, binding: dict[str, Any], timeout: float = 8.0) -> bool:
         ident = binding["runtime_instance_identity"]
         fd = self._pidfds.get(ident)
+        pidref = binding["pidfd_subject_reference"]
+        pid = int(pidref["pid"])
+        expected_start = int(pidref["start_time_ticks"])
         deadline = time.monotonic() + timeout
-        pidfd_dead = False
+
+        poller = None
         if fd is not None:
-            poller = select.poll()
-            poller.register(fd, select.POLLIN | select.POLLHUP | select.POLLERR)
-            remaining = max(0, int(timeout * 1000))
-            pidfd_dead = bool(poller.poll(remaining))
-        while time.monotonic() < deadline:
             try:
-                path = _safe_cgroup_path(binding["cgroup_v2_identity"]["path"])
-                if not (path / "cgroup.procs").read_text().strip():
-                    if fd is not None:
-                        os.close(fd)
-                        self._pidfds.pop(ident, None)
-                    return pidfd_dead or not Path(f"/proc/{binding['pidfd_subject_reference']['pid']}").exists()
-            except LeaseBindingError:
-                return pidfd_dead
-            time.sleep(0.05)
-        return False
+                poller = select.poll()
+                poller.register(fd, select.POLLIN | select.POLLHUP | select.POLLERR)
+            except Exception:
+                poller = None
+
+        try:
+            while time.monotonic() < deadline:
+                pid_dead = False
+                if poller is not None:
+                    try:
+                        pid_dead = bool(poller.poll(0))
+                    except Exception:
+                        pid_dead = False
+
+                if not pid_dead:
+                    try:
+                        current_start = _proc_start_ticks(pid)
+                        if current_start != expected_start:
+                            pid_dead = True
+                        elif _proc_state(pid) == "Z":
+                            pid_dead = True
+                    except Exception:
+                        pid_dead = True
+
+                try:
+                    path = _safe_cgroup_path(binding["cgroup_v2_identity"]["path"])
+                    cgroup_dead = _cgroup_unpopulated(path)
+                except LeaseBindingError:
+                    cgroup_dead = True
+
+                if pid_dead and cgroup_dead:
+                    return True
+                time.sleep(0.05)
+            return False
+        finally:
+            if fd is not None:
+                try:
+                    os.close(fd)
+                except OSError:
+                    pass
+                self._pidfds.pop(ident, None)
 
     def cleanup(self, binding: dict[str, Any]) -> bool:
         proc = self._systemctl("reset-failed", binding["systemd_unit_scope"])
