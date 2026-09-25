@@ -6,14 +6,25 @@ on:
     paths:
       - 'src/fa3_motion_video_provider_adapter.py'
       - 'src/fa3_motion_video_current_host_gate.py'
+      - 'src/fa3_video_model_router.py'
       - 'evidence/collect-motion-video-current-host.py'
       - 'tests/test_motion_video_provider_adapter.py'
       - 'tests/test_motion_video_current_host_gate.py'
+      - 'tests/test_video_model_router.py'
+      - 'tests/test_wan22_gate.py'
+      - 'src/fa3_wan22_gate.py'
       - 'bin/fa3-motion-video-current-host.sh'
+      - 'bin/fa3-video-route-select'
+      - 'bin/fa3-wan22-provider-exec.py'
+      - 'bin/fa3-wan22-current-host-admit.py'
+      - 'bin/fa3-wan22-build-motion-video-manifest.py'
       - 'canonical/FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001.json'
       - 'canonical/FA3-MOTION-VIDEO-CURRENT-HOST-CONFORMANCE-001.json'
       - 'canonical/FA3-GATE-MOTION-VIDEO-CURRENT-HOST-001.json'
       - 'canonical/contracts/FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-WAN22-RUNTIME-CONFIG-001.schema.json'
+      - 'canonical/providers/FA3-PROVIDER-WAN22-001.json'
       - 'canonical/motion-video-runtime-enforcement.json'
       - 'canonical/h3-replacement-enforcement.json'
       - 'canonical/profiles/FA3-VIDEO-001.json'
@@ -27,15 +38,15 @@ on:
         required: true
         default: false
         type: boolean
-      selection_receipt:
-        description: 'Model Router motion/video selection receipt on current-host runner'
+      route_request:
+        description: 'Provider-neutral motion/video route request'
         required: false
-        default: '.fa3-current-host/input/motion-video-selection.json'
+        default: '.fa3-current-host/input/motion-video-route-request.json'
         type: string
-      provider_manifest:
-        description: 'Admitted provider execution manifest'
+      candidate_manifest_list:
+        description: 'List of already admitted provider execution manifests'
         required: false
-        default: '.fa3-current-host/input/motion-video-provider-manifest.json'
+        default: '.fa3-current-host/input/motion-video-candidate-manifests.json'
         type: string
       video_ir:
         description: 'Canonical VideoGenerationIR input'
@@ -43,12 +54,12 @@ on:
         default: '.fa3-current-host/input/motion-video-generation-ir.json'
         type: string
       hrb_receipt:
-        description: 'HRB receipt; required only for local accelerator execution'
+        description: 'Canonical CURRENT_HOST_ADMISSION evidence; required for local accelerator execution'
         required: false
         default: ''
         type: string
       acknowledge_billable_execution:
-        description: 'Explicitly acknowledge billing if selected provider manifest is BILLABLE_REMOTE'
+        description: 'Explicitly acknowledge billing if the routed provider is BILLABLE_REMOTE'
         required: true
         default: false
         type: boolean
@@ -71,14 +82,15 @@ jobs:
           python-version: '3.12'
       - name: Syntax
         run: |
-          python -m py_compile             src/fa3_motion_video_provider_adapter.py             src/fa3_motion_video_current_host_gate.py             evidence/collect-motion-video-current-host.py             tests/test_motion_video_provider_adapter.py             tests/test_motion_video_current_host_gate.py             src/fa3_h3_replacement_gate.py
-          bash -n bin/fa3-motion-video-current-host.sh
-      - name: Replacement and adapter regression
+          python -m py_compile             src/fa3_motion_video_provider_adapter.py             src/fa3_motion_video_current_host_gate.py             src/fa3_video_model_router.py             src/fa3_wan22_gate.py             evidence/collect-motion-video-current-host.py             bin/fa3-wan22-provider-exec.py             bin/fa3-wan22-current-host-admit.py             bin/fa3-wan22-build-motion-video-manifest.py             tests/test_motion_video_provider_adapter.py             tests/test_motion_video_current_host_gate.py             tests/test_video_model_router.py             tests/test_wan22_gate.py             src/fa3_h3_replacement_gate.py
+          bash -n bin/fa3-motion-video-current-host.sh bin/fa3-video-route-select bin/fa3-enforce
+      - name: Replacement, router, adapter and Wan regression
         env:
           PYTHONPATH: src
         run: |
-          python -m unittest             tests.test_h3_replacement_policy             tests.test_motion_video_provider_adapter             tests.test_motion_video_current_host_gate -v
+          python -m unittest             tests.test_h3_replacement_policy             tests.test_motion_video_provider_adapter             tests.test_motion_video_current_host_gate             tests.test_video_model_router             tests.test_wan22_gate -v
           ./bin/fa3-enforce h3-replacement
+          ./bin/fa3-enforce wan22-video
       - name: Missing physical evidence fails closed
         run: |
           set +e
@@ -103,10 +115,23 @@ jobs:
         run: |
           set -euo pipefail
           test "$(id -u)" -ne 0
-          test -f "${{ inputs.selection_receipt }}"
-          test -f "${{ inputs.provider_manifest }}"
+          test -f "${{ inputs.route_request }}"
+          test -f "${{ inputs.candidate_manifest_list }}"
           test -f "${{ inputs.video_ir }}"
           if [[ -n "${{ inputs.hrb_receipt }}" ]]; then test -f "${{ inputs.hrb_receipt }}"; fi
+      - name: Route through FA3 Model Router authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/runtime/motion-video-current-host
+          chmod +x bin/fa3-video-route-select
+          bin/fa3-video-route-select             --request "${{ inputs.route_request }}"             --manifest-list "${{ inputs.candidate_manifest_list }}"             --output evidence/runtime/motion-video-current-host/selection.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/runtime/motion-video-current-host/selection.json").read_text())
+          Path("evidence/runtime/motion-video-current-host/selected-manifest-path").write_text(r["provider_manifest_path"])
+          PY
       - name: Execute provider-neutral real E2E
         shell: bash
         env:
@@ -114,7 +139,8 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x bin/fa3-motion-video-current-host.sh bin/fa3-enforce
-          args=("${{ inputs.selection_receipt }}" "${{ inputs.provider_manifest }}" "${{ inputs.video_ir }}")
+          manifest="$(cat evidence/runtime/motion-video-current-host/selected-manifest-path)"
+          args=("evidence/runtime/motion-video-current-host/selection.json" "$manifest" "${{ inputs.video_ir }}")
           if [[ -n "${{ inputs.hrb_receipt }}" ]]; then args+=("${{ inputs.hrb_receipt }}"); fi
           bin/fa3-motion-video-current-host.sh "${args[@]}"
           ./bin/fa3-enforce motion-video-current-host
