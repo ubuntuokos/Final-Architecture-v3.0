@@ -109,3 +109,64 @@ def cascade_revocation(parent:dict[str,Any],children:list[dict[str,Any]],*,keyri
         x["authentication"]=keyring.sign(x)
         out.append(x)
     return out
+
+
+class CompositeLeaseIssuer:
+    """Stateful HRB-side derived-lease allocator.
+
+    The object must be constructed inside the HRB trust boundary with the existing
+    ephemeral LeaseKeyring. Providers never receive the keyring and therefore
+    cannot mint or mutate authenticated derived leases.
+    """
+    def __init__(self,keyring:LeaseKeyring):
+        self._keyring=keyring
+        self._parents:dict[str,dict[str,Any]]={}
+        self._children:dict[str,dict[str,dict[str,Any]]]={}
+        self._allocated:dict[str,dict[str,int]]={}
+
+    def register_parent(self,parent:dict[str,Any])->None:
+        try:self._keyring.verify(parent)
+        except Exception as exc: raise CompositeLeaseError("parent lease authentication invalid") from exc
+        if parent.get("issuer")!=HRB_AUTHORITY_ID or parent.get("state")!="ACTIVE":
+            raise CompositeLeaseError("only an authenticated ACTIVE HRB parent may be registered")
+        pid=str(parent.get("lease_id",""))
+        if not pid: raise CompositeLeaseError("parent lease id missing")
+        self._parents[pid]=deepcopy(parent)
+        self._children.setdefault(pid,{})
+        self._allocated.setdefault(pid,{k:0 for k in NUMERIC_RESOURCES})
+
+    def derive(self,parent_id:str,request:dict[str,Any])->dict[str,Any]:
+        if parent_id not in self._parents: raise CompositeLeaseError("parent not registered")
+        parent=deepcopy(self._parents[parent_id])
+        parent["child_allocated_resources"]=deepcopy(self._allocated[parent_id])
+        child=derive_child_lease(parent,request,keyring=self._keyring)
+        cid=str(child["lease_id"])
+        if cid in self._children[parent_id]: raise CompositeLeaseError("duplicate child lease id")
+        for k,v in _resources(child).items(): self._allocated[parent_id][k]+=v
+        self._children[parent_id][cid]=deepcopy(child)
+        return deepcopy(child)
+
+    def release(self,parent_id:str,child_id:str)->dict[str,Any]:
+        child=self._children.get(parent_id,{}).get(child_id)
+        if child is None: raise CompositeLeaseError("child lease not found")
+        try:self._keyring.verify(child)
+        except Exception as exc: raise CompositeLeaseError("child lease authentication invalid") from exc
+        if child.get("state") not in {"EVICTED","QUARANTINED"}:
+            child=deepcopy(child); child["state"]="EVICTED"; child["authentication"]=self._keyring.sign(child)
+        for k,v in _resources(child).items(): self._allocated[parent_id][k]=max(0,self._allocated[parent_id][k]-v)
+        self._children[parent_id].pop(child_id,None)
+        return deepcopy(child)
+
+    def revoke_parent(self,parent_id:str)->list[dict[str,Any]]:
+        parent=deepcopy(self._parents.get(parent_id) or {})
+        if not parent: raise CompositeLeaseError("parent not registered")
+        parent["state"]="REVOKING"; parent["authentication"]=self._keyring.sign(parent)
+        children=list(self._children[parent_id].values())
+        cascaded=cascade_revocation(parent,children,keyring=self._keyring)
+        self._parents[parent_id]=parent
+        self._children[parent_id]={str(c["lease_id"]):deepcopy(c) for c in cascaded}
+        return deepcopy(cascaded)
+
+    def allocation(self,parent_id:str)->dict[str,int]:
+        if parent_id not in self._allocated: raise CompositeLeaseError("parent not registered")
+        return deepcopy(self._allocated[parent_id])
