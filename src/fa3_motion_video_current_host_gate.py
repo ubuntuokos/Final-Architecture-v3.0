@@ -30,7 +30,7 @@ def gate(root:Path,receipt_path:Path)->dict:
         if not receipt.get("selection_receipt_sha256"):errors.append("selection binding missing")
         if not receipt.get("provider_manifest_sha256"):errors.append("manifest binding missing")
         if not receipt.get("video_generation_ir_sha256"):errors.append("IR binding missing")
-        if receipt.get("execution_topology")=="LOCAL" and receipt.get("provider_native_result",{}).get("requires_accelerator") and not receipt.get("hrb_receipt_sha256"):
+        if receipt.get("execution_topology")=="LOCAL" and receipt.get("requires_accelerator") is True and not receipt.get("hrb_receipt_sha256"):
             errors.append("local accelerator execution lacks HRB binding")
     report={
       "schema":"fa3.motion-video-current-host-gate-report.v1",
