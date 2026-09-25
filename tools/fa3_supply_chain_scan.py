@@ -21,6 +21,7 @@ def run(cmd:list[str])->str:
 def main()->int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--target",required=True); ap.add_argument("--source-repository",required=True); ap.add_argument("--source-commit",required=True)
+    ap.add_argument("--artifact-kind",required=True,choices=("SOURCE_BUILD","OCI_IMAGE_EXPORT","PREBUILT_BINARY"))
     ap.add_argument("--dependency-lock"); ap.add_argument("--declared-license",required=True)
     ap.add_argument("--license-policy",default="canonical/supply-chain-license-policy.json")
     ap.add_argument("--current-host",action="store_true")
@@ -48,13 +49,13 @@ def main()->int:
         policy=json.loads(policy_path.read_text(encoding="utf-8"))
         license_eval=evaluate_license_policy(a.declared_license,sorted(detected),policy)
         receipt={"schema":"fa3.software-supply-chain-receipt.v1","current_host_execution":bool(a.current_host),"synthetic":False,"source":{"repository":a.source_repository,"commit":a.source_commit},
-          "artifact":{"path":str(target),"sha256":sha256_tree(target),"hash_scope":"FILE_CONTENT" if target.is_file() else "DETERMINISTIC_TREE_CONTENT"},
-          "dependency_lock":{"required":bool(a.dependency_lock),"sha256":sha256_file(Path(a.dependency_lock)) if a.dependency_lock else None},
+          "artifact":{"path":str(target),"kind":a.artifact_kind,"sha256":sha256_tree(target),"hash_scope":"FILE_CONTENT" if target.is_file() else "DETERMINISTIC_TREE_CONTENT"},
+          "dependency_lock":{"required":a.artifact_kind in {"SOURCE_BUILD","OCI_IMAGE_EXPORT"},"sha256":sha256_file(Path(a.dependency_lock)) if a.dependency_lock else None},
           "sbom":{"format":"CYCLONEDX_JSON","sha256":sha256_file(sbom),"scanner":"syft","scanner_version":version(syft)},
           "license":{"scanner":"scancode","scanner_version":version(scancode),"declared_expression":a.declared_license,
             "detected_expressions":sorted(detected),"conflicts":[],"commercial_compatible":license_eval["commercial_compatible"],"redistribution_compatible":license_eval["redistribution_compatible"],"declaration_matches_detection":license_eval["declaration_matches_detection"],"policy_id":policy.get("id"),"policy_result":license_eval["result"],"policy_reasons":license_eval["reasons"]},
           "vulnerabilities":{"scanner":"grype","scanner_version":version(grype),"findings":findings},
-          "provenance":{"builder":"fa3_supply_chain_scan.py","build_recipe_sha256":canonical_json_sha256({"target":str(target),"source":a.source_repository,"commit":a.source_commit})}}
+          "provenance":{"builder":"fa3_supply_chain_scan.py","build_recipe_sha256":canonical_json_sha256({"target":str(target),"artifact_kind":a.artifact_kind,"source":a.source_repository,"commit":a.source_commit})}}
         receipt["admission"]=evaluate_receipt(receipt)
         out=Path(a.output); out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(receipt,indent=2,ensure_ascii=False)+"\n")
         print(json.dumps(receipt,indent=2,ensure_ascii=False)); return 0 if receipt["admission"]["result"]=="PASS" else 2
