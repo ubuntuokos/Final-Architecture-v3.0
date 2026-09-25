@@ -1,0 +1,54 @@
+name: FA3 Objective Coordination Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/fa3_objective_coordination.py"
+      - "src/fa3_coordination_gate.py"
+      - "tests/test_objective_coordination.py"
+      - "canonical/profiles/FA3-COORDINATION-LAYER-001.json"
+      - "canonical/contracts/FA3-OBJECTIVE-COORDINATION-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-COORDINATION-LAYER-2026-09-25.json"
+      - "canonical/intents/FA3-COORDINATION-LAYER-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-COORDINATION-LAYER-REUSE-ASSESSMENT-001.json"
+      - "canonical/coordination-enforcement.json"
+      - "canonical/FA3-WORK-MANAGEMENT-PROJECTION-001.json"
+      - "canonical/enforcement-policy.json"
+      - "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+      - "apps/fa3-control-center/qml/WorkManagementPage.qml"
+      - ".github/workflows/fa3-objective-coordination.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-objective-coordination-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coordination:
+    name: objective-coordination / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax
+        run: python -m py_compile src/fa3_objective_coordination.py src/fa3_coordination_gate.py
+      - name: Hardware Audit
+        run: ./bin/fa3-enforce hardware-portability
+      - name: Objective Coordination regressions
+        run: PYTHONPATH=src python -m unittest tests.test_objective_coordination -v
+      - name: Objective Coordination fail-closed gate
+        run: PYTHONPATH=src python src/fa3_coordination_gate.py --root .
+      - name: Unified release projection gate
+        run: PYTHONPATH=src python src/fa3_release_projection_gate.py --root .
+      - name: Diff whitespace
+        run: git diff --check origin/main...HEAD
