@@ -1,7 +1,7 @@
 from __future__ import annotations
 import copy, datetime as dt, unittest
 from pathlib import Path
-from src.fa3_supply_chain_admission import evaluate_receipt
+from src.fa3_supply_chain_admission import evaluate_license_policy, evaluate_receipt
 from src.fa3_provider_runtime import validate_runtime_environment,select_runtime_class,ProviderRuntimeError
 from src.fa3_upstream_patchset import evaluate_patchset
 from src.fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,CompositeLeaseIssuer,RESOURCE_ORDER
@@ -14,6 +14,12 @@ H="a"*64; C="b"*40
 class SupplyRuntimeHardeningTests(unittest.TestCase):
     def test_gate(self): self.assertEqual("PASS",gate(ROOT)["result"])
     def test_regressions(self): self.assertEqual("PASS",regressions()["result"])
+    def test_license_policy_is_automatic_and_fail_closed(self):
+        policy={"admitted_exact_spdx":["MIT","Apache-2.0"]}
+        self.assertEqual("PASS",evaluate_license_policy("MIT",["MIT"],policy)["result"])
+        self.assertEqual("FAIL",evaluate_license_policy("GPL-3.0-only",["GPL-3.0-only"],policy)["result"])
+        self.assertEqual("FAIL",evaluate_license_policy("MIT OR Apache-2.0",["MIT","Apache-2.0"],policy)["result"])
+
     def test_runtime_selection(self):
         self.assertEqual("VENV",select_runtime_class(reproducible_venv=True,native_abi_complexity=True))
         self.assertEqual("OCI",select_runtime_class(reproducible_venv=False,native_abi_complexity=True))
@@ -59,5 +65,12 @@ class SupplyRuntimeHardeningTests(unittest.TestCase):
         casc=issuer.revoke_parent("p2")
         self.assertTrue(all(x["state"]=="REVOKING" for x in casc))
         for row in casc:keyring.verify(row)
+
+    def test_child_scope_cannot_exceed_parent(self):
+        keyring=LeaseKeyring([LeaseKey("scope",b"z"*32)],"scope")
+        parent={"lease_id":"scope-parent","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"accelerator_assignments":[],"scope":{"workload_id":["a","b"]},"authentication":{}}
+        parent["authentication"]=keyring.sign(parent)
+        req={"lease_id":"scope-child","issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":1,"ram_bytes":1,"vram_bytes":0},"accelerator_assignments":[],"scope":{"workload_id":"c"}}
+        with self.assertRaises(CompositeLeaseError):derive_child_lease(parent,req,keyring=keyring)
 
 if __name__=="__main__": unittest.main()
