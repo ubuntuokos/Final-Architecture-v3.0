@@ -76,3 +76,14 @@ def sha256_file(path: Path) -> str:
     with Path(path).open("rb") as f:
         for chunk in iter(lambda:f.read(1024*1024),b""): h.update(chunk)
     return h.hexdigest()
+
+def sha256_tree(path: Path) -> str:
+    root=Path(path).resolve()
+    if root.is_file(): return sha256_file(root)
+    if not root.is_dir(): raise FileNotFoundError(root)
+    h=hashlib.sha256()
+    for item in sorted((p for p in root.rglob("*") if p.is_file()),key=lambda p:p.relative_to(root).as_posix()):
+        rel=item.relative_to(root).as_posix().encode("utf-8")
+        digest=bytes.fromhex(sha256_file(item))
+        h.update(len(rel).to_bytes(4,"big"));h.update(rel);h.update(digest)
+    return h.hexdigest()
