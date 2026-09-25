@@ -32,6 +32,47 @@ class ReuseDiscoveryTests(unittest.TestCase):
         ids = {row["id"] for row in result["selected_reuse"]}
         self.assertIn("fa3.document.retrieve", ids)
 
+    def test_catalog_federates_admitted_skills_and_external_skill_sources(self):
+        rows = build_catalog(ROOT)["entries"]
+        by_id = {row["candidate_id"]: row for row in rows}
+        self.assertIn("fa3-quality-code", by_id)
+        skill = by_id["fa3-quality-code"]
+        self.assertEqual(skill["candidate_class"], "SKILL")
+        self.assertEqual(skill["admission_status"], "ADMITTED")
+        self.assertTrue(skill["task_scoped"])
+        self.assertFalse(skill["authority"])
+        external = [row for row in rows if row["candidate_class"] == "EXTERNAL_SKILL_SOURCE"]
+        self.assertGreaterEqual(len(external), 8)
+        self.assertTrue(all(row["distribution_class"] == "REFERENCE_ONLY" for row in external))
+        self.assertTrue(all(row["authority"] is False for row in external))
+        self.assertTrue(all(row["automatic_install"] is False for row in external))
+
+    def test_task_class_selects_only_admitted_skill_context(self):
+        intent = copy.deepcopy(self.intent)
+        intent["required_capabilities"] = []
+        intent["optional_capabilities"] = []
+        intent["problem_classes"] = ["code"]
+        intent["task_classes"] = ["code"]
+        intent["skill_triggers"] = ["quality.code"]
+        intent["declared_gaps"] = []
+        resolution = resolve(ROOT, intent)
+        skills = [row for row in resolution["candidates"] if row["candidate_class"] == "SKILL"]
+        code = next(row for row in skills if row["candidate_id"] == "fa3-quality-code")
+        self.assertEqual(code["reuse_mode"], "ADMITTED_SKILL_REUSE")
+        self.assertTrue(code["activation_candidate"])
+        self.assertEqual(code["status"], "ADMITTED")
+        self.assertFalse(code["authority"])
+        self.assertFalse(resolution["skill_activation_authority"])
+
+    def test_external_skill_sources_never_gain_install_or_activation_authority(self):
+        resolution = resolve(ROOT, self.intent)
+        self.assertFalse(resolution["external_skill_source_install_authority"])
+        rows = build_catalog(ROOT)["entries"]
+        external = [row for row in rows if row["candidate_class"] == "EXTERNAL_SKILL_SOURCE"]
+        self.assertTrue(external)
+        self.assertTrue(all(row["status"] == "REFERENCE_ONLY" for row in external))
+        self.assertTrue(all(row["automatic_activation"] is False for row in external))
+
     def test_existing_authority_collision_fails(self):
         intent = copy.deepcopy(self.intent)
         intent["proposed_authority_roles"] = ["model_routing"]
