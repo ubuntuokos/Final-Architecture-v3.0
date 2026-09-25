@@ -767,6 +767,14 @@ def gate(root: Path):
         "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
         "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
         "canonical/assessments/FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+        "canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/schemas/hu-aqc-golden-corpus-manifest.v1.json",
+        "src/fa3_supply_runtime_hardening_current_host_gate.py",
+        "evidence/collect-hrb-composite-current-host.py",
+        "evidence/collect-hu-aqc-golden-corpus-current-host.py",
+        "tests/test_supply_runtime_hardening_current_host.py",
+        ".github/workflows/fa3-supply-runtime-hardening-current-host.yml",
     }
     if (
         supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
@@ -777,6 +785,9 @@ def gate(root: Path):
         or supply_runtime.get("new_capabilities") != 0
         or supply_runtime.get("new_architectural_authorities") != 0
         or supply_runtime.get("hu_aqc_current_host_promotion_claim") is not False
+        or supply_runtime.get("current_host_conformance_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        or supply_runtime.get("current_host_gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or supply_runtime.get("hrb_current_host_scope") != "CONTROL_PLANE_ONLY_NO_PRODUCTION_BROKER_PROMOTION"
         or "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" not in projection_gates
         or not supply_runtime_required_paths.issubset(manifest_paths)
     ):
