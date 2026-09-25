@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AI-SECURITY-TESTING-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-AI-SECURITY-TESTING-FABRIC-001",
+  "intent_id": "FA3-AI-SECURITY-TESTING-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AI-SECURITY-TESTING-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-AI-SECURITY-TESTING-FABRIC-001",
+    "FA3-AI-SECURITY-TESTING-FABRIC-CONTRACTS-001",
+    "FA3-AI-SEC-VALIDATION-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AI-SEC-VALIDATION-001",
+      "use": "PARENT_AI_SECURITY_ASSURANCE_PROFILE"
+    },
+    {
+      "id": "FA3-PROVIDER-RUNTIME-001",
+      "use": "ENGINE_RUNTIME_ISOLATION_AND_REPRODUCIBILITY"
+    },
+    {
+      "id": "FA3-SCS-001",
+      "use": "SUPPLY_CHAIN_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "ALL_MODEL_AND_PROVIDER_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_PLACEMENT_AND_LEASE"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "MCP_TOOL_MEDIATION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "AUTHORIZED_ACTION_EXECUTION"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "SECRET_DELIVERY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-PROVIDER-MODEL-ARTIFACT-SECURITY-STACK-001",
+      "use": "EXISTING_GARAK_RUNTIME_REUSE_NO_DUPLICATE_INSTALL"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PYRIT_AS_FA3_PROVIDER_OR_AUTHORITY",
+      "reason": "PYRIT_IS_AN_ENGINE_CANDIDATE_BEHIND_ENGINE_NEUTRAL_SECURITY_TEST_JOB"
+    },
+    {
+      "id": "PARALLEL_SECURITY_POLICY_AUTHORITY",
+      "reason": "FA3_AUTH_SECURITY_GOV_001_ALREADY_OWNS_POLICY"
+    },
+    {
+      "id": "PARALLEL_MODEL_OR_RESOURCE_ROUTER",
+      "reason": "MODEL_ROUTER_AND_HRB_REMAIN_EXCLUSIVE_AUTHORITIES"
+    },
+    {
+      "id": "UPSTREAM_REPLACEMENT_OR_HOST_HIJACK",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    },
+    {
+      "id": "DUPLICATE_GARAK_RUNTIME",
+      "reason": "EXISTING_FA3_GARAK_RUNTIME_MUST_BE_REUSED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp_tools": "FA3-AUTH-MCP-GATEWAY-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "runtime": "FA3-PROVIDER-RUNTIME-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "gaps": [
+    "ENGINE_NEUTRAL_SECURITY_TEST_JOB",
+    "EVALUATION_RUNTIME_CONTRACT",
+    "AGENT_AND_MCP_SECURITY_SCENARIOS",
+    "SECURITY_REGRESSION_MATRIX"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "implementation_readiness": "STATIC_CANONICAL_MATERIALIZATION_READY_RUNTIME_ENGINE_ADMISSION_SEPARATE",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

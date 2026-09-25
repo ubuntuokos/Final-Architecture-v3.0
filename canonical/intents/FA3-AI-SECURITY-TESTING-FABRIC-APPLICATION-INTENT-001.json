@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AI-SECURITY-TESTING-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-AI-SECURITY-TESTING-FABRIC-001",
+  "project_type": "PROFILE",
+  "goal": "Materialize a provider- and engine-neutral AI, agent, RAG and MCP security testing fabric by composing existing FA3 security, model-routing, resource, tool-mediation, runtime, secrets, registry and evidence authorities without creating a parallel authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "ai-security-testing",
+    "adversarial-evaluation",
+    "agent-security",
+    "mcp-security",
+    "security-regression",
+    "rag-security"
+  ],
+  "task_classes": [
+    "security-validation",
+    "red-team",
+    "agent-evaluation",
+    "mcp-assurance",
+    "security-regression"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "SECURITY_TEST_SCENARIO",
+    "MODEL_OR_AGENT_TARGET"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_SECURITY_EVIDENCE",
+    "REGRESSION_DIFF",
+    "ATTESTATION"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "ENGINE_NEUTRAL_SECURITY_TEST_JOB",
+    "EVALUATION_RUNTIME_CONTRACT",
+    "AGENT_AND_MCP_SECURITY_SCENARIOS",
+    "SECURITY_REGRESSION_MATRIX"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-security-testing",
+    "service_prefix": "fa3-security-testing",
+    "config_root": "$XDG_CONFIG_HOME/fa3/security-testing",
+    "cache_root": "$XDG_CACHE_HOME/fa3/security-testing",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/security-testing",
+    "socket_namespace": "fa3/security-testing",
+    "data_root": "$XDG_DATA_HOME/fa3/security-testing",
+    "desktop_prefix": "org.fa3.security.testing",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-PROVIDER-RUNTIME-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}

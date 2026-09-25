@@ -107,7 +107,7 @@ def analyze_text(path: str, text: str, registry: dict[str, Any], concerns: set[s
 
 def _git_changed_paths(root: Path, base: str) -> list[str]:
     proc = subprocess.run(
-        ["git", "-C", str(root), "diff", "--name-only", f"{base}...HEAD"],
+        ["git", "-C", str(root), "diff", "--name-only", "--diff-filter=ACMRTUXB", f"{base}...HEAD"],
         text=True, capture_output=True, check=False,
     )
     if proc.returncode != 0:

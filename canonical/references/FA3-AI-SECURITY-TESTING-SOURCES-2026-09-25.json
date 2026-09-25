@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.reference-source-set.v1",
+  "id": "FA3-AI-SECURITY-TESTING-SOURCES-2026-09-25",
+  "observed_at": "2026-09-25",
+  "distribution_semantics": "REFERENCE_ONLY_UNLESS_SEPARATELY_ADMITTED",
+  "sources": [
+    {
+      "name": "PyRIT",
+      "repository": "microsoft/PyRIT",
+      "revision": "d0524f0714840519b826eb770687ca1d4f46a761",
+      "release": "v1.1.0",
+      "role": "ADVERSARIAL_ENGINE_CANDIDATE",
+      "runtime_status": "PENDING_FABRIC_ENGINE_ADMISSION"
+    },
+    {
+      "name": "garak",
+      "repository": "NVIDIA/garak",
+      "revision": "8d1259ef310e4803cf5a4cc77267fdfdc24434ec",
+      "role": "BEHAVIOR_PROBE_PATTERN_SOURCE",
+      "runtime_status": "REUSE_EXISTING_FA3_GARAK_RUNTIME_NO_DUPLICATE_INSTALL"
+    },
+    {
+      "name": "Inspect AI",
+      "repository": "UKGovernmentBEIS/inspect_ai",
+      "revision": "0086bd22cc683d73a90532608c31cf79d04f917d",
+      "role": "EVALUATION_RUNTIME_PATTERN_SOURCE",
+      "runtime_status": "REFERENCE_ONLY"
+    },
+    {
+      "name": "AgentDojo",
+      "repository": "ethz-spylab/agentdojo",
+      "revision": "089ed468cf3ed0322acc66b0211f26d9d90dbf60",
+      "role": "AGENT_SECURITY_ENVIRONMENT_PATTERN_SOURCE",
+      "runtime_status": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Agent Scan",
+      "repository": "snyk/agent-scan",
+      "revision": "2527530b842e681404a8daad06c65f1973fc90c8",
+      "role": "MCP_AND_AGENT_SECURITY_PATTERN_SOURCE",
+      "runtime_status": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Promptfoo",
+      "repository": "promptfoo/promptfoo",
+      "revision": "8ebdb3818c10b4ac7c2b665cd148d996f4fcd740",
+      "role": "SECURITY_REGRESSION_MATRIX_PATTERN_SOURCE",
+      "runtime_status": "REFERENCE_ONLY"
+    },
+    {
+      "name": "DeepTeam",
+      "repository": "confident-ai/deepteam",
+      "revision": "2fd3445c5bb2070ce09834f66f1622eb914f6f46",
+      "role": "VULNERABILITY_TAXONOMY_PATTERN_SOURCE",
+      "runtime_status": "REFERENCE_ONLY"
+    }
+  ],
+  "no_source_copy_or_runtime_admission_implied": true,
+  "floating_main_is_promotion_evidence": false,
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "product_bundle_allowed": false,
+    "release_bundle_status": "EXCLUDED"
+  }
+}
