@@ -123,5 +123,18 @@
     "current_host_claim_requires_real_current_host_evidence": true,
     "cross_host_claim_requires_cross_host_evidence": true,
     "provider_runtime_claim_requires_provider_specific_e2e": true
+  },
+  "executable_replacement": {
+    "runtime_admission_id": "FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001",
+    "contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "current_host_conformance_id": "FA3-MOTION-VIDEO-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+    "adapter": "src/fa3_motion_video_provider_adapter.py",
+    "collector": "evidence/collect-motion-video-current-host.py",
+    "runner": "bin/fa3-motion-video-current-host.sh",
+    "workflow": ".github/workflows/fa3-motion-video-current-host.yml",
+    "replaces_h3_executable_adapter": true,
+    "replaces_h3_billable_current_host_workflow": true,
+    "billable_ack_applies_only_when_selected_cost_class": "BILLABLE_REMOTE"
   }
 }
