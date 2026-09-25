@@ -181,15 +181,26 @@ def resume_requirements(checkpoint: dict[str, Any], fresh_hrb_lease_ref: str, *,
     return {"fresh_hrb_lease_ref":fresh_hrb_lease_ref,"old_lease_reused":False,"checkpoint_mode":checkpoint["mode"]}
 
 def project_to_ax(task: dict[str, Any], workspace: dict[str, Any], envelope: dict[str, Any]) -> dict[str, Any]:
+    """Conceptual AX mapping only; this is deliberately not an upstream manifest compiler."""
     validate_task(task); validate_workspace(workspace); validate_network_envelope(envelope)
-    git=[{"repo":s["repo"],"commit":s["commit"]} for s in workspace["sources"] if s.get("kind")=="GIT"]
+    git=[{
+        "repo":s["repo"],
+        "immutable_commit":s["commit"],
+        "ax_v1alpha1_native_projection":"UNREPRESENTABLE_AT_PINNED_UPSTREAM_COMMIT",
+    } for s in workspace["sources"] if s.get("kind")=="GIT"]
     return {
         "schema":"fa3.google-ax-projection.v1",
         "canonical_ir":False,
         "authority":False,
         "upstream_api_version":"ax.io/v1alpha1",
+        "upstream_valid_manifest":False,
         "task":{"kind":"Task","metadata":{"name":task["task_id"]},"model_resource_emitted":False},
-        "workspace":{"kind":"Workspace","metadata":{"name":workspace["workspace_id"]},"git":git},
+        "workspace":{
+            "kind":"Workspace",
+            "metadata":{"name":workspace["workspace_id"]},
+            "fa3_git_sources":git,
+            "ax_native_git_emitted":False,
+        },
         "gateway":{"kind":"Gateway","default":"DENY","egress":copy.deepcopy(envelope.get("egress",[]))},
         "model_intent_forwarding":{"authority":"FA3-AUTH-MODEL-ROUTER-001","physical_provider_pin":False},
     }

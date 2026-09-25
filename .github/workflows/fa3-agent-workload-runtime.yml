@@ -23,6 +23,11 @@ on:
       - "canonical/assessments/FA3-AGENT-WORKLOAD-RUNTIME-DECISION-ASSESSMENT-2026-09-24.json"
       - "canonical/providers/FA3-PROVIDER-AGENT-RUNNER-*.json"
       - "canonical/providers/FA3-PROVIDER-GOOGLE-AX-001.json"
+      - "canonical/contracts/FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json"
+      - "canonical/intents/FA3-GOOGLE-AX-PROVIDER-BRIDGE-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-GOOGLE-AX-PROVIDER-BRIDGE-REUSE-ASSESSMENT-001.json"
+      - "src/fa3_google_ax_provider.py"
+      - "tests/test_google_ax_provider_bridge.py"
       - "canonical/FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001.json"
       - "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-001.json"
       - "canonical/agent-workload-runtime-enforcement.json"
@@ -69,9 +74,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Syntax check
-        run: python3 -m py_compile src/fa3_agent_workload.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_runtime_semantics.py src/fa3_adk2_runtime_gate.py
+        run: python3 -m py_compile src/fa3_agent_workload.py src/fa3_google_ax_provider.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_runtime_semantics.py src/fa3_adk2_runtime_gate.py
       - name: Unit and fail-closed regressions
-        run: PYTHONPATH=src python3 -m unittest tests.test_agent_workload_runtime_gate tests.test_adk2_runtime_semantics -v
+        run: PYTHONPATH=src python3 -m unittest tests.test_agent_workload_runtime_gate tests.test_google_ax_provider_bridge tests.test_adk2_runtime_semantics -v
       - name: Agent Workload Runtime canonical gate
         run: ./bin/fa3-enforce agent-workload-runtime
       - name: ADK2-derived execution-semantics child gate
