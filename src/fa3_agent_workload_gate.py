@@ -13,6 +13,7 @@ from fa3_agent_workload import (
     validate_task, validate_workspace,
 )
 from fa3_release_baseline import load_active_release_baseline
+from fa3_adk2_runtime_gate import gate as adk2_runtime_semantics_gate
 from fa3_uaf import ActionRegistry
 
 PROFILE_ID="FA3-AGENT-WORKLOAD-RUNTIME-001"
@@ -137,6 +138,7 @@ def gate(root: Path) -> dict[str, Any]:
       (wm.get("agent_workload_projection",{}).get("profile_id")==PROFILE_ID and wm.get("agent_workload_projection",{}).get("work_item_identity_distinct") is True and wm.get("agent_workload_projection",{}).get("mutation_semantics")=="DRAFT_UAF_INTENT_ONLY" and wm.get("agent_workload_projection",{}).get("direct_runner_execution_from_gui") is False,"AWR-033","Work Management workload projection boundary drift"),
       (any(s.get("route_id")=="home.work-management" and "agent-workloads" in s.get("child_views",[]) and s.get("direct_runtime_execution") is False for s in surfaces.get("surfaces",[])) and "Agent Workloads" in work_qml and "typed UAF draft intent" in work_qml and "nem gyárt RUNNING / PASS / CONNECTED" in work_qml,"AWR-034","GUI workload projection drift or fabricated-state guard missing"),
       (ch.get("id")=="FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001" and ch.get("status")=="PENDING_CURRENT_HOST" and ch.get("production_admitted") is False and ch.get("required_runner_labels")==["self-hosted","linux","x64","fa3-current-host"] and chgate.get("current_host_evidence_required") is True,"AWR-035","current-host fail-closed conformance materialization drift"),
+      (p.get("runtime_semantics_profile",{}).get("profile_id")=="FA3-AGENT-RUNTIME-SEMANTICS-001" and c.get("runtime_semantics_contract")=="FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001" and "FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001" in set(g.get("child_gates",[])),"AWR-036","ADK2-derived runtime semantics child binding drift"),
     ]
     for ok,code,msg in checks:
         if not ok: findings.append(finding(code,msg))
@@ -167,9 +169,11 @@ def gate(root: Path) -> dict[str, Any]:
     mex={x.get("subject_id"):x for x in dm.get("excluded",[])}
     if mex.get(REFERENCE_ID,{}).get("release_bundle_status")!="EXCLUDED" or mex.get("FA3-PROVIDER-GOOGLE-AX-001",{}).get("release_bundle_status")!="EXCLUDED":
         findings.append(finding("AWR-031","distribution manifest does not exclude AX upstream/provider"))
+    child=adk2_runtime_semantics_gate(root)
+    if child["result"]!="PASS": findings.append(finding("AWR-041","ADK2-derived runtime semantics child gate failed",child_gate=child))
     rr=regression_cases()
     if rr["result"]!="PASS": findings.append(finding("AWR-040","runtime contract regression failed",regressions=rr))
-    report={"schema":"fa3.agent-workload-runtime-gate.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"regressions":rr,"capability_delta":0,"authority_delta":0,"current_host_runtime_claim":False}
+    report={"schema":"fa3.agent-workload-runtime-gate.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"regressions":rr,"capability_delta":0,"authority_delta":0,"current_host_runtime_claim":False,"child_gates":{"FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001":child["result"]}}
     out=root/"reports/agent-workload-runtime-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     return report
 

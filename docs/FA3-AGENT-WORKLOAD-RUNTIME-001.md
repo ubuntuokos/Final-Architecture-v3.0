@@ -43,3 +43,9 @@ AX remains optional and disabled by default. Its `ax.io/v1alpha1` resources are 
 ## Static closure versus runtime closure
 
 The reference gate proves schema, authority, negative-regression and distribution boundaries only. It does not promote the native runner, Podman runner, Google AX provider, process checkpoints, VM checkpoints, or GUI runtime.
+
+## ADK 2.x-derived execution semantics
+
+The mandatory child profile `FA3-AGENT-RUNTIME-SEMANTICS-001` adds provider-neutral graph, budget, resume/retry, model-capability, tool-confirmation, agent-transfer, MCP normalization, session/event and artifact-boundary semantics derived from selected Google ADK 2.x patterns. The implementation is FA3-native; Google ADK is REFERENCE_ONLY and is not a runtime dependency.
+
+The child gate `FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001` is invoked by the existing Agent Workload Runtime gate, so these semantics are globally enforced through the already-mandatory parent gate without creating a new authority or capability.

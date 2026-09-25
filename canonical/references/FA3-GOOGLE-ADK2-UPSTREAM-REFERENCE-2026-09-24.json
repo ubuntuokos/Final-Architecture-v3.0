@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-GOOGLE-ADK2-UPSTREAM-REFERENCE-2026-09-24",
+  "project": "Google Agent Development Kit (ADK) Python",
+  "repository": "https://github.com/google/adk-python",
+  "release": "v2.9.2",
+  "release_date": "2026-09-18",
+  "commit": "dafa8e952a57e8ee613008dc6b8a32acf69b853b",
+  "license": "Apache-2.0",
+  "immutable_pin_required": true,
+  "floating_main_allowed_as_evidence": false,
+  "upstream_runtime_dependency": false,
+  "source_code_vendored": false,
+  "observed_patterns": [
+    "GRAPH_WORKFLOW_CONFIGURATION",
+    "AUTOMATIC_MODEL_FAILOVER",
+    "MCP_SDK_2_X_COMPATIBILITY",
+    "FAILED_WORKFLOW_NODE_RERUN_ON_RESUME",
+    "BOUNDED_MAX_LLM_CALLS",
+    "MODEL_DECLARED_CAPABILITIES",
+    "TOOL_CONFIRMATION",
+    "TRANSFER_REASON",
+    "RELAYED_OUTPUT_FENCING",
+    "SESSION_EVENT_DEDUPLICATION",
+    "ATOMIC_ARTIFACT_VERSIONING",
+    "LOCAL_FILE_ROOT_CONFINEMENT"
+  ],
+  "fa3_adoption": {
+    "adopted_as_patterns_only": true,
+    "automatic_cross_provider_failover_adopted": false,
+    "google_adk_runtime_required": false,
+    "new_architectural_authority": false,
+    "new_capability": false
+  },
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false
+  },
+  "promotion_semantics": "REFERENCE_ONLY_NOT_CURRENT_HOST_RUNTIME_PROMOTION_EVIDENCE"
+}
