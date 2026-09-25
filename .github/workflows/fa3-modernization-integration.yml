@@ -43,7 +43,7 @@ jobs:
       - name: Existing Model Router provider-execution boundary
         run: ./bin/fa3-enforce model-router-provider-execution
       - name: Modernization integration gate
-        run: ./bin/fa3-enforce modernization-integration
+        run: PYTHONPATH=src python src/fa3_modernization_integration_gate.py
       - name: No synthetic current-host promotion
         run: |
           python - <<'PY'
