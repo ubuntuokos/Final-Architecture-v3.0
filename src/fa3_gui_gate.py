@@ -12,6 +12,8 @@ REQUIRED = {
     "decision": ROOT / "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
     "gate": ROOT / "canonical/FA3-GATE-GUI-001.json",
     "runtime": ROOT / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+    "application_intent": ROOT / "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
+    "reuse_assessment": ROOT / "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
     "reconciliation_decision": ROOT / "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
     "surface_registry": ROOT / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "uaf_contract": ROOT / "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
@@ -72,6 +74,8 @@ def validate() -> list[str]:
     decision = load_json(REQUIRED["decision"])
     gate = load_json(REQUIRED["gate"])
     runtime = load_json(REQUIRED["runtime"])
+    application_intent = load_json(REQUIRED["application_intent"])
+    reuse_assessment = load_json(REQUIRED["reuse_assessment"])
     reconciliation = load_json(REQUIRED["reconciliation_decision"])
     surface_registry = load_json(REQUIRED["surface_registry"])
     uaf_contract = load_json(REQUIRED["uaf_contract"])
@@ -91,6 +95,27 @@ def validate() -> list[str]:
         (decision.get("new_architectural_authorities") == 0, "decision-no-new-authority"),
         (decision.get("capability_count_after") == 143, "decision-capability-count"),
         (gate.get("fail_closed") is True, "gate-fail-closed"),
+        (application_intent.get("schema") == "fa3.application-intent.v1", "reuse-application-intent-schema"),
+        (application_intent.get("project_id") == "FA3-DESKTOP-001", "reuse-application-intent-project"),
+        (application_intent.get("declared_new_capabilities") == [], "reuse-application-intent-no-new-capability"),
+        (application_intent.get("proposed_authority_roles") == [], "reuse-application-intent-no-new-authority"),
+        (application_intent.get("hardware_audit", {}).get("vendor_neutral") is True, "reuse-application-intent-hardware-vendor-neutral"),
+        (application_intent.get("hardware_audit", {}).get("cpu_only_viable") is True, "reuse-application-intent-cpu-only"),
+        (application_intent.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N", "reuse-application-intent-accelerator-cardinality"),
+        (application_intent.get("namespace_claims", {}).get("requires_upstream_uninstall") is False, "reuse-application-intent-no-upstream-uninstall"),
+        (application_intent.get("namespace_claims", {}).get("global_environment_mutation") is False, "reuse-application-intent-no-global-mutation"),
+        (reuse_assessment.get("schema") == "fa3.reuse-assessment.v1", "reuse-assessment-schema"),
+        (reuse_assessment.get("project_id") == "FA3-DESKTOP-001", "reuse-assessment-project"),
+        (reuse_assessment.get("intent_id") == "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001", "reuse-assessment-intent-binding"),
+        (reuse_assessment.get("result") == "PASS", "reuse-assessment-pass"),
+        (reuse_assessment.get("coexistence", {}).get("result") == "PASS", "reuse-assessment-coexistence-pass"),
+        (reuse_assessment.get("coexistence", {}).get("upstream_uninstall_required") is False, "reuse-assessment-no-upstream-uninstall"),
+        (reuse_assessment.get("coexistence", {}).get("global_mutation") is False, "reuse-assessment-no-global-mutation"),
+        (reuse_assessment.get("hardware_audit", {}).get("cpu_only_viable") is True, "reuse-assessment-cpu-only"),
+        (reuse_assessment.get("current_host_runtime_promotion_claim") is False, "reuse-assessment-no-current-host-overclaim"),
+        (reuse_assessment.get("global_promotion_claim") is False, "reuse-assessment-no-global-overclaim"),
+        (reuse_assessment.get("capability_count_after") == 143, "reuse-assessment-capability-count"),
+        (reuse_assessment.get("new_architectural_authorities") == 0, "reuse-assessment-no-new-authority"),
         (runtime.get("current_host_gate_id") == "FA3-GUI-CURRENT-HOST-GATESET-001", "runtime-current-host-gate-binding"),
         (
             (
