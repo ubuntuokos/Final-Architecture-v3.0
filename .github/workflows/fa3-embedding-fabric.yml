@@ -37,7 +37,7 @@ jobs:
       - name: Syntax
         run: python -m py_compile src/fa3_embedding_fabric_gate.py
       - name: Unit regressions
-        run: PYTHONPATH=. python -m unittest tests.test_embedding_fabric_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_embedding_fabric_gate -v
       - name: Embedding Fabric gate
         run: PYTHONPATH=src python src/fa3_embedding_fabric_gate.py --root .
       - name: Reuse Discovery regression
