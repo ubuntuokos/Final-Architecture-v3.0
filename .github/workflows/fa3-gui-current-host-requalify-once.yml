@@ -1,9 +1,7 @@
 name: FA3 GUI Current Host One-Shot Requalification
 
 on:
-  push:
-    branches:
-      - "fa3/gui-current-host-closure-20260924"
+  workflow_dispatch:
 
 permissions:
   contents: read
