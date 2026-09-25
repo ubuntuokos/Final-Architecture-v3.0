@@ -71,6 +71,7 @@ def gate(root:Path)->dict[str,Any]:
       "runtime":"canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
+      "binder":"tools/fa3_bind_provider_runtime.py",
       "license_policy":"canonical/supply-chain-license-policy.json",
       "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
       "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
