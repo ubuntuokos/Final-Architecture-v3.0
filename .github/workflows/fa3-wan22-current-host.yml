@@ -9,6 +9,8 @@ on:
       - 'canonical/FA3-WAN22-CURRENT-HOST-CONFORMANCE-001.json'
       - 'canonical/FA3-GATE-WAN22-CURRENT-HOST-001.json'
       - 'canonical/contracts/FA3-WAN22-RUNTIME-CONFIG-001.schema.json'
+      - 'canonical/contracts/FA3-WAN22-MODEL-SET-MANIFEST-001.schema.json'
+      - 'bin/fa3-wan22-model-set-admit.py'
       - 'src/fa3_wan22_gate.py'
       - 'src/fa3_wan22_current_host_gate.py'
       - 'src/fa3_video_model_router.py'
@@ -51,7 +53,7 @@ on:
         required: false
         default: 'TEXT_TO_VIDEO'
         type: choice
-        options: [TEXT_TO_VIDEO, IMAGE_TO_VIDEO, TEXT_IMAGE_TO_VIDEO, SPEECH_TO_VIDEO, CHARACTER_ANIMATION, CHARACTER_REPLACEMENT]
+        options: [TEXT_TO_VIDEO, IMAGE_TO_VIDEO, TEXT_IMAGE_TO_VIDEO, SPEECH_TO_VIDEO]
 
 permissions:
   contents: read
