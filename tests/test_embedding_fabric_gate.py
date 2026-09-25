@@ -1,5 +1,5 @@
 import unittest
-from src.fa3_embedding_fabric_gate import embedding_space_identity,direct_similarity_allowed,migration_cutover_allowed
+from fa3_embedding_fabric_gate import embedding_space_identity,direct_similarity_allowed,migration_cutover_allowed
 
 class EmbeddingFabricTests(unittest.TestCase):
     def descriptor(self):
