@@ -743,6 +743,7 @@ def gate(root: Path):
         "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
         "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-001.json",
         "canonical/supply-runtime-hardening-enforcement.json",
+        "canonical/supply-chain-license-policy.json",
         "src/fa3_supply_chain_admission.py",
         "src/fa3_provider_runtime.py",
         "src/fa3_upstream_patchset.py",
