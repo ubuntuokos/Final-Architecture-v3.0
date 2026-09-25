@@ -951,7 +951,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2140,
+  "manifest_entry_count": 2152,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1440,7 +1440,7 @@
     },
     {
       "path": ".github/workflows/fa3-supply-runtime-hardening.yml",
-      "git_blob_sha": "4f6d773d6a272f7cd27f6ae68355273731efebe9",
+      "git_blob_sha": "8e1dc629dc31933656254ea45e33ddc0ced334c8",
       "baseline_delta_status": "added"
     },
     {
@@ -2604,8 +2604,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "7be229d5581e7a0a150aa3e7273004750982b4d2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-HRB-LEASE-LIFECYCLE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "7db7e356c89fe022ba7cc6db87f1d36c2dd2252c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "f947a5c917a1c17180a1722e4259605359dd71e5",
       "baseline_delta_status": "added"
     },
     {
@@ -2629,6 +2639,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-PROVIDER-RUNTIME-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "0f8fea65bcc2340f3248869c27b0a70782fff019",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-QUALITY-ANTI-SLOP-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "d4a9e44f92ec52fe6be022cb4aad151968ec0f35",
       "baseline_delta_status": "added"
@@ -2641,6 +2656,11 @@
     {
       "path": "canonical/assessments/FA3-REUSE-DISCOVERY-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "d43a48a87ab999d45b87bd1b0e8713d23c8197f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "dd69f1699c002c973c508b3fe2223fc468af124b",
       "baseline_delta_status": "added"
     },
     {
@@ -5235,7 +5255,7 @@
     },
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
-      "git_blob_sha": "2eb0bd4f179e420d90b5ec57fa801e5756f673ae",
+      "git_blob_sha": "066589f1c74f91a6ac27c3a720299802fd000a3f",
       "baseline_delta_status": "added"
     },
     {
@@ -5304,13 +5324,33 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-HRB-COMPOSITE-RESERVATION-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "30b2c446923363a42731e3f09ad65e73bdadc61a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-HRB-LEASE-LIFECYCLE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "135e9de18981e208eb015b71cf59a3563eb980bc",
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "9b1e1a970212b622343738b8c852f85866929873",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "b684edb2466d5d0b32c0fae8f935b8651fec3c32",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001.json",
       "git_blob_sha": "823f44e3898c67d5e2be84cba9406bb1d6f1f1e1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "6939ae44d5982d87312a6f4b047592f7a8b622e6",
       "baseline_delta_status": "added"
     },
     {
@@ -7244,6 +7284,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/schemas/provider-runtime-environment.v1.json",
+      "git_blob_sha": "acdad6141aa80411a349452b22fb143b9c0ea534",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/resource-reservation-plan.v1.json",
+      "git_blob_sha": "c30fc4579a6ac69a83601e68a159f78dab843643",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/secret-broker-current-host-receipt.v1.json",
       "git_blob_sha": "96652ca7cf4698c7bf09e02844bb837fb4927be9",
       "baseline_delta_status": "added"
@@ -7259,6 +7309,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/schemas/software-supply-chain-receipt.v1.json",
+      "git_blob_sha": "6f130b2b0629bc960de3d6f15b9a9b4eb94846cb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/step-ca-current-host-receipt.v1.json",
       "git_blob_sha": "5005310706405c4d6fb02446a39e06fe5a53d7b3",
       "baseline_delta_status": "added"
@@ -7266,6 +7321,11 @@
     {
       "path": "canonical/schemas/step-ca-root-ceremony-receipt.v1.json",
       "git_blob_sha": "5c7d1d808ef39752325ab54ba1c1f0d26b2a81c0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/upstream-patch-set.v1.json",
+      "git_blob_sha": "cae90763200738d3a66afdf09ff49d51b8d39e1d",
       "baseline_delta_status": "added"
     },
     {
@@ -10140,7 +10200,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "d97d2af2cb67ed6a689068bb4819fa8da4ba90e9",
+      "git_blob_sha": "7c6c4f0b780fbc248fd81b58a066710dddb0aae7",
       "baseline_delta_status": "added"
     },
     {
@@ -10315,7 +10375,7 @@
     },
     {
       "path": "src/fa3_supply_runtime_hardening_gate.py",
-      "git_blob_sha": "4a596d6392d8bd46c05315b7caeada6e2955e8f5",
+      "git_blob_sha": "883c9d2360a5ef01bb9b07f2d7672198c7865d3e",
       "baseline_delta_status": "added"
     },
     {
