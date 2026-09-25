@@ -7,7 +7,7 @@
   "covered_ids": [
     "FA3-HOST-RESOURCE-BROKER-001"
   ],
-  "project_status": "MATERIALIZED_IN_EXISTING_PR_PENDING_MAIN_REBASE_AND_FINAL_REQUALIFICATION",
+  "project_status": "MATERIALIZED_CURRENT_HOST_COMPONENT_EVIDENCE_PASS_MAIN_RECONCILED",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -67,15 +67,25 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "gap_resolution": [
     {
       "gap": "LEASE_LIFECYCLE_TTL_EVICTION_AND_CRYPTO_INTEGRITY_UNDER_EXISTING_HRB",
-      "status": "MATERIALIZED_IN_PR_PENDING_MAIN_REBASE_AND_FINAL_CI",
+      "status": "MATERIALIZED_CURRENT_HOST_PASS",
       "source_branch": "fa3/hrb-lease-lifecycle-closure-20260923",
-      "source_head_before_reconciliation": "79fc8e09ff4be83d224bf0e9ed1fef763e02eb84"
+      "source_head_before_reconciliation": "79fc8e09ff4be83d224bf0e9ed1fef763e02eb84",
+      "validated_implementation_commit": "0cbcfe4057d27151b62cfb920de418bf5d6ae278",
+      "evidence": "evidence/reference/hrb-lease-lifecycle-current-host-2026-09-25.json"
     }
   ],
-  "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "current_host_runtime_promotion_claim": true,
+  "global_promotion_claim": false,
+  "current_host_component_evidence": {
+    "status": "PASS",
+    "evidence": "evidence/reference/hrb-lease-lifecycle-current-host-2026-09-25.json",
+    "validated_implementation_commit": "0cbcfe4057d27151b62cfb920de418bf5d6ae278",
+    "workflow_run_id": 36094530468,
+    "artifact_id": 10846658722,
+    "scope": "HRB_LEASE_LIFECYCLE_COMPONENT_ONLY"
+  }
 }
