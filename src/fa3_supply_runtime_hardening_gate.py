@@ -20,7 +20,7 @@ def regressions()->dict[str,Any]:
     H="a"*64; C="b"*40
     receipt={"schema":"fa3.software-supply-chain-receipt.v1","source":{"repository":"example/repo","commit":C},"artifact":{"sha256":H},
       "dependency_lock":{"required":True,"sha256":H},"sbom":{"format":"CYCLONEDX_JSON","sha256":H,"scanner":"syft","scanner_version":"1"},
-      "license":{"scanner":"scancode","scanner_version":"1","declared_expression":"MIT","detected_expressions":["MIT"],"conflicts":[],"commercial_compatible":True,"redistribution_compatible":True},
+      "license":{"scanner":"scancode","scanner_version":"1","declared_expression":"MIT","detected_expressions":["MIT"],"conflicts":[],"commercial_compatible":True,"redistribution_compatible":True,"declaration_matches_detection":True},
       "vulnerabilities":{"scanner":"grype","scanner_version":"1","findings":[]},"provenance":{"builder":"fixture","build_recipe_sha256":H}}
     scs_ok=evaluate_receipt(receipt)["result"]=="PASS"
     bad=json.loads(json.dumps(receipt)); bad["license"]["conflicts"]=["MIT vs proprietary"]; scs_bad=evaluate_receipt(bad)["result"]=="FAIL"
@@ -71,6 +71,7 @@ def gate(root:Path)->dict[str,Any]:
       "runtime":"canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
+      "license_policy":"canonical/supply-chain-license-policy.json",
       "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
       "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
       "reservation_schema":"canonical/schemas/resource-reservation-plan.v1.json",
@@ -100,6 +101,7 @@ def gate(root:Path)->dict[str,Any]:
             if x not in runtime: findings.append(finding("SRH-008","runtime hardening provider environment contract missing",contract=x))
         if data["hu"].get("current_host_runtime_promotion_claimed") is not False: findings.append(finding("SRH-009","HU-AQC document-only promotion forbidden"))
         if GATESET_ID not in set(data["policy"].get("mandatory_reference_gates",[])): findings.append(finding("SRH-010","global enforcement binding missing"))
+        if data["license_policy"].get("id")!="FA3-SCS-LICENSE-POLICY-001" or data["license_policy"].get("commercial_compatible_is_derived") is not True: findings.append(finding("SRH-015","automated license admission policy drift"))
         if data["scs_schema"].get("$id")!="fa3.software-supply-chain-receipt.v1" or data["runtime_schema"].get("$id")!="fa3.provider-runtime-environment.v1" or data["reservation_schema"].get("$id")!="fa3.resource-reservation-plan.v1" or data["patch_schema"].get("$id")!="fa3.upstream-patch-set.v1": findings.append(finding("SRH-014","typed schema identity drift"))
         tp=evaluate_patchset(data["tencent_patch"])
         if tp["result"]!="PASS" or data["tencent_patch"].get("disposition")!="REFERENCE_ONLY" or data["tencent_patch"].get("runtime_admission") is not False or data["tencent_patch"].get("license_disposition",{}).get("conflicts")==[]: findings.append(finding("SRH-012","TencentDB security/license blockers must remain fail-closed reference-only"))
