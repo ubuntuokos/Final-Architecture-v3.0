@@ -32,6 +32,18 @@
     {
       "id": "canonical/mcp-capability-registry.json",
       "use": "CAPABILITY_DISCOVERY_SOURCE"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "TASK_SCOPED_ADMITTED_SKILL_GOVERNANCE"
+    },
+    {
+      "id": "FA3-SKILL-REGISTRY-001",
+      "use": "ADMITTED_SKILL_DISCOVERY_SOURCE"
+    },
+    {
+      "id": "FA3-EXTERNAL-SKILL-RADAR-001",
+      "use": "REFERENCE_ONLY_EXTERNAL_SKILL_IDEA_SOURCE"
     }
   ],
   "rejected_candidates": [],
@@ -43,10 +55,12 @@
     "registry": "FA3-REGISTRY-001",
     "security": "FA3-AUTH-SECURITY-GOV-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "skill_fabric": "FA3-SKILL-FABRIC-001_DECLARATIVE_TASK_SCOPED_ONLY"
   },
   "gaps": [
-    "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER"
+    "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER",
+    "SKILL_FABRIC_REUSE_FEDERATION"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
@@ -60,12 +74,18 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "implementation_readiness": "PENDING_GAPS",
   "gap_resolution": [
     {
       "gap": "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER",
-      "status": "MATERIALIZED",
+      "status": "MATERIALIZED_PREVIOUSLY",
       "validated_implementation_commit": "816ac14a720b039926b72fad05c49f593101057f",
+      "evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json"
+    },
+    {
+      "gap": "SKILL_FABRIC_REUSE_FEDERATION",
+      "status": "MATERIALIZED_PENDING_CI_REQUALIFICATION",
+      "validated_implementation_commit": null,
       "evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json"
     }
   ]
