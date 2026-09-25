@@ -428,7 +428,7 @@ def gate(
         "workflow_dispatch:",
         "pull_request:",
         "runs-on: [self-hosted, linux, x64, fa3-current-host]",
-        "github.event.pull_request.head.repo.full_name == github.repository",
+        "github.event_name == 'workflow_dispatch'",
         "FA3_RUNNER_CLASS: fa3-current-host",
         "FA3_EXPECTED_SOURCE_SHA:",
         "cmake -S apps/fa3-control-center",
