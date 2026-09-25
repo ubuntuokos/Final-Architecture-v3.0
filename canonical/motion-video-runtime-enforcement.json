@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.motion-video-runtime-enforcement.v1",
+  "gate_id": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+  "executable_gate_id": "FA3-GATE-MOTION-VIDEO-CURRENT-HOST-001",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+  "runtime_admission_id": "FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001",
+  "replacement_policy_id": "FA3-H3-REPLACEMENT-001",
+  "fail_closed": true,
+  "p0_invariants": [
+    "MODEL_ROUTER_SELECTION_RECEIPT_REQUIRED",
+    "PROVIDER_ADMISSION_MANIFEST_REQUIRED",
+    "SELECTION_AND_MANIFEST_PROVIDER_ID_MUST_MATCH",
+    "DIRECT_APPLICATION_PROVIDER_SELECTION_FORBIDDEN",
+    "VIDEO_GENERATION_IR_REMAINS_CANONICAL",
+    "PROVIDER_NATIVE_IR_IS_DOWNSTREAM_ONLY",
+    "LOCAL_ACCELERATOR_EXECUTION_REQUIRES_HRB",
+    "CPU_ONLY_EXECUTION_MUST_NOT_REQUIRE_ACCELERATOR_LEASE",
+    "BILLABLE_REMOTE_EXECUTION_REQUIRES_MANUAL_ACK",
+    "FREE_EXECUTION_MUST_NOT_REQUIRE_BILLING_ACK",
+    "SECRET_VALUES_FORBIDDEN_IN_MANIFEST_AND_EVIDENCE",
+    "NO_SILENT_PROVIDER_FALLBACK",
+    "REAL_OUTPUT_AND_PROVENANCE_REQUIRED_FOR_RUNTIME_PROMOTION"
+  ],
+  "current_host_receipt": "evidence/receipts/motion-video-current-host.json",
+  "current_host_report": "reports/motion-video-current-host-gate-report.json",
+  "provider_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
