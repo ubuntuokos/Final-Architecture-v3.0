@@ -262,6 +262,8 @@ def collect(ttl_seconds: float = 2.0) -> dict[str, Any]:
             "group_kill_method": final_record.get("group_kill_method"),
             "final_state": final_record.get("state"),
             "state_history": history,
+            "failure_reason": final_record.get("failure_reason"),
+            "evidence_failures": list(evidence.events[-1].get("failures", [])) if evidence.events else [],
             "lease_record_deleted": False,
             "cleanup_verified": cleanup_ok,
             "gpu_global_reset_used": False,
