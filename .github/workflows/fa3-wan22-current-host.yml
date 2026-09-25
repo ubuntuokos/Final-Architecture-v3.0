@@ -31,10 +31,10 @@ on:
         required: false
         default: '.fa3-current-host/input/wan22-runtime.json'
         type: string
-      model_admission:
-        description: 'FA3 Model Artifact Security admission receipt for checkpoint directory'
+      model_set_manifest:
+        description: 'Wan2.2 model-set manifest binding each checkpoint file to an existing FA3 artifact-admission receipt'
         required: false
-        default: '.fa3-current-host/input/wan22-model-admission.json'
+        default: '.fa3-current-host/input/wan22-model-set-manifest.json'
         type: string
       video_ir:
         description: 'Canonical VideoGenerationIR'
@@ -73,7 +73,7 @@ jobs:
         env:
           PYTHONPATH: src
         run: |
-          python -m py_compile src/fa3_wan22_gate.py src/fa3_wan22_current_host_gate.py src/fa3_video_model_router.py src/fa3_motion_video_provider_adapter.py bin/fa3-wan22-provider-exec.py bin/fa3-wan22-current-host-admit.py bin/fa3-wan22-build-motion-video-manifest.py
+          python -m py_compile src/fa3_wan22_gate.py src/fa3_wan22_current_host_gate.py src/fa3_video_model_router.py src/fa3_motion_video_provider_adapter.py bin/fa3-wan22-provider-exec.py bin/fa3-wan22-model-set-admit.py bin/fa3-wan22-current-host-admit.py bin/fa3-wan22-build-motion-video-manifest.py
           python -m unittest tests.test_wan22_gate tests.test_video_model_router -v
           ./bin/fa3-enforce wan22-video
       - name: Physical Wan receipt absent must fail closed
@@ -101,7 +101,7 @@ jobs:
           set -euo pipefail
           test "$(id -u)" -ne 0
           test -f "${{ inputs.runtime_config }}"
-          test -f "${{ inputs.model_admission }}"
+          test -f "${{ inputs.model_set_manifest }}"
           test -f "${{ inputs.video_ir }}"
           test -f "${{ inputs.resource_admission }}"
           command -v nvidia-smi
@@ -175,6 +175,7 @@ jobs:
           name: fa3-wan22-current-host-evidence
           if-no-files-found: warn
           path: |
+            evidence/receipts/wan22-model-set-admission.json
             evidence/receipts/wan22-provider-admission.json
             evidence/receipts/motion-video-current-host.json
             evidence/runtime/wan22-current-host/**
