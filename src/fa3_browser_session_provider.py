@@ -17,7 +17,9 @@ class BrowserSessionProvider:
         if resource_lease is None:raise BrowserActionDenied("BROWSER-RESOURCE-DENIED","HRB admission authorization required")
         if secret_leases:raise BrowserActionDenied("BROWSER-SECRET-DENIED","browser session provider accepts no direct secret projection")
     def observe(self,tab_ref:str)->dict[str,Any]:
-        response=self.bridge.request("page.observe",{"tab_ref":tab_ref});raw=response.get("observation")
+        try:response=self.bridge.request("page.observe",{"tab_ref":tab_ref})
+        except BrowserSessionBridgeError as exc:raise BrowserActionDenied(exc.code,str(exc)) from exc
+        raw=response.get("observation")
         if not isinstance(raw,dict):raise BrowserActionDenied("BROWSER-OBSERVATION-FAILED","bridge observation missing")
         raw=dict(raw);html=str(raw.pop("html",""));fingerprint=hashlib.sha256((str(raw.get("url",""))+"\n"+html).encode()).hexdigest()
         if self._fingerprint_by_tab.get(tab_ref)!=fingerprint:
