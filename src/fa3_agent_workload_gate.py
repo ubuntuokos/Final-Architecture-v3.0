@@ -14,6 +14,7 @@ from fa3_agent_workload import (
 )
 from fa3_google_ax_provider import AxProviderBridgeError, compile_ax_provider_bridge
 from fa3_google_ax_custom_runner import AxCustomRunnerError, compile_custom_runner_plan
+from fa3_google_ax_cluster_apply import AxClusterApplyError, compile_cluster_apply_plan
 from fa3_release_baseline import load_active_release_baseline
 from fa3_adk2_runtime_gate import gate as adk2_runtime_semantics_gate
 from fa3_uaf import ActionRegistry
@@ -56,6 +57,11 @@ def expect_ax_runner_error(fn) -> bool:
     except AxCustomRunnerError: return True
     return False
 
+def expect_ax_cluster_error(fn) -> bool:
+    try: fn()
+    except AxClusterApplyError: return True
+    return False
+
 def regression_cases() -> dict[str, Any]:
     task={"schema":"fa3.agent-workload-task.v1","task_id":"t1","root_task_id":"t1","action_ref":"orchestration.execute",
           "agent_definition_ref":"agent:def:1","workspace_refs":["ws:1"],"resource_requirements":{"cpu_physical_cores":1},
@@ -92,6 +98,11 @@ def regression_cases() -> dict[str, Any]:
     ax_runner_net=copy.deepcopy(ax_net); ax_runner_net["egress"]=[{"host":"github.com","port":443}]
     ax_runner_plan=compile_custom_runner_plan(ax_task,[ax_runner_ws],ax_runner_net,ax_binding)
     ax_runner_bad_net=copy.deepcopy(ax_runner_net); ax_runner_bad_net["egress"]=[]
+    ax_runner_evidence={"schema":"fa3.google-ax-runner-image-evidence.v1","runner_image":ax_binding["runner_image"],"evidence_ref":"evidence:ax-runner-image:1","build_verified":True,"digest_verified":True,"current_host_runtime_promotion_claim":False}
+    ax_cluster_binding={"schema":"fa3.google-ax-cluster-binding.v1","cluster_scope_ref":"cluster-scope:ax-test","kubernetes_context_ref":"k8s-context:ax-test","agent_substrate_ref":"agent-substrate:ax-test","security_approval_ref":"security-approval:ax-test","namespace":"fa3","scope_bound":True,"debug_guest_services_authorized":False}
+    ax_cluster_apply_plan=compile_cluster_apply_plan(ax_projection,ax_runner_plan,ax_runner_evidence,ax_cluster_binding)
+    ax_runner_bad_evidence=copy.deepcopy(ax_runner_evidence); ax_runner_bad_evidence["build_verified"]=False
+    ax_cluster_bad_credentials=copy.deepcopy(ax_cluster_binding); ax_cluster_bad_credentials["token"]="secret"
     ax_git_ws=copy.deepcopy(ax_ws); ax_git_ws["sources"]=[{"kind":"GIT","repo":"https://example.invalid/repo.git","commit":"a"*40}]
     ax_debug=copy.deepcopy(ax_binding); ax_debug["debug"]=True
     ax_wild=copy.deepcopy(ax_net); ax_wild["egress"]=[{"host":"*","port":443}]
@@ -115,6 +126,8 @@ def regression_cases() -> dict[str, Any]:
       ("AX_WILDCARD_EGRESS_FAILS_CLOSED", expect_ax_error(lambda: compile_ax_provider_bridge(ax_task,[ax_ws],ax_wild,ax_binding))),
       ("AX_CUSTOM_RUNNER_IMMUTABLE_GIT_PLAN", ax_runner_plan["workspace_materializations"][0]["mode"]=="IMMUTABLE_GIT_COMMIT" and ax_runner_plan["workspace_materializations"][0]["detached_checkout"] is True and ax_runner_plan["google_ax_runtime_promotion_claim"] is False),
       ("AX_CUSTOM_RUNNER_GIT_EGRESS_FAILS_CLOSED", expect_ax_runner_error(lambda: compile_custom_runner_plan(ax_task,[ax_runner_ws],ax_runner_bad_net,ax_binding))),
+      ("AX_CLUSTER_APPLY_REQUIRES_VERIFIED_IMAGE_EVIDENCE", ax_cluster_apply_plan["cluster_apply_adapter_materialized"] is True and ax_cluster_apply_plan["runtime_promotion_eligible"] is False and expect_ax_cluster_error(lambda: compile_cluster_apply_plan(ax_projection,ax_runner_plan,ax_runner_bad_evidence,ax_cluster_binding))),
+      ("AX_CLUSTER_APPLY_REJECTS_RAW_CLUSTER_CREDENTIALS", expect_ax_cluster_error(lambda: compile_cluster_apply_plan(ax_projection,ax_runner_plan,ax_runner_evidence,ax_cluster_bad_credentials))),
       ("FANOUT_LIMITS_REQUIRED", expect_error(lambda: validate_task(bad_fan))),
       ("ORCHESTRATION_ROUTE_COMPILES_TO_UAF_WORKLOAD",
        compile_orchestration_workload(
@@ -157,12 +170,13 @@ def gate(root: Path) -> dict[str, Any]:
       "ax_bridge_intent":root/"canonical/intents/FA3-GOOGLE-AX-PROVIDER-BRIDGE-APPLICATION-INTENT-001.json",
       "ax_bridge_reuse":root/"canonical/assessments/FA3-GOOGLE-AX-PROVIDER-BRIDGE-REUSE-ASSESSMENT-001.json",
       "ax_runner_schema":root/"canonical/contracts/FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json",
+      "ax_cluster_apply_schema":root/"canonical/contracts/FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001.schema.json",
     }
     for name,path in paths.items():
         if not path.is_file(): findings.append(finding("AWR-001","required file missing",name=name,path=path.as_posix()))
     if findings: return {"schema":"fa3.agent-workload-runtime-gate.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
     p,c,d,a,r,reg,native,podman,ax,enf,g,pol,dr,dm,ev,orch,wm,surfaces,ch,chgate=[load(paths[k]) for k in ("profile","contract","decision","assessment","reference","registry","native","podman","ax","enforcement","gate","policy","dist_registry","dist_manifest","evidence","orchestration","work_management","surface_registry","current_host","current_host_gate")]
-    ax_bridge_schema,ax_bridge_intent,ax_bridge_reuse,ax_runner_schema=[load(paths[k]) for k in ("ax_bridge_schema","ax_bridge_intent","ax_bridge_reuse","ax_runner_schema")]
+    ax_bridge_schema,ax_bridge_intent,ax_bridge_reuse,ax_runner_schema,ax_cluster_apply_schema=[load(paths[k]) for k in ("ax_bridge_schema","ax_bridge_intent","ax_bridge_reuse","ax_runner_schema","ax_cluster_apply_schema")]
     work_qml=paths["work_qml"].read_text(encoding="utf-8")
     checks=[
       (p.get("id")==PROFILE_ID and p.get("priority")=="P0" and p.get("requirement")=="MUST","AWR-010","profile identity/priority drift"),
@@ -173,10 +187,10 @@ def gate(root: Path) -> dict[str, Any]:
       (a.get("project_id")==ASSESSMENT_ID and a.get("assessment")=="RECOMMENDED" and a.get("project_radar_checked") is True and a.get("capability_delta")==0 and a.get("authority_delta")==0,"AWR-015","Decision Fabric assessment invalid"),
       (r.get("id")==REFERENCE_ID and r.get("commit")==AX_COMMIT and r.get("license")=="Apache-2.0" and r.get("observed_repository_facts",{}).get("api_version")=="ax.io/v1alpha1" and r.get("observed_repository_facts",{}).get("upstream_breaking_changes_warning") is True and r.get("observed_repository_facts",{}).get("workspace_git_immutable_commit_supported") is False and r.get("fa3_interpretation",{}).get("architectural_authority") is False,"AWR-016","Google AX immutable provenance or interpretation drift"),
       (reg.get("id")==REGISTRY_ID and reg.get("provider_self_admission") is False and len(reg.get("providers",[]))==3,"AWR-017","runner registry drift"),
-      (native.get("runtime_activation_status")=="PENDING_CURRENT_HOST" and podman.get("runtime_activation_status")=="PENDING_CURRENT_HOST" and ax.get("runtime_activation_status")=="PENDING_RUNNER_IMAGE_CLUSTER_APPLY_AND_CLUSTER_E2E","AWR-018","provider runtime status improperly promoted"),
-      (ax.get("activation_mode")=="OPTIONAL_DISABLED_BY_DEFAULT" and ax.get("translation",{}).get("canonical_ax_schema") is False and ax.get("translation",{}).get("ax_model_to_fa3_model_resource") is False and ax.get("translation",{}).get("fa3_agent_workspace_to_ax_workspace")=="PARTIAL_FAIL_CLOSED" and ax.get("runner_bridge",{}).get("manifest_compiler_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_source_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_materialized") is False and ax.get("runner_bridge",{}).get("runner_image_build_evidence") is False,"AWR-019","Google AX boundary drift"),
+      (native.get("runtime_activation_status")=="PENDING_CURRENT_HOST" and podman.get("runtime_activation_status")=="PENDING_CURRENT_HOST" and ax.get("runtime_activation_status")=="PENDING_RUNNER_IMAGE_BUILD_EVIDENCE_AND_SCOPE_BOUND_CLUSTER_E2E","AWR-018","provider runtime status improperly promoted"),
+      (ax.get("activation_mode")=="OPTIONAL_DISABLED_BY_DEFAULT" and ax.get("translation",{}).get("canonical_ax_schema") is False and ax.get("translation",{}).get("ax_model_to_fa3_model_resource") is False and ax.get("translation",{}).get("fa3_agent_workspace_to_ax_workspace")=="PARTIAL_FAIL_CLOSED" and ax.get("runner_bridge",{}).get("manifest_compiler_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_source_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_materialized") is False and ax.get("runner_bridge",{}).get("runner_image_build_evidence") is False and ax.get("runner_bridge",{}).get("cluster_apply_adapter_materialized") is True and ax.get("runner_bridge",{}).get("cluster_apply_requires_verified_runner_image_evidence") is True,"AWR-019","Google AX boundary drift"),
       (enf.get("gateset_id")==GATESET_ID and enf.get("fail_closed") is True and "STATIC_REFERENCE_PASS_NOT_CURRENT_HOST_PROMOTION" in enf.get("mandatory_rules",[]),"AWR-020","enforcement rules incomplete"),
-      (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==21 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
+      (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==23 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
       (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID,"AWR-022","global enforcement policy binding missing"),
       (ev.get("status")=="PASS" and ev.get("evidence_class")=="REFERENCE_STATIC_CONFORMANCE" and ev.get("current_host_runtime_promotion_claim") is False,"AWR-023","reference evidence semantics drift"),
       ("FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001" in orch.get("contracts",[]) and orch.get("authority_boundaries",{}).get("workload_execution")=="FA3-AGENT-WORKLOAD-RUNTIME-001_NON_AUTHORITY_TASK_LOCAL_EXECUTION_PROJECTION" and "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY" in orch.get("invariants",[]),"AWR-032","Orchestration Workforce workload-runtime binding drift"),
@@ -188,6 +202,7 @@ def gate(root: Path) -> dict[str, Any]:
       (ax_bridge_intent.get("project_id")=="FA3-GOOGLE-AX-PROVIDER-BRIDGE-001" and ax_bridge_intent.get("hardware_audit",{}).get("cpu_only_viable") is True and ax_bridge_intent.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N","AWR-038","Google AX provider bridge ApplicationIntent/Hardware Audit drift"),
       (ax_bridge_reuse.get("result")=="PASS" and ax_bridge_reuse.get("implementation_readiness")=="READY_FOR_STATIC_PROVIDER_BRIDGE_ONLY" and ax_bridge_reuse.get("google_ax_runtime_promotion_claim") is False,"AWR-039","Google AX provider bridge ReuseAssessment drift"),
       (ax_runner_schema.get("x-fa3-contract-id")=="FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001" and "FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json" in c.get("contract_schemas",[]),"AWR-042","Google AX custom runner plan contract binding drift"),
+      (ax_cluster_apply_schema.get("x-fa3-contract-id")=="FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001" and "FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001.schema.json" in c.get("contract_schemas",[]),"AWR-043","Google AX cluster apply plan contract binding drift"),
     ]
     for ok,code,msg in checks:
         if not ok: findings.append(finding(code,msg))

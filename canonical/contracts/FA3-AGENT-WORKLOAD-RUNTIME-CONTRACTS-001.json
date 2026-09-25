@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
   "name": "Agent Workload Task, Workspace, Runner, Network and Checkpoint Contracts",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "provider_neutral": true,
@@ -22,7 +22,8 @@
     "FA3-TOOL-CONFIRMATION-001.schema.json",
     "FA3-AGENT-EXECUTION-PLAN-001.schema.json",
     "FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json",
-    "FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json"
+    "FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json",
+    "FA3-GOOGLE-AX-CLUSTER-APPLY-PLAN-001.schema.json"
   ],
   "task_contract": {
     "canonical_schema": "fa3.agent-workload-task.v1",
@@ -107,7 +108,8 @@
     "GOOGLE_AX_IMMUTABLE_GIT_SCHEMA_GAP_FAILS_CLOSED",
     "GOOGLE_AX_MODEL_RESOURCE_NOT_EMITTED",
     "GOOGLE_AX_NATIVE_MCP_AND_SKILL_DISCOVERY_NOT_USED_AS_FA3_AUTHORITIES",
-    "GOOGLE_AX_CUSTOM_RUNNER_MATERIALIZES_IMMUTABLE_GIT_WITHOUT_AUTHORITY_BYPASS"
+    "GOOGLE_AX_CUSTOM_RUNNER_MATERIALIZES_IMMUTABLE_GIT_WITHOUT_AUTHORITY_BYPASS",
+    "GOOGLE_AX_CLUSTER_APPLY_REQUIRES_VERIFIED_RUNNER_IMAGE_AND_SCOPE_BOUND_CLUSTER"
   ],
   "failure_policy": {
     "malformed_task": "FAIL_CLOSED",
