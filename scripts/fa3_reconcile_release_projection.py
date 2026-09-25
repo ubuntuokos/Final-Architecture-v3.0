@@ -101,6 +101,21 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     projection = loadj(projection_path)
     policy = loadj(policy_path)
 
+    gui_conformance = loadj(root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json")
+    gui_runtime_pass = (
+        gui_conformance.get("status") == "CURRENT_HOST_PASS"
+        and gui_conformance.get("production_admitted") is True
+        and gui_conformance.get("current_host_receipt_present") is True
+        and gui_conformance.get("promotion_blockers") == []
+        and gui_conformance.get("admission_scope") == "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+        and gui_conformance.get("secret_backend_admission") == "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
+        and gui_conformance.get("tested_path") == "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+        and gui_conformance.get("secret_backend_authority") == "AUTH-SECRETS"
+        and gui_conformance.get("secret_backend_capability") == "CAP-003"
+        and gui_conformance.get("secret_backend_required_for_tested_path") is False
+        and gui_conformance.get("secret_backend_pass_claimed") is False
+    )
+
     base = projection.get("base_release_commit")
     if not base:
         raise RuntimeError("projection base_release_commit is missing")
@@ -264,6 +279,180 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "capability_count_after": capability_count,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
+    }
+
+    projection["reuse_discovery_reconciliation"] = {
+        "profile_id": "FA3-REUSE-DISCOVERY-001",
+        "contract_id": "FA3-REUSE-DISCOVERY-CONTRACTS-001",
+        "catalog_id": "FA3-REUSE-CATALOG-001",
+        "decision_id": "FA3-DEC-REUSE-DISCOVERY-2026-09-24",
+        "decision_fabric_assessment_id": "FA3-REUSE-DISCOVERY-2026-09-24",
+        "gate_id": "FA3-REUSE-DISCOVERY-GATESET-001",
+        "executable_gate_id": "FA3-GATE-REUSE-DISCOVERY-001",
+        "application_intent_contract_id": "FA3-APPLICATION-INTENT-001",
+        "reuse_assessment_contract_id": "FA3-REUSE-ASSESSMENT-001",
+        "reusable_pattern_contract_id": "FA3-REUSABLE-PATTERN-001",
+        "catalog_semantics": "DERIVED_REBUILDABLE_NON_AUTHORITATIVE",
+        "decision_fabric_role": "POST_FILTER_BOUNDED_ADVISORY_RANKING_ONLY",
+        "agent_native_role": "REUSE_PROPOSAL_ONLY_NOT_ADMISSION",
+        "hardware_profile_id": "FA3-HARDWARE-BASELINE-001",
+        "software_coexistence_required": True,
+        "golden_project_id": "FA3-EMBEDDING-FABRIC-001",
+        "golden_project_status": "PLANNED_NOT_MATERIALIZED_BY_REUSE_DISCOVERY",
+        "reference_evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json",
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
+    }
+
+    projection["quality_anti_slop_reconciliation"] = {
+        "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+        "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
+        "decision_id": "FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+        "decision_assessment_id": "FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+        "gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
+        "rule_registry_id": "FA3-QUALITY-RULE-REGISTRY-001",
+        "upstream_reference_id": "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23",
+        "upstream_distribution_class": "REFERENCE_ONLY",
+        "native_quality_skill_count": 5,
+        "upstream_runtime_dependency": False,
+        "upstream_installer_dependency": False,
+        "current_host_runtime_promotion_claim": False,
+        "capability_count_after": capability_count,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+    }
+
+    projection["gui_current_host_closure_reconciliation"] = {
+        "profile_id": "FA3-DESKTOP-001",
+        "conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+        "gate_id": "FA3-GUI-CURRENT-HOST-GATESET-001",
+        "gate_record_id": "FA3-GATE-GUI-CURRENT-HOST-001",
+        "workflow": ".github/workflows/fa3-gui-current-host.yml",
+        "collector": "evidence/collect-gui-current-host.py",
+        "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
+        "admission_scope": gui_conformance.get("admission_scope"),
+        "secret_backend_admission": gui_conformance.get("secret_backend_admission"),
+        "tested_path": gui_conformance.get("tested_path"),
+        "secret_backend_authority": gui_conformance.get("secret_backend_authority"),
+        "secret_backend_capability": gui_conformance.get("secret_backend_capability"),
+        "secret_backend_required_for_tested_path": gui_conformance.get("secret_backend_required_for_tested_path"),
+        "secret_backend_pass_claimed": gui_conformance.get("secret_backend_pass_claimed"),
+        "secret_backend_authority_owner": "CAP-003",
+        "secret_backend_used_for_gui_runtime_admission": False,
+        "tested_source_commit": gui_conformance.get("tested_source_commit"),
+        "status": gui_conformance.get("status"),
+        "current_host_receipt_present": gui_conformance.get("current_host_receipt_present") is True,
+        "production_admitted": gui_conformance.get("production_admitted") is True,
+        "runtime_promotion_claim": gui_runtime_pass,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": (
+            "CURRENT_HOST_PHYSICAL_GUI_RUNTIME_PASS"
+            if gui_runtime_pass
+            else "EXECUTABLE_CLOSURE_MATERIALIZED_CURRENT_HOST_PENDING"
+        ),
+    }
+
+    projection["agency_agents_agent_definition_reconciliation"] = {
+        "source_provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+        "source_reference_id": "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23",
+        "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+        "profile_id": "FA3-AGENT-DEFINITION-001",
+        "contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+        "registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+        "agency_gate_id": "FA3-AGENCY-AGENTS-GATESET-001",
+        "agent_definition_gate_id": "FA3-AGENT-DEFINITION-GATESET-001",
+        "canonical_role_definition_count": 12,
+        "canonical_template_definition_count": 5,
+        "upstream_bodies_vendored": False,
+        "source_distribution_class": "EXTERNAL_REDISTRIBUTABLE",
+        "source_release_bundle_status": "EXCLUDED",
+        "normalized_definition_distribution_class": "FA3_NATIVE",
+        "gui_surface_id": "agency-agents.imported-pack",
+        "gui_parent_route": "agents.workflows",
+        "gui_mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+        "gui_current_host_status": "CURRENT_HOST_PASS" if gui_runtime_pass else "PENDING_CURRENT_HOST",
+        "gui_runtime_promotion_claim": gui_runtime_pass,
+        "runtime_provider_admission_by_reference_provider": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": (
+            "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_CURRENT_HOST_PASS"
+            if gui_runtime_pass
+            else "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
+        ),
+    }
+
+
+    projection["external_llm_catalog_reconciliation"] = {
+        "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+        "contract_id": "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001",
+        "decision_id": "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24",
+        "assessment_id": "FA3-EXTERNAL-LLM-CATALOG-2026-09-24",
+        "reference_id": "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24",
+        "gate_id": "FA3-EXTERNAL-LLM-CATALOG-GATESET-001",
+        "executable_gate_id": "FA3-GATE-EXTERNAL-LLM-CATALOG-001",
+        "source_commit": "4a91e1d93a6df0753ade804f75b4e17fbad89886",
+        "source_distribution_class": "REFERENCE_ONLY",
+        "source_release_bundle_status": "EXCLUDED",
+        "state_machine": ["DISCOVERED", "OBSERVED", "VERIFIED", "ADMITTED", "ENABLED"],
+        "parser_initial_state": "DISCOVERED",
+        "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+        "decision_fabric_role": "BOUNDED_ADVISORY_RANKING_ONLY",
+        "decision_candidate_expansion": False,
+        "silent_local_to_cloud_fallback": False,
+        "gui_surface_id": "models.provider-explorer",
+        "gui_parent_route": "models.providers",
+        "gui_mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+        "current_host_remote_provider_status": "PROVIDER_ADMISSION_AND_ENTITLEMENT_SEPARATE",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_DISCOVERY_CATALOG_GUI_STATIC_RECONCILED_REMOTE_PROVIDER_ADMISSION_SEPARATE",
+    }
+
+    projection["model_router_provider_execution_reconciliation"] = {
+        "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+        "protocol_profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
+        "contract_id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
+        "protocol_contract_id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
+        "decision_id": "FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24",
+        "assessment_id": "FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24",
+        "decision_fabric_assessment_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24",
+        "reference_id": "FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24",
+        "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
+        "executable_gate_id": "FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+        "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+        "gateway_data_plane": "FA3-LLM-GATEWAY-001",
+        "secret_authority": "FA3-SECRET-BROKER-001",
+        "decision_fabric_role": "BOUNDED_ADVISORY_ONLY",
+        "agent_definition_provider_model_credential_selection": False,
+        "silent_local_to_cloud_fallback": False,
+        "silent_protocol_schema_loss": False,
+        "upstream_code_imported": False,
+        "upstream_runtime_dependency": False,
+        "gui_surface_id": "models.provider-execution",
+        "gui_parent_route": "models.providers",
+        "gui_mode": "READ_ONLY_EXECUTION_AND_COMPATIBILITY_PROJECTION",
+        "current_host_conformance_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
+        "current_host_workflow": ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
+        "current_host_producer": "bin/fa3-model-router-provider-execution-current-host.py",
+        "current_host_config_schema": "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
+        "current_host_status": "PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE",
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING",
     }
 
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
