@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.enforcement.v1",
+  "id": "FA3-GATE-TYPEPHP-AOT-NATIVE-001",
+  "status": "CANONICAL",
+  "provider_id": "FA3-PROVIDER-TYPEPHP-001",
+  "contract_id": "FA3-AOT-NATIVE-COMPILATION-CONTRACTS-001",
+  "gate_id": "FA3-GATE-TYPEPHP-AOT-NATIVE-001",
+  "fail_closed": true,
+  "mandatory_rule_count": 12,
+  "p0_invariants": [
+    "AOT_SEMANTIC_COMPATIBILITY_EXPLICIT",
+    "AOT_UNKNOWN_COMPATIBILITY_FAIL_CLOSED",
+    "AOT_SOURCE_AND_TOOLCHAIN_IMMUTABLY_PINNED",
+    "AOT_RUNTIME_ABI_MATCH_REQUIRED",
+    "AOT_BUILD_RECIPE_DIGEST_REQUIRED",
+    "AOT_NATIVE_ARTIFACT_HASH_REQUIRED",
+    "AOT_SBOM_AND_PROVENANCE_REQUIRED",
+    "AOT_IN_PROCESS_LOAD_EXPLICITLY_AUTHORIZED",
+    "AOT_UNTRUSTED_NATIVE_EXECUTION_SANDBOXED",
+    "AOT_NETWORK_BOOTSTRAP_EXPLICITLY_AUTHORIZED",
+    "AOT_FALLBACK_EXPLICIT_AND_SEMANTICALLY_VALIDATED",
+    "AOT_PROVIDER_NOT_AUTHORITY"
+  ],
+  "offline_regression_required": true,
+  "live_compiler_canary_required_for_runtime_promotion": true,
+  "current_host_runtime_claim": false,
+  "live_canary": "tools/typephp_live_canary.sh"
+}

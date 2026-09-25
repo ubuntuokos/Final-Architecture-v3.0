@@ -1,0 +1,27 @@
+name: FA3 TypePHP AOT canonical regression
+on:
+  pull_request:
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-TYPEPHP-001.json'
+      - 'canonical/contracts/FA3-AOT-NATIVE-COMPILATION-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-TYPEPHP-2026-09-07.json'
+      - 'canonical/references/FA3-TYPEPHP-UPSTREAM-REFERENCE-2026-09-07.json'
+      - 'canonical/typephp-aot-enforcement.json'
+      - 'evidence/reference/typephp-aot-ci-2026-09-07.json'
+      - 'src/fa3_typephp_gate.py'
+      - 'tests/test_typephp_gate.py'
+      - 'tools/typephp_live_canary.sh'
+      - '.github/workflows/fa3-typephp-aot.yml'
+  workflow_dispatch:
+jobs:
+  canonical-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: TypePHP unit/regression gate
+        run: python3 -m unittest tests.test_typephp_gate -v
+      - name: TypePHP canonical fail-closed gate
+        run: python3 src/fa3_typephp_gate.py --root . --json
