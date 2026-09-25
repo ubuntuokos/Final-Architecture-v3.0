@@ -142,8 +142,8 @@ def canonical_check(root: Path) -> list[str]:
     decision = loadj(root / DECISION)
     reference = loadj(root / REFERENCE)
 
-    if profile.get("id") != "FA3-SKILL-FABRIC-001" or profile.get("version") != "1.2.0":
-        findings.append("Skill Fabric 1.2 profile not active")
+    if profile.get("id") != "FA3-SKILL-FABRIC-001" or profile.get("version") != "1.3.0":
+        findings.append("Skill Fabric 1.3 profile not active")
     eco = profile.get("agent_skills_ecosystem", {})
     expected_contracts = {COMPAT.split("/")[-1][:-5], SECURITY.split("/")[-1][:-5], EVAL.split("/")[-1][:-5], IMPROVEMENT.split("/")[-1][:-5]}
     if set(eco.get("contract_ids", [])) != expected_contracts:
