@@ -27,7 +27,7 @@ P0_INVARIANTS = [
     "CORRELATION_AND_CAUSATION_CONTEXT_IS_PRESERVED",
     "EVENT_REPLAY_IS_IDEMPOTENT_AND_PAYLOAD_MISMATCH_FAILS_CLOSED",
     "TASK_MANAGER_AND_LOGISTICS_FUTURE_BINDINGS_ARE_OPTIONAL_NOT_HARD_DEPENDENCIES",
-    "WORK_MANAGEMENT_COORDINATION_VIEW_IS_READ_ONLY_PROJECTION",
+    "WORK_MANAGEMENT_COORDINATION_PROJECTION_IS_READ_ONLY_AND_GUI_RUNTIME_BINDING_REQUIRES_REQUALIFICATION",
     "CAPABILITY_AND_AUTHORITY_COUNT_REMAIN_UNCHANGED",
 ]
 
@@ -136,7 +136,6 @@ def gate(root: Path) -> dict[str, Any]:
         "assessment": root / "canonical/assessments/FA3-COORDINATION-LAYER-REUSE-ASSESSMENT-001.json",
         "enforcement": root / "canonical/coordination-enforcement.json",
         "work_management": root / "canonical/FA3-WORK-MANAGEMENT-PROJECTION-001.json",
-        "work_qml": root / "apps/fa3-control-center/qml/WorkManagementPage.qml",
     }
     fs: list[dict[str, Any]] = []
     missing = [name for name, path in paths.items() if not path.is_file()]
@@ -151,7 +150,6 @@ def gate(root: Path) -> dict[str, Any]:
     assessment = loadj(paths["assessment"])
     enforcement = loadj(paths["enforcement"])
     work = loadj(paths["work_management"])
-    qml = paths["work_qml"].read_text(encoding="utf-8")
 
     if profile.get("id") != PROFILE_ID or profile.get("new_capability") is not False or profile.get("new_architectural_authority") is not False or profile.get("capability_count") != CAPABILITY_COUNT:
         fs.append(finding("COORD-002", "Profile capability/authority invariant drift"))
@@ -199,19 +197,24 @@ def gate(root: Path) -> dict[str, Any]:
 
     sections = work.get("gui_surface", {}).get("sections", [])
     projection = work.get("coordination_projection", {})
-    if "COORDINATION" not in sections or projection.get("profile_id") != PROFILE_ID or projection.get("view_kind") != "READ_ONLY_COORDINATION_STATE_PROJECTION":
-        fs.append(finding("COORD-013", "Work Management coordination projection missing or invalid"))
+    gui_projection = profile.get("gui_projection", {})
+    if (
+        "COORDINATION" not in sections
+        or projection.get("profile_id") != PROFILE_ID
+        or projection.get("view_kind") != "READ_ONLY_COORDINATION_STATE_PROJECTION"
+        or projection.get("runtime_binding_status") != "PENDING_SEPARATE_GUI_REQUALIFICATION"
+        or projection.get("qml_materialized") is not False
+        or projection.get("current_host_promotion_claim") is not False
+    ):
+        fs.append(finding("COORD-013", "Work Management coordination projection missing or runtime binding boundary invalid"))
 
-    qml_required = [
-        'TabButton { text: "Coordination" }',
-        "property var objectives: []",
-        "property var coordinationBlockers: []",
-        "property var coordinationHandoffs: []",
-        "Read-only Objective / Dependency / Handoff / Blocker projection",
-    ]
-    absent = [token for token in qml_required if token not in qml]
-    if absent:
-        fs.append(finding("COORD-014", "Coordination GUI projection is incomplete", absent=absent))
+    if (
+        gui_projection.get("runtime_binding_status") != "PENDING_SEPARATE_GUI_REQUALIFICATION"
+        or gui_projection.get("qml_materialized") is not False
+        or gui_projection.get("current_host_promotion_claim") is not False
+        or profile.get("current_host_status") != "PENDING_CURRENT_HOST_EVIDENCE"
+    ):
+        fs.append(finding("COORD-014", "Coordination GUI runtime binding/current-host boundary drift"))
 
     if enforcement.get("gate_id") != GATE_ID or enforcement.get("p0_invariants") != P0_INVARIANTS:
         fs.append(finding("COORD-015", "Coordination enforcement invariant set drift"))
