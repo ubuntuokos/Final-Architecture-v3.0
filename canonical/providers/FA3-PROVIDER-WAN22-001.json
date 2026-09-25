@@ -27,9 +27,7 @@
     "TEXT_TO_VIDEO",
     "IMAGE_TO_VIDEO",
     "TEXT_IMAGE_TO_VIDEO",
-    "SPEECH_TO_VIDEO",
-    "CHARACTER_ANIMATION",
-    "CHARACTER_REPLACEMENT"
+    "SPEECH_TO_VIDEO"
   ],
   "execution": {
     "fabric": "FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
@@ -93,5 +91,17 @@
     "global_python_or_gpu_runtime_mutation_forbidden": true
   },
   "current_host_production_evidence": "PENDING",
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "upstream_discovered_capabilities": [
+    "TEXT_TO_VIDEO",
+    "IMAGE_TO_VIDEO",
+    "TEXT_IMAGE_TO_VIDEO",
+    "SPEECH_TO_VIDEO",
+    "CHARACTER_ANIMATION",
+    "CHARACTER_REPLACEMENT"
+  ],
+  "deferred_projection_classes": {
+    "CHARACTER_ANIMATION": "SEPARATE_PREPROCESSING_ADAPTER_REQUIRED_NOT_ADMITTED_BY_CURRENT_WRAPPER",
+    "CHARACTER_REPLACEMENT": "SEPARATE_PREPROCESSING_ADAPTER_REQUIRED_NOT_ADMITTED_BY_CURRENT_WRAPPER"
+  }
 }
