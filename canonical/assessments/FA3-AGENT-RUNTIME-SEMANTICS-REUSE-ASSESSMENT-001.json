@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AGENT-RUNTIME-SEMANTICS-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
+  "intent_id": "FA3-AGENT-RUNTIME-SEMANTICS-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AGENT-RUNTIME-SEMANTICS-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-AGENT-RUNTIME-SEMANTICS-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001"
+  ],
+  "project_status": "MATERIALIZED_IN_EXISTING_PR_PENDING_MAIN_REBASE_AND_FINAL_REQUALIFICATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "PARENT_TASK_LOCAL_RUNTIME"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "TOOL_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_ROUTING"
+    },
+    {
+      "id": "FA3-AI-COMMS-001",
+      "use": "AI_COMMUNICATION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-JOURNAL-001",
+      "use": "SOURCE_TRUTH_AND_AUDIT_TRAIL"
+    },
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "CANONICAL_IDENTITY_AND_STATUS"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_ARCHITECTURAL_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "UPSTREAM_REPLACEMENT_OR_HOST_HIJACK",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "parent_task_local_runtime": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "action_execution_boundary": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "ai_communication_boundary": "FA3-AI-COMMS-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "source_truth_and_audit_trail": "FA3-JOURNAL-001",
+    "canonical_identity_and_status": "FA3-REGISTRY-001"
+  },
+  "gaps": [
+    "PROVIDER_NEUTRAL_AGENT_GRAPH_RESUME_BUDGET_TRANSFER_SEMANTICS"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "gap_resolution": [
+    {
+      "gap": "PROVIDER_NEUTRAL_AGENT_GRAPH_RESUME_BUDGET_TRANSFER_SEMANTICS",
+      "status": "MATERIALIZED_IN_PR_PENDING_MAIN_REBASE_AND_FINAL_CI",
+      "source_branch": "fa3/adk2-derived-runtime-semantics-20260924",
+      "source_head_before_reconciliation": "b05c1cfd93a3bc93db5ccd045e614f048533f67e"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
