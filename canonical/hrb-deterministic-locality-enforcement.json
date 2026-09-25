@@ -20,7 +20,7 @@
   "capability_count": 143,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
-  "mandatory_rule_count": 55,
+  "mandatory_rule_count": 56,
   "p0_invariants": [
     "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
     "TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY",
@@ -76,7 +76,8 @@
     "HOLD_AND_WAIT_FOR_CHILD_RESOURCE_LEASE_IS_FORBIDDEN",
     "DERIVED_EXECUTION_LEASE_MUST_BE_MINTED_BY_HRB_ONLY",
     "DERIVED_LEASE_RESOURCE_SCOPE_AND_EXPIRY_MUST_BE_SUBSET_OF_PARENT",
-    "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES"
+    "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
+    "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION"
   ],
   "rules": [
     {
@@ -406,6 +407,12 @@
     {
       "id": "HRB-LOC-043",
       "invariant": "PARENT_REVOCATION_MUST_CASCADE_TO_DERIVED_LEASES",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-044",
+      "invariant": "DERIVED_LEASE_MUST_CARRY_VALID_HRB_INTERNAL_EPHEMERAL_AUTHENTICATION",
       "priority": "P0",
       "mandatory": true
     }
