@@ -5,7 +5,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 from typing import Any
 from fa3_release_baseline import load_active_release_baseline
-from fa3_modernization_integration import ai_quality_evaluator_valid,finops_projection_valid,inference_execution_valid,knowledge_accelerator_valid,runtime_enforcement_valid,usage_rights_valid
+from fa3_modernization_integration import ai_quality_evaluator_valid,cross_host_execution_valid,degraded_execution_valid,finops_projection_valid,inference_execution_valid,knowledge_accelerator_valid,runtime_enforcement_valid,structured_knowledge_metadata_valid,usage_rights_valid
 
 GATE_ID="FA3-MODERNIZATION-INTEGRATION-GATESET-001"
 PATHS={"contract":"canonical/contracts/FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001.json","decision":"canonical/decisions/FA3-DEC-MODERNIZATION-INTEGRATION-2026-09-25.json","reference":"canonical/references/FA3-MODERNIZATION-PROVIDER-CANDIDATES-2026-09-25.json","intent":"canonical/intents/FA3-MODERNIZATION-INTEGRATION-APPLICATION-INTENT-001.json","assessment":"canonical/assessments/FA3-MODERNIZATION-INTEGRATION-REUSE-ASSESSMENT-001.json","enforcement":"canonical/modernization-integration-enforcement.json","gate":"canonical/FA3-GATE-MODERNIZATION-INTEGRATION-001.json","policy":"canonical/enforcement-policy.json"}
@@ -29,6 +29,12 @@ def regressions()->list[dict[str,Any]]:
     add("finops-derived-not-authority",finops_projection_valid(fin),not finops_projection_valid({**fin,"tariff_source":"HARDCODED"}))
     judge={"advisory_only":True,"model_router_authority":"FA3-AUTH-MODEL-ROUTER-001","single_score_truth_authority":False,"evaluation_trace_ref":"eval-trace-test"}
     add("ai-quality-advisory-only",ai_quality_evaluator_valid(judge),not ai_quality_evaluator_valid({**judge,"single_score_truth_authority":True}))
+    cross={"coordination_profile":"FA3-AGENT-FEDERATION-001","federation_is_resource_authority":False,"remote_resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","remote_provider_runtime_admitted":True,"remote_hrb_receipt":"remote-hrb-test","authenticated_transport":True,"signed_envelope":True,"hop_bounded":True,"production_cross_host_claim":True,"distinct_host_identities_proven":True,"cross_host_transport_proven":True,"local_multi_node_only":False}
+    add("cross-host-federation-remote-hrb-boundary",cross_host_execution_valid(cross),not cross_host_execution_valid({**cross,"remote_resource_authority":"FA3-AGENT-FEDERATION-001"}))
+    meta={"knowledge_authority":"FA3-KNOWLEDGE-001","metadata_is_derived_projection":True,"native_source_preserved":True,"domain_extension_replaces_core":False,"schema_version":"1","document_id":"doc-test","content_type":"NOTE","source_type":"NATIVE_FILE","created_at":"2026-09-25T00:00:00Z","provenance":{"source":"test"},"language":"hu-HU","approval_state":"APPROVED","evidence_refs":["evidence-test"],"ai_generated":False,"human_modified":True}
+    add("structured-knowledge-metadata-native-source",structured_knowledge_metadata_valid(meta),not structured_knowledge_metadata_valid({**meta,"native_source_preserved":False}))
+    degraded={"silent_fallback":False,"explicit_reroute_policy":True,"new_resource_admission":True,"original_route_evidence":"route-failure-test","reroute_receipt":"reroute-test","execution_receipt":"execution-test"}
+    add("degraded-execution-explicit-reroute",degraded_execution_valid(degraded),not degraded_execution_valid({**degraded,"silent_fallback":True}))
     return cases
 
 def gate(root:Path)->dict[str,Any]:
@@ -41,6 +47,12 @@ def gate(root:Path)->dict[str,Any]:
         if not (contract.get("id")=="FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001" and contract.get("provider_neutral") is True and contract.get("new_capability") is False and contract.get("new_architectural_authority") is False and contract.get("capability_count")==capability_count): findings.append(_finding("MODERN-001","Modernization contract authority/capability invariant drift"))
         expected={"model_routing":"FA3-AUTH-MODEL-ROUTER-001","host_resources":"FA3-AUTH-HOST-RESOURCE-BROKER-001","knowledge":"FA3-KNOWLEDGE-001","security":"FA3-AUTH-SECURITY-GOV-001","actions":"FA3-UNIFIED-ACTION-FABRIC-001","evidence":"FA3-AUTH-OBS-EVIDENCE-001","provider_runtime":"FA3-PROVIDER-RUNTIME-001"}
         if contract.get("authority_bindings",{})!=expected: findings.append(_finding("MODERN-002","Existing authority bindings changed or duplicated"))
+        cross_contract=contract.get("contracts",{}).get("cross_host_execution",{})
+        if not (cross_contract.get("coordination_profile")=="FA3-AGENT-FEDERATION-001" and cross_contract.get("federation_is_resource_authority") is False and cross_contract.get("remote_resource_admission_authority")=="FA3-AUTH-HOST-RESOURCE-BROKER-001" and cross_contract.get("local_multi_node_protocol_pass_is_not_cross_host_production_pass") is True): findings.append(_finding("MODERN-017","Cross-host execution no longer reuses Agent Federation plus remote HRB"))
+        meta_contract=contract.get("contracts",{}).get("structured_knowledge_metadata",{})
+        if not (meta_contract.get("authority")=="FA3-KNOWLEDGE-001" and meta_contract.get("metadata_is_derived_projection") is True and meta_contract.get("native_source_preservation_required") is True): findings.append(_finding("MODERN-018","Structured knowledge metadata escaped Knowledge/native-source boundary"))
+        degraded_contract=contract.get("contracts",{}).get("degraded_execution",{})
+        if not (degraded_contract.get("silent_fallback_forbidden") is True and degraded_contract.get("explicit_reroute_receipt_required") is True and degraded_contract.get("reroute_requires_new_resource_admission") is True): findings.append(_finding("MODERN-019","Degraded execution reroute no longer fail-closed and explicit"))
         hw=intent.get("hardware_audit",{})
         if not (intent.get("project_type")=="MATERIAL_EXTENSION" and intent.get("proposed_authority_roles")==[] and intent.get("declared_new_capabilities")==[] and hw.get("vendor_neutral") is True and hw.get("cpu_only_viable") is True and hw.get("accelerator_cardinality")=="0..N" and hw.get("global_accelerator_requirement") is False): findings.append(_finding("MODERN-003","ApplicationIntent violates mandatory Hardware Audit boundary"))
         ns=intent.get("namespace_claims",{})
