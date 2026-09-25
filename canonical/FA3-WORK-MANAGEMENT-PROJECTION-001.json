@@ -22,6 +22,7 @@
       "PROJECTS_BOARDS_TASKS",
       "AUTOMATIONS",
       "AGENT_WORKLOADS",
+      "COORDINATION",
       "ACTIVITY",
       "PROVIDERS"
     ],
@@ -97,5 +98,21 @@
     "direct_runner_execution_from_gui": false,
     "provider_specific_top_level_menu_forbidden": true,
     "current_host_runtime_status": "PENDING_CURRENT_HOST"
+  },
+  "coordination_projection": {
+    "profile_id": "FA3-COORDINATION-LAYER-001",
+    "contract_id": "FA3-OBJECTIVE-COORDINATION-CONTRACTS-001",
+    "child_view_id": "coordination",
+    "view_kind": "READ_ONLY_COORDINATION_STATE_PROJECTION",
+    "provider_neutral": true,
+    "authority": false,
+    "mutation_semantics": "TYPED_UAF_DRAFT_INTENT_ONLY",
+    "execution_authority": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "future_optional_bindings": {
+      "task_manager": "PENDING_CANONICAL_MATERIALIZATION",
+      "logistics": "PENDING_CANONICAL_MATERIALIZATION",
+      "hard_dependency": false
+    }
   }
 }
