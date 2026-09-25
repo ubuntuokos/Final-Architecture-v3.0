@@ -54,6 +54,8 @@ def _tokens(obj: dict[str, Any]) -> list[str]:
         "capability_projection", "capability_bindings", "contracts",
         "parent_profile", "parent_profiles", "provider_role",
         "problem_classes", "applicability", "invariants", "relationship",
+        "skill_id", "package_id", "trigger", "eligibility",
+        "repository", "role",
     ):
         if key in obj:
             selected[key] = obj[key]
@@ -193,6 +195,62 @@ def build_catalog(root: Path) -> dict[str, Any]:
                     "distribution_class": None,
                     "release_bundle_status": None,
                     "license": None,
+                })
+        elif source.endswith("skill-registry.json"):
+            for row in obj.get("entries", []):
+                if not isinstance(row, dict) or not row.get("skill_id"):
+                    continue
+                admission_status = str(row.get("admission_status", "UNKNOWN"))
+                entrypoint = row.get("entrypoint") if isinstance(row.get("entrypoint"), str) else source
+                eligibility = row.get("eligibility", {}) if isinstance(row.get("eligibility"), dict) else {}
+                add({
+                    "candidate_id": str(row["skill_id"]),
+                    "candidate_class": "SKILL",
+                    "source_path": str(entrypoint),
+                    "registry_source_path": source,
+                    "status": admission_status,
+                    "admission_status": admission_status,
+                    "authority": bool(row.get("authority", False)),
+                    "capabilities": [],
+                    "tokens": _tokens(row),
+                    "distribution_class": row.get("distribution_class"),
+                    "release_bundle_status": None,
+                    "license": None,
+                    "package_id": row.get("package_id"),
+                    "skill_version": row.get("version"),
+                    "skill_trigger": row.get("trigger"),
+                    "skill_task_classes": list(eligibility.get("task_classes", [])) if isinstance(eligibility.get("task_classes"), list) else [],
+                    "task_scoped": row.get("task_scoped") is True,
+                    "remote_fetch": row.get("remote_fetch") is True,
+                    "skill_profile_id": row.get("profile_id"),
+                    "admitted": admission_status == "ADMITTED",
+                })
+        elif source.endswith("FA3-EXTERNAL-SKILL-RADAR-001.json"):
+            for row in obj.get("sources", []):
+                if not isinstance(row, dict):
+                    continue
+                repository = row.get("repository")
+                commit = row.get("commit")
+                if not isinstance(repository, str) or not repository or not isinstance(commit, str) or not commit:
+                    continue
+                add({
+                    "candidate_id": f"EXTERNAL_SKILL_SOURCE:{repository}@{commit}",
+                    "candidate_class": "EXTERNAL_SKILL_SOURCE",
+                    "source_path": source,
+                    "status": "REFERENCE_ONLY",
+                    "authority": False,
+                    "capabilities": [],
+                    "tokens": _tokens(row),
+                    "distribution_class": row.get("classification"),
+                    "release_bundle_status": "EXCLUDED",
+                    "license": row.get("license"),
+                    "repository": repository,
+                    "source_commit": commit,
+                    "reference_role": row.get("role"),
+                    "admitted": False,
+                    "automatic_fetch": False,
+                    "automatic_install": False,
+                    "automatic_activation": False,
                 })
 
     entries.sort(key=lambda row: (row["candidate_class"], row["candidate_id"], row["source_path"]))
