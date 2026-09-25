@@ -74,7 +74,7 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "gap_resolution": [
     {
       "gap": "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER",
@@ -84,9 +84,18 @@
     },
     {
       "gap": "SKILL_FABRIC_REUSE_FEDERATION",
-      "status": "MATERIALIZED_PENDING_CI_REQUALIFICATION",
-      "validated_implementation_commit": null,
+      "status": "MATERIALIZED",
+      "validated_implementation_commit": "69295479681c1c816f41ebcef2ca3c8937d8edd8",
       "evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json"
     }
-  ]
+  ],
+  "requalification": {
+    "status": "PASS",
+    "validated_implementation_commit": "69295479681c1c816f41ebcef2ca3c8937d8edd8",
+    "targeted_tests": 12,
+    "full_repository_tests": 1717,
+    "full_repository_skipped": 1,
+    "reuse_discovery_run_id": 36091773680,
+    "permanent_enforcement_run_id": 36091773595
+  }
 }
