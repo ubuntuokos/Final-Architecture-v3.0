@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001",
+  "project_id": "FA3-BROWSER-SESSION-INTERACTION-001",
+  "project_type": "PROFILE",
+  "goal": "Add governed existing-profile browser session interaction by reusing the canonical Browser Action Runtime, UAF, security, secret, HRB, human-approval and evidence authorities without importing Tencent BrowserSkill as an FA3 runtime.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "browser-session",
+    "browser-tab-lease",
+    "human-assistance",
+    "logged-in-browser",
+    "browser-coexistence"
+  ],
+  "task_classes": [
+    "browser",
+    "web",
+    "agent",
+    "automation"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "BROWSER_SESSION_REQUEST",
+    "TAB_REFERENCE",
+    "BOUNDED_ACTION_INTENT"
+  ],
+  "output_modalities": [
+    "BROWSER_TAB_LEASE",
+    "HUMAN_ASSISTANCE_REQUEST",
+    "SESSION_CLEANUP_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT",
+    "OPTIONAL_BROWSER_PROVIDER"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CURRENT_HOST_EXTENSION_NATIVE_MESSAGING_AND_BORROW_RETURN_EVIDENCE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-browser-session",
+    "service_prefix": "fa3-browser-session",
+    "config_root": "$XDG_CONFIG_HOME/fa3/browser-session",
+    "cache_root": "$XDG_CACHE_HOME/fa3/browser-session",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/browser-session",
+    "socket_namespace": "fa3/browser-session",
+    "data_root": "$XDG_DATA_HOME/fa3/browser-session",
+    "desktop_prefix": "org.fa3.browser.session",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "PAGE_CONTENT_UNTRUSTED",
+    "CREDENTIAL_COOKIE_TOKEN_EXPORT_FORBIDDEN",
+    "TAB_LEASE_TTL_AND_SCOPE_REQUIRED"
+  ],
+  "integration_requirements": [
+    "FA3-BROWSER-ACTION-RUNTIME-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}
