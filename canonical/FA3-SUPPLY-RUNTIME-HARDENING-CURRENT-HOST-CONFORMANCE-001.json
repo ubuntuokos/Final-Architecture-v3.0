@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.current-host-conformance.v1",
+  "id": "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+  "parent_gate": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "current_host_gate": "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "architectural_authority": false,
+  "global_promotion_claim": false,
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "surfaces": [
+    {
+      "id": "HRB_COMPOSITE_RESERVATION_CONTROL_PLANE",
+      "receipt": "evidence/receipts/hrb-composite-current-host.json",
+      "collector": "evidence/collect-hrb-composite-current-host.py",
+      "scope": "CONTROL_PLANE_SEMANTICS_ONLY_NOT_PRODUCTION_WORKLOAD_PROMOTION",
+      "pass_requires": [
+        "ATOMIC_PLAN_PASS",
+        "OVERLAP_GROUP_DERIVED_LEASES_HRB_KEYRING_AUTHENTICATED",
+        "AGGREGATE_CHILD_BUDGET_ENFORCED",
+        "FORGED_PARENT_REFUSED",
+        "PARENT_REVOCATION_CASCADES",
+        "BOUNDED_EXECUTION"
+      ],
+      "production_broker_promotion_claim": false
+    },
+    {
+      "id": "HU_AQC_GOLDEN_CORPUS",
+      "receipt": "evidence/receipts/hu-aqc-golden-corpus-current-host.json",
+      "collector": "evidence/collect-hu-aqc-golden-corpus-current-host.py",
+      "scope": "REAL_HU_HU_GOLDEN_CORPUS_QUALITY_EVIDENCE",
+      "pass_requires": [
+        "ALL_REQUIRED_GOLDEN_CATEGORIES_PRESENT",
+        "ALL_SAMPLES_REAL_CURRENT_HOST",
+        "ADMITTED_SCORER_PROVENANCE",
+        "ALL_SAMPLES_PASS_CANONICAL_THRESHOLDS",
+        "VOICE_CONSENT_WHEN_APPLICABLE",
+        "NO_THRESHOLD_RELAXATION"
+      ]
+    }
+  ],
+  "admission": {
+    "all_surfaces_required_for_scoped_pass": true,
+    "missing_dependency_status": "PENDING_CURRENT_HOST",
+    "hosted_ci_may_claim_current_host_pass": false,
+    "document_only_promotion_forbidden": true,
+    "global_production_promotion_claim": false
+  }
+}
