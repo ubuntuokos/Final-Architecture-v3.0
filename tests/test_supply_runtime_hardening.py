@@ -25,11 +25,11 @@ class SupplyRuntimeHardeningTests(unittest.TestCase):
         r={"schema":"fa3.upstream-patch-set.v1","disposition":"REFERENCE_ONLY","runtime_admission":True,"license_disposition":{}}
         self.assertEqual("FAIL",evaluate_patchset(r,today=dt.date(2026,9,25))["result"])
     def test_atomic_hold_and_wait_refused(self):
-        p={"schema":"fa3.resource-reservation-plan.v1","authority_id":"FA3-AUTH-HOST-RESOURCE-BROKER-001","atomic_admission":True,"hold_and_wait":True,"acquisition_order":list(RESOURCE_ORDER),"workloads":[{"id":"a","resources":{}}],"accelerators":[]}
+        p={"schema":"fa3.resource-reservation-plan.v1","authority_id":"FA3-AUTH-HOST-RESOURCE-BROKER-001","atomic_admission":True,"hold_and_wait":True,"acquisition_order":list(RESOURCE_ORDER),"queue_policy":{"max_waiters":8,"deadline_seconds":30},"workloads":[{"id":"a","resources":{}}],"accelerators":[]}
         self.assertEqual("FAIL",evaluate_reservation_plan(p,{k:0 for k in ("cpu_threads","ram_bytes","vram_bytes","io_bytes_per_second","network_bytes_per_second")})["result"])
     def test_child_scope_and_revocation(self):
         keyring=LeaseKeyring([LeaseKey("test",b"x"*32)],"test")
-        parent={"lease_id":"p","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-x"}],"authentication":{}}
+        parent={"lease_id":"p","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"child_allocated_resources":{},"accelerator_assignments":[{"stable_id":"GPU-x"}],"scope":{},"authentication":{}}
         parent["authentication"]=keyring.sign(parent)
         req={"lease_id":"c","issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6},"accelerator_assignments":[{"stable_id":"GPU-x"}],"scope":{}}
         c=derive_child_lease(parent,req,keyring=keyring); self.assertFalse(c["may_mint_child_lease"]); keyring.verify(c)
@@ -44,7 +44,7 @@ class SupplyRuntimeHardeningTests(unittest.TestCase):
 
     def test_stateful_child_budget_accounting(self):
         keyring=LeaseKeyring([LeaseKey("test",b"y"*32)],"test")
-        parent={"lease_id":"p2","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"accelerator_assignments":[{"stable_id":"GPU-x"}],"authentication":{}}
+        parent={"lease_id":"p2","generation":1,"issuer":"FA3-AUTH-HOST-RESOURCE-BROKER-001","state":"ACTIVE","expires_at_utc":"2099-01-01T01:00:00Z","resources":{"cpu_threads":8,"ram_bytes":16,"vram_bytes":12},"accelerator_assignments":[{"stable_id":"GPU-x"}],"scope":{},"authentication":{}}
         parent["authentication"]=keyring.sign(parent)
         issuer=CompositeLeaseIssuer(keyring); issuer.register_parent(parent)
         base={"issued_at_utc":"2099-01-01T00:00:00Z","expires_at_utc":"2099-01-01T00:30:00Z","resources":{"cpu_threads":4,"ram_bytes":8,"vram_bytes":6},"accelerator_assignments":[{"stable_id":"GPU-x"}],"scope":{}}
