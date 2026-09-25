@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "FA3 Browser Session Bridge",
+  "version": "1.0.0",
+  "description": "FA3-native existing-profile browser session bridge. No model, policy, secret, or resource authority.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlEmg7VUSSluYstriUytSkXmBvUzKNOfDOQL6gdHp0XzzR8DKqBYggokuFBRMq2D64MAAhT95QI24j69AXYrfibrJQaKfrGhXLVXSQ8gQCbDaRkfC1/J8u76RP4Yh0Olw75s7dIzm6QPnwKhTiXKOayTqZ5WSnoRXGMkEXSoGuAiRCouv7UVhgRXCgaGpZlokrZwzlzb619P0mnRSZzj0qt6zujPxnZH0CzDqqbpCYH0gyhffdb6aOwjY5049tjVZmmNOP3CbyI9S8n8vD9NER/KKFU6ivoHopb7zniyALxhi8NCf0sBqyteYj1PzZNmGjDu83LzEuBFRhmaQTQ0TnQIDAQAB",
+  "permissions": ["nativeMessaging","tabs","windows","scripting"],
+  "host_permissions": ["http://127.0.0.1/*","http://localhost/*"],
+  "optional_host_permissions": ["https://*/*","http://*/*"],
+  "background": {"service_worker": "service_worker.js"}
+}
