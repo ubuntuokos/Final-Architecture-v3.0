@@ -1,0 +1,58 @@
+name: FA3 Agent Federation Gate
+on:
+  push:
+    branches: ["fa3/**"]
+    paths:
+      - "canonical/profiles/FA3-AGENT-FEDERATION-001.json"
+      - "canonical/contracts/FA3-AGENT-FEDERATION-CONTRACTS-001.json"
+      - "canonical/contracts/FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001.json"
+      - "canonical/references/FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24.json"
+      - "canonical/decisions/FA3-DEC-CAP070-AGENT-FEDERATION-2026-09-24.json"
+      - "canonical/FA3-GATE-AGENT-FEDERATION-001.json"
+      - "canonical/agent-federation-enforcement.json"
+      - "canonical/current-host-capability-proof-recipes.json"
+      - "canonical/current-host-capability-test-qualifications.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agent_federation.py"
+      - "src/fa3_agent_federation_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agent_federation.py"
+      - "docs/FA3-AGENT-FEDERATION-001.md"
+      - ".github/workflows/fa3-agent-federation.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  agent-federation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_agent_federation.py src/fa3_agent_federation_gate.py
+      - name: Unit and fail-closed regressions
+        run: PYTHONPATH=src python3 -m unittest tests.test_agent_federation -v
+      - name: Agent Federation canonical gate
+        run: ./bin/fa3-enforce agent-federation
+      - name: Existing Agent Coordination regression
+        run: ./bin/fa3-enforce developer-agent-coordination
+      - name: Existing AI-Comms regression
+        run: ./bin/fa3-enforce ai-comms
+      - name: Existing Agent Workload Runtime regression
+        run: ./bin/fa3-enforce agent-workload-runtime
+      - name: Diff whitespace check
+        run: git diff --check HEAD^ HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-agent-federation-gate
+          path: reports/agent-federation-gate-report.json
+          if-no-files-found: error

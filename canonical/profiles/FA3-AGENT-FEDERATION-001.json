@@ -1,0 +1,142 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-AGENT-FEDERATION-001",
+  "name": "Secure Cross-Host Agent Federation & Coordination",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "domain_root": false,
+  "relationship": "CROSS_CUTTING_CAPABILITY_SPECIALIZATION",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "mandatory_cloud_dependency": false,
+  "mandatory_ruflo_runtime_dependency": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-070"
+  ],
+  "contract_id": "FA3-AGENT-FEDERATION-CONTRACTS-001",
+  "decision_id": "FA3-DEC-CAP070-AGENT-FEDERATION-2026-09-24",
+  "reference_id": "FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24",
+  "authority_boundaries": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "communication": "FA3-AI-COMMS-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "coordination": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "peer_identity": {
+    "cryptographic_identity_required": true,
+    "baseline_signature_algorithm": "ED25519",
+    "key_id_required": true,
+    "key_rotation_supported": true,
+    "revocation_supported": true,
+    "peer_manifest_signed": true,
+    "interaction_history_is_authorization": false,
+    "trust_score_is_authorization": false,
+    "automatic_privilege_promotion": false
+  },
+  "federation_envelope": {
+    "wraps_ai_comms_contract": "FA3-AI-COMMS-CONTRACTS-001",
+    "replay_nonce_required": true,
+    "issued_at_required": true,
+    "expires_at_required": true,
+    "payload_digest_required": true,
+    "hop_budget_required": true,
+    "execution_budget_required": true,
+    "signature_verification_fail_closed": true
+  },
+  "coordination_claims": {
+    "purpose": "LOGICAL_WORK_OWNERSHIP_AND_COLLISION_AVOIDANCE",
+    "operations": [
+      "ACQUIRE",
+      "ACK",
+      "RENEW",
+      "HANDOFF",
+      "RELEASE",
+      "EXPIRE"
+    ],
+    "ttl_required": true,
+    "single_active_owner_per_resource": true,
+    "ownership_change_auditable": true,
+    "claim_is_hrb_resource_lease": false,
+    "claim_may_allocate_cpu_gpu_ram_vram_numa": false
+  },
+  "delegation_budget": {
+    "required_fields": [
+      "max_hops",
+      "max_tokens",
+      "max_wall_time_seconds",
+      "max_children",
+      "max_remote_delegations",
+      "max_model_cost_microunits",
+      "max_cpu_seconds",
+      "max_gpu_seconds"
+    ],
+    "child_must_not_exceed_parent_remaining": true,
+    "workload_may_not_raise_own_limits": true
+  },
+  "peer_circuit_breaker": {
+    "states": [
+      "ACTIVE",
+      "SUSPENDED",
+      "QUARANTINED",
+      "REVOKED"
+    ],
+    "revoked_auto_reactivate": false,
+    "security_authority_required_for_reactivation": true,
+    "evidence_required_for_transition": true
+  },
+  "remote_execution": {
+    "peer_trust_alone_sufficient": false,
+    "required_chain": [
+      "PEER_IDENTITY_VERIFIED",
+      "SECURITY_AUTHORIZED",
+      "AGENT_RUNTIME_ADMITTED",
+      "UAF_ROUTE_PRESENT",
+      "REMOTE_HRB_ADMISSION_PRESENT",
+      "PROVIDER_RUNTIME_ADMISSION_PRESENT"
+    ],
+    "direct_remote_spawn_authority": false
+  },
+  "transport_spi": {
+    "canonical_transport": false,
+    "production_transport_must_be_authenticated_encrypted": true,
+    "certificate_or_peer_key_pinning_supported": true,
+    "optional_vpn_overlay_is_transport_only": true,
+    "transport_may_not_expand_authority": true
+  },
+  "evidence_model": {
+    "local_level": "LOCAL_MULTI_NODE_PROTOCOL_PASS",
+    "local_level_execution_scope": "CURRENT_HOST_LOOPBACK",
+    "local_level_is_cross_host_promotion": false,
+    "production_level": "CROSS_HOST_PRODUCTION_E2E_PASS",
+    "minimum_distinct_host_identities_for_production": 2,
+    "production_requires_non_synthetic_transport": true,
+    "document_or_static_pass_is_production": false,
+    "current_status": "PENDING_CROSS_HOST_PRODUCTION_E2E"
+  },
+  "gate_id": "FA3-AGENT-FEDERATION-GATESET-001",
+  "adaptive_coordination_contract": "FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001",
+  "adaptive_coordination": {
+    "lifecycle_events": "PROJECT_TO_FA3_JOURNAL_AND_EXISTING_CLOSED_LOOP_LEDGER",
+    "trajectory_learning": "EVIDENCE_BOUND_REVIEWED_PATTERN_CANDIDATES_ONLY",
+    "decision_fabric_role": "ADVISORY_RANKING_ONLY",
+    "persistent_pattern_storage": "EXISTING_MEMORY_GOVERNANCE_ONLY",
+    "background_execution": "TEMPORAL_PLUS_UAF_PLUS_HRB_EXISTING_AUTHORITIES_ONLY",
+    "hidden_resident_worker_authority": false,
+    "automatic_pattern_promotion": false
+  }
+}

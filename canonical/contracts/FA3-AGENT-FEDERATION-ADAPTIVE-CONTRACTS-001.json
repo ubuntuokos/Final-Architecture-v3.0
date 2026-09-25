@@ -1,0 +1,136 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-FEDERATION-001",
+  "provider_neutral": true,
+  "source_pattern_reference": "FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24",
+  "existing_authority_projection_only": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-070",
+    "CAP-028"
+  ],
+  "related_profiles": [
+    "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+    "FA3-JOURNAL-001",
+    "FA3-DECISION-FABRIC-001"
+  ],
+  "related_contracts": [
+    "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
+    "FA3-JOURNAL-CONTRACTS-001",
+    "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+    "FA3-AI-COMMS-CONTRACTS-001"
+  ],
+  "contracts": [
+    "FederationLifecycleEventProjection",
+    "ExecutionTrajectory",
+    "OutcomeEvaluation",
+    "PatternCandidate",
+    "PatternReview",
+    "PatternPromotionReceipt",
+    "AdaptiveWorkerIntent"
+  ],
+  "lifecycle_projection": {
+    "canonical_event_ledger": "FA3-JOURNAL-001",
+    "canonical_loop_run_ledger": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+    "event_types": [
+      "TASK_PREPARED",
+      "TASK_STARTED",
+      "DELEGATION_CREATED",
+      "CLAIM_ACQUIRED",
+      "ACTION_STARTED",
+      "ACTION_COMPLETED",
+      "DELEGATION_COMPLETED",
+      "CLAIM_RELEASED",
+      "TASK_COMPLETED",
+      "TASK_FAILED",
+      "TASK_CANCELLED"
+    ],
+    "event_is_authorization": false,
+    "event_is_durable_orchestration_authority": false,
+    "provider_hook_protocol_is_canonical": false,
+    "human_auditable_semantics_required": true,
+    "provenance_required": true
+  },
+  "trajectory": {
+    "append_only_source_events": true,
+    "required_fields": [
+      "trajectory_id",
+      "task_id",
+      "run_id",
+      "event_ids",
+      "started_at",
+      "ended_at",
+      "outcome",
+      "evidence_ids"
+    ],
+    "source_event_order_preserved": true,
+    "source_event_provenance_preserved": true,
+    "derived_trajectory_is_not_evidence_authority": true,
+    "derived_trajectory_is_not_memory_authority": true
+  },
+  "outcome_evaluation": {
+    "allowed_results": [
+      "SUCCESS",
+      "PARTIAL",
+      "FAILURE",
+      "CANCELLED",
+      "INCONCLUSIVE"
+    ],
+    "evidence_ids_required": true,
+    "evaluator_must_not_self_promote_pattern": true,
+    "decision_fabric_role": "OPTIONAL_ADVISORY_ONLY",
+    "verifier_or_evidence_authority_remains_external": true
+  },
+  "pattern_learning": {
+    "stages": [
+      "CANDIDATE",
+      "REVIEW_REQUIRED",
+      "APPROVED",
+      "REJECTED",
+      "PROMOTED",
+      "SUPERSEDED"
+    ],
+    "candidate_requires_trajectory_lineage": true,
+    "candidate_requires_outcome_evidence": true,
+    "candidate_cannot_grant_authority": true,
+    "candidate_cannot_expand_capability": true,
+    "promotion_requires_review": true,
+    "promotion_requires_evidence": true,
+    "high_risk_promotion_requires_human_approval": true,
+    "persistent_pattern_storage_uses_existing_memory_governance": true,
+    "decision_fabric_may_rank_not_authorize": true
+  },
+  "adaptive_worker": {
+    "execution_boundary": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "durable_lifecycle": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "preferred_triggers": [
+      "EVENT_DRIVEN",
+      "CHANGE_WATCH"
+    ],
+    "polling_allowed_only_if": [
+      "EARLY_EXIT",
+      "BUDGET_GATE",
+      "NOOP_PATH"
+    ],
+    "hidden_resident_worker_authority": false,
+    "unbounded_polling": false,
+    "self_budget_raise": false,
+    "provider_direct_execution": false
+  },
+  "forbidden_semantics": [
+    "RUFLO_HOOK_RUNTIME_AS_FA3_LIFECYCLE_AUTHORITY",
+    "PROVIDER_HOOK_AS_AUTHORIZATION",
+    "TRAJECTORY_AS_SELF_PROVING_EVIDENCE",
+    "AUTOMATIC_PATTERN_PROMOTION_WITHOUT_REVIEW",
+    "LEARNED_PATTERN_GRANTS_AUTHORITY_OR_CAPABILITY",
+    "BACKGROUND_WORKER_BYPASSES_TEMPORAL_UAF_OR_HRB",
+    "HIDDEN_UNBOUNDED_POLLING",
+    "PATTERN_MEMORY_BYPASSES_CANONICAL_MEMORY_GOVERNANCE"
+  ]
+}

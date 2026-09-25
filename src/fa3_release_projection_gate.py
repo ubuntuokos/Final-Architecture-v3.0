@@ -3156,7 +3156,7 @@ def gate(root: Path):
         or not gui_current_host_paths.issubset(manifest_paths)
     ):
         findings.append(finding(
-            "FA3-RELEASE-PROJECTION-122",
+            "FA3-RELEASE-PROJECTION-123",
             "GUI physical current-host closure reconciliation invariant mismatch",
             missing_manifest_paths=sorted(gui_current_host_paths - manifest_paths),
         ))
@@ -3300,6 +3300,80 @@ def gate(root: Path):
             "FA3-RELEASE-PROJECTION-121",
             "External LLM Catalog global release reconciliation invariant mismatch",
             missing_manifest_paths=sorted(external_llm_paths - manifest_paths),
+        ))
+
+    model_router_provider_execution = projection.get("model_router_provider_execution_reconciliation", {})
+    model_router_provider_execution_paths = {
+        "canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+        "canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json",
+        "canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json",
+        "canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json",
+        "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
+        "canonical/assessments/FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24.json",
+        "canonical/assessments/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24.json",
+        "canonical/decisions/FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24.json",
+        "canonical/references/FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24.json",
+        "canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+        "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/model-router-provider-execution-enforcement.json",
+        "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "canonical/distribution-registry.json",
+        "canonical/distribution-manifest.json",
+        "canonical/enforcement-policy.json",
+        "src/fa3_model_router_provider_execution.py",
+        "src/fa3_model_router_provider_execution_gate.py",
+        "src/fa3_model_router_provider_execution_current_host_gate.py",
+        "src/fa3_enforce.py",
+        "evidence/collect-model-router-provider-execution-current-host.py",
+        "evidence/reference/model-router-provider-execution-ci-2026-09-24.json",
+        "bin/fa3-model-router-provider-execution-current-host.py",
+        "scripts/fa3_reconcile_release_projection.py",
+        "apps/fa3-control-center/qml/ProviderExecutionView.qml",
+        "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+        "tests/test_model_router_provider_execution.py",
+        "tests/test_model_router_provider_execution_current_host.py",
+        ".github/workflows/fa3-model-router-provider-execution-gate.yml",
+        ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
+    }
+    if (
+        model_router_provider_execution.get("profile_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001"
+        or model_router_provider_execution.get("protocol_profile_id") != "FA3-LLM-PROTOCOL-COMPAT-001"
+        or model_router_provider_execution.get("contract_id") != "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001"
+        or model_router_provider_execution.get("protocol_contract_id") != "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001"
+        or model_router_provider_execution.get("decision_id") != "FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24"
+        or model_router_provider_execution.get("assessment_id") != "FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24"
+        or model_router_provider_execution.get("decision_fabric_assessment_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24"
+        or model_router_provider_execution.get("reference_id") != "FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24"
+        or model_router_provider_execution.get("gate_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001"
+        or model_router_provider_execution.get("executable_gate_id") != "FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001"
+        or model_router_provider_execution.get("model_routing_authority") != "FA3-AUTH-MODEL-ROUTER-001"
+        or model_router_provider_execution.get("gateway_data_plane") != "FA3-LLM-GATEWAY-001"
+        or model_router_provider_execution.get("secret_authority") != "FA3-SECRET-BROKER-001"
+        or model_router_provider_execution.get("decision_fabric_role") != "BOUNDED_ADVISORY_ONLY"
+        or model_router_provider_execution.get("agent_definition_provider_model_credential_selection") is not False
+        or model_router_provider_execution.get("silent_local_to_cloud_fallback") is not False
+        or model_router_provider_execution.get("silent_protocol_schema_loss") is not False
+        or model_router_provider_execution.get("upstream_code_imported") is not False
+        or model_router_provider_execution.get("upstream_runtime_dependency") is not False
+        or model_router_provider_execution.get("gui_surface_id") != "models.provider-execution"
+        or model_router_provider_execution.get("gui_parent_route") != "models.providers"
+        or model_router_provider_execution.get("current_host_conformance_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001"
+        or model_router_provider_execution.get("current_host_producer") != "bin/fa3-model-router-provider-execution-current-host.py"
+        or model_router_provider_execution.get("current_host_config_schema") != "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
+        or model_router_provider_execution.get("current_host_status") != "PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE"
+        or model_router_provider_execution.get("global_promotion_claim") is not False
+        or model_router_provider_execution.get("new_capabilities") != 0
+        or model_router_provider_execution.get("new_architectural_authorities") != 0
+        or model_router_provider_execution.get("capability_count_after") != CAPABILITY_COUNT
+        or model_router_provider_execution.get("reconciliation_status") != "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING"
+        or "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in projection_gates
+        or "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in policy_gates
+        or not model_router_provider_execution_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-122",
+            "Model Router Provider Execution global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(model_router_provider_execution_paths - manifest_paths),
         ))
 
     result = "PASS" if not findings else "FAIL"

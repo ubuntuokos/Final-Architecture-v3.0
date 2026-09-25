@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    "CanonicalLlmRequest",
+    "CanonicalLlmResponse",
+    "ProtocolCapabilityDescriptor",
+    "ProtocolProjectionPlan",
+    "ProtocolDegradationReceipt",
+    "StreamingProjectionReceipt",
+    "ToolSchemaCompatibilityReceipt",
+    "MultimodalProjectionReceipt"
+  ],
+  "degradation_semantics": {
+    "silent_drop": "FORBIDDEN",
+    "security_relevant_loss": "FAIL_CLOSED",
+    "tool_semantic_loss": "FAIL_CLOSED_UNLESS_EXPLICITLY_ALLOWED_BY_CALLER_POLICY",
+    "receipt_required": true
+  }
+}

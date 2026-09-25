@@ -147,13 +147,15 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-DEC-AI-INFRA-GUARD-2026-08-30",
-        "FA3-DEC-MARKETING-2026-08-31"
+        "FA3-DEC-MARKETING-2026-08-31",
+        "FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
         "evidence/reference/marketing-ci-2026-08-31.json",
-        "evidence/reference/secret-broker-current-host-2026-09-21.json"
+        "evidence/reference/secret-broker-current-host-2026-09-21.json",
+        "evidence/reference/secret-broker-current-host-2026-09-24.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -168,12 +170,16 @@
         "profile_id": "FA3-SECRET-BROKER-001",
         "conformance_id": "FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-SECRET-BROKER-CURRENT-HOST-001",
-        "current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-21.json",
+        "current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-24.json",
         "runtime_status": "CURRENT_HOST_ADMITTED",
         "production_runtime_admitted": true,
         "component_scope": "FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",
         "global_promotion_claim": false,
-        "optional_adapter_admission": "SEPARATE_EVIDENCE_REQUIRED"
+        "optional_adapter_admission": "SEPARATE_EVIDENCE_REQUIRED",
+        "superseded_current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-21.json",
+        "required_next_evidence": "NONE_FOR_CORE_SECRET_BROKER; OPTIONAL_ADAPTERS_REMAIN_SEPARATE",
+        "requalification_status": "CLOSED_BY_2026_09_24_EXACT_SOURCE_EVIDENCE",
+        "requalification_closure_evidence": "evidence/reference/secret-broker-current-host-2026-09-24.json"
       }
     },
     {

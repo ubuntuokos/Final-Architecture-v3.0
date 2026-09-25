@@ -72,5 +72,18 @@
     "admission_authority": false,
     "activation_authority": false,
     "design_authority": false
+  },
+  "provider_execution_selection_binding": {
+    "consumer_profile": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "candidate_source": "MODEL_ROUTER_DETERMINISTIC_ELIGIBILITY_FILTER_ONLY",
+    "allowed_contracts": [
+      "SELECT_ONE",
+      "RANK"
+    ],
+    "candidate_expansion": "DENY",
+    "credential_value_access": "DENY",
+    "provider_admission_authority": false,
+    "provider_routing_authority": false,
+    "credential_execution_authority": false
   }
 }
