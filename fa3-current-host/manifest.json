@@ -151,7 +151,16 @@
     "tests/test_session_vault_current_host.py",
     "tests/test_stable_audio_3_gate.py",
     "tests/test_step_ca_current_host.py",
-    "tests/test_step_ca_session_vault_ceremony.py"
+    "tests/test_step_ca_session_vault_ceremony.py",
+    ".github/workflows/fa3-gui-current-host.yml",
+    "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
+    "canonical/gui-current-host-enforcement.json",
+    "docs/FA3-GUI-CURRENT-HOST-CLOSURE-001.md",
+    "evidence/collect-gui-current-host.py",
+    "src/fa3_gui_current_host.py",
+    "src/fa3_gui_current_host_gate.py",
+    "tests/test_fa3_gui_current_host.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -326,6 +335,26 @@
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
       "google_ax_provider_status": "SEPARATE_CLUSTER_E2E_PENDING",
       "global_promotion_claim": false
+    },
+    {
+      "name": "gui-control-center",
+      "collector": "evidence/collect-gui-current-host.py",
+      "gate": "gui-current-host",
+      "workflow": ".github/workflows/fa3-gui-current-host.yml",
+      "activation": "REAL_LOCAL_WAYLAND_OR_X11_SESSION_SAME_SOURCE_QT6_BUILD_REQUIRED",
+      "collection_status": "REAL_CURRENT_HOST_PASS_GUI_PROCESS_RUNTIME_ONLY",
+      "global_promotion_claim": false,
+      "receipt": "evidence/receipts/fa3-gui-current-host.json",
+      "production_runtime_promoted": true,
+      "secret_backend_status": "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED",
+      "secret_backend_authority_owner": "CAP-003",
+      "tested_path": "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED",
+      "secret_backend_required_for_tested_path": false,
+      "secret_backend_authority": "AUTH-SECRETS",
+      "secret_backend_capability": "CAP-003",
+      "secret_backend_pass_claimed": false,
+      "tested_source_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+      "evidence_id": "EVID-FA3-GUI-CURRENT-HOST-001"
     }
   ],
   "global_gate_sequence": [

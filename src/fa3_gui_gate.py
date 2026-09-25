@@ -89,8 +89,23 @@ def validate() -> list[str]:
         (decision.get("new_architectural_authorities") == 0, "decision-no-new-authority"),
         (decision.get("capability_count_after") == 143, "decision-capability-count"),
         (gate.get("fail_closed") is True, "gate-fail-closed"),
-        (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-not-falsely-promoted"),
-        (runtime.get("production_admitted") is False, "runtime-production-not-admitted"),
+        (runtime.get("current_host_gate_id") == "FA3-GUI-CURRENT-HOST-GATESET-001", "runtime-current-host-gate-binding"),
+        (
+            (
+                runtime.get("status") in {"PENDING_CURRENT_HOST", "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN"}
+                and runtime.get("production_admitted") is False
+                and runtime.get("current_host_receipt_present") is False
+            )
+            or (
+                runtime.get("status") == "CURRENT_HOST_PASS"
+                and runtime.get("production_admitted") is True
+                and runtime.get("current_host_receipt_present") is True
+                and runtime.get("admission_scope") == "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+                and runtime.get("secret_backend_admission") == "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
+                and (ROOT / str(runtime.get("current_host_receipt", ""))).is_file()
+            ),
+            "runtime-evidence-state-invalid",
+        ),
         (reconciliation.get("new_capabilities") == 0, "reconciliation-no-new-capability"),
         (reconciliation.get("new_architectural_authorities") == 0, "reconciliation-no-new-authority"),
         (reconciliation.get("capability_count_after") == 143, "reconciliation-capability-count"),
@@ -318,7 +333,8 @@ def main() -> int:
         for failure in failures: print(f" - {failure}")
         return 1
     print("FA3 GUI gate: PASS")
-    print("profile=FA3-DESKTOP-001 capabilities=143 new_authorities=0 runtime=PENDING_CURRENT_HOST")
+    runtime = load_json(REQUIRED["runtime"])
+    print(f"profile=FA3-DESKTOP-001 capabilities=143 new_authorities=0 runtime={runtime.get('status')}")
     return 0
 
 
