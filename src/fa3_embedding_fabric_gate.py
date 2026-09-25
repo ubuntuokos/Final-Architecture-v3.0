@@ -87,8 +87,12 @@ def gate(root:Path)->dict[str,Any]:
         p=loadj(ppath)
         if p.get("architectural_authority") is not False or p.get("new_architectural_authority") is not False:
             findings.append(finding("EMB-020","embedding provider gained authority",provider_id=p.get("id")))
-        if p.get("runtime_profile")!="FA3-PROVIDER-RUNTIME-001":
-            findings.append(finding("EMB-021","provider runtime profile missing",provider_id=p.get("id")))
+        semantics_only = p.get("provider_role") == "OPTIONAL_EMBEDDING_AND_RERANK_MODEL_SEMANTICS_PROVIDER"
+        if semantics_only:
+            if p.get("serving_runtime_authority") is not False or p.get("runtime_selection") != "MODEL_ROUTER_PLUS_INFERENCE_PORTABILITY_ONLY":
+                findings.append(finding("EMB-021","model-semantics provider runtime boundary drift",provider_id=p.get("id")))
+        elif p.get("runtime_profile")!="FA3-PROVIDER-RUNTIME-001":
+            findings.append(finding("EMB-021","serving provider runtime profile missing",provider_id=p.get("id")))
         if p.get("current_host_production_evidence")!="PENDING_REAL_CURRENT_HOST_EXECUTION":
             findings.append(finding("EMB-022","provider falsely claims current-host evidence",provider_id=p.get("id")))
         co=p.get("coexistence",{})
