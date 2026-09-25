@@ -98,7 +98,8 @@
     "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001",
     "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
     "FA3-REUSE-DISCOVERY-GATESET-001",
-    "FA3-AGENT-FEDERATION-GATESET-001"
+    "FA3-AGENT-FEDERATION-GATESET-001",
+    "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -2012,5 +2013,13 @@
     "ADAPTIVE_WORKER_REUSES_TEMPORAL_UAF_HRB_BOUNDARIES",
     "HIDDEN_UNBOUNDED_BACKGROUND_POLLING_FORBIDDEN"
   ],
-  "agent_federation_adaptive_contract_id": "FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001"
+  "agent_federation_adaptive_contract_id": "FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001",
+  "provider_runtime_profile_id": "FA3-PROVIDER-RUNTIME-001",
+  "provider_runtime_contract_id": "FA3-PROVIDER-RUNTIME-CONTRACTS-001",
+  "supply_runtime_hardening_gate_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "supply_chain_automated_admission_required": true,
+  "hrb_composite_reservation_required": true,
+  "hrb_hold_and_wait_for_child_resource_forbidden": true,
+  "upstream_patchset_governance_required": true,
+  "hu_aqc_real_current_host_evidence_required": true
 }
