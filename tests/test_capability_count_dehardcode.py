@@ -55,7 +55,8 @@ class ReleaseBaselineLoaderTests(unittest.TestCase):
         root = self.fixture()
         path = root / "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json"
         data = json.loads(path.read_text(encoding="utf-8"))
-        data["release_baselines"].append(dict(data["release_baselines"][0]))
+        active = next(item for item in data["release_baselines"] if item.get("status") == "ACTIVE_BASELINE")
+        data["release_baselines"].append(dict(active))
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
         with self.assertRaises(BaselineError):
             load_active_release_baseline(root)
