@@ -6,7 +6,8 @@
   "intent_path": "canonical/intents/FA3-H3-REPLACEMENT-APPLICATION-INTENT-001.json",
   "covered_ids": [
     "FA3-VIDEO-001",
-    "FA3-PROVIDER-MINIMAX-H3-001"
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-WAN22-001"
   ],
   "project_status": "MATERIALIZED_PROVIDER_NEUTRAL_RUNTIME_REPLACEMENT_CURRENT_HOST_PROVIDER_E2E_PENDING",
   "result": "PASS",
@@ -42,6 +43,10 @@
     {
       "id": "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
       "use": "FAIL_CLOSED_ADMISSION_PATTERN"
+    },
+    {
+      "id": "FA3-PROVIDER-WAN22-001",
+      "use": "INITIAL_FREE_OPEN_VIDEO_EXECUTION_PROVIDER_CANDIDATE"
     }
   ],
   "rejected_candidates": [
