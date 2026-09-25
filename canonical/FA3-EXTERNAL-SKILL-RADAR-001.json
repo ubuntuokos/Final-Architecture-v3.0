@@ -67,6 +67,55 @@
       "role": "DOMAIN_SKILL_CATALOG_REFERENCE",
       "license": "MIT_REPOSITORY_INDIVIDUAL_SKILL_LICENSE_REVIEW_REQUIRED",
       "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "mattpocock/skills",
+      "commit": "c55ee46073ed923f86ce59a5eb3b6d895095d1b7",
+      "role": "ENGINEERING_DISCIPLINE_AND_WORKFLOW_PATTERN_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "microsoft/skills",
+      "commit": "23d0dac5f83f268166a17f0bc7dc6c73dc348a33",
+      "role": "SKILL_EVALUATION_EXPLORER_AND_CROSS_HARNESS_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "dotnet/skills",
+      "commit": "a55fbf42c36a37b94ec07291bd79cb6b6bf3a04d",
+      "role": "SKILL_VALUE_AND_ENGINEERING_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "emilkowalski/skills",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "role": "UI_MOTION_AND_DESIGN_QUALITY_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "awesome-skills/code-review-skill",
+      "commit": "4850184dfd7765ea7b3c5c4e9b6cf8e0815ee7cb",
+      "role": "PROGRESSIVE_DISCLOSURE_CODE_REVIEW_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "Tencent/BrowserSkill",
+      "commit": "147727a0e2ded65a7d0f364beea8cc2ebcdec8af",
+      "role": "BROWSER_SESSION_AGENT_WINDOW_BORROW_RETURN_AND_HUMAN_ASSISTANCE_PATTERN_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "MicrosoftDocs/Agent-Skills",
+      "commit": "1e593dd0d55091fb66568c9194b29d8155453977",
+      "role": "HOST_PATH_COMPATIBILITY_AND_DOC_DERIVATION_REFERENCE",
+      "license": "CC-BY-4.0_REVIEW_REQUIRED",
+      "classification": "REFERENCE_ONLY"
     }
   ],
   "invariants": [
@@ -85,5 +134,49 @@
     "discovery_is_admission": false,
     "discovery_is_activation": false,
     "catalog_is_trust_authority": false
-  }
+  },
+  "discovery_feeds": [
+    {
+      "surface": "https://github.com/topics/skill",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/skill-md",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/codex-skills",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/github-skills",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/ai-skills",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/SKILLS",
+      "classification": "TRAINING_REFERENCE_ONLY"
+    }
+  ],
+  "documentation_surfaces": [
+    {
+      "surface": "https://agentskills.io/",
+      "classification": "FORMAT_DOCUMENTATION_REFERENCE_ONLY"
+    },
+    {
+      "surface": "https://opencode.ai/v2/docs/skills/",
+      "classification": "HOST_COMPATIBILITY_DOCUMENTATION_REFERENCE_ONLY"
+    },
+    {
+      "surface": "https://antigravity.google/docs/skills/",
+      "classification": "HOST_COMPATIBILITY_DOCUMENTATION_REFERENCE_ONLY"
+    },
+    {
+      "surface": "https://microsoft.github.io/skills/",
+      "classification": "SKILL_EXPLORER_REFERENCE_ONLY"
+    }
+  ]
 }
