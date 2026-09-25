@@ -59,6 +59,8 @@ def gate(root:Path)->dict[str,Any]:
       "runtime":"canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
+      "tencent_patch":"canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
+      "opencut_patch":"canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
     }
     data={}
     for k,p in paths.items():
@@ -82,6 +84,10 @@ def gate(root:Path)->dict[str,Any]:
             if x not in runtime: findings.append(finding("SRH-008","runtime hardening provider environment contract missing",contract=x))
         if data["hu"].get("current_host_runtime_promotion_claimed") is not False: findings.append(finding("SRH-009","HU-AQC document-only promotion forbidden"))
         if GATESET_ID not in set(data["policy"].get("mandatory_reference_gates",[])): findings.append(finding("SRH-010","global enforcement binding missing"))
+        tp=evaluate_patchset(data["tencent_patch"])
+        if tp["result"]!="PASS" or data["tencent_patch"].get("disposition")!="REFERENCE_ONLY" or data["tencent_patch"].get("runtime_admission") is not False or data["tencent_patch"].get("license_disposition",{}).get("conflicts")==[]: findings.append(finding("SRH-012","TencentDB security/license blockers must remain fail-closed reference-only"))
+        op=evaluate_patchset(data["opencut_patch"])
+        if op["result"]!="PASS" or data["opencut_patch"].get("disposition")!="REFERENCE_ONLY" or data["opencut_patch"].get("runtime_admission") is not False: findings.append(finding("SRH-013","OpenCut unstable interface disposition must remain reference-only"))
     reg=regressions()
     if reg["result"]!="PASS": findings.append(finding("SRH-011","fail-closed regression matrix failed"))
     report={"schema":"fa3.supply-runtime-hardening-gate-report.v1","gate_id":"FA3-GATE-SUPPLY-RUNTIME-HARDENING-001","gateset_id":GATESET_ID,"result":"PASS" if not findings else "FAIL","blocking_findings":len(findings),"findings":findings,"regressions":reg,"capability_count":CAPABILITY_COUNT,"new_architectural_authorities":0,"current_host_hu_aqc_promotion_claim":False}
