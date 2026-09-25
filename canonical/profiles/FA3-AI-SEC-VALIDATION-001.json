@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AI-SEC-VALIDATION-001",
   "name": "AI Security Validation, Red-Team & Adversarial Assurance Profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-AI-EXECUTION-OR-EXTERNAL-AI-INTEGRATION-USED",
@@ -22,7 +22,12 @@
     "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
     "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY"
   },
-  "capabilities": ["CAP-003", "CAP-005", "CAP-007", "CAP-011"],
+  "capabilities": [
+    "CAP-003",
+    "CAP-005",
+    "CAP-007",
+    "CAP-011"
+  ],
   "contracts": [
     "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
     "FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001"
@@ -34,7 +39,6 @@
   ],
   "providers": [
     "FA3-PROVIDER-AI-INFRA-GUARD-001",
-    "FA3-PROVIDER-PYRIT-001",
     "FA3-PROVIDER-ANY-GUARDRAIL-001"
   ],
   "invariants": [
@@ -74,7 +78,18 @@
     "CANONICAL_ATTESTATION_BEFORE_PROMOTION_USE",
     "GUARDRAIL_CAPABILITY_SPECIFIC_BENCHMARK_AND_CALIBRATION",
     "GUARDRAIL_RUNTIME_READINESS_AND_FAIL_MODE_EVIDENCE",
-    "GUARDRAIL_WORKER_MEMORY_PRESSURE_AND_SHUTDOWN_EVIDENCE"
+    "GUARDRAIL_WORKER_MEMORY_PRESSURE_AND_SHUTDOWN_EVIDENCE",
+    "ENGINE_NEUTRAL_SECURITY_TEST_JOB_EVIDENCE",
+    "VERSIONED_SECURITY_REGRESSION_BASELINE_AND_DIFF"
   ],
-  "implementation_status": "CANONICAL_BASELINE_PLUS_REQUEST_TIME_GUARDRAIL_RUNTIME_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_PLUS_REQUEST_TIME_GUARDRAIL_RUNTIME_PLUS_SECURITY_TESTING_FABRIC_STATIC_MATERIALIZED",
+  "security_testing_fabric": {
+    "profile_id": "FA3-AI-SECURITY-TESTING-FABRIC-001",
+    "contract_id": "FA3-AI-SECURITY-TESTING-FABRIC-CONTRACTS-001",
+    "gate_id": "FA3-AI-SECURITY-TESTING-FABRIC-GATESET-001",
+    "engine_neutral": true,
+    "pyrit_role": "ENGINE_CANDIDATE_NOT_PROVIDER_AUTHORITY",
+    "garak_role": "REUSE_EXISTING_FA3_RUNTIME",
+    "runtime_admission_separate": true
+  }
 }
