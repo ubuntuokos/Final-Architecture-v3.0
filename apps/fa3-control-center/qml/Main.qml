@@ -70,7 +70,8 @@ ApplicationWindow {
         "decision.inspector": 32,
         "decision.project-radar": 33,
         "decision.context-inspector": 34,
-        "agents.action-center": 35
+        "agents.action-center": 35,
+        "system.updates": 36
     })
 
     function routeIndex(routeId) {
@@ -152,6 +153,7 @@ ApplicationWindow {
         {title: "Work Management", detail: "Kaneo + Kanboard provider-neutral projects, boards, tasks és automation", category: "FUNCTION", routeId: "home.work-management"},
         {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", routeId: "home.work-management"},
         {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", routeId: "system.accelerator-guard"},
+        {title: "Update Center", detail: "Provider-neutral frissítés, security maintenance és workload-aware restart UAF draft felület", category: "FUNCTION", routeId: "system.updates"},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -442,10 +444,13 @@ ApplicationWindow {
     }
 
     component ModuleCard: Panel {
+        id: moduleCard
         property string title: ""
         property string subtitle: ""
         property string badge: "READY"
         property color tone: window.accent
+        property string routeId: ""
+        property bool navigable: routeId.length > 0
         implicitWidth: 250
         implicitHeight: 126
         ColumnLayout {
@@ -473,6 +478,13 @@ ApplicationWindow {
                 Layout.fillHeight: true
             }
         }
+        MouseArea {
+            anchors.fill: parent
+            enabled: moduleCard.navigable
+            hoverEnabled: moduleCard.navigable
+            cursorShape: moduleCard.navigable ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: window.navigate(moduleCard.routeId)
+        }
     }
 
     component ModulePage: ScrollView {
@@ -498,6 +510,7 @@ ApplicationWindow {
                         subtitle: modelData.subtitle || ""
                         badge: modelData.badge || "READY"
                         tone: modelData.tone || window.accent
+                        routeId: modelData.routeId || ""
                     }
                 }
             }
@@ -710,6 +723,7 @@ ApplicationWindow {
                         Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "▤"; label: "Resources"; routeId: "system.resources" }
                         NavButton { iconText: "⚡"; label: "Accelerator Guard"; routeId: "system.accelerator-guard" }
+                        NavButton { iconText: "↻"; label: "Update Center"; routeId: "system.updates" }
                         NavButton { iconText: "⚙"; label: "Rendszerbeállítások"; routeId: "system.settings" }
                         NavButton { iconText: "ⓘ"; label: "System"; routeId: "system.runtime" }
                     }
@@ -953,7 +967,8 @@ ApplicationWindow {
                         {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások.", badge: "READ", tone: window.green},
                         {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
                         {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
-                        {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan}
+                        {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan},
+                        {title: "Imported Packs · Agency Agents", subtitle: "12 canonical FA3 role + 5 canonical template · upstream body nincs vendorizálva · runtime/provider külön admission. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "CANONICAL", tone: window.cyan, routeId: "agents.action-center"}
                     ]
                 }
 
@@ -1669,6 +1684,22 @@ ApplicationWindow {
                             "Agent Native GUI DRAFT only; contract lookup, authorization/approval, provider admission, HRB/Secret Broker and evidence remain mandatory.")
                     }
                     onNavigateRequested: function(routeId) { window.navigate(routeId) }
+                }
+
+                UpdateCenterPage {
+                    id: updateCenterPage
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onStageActionIntentRequested: function(actionId, target, rationale) {
+                        operationNotice = fa3Repository.createDraftChangeSet("UPDATE_FABRIC", actionId, target, rationale)
+                    }
                 }
             }
 

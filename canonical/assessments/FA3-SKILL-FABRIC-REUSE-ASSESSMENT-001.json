@@ -1,0 +1,129 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SKILL-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SKILL-FABRIC-001",
+  "intent_id": "FA3-SKILL-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SKILL-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SKILL-FABRIC-001"
+  ],
+  "project_status": "MATERIALIZED_RECONCILED_AFTER_AGENT_SKILLS_ECOSYSTEM_EXTENSION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-CONTEXT-SELECTION-001",
+      "use": "MINIMUM_TASK_SCOPED_CONTEXT_SELECTION"
+    },
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_ADVISORY_SELECTION_WITHOUT_CANDIDATE_EXPANSION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "AUTHORIZED_ACTION_INTENT_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "TOOL_EXECUTION_AND_CAPABILITY_MEDIATION"
+    },
+    {
+      "id": "FA3-SCS-001",
+      "use": "SKILL_SUPPLY_CHAIN_AND_SECURITY_POLICY"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "LICENSE_AND_RELEASE_CLASSIFICATION"
+    },
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "CANONICAL_METADATA_IDENTITY_AND_STATUS"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "OPTIONAL_MODEL_ASSISTED_REVIEW_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "OPTIONAL_MODEL_RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT_ON_MATERIAL_CHANGE"
+    },
+    {
+      "id": "FA3-EXTERNAL-SKILL-RADAR-001",
+      "use": "REFERENCE_ONLY_EXTERNAL_SKILL_IDEA_SOURCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "EXTERNAL_SKILL_MARKETPLACE_AS_AUTHORITY",
+      "reason": "CATALOG_DISCOVERY_CANNOT_GRANT_TRUST_INSTALL_ADMISSION_OR_ACTIVATION"
+    },
+    {
+      "id": "SKILL_LOCAL_TOOL_EXECUTION_AUTHORITY",
+      "reason": "TOOL_EXECUTION_REMAINS_BEHIND_EXISTING_UAF_MCP_AUTHORIZATION"
+    },
+    {
+      "id": "SKILL_LOCAL_MODEL_ROUTER",
+      "reason": "MODEL_ROUTING_REMAINS_FA3_AUTH_MODEL_ROUTER_001"
+    },
+    {
+      "id": "SKILL_OPTIMIZER_AUTO_PROMOTION",
+      "reason": "IMPROVEMENT_CANDIDATES_REQUIRE_NEW_ADMISSION"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "authorization": "EXISTING_FA3_AUTHORIZATION_POLICY_ONLY",
+    "tool_execution": "FA3-AUTH-MCP-GATEWAY-001",
+    "action_mediation": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-SCS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "decision_assistance": "FA3-DECISION-FABRIC-001_ADVISORY_ONLY"
+  },
+  "gaps": [],
+  "skill_reuse": [],
+  "external_skill_sources": [
+    {
+      "id": "FA3-EXTERNAL-SKILL-RADAR-001",
+      "reuse_mode": "REFERENCE_ONLY",
+      "installation_authority": false,
+      "admission_authority": false,
+      "activation_authority": false
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "external_skill_tools_may_coexist_independently": true
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "validated_material_change": {
+    "description": "FA3 Skill Fabric 1.2 Agent Skills ecosystem extension",
+    "merged_main_commit": "2081e5176ec7dfffb022244999687218d6be7e8f",
+    "pull_request": 386,
+    "runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  }
+}

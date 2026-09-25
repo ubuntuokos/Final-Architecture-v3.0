@@ -21,6 +21,7 @@
       "OVERVIEW",
       "PROJECTS_BOARDS_TASKS",
       "AUTOMATIONS",
+      "AGENT_WORKLOADS",
       "ACTIVITY",
       "PROVIDERS"
     ],
@@ -83,5 +84,18 @@
     "provider_failure_must_not_fail_open": true,
     "disabled_provider_zero_near_zero_runtime_cost": true
   },
-  "normative_constraint": "The FA3 Work Management GUI is a provider-neutral projection and operator surface. Kaneo, Kanboard, GitHub Issues adapters, GUI hardware probes and provider events SHALL NOT become canonical identity, authorization, workflow, event, evidence or resource-admission authorities."
+  "normative_constraint": "The FA3 Work Management GUI is a provider-neutral projection and operator surface. Kaneo, Kanboard, GitHub Issues adapters, GUI hardware probes and provider events SHALL NOT become canonical identity, authorization, workflow, event, evidence or resource-admission authorities.",
+  "agent_workload_projection": {
+    "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "child_view_id": "agent-workloads",
+    "view_kind": "READ_ONLY_RUNTIME_STATUS_CHILD_VIEW",
+    "provider_neutral": true,
+    "work_item_identity_distinct": true,
+    "optional_link_field": "work_item_ref",
+    "lifecycle_source": "JOURNAL_EVIDENCE_PROJECTION_ONLY",
+    "mutation_semantics": "DRAFT_UAF_INTENT_ONLY",
+    "direct_runner_execution_from_gui": false,
+    "provider_specific_top_level_menu_forbidden": true,
+    "current_host_runtime_status": "PENDING_CURRENT_HOST"
+  }
 }

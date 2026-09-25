@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-IMPROVEMENT-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillImprovementObservationSet",
+    "SkillImprovementCandidate",
+    "SkillImprovementEvaluationReceipt"
+  ],
+  "lifecycle": [
+    "observe_admitted_skill_use",
+    "build_sanitized_offline_evaluation_set",
+    "generate_candidate_without_mutating_admitted_source",
+    "run_positive_negative_adversarial_and_routing_evals",
+    "run_security_reinspection",
+    "run_held_out_validation",
+    "emit_candidate_receipt",
+    "require_new_skill_admission"
+  ],
+  "invariants": {
+    "admitted_skill_never_mutated_in_place": true,
+    "source_version_and_digest_immutable": true,
+    "candidate_must_have_new_version_or_digest": true,
+    "optimizer_has_no_admission_authority": true,
+    "auto_promotion_forbidden": true,
+    "live_task_self_modification_forbidden": true,
+    "held_out_validation_required": true,
+    "regression_pass_required": true,
+    "security_reinspection_required": true,
+    "new_admission_required": true
+  },
+  "model_boundary": {
+    "optimizer_model_optional": true,
+    "optimizer_model_via_model_router_only": true,
+    "optimizer_resource_use_via_hrb": true,
+    "no_silent_provider_fallback": true
+  },
+  "upstream_pattern_sources": [
+    {
+      "repository": "microsoft/SkillOpt",
+      "commit": "79124b37e9a6371e13b753f8bcd7adb1e493ade1",
+      "observed_license": "MIT",
+      "relationship": "OFFLINE_OPTIMIZATION_PATTERN_REFERENCE_ONLY"
+    }
+  ]
+}

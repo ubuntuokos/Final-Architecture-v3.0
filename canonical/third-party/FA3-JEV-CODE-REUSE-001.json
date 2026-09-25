@@ -62,7 +62,14 @@
       "automatic_external_install": false,
       "distribution_class": "REFERENCE_ONLY",
       "product_bundle_allowed": false,
-      "pattern_reimplementation_only": true
+      "pattern_reimplementation_only": true,
+      "reusable_patterns": [
+        "BOUNDED_ACTION_SPACE",
+        "STALE_DECISION_GUARD",
+        "INDEPENDENT_OUTCOME_VERIFICATION",
+        "PROVIDER_NEUTRAL_ADAPTER"
+      ],
+      "reuse_catalog_projection": "FA3-REUSE-CATALOG-001"
     }
   ],
   "note": "Jev-derived external projects may contribute permissively licensed patterns or reviewed code only through this provenance registry. The jev-ultrafast entry is an FA3-native pattern reimplementation, not a vendored runtime dependency.",

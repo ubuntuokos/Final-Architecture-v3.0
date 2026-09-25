@@ -43,7 +43,13 @@
       "title": "Work Management",
       "group": "HOME",
       "projection": "WORK_MANAGEMENT",
-      "mutation": "DRAFT_ONLY"
+      "mutation": "DRAFT_ONLY",
+      "child_views": [
+        "agent-workloads"
+      ],
+      "agent_workload_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "provider_neutral": true,
+      "direct_runtime_execution": false
     },
     {
       "route_id": "create.ai-studio",
@@ -71,13 +77,75 @@
       "route_id": "agents.workflows",
       "title": "Agents & Workflows",
       "group": "AGENTS",
-      "projection": "AGENT_WORKFLOW_STATUS"
+      "projection": "AGENT_WORKFLOW_STATUS",
+      "children": [
+        {
+          "surface_id": "agency-agents.imported-pack",
+          "title": "Agency Agents",
+          "projection": "CANONICAL_AGENT_DEFINITION_REFERENCE",
+          "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+          "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+          "mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+          "activation_status": "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE",
+          "execution_intent_route": "agents.action-center",
+          "direct_provider_execution": false,
+          "authority": false,
+          "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+          "current_host_runtime_status": "PENDING_CURRENT_HOST",
+          "runtime_conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+          "runtime_promotion_claim": false
+        }
+      ]
     },
     {
       "route_id": "models.providers",
       "title": "Models & Providers",
       "group": "MODELS & DATA",
-      "projection": "MODEL_PROVIDER_STATUS"
+      "projection": "MODEL_PROVIDER_STATUS",
+      "children": [
+        {
+          "surface_id": "models.provider-explorer",
+          "title": "Provider Explorer",
+          "projection": "EXTERNAL_LLM_PROVIDER_DISCOVERY",
+          "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+          "mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+          "execution_intent_route": "models.external-providers",
+          "direct_provider_execution": false,
+          "direct_credential_entry": false,
+          "direct_router_mutation": false,
+          "authority": false,
+          "runtime_promotion_claim": false
+        },
+        {
+          "surface_id": "models.provider-execution",
+          "title": "Provider Execution",
+          "projection": "MODEL_ROUTER_PROVIDER_EXECUTION",
+          "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+          "protocol_profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
+          "mode": "READ_ONLY_EXECUTION_AND_COMPATIBILITY_PROJECTION",
+          "direct_provider_execution": false,
+          "direct_credential_entry": false,
+          "direct_router_mutation": false,
+          "credential_values_visible": false,
+          "authority": false,
+          "current_host_runtime_status": "PROVIDER_SPECIFIC_EVIDENCE_SEPARATE_CORE_CLOSED",
+          "runtime_promotion_claim": false,
+          "gui_finalization_obligation": "MUST_RECONCILE_PROVIDER_ADMISSION_BACKLOG"
+        }
+      ],
+      "provider_gui_completion_obligation": {
+        "status": "MANDATORY_ON_PROVIDER_GUI_FINALIZATION",
+        "requirement": "RECONCILE_AND_FINISH_PENDING_PROVIDER_ADMISSION_AND_CURRENT_HOST_EVIDENCE_WORK",
+        "unresolved_item_policy": "EXPLICIT_BLOCKER_STATUS_REQUIRED; SILENT_OMISSION_FORBIDDEN",
+        "required_followups": [
+          "OPENAI_EXTERNAL_BILLING_CURRENT_HOST_E2E",
+          "GOOGLE_GEMINI_PROVIDER_ADMISSION_IF_SELECTED",
+          "GITHUB_COPILOT_PROVIDER_ADMISSION_IF_SELECTED",
+          "OTHER_SELECTED_EXTERNAL_PROVIDER_ADMISSIONS"
+        ],
+        "core_recertification_required": false,
+        "provider_specific_admission_evidence_required": true
+      }
     },
     {
       "route_id": "models.manager",
@@ -136,7 +204,19 @@
       "title": "External Project Radar",
       "group": "DECISION & CONTEXT",
       "projection": "PROJECT_RADAR",
-      "decision_fabric": "READ_ONLY"
+      "decision_fabric": "READ_ONLY",
+      "children": [
+        {
+          "surface_id": "decision.reusable-assets",
+          "title": "Reusable Assets",
+          "projection": "REUSE_DISCOVERY_DERIVED_CATALOG",
+          "profile_id": "FA3-REUSE-DISCOVERY-001",
+          "mode": "READ_ONLY_DISCOVERY",
+          "direct_runtime_execution": false,
+          "mutation": "NONE",
+          "authority": false
+        }
+      ]
     },
     {
       "route_id": "integrations.root",
@@ -215,6 +295,14 @@
       "title": "Accelerator Guard",
       "group": "SYSTEM",
       "projection": "ACCELERATOR_GUARD",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "system.updates",
+      "title": "Update Center",
+      "group": "SYSTEM",
+      "projection": "UPDATE_FABRIC",
+      "agent_native": "UAF_DRAFT_CONSUMER",
       "mutation": "DRAFT_ONLY"
     },
     {

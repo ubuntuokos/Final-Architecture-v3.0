@@ -2,7 +2,7 @@
   "schema": "fa3.profile.v1",
   "id": "FA3-SKILL-FABRIC-001",
   "name": "Portable Skill, Procedure & Capability Composition Fabric",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -137,7 +137,14 @@
     "SKILL_DISTRIBUTION_CLASS_REQUIRED",
     "REMOTE_RUNTIME_SKILL_FETCH_FORBIDDEN",
     "QUALITY_SKILLS_TASK_SCOPED_AND_MINIMUM_MATCHING_SET",
-    "QUALITY_SKILLS_CANNOT_BECOME_DESIGN_OR_EXECUTION_AUTHORITY"
+    "QUALITY_SKILLS_CANNOT_BECOME_DESIGN_OR_EXECUTION_AUTHORITY",
+    "AGENT_SKILLS_COMPATIBLE_PARSE_IS_UNTRUSTED_CANDIDATE",
+    "AGENT_SKILLS_ALLOWED_TOOLS_METADATA_IS_NOT_AUTHORIZATION",
+    "SKILL_SECURITY_INSPECTION_REQUIRED_BEFORE_EXTERNAL_ADMISSION",
+    "SKILL_ROUTING_NON_SELECTION_AND_MINIMALITY_EVAL_REQUIRED",
+    "SKILL_IMPROVEMENT_CANDIDATE_REQUIRES_NEW_ADMISSION",
+    "SKILL_OPTIMIZER_AUTO_PROMOTION_FORBIDDEN",
+    "EXTERNAL_SKILL_RADAR_DISCOVERY_IS_NOT_INSTALLATION_OR_TRUST"
   ],
   "discovery_contract_id": "FA3-SKILL-DISCOVERY-CONTRACTS-001",
   "materialization_contract_id": "FA3-SKILL-MATERIALIZATION-CONTRACTS-001",
@@ -149,6 +156,24 @@
     "distribution_compliance": "FA3-DISTRIBUTION-COMPLIANCE-001",
     "supply_chain": "FA3-SCS-001",
     "registry": "FA3-REGISTRY-001",
-    "quality_filter": "FA3-QUALITY-ANTI-SLOP-001"
+    "quality_filter": "FA3-QUALITY-ANTI-SLOP-001",
+    "skill_security_owner": "FA3-SCS-001",
+    "external_skill_radar": "FA3-EXTERNAL-SKILL-RADAR-001"
+  },
+  "agent_skills_ecosystem": {
+    "compatibility_mode": "SAFE_IMMUTABLE_PARSE_THEN_FA3_NORMALIZATION",
+    "contract_ids": [
+      "FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001",
+      "FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001",
+      "FA3-SKILL-EVALUATION-CONTRACTS-001",
+      "FA3-SKILL-IMPROVEMENT-CONTRACTS-001"
+    ],
+    "external_radar_id": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "external_catalog_is_trust_authority": false,
+    "automatic_external_install": false,
+    "compatible_parse_is_admission": false,
+    "allowed_tools_metadata_is_authorization": false,
+    "admitted_skill_in_place_self_modification": false,
+    "optimizer_auto_promotion": false
   }
 }

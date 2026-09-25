@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-REUSE-DISCOVERY-CI-REFERENCE-2026-09-24",
+  "date": "2026-09-24",
+  "subject_id": "FA3-REUSE-DISCOVERY-001",
+  "status": "PASS",
+  "evidence_class": "REFERENCE_STATIC_CONFORMANCE",
+  "evidence_level": "STATIC_REFERENCE_EXECUTABLE_PASS_NOT_RUNTIME_OR_CURRENT_HOST",
+  "validated_implementation_commit": "69295479681c1c816f41ebcef2ca3c8937d8edd8",
+  "required_gate": "FA3-REUSE-DISCOVERY-GATESET-001",
+  "github_actions": {
+    "reuse_discovery": {
+      "run_id": 36091773680,
+      "job_id": 107935517729,
+      "workflow": "FA3 Reuse Discovery Gate",
+      "conclusion": "success",
+      "artifact_id": 10845427929,
+      "artifact_name": "fa3-reuse-discovery-gate"
+    },
+    "gui": {
+      "run_id": 36091773652,
+      "static_job_id": 107935518081,
+      "qt_build_job_id": 107935518009,
+      "workflow": "FA3 GUI Gate",
+      "conclusion": "success"
+    },
+    "permanent_enforcement": {
+      "run_id": 36091773595,
+      "canonical_job_id": 107935517864,
+      "promotion_safety_job_id": 107936010465,
+      "workflow": "FA3 Permanent Canonical + Promotion Gate",
+      "conclusion": "success",
+      "static_artifact_id": 10845464114,
+      "promotion_artifact_id": 10845289960
+    }
+  },
+  "proven": [
+    "deterministic canonical reuse discovery and catalog federation",
+    "all admitted Skill Registry entries federate into Reuse Catalog as non-authoritative task-scoped skill candidates",
+    "only ADMITTED task-scoped skills can receive ADMITTED_SKILL_REUSE semantics",
+    "External Skill Radar sources federate as immutable REFERENCE_ONLY idea sources with no fetch install admission activation or authority",
+    "task-class and skill-trigger deterministic skill matching",
+    "retroactive reuse reassessment on materially modified profiles/providers",
+    "Skill Fabric 1.2 retroactive ApplicationIntent and PASS ReuseAssessment",
+    "duplicate capability declaration rejection",
+    "existing authority collision rejection",
+    "software coexistence namespace and non-interference checks",
+    "vendor-neutral CPU-only viable Hardware Audit with 0..N accelerators",
+    "Decision Fabric candidate-set expansion is fail-closed",
+    "Agent Native reuse output remains proposal-only",
+    "12 targeted Reuse Discovery tests",
+    "1717 full repository unit tests with one intentional skip",
+    "unified release projection gate",
+    "Distribution Compliance regression",
+    "Integration Broker regression",
+    "GUI canonical regression and Qt 6 reference build",
+    "global static enforcement",
+    "runtime promotion cannot bypass evidence"
+  ],
+  "not_proven": [
+    "current-host runtime execution for unrelated providers or applications",
+    "provider admission derived from a reuse recommendation",
+    "external skill installation or activation derived from radar discovery",
+    "runtime or current-host promotion from static reuse evidence"
+  ],
+  "runtime_admission": "NOT_APPLICABLE_STATIC_DESIGN_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "requalified_at": "2026-09-25"
+}

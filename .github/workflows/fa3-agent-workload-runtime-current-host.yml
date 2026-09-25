@@ -1,0 +1,85 @@
+name: FA3 Agent Workload Runtime Current Host
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json'
+      - 'canonical/FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-001.json'
+      - 'canonical/providers/FA3-PROVIDER-AGENT-RUNNER-NATIVE-001.json'
+      - 'canonical/providers/FA3-PROVIDER-AGENT-RUNNER-PODMAN-001.json'
+      - 'evidence/collect-agent-workload-runtime-current-host.py'
+      - 'src/fa3_agent_workload_current_host_gate.py'
+      - 'tests/test_agent_workload_current_host_gate.py'
+      - 'fa3-current-host/manifest.json'
+      - '.github/workflows/fa3-agent-workload-runtime-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Run real native Agent Workload current-host E2E'
+        required: true
+        default: false
+        type: boolean
+      resource_admission_receipt:
+        description: 'Path on the self-hosted runner to a real FA3 resource-admission receipt scoped to fa3-agent-workload-native-current-host'
+        required: true
+        default: '.fa3-current-host/input/agent-workload-resource-admission-current-host.json'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  reference-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and unit regressions
+        run: |
+          python -m py_compile evidence/collect-agent-workload-runtime-current-host.py src/fa3_agent_workload_current_host_gate.py
+          PYTHONPATH=src python -m unittest tests.test_agent_workload_current_host_gate -v
+      - name: Parent workload runtime gate
+        run: ./bin/fa3-enforce agent-workload-runtime
+      - name: Current-host contract only, no fabricated receipt
+        run: PYTHONPATH=src python src/fa3_agent_workload_current_host_gate.py --root . --static-only
+
+  production-e2e:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: reference-regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    env:
+      FA3_CURRENT_HOST_EXECUTION_CONTEXT: REAL_SELF_HOSTED_FA3_CURRENT_HOST
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify supplied fresh scope-bound resource admission receipt exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "${{ inputs.resource_admission_receipt }}"
+      - name: Collect real native runner evidence
+        run: |
+          PYTHONPATH=src python evidence/collect-agent-workload-runtime-current-host.py             --root .             --resource-admission-receipt "${{ inputs.resource_admission_receipt }}"
+      - name: Fail-closed current-host gate
+        run: ./bin/fa3-enforce agent-workload-runtime-current-host
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-agent-workload-runtime-current-host
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/agent-workload-runtime-current-host.json
+            reports/agent-workload-runtime-current-host-gate-report.json
+            reports/agent-workload-runtime-gate-report.json
+            reports/resource-admission-current-host-gate-report.json
