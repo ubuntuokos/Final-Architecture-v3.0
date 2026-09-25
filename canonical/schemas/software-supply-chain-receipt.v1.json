@@ -38,12 +38,20 @@
     "artifact": {
       "type": "object",
       "required": [
-        "sha256"
+        "sha256",
+        "kind"
       ],
       "properties": {
         "sha256": {
           "type": "string",
           "pattern": "^[0-9a-f]{64}$"
+        },
+        "kind": {
+          "enum": [
+            "SOURCE_BUILD",
+            "OCI_IMAGE_EXPORT",
+            "PREBUILT_BINARY"
+          ]
         }
       }
     },
