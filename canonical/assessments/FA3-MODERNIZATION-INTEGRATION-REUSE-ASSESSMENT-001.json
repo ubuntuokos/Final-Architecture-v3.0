@@ -55,6 +55,10 @@
     {
       "id": "FA3-QUALITY-ANTI-SLOP-001",
       "use": "EXISTING_QUALITY_REGRESSION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AGENT-FEDERATION-001",
+      "use": "CROSS_HOST_COORDINATION_BOUNDARY_REMOTE_EXECUTION_STILL_REQUIRES_REMOTE_HRB"
     }
   ],
   "rejected_candidates": [
@@ -85,7 +89,8 @@
     "security": "FA3-AUTH-SECURITY-GOV-001",
     "knowledge": "FA3-KNOWLEDGE-001",
     "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
-    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "cross_host_coordination": "FA3-AGENT-FEDERATION-001_PROFILE_NON_RESOURCE_AUTHORITY"
   },
   "gaps": [
     "MODERNIZATION_CROSS_CUTTING_CONTRACT",
