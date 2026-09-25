@@ -2,8 +2,8 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-MINIMAX-H3-001",
   "name": "MiniMax H3",
-  "status": "ACCEPTED_CONDITIONAL_REFERENCE",
-  "provider_role": "HYBRID_LOCAL_REMOTE_MULTIMODAL_VIDEO_REFERENCE_PROVIDER",
+  "status": "RETIRED_REFERENCE_ONLY",
+  "provider_role": "HISTORICAL_REFERENCE_AND_PATTERN_SOURCE_ONLY",
   "classification": [
     "OPTIONAL_PROVIDER",
     "REFERENCE_ARCHITECTURE",
@@ -21,7 +21,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "capability_count": 143,
-  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "activation_mode": "DISABLED_FORBIDDEN",
   "architectural_patterns": [
     "context_compilation_before_generation",
     "reference_artifact_semantic_entity_separation",
@@ -231,7 +231,7 @@
     "secrets": "EXISTING_FA3_SECRETS_AUTHORITY",
     "billing_entitlement": "PROVIDER_DISCOVERY_INPUT_NOT_ARCHITECTURAL_AUTHORITY"
   },
-  "implementation_status": "SGLANG_DIFFUSERS_COMFYUI_PRODUCTION_PROJECTIONS_RETAINED_VLLM_END_TO_END_H3_PROJECTION_CORRECTED_VLLM_OMNI_AND_INTEGRATION_INDEX_CANDIDATES_REGISTERED_FAIL_CLOSED_PROMPT_SKILL_REFERENCE_REGISTERED_SERVICE_ACCESS_POLICY_HARDENED_RUNTIME_ADMISSION_MATERIALIZED_CURRENT_HOST_E2E_PENDING_NOT_YET_CURRENT_HOST_PROMOTED",
+  "implementation_status": "RETIRED_SUPERSEDED_NO_RUNTIME_ADMISSION",
   "upstream_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
   "integration_index_reference": "FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12",
   "service_reference": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
@@ -255,5 +255,24 @@
     "context_compiler_authority": false,
     "execution_authority": false,
     "rule": "MAY_HELP_PROJECT_VideoGenerationIR_TO_PROVIDER_PROMPT_BUT_MUST_NOT_REPLACE_OR_MUTATE_CANONICAL_IR"
+  },
+  "runtime_execution_forbidden": true,
+  "provider_selection_forbidden": true,
+  "direct_dependency_forbidden": true,
+  "replacement_policy": {
+    "decision_id": "FA3-DEC-H3-REPLACEMENT-2026-09-25",
+    "replacement_id": "FA3-H3-REPLACEMENT-001",
+    "canonical_profile": "FA3-VIDEO-001",
+    "canonical_ir": [
+      "FA3-MMG-CONTEXT-IR-001",
+      "VideoGenerationIR"
+    ],
+    "execution_chain": [
+      "FA3-AUTH-MODEL-ROUTER-001",
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "provider_admission"
+    ],
+    "rule": "ANY_REQUIREMENT_PREVIOUSLY_SATISFIED_BY_H3_MUST_ROUTE_THROUGH_FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
+    "historical_reference_allowed": true
   }
 }
