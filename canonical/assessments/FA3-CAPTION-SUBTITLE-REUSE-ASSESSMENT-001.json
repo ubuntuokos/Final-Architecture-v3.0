@@ -8,7 +8,7 @@
     "FA3-CAPTION-SUBTITLE-001",
     "FA3-PROVIDER-CAPTION-NATIVE-001"
   ],
-  "project_status": "MATERIALIZED_IN_EXISTING_PR_PENDING_MAIN_REBASE_AND_FINAL_REQUALIFICATION",
+  "project_status": "MATERIALIZED_RECONCILED_WITH_MAIN_REFERENCE_CI_PASS_CURRENT_HOST_APPLICATION_E2E_PASS_GUI_PHYSICAL_MANUAL_REQUALIFICATION_PENDING",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -83,15 +83,32 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "gap_resolution": [
     {
       "gap": "UNIFIED_CAPTION_SUBTITLE_NARRATION_PROJECT_MODEL_AND_NATIVE_PLANNING_PROVIDER",
-      "status": "MATERIALIZED_IN_PR_PENDING_MAIN_REBASE_AND_FINAL_CI",
+      "status": "MATERIALIZED",
       "source_branch": "fa3/caption-narration-fabric-20260923",
-      "source_head_before_reconciliation": "3945b99c5ffdf57ea8e030662eee5fd25d2e3c6e"
+      "source_head_before_reconciliation": "3945b99c5ffdf57ea8e030662eee5fd25d2e3c6e",
+      "validated_reference_commit": "e2ab6b21eb9cadec1414b72030cfac974143d85e",
+      "current_host_application_evidence": "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
+      "gui_physical_requalification": "PENDING_MANUAL_WORKFLOW_DISPATCH"
     }
   ],
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "requalification": {
+    "status": "PASS",
+    "validated_reference_commit": "e2ab6b21eb9cadec1414b72030cfac974143d85e",
+    "caption_gate_run_id": 36178962532,
+    "reuse_discovery_run_id": 36178962639,
+    "permanent_enforcement_run_id": 36178962628,
+    "projection_run_id": 36178962424,
+    "distribution_run_id": 36178962687,
+    "gui_reference_run_id": 36178962577,
+    "gui_current_host_materialization_run_id": 36178962621,
+    "gui_physical_smoke": "PENDING_MANUAL_WORKFLOW_DISPATCH",
+    "current_host_application_e2e_evidence_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7",
+    "global_promotion_claim": false
+  }
 }
