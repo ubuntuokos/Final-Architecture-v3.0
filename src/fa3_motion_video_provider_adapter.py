@@ -12,6 +12,8 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+from fa3_resource_admission_current_host_gate import validate_receipt as validate_resource_admission_receipt
+
 ROUTER_AUTHORITY = "FA3-AUTH-MODEL-ROUTER-001"
 HRB_AUTHORITY = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 BILLABLE_ACK = "I_ACKNOWLEDGE_BILLABLE_FA3_VIDEO_E2E"
@@ -93,18 +95,38 @@ def validate_admission(manifest: dict[str,Any], provider_id: str) -> None:
     if receipt.get("synthetic_or_mock_provider") is True:
         raise MotionVideoDenied("synthetic/mock provider admission forbidden")
 
-def validate_hrb(manifest: dict[str,Any], hrb: dict[str,Any] | None) -> None:
+def validate_hrb(manifest: dict[str,Any], hrb: dict[str,Any] | None) -> dict[str,Any] | None:
     local=manifest.get("execution_topology") == "LOCAL"
     accel=bool(manifest.get("requires_accelerator"))
-    if local and accel:
+    if not local:
+        return None
+    if accel:
         if not isinstance(hrb,dict):
-            raise MotionVideoDenied("local accelerator execution requires HRB receipt")
-        if hrb.get("authority") != HRB_AUTHORITY or hrb.get("status") not in {"ADMITTED","PASS"}:
-            raise MotionVideoDenied("HRB receipt is not admitted")
-        if not nonempty(hrb.get("lease_id")):
-            raise MotionVideoDenied("HRB lease_id missing")
-    if local and not accel and isinstance(hrb,dict) and hrb.get("accelerator_lease") is True:
-        raise MotionVideoDenied("CPU-only execution must not carry accelerator lease")
+            raise MotionVideoDenied("local accelerator execution requires CURRENT_HOST_ADMISSION evidence")
+        findings=validate_resource_admission_receipt(hrb)
+        if findings:
+            raise MotionVideoDenied("CURRENT_HOST_ADMISSION evidence rejected")
+        if hrb.get("evidence_class")!="CURRENT_HOST_ADMISSION" or hrb.get("result",{}).get("status")!="PASS":
+            raise MotionVideoDenied("CURRENT_HOST_ADMISSION PASS missing")
+        payload=hrb.get("payload",{})
+        if payload.get("accelerator_required") is not True:
+            raise MotionVideoDenied("accelerator workload requires accelerator-bound admission")
+        lease=payload.get("hrb_lease_identity",{})
+        if not all(nonempty(lease.get(k)) for k in ("lease_id","accelerator_uuid","pci_bus_id")):
+            raise MotionVideoDenied("HRB stable accelerator identity missing")
+        return {
+            "lease_id":lease["lease_id"],
+            "accelerator_uuid":lease["accelerator_uuid"],
+            "pci_bus_id":lease["pci_bus_id"],
+            "evidence_id":hrb.get("evidence_id"),
+        }
+    if isinstance(hrb,dict):
+        findings=validate_resource_admission_receipt(hrb)
+        if findings:
+            raise MotionVideoDenied("CPU-only CURRENT_HOST_ADMISSION evidence rejected")
+        if hrb.get("payload",{}).get("accelerator_required") is True:
+            raise MotionVideoDenied("CPU-only execution cannot carry accelerator admission")
+    return None
 
 def validate_billing(manifest: dict[str,Any]) -> None:
     if manifest.get("cost_class") == "BILLABLE_REMOTE":
@@ -152,7 +174,7 @@ def execute_http(manifest: dict[str,Any], ir: dict[str,Any], timeout: float) -> 
         time.sleep(interval)
     raise MotionVideoDenied("provider task timed out")
 
-def execute_command(manifest: dict[str,Any], ir_path: Path, output_path: Path, timeout: float) -> dict[str,Any]:
+def execute_command(manifest: dict[str,Any], ir_path: Path, output_path: Path, timeout: float, hrb_binding: dict[str,Any] | None = None) -> dict[str,Any]:
     executable=Path(str(manifest.get("executable",""))).expanduser()
     if not executable.is_absolute() or not executable.is_file():
         raise MotionVideoDenied("executor command must be an existing absolute file")
@@ -167,6 +189,12 @@ def execute_command(manifest: dict[str,Any], ir_path: Path, output_path: Path, t
     for key in list(env):
         if any(t in key.upper() for t in ("API_KEY","TOKEN","SECRET","PASSWORD")):
             env.pop(key,None)
+    if hrb_binding:
+        env["FA3_HRB_LEASE_ID"]=str(hrb_binding["lease_id"])
+        env["FA3_ACCELERATOR_UUID"]=str(hrb_binding["accelerator_uuid"])
+        env["FA3_ACCELERATOR_PCI_BDF"]=str(hrb_binding["pci_bus_id"])
+        if hrb_binding.get("evidence_id"):
+            env["FA3_RESOURCE_ADMISSION_EVIDENCE_ID"]=str(hrb_binding["evidence_id"])
     p=subprocess.run([str(executable),*rendered],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,timeout=timeout,env=env)
     if p.returncode!=0:
         raise MotionVideoDenied(f"executor command failed rc={p.returncode}")
@@ -187,12 +215,12 @@ def execute(selection_path: Path, manifest_path: Path, ir_path: Path, *, hrb_pat
         raise MotionVideoDenied("VideoGenerationIR schema mismatch")
     assert_no_secret_values(ir,"video generation IR")
     validate_admission(manifest,provider_id)
-    validate_hrb(manifest,loadj(hrb_path) if hrb_path else None)
+    hrb_binding=validate_hrb(manifest,loadj(hrb_path) if hrb_path else None)
     validate_billing(manifest)
     if manifest["transport"]=="FA3_HTTP_BRIDGE":
         result=execute_http(manifest,ir,timeout)
     else:
-        result=execute_command(manifest,ir_path,output_path,timeout)
+        result=execute_command(manifest,ir_path,output_path,timeout,hrb_binding)
     assert_no_secret_values(result,"provider result")
     if str(result.get("status","")).upper() not in {"COMPLETE","SUCCEEDED","PASS"}:
         raise MotionVideoDenied("execution result is not successful")
