@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AI-SECURITY-TESTING-FABRIC-001",
+  "name": "AI Security Testing Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-ADVERSARIAL-AI-AGENT-RAG-OR-MCP-SECURITY-VALIDATION-REQUESTED",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_SECURITY_TESTING_FABRIC",
+  "parent_profile": "FA3-AI-SEC-VALIDATION-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-AI-SECURITY-TESTING-FABRIC-CONTRACTS-001"
+  ],
+  "authority": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "action_mediation": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "runtime": "FA3-PROVIDER-RUNTIME-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "FA3-SECRET-BROKER-001"
+  },
+  "layers": [
+    "SECURITY_SCENARIO_CATALOG",
+    "VULNERABILITY_AND_ATTACK_TECHNIQUE_REGISTRY",
+    "SECURITY_TEST_JOB",
+    "ENGINE_ADAPTERS",
+    "EVALUATION_RUNTIME",
+    "AGENT_SECURITY_ENVIRONMENT",
+    "MCP_SECURITY_ASSURANCE",
+    "SECURITY_REGRESSION_MATRIX",
+    "NORMALIZED_SECURITY_EVIDENCE"
+  ],
+  "engine_policy": {
+    "deterministic_engine": "FA3_NATIVE_BASELINE",
+    "pyrit": "ENGINE_CANDIDATE_RUNTIME_ADMISSION_PENDING",
+    "garak": "REUSE_EXISTING_FA3_MODEL_ARTIFACT_SECURITY_RUNTIME",
+    "additional_engines": "SEPARATE_ADMISSION_REQUIRED"
+  },
+  "implementation_status": "STATIC_CANONICAL_BASELINE_RUNTIME_ENGINE_ADMISSION_PENDING",
+  "current_host_runtime_promotion_claim": false
+}
