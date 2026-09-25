@@ -8,12 +8,30 @@ from fa3_supply_runtime_hardening_gate import gate as parent_gate
 
 CONF="canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json"
 GATE_RECORD="canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json"
+SCS_RECEIPT="evidence/receipts/supply-chain-admission-current-host.json"
+PROVIDER_RECEIPT="evidence/receipts/provider-runtime-current-host.json"
 HRB_RECEIPT="evidence/receipts/hrb-composite-current-host.json"
 HU_RECEIPT="evidence/receipts/hu-aqc-golden-corpus-current-host.json"
 GATESET="FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
 
 def loadj(p:Path)->dict[str,Any]:return json.loads(p.read_text(encoding="utf-8"))
 def finding(code,msg,**kw):return {"code":code,"severity":"P0","message":msg,**kw}
+
+def validate_scs(row:dict[str,Any])->list[dict[str,Any]]:
+    fs=[]
+    if row.get("schema")!="fa3.software-supply-chain-receipt.v1" or row.get("current_host_execution") is not True or row.get("synthetic") is not False:fs.append(finding("SRH-HOST-051","SCS receipt is not explicit real current-host execution"))
+    if row.get("admission",{}).get("result")!="PASS" or row.get("admission",{}).get("admitted") is not True:fs.append(finding("SRH-HOST-052","SCS automated admission did not PASS"))
+    lic=row.get("license",{})
+    if lic.get("policy_result")!="PASS" or lic.get("declaration_matches_detection") is not True:fs.append(finding("SRH-HOST-053","SCS automated license policy did not PASS"))
+    if row.get("artifact",{}).get("hash_scope") not in {"FILE_CONTENT","DETERMINISTIC_TREE_CONTENT"}:fs.append(finding("SRH-HOST-054","SCS artifact content hash scope missing"))
+    return fs
+
+def validate_provider(row:dict[str,Any])->list[dict[str,Any]]:
+    fs=[]
+    if row.get("schema")!="fa3.provider-runtime-current-host-receipt.v1" or row.get("status")!="CURRENT_HOST_PASS":fs.append(finding("SRH-HOST-071","provider runtime current-host receipt does not PASS"))
+    if row.get("execution_class") not in {"VENV","OCI","HOST_NATIVE"}:fs.append(finding("SRH-HOST-072","provider runtime execution class invalid"))
+    if row.get("synthetic") is not False or row.get("global_promotion_claim") is not False:fs.append(finding("SRH-HOST-073","provider runtime provenance/promotion boundary drift"))
+    return fs
 
 def validate_hrb(row:dict[str,Any])->list[dict[str,Any]]:
     fs=[]
@@ -43,19 +61,21 @@ def gate(root:Path,*,require_evidence:bool=False)->dict[str,Any]:
     if conf.get("current_host_gate")!=GATESET or conf.get("capability_count")!=count or conf.get("new_architectural_authorities")!=0 or conf.get("global_promotion_claim") is not False:fs.append(finding("SRH-HOST-003","current-host conformance invariant drift"))
     if gr.get("gateset_id")!=GATESET or gr.get("fail_closed") is not True or gr.get("global_promotion_claim") is not False:fs.append(finding("SRH-HOST-004","current-host gate record drift"))
     receipts={}
-    for name,rel in (("hrb",HRB_RECEIPT),("hu",HU_RECEIPT)):
+    for name,rel in (("scs",SCS_RECEIPT),("provider",PROVIDER_RECEIPT),("hrb",HRB_RECEIPT),("hu",HU_RECEIPT)):
         p=root/rel
         if p.is_file():
             try:receipts[name]=loadj(p)
             except Exception as exc:fs.append(finding("SRH-HOST-005","receipt unreadable",path=rel,error=repr(exc)))
+    if "scs" in receipts:fs.extend(validate_scs(receipts["scs"]))
+    if "provider" in receipts:fs.extend(validate_provider(receipts["provider"]))
     if "hrb" in receipts:fs.extend(validate_hrb(receipts["hrb"]))
     if "hu" in receipts:fs.extend(validate_hu(receipts["hu"],hu_profile))
-    missing=[name for name in ("hrb","hu") if name not in receipts]
+    missing=[name for name in ("scs","provider","hrb","hu") if name not in receipts]
     if require_evidence and missing:fs.append(finding("SRH-HOST-006","required real current-host evidence missing",missing=missing))
     if fs:result,status="FAIL","BLOCKED"
     elif missing:result,status="PASS","PENDING_CURRENT_HOST"
     else:result,status="PASS","CURRENT_HOST_SCOPE_PASS"
-    return {"schema":"fa3.supply-runtime-hardening-current-host-gate-report.v1","gate_id":"FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001","gateset_id":GATESET,"result":result,"status":status,"findings":fs,"missing_surfaces":missing,"surface_pass_count":2-len(missing),"capability_count":count,"new_capabilities":0,"new_architectural_authorities":0,"production_broker_promotion_claim":False,"global_promotion_claim":False}
+    return {"schema":"fa3.supply-runtime-hardening-current-host-gate-report.v1","gate_id":"FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001","gateset_id":GATESET,"result":result,"status":status,"findings":fs,"missing_surfaces":missing,"surface_pass_count":4-len(missing),"capability_count":count,"new_capabilities":0,"new_architectural_authorities":0,"production_broker_promotion_claim":False,"global_promotion_claim":False}
 
 def main()->int:
     p=argparse.ArgumentParser();p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));p.add_argument("--require-evidence",action="store_true");p.add_argument("--report",default="reports/supply-runtime-hardening-current-host-gate-report.json");a=p.parse_args()
