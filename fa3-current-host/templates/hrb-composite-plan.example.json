@@ -46,5 +46,9 @@
       "runtime_ordinal_is_identity": false
     }
   ],
-  "template_only": true
+  "template_only": true,
+  "queue_policy": {
+    "max_waiters": 8,
+    "deadline_seconds": 30
+  }
 }
