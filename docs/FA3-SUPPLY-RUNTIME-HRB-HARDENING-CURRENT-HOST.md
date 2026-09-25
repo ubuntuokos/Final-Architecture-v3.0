@@ -12,7 +12,7 @@ Select a real local artifact/source tree with an immutable source repository + c
 
 ## Provider runtime environment
 
-Prepare one `fa3.provider-runtime-environment.v1` plan for the admitted provider being proven. Three non-evidence templates are included for VENV, OCI and HOST_NATIVE. VENV proof checks the real environment, dependency-lock binding and isolated Python identity. OCI proof requires a preloaded digest-matching image and executes it rootlessly with `--pull=never --network none --read-only`. HOST_NATIVE proof is identity-only: the collector hashes the declared non-symlink executable and does not execute arbitrary host-native code.
+Prepare one `fa3.provider-runtime-environment.v1` plan for the admitted provider being proven. Three non-evidence templates are included for VENV, OCI and HOST_NATIVE. After the physical SCS scan, `tools/fa3_bind_provider_runtime.py` writes a separate runtime copy bound to the exact SCS receipt SHA-256; the operator template is not modified. VENV proof checks the real environment, dependency-lock binding and isolated Python identity. OCI proof requires a preloaded digest-matching image and executes it rootlessly with `--pull=never --network none --read-only`. HOST_NATIVE proof is identity-only: the collector hashes the declared non-symlink executable and does not execute arbitrary host-native code.
 
 ## HRB composite control plane
 
