@@ -54,20 +54,24 @@ def _host_native(plan:dict[str,Any])->dict[str,Any]:
     if digest!=h.get("executable_sha256"):raise RuntimeError("host-native executable identity mismatch")
     return {"execution_class":"HOST_NATIVE","executable_path":str(exe),"executable_sha256":digest,"identity_only":True,"arbitrary_execution_performed":False}
 
-def collect(root:Path,plan_path:Path,output:Path)->dict[str,Any]:
+def collect(root:Path,plan_path:Path,supply_chain_receipt_path:Path,output:Path)->dict[str,Any]:
     receipt={"schema":"fa3.provider-runtime-current-host-receipt.v1","surface":"PROVIDER_RUNTIME_ENVIRONMENT","synthetic":False,"global_promotion_claim":False,"capability_count":module_active_capability_count(__file__)}
     try:
         plan=loadj(plan_path);validation=validate_runtime_environment(plan)
         if validation["result"]!="PASS":raise RuntimeError("provider runtime plan invalid: "+",".join(validation["findings"]))
+        scs=loadj(supply_chain_receipt_path)
+        scs_sha=sha256_file(supply_chain_receipt_path)
+        if scs.get("admission",{}).get("result")!="PASS" or scs.get("current_host_execution") is not True:raise RuntimeError("bound SCS receipt is not current-host admitted")
+        if plan.get("supply_chain_receipt_sha256")!=scs_sha:raise RuntimeError("provider runtime plan SCS receipt digest mismatch")
         cls=plan["execution_class"]
         proof=_venv(plan) if cls=="VENV" else _oci(plan) if cls=="OCI" else _host_native(plan)
-        receipt.update({"result":"PASS","status":"CURRENT_HOST_PASS","provider_id":plan["provider_id"],"execution_class":cls,"plan_path":str(plan_path),"plan_sha256":sha256_file(plan_path),"proof":proof})
+        receipt.update({"result":"PASS","status":"CURRENT_HOST_PASS","provider_id":plan["provider_id"],"execution_class":cls,"plan_path":str(plan_path),"plan_sha256":sha256_file(plan_path),"supply_chain_receipt_sha256":scs_sha,"proof":proof})
     except Exception as exc:
         receipt.update({"result":"PENDING","status":"PENDING_CURRENT_HOST","error_type":type(exc).__name__,"error":str(exc)})
     writej(output,receipt);return receipt
 
 def main()->int:
-    p=argparse.ArgumentParser();p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));p.add_argument("--plan",required=True);p.add_argument("--output",default="evidence/receipts/provider-runtime-current-host.json");a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));p.add_argument("--plan",required=True);p.add_argument("--supply-chain-receipt",required=True);p.add_argument("--output",default="evidence/receipts/provider-runtime-current-host.json");a=p.parse_args()
     root=Path(a.root).resolve();out=Path(a.output);out=out if out.is_absolute() else root/out
-    r=collect(root,Path(a.plan).resolve(),out);print(json.dumps(r,indent=2,ensure_ascii=False));return 0 if r["result"]=="PASS" else 2
+    r=collect(root,Path(a.plan).resolve(),Path(a.supply_chain_receipt).resolve(),out);print(json.dumps(r,indent=2,ensure_ascii=False));return 0 if r["result"]=="PASS" else 2
 if __name__=="__main__":raise SystemExit(main())
