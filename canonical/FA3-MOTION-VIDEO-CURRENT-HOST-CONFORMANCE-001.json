@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.motion-video-current-host-conformance.v1",
+  "id": "FA3-MOTION-VIDEO-CURRENT-HOST-CONFORMANCE-001",
+  "status": "MATERIALIZED_REAL_PROVIDER_E2E_PENDING",
+  "priority": "P0",
+  "requirement": "MUST_IF_MOTION_VIDEO_RUNTIME_PROMOTED",
+  "profile_id": "FA3-VIDEO-001",
+  "runtime_admission_id": "FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001",
+  "gate_id": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+  "executable_gate_id": "FA3-GATE-MOTION-VIDEO-CURRENT-HOST-001",
+  "adapter": "src/fa3_motion_video_provider_adapter.py",
+  "collector": "evidence/collect-motion-video-current-host.py",
+  "gate": "src/fa3_motion_video_current_host_gate.py",
+  "runner": "bin/fa3-motion-video-current-host.sh",
+  "workflow": ".github/workflows/fa3-motion-video-current-host.yml",
+  "required_scope": "REAL_PROVIDER_CURRENT_HOST",
+  "billing_semantics": {
+    "free_local_or_remote": "NO_BILLING_ACK",
+    "billable_remote": "EXPLICIT_MANUAL_ACK_REQUIRED",
+    "automatic_cost_class_fallback": "FORBIDDEN"
+  },
+  "secret_semantics": "PROVIDER_BRIDGE_OR_SECRET_BROKER_OWNS_CREDENTIALS; WORKFLOW_DOES_NOT_ACCEPT_RAW_PROVIDER_SECRETS",
+  "current_host_runtime_claim": false,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false
+}
