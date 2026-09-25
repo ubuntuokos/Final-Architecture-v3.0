@@ -754,6 +754,19 @@ def gate(root: Path):
         "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
         "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
         "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
+        "canonical/schemas/software-supply-chain-receipt.v1.json",
+        "canonical/schemas/provider-runtime-environment.v1.json",
+        "canonical/schemas/resource-reservation-plan.v1.json",
+        "canonical/schemas/upstream-patch-set.v1.json",
+        "canonical/hrb-deterministic-locality-enforcement.json",
+        "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HRB-COMPOSITE-RESERVATION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
+        "canonical/assessments/FA3-PROVIDER-RUNTIME-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
     }
     if (
         supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
