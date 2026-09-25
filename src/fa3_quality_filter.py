@@ -128,6 +128,8 @@ def _candidate_paths(root: Path, scope: str, changed_from: str | None) -> list[s
                 candidates.extend(p.relative_to(root).as_posix() for p in base.rglob("*") if p.is_file())
     out = []
     for rel in sorted(set(candidates)):
+        if not (root / rel).is_file():
+            continue
         if scope == "gui" and not rel.startswith("apps/fa3-control-center/qml/"):
             continue
         if any(rel.startswith(x) for x in SELF_EXCLUDED_PREFIXES):
