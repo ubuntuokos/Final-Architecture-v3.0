@@ -18,7 +18,8 @@
     "FA3-VIDEO-CONTRACTS-001",
     "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
     "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
-    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001"
   ],
   "dependencies": [
     "FA3-CONTRACT-001",
@@ -144,5 +145,18 @@
     "silent_fallback_forbidden": true,
     "applies_retroactively": true,
     "applies_prospectively": true
+  },
+  "motion_video_generation_fabric": {
+    "id": "FA3-H3-REPLACEMENT-001",
+    "execution_surface": "FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
+    "runtime_admission": "FA3-MOTION-VIDEO-RUNTIME-ADMISSION-001",
+    "execution_contract": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "current_host_conformance": "FA3-MOTION-VIDEO-CURRENT-HOST-CONFORMANCE-001",
+    "current_host_gate": "FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001",
+    "adapter": "src/fa3_motion_video_provider_adapter.py",
+    "provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "billable_remote_requires_manual_ack": true,
+    "free_execution_requires_billing_ack": false
   }
 }
