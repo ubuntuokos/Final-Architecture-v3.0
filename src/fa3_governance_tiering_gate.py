@@ -64,6 +64,26 @@ def gate(root: Path) -> dict[str, Any]:
     ring_ids = [item.get("id") for item in ring_records]
     ordinals = [item.get("ordinal") for item in ring_records]
     registry_records = registry.get("records", [])
+    before_count = projection.get("canonical_capability_count_before")
+    after_count = projection.get("canonical_capability_count_after")
+    capability_delta = projection.get("capability_delta")
+    semantic_effect = projection.get("semantic_effect")
+    declared_migration = (
+        isinstance(before_count, int)
+        and isinstance(after_count, int)
+        and after_count == expected_count
+        and isinstance(capability_delta, int)
+        and capability_delta == after_count - before_count
+        and (
+            (capability_delta == 0 and semantic_effect == "NO_BASELINE_SEMANTIC_CHANGE")
+            or (
+                capability_delta > 0
+                and semantic_effect == "CAPABILITY_MODEL_EXPANSION_143_TO_175"
+                and projection.get("capability_model_migration_decision")
+                == "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+            )
+        )
+    )
 
     expected_forbidden = {
         "STAGING_IMPLIES_PRODUCTION",
@@ -85,11 +105,8 @@ def gate(root: Path) -> dict[str, Any]:
         (
             "GOVT-002",
             projection.get("authority_delta") == 0
-            and projection.get("capability_delta") == 0
-            and projection.get("canonical_capability_count_before") == expected_count
-            and projection.get("canonical_capability_count_after") == expected_count
-            and projection.get("semantic_effect") == "NO_BASELINE_SEMANTIC_CHANGE",
-            "projection changed authority or capability baseline",
+            and declared_migration,
+            "projection capability baseline change is undeclared, inconsistent, or gained authority",
         ),
         (
             "GOVT-003",
@@ -179,7 +196,7 @@ def gate(root: Path) -> dict[str, Any]:
             "GOVT-015",
             len(registry_records) == expected_count
             and not any(record.get("subject_id") == PROJECTION_ID for record in registry_records),
-            "projection changed the 143-capability Evidence Registry or registered itself as a capability",
+            "projection changed the active capability Evidence Registry cardinality or registered itself as a capability",
         ),
         (
             "GOVT-016",
