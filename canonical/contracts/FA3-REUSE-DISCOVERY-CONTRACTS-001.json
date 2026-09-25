@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-REUSE-DISCOVERY-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "new_capability": false,
@@ -103,6 +103,39 @@
         "findings"
       ],
       "runtime_promotion": false
+    },
+    "SkillReuseProjection": {
+      "required": [
+        "skill_id",
+        "admission_status",
+        "version",
+        "trigger",
+        "task_scoped",
+        "source_path",
+        "reuse_mode"
+      ],
+      "admitted_status_required_for_task_context": "ADMITTED",
+      "authority": false,
+      "activation_authority": false,
+      "task_scoped_required": true,
+      "selection_is_activation": false,
+      "use_requires_skill_fabric_materialization": true
+    },
+    "ExternalSkillSourceProjection": {
+      "required": [
+        "repository",
+        "commit",
+        "role",
+        "classification",
+        "reuse_mode"
+      ],
+      "classification_required": "REFERENCE_ONLY",
+      "authority": false,
+      "install_authority": false,
+      "admission_authority": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false
     }
   },
   "invariants": [
@@ -114,6 +147,9 @@
     "COEXISTENCE_REVIEW_REQUIRED",
     "HARDWARE_AUDIT_REQUIRED",
     "DECISION_FABRIC_CANNOT_EXPAND_ELIGIBLE_SET",
-    "AGENT_PROPOSAL_CANNOT_SELF_ADMIT"
+    "AGENT_PROPOSAL_CANNOT_SELF_ADMIT",
+    "ADMITTED_SKILLS_ARE_REUSE_DISCOVERY_INPUTS_NOT_AUTHORITIES",
+    "SKILL_REUSE_REMAINS_TASK_SCOPED_AND_SKILL_FABRIC_GOVERNED",
+    "EXTERNAL_SKILL_RADAR_IS_REFERENCE_ONLY_NOT_INSTALLATION_OR_ADMISSION"
   ]
 }
