@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-PROVIDER-RUNTIME-001",
+  "name": "Provider Runtime Environment Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "authority_boundaries": {
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_supply_chain": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "contracts": [
+    "FA3-PROVIDER-RUNTIME-CONTRACTS-001",
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+    "FA3-SCS-CONTRACTS-001"
+  ],
+  "runtime_classes": [
+    "VENV",
+    "OCI",
+    "HOST_NATIVE"
+  ],
+  "selection_policy": {
+    "venv": "DEFAULT_WHEN_REPRODUCIBLE",
+    "oci": "PREFERRED_FOR_NATIVE_ABI_ACCELERATOR_OR_HEAVY_SYSTEM_DEPENDENCIES",
+    "host_native": "EXPLICIT_JUSTIFICATION_ONLY",
+    "conda_mamba_baseline": "FORBIDDEN"
+  },
+  "coexistence": {
+    "upstream_uninstall_required": false,
+    "host_global_reconfiguration": false,
+    "namespaced_state_required": true
+  }
+}
