@@ -7,7 +7,7 @@
   "covered_ids": [
     "FA3-AGENT-FEDERATION-001"
   ],
-  "project_status": "MATERIALIZED_IN_EXISTING_PR_PENDING_MAIN_REBASE_AND_FINAL_REQUALIFICATION",
+  "project_status": "MATERIALIZED_REFERENCE_EXECUTABLE_PASS_MAIN_RECONCILED_CROSS_HOST_RUNTIME_PENDING",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -92,15 +92,38 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "gap_resolution": [
     {
       "gap": "CROSS_HOST_AGENT_FEDERATION_PROTOCOL_AND_POLICY_PROJECTION",
-      "status": "MATERIALIZED_IN_PR_PENDING_MAIN_REBASE_AND_FINAL_CI",
+      "status": "MATERIALIZED_REFERENCE_EXECUTABLE_PASS_RUNTIME_EVIDENCE_PENDING",
       "source_branch": "fa3/cap070-agent-federation-20260924",
-      "source_head_before_reconciliation": "b45fe1f789cea449408a10c31d3c0688a4874767"
+      "source_head_before_reconciliation": "b45fe1f789cea449408a10c31d3c0688a4874767",
+      "validated_implementation_commit": "ebbb919aea0648b630ca4bb5fc4a8a01031569dc",
+      "reference_gate_workflow_run_id": 36097109366,
+      "reference_gate_artifact_id": 10847308590
     }
   ],
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "final_requalification": {
+    "status": "PASS",
+    "validated_head": "ebbb919aea0648b630ca4bb5fc4a8a01031569dc",
+    "agent_federation_workflow_run_id": 36097109366,
+    "reuse_discovery_workflow_run_id": 36097109419,
+    "permanent_canonical_workflow_run_id": 36097109346,
+    "unified_current_host_projection_workflow_run_id": 36097109506,
+    "integration_broker_workflow_run_id": 36097109495,
+    "neural_rendering_workflow_run_id": 36097109496,
+    "reference_executable_status": "PASS",
+    "local_multi_node_current_host_status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "cross_host_production_e2e_status": "PENDING_TWO_DISTINCT_REAL_HOST_IDENTITIES",
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false,
+    "reason": "REFERENCE_AND_EXECUTABLE_PROTOCOL_POLICY_MATERIALIZATION_IS_PROVEN;_RUNTIME_PROMOTION_REQUIRES_SEPARATE_REAL_CURRENT_HOST_AND_CROSS_HOST_EVIDENCE"
+  },
+  "enforcement_reconciliation": {
+    "finding_code": "FA3-STATIC-132",
+    "note": "FA3-STATIC-129 is already assigned to Model Router Provider Execution on current main; Agent Federation uses the next free unique code."
+  }
 }
