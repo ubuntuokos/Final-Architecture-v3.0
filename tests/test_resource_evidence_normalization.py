@@ -33,7 +33,7 @@ class ResourceEvidenceNormalizationTests(unittest.TestCase):
                 {"metric": "gpu.vram_gib", "operator": ">=", "value": 24},
                 {"metric": "pcie.h2d_gbps", "operator": ">=", "value": 20},
             ],
-            {"status": "VALID", "lease_id": "lease-1", "diagnostics": {"cu": 0, "tu": 0}},
+            {"status": "VALID", "authorization_id": "auth-1", "diagnostics": {"cu": 0, "tu": 0}},
         )
         self.assertEqual(passed["result"], "PASS")
 
@@ -41,18 +41,18 @@ class ResourceEvidenceNormalizationTests(unittest.TestCase):
         report = evaluate_resource_admission(
             {"gpu.vram_gib": 24},
             [{"metric": "pcie.h2d_gbps", "operator": ">=", "value": 20}],
-            {"status": "VALID", "lease_id": "lease-1"},
+            {"status": "VALID", "authorization_id": "auth-1"},
         )
         self.assertEqual(report["result"], "BLOCKED")
         self.assertEqual(report["decision"]["exit_code"], 2)
 
-    def test_invalid_hrb_lease_blocks(self) -> None:
+    def test_invalid_hrb_authorization_blocks(self) -> None:
         report = evaluate_resource_admission(
             {"gpu.vram_gib": 24},
             [{"metric": "gpu.vram_gib", "operator": ">=", "value": 24}],
-            {"status": "EXPIRED", "lease_id": "lease-1"},
+            {"status": "EXPIRED", "authorization_id": "auth-1"},
         )
-        self.assertEqual(report["decision"]["reason_code"], "HRB_LEASE_INVALID")
+        self.assertEqual(report["decision"]["reason_code"], "HRB_AUTHORIZATION_INVALID")
 
     def test_tampered_payload_fails_integrity(self) -> None:
         envelope = _reference_envelope()

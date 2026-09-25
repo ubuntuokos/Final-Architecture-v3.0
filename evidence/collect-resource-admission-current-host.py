@@ -18,9 +18,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT_DEFAULT = ROOT / "evidence/receipts/resource-admission-current-host.json"
 BROKER_DEFAULT = "/usr/local/bin/fa3-host-resource-broker-validator"
+AUTH_BROKER_DEFAULT = "/usr/local/bin/fa3-host-resource-broker-admission"
 LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
+AUTH_SCHEMA = "fa3.hrb-admission-authorization.v1"
 COLLECTOR_ID = "FA3-RESOURCE-ADMISSION-CURRENT-HOST-COLLECTOR-001"
-COLLECTOR_VERSION = "2.0.0"
+COLLECTOR_VERSION = "2.1.0"
 _BDF_RE = re.compile(r"^(?P<domain>[0-9a-fA-F]{4,8}):(?P<bus>[0-9a-fA-F]{2}):(?P<device>[0-9a-fA-F]{2})\.(?P<function>[0-7])$")
 
 
@@ -259,6 +261,63 @@ def validate_accelerator_lease(path: Path, broker: str, accelerators: list[dict[
     return lease, errors
 
 
+
+def validate_admission_authorization(
+    path: Path,
+    broker: str,
+    workload_path: Path,
+    workload: dict[str, Any],
+    requested_classes: list[str],
+) -> tuple[dict[str, Any] | None, list[str]]:
+    errors: list[str] = []
+    try:
+        authorization = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return None, [f"AUTHORIZATION_UNREADABLE:{exc!r}"]
+    if not isinstance(authorization, dict):
+        return None, ["AUTHORIZATION_NOT_OBJECT"]
+    required = [
+        "schema", "authorization_id", "authority", "issuer", "status", "host", "workload_id",
+        "workload_envelope_sha256", "requested_resource_classes", "accelerator_required",
+        "issued_epoch", "expires_epoch", "semantics", "authentication",
+    ]
+    missing = [key for key in required if key not in authorization]
+    if missing:
+        errors.append("AUTHORIZATION_MISSING_FIELDS:" + ",".join(missing))
+    if authorization.get("schema") != AUTH_SCHEMA:
+        errors.append("AUTHORIZATION_SCHEMA_MISMATCH")
+    if authorization.get("authority") != "FA3-AUTH-HOST-RESOURCE-BROKER-001" or authorization.get("issuer") != "FA3-HOST-RESOURCE-BROKER-001":
+        errors.append("AUTHORIZATION_AUTHORITY_MISMATCH")
+    if authorization.get("status") != "ACTIVE":
+        errors.append("AUTHORIZATION_NOT_ACTIVE")
+    if str(authorization.get("host", "")) != socket.gethostname():
+        errors.append("AUTHORIZATION_HOST_MISMATCH")
+    if str(authorization.get("workload_id", "")) != str(workload.get("workload_id", "")):
+        errors.append("AUTHORIZATION_WORKLOAD_SCOPE_MISMATCH")
+    if authorization.get("workload_envelope_sha256") != sha256_file(workload_path):
+        errors.append("AUTHORIZATION_WORKLOAD_DIGEST_MISMATCH")
+    if authorization.get("requested_resource_classes") != requested_classes:
+        errors.append("AUTHORIZATION_RESOURCE_CLASSES_MISMATCH")
+    if authorization.get("accelerator_required") is not ("accelerator" in requested_classes):
+        errors.append("AUTHORIZATION_ACCELERATOR_FLAG_MISMATCH")
+    try:
+        if int(authorization.get("expires_epoch", 0)) <= int(time.time()):
+            errors.append("AUTHORIZATION_EXPIRED")
+    except (TypeError, ValueError):
+        errors.append("AUTHORIZATION_EXPIRY_INVALID")
+    semantics = authorization.get("semantics", {})
+    if not isinstance(semantics, dict) or semantics.get("authorization_is_not_resource_lease") is not True or semantics.get("durable_evidence_signature") is not False:
+        errors.append("AUTHORIZATION_SEMANTICS_INVALID")
+    broker_path = shutil.which(broker) if "/" not in broker else broker
+    if not broker_path or not Path(broker_path).is_file():
+        errors.append("HRB_AUTHORIZATION_BROKER_UNAVAILABLE")
+    else:
+        rc, stdout, _ = run([str(broker_path), "validate", "--authorization", str(path)], timeout=20)
+        if rc != 0:
+            errors.append("HRB_AUTHORIZATION_BROKER_VALIDATION_FAILED")
+    return authorization, errors
+
+
 def build_compute_profile(attestation: dict[str, Any], attestation_sha: str, lease: dict[str, Any] | None) -> dict[str, Any]:
     cpu_topology = attestation.get("cpu_topology", {})
     metrics: dict[str, Any] = {
@@ -302,26 +361,46 @@ def release_manifest_digest(root: Path) -> str:
     return "sha256:" + sha256_file(path)
 
 
-def collect(root: Path, workload_path: Path, lease_path: Path | None, receipt_path: Path, broker: str) -> dict[str, Any]:
+def collect(
+    root: Path,
+    workload_path: Path,
+    lease_path: Path | None,
+    authorization_path: Path | None,
+    receipt_path: Path,
+    broker: str,
+    authorization_broker: str,
+) -> dict[str, Any]:
     from fa3_resource_evidence_normalization_gate import _canonical_payload_hash, evaluate_resource_admission
 
     workload, workload_errors, requested_classes, accelerator_required = load_workload(workload_path)
     attestation, attestation_sha = collect_host_attestation(collect_accelerators=accelerator_required)
     lease: dict[str, Any] | None = None
+    authorization: dict[str, Any] | None = None
     lease_errors: list[str] = []
+    authorization_errors: list[str] = []
     if accelerator_required:
         if lease_path is None:
             lease_errors.append("ACCELERATOR_WORKLOAD_REQUIRES_HRB_LEASE")
         elif workload is not None:
             lease, lease_errors = validate_accelerator_lease(lease_path, broker, attestation.get("accelerators", []), workload)
     else:
-        lease_errors.append("HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED")
+        if authorization_path is None:
+            authorization_errors.append("CPU_ONLY_WORKLOAD_REQUIRES_HRB_ADMISSION_AUTHORIZATION")
+        elif workload is not None:
+            authorization, authorization_errors = validate_admission_authorization(
+                authorization_path, authorization_broker, workload_path, workload, requested_classes
+            )
 
     profile = build_compute_profile(attestation, attestation_sha, lease)
-    errors = workload_errors + lease_errors
+    errors = workload_errors + lease_errors + authorization_errors
     admission = None
-    if not errors and workload is not None and lease is not None:
-        admission = evaluate_resource_admission(profile["metrics"], workload["requirements"], {"status": "VALID", "lease_id": lease.get("lease_id")})
+    authorization_for_evaluation: dict[str, Any] | None = None
+    if lease is not None and not lease_errors:
+        authorization_for_evaluation = {"status": "VALID", "authorization_id": lease.get("lease_id")}
+    elif authorization is not None and not authorization_errors:
+        authorization_for_evaluation = {"status": "VALID", "authorization_id": authorization.get("authorization_id")}
+    if not errors and workload is not None and authorization_for_evaluation is not None:
+        admission = evaluate_resource_admission(profile["metrics"], workload["requirements"], authorization_for_evaluation)
         if admission.get("result") != "PASS":
             errors.append("RESOURCE_REQUIREMENTS_BLOCKED")
 
@@ -349,8 +428,30 @@ def collect(root: Path, workload_path: Path, lease_path: Path | None, receipt_pa
             "authorization_id": lease.get("lease_id"),
             "status": "VALID" if not lease_errors else "INVALID",
             "workload_id": workload.get("workload_id") if isinstance(workload, dict) else None,
+            "workload_envelope_sha256": sha256_file(workload_path) if workload_path.is_file() else None,
+            "requested_resource_classes": requested_classes,
+            "accelerator_required": True,
+            "host": lease.get("host"),
+            "issued_epoch": lease.get("issued_epoch"),
+            "expires_epoch": lease.get("expires_epoch"),
             "broker_validation": not lease_errors,
             "source": "ACCELERATOR_EXECUTION_LEASE",
+        }
+    elif authorization is not None:
+        hrb_authorization = {
+            "schema": authorization.get("schema"),
+            "authority": authorization.get("authority"),
+            "authorization_id": authorization.get("authorization_id"),
+            "status": "VALID" if not authorization_errors else "INVALID",
+            "workload_id": authorization.get("workload_id"),
+            "workload_envelope_sha256": authorization.get("workload_envelope_sha256"),
+            "requested_resource_classes": authorization.get("requested_resource_classes"),
+            "accelerator_required": authorization.get("accelerator_required"),
+            "host": authorization.get("host"),
+            "issued_epoch": authorization.get("issued_epoch"),
+            "expires_epoch": authorization.get("expires_epoch"),
+            "broker_validation": not authorization_errors,
+            "source": "ADMISSION_AUTHORIZATION",
         }
 
     payload = {
@@ -376,6 +477,8 @@ def collect(root: Path, workload_path: Path, lease_path: Path | None, receipt_pa
     ]
     if lease_path and lease_path.is_file():
         artifact_digests.append({"kind": "hrb_lease", "sha256": sha256_file(lease_path)})
+    if authorization_path and authorization_path.is_file():
+        artifact_digests.append({"kind": "hrb_admission_authorization", "sha256": sha256_file(authorization_path)})
     envelope = {
         "schema_id": "FA3-EVIDENCE-ENVELOPE-001",
         "schema_version": "1.0.0",
@@ -391,6 +494,7 @@ def collect(root: Path, workload_path: Path, lease_path: Path | None, receipt_pa
             "host_attestation_ref": attestation["host_attestation_id"],
             "compute_profile_ref": "INLINE_SHA256:" + sha256_obj(profile),
             "workload_resource_envelope_ref": str(workload_path.resolve()),
+            "hrb_authorization_ref": str(authorization_path.resolve()) if authorization_path else None,
             "hrb_lease_ref": str(lease_path.resolve()) if lease_path else None,
             "diagnostics": {},
         },
@@ -415,15 +519,18 @@ def main() -> int:
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument("--workload-envelope", required=True)
     parser.add_argument("--hrb-lease")
+    parser.add_argument("--hrb-authorization")
     parser.add_argument("--receipt", default=str(RECEIPT_DEFAULT))
     parser.add_argument("--broker", default=BROKER_DEFAULT)
+    parser.add_argument("--authorization-broker", default=AUTH_BROKER_DEFAULT)
     args = parser.parse_args()
     root = Path(args.root).resolve()
     sys_path = str(root / "src")
     if sys_path not in os.sys.path:
         os.sys.path.insert(0, sys_path)
     lease_path = Path(args.hrb_lease) if args.hrb_lease else None
-    envelope = collect(root, Path(args.workload_envelope), lease_path, Path(args.receipt), args.broker)
+    authorization_path = Path(args.hrb_authorization) if args.hrb_authorization else None
+    envelope = collect(root, Path(args.workload_envelope), lease_path, authorization_path, Path(args.receipt), args.broker, args.authorization_broker)
     print(json.dumps({
         "evidence_id": envelope["evidence_id"],
         "status": envelope["result"]["status"],

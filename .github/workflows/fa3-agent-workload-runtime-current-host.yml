@@ -21,11 +21,6 @@ on:
         required: true
         default: false
         type: boolean
-      resource_admission_receipt:
-        description: 'Path on the self-hosted runner to a real FA3 resource-admission receipt scoped to fa3-agent-workload-native-current-host'
-        required: true
-        default: '.fa3-current-host/input/agent-workload-resource-admission-current-host.json'
-        type: string
 
 permissions:
   contents: read
@@ -63,14 +58,31 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify supplied fresh scope-bound resource admission receipt exists
+      - name: Mint and validate fresh CPU-only HRB admission for this workload
         shell: bash
         run: |
           set -euo pipefail
-          test -f "${{ inputs.resource_admission_receipt }}"
+          test -x /usr/local/bin/fa3-host-resource-broker-admission
+          /usr/local/bin/fa3-host-resource-broker-admission --doctor
+          mkdir -p .fa3-current-host/input
+          cat > .fa3-current-host/input/agent-workload-resource-envelope.json <<'JSON'
+          {
+            "schema": "fa3.workload-resource-envelope.v1",
+            "workload_id": "fa3-agent-workload-native-current-host",
+            "requirements": [
+              {"metric": "cpu.physical_cores", "operator": ">=", "value": 1},
+              {"metric": "memory.total_gib", "operator": ">=", "value": 1}
+            ],
+            "global_promotion_claim": false
+          }
+          JSON
+          chmod 600 .fa3-current-host/input/agent-workload-resource-envelope.json
+          /usr/local/bin/fa3-host-resource-broker-admission authorize             --workload .fa3-current-host/input/agent-workload-resource-envelope.json             --output .fa3-current-host/input/agent-workload-hrb-authorization.json
+          PYTHONPATH=src python evidence/collect-resource-admission-current-host.py             --root .             --workload-envelope .fa3-current-host/input/agent-workload-resource-envelope.json             --hrb-authorization .fa3-current-host/input/agent-workload-hrb-authorization.json
+          ./bin/fa3-enforce resource-admission-current-host
       - name: Collect real native runner evidence
         run: |
-          PYTHONPATH=src python evidence/collect-agent-workload-runtime-current-host.py             --root .             --resource-admission-receipt "${{ inputs.resource_admission_receipt }}"
+          PYTHONPATH=src python evidence/collect-agent-workload-runtime-current-host.py             --root .             --resource-admission-receipt evidence/receipts/resource-admission-current-host.json
       - name: Fail-closed current-host gate
         run: ./bin/fa3-enforce agent-workload-runtime-current-host
       - uses: actions/upload-artifact@v4
@@ -80,6 +92,7 @@ jobs:
           if-no-files-found: warn
           path: |
             evidence/receipts/agent-workload-runtime-current-host.json
+            evidence/receipts/resource-admission-current-host.json
             reports/agent-workload-runtime-current-host-gate-report.json
             reports/agent-workload-runtime-gate-report.json
             reports/resource-admission-current-host-gate-report.json

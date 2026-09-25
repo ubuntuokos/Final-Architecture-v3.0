@@ -9,16 +9,30 @@
     "accelerator_lease_schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
     "accelerator_lease_required_only_when_accelerator_required": true,
     "cpu_only_workload_must_not_require_accelerator_lease": true,
-    "no_collector_or_provider_may_mint_authorization": true
+    "no_collector_or_provider_may_mint_authorization": true,
+    "generic_admission_authorization_schema": "fa3.hrb-admission-authorization.v1",
+    "cpu_only_generic_authorization_required": true,
+    "accelerator_lease_may_serve_as_authorization_source": true
   },
-  "broker_validation_command": ["/usr/local/bin/fa3-host-resource-broker-validator", "validate-lease", "{lease}"],
+  "broker_validation_command": [
+    "/usr/local/bin/fa3-host-resource-broker-validator",
+    "validate-lease",
+    "{lease}"
+  ],
   "secret_boundary": {
     "hmac_key_root_only": true,
     "collector_secret_access": false,
     "runner_secret_access": false,
     "validation_bridge": "/usr/local/bin/fa3-host-resource-broker-validator",
     "privileged_helper": "/usr/local/libexec/fa3-host-resource-broker-validate-root",
-    "delegated_operation": "VALIDATE_ACCELERATOR_LEASE_ONLY"
+    "delegated_operation": "VALIDATE_ACCELERATOR_LEASE_ONLY",
+    "admission_authorization_key": "/etc/fa3/host-resource-broker/admission-hmac-keys.json",
+    "admission_authorization_client": "/usr/local/bin/fa3-host-resource-broker-admission",
+    "admission_authorization_privileged_helper": "/usr/local/libexec/fa3-host-resource-broker-admission-root",
+    "admission_authorization_delegated_operations": [
+      "AUTHORIZE_TYPED_WORKLOAD",
+      "VALIDATE_TYPED_AUTHORIZATION"
+    ]
   },
   "required_receipt_claim": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
   "required_non_claim": "GLOBAL_FA3_PROMOTION",
@@ -31,7 +45,14 @@
     "sku_or_product_line_admission_authority": false,
     "vram_global_minimum": null
   },
-  "forbidden_admission_metrics": ["cu", "tu", "compute_unit", "tensor_unit", "aggregate.cu", "aggregate.tu"],
+  "forbidden_admission_metrics": [
+    "cu",
+    "tu",
+    "compute_unit",
+    "tensor_unit",
+    "aggregate.cu",
+    "aggregate.tu"
+  ],
   "rules": [
     "COLLECTOR_MUST_NOT_READ_SECRETS",
     "HRB_HMAC_KEY_MUST_REMAIN_ROOT_ONLY",
@@ -55,8 +76,18 @@
     "CU_TU_MUST_NEVER_BE_AN_ADMISSION_REQUIREMENT",
     "EVIDENCE_PAYLOAD_SHA256_MUST_VALIDATE",
     "COLLECTOR_ERRORS_MUST_BLOCK",
-    "COMPONENT_PASS_MUST_NOT_CLAIM_GLOBAL_PROMOTION"
+    "COMPONENT_PASS_MUST_NOT_CLAIM_GLOBAL_PROMOTION",
+    "CPU_ONLY_WORKLOAD_MUST_HAVE_ACTIVE_UNEXPIRED_EXTERNALLY_VALIDATED_GENERIC_HRB_ADMISSION_AUTHORIZATION",
+    "GENERIC_HRB_AUTHORIZATION_MUST_BIND_HOST_WORKLOAD_DIGEST_AND_RESOURCE_CLASSES",
+    "GENERIC_HRB_AUTHORIZATION_IS_NOT_RESOURCE_LEASE",
+    "GENERIC_HRB_AUTHORIZATION_HMAC_KEY_MUST_REMAIN_ROOT_ONLY"
   ],
   "capability_delta": 0,
-  "authority_delta": 0
+  "authority_delta": 0,
+  "admission_authorization_validation_command": [
+    "/usr/local/bin/fa3-host-resource-broker-admission",
+    "validate",
+    "--authorization",
+    "{authorization}"
+  ]
 }
