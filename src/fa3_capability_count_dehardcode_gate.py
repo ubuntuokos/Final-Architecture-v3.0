@@ -18,8 +18,8 @@ ACTIVE_SCAN_EXCLUDES = {
     "scripts/fa3_apply_capability_count_dehardcode.py",
 }
 FORBIDDEN_PATTERNS = (
-    re.compile(r"\b(?:CAPS|CAPABILITY_COUNT|EXPECTED_CAPABILITY_COUNT|CURRENT_RELEASE_COUNT)\s*=\s*143\b"),
-    re.compile(r"range\(\s*1\s*,\s*144\s*\)"),
+    re.compile(r"\b(?:CAPS|CAPABILITY_COUNT|EXPECTED_CAPABILITY_COUNT|CURRENT_RELEASE_COUNT)\s*=\s*(?:143|175)\b"),
+    re.compile(r"range\(\s*1\s*,\s*(?:144|176)\s*\)"),
 )
 
 
@@ -121,13 +121,13 @@ def gate(root: Path) -> dict[str, Any]:
         ("DEHC-002", policy.get("architecture_release") == release and policy.get("canonical_capability_count") == count, "enforcement policy mirror differs from active release baseline", {}),
         ("DEHC-003", projection.get("base_release") == release and projection.get("invariants", {}).get("canonical_capability_count") == count, "release projection mirror differs from active release baseline", {}),
         ("DEHC-004", registry.get("architecture_release") == release and registry.get("canonical_capability_count") == count and registry.get("record_count") == count and len(records) == count and [r.get("subject_id") for r in records] == expected_ids, "Evidence Registry cardinality differs from active release baseline", {}),
-        ("DEHC-005", governance.get("canonical_capability_count_before") == count and governance.get("canonical_capability_count_after") == count and governance.get("capability_delta") == 0, "governance projection baseline mirror drift", {}),
+        ("DEHC-005", governance.get("canonical_capability_count_after") == count and isinstance(governance.get("canonical_capability_count_before"), int) and governance.get("capability_delta") == count - governance.get("canonical_capability_count_before"), "governance projection baseline mirror drift", {}),
         ("DEHC-006", not hardcodes, "active executable Python still contains forbidden capability-count hardcodes", {"hardcodes": hardcodes[:100]}),
         ("DEHC-007", all("fa3_release_baseline" in text and "load_active_release_baseline" in text for text in module_text.values()), "one or more central executable paths do not consume the shared release baseline loader", {}),
         ("DEHC-008", "range(1,CAPS+1)" in module_text["src/fa3_enforce.py"].replace(" ", ""), "global enforcement catalog range is not derived from the active baseline", {}),
         ("DEHC-009", '"capability_count_after": capability_count' in module_text["scripts/fa3_reconcile_release_projection.py"], "release reconciler does not write the baseline-derived capability count", {}),
         ("DEHC-010", decision.get("id") == "FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13" and decision.get("status") == "CANONICAL_CLOSED" and decision.get("authority_delta") == 0 and decision.get("capability_delta") == 0, "migration decision missing or gained authority/capability delta", {}),
-        ("DEHC-011", decision.get("active_release") == release and decision.get("capability_count_at_migration") == count and decision.get("semantic_effect") == "NO_CAPABILITY_COUNT_CHANGE", "migration decision does not bind the active release baseline", {}),
+        ("DEHC-011", decision.get("capability_count_at_migration") in [r.get("capability_count") for r in baseline.document.get("release_baselines", [])] and decision.get("semantic_effect") == "NO_CAPABILITY_COUNT_CHANGE", "historical de-hardcode migration decision is not represented by a declared release baseline", {}),
         ("DEHC-012", policy.get("runtime_promotion_requires_current_host_evidence") is True and policy.get("document_only_promotion_forbidden") is True, "promotion/current-host fail-closed boundary weakened", {}),
     ]
 
