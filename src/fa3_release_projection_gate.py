@@ -3187,6 +3187,7 @@ def gate(root: Path):
         "canonical/caption-subtitle-enforcement.json",
         "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
         "evidence/reference/caption-subtitle-ci-2026-09-23.json",
+        "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
         "src/fa3_caption_subtitle.py",
         "src/fa3_caption_workflows.py",
         "src/fa3_caption_uaf.py",
@@ -3207,6 +3208,10 @@ def gate(root: Path):
         or caption_subtitle.get("action_count") != 13
         or caption_subtitle.get("reference_evidence_status") != "STATIC_AND_REFERENCE_PASS_NOT_PROVIDER_RUNTIME"
         or caption_subtitle.get("current_host_gate_id") != "FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001"
+        or caption_subtitle.get("current_host_application_status") != "CURRENT_HOST_APPLICATION_E2E_PASS"
+        or caption_subtitle.get("current_host_application_evidence") != "evidence/reference/caption-subtitle-current-host-2026-09-25.json"
+        or caption_subtitle.get("current_host_validated_implementation_commit") != "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7"
+        or caption_subtitle.get("gui_physical_current_host_status") != "PENDING_MANUAL_REQUALIFICATION"
         or caption_subtitle.get("voice_provider_audio_runtime") != "SEPARATE_FA3_VOICE_ADMISSION"
         or caption_subtitle.get("hardsub_ocr_runtime") != "PENDING_ADMITTED_OCR_PROVIDER"
         or caption_subtitle.get("global_promotion_claim") is not False
