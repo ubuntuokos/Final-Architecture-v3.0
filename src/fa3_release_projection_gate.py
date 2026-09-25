@@ -775,6 +775,10 @@ def gate(root: Path):
         "evidence/collect-hu-aqc-golden-corpus-current-host.py",
         "tests/test_supply_runtime_hardening_current_host.py",
         ".github/workflows/fa3-supply-runtime-hardening-current-host.yml",
+        "fa3-current-host/templates/hrb-composite-plan.example.json",
+        "fa3-current-host/templates/hrb-composite-capacity.example.json",
+        "fa3-current-host/templates/hu-aqc-golden-corpus.example.json",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-CURRENT-HOST.md",
     }
     if (
         supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
