@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
   "name": "Hierarchical + Hybrid Retrieval Fabric",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -21,12 +21,14 @@
   ],
   "retrieval_strategies": [
     "metadata",
-    "lexical",
-    "vector_optional",
     "hierarchical",
+    "lexical",
+    "learned_sparse",
+    "dense",
+    "multi_vector",
     "tree_reasoning",
-    "rerank",
-    "evidence_fusion"
+    "fusion",
+    "rerank"
   ],
   "provider_roles": {
     "primary_local_candidate": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
@@ -62,7 +64,18 @@
     "CONTEXT_PASSPORT_IS_DERIVED_AND_REBUILDABLE",
     "NO_PROVIDER_BECOMES_KNOWLEDGE_AUTHORITY",
     "VECTOR_SEARCH_OPTIONAL_NOT_REQUIRED",
-    "LOCAL_FIRST_ROUTING_WHEN_ADMITTED"
+    "LOCAL_FIRST_ROUTING_WHEN_ADMITTED",
+    "EMBEDDING_SPACE_IDENTITY_REQUIRED_FOR_LEARNED_RETRIEVAL",
+    "DENSE_SPARSE_MULTI_VECTOR_SCORE_PROVENANCE_REQUIRED",
+    "STALE_AND_REEMBED_STATE_VISIBLE",
+    "CROSS_SPACE_DIRECT_SIMILARITY_FAILS_CLOSED"
   ],
-  "runtime_status": "MATERIALIZED_CURRENT_HOST_PENDING"
+  "runtime_status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "embedding_fabric_profile": "FA3-EMBEDDING-FABRIC-001",
+  "embedding_space_policy": {
+    "identity_required_for_learned_stages": true,
+    "direct_cross_space_similarity": "DENY_FAIL_CLOSED",
+    "stale_or_reembed_state_required": true,
+    "projected_native_masquerade": "DENY"
+  }
 }

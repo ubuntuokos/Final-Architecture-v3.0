@@ -101,7 +101,9 @@
         "locator",
         "score",
         "strategy",
-        "evidence_refs"
+        "evidence_refs",
+        "embedding_space_identity",
+        "score_descriptor_ref"
       ]
     },
     "RetrievalTrace": {
@@ -111,7 +113,9 @@
         "stages",
         "candidates",
         "provider_receipts",
-        "evidence_refs"
+        "evidence_refs",
+        "embedding_stage_provenance",
+        "stale_or_migration_state"
       ],
       "append_only": true
     },
@@ -141,13 +145,26 @@
     "lexical": "MUST_BE_AVAILABLE_OR_EXPLICITLY_UNAVAILABLE",
     "vector": "OPTIONAL",
     "tree_reasoning": "MUST_BE_PROVIDER_ROUTED",
-    "rerank": "PROVIDER_NEUTRAL",
-    "fusion": "MUST_PRESERVE_EVIDENCE_LINKS"
+    "rerank": "PROVIDER_NEUTRAL_TYPED_RERANK_RECEIPT_REQUIRED",
+    "fusion": "MUST_PRESERVE_EVIDENCE_LINKS_AND_PER_STAGE_SCORE_PROVENANCE",
+    "learned_sparse": "EMBEDDING_SPACE_AND_PROVIDER_RECEIPT_REQUIRED",
+    "dense": "EMBEDDING_SPACE_AND_PROVIDER_RECEIPT_REQUIRED",
+    "multi_vector": "TOKEN_OR_VECTOR_LEVEL_PROVENANCE_REQUIRED"
   },
   "media_rules": {
     "image": "DERIVE_SourceRegion_AND_CrossModalRelation",
     "video": "DERIVE_MediaSegment_AND_TemporalSpan",
     "audio": "DERIVE_TRANSCRIPT_OR_MediaSegment_AND_TemporalSpan",
     "binary_storage": "OUTSIDE_KNOWLEDGE_INDEX"
+  },
+  "embedding_fabric_contract": "FA3-EMBEDDING-FABRIC-CONTRACTS-001",
+  "embedding_rules": {
+    "direct_cross_space_similarity": "DENY_FAIL_CLOSED",
+    "projected_vector_native_masquerade": "DENY",
+    "stale_state_visible": true,
+    "reembed_required_state_visible": true,
+    "provider_receipt_required": true,
+    "model_revision_required": true,
+    "representation_required": true
   }
 }

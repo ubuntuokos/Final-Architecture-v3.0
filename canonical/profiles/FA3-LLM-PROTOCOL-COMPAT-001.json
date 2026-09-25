@@ -41,5 +41,14 @@
     "SECRET_FORWARDING_DEFAULT_DENY"
   ],
   "contract_id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
-  "fail_closed": true
+  "fail_closed": true,
+  "embedding_protocol_extension": {
+    "profile_id": "FA3-EMBEDDING-FABRIC-001",
+    "openai_api_compatibility_does_not_imply_semantic_compatibility": true,
+    "typed_protocol_capabilities": [
+      "EMBEDDING_PROTOCOL",
+      "RERANK_PROTOCOL"
+    ],
+    "security_or_semantic_loss": "FAIL_CLOSED"
+  }
 }

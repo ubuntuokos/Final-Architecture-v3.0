@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-EMBEDDING-FABRIC-001",
+  "name": "Embedding Execution, Representation, Retrieval Interchange & Space Migration Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL_MATERIALIZED_STATIC_EVIDENCE_PENDING",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "CROSS-CUTTING-PROFILE",
+    "parents": [
+      "FA3-MODEL-MANAGER-001",
+      "FA3-INFERENCE-PORTABILITY-001",
+      "FA3-KNOWLEDGE-001",
+      "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001"
+    ]
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-EMBEDDING-FABRIC-CONTRACTS-001"
+  ],
+  "execution_classes": [
+    "STATIC",
+    "LEXICAL",
+    "SPARSE",
+    "DENSE",
+    "MULTI_VECTOR",
+    "RERANK",
+    "MULTIMODAL"
+  ],
+  "representation_classes": [
+    "FP32",
+    "FP16",
+    "INT8",
+    "INT4",
+    "BINARY_I1"
+  ],
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "model_artifact_identity": "FA3-MODEL-MANAGER-001_AND_EXISTING_ARTIFACT_REGISTRY",
+    "backend_execution": "FA3-INFERENCE-PORTABILITY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "retrieval_knowledge": [
+      "FA3-KNOWLEDGE-001",
+      "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001"
+    ],
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "EXISTING_SECRET_BROKER_AUTHORITY_ONLY",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "providers": [
+    "FA3-PROVIDER-TEI-001",
+    "FA3-PROVIDER-MODEL2VEC-001",
+    "FA3-PROVIDER-FLAG-EMBEDDING-001"
+  ],
+  "migration_states": [
+    "NATIVE",
+    "PROJECTED",
+    "MIGRATION_BRIDGE",
+    "STALE",
+    "REEMBED_REQUIRED",
+    "RETIRED"
+  ],
+  "invariants": [
+    "EMBEDDING_PROVIDER_NEVER_ARCHITECTURAL_AUTHORITY",
+    "EMBEDDING_SPACE_IDENTITY_DISTINCT_FROM_REPRESENTATION",
+    "CROSS_SPACE_DIRECT_SIMILARITY_FAILS_CLOSED",
+    "PROJECTED_VECTOR_NEVER_MASQUERADES_AS_NATIVE",
+    "MODEL_ROUTER_SELECTS_ONLY_ADMITTED_TYPED_CANDIDATES",
+    "MODEL_NAME_HEURISTICS_FOR_CAPABILITY_FORBIDDEN",
+    "NO_SILENT_REMOTE_FALLBACK",
+    "CPU_ONLY_EXECUTION_REMAINS_CONFORMANT",
+    "ACCELERATOR_EXECUTION_REQUIRES_HRB_BINDING",
+    "PROVIDER_EXECUTION_REQUIRES_PROVIDER_RUNTIME_AND_SUPPLY_CHAIN_ADMISSION",
+    "MIGRATION_CUTOVER_REQUIRES_QUALITY_PERFORMANCE_EVIDENCE",
+    "RETRIEVAL_SCORE_PROVENANCE_REQUIRED",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+  ],
+  "implementation_status": "STATIC_CANONICAL_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "global_promotion_claim": false
+}

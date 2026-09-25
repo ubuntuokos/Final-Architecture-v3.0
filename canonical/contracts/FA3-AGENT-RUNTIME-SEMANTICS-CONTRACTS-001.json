@@ -66,5 +66,19 @@
     "duplicate_event": "FAIL_CLOSED",
     "artifact_scope_escape_or_oversize": "FAIL_CLOSED",
     "missing_or_task_mismatched_execution_plan": "FAIL_CLOSED"
+  },
+  "embedding_capability_descriptor_extension": {
+    "allowed_values": [
+      "embedding_static",
+      "embedding_dense",
+      "embedding_sparse",
+      "embedding_multivector",
+      "embedding_multimodal",
+      "rerank",
+      "classification"
+    ],
+    "model_name_heuristic": "FORBIDDEN",
+    "candidate_selection": "FA3-AUTH-MODEL-ROUTER-001_ONLY",
+    "admitted_candidate_set_required": true
   }
 }

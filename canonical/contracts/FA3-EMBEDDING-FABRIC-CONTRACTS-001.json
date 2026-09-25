@@ -1,0 +1,232 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-EMBEDDING-FABRIC-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-EMBEDDING-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "EmbeddingIntent",
+    "EmbeddingModelDescriptor",
+    "EmbeddingSpaceIdentity",
+    "EmbeddingRepresentation",
+    "EmbeddingExecutionPlan",
+    "EmbeddingExecutionReceipt",
+    "EmbeddingMigrationPlan",
+    "EmbeddingMigrationReceipt",
+    "EmbeddingProjectionDescriptor",
+    "EmbeddingRetrievalStage",
+    "EmbeddingScoreDescriptor"
+  ],
+  "EmbeddingIntent": {
+    "required": [
+      "intent_id",
+      "semantic_role",
+      "modality",
+      "execution_class",
+      "representation_preference",
+      "route_id"
+    ],
+    "forbids": [
+      "provider_pin",
+      "model_name_capability_inference",
+      "inline_credential"
+    ]
+  },
+  "EmbeddingModelDescriptor": {
+    "required": [
+      "model_family",
+      "immutable_model_revision",
+      "tokenizer_revision",
+      "embedding_roles",
+      "modalities",
+      "dimension",
+      "max_input_length",
+      "pooling",
+      "normalization",
+      "query_template",
+      "document_template",
+      "distance_metrics",
+      "embedding_space_identity",
+      "representation_support",
+      "provider_backend_compatibility"
+    ],
+    "optional": [
+      "sparse_output",
+      "multi_vector_output",
+      "token_level_output",
+      "precision_quantization_support"
+    ]
+  },
+  "EmbeddingSpaceIdentity": {
+    "required": [
+      "space_id",
+      "model_family",
+      "immutable_model_revision",
+      "tokenizer_revision",
+      "pooling",
+      "normalization",
+      "query_template",
+      "document_template",
+      "dimension",
+      "semantic_role",
+      "modality"
+    ],
+    "identity_rule": "CANONICAL_DIGEST_OVER_REQUIRED_FIELDS",
+    "cross_space_direct_similarity": "DENY_FAIL_CLOSED"
+  },
+  "EmbeddingRepresentation": {
+    "required": [
+      "representation_class",
+      "precision",
+      "encoding"
+    ],
+    "allowed_classes": [
+      "FP32",
+      "FP16",
+      "INT8",
+      "INT4",
+      "BINARY_I1"
+    ],
+    "space_identity_effect": "REPRESENTATION_CHANGE_DOES_NOT_IMPLY_SPACE_IDENTITY_EQUALITY"
+  },
+  "EmbeddingExecutionPlan": {
+    "required": [
+      "plan_id",
+      "intent_id",
+      "route_id",
+      "candidate_set",
+      "selected_provider",
+      "selected_model_revision",
+      "execution_backend",
+      "resource_plan_ref",
+      "embedding_space_identity",
+      "representation"
+    ],
+    "authority_rules": {
+      "routing": "MODEL_ROUTER_ONLY",
+      "resources": "HRB_ONLY",
+      "backend": "INFERENCE_PORTABILITY_ONLY"
+    }
+  },
+  "EmbeddingExecutionReceipt": {
+    "required": [
+      "receipt_id",
+      "plan_id",
+      "provider_id",
+      "model_family",
+      "immutable_model_revision",
+      "execution_backend",
+      "resource_receipt_ref",
+      "embedding_space_identity",
+      "representation",
+      "input_digest",
+      "output_digest",
+      "result",
+      "evidence_refs"
+    ],
+    "promotion_semantics": "REAL_RUNTIME_RECEIPT_REQUIRED_FOR_RUNTIME_PROMOTION"
+  },
+  "EmbeddingMigrationPlan": {
+    "required": [
+      "migration_id",
+      "old_space_id",
+      "new_space_id",
+      "shadow_reembed",
+      "new_index",
+      "dual_query_comparison",
+      "quality_gate",
+      "performance_gate",
+      "controlled_cutover",
+      "old_index_retirement"
+    ],
+    "state_order": [
+      "NATIVE",
+      "STALE",
+      "REEMBED_REQUIRED",
+      "MIGRATION_BRIDGE",
+      "NATIVE",
+      "RETIRED"
+    ]
+  },
+  "EmbeddingMigrationReceipt": {
+    "required": [
+      "migration_id",
+      "old_space_id",
+      "new_space_id",
+      "old_index_ref",
+      "new_index_ref",
+      "dual_query_evidence",
+      "quality_result",
+      "performance_result",
+      "cutover_authorization",
+      "result",
+      "evidence_refs"
+    ]
+  },
+  "EmbeddingProjectionDescriptor": {
+    "required": [
+      "projection_id",
+      "source_space_id",
+      "target_space_id",
+      "projection_method",
+      "projection_revision",
+      "state",
+      "quality_evidence_refs"
+    ],
+    "native_masquerade": "DENY"
+  },
+  "EmbeddingRetrievalStage": {
+    "required": [
+      "stage_id",
+      "strategy",
+      "embedding_space_identity",
+      "representation",
+      "provider_receipt_ref",
+      "input_candidate_refs",
+      "output_candidate_refs",
+      "score_descriptors"
+    ]
+  },
+  "EmbeddingScoreDescriptor": {
+    "required": [
+      "candidate_id",
+      "strategy",
+      "score",
+      "score_domain",
+      "embedding_space_identity",
+      "representation",
+      "normalization",
+      "provider_id",
+      "model_revision"
+    ],
+    "cross_space_comparison": "DENY_UNLESS_EXPLICIT_MIGRATION_BRIDGE_WITH_EVIDENCE"
+  },
+  "protocol_capabilities": [
+    "EMBEDDING_PROTOCOL",
+    "RERANK_PROTOCOL",
+    "OPENAI_V1_EMBEDDINGS",
+    "PROVIDER_NATIVE_EMBED",
+    "PROVIDER_NATIVE_RERANK"
+  ],
+  "execution_classes": [
+    "STATIC",
+    "LEXICAL",
+    "SPARSE",
+    "DENSE",
+    "MULTI_VECTOR",
+    "RERANK",
+    "MULTIMODAL"
+  ],
+  "migration_states": [
+    "NATIVE",
+    "PROJECTED",
+    "MIGRATION_BRIDGE",
+    "STALE",
+    "REEMBED_REQUIRED",
+    "RETIRED"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-BROWSER-SEMANTIC-FIND-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-BROWSER-SEMANTIC-FIND-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "BrowserSemanticFindRequest",
+    "BrowserSemanticFindPlan",
+    "BrowserSemanticFindReceipt"
+  ],
+  "request": {
+    "required": [
+      "query",
+      "mode",
+      "document_scope"
+    ],
+    "allowed_modes": [
+      "exact",
+      "fuzzy",
+      "semantic",
+      "hybrid"
+    ]
+  },
+  "plan": {
+    "required": [
+      "mode",
+      "local_candidate",
+      "host_fallback_policy"
+    ],
+    "semantic_local_default": "FA3-PROVIDER-MODEL2VEC-001",
+    "host_fallback": "MODEL_ROUTER_ONLY",
+    "silent_remote_fallback": "DENY"
+  },
+  "receipt": {
+    "required": [
+      "mode",
+      "provider_id",
+      "embedding_space_identity_when_semantic",
+      "result_refs",
+      "evidence_refs"
+    ],
+    "remote_execution_requires_explicit_authorization": true
+  }
+}

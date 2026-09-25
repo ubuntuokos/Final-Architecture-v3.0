@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-WEB-AI-001",
   "name": "Browser-Resident AI Execution, Capability Discovery & Hybrid Fallback Profile",
-  "version": "1.2.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -47,7 +47,8 @@
     "silent_remote_fallback_or_egress": false
   },
   "subprofiles": [
-    "FA3-BROWSER-ACTION-RUNTIME-001"
+    "FA3-BROWSER-ACTION-RUNTIME-001",
+    "FA3-BROWSER-SEMANTIC-FIND-001"
   ],
   "browser_action_runtime": {
     "profile_id": "FA3-BROWSER-ACTION-RUNTIME-001",
@@ -57,5 +58,17 @@
     "provider_neutral": true,
     "decision_fabric": "FA3-DECISION-FABRIC-001",
     "uaf": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "browser_semantic_find": {
+    "profile_id": "FA3-BROWSER-SEMANTIC-FIND-001",
+    "modes": [
+      "exact",
+      "fuzzy",
+      "semantic",
+      "hybrid"
+    ],
+    "default_local_provider": "FA3-PROVIDER-MODEL2VEC-001",
+    "host_fallback": "FA3-AUTH-MODEL-ROUTER-001",
+    "silent_remote_fallback": "DENY"
   }
 }

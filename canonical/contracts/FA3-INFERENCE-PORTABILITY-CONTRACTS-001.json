@@ -268,5 +268,19 @@
     "automatic_environment_scanning": "FORBIDDEN",
     "runtime_probe_identity_binding": "RESOLVED_EXECUTABLE_PATH_PLUS_SHA256_REQUIRED",
     "runtime_admission_pin_identity": "EXACT_ENVIRONMENT_INTERPRETER_PROVIDER_MODULE_AND_EXECUTION_BINARY_MATCH_REQUIRED"
+  },
+  "embedding_fabric_profile_id": "FA3-EMBEDDING-FABRIC-001",
+  "typed_workload_classes": [
+    "EMBEDDING",
+    "RERANK",
+    "CLASSIFICATION"
+  ],
+  "embedding_execution_semantics": {
+    "provider_admission": "EXISTING_SCOPE_BOUND_PROVIDER_ADMISSION_ONLY",
+    "model_selection": "MODEL_ROUTER_ONLY",
+    "resource_placement": "HRB_ONLY",
+    "cpu_only": "SUPPORTED",
+    "accelerator": "OPTIONAL_EXACT_DEVICE_BOUND_LEASE",
+    "silent_backend_fallback": "DENY"
   }
 }

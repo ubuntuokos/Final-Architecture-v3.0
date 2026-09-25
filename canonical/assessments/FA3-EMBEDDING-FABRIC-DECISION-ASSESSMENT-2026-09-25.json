@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-EMBEDDING-FABRIC-DECISION-ASSESSMENT-2026-09-25",
+  "covered_ids": [
+    "FA3-EMBEDDING-FABRIC-001",
+    "FA3-BROWSER-SEMANTIC-FIND-001",
+    "FA3-PROVIDER-TEI-001",
+    "FA3-PROVIDER-MODEL2VEC-001",
+    "FA3-PROVIDER-FLAG-EMBEDDING-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Embedding execution has one bounded ranking point only after FA3-AUTH-MODEL-ROUTER-001 has formed an admitted typed candidate set and Inference Portability plus HRB have established executable backend/resource eligibility. Decision Fabric may rank only those already-eligible candidates using non-secret quality, locality, latency, batching, resource-pressure or migration-comparison evidence. It may not create providers, infer capabilities from model names, admit models/providers, change EmbeddingSpaceIdentity, authorize cross-space direct similarity, bypass HRB, or perform migration cutover. Browser Semantic Find and the TEI/Model2Vec/FlagEmbedding projections reuse the same bounded ranking semantics and do not create independent decision authorities.",
+  "decision_points": [
+    {
+      "id": "embedding-execution-candidate-ranking",
+      "purpose": "rank already admitted typed embedding/rerank execution candidates without expanding the candidate set",
+      "contract": "RANK",
+      "candidate_source": "FA3-AUTH-MODEL-ROUTER-001_TYPED_ADMITTED_CANDIDATE_SET",
+      "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001",
+      "failure_policy": "EXISTING_DETERMINISTIC_ROUTER_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "model admission",
+    "provider admission",
+    "capability inference from model name",
+    "embedding-space identity definition",
+    "cross-space similarity authorization",
+    "resource admission or placement",
+    "backend admission",
+    "credential access",
+    "migration cutover authorization",
+    "evidence promotion",
+    "browser remote fallback authorization"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Embedding Fabric, Browser Semantic Find, TEI, Model2Vec and FlagEmbedding against current Model Router, Inference Portability, HRB, Knowledge/Retrieval, Security and Evidence boundaries",
+    "result": "ONE_BOUNDED_ADVISORY_RANKING_POINT_ACCEPTED",
+    "note": "The candidate set stays deterministic and authority-owned; migration and semantic-compatibility gates remain fail-closed."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

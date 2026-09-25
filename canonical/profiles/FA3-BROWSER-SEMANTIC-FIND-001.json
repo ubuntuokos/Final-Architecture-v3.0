@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-BROWSER-SEMANTIC-FIND-001",
+  "name": "Browser Semantic Find Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL_MATERIALIZED_STATIC",
+  "priority": "P0",
+  "requirement": "MUST-WHEN-SEMANTIC-FIND-USED",
+  "canonical_root": false,
+  "parent_profile": "FA3-WEB-AI-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contract_id": "FA3-BROWSER-SEMANTIC-FIND-CONTRACTS-001",
+  "modes": [
+    "exact",
+    "fuzzy",
+    "semantic",
+    "hybrid"
+  ],
+  "default_local_provider": "FA3-PROVIDER-MODEL2VEC-001",
+  "host_fallback_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "silent_remote_fallback": "DENY",
+  "embedding_space_identity_required_for_semantic_modes": true,
+  "authority_boundaries": {
+    "routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "browser_domain": "FA3-WEB-AI-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "current_host_runtime_claim": false
+}
