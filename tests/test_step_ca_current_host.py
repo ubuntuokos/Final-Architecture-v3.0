@@ -136,5 +136,6 @@ class T(unittest.TestCase):
   self.assertTrue(x["production_runtime_promoted"])
   self.assertEqual("CURRENT_HOST_PROVIDER_RUNTIME_ONLY",x["production_promotion_scope"])
   self.assertFalse(x["global_promotion_claim"])
-  self.assertIsNone(x["durable_current_host_evidence_reference"])\n  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["superseded_historical_evidence"])
+  self.assertIsNone(x["durable_current_host_evidence_reference"])
+  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["superseded_historical_evidence"])
 if __name__=="__main__": unittest.main()
