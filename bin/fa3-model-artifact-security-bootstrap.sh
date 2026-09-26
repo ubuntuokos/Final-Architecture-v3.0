@@ -15,13 +15,9 @@ esac
 missing=()
 for cmd in clamscan yara bwrap curl tar sha256sum; do command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd"); done
 if ((${#missing[@]})); then
-  if [[ "$ALLOW_SUDO" == "1" ]] && command -v sudo >/dev/null 2>&1; then
-    sudo apt-get update
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends clamav yara bubblewrap curl ca-certificates tar
-  else
-    printf 'Missing system prerequisites: %s\n' "${missing[*]}" >&2
-    echo "Install them first or rerun with FA3_MODEL_SECURITY_ALLOW_SUDO=1" >&2; exit 2
-  fi
+  printf 'Missing system prerequisites: %s\n' "${missing[*]}" >&2
+  echo "Install them outside this bootstrap; FA3 forbids this bootstrap from mutating host-global package state." >&2
+  exit 2
 fi
 
 PY="${FA3_MODEL_SECURITY_PYTHON:-}"
