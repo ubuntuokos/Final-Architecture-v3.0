@@ -82,20 +82,32 @@ def _capability_model_175_mirror_only(root: Path, marker: str, rel: str, current
         previous = json.loads(previous_text)
     except Exception:
         return False
-    if previous.get("capability_count") != 143 or current.get("capability_count") != 175:
-        return False
     active = load_active_release_baseline(root)
     if active.release != "2026-09-26/v3.1.0" or active.capability_count != 175:
         return False
     if current.get("capability_model_reconciliation") != "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26":
         return False
-    old = dict(previous)
-    new = dict(current)
-    old.pop("capability_count", None)
-    new.pop("capability_count", None)
+
+    old = json.loads(json.dumps(previous))
+    new = json.loads(json.dumps(current))
     new.pop("capability_baseline_release", None)
     new.pop("capability_model_reconciliation", None)
-    return old == new
+
+    mirrored = False
+    if old.get("capability_count") == 143 and new.get("capability_count") == 175:
+        old.pop("capability_count", None)
+        new.pop("capability_count", None)
+        mirrored = True
+
+    old_accounting = old.get("capability_accounting")
+    new_accounting = new.get("capability_accounting")
+    if isinstance(old_accounting, dict) and isinstance(new_accounting, dict):
+        if old_accounting.get("capability_count_after") == 143 and new_accounting.get("capability_count_after") == 175:
+            old_accounting.pop("capability_count_after", None)
+            new_accounting.pop("capability_count_after", None)
+            mirrored = True
+
+    return mirrored and old == new
 
 
 def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
