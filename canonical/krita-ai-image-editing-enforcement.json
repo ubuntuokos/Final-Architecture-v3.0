@@ -6,7 +6,12 @@
   "contract_id": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
   "decision_id": "FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11",
   "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
-  "provider_ids": ["FA3-PROVIDER-KRITA-001", "FA3-PROVIDER-KRITA-AI-DIFFUSION-001", "FA3-PROVIDER-KRITA-VISION-TOOLS-001", "FA3-PROVIDER-KRITA-MCP-001"],
+  "provider_ids": [
+    "FA3-PROVIDER-KRITA-001",
+    "FA3-PROVIDER-KRITA-AI-DIFFUSION-001",
+    "FA3-PROVIDER-KRITA-VISION-TOOLS-001",
+    "FA3-PROVIDER-KRITA-MCP-001"
+  ],
   "fail_closed": true,
   "p0_invariants": [
     "EXISTING_AI_IMAGE_EDITING_PROFILE_REUSED_NOT_DUPLICATED",
@@ -28,7 +33,13 @@
     "NO_NEW_ARCHITECTURAL_AUTHORITY",
     "CURRENT_HOST_RUNTIME_NOT_OVERCLAIMED"
   ],
-  "required_existing_contracts": ["FA3-AI-IMAGE-EDITING-CONTRACTS-001", "FA3-IMGGEN-CONTRACTS-001", "FA3-MMG-CONTEXT-IR-CONTRACTS-001", "FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001", "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"],
+  "required_existing_contracts": [
+    "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
+  ],
   "provider_admission": {
     "immutable_revision_required": true,
     "license_inventory_required": true,
@@ -50,5 +61,10 @@
     "source_document_unchanged_on_provider_failure": true,
     "partial_result_mutation": "FORBIDDEN"
   },
-  "baseline": {"new_capabilities": 0, "new_architectural_authorities": 0, "capability_count_after": 143}
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

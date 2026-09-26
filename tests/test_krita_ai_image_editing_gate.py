@@ -2,6 +2,8 @@ import json
 import unittest
 from pathlib import Path
 
+from src.fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -30,7 +32,7 @@ class TestKritaAIImageEditingGate(unittest.TestCase):
         self.assertTrue(self.profile["scope"]["peer_frontend_model"])
         acc = self.profile["capability_accounting"]
         self.assertFalse(acc["adds_capability"])
-        self.assertEqual(acc["capability_count_after"], 143)
+        self.assertEqual(acc["capability_count_after"], module_active_capability_count(__file__))
         self.assertFalse(acc["adds_architectural_authority"])
         self.assertEqual(self.decision["new_capabilities"], 0)
         self.assertEqual(self.decision["new_architectural_authorities"], 0)
@@ -40,13 +42,13 @@ class TestKritaAIImageEditingGate(unittest.TestCase):
         self.assertTrue(required.issubset(set(self.profile["authority_constraints"]["krita_must_not_be_authority_for"])))
         self.assertFalse(self.krita["architectural_authority"])
         self.assertFalse(self.krita["new_architectural_authority"])
-        self.assertEqual(self.krita["capability_count"], 143)
+        self.assertEqual(self.krita["capability_count"], module_active_capability_count(__file__))
         self.assertIn("FA3-AI-IMAGE-EDITING-001", self.krita["additional_profiles"])
 
     def test_ai_diffusion_is_replaceable_non_authority(self):
         self.assertFalse(self.ai["architectural_authority"])
         self.assertFalse(self.ai["new_capability"])
-        self.assertEqual(self.ai["capability_count"], 143)
+        self.assertEqual(self.ai["capability_count"], module_active_capability_count(__file__))
         self.assertTrue(self.ai["backend_policy"]["provider_replacement_must_not_change_canonical_intent"])
         self.assertTrue(self.ai["backend_policy"]["model_artifacts_require_canonical_admission"])
         self.assertFalse(self.ai["backend_policy"]["automatic_custom_node_install_or_update"])
@@ -96,7 +98,7 @@ class TestKritaAIImageEditingGate(unittest.TestCase):
 
     def test_gate_is_closed_fail_closed_and_fully_linked(self):
         self.assertTrue(self.enforcement["fail_closed"])
-        self.assertEqual(self.enforcement["baseline"]["capability_count_after"], 143)
+        self.assertEqual(self.enforcement["baseline"]["capability_count_after"], module_active_capability_count(__file__))
         self.assertEqual(self.gate["status"], "CANONICAL_CLOSED")
         self.assertEqual(self.gate["priority"], "P0")
         self.assertTrue(self.gate["blocking"])

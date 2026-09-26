@@ -4,6 +4,8 @@ import json
 import unittest
 from pathlib import Path
 
+from src.fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "canonical/profiles/FA3-JOURNAL-001.json"
 ARCHIVE_PROFILE = ROOT / "canonical/profiles/FA3-JOURNAL-ARCHIVE-001.json"
@@ -38,7 +40,7 @@ class JournalArchiveGateTests(unittest.TestCase):
         self.assertEqual(archive["parent_profile"], "FA3-JOURNAL-001")
         self.assertEqual(archive["relationship"], "SUBPROFILE-OF")
         self.assertFalse(provider["architectural_authority"])
-        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertEqual(decision["capability_count_after"], module_active_capability_count(__file__))
         self.assertEqual(decision["capability_change"], 0)
         self.assertEqual(decision["architectural_authority_change"], 0)
 
@@ -62,7 +64,7 @@ class JournalArchiveGateTests(unittest.TestCase):
         self.assertEqual(gate["gateset_id"], enforcement["gate_id"])
         self.assertEqual(gate["rule_count"], enforcement["mandatory_rule_count"])
         self.assertEqual(matrix["gateset_id"], enforcement["gate_id"])
-        self.assertEqual(gate["capability_count_after"], 143)
+        self.assertEqual(gate["capability_count_after"], module_active_capability_count(__file__))
 
     def test_runtime_and_reference_evidence_do_not_overclaim(self) -> None:
         runtime = load(RUNTIME)

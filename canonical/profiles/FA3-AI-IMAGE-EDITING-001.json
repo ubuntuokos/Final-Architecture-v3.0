@@ -4,23 +4,40 @@
   "version": "1.1.0",
   "status": "CANONICAL",
   "title": "Local AI-Assisted Image Editing, Generative Fill & Graphic Authoring Profile",
-  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-IMGGEN-001"},
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-IMGGEN-001"
+  },
   "capability_accounting": {
     "adds_capability": false,
     "capability_count_before": 143,
-    "capability_count_after": 143,
+    "capability_count_after": 175,
     "adds_architectural_authority": false
   },
   "scope": {
-    "raster_frontends": ["GIMP 3.x", "Krita"],
+    "raster_frontends": [
+      "GIMP 3.x",
+      "Krita"
+    ],
     "primary_raster_frontend": "GIMP 3.x",
     "peer_frontend_model": true,
     "primary_local_workflow_backend": "ComfyUI",
-    "operation_modes": ["standalone", "fa3_governed"],
+    "operation_modes": [
+      "standalone",
+      "fa3_governed"
+    ],
     "intents": [
-      "generate", "image_edit", "inpaint", "outpaint", "generative_fill",
-      "background_remove", "upscale", "control_guidance", "reference_image",
-      "segmentation", "relight"
+      "generate",
+      "image_edit",
+      "inpaint",
+      "outpaint",
+      "generative_fill",
+      "background_remove",
+      "upscale",
+      "control_guidance",
+      "reference_image",
+      "segmentation",
+      "relight"
     ]
   },
   "routing": {
@@ -28,7 +45,10 @@
     "hardware_admission": "FA3-AI-IMAGE-EDITING-HARDWARE-ADMISSION-001",
     "providers_are_replaceable": true,
     "provider_selection_is_opaque_to_frontend": true,
-    "frontend_providers": ["FA3-PROVIDER-GIMP-AI-LOCAL-001", "FA3-PROVIDER-KRITA-001"],
+    "frontend_providers": [
+      "FA3-PROVIDER-GIMP-AI-LOCAL-001",
+      "FA3-PROVIDER-KRITA-001"
+    ],
     "krita_extensions": [
       "FA3-PROVIDER-KRITA-AI-DIFFUSION-001",
       "FA3-PROVIDER-KRITA-VISION-TOOLS-001",
@@ -37,16 +57,34 @@
   },
   "authority_constraints": {
     "frontends_must_not_be_authority_for": [
-      "model_registry", "inference_runtime", "mcp_gateway", "hardware_resources",
-      "workflow_orchestration", "secrets", "policy", "provenance"
+      "model_registry",
+      "inference_runtime",
+      "mcp_gateway",
+      "hardware_resources",
+      "workflow_orchestration",
+      "secrets",
+      "policy",
+      "provenance"
     ],
     "gimp_must_not_be_authority_for": [
-      "model_registry", "inference_runtime", "mcp_gateway", "hardware_resources",
-      "workflow_orchestration", "secrets", "policy", "provenance"
+      "model_registry",
+      "inference_runtime",
+      "mcp_gateway",
+      "hardware_resources",
+      "workflow_orchestration",
+      "secrets",
+      "policy",
+      "provenance"
     ],
     "krita_must_not_be_authority_for": [
-      "model_registry", "inference_runtime", "mcp_gateway", "hardware_resources",
-      "workflow_orchestration", "secrets", "policy", "provenance"
+      "model_registry",
+      "inference_runtime",
+      "mcp_gateway",
+      "hardware_resources",
+      "workflow_orchestration",
+      "secrets",
+      "policy",
+      "provenance"
     ],
     "global_authorities_unchanged": true
   },
@@ -57,5 +95,6 @@
     "gpu_replacement_requires_manual_frontend_reconfiguration": false,
     "gpu_replacement_requires_manual_gimp_reconfiguration": false,
     "gpu_replacement_requires_manual_krita_reconfiguration": false
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
