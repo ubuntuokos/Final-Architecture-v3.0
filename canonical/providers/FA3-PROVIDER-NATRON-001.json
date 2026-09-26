@@ -13,7 +13,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "upstream": {
@@ -36,14 +36,16 @@
     "OPENFX_PLUGIN_SURFACE_NOT_CANONICAL_AUTHORITY",
     "NATRON_PROJECT_FORMAT_IS_PROVIDER_PROJECTION",
     "RENDER_PROVENANCE_REQUIRED",
-    "PLUGIN_ADMISSION_REQUIRES_SUPPLY_CHAIN_EVIDENCE"
-    ,"OPENFX_API_AND_SUITE_NEGOTIATION_REQUIRED"
-    ,"NATRON_DOES_NOT_ATTEST_OPENFX_1_5_ONLY_SUITES"
+    "PLUGIN_ADMISSION_REQUIRES_SUPPLY_CHAIN_EVIDENCE",
+    "OPENFX_API_AND_SUITE_NEGOTIATION_REQUIRED",
+    "NATRON_DOES_NOT_ATTEST_OPENFX_1_5_ONLY_SUITES"
   ],
   "prohibited_authorities": [
     "editorial_timeline",
     "artifact_identity",
     "security",
     "host_resource"
-  ]
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
