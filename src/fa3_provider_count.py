@@ -2,8 +2,8 @@
 from __future__ import annotations
 import argparse, json
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
-CAPABILITY_COUNT=175
 
 def derive(root: Path) -> dict:
     root=root.resolve()
@@ -24,7 +24,7 @@ def derive(root: Path) -> dict:
     return {
         "schema":"fa3.provider-count-report.v1",
         "policy_id":"FA3-PROVIDER-COUNT-POLICY-001",
-        "capability_count":CAPABILITY_COUNT,
+        "capability_count":load_active_release_baseline(root).capability_count,
         "capability_count_fixed":True,
         "provider_count_fixed":False,
         "provider_count":len(records),
