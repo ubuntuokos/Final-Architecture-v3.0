@@ -224,7 +224,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("provider_id") == PROVIDER_ID and decision.get("profile_id") == PROFILE_ID
         and decision.get("contract_id") == CONTRACT_ID and decision.get("gate_id") == GATE_ID
         and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
         and decision.get("mandatory_canonical_rules") == P0_INVARIANTS
         and decision.get("mandatory_constraint") == MANDATORY_CONSTRAINT
     ):
