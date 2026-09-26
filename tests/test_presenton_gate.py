@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 from fa3_presenton_gate import (
     OCI_INDEX_DIGEST,
@@ -72,7 +73,7 @@ class PresentonGateTests(unittest.TestCase):
     def test_current_canonical_gate_passes(self):
         report = gate(ROOT)
         self.assertEqual("PASS", report["result"], report)
-        self.assertEqual(143, report["details"]["canonical_capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, report["details"]["canonical_capability_count"])
 
     def test_executable_regression_matrix_passes(self):
         report = executable_regressions()
