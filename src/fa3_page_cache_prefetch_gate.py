@@ -71,7 +71,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         check(
             "capability-count-stable",
             profile.get("capability_count") == contract.get("capability_count") == enforcement.get("capability_count") == gate_record.get("capability_count") == CAPABILITY_COUNT,
-            "page-cache hardening preserves the exact 143-capability catalog",
+            "page-cache hardening follows the active release capability catalog",
         ),
         check(
             "no-new-authority",
