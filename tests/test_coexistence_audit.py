@@ -6,6 +6,7 @@ class CoexistenceAuditTests(unittest.TestCase):
     def fixture(self):
         td=tempfile.TemporaryDirectory(); root=Path(td.name)
         (root/"canonical/decisions").mkdir(parents=True)
+        (root/"canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json").write_text("{\"schema\":\"fa3.release-capability-baseline.v1\",\"id\":\"FA3-RELEASE-CAPABILITY-BASELINE-001\",\"baseline_semantics\":\"RELEASE_SCOPED\",\"current_release\":\"test/v3.1.0\",\"current_release_capability_count\":175,\"release_baselines\":[{\"release\":\"test/v3.1.0\",\"capability_count\":175,\"status\":\"ACTIVE_BASELINE\"}]}")
         (root/"canonical/intents").mkdir()
         (root/"canonical/providers").mkdir()
         (root/"canonical/coexistence/footprints").mkdir(parents=True)
