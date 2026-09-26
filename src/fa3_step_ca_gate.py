@@ -271,7 +271,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and promotion_decision.get("tested_main_sha") == TESTED_MAIN_SHA
         and promotion_decision.get("new_capabilities") == 0
         and promotion_decision.get("new_architectural_authorities") == 0
-        and promotion_isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
+        and isinstance(promotion_decision.get("capability_count_after"), int) and promotion_decision.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append("promotion-decision")
     ref = p["reference"]
