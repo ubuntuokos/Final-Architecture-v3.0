@@ -66,6 +66,32 @@ class CoexistenceAuditTests(unittest.TestCase):
             self.assertTrue(any(x["code"]=="COEX-004" for x in r["findings"]))
         finally: td.cleanup()
 
+    def test_static_pass_requires_real_repository_evidence_and_nonempty_surface(self):
+        td,root=self.fixture()
+        try:
+            fp=root/"canonical/coexistence/footprints/provider.json"
+            base={
+                "schema":"fa3.coexistence-footprint.v1",
+                "component_id":"FA3-PROVIDER-REFERENCE-001",
+                "classification":"PROVIDER_RUNTIME",
+                "risk":"P2",
+                "upstream_relation":"INTEGRATES",
+                "coexistence":{"executables":[],"services":[],"sockets":[],"ports":[],"config_paths":[],"data_paths":[],"cache_paths":[],"desktop_ids":[],"mime_types":[],"protocol_handlers":[],"env_mutations":[],"databases":[],"plugin_paths":[],"external_app_integrations":[],"requires_upstream_uninstall":False,"global_environment_mutation":False,"claims_default_port":False},
+                "evidence":{"static_status":"PASS","current_host_status":"NOT_APPLICABLE","runtime_promotion_claim":False,"artifacts":[]}
+            }
+            fp.write_text(json.dumps(base))
+            r=audit(root)
+            self.assertTrue(any(x["code"]=="COEX-037" for x in r["findings"]))
+            self.assertTrue(any(x["code"]=="COEX-038" for x in r["findings"]))
+            provider=root/"canonical/providers/FA3-PROVIDER-REFERENCE-001.json"
+            provider.write_text("{}")
+            base["coexistence"]["external_app_integrations"]=["reference-only upstream boundary"]
+            base["evidence"]["artifacts"]=["canonical/providers/FA3-PROVIDER-REFERENCE-001.json"]
+            fp.write_text(json.dumps(base))
+            r=audit(root)
+            self.assertFalse(any(x["code"] in {"COEX-037","COEX-038","COEX-039"} for x in r["findings"]))
+        finally: td.cleanup()
+
     def test_secret_broker_installer_and_uninstaller_are_ownership_safe(self):
         root=Path(__file__).resolve().parents[1]
         install=(root/"bin/fa3-secret-broker-install").read_text(encoding="utf-8")

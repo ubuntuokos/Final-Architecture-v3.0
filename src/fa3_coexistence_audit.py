@@ -122,6 +122,19 @@ def audit(root: Path):
             findings.append(finding("COEX-034","footprint attempts document-only runtime promotion",path=rel))
         if ev.get("current_host_status")=="PASS" and not ev.get("artifacts"):
             findings.append(finding("COEX-035","current-host PASS without evidence artifact",path=rel))
+        if ev.get("static_status")=="PASS":
+            artifacts=ev.get("artifacts",[])
+            if not artifacts:
+                findings.append(finding("COEX-037","static PASS without repository audit evidence",path=rel))
+            footprint_domains=("executables","services","sockets","ports","config_paths","data_paths","cache_paths","desktop_ids","mime_types","protocol_handlers","env_mutations","databases","plugin_paths","external_app_integrations")
+            if not any(co.get(name,[]) for name in footprint_domains):
+                findings.append(finding("COEX-038","empty static PASS footprint is forbidden",path=rel))
+            missing_artifacts=[]
+            for artifact in artifacts:
+                if isinstance(artifact,str) and not artifact.startswith(("http://","https://","urn:")) and not (root/artifact).exists():
+                    missing_artifacts.append(artifact)
+            if missing_artifacts:
+                findings.append(finding("COEX-039","static PASS references missing repository audit artifact",path=rel,missing=missing_artifacts))
 
     provider_files=sorted((root/"canonical/providers").glob("*.json")) if (root/"canonical/providers").exists() else []
     footprint_ids={obj.get("component_id") for _,obj in footprints if isinstance(obj,dict)}

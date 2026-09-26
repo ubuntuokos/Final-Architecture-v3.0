@@ -62,11 +62,15 @@ def build(root: Path) -> dict:
 
     all_fp=all(x["footprint_status"]=="MATERIALIZED" for x in entries)
     all_host=bool(entries) and all(x["coexistence_status"]=="CURRENT_HOST_PASS" for x in entries)
+    static_pass=sum(x["coexistence_status"] in {"STATIC_AUDIT_PASS_CURRENT_HOST_PENDING","CURRENT_HOST_PASS"} for x in entries)
+    static_pending=sum(x["coexistence_status"]=="STATIC_AUDIT_PENDING" for x in entries)
+    static_fail=sum(x["coexistence_status"]=="STATIC_AUDIT_FAIL" for x in entries)
     return {
         "schema":"fa3.coexistence-inventory.v1",
         "capability_count":baseline.capability_count,
         "provider_count":len(entries),
         "entries":entries,
+        "static_audit_summary":{"pass":static_pass,"pending":static_pending,"fail":static_fail},
         "closure":{
             "all_providers_inventoried":True,
             "all_footprints_materialized":all_fp,
@@ -93,6 +97,7 @@ def main() -> int:
         "provider_count":report["provider_count"],
         "footprints_materialized":sum(x["footprint_status"]=="MATERIALIZED" for x in report["entries"]),
         "pending_footprints":sum(x["footprint_status"]=="PENDING_FOOTPRINT" for x in report["entries"]),
+        "static_audit_summary":report["static_audit_summary"],
         "all_current_host_proven":report["closure"]["all_current_host_proven"],
     },indent=2))
     return 0
