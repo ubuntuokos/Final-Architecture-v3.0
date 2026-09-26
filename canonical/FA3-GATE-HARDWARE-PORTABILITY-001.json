@@ -9,11 +9,16 @@
   "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
   "parent_profile_id": "FA3-HW-001",
   "fail_closed": true,
-  "mandatory_checks": 23,
+  "mandatory_checks": 26,
   "entrypoint": "src/fa3_hardware_portability_gate.py",
   "test": "tests/test_hardware_portability_gate.py",
   "report_path": "reports/hardware-portability-gate-report.json",
   "current_host_runtime_promotion_claim": false,
-  "capability_count": 143,
-  "promotion_semantics": "Repository audit proves only vendor-neutral design conformance; physical current-host evidence must be freshly collected and cannot be inherited from prior host records."
+  "capability_count": 175,
+  "promotion_semantics": "Repository audit proves only vendor-neutral design conformance; physical current-host evidence must be freshly collected and cannot be inherited from prior host records.",
+  "hardware_safety_decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+  "hardware_safety_fail_closed": true,
+  "hardware_safety_semantics": "FA3 and installers MUST NOT apply hardware values outside vendor-supported operating envelopes, bypass hardware safety protections, or mutate hardware when the safe range is unknown.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
