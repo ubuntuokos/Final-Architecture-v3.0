@@ -1,4 +1,5 @@
 name: FA3 Khronos Open Standards Gate
+
 on:
   pull_request:
     paths:
@@ -7,12 +8,14 @@ on:
       - 'canonical/materialization/FA3-KHRONOS-SDK-MATERIALIZATION-001.json'
       - 'canonical/intents/FA3-KHRONOS-OPEN-STANDARDS-APPLICATION-INTENT-001.json'
       - 'canonical/assessments/FA3-KHRONOS-OPEN-STANDARDS-REUSE-ASSESSMENT-001.json'
-      - 'canonical/FA3-GATE-KHRONOS-OPEN-STANDARDS-001.json'\n      - 'canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json'
+      - 'canonical/FA3-GATE-KHRONOS-OPEN-STANDARDS-001.json'
+      - 'canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json'
       - 'src/fa3_khronos_open_standards_gate.py'
       - 'tests/test_khronos_open_standards_gate.py'
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'docs/FA3-KHRONOS-OPEN-STANDARDS-MATERIALIZATION-2026-09-26.md'
   workflow_dispatch:
+
 jobs:
   static-gate:
     runs-on: ubuntu-latest
