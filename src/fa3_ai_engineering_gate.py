@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
+
+from fa3_release_baseline import module_active_capability_count
+from fa3_reuse_catalog import build_catalog
 
 SOURCE_ID = "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001"
 REFERENCE_ID = "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30"
 DECISION_ID = "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30"
 GATE_ID = "FA3-AIENG-GATESET-001"
+INTENT_ID = "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001"
+ASSESSMENT_ID = "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001"
+PATTERN_BUNDLE_ID = "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001"
 UPSTREAM_REPO = "rohitg00/ai-engineering-from-scratch"
-REFERENCE_COMMIT = "a56b4b8ad43a3767c771953d217036813f697bc7"
+REFERENCE_COMMIT = "8bc378c2e07777899322ae77cd0dde94cb12fab3"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 
-RULES = [
+SOURCE_RULES = [
     "REGISTRY_PUBLICATION_NOT_PRODUCTION_ADMISSION",
     "SKILL_CONTEXT_NOT_EXECUTION_AUTHORITY",
     "AGENT_ASSERTION_NOT_COMPLETION_EVIDENCE",
@@ -26,6 +31,14 @@ RULES = [
     "ROLLBACK_READINESS_REQUIRED_BEFORE_PROMOTION",
     "PROGRESSIVE_DISCLOSURE_WITHOUT_AUTHORITY_ESCALATION",
 ]
+
+OVERLAY_RULES = [
+    "REUSE_DISCOVERY_BINDING_REQUIRED",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE",
+    "HARDWARE_AUDIT_REFERENCE_ONLY_NO_RUNTIME_PROMOTION",
+]
+
+RULES = SOURCE_RULES + OVERLAY_RULES
 
 
 def loadj(path: Path):
@@ -64,15 +77,8 @@ def completion_state_valid(*, requested_state: str, deterministic_gate_pass: boo
 
 def execution_evidence_valid(evidence: dict) -> bool:
     required = (
-        "command",
-        "argv",
-        "cwd",
-        "actor_identity",
-        "capability_or_request_id",
-        "input_artifact_refs",
-        "exit_code",
-        "output_artifact_refs",
-        "environment_identity",
+        "command", "argv", "cwd", "actor_identity", "capability_or_request_id",
+        "input_artifact_refs", "exit_code", "output_artifact_refs", "environment_identity",
     )
     return all(k in evidence and evidence[k] not in (None, "") for k in required)
 
@@ -106,11 +112,8 @@ def redaction_order_valid(stages: list[str]) -> bool:
 def rollback_ready(*, target_version: str, artifact_digest: str, health_evidence: bool,
                    route_restore_procedure: bool, trusted_readiness_evidence: bool) -> bool:
     return all((
-        bool(target_version),
-        bool(artifact_digest),
-        health_evidence,
-        route_restore_procedure,
-        trusted_readiness_evidence,
+        bool(target_version), bool(artifact_digest), health_evidence,
+        route_restore_procedure, trusted_readiness_evidence,
     ))
 
 
@@ -121,6 +124,40 @@ def progressive_disclosure_valid(*, discovered: bool, activated: bool,
     if branch_context_loaded and not activated:
         return False
     return discovered or activated or not branch_context_loaded
+
+
+def reference_reuse_boundary_valid(*, reference_only: bool, automatic_fetch: bool,
+                                   automatic_install: bool, automatic_activation: bool,
+                                   authority: bool) -> bool:
+    return (
+        reference_only
+        and not automatic_fetch
+        and not automatic_install
+        and not automatic_activation
+        and not authority
+    )
+
+
+def coexistence_boundary_valid(*, namespaced: bool, upstream_uninstall_required: bool,
+                               global_mutation: bool, default_port_hijack: bool) -> bool:
+    return (
+        namespaced
+        and not upstream_uninstall_required
+        and not global_mutation
+        and not default_port_hijack
+    )
+
+
+def hardware_reference_valid(*, vendor_neutral: bool, cpu_only_viable: bool,
+                             accelerator_cardinality: str, global_accelerator_requirement: bool,
+                             current_host_runtime_promotion_claim: bool) -> bool:
+    return (
+        vendor_neutral
+        and cpu_only_viable
+        and accelerator_cardinality == "0..N"
+        and not global_accelerator_requirement
+        and not current_host_runtime_promotion_claim
+    )
 
 
 def scan_source_authority_assignments(root: Path):
@@ -151,10 +188,7 @@ def scan_source_authority_assignments(root: Path):
                     walk(value, f"{key_path}[{i}]")
 
         walk(obj)
-    return {
-        "result": "PASS" if not findings else "FAIL",
-        "findings": findings,
-    }
+    return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
 
 def reference_check(root: Path):
@@ -180,8 +214,8 @@ def reference_check(root: Path):
     dec = loadj(dec_path)
     enf = loadj(enf_path)
     pol = loadj(pol_path)
-
     disp = ref.get("fa3_disposition", {})
+
     if not (
         ref.get("id") == REFERENCE_ID
         and ref.get("source_id") == SOURCE_ID
@@ -190,6 +224,7 @@ def reference_check(root: Path):
         and ref.get("observed_default_branch_head") == REFERENCE_COMMIT
         and ref.get("default_branch") == "main"
         and ref.get("reference_kind") == "PINNED_COMMIT"
+        and ref.get("last_revalidated_at") == "2026-09-26"
     ):
         findings.append(finding("AIENG-REF-005", "Immutable upstream reference identity drift"))
 
@@ -217,7 +252,12 @@ def reference_check(root: Path):
         and dec.get("new_architectural_authorities") == 0
         and dec.get("new_runtime_providers") == 0
         and dec.get("capability_count_after") == CAPABILITY_COUNT
-        and dec.get("canonical_rules_absorbed") == RULES
+        and dec.get("canonical_rules_absorbed") == SOURCE_RULES
+        and dec.get("fa3_overlay_rules") == OVERLAY_RULES
+        and dec.get("application_intent_id") == INTENT_ID
+        and dec.get("reuse_assessment_id") == ASSESSMENT_ID
+        and dec.get("pattern_bundle_id") == PATTERN_BUNDLE_ID
+        and dec.get("current_host_runtime_evidence_required") is False
     ):
         findings.append(finding("AIENG-REF-007", "Canonical decision drift"))
 
@@ -225,6 +265,7 @@ def reference_check(root: Path):
         enf.get("gate_id") == GATE_ID
         and enf.get("source_id") == SOURCE_ID
         and enf.get("reference_id") == REFERENCE_ID
+        and enf.get("reference_commit") == REFERENCE_COMMIT
         and enf.get("fail_closed") is True
         and enf.get("runtime_source_required_for_global_promotion") is False
         and enf.get("floating_main_allowed_as_promotion_evidence") is False
@@ -233,6 +274,13 @@ def reference_check(root: Path):
         and len(enf.get("rules", [])) == len(RULES)
         and enf.get("global_static_integration") is True
         and enf.get("regression_case_count") == len(RULES)
+        and enf.get("application_intent_id") == INTENT_ID
+        and enf.get("reuse_assessment_id") == ASSESSMENT_ID
+        and enf.get("pattern_bundle_id") == PATTERN_BUNDLE_ID
+        and enf.get("reuse_discovery_required") is True
+        and enf.get("software_coexistence_required") is True
+        and enf.get("hardware_audit_required") is True
+        and enf.get("current_host_runtime_evidence_required") is False
     ):
         findings.append(finding("AIENG-REF-008", "Enforcement record drift"))
 
@@ -242,8 +290,191 @@ def reference_check(root: Path):
         findings.append(finding("AIENG-REF-010", "Global policy source binding drift"))
     if pol.get("ai_engineering_mandatory_p0_rules") != RULES:
         findings.append(finding("AIENG-REF-011", "Global policy mandatory rule set drift"))
+    if pol.get("ai_engineering_application_intent_id") != INTENT_ID:
+        findings.append(finding("AIENG-REF-012", "Global policy ApplicationIntent binding drift"))
+    if pol.get("ai_engineering_reuse_assessment_id") != ASSESSMENT_ID:
+        findings.append(finding("AIENG-REF-013", "Global policy ReuseAssessment binding drift"))
+    if pol.get("ai_engineering_pattern_bundle_id") != PATTERN_BUNDLE_ID:
+        findings.append(finding("AIENG-REF-014", "Global policy derived-pattern binding drift"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
+
+
+def reuse_governance_check(root: Path):
+    findings = []
+    intent_path = root / "canonical/intents/FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001.json"
+    assessment_path = root / "canonical/assessments/FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001.json"
+    pattern_path = root / "canonical/patterns/FA3-AI-ENGINEERING-DERIVED-PATTERNS-001.json"
+    ref_path = root / "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json"
+    projection_path = root / "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+
+    for code, path in (
+        ("AIENG-REUSE-001", intent_path),
+        ("AIENG-REUSE-002", assessment_path),
+        ("AIENG-REUSE-003", pattern_path),
+        ("AIENG-REUSE-014", projection_path),
+    ):
+        if not path.exists():
+            findings.append(finding(code, "Required reuse-governance artifact missing", path=str(path.relative_to(root))))
+
+    if findings:
+        return {"result": "FAIL", "findings": findings}
+
+    intent = loadj(intent_path)
+    assessment = loadj(assessment_path)
+    patterns = loadj(pattern_path)
+    ref = loadj(ref_path)
+    projection = loadj(projection_path)
+    ns = intent.get("namespace_claims", {})
+    ihw = intent.get("hardware_audit", {})
+    ahw = assessment.get("hardware_audit", {})
+    coexist = assessment.get("coexistence", {})
+    binding = ref.get("reuse_discovery_binding", {})
+
+    if not (
+        intent.get("schema") == "fa3.application-intent.v1"
+        and intent.get("id") == INTENT_ID
+        and intent.get("project_id") == SOURCE_ID
+        and intent.get("project_type") == "REFERENCE_SOURCE"
+        and intent.get("proposed_authority_roles") == []
+        and intent.get("declared_new_capabilities") == []
+        and intent.get("runtime_materialization") is False
+        and "FA3-REUSE-DISCOVERY-001" in intent.get("integration_requirements", [])
+    ):
+        findings.append(finding("AIENG-REUSE-004", "ApplicationIntent boundary drift"))
+
+    if not hardware_reference_valid(
+        vendor_neutral=ihw.get("vendor_neutral") is True,
+        cpu_only_viable=ihw.get("cpu_only_viable") is True,
+        accelerator_cardinality=str(ihw.get("accelerator_cardinality", "")),
+        global_accelerator_requirement=ihw.get("global_accelerator_requirement") is True,
+        current_host_runtime_promotion_claim=ihw.get("current_host_execution_required") is True,
+    ):
+        findings.append(finding("AIENG-REUSE-005", "ApplicationIntent hardware audit drift"))
+
+    if not coexistence_boundary_valid(
+        namespaced=all(bool(ns.get(k)) for k in (
+            "package_prefix", "service_prefix", "config_root", "cache_root",
+            "runtime_root", "socket_namespace", "data_root", "desktop_prefix"
+        )),
+        upstream_uninstall_required=ns.get("requires_upstream_uninstall") is True,
+        global_mutation=ns.get("global_environment_mutation") is True,
+        default_port_hijack=ns.get("claims_default_port") is True,
+    ):
+        findings.append(finding("AIENG-REUSE-006", "ApplicationIntent coexistence namespace drift"))
+
+    if not (
+        assessment.get("schema") == "fa3.reuse-assessment.v1"
+        and assessment.get("id") == ASSESSMENT_ID
+        and assessment.get("project_id") == SOURCE_ID
+        and assessment.get("intent_id") == INTENT_ID
+        and assessment.get("result") == "PASS"
+        and assessment.get("new_capabilities") == 0
+        and assessment.get("new_architectural_authorities") == 0
+        and assessment.get("new_runtime_providers") == 0
+        and assessment.get("capability_count_after") == CAPABILITY_COUNT
+        and assessment.get("current_host_runtime_promotion_claim") is False
+        and assessment.get("global_promotion_claim") is False
+    ):
+        findings.append(finding("AIENG-REUSE-007", "ReuseAssessment baseline or promotion boundary drift"))
+
+    if not coexistence_boundary_valid(
+        namespaced=coexist.get("namespaced") is True,
+        upstream_uninstall_required=coexist.get("upstream_uninstall_required") is True,
+        global_mutation=coexist.get("global_mutation") is True,
+        default_port_hijack=coexist.get("default_port_hijack") is True,
+    ):
+        findings.append(finding("AIENG-REUSE-008", "ReuseAssessment coexistence boundary drift"))
+
+    if not hardware_reference_valid(
+        vendor_neutral=ahw.get("vendor_neutral") is True,
+        cpu_only_viable=ahw.get("cpu_only_viable") is True,
+        accelerator_cardinality=str(ahw.get("accelerator_cardinality", "")),
+        global_accelerator_requirement=ahw.get("global_accelerator_requirement") is True,
+        current_host_runtime_promotion_claim=assessment.get("current_host_runtime_promotion_claim") is True,
+    ):
+        findings.append(finding("AIENG-REUSE-009", "ReuseAssessment hardware boundary drift"))
+
+    if not (
+        patterns.get("schema") == "fa3.pattern-bundle.v1"
+        and patterns.get("id") == PATTERN_BUNDLE_ID
+        and patterns.get("source_id") == SOURCE_ID
+        and patterns.get("upstream_reference_id") == REFERENCE_ID
+        and patterns.get("upstream_commit") == REFERENCE_COMMIT
+        and patterns.get("authority") is False
+        and patterns.get("architectural_authority") is False
+        and patterns.get("runtime_dependency_implied") is False
+        and patterns.get("current_host_claim") is False
+        and patterns.get("new_capability") is False
+        and patterns.get("new_architectural_authority") is False
+        and patterns.get("capability_count") == CAPABILITY_COUNT
+        and patterns.get("invariants") == SOURCE_RULES
+        and len(patterns.get("patterns", [])) == len(SOURCE_RULES)
+    ):
+        findings.append(finding("AIENG-REUSE-010", "Derived pattern bundle drift"))
+
+    if not (
+        binding.get("profile_id") == "FA3-REUSE-DISCOVERY-001"
+        and binding.get("catalog_id") == "FA3-REUSE-CATALOG-001"
+        and binding.get("intent_id") == INTENT_ID
+        and binding.get("assessment_id") == ASSESSMENT_ID
+        and binding.get("pattern_bundle_id") == PATTERN_BUNDLE_ID
+        and binding.get("role") == "REFERENCE_AND_PATTERN_SOURCE_ONLY"
+        and binding.get("automatic_fetch") is False
+        and binding.get("automatic_install") is False
+        and binding.get("automatic_activation") is False
+    ):
+        findings.append(finding("AIENG-REUSE-011", "Upstream reference reuse-discovery binding drift"))
+
+    release_rec = projection.get("ai_engineering_reference_reconciliation", {})
+    if not (
+        release_rec.get("source_id") == SOURCE_ID
+        and release_rec.get("reference_id") == REFERENCE_ID
+        and release_rec.get("reference_commit") == REFERENCE_COMMIT
+        and release_rec.get("decision_id") == DECISION_ID
+        and release_rec.get("gate_id") == GATE_ID
+        and release_rec.get("application_intent_id") == INTENT_ID
+        and release_rec.get("reuse_assessment_id") == ASSESSMENT_ID
+        and release_rec.get("pattern_bundle_id") == PATTERN_BUNDLE_ID
+        and release_rec.get("reuse_discovery_profile_id") == "FA3-REUSE-DISCOVERY-001"
+        and release_rec.get("reuse_catalog_id") == "FA3-REUSE-CATALOG-001"
+        and release_rec.get("classification") == "REFERENCE_AND_PATTERN_SOURCE_ONLY"
+        and release_rec.get("runtime_provider") is False
+        and release_rec.get("automatic_fetch") is False
+        and release_rec.get("automatic_install") is False
+        and release_rec.get("automatic_activation") is False
+        and release_rec.get("software_coexistence_required") is True
+        and release_rec.get("current_host_runtime_evidence_required") is False
+        and release_rec.get("current_host_runtime_promotion_claim") is False
+        and release_rec.get("global_promotion_claim") is False
+        and release_rec.get("new_capabilities") == 0
+        and release_rec.get("new_architectural_authorities") == 0
+        and release_rec.get("capability_count_after") == CAPABILITY_COUNT
+        and release_rec.get("hardware_audit", {}).get("vendor_neutral") is True
+        and release_rec.get("hardware_audit", {}).get("cpu_only_viable") is True
+        and release_rec.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N"
+        and release_rec.get("hardware_audit", {}).get("global_accelerator_requirement") is False
+        and release_rec.get("reconciliation_status") == "CANONICAL_REFERENCE_PATTERN_ABSORPTION_REUSE_DISCOVERABLE_RUNTIME_NOT_ADMITTED"
+    ):
+        findings.append(finding("AIENG-REUSE-015", "Unified release projection AI engineering reconciliation drift"))
+
+    catalog = build_catalog(root)
+    by_id = {}
+    for row in catalog.get("entries", []):
+        by_id.setdefault(row.get("candidate_id"), []).append(row)
+    ref_rows = by_id.get(REFERENCE_ID, [])
+    pattern_rows = by_id.get(PATTERN_BUNDLE_ID, [])
+
+    if not any(row.get("candidate_class") == "UPSTREAM_REFERENCE" and row.get("authority") is False for row in ref_rows):
+        findings.append(finding("AIENG-REUSE-012", "Reuse Catalog does not expose upstream reference as non-authoritative candidate"))
+    if not any(row.get("candidate_class") == "REUSABLE_PATTERN" and row.get("authority") is False for row in pattern_rows):
+        findings.append(finding("AIENG-REUSE-013", "Reuse Catalog does not expose derived pattern bundle as non-authoritative candidate"))
+
+    return {
+        "result": "PASS" if not findings else "FAIL",
+        "findings": findings,
+        "catalog_entry_count": catalog.get("entry_count"),
+    }
 
 
 def run_regressions():
@@ -255,44 +486,42 @@ def run_regressions():
     add("registry publication alone denied", registry_admission_valid(
         published=True, immutable_identity=False, integrity_verified=False,
         provenance_verified=False, policy_admitted=False))
-
     add("skill activation alone denied", execution_control_valid(
         context_or_skill_active=True, capability_exposed=True, authorized=False,
         approval_required=True, approved=False, sandboxed=False, verification_ready=False))
-
     add("agent self completion claim denied", completion_state_valid(
         requested_state="PROMOTED", deterministic_gate_pass=False,
         independent_of_actor_claim=False, evidence_bound=False))
-
     add("incomplete execution evidence denied", execution_evidence_valid({
         "command": "tool", "argv": ["tool"], "cwd": "/workspace",
         "actor_identity": "agent", "capability_or_request_id": "REQ-1",
-        "input_artifact_refs": [], "exit_code": 0,
-        "output_artifact_refs": []
+        "input_artifact_refs": [], "exit_code": 0, "output_artifact_refs": []
     }))
-
     add("happy path only conformance denied", conformance_evidence_valid(
         positive=True, negative=False, boundary=False))
-
     add("adapter only protocol evidence denied", protocol_projection_evidence_valid(
         raw_boundary=False, adapter_projection=True, same_exchange_identity=True))
-
     add("gateway egress-only trace denied", gateway_trace_valid(
         ingress=False, origin=False, egress=True, correlation_id="corr-1"))
-
     add("automatic compatibility downgrade denied", downgrade_allowed(
         explicit_permission=False, bounded_scope=False,
         target_version="legacy", compatibility_evidence=False))
-
     add("redaction after serialization denied", redaction_order_valid(
         ["SERIALIZE", "REDACT", "HASH", "STORE"]))
-
     add("promotion without rollback readiness denied", rollback_ready(
         target_version="", artifact_digest="", health_evidence=False,
         route_restore_procedure=False, trusted_readiness_evidence=False))
-
     add("pre-activation branch context authority escalation denied", progressive_disclosure_valid(
         discovered=True, activated=False, branch_context_loaded=True, grants_authority=True))
+    add("reference source automatic installation denied", reference_reuse_boundary_valid(
+        reference_only=True, automatic_fetch=False, automatic_install=True,
+        automatic_activation=False, authority=False))
+    add("host interference and port hijack denied", coexistence_boundary_valid(
+        namespaced=True, upstream_uninstall_required=False,
+        global_mutation=True, default_port_hijack=True))
+    add("hardware/runtime overclaim denied", hardware_reference_valid(
+        vendor_neutral=True, cpu_only_viable=True, accelerator_cardinality="1",
+        global_accelerator_requirement=True, current_host_runtime_promotion_claim=True))
 
     passed = sum(c["result"] == "PASS" for c in cases)
     return {
@@ -305,9 +534,10 @@ def run_regressions():
 
 def gate(root: Path):
     reference = reference_check(root)
+    reuse = reuse_governance_check(root)
     authority = scan_source_authority_assignments(root)
     regressions = run_regressions()
-    ok = all(x["result"] == "PASS" for x in (reference, authority, regressions))
+    ok = all(x["result"] == "PASS" for x in (reference, reuse, authority, regressions))
     report = {
         "schema": "fa3.ai-engineering-gate-report.v1",
         "gate_id": GATE_ID,
@@ -315,8 +545,10 @@ def gate(root: Path):
         "reference_commit": REFERENCE_COMMIT,
         "capability_count": CAPABILITY_COUNT,
         "runtime_provider_required": False,
+        "current_host_runtime_evidence_required": False,
         "result": "PASS" if ok else "FAIL",
         "reference": reference,
+        "reuse_governance": reuse,
         "authority_scan": authority,
         "regressions": regressions,
     }

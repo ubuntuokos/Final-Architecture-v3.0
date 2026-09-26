@@ -600,21 +600,17 @@ PYTHONPATH=src python -m unittest tests.test_muse_code_gate -v
 
 `FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001` registers `rohitg00/ai-engineering-from-scratch` as an **ACCEPTED cross-cutting architectural pattern source + engineering/evidence reference + agent-skill/MCP conformance reference + educational reference**.
 
-It is deliberately **not** a runtime provider, capability, canonical specification or architectural authority. It creates no new capability and no new architectural authority; the canonical capability count remains **143**. The observed upstream source is pinned to commit `a56b4b8ad43a3767c771953d217036813f697bc7`; floating `main` is reference discovery only and is forbidden as promotion evidence.
+It is deliberately **not** a runtime provider, capability, canonical specification or architectural authority. It creates no new capability and no new architectural authority; the active canonical capability count remains **175**. The current immutable reference is pinned to `8bc378c2e07777899322ae77cd0dde94cb12fab3` and was revalidated on 2026-09-26. Floating `main` is discovery-only and is forbidden as promotion evidence.
 
-The permanent `FA3-AIENG-GATESET-001` absorbs and enforces 11 provider-neutral P0 invariants:
+The integration now has a mandatory `ApplicationIntent + ReuseAssessment` pair and a reusable canonical pattern bundle:
 
-1. registry publication is not production admission;
-2. skill/context availability is not execution authority;
-3. an agent/provider assertion is not completion or promotion evidence;
-4. material execution requires attributable evidence;
-5. protocol/security conformance requires positive + negative/refusal + boundary evidence;
-6. raw boundary/wire evidence and SDK/adapter projection evidence must both exist for critical protocols;
-7. gateways/proxies preserve correlated ingress → origin → egress evidence;
-8. compatibility/security downgrade is fail-closed unless explicitly authorized and evidenced;
-9. sensitive evidence is redacted before serialization, hashing, logging or storage;
-10. rollback readiness is established before applicable production promotion;
-11. progressive disclosure may load branch-specific context only after activation and never grants authority.
+- `FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001`
+- `FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001`
+- `FA3-AI-ENGINEERING-DERIVED-PATTERNS-001`
+
+The derived bundle is indexed by `FA3-REUSE-DISCOVERY-001` as a non-authoritative `REUSABLE_PATTERN`; the upstream reference is indexed as a non-authoritative `UPSTREAM_REFERENCE`. Neither discovery result permits automatic fetch, installation, skill activation, provider admission or execution authority.
+
+The permanent `FA3-AIENG-GATESET-001` enforces the original 11 provider-neutral engineering/evidence invariants plus three FA3-wide integration rules: mandatory Reuse Discovery binding, Software Coexistence & Host Non-Interference, and a vendor-neutral Hardware Audit with no current-host runtime overclaim.
 
 Run directly with:
 
@@ -623,8 +619,7 @@ Run directly with:
 PYTHONPATH=src python -m unittest tests.test_ai_engineering_gate -v
 ```
 
-The gate is also part of the global `static` enforcement path and the permanent GitHub CI workflow. It checks the immutable upstream reference, canonical decision/policy binding, source non-authority status and 11 executable negative regression cases.
-
+The gate is part of the global `static` enforcement path and permanent GitHub CI. Because this is a reference/pattern integration with no admitted upstream runtime, hosted CI may prove canonical governance only; it does not and must not manufacture current-host runtime evidence.
 
 ## Modular MAX/Mojo executable runtime + current-host production evidence
 
