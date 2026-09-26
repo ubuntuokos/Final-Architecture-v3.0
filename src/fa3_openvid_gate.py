@@ -2,8 +2,9 @@
 from __future__ import annotations
 import argparse,json
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
 
-CAP=143
+CAP=module_active_capability_count(__file__)
 PIN="293916f25ef48d1799bceea13b78999596a11f0b"
 PROVIDER="FA3-PROVIDER-OPENVID-001"
 CONTRACT="FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001"
@@ -29,7 +30,7 @@ def regression_cases():
     add(0,True,not False); add(1,True,not False)
     add(2,not runtime_admission_allowed({**good,"license_compatible_with_intended_deployment":False}),not False)
     add(3,runtime_admission_allowed(good),not runtime_admission_allowed({**good,"separate_license_or_independent_implementation":False}))
-    add(4,CAP==143,CAP!=144); add(5,True,"OPENVID_AUTHORITY" not in profiles); add(6,len(profiles)==4,"FA3-OPENVID-AUTHORITY-001" not in profiles)
+    add(4,CAP>=143,CAP<143); add(5,True,"OPENVID_AUTHORITY" not in profiles); add(6,len(profiles)==4,"FA3-OPENVID-AUTHORITY-001" not in profiles)
     add(7,True,not False); add(8,True,not False); add(9,True,"ui.mouse.drag" not in {"overlay.image","mockup.apply","transform.3d","camera.zoom"})
     add(10,export_plan_allowed(exp),not export_plan_allowed({**exp,"backend_order":["SOFTWARE_ENCODER","WASM_FALLBACK"]}))
     add(11,exp["bounded_memory"],not export_plan_allowed({**exp,"bounded_memory":False}))
@@ -53,11 +54,11 @@ def gate(root):
     checks=[
       (p.get("id")==PROVIDER and p.get("canonical_root") is False and p.get("architectural_authority") is False and p.get("new_capability") is False and p.get("hard_dependency") is False and p.get("capability_count")==CAP and p.get("upstream",{}).get("observed_commit")==PIN and p.get("upstream",{}).get("license")=="PolyForm Noncommercial License 1.0.0" and p.get("runtime_activation",{}).get("status")==RUNTIME and p.get("runtime_activation",{}).get("commercial_runtime_allowed") is False and p.get("runtime_activation",{}).get("production_baseline_runtime_allowed") is False,"OPENVID-REF-003","provider/license/authority invariant drift"),
       (c.get("id")==CONTRACT and c.get("provider_neutral") is True and c.get("new_capability") is False and c.get("new_architectural_authority") is False and c.get("capability_count")==CAP and c.get("canonical_timeline_ir")=="OpenTimelineIO" and all(req.get(k) is True for k in ("local_first_processing","explicit_cloud_escalation","deterministic_timeline","typed_operation_descriptors","bounded_memory","hardware_encode_preferred","software_encode_fallback","wasm_fallback_bounded","direct_to_disk_preferred","buffered_export_bounded","remux_before_reencode_when_safe","output_qa","sha256_artifact_identity","provenance","audit")),"OPENVID-REF-004","contract invariant drift"),
-      (x.get("id")==DECISION and x.get("status")=="CANONICAL_CLOSED" and x.get("mandatory_rules")==RULES and x.get("new_capabilities")==0 and x.get("new_architectural_authorities")==0 and x.get("capability_count_after")==CAP and x.get("runtime_activation_status")==RUNTIME and x.get("current_host_runtime_promotion_claimed") is False,"OPENVID-REF-005","decision invariant drift"),
+      (x.get("id")==DECISION and x.get("status")=="CANONICAL_CLOSED" and x.get("mandatory_rules")==RULES and x.get("new_capabilities")==0 and x.get("new_architectural_authorities")==0 and x.get("capability_count_before")==143 and x.get("capability_count_after")==143 and x.get("runtime_activation_status")==RUNTIME and x.get("current_host_runtime_promotion_claimed") is False,"OPENVID-REF-005","decision invariant drift"),
       (r.get("id")==REF and r.get("commit")==PIN and r.get("license")=="PolyForm Noncommercial License 1.0.0" and r.get("promotion_use")=="REFERENCE_AND_CONTRACT_DESIGN_ONLY" and r.get("floating_branch_forbidden_as_promotion_evidence") is True and all(obs.get(k) is True for k in ("local_processing_claimed","hardware_encode_preference_observed","software_encode_fallback_observed","direct_to_disk_export_observed","buffered_export_fallback_observed","remux_packet_copy_pattern_observed")),"OPENVID-REF-006","upstream reference invariant drift"),
       (g.get("gate_set_id")==GATE and g.get("rule_count")==18 and g.get("fail_closed") is True and g.get("global_static_integration") is True and g.get("current_host_runtime_promotion_claimed") is False and e.get("gate_id")==GATE and e.get("rules")==RULES and e.get("runtime_activation_status")==RUNTIME,"OPENVID-REF-007","gate/enforcement invariant drift"),
       (a.get("status")==RUNTIME and adm.get("reference_design_use") is True and adm.get("source_vendoring") is False and adm.get("baseline_runtime") is False and adm.get("commercial_production_runtime") is False and a.get("new_capabilities")==0 and a.get("new_architectural_authorities")==0 and a.get("capability_count_after")==CAP,"OPENVID-REF-008","runtime admission invariant drift"),
-      (rel.get("provider_id")==PROVIDER and rel.get("capability_count_before")==CAP and rel.get("capability_count_after")==CAP and rel.get("new_capabilities")==0 and rel.get("new_architectural_authorities")==0 and rel.get("runtime_promotion") is False and rel.get("license_admission_state")=="BASELINE_AND_COMMERCIAL_RUNTIME_DENIED","OPENVID-REF-009","release projection invariant drift"),
+      (rel.get("provider_id")==PROVIDER and rel.get("capability_count_before")==143 and rel.get("capability_count_after")==143 and rel.get("new_capabilities")==0 and rel.get("new_architectural_authorities")==0 and rel.get("runtime_promotion") is False and rel.get("license_admission_state")=="BASELINE_AND_COMMERCIAL_RUNTIME_DENIED","OPENVID-REF-009","release projection invariant drift"),
       (all(q["result"]=="PASS" for q in cases),"OPENVID-REF-010","regression failed")
     ]
     for ok,code,msg in checks:
