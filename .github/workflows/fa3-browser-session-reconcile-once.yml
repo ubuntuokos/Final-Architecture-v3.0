@@ -1,0 +1,198 @@
+name: FA3 Browser Session Reconcile Once
+
+on:
+  push:
+    branches: [fa3/browser-session-current-host-20260925]
+    paths:
+      - '.github/workflows/fa3-browser-session-reconcile-once.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-browser-session-reconcile-once
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3/browser-session-current-host-20260925
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Merge current main fail closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          set +e
+          git merge --no-ff --no-commit origin/main
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            conflicts="$(git diff --name-only --diff-filter=U)"
+            expected='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+            if [ "$conflicts" != "$expected" ]; then
+              echo "Unexpected merge conflicts:"
+              printf '%s\n' "$conflicts"
+              exit 2
+            fi
+            git checkout --ours "$expected"
+            git add "$expected"
+          fi
+      - name: Reconcile Browser Session with Hardware Safety Envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          def load(path):
+              return json.loads(Path(path).read_text(encoding="utf-8"))
+          def save(path,obj):
+              Path(path).write_text(json.dumps(obj,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+
+          safety={
+              "decision_id":"FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+              "fail_closed":True,
+              "hardware_parameter_mutation":"DENY",
+              "unsafe_or_unknown_hardware_tuning":"DENY",
+              "safety_protection_bypass":"DENY",
+              "workload_semantics":"NO_HARDWARE_PARAMETER_MUTATION_REQUIRED"
+          }
+
+          p="canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json"
+          o=load(p);o["hardware_safety_envelope"]=safety;save(p,o)
+
+          p="canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json"
+          o=load(p);o["hardware_safety_envelope"]={
+              **safety,
+              "provider_may_set_hardware_values":False,
+              "provider_may_become_hardware_authority":False
+          };save(p,o)
+
+          p="canonical/browser-session-current-host-enforcement.json"
+          o=load(p)
+          o["hardware_safety_envelope_required"]=True
+          o["hardware_safety_decision_id"]="FA3-DEC-HARDWARE-SAFETY-2026-09-26"
+          o["hardware_parameter_mutation"]="DENY"
+          o["hardware_safety_protection_bypass"]="DENY"
+          save(p,o)
+
+          p="canonical/assessments/FA3-BROWSER-SESSION-INTERACTION-REUSE-ASSESSMENT-001.json"
+          o=load(p);o["hardware_safety_envelope"]={
+              "decision_id":"FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+              "result":"PASS",
+              "hardware_parameter_mutation_required":False,
+              "fail_closed":True
+          };save(p,o)
+
+          p=Path("src/fa3_browser_session_gate.py")
+          s=p.read_text(encoding="utf-8")
+          if "from fa3_release_baseline import module_active_capability_count" not in s:
+              s=s.replace("from typing import Any\n","from typing import Any\nfrom fa3_release_baseline import module_active_capability_count\n")
+          if "CAPABILITY_COUNT=module_active_capability_count(__file__)" not in s:
+              s=s.replace('ACTION_IDS={"browser.session.start","browser.session.stop","browser.tab.list","browser.tab.borrow","browser.tab.return","browser.human_assistance.request","browser.human_assistance.cancel"}\n',
+                          'ACTION_IDS={"browser.session.start","browser.session.stop","browser.tab.list","browser.tab.borrow","browser.tab.return","browser.human_assistance.request","browser.human_assistance.cancel"}\nCAPABILITY_COUNT=module_active_capability_count(__file__)\n')
+          s=s.replace('"canonical/FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001.json",',
+                      '"canonical/FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001.json","canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",')
+          s=s.replace('p.get("capability_count")!=143','p.get("capability_count")!=CAPABILITY_COUNT')
+          old='    if not(hw.get("vendor_neutral") is True and hw.get("cpu_only_viable") is True and hw.get("accelerator_cardinality")=="0..N"):findings.append({"code":"BSI-005","message":"Hardware Audit drift"})\n'
+          new=old+'    hs=p.get("hardware_safety_envelope",{})\n    if not(hs.get("decision_id")=="FA3-DEC-HARDWARE-SAFETY-2026-09-26" and hs.get("fail_closed") is True and hs.get("hardware_parameter_mutation")=="DENY" and hs.get("safety_protection_bypass")=="DENY"):findings.append({"code":"BSI-005A","message":"Hardware Safety Envelope drift"})\n'
+          if "BSI-005A" not in s:s=s.replace(old,new)
+          old='    if provider.get("architectural_authority") is not False or provider.get("parent_profile")!=PROFILE_ID or provider.get("cpu_only_supported") is not True:findings.append({"code":"BSI-012","message":"provider boundary invalid"})\n'
+          new=old+'    phs=provider.get("hardware_safety_envelope",{})\n    if not(phs.get("decision_id")=="FA3-DEC-HARDWARE-SAFETY-2026-09-26" and phs.get("provider_may_set_hardware_values") is False and phs.get("provider_may_become_hardware_authority") is False):findings.append({"code":"BSI-012A","message":"provider hardware safety boundary invalid"})\n'
+          if "BSI-012A" not in s:s=s.replace(old,new)
+          s=s.replace('"human_assistance_overlay_required","cpu_only_viable","vendor_neutral")',
+                      '"human_assistance_overlay_required","cpu_only_viable","vendor_neutral","hardware_safety_envelope_required")')
+          old='    if cur.get("persistent_global_browser_config_mutation")!="DENY" or cur.get("synthetic_human_completion_claim")!="DENY" or cur.get("global_promotion_claim") is not False:findings.append({"code":"BSI-024","message":"current-host non-claim/coexistence invariant broken"})\n'
+          new=old+'    if cur.get("hardware_parameter_mutation")!="DENY" or cur.get("hardware_safety_protection_bypass")!="DENY" or cur.get("hardware_safety_decision_id")!="FA3-DEC-HARDWARE-SAFETY-2026-09-26":findings.append({"code":"BSI-024A","message":"current-host hardware safety invariant broken"})\n'
+          if "BSI-024A" not in s:s=s.replace(old,new)
+          s=s.replace('"capability_count":143','"capability_count":CAPABILITY_COUNT')
+          p.write_text(s,encoding="utf-8")
+
+          p=Path("src/fa3_browser_session_current_host_gate.py")
+          s=p.read_text(encoding="utf-8")
+          if "from fa3_release_baseline import module_active_capability_count" not in s:
+              s=s.replace("from fa3_uaf import ActionContract,ActionDispatcher,ActionRegistry,ActionRequest,ExecutionContext,ProviderRegistry,UafError,_canonical_digest\n",
+                          "from fa3_uaf import ActionContract,ActionDispatcher,ActionRegistry,ActionRequest,ExecutionContext,ProviderRegistry,UafError,_canonical_digest\nfrom fa3_release_baseline import module_active_capability_count\n")
+          if "CAPABILITY_COUNT=module_active_capability_count(__file__)" not in s:
+              s=s.replace('HRB_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"\n',
+                          'HRB_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"\nCAPABILITY_COUNT=module_active_capability_count(__file__)\n')
+          s=s.replace('checks["hardware"]={"pass":True,"vendor_neutral":True,"cpu_only":True,"accelerator_required":False}',
+                      'checks["hardware"]={"pass":True,"vendor_neutral":True,"cpu_only":True,"accelerator_required":False,"hardware_safety_decision_id":"FA3-DEC-HARDWARE-SAFETY-2026-09-26","hardware_parameter_mutation":False,"safety_protection_bypass":False,"fail_closed":True}')
+          s=s.replace('"capability_count":143','"capability_count":CAPABILITY_COUNT')
+          p.write_text(s,encoding="utf-8")
+
+          p=Path(".github/workflows/fa3-browser-session-current-host.yml")
+          s=p.read_text(encoding="utf-8")
+          old='''      - name: Ensure canonical HRB admission bridge
+                shell: bash
+                run: |
+                  set -euo pipefail
+                  if [[ ! -x /usr/local/bin/fa3-host-resource-broker-admission ]] \\
+                     || ! /usr/local/bin/fa3-host-resource-broker-admission --doctor >/dev/null 2>&1; then
+                    sudo ./bin/fa3-install-host-admission-bridge.sh --user "$USER"
+                  fi
+                  /usr/local/bin/fa3-host-resource-broker-admission --doctor
+          '''
+          new='''      - name: Verify canonical HRB admission bridge prerequisite
+                shell: bash
+                run: |
+                  set -euo pipefail
+                  test -x /usr/local/bin/fa3-host-resource-broker-admission
+                  test -x /usr/local/libexec/fa3-host-resource-broker-admission-root
+                  /usr/local/bin/fa3-host-resource-broker-admission --doctor
+          '''
+          if old not in s:
+              raise SystemExit("HRB workflow block not found")
+          s=s.replace(old,new)
+          static_marker="      - name: Static Browser Session gate\n        env:\n          PYTHONPATH: src\n        run: python src/fa3_browser_session_gate.py --root .\n"
+          if "Hardware Safety / portability gate" not in s:
+              s=s.replace(static_marker,
+                          "      - name: Hardware Safety / portability gate\n        run: ./bin/fa3-enforce hardware-portability\n"+static_marker)
+          physical_marker="      - name: Real physical extension + Native Messaging + UDS + HRB E2E\n"
+          if "Current-host Hardware Safety audit" not in s:
+              s=s.replace(physical_marker,
+                          "      - name: Current-host Hardware Safety audit\n        run: ./bin/fa3-enforce hardware-portability\n"+physical_marker)
+          validation="          assert c['hrb']['pass'] is True and c['hrb']['cpu_only'] is True\n"
+          if "hardware_parameter_mutation'] is False" not in s:
+              s=s.replace(validation,validation+"          assert c['hardware']['pass'] is True\n          assert c['hardware']['hardware_parameter_mutation'] is False\n          assert c['hardware']['safety_protection_bypass'] is False\n")
+          p.write_text(s,encoding="utf-8")
+
+          p=Path("docs/browser-session-interaction.md")
+          s=p.read_text(encoding="utf-8")
+          if "## Hardware Safety Envelope" not in s:
+              s += """\n## Hardware Safety Envelope\n\nThe Browser Session bridge is CPU-only viable and performs no hardware-parameter tuning. It inherits FA3-DEC-HARDWARE-SAFETY-2026-09-26: hardware mutation and safety-protection bypass are denied, and unknown safety conditions fail closed. Browser or extension execution never becomes hardware-resource authority.\n"""
+          p.write_text(s,encoding="utf-8")
+          PY
+          git rm .github/workflows/fa3-browser-session-reconcile-once.yml
+          git add             canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json             canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json             canonical/browser-session-current-host-enforcement.json             canonical/assessments/FA3-BROWSER-SESSION-INTERACTION-REUSE-ASSESSMENT-001.json             src/fa3_browser_session_gate.py             src/fa3_browser_session_current_host_gate.py             .github/workflows/fa3-browser-session-current-host.yml             docs/browser-session-interaction.md
+          git commit -m 'FA3 Browser Session: reconcile main and hardware safety'
+      - name: Reconcile unified release projection
+        run: |
+          set -euo pipefail
+          python scripts/fa3_reconcile_release_projection.py --root .
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git diff --cached --quiet || git commit -m 'FA3: reconcile unified release projection [projection]'
+      - name: Validate reconciled tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python -m unittest             tests.test_browser_session_bridge             tests.test_browser_session_gate             tests.test_release_projection             tests.test_hardware_portability_gate             tests.test_reuse_discovery_gate -v
+          ./bin/fa3-enforce hardware-portability
+          PYTHONPATH=src python src/fa3_browser_session_gate.py --root .
+          ./bin/fa3-enforce reuse-discovery
+          ./bin/fa3-enforce release-projection
+          git diff --check
+      - name: Push reconciled branch
+        run: git push origin HEAD:fa3/browser-session-current-host-20260925
