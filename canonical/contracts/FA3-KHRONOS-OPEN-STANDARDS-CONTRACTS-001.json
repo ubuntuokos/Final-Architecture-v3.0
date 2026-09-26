@@ -1,0 +1,26 @@
+{
+  "schema":"fa3.contract.v1",
+  "id":"FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001",
+  "profile":"FA3-KHRONOS-OPEN-STANDARDS-001",
+  "capability_binding":"CAP-083",
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "contracts":[
+    {"id":"KHR-001","requirement":"All imported upstream sources MUST be immutable-pinned before materialization."},
+    {"id":"KHR-002","requirement":"Khronos components are providers, validators or interchange implementations; none becomes an FA3 authority."},
+    {"id":"KHR-003","requirement":"HRB remains exclusive host resource admission, placement, reservation and lease authority."},
+    {"id":"KHR-004","requirement":"Vulkan capability use MUST be selected from live feature/profile evidence, never GPU marketing name alone."},
+    {"id":"KHR-005","requirement":"SPIR-V validation MUST fail closed before promoted shader execution."},
+    {"id":"KHR-006","requirement":"glTF/KTX are interchange boundaries and MUST NOT replace native FA3 or integrated-application project files."},
+    {"id":"KHR-007","requirement":"OpenXR, OpenCL, ANARI, OpenVX and NNEF adapters MUST remain optional/replaceable unless a bound capability explicitly requires them."},
+    {"id":"KHR-008","requirement":"No silent CPU/GPU/provider/backend fallback is permitted after provider selection."},
+    {"id":"KHR-009","requirement":"CPU-only FA3 conformance remains valid when no accelerator runtime is present."},
+    {"id":"KHR-010","requirement":"Physical current-host PASS requires executable evidence; static/reference validation cannot promote runtime status."}
+  ],
+  "software_coexistence":{
+    "namespaced_paths_required":true,
+    "system_package_replacement_forbidden":true,
+    "upstream_uninstall_forbidden":true,
+    "global_env_override_forbidden":true
+  }
+}
