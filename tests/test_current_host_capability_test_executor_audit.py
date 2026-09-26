@@ -90,13 +90,13 @@ class ExecutorAuditTests(unittest.TestCase):
         path.write_text(json.dumps(registry))
         return adapter
 
-    def test_empty_registry_is_integrity_pass_but_429_pending(self):
+    def test_empty_registry_is_integrity_pass_but_525_pending(self):
         td, root = self._root()
         try:
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "PASS")
             self.assertEqual(report["registered_executor_count"], 0)
-            self.assertEqual(report["pending_executor_count"], 429)
+            self.assertEqual(report["pending_executor_count"], 525)
             self.assertEqual(report["qualified_definition_count"], 0)
         finally:
             td.cleanup()
