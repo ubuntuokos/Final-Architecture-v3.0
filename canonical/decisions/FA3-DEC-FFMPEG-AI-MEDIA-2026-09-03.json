@@ -22,7 +22,7 @@
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "hardware_reference": "Vendor-neutral CPU/NUMA live topology; accelerator requirements are provider/workload-scoped and resolved through HRB stable identity.",
   "runtime_activation_status": "PENDING_REAL_CURRENT_HOST_E2E",
   "mandatory_rules": [
@@ -57,5 +57,6 @@
     "Stable 9.0.1 dnn_processing does not accept CUDA hardware frames, while development trunk has CUDA-frame work; zero-copy DNN therefore remains capability-evidence gated rather than a stable baseline claim.",
     "Modern super-resolution, restoration and frame interpolation are better isolated behind a frame-server adapter such as VapourSynth/vs-mlrt and the existing inference-portability authority."
   ],
-  "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
+  "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
