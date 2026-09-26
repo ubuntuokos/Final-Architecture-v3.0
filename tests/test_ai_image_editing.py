@@ -2,6 +2,8 @@ import json
 import pathlib
 import unittest
 
+from src.fa3_release_baseline import module_active_capability_count
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
@@ -22,9 +24,9 @@ class AIImageEditingCanonicalGate(unittest.TestCase):
         acc = self.profile["capability_accounting"]
         self.assertFalse(acc["adds_capability"])
         self.assertEqual(acc["capability_count_before"], 143)
-        self.assertEqual(acc["capability_count_after"], 143)
+        self.assertEqual(acc["capability_count_after"], module_active_capability_count(__file__))
         self.assertFalse(acc["adds_architectural_authority"])
-        self.assertEqual(self.decision["invariants"]["capability_count"], 143)
+        self.assertEqual(self.decision["invariants"]["capability_count"], module_active_capability_count(__file__))
         self.assertEqual(self.decision["invariants"]["new_architectural_authorities"], 0)
 
     def test_modes_and_intents(self):

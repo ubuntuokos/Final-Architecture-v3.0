@@ -1,6 +1,8 @@
 import json
 import shutil
 import sys
+
+from fa3_release_baseline import module_active_capability_count
 import tempfile
 import unittest
 from pathlib import Path
@@ -27,7 +29,7 @@ class AIEngineeringGateTests(unittest.TestCase):
         self.assertEqual(r["result"], "PASS", r)
         self.assertEqual(r["gate_id"], a.GATE_ID)
         self.assertEqual(r["source_id"], a.SOURCE_ID)
-        self.assertEqual(r["capability_count"], 143)
+        self.assertEqual(r["capability_count"], module_active_capability_count(__file__))
         self.assertFalse(r["runtime_provider_required"])
         self.assertEqual(r["regressions"]["passed"], 11)
 
