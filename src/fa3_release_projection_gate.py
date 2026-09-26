@@ -997,7 +997,7 @@ def gate(root: Path):
         "deployment/presenton/ai-creative.target",
         "deployment/presenton/postgresql-bootstrap.sql",
         "deployment/presenton/presenton.caddy",
-        "deployment/presenton/presenton.container",
+        "deployment/presenton/fa3-presenton.container",
     }
     presenton_overlay_requirements = {
         "provider_records": PRESENTON_PROVIDER_PATH,

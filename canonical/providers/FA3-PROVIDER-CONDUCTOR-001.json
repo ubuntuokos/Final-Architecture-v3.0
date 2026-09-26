@@ -12,7 +12,7 @@
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "workforce_profile": "FA3-ORCHESTRATION-WORKFORCE-001",
   "activation_mode": "CONTROLLED_DISABLED_UNTIL_CURRENT_HOST_CONFORMANCE",
   "runtime_activation_requires_current_host_conformance": true,
@@ -98,5 +98,7 @@
     "release_bundle_status": "EXCLUDED",
     "rationale": "External orchestration runtime is user-local and replaceable. FA3 distributes its own provider-neutral contracts/adapters but does not bundle or imply redistribution rights for this upstream runtime.",
     "runtime_admission_separate": true
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

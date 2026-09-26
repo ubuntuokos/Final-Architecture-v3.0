@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RUNTIME_ROOT="${FA3_MCP_RUNTIME_ROOT:-$HOME/.local/share/fa3/mcp-gateway-runtime}"
@@ -9,6 +9,134 @@ UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
 TEMPLATE="$ROOT/deployment/mcp-gateway/fa3-mcp-gateway-user.service.in"
 REGISTRY_SOURCE="$ROOT/canonical/mcp-capability-registry.json"
 START=0
+UNINSTALL=0
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/fa3/mcp-gateway"
+STATE_FILE="$STATE_DIR/install-state.json"
+MANAGED_MARKER="# FA3-MANAGED: FA3-MCP-GATEWAY-001"
+JOURNAL_DIR="${FA3_OS_JOURNAL_DIR:-$HOME/.local/share/Final Architecture/FA3 Control Center/journal}"
+UNIT_BACKUP="$STATE_DIR/unit-before-install.service"
+RUNTIME_BACKUP="$STATE_DIR/runtime-before-install"
+SUCCESS_RECEIPT="$STATE_DIR/install-success-receipt.json"
+ROLLBACK_RECEIPT="$STATE_DIR/rollback-receipt.json"
+
+unit_owned_by_fa3() {
+  [[ -f "$UNIT_PATH" ]] && grep -Fqx "$MANAGED_MARKER" "$UNIT_PATH"
+}
+
+render_unit() {
+  local output="$1"
+  local ownership_mode="${2:-managed}"
+  python3 - "$TEMPLATE" "$output" "$RUNTIME_ROOT" "$JOURNAL_DIR" "$ownership_mode" <<'PY'
+from __future__ import annotations
+import sys
+from pathlib import Path
+
+template_path, unit_path, runtime_root, journal_dir, ownership_mode = sys.argv[1:]
+if not Path(runtime_root).is_absolute():
+    raise SystemExit("FA3 MCP runtime root must be absolute")
+if any(ch.isspace() for ch in runtime_root) or any(ch in runtime_root for ch in ('"', "'", "\\", "%")):
+    raise SystemExit("FA3 MCP runtime root contains unsupported systemd WorkingDirectory characters")
+prefix = "" if ownership_mode == "legacy" else "# FA3-MANAGED: FA3-MCP-GATEWAY-001\n"
+text = prefix + Path(template_path).read_text(encoding="utf-8")
+def q(value: str) -> str:
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+text = text.replace("@WORKING_DIR@", runtime_root)
+text = text.replace("@RUNTIME_ROOT@", q(runtime_root))
+text = text.replace("@JOURNAL_DIR@", q(journal_dir))
+text = text.replace("@ENV_SOCKET@", q("FA3_MCP_GATEWAY_UNIX_SOCKET=%t/fa3/mcp-gateway.sock"))
+text = text.replace("@ENV_REGISTRY@", q(f"FA3_MCP_CAPABILITY_REGISTRY={runtime_root}/canonical/mcp-capability-registry.json"))
+text = text.replace("@ENV_FACTORIES@", q("FA3_MCP_ADAPTER_FACTORIES=fa3_os_mcp_adapter:create_adapters"))
+text = text.replace("@ENV_POLICY@", q("FA3_MCP_POLICY_RESOLVER=fa3_security_policy_plane:resolve_policy"))
+text = text.replace("@BIN_PATH@", q(f"{runtime_root}/bin/fa3-mcp-gateway"))
+Path(unit_path).write_text(text, encoding="utf-8")
+PY
+}
+
+legacy_unit_byte_equivalent() {
+  local candidate
+  candidate="$(mktemp)"
+  if render_unit "$candidate" legacy && cmp -s -- "$UNIT_PATH" "$candidate"; then
+    rm -f -- "$candidate"
+    return 0
+  fi
+  rm -f -- "$candidate"
+  return 1
+}
+
+capture_previous_state() {
+  local ownership_transition="${1:-NO_ADOPTION}"
+  mkdir -p "$STATE_DIR"
+  rm -f -- "$UNIT_BACKUP"
+  rm -rf -- "$RUNTIME_BACKUP"
+  if [[ -f "$UNIT_PATH" ]]; then
+    cp -a -- "$UNIT_PATH" "$UNIT_BACKUP"
+  fi
+  if [[ -d "$RUNTIME_ROOT" ]]; then
+    cp -a -- "$RUNTIME_ROOT" "$RUNTIME_BACKUP"
+  fi
+  python3 - "$STATE_FILE" "$UNIT_PATH" "$RUNTIME_ROOT" "$ownership_transition" "$(systemctl --user is-enabled "$UNIT_NAME" 2>/dev/null || true)" "$(systemctl --user is-active "$UNIT_NAME" 2>/dev/null || true)" <<'PY'
+import hashlib,json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+out,unit,runtime,transition,enabled,active=sys.argv[1:]
+p=Path(unit)
+payload={
+  "schema":"fa3.mcp-gateway-install-state.v1",
+  "unit_path":unit,
+  "unit_existed":p.exists(),
+  "unit_owned_by_fa3":p.exists() and "# FA3-MANAGED: FA3-MCP-GATEWAY-001" in p.read_text(encoding="utf-8",errors="replace").splitlines(),
+  "previous_unit_sha256":hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None,
+  "runtime_root":runtime,
+  "runtime_existed":Path(runtime).is_dir(),
+  "ownership_transition":transition,
+  "previous_enabled_state":enabled,
+  "previous_active_state":active,
+  "previous_state_captured":True,
+  "captured_at":datetime.now(timezone.utc).isoformat(),
+}
+Path(out).write_text(json.dumps(payload,indent=2)+"\n",encoding="utf-8")
+PY
+}
+
+ROLLBACK_ARMED=0
+rollback_install() {
+  local rc="${1:-1}"
+  [[ "$ROLLBACK_ARMED" -eq 1 ]] || return "$rc"
+  set +e
+  systemctl --user disable --now "$UNIT_NAME" >/dev/null 2>&1 || true
+  if [[ -f "$UNIT_BACKUP" ]]; then
+    mkdir -p "$UNIT_DIR"
+    cp -a -- "$UNIT_BACKUP" "$UNIT_PATH"
+  else
+    rm -f -- "$UNIT_PATH"
+  fi
+  rm -rf -- "$RUNTIME_ROOT"
+  if [[ -d "$RUNTIME_BACKUP" ]]; then
+    cp -a -- "$RUNTIME_BACKUP" "$RUNTIME_ROOT"
+  fi
+  systemctl --user daemon-reload >/dev/null 2>&1 || true
+  previous_enabled="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("previous_enabled_state",""))' "$STATE_FILE" 2>/dev/null || true)"
+  previous_active="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("previous_active_state",""))' "$STATE_FILE" 2>/dev/null || true)"
+  if [[ "$previous_enabled" == "enabled" ]]; then systemctl --user enable "$UNIT_NAME" >/dev/null 2>&1 || true; fi
+  if [[ "$previous_active" == "active" ]]; then systemctl --user start "$UNIT_NAME" >/dev/null 2>&1 || true; fi
+  python3 - "$ROLLBACK_RECEIPT" "$rc" <<'PY'
+import json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+out,rc=sys.argv[1:]
+Path(out).write_text(json.dumps({
+  "schema":"fa3.mcp-gateway-install-rollback-receipt.v1",
+  "component_id":"FA3-MCP-GATEWAY-001",
+  "trigger_exit_code":int(rc),
+  "previous_unit_restoration_attempted":True,
+  "previous_runtime_restoration_attempted":True,
+  "previous_service_state_restoration_attempted":True,
+  "upstream_resources_modified":False,
+  "completed_at":datetime.now(timezone.utc).isoformat()
+},indent=2)+"\n",encoding="utf-8")
+PY
+  return "$rc"
+}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -24,6 +152,10 @@ while [[ $# -gt 0 ]]; do
       systemctl --user disable --now "$UNIT_NAME" || true
       exit 0
       ;;
+    --uninstall)
+      UNINSTALL=1
+      shift
+      ;;
     *)
       echo "Unknown argument: $1" >&2
       exit 2
@@ -31,10 +163,53 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ "$UNINSTALL" -eq 1 ]]; then
+  if [[ -e "$UNIT_PATH" ]] && ! unit_owned_by_fa3; then
+    echo "DENY: refusing to remove non-FA3-owned unit: $UNIT_PATH" >&2
+    exit 5
+  fi
+  before_enabled="$(systemctl --user is-enabled "$UNIT_NAME" 2>/dev/null || true)"
+  before_active="$(systemctl --user is-active "$UNIT_NAME" 2>/dev/null || true)"
+  systemctl --user disable --now "$UNIT_NAME" 2>/dev/null || true
+  [[ ! -e "$UNIT_PATH" ]] || rm -f -- "$UNIT_PATH"
+  systemctl --user daemon-reload
+  [[ ! -d "$RUNTIME_ROOT" ]] || rm -rf -- "$RUNTIME_ROOT"
+  mkdir -p "$STATE_DIR"
+  python3 - "$STATE_DIR/uninstall-receipt.json" "$before_enabled" "$before_active" <<'PY'
+import json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+out,enabled,active=sys.argv[1:]
+Path(out).write_text(json.dumps({
+  "schema":"fa3.mcp-gateway-uninstall-receipt.v1",
+  "component_id":"FA3-MCP-GATEWAY-001",
+  "removed_owned_unit":True,
+  "removed_owned_runtime":True,
+  "previous_enabled_state":enabled,
+  "previous_active_state":active,
+  "upstream_resources_modified":False,
+  "completed_at":datetime.now(timezone.utc).isoformat()
+},indent=2)+"\n",encoding="utf-8")
+PY
+  exit 0
+fi
+
 [[ -f "$REGISTRY_SOURCE" ]] || { echo "Missing registry: $REGISTRY_SOURCE" >&2; exit 3; }
 [[ -f "$TEMPLATE" ]] || { echo "Missing service template: $TEMPLATE" >&2; exit 4; }
 
-JOURNAL_DIR="${FA3_OS_JOURNAL_DIR:-$HOME/.local/share/Final Architecture/FA3 Control Center/journal}"
+OWNERSHIP_TRANSITION="NO_ADOPTION"
+if [[ -e "$UNIT_PATH" ]] && ! unit_owned_by_fa3; then
+  if legacy_unit_byte_equivalent; then
+    OWNERSHIP_TRANSITION="LEGACY_BYTE_EQUIVALENT_ADOPTION"
+  else
+    echo "DENY: unit collision with non-FA3-owned file: $UNIT_PATH" >&2
+    exit 5
+  fi
+fi
+capture_previous_state "$OWNERSHIP_TRANSITION"
+ROLLBACK_ARMED=1
+trap 'rollback_install $?' ERR
+
 mkdir -p "$RUNTIME_ROOT/src" "$RUNTIME_ROOT/bin" "$RUNTIME_ROOT/canonical" "$UNIT_DIR" "$JOURNAL_DIR"
 
 for file in   fa3_mcp_gateway.py   fa3_mcp_gateway_server.py   fa3_os_mcp_adapter.py   fa3_os_context_policy.py   fa3_os_runtime.py   fa3_security_policy_plane.py
@@ -44,29 +219,7 @@ done
 install -m 0755 "$ROOT/bin/fa3-mcp-gateway" "$RUNTIME_ROOT/bin/fa3-mcp-gateway"
 install -m 0644 "$REGISTRY_SOURCE" "$RUNTIME_ROOT/canonical/mcp-capability-registry.json"
 
-python3 - "$TEMPLATE" "$UNIT_PATH" "$RUNTIME_ROOT" "$JOURNAL_DIR" <<'PY'
-from __future__ import annotations
-import sys
-from pathlib import Path
-
-template_path, unit_path, runtime_root, journal_dir = sys.argv[1:]
-if not Path(runtime_root).is_absolute():
-    raise SystemExit("FA3 MCP runtime root must be absolute")
-if any(ch.isspace() for ch in runtime_root) or any(ch in runtime_root for ch in ('"', "'", "\\", "%")):
-    raise SystemExit("FA3 MCP runtime root contains unsupported systemd WorkingDirectory characters")
-text = Path(template_path).read_text(encoding="utf-8")
-def q(value: str) -> str:
-    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
-text = text.replace("@WORKING_DIR@", runtime_root)
-text = text.replace("@RUNTIME_ROOT@", q(runtime_root))
-text = text.replace("@JOURNAL_DIR@", q(journal_dir))
-text = text.replace("@ENV_SOCKET@", q("FA3_MCP_GATEWAY_UNIX_SOCKET=%t/fa3/mcp-gateway.sock"))
-text = text.replace("@ENV_REGISTRY@", q(f"FA3_MCP_CAPABILITY_REGISTRY={runtime_root}/canonical/mcp-capability-registry.json"))
-text = text.replace("@ENV_FACTORIES@", q("FA3_MCP_ADAPTER_FACTORIES=fa3_os_mcp_adapter:create_adapters"))
-text = text.replace("@ENV_POLICY@", q("FA3_MCP_POLICY_RESOLVER=fa3_security_policy_plane:resolve_policy"))
-text = text.replace("@BIN_PATH@", q(f"{runtime_root}/bin/fa3-mcp-gateway"))
-Path(unit_path).write_text(text, encoding="utf-8")
-PY
+render_unit "$UNIT_PATH" managed
 
 systemctl --user daemon-reload
 systemd-analyze --user verify "$UNIT_PATH"
@@ -74,6 +227,27 @@ systemd-analyze --user verify "$UNIT_PATH"
 if [[ "$START" -eq 1 ]]; then
   systemctl --user enable --now "$UNIT_NAME"
 fi
+
+python3 - "$SUCCESS_RECEIPT" "$OWNERSHIP_TRANSITION" <<'PY'
+import json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+out,transition=sys.argv[1:]
+Path(out).write_text(json.dumps({
+  "schema":"fa3.mcp-gateway-install-success-receipt.v1",
+  "component_id":"FA3-MCP-GATEWAY-001",
+  "ownership_transition":transition,
+  "previous_state_captured":True,
+  "conflict_detection":"FAIL_CLOSED",
+  "legacy_adoption_policy":"BYTE_EQUIVALENT_ONLY",
+  "rollback_mechanism":True,
+  "recovery_evidence_materialized":True,
+  "upstream_resources_modified":False,
+  "completed_at":datetime.now(timezone.utc).isoformat()
+},indent=2)+"\n",encoding="utf-8")
+PY
+ROLLBACK_ARMED=0
+trap - ERR
 
 echo "FA3 MCP runtime installed: $RUNTIME_ROOT"
 echo "FA3 MCP unit: $UNIT_PATH"

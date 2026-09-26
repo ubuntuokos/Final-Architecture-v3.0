@@ -66,7 +66,7 @@ The upstream `src/electron/start.sh` installs dependencies before launch. FA3 in
 6. Start from the KDE application menu (`SillyTavern (FA3 KDE)`) or invoke:
 
    ```bash
-   systemctl --user start sillytavern-kde.service
+   systemctl --user start fa3-sillytavern-kde.service
    ```
 
 The unit has no `[Install]` section and is not enabled at login. A KDE global shortcut may be configured by the user to call `~/.local/libexec/fa3/sillytavern-kde-start`; no canonical fixed key binding is imposed.

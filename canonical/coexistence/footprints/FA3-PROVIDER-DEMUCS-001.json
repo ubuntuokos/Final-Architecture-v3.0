@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-DEMUCS-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [],
+    "cache_paths": [
+      "$REPO/.venv-demucs",
+      "${XDG_CACHE_HOME:-$HOME/.cache}/fa3/demucs-hf"
+    ],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "adefossez/demucs isolated FA3 provider runtime"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
+      "bin/fa3-demucs-bootstrap.sh",
+      "src/fa3_demucs_provider.py",
+      "tests/test_demucs_provider_runtime.py"
+    ]
+  }
+}

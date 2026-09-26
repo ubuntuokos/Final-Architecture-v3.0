@@ -11,12 +11,10 @@ Default: `/ai-cache/fa3/model-security`. The production root must be outside the
 ```bash
 export FA3_MODEL_SECURITY_HOME=/ai-cache/fa3/model-security
 export FA3_MODEL_SECURITY_ALLOW_NETWORK_BOOTSTRAP=1
-# Only if ClamAV/YARA/bubblewrap/curl are missing and operator explicitly permits sudo:
-export FA3_MODEL_SECURITY_ALLOW_SUDO=1
 bash bin/fa3-model-artifact-security-bootstrap.sh
 ```
 
-Bootstrap/update may access the network to install pinned tools and refresh scanner databases. Scan execution never may. ModelAudit telemetry is disabled.
+Bootstrap/update may access the network only for FA3-namespaced pinned tools and scanner databases. It never installs or mutates host-global packages; missing system prerequisites fail closed. Scan execution never may. ModelAudit telemetry is disabled.
 
 ## Production E2E
 

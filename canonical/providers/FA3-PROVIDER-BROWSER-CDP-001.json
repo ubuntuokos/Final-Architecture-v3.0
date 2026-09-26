@@ -16,7 +16,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "capability_delta": 0,
   "authority_delta": 0,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
@@ -66,5 +66,7 @@
     "FA3_SECRETS_AUTHORITY",
     "FA3_CANONICAL_REGISTRY_AUTHORITY"
   ],
-  "normative_constraint": "The CDP provider SHALL remain an optional loopback-only UAF execution adapter. It SHALL NOT construct decision candidates, accept model-generated selectors/scripts, bypass authorization/HRB/evidence gates, select models/providers, disable the browser sandbox, or claim global runtime promotion from static evidence."
+  "normative_constraint": "The CDP provider SHALL remain an optional loopback-only UAF execution adapter. It SHALL NOT construct decision candidates, accept model-generated selectors/scripts, bypass authorization/HRB/evidence gates, select models/providers, disable the browser sandbox, or claim global runtime promotion from static evidence.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

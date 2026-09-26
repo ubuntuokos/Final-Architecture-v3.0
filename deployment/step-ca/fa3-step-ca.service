@@ -15,7 +15,7 @@ Group=fa3-step-ca
 UMask=0077
 StateDirectory=fa3-step-ca
 LoadCredential=step-ca-password:/etc/fa3/secrets/step-ca-password
-ExecStart=/usr/local/bin/step-ca /etc/fa3/step-ca/ca.json --password-file=%d/step-ca-password
+ExecStart=/usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca /etc/fa3/step-ca/ca.json --password-file=%d/step-ca-password
 Restart=on-failure
 RestartSec=5s
 NoNewPrivileges=true

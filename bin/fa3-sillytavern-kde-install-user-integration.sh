@@ -45,7 +45,7 @@ install_integration() {
   install -d -m 0755 "$libexec_dir" "$unit_dir" "$desktop_dir" "$config_dir"
   install -m 0755 "$source_root/bin/sillytavern-kde-launch" "$libexec_dir/sillytavern-kde-launch"
   install -m 0755 "$source_root/bin/sillytavern-kde-start" "$libexec_dir/sillytavern-kde-start"
-  install -m 0644 "$source_root/systemd/user/sillytavern-kde.service" "$unit_dir/sillytavern-kde.service"
+  install -m 0644 "$source_root/systemd/user/fa3-sillytavern-kde.service" "$unit_dir/fa3-sillytavern-kde.service"
 
   local temporary_desktop
   temporary_desktop=$(mktemp "${desktop_dir}/.sillytavern-kde-desktop.XXXXXX")
@@ -87,22 +87,22 @@ prepare_deps() {
 check_integration() {
   test -x "$libexec_dir/sillytavern-kde-launch"
   test -x "$libexec_dir/sillytavern-kde-start"
-  test -f "$unit_dir/sillytavern-kde.service"
+  test -f "$unit_dir/fa3-sillytavern-kde.service"
   test -f "$desktop_dir/fa3-sillytavern-kde.desktop"
   test -f "$config_file"
   ! grep -Eq -- '--no-sandbox|npm (i|install|ci)|sudo|pkexec' "$libexec_dir/sillytavern-kde-launch"
   grep -q -- '--ozone-platform=wayland' "$libexec_dir/sillytavern-kde-launch"
-  ! grep -q '^\[Install\]' "$unit_dir/sillytavern-kde.service"
-  systemctl --user cat sillytavern-kde.service >/dev/null
+  ! grep -q '^\[Install\]' "$unit_dir/fa3-sillytavern-kde.service"
+  systemctl --user cat fa3-sillytavern-kde.service >/dev/null
   printf 'FA3 SillyTavern KDE user integration files are present. Current-host promotion still requires runtime E2E evidence.\n'
 }
 
 uninstall_integration() {
-  systemctl --user stop sillytavern-kde.service 2>/dev/null || true
+  systemctl --user stop fa3-sillytavern-kde.service 2>/dev/null || true
   rm -f \
     "$libexec_dir/sillytavern-kde-launch" \
     "$libexec_dir/sillytavern-kde-start" \
-    "$unit_dir/sillytavern-kde.service" \
+    "$unit_dir/fa3-sillytavern-kde.service" \
     "$desktop_dir/fa3-sillytavern-kde.desktop"
   systemctl --user daemon-reload
   printf 'Removed FA3 SillyTavern KDE integration. SillyTavern checkout, dependencies, user data and %s were preserved.\n' "$config_file"

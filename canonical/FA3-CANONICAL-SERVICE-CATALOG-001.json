@@ -31,13 +31,13 @@
     {
       "id": "svc:presenton",
       "kind": "PODMAN_QUADLET",
-      "source_path": "deployment/presenton/presenton.container",
+      "source_path": "deployment/presenton/fa3-presenton.container",
       "activation": "OPTIONAL"
     },
     {
       "id": "svc:sillytavern-kde",
       "kind": "SYSTEMD_USER",
-      "source_path": "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
+      "source_path": "deployment/sillytavern-kde/systemd/user/fa3-sillytavern-kde.service",
       "activation": "USER_SESSION"
     },
     {

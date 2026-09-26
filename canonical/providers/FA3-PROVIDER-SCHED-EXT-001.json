@@ -5,7 +5,7 @@
   "status": "EXPERIMENTAL_REFERENCE_PROVIDER",
   "priority": "P2",
   "requirement": "MAY",
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
   "role": "replaceable experimental scheduler implementation projection",
@@ -17,11 +17,17 @@
     "failure fallback to admitted kernel scheduler",
     "rollback path"
   ],
-  "excluded_from_required_baseline": ["PDS", "BMQ", "MuQSS"],
+  "excluded_from_required_baseline": [
+    "PDS",
+    "BMQ",
+    "MuQSS"
+  ],
   "invariants": [
     "SCHED_EXT_OPTIONAL_EXPERIMENTAL",
     "SCHED_EXT_MUST_NOT_BYPASS_CGROUP_OR_HRB_RESOURCE_BOUNDARIES",
     "SCHEDULER_PROMOTION_REQUIRES_EVIDENCE",
     "SCHEDULER_FAILURE_REQUIRES_SAFE_ROLLBACK"
-  ]
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

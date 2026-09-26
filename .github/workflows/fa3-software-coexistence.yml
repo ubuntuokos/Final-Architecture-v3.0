@@ -1,0 +1,70 @@
+name: FA3 Software Coexistence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**'
+      - 'deployment/**'
+      - 'apps/**'
+      - 'scripts/**'
+      - 'src/**'
+      - 'bin/**'
+      - 'tests/**'
+      - '.github/workflows/fa3-software-coexistence.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**'
+      - 'deployment/**'
+      - 'apps/**'
+      - 'scripts/**'
+      - 'src/**'
+      - 'bin/**'
+      - 'tests/**'
+      - '.github/workflows/fa3-software-coexistence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coexistence-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_coexistence_audit tests.test_provider_count -v
+      - name: Derive canonical provider count
+        run: PYTHONPATH=src python src/fa3_provider_count.py --root .
+      - name: Build coexistence inventory
+        run: PYTHONPATH=src python src/fa3_coexistence_inventory.py --root .
+      - name: Fail-closed coexistence audit
+        run: PYTHONPATH=src python src/fa3_coexistence_audit.py --root .
+      - name: Assert truth boundary and fixed capability baseline
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('reports/coexistence-audit-report.json'))
+          assert r['capability_count']==175
+          assert r['capability_delta']==0
+          assert r['authority_delta']==0
+          assert r['current_host_status']=='PENDING_CURRENT_HOST'
+          assert r['runtime_promotion_claim'] is False
+          p=json.load(open('reports/provider-count-report.json'))
+          i=json.load(open('reports/coexistence-inventory.json'))
+          assert p['capability_count']==175
+          assert p['capability_count_fixed'] is True
+          assert p['provider_count_fixed'] is False
+          assert p['invalid_record_count']==0
+          assert i['capability_count']==175
+          assert i['provider_count']==p['provider_count']
+          assert i['closure']['all_providers_inventoried'] is True
+          assert i['truth_boundary']['footprint_materialization_implies_current_host_pass'] is False
+          assert i['truth_boundary']['current_host_pass_requires_physical_evidence'] is True
+          PY

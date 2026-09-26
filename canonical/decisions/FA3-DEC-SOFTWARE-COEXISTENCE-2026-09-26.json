@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26",
+  "date": "2026-09-26",
+  "status": "CANONICAL_CANDIDATE",
+  "priority": "P0",
+  "capability_id": "CAP-175",
+  "title": "Software Coexistence & Host Non-Interference",
+  "decision": "All ordinary FA3 applications, providers, adapters, integrations, derived implementations, services, desktop components and local runtimes MUST coexist with independently installed upstream/original applications and alternatives. No grandfathering applies.",
+  "classification": {
+    "ORDINARY_APPLICATION": "FULL_COEXISTENCE_REQUIRED",
+    "PROVIDER_RUNTIME": "COEXISTENCE_AND_RUNTIME_ISOLATION_REQUIRED",
+    "LOCAL_SERVICE": "SERVICE_PORT_IPC_ISOLATION_REQUIRED",
+    "SYSTEM_LEVEL_AUTHORITY": "EXPLICIT_AUTHORITY_CONFLICT_DETECTION_STATE_CAPTURE_CONTROLLED_MUTATION_ROLLBACK_RECOVERY_REQUIRED"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "wayland_supported": true,
+    "x11_supported": true,
+    "desktop_environment_hardcoding_forbidden": true
+  },
+  "truth_boundary": {
+    "static_pass_is_current_host_pass": false,
+    "ci_pass_is_current_host_pass": false,
+    "documentation_is_runtime_evidence": false,
+    "physical_current_host_evidence_required_for_runtime_pass": true,
+    "runtime_promotion_fail_closed": true
+  },
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "installer_package_manager_boundary": {
+    "generic_linux": true,
+    "system_installer_may_install_declared_system_dependencies_with_detected_native_package_manager": true,
+    "runtime_and_provider_bootstrap_may_not_mutate_host_global_package_state": true,
+    "current_host_validation_may_not_install_packages": true,
+    "no_single_distribution_package_manager_is_canonical": true,
+    "package_manager_execution_requires_explicit_installer_or_provisioning_context": true,
+    "transaction_evidence_and_recovery_required": true
+  }
+}

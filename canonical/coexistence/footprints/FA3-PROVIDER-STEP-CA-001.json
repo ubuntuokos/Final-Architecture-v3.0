@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-STEP-CA-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P0",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [
+      "/usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca",
+      "/usr/local/lib/fa3/step-cli/0.30.6/bin/step"
+    ],
+    "services": [
+      "fa3-step-ca.service"
+    ],
+    "sockets": [],
+    "ports": [
+      9443
+    ],
+    "config_paths": [
+      "/etc/fa3/step-ca"
+    ],
+    "data_paths": [
+      "/var/lib/fa3-step-ca"
+    ],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [
+      "/var/lib/fa3-step-ca/db"
+    ],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "smallstep/certificates",
+      "smallstep/cli"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST_REQUALIFICATION",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
+      "canonical/step-ca-runtime-admission.json",
+      "canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json",
+      "bin/fa3-step-ca-bootstrap.sh",
+      "bin/fa3-step-ca-activate.sh",
+      "bin/fa3-step-ca-e2e.sh",
+      "bin/fa3-step-ca-backup-restore-drill.sh",
+      "evidence/collect-step-ca-current-host.py",
+      "deployment/step-ca/fa3-step-ca.service"
+    ]
+  }
+}

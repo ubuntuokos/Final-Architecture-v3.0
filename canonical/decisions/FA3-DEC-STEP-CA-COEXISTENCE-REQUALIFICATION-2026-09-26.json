@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STEP-CA-COEXISTENCE-REQUALIFICATION-2026-09-26",
+  "date": "2026-09-26",
+  "status": "CANONICAL_CANDIDATE",
+  "subject": "step-ca coexistence remediation and current-host requalification",
+  "decision": "REOPEN_CURRENT_HOST_PROVIDER_PROMOTION_AFTER_RUNTIME_SURFACE_CHANGE",
+  "provider_id": "FA3-PROVIDER-STEP-CA-001",
+  "capability_id": "CAP-175",
+  "reason": "FA3-owned Smallstep binaries were moved from host-global /usr/local/bin step/step-ca names to FA3-namespaced runtime paths so independently installed Smallstep remains usable and unshadowed.",
+  "superseded_runtime_surface_evidence": "evidence/reference/step-ca-current-host-2026-09-20.json",
+  "superseded_evidence_remains_historical_fact": true,
+  "new_runtime_paths": {
+    "server": "/usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca",
+    "client": "/usr/local/lib/fa3/step-cli/0.30.6/bin/step"
+  },
+  "required_requalification": [
+    "SUPPLY_CHAIN_BINARY_DIGEST",
+    "SERVICE_START_AND_HEALTH",
+    "ACME_EPHEMERAL_PORT_ISSUE_REORDER",
+    "MTLS",
+    "SSH_CERTIFICATE",
+    "BACKUP_RESTORE",
+    "UPSTREAM_INDEPENDENT_INSTALL_COEXISTENCE",
+    "NO_HOST_GLOBAL_STEP_OR_STEP_CA_SHADOW",
+    "UNINSTALL_ROLLBACK"
+  ],
+  "active_runtime_status_until_requalified": "PENDING_CURRENT_HOST_REQUALIFICATION",
+  "production_runtime_promoted_until_requalified": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175
+}

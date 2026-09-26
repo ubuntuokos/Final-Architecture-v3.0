@@ -200,7 +200,7 @@ Then collect production E2E evidence with a **real** audio file through the exis
 bash bin/fa3-demucs-hrb-production-e2e.sh /path/to/real-audio.wav
 ```
 
-The default broker path is `/usr/local/bin/fa3-host-resource-broker`; override it with `FA3_HRB_BIN` only when the canonical HRB is installed elsewhere. The default lease asks for 6 GiB VRAM for one hour and can be changed with `FA3_DEMUCS_HRB_MEMORY_BYTES` and `FA3_DEMUCS_HRB_TTL_SECONDS`. CUDA has **no implicit CPU fallback** and bare `cuda` is rejected: execution must resolve to explicit `cuda:N` from the broker-issued GPU UUID.
+Demucs model downloads use the FA3-namespaced `${XDG_CACHE_HOME:-$HOME/.cache}/fa3/demucs-hf` cache by default (override with `FA3_DEMUCS_MODEL_CACHE`). The default broker path is `/usr/local/bin/fa3-host-resource-broker`; override it with `FA3_HRB_BIN` only when the canonical HRB is installed elsewhere. The default lease asks for 6 GiB VRAM for one hour and can be changed with `FA3_DEMUCS_HRB_MEMORY_BYTES` and `FA3_DEMUCS_HRB_TTL_SECONDS`. CUDA has **no implicit CPU fallback** and bare `cuda` is rejected: execution must resolve to explicit `cuda:N` from the broker-issued GPU UUID.
 
 For an already-issued canonical lease, the lower-level collector is also available:
 
@@ -425,7 +425,7 @@ No Conda/Miniforge is used:
 bash bin/fa3-whisper-bootstrap.sh
 ```
 
-This creates `.venv-whisper` and installs the exact upstream commit. Override the venv with `FA3_WHISPER_VENV`. Model cache defaults to `${XDG_CACHE_HOME:-$HOME/.cache}/whisper`; set `FA3_WHISPER_MODEL_CACHE` to place it on the workstation AI cache.
+This creates `.venv-whisper` and installs the exact upstream commit. Override the venv with `FA3_WHISPER_VENV`. Model cache defaults to the FA3-namespaced `${XDG_CACHE_HOME:-$HOME/.cache}/fa3/whisper`; set `FA3_WHISPER_MODEL_CACHE` to place it on the workstation AI cache.
 
 Model fetch is **offline by default**. The first trusted fetch must be explicit with `--allow-network-model-fetch`; the downloaded bytes are then checked against the canonical SHA256.
 
@@ -518,7 +518,7 @@ The generated report is `reports/buzz-gate-report.json`. Buzz remains optional a
 
 The upstream default branch is a rolling `X` branch. The 2026-08-30 reference observation is pinned to `X@390fa27a231579f1ee493bcd7961bcba4cb85034`; the immutable release reference is `v0.10.1@1594d06582bf024d0a71ee108afe06a98629ec9a`. Neither a floating `X` branch nor provider self-upgrade is production promotion evidence.
 
-The executable `FA3-XCMD-GATESET-001` enforces 12 P0 rules: remote network content cannot transition directly into shell execution; executable identity must be immutable; package curation is not transitive trust; agent shell use requires caller/workspace/capability mediation; project agent instructions remain untrusted scoped context; self-update and host-global mutation require external authorization; model/secrets/egress/MCP/HRB/artifact/evidence boundaries remain external; lazy materialization cannot become hidden background activity; disabled/reference-only cost is near-zero; X-CMD remains non-authoritative; and every material execution is attributable.
+FA3 is a **generic Linux** system. The FA3 system installer/provisioning package may install explicitly declared system dependencies through the host distribution's detected native package manager. No single package manager or distribution is canonical. Application runtimes, provider bootstraps and current-host validation jobs must not independently mutate host-global package state; package-manager mutation is confined to explicit installer/provisioning transactions with evidence and recovery semantics.\n\nThe executable `FA3-XCMD-GATESET-001` enforces 12 P0 rules: remote network content cannot transition directly into shell execution; executable identity must be immutable; package curation is not transitive trust; agent shell use requires caller/workspace/capability mediation; project agent instructions remain untrusted scoped context; self-update and host-global mutation require external authorization; model/secrets/egress/MCP/HRB/artifact/evidence boundaries remain external; lazy materialization cannot become hidden background activity; disabled/reference-only cost is near-zero; X-CMD remains non-authoritative; and every material execution is attributable.
 
 Run:
 

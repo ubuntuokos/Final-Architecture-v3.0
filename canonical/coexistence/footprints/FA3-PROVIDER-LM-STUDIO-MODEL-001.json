@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "LM Studio executable/catalog/store are discovered through the external runtime; FA3 does not replace or reconfigure the LM Studio installation"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
+      "src/fa3_model_inventory_current_host_adapter.py",
+      "src/fa3_model_manager_provider_adapter.py"
+    ]
+  }
+}

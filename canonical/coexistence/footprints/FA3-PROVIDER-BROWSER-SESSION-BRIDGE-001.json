@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "REPLACES_CAPABILITY_NOT_APPLICATION",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [
+      "$XDG_RUNTIME_DIR/fa3/browser-session/bridge.sock"
+    ],
+    "ports": [
+      "DYNAMIC"
+    ],
+    "config_paths": [
+      "~/.config/fa3/"
+    ],
+    "data_paths": [
+      "~/.local/share/fa3/"
+    ],
+    "cache_paths": [
+      "~/.cache/fa3/"
+    ],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "Chromium-family native messaging"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json",
+      "canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json",
+      "src/fa3_browser_session_bridge.py",
+      "libexec/fa3-browser-session-native-host.py",
+      "src/fa3_browser_session_gate.py"
+    ]
+  }
+}

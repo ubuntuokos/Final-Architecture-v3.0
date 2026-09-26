@@ -63,6 +63,8 @@ def validate_current_host_evidence(receipt: dict[str, Any], *, root: Path, confo
         "minimized_projection_verified",
         "global_promotion_not_claimed",
         "canonical_registry_unchanged",
+        "installer_coexistence_controls_verified",
+        "legacy_unit_adoption_safe",
     )
     for key in required:
         if not isinstance(checks, dict) or checks.get(key) is not True:

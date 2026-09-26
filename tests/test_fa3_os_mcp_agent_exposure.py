@@ -152,6 +152,24 @@ class AgentExposureTests(unittest.TestCase):
         self.assertNotIn('text = text.replace("@WORKING_DIR@", q(runtime_root))', installer)
         self.assertIn("FA3 MCP runtime root must be absolute", installer)
 
+    def test_installer_fails_closed_on_foreign_unit_and_has_owned_uninstall(self) -> None:
+        installer = (ROOT / "bin/fa3-os-mcp-agent-exposure-install").read_text(encoding="utf-8")
+        self.assertIn('MANAGED_MARKER="# FA3-MANAGED: FA3-MCP-GATEWAY-001"', installer)
+        self.assertIn("unit collision with non-FA3-owned file", installer)
+        self.assertIn("refusing to remove non-FA3-owned unit", installer)
+        self.assertIn("--uninstall", installer)
+        self.assertIn("capture_previous_state", installer)
+        self.assertIn("fa3.mcp-gateway-install-state.v1", installer)
+        self.assertIn("fa3.mcp-gateway-uninstall-receipt.v1", installer)
+        self.assertIn('"upstream_resources_modified":False', installer)
+        self.assertIn("legacy_unit_byte_equivalent", installer)
+        self.assertIn('cmp -s -- "$UNIT_PATH" "$candidate"', installer)
+        self.assertIn('OWNERSHIP_TRANSITION="LEGACY_BYTE_EQUIVALENT_ADOPTION"', installer)
+        self.assertIn('"legacy_adoption_policy":"BYTE_EQUIVALENT_ONLY"', installer)
+        self.assertIn("rollback_install", installer)
+        self.assertIn("fa3.mcp-gateway-install-rollback-receipt.v1", installer)
+        self.assertIn('"recovery_evidence_materialized":True', installer)
+
     def test_current_host_workflow_propagates_pipeline_failures(self) -> None:
         workflow = (ROOT / ".github/workflows/fa3-os-mcp-agent-exposure.yml").read_text(encoding="utf-8")
         self.assertGreaterEqual(workflow.count("set -o pipefail"), 2)
