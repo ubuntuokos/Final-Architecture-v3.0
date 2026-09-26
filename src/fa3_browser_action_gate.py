@@ -1,3 +1,4 @@
+from fa3_release_baseline import module_active_capability_count
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse,json
@@ -20,7 +21,7 @@ def gate(root:Path)->dict[str,Any]:
     if findings: return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
     p=load(root/"canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json")
     if p.get("new_capability") is not False or p.get("new_architectural_authority") is not False: findings.append({"code":"BAR-002","message":"capability/authority delta forbidden"})
-    if p.get("capability_count")!=143 or p.get("capability_delta")!=0 or p.get("authority_delta")!=0: findings.append({"code":"BAR-003","message":"143/zero-delta invariant broken"})
+    if p.get("capability_count")!=module_active_capability_count(__file__) or p.get("capability_delta")!=0 or p.get("authority_delta")!=0: findings.append({"code":"BAR-003","message":"active-baseline/zero-delta invariant broken"})
     if p.get("cpu_only_supported") is not True or p.get("mandatory_accelerator") is not False: findings.append({"code":"BAR-004","message":"CPU-only portability broken"})
     if p.get("parent_profile")!="FA3-WEB-AI-001": findings.append({"code":"BAR-005","message":"Web-AI parent missing"})
     miss=sorted(REQUIRED_INVARIANTS-set(p.get("invariants",[])))
@@ -55,7 +56,7 @@ def gate(root:Path)->dict[str,Any]:
     session_report=browser_session_gate(root)
     if session_report.get("result")!="PASS":
         findings.append({"code":"BAR-024","message":"Browser Session child gate failed","findings":session_report.get("findings",[])})
-    return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"browser_session_child_gate":{"gate_id":session_report.get("gate_id"),"result":session_report.get("result"),"current_host_runtime_claim":session_report.get("current_host_runtime_claim",False)},"upstream_pin":{"repository":UPSTREAM_REPO,"commit":UPSTREAM_COMMIT,"license":"MIT"},"capability_count":143,"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
+    return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"browser_session_child_gate":{"gate_id":session_report.get("gate_id"),"result":session_report.get("result"),"current_host_runtime_claim":session_report.get("current_host_runtime_claim",False)},"upstream_pin":{"repository":UPSTREAM_REPO,"commit":UPSTREAM_COMMIT,"license":"MIT"},"capability_count":module_active_capability_count(__file__),"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
 def main()->int:
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default="."); ap.add_argument("--report",default="reports/browser-action-runtime-gate-report.json"); args=ap.parse_args()
     root=Path(args.root).resolve(); report=gate(root); path=root/args.report; path.parent.mkdir(parents=True,exist_ok=True); path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); print(json.dumps(report,ensure_ascii=False,indent=2)); return 0 if report["result"]=="PASS" else 2
