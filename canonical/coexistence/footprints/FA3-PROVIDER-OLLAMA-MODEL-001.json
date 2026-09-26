@@ -2,7 +2,7 @@
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-OLLAMA-MODEL-001",
   "classification": "PROVIDER_RUNTIME",
-  "risk": "P2",
+  "risk": "P1",
   "upstream_relation": "INTEGRATES",
   "coexistence": {
     "executables": [],
@@ -18,17 +18,21 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "Ollama binary and model manifest/blob store are discovered read-only from the independently installed runtime; FA3 does not take ownership of ~/.ollama or OLLAMA_MODELS"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json"
+      "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
+      "src/fa3_model_inventory_current_host_adapter.py",
+      "src/fa3_model_manager_provider_adapter.py"
     ]
   }
 }

@@ -18,17 +18,21 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "OpenVid is reference-only under license policy; source vendoring and baseline/commercial runtime are denied"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
-    "current_host_status": "PENDING_CURRENT_HOST",
+    "static_status": "PASS",
+    "current_host_status": "NOT_APPLICABLE",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-OPENVID-001.json"
+      "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
+      "canonical/FA3-GATE-OPENVID-001.json",
+      "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json"
     ]
   }
 }

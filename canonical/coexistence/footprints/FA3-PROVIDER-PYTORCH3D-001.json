@@ -2,7 +2,7 @@
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-PYTORCH3D-001",
   "classification": "PROVIDER_RUNTIME",
-  "risk": "P2",
+  "risk": "P1",
   "upstream_relation": "INTEGRATES",
   "coexistence": {
     "executables": [],
@@ -18,17 +18,21 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "FA3-PROVIDER-PYTORCH3D-001: non-authoritative provider/reference surface; installation/runtime lifecycle remains separately admitted and no upstream uninstall or path takeover is required"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json"
+      "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
+      ".github/workflows/fa3-pytorch3d-current-host.yml",
+      ".github/workflows/pytorch3d-reference-gate.yml"
     ]
   }
 }
