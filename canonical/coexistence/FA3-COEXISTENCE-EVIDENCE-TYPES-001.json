@@ -1,0 +1,23 @@
+{
+  "schema":"fa3.coexistence-evidence-types.v1",
+  "id":"FA3-COEXISTENCE-EVIDENCE-TYPES-001",
+  "status":"CANONICAL_CANDIDATE",
+  "capability_id":"CAP-175",
+  "types":[
+    "COEXISTENCE_STATIC_AUDIT",
+    "COEXISTENCE_CURRENT_HOST",
+    "COEXISTENCE_UPSTREAM_INSTALL",
+    "COEXISTENCE_CONCURRENT_RUN",
+    "COEXISTENCE_UNINSTALL",
+    "COEXISTENCE_REBOOT"
+  ],
+  "rules":{
+    "static_or_ci_receipt_can_promote_runtime":false,
+    "current_host_pass_requires_physical_execution":true,
+    "reboot_required_only_where_host_integrated_and_applicable":true,
+    "unsupported_or_unsafe_upstream_install_must_remain_pending_not_fabricated":true
+  },
+  "capability_count":175,
+  "capability_delta":0,
+  "authority_delta":0
+}
