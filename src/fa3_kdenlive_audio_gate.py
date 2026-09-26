@@ -5,8 +5,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 REPORT_REL = Path("reports/kdenlive-audio-conditioning-gate-report.json")
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 REQUIRED_FILES = [
     "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
@@ -50,8 +53,8 @@ def gate(root: Path) -> dict[str, Any]:
         demucs = _load_json(root, REQUIRED_FILES[7])
 
         checks = {
-            "capability_count_143": all(
-                obj.get("capability_count") == 143
+            "capability_count_active_release": all(
+                obj.get("capability_count") == CAPABILITY_COUNT
                 for obj in (silero, enforcement, gate_record, gtcrn, lavasr, demucs)
                 if "capability_count" in obj
             ),
@@ -90,7 +93,7 @@ def gate(root: Path) -> dict[str, Any]:
         "blocking_findings": len(errors),
         "checks": checks,
         "findings": errors,
-        "capability_count": 143,
+        "capability_count": CAPABILITY_COUNT,
         "architectural_authority_delta": 0,
         "production_promotion": "PENDING_CURRENT_HOST",
         "production_note": "Reference/static PASS never substitutes for real current-host audio E2E evidence.",
