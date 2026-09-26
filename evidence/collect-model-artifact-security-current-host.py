@@ -7,6 +7,7 @@ import os
 import platform
 import sys
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
