@@ -2,13 +2,13 @@
   "schema": "fa3.current-host-projection.v1",
   "id": "FA3-CURRENT-HOST-PROJECTION-001",
   "status": "IMPLEMENTATION_PROJECTION",
-  "architecture_release": "2026-08-23/v3.0.11",
+  "architecture_release": "2026-09-26/v3.1.0",
   "canonical_release_projection": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
   "canonical_registry_authority": "FA3-REGISTRY-001",
   "role": "CURRENT_HOST_RUNTIME_AND_EVIDENCE_PROJECTION",
   "architectural_authority": false,
   "authority": "NONE",
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "fail_closed": true,
@@ -392,5 +392,7 @@
     "semantics": "FAIL_FAST_EXECUTION_READINESS_ONLY_NOT_RUNTIME_PASS",
     "network_pull_allowed": false,
     "global_promotion_claim": false
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
