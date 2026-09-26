@@ -1,0 +1,117 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+  "intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+    "FA3-AIENG-GATESET-001",
+    "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001"
+  ],
+  "project_status": "REFERENCE_ONLY_CANONICAL_PATTERN_ABSORPTION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_PRE_IMPLEMENTATION_REUSE_AND_GAP_ANALYSIS"
+    },
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "CANONICAL_IDENTITY_AND_STATUS"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "AUTHORIZATION_AND_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "MCP_AND_TOOL_MEDIATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "TASK_SCOPED_SKILL_GOVERNANCE"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "VENDOR_NEUTRAL_HARDWARE_AUDIT_POLICY"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "LICENSE_AND_REFERENCE_ONLY_DISTRIBUTION_BOUNDARY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "UPSTREAM_RUNTIME_INSTALLATION",
+      "reason": "REFERENCE_PATTERN_SOURCE_ONLY_NO_RUNTIME_DEPENDENCY"
+    },
+    {
+      "id": "UPSTREAM_SKILL_AUTO_INSTALL_OR_ACTIVATION",
+      "reason": "SKILL_CONTEXT_CANNOT_SELF_ADMIT_OR_GRANT_AUTHORITY"
+    },
+    {
+      "id": "PARALLEL_FA3_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "UPSTREAM_REPLACEMENT_OR_HOST_HIJACK",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "skill_governance": "FA3-SKILL-FABRIC-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "gaps": [
+    "AI_ENGINEERING_DERIVED_PATTERN_BUNDLE_AND_REUSE_BINDING"
+  ],
+  "gap_resolution": [
+    {
+      "gap": "AI_ENGINEERING_DERIVED_PATTERN_BUNDLE_AND_REUSE_BINDING",
+      "status": "MATERIALIZED_IN_THIS_CHANGESET",
+      "artifacts": [
+        "canonical/patterns/FA3-AI-ENGINEERING-DERIVED-PATTERNS-001.json",
+        "src/fa3_ai_engineering_gate.py",
+        "tests/test_ai_engineering_gate.py"
+      ]
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "current_host_execution_required": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "reference_only": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "upstream_coexistence_required": true
+  },
+  "implementation_readiness": "READY_REFERENCE_ONLY_CANONICAL_ABSORPTION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "new_runtime_providers": 0,
+  "capability_count_after": 175,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
