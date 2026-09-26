@@ -26,7 +26,7 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
 
     def test_recipe_registry_covers_exactly_previously_pending_capabilities(self):
         recipes = recipe_map(self.root)
-        self.assertEqual(117, len(recipes))
+        self.assertEqual(149, len(recipes))
         self.assertNotIn("CAP-001", recipes)
         self.assertNotIn("CAP-020", recipes)
         self.assertNotIn("CAP-028", recipes)
