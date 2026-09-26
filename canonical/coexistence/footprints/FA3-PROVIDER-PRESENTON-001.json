@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-PRESENTON-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [],
+    "services": [
+      "fa3-presenton.container"
+    ],
+    "sockets": [],
+    "ports": [
+      5001
+    ],
+    "config_paths": [],
+    "data_paths": [
+      "~/.local/share/fa3/presenton/app_data"
+    ],
+    "cache_paths": [
+      "/ai-cache/fa3/presenton/tmp"
+    ],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "presenton/presenton"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PENDING",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": []
+  }
+}
