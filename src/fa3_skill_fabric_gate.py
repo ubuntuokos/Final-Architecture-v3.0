@@ -4,6 +4,7 @@ import argparse, copy, json, posixpath, re
 from pathlib import Path
 from typing import Any
 from fa3_distribution_compliance_gate import classification_valid
+from fa3_release_baseline import load_active_release_baseline
 from fa3_skill_ecosystem_gate import evaluate as skill_ecosystem_gate
 from fa3_skill_fabric_v13 import activation_preview_allowed, context_budget_allowed, evaluate as skill_fabric_v13_gate, interface_allowed, provenance_attestation_allowed
 PROFILE="canonical/profiles/FA3-SKILL-FABRIC-001.json"; CONTRACT="canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json"
@@ -164,8 +165,8 @@ def run_regressions() -> dict[str,Any]:
     cases=[{"case_id":f"SKF-{i:03d}","status":"PASS" if ok else "FAIL"} for i,ok in enumerate(checks,1)]
     return {"result":"PASS" if all(checks) else "FAIL","total":len(cases),"passed":sum(c["status"]=="PASS" for c in cases),"case_ids_exact":[c["case_id"] for c in cases]==[f"SKF-{i:03d}" for i in range(1,len(cases)+1)],"cases":cases}
 def canonical_check(root: Path) -> list[str]:
-    findings=[];p=loadj(root/PROFILE);ct=loadj(root/CONTRACT);d=loadj(root/DISCOVERY_CONTRACT);m=loadj(root/MATERIALIZATION_CONTRACT)
-    if not (p.get("id")=="FA3-SKILL-FABRIC-001" and p.get("provider_neutral") is True and p.get("capability_count")==143 and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append("skill fabric governance drift")
+    findings=[];cap=load_active_release_baseline(root).capability_count;p=loadj(root/PROFILE);ct=loadj(root/CONTRACT);d=loadj(root/DISCOVERY_CONTRACT);m=loadj(root/MATERIALIZATION_CONTRACT)
+    if not (p.get("id")=="FA3-SKILL-FABRIC-001" and p.get("provider_neutral") is True and p.get("capability_count")==cap and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append("skill fabric governance drift")
     s=p.get("selection_and_composition",{})
     for k in ("smallest_matching_skill_set_required","progressive_disclosure_required","deterministic_eligibility_before_advisory_selection","decision_fabric_candidate_expansion_forbidden","unadmitted_skill_activation_forbidden","task_scoped_materialization_required"):
         if s.get(k) is not True: findings.append(f"missing skill selection invariant: {k}")
@@ -175,9 +176,9 @@ def canonical_check(root: Path) -> list[str]:
     if not m.get("invariants"): findings.append("materialization contract missing")
     return findings
 def gate(root: Path) -> dict[str,Any]:
-    root=Path(root).resolve();findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root)
+    root=Path(root).resolve();cap=load_active_release_baseline(root).capability_count;findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root)
     result="PASS" if not findings and regressions["result"]=="PASS" and ecosystem["result"]=="PASS" and v13["result"]=="PASS" else "FAIL"
-    report={"schema":"fa3.skill-fabric-gate-report.v1","gate_id":GATE_ID,"gateset_id":GATESET_ID,"result":result,"findings":findings,"regressions":regressions,"agent_skills_ecosystem":ecosystem,"skill_fabric_v13":v13,"provider_specific":False,"capability_count":143,"current_host_runtime_claim":False}
+    report={"schema":"fa3.skill-fabric-gate-report.v1","gate_id":GATE_ID,"gateset_id":GATESET_ID,"result":result,"findings":findings,"regressions":regressions,"agent_skills_ecosystem":ecosystem,"skill_fabric_v13":v13,"provider_specific":False,"capability_count":cap,"current_host_runtime_claim":False}
     out=root/"reports/skill-fabric-gate-report.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8");return report
 def main()->int:
     ap=argparse.ArgumentParser();ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));a=ap.parse_args();report=gate(Path(a.root));print(json.dumps(report,ensure_ascii=False,indent=2));return 0 if report["result"]=="PASS" else 2
