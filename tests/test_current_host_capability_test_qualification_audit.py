@@ -74,7 +74,7 @@ class QualificationAuditTests(unittest.TestCase):
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "PASS")
             self.assertEqual(report["qualified_definition_count"], 0)
-            self.assertEqual(report["pending_definition_count"], 429)
+            self.assertEqual(report["pending_definition_count"], 525)
         finally:
             td.cleanup()
 
