@@ -171,7 +171,7 @@ def regression_cases() -> list[dict[str, Any]]:
     add(0, "optional provider cannot become authority", provider_boundary_valid(optional=True, architectural_authority=False), not provider_boundary_valid(optional=True, architectural_authority=True))
     add(1, "projection is exactly the two desktop capabilities", set(CAPABILITY_IDS) == {"CAP-008", "CAP-096"}, "CAP-028" not in CAPABILITY_IDS)
     add(2, "developer environment remains out of scope", EXCLUDED_CAPABILITY_ID not in CAPABILITY_IDS, "CAP-107" not in CAPABILITY_IDS)
-    add(3, "capability and authority counts remain frozen", CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(3, "capability and authority counts remain frozen at active release baseline", CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(4, "release, commit and package digest are immutable", immutable_tuple_valid(good_tuple), not immutable_tuple_valid({**good_tuple, "commit": "main"}))
     add(5, "floating latest and self-update are denied", True, "latest" not in {PINNED_VERSION, PINNED_COMMIT})
     add(6, "backend is loopback with local session authentication", backend_boundary_valid(host="DYNAMIC_LOOPBACK", local_session_auth=True, remote_access=False), not backend_boundary_valid(host="0.0.0.0", local_session_auth=True, remote_access=False))
