@@ -156,8 +156,8 @@ def run_regressions() -> dict[str, Any]:
     plugin_pin = {"release": "5.1.0", "commit": "2e255200a4d8f68e49a4f7f8fd46b4abf736c4eb", "main_js_sha256": "c3bf3ef644c5ade946c4ab64821a5969a92124e00afb4dc9bac4034d482ce131"}
     good_mutation = dict(staging="_agent-inbox/<proposal_id>/", human_review=True, receipt=True, compare_and_swap=True, destructive_default="DENY")
 
-    add(0, "optional provider cannot become authority", provider_boundary_valid(True, False, False, 143), not provider_boundary_valid(True, True, False, 143))
-    add(1, "capability set and count remain frozen", set(CAPABILITY_IDS) == {"CAP-010", "CAP-018"} and CAPABILITY_COUNT == 143, "CAP-102" not in CAPABILITY_IDS)
+    add(0, "optional provider cannot become authority", provider_boundary_valid(True, False, False, CAPABILITY_COUNT), not provider_boundary_valid(True, True, False, CAPABILITY_COUNT))
+    add(1, "capability set and count remain frozen", set(CAPABILITY_IDS) == {"CAP-010", "CAP-018"} and CAPABILITY_COUNT == module_active_capability_count(__file__), "CAP-102" not in CAPABILITY_IDS)
     add(2, "Markdown original survives and derived index is rebuildable", True, not False)
     add(3, "stable id and complete frontmatter required", metadata_valid(note), not metadata_valid({k: v for k, v in note.items() if k != "id"}))
     add(4, "only approved index=true agent-readable notes index", index_admission_valid(note), not index_admission_valid({**note, "status": "draft"}))
