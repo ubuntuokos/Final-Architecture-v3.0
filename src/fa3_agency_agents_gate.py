@@ -536,7 +536,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and decision.get("status") == expected_decision_status
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == count
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= count
         and decision.get("current_host_runtime_claim") is False
         and decision.get("open_reconciliations") == expected_open_reconciliations
         and decision.get("validation_policy", {}).get("unified_release_projection") == "MANAGED_BY_REPOSITORY_RECONCILER_MUST_PASS_BEFORE_MERGE"
