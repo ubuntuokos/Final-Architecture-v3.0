@@ -345,7 +345,7 @@ jobs:
               rows=[row for row in qualification['accepted_qualifications'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-                    assert qualification['qualified_definition_count'] == 525, qualification
+          assert qualification['qualified_definition_count'] == 525, qualification
           assert qualification['pending_definition_count'] == 0, qualification
           PY
       - name: Audit explicit qualification constituent producer coverage
@@ -367,7 +367,7 @@ jobs:
               rows=[row for row in producer_audit['accepted_producers'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-                    assert producer_audit['registered_producer_count'] == 525, producer_audit
+          assert producer_audit['registered_producer_count'] == 525, producer_audit
           assert producer_audit['pending_producer_count'] == 0, producer_audit
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
@@ -403,7 +403,7 @@ jobs:
               rows=[row for row in executor['registered_obligations'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-                    assert executor['registered_executor_count'] == 525, executor
+          assert executor['registered_executor_count'] == 525, executor
           assert executor['pending_executor_count'] == 0, executor
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
