@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -9,7 +9,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "HostHardwareDiscoveryRequest",
     "HardwareInventorySnapshot",
@@ -115,7 +115,12 @@
     "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
     "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
     "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT",
-    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION"
+    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
+    "HARDWARE_PARAMETER_MUTATION_REQUIRES_DEVICE_BOUND_SUPPORTED_RANGE_EVIDENCE",
+    "HARDWARE_PARAMETER_MUTATION_OUTSIDE_VENDOR_SUPPORTED_RANGE_IS_FORBIDDEN",
+    "HARDWARE_SAFETY_PROTECTION_BYPASS_IS_FORBIDDEN",
+    "UNKNOWN_HARDWARE_SAFE_RANGE_REQUIRES_NO_MUTATION",
+    "USER_OR_EXISTING_TUNING_DOES_NOT_AUTHORIZE_UNSAFE_ESCALATION"
   ],
   "compatibility_aliases": {
     "GpuDeviceDescriptor": "AcceleratorDeviceDescriptor(kind=GPU)",
@@ -214,5 +219,21 @@
         "host_unbound_admission": "FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING"
       }
     }
-  }
+  },
+  "hardware_mutation_safety": {
+    "scope": "ALL_FA3_INITIATED_HARDWARE_PARAMETER_MUTATIONS",
+    "preconditions": [
+      "ATTRIBUTABLE_DEVICE_IDENTITY",
+      "VENDOR_SUPPORTED_RANGE_EVIDENCE",
+      "POLICY_ADMISSION",
+      "NO_SAFETY_PROTECTION_BYPASS"
+    ],
+    "unknown_safe_range": "REJECT_MUTATION",
+    "out_of_supported_range": "REJECT_MUTATION",
+    "existing_user_tuning": "OBSERVABLE_BUT_NOT_ESCALATION_AUTHORITY",
+    "stress_and_benchmark_policy": "BOUNDED_WITHIN_SUPPORTED_OPERATING_LIMITS",
+    "installer_and_expert_override": "FORBIDDEN"
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
