@@ -7,6 +7,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from fa3_release_baseline import load_active_release_baseline
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -39,7 +42,8 @@ def main() -> int:
             fail(f"required control file missing: {path.relative_to(ROOT)}")
 
     dev = json.loads((ROOT / "canonical/FA3-DEV-MODE-001.json").read_text(encoding="utf-8"))
-    if dev.get("capability_count") != 143:
+    baseline = load_active_release_baseline(ROOT)
+    if dev.get("capability_count") != baseline.capability_count:
         fail("canonical capability count changed")
     if dev.get("trust_domains", {}).get("development", {}).get("canonical_write") != "DENY":
         fail("development domain gained canonical write authority")
@@ -74,7 +78,7 @@ def main() -> int:
         fail("canonical Dev/Update gate failed")
 
     print("[FA3-CI] Development boundary lock: PASS")
-    print("[FA3-CI] capability_delta=0 authority_delta=0 capability_count=143")
+    print(f"[FA3-CI] capability_delta=0 authority_delta=0 capability_count={baseline.capability_count}")
     return 0
 
 
