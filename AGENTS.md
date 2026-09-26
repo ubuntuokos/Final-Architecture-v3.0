@@ -20,6 +20,9 @@ This file is a scoped operational projection for coding agents. It is not a cano
 - Distinguish logical CPU processors from physical CPU cores. Do not infer one from the other.
 - Backend selection follows discovered device/backend compatibility and governed admission. Translation backends require explicit opt-in.
 - Hardware placement, reservation, and lease decisions remain under the Host Resource Broker.
+- Hardware safety overrides performance optimization. FA3, installers, provisioning, tuning, benchmark and agent actions must remain inside a device-bound vendor-supported operating envelope.
+- Never apply overvoltage, out-of-policy overclocking, unsafe power limits, or bypass thermal, current, fan, firmware, driver or other hardware safety protections.
+- If the safe operating range cannot be proven for the exact device and control, fail closed and do not mutate the hardware setting. Existing user tuning is not authority to increase or extend tuning.
 
 ## Change discipline
 
