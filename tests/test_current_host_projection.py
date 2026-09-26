@@ -1,4 +1,5 @@
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 import json
 import unittest
 
@@ -23,7 +24,7 @@ class CurrentHostProjectionTests(unittest.TestCase):
         self.assertFalse(manifest["automatic_promotion"])
         self.assertTrue(manifest["promotion"]["explicit_only"])
         self.assertFalse(manifest["promotion"]["global_promotion_claim_from_collection"])
-        self.assertEqual(manifest["capability_count"], 143)
+        self.assertEqual(manifest["capability_count"], load_active_release_baseline(ROOT).capability_count)
         self.assertEqual(manifest["new_capabilities"], 0)
         self.assertEqual(manifest["new_architectural_authorities"], 0)
 
