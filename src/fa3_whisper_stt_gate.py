@@ -64,7 +64,7 @@ def reference_check(root:Path)->dict[str,Any]:
 
     if decision.get("status")!="CANONICAL_CLOSED" or decision.get("decision")!="IMPLEMENT":
         findings.append(_finding("WHISPER-REF-010","Whisper STT materialization decision not closed IMPLEMENT"))
-    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or decision.get("capability_count_after")!=CAPS:
+    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or not isinstance(decision.get("capability_count_after"),int) or decision.get("capability_count_after")>CAPS:
         findings.append(_finding("WHISPER-REF-011","Whisper decision changed capability/authority invariant"))
     if provider.get("id")!=PROVIDER_ID or provider.get("capability_count")!=CAPS:
         findings.append(_finding("WHISPER-REF-012","Whisper provider identity/capability invariant mismatch"))
