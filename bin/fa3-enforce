@@ -2,6 +2,11 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if [[ "${1:-}" == "creative-project-workflow" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_creative_project_workflow_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "quality-anti-slop" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_quality_gate.py" --root "$ROOT" "$@"

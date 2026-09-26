@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CREATIVE-PROJECT-WORKFLOW-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-CREATIVE-PROJECT-WORKFLOW-001",
+  "intent_id": "FA3-CREATIVE-PROJECT-WORKFLOW-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CREATIVE-PROJECT-WORKFLOW-APPLICATION-INTENT-001.json",
+  "project_status": "STATIC_IMPLEMENTATION_READY_RUNTIME_PROMOTION_NOT_CLAIMED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "REUSABLE_TASK_SCOPED_CREATIVE_WORKFLOW_GUIDANCE"
+    },
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "VIDEO_GENERATION_AND_CREATIVE_MEDIA_PARENT_PROFILE"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "PROJECT_CONTEXT_AND_CONTEXT_AWARE_REGENERATION_SEMANTICS"
+    },
+    {
+      "id": "CAP-170",
+      "use": "STORY_SCREENPLAY_AND_AI_NOTES_PROVENANCE"
+    },
+    {
+      "id": "CAP-171",
+      "use": "NATIVE_PROJECT_PRESERVATION_AND_ROUND_TRIP"
+    },
+    {
+      "id": "CAP-172",
+      "use": "REVIEW_APPROVAL_AND_HUMAN_SIGN_OFF"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_EXECUTION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_PROVIDER_SELECTION"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_AND_PLACEMENT"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "PROVENANCE_AND_EVIDENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_CREATIVE_AGENT_AUTHORITY",
+      "reason": "EXISTING_SKILL_UAF_HUMAN_AND_DURABLE_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "FLOVA_RUNTIME_OR_PROVIDER_DEPENDENCY",
+      "reason": "ONLY_PRODUCT_WORKFLOW_PATTERNS_ARE_REUSED"
+    },
+    {
+      "id": "SKILL_SELECTS_PROVIDER_OR_MODEL",
+      "reason": "MODEL_ROUTER_REMAINS_EXCLUSIVE_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "GLOBAL_PROJECT_CONTEXT_INJECTION",
+      "reason": "SKILL_AND_CONTEXT_MATERIALIZATION_MUST_BE_TASK_SCOPED"
+    },
+    {
+      "id": "DIRECT_NATIVE_TIMELINE_MUTATION",
+      "reason": "OTIO_OR_ADMITTED_EDITORIAL_COMMAND_SURFACE_REQUIRED"
+    },
+    {
+      "id": "FULL_PROJECT_REGENERATION_BY_DEFAULT",
+      "reason": "DEPENDENCY_AWARE_SCOPED_INVALIDATION_PRESERVES_UNAFFECTED_STATE"
+    }
+  ],
+  "external_pattern_sources": [
+    {
+      "url": "https://flova.tv/en/docs/features/skills/",
+      "classification": "REFERENCE_ONLY_PUBLIC_DOCUMENTATION",
+      "code_imported": false
+    },
+    {
+      "url": "https://flova.ai/en/docs/features/docs-panel/",
+      "classification": "REFERENCE_ONLY_PUBLIC_DOCUMENTATION",
+      "code_imported": false
+    },
+    {
+      "url": "https://flova.tv/en/docs/features/agent/",
+      "classification": "REFERENCE_ONLY_PUBLIC_DOCUMENTATION",
+      "code_imported": false
+    },
+    {
+      "url": "https://flova.tv/en/docs/introduction/quick-start/",
+      "classification": "REFERENCE_ONLY_PUBLIC_DOCUMENTATION",
+      "code_imported": false
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_WORKFLOW_OVERLAY",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "covered_ids": [
+    "FA3-VIDEO-001"
+  ]
+}

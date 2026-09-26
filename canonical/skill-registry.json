@@ -110,6 +110,28 @@
         ]
       },
       "profile_id": "FA3-QUALITY-ANTI-SLOP-001"
+    },
+    {
+      "skill_id": "fa3-creative-project-workflow",
+      "package_id": "fa3.native.creative.project-workflow",
+      "version": "1.0.0",
+      "admission_status": "ADMITTED",
+      "distribution_class": "FA3_NATIVE",
+      "entrypoint": "skills/fa3-creative-project-workflow/SKILL.md",
+      "trigger": "creative.project.workflow",
+      "task_scoped": true,
+      "authority": false,
+      "remote_fetch": false,
+      "eligibility": {
+        "task_classes": [
+          "creative",
+          "film",
+          "video",
+          "storyboard",
+          "editorial"
+        ]
+      },
+      "profile_id": "FA3-VIDEO-001"
     }
   ],
   "reference_providers": [
