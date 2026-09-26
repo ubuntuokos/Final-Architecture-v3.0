@@ -189,7 +189,7 @@ def run_regressions() -> dict[str, Any]:
       (RULES[23],admission_valid(base),bad(lambda x:x["findings"].update(unresolved_critical=1))),
       (RULES[24],admission_valid(base),bad(lambda x:x["security_attestation"].update(evidence_ids=[]))),
       (RULES[25],admission_valid(base),bad(lambda x:x["security_attestation"].update(scanner_output_is_authority=True))),
-      (RULES[26],CAPABILITY_COUNT==143,True),
+      (RULES[26],CAPABILITY_COUNT==module_active_capability_count(__file__),True),
       (RULES[27],current_host_receipt_valid({"evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS","synthetic_scanner":False,"synthetic_target":False,"real_tool_execution":True,"runtime_promotion_eligible":True}),not current_host_receipt_valid({"evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS","synthetic_scanner":True,"synthetic_target":False,"real_tool_execution":False,"runtime_promotion_eligible":True})),
       (RULES[28],admission_valid(base),bad(lambda x:x["promotion"].update(direct_runtime_store_download_bypass=True))),]
     rows=[]
