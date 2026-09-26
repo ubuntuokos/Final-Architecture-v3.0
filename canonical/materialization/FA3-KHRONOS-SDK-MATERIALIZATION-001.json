@@ -1,0 +1,33 @@
+{
+  "schema":"fa3.materialization-plan.v1",
+  "id":"FA3-KHRONOS-SDK-MATERIALIZATION-001",
+  "date":"2026-09-26",
+  "profile":"FA3-KHRONOS-OPEN-STANDARDS-001",
+  "capability_binding":"CAP-083",
+  "install_root":"~/.local/share/fa3/khronos-sdk",
+  "source_policy":"IMMUTABLE_GIT_COMMIT_PIN",
+  "network_required_for_materialization":true,
+  "production_promotion_from_materialization":false,
+  "projects":[
+    {"repo":"KhronosGroup/Vulkan-Headers","ref":"vulkan-sdk-1.4.357.0","commit":"e3b1eec08173d6b825cd3ac88c885a63b621504a","role":"VULKAN_API_HEADERS","materialize":"SOURCE_AND_BUILD_INTERFACE","target":"HRB_GRAPHICS_COMPUTE"},
+    {"repo":"KhronosGroup/Vulkan-Loader","ref":"vulkan-sdk-1.4.357.0","commit":"5f157b62e333c63260d05d81bf66faa216ab0fb8","role":"VULKAN_LOADER","materialize":"SOURCE_AND_BUILD","target":"RENDER_COMPUTE_RUNTIME"},
+    {"repo":"KhronosGroup/Vulkan-ValidationLayers","ref":"vulkan-sdk-1.4.357.0","commit":"f4874eee15c78d7bdb2b7e60659d539f14741500","role":"VULKAN_RUNTIME_VALIDATION","materialize":"SOURCE_AND_BUILD","target":"CURRENT_HOST_EVIDENCE"},
+    {"repo":"KhronosGroup/Vulkan-Profiles","ref":"vulkan-sdk-1.4.357.0","commit":"1f139a2ea3c475eed7e6699d67fc362203a69c41","role":"VULKAN_CAPABILITY_PROFILES","materialize":"SOURCE_AND_BUILD","target":"HRB_CAPABILITY_DISCOVERY"},
+    {"repo":"KhronosGroup/SPIRV-Tools","ref":"v2026.3","commit":"b707790a898e44038547df54580022fc1cf89c3d","role":"SPIRV_VALIDATE_OPTIMIZE","materialize":"SOURCE_AND_BUILD","target":"SHADER_FABRIC"},
+    {"repo":"KhronosGroup/glslang","ref":"16.6.0","commit":"e1b562a8bed273a02f30b59b66a5d499793cede5","role":"GLSL_HLSL_TO_SPIRV","materialize":"SOURCE_AND_BUILD","target":"SHADER_FABRIC"},
+    {"repo":"KhronosGroup/SPIRV-Cross","ref":"main@2026-09-22","commit":"aa217aeb6c9f0ace7a0ab233b28807edf45eb165","role":"SPIRV_CROSS_TRANSLATION_REFLECTION","materialize":"SOURCE_AND_BUILD","target":"SHADER_FABRIC"},
+    {"repo":"KhronosGroup/KTX-Software","ref":"v4.4.2","commit":"4d6fc70eaf62ad0558e63e8d97eb9766118327a6","role":"KTX2_TEXTURE_PIPELINE","materialize":"SOURCE_AND_BUILD","target":"ASSET_GRAPH"},
+    {"repo":"KhronosGroup/glTF-Validator","ref":"main@2025-12-30","commit":"434283be08a668a8fb4e437145630ddbf93b0686","role":"GLTF_VALIDATION","materialize":"SOURCE_AND_ISOLATED_TOOL","target":"ASSET_GRAPH"},
+    {"repo":"KhronosGroup/OpenXR-SDK","ref":"release-1.1.63","commit":"f2448a8797c85814aa892efc1ab8707900fbcc78","role":"XR_PROVIDER_SDK","materialize":"SOURCE_AND_BUILD","target":"XR_PROVIDER"},
+    {"repo":"KhronosGroup/OpenCL-Headers","ref":"v2026.05.29","commit":"6fe718c31a45fe25151362a72ef041c3a1047cbd","role":"OPENCL_HEADERS","materialize":"SOURCE_AND_BUILD_INTERFACE","target":"COMPUTE_PROVIDER"},
+    {"repo":"KhronosGroup/OpenCL-ICD-Loader","ref":"v2026.05.29","commit":"b7bd2803acc779c03d96588e9ca9e9568a18698a","role":"OPENCL_LOADER","materialize":"SOURCE_AND_BUILD","target":"COMPUTE_PROVIDER"},
+    {"repo":"KhronosGroup/ANARI-SDK","ref":"v0.16.0","commit":"7534bd263d6ff97764eda93d0e1bd6bd2f108c32","role":"RENDER_PROVIDER_ABSTRACTION","materialize":"SOURCE_AND_BUILD","target":"RENDER_FABRIC"},
+    {"repo":"KhronosGroup/OpenVX-sample-impl","ref":"openvx_1.3.2","commit":"031f44bdcd6648f0957c9e351f76c3a64a0bfc32","role":"VISION_GRAPH_REFERENCE_IMPLEMENTATION","materialize":"SOURCE_AND_BUILD_REFERENCE","target":"VISION_FABRIC"},
+    {"repo":"KhronosGroup/NNEF-Tools","ref":"main@2026-06-22","commit":"765d27d9095e0c90301165f8933fb325b54ddd17","role":"NNEF_IMPORT_EXPORT","materialize":"SOURCE_AND_ISOLATED_PYTHON_TOOL","target":"MODEL_ARTIFACT_FABRIC"}
+  ],
+  "excluded_from_runtime_baseline":[
+    "Vulkan-Samples","VulkanTutorial","glTF-Sample-Assets","glTF-Tutorials","OpenXR-CTS","SYCL-Docs","OpenCL-Guide"
+  ],
+  "exclusion_reason":"documentation, samples or conformance suites are useful references but not required production SDK/runtime dependencies",
+  "current_host_status":"PENDING_PHYSICAL_EXECUTION"
+}
