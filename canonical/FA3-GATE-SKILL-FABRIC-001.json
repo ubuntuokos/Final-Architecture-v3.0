@@ -22,5 +22,11 @@
   },
   "v13_companion_validator": "PYTHONPATH=src python src/fa3_skill_fabric_v13.py --root .",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "execution_closure": {
+    "validator": "src/fa3_skill_execution_closure.py",
+    "embedded_in_parent_gateset": true,
+    "depends_on_existing_cap175_gate": "FA3-GATE-COEXISTENCE-001",
+    "current_host_runtime_claim": false
+  }
 }
