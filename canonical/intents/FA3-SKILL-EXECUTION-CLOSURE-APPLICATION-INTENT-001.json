@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001",
+  "project_id": "FA3-SKILL-FABRIC-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Close the existing FA3 Skill Fabric execution path across already-canonical authorities without adding a capability, provider, daemon, runtime authority or architectural authority.",
+  "required_capabilities": [
+    "CAP-028",
+    "CAP-080",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "skill-execution",
+    "cross-authority-binding",
+    "execution-evidence",
+    "rollback",
+    "coexistence"
+  ],
+  "task_classes": [
+    "skill",
+    "agent",
+    "runtime",
+    "security",
+    "evidence"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CROSS_AUTHORITY_SKILL_EXECUTION_BINDING",
+    "CONSOLIDATED_SKILL_EXECUTION_RECEIPT",
+    "FAIL_CLOSED_CROSS_AUTHORITY_REGRESSION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-skill",
+    "service_prefix": "fa3-skill",
+    "config_root": "$XDG_CONFIG_HOME/fa3/skills",
+    "cache_root": "$XDG_CACHE_HOME/fa3/skills",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/skills",
+    "socket_namespace": "fa3/skills",
+    "data_root": "$XDG_DATA_HOME/fa3/skills",
+    "desktop_prefix": "org.fa3.skills",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "FA3-COEXISTENCE-POLICY-001",
+    "FA3-GATE-COEXISTENCE-001"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "base_dependency": {
+    "pr": 410,
+    "branch": "fa3/software-coexistence-host-noninterference-20260926",
+    "exact_head": "5be33a316db8a385ab0d6a761633a22a9d2dd40e"
+  }
+}

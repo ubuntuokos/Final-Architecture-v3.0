@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-SKILL-EXECUTION-CLOSURE-2026-09-26",
+  "date": "2026-09-26",
+  "status": "CANONICAL_CANDIDATE",
+  "subject": "Skill execution cross-authority closure using existing FA3 authorities only",
+  "decision": "EXTEND_EXISTING_SKILL_FABRIC_WITH_EXECUTION_BINDING_RECEIPT_AND_FAIL_CLOSED_CROSS_AUTHORITY_VALIDATION",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "intent_id": "FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001",
+  "reuse_assessment_id": "FA3-SKILL-EXECUTION-CLOSURE-REUSE-ASSESSMENT-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_delta": 0,
+  "new_daemon_count": 0,
+  "adopted": [
+    "SkillExecutionBinding as a non-authoritative binding record",
+    "SkillExecutionReceipt as an evidence aggregation record",
+    "existing Agent Workload Runtime and Agent Sandbox for executable code",
+    "existing MCP Gateway Model Router HRB Secret Broker and Evidence authorities",
+    "mandatory Hardware Safety Envelope and CAP-175 coexistence preconditions",
+    "postcondition cleanup rollback and physical current-host truth boundaries"
+  ],
+  "forbidden": [
+    "new skill execution authority",
+    "root AI or system agent daemon",
+    "unrestricted sudo or root shell",
+    "direct model provider bypass",
+    "direct MCP bypass",
+    "direct HRB bypass",
+    "raw secret value access",
+    "unsandboxed arbitrary code execution",
+    "document-only current-host runtime promotion"
+  ],
+  "current_host_runtime_claim": false
+}
