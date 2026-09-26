@@ -29,7 +29,7 @@ class OpenVidGateTests(unittest.TestCase):
         report=gate.gate(ROOT)
         self.assertEqual(report["status"],"PASS",report)
         self.assertEqual(report["finding_count"],0)
-        self.assertEqual(report["capability_count_after"],143)
+        self.assertEqual(report["capability_count_after"],gate.CAP)
         self.assertFalse(report["current_host_runtime_promotion_claimed"])
 
 if __name__=="__main__":
