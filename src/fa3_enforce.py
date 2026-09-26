@@ -29,7 +29,7 @@ from fa3_tencentdb_agent_memory_gate import gate as tencentdb_agent_memory_gate
 from fa3_video_provider_lifecycle_gate import gate as video_provider_lifecycle_gate
 from fa3_stability_sgm_gate import gate as stability_sgm_gate
 from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
-from fa3_stability_matrix_lifecycle_gate import gate as stability_matrix_lifecycle_gate
+from fa3_local_generative_media_lifecycle_gate import gate as local_generative_media_lifecycle_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
 from fa3_ai_comms_gate import gate as ai_comms_gate
 from fa3_integration_broker_gate import gate as integration_broker_gate
@@ -292,8 +292,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-037","AutoGPT agentic-workflow boundary gate is not bound into global enforcement policy"))
     if "FA3-CAVEMAN-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-091","Caveman recoverable context-transformation gate is not bound into global enforcement policy"))
-    if "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-093","Stability Matrix interactive lifecycle gate is not bound into global enforcement policy"))
+    if "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-093","Local Generative Media Lifecycle gate is not bound into global enforcement policy"))
     if "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-095","Obsidian human knowledge workspace gate is not bound into global enforcement policy"))
     if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -433,9 +433,9 @@ def static_check(root:Path):
     caveman_ref=caveman_gate(root)
     if caveman_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-092","Caveman recoverable context-transformation regression gate failed",caveman_gate=caveman_ref))
-    stability_matrix_lifecycle_ref=stability_matrix_lifecycle_gate(root)
-    if stability_matrix_lifecycle_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-094","Stability Matrix interactive lifecycle/native-worker promotion regression gate failed",stability_matrix_lifecycle_gate=stability_matrix_lifecycle_ref))
+    local_media_lifecycle_ref=local_generative_media_lifecycle_gate(root)
+    if local_media_lifecycle_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-094","Local Generative Media Lifecycle regression gate failed",local_generative_media_lifecycle_gate=local_media_lifecycle_ref))
     external_discovery_ref=external_api_discovery_gate(root)
     if external_discovery_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-043","External API/MCP discovery mandatory admission-boundary gate failed",external_api_discovery_gate=external_discovery_ref))
@@ -677,7 +677,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -707,8 +707,8 @@ def main():
             x=autogpt_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="caveman":
             x=caveman_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
-        if a.command=="stability-matrix-lifecycle":
-            x=stability_matrix_lifecycle_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="local-generative-media-lifecycle":
+            x=local_generative_media_lifecycle_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="ai-infra-guard":
             x=ai_infra_guard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="ai-infra-guard-current-host":

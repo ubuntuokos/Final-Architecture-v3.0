@@ -5,8 +5,13 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
-  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120",
+    "CAP-135"
+  ],
   "contracts": [
     "InteractiveLifecycleSession",
     "PackageEnvironmentDescriptor",
@@ -39,7 +44,7 @@
     "update_or_rollback"
   ],
   "required_semantics": {
-    "ui_lifecycle": "SYSTEMD_USER_SERVICE_ONLY",
+    "lifecycle_frontend": "FA3_NATIVE_OR_SEPARATELY_ADMITTED_NON_AUTHORITY_FRONTEND",
     "production_execution": "SEPARATE_NATIVE_SYSTEMD_WORKER_UNITS_ONLY",
     "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY_ONLY",
     "event_transport": "NATS_EXISTING_AUTHORITY_ONLY",
@@ -51,8 +56,8 @@
     "device_routing": "DISCOVERED_PCI_SLOT_PLUS_GPU_UUID_FAIL_CLOSED_HRB_LEASE",
     "hardcoded_gpu_model_or_count": "FORBIDDEN",
     "cache_isolation": "HF_TORCH_TRITON_INDUCTOR_PIP_UV_CUDA_CACHE_PLANES_EXPLICIT",
-    "canonical_state": "POSTGRESQL_CANONICAL_RECORDS_PROVIDER_SQLITE_JSON_NON_CANONICAL",
-    "provider_outage": "PROMOTED_NATIVE_WORKERS_CONTINUE",
+    "canonical_state": "POSTGRESQL_CANONICAL_RECORDS_LOCAL_UI_STATE_NON_CANONICAL",
+    "frontend_outage": "PROMOTED_NATIVE_WORKERS_CONTINUE",
     "failed_environment": "ISOLATE_AND_ROLL_BACK_WITHOUT_PLATFORM_OUTAGE"
   },
   "promotion_required_evidence": [
@@ -66,17 +71,17 @@
     "worker_drain_receipt",
     "environment_checkpoint",
     "readiness_smoke_pass",
-    "vram_or_accelerator_memory_envelope_pass",
+    "accelerator_memory_envelope_pass",
     "representative_output_validation_pass",
     "rollback_plan",
     "signed_promotion_receipt"
   ],
   "invariants": [
-    "STABILITY_MATRIX_INTERACTIVE_ADAPTER_NOT_CONTROL_PLANE",
-    "STABILITY_MATRIX_UI_SYSTEMD_USER_SERVICE_ONLY",
+    "FA3_NATIVE_LIFECYCLE_NOT_CONTROL_PLANE",
+    "INTERACTIVE_SURFACE_USER_SESSION_ONLY",
     "MAINTENANCE_TRIAL_SEPARATE_FROM_PRODUCTION",
     "PRODUCTION_NATIVE_WORKERS_SEPARATE_FROM_GUI",
-    "PROMOTED_WORKERS_SURVIVE_PROVIDER_OUTAGE",
+    "PROMOTED_WORKERS_SURVIVE_FRONTEND_OUTAGE",
     "PACKAGE_REVISION_LOCK_HASH_REQUIRED",
     "AUTOMATIC_PACKAGE_EXTENSION_UPDATE_FORBIDDEN",
     "MAINTENANCE_LOCK_DRAIN_CHECKPOINT_REQUIRED",
@@ -89,11 +94,12 @@
     "LOOPBACK_ONLY_DIRECT_BINDING",
     "CACHE_PLANES_EXPLICIT_AND_SEPARATE",
     "PACKAGE_MODEL_CACHE_RENDER_PLANES_SEPARATE",
-    "PROVIDER_LOCAL_STATE_NOT_CANONICAL_SOT",
+    "LOCAL_UI_STATE_NOT_CANONICAL_SOT",
     "SIGNED_PROMOTION_BEFORE_NATIVE_WORKER_PROJECTION",
     "CLEAN_UNINSTALL_AND_ORPHAN_SCAN_REQUIRED",
     "FAILED_ENVIRONMENT_ISOLATED_FROM_PLATFORM",
     "WRAPPER_OWNS_HOST_POLICY_PACKAGE_OWNS_RUNTIME_ARGS",
     "EXISTING_WORKFLOW_RESOURCE_SECURITY_EVIDENCE_AUTHORITIES_RETAINED"
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

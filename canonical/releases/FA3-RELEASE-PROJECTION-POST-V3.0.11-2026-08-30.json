@@ -108,7 +108,6 @@
     "FA3-HARDWARE-PORTABILITY-GATESET-001",
     "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001",
     "FA3-CAVEMAN-GATESET-001",
-    "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
     "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
     "FA3-PYTORCH3D-GATESET-001",
     "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
@@ -137,7 +136,8 @@
     "FA3-GUI-CURRENT-HOST-GATESET-001",
     "FA3-MODERNIZATION-INTEGRATION-GATESET-001",
     "FA3-CAPTION-SUBTITLE-GATESET-001",
-    "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001"
+    "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
+    "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -3746,11 +3746,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
-      "git_blob_sha": "90833460362f8e17af8e74dc46e63b98535b41e1",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
       "git_blob_sha": "9cac163cd77afd4dffa6f1d29fb6702d98c0e6d3",
       "baseline_delta_status": "unchanged"
@@ -4423,11 +4418,6 @@
     {
       "path": "canonical/FA3-GATE-SOMA-X-001.json",
       "git_blob_sha": "2059d4fd95471f70e7d8b58fe3cbd55d7aa8c68f",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "canonical/FA3-GATE-STABILITY-MATRIX-LIFECYCLE-001.json",
-      "git_blob_sha": "42f5fabef4fd4c6f692c937266b152e296f91354",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -6366,11 +6356,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-001.json",
-      "git_blob_sha": "2afbc35cbfadc1c3b27445deb0133e0d15a7b1f3",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json",
       "git_blob_sha": "3d7d939a1c4bbb3779372d1b635c0086899f6e22",
       "baseline_delta_status": "unchanged"
@@ -7088,11 +7073,6 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "canonical/stability-matrix-lifecycle-enforcement.json",
-      "git_blob_sha": "366ca18ac663bc0fa4b885943cf6e27a9a663cf5",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -8473,11 +8453,6 @@
     {
       "path": "evidence/reference/soma-x-reference-pass.json",
       "git_blob_sha": "fc794e3b7aa128ac38fa0e51eccdf3d59e014370",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
-      "git_blob_sha": "ec779cf490b059b66d3c2b43513527651f11b1e3",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -12565,30 +12540,6 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "stability_matrix_lifecycle_reconciliation": {
-    "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
-    "related_model_store_provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
-    "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
-    "decision_id": "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06",
-    "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-    "capability_bindings": [
-      "CAP-005",
-      "CAP-016",
-      "CAP-120",
-      "CAP-135"
-    ],
-    "classification": "REQ_ADAPTER_PRIMARY_REFERENCE_INTERACTIVE_LIFECYCLE_PROVIDER",
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PRODUCTION_WORKER_E2E_PENDING",
-    "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_PRODUCTION_WORKER_E2E_PENDING",
-    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
-    "current_host_runtime_promotion_claim": false,
-    "provider_runtime_required_for_global_promotion_when_disabled": false,
-    "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
-    "reference_gate_status": "PASS",
-    "new_capabilities": 0,
-    "new_architectural_authorities": 0,
-    "capability_count_after": 175
-  },
   "review_notes": [
     "FA3-PROVIDER-BUZZ-001 globally reconciled to CAP-008 / FA3-DESKTOP-AGENT-WORKBENCH-001 with deterministic release/inventory/evidence projection regeneration and executable drift enforcement; Buzz remains optional, disabled by default, non-authoritative and not current-host runtime promoted.",
     "FA3-PROVIDER-GTCRN-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional CPU-first ONNX real-time speech enhancement provider. Reference gate PASS does not promote current-host runtime; quarantine SHA-256, real ONNX audio E2E quality, RTF and rollback evidence remain required.",
@@ -13532,6 +13483,24 @@
     "implementation": "FA3_NATIVE",
     "external_provider_required": false,
     "reference_evidence": "evidence/reference/creative-operations-dashboard-ci-2026-09-26.json",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175
+  },
+  "local_generative_media_lifecycle_reconciliation": {
+    "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+    "decision_id": "FA3-DEC-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-2026-09-26",
+    "gate_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-016",
+      "CAP-120",
+      "CAP-135"
+    ],
+    "implementation": "FA3_NATIVE_PROVIDER_NEUTRAL",
+    "external_provider_required": false,
+    "reference_evidence": "evidence/reference/local-generative-media-lifecycle-ci-2026-09-26.json",
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
