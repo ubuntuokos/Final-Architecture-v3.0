@@ -1,6 +1,7 @@
 import json
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 from src import fa3_ui_component_fabric_gate
 
@@ -22,7 +23,7 @@ class UiComponentFabricGateTests(unittest.TestCase):
         self.assertTrue(profile["provider_neutral"])
         self.assertFalse(profile["new_capability"])
         self.assertFalse(profile["new_architectural_authority"])
-        self.assertEqual(143, profile["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, profile["capability_count"])
 
     def test_uiverse_galaxy_is_reference_only(self):
         ref = load("canonical/FA3-REFERENCE-UIVERSE-GALAXY-001.json")
