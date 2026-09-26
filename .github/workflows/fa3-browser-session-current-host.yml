@@ -91,7 +91,14 @@ jobs:
           clean: true
       - name: Prepare native host
         run: chmod 0755 libexec/fa3-browser-session-native-host.py
-      - name: Verify canonical HRB admission bridge prerequisite\n        shell: bash\n        run: |\n          set -euo pipefail\n          test -x /usr/local/bin/fa3-host-resource-broker-admission\n          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root\n          /usr/local/bin/fa3-host-resource-broker-admission --doctor\n      - name: Static Browser Session gate
+      - name: Verify canonical HRB admission bridge prerequisite
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x /usr/local/bin/fa3-host-resource-broker-admission
+          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root
+          /usr/local/bin/fa3-host-resource-broker-admission --doctor
+      - name: Static Browser Session gate
         env:
           PYTHONPATH: src
         run: python3 src/fa3_browser_session_gate.py --root .
