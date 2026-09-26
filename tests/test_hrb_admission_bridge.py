@@ -43,6 +43,11 @@ class HrbAdmissionBridgeTests(unittest.TestCase):
         with self.assertRaises(root_helper.AdmissionError):
             root_helper._parse_workload(bad)
 
+    def test_installer_owner_only_permission_check_has_correct_precedence(self):
+        script=(ROOT/"bin/fa3-install-hrb-admission-bridge.sh").read_text(encoding="utf-8")
+        self.assertIn('(( (8#$mode & 077) == 0 ))',script)
+        self.assertNotIn('(( 8#$mode & 077 == 0 ))',script)
+
     def test_client_writes_private_authorization_without_shell(self):
         with tempfile.TemporaryDirectory() as td:
             td=Path(td); workload=td/"workload.json"; out=td/"auth.json"; helper=td/"helper"; helper.write_text("x"); helper.chmod(0o755)
