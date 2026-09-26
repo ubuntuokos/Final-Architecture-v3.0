@@ -21,7 +21,7 @@ def receipt() -> dict:
         "real_current_host_execution": True,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "capability_count_after": 143,
+        "capability_count_after": 175,
         "global_promotion_claim": False,
         "sources": {"gem_x": {"revision": GEM_REV, "clean": True}, "soma_x": {"revision": SOMA_REV, "clean": True}},
         "checkpoint": {"sha256": sha, "admission": {"artifact_sha256": sha, "admitted": True}},

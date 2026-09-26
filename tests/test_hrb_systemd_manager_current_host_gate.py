@@ -39,7 +39,7 @@ def base_receipt():
             "global_1ms_timer_denied": True,
             "guarded_timeout_without_survival_receipt_denied": True,
         },
-        "capability_count_after": 143,
+        "capability_count_after": 175,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,

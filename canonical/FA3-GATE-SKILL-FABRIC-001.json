@@ -8,7 +8,7 @@
   "fail_closed": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "executable": "PYTHONPATH=src python src/fa3_skill_fabric_gate.py --root .",
   "report_path": "reports/skill-fabric-gate-report.json",
   "provider_specific": false,
@@ -20,5 +20,7 @@
     "report_path": "reports/skill-ecosystem-gate-report.json",
     "same_gateset": true
   },
-  "v13_companion_validator": "PYTHONPATH=src python src/fa3_skill_fabric_v13.py --root ."
+  "v13_companion_validator": "PYTHONPATH=src python src/fa3_skill_fabric_v13.py --root .",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

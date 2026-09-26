@@ -12,7 +12,7 @@ PROVIDER_PATHS=["canonical/providers/FA3-PROVIDER-STABILITY-MODELSPEC-001.json",
 
 def loadj(p:Path)->dict[str,Any]: return json.loads(p.read_text(encoding="utf-8"))
 def finding(code:str,message:str,**extra:Any)->dict[str,Any]: return {"code":code,"severity":"P0","message":message,**extra}
-def provider_non_authority(d:dict[str,Any])->bool: return d.get("canonical_root") is False and d.get("architectural_authority") is False and d.get("new_capability") is False and d.get("new_architectural_authority") is False and d.get("capability_count")==143
+def provider_non_authority(d:dict[str,Any])->bool: return d.get("canonical_root") is False and d.get("architectural_authority") is False and d.get("new_capability") is False and d.get("new_architectural_authority") is False and d.get("capability_count")==module_active_capability_count(__file__)
 
 def hardware_policy_valid(c:dict[str,Any])->bool:
     h=c.get("hardware_policy",{})
@@ -29,7 +29,7 @@ def gate(root:Path)->dict[str,Any]:
         if not p.is_file(): f.append(finding("STAB-REF-001","required record missing",record=n,path=str(p)))
     if f: return {"gate_id":GATE_ID,"result":"FAIL","findings":f}
     r={k:loadj(v) for k,v in paths.items()}
-    if r["profile"].get("id")!=PROFILE_ID or r["profile"].get("requirement")!="MUST" or r["profile"].get("capability_count")!=143: f.append(finding("STAB-REF-002","portfolio profile invariant mismatch"))
+    if r["profile"].get("id")!=PROFILE_ID or r["profile"].get("requirement")!="MUST" or r["profile"].get("capability_count")!=module_active_capability_count(__file__): f.append(finding("STAB-REF-002","portfolio profile invariant mismatch"))
     if r["contract"].get("id")!=CONTRACT_ID or r["contract"].get("mandatory_p0_rules")!=P0_RULES: f.append(finding("STAB-REF-003","contract or P0 rule set mismatch"))
     if not hardware_policy_valid(r["contract"]): f.append(finding("STAB-HW-001","vendor-neutral hardware baseline/current-host discovery policy mismatch"))
     if not license_policy_valid(r["contract"]): f.append(finding("STAB-LIC-001","license/AUP dimensions are not separated and versioned"))
@@ -56,5 +56,5 @@ def gate(root:Path)->dict[str,Any]:
         f.append(finding("STAB-CHILD-002","Stable Audio 3 child gate failed",child_gate=child))
     ev=r["evidence"]
     if ev.get("status")!="PASS" or ev.get("current_host_runtime_evidence") is not False or ev.get("mandatory_rules_passed")!=len(P0_RULES): f.append(finding("STAB-EVID-001","reference evidence invalid or overclaims runtime promotion"))
-    result="PASS" if not f else "FAIL"; report={"schema":"fa3.stability-portfolio-gate-report.v1","gate_id":GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"result":result,"blocking_findings":len(f),"findings":f,"mandatory_rules":len(P0_RULES),"providers_checked":len(providers),"child_gates_checked":1,"stable_audio_3_child_gate_result":child.get("result"),"capability_count":143,"new_capabilities":0,"new_architectural_authorities":0,"current_host_provider_e2e":False}
+    result="PASS" if not f else "FAIL"; report={"schema":"fa3.stability-portfolio-gate-report.v1","gate_id":GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"result":result,"blocking_findings":len(f),"findings":f,"mandatory_rules":len(P0_RULES),"providers_checked":len(providers),"child_gates_checked":1,"stable_audio_3_child_gate_result":child.get("result"),"capability_count":module_active_capability_count(__file__),"new_capabilities":0,"new_architectural_authorities":0,"current_host_provider_e2e":False}
     out=root/"reports/stability-portfolio-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); return report

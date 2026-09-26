@@ -20,7 +20,7 @@
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "rules": [
     "TENSORRT_RTX_RUNTIME_CACHE_IDENTITY_REQUIRED",
     "TENSORRT_RTX_RUNTIME_CACHE_DRIVER_MONOTONIC_COMPATIBILITY",
@@ -36,5 +36,6 @@
     "TensorRT-RTX timing-cache APIs are deprecated upstream and have no effect on the built TensorRT-RTX engine; they are not the FA3 canonical runtime-cache path for new integrations.",
     "Runtime caches remain derived, disposable and noncanonical artifacts; cache incompatibility invalidates reuse, not source-model identity."
   ],
-  "runtime_promotion": "UNCHANGED_PENDING_REAL_CURRENT_HOST_EXECUTION"
+  "runtime_promotion": "UNCHANGED_PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -2,6 +2,8 @@ import json
 import unittest
 from pathlib import Path
 
+from src.fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -24,10 +26,10 @@ class TestMultimodalGenerationContextIR(unittest.TestCase):
         self.assertFalse(self.mmg["canonical_root"])
         self.assertFalse(self.mmg["new_capability"])
         self.assertFalse(self.mmg["new_architectural_authority"])
-        self.assertEqual(self.mmg["capability_count"], 143)
+        self.assertEqual(self.mmg["capability_count"], module_active_capability_count(__file__))
         self.assertEqual(self.decision["new_capabilities"], 0)
         self.assertEqual(self.decision["new_architectural_authorities"], 0)
-        self.assertEqual(self.decision["capability_count_after"], 143)
+        self.assertEqual(self.decision["capability_count_after"], module_active_capability_count(__file__))
         self.assertTrue(self.decision["authority_boundaries_unchanged"])
 
     def test_mmg_ir_is_provider_neutral_child_of_video_generation_ir(self):

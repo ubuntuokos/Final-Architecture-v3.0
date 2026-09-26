@@ -3,7 +3,7 @@
   "gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
   "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
   "fail_closed": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "authority_delta": 0,
   "current_host_status": "PENDING_REAL_EXECUTION",
   "rules": {
@@ -32,5 +32,7 @@
     "preflight_as_surface_pass": "DENY",
     "preflight_as_global_promotion": "DENY",
     "network_pull_during_preflight_or_execution": "DENY"
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

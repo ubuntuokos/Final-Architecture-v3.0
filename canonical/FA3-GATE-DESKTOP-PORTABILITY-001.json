@@ -11,7 +11,7 @@
   "architectural_authority": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "command": "python3 ./bin/fa3-desktop-admission --self-test --json",
   "runtime_probe_command": "python3 ./bin/fa3-desktop-admission --json",
   "mandatory_invariants": [
@@ -30,5 +30,7 @@
     "runtime_probe_required_for_claimed_host_desktop_support": true,
     "unsupported_optional_feature_blocks_global_promotion": false,
     "missing_required_logical_capability_when_gui_required_blocks_admission": true
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

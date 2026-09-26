@@ -9,7 +9,7 @@
   "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "entrypoint": "src/fa3_hrb_lease_lifecycle_gate.py",
   "current_host_entrypoint": "src/fa3_hrb_lease_lifecycle_current_host_gate.py",
   "current_host_collector": "evidence/collect-hrb-lease-lifecycle-current-host.py",
@@ -94,5 +94,7 @@
     "canonical/FA3-EVIDENCE-ENVELOPE-001.json",
     "existing resource-admission collector/gate"
   ],
-  "promotion_semantics": "Phase-one gate validates additive HRB lease lifecycle closure only. Durable evidence envelope, permanent enforcement, distribution, release projection and GUI reconciliation remain separate final-reconciliation work."
+  "promotion_semantics": "Phase-one gate validates additive HRB lease lifecycle closure only. Durable evidence envelope, permanent enforcement, distribution, release projection and GUI reconciliation remain separate final-reconciliation work.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

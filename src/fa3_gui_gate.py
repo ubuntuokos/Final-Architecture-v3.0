@@ -2,6 +2,11 @@
 from __future__ import annotations
 
 import json
+
+try:
+    from fa3_release_baseline import module_active_capability_count
+except ModuleNotFoundError:
+    from .fa3_release_baseline import module_active_capability_count
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,14 +91,14 @@ def validate() -> list[str]:
         (profile.get("id") == "FA3-DESKTOP-001", "profile-id"),
         (profile.get("new_capability") is False, "profile-no-new-capability"),
         (profile.get("new_architectural_authority") is False, "profile-no-new-authority"),
-        (profile.get("capability_count") == 143, "profile-capability-count"),
+        (profile.get("capability_count") == module_active_capability_count(__file__), "profile-capability-count"),
         (contract.get("provider_neutral") is True, "contract-provider-neutral"),
         (contract.get("mutation_model", {}).get("direct_canonical_write") == "FORBIDDEN", "no-direct-canonical-write"),
         (contract.get("mutation_model", {}).get("direct_systemd_or_cgroup_mutation") == "FORBIDDEN", "no-direct-host-enforcement"),
         (contract.get("mutation_model", {}).get("sudo_su_pkexec") == "FORBIDDEN", "no-privilege-bypass"),
         (decision.get("new_capabilities") == 0, "decision-no-new-capability"),
         (decision.get("new_architectural_authorities") == 0, "decision-no-new-authority"),
-        (decision.get("capability_count_after") == 143, "decision-capability-count"),
+        (decision.get("capability_count_after") == module_active_capability_count(__file__), "decision-capability-count"),
         (gate.get("fail_closed") is True, "gate-fail-closed"),
         (application_intent.get("schema") == "fa3.application-intent.v1", "reuse-application-intent-schema"),
         (application_intent.get("project_id") == "FA3-DESKTOP-001", "reuse-application-intent-project"),
@@ -114,7 +119,7 @@ def validate() -> list[str]:
         (reuse_assessment.get("hardware_audit", {}).get("cpu_only_viable") is True, "reuse-assessment-cpu-only"),
         (reuse_assessment.get("current_host_runtime_promotion_claim") is False, "reuse-assessment-no-current-host-overclaim"),
         (reuse_assessment.get("global_promotion_claim") is False, "reuse-assessment-no-global-overclaim"),
-        (reuse_assessment.get("capability_count_after") == 143, "reuse-assessment-capability-count"),
+        (reuse_assessment.get("capability_count_after") == module_active_capability_count(__file__), "reuse-assessment-capability-count"),
         (reuse_assessment.get("new_architectural_authorities") == 0, "reuse-assessment-no-new-authority"),
         (runtime.get("current_host_gate_id") == "FA3-GUI-CURRENT-HOST-GATESET-001", "runtime-current-host-gate-binding"),
         (
@@ -135,13 +140,13 @@ def validate() -> list[str]:
         ),
         (reconciliation.get("new_capabilities") == 0, "reconciliation-no-new-capability"),
         (reconciliation.get("new_architectural_authorities") == 0, "reconciliation-no-new-authority"),
-        (reconciliation.get("capability_count_after") == 143, "reconciliation-capability-count"),
+        (reconciliation.get("capability_count_after") == module_active_capability_count(__file__), "reconciliation-capability-count"),
         (reconciliation.get("agent_native", {}).get("gui_may_execute_provider_directly") is False, "reconciliation-no-direct-agent-provider"),
         (reconciliation.get("decision_fabric", {}).get("authorization_authority") is False, "reconciliation-decision-no-authorization"),
         (reconciliation.get("decision_fabric", {}).get("candidate_expansion") is False, "reconciliation-decision-no-candidate-expansion"),
         (reconciliation.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N", "reconciliation-hardware-cardinality"),
         (surface_registry.get("new_architectural_authority") is False, "surface-registry-no-authority"),
-        (surface_registry.get("capability_count") == 143, "surface-registry-capability-count"),
+        (surface_registry.get("capability_count") == module_active_capability_count(__file__), "surface-registry-capability-count"),
         (uaf_contract.get("new_architectural_authority") is False, "uaf-no-new-authority"),
         (decision_fabric.get("new_architectural_authority") is False, "decision-fabric-no-new-authority"),
         (ui_component.get("parent_profile") == "FA3-DESKTOP-001", "ui-component-parent"),
@@ -369,7 +374,7 @@ def main() -> int:
         return 1
     print("FA3 GUI gate: PASS")
     runtime = load_json(REQUIRED["runtime"])
-    print(f"profile=FA3-DESKTOP-001 capabilities=143 new_authorities=0 runtime={runtime.get('status')}")
+    print(f"profile=FA3-DESKTOP-001 capabilities={module_active_capability_count(__file__)} new_authorities=0 runtime={runtime.get('status')}")
     return 0
 
 

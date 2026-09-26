@@ -5,14 +5,18 @@
   "status": "ACTIVE",
   "gate_type": "EXECUTABLE_REGRESSION_GATE",
   "entrypoint": "python3 src/fa3_kdenlive_audio_gate.py",
-  "tests": ["python -m unittest discover -s tests -p 'test_kdenlive_audio_conditioning.py' -v"],
+  "tests": [
+    "python -m unittest discover -s tests -p 'test_kdenlive_audio_conditioning.py' -v"
+  ],
   "fail_closed": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "architectural_authority_delta": 0,
   "promotion_policy": {
     "static_reference_gate_can_pass": true,
     "static_reference_gate_does_not_imply_production_promotion": true,
     "production_requires_current_host_e2e": true,
     "production_state_until_real_receipt": "PENDING_CURRENT_HOST"
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

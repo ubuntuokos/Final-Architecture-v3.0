@@ -9,7 +9,7 @@
   "architectural_authority": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "release_baseline": "FA3-RELEASE-CAPABILITY-BASELINE-001",
   "policy": {
     "plasma_is_reference_not_core_dependency": true,
@@ -37,9 +37,22 @@
     "design_system_must_not_require_breeze": true
   },
   "support_tiers": {
-    "tier_1_reference": ["KDE_PLASMA_WAYLAND"],
-    "tier_2_supported_targets": ["COSMIC_WAYLAND", "GNOME_WAYLAND", "CINNAMON", "XFCE", "LXQT"],
-    "tier_3_compatible": ["SWAY", "HYPRLAND", "MATE", "OTHER_XDG_COMPATIBLE"]
+    "tier_1_reference": [
+      "KDE_PLASMA_WAYLAND"
+    ],
+    "tier_2_supported_targets": [
+      "COSMIC_WAYLAND",
+      "GNOME_WAYLAND",
+      "CINNAMON",
+      "XFCE",
+      "LXQT"
+    ],
+    "tier_3_compatible": [
+      "SWAY",
+      "HYPRLAND",
+      "MATE",
+      "OTHER_XDG_COMPATIBLE"
+    ]
   },
   "required_logical_capabilities": [
     "LINUX_HOST",
@@ -63,5 +76,7 @@
     "gate": "FA3-GATE-DESKTOP-PORTABILITY-001",
     "command": "python3 ./bin/fa3-desktop-admission --self-test --json",
     "runtime_probe_command": "python3 ./bin/fa3-desktop-admission --json"
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

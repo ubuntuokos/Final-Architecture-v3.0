@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse,json
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import load_active_release_baseline
 from fa3_uaf import ActionRegistry
 ROOT=Path(__file__).resolve().parents[1]
 FILES={"dev":ROOT/"canonical/FA3-DEV-MODE-001.json","update":ROOT/"canonical/FA3-UPDATE-FABRIC-001.json","security":ROOT/"canonical/FA3-SECURITY-UPDATE-001.json","restart":ROOT/"canonical/FA3-UPDATE-RESTART-001.json","runtime":ROOT/"canonical/FA3-DEV-UPDATE-RUNTIME-CONFORMANCE-001.json","dev_policy":ROOT/"config/fa3-dev-policy.json","update_policy":ROOT/"config/fa3-update-policy.json"}
@@ -14,11 +15,11 @@ def load(path:Path)->dict[str,Any]:
     if not isinstance(data,dict):raise AssertionError(f"{path.relative_to(ROOT)} must be JSON object")
     return data
 def check(root:Path=ROOT)->dict[str,Any]:
-    del root;docs={n:load(p) for n,p in FILES.items()};findings=[]
+    root=Path(root).resolve(); capability_count=load_active_release_baseline(root).capability_count; docs={n:load(p) for n,p in FILES.items()};findings=[]
     for n in ("dev","update","security","restart"):
       d=docs[n]
       if d.get("status")!="CANONICAL" or d.get("priority")!="P0":findings.append(f"{n}: canonical P0 required")
-      if d.get("new_capabilities")!=0 or d.get("new_architectural_authorities")!=0 or d.get("capability_count")!=143:findings.append(f"{n}: capability/authority invariant")
+      if d.get("new_capabilities")!=0 or d.get("new_architectural_authorities")!=0 or d.get("capability_count")!=capability_count:findings.append(f"{n}: capability/authority invariant")
     dev=docs["dev"];update=docs["update"];security=docs["security"];restart=docs["restart"];runtime=docs["runtime"];dp=docs["dev_policy"];up=docs["update_policy"]
     if dev.get("production_invariant")!="FAIL_CLOSED_UNCHANGED" or dev.get("trust_domains",{}).get("development",{}).get("canonical_write")!="DENY":findings.append("dev: production/canonical boundary")
     if dev.get("operations",{}).get("freeze",{}).get("canonical_write") is not False or dev.get("operations",{}).get("promote",{}).get("requires")!=["STATIC_PASS","HOST_PASS","PROMOTION_READY"]:findings.append("dev: freeze/promotion boundary")
@@ -45,7 +46,7 @@ def check(root:Path=ROOT)->dict[str,Any]:
       a=amap[aid]
       if a.security.get("authentication")!="required" or a.security.get("authorization")!="required" or a.evidence.get("required") is not True:findings.append(f"uaf-action-security:{aid}")
       if a.resources.get("accelerator",{}).get("cardinality")!="0..N":findings.append(f"uaf-action-hardware:{aid}")
-    return {"schema":"fa3.dev-update-gate-report.v2","gate":"FA3-DEV-MODE-001+FA3-UPDATE-FABRIC-001","status":"PASS" if not findings else "FAIL","blocking_findings":findings,"capability_delta":0,"authority_delta":0,"capability_count":143,"runtime_promotion_claimed":False}
+    return {"schema":"fa3.dev-update-gate-report.v2","gate":"FA3-DEV-MODE-001+FA3-UPDATE-FABRIC-001","status":"PASS" if not findings else "FAIL","blocking_findings":findings,"capability_delta":0,"authority_delta":0,"capability_count":capability_count,"runtime_promotion_claimed":False}
 def main():
     p=argparse.ArgumentParser();p.add_argument("--report",default="reports/fa3-dev-update-gate-report.json");a=p.parse_args();r=check();out=ROOT/a.report;out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(r,indent=2)+"\n",encoding="utf-8");print(json.dumps(r,indent=2));return 0 if r["status"]=="PASS" else 2
 if __name__=="__main__":raise SystemExit(main())

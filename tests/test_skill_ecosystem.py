@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -54,7 +55,7 @@ Check the diff.
     def test_canonical_gate(self):
         report = evaluate(ROOT)
         self.assertEqual("PASS", report["result"])
-        self.assertEqual(143, report["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, report["capability_count"])
         self.assertEqual(0, report["new_architectural_authorities"])
         self.assertFalse(report["current_host_runtime_claim"])
 

@@ -170,7 +170,7 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Plan fail-closed FA3 429-obligation current-host closure batches")
+    parser = argparse.ArgumentParser(description="Plan fail-closed FA3 current-host closure batches from the canonical evidence registry")
     parser.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
     parser.add_argument("--output", default="reports/current-host-closure-batch-plan.json")

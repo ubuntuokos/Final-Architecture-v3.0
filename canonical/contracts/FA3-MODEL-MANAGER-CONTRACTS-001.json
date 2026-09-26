@@ -6,7 +6,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "LogicalModelRecord",
     "ModelArtifactDescriptor",
@@ -76,8 +76,8 @@
   ],
   "invariants": [
     "MODEL_MANAGER_NOT_ARCHITECTURAL_AUTHORITY",
-    "STABILITY_MATRIX_REMAINS_PREFERRED_PHYSICAL_STORE_FOR_NATIVE_MEDIA_MODEL_CLASSES",
-    "MODEL_MANAGER_DOES_NOT_REPLACE_STABILITY_MATRIX_MODEL_MANAGEMENT",
+    "CANONICAL_ARTIFACT_STORE_IS_POLICY_BOUND_AND_PROVIDER_NEUTRAL",
+    "MODEL_MANAGER_DOES_NOT_REQUIRE_EXTERNAL_MODEL_STORE_MANAGER",
     "LOGICAL_MODEL_IDENTITY_SEPARATE_FROM_PHYSICAL_STORAGE_PATH",
     "PROVIDER_METADATA_ATTRIBUTED_NOT_CANONICAL_WITHOUT_VALIDATION",
     "ARTIFACT_CONTENT_IDENTITY_HASH_REQUIRED",
@@ -131,14 +131,15 @@
     "inventory_discovery_pass": "DOES_NOT_IMPLY_CANONICAL_MODEL_ADMISSION_OR_RUNTIME_COMPATIBILITY"
   },
   "current_host_inventory_contract": {
-    "stability_matrix": "REAL_LIBRARY_MODELS_TREE_ENUMERATION_PLUS_REPRESENTATIVE_FULL_SHA256",
     "hugging_face": "LOCAL_IMMUTABLE_SNAPSHOT_DISCOVERY",
     "lm_studio": "READ_ONLY_LOCAL_CATALOG_DISCOVERY",
     "ollama": "READ_ONLY_NATIVE_MANIFEST_DISCOVERY",
-    "minimum_available_nonempty_providers": 2,
+    "minimum_available_nonempty_providers": 1,
     "network_access": "FORBIDDEN",
     "model_store_mutation": "FORBIDDEN",
     "physical_dedup": "FORBIDDEN",
-    "canonical_admission": "FORBIDDEN"
-  }
+    "canonical_admission": "FORBIDDEN",
+    "canonical_artifact_store": "REAL_CANONICAL_STORE_TREE_ENUMERATION_PLUS_REPRESENTATIVE_FULL_SHA256"
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

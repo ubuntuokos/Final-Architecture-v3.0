@@ -6,7 +6,7 @@
   "requirement": "MUST",
   "profile_id": "FA3-CPU-NUMA-THREADING-001",
   "parent_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
   "contracts": [
@@ -100,5 +100,7 @@
       "partial_core_allocation": "SOME_BUT_NOT_ALL_ONLINE_SIBLING_THREADS_VISIBLE",
       "smt_above_physical_budget": "EXPLICIT_BENCHMARK_ADMISSION_REQUIRED"
     }
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

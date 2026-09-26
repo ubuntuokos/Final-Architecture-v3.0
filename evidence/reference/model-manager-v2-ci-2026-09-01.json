@@ -17,8 +17,8 @@
   "current_host_runtime_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
-  "note": "CI proved the canonical/reference Model Manager v2 gate and fail-closed promotion safety on source_commit. This PASS does not constitute current-host production runtime evidence for Hugging Face, LM Studio or Ollama.",
+  "capability_count_after": 175,
+  "note": "CI proves provider-neutral Model Manager v2 invariants for Hugging Face, LM Studio and Ollama projections. It does not constitute current-host runtime promotion.",
   "source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39",
   "ci": {
     "permanent_canonical_promotion_gate": {
@@ -36,5 +36,6 @@
       "regression_conclusion": "success",
       "real_execution": "skipped_by_design_not_a_current_host_runtime_promotion"
     }
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

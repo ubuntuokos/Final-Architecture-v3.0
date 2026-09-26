@@ -96,15 +96,21 @@ def preflight(root: Path) -> dict[str, Any]:
     root = root.resolve()
 
     if os.geteuid() == 0:
-        findings.append("FULL-429 execution must be rootless")
+        findings.append("full current-host closure execution must be rootless")
 
     plan = build_plan(root, batch_size=5)
-    if plan.get("materialized_obligation_count") != 429:
-        findings.append("current-host materialization is not 429/429")
+    if plan.get("materialized_obligation_count") != plan.get("required_test_obligation_count"):
+        findings.append(
+            f"current-host materialization incomplete: {plan.get('materialized_obligation_count')}/"
+            f"{plan.get('required_test_obligation_count')} obligations materialized"
+        )
     if plan.get("pending_obligation_count") != 0:
         findings.append("pending current-host materialization remains")
-    if plan.get("fully_materialized_capability_count") != 143:
-        findings.append("not all 143 capabilities are execution-ready")
+    if plan.get("fully_materialized_capability_count") != plan.get("capability_count"):
+        findings.append(
+            f"not all active capabilities are execution-ready: "
+            f"{plan.get('fully_materialized_capability_count')}/{plan.get('capability_count')}"
+        )
     if plan.get("next_materialization_batch") is not None:
         findings.append("materialization batch still pending")
 
@@ -192,7 +198,7 @@ def preflight(root: Path) -> dict[str, Any]:
     return {
         "schema": "fa3.full-current-host-preflight.v1",
         "result": "PASS" if not findings else "BLOCKED",
-        "status": "READY_FOR_FULL_429_EXECUTION" if not findings else "BLOCKED_PRE_EXECUTION",
+        "status": "READY_FOR_FULL_ACTIVE_RELEASE_EXECUTION" if not findings else "BLOCKED_PRE_EXECUTION",
         "execution_scope": "CURRENT_HOST",
         "synthetic": False,
         "global_promotion_claim": False,
@@ -216,7 +222,7 @@ def preflight(root: Path) -> dict[str, Any]:
         "truth_constraints": {
             "preflight_pass_is_runtime_closure": False,
             "preflight_pass_is_global_promotion": False,
-            "real_429_execution_still_required": True,
+            "real_active_release_execution_still_required": True,
             "external_side_effects_default": "DENY",
         },
     }

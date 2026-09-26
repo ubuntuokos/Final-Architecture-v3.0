@@ -1,10 +1,10 @@
 {
   "schema": "fa3.evidence.registry.v1",
-  "architecture_release": "2026-08-23/v3.0.11",
-  "generated_at": "2026-08-27T19:14:00+02:00",
+  "architecture_release": "2026-09-26/v3.1.0",
+  "generated_at": "2026-09-26",
   "source": "FINAL_ARCHITECTURE_v3.0.11_CONFORMANCE_MATRIX.xlsx / conformance-matrix.csv",
-  "canonical_capability_count": 143,
-  "record_count": 143,
+  "canonical_capability_count": 175,
+  "record_count": 175,
   "status": "PENDING_CURRENT_HOST",
   "records": [
     {
@@ -265,11 +265,11 @@
         "FA3-MOZ-PROV-001",
         "FA3-DEC-AI-INFRA-GUARD-2026-08-30",
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
-        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
+        "FA3-DEC-MODEL-MANAGER-NATIVE-STORAGE-2026-09-26",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
+        "FA3-DEC-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-2026-09-26"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -278,20 +278,11 @@
         "evidence/reference/model-manager-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
-        "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json"
+        "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json",
+        "evidence/reference/local-generative-media-lifecycle-ci-2026-09-26.json"
       ],
       "expires_at": null,
       "blocking": true,
-      "stability_matrix_lifecycle_projection_status": {
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
-        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
-        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
-        "reference_gate_status": "PASS",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
-        "current_host_production_claim": false
-      },
       "inference_portability_projection_status": {
         "profile_id": "FA3-INFERENCE-PORTABILITY-001",
         "provider_ids": [
@@ -308,13 +299,12 @@
       },
       "model_manager_projection_status": {
         "profile_id": "FA3-MODEL-MANAGER-001",
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
         "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
         "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
-        "provider_usage_state": "USER_CONFIRMED_IN_USE",
-        "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+        "runtime_activation_status": "CANONICAL_STORE_POLICY_MATERIALIZED_RUNTIME_EVIDENCE_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS",
+        "canonical_store_id": "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE"
       },
       "ffmpeg_ai_projection_status": {
         "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
@@ -375,6 +365,14 @@
         "current_host_obligation_delta": 0,
         "provider_runtime_admission": "SEPARATE_SCOPE_BOUND_DYNAMIC_EVIDENCE",
         "global_promotion_claim": false
+      },
+      "local_generative_media_lifecycle_projection_status": {
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+        "implementation": "FA3_NATIVE_PROVIDER_NEUTRAL",
+        "external_provider_required": false,
+        "reference_gate_status": "PASS",
+        "current_host_runtime_evidence": "NOT_CLAIMED"
       }
     },
     {
@@ -991,12 +989,12 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
+        "FA3-DEC-MODEL-MANAGER-NATIVE-STORAGE-2026-09-26",
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
-        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
+        "FA3-DEC-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-2026-09-26"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -1004,28 +1002,18 @@
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+        "evidence/reference/local-generative-media-lifecycle-ci-2026-09-26.json"
       ],
       "expires_at": null,
       "blocking": true,
-      "stability_matrix_lifecycle_projection_status": {
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
-        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
-        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
-        "reference_gate_status": "PASS",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
-        "current_host_production_claim": false
-      },
       "model_manager_projection_status": {
         "profile_id": "FA3-MODEL-MANAGER-001",
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
         "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
         "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
-        "provider_usage_state": "USER_CONFIRMED_IN_USE",
-        "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+        "runtime_activation_status": "CANONICAL_STORE_POLICY_MATERIALIZED_RUNTIME_EVIDENCE_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS",
+        "canonical_store_id": "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE"
       },
       "hybrid_editorial_projection_status": {
         "profile_id": "FA3-HYBRID-EDITORIAL-001",
@@ -1077,6 +1065,14 @@
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "production_provider_admission": false,
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "local_generative_media_lifecycle_projection_status": {
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+        "implementation": "FA3_NATIVE_PROVIDER_NEUTRAL",
+        "external_provider_required": false,
+        "reference_gate_status": "PASS",
+        "current_host_runtime_evidence": "NOT_CLAIMED"
       }
     },
     {
@@ -2861,24 +2857,23 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05"
+        "FA3-DEC-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-2026-09-26"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/lynxhub-ci-2026-09-05.json"
+        "evidence/reference/creative-operations-dashboard-ci-2026-09-26.json"
       ],
-      "lynxhub_creative_operations_dashboard_projection_status": {
-        "provider_id": "FA3-PROVIDER-LYNXHUB-001",
+      "expires_at": null,
+      "blocking": true,
+      "creative_operations_dashboard_projection_status": {
         "profile_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
         "contract_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
-        "runtime_activation_status": "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING",
-        "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
-        "current_host_runtime_evidence": "NOT_CLAIMED",
-        "current_host_runtime_promotion_claim": false,
-        "provider_runtime_required_for_global_promotion_when_disabled": false
-      },
-      "expires_at": null,
-      "blocking": true
+        "gate_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
+        "implementation": "FA3_NATIVE",
+        "external_provider_required": false,
+        "reference_gate_status": "PASS",
+        "current_host_runtime_evidence": "NOT_CLAIMED"
+      }
     },
     {
       "evidence_id": "EVID-CAP-058-CURRENT-HOST",
@@ -5459,34 +5454,32 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
-        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
+        "FA3-DEC-MODEL-MANAGER-NATIVE-STORAGE-2026-09-26",
+        "FA3-DEC-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-2026-09-26"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/model-manager-ci-2026-08-31.json",
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+        "evidence/reference/local-generative-media-lifecycle-ci-2026-09-26.json"
       ],
       "expires_at": null,
       "blocking": true,
-      "stability_matrix_lifecycle_projection_status": {
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
-        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
-        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
-        "reference_gate_status": "PASS",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
-        "current_host_production_claim": false
-      },
       "model_manager_projection_status": {
         "profile_id": "FA3-MODEL-MANAGER-001",
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
         "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
         "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
-        "provider_usage_state": "USER_CONFIRMED_IN_USE",
-        "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+        "runtime_activation_status": "CANONICAL_STORE_POLICY_MATERIALIZED_RUNTIME_EVIDENCE_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS",
+        "canonical_store_id": "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE"
+      },
+      "local_generative_media_lifecycle_projection_status": {
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+        "implementation": "FA3_NATIVE_PROVIDER_NEUTRAL",
+        "external_provider_required": false,
+        "reference_gate_status": "PASS",
+        "current_host_runtime_evidence": "NOT_CLAIMED"
       }
     },
     {
@@ -6243,22 +6236,21 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
+        "FA3-DEC-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-2026-09-26"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+        "evidence/reference/local-generative-media-lifecycle-ci-2026-09-26.json"
       ],
       "expires_at": null,
       "blocking": true,
-      "stability_matrix_lifecycle_projection_status": {
-        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+      "local_generative_media_lifecycle_projection_status": {
         "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
-        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "gate_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+        "implementation": "FA3_NATIVE_PROVIDER_NEUTRAL",
+        "external_provider_required": false,
         "reference_gate_status": "PASS",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
-        "current_host_production_claim": false
+        "current_host_runtime_evidence": "NOT_CLAIMED"
       }
     },
     {
@@ -6785,6 +6777,1409 @@
         "provider_runtime_admission": "SEPARATE_SCOPE_BOUND_DYNAMIC_EVIDENCE",
         "global_promotion_claim": false
       }
+    },
+    {
+      "evidence_id": "EVID-CAP-144-CURRENT-HOST",
+      "subject_id": "CAP-144",
+      "subject": "Agent Workload Isolation & Execution",
+      "obligation": "MANDATORY",
+      "activation": "ALWAYS_ON + JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-144-POS",
+      "required_negative_test": "AT-CAP-144-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-144",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-POLICY",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-144",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-145-CURRENT-HOST",
+      "subject_id": "CAP-145",
+      "subject": "Decision Fabric & Policy-Governed Choice Lifecycle",
+      "obligation": "MANDATORY",
+      "activation": "JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-145-POS",
+      "required_negative_test": "AT-CAP-145-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-145",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-145",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-146-CURRENT-HOST",
+      "subject_id": "CAP-146",
+      "subject": "Application Intent & Reuse Assessment",
+      "obligation": "MANDATORY",
+      "activation": "GATE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-146-POS",
+      "required_negative_test": "AT-CAP-146-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-146",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-146",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-147-CURRENT-HOST",
+      "subject_id": "CAP-147",
+      "subject": "Capability Reuse Discovery & Admission",
+      "obligation": "MANDATORY",
+      "activation": "GATE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-147-POS",
+      "required_negative_test": "AT-CAP-147-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-147",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-147",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-148-CURRENT-HOST",
+      "subject_id": "CAP-148",
+      "subject": "Provider Admission & Runtime Discovery",
+      "obligation": "MANDATORY",
+      "activation": "ALWAYS_ON module/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-148-POS",
+      "required_negative_test": "AT-CAP-148-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-148",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-POLICY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-148",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-149-CURRENT-HOST",
+      "subject_id": "CAP-149",
+      "subject": "Model Provider Execution Admission",
+      "obligation": "MANDATORY",
+      "activation": "JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-149-POS",
+      "required_negative_test": "AT-CAP-149-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-149",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-MEMORY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-149",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-150-CURRENT-HOST",
+      "subject_id": "CAP-150",
+      "subject": "Cross-Instance Model Synchronization & Artifact Exchange",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-150-POS",
+      "required_negative_test": "AT-CAP-150-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-150",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-DURABLE",
+        "AUTH-POLICY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-150",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-151-CURRENT-HOST",
+      "subject_id": "CAP-151",
+      "subject": "AI Asset Acquisition & Download Logistics",
+      "obligation": "MANDATORY",
+      "activation": "JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-151-POS",
+      "required_negative_test": "AT-CAP-151-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-151",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-POLICY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-151",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-152-CURRENT-HOST",
+      "subject_id": "CAP-152",
+      "subject": "Workspace & Artifact Exchange / Handoff",
+      "obligation": "MANDATORY",
+      "activation": "JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-152-POS",
+      "required_negative_test": "AT-CAP-152-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-152",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-POLICY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-152",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-153-CURRENT-HOST",
+      "subject_id": "CAP-153",
+      "subject": "Embedding & Vectorization Service Fabric",
+      "obligation": "MANDATORY",
+      "activation": "ALWAYS_ON module/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-153-POS",
+      "required_negative_test": "AT-CAP-153-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-153",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-MEMORY",
+        "AUTH-RESOURCE"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-153",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-154-CURRENT-HOST",
+      "subject_id": "CAP-154",
+      "subject": "Research Artifact Lifecycle & Reproducibility",
+      "obligation": "MANDATORY",
+      "activation": "JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-154-POS",
+      "required_negative_test": "AT-CAP-154-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-154",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS",
+        "AUTH-HUMAN"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-154",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-155-CURRENT-HOST",
+      "subject_id": "CAP-155",
+      "subject": "Knowledge Provenance & Citation Graph",
+      "obligation": "MANDATORY",
+      "activation": "ALWAYS_ON module/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-155-POS",
+      "required_negative_test": "AT-CAP-155-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-155",
+      "authority_owners": [
+        "AUTH-MEMORY",
+        "AUTH-REGISTRY",
+        "AUTH-DURABLE",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-155",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-156-CURRENT-HOST",
+      "subject_id": "CAP-156",
+      "subject": "Evidence Reasoning & Claim Verification",
+      "obligation": "MANDATORY",
+      "activation": "JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-156-POS",
+      "required_negative_test": "AT-CAP-156-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-156",
+      "authority_owners": [
+        "AUTH-OBS",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-156",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-157-CURRENT-HOST",
+      "subject_id": "CAP-157",
+      "subject": "Browser Skill Composition Runtime",
+      "obligation": "MANDATORY",
+      "activation": "JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-157-POS",
+      "required_negative_test": "AT-CAP-157-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-157",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-157",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-158-CURRENT-HOST",
+      "subject_id": "CAP-158",
+      "subject": "Web Task Planning, Recovery & Deterministic Replay",
+      "obligation": "MANDATORY",
+      "activation": "JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-158-POS",
+      "required_negative_test": "AT-CAP-158-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-158",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-DURABLE",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-158",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-159-CURRENT-HOST",
+      "subject_id": "CAP-159",
+      "subject": "Motion & Video Generation Engine",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-159-POS",
+      "required_negative_test": "AT-CAP-159-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-159",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE",
+        "AUTH-AI-ROUTING"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-159",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-160-CURRENT-HOST",
+      "subject_id": "CAP-160",
+      "subject": "Video Generation Provider & Model Interchange",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-160-POS",
+      "required_negative_test": "AT-CAP-160-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-160",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-HUMAN"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-160",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-161-CURRENT-HOST",
+      "subject_id": "CAP-161",
+      "subject": "Render Fabric & Job Dispatch",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-161-POS",
+      "required_negative_test": "AT-CAP-161-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-161",
+      "authority_owners": [
+        "AUTH-RESOURCE",
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-161",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-162-CURRENT-HOST",
+      "subject_id": "CAP-162",
+      "subject": "External Render Service Adapter Fabric",
+      "obligation": "MANDATORY",
+      "activation": "COND/PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-162-POS",
+      "required_negative_test": "AT-CAP-162-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-162",
+      "authority_owners": [
+        "AUTH-RESOURCE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-162",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-163-CURRENT-HOST",
+      "subject_id": "CAP-163",
+      "subject": "Neural Rendering & Reconstruction Enhancement",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-163-POS",
+      "required_negative_test": "AT-CAP-163-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-163",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-163",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-164-CURRENT-HOST",
+      "subject_id": "CAP-164",
+      "subject": "Character Motion Synthesis, Retargeting & Performance Transfer",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-164-POS",
+      "required_negative_test": "AT-CAP-164-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-164",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-164",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-165-CURRENT-HOST",
+      "subject_id": "CAP-165",
+      "subject": "VFX / Gaffer Automation",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-165-POS",
+      "required_negative_test": "AT-CAP-165-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-165",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-165",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-166-CURRENT-HOST",
+      "subject_id": "CAP-166",
+      "subject": "Scene / Shot / Camera / Rig Interchange",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-166-POS",
+      "required_negative_test": "AT-CAP-166-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-166",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-166",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-167-CURRENT-HOST",
+      "subject_id": "CAP-167",
+      "subject": "Vision Detection, Tracking & Segmentation Fabric",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-167-POS",
+      "required_negative_test": "AT-CAP-167-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-167",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-167",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-168-CURRENT-HOST",
+      "subject_id": "CAP-168",
+      "subject": "Caption, Subtitle & Narration Composition",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-168-POS",
+      "required_negative_test": "AT-CAP-168-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-168",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-AI-ROUTING"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-168",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-169-CURRENT-HOST",
+      "subject_id": "CAP-169",
+      "subject": "Credits / Stáblista Generation",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-169-POS",
+      "required_negative_test": "AT-CAP-169-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-169",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-169",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-170-CURRENT-HOST",
+      "subject_id": "CAP-170",
+      "subject": "Story / Screenplay Authoring & AI-Notes Provenance",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-170-POS",
+      "required_negative_test": "AT-CAP-170-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-170",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-MEMORY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-170",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-171-CURRENT-HOST",
+      "subject_id": "CAP-171",
+      "subject": "Creative Native-Project Preservation & Round-Trip Interchange",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-171-POS",
+      "required_negative_test": "AT-CAP-171-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-171",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-DURABLE"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-171",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-172-CURRENT-HOST",
+      "subject_id": "CAP-172",
+      "subject": "Media Review, Approval & Human Sign-Off",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/JOB/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-172-POS",
+      "required_negative_test": "AT-CAP-172-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-172",
+      "authority_owners": [
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-REGISTRY",
+        "AUTH-DURABLE"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-172",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-173-CURRENT-HOST",
+      "subject_id": "CAP-173",
+      "subject": "Live / Broadcast Production Control",
+      "obligation": "MANDATORY",
+      "activation": "PROFILE/SESSION",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-173-POS",
+      "required_negative_test": "AT-CAP-173-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-173",
+      "authority_owners": [
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-173",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-174-CURRENT-HOST",
+      "subject_id": "CAP-174",
+      "subject": "Logistics / Transfer / Queue Management",
+      "obligation": "MANDATORY",
+      "activation": "ALWAYS_ON module/JOB",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-174-POS",
+      "required_negative_test": "AT-CAP-174-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-174",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-174",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
+    },
+    {
+      "evidence_id": "EVID-CAP-175-CURRENT-HOST",
+      "subject_id": "CAP-175",
+      "subject": "Software Coexistence & Host Non-Interference",
+      "obligation": "MANDATORY",
+      "activation": "ALWAYS_ON/GATE",
+      "design_conformance": "DESIGN-CONFORMANT",
+      "runtime_conformance": "EVIDENCE-PENDING",
+      "status": "PENDING_CURRENT_HOST",
+      "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+      "required_positive_test": "AT-CAP-175-POS",
+      "required_negative_test": "AT-CAP-175-NEG",
+      "rollback_requirement": "ROLLBACK-CAP-175",
+      "authority_owners": [
+        "AUTH-HOST-LIFE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ],
+      "source_decision_ids": [
+        "DEC-CAP-175",
+        "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "FA3-CORE-001",
+        "FA3-CORE-002",
+        "FA3-CORE-003",
+        "FA3-CORE-004",
+        "FA3-CORE-006",
+        "FA3-CORE-007",
+        "FA3-CORE-008",
+        "FA3-REG-001",
+        "FA3-REG-002",
+        "FA3-REG-003"
+      ],
+      "source": "v3.1.0 capability-model expansion",
+      "evidence_artifacts": [],
+      "expires_at": null,
+      "blocking": true,
+      "capability_model_175_status": {
+        "migration_decision_id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "previous_143_closure_reused_as_runtime_proof": false,
+        "reference_or_design_status_does_not_promote_runtime": true
+      }
     }
   ],
   "openbmb_reconciliation": {
@@ -6816,7 +8211,7 @@
     "production_provider_admission": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 143
+    "capability_count_after": 175
   },
   "ffmpeg_ai_reconciliation": {
     "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
@@ -6912,7 +8307,7 @@
       "CAP-137",
       "CAP-143"
     ],
-    "capability_count_after": 143,
+    "capability_count_after": 175,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "current_host_runtime_promotion_claim": false,
@@ -6923,7 +8318,8 @@
     "contract_version": "1.2.0",
     "execution_backend_semantics": "BACKEND_NEUTRAL_CURRENTLY_MATERIALIZED_CUDA_PROVIDERS",
     "global_backend_floor": "NONE",
-    "current_host_evidence_scope": "NVIDIA_CUDA_PROVIDER_FAMILY_ONLY_UNTIL_GENERIC_PROVIDER_E2E_EXISTS"
+    "current_host_evidence_scope": "NVIDIA_CUDA_PROVIDER_FAMILY_ONLY_UNTIL_GENERIC_PROVIDER_E2E_EXISTS",
+    "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
   },
   "marketing_agent_native_reconciliation": {
     "profile_id": "FA3-MARKETING-001",

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
 from typing import Any
 
 from fa3_openfx_interop import (
@@ -37,6 +38,7 @@ PROVIDER_ID = "FA3-PROVIDER-NATRON-001"
 DECISION_ID = "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11"
 GATESET_ID = "FA3-OPENFX-INTEROPERABILITY-GATESET-001"
 EVIDENCE_PATH = "evidence/reference/openfx-interoperability-ci-2026-09-11.json"
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITY_IDS = ("CAP-071", "CAP-126")
 EXPECTED_RULE_COUNT = 30
 NATRON_COMMIT = "3763d805d7d277d10af10025ae41af677682b3e6"
@@ -123,7 +125,7 @@ def gate(root: Path) -> dict[str, Any]:
 
     checks = [
         ("OFX-001", profile.get("id") == PROFILE_ID and profile.get("canonical_root") is False and profile.get("relationship") == {"type": "SUBPROFILE-OF", "parent": "FA3-COMPOSITING-001"} and parent_profile.get("id") == "FA3-COMPOSITING-001", "OpenFX profile is not a non-root compositing subprofile"),
-        ("OFX-002", profile.get("capability_bindings") == list(CAPABILITY_IDS) and profile.get("baseline_effect") == {"new_capability": False, "new_architectural_authority": False, "capability_count_after": 143}, "capability or authority baseline changed"),
+        ("OFX-002", profile.get("capability_bindings") == list(CAPABILITY_IDS) and profile.get("baseline_effect") == {"new_capability": False, "new_architectural_authority": False, "capability_count_after": CAPABILITY_COUNT}, "capability or authority baseline changed"),
         ("OFX-003", profile.get("standard_identity", {}).get("current_reference_version") == REFERENCE_STANDARD_VERSION and profile.get("standard_identity", {}).get("release_tag") == "OFX_Release_1.5.1" and profile.get("standard_identity", {}).get("immutable_commit") == REFERENCE_STANDARD_COMMIT and profile.get("standard_identity", {}).get("license") == "BSD-3-Clause" and openfx_source.get("release") == REFERENCE_STANDARD_VERSION and openfx_source.get("tag") == "OFX_Release_1.5.1" and openfx_source.get("immutable_commit") == REFERENCE_STANDARD_COMMIT and openfx_source.get("license", {}).get("spdx") == "BSD-3-Clause" and openfx_source.get("license", {}).get("sha256") == OPENFX_LICENSE_SHA256, "OpenFX standard identity pin drift"),
         ("OFX-004", profile.get("standard_identity", {}).get("standard_is_architectural_authority") is False and profile.get("authority_bindings", {}).get("security_and_plugin_admission") == "FA3-AUTH-SECURITY-GOV-001", "standard or authority ownership drift"),
         ("OFX-005", profile.get("interoperability_policy", {}).get("host_and_plugin_capability_negotiation_required") is True and profile.get("interoperability_policy", {}).get("required_api_and_suites_declared_per_job") is True, "host/plugin negotiation is not mandatory"),

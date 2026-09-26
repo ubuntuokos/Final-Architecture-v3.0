@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_pytorch3d_provider import ALLOWED_OPERATIONS, SOURCE_REVISION, reference_policy_conformance
+from fa3_release_baseline import load_active_release_baseline
 
 PATHS = {
     "root_profile": "canonical/profiles/FA3-3D-GEOM-001.json",
@@ -45,6 +46,7 @@ def finding(code: str, message: str) -> dict[str, Any]:
 
 def gate(root: Path) -> dict[str, Any]:
     root = Path(root)
+    capability_count = load_active_release_baseline(root).capability_count
     missing = [path for path in PATHS.values() if not (root / path).is_file()]
     if missing:
         report = {
@@ -83,7 +85,7 @@ def gate(root: Path) -> dict[str, Any]:
     checks = [
         ("P3D-001", profile.get("id") == PROFILE_ID and profile.get("canonical_root") is False and profile.get("relationship") == {"type": "SUBPROFILE-OF", "parent": "FA3-3D-GEOM-001"}, "profile must be a non-root child of the sole geometry root"),
         ("P3D-002", PROFILE_ID in root_profile.get("children", []) and root_profile.get("authority_role") == "SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY", "geometry root/child closure failed"),
-        ("P3D-003", profile.get("capability_bindings") == [CAPABILITY_ID] and profile.get("capability_count") == 143 and profile.get("new_capability") is False and profile.get("new_architectural_authority") is False, "CAP-032/no-new-capability invariant failed"),
+        ("P3D-003", profile.get("capability_bindings") == [CAPABILITY_ID] and profile.get("capability_count") == capability_count and profile.get("new_capability") is False and profile.get("new_architectural_authority") is False, "CAP-032/no-new-capability invariant failed"),
         ("P3D-004", contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True and contract.get("parent_contract") == geometry_contract.get("id"), "provider-neutral geometry contract closure failed"),
         ("P3D-005", tuple(contract.get("job_manifest", {}).get("allowed_operations", [])) == ALLOWED_OPERATIONS and contract.get("job_manifest", {}).get("schema") == "fa3.differentiable-3d-job.v1", "typed capability surface drift"),
         ("P3D-006", contract.get("source_build_receipt", {}).get("isolated_pip_venv_required") is True and contract.get("source_build_receipt", {}).get("conda_baseline_allowed") is False and contract.get("source_build_receipt", {}).get("floating_git_install") is False, "source-build receipt policy drift"),
@@ -109,10 +111,10 @@ def gate(root: Path) -> dict[str, Any]:
         ("P3D-026", policy.get("result") == "PASS" and policy.get("case_count") == 21 and policy.get("current_host_runtime_promotion") is False, "executable policy regressions failed"),
         ("P3D-027", evidence.get("status") == "PASS" and evidence.get("rules_checked") == EXPECTED_RULE_COUNT and evidence.get("current_host_runtime_evidence") is False and evidence.get("production_promotion") is False, "reference evidence scope drift"),
         ("P3D-028", release.get("provider_id") == PROVIDER_ID and release.get("profile_id") == PROFILE_ID and release.get("capability_bindings") == [CAPABILITY_ID] and release.get("current_host_runtime_status") == "PENDING_CURRENT_HOST" and release.get("production_promotion_claimed") is False, "provider release projection drift"),
-        ("P3D-029", registry.get("canonical_capability_count") == registry.get("record_count") == 143 and DECISION_ID in cap032.get("source_decision_ids", []) and REFERENCE_EVIDENCE in cap032.get("evidence_artifacts", []) and projection.get("provider_id") == PROVIDER_ID and cap032.get("runtime_conformance") == "EVIDENCE-PENDING", "CAP-032 Evidence Registry binding missing"),
+        ("P3D-029", registry.get("canonical_capability_count") == registry.get("record_count") == capability_count and DECISION_ID in cap032.get("source_decision_ids", []) and REFERENCE_EVIDENCE in cap032.get("evidence_artifacts", []) and projection.get("provider_id") == PROVIDER_ID and cap032.get("runtime_conformance") == "EVIDENCE-PENDING", "CAP-032 Evidence Registry binding missing"),
         ("P3D-030", GATESET_ID in global_policy.get("mandatory_reference_gates", []) and global_policy.get("pytorch3d_provider_id") == PROVIDER_ID and global_policy.get("pytorch3d_mandatory_p0_rules") == enforcement.get("p0_invariants"), "global enforcement policy binding missing"),
-        ("P3D-031", global_reconciliation.get("provider_id") == PROVIDER_ID and global_reconciliation.get("reconciliation_status") == "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PENDING" and global_reconciliation.get("runtime_activation_status") == "NOT_PRODUCTION_PROMOTED" and global_reconciliation.get("capability_count_after") == 143 and PATHS["provider"] in inventory.get("provider_records", []) and PATHS["provider"] in manifest_paths and PATHS["evidence"] in manifest_paths, "global release/inventory/evidence reconciliation missing"),
-        ("P3D-032", root_profile.get("id") == "FA3-3D-GEOM-001" and root_profile.get("canonical_root") is True and root_profile.get("capability_count") == 143 and geometry_contract.get("status") == "CANONICAL", "sole geometry root invariant changed"),
+        ("P3D-031", global_reconciliation.get("provider_id") == PROVIDER_ID and global_reconciliation.get("reconciliation_status") == "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PENDING" and global_reconciliation.get("runtime_activation_status") == "NOT_PRODUCTION_PROMOTED" and global_reconciliation.get("capability_count_after") == capability_count and PATHS["provider"] in inventory.get("provider_records", []) and PATHS["provider"] in manifest_paths and PATHS["evidence"] in manifest_paths, "global release/inventory/evidence reconciliation missing"),
+        ("P3D-032", root_profile.get("id") == "FA3-3D-GEOM-001" and root_profile.get("canonical_root") is True and root_profile.get("capability_count") == capability_count and geometry_contract.get("status") == "CANONICAL", "sole geometry root invariant changed"),
     ]
 
     findings = [finding(code, message) for code, ok, message in checks if not ok]

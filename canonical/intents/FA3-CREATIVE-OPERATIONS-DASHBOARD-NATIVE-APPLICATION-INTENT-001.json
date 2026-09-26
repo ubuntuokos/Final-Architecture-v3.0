@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-APPLICATION-INTENT-001",
+  "project_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "project_type": "PROFILE",
+  "goal": "Preserve the approved local launcher, typed action dispatch, loopback-only URL launch, user-service/application launch, read-only platform status and auditable execution as an FA3-native provider-neutral Creative Operations Dashboard with no external dashboard dependency.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "creative-operations",
+    "approved-local-launch",
+    "typed-action-dispatch",
+    "loopback-ui-launch",
+    "read-only-status",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "TYPED_ACTION_REQUEST",
+    "CANONICAL_STATUS"
+  ],
+  "output_modalities": [
+    "AUDITABLE_ACTION_RECEIPT",
+    "READ_ONLY_STATUS_PRESENTATION"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FREE_FORM_SHELL_FORBIDDEN",
+    "PRIVILEGED_ACTIONS_FORBIDDEN",
+    "LOOPBACK_URLS_ONLY",
+    "FIXED_TYPED_ACTIONS_ONLY"
+  ],
+  "task_classes": [
+    "creative",
+    "desktop",
+    "operations"
+  ],
+  "skill_triggers": []
+}

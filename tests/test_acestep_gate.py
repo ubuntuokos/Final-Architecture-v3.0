@@ -3,6 +3,8 @@ import unittest
 from pathlib import Path
 import sys
 
+from fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -43,7 +45,7 @@ class AceStepGateTests(unittest.TestCase):
         self.assertFalse(provider["device_selection_authority"])
         self.assertFalse(provider["model_routing_authority"])
         self.assertFalse(provider["orchestration_authority"])
-        self.assertEqual(provider["capability_count"], 143)
+        self.assertEqual(provider["capability_count"], module_active_capability_count(__file__))
 
     def test_text2music_cover_state_leak_is_rejected(self):
         self.assertTrue(text2music_state_hygiene_valid("text2music", 1.0, 0.0))
@@ -110,7 +112,7 @@ class AceStepGateTests(unittest.TestCase):
         self.assertEqual(decision["status"], "CANONICAL_CLOSED")
         self.assertEqual(decision["new_capabilities"], 0)
         self.assertEqual(decision["new_architectural_authorities"], 0)
-        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertEqual(decision["capability_count_after"], module_active_capability_count(__file__))
 
     def test_regression_suite_passes(self):
         report = run_regressions()

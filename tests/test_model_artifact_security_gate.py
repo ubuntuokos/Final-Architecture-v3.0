@@ -15,7 +15,7 @@ class ModelArtifactSecurityGateTests(unittest.TestCase):
         self.assertEqual("PASS",r["result"],r)
         self.assertEqual(g.GATE_ID,r["gate_id"])
         self.assertEqual(len(g.RULES),r["regression_cases"])
-        self.assertEqual(143,r["capability_count"])
+        self.assertEqual(175,r["capability_count"])
         self.assertFalse(r["current_host_runtime_promotion_claim"])
 
     def test_exact_regression_corpus_passes(self):

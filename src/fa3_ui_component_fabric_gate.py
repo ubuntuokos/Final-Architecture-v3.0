@@ -3,8 +3,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+try:
+    from fa3_release_baseline import module_active_capability_count
+except ModuleNotFoundError:
+    from .fa3_release_baseline import module_active_capability_count
 
 ROOT = Path(__file__).resolve().parents[1]
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 REQUIRED = {
     "desktop_profile": ROOT / "canonical/profiles/FA3-DESKTOP-001.json",
@@ -48,7 +53,7 @@ def validate() -> list[str]:
         (profile.get("provider_neutral") is True, "profile-provider-neutral"),
         (profile.get("new_capability") is False, "profile-no-new-capability"),
         (profile.get("new_architectural_authority") is False, "profile-no-new-authority"),
-        (profile.get("capability_count") == 143, "profile-capability-count"),
+        (profile.get("capability_count") == CAPABILITY_COUNT, "profile-capability-count"),
         (contract.get("profile") == profile.get("id"), "contract-profile-link"),
         (contract.get("provider_neutral") is True, "contract-provider-neutral"),
         (contract.get("promotion", {}).get("fail_closed") is True, "contract-fail-closed"),
@@ -63,7 +68,7 @@ def validate() -> list[str]:
         (gate.get("fail_closed") is True, "gate-fail-closed"),
         (gate.get("rule_count") == 18, "gate-rule-count"),
         (acceptance.get("fail_closed") is True, "acceptance-fail-closed"),
-        (decision.get("capability_count_before") == decision.get("capability_count_after") == 143, "decision-capability-count"),
+        (decision.get("capability_count_before") == decision.get("capability_count_after") and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT, "decision-capability-count"),
         (decision.get("new_architectural_authority") == 0, "decision-no-new-authority"),
         (evidence.get("status") == "PASS", "reference-evidence-pass"),
         (evidence.get("current_host_runtime_claim") is False, "reference-evidence-no-current-host-claim"),
@@ -121,7 +126,7 @@ def main() -> int:
             print(f" - {failure}")
         return 1
     print("FA3 UI Component Fabric gate: PASS")
-    print("profile=FA3-UI-COMPONENT-FABRIC-001 reference=FA3-REFERENCE-UIVERSE-GALAXY-001 capabilities=143 new_authorities=0")
+    print(f"profile=FA3-UI-COMPONENT-FABRIC-001 reference=FA3-REFERENCE-UIVERSE-GALAXY-001 capabilities={CAPABILITY_COUNT} new_authorities=0")
     return 0
 
 

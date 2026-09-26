@@ -108,7 +108,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
 
     check("VOICE-001", profile.get("id") == PROFILE_ID and contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True, "profile/contract identity and provider-neutral boundary")
     check("VOICE-002", all(p.get("architectural_authority") is False and p.get("canonical_root") is False for p in providers.values()), "providers are not authorities or roots")
-    check("VOICE-003", profile.get("capability_count") == CAPS and decision.get("capability_count_after") == CAPS and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "143-capability and zero-authority invariant")
+    check("VOICE-003", profile.get("capability_count") == CAPS and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPS and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "active release capability baseline and zero-authority invariant")
     pins = reference.get("immutable_snapshots", {})
     check("VOICE-004", pins.get("voxcpm_runtime", {}).get("commit") == "f5a1c6a6b901bc732e20f0d59a369f6829ad717a" and pins.get("xtts_v2_model", {}).get("revision") == "6c2b0d75eae4b7047358e3b6bd9325f857d43f77" and reference.get("floating_main_allowed_for_promotion_evidence") is False, "immutable upstream/model pins")
     check("VOICE-005", admission.get("policy") == "ALLOWLIST_AND_CAPABILITY_EVIDENCE_ONLY_FAIL_CLOSED" and admission.get("arbitrary_local_checkpoint_paths_allowed") is False, "allowlist-only model admission")

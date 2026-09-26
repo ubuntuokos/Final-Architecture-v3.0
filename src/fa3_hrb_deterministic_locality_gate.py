@@ -50,7 +50,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     explicitly_not_baseline = " ".join(decision.get("explicitly_not_baseline", [])).lower()
 
     checks = [
-        check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") == decision.get("capability_count_after"), "capability count remains 143"),
+        check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT, "active profile/contract count follows the release baseline; historical decision does not exceed it"),
         check("no-new-authority", profile.get("new_architectural_authority") is False and decision.get("new_architectural_authority") is False, "no parallel authority introduced"),
         check("hrb-authority-preserved", profile.get("existing_authority_id") == "FA3-AUTH-HOST-RESOURCE-BROKER-001", "HRB remains placement authority"),
         check("contract-linked", "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001" in profile.get("contracts", []), "profile links deterministic locality contracts"),

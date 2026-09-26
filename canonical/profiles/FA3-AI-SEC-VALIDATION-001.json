@@ -10,7 +10,7 @@
   "profile_type": "CROSS_CUTTING_AI_SECURITY_ASSURANCE_OVERLAY",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "parent_profile": "FA3-SCS-001",
   "authority": {
     "security_policy": "FA3-AUTH-SECURITY-GOV-001",
@@ -22,7 +22,12 @@
     "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
     "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY"
   },
-  "capabilities": ["CAP-003", "CAP-005", "CAP-007", "CAP-011"],
+  "capabilities": [
+    "CAP-003",
+    "CAP-005",
+    "CAP-007",
+    "CAP-011"
+  ],
   "contracts": [
     "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
     "FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001"
@@ -76,5 +81,7 @@
     "GUARDRAIL_RUNTIME_READINESS_AND_FAIL_MODE_EVIDENCE",
     "GUARDRAIL_WORKER_MEMORY_PRESSURE_AND_SHUTDOWN_EVIDENCE"
   ],
-  "implementation_status": "CANONICAL_BASELINE_PLUS_REQUEST_TIME_GUARDRAIL_RUNTIME_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_PLUS_REQUEST_TIME_GUARDRAIL_RUNTIME_MATERIALIZED",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

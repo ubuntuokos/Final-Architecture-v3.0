@@ -6,7 +6,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "graph_semantics": {
     "service_source_must_exist": true,
     "every_service_requires_dependency_evidence": true,
@@ -16,12 +16,6 @@
     "dependency_evidence_must_be_present_in_source": true
   },
   "services": [
-    {
-      "id": "svc:lynxhub",
-      "kind": "SYSTEMD_USER",
-      "source_path": "deployment/lynxhub/systemd/user/lynxhub.service",
-      "activation": "ON_DEMAND"
-    },
     {
       "id": "svc:mcp-gateway-user",
       "kind": "SYSTEMD_USER_TEMPLATE",
@@ -102,18 +96,6 @@
   ],
   "edges": [
     {
-      "source": "svc:lynxhub",
-      "target": "res:graphical-session.target",
-      "relation": "AFTER",
-      "evidence_token": "After=graphical-session.target ai-creative-ops.target"
-    },
-    {
-      "source": "svc:lynxhub",
-      "target": "res:ai-creative-ops.target",
-      "relation": "AFTER",
-      "evidence_token": "After=graphical-session.target ai-creative-ops.target"
-    },
-    {
       "source": "svc:mcp-gateway-user",
       "target": "res:default.target",
       "relation": "AFTER",
@@ -187,5 +169,6 @@
     "SERVICE_CYCLE_FAILS_CLOSED",
     "CATALOG_IS_NOT_RUNTIME_OR_RESOURCE_AUTHORITY",
     "NO_NEW_CAPABILITY_OR_ARCHITECTURAL_AUTHORITY"
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

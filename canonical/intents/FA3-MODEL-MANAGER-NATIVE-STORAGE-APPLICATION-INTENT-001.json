@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-MODEL-MANAGER-NATIVE-STORAGE-APPLICATION-INTENT-001",
+  "project_id": "FA3-MODEL-MANAGER-001",
+  "project_type": "PROFILE",
+  "goal": "Make the canonical model and artifact store FA3-native and provider-neutral while preserving logical model identity, lineage, deduplication, inventory, physical projection and runtime-native stores without changing Model Router, HRB, security or evidence authorities.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "model-artifact-storage",
+    "model-identity",
+    "lineage",
+    "deduplication",
+    "inventory",
+    "runtime-native-store-projection",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "MODEL_METADATA",
+    "ARTIFACT_METADATA",
+    "CONTENT_DIGESTS",
+    "RUNTIME_STORE_PROJECTIONS"
+  ],
+  "output_modalities": [
+    "CANONICAL_MODEL_INVENTORY",
+    "PHYSICAL_STORE_PROJECTION",
+    "LINEAGE_RECORDS"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT",
+    "STORAGE_IO"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "CONTENT_IDENTITY_HASH_REQUIRED",
+    "MUTATING_STORAGE_ACTIONS_REQUIRE_EXPLICIT_AUTHORIZATION",
+    "PROVIDER_METADATA_NOT_CANONICAL_WITHOUT_VALIDATION"
+  ],
+  "task_classes": [
+    "models",
+    "storage",
+    "inference"
+  ],
+  "skill_triggers": []
+}

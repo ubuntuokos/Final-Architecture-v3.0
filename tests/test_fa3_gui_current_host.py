@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_gui_current_host import (  # noqa: E402
+    CAPABILITY_COUNT,
     gui_desktop_runtime_scoped_admission,
     qpa_for_session,
     runtime_surface_git_blobs,
@@ -126,7 +127,7 @@ def good_receipt() -> dict:
             "secret_backend_promoted_by_gui_receipt": False,
         },
         "checks": checks,
-        "capability_count": 143,
+        "capability_count": CAPABILITY_COUNT,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "gui_runtime_promotion_eligible": True,

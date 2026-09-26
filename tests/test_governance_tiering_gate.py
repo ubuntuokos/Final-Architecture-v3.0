@@ -36,7 +36,8 @@ class GovernanceTieringGateTests(unittest.TestCase):
         self.assertEqual(result["result"], "PASS", result)
         self.assertEqual(result["checks_passed"], 16)
         self.assertEqual(result["authority_delta"], 0)
-        self.assertEqual(result["capability_delta"], 0)
+        projection = json.loads((self.repo_root / PATHS["projection"]).read_text(encoding="utf-8"))
+        self.assertEqual(result["capability_delta"], projection["capability_delta"])
         self.assertEqual(result["canonical_capability_count"], load_active_release_baseline(self.repo_root).capability_count)
 
     def test_projection_cannot_gain_authority(self) -> None:

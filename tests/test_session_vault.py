@@ -1,10 +1,11 @@
 import json,unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 ROOT=Path(__file__).resolve().parents[1]
 class SessionVaultTests(unittest.TestCase):
  def test_profile_is_provider_neutral_and_no_new_authority(self):
   x=json.loads((ROOT/"canonical/profiles/FA3-SESSION-VAULT-001.json").read_text())
-  self.assertTrue(x["provider_neutral"]); self.assertFalse(x["new_capability"]); self.assertFalse(x["new_architectural_authority"]); self.assertEqual(143,x["capability_count"])
+  self.assertTrue(x["provider_neutral"]); self.assertFalse(x["new_capability"]); self.assertFalse(x["new_architectural_authority"]); self.assertEqual(load_active_release_baseline(ROOT).capability_count,x["capability_count"])
  def test_removable_media_is_optional(self):
   x=json.loads((ROOT/"canonical/session-vault-enforcement.json").read_text())
   self.assertIn("NO_MANDATORY_REMOVABLE_MEDIA",x["p0_invariants"])

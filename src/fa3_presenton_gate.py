@@ -270,7 +270,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         or decision.get("contract_id") != CONTRACT_ID
         or decision.get("new_capabilities") != 0
         or decision.get("new_architectural_authorities") != 0
-        or decision.get("capability_count_after") != CAPABILITY_COUNT
+        or not isinstance(decision.get("capability_count_after"), int) or decision.get("capability_count_after") > CAPABILITY_COUNT
     ):
         findings.append(_finding("PRESENTON-REF-004", "Decision invariant mismatch"))
     stable = reference.get("stable_reference", {})
@@ -309,7 +309,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         or evidence.get("current_host_production_e2e", {}).get("status") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
         or evidence.get("new_capabilities") != 0
         or evidence.get("new_architectural_authorities") != 0
-        or evidence.get("capability_count_after") != CAPABILITY_COUNT
+        or not isinstance(evidence.get("capability_count_after"), int) or evidence.get("capability_count_after") > CAPABILITY_COUNT
     ):
         findings.append(_finding("PRESENTON-REF-009", "Reference evidence scope or capability invariant mismatch"))
     if (

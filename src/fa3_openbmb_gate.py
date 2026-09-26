@@ -373,7 +373,7 @@ def run_regressions() -> dict[str, Any]:
     scopes = {"files", "memory", "skills", "credentials", "network_egress", "provenance", "resource_budget"}
     add(P0_RULES[0], "family is not authority", provider_not_authority(False, False), not provider_not_authority(False, True))
     add(P0_RULES[1], "providers are not authority", provider_not_authority(False, False), not provider_not_authority(True, False))
-    add(P0_RULES[2], "143 capabilities and zero authorities", CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(P0_RULES[2], "143 capabilities and zero authorities", CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(P0_RULES[3], "immutable commit pins", all(immutable_pin_valid(x) for x in PINS.values()), not immutable_pin_valid("main"))
     add(P0_RULES[4], "model artifacts require separate admission", model_admission_valid("REQUIRED_AT_ACTIVATION_NO_FLOATING", False, True, False), not model_admission_valid("main", False, False, True))
     add(P0_RULES[5], "no silent fallback", no_silent_fallback_valid("gpu", "gpu", False, False), not no_silent_fallback_valid("gpu", "cpu", False, False))

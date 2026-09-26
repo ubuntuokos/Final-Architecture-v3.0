@@ -5,7 +5,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "model_metadata_bridge": {
     "source_profile": "Stability-AI/ModelSpec@fe8dc608e557eff842eae7f78b8c90f38687d418",
     "required_import_fields": [
@@ -119,5 +119,6 @@
     ],
     "nvidia_nim_note": "Provider-local NIM compatibility follows its immutable upstream support matrix and live HRB admission; no current-host SKU inference.",
     "tensorrt_note": "TensorRT compatibility follows the immutable provider support matrix and live discovered accelerator capabilities; no legacy-host inference."
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -1,0 +1,89 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-OPENFX-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-STANDARD-OPENFX-001",
+  "intent_id": "FA3-OPENFX-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-OPENFX-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-STANDARD-OPENFX-001"
+  ],
+  "project_status": "CANONICAL_INTEROPERABILITY_PROFILE_CURRENT_HOST_OPENFX_E2E_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-COMPOSITING-001",
+      "use": "EXISTING_COMPOSITING_PARENT_PROFILE"
+    },
+    {
+      "id": "CAP-071",
+      "use": "EXISTING_CREATIVE_COMPOSITING_CAPABILITY"
+    },
+    {
+      "id": "CAP-126",
+      "use": "EXISTING_PLUGIN_INTEROPERABILITY_CAPABILITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_PLUGIN_ADMISSION_SECURITY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REG-ARTIFACT-MODEL-001",
+      "use": "EXISTING_ARTIFACT_IDENTITY_AUTHORITY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_OPENFX_AUTHORITY",
+      "reason": "EXISTING_SECURITY_RESOURCE_ARTIFACT_AND_EVIDENCE_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "NATRON_AS_MANDATORY_RUNTIME",
+      "reason": "REFERENCE_HOST_MUST_REMAIN_REPLACEABLE_AND_OPTIONAL"
+    },
+    {
+      "id": "PROVIDER_LOCAL_PROJECT_FORMAT_AS_CANONICAL_IR",
+      "reason": "FA3_PROVIDER_NEUTRAL_INTERCHANGE_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "security_and_plugin_admission": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_editorial": "AUTH-HUMAN"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_CANONICAL_INTEROPERABILITY_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

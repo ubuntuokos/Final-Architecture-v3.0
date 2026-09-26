@@ -1,6 +1,7 @@
 import json
 import unittest
 from pathlib import Path
+from src.fa3_release_baseline import load_active_release_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -17,7 +18,7 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertEqual(profile["requirement"], "MUST")
         self.assertFalse(profile["new_capability"])
         self.assertFalse(profile["new_architectural_authority"])
-        self.assertEqual(profile["capability_count"], 143)
+        self.assertEqual(profile["capability_count"], load_active_release_baseline(ROOT).capability_count)
 
     def test_contract_set_is_provider_neutral(self):
         contracts = load("canonical/contracts/FA3-VIDEO-CONTRACTS-001.json")
@@ -37,7 +38,7 @@ class VideoRegistryTests(unittest.TestCase):
             self.assertFalse(provider["canonical_root"])
             self.assertFalse(provider["architectural_authority"])
             self.assertFalse(provider["new_capability"])
-            self.assertEqual(provider["capability_count"], 143)
+            self.assertEqual(provider["capability_count"], load_active_release_baseline(ROOT).capability_count)
 
     def test_stability_sgm_is_specialized_multiview_reference_not_geometry(self):
         profile = load("canonical/profiles/FA3-VIDEO-001.json")
@@ -79,7 +80,7 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertFalse(decision["canonical_semantics_changed"])
         self.assertEqual(decision["new_capabilities"], 0)
         self.assertEqual(decision["new_architectural_authorities"], 0)
-        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertLessEqual(decision["capability_count_after"], load_active_release_baseline(ROOT).capability_count)
 
     def test_enforcement_declares_h3_promotion_evidence(self):
         gate = load("canonical/video-enforcement.json")
@@ -143,7 +144,7 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertFalse(decision["canonical_semantics_changed"])
         self.assertEqual(decision["new_capabilities"], 0)
         self.assertEqual(decision["new_architectural_authorities"], 0)
-        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertLessEqual(decision["capability_count_after"], load_active_release_baseline(ROOT).capability_count)
         self.assertEqual(
             decision["promotion_state"],
             "INTEGRATION_TARGETS_REGISTERED_NOT_CURRENT_HOST_PROMOTED",
@@ -226,7 +227,7 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertFalse(decision["canonical_semantics_changed"])
         self.assertEqual(decision["new_capabilities"], 0)
         self.assertEqual(decision["new_architectural_authorities"], 0)
-        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertLessEqual(decision["capability_count_after"], load_active_release_baseline(ROOT).capability_count)
         self.assertEqual(
             decision["promotion_state"],
             "PROVIDER_POLICY_CANONICAL_RUNTIME_NOT_PROMOTED",

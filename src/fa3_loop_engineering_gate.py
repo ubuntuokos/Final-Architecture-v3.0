@@ -90,9 +90,12 @@ def provider_not_authority(*, canonical_root: bool=False,
                            architectural_authority: bool=False) -> bool:
     return not canonical_root and not architectural_authority
 
-def count_invariant(*, capability_count: int=143, new_capabilities: int=0,
+def count_invariant(*, capability_count: int | None=None, new_capabilities: int=0,
                     new_authorities: int=0) -> bool:
-    return capability_count == 143 and new_capabilities == 0 and new_authorities == 0
+    active = module_active_capability_count(__file__)
+    if capability_count is None:
+        capability_count = active
+    return capability_count == active and new_capabilities == 0 and new_authorities == 0
 
 def immutable_pin_valid(commit: str) -> bool:
     return commit == PINNED_COMMIT and commit not in {"", "main", "master", "latest"}
@@ -124,7 +127,7 @@ def run_regressions() -> dict[str, Any]:
     add(P0_RULES[0], "provider never becomes authority",
         provider_not_authority(), not provider_not_authority(architectural_authority=True))
     add(P0_RULES[1], "143 capability and zero authority delta",
-        count_invariant(), not count_invariant(capability_count=144, new_capabilities=1))
+        count_invariant(), not count_invariant(capability_count=module_active_capability_count(__file__) + 1, new_capabilities=1))
     add(P0_RULES[2], "immutable upstream pin",
         immutable_pin_valid(PINNED_COMMIT), not immutable_pin_valid("main"))
     add(P0_RULES[3], "closed-loop non-root Agent Exec projection",

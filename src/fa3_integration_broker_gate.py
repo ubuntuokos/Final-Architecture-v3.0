@@ -111,7 +111,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("contract_family") == CONTRACT_ID
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
         and decision.get("capability_id") == "CAP-028"
     ):
         findings.append(_finding("IB-REF-003", "integration broker decision drift"))

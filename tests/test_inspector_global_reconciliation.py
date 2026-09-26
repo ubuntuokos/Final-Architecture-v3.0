@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import unittest
+
+from src.fa3_release_baseline import module_active_capability_count
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +60,7 @@ class InspectorGlobalReconciliationTests(unittest.TestCase):
         self.assertIs(inspector["provider_is_architectural_authority"], False)
         self.assertEqual(inspector["new_capabilities"], 0)
         self.assertEqual(inspector["new_architectural_authorities"], 0)
-        self.assertEqual(inspector["capability_count_after"], 143)
+        self.assertEqual(inspector["capability_count_after"], module_active_capability_count(__file__))
 
     def test_all_inspector_release_surface_files_are_manifested(self) -> None:
         release = load(RELEASE_PATH)

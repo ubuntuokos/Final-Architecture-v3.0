@@ -22,7 +22,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "hard_dependency": false,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT_SEPARATE_ACCEPTANCE_REQUIRED",
   "runtime_activation_status": "NOT_ADMITTED_PENDING_PLUGIN_SECURITY_AND_CURRENT_HOST_E2E",
@@ -75,5 +75,6 @@
     "IDENTITY_OR_SECRETS_AUTHORITY",
     "EVIDENCE_OR_REGISTRY_AUTHORITY"
   ],
-  "normative_constraint": "The Local REST API/MCP plugin SHALL remain disabled by default. If separately admitted, it SHALL be pinned, loopback-TLS-only, centrally mediated and operation-allowlisted; direct agent access, plaintext HTTP, insecure TLS, commands, plugin configuration, curated-note overwrite, delete, move, rename and private-vault access are forbidden."
+  "normative_constraint": "The Local REST API/MCP plugin SHALL remain disabled by default. If separately admitted, it SHALL be pinned, loopback-TLS-only, centrally mediated and operation-allowlisted; direct agent access, plaintext HTTP, insecure TLS, commands, plugin configuration, curated-note overwrite, delete, move, rename and private-vault access are forbidden.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

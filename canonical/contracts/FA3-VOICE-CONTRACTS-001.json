@@ -8,8 +8,26 @@
   "contracts": {
     "request": {
       "schema": "fa3.voice-synthesis-request.v2",
-      "required": ["request_id", "text", "language", "mode", "voice_identity_ref", "execution_mode", "output_intent"],
-      "mode_enum": ["plain", "preset_voice", "zero_shot", "cross_lingual", "voice_clone", "voice_design", "controllable_clone", "ultimate_clone", "instruct2"],
+      "required": [
+        "request_id",
+        "text",
+        "language",
+        "mode",
+        "voice_identity_ref",
+        "execution_mode",
+        "output_intent"
+      ],
+      "mode_enum": [
+        "plain",
+        "preset_voice",
+        "zero_shot",
+        "cross_lingual",
+        "voice_clone",
+        "voice_design",
+        "controllable_clone",
+        "ultimate_clone",
+        "instruct2"
+      ],
       "fields": {
         "request_id": "non-empty stable request identifier",
         "text": "UTF-8 provider input after canonical normalization",
@@ -30,7 +48,22 @@
     },
     "consent": {
       "schema": "fa3.voice-consent-proof.v2",
-      "required": ["status", "scope", "subject_authorized", "purpose", "provenance_ref", "issuer_ref", "jurisdiction", "legal_basis_ref", "signature_ref", "derived_asset_lineage_ref", "retention_policy_ref", "issued_at", "expires_at", "revocation_ref"],
+      "required": [
+        "status",
+        "scope",
+        "subject_authorized",
+        "purpose",
+        "provenance_ref",
+        "issuer_ref",
+        "jurisdiction",
+        "legal_basis_ref",
+        "signature_ref",
+        "derived_asset_lineage_ref",
+        "retention_policy_ref",
+        "issued_at",
+        "expires_at",
+        "revocation_ref"
+      ],
       "rules": [
         "status MUST equal GRANTED at admission and execution time",
         "scope MUST include VOICE_SYNTHESIS and VOICE_CLONING when applicable",
@@ -45,7 +78,13 @@
     },
     "reference": {
       "schema": "fa3.voice-reference-artifact.v2",
-      "required": ["voice_identity_ref", "audio_sha256", "consent_proof_ref", "provenance_ref", "retention_policy_ref"],
+      "required": [
+        "voice_identity_ref",
+        "audio_sha256",
+        "consent_proof_ref",
+        "provenance_ref",
+        "retention_policy_ref"
+      ],
       "rules": [
         "audio_sha256 MUST match bytes consumed by provider",
         "transcript digest MUST match bytes/text consumed when a transcript is used",
@@ -55,7 +94,16 @@
     },
     "provider_decision": {
       "schema": "fa3.voice-provider-decision-receipt.v1",
-      "required": ["request_id", "selected_provider_id", "selected_model_id", "language_status", "license_status", "resource_admission_ref", "fallback_chain", "decision_reason"],
+      "required": [
+        "request_id",
+        "selected_provider_id",
+        "selected_model_id",
+        "language_status",
+        "license_status",
+        "resource_admission_ref",
+        "fallback_chain",
+        "decision_reason"
+      ],
       "rules": [
         "no silent provider, model, device, cloud or language fallback",
         "hu-HU cloning MUST select an admitted Hungarian cloning provider",
@@ -65,7 +113,16 @@
     },
     "license_and_rights": {
       "schema": "fa3.voice-license-and-rights.v1",
-      "required": ["code_license", "runtime_license", "model_license", "voice_or_dataset_license", "output_usage_rights", "commercial_use_status", "attribution_obligations", "evidence_ref"],
+      "required": [
+        "code_license",
+        "runtime_license",
+        "model_license",
+        "voice_or_dataset_license",
+        "output_usage_rights",
+        "commercial_use_status",
+        "attribution_obligations",
+        "evidence_ref"
+      ],
       "rules": [
         "open-source code classification MUST NOT be inherited by model or voice artifacts",
         "unknown, incompatible or purpose-restricted rights MUST fail closed",
@@ -74,11 +131,33 @@
     },
     "result": {
       "schema": "fa3.voice-synthesis-result.v2",
-      "required": ["request_id", "provider_id", "model_id", "model_revision", "audio_path", "audio_sha256", "sample_rate_hz", "channels", "voice_identity_ref", "language", "synthetic_disclosure", "license_and_rights_ref", "execution_evidence"],
+      "required": [
+        "request_id",
+        "provider_id",
+        "model_id",
+        "model_revision",
+        "audio_path",
+        "audio_sha256",
+        "sample_rate_hz",
+        "channels",
+        "voice_identity_ref",
+        "language",
+        "synthetic_disclosure",
+        "license_and_rights_ref",
+        "execution_evidence"
+      ],
       "audio_contract": {
         "preferred_container": "WAV",
-        "allowed_native_sample_rates_hz": [22050, 24000, 48000],
-        "media_mezzanine": {"sample_rate_hz": 48000, "sample_format": "PCM", "channels": "explicit"},
+        "allowed_native_sample_rates_hz": [
+          22050,
+          24000,
+          48000
+        ],
+        "media_mezzanine": {
+          "sample_rate_hz": 48000,
+          "sample_format": "PCM",
+          "channels": "explicit"
+        },
         "resample_requires_derived_artifact_lineage": true
       },
       "rules": [
@@ -90,8 +169,28 @@
     },
     "quality": {
       "schema": "fa3.voice-quality-report.v1",
-      "required": ["locale", "provider_id", "model_revision", "test_corpus_digest", "intelligibility", "pronunciation", "prosody", "speaker_similarity_if_cloned", "human_review", "status"],
-      "hungarian_minimum": ["numbers", "dates", "abbreviations", "currency", "names", "long-form chunk boundaries", "diacritics", "mixed-language denial or explicit routing"]
+      "required": [
+        "locale",
+        "provider_id",
+        "model_revision",
+        "test_corpus_digest",
+        "intelligibility",
+        "pronunciation",
+        "prosody",
+        "speaker_similarity_if_cloned",
+        "human_review",
+        "status"
+      ],
+      "hungarian_minimum": [
+        "numbers",
+        "dates",
+        "abbreviations",
+        "currency",
+        "names",
+        "long-form chunk boundaries",
+        "diacritics",
+        "mixed-language denial or explicit routing"
+      ]
     }
   },
   "security": {
@@ -105,5 +204,7 @@
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143
+  "capability_count": 175,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

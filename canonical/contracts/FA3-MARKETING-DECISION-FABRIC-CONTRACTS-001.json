@@ -7,7 +7,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "upstream_runtime_dependency": false,
   "jev_role": "OPTIONAL_ADVISORY_PROVIDER_NOT_AUTHORITY",
   "contracts": [
@@ -52,15 +52,45 @@
     "NO_DIRECT_PROVIDER_MUTATION_OUTSIDE_UAF"
   ],
   "selected_pattern_families": {
-    "context": ["fast-jev-compaction", "Winnow", "jev-pruner", "codex-jev-compaction"],
-    "routing": ["Firstmate", "Switchboard", "OpenChamber"],
-    "search_cache": ["jev-search", "GPTCache"],
-    "evidence": ["Jev Review", "jevgrep"],
-    "security": ["pkg-gate", "agentgateway"],
-    "provider_mcp": ["Jevbridge", "jev-mcp"],
-    "browser": ["cua", "jev-browser"],
-    "voice": ["OpenWhisper", "AIAvatarKit"],
-    "ui": ["json-render"]
+    "context": [
+      "fast-jev-compaction",
+      "Winnow",
+      "jev-pruner",
+      "codex-jev-compaction"
+    ],
+    "routing": [
+      "Firstmate",
+      "Switchboard",
+      "OpenChamber"
+    ],
+    "search_cache": [
+      "jev-search",
+      "GPTCache"
+    ],
+    "evidence": [
+      "Jev Review",
+      "jevgrep"
+    ],
+    "security": [
+      "pkg-gate",
+      "agentgateway"
+    ],
+    "provider_mcp": [
+      "Jevbridge",
+      "jev-mcp"
+    ],
+    "browser": [
+      "cua",
+      "jev-browser"
+    ],
+    "voice": [
+      "OpenWhisper",
+      "AIAvatarKit"
+    ],
+    "ui": [
+      "json-render"
+    ]
   },
-  "pattern_use": "EVALUATED_DESIGN_INPUT_ONLY_UNLESS_SEPARATELY_ADMITTED"
+  "pattern_use": "EVALUATED_DESIGN_INPUT_ONLY_UNLESS_SEPARATELY_ADMITTED",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

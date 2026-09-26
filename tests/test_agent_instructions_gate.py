@@ -3,6 +3,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 ROOT=Path(__file__).resolve().parents[1]
 SRC=ROOT/"src"
@@ -37,7 +38,7 @@ class AgentInstructionGateTests(unittest.TestCase):
         self.assertTrue(report["fail_closed"])
         self.assertFalse(report["upstream_code_dependency"])
         self.assertFalse(report["current_host_runtime_promotion_claim"])
-        self.assertEqual(143,report["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count,report["capability_count"])
 
     def test_scope_resolver_root_to_nearest_and_no_sibling_leakage(self):
         src_chain=[d.path for d in resolve_instruction_chain(ROOT,Path("src/fa3_agent_instructions.py"))]

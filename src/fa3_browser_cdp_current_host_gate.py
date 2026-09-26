@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse,hashlib,json,platform,socket,threading
 from datetime import datetime,timedelta,timezone
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
@@ -33,7 +34,7 @@ def run_gate(root:Path,browser_binary=None):
         except ProcessLookupError:gone=True
         except PermissionError:gone=False
     removed=profile is None or not profile.exists();checks["rollback"]={"pass":gone and removed,"browser_process_gone":gone,"temporary_profile_removed":removed};ok=all(x.get("pass") for x in checks.values())
-    return{"schema":"fa3.browser-cdp-current-host-receipt.v1","gate_id":"FA3-GATE-BROWSER-CDP-CURRENT-HOST-001","provider_id":PROVIDER_ID,"result":"PASS" if ok else "FAIL","evidence_level":"CURRENT_HOST_PHYSICAL_BROWSER_E2E_PASS" if ok else "CURRENT_HOST_PHYSICAL_BROWSER_E2E_FAIL","physical_current_host":True,"synthetic":False,"host":{"hostname_sha256":hashlib.sha256(socket.gethostname().encode()).hexdigest(),"system":platform.system(),"machine":platform.machine()},"browser":browser,"checks":checks,"provider_receipts":len(provider_receipts),"uaf_receipts":len(uaf_receipts),"current_host_provider_admitted":ok,"capability_count":143,"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
+    return{"schema":"fa3.browser-cdp-current-host-receipt.v1","gate_id":"FA3-GATE-BROWSER-CDP-CURRENT-HOST-001","provider_id":PROVIDER_ID,"result":"PASS" if ok else "FAIL","evidence_level":"CURRENT_HOST_PHYSICAL_BROWSER_E2E_PASS" if ok else "CURRENT_HOST_PHYSICAL_BROWSER_E2E_FAIL","physical_current_host":True,"synthetic":False,"host":{"hostname_sha256":hashlib.sha256(socket.gethostname().encode()).hexdigest(),"system":platform.system(),"machine":platform.machine()},"browser":browser,"checks":checks,"provider_receipts":len(provider_receipts),"uaf_receipts":len(uaf_receipts),"current_host_provider_admitted":ok,"capability_count":module_active_capability_count(__file__),"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
 def main():
     ap=argparse.ArgumentParser();ap.add_argument("--root",default=".");ap.add_argument("--browser-binary");ap.add_argument("--receipt",default="evidence/receipts/browser-cdp-current-host.json");a=ap.parse_args();root=Path(a.root).resolve()
     try:r=run_gate(root,a.browser_binary)

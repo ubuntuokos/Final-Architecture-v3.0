@@ -115,7 +115,7 @@ def evaluate(root: Path) -> dict[str, Any]:
             and contract.get("new_architectural_authority") is False
             and profile.get("new_architectural_authority") is False
             and gate.get("new_architectural_authority") is False,
-            "canonical count remains 143 with zero new capabilities and authorities",
+            "canonical count follows the active release with zero new component-level capabilities and authorities",
         ),
         _check(
             "existing-hrb-authority",

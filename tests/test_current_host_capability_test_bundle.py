@@ -85,10 +85,10 @@ class CurrentHostCapabilityTestBundleAssemblerTests(unittest.TestCase):
             self.assertEqual(report["assembler_integrity"], "PASS")
             self.assertEqual(report["materialization_status"], "PENDING_CURRENT_HOST_TEST_RESULTS")
             self.assertEqual(report["bundles_materialized"], 0)
-            self.assertEqual(report["pending_capability_count"], 143)
+            self.assertEqual(report["pending_capability_count"], 175)
             plan = json.loads((root / ".fa3-current-host/test-plan/capabilities.json").read_text())
-            self.assertEqual(plan["capability_count"], 143)
-            self.assertEqual(len(plan["capabilities"]), 143)
+            self.assertEqual(plan["capability_count"], 175)
+            self.assertEqual(len(plan["capabilities"]), 175)
             self.assertEqual(plan["capabilities"][0]["tests"]["positive"]["test_id"], "AT-CAP-001-POS")
             self.assertFalse(plan["provider_receipt_substitution_allowed"])
         finally:
@@ -101,7 +101,7 @@ class CurrentHostCapabilityTestBundleAssemblerTests(unittest.TestCase):
             report = materialize(root)
             self.assertEqual(report["assembler_integrity"], "PASS")
             self.assertEqual(report["bundles_materialized"], 1)
-            self.assertEqual(report["pending_capability_count"], 142)
+            self.assertEqual(report["pending_capability_count"], 174)
             bundle_path = root / ".fa3-current-host/test-bundles/capabilities/CAP-001.json"
             self.assertTrue(bundle_path.is_file())
             bundle = json.loads(bundle_path.read_text())

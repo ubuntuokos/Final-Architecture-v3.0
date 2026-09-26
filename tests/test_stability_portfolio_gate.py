@@ -1,13 +1,14 @@
 from __future__ import annotations
 import json,shutil,tempfile,unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 import fa3_stability_portfolio_gate as s
 ROOT=Path(__file__).resolve().parents[1]
 class StabilityPortfolioGateTests(unittest.TestCase):
     def _copy(self):
         td=tempfile.TemporaryDirectory(); root=Path(td.name); shutil.copytree(ROOT/"canonical",root/"canonical"); shutil.copytree(ROOT/"evidence",root/"evidence"); return td,root
     def test_baseline_passes(self):
-        r=s.gate(ROOT); self.assertEqual("PASS",r["result"],r); self.assertEqual(143,r["capability_count"]); self.assertFalse(r["current_host_provider_e2e"]); self.assertEqual("PASS",r["stable_audio_3_child_gate_result"])
+        r=s.gate(ROOT); self.assertEqual("PASS",r["result"],r); self.assertEqual(load_active_release_baseline(ROOT).capability_count,r["capability_count"]); self.assertFalse(r["current_host_provider_e2e"]); self.assertEqual("PASS",r["stable_audio_3_child_gate_result"])
     def test_old_cpu_baseline_fails(self):
         td,root=self._copy()
         try:

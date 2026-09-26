@@ -184,7 +184,7 @@ def regression_cases() -> list[dict[str, Any]]:
 
     add(0, "optional provider remains non-authoritative", provider_boundary_valid(optional=True, authority=False, hard_dependency=False), not provider_boundary_valid(optional=True, authority=True, hard_dependency=False))
     add(1, "provider projects only to CAP-008", CAPABILITY_IDS == ("CAP-008",), "CAP-011" not in CAPABILITY_IDS)
-    add(2, "capability and authority count stays frozen", CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(2, "capability and authority count stays frozen", CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(3, "upstream release, commit and Electron files are immutable", immutable_component_tuple_valid(component), not immutable_component_tuple_valid({**component, "release": "latest"}))
     add(4, "upstream Electron is preferred over a second wrapper", desktop_valid(**desktop), not desktop_valid(**{**desktop, "second_wrapper": True}))
     add(5, "normal runtime performs no dependency install", dependency_valid(**deps), not dependency_valid(**{**deps, "runtime_install": True}))

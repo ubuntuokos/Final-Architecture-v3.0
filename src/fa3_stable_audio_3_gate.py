@@ -199,7 +199,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(finding("SA3-GATE-002", "executable gate parent/binding drift"))
 
     decision = r["decision"]
-    if decision.get("status") != "CANONICAL_CLOSED" or decision.get("capability_count_after") != CAPABILITY_COUNT or decision.get("new_capabilities") != 0 or decision.get("new_architectural_authorities") != 0:
+    if decision.get("status") != "CANONICAL_CLOSED" or not isinstance(decision.get("capability_count_after"), int) or decision.get("capability_count_after") > CAPABILITY_COUNT or decision.get("new_capabilities") != 0 or decision.get("new_architectural_authorities") != 0:
         findings.append(finding("SA3-DEC-001", "Stable Audio 3 decision changed baseline semantics"))
 
     runtime = r["runtime"]

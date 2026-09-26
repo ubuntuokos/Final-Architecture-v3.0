@@ -3,6 +3,8 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+
+from fa3_release_baseline import load_active_release_baseline
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,7 +18,7 @@ class WorkManagementGateTests(unittest.TestCase):
         report = wm.gate(ROOT)
         self.assertEqual("PASS", report["result"], report)
         self.assertEqual((5, 5), (report["regressions"]["passed"], report["regressions"]["total"]))
-        self.assertEqual(143, report["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, report["capability_count"])
         self.assertEqual(0, report["new_architectural_authorities"])
 
     def test_provider_identity_cannot_own_canonical_identity(self):

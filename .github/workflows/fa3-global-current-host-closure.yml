@@ -163,9 +163,9 @@ on:
         default: false
         type: boolean
       execution_batch_id:
-        description: 'Execution-ready batch ID, or FULL-429 for complete physical closure'
+        description: 'Execution-ready batch ID, or FULL-525 for complete 175-capability physical closure'
         required: false
-        default: 'FULL-429'
+        default: 'FULL-525'
         type: string
 
 permissions:
@@ -278,14 +278,14 @@ jobs:
               key=lambda x: int(x.split('-',1)[1]),
           )
           assert plan['status'] == 'PASS', plan
-          assert plan['capability_count'] == 143, plan
-          assert plan['required_test_obligation_count'] == 429, plan
-          assert len(ready_keys) == 429, ready_keys
+          assert plan['capability_count'] == 175, plan
+          assert plan['required_test_obligation_count'] == 525, plan
+          assert len(ready_keys) == 525, ready_keys
           assert ready_caps == expected_caps, (ready_caps, expected_caps)
-          assert plan['materialized_obligation_count'] == 429, plan
+          assert plan['materialized_obligation_count'] == 525, plan
           assert plan['pending_obligation_count'] == 0, plan
           assert plan['execution_ready_capabilities'] == expected_caps, plan
-          assert plan['fully_materialized_capability_count'] == 143, plan
+          assert plan['fully_materialized_capability_count'] == 175, plan
           assert plan['pending_materialization_capability_count'] == 0, plan
           assert plan['next_materialization_batch'] is None, plan
           assert plan['materialization_batches'] == [], plan
@@ -333,19 +333,19 @@ jobs:
           from pathlib import Path
           qualification=json.loads(Path('reports/current-host-capability-test-qualification-audit.json').read_text())
           assert qualification['audit_integrity'] == 'PASS', qualification
-          assert qualification['required_test_obligation_count'] == 429, qualification
-          assert qualification['qualified_definition_count'] + qualification['pending_definition_count'] == 429, qualification
+          assert qualification['required_test_obligation_count'] == 525, qualification
+          assert qualification['qualified_definition_count'] + qualification['pending_definition_count'] == 525, qualification
           assert qualification['provider_receipts_promoted'] == 0, qualification
           assert qualification['component_receipts_promoted'] == 0, qualification
           assert qualification['generic_host_evidence_promoted'] == 0, qualification
           assert qualification['global_promotion_claim'] is False, qualification
           evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
-          subjects=[row['subject_id'] for row in evidence['records']]
+          subjects=sorted([row['subject_id'] for row in evidence['records']], key=lambda x: int(x.split('-',1)[1]))
           for subject in subjects:
               rows=[row for row in qualification['accepted_qualifications'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert qualification['qualified_definition_count'] == 429, qualification
+          assert qualification['qualified_definition_count'] == 525, qualification
           assert qualification['pending_definition_count'] == 0, qualification
           PY
       - name: Audit explicit qualification constituent producer coverage
@@ -362,12 +362,12 @@ jobs:
           assert producer_audit['generic_host_evidence_promoted'] == 0, producer_audit
           assert producer_audit['global_promotion_claim'] is False, producer_audit
           evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
-          subjects=[row['subject_id'] for row in evidence['records']]
+          subjects=sorted([row['subject_id'] for row in evidence['records']], key=lambda x: int(x.split('-',1)[1]))
           for subject in subjects:
               rows=[row for row in producer_audit['accepted_producers'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert producer_audit['registered_producer_count'] == 429, producer_audit
+          assert producer_audit['registered_producer_count'] == 525, producer_audit
           assert producer_audit['pending_producer_count'] == 0, producer_audit
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
@@ -392,18 +392,18 @@ jobs:
           from pathlib import Path
           executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
           assert executor['audit_integrity'] == 'PASS', executor
-          assert executor['required_test_obligation_count'] == 429, executor
-          assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
+          assert executor['required_test_obligation_count'] == 525, executor
+          assert executor['registered_executor_count'] + executor['pending_executor_count'] == 525, executor
           assert executor['provider_receipts_promoted'] == 0, executor
           assert executor['generic_host_evidence_promoted'] == 0, executor
           assert executor['global_promotion_claim'] is False, executor
           evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
-          subjects=[row['subject_id'] for row in evidence['records']]
+          subjects=sorted([row['subject_id'] for row in evidence['records']], key=lambda x: int(x.split('-',1)[1]))
           for subject in subjects:
               rows=[row for row in executor['registered_obligations'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert executor['registered_executor_count'] == 429, executor
+          assert executor['registered_executor_count'] == 525, executor
           assert executor['pending_executor_count'] == 0, executor
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
@@ -444,11 +444,11 @@ jobs:
           assert assembler['assembler_integrity'] == 'PASS', assembler
           assert assembler['materialization_status'] == 'PENDING_CURRENT_HOST_TEST_RESULTS', assembler
           assert assembler['bundles_materialized'] == 0, assembler
-          assert assembler['pending_capability_count'] == 143, assembler
+          assert assembler['pending_capability_count'] == 175, assembler
           assert assembler['provider_receipts_promoted'] == 0, assembler
           assert assembler['global_promotion_claim'] is False, assembler
-          assert plan['capability_count'] == 143, plan
-          assert len(plan['capabilities']) == 143, plan
+          assert plan['capability_count'] == 175, plan
+          assert len(plan['capabilities']) == 175, plan
           assert producer['producer_integrity'] == 'PASS', producer
           assert producer['materialization_status'] == 'PENDING_CAPABILITY_TEST_BUNDLES', producer
           assert producer['attestations_materialized'] == 0, producer
@@ -460,7 +460,7 @@ jobs:
           assert handoff['provider_receipts_promoted'] == 0, handoff
           assert handoff['global_promotion_claim'] is False, handoff
           PY
-      - name: Audit exact 143-capability registry
+      - name: Audit exact active capability registry
         run: PYTHONPATH=src python src/fa3_current_host_evidence_audit.py --root .
       - name: Reconcile 19-point acceptance without weakening fail-closed semantics
         shell: bash
@@ -482,17 +482,17 @@ jobs:
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
           assert executor['audit_integrity'] == 'PASS', executor
-          assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
+          assert executor['registered_executor_count'] + executor['pending_executor_count'] == 525, executor
           assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
           assert orchestrator['execution_requested'] is False, orchestrator
           assert orchestrator['results_materialized'] == 0, orchestrator
           assert audit['audit_integrity'] == 'PASS', audit
-          assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
+          assert audit['registry_pass_count'] + audit['registry_pending_count'] == 175, audit
           assert acceptance['criteria_total'] == 19, acceptance
           if audit['runtime_closure'] == 'PASS':
               assert acceptance['static_gate'] == 'PASS', acceptance
-              assert executor['coverage_status'] == 'COMPLETE_429_OF_429', executor
-              assert executor['registered_executor_count'] == 429, executor
+              assert executor['coverage_status'] == 'COMPLETE_525_OF_525', executor
+              assert executor['registered_executor_count'] == 525, executor
               assert acceptance['status'] == 'PASS', acceptance
               assert promotion['actual_state'] == 'PROMOTED', promotion
           else:
@@ -618,7 +618,7 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_pytorch3d_build_readiness.py --root .
-      - name: Fail-fast FULL-429 current-host preflight
+      - name: Fail-fast active-baseline current-host preflight
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_full_current_host_preflight.py --root .
@@ -630,14 +630,14 @@ jobs:
           import json, os
           from pathlib import Path
           plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
-          requested=(os.environ.get('FA3_REQUESTED_BATCH_ID') or 'FULL-429').strip()
-          if requested == 'FULL-429':
+          requested=(os.environ.get('FA3_REQUESTED_BATCH_ID') or 'FULL-525').strip()
+          if requested == 'FULL-525':
               subjects=plan['execution_ready_capabilities']
-              if len(subjects) != 143:
-                  raise SystemExit(f'FULL-429 requires 143 execution-ready capabilities, got {len(subjects)}')
+              if len(subjects) != 175:
+                  raise SystemExit(f'FULL-525 requires 175 execution-ready capabilities, got {len(subjects)}')
               obligation_count=plan['materialized_obligation_count']
-              if obligation_count != 429 or plan['pending_obligation_count'] != 0:
-                  raise SystemExit(f'FULL-429 requires exact 429/429 materialization: {plan}')
+              if obligation_count != 525 or plan['pending_obligation_count'] != 0:
+                  raise SystemExit(f'FULL-525 requires exact 525/525 definition materialization before physical execution: {plan}')
           else:
               batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
               if batch is None:
@@ -653,7 +653,7 @@ jobs:
           print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count}, indent=2))
           PY
         env:
-          FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-429' || inputs.execution_batch_id }}
+          FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-525' || inputs.execution_batch_id }}
       - name: Audit explicit capability qualification coverage before execution
         shell: bash
         run: |

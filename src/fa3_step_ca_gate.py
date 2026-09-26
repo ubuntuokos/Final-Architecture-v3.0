@@ -138,7 +138,7 @@ def current_host_evidence_valid(root: Path, ev: dict[str, Any]) -> bool:
         and inv.get("provider_is_architectural_authority") is False
         and inv.get("new_capabilities") == 0
         and inv.get("new_architectural_authorities") == 0
-        and inv.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(inv.get("capability_count_after"), int) and inv.get("capability_count_after") <= CAPABILITY_COUNT
         and inv.get("global_fa3_promotion_claim") is False
     )
 
@@ -259,7 +259,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         decision.get("id") == DECISION_ID and decision.get("status") == "CANONICAL_CLOSED"
         and decision.get("provider_id") == PROVIDER_ID and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append("decision")
     promotion_decision = p["promotion_decision"]
@@ -271,7 +271,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and promotion_decision.get("tested_main_sha") == TESTED_MAIN_SHA
         and promotion_decision.get("new_capabilities") == 0
         and promotion_decision.get("new_architectural_authorities") == 0
-        and promotion_decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(promotion_decision.get("capability_count_after"), int) and promotion_decision.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append("promotion-decision")
     ref = p["reference"]

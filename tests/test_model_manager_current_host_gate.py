@@ -67,7 +67,7 @@ def base_receipt():
         "combined_pass_semantics":"AT_LEAST_ONE_REAL_LOCAL_SERVING_RUNTIME_PASS",
         "new_capabilities":0,
         "new_architectural_authorities":0,
-        "capability_count_after":143,
+        "capability_count_after":175,
     }
 
 class TestModelManagerCurrentHostGate(unittest.TestCase):

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -74,7 +75,7 @@ def soma_x_gate(root: Path) -> dict[str, Any]:
     evidence = load(root, "soma_evidence")
     authorities = provider.get("authority_boundaries", {})
     checks = [
-        ("SOMAX-001", profile.get("id") == PROFILE_ID and profile.get("relationship") == {"type":"SUBPROFILE-OF","parent":"FA3-3D-GEOM-001"} and PROFILE_ID in root_profile.get("children", []) and profile.get("capability_bindings") == [CAPABILITY_ID] and profile.get("capability_count") == 143 and profile.get("new_capability") is False, "non-root CAP-032 projection invariant failed"),
+        ("SOMAX-001", profile.get("id") == PROFILE_ID and profile.get("relationship") == {"type":"SUBPROFILE-OF","parent":"FA3-3D-GEOM-001"} and PROFILE_ID in root_profile.get("children", []) and profile.get("capability_bindings") == [CAPABILITY_ID] and profile.get("capability_count") == module_active_capability_count(__file__) and profile.get("new_capability") is False, "non-root CAP-032 projection invariant failed"),
         ("SOMAX-002", contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True and contract.get("canonical_representation") == "FA3_HUMAN_MOTION_IR" and contract.get("provider_native_representation_is_canonical") is False, "provider-neutral Human Motion IR invariant failed"),
         ("SOMAX-003", provider.get("id") == "FA3-PROVIDER-SOMA-X-001" and "REQUIRED_SUPPORTED_REFERENCE" in provider.get("classification", []) and "CONDITIONAL_EXECUTION_PROVIDER" in provider.get("classification", []), "SOMA-X provider classification drift"),
         ("SOMAX-004", provider.get("upstream", {}).get("revision") == SOMA_REV and reference.get("immutable_revision") == SOMA_REV, "SOMA-X immutable upstream pin drift"),
@@ -90,8 +91,8 @@ def soma_x_gate(root: Path) -> dict[str, Any]:
         ("SOMAX-014", gate_record.get("id") == "FA3-GATE-SOMA-X-001" and gate_record.get("gateset_id") == "FA3-SOMA-X-GATESET-001" and gate_record.get("rule_count") == 18 and gate_record.get("fail_closed") is True, "SOMA-X executable gate descriptor drift"),
         ("SOMAX-015", enforcement.get("mandatory_rule_count") == 18 and len(enforcement.get("p0_invariants", [])) == 18 and len(enforcement.get("rules", [])) == 18 and enforcement.get("fail_closed") is True, "SOMA-X enforcement inventory mismatch"),
         ("SOMAX-016", evidence.get("status") == "PASS" and evidence.get("rules_checked") == 18 and evidence.get("current_host_runtime_evidence") is False and evidence.get("production_promotion") is False, "SOMA-X reference evidence scope drift"),
-        ("SOMAX-017", decision.get("status") == "CANONICAL_CLOSED" and "FA3-PROVIDER-SOMA-X-001" in decision.get("provider_ids", []) and decision.get("baseline_effect", {}).get("capability_count_after") == 143 and decision.get("baseline_effect", {}).get("new_architectural_authorities") == 0, "SOMA-X decision/baseline closure failed"),
-        ("SOMAX-018", "FA3-PROVIDER-SOMA-X-001" in release.get("provider_ids", []) and release.get("capability_count_after") == 143 and release.get("production_promotion_claimed") is False and release.get("current_host_runtime_status") == "PENDING_CURRENT_HOST", "SOMA-X release projection promoted runtime or changed baseline"),
+        ("SOMAX-017", decision.get("status") == "CANONICAL_CLOSED" and "FA3-PROVIDER-SOMA-X-001" in decision.get("provider_ids", []) and decision.get("baseline_effect", {}).get("capability_count_after") == module_active_capability_count(__file__) and decision.get("baseline_effect", {}).get("new_architectural_authorities") == 0, "SOMA-X decision/baseline closure failed"),
+        ("SOMAX-018", "FA3-PROVIDER-SOMA-X-001" in release.get("provider_ids", []) and release.get("capability_count_after") == module_active_capability_count(__file__) and release.get("production_promotion_claimed") is False and release.get("current_host_runtime_status") == "PENDING_CURRENT_HOST", "SOMA-X release projection promoted runtime or changed baseline"),
     ]
     findings = [finding(code, message) for code, ok, message in checks if not ok]
     report = {"schema":"fa3.soma-x-gate-report.v1","gate_set_id":"FA3-SOMA-X-GATESET-001","result":"PASS" if not findings else "FAIL","blocking_findings":len(findings),"findings":findings,"rules_checked":18,"current_host_runtime_promoted":False}
@@ -108,7 +109,7 @@ def gem_x_gate(root: Path) -> dict[str, Any]:
     profile = load(root, "profile"); contract = load(root, "contract"); provider = load(root, "gem_provider"); decision = load(root, "decision"); reference = load(root, "gem_reference"); runtime = load(root, "gem_runtime"); gate_record = load(root, "gem_gate"); enforcement = load(root, "gem_enforcement"); release = load(root, "release"); evidence = load(root, "gem_evidence")
     execution = provider.get("execution", {}); model = provider.get("model_policy", {}); claims = provider.get("output_claims", {}); quality = provider.get("quality_gate", {}); authorities = provider.get("authority_boundaries", {})
     checks = [
-        ("GEMX-001", profile.get("id") == PROFILE_ID and profile.get("relationship", {}).get("parent") == "FA3-3D-GEOM-001" and profile.get("capability_bindings") == [CAPABILITY_ID] and profile.get("capability_count") == 143 and profile.get("new_architectural_authority") is False, "GEM-X non-root CAP-032 projection invariant failed"),
+        ("GEMX-001", profile.get("id") == PROFILE_ID and profile.get("relationship", {}).get("parent") == "FA3-3D-GEOM-001" and profile.get("capability_bindings") == [CAPABILITY_ID] and profile.get("capability_count") == module_active_capability_count(__file__) and profile.get("new_architectural_authority") is False, "GEM-X non-root CAP-032 projection invariant failed"),
         ("GEMX-002", contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True and contract.get("provider_native_representation_is_canonical") is False, "provider-neutral Human Motion IR invariant failed"),
         ("GEMX-003", provider.get("id") == "FA3-PROVIDER-GEM-X-001" and "PREFERRED_REFERENCE" in provider.get("classification", []) and "OPTIONAL_EXECUTION_PROVIDER" in provider.get("classification", []), "GEM-X provider classification drift"),
         ("GEMX-004", provider.get("upstream", {}).get("revision") == GEM_REV and reference.get("immutable_revision") == GEM_REV, "GEM-X immutable upstream pin drift"),
@@ -129,7 +130,7 @@ def gem_x_gate(root: Path) -> dict[str, Any]:
         ("GEMX-019", len(authorities) >= 10 and all(v is False for v in authorities.values()), "GEM-X claimed architectural authority"),
         ("GEMX-020", runtime.get("status") == "PENDING_CURRENT_HOST" and runtime.get("production_admitted") is False and runtime.get("current_host_receipt_present") is False and provider.get("promotion", {}).get("runtime_promotion_claimed") is False, "GEM-X runtime promoted without real evidence"),
         ("GEMX-021", gate_record.get("id") == "FA3-GATE-GEM-X-001" and gate_record.get("rule_count") == 22 and gate_record.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 22 and len(enforcement.get("p0_invariants", [])) == 22 and len(enforcement.get("rules", [])) == 22, "GEM-X gate/enforcement inventory mismatch"),
-        ("GEMX-022", evidence.get("status") == "PASS" and evidence.get("rules_checked") == 22 and evidence.get("current_host_runtime_evidence") is False and evidence.get("production_promotion") is False and "FA3-PROVIDER-GEM-X-001" in decision.get("provider_ids", []) and decision.get("baseline_effect", {}).get("capability_count_after") == 143 and "FA3-PROVIDER-GEM-X-001" in release.get("provider_ids", []) and release.get("production_promotion_claimed") is False, "GEM-X reference/decision/release scope drift"),
+        ("GEMX-022", evidence.get("status") == "PASS" and evidence.get("rules_checked") == 22 and evidence.get("current_host_runtime_evidence") is False and evidence.get("production_promotion") is False and "FA3-PROVIDER-GEM-X-001" in decision.get("provider_ids", []) and decision.get("baseline_effect", {}).get("capability_count_after") == module_active_capability_count(__file__) and "FA3-PROVIDER-GEM-X-001" in release.get("provider_ids", []) and release.get("production_promotion_claimed") is False, "GEM-X reference/decision/release scope drift"),
     ]
     findings = [finding(code, message) for code, ok, message in checks if not ok]
     report = {"schema":"fa3.gem-x-gate-report.v1","gate_set_id":"FA3-GEM-X-GATESET-001","result":"PASS" if not findings else "FAIL","blocking_findings":len(findings),"findings":findings,"rules_checked":22,"current_host_runtime_promoted":False}

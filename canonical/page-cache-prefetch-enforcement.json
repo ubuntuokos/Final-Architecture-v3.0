@@ -9,7 +9,7 @@
   "provider_ids": [
     "FA3-PROVIDER-PRELOAD-001"
   ],
-  "capability_count": 143,
+  "capability_count": 175,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
   "mandatory_rule_count": 12,
@@ -28,17 +28,79 @@
     "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST"
   ],
   "rules": [
-    {"id":"HRB-PREFETCH-001","invariant":"FILESYSTEM_PAGE_CACHE_REMAINS_PRIMARY","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-002","invariant":"PREFETCH_PROVIDER_IS_NON_AUTHORITY","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-003","invariant":"NO_GLOBAL_PREFETCH_MAGIC_CONSTANTS","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-004","invariant":"VIRTUAL_DEVICE_FILESYSTEMS_MUST_NOT_BE_PREFETCHED","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-005","invariant":"BROAD_HOME_TREE_PREFETCH_NOT_DEFAULT","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-006","invariant":"LARGE_MODEL_BLIND_PREFETCH_FORBIDDEN","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-007","invariant":"NO_PERIODIC_DROP_CACHES_OPTIMIZATION","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-008","invariant":"PREFETCH_REQUIRES_COLD_WARM_BENCHMARK_SEPARATION","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-009","invariant":"PREFETCH_REQUIRES_IO_AND_MEMORY_PRESSURE_EVIDENCE","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-010","invariant":"PREFETCH_CONFIGURATION_MUST_BE_ROLLBACKABLE","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-011","invariant":"PREFETCH_MUST_NOT_OVERRIDE_HRB_PLACEMENT","priority":"P0","mandatory":true},
-    {"id":"HRB-PREFETCH-012","invariant":"DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST","priority":"P0","mandatory":true}
-  ]
+    {
+      "id": "HRB-PREFETCH-001",
+      "invariant": "FILESYSTEM_PAGE_CACHE_REMAINS_PRIMARY",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-002",
+      "invariant": "PREFETCH_PROVIDER_IS_NON_AUTHORITY",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-003",
+      "invariant": "NO_GLOBAL_PREFETCH_MAGIC_CONSTANTS",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-004",
+      "invariant": "VIRTUAL_DEVICE_FILESYSTEMS_MUST_NOT_BE_PREFETCHED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-005",
+      "invariant": "BROAD_HOME_TREE_PREFETCH_NOT_DEFAULT",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-006",
+      "invariant": "LARGE_MODEL_BLIND_PREFETCH_FORBIDDEN",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-007",
+      "invariant": "NO_PERIODIC_DROP_CACHES_OPTIMIZATION",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-008",
+      "invariant": "PREFETCH_REQUIRES_COLD_WARM_BENCHMARK_SEPARATION",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-009",
+      "invariant": "PREFETCH_REQUIRES_IO_AND_MEMORY_PRESSURE_EVIDENCE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-010",
+      "invariant": "PREFETCH_CONFIGURATION_MUST_BE_ROLLBACKABLE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-011",
+      "invariant": "PREFETCH_MUST_NOT_OVERRIDE_HRB_PLACEMENT",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-PREFETCH-012",
+      "invariant": "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST",
+      "priority": "P0",
+      "mandatory": true
+    }
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

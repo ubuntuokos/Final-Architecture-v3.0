@@ -55,7 +55,7 @@ class AISecurityValidationTests(unittest.TestCase):
         self.assertFalse(g.scanner_conformance_valid(
             regression_status="PASS", coverage_status="PASS",
             scanner_is_architectural_authority=True, scanner_is_promotion_authority=False,
-            capability_count=143))
+            capability_count=175))
 
     def test_gate_fails_on_provider_authority_assignment(self):
         with tempfile.TemporaryDirectory() as td:
@@ -149,7 +149,7 @@ class AISecurityValidationTests(unittest.TestCase):
             "isolation_verdict": "PASS",
             "new_capabilities": 0,
             "new_architectural_authorities": 0,
-            "capability_count_after": 143,
+            "capability_count_after": 175,
         }
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
@@ -68,7 +69,7 @@ def validate() -> list[str]:
         (profile.get("priority") == "P0" and profile.get("requirement") == "MUST", "profile-p0-must"),
         (profile.get("new_capability") is False, "profile-no-new-capability"),
         (profile.get("new_architectural_authority") is False, "profile-no-new-authority"),
-        (profile.get("capability_count") == 143, "profile-capability-count"),
+        (profile.get("capability_count") == module_active_capability_count(__file__), "profile-capability-count"),
         (profile.get("mentor_boundary", {}).get("knowledge_gap_delegation") == "FA3-MENTOR-001", "mentor-boundary"),
         (contracts.get("provider_neutral") is True, "contracts-provider-neutral"),
         (contracts.get("execution_model", {}).get("direct_tool_execution") == "FORBIDDEN", "contracts-no-direct-tool-exec"),
@@ -78,7 +79,7 @@ def validate() -> list[str]:
         (provider.get("current_host_promotion_claimed") is False, "provider-no-runtime-claim"),
         (decision.get("new_capabilities") == 0, "decision-no-new-capability"),
         (decision.get("new_architectural_authorities") == 0, "decision-no-new-authority"),
-        (decision.get("capability_count_after") == 143, "decision-capability-count"),
+        (decision.get("capability_count_after") == module_active_capability_count(__file__), "decision-capability-count"),
         (decision.get("conformance_matrix_id") == "FA3-COACH-CONFORMANCE-MATRIX-001", "decision-conformance-link"),
         (enforcement.get("fail_closed") is True, "enforcement-fail-closed"),
         (enforcement.get("mandatory_rule_count") == 12, "enforcement-rule-count"),
@@ -89,7 +90,7 @@ def validate() -> list[str]:
         (runtime.get("evidence_present") is False, "runtime-evidence-not-fabricated"),
         (gate.get("fail_closed") is True and gate.get("rule_count") == 12, "gate-fail-closed"),
         (gate.get("current_host_runtime_required_for_runtime_promotion") is True, "gate-runtime-evidence-required"),
-        (gate.get("capability_count_after") == 143, "gate-capability-count"),
+        (gate.get("capability_count_after") == module_active_capability_count(__file__), "gate-capability-count"),
     ]
     failures.extend(name for ok, name in checks if not ok)
 
@@ -136,7 +137,7 @@ def main() -> int:
             print(f" - {failure}")
         return 1
     print("FA3 Coach gate: PASS")
-    print("profile=FA3-COACH-001 capabilities=143 new_authorities=0 runtime=PENDING_CURRENT_HOST")
+    print(f"profile=FA3-COACH-001 capabilities={module_active_capability_count(__file__)} new_authorities=0 runtime=PENDING_CURRENT_HOST")
     return 0
 
 

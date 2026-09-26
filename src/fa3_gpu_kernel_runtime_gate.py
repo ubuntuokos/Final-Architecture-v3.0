@@ -142,7 +142,7 @@ def run_regressions()->dict[str,Any]:
     xpu=KernelCandidate("SYNTHETIC-XPU",("level-zero",),("native",),("xe2",),("BF16",),("linear_silu",),False,True,1.3,0,8<<30,True,("pytorch-xpu",))
     vulkan=KernelCandidate("SYNTHETIC-VULKAN",("vulkan",),("portable",),("generic-vulkan",),("BF16",),("linear_silu",),False,True,1.4,0,8<<30,True,("vulkan-compute",))
 
-    add(P0_RULES[0],"profile/provider is not authority",provider_boundary_valid({"canonical_root":False,"architectural_authority":False,"new_capability":False,"new_architectural_authority":False,"capability_count":143}),not provider_boundary_valid({"canonical_root":True,"architectural_authority":False,"new_capability":False,"new_architectural_authority":False,"capability_count":143}))
+    add(P0_RULES[0],"profile/provider is not authority",provider_boundary_valid({"canonical_root":False,"architectural_authority":False,"new_capability":False,"new_architectural_authority":False,"capability_count":CAPABILITY_COUNT}),not provider_boundary_valid({"canonical_root":True,"architectural_authority":False,"new_capability":False,"new_architectural_authority":False,"capability_count":CAPABILITY_COUNT}))
     add(P0_RULES[1],"backend-neutral contract admits synthetic CUDA ROCm XPU and Vulkan candidate shapes",all([
         choose_candidate(req("cuda","sm86"),[base86]).provider_id==FRAMEWORK_PROVIDER,
         choose_candidate(req("rocm","gfx1100","rocm","native","pytorch-rocm"),[rocm]).provider_id=="SYNTHETIC-ROCM",
@@ -213,7 +213,7 @@ def reference_check(root:Path)->dict[str,Any]:
     if not admission_portability_valid(d["admission"]):
         findings.append(_finding("GPUK-REF-009","portable admission semantics drift"))
     decision,enf,evidence=d["decision"],d["enforcement"],d["evidence"]
-    if not (decision.get("id")==DECISION_ID and decision.get("mandatory_p0_rules")==P0_RULES and decision.get("provider_ids")==[FRAMEWORK_PROVIDER,AMPERE_PROVIDER,DEEPGEMM_PROVIDER] and decision.get("new_capabilities")==0 and decision.get("new_architectural_authorities")==0 and decision.get("capability_count_after")==CAPABILITY_COUNT):
+    if not (decision.get("id")==DECISION_ID and decision.get("mandatory_p0_rules")==P0_RULES and decision.get("provider_ids")==[FRAMEWORK_PROVIDER,AMPERE_PROVIDER,DEEPGEMM_PROVIDER] and decision.get("new_capabilities")==0 and decision.get("new_architectural_authorities")==0 and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after")<=CAPABILITY_COUNT):
         findings.append(_finding("GPUK-REF-010","decision invariant drift"))
     if not (enf.get("gate_id")==GATE_ID and enf.get("mandatory_rule_count")==len(P0_RULES) and enf.get("p0_invariants")==P0_RULES):
         findings.append(_finding("GPUK-REF-011","enforcement invariant drift"))

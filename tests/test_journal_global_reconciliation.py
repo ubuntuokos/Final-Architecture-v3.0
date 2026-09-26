@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import unittest
+
+from src.fa3_release_baseline import module_active_capability_count
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,7 +47,7 @@ class JournalGlobalReconciliationTests(unittest.TestCase):
     def test_journal_gate_is_globally_mandatory(self) -> None:
         policy = load(POLICY_PATH)
         release = load(RELEASE_PATH)
-        self.assertEqual(policy["canonical_capability_count"], 143)
+        self.assertEqual(policy["canonical_capability_count"], module_active_capability_count(__file__))
         self.assertIn(GATESET_ID, policy["mandatory_reference_gates"])
         self.assertIn(GATESET_ID, release["mandatory_reference_gates"])
         self.assertEqual(
@@ -71,7 +73,7 @@ class JournalGlobalReconciliationTests(unittest.TestCase):
         self.assertIs(journal["provider_is_architectural_authority"], False)
         self.assertEqual(journal["new_capabilities"], 0)
         self.assertEqual(journal["new_architectural_authorities"], 0)
-        self.assertEqual(journal["capability_count_after"], 143)
+        self.assertEqual(journal["capability_count_after"], module_active_capability_count(__file__))
 
     def test_all_journal_release_surface_files_are_manifested(self) -> None:
         release = load(RELEASE_PATH)

@@ -92,7 +92,7 @@ def gate(root:Path)->dict[str,Any]:
         p=data["profile"]; c=data["contract"]; d=data["decision"]; g=data["gate"]; e=data["enforcement"]
         if not(p.get("id")=="FA3-PROVIDER-RUNTIME-001" and p.get("capability_count")==CAPABILITY_COUNT and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("selection_policy",{}).get("supply_chain_receipt_digest_required") is True): findings.append(finding("SRH-001","provider runtime profile invariant drift"))
         if c.get("id")!="FA3-PROVIDER-RUNTIME-CONTRACTS-001" or c.get("new_architectural_authority") is not False or c.get("provider_runtime_environment",{}).get("supply_chain_receipt_sha256_required") is not True: findings.append(finding("SRH-002","provider runtime contract invariant drift"))
-        if d.get("new_capabilities")!=0 or d.get("new_architectural_authorities")!=0 or d.get("capability_count_after")!=CAPABILITY_COUNT: findings.append(finding("SRH-003","decision changes capability/authority baseline"))
+        if d.get("new_capabilities")!=0 or d.get("new_architectural_authorities")!=0 or (not isinstance(d.get("capability_count_after"),int) or d.get("capability_count_after")>CAPABILITY_COUNT): findings.append(finding("SRH-003","decision changes capability/authority baseline"))
         if g.get("gateset_id")!=GATESET_ID or g.get("fail_closed") is not True: findings.append(finding("SRH-004","gate record drift"))
         if e.get("gateset_id")!=GATESET_ID or e.get("hrb",{}).get("hold_and_wait") is not False: findings.append(finding("SRH-005","enforcement drift"))
         scs=set(data["scs"].get("contracts",[]))

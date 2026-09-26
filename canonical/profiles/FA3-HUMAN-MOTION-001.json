@@ -8,13 +8,24 @@
   "requirement": "CONDITIONAL_MUST",
   "activation_condition": "WHEN_HUMAN_BODY_INTERCHANGE_MONOCULAR_3D_MOTION_ESTIMATION_OR_CHARACTER_RETARGETING_IS_ADMITTED",
   "canonical_root": false,
-  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-3D-GEOM-001"},
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-3D-GEOM-001"
+  },
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
-  "capability_bindings": ["CAP-032"],
-  "contracts": ["FA3-GEOMETRY-CONTRACTS-001", "FA3-HUMAN-MOTION-CONTRACTS-001"],
-  "providers": ["FA3-PROVIDER-SOMA-X-001", "FA3-PROVIDER-GEM-X-001"],
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "contracts": [
+    "FA3-GEOMETRY-CONTRACTS-001",
+    "FA3-HUMAN-MOTION-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-SOMA-X-001",
+    "FA3-PROVIDER-GEM-X-001"
+  ],
   "capability_surface": [
     "human.body.interchange",
     "human.pose.convert",
@@ -43,5 +54,6 @@
     "NO_RUNTIME_AUTO_DOWNLOAD_IN_PRODUCTION",
     "CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
   ],
-  "implementation_status": "CANONICAL_REFERENCE_GATES_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING"
+  "implementation_status": "CANONICAL_REFERENCE_GATES_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -97,7 +97,7 @@ def verify_projection(root: Path):
         ids = _capability_ids_from_matrix(root / "canonical/conformance-matrix.csv")
         if ids != expected:
             findings.append(
-                finding("FA3-CH-007", "Conformance matrix is not exact CAP-001..CAP-143", count=len(ids))
+                finding("FA3-CH-007", "Conformance matrix does not match the active release capability set", count=len(ids))
             )
     except Exception as exc:
         findings.append(finding("FA3-CH-007", "Conformance matrix unavailable", error=str(exc)))
@@ -112,7 +112,7 @@ def verify_projection(root: Path):
             or record_ids != expected
         ):
             findings.append(
-                finding("FA3-CH-008", "Evidence Registry is not exact 143 capability set", count=len(records))
+                finding("FA3-CH-008", "Evidence Registry does not match the active release capability set", count=len(records))
             )
     except Exception as exc:
         findings.append(finding("FA3-CH-008", "Evidence Registry unavailable", error=str(exc)))

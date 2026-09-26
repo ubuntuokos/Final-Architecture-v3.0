@@ -24,7 +24,7 @@
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "authority_boundaries": {
@@ -47,5 +47,6 @@
     "FA3_EVIDENCE_AUTHORITY",
     "FA3_GLOBAL_SCHEDULING_AUTHORITY"
   ],
-  "normative_constraint": "MAX may schedule and optimize execution only inside an already authorized provider invocation; it SHALL NOT become an FA3 model-routing, host-resource, workflow, authorization/policy, artifact/model identity, secrets, evidence or global scheduling authority."
+  "normative_constraint": "MAX may schedule and optimize execution only inside an already authorized provider invocation; it SHALL NOT become an FA3 model-routing, host-resource, workflow, authorization/policy, artifact/model identity, secrets, evidence or global scheduling authority.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

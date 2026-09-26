@@ -33,7 +33,7 @@ class FA3OSEventPrivacyGateTests(unittest.TestCase):
         self.assertEqual(report["profile_id"], PROFILE_ID)
         self.assertEqual(report["privacy_profile_id"], POLICY_ID)
         self.assertEqual(report["ledger_authority"], "FA3-JOURNAL-001")
-        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["capability_count"], 175)
 
     def test_parallel_ledger_authority_is_rejected(self):
         td, root = self._copy_root()

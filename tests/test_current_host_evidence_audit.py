@@ -57,12 +57,12 @@ class CurrentHostEvidenceAuditTests(unittest.TestCase):
             ],
         }
 
-    def test_baseline_is_integrity_pass_and_exact_143_set(self):
+    def test_baseline_is_integrity_pass_and_exact_active_set(self):
         r = audit(ROOT)
         self.assertEqual(r["audit_integrity"], "PASS")
-        self.assertEqual(r["capability_count"], 143)
-        self.assertEqual(r["registry_pass_count"] + r["registry_pending_count"], 143)
-        self.assertEqual(sum(r["activation_class_counts"].values()), 143)
+        self.assertEqual(r["capability_count"], 175)
+        self.assertEqual(r["registry_pass_count"] + r["registry_pending_count"], 175)
+        self.assertEqual(sum(r["activation_class_counts"].values()), 175)
         self.assertFalse(r["truth_constraints"]["ci_reference_pass_is_runtime_pass"])
         self.assertFalse(r["truth_constraints"]["component_scope_pass_is_global_pass"])
 

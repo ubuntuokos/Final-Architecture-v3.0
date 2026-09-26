@@ -2,13 +2,18 @@
 
 Canonical governance and runtime-promotion enforcement for **FINAL ARCHITECTURE v3.0**.
 
-## Stability Matrix interactive lifecycle boundary
+## FA3 Local Generative Media Lifecycle
 
-`FA3-PROVIDER-STABILITY-MATRIX-001` records Stability Matrix as the current-host interactive local generative-media package, environment and model lifecycle adapter (`REQ-ADAPTER + PRIMARY-REF`). It is not a control plane or production worker. The GUI is a systemd user service; admission-controlled maintenance trials are separate; promoted production packages run as native `ai-media.target` workers under the existing Temporal, NATS, Host Resource Broker, security and evidence authorities.
+The provider-neutral `FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001` preserves the useful lifecycle capabilities previously derived from external package managers without retaining an external lifecycle-manager dependency. It requires immutable revisions and hashes, package-owned isolated environments, maintenance lock, worker drain, checkpoint, smoke/memory/output validation, signed promotion, rollback, clean uninstall and orphan scanning.
 
-The provider-neutral `FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001` requires immutable revisions and hashes, package-owned isolated environments, maintenance lock, worker drain, checkpoint, smoke/memory/output validation, signed promotion, rollback, clean uninstall and orphan scanning. GPU/NUMA placement is discovered dynamically and bound fail-closed by PCI identity plus GPU UUID; no concrete GPU model, count or CUDA ordinal is a canonical default. Direct web endpoints remain loopback-only unless routed through approved Caddy policy/authentication. Provider-local SQLite/JSON state is non-canonical, and already promoted native workers must survive Stability Matrix failure.
+GPU/NUMA placement is discovered dynamically and bound fail-closed through HRB. Direct web endpoints remain loopback-only unless routed through approved policy/authentication. Local UI state is non-canonical, and promoted native workers must survive lifecycle-frontend outage.
 
-Run `./bin/fa3-enforce stability-matrix-lifecycle` for the 23-case executable reference regression gate. A PASS proves the canonical lifecycle and authority boundaries only; real current-host production-worker E2E remains pending.
+```bash
+./bin/fa3-enforce local-generative-media-lifecycle
+PYTHONPATH=src python -m unittest tests.test_local_generative_media_lifecycle_gate -v
+```
+
+Reference CI does not claim current-host runtime promotion.
 
 ## Permanent gates
 
@@ -818,17 +823,13 @@ PYTHONPATH=src python -m unittest tests.test_inference_portability_gate -v
 CI/reference PASS is **not current-host runtime promotion evidence**. Every concrete OpenVINO/ORT/TensorRT/TensorRT-RTX activation still requires immutable runtime pins, Host Resource Broker admission where an accelerator is used, and real current-host compatibility/E2E evidence.
 
 
-## FA3 Model Manager + StabilityMatrix canonical projection (2026-08-31)
+## FA3 Model Manager canonical artifact-store projection (2026-09-26)
 
-- `FA3-MODEL-MANAGER-001` is the mandatory provider-neutral logical model inventory, lifecycle, artifact-identity, lineage and compatibility projection.
-- `FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001` is the preferred current-host physical model-store, discovery, acquisition and shared-package projection provider for model classes StabilityMatrix natively supports.
-- StabilityMatrix is **not replaced or duplicated** by FA3. Shared checkpoint/model management, model browsing/import and package model-folder projection remain provider responsibilities.
-- Logical model identity is independent of filesystem path. Provider metadata is attributed until validated; converted, quantized and optimized outputs are distinct lineage-bearing artifacts.
-- Physical deduplication is never automatic: integrity, format, immutability, runtime compatibility, projection mechanism, rollback and explicit authorization are required.
-- Model routing remains with `FA3-AUTH-MODEL-ROUTER-001`; host admission/placement with `FA3-AUTH-HOST-RESOURCE-BROKER-001`; security, secrets, evidence and promotion remain with their existing authorities.
-- Capability count remains **143**; new capabilities **0**; new architectural authorities **0**.
-- StabilityMatrix current-host usage is user-confirmed, while executable current-host production evidence remains pending and is not promoted by document or CI reference evidence alone.
-
+- The Model Manager uses the policy-bound `FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE` for canonical model artifacts.
+- Provider-native runtime stores remain allowed as non-authoritative runtime projections when a verified shared projection is unavailable.
+- Model identity is content/lineage based and is never derived from an absolute storage path.
+- Read-only cross-provider inventory covers the canonical artifact store plus admitted local provider inventories.
+- Canonical/reference CI does not claim current-host production execution; runtime promotion remains separately evidence-gated.
 
 ## FA3 Marketing Studio — Hungarian-first marketing & growth
 
@@ -1167,32 +1168,22 @@ PYTHONPATH=src python -m unittest tests.test_openyak_gate -v
 See `docs/openyak-integration.md` for the exact activation boundary and pending current-host evidence.
 
 
-## LynxHub optional Creative Operations Dashboard
+## FA3 Creative Operations Dashboard
 
-`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in an admitted Linux desktop session; KDE/Wayland remains the reference path and X11 is supported.
+CAP-057 keeps the Creative Operations Dashboard and approved local-launch capability as an **FA3-native** surface. It has no external dashboard provider or package dependency. The UI is provided by FA3, while the fixed-action dispatcher permits only enumerated user-service actions and approved loopback URLs.
 
-The immutable application baseline is LynxHub `V3.5.8` / source commit `96129c218b8bd4337fd3e4cf220aa97a46c486a5`; the native `LynxHub-V3.5.8-linux_amd64.deb` digest is `b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435`. When action cards are used, Custom Actions is pinned to `v0.4.4` / commit `418be2f8d2488f67f8c6f7728729161577f4c90e` / artifact digest `125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83`. Floating updates and automatic plugin updates are forbidden.
+Free-form shell, privilege escalation, direct MCP/model-runtime routing, secrets/database access, and non-loopback browser targets are denied. Wayland remains preferred and X11 remains supported.
 
-The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, selects the admitted Wayland or X11 session, and deliberately omits `--no-sandbox`.
-
-LynxHub owns only dashboard presentation and approved launch requests. systemd keeps service lifecycle; Stability Matrix keeps ComfyUI/InvokeAI/Forge/Wan2GP package lifecycle; Open WebUI and Goose remain operator clients; the Orchestrator and Temporal keep workflow execution/durability; the Central MCP/Capability Gateway keeps tool policy. Direct MCP/Ollama agent routes, secrets/database access, free-form shell actions, `sudo`/root administration and duplicate desktop autostart are denied.
-
-Install/reconcile and check the user-scoped adapter without enabling or starting LynxHub:
+Install or validate the user-scoped fixed-action integration with:
 
 ```bash
-./bin/fa3-lynxhub-install-user-integration.sh --install
-./bin/fa3-lynxhub-install-user-integration.sh --check
+./bin/fa3-creative-ops-install-user-integration.sh --install
+./bin/fa3-creative-ops-install-user-integration.sh --check
+./bin/fa3-enforce creative-operations-dashboard
+PYTHONPATH=src python -m unittest tests.test_creative_operations_dashboard_gate -v
 ```
 
-Run the 28-rule positive/negative canonical gate with:
-
-```bash
-./bin/fa3-enforce lynxhub
-PYTHONPATH=src python -m unittest tests.test_lynxhub_gate -v
-```
-
-The current-host collector is read-only and remains fail-closed until the real installed package, session-native sandboxed launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
-
+Reference CI does not claim current-host runtime promotion.
 
 ## FA3 portable hardware baseline
 

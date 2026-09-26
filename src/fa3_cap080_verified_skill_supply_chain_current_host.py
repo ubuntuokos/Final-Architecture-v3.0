@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 from fa3_skill_fabric_gate import (
     gate as skill_gate,
     good_package,
@@ -59,7 +61,7 @@ def validate_skill_fabric(root: Path) -> list[str]:
         and profile.get("provider_neutral") is True
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
-        and profile.get("capability_count") == 143
+        and profile.get("capability_count") == module_active_capability_count(__file__)
         and profile.get("contract_id") == "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001"
     ):
         findings.append("skill-fabric identity/governance drift")
@@ -85,7 +87,7 @@ def validate_skill_fabric(root: Path) -> list[str]:
         and contract.get("provider_neutral") is True
         and contract.get("new_capability") is False
         and contract.get("new_architectural_authority") is False
-        and contract.get("capability_count") == 143
+        and contract.get("capability_count") == module_active_capability_count(__file__)
     ):
         findings.append("skill admission contract identity/governance drift")
 

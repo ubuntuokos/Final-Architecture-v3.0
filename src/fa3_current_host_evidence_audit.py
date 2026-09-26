@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from fa3_release_baseline import module_active_capability_count
+from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
 
 import argparse
 import hashlib
@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
-RELEASE = "2026-08-23/v3.0.11"
+RELEASE = load_active_release_baseline(Path(__file__).resolve().parents[1]).release
 RECEIPT_SCHEMA = "fa3.capability-current-host-evidence.v1"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 COMPONENT_REFERENCE = "evidence/reference/hrb-cuda-current-host-2026-08-28.json"
@@ -204,7 +204,7 @@ def audit(root: Path, apply_reconciliation: bool = False) -> dict[str, Any]:
     if registry.get("architecture_release") != RELEASE:
         findings.append({"code": "EVAUD-001", "message": "Evidence Registry release mismatch"})
     if registry.get("record_count") != CAPABILITY_COUNT or len(records) != CAPABILITY_COUNT or actual_ids != expected_ids:
-        findings.append({"code": "EVAUD-002", "message": "Evidence Registry is not the exact 143 capability set"})
+        findings.append({"code": "EVAUD-002", "message": f"Evidence Registry is not the exact {CAPABILITY_COUNT} capability set"})
 
     rows: list[dict[str, Any]] = []
     invalid_pass_claims: list[str] = []
@@ -281,7 +281,7 @@ def audit(root: Path, apply_reconciliation: bool = False) -> dict[str, Any]:
             "path": COMPONENT_REFERENCE,
             "status": ref.get("status"),
             "global_promotion_claim": ref.get("global_promotion_claim"),
-            "interpretation": "COMPONENT_SCOPE_ONLY_NOT_A_143_CAPABILITY_RECEIPT",
+            "interpretation": "COMPONENT_SCOPE_ONLY_NOT_A_CANONICAL_CAPABILITY_RECEIPT",
         }
 
     report = {
@@ -313,7 +313,7 @@ def audit(root: Path, apply_reconciliation: bool = False) -> dict[str, Any]:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="FA3 143-capability current-host Evidence Registry audit")
+    ap = argparse.ArgumentParser(description=f"FA3 {CAPABILITY_COUNT}-capability current-host Evidence Registry audit")
     ap.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--apply-reconciliation", action="store_true")
     args = ap.parse_args()

@@ -80,10 +80,6 @@ def candidate_python_interpreters() -> list[Path]:
         candidates.insert(0, Path(override))
 
     common = [
-        Path("/AI-modells/StabilityMatrix/Packages"),
-        Path("/opt/AI-modells/StabilityMatrix/Packages"),
-        Path("/AI-modells/StabilityMatrix"),
-        Path("/opt/AI-modells/StabilityMatrix"),
         Path("/opt/ai/venv"),
         Path.home() / ".local/share/fa3",
     ]

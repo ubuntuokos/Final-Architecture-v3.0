@@ -24,7 +24,8 @@ class PyTorch3DGateTests(unittest.TestCase):
         cls.root = Path(__file__).resolve().parents[1]
 
     def copy_gate_fixture(self, target: Path) -> None:
-        for rel in PATHS.values():
+        fixture_paths = list(PATHS.values()) + ["canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json"]
+        for rel in fixture_paths:
             src = self.root / rel
             dst = target / rel
             dst.parent.mkdir(parents=True, exist_ok=True)

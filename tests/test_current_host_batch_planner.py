@@ -9,23 +9,23 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class TestCurrentHostBatchPlanner(unittest.TestCase):
-    def test_plan_preserves_143_x_3_obligation_model(self):
+    def test_plan_preserves_175_x_3_materialized_definition_model(self):
         report = build_plan(ROOT, batch_size=5)
         self.assertEqual(report["status"], "PASS")
-        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["capability_count"], 175)
         self.assertEqual(report["required_test_kinds_per_capability"], 3)
-        self.assertEqual(report["required_test_obligation_count"], 429)
+        self.assertEqual(report["required_test_obligation_count"], 525)
         self.assertEqual(
             report["materialized_obligation_count"] + report["pending_obligation_count"],
-            429,
+            525,
         )
         self.assertEqual(
             report["fully_materialized_capability_count"] + report["pending_materialization_capability_count"],
-            143,
+            175,
         )
-        self.assertEqual(report["materialized_obligation_count"], 429)
+        self.assertEqual(report["materialized_obligation_count"], 525)
         self.assertEqual(report["pending_obligation_count"], 0)
-        self.assertEqual(report["fully_materialized_capability_count"], 143)
+        self.assertEqual(report["fully_materialized_capability_count"], 175)
         self.assertEqual(report["pending_materialization_capability_count"], 0)
         self.assertIsNone(report["next_materialization_batch"])
         self.assertEqual(report["materialization_batches"], [])
