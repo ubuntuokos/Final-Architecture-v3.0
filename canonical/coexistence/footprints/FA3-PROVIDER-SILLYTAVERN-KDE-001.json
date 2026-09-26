@@ -5,28 +5,47 @@
   "risk": "P1",
   "upstream_relation": "INTEGRATES",
   "coexistence": {
-    "executables": ["~/.local/libexec/fa3/sillytavern-kde-launch","~/.local/libexec/fa3/sillytavern-kde-start"],
-    "services": ["fa3-sillytavern-kde.service"],
+    "executables": [
+      "~/.local/libexec/fa3/sillytavern-kde-launch",
+      "~/.local/libexec/fa3/sillytavern-kde-start"
+    ],
+    "services": [
+      "fa3-sillytavern-kde.service"
+    ],
     "sockets": [],
-    "ports": ["DYNAMIC"],
-    "config_paths": ["~/.config/fa3/sillytavern-kde.env"],
+    "ports": [
+      "DYNAMIC"
+    ],
+    "config_paths": [
+      "~/.config/fa3/sillytavern-kde.env"
+    ],
     "data_paths": [],
     "cache_paths": [],
-    "desktop_ids": ["fa3-sillytavern-kde.desktop"],
+    "desktop_ids": [
+      "fa3-sillytavern-kde.desktop"
+    ],
     "mime_types": [],
     "protocol_handlers": [],
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": ["SillyTavern/SillyTavern"],
+    "external_app_integrations": [
+      "SillyTavern/SillyTavern"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
-    "artifacts": []
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
+      "src/fa3_sillytavern_kde_gate.py",
+      "bin/fa3-sillytavern-kde-install-user-integration.sh",
+      "deployment/sillytavern-kde/systemd/user/fa3-sillytavern-kde.service",
+      "deployment/sillytavern-kde/applications/fa3-sillytavern-kde.desktop.in"
+    ]
   }
 }

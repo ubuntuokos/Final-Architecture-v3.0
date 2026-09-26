@@ -36,9 +36,15 @@
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
-    "artifacts": []
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json",
+      "canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json",
+      "src/fa3_browser_session_bridge.py",
+      "libexec/fa3-browser-session-native-host.py",
+      "src/fa3_browser_session_gate.py"
+    ]
   }
 }

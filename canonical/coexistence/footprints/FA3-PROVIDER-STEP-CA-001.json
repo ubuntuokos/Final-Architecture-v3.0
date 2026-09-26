@@ -40,9 +40,19 @@
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
-    "current_host_status": "PENDING_CURRENT_HOST",
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST_REQUALIFICATION",
     "runtime_promotion_claim": false,
-    "artifacts": []
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
+      "canonical/step-ca-runtime-admission.json",
+      "canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json",
+      "bin/fa3-step-ca-bootstrap.sh",
+      "bin/fa3-step-ca-activate.sh",
+      "bin/fa3-step-ca-e2e.sh",
+      "bin/fa3-step-ca-backup-restore-drill.sh",
+      "evidence/collect-step-ca-current-host.py",
+      "deployment/step-ca/fa3-step-ca.service"
+    ]
   }
 }
