@@ -7,6 +7,7 @@ from fa3_release_baseline import load_active_release_baseline
 
 def derive(root: Path) -> dict:
     root=root.resolve()
+    baseline=load_active_release_baseline(root)
     provider_dir=root/"canonical/providers"
     records=[]
     invalid=[]
@@ -20,11 +21,15 @@ def derive(root: Path) -> dict:
         if not isinstance(pid,str) or not pid.startswith("FA3-PROVIDER-"):
             invalid.append({"path":str(p.relative_to(root)),"reason":"INVALID_PROVIDER_ID"})
             continue
+        declared_count=obj.get("capability_count")
+        if isinstance(declared_count,int) and declared_count != baseline.capability_count:
+            invalid.append({"path":str(p.relative_to(root)),"reason":"CAPABILITY_BASELINE_DRIFT","declared":declared_count,"active":baseline.capability_count})
+            continue
         records.append({"id":pid,"path":str(p.relative_to(root)),"status":obj.get("status") or obj.get("implementation_status")})
     return {
         "schema":"fa3.provider-count-report.v1",
         "policy_id":"FA3-PROVIDER-COUNT-POLICY-001",
-        "capability_count":load_active_release_baseline(root).capability_count,
+        "capability_count":baseline.capability_count,
         "capability_count_fixed":True,
         "provider_count_fixed":False,
         "provider_count":len(records),
