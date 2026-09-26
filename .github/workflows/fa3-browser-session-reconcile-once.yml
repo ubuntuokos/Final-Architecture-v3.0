@@ -139,14 +139,13 @@ jobs:
           end=s.find("      - name: Static Browser Session gate\n",start)
           if start<0 or end<0:
               raise SystemExit("HRB workflow markers not found")
-          new="""      - name: Verify canonical HRB admission bridge prerequisite
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -x /usr/local/bin/fa3-host-resource-broker-admission
-          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root
-          /usr/local/bin/fa3-host-resource-broker-admission --doctor
-"""
+          new=("      - name: Verify canonical HRB admission bridge prerequisite\\n"
+               "        shell: bash\\n"
+               "        run: |\\n"
+               "          set -euo pipefail\\n"
+               "          test -x /usr/local/bin/fa3-host-resource-broker-admission\\n"
+               "          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root\\n"
+               "          /usr/local/bin/fa3-host-resource-broker-admission --doctor\\n")
           s=s[:start]+new+s[end:]
           static_marker="      - name: Static Browser Session gate\n        env:\n          PYTHONPATH: src\n        run: python src/fa3_browser_session_gate.py --root .\n"
           if "Hardware Safety / portability gate" not in s:
