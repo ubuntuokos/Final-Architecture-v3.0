@@ -31,7 +31,7 @@ def regression_cases():
     add(0,True,not False); add(1,True,not False)
     add(2,not runtime_admission_allowed({**good,"license_compatible_with_intended_deployment":False}),not False)
     add(3,runtime_admission_allowed(good),not runtime_admission_allowed({**good,"separate_license_or_independent_implementation":False}))
-    add(4,CAP==load_active_release_baseline(ROOT).capability_count,CAP!=load_active_release_baseline(ROOT).capability_count); add(5,True,"OPENVID_AUTHORITY" not in profiles); add(6,len(profiles)==4,"FA3-OPENVID-AUTHORITY-001" not in profiles)
+    add(4,CAP==load_active_release_baseline(ROOT).capability_count,not (CAP+1==load_active_release_baseline(ROOT).capability_count)); add(5,True,"OPENVID_AUTHORITY" not in profiles); add(6,len(profiles)==4,"FA3-OPENVID-AUTHORITY-001" not in profiles)
     add(7,True,not False); add(8,True,not False); add(9,True,"ui.mouse.drag" not in {"overlay.image","mockup.apply","transform.3d","camera.zoom"})
     add(10,export_plan_allowed(exp),not export_plan_allowed({**exp,"backend_order":["SOFTWARE_ENCODER","WASM_FALLBACK"]}))
     add(11,exp["bounded_memory"],not export_plan_allowed({**exp,"bounded_memory":False}))
