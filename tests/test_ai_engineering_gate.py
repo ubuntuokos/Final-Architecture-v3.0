@@ -172,6 +172,22 @@ class AIEngineeringGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_release_projection_reconciliation_missing_fails_closed(self):
+        td, root = self._copy_root()
+        try:
+            p = root / "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+            o = json.loads(p.read_text(encoding="utf-8"))
+            o.pop("ai_engineering_reference_reconciliation", None)
+            self._write(p, o)
+            r = a.gate(root)
+            self.assertEqual(r["result"], "FAIL")
+            self.assertTrue(any(
+                x["code"] == "AIENG-REUSE-015"
+                for x in r["reuse_governance"]["findings"]
+            ))
+        finally:
+            td.cleanup()
+
     def test_source_authority_escalation_fails_closed(self):
         td, root = self._copy_root()
         try:
