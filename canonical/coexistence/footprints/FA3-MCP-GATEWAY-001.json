@@ -45,12 +45,16 @@
     "previous_state_capture": true,
     "controlled_mutation": true,
     "rollback": true,
-    "recovery_evidence": false
+    "recovery_evidence": true
   },
   "evidence": {
-    "static_status": "PENDING_RECOVERY_EVIDENCE",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
-    "artifacts": []
+    "artifacts": [
+      "bin/fa3-os-mcp-agent-exposure-install",
+      "evidence/collect-fa3-os-mcp-agent-exposure-current-host.py",
+      "tests/test_fa3_os_mcp_agent_exposure.py"
+    ]
   }
 }

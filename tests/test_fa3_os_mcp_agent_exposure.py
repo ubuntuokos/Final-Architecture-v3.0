@@ -162,6 +162,13 @@ class AgentExposureTests(unittest.TestCase):
         self.assertIn("fa3.mcp-gateway-install-state.v1", installer)
         self.assertIn("fa3.mcp-gateway-uninstall-receipt.v1", installer)
         self.assertIn('"upstream_resources_modified":False', installer)
+        self.assertIn("legacy_unit_byte_equivalent", installer)
+        self.assertIn('cmp -s -- "$UNIT_PATH" "$candidate"', installer)
+        self.assertIn('OWNERSHIP_TRANSITION="LEGACY_BYTE_EQUIVALENT_ADOPTION"', installer)
+        self.assertIn('"legacy_adoption_policy":"BYTE_EQUIVALENT_ONLY"', installer)
+        self.assertIn("rollback_install", installer)
+        self.assertIn("fa3.mcp-gateway-install-rollback-receipt.v1", installer)
+        self.assertIn('"recovery_evidence_materialized":True', installer)
 
     def test_current_host_workflow_propagates_pipeline_failures(self) -> None:
         workflow = (ROOT / ".github/workflows/fa3-os-mcp-agent-exposure.yml").read_text(encoding="utf-8")
