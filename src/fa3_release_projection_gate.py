@@ -11,6 +11,9 @@ PROJECTION_ID = "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30"
 PROJECTION_PATH = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 DECISION_PATH = "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json"
 BASE_COMMIT = "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60"
+SOURCE_GRAPH_RELEASE = "2026-08-23/v3.0.11"
+PROJECTION_SEMANTICS = "CAPABILITY_MODEL_EXPANSION_143_TO_175_WITH_COMPATIBILITY_STABLE_PROJECTION_PATH"
+PREVIOUS_CAPABILITY_COUNT = 143
 EXPECTED_SOURCE_GRAPH_SHA256 = "0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d738c6b8fc553c4f16"
 EXPECTED_SOURCE_GRAPH_NODES = 1615
 EXPECTED_SOURCE_GRAPH_EDGES = 6144
@@ -605,14 +608,15 @@ def gate(root: Path):
     if (
         projection.get("base_release") != BASE_RELEASE
         or projection.get("base_release_commit") != BASE_COMMIT
-        or projection.get("projection_semantics") != "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+        or projection.get("projection_semantics") != PROJECTION_SEMANTICS
     ):
         findings.append(finding("FA3-RELEASE-PROJECTION-002", "Baseline release/commit or projection semantics changed"))
 
     invariants = projection.get("invariants", {})
     if (
         invariants.get("canonical_capability_count") != CAPABILITY_COUNT
-        or invariants.get("new_capabilities") != 0
+        or invariants.get("new_capabilities") != CAPABILITY_COUNT - PREVIOUS_CAPABILITY_COUNT
+        or invariants.get("previous_canonical_capability_count") != PREVIOUS_CAPABILITY_COUNT
         or invariants.get("new_architectural_authorities") != 0
         or invariants.get("baseline_semantics_frozen") is not True
     ):
@@ -629,7 +633,8 @@ def gate(root: Path):
 
     source_graph = projection.get("baseline_source_graph", {})
     if (
-        attestation.get("release") != BASE_RELEASE
+        attestation.get("release") != SOURCE_GRAPH_RELEASE
+        or source_graph.get("release") != SOURCE_GRAPH_RELEASE
         or attestation.get("sha256") != EXPECTED_SOURCE_GRAPH_SHA256
         or attestation.get("graph_nodes") != EXPECTED_SOURCE_GRAPH_NODES
         or attestation.get("graph_edges") != EXPECTED_SOURCE_GRAPH_EDGES
@@ -2839,7 +2844,8 @@ def gate(root: Path):
         decision.get("id") != "FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30"
         or decision.get("status") != "CANONICAL"
         or decision.get("capability_count_after") != CAPABILITY_COUNT
-        or decision.get("new_capabilities") != 0
+        or decision.get("new_capabilities") != CAPABILITY_COUNT - PREVIOUS_CAPABILITY_COUNT
+        or decision.get("previous_canonical_capability_count") != PREVIOUS_CAPABILITY_COUNT
         or decision.get("new_architectural_authorities") != 0
         or decision.get("projection_id") != PROJECTION_ID
     ):
