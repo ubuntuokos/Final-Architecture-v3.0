@@ -31,7 +31,7 @@ class Cap074ServiceCatalogCurrentHostTests(unittest.TestCase):
             "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in",
             "deployment/mcp-gateway/fa3-mcp-gateway.service",
             "deployment/presenton/presenton.container",
-            "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
+            "deployment/sillytavern-kde/systemd/user/fa3-sillytavern-kde.service",
             "deployment/step-ca/fa3-step-ca.service",
             "canonical/mcp-capability-registry.json",
         ]:
