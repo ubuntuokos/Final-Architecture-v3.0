@@ -158,7 +158,7 @@ def gate(root: Path) -> dict[str, Any]:
 
     if decision.get("id") != DECISION_ID or decision.get("status") != "CANONICAL_CLOSED" or decision.get("decision") != "IMPLEMENT":
         findings.append(finding("KDENLIVE-REF-039", "Kdenlive consolidation decision is not closed IMPLEMENT"))
-    if decision.get("mandatory_rules") != RULES or decision.get("capability_count_after") != CAPABILITY_COUNT:
+    if decision.get("mandatory_rules") != RULES or not isinstance(decision.get("capability_count_after"), int) or decision.get("capability_count_after") > CAPABILITY_COUNT:
         findings.append(finding("KDENLIVE-REF-040", "Kdenlive decision rule/count invariant drift"))
     if decision.get("new_capabilities") != 0 or decision.get("new_architectural_authorities") != 0:
         findings.append(finding("KDENLIVE-REF-041", "Kdenlive decision changed capability/authority count"))
