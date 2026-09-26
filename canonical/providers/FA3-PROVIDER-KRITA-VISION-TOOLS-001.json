@@ -4,18 +4,41 @@
   "name": "Krita Vision Tools",
   "status": "ACCEPTED_REFERENCE",
   "provider_role": "OPTIONAL_REPLACEABLE_KRITA_LOCAL_VISION_ASSIST_PROVIDER",
-  "classification": ["OPTIONAL_PROVIDER", "LOCAL_DESKTOP_PROVIDER", "KRITA_PLUGIN", "LOCAL_VISION_ASSIST", "SEGMENTATION_BACKGROUND_REMOVAL"],
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "LOCAL_DESKTOP_PROVIDER",
+    "KRITA_PLUGIN",
+    "LOCAL_VISION_ASSIST",
+    "SEGMENTATION_BACKGROUND_REMOVAL"
+  ],
   "profile": "FA3-AI-IMAGE-EDITING-001",
-  "capability_projection": ["CAP-016", "CAP-120", "CAP-135"],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-120",
+    "CAP-135"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_WHEN_LOCAL_VISION_ASSIST_IS_USED",
   "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
-  "upstream_references": [{"repository": "Acly/krita-vision-tools", "observed_revision": "3e7462aa54886ec498474647b507ca863ed22b38", "observed_date": "2026-09-11", "license": "GPL-3.0", "role": "OPTIONAL_REFERENCE_PROVIDER"}],
-  "operation_projection": ["segmentation", "background_remove", "selection_assist", "smart_fill_preparation"],
+  "upstream_references": [
+    {
+      "repository": "Acly/krita-vision-tools",
+      "observed_revision": "3e7462aa54886ec498474647b507ca863ed22b38",
+      "observed_date": "2026-09-11",
+      "license": "GPL-3.0",
+      "role": "OPTIONAL_REFERENCE_PROVIDER"
+    }
+  ],
+  "operation_projection": [
+    "segmentation",
+    "background_remove",
+    "selection_assist",
+    "smart_fill_preparation"
+  ],
   "model_asset_policy": {
     "canonical_model_admission_required": true,
     "unadmitted_model_execution_forbidden_in_fa3_governed_mode": true,
@@ -31,7 +54,21 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "orchestration": "EXISTING_FA3_DURABLE_ORCHESTRATION"
   },
-  "forbidden_roles": ["GLOBAL_ORCHESTRATION_AUTHORITY", "WORKFLOW_AUTHORITY", "MODEL_REGISTRY_AUTHORITY", "MODEL_ROUTER_AUTHORITY", "MCP_GATEWAY_AUTHORITY", "HOST_RESOURCE_AUTHORITY", "EVIDENCE_AUTHORITY", "POLICY_AUTHORITY", "SECRETS_AUTHORITY", "PROVENANCE_AUTHORITY", "GENERATION_CONTEXT_IR_AUTHORITY"],
+  "forbidden_roles": [
+    "GLOBAL_ORCHESTRATION_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "MODEL_REGISTRY_AUTHORITY",
+    "MODEL_ROUTER_AUTHORITY",
+    "MCP_GATEWAY_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "POLICY_AUTHORITY",
+    "SECRETS_AUTHORITY",
+    "PROVENANCE_AUTHORITY",
+    "GENERATION_CONTEXT_IR_AUTHORITY"
+  ],
   "current_host_runtime_evidence": "NOT_CLAIMED",
-  "current_host_production_claim": false
+  "current_host_production_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
