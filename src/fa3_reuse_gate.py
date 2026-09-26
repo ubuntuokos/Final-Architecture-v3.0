@@ -84,7 +84,8 @@ def _capability_model_175_mirror_only(root: Path, marker: str, rel: str, current
         return False
     if previous.get("capability_count") != 143 or current.get("capability_count") != 175:
         return False
-    if current.get("capability_baseline_release") != "2026-09-26/v3.1.0":
+    active = load_active_release_baseline(root)
+    if active.release != "2026-09-26/v3.1.0" or active.capability_count != 175:
         return False
     if current.get("capability_model_reconciliation") != "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26":
         return False
