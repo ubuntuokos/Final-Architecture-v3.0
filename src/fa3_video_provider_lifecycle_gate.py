@@ -73,7 +73,11 @@ def _f(code,msg,**extra): return {"code":code,"severity":"P0","message":msg,**ex
 
 def provider_not_authority(canonical_root=False,architectural_authority=False,owns_authority=False):
     return not canonical_root and not architectural_authority and not owns_authority
-def count_invariant(count=None,new_caps=0,new_auth=0):\n    active = module_active_capability_count(__file__)\n    if count is None:\n        count = active\n    return count == active and new_caps == 0 and new_auth == 0
+def count_invariant(count=None,new_caps=0,new_auth=0):
+    active = module_active_capability_count(__file__)
+    if count is None:
+        count = active
+    return count == active and new_caps == 0 and new_auth == 0
 def immutable_pins_valid(open_pin,helios_pin):
     return open_pin==OPEN_SORA_PIN and helios_pin==HELIOS_PIN and all(x not in {"main","master","latest","floating",""} for x in (open_pin,helios_pin))
 def lifecycle_valid(predecessor,successor,distinct): return predecessor==OPEN_SORA_ID and successor==HELIOS_ID and distinct
