@@ -10,7 +10,7 @@ CONTRACT="canonical/contracts/FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001.json"
 PLAN="canonical/materialization/FA3-KHRONOS-SDK-MATERIALIZATION-001.json"
 INTENT="canonical/intents/FA3-KHRONOS-OPEN-STANDARDS-APPLICATION-INTENT-001.json"
 REUSE="canonical/assessments/FA3-KHRONOS-OPEN-STANDARDS-REUSE-ASSESSMENT-001.json"
-GATE="canonical/FA3-GATE-KHRONOS-OPEN-STANDARDS-001.json"
+GATE="canonical/FA3-GATE-KHRONOS-OPEN-STANDARDS-001.json"\nINTEGRATION="canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
 
 EXPECTED={
 "KhronosGroup/Vulkan-Headers":"e3b1eec08173d6b825cd3ac88c885a63b621504a",
@@ -40,7 +40,7 @@ def load(root:Path, rel:str)->dict[str,Any]:
 def validate(root:Path)->list[dict[str,Any]]:
     root=root.resolve(); findings=[]
     try:
-        p=load(root,PROFILE); c=load(root,CONTRACT); m=load(root,PLAN); i=load(root,INTENT); r=load(root,REUSE); g=load(root,GATE)
+        p=load(root,PROFILE); c=load(root,CONTRACT); m=load(root,PLAN); i=load(root,INTENT); r=load(root,REUSE); g=load(root,GATE); x=load(root,INTEGRATION)
     except Exception as exc:
         return [{"code":"KHR-001","message":"required canonical input invalid or missing","detail":str(exc)}]
     count=load_active_release_baseline(root).capability_count
@@ -57,7 +57,7 @@ def validate(root:Path)->list[dict[str,Any]]:
       (c.get("profile")==p.get("id") and c.get("new_architectural_authority") is False,"KHR-011","contract/profile boundary mismatch"),
       (i.get("proposed_authority_roles")==[] and i.get("declared_new_capabilities")==[],"KHR-012","ApplicationIntent adds authority/capability"),
       (r.get("result")=="PASS" and r.get("current_host_runtime_promotion_claim") is False and r.get("global_promotion_claim") is False,"KHR-013","ReuseAssessment invalid"),
-      (g.get("fail_closed") is True and g.get("static_pass_promotes_runtime") is False,"KHR-014","gate promotion semantics invalid"),
+      (g.get("fail_closed") is True and g.get("static_pass_promotes_runtime") is False,"KHR-014","gate promotion semantics invalid"),\n      (x.get("profile")==p.get("id") and x.get("authority_delta")==0 and x.get("current_host_runtime_promotion") is False,"KHR-014A","integration map boundary invalid"),
       (m.get("source_policy")=="IMMUTABLE_GIT_COMMIT_PIN" and m.get("production_promotion_from_materialization") is False,"KHR-015","materialization policy invalid"),
     ]
     for ok,code,msg in checks:
