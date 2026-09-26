@@ -11845,22 +11845,21 @@
   "model_manager_reconciliation": {
     "profile_id": "FA3-MODEL-MANAGER-001",
     "contract_id": "FA3-MODEL-MANAGER-CONTRACTS-001",
-    "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "canonical_store_id": "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE",
     "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
-    "classification": "PROVIDER_NEUTRAL_MODEL_INVENTORY_LIFECYCLE_OVERLAY_WITH_STABILITY_MATRIX_PREFERRED_STORE_PROVIDER",
+    "classification": "PROVIDER_NEUTRAL_MODEL_INVENTORY_LIFECYCLE_WITH_POLICY_BOUND_CANONICAL_ARTIFACT_STORE",
     "capability_bindings": [
       "CAP-005",
       "CAP-016",
       "CAP-120"
     ],
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_USAGE_CONFIRMED_EXECUTABLE_EVIDENCE_PENDING",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_RUNTIME_EVIDENCE_PENDING",
     "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
     "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
-    "provider_usage_state": "USER_CONFIRMED_IN_USE",
-    "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+    "runtime_activation_status": "CANONICAL_STORE_POLICY_MATERIALIZED_RUNTIME_EVIDENCE_PENDING",
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
-    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "external_model_store_manager_required": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 175
