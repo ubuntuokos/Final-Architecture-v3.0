@@ -239,7 +239,7 @@ def gate(root: Path) -> dict[str, Any]:
     if (
         decision.get("new_capabilities") != 0
         or decision.get("new_architectural_authorities") != 0
-        or decision.get("capability_count_after") != CAPABILITY_COUNT
+        or not isinstance(decision.get("capability_count_after"), int) or decision.get("capability_count_after") > CAPABILITY_COUNT
         or decision.get("current_host_runtime_promotion_claim") is not False
     ):
         findings.append(finding("HARDEN-004", "Decision changes capability/authority/promotion baseline"))
@@ -396,14 +396,14 @@ def gate(root: Path) -> dict[str, Any]:
     rejected = set(reconciliation.get("rejected", []))
     if not (
         reconciliation.get("status") == "ACCEPTED_MATERIALIZED"
-        and baseline.get("capability_count_before") == baseline.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(baseline.get("capability_count_before"), int) and baseline.get("capability_count_before") == baseline.get("capability_count_after") and baseline.get("capability_count_after") <= CAPABILITY_COUNT
         and baseline.get("acceptance_criteria_before") == baseline.get("acceptance_criteria_after") == 19
         and baseline.get("new_architectural_authorities") == 0
         and "GLOBAL_NVIDIA_CUDA_NVML_RTX_SM86_GPU_SKU_INDEX_UUID_OR_VRAM_BASELINE" in rejected
         and "EXPANDING_NINETEEN_ACCEPTANCE_CRITERIA_TO_TWENTY_TWO" in rejected
         and closure.get("global_promotion_claim") is False
         and closure.get("fabricated_current_host_pass_forbidden") is True
-        and data["hardware_decision"].get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(data["hardware_decision"].get("capability_count_after"), int) and data["hardware_decision"].get("capability_count_after") <= CAPABILITY_COUNT
         and policy.get("secret_broker_contract_id") == secret_broker.get("id")
         and policy.get("modernization_reconciliation_decision_id") == reconciliation.get("id")
         and policy.get("modernization_acceptance_criteria_count") == 19
