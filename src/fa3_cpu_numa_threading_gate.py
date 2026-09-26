@@ -69,7 +69,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     forbidden = " ".join(profile.get("explicitly_forbidden_as_global_baseline", [])).lower()
     runtime_env = host_plan["environment"]
     checks = [
-        check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") == decision.get("capability_count_after"), "capability count remains 143"),
+        check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT, "active profile/contract count follows release baseline; historical decision does not exceed it"),
         check("no-new-authority", profile.get("new_architectural_authority") is False and contract.get("new_architectural_authority") is False and decision.get("new_architectural_authority") is False, "no parallel resource authority introduced"),
         check("mandatory-subprofile", profile.get("requirement") == "MUST" and profile.get("parent_profile_id") == "FA3-HOST-RESOURCE-BROKER-001" and profile.get("profile_alias") == "PROFILE-CPU-NUMA", "PROFILE-CPU-NUMA is an HRB subprofile"),
         check("contract-and-provider-linked", contract.get("id") in hrb.get("contracts", []) and systemd.get("delegates_authority_to") == "FA3-AUTH-HOST-RESOURCE-BROKER-001", "HRB contracts and systemd projection are linked"),
