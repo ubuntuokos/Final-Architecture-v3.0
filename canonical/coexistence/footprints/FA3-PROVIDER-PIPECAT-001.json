@@ -18,17 +18,20 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "Pipecat optional adapter provider; controlled disabled until current-host conformance"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-PIPECAT-001.json"
+      "canonical/providers/FA3-PROVIDER-PIPECAT-001.json",
+      "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json"
     ]
   }
 }

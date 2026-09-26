@@ -11,24 +11,32 @@
     "ports": [],
     "config_paths": [],
     "data_paths": [],
-    "cache_paths": [],
+    "cache_paths": [
+      "$REPO/.venv-whisper",
+      "${XDG_CACHE_HOME:-$HOME/.cache}/fa3/whisper"
+    ],
     "desktop_ids": [],
     "mime_types": [],
     "protocol_handlers": [],
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "openai/whisper isolated FA3 provider runtime"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-WHISPER-001.json"
+      "canonical/providers/FA3-PROVIDER-WHISPER-001.json",
+      "bin/fa3-whisper-bootstrap.sh",
+      "src/fa3_whisper_stt_provider.py",
+      "tests/test_whisper_stt_provider.py"
     ]
   }
 }

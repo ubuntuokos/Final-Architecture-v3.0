@@ -10,25 +10,34 @@
     "sockets": [],
     "ports": [],
     "config_paths": [],
-    "data_paths": [],
-    "cache_paths": [],
+    "data_paths": [
+      "$REPO/.providers/CosyVoice",
+      "$REPO/.providers/models/Fun-CosyVoice3-0.5B"
+    ],
+    "cache_paths": [
+      "$REPO/.venv-cosyvoice"
+    ],
     "desktop_ids": [],
     "mime_types": [],
     "protocol_handlers": [],
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "QwenAudio/CosyVoice source/model materialized only in FA3 repo-local .providers namespace"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json"
+      "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
+      "bin/fa3-cosyvoice-bootstrap.sh",
+      "src/fa3_cosyvoice_provider.py"
     ]
   }
 }

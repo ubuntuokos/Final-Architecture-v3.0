@@ -18,17 +18,20 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "Obsidian Desktop optional manual user-session workspace; FA3 does not own application installation or vault path"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-OBSIDIAN-001.json"
+      "canonical/providers/FA3-PROVIDER-OBSIDIAN-001.json",
+      "docs/obsidian-integration.md"
     ]
   }
 }

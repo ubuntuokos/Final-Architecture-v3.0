@@ -18,17 +18,20 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "GIMP local AI provider boundary; independently installed GIMP remains upstream-owned"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-GIMP-AI-LOCAL-001.json"
+      "canonical/providers/FA3-PROVIDER-GIMP-AI-LOCAL-001.json",
+      "canonical/decisions/FA3-DEC-GIMP-LOCAL-AI-2026-09-08.json"
     ]
   }
 }

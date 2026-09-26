@@ -18,17 +18,20 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "optional Krita AI Diffusion plugin reference; upstream Krita/plugin installation remains independently owned"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-KRITA-AI-DIFFUSION-001.json"
+      "canonical/providers/FA3-PROVIDER-KRITA-AI-DIFFUSION-001.json",
+      "evidence/static/FA3-KRITA-AI-IMAGE-EDITING-STATIC-PASS-2026-09-11.json"
     ]
   }
 }
