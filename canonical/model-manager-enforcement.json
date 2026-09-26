@@ -43,13 +43,13 @@
       "invariant": "CANONICAL_ARTIFACT_STORE_IS_POLICY_BOUND_AND_PROVIDER_NEUTRAL",
       "priority": "P0",
       "mandatory": true,
-      "description": "external model-store manager remains the preferred physical store for natively supported media-model classes on the current host."
+      "description": "The FA3 policy-bound canonical artifact store is provider-neutral; provider-native stores remain non-authoritative runtime projections."
     },
     {
       "invariant": "MODEL_MANAGER_DOES_NOT_REQUIRE_EXTERNAL_MODEL_STORE_MANAGER",
       "priority": "P0",
       "mandatory": true,
-      "description": "FA3 Model Manager augments rather than reimplements external model-store manager model management."
+      "description": "FA3 Model Manager operates without requiring an external model-store manager; provider-native stores may remain bounded runtime projections."
     },
     {
       "invariant": "LOGICAL_MODEL_IDENTITY_SEPARATE_FROM_PHYSICAL_STORAGE_PATH",
@@ -109,7 +109,7 @@
       "invariant": "MODEL_MANAGER_NOT_SECRETS_POLICY_PROMOTION_AUTHORITY",
       "priority": "P0",
       "mandatory": true,
-      "description": "Model Manager and external model-store manager cannot become secrets, security-policy or promotion authorities."
+      "description": "Model Manager and runtime-store providers cannot become secrets, security-policy, or promotion authorities."
     },
     {
       "invariant": "PROVIDER_OUTAGE_PRESERVES_READABLE_CANONICAL_INVENTORY_PROJECTION",
