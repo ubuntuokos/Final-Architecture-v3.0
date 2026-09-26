@@ -1,0 +1,19 @@
+{
+  "schema":"fa3.integration-map.v1",
+  "id":"FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+  "profile":"FA3-KHRONOS-OPEN-STANDARDS-001",
+  "capability":"CAP-083",
+  "authority_delta":0,
+  "bindings":[
+    {"layer":"HOST_RESOURCE_BROKER","projects":["KhronosGroup/Vulkan-Profiles","KhronosGroup/OpenCL-ICD-Loader"],"mode":"READ_ONLY_CAPABILITY_OBSERVATION","authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001"},
+    {"layer":"SHADER_FABRIC","projects":["KhronosGroup/glslang","KhronosGroup/SPIRV-Tools","KhronosGroup/SPIRV-Cross"],"mode":"COMPILE_VALIDATE_OPTIMIZE_REFLECT","fail_closed":true},
+    {"layer":"ASSET_GRAPH","projects":["KhronosGroup/glTF-Validator","KhronosGroup/KTX-Software"],"mode":"INTERCHANGE_VALIDATE_TRANSCODE","native_project_files_preserved":true},
+    {"layer":"RENDER_FABRIC","projects":["KhronosGroup/ANARI-SDK","KhronosGroup/Vulkan-Loader","KhronosGroup/Vulkan-ValidationLayers"],"mode":"REPLACEABLE_RENDER_PROVIDER_BOUNDARY"},
+    {"layer":"XR_PROVIDER","projects":["KhronosGroup/OpenXR-SDK"],"mode":"VENDOR_NEUTRAL_XR_RUNTIME_BOUNDARY"},
+    {"layer":"COMPUTE_PROVIDER","projects":["KhronosGroup/OpenCL-Headers","KhronosGroup/OpenCL-ICD-Loader"],"mode":"OPTIONAL_HETEROGENEOUS_COMPUTE_BACKEND"},
+    {"layer":"VISION_FABRIC","projects":["KhronosGroup/OpenVX-sample-impl"],"mode":"REFERENCE_GRAPH_AND_OPERATOR_PROVIDER"},
+    {"layer":"MODEL_ARTIFACT_FABRIC","projects":["KhronosGroup/NNEF-Tools"],"mode":"OPTIONAL_IMPORT_EXPORT_INTERCHANGE"}
+  ],
+  "forbidden":["provider authority takeover","silent backend fallback","system package replacement","global environment mutation","GPU SKU based capability inference"],
+  "current_host_runtime_promotion":false
+}
