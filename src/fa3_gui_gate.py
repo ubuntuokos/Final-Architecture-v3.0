@@ -3,7 +3,10 @@ from __future__ import annotations
 
 import json
 
-from fa3_release_baseline import module_active_capability_count
+try:
+    from fa3_release_baseline import module_active_capability_count
+except ModuleNotFoundError:
+    from .fa3_release_baseline import module_active_capability_count
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
