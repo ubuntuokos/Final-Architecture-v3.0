@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 from fa3_ffmpeg_ai_gate import (
     CAPABILITY_COUNT,
@@ -68,7 +69,7 @@ class FFmpegAIGateTests(unittest.TestCase):
         self.assertFalse(standard_filter_claim_allowed("python_script"))
 
     def test_reference_pass_does_not_claim_current_host(self):
-        self.assertEqual(143, CAPABILITY_COUNT)
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, CAPABILITY_COUNT)
         self.assertEqual("PENDING_REAL_CURRENT_HOST_E2E", RUNTIME_STATUS)
 
 
