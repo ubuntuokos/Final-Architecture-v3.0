@@ -4,7 +4,7 @@
   "status": "CANONICAL",
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
   "provider_neutral": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "ModelInterchangeDescriptor",
     "OnnxExportReceipt",
@@ -268,5 +268,6 @@
     "automatic_environment_scanning": "FORBIDDEN",
     "runtime_probe_identity_binding": "RESOLVED_EXECUTABLE_PATH_PLUS_SHA256_REQUIRED",
     "runtime_admission_pin_identity": "EXACT_ENVIRONMENT_INTERPRETER_PROVIDER_MODULE_AND_EXECUTION_BINARY_MATCH_REQUIRED"
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
