@@ -189,7 +189,7 @@ def run_regressions() -> dict[str, Any]:
     minimal_provider = {
         "id": PROVIDER_ID, "canonical_root": False, "architectural_authority": False,
         "new_capability": False, "new_architectural_authority": False,
-        "capability_count": 143, "capability_bindings": CAPABILITIES,
+        "capability_count": module_active_capability_count(__file__), "capability_bindings": CAPABILITIES,
         "related_model_store_provider_id": MODEL_STORE_PROVIDER_ID,
         "authority_boundaries": {"workflow_orchestration": "TEMPORAL_AND_EXISTING_FA3_ORCHESTRATION_AUTHORITY_ONLY", "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "security_policy": "FA3-AUTH-SECURITY-GOV-001", "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001"},
     }
