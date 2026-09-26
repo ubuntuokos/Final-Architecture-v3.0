@@ -2,8 +2,8 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-BROWSER-SESSION-INTERACTION-001",
   "name": "Governed Existing-Profile Browser Session Interaction",
-  "version": "1.0.0",
-  "status": "CANONICAL_DESIGN_CURRENT_HOST_PENDING",
+  "version": "1.1.0",
+  "status": "CANONICAL_CURRENT_HOST_IMPLEMENTATION_MATERIALIZED_E2E_PENDING",
   "priority": "P0",
   "requirement": "MUST-IF-EXISTING_USER_BROWSER_SESSION_IS_USED",
   "parent_profile": "FA3-BROWSER-ACTION-RUNTIME-001",
@@ -31,16 +31,18 @@
   ],
   "invariants": [
     "USER_BROWSER_WINDOWS_OUT_OF_SCOPE_BY_DEFAULT",
-    "AGENT_WINDOW_SEPARATE_BY_DEFAULT",
-    "TAB_BORROW_EXPLICIT_AND_TTL_BOUND",
+    "AGENT_WINDOW_SEPARATE_FROM_USER_WINDOWS",
+    "EXISTING_TAB_ACCESS_REQUIRES_EXPLICIT_TTL_BORROW",
     "BORROW_DOES_NOT_GRANT_BROWSER_WIDE_ACCESS",
-    "PAGE_CONTENT_UNTRUSTED",
+    "LOGICAL_TAB_BORROW_DOES_NOT_REPARENT_USER_TAB",
+    "ORIGIN_CHANGE_UNDER_LEASE_REQUIRES_NEW_AUTHORIZATION",
+    "PAGE_CONTENT_REMAINS_UNTRUSTED_EXTERNAL_INPUT",
     "CREDENTIAL_COOKIE_TOKEN_EXPORT_FORBIDDEN",
-    "POPUP_AND_NEW_TAB_DO_NOT_INHERIT_AUTHORITY",
+    "POPUP_OR_NEW_TAB_DOES_NOT_INHERIT_AUTHORITY",
     "HUMAN_ASSISTANCE_DOES_NOT_EXPAND_AGENT_AUTHORITY",
-    "STOP_SUSPEND_FAILURE_REVOKES_OR_RETURNS_LEASES",
-    "RESUME_REQUIRES_FRESH_OBSERVATION_AND_AUTHORIZATION",
-    "REMOTE_BROWSER_NOT_ADMITTED_BY_THIS_PROFILE"
+    "SESSION_STOP_OR_FAILURE_RETURNS_OR_REVOKES_BORROWED_TABS",
+    "RESUME_AFTER_HUMAN_ASSISTANCE_REQUIRES_FRESH_OBSERVATION_AND_AUTHORIZATION",
+    "REMOTE_BROWSER_SESSION_NOT_ADMITTED_BY_THIS_PROFILE"
   ],
   "authorities": {
     "browser_action_runtime": "FA3-BROWSER-ACTION-RUNTIME-001",
@@ -63,18 +65,45 @@
     "accelerator_cardinality": "0..N",
     "accelerator_required": false
   },
-  "coexistence": {
+  "evidence_boundary": {
+    "current_host_runtime_claim": false,
+    "implementation_materialized": true,
+    "extension_bridge_proven": false,
+    "native_messaging_proven": false,
+    "human_assistance_overlay_proven": false,
+    "human_assistance_completion_proven": false,
+    "real_existing_user_profile_login_proven": false,
+    "borrow_return_proven": false,
+    "global_promotion_claim": false
+  },
+  "provider_candidate": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+  "current_host_gate": "FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001",
+  "software_coexistence": {
     "namespaced_bridge_required": true,
     "upstream_installation_required": false,
     "upstream_replacement": false,
     "global_browser_config_hijack": false,
-    "fixed_port_required": false
+    "fixed_port_required": false,
+    "upstream_uninstall_required": false,
+    "fixed_port": false,
+    "current_host_native_host_registration": "TEMPORARY_HOME_ONLY"
   },
-  "evidence_boundary": {
-    "current_host_runtime_claim": false,
-    "extension_bridge_proven": false,
-    "native_messaging_proven": false,
-    "human_takeover_proven": false,
-    "borrow_return_proven": false
+  "implementation": {
+    "extension": "browser/fa3-session-extension",
+    "native_host": "libexec/fa3-browser-session-native-host.py",
+    "provider": "src/fa3_browser_session_provider.py",
+    "transport": "NATIVE_MESSAGING_TO_NAMESPACED_UNIX_SOCKET",
+    "socket": "$XDG_RUNTIME_DIR/fa3/browser-session/bridge.sock",
+    "borrow_semantics": "LOGICAL_LEASE_WITHOUT_USER_TAB_REPARENTING",
+    "bounded_action_runtime_reused": true,
+    "real_hrb_authorization_required": true
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "fail_closed": true,
+    "hardware_parameter_mutation": "DENY",
+    "unsafe_or_unknown_hardware_tuning": "DENY",
+    "safety_protection_bypass": "DENY",
+    "workload_semantics": "NO_HARDWARE_PARAMETER_MUTATION_REQUIRED"
   }
 }

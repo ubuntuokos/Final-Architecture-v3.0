@@ -6,7 +6,9 @@
   "gate": "src/fa3_browser_action_gate.py",
   "tests": [
     "tests/test_browser_action_runtime.py",
-    "tests/test_decision_fabric.py"
+    "tests/test_decision_fabric.py",
+    "tests/test_browser_session_bridge.py",
+    "tests/test_browser_session_gate.py"
   ],
   "workflow": ".github/workflows/fa3-browser-action-runtime.yml",
   "fail_closed": true,

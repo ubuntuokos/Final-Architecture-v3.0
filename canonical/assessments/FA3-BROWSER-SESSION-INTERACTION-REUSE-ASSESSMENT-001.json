@@ -5,9 +5,11 @@
   "intent_id": "FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001",
   "intent_path": "canonical/intents/FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001.json",
   "covered_ids": [
-    "FA3-BROWSER-SESSION-INTERACTION-001"
+    "FA3-BROWSER-SESSION-INTERACTION-001",
+    "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+    "FA3-BROWSER-ACTION-RUNTIME-001"
   ],
-  "project_status": "STATIC_MATERIALIZATION_CURRENT_HOST_PENDING",
+  "project_status": "PHYSICAL_BRIDGE_IMPLEMENTATION_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -51,10 +53,16 @@
     {
       "id": "REMOTE_BROWSER_AUTO_ADMISSION",
       "reason": "SEPARATE_SECURITY_AND_CURRENT_HOST_ADMISSION_REQUIRED"
+    },
+    {
+      "id": "TAB_REPARENTING_AS_REQUIRED_BORROW_SEMANTIC",
+      "reason": "FA3_LOGICAL_LEASE_AVOIDS_USER_WINDOW_LAYOUT_MUTATION_AND_TAB_LOSS_RISK"
     }
   ],
   "gaps": [
-    "PHYSICAL_EXTENSION_NATIVE_MESSAGING_BORROW_RETURN_HUMAN_TAKEOVER_EVIDENCE"
+    "PHYSICAL_EXTENSION_NATIVE_MESSAGING_CURRENT_HOST_E2E",
+    "REAL_EXISTING_USER_PROFILE_LOGIN_REUSE_MANUAL_QUALIFICATION",
+    "REAL_HUMAN_ASSISTANCE_COMPLETION_MANUAL_QUALIFICATION"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
@@ -67,7 +75,20 @@
     "namespaced": true,
     "upstream_uninstall_required": false,
     "global_mutation": false,
-    "external_browser_tools_may_coexist_independently": true
+    "external_browser_tools_may_coexist_independently": true,
+    "logical_borrow_without_tab_reparenting": true
   },
-  "implementation_readiness": "STATIC_READY_CURRENT_HOST_PENDING"
+  "implementation_readiness": "PHYSICAL_BRIDGE_READY_FOR_CURRENT_HOST_E2E",
+  "new_authority_required": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "result": "PASS",
+    "hardware_parameter_mutation_required": false,
+    "fail_closed": true
+  }
 }

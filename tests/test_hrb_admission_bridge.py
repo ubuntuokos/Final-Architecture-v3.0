@@ -13,6 +13,11 @@ root_helper=load_module("fa3_hrb_admission_root",ROOT/"libexec/fa3-host-resource
 client=load_module("fa3_hrb_admission_client",ROOT/"libexec/fa3-host-resource-broker-admission.py")
 
 class HrbAdmissionBridgeTests(unittest.TestCase):
+    def test_root_helper_denial_codes_do_not_expose_secret_material(self):
+        self.assertEqual("KEYRING_INVALID",root_helper._denial_code(root_helper.AdmissionError("HRB admission keyring scope mismatch")))
+        self.assertEqual("WORKLOAD_INVALID",root_helper._denial_code(root_helper.AdmissionError("workload schema mismatch")))
+        self.assertEqual("INPUT_INVALID",root_helper._denial_code(root_helper.AdmissionError("input ownership or mode invalid")))
+
     def workload_bytes(self):
         return json.dumps({"schema":root_helper.WORKLOAD_SCHEMA,"workload_id":"cpu-workload-1","requirements":[{"metric":"cpu.physical_cores","operator":">=","value":1},{"metric":"memory.total_gib","operator":">=","value":1}]}).encode()
 
@@ -31,6 +36,15 @@ class HrbAdmissionBridgeTests(unittest.TestCase):
         self.assertTrue(validated["semantics"]["authorization_is_not_resource_lease"])
         self.assertNotIn("lease_id",validated)
 
+    def test_client_propagates_bounded_denial_reason(self):
+        with tempfile.TemporaryDirectory() as td:
+            td=Path(td); workload=td/"workload.json"; out=td/"auth.json"; helper=td/"helper"; helper.write_text("x"); helper.chmod(0o755)
+            workload.write_bytes(self.workload_bytes()); workload.chmod(0o600)
+            denied=mock.Mock(returncode=2,stdout="",stderr="DENIED:KEYRING_INVALID\n")
+            with mock.patch.object(os,"geteuid",return_value=1000), mock.patch.object(client.subprocess,"run",return_value=denied):
+                with self.assertRaisesRegex(client.ClientError,"KEYRING_INVALID"):
+                    client.authorize(workload,out,helper=helper)
+
     def test_tampered_authorization_rejected(self):
         with mock.patch.object(root_helper,"_load_keyring",return_value=("k1",bytes.fromhex("22"*32))):
             doc=root_helper.issue_authorization(self.workload_bytes())
@@ -42,6 +56,11 @@ class HrbAdmissionBridgeTests(unittest.TestCase):
         bad=json.dumps({"schema":root_helper.WORKLOAD_SCHEMA,"workload_id":"w","requirements":[{"metric":"tu","operator":">=","value":1}]}).encode()
         with self.assertRaises(root_helper.AdmissionError):
             root_helper._parse_workload(bad)
+
+    def test_installer_owner_only_permission_check_has_correct_precedence(self):
+        script=(ROOT/"bin/fa3-install-hrb-admission-bridge.sh").read_text(encoding="utf-8")
+        self.assertIn('(( (8#$mode & 077) == 0 ))',script)
+        self.assertNotIn('(( 8#$mode & 077 == 0 ))',script)
 
     def test_client_writes_private_authorization_without_shell(self):
         with tempfile.TemporaryDirectory() as td:
