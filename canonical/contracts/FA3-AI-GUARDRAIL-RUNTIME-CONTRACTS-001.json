@@ -9,7 +9,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "GuardrailRequest",
     "GuardrailDecision",
@@ -47,9 +47,24 @@
     "evidence_ids",
     "fallback_status"
   ],
-  "phases": ["INPUT", "OUTPUT", "TOOL_BOUNDARY"],
-  "verdicts": ["ALLOW", "BLOCK", "REVIEW", "INCONCLUSIVE", "ERROR"],
-  "fail_modes": ["FAIL_OPEN", "FAIL_CLOSED", "DEGRADE_TO_SECONDARY_PROVIDER", "HUMAN_APPROVAL"],
+  "phases": [
+    "INPUT",
+    "OUTPUT",
+    "TOOL_BOUNDARY"
+  ],
+  "verdicts": [
+    "ALLOW",
+    "BLOCK",
+    "REVIEW",
+    "INCONCLUSIVE",
+    "ERROR"
+  ],
+  "fail_modes": [
+    "FAIL_OPEN",
+    "FAIL_CLOSED",
+    "DEGRADE_TO_SECONDARY_PROVIDER",
+    "HUMAN_APPROVAL"
+  ],
   "mandatory_semantics": {
     "capability_task_match_required": true,
     "out_of_scope_guardrail_must_not_issue_canonical_pass": true,
@@ -88,5 +103,7 @@
     "GUARDRAIL_BENCHMARK_CALIBRATION_REQUIRED_BEFORE_PROMOTION",
     "GUARDRAIL_MODEL_PROVIDER_VERSION_PROVENANCE_REQUIRED",
     "GUARDRAIL_ERROR_FALLBACK_AND_AUDIT_METADATA_REQUIRED"
-  ]
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
