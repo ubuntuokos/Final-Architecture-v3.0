@@ -22,7 +22,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "hard_dependency": false,
   "activation_mode": "OPTIONAL_MANUAL_USER_SESSION",
   "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
@@ -75,5 +75,6 @@
     "EVIDENCE_PROVENANCE_OR_REGISTRY_AUTHORITY",
     "GENERAL_AGENT_FILESYSTEM_AUTHORITY"
   ],
-  "normative_constraint": "Obsidian SHALL remain an optional human-facing local Markdown knowledge workspace provider. It SHALL NOT become the FA3 agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority."
+  "normative_constraint": "Obsidian SHALL remain an optional human-facing local Markdown knowledge workspace provider. It SHALL NOT become the FA3 agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
