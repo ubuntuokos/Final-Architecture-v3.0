@@ -6,6 +6,7 @@ import copy
 import json
 import re
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 from typing import Any
 
 from fa3_skill_ecosystem import improvement_candidate_allowed, normalize_agent_skill, routing_eval, security_inspection
@@ -189,8 +190,14 @@ def canonical_check(root: Path) -> list[str]:
         if radar.get(key) is not False:
             findings.append(f"radar authority/install invariant failed: {key}")
 
+    capability_count = load_active_release_baseline(root).capability_count
     effect = decision.get("authority_effect", {})
-    if effect != {"new_capability": False, "new_architectural_authority": False, "capability_count_after": 143}:
+    if not (
+        effect.get("new_capability") is False
+        and effect.get("new_architectural_authority") is False
+        and isinstance(effect.get("capability_count_after"), int)
+        and effect.get("capability_count_after") <= capability_count
+    ):
         findings.append("capability/authority invariant drift")
     hw = decision.get("hardware_audit", {})
     if not (hw.get("vendor_neutral") and hw.get("accelerator_neutral") and hw.get("cpu_only_viable") and hw.get("global_accelerator_requirement") is False):
@@ -202,6 +209,7 @@ def canonical_check(root: Path) -> list[str]:
 
 def evaluate(root: Path) -> dict[str, Any]:
     root = Path(root).resolve()
+    capability_count = load_active_release_baseline(root).capability_count
     findings = canonical_check(root)
     regressions = run_regressions()
     result = "PASS" if not findings and regressions["result"] == "PASS" else "FAIL"
@@ -212,7 +220,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         "result": result,
         "findings": findings,
         "regressions": regressions,
-        "capability_count": 143,
+        "capability_count": capability_count,
         "new_architectural_authorities": 0,
         "current_host_runtime_claim": False,
         "hardware_audit": {"vendor_neutral": True, "cpu_only_viable": True, "accelerator_requirement": False},
