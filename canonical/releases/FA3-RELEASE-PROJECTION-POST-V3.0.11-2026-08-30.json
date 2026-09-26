@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ff32adec679e0c00fe3859b0b736ba8bc8f4d0b1",
-    "pre_projection_root_tree_sha": "5432c5c8b989671c63557a968927e827638ca5a3",
-    "pre_projection_canonical_tree_sha": "8bbac8aba955d348cf4cd35f9a85f5db6b19cfab",
-    "commits_ahead_of_v3_0_11_conformance_commit": 958,
-    "total_post_baseline_commits": 958,
+    "pre_projection_head_sha": "d7dc7ac6fce6dc09d28f6278e6fc72df91d02f52",
+    "pre_projection_root_tree_sha": "ffeed396ebd3536eb649837e15fb8fdf7843384b",
+    "pre_projection_canonical_tree_sha": "d236489db50ca8bd1b352685e7ad281ea556fb5b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 962,
+    "total_post_baseline_commits": 962,
     "delta_file_count": 2300,
     "delta_added_files": 2294,
     "delta_modified_files": 6,
@@ -9531,7 +9531,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "9ef65ce978e0e5a0ef774710a23361c457cfc960",
+      "git_blob_sha": "cc95946fd8dff467b7078576173a36fa830b50a9",
       "baseline_delta_status": "added"
     },
     {
@@ -9666,7 +9666,7 @@
     },
     {
       "path": "src/fa3_ai_engineering_gate.py",
-      "git_blob_sha": "d73a10451492bb187d015ebee77efb0fc2ab15a2",
+      "git_blob_sha": "b8f280d3c3492c91ae7fcf9d2bacdccea2146a66",
       "baseline_delta_status": "added"
     },
     {
@@ -11181,7 +11181,7 @@
     },
     {
       "path": "tests/test_ai_engineering_gate.py",
-      "git_blob_sha": "bd47215beb8ad849dc7988f51f24b3dd9923d303",
+      "git_blob_sha": "78fe633fd9d21c649688bf1168da90b7761b5a43",
       "baseline_delta_status": "added"
     },
     {
@@ -14317,5 +14317,36 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 175
+  },
+  "ai_engineering_reference_reconciliation": {
+    "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+    "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
+    "reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+    "decision_id": "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30",
+    "gate_id": "FA3-AIENG-GATESET-001",
+    "application_intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+    "reuse_assessment_id": "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001",
+    "pattern_bundle_id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
+    "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
+    "reuse_catalog_id": "FA3-REUSE-CATALOG-001",
+    "classification": "REFERENCE_AND_PATTERN_SOURCE_ONLY",
+    "runtime_provider": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "software_coexistence_required": true,
+    "hardware_audit": {
+      "vendor_neutral": true,
+      "cpu_only_viable": true,
+      "accelerator_cardinality": "0..N",
+      "global_accelerator_requirement": false
+    },
+    "current_host_runtime_evidence_required": false,
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175,
+    "reconciliation_status": "CANONICAL_REFERENCE_PATTERN_ABSORPTION_REUSE_DISCOVERABLE_RUNTIME_NOT_ADMITTED"
   }
 }
