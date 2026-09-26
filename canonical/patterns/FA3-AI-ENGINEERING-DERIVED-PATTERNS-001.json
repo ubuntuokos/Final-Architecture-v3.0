@@ -1,0 +1,117 @@
+{
+  "schema": "fa3.pattern-bundle.v1",
+  "id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
+  "title": "AI Engineering from Scratch derived cross-cutting FA3 patterns",
+  "status": "CANONICAL",
+  "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+  "upstream_reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
+  "upstream_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+  "authority": false,
+  "architectural_authority": false,
+  "runtime_dependency_implied": false,
+  "current_host_claim": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "problem_classes": [
+    "registry-admission",
+    "agent-skill-security",
+    "verification-gates",
+    "execution-evidence",
+    "protocol-conformance",
+    "gateway-evidence",
+    "compatibility",
+    "redaction",
+    "rollback",
+    "progressive-disclosure"
+  ],
+  "invariants": [
+    "REGISTRY_PUBLICATION_NOT_PRODUCTION_ADMISSION",
+    "SKILL_CONTEXT_NOT_EXECUTION_AUTHORITY",
+    "AGENT_ASSERTION_NOT_COMPLETION_EVIDENCE",
+    "ATTRIBUTABLE_EXECUTION_EVIDENCE_REQUIRED",
+    "POSITIVE_NEGATIVE_BOUNDARY_CONFORMANCE_REQUIRED",
+    "RAW_BOUNDARY_AND_ADAPTER_PROJECTION_EVIDENCE_REQUIRED",
+    "INGRESS_ORIGIN_EGRESS_TRACE_REQUIRED",
+    "COMPATIBILITY_DOWNGRADE_FAIL_CLOSED",
+    "EVIDENCE_REDACTION_BEFORE_PERSISTENCE",
+    "ROLLBACK_READINESS_REQUIRED_BEFORE_PROMOTION",
+    "PROGRESSIVE_DISCLOSURE_WITHOUT_AUTHORITY_ESCALATION"
+  ],
+  "patterns": [
+    {
+      "id": "FA3-PATTERN-REGISTRY-ADMISSION-SEPARATION-001",
+      "name": "Registry publication is separate from production admission",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-SKILL-CONTEXT-AUTHORITY-SEPARATION-001",
+      "name": "Skill/context availability is separate from execution authority",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-INDEPENDENT-COMPLETION-VERIFICATION-001",
+      "name": "Completion and promotion require independent deterministic verification",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-ATTRIBUTABLE-EXECUTION-EVIDENCE-001",
+      "name": "Material execution produces attributable evidence",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-POSITIVE-NEGATIVE-BOUNDARY-CONFORMANCE-001",
+      "name": "Critical conformance requires positive, negative and boundary evidence",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-RAW-BOUNDARY-ADAPTER-DUAL-EVIDENCE-001",
+      "name": "Raw boundary evidence and adapter projection evidence are both required",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-INGRESS-ORIGIN-EGRESS-TRACE-001",
+      "name": "Gateway transformations preserve ingress, origin and egress evidence",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-DOWNGRADE-001",
+      "name": "Compatibility downgrade is fail-closed",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-REDACT-BEFORE-PERSISTENCE-001",
+      "name": "Sensitive evidence is redacted before persistence",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-PRE-PROMOTION-ROLLBACK-READINESS-001",
+      "name": "Rollback readiness is established before promotion",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    },
+    {
+      "id": "FA3-PATTERN-PROGRESSIVE-DISCLOSURE-NON-AUTHORITY-001",
+      "name": "Progressive disclosure cannot escalate authority",
+      "reuse_mode": "ABSORB_INTO_EXISTING_FA3_AUTHORITY_AND_GATE",
+      "authority": false
+    }
+  ],
+  "reuse_discovery": {
+    "profile_id": "FA3-REUSE-DISCOVERY-001",
+    "catalog_id": "FA3-REUSE-CATALOG-001",
+    "candidate_class": "REUSABLE_PATTERN",
+    "automatic_activation": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

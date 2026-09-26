@@ -3,11 +3,11 @@
   "id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
   "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
   "repository": "rohitg00/ai-engineering-from-scratch",
-  "observed_at": "2026-08-30",
+  "observed_at": "2026-09-26",
   "default_branch": "main",
-  "observed_default_branch_head": "a56b4b8ad43a3767c771953d217036813f697bc7",
-  "observed_head_committed_at": "2026-08-30T08:53:51Z",
-  "immutable_reference_commit": "a56b4b8ad43a3767c771953d217036813f697bc7",
+  "observed_default_branch_head": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+  "observed_head_committed_at": "2026-09-25T15:46:32Z",
+  "immutable_reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
   "reference_kind": "PINNED_COMMIT",
   "license": "MIT",
   "classification": [
@@ -41,5 +41,42 @@
     "registry_publication_is_local_admission": false,
     "source_record_is_current_host_runtime_evidence": false
   },
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "initial_observed_at": "2026-08-30",
+  "initial_reference_commit": "a56b4b8ad43a3767c771953d217036813f697bc7",
+  "last_revalidated_at": "2026-09-26",
+  "revalidation_scope": [
+    "README.md",
+    "phases/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift/docs/en.md",
+    "phases/13-tools-and-protocols/31-mcp-conformance-versioning-and-operations/docs/en.md",
+    "phases/14-agent-engineering/38-verification-gates/docs/en.md"
+  ],
+  "reuse_discovery_binding": {
+    "profile_id": "FA3-REUSE-DISCOVERY-001",
+    "catalog_id": "FA3-REUSE-CATALOG-001",
+    "intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+    "assessment_id": "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001",
+    "pattern_bundle_id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
+    "role": "REFERENCE_AND_PATTERN_SOURCE_ONLY",
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false
+  },
+  "hardware_audit": {
+    "applies_to_runtime": false,
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "current_host_execution_required": false,
+    "current_host_runtime_promotion_claim": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "reference_only": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "upstream_coexistence_required": true
+  }
 }

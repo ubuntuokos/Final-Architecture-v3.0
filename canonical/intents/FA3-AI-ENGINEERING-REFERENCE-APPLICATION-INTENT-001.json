@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+  "project_type": "REFERENCE_SOURCE",
+  "goal": "Absorb provider-neutral engineering, evidence, MCP-conformance and agent-skill security patterns from rohitg00/ai-engineering-from-scratch into existing FA3 authorities without installing the upstream project as a runtime, creating a provider, or adding an architectural authority.",
+  "required_capabilities": [
+    "CAP-146",
+    "CAP-147"
+  ],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "registry-admission",
+    "agent-skill-boundaries",
+    "verification-gates",
+    "execution-evidence",
+    "protocol-conformance",
+    "gateway-evidence",
+    "compatibility-downgrade",
+    "evidence-redaction",
+    "rollback-readiness",
+    "progressive-disclosure",
+    "architecture-reuse"
+  ],
+  "task_classes": [
+    "architecture",
+    "governance",
+    "evidence",
+    "mcp",
+    "agent-skills"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "PINNED_UPSTREAM_REFERENCE"
+  ],
+  "output_modalities": [
+    "CANONICAL_PATTERN_BUNDLE",
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "AI_ENGINEERING_DERIVED_PATTERN_BUNDLE_AND_REUSE_BINDING"
+  ],
+  "runtime_materialization": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "current_host_execution_required": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-ai-engineering-reference",
+    "service_prefix": "fa3-ai-engineering-reference",
+    "config_root": "$XDG_CONFIG_HOME/fa3/ai-engineering-reference",
+    "cache_root": "$XDG_CACHE_HOME/fa3/ai-engineering-reference",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/ai-engineering-reference",
+    "socket_namespace": "fa3/ai-engineering-reference",
+    "data_root": "$XDG_DATA_HOME/fa3/ai-engineering-reference",
+    "desktop_prefix": "org.fa3.ai.engineering.reference",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-REGISTRY-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
