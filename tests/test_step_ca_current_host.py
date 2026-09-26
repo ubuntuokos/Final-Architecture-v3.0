@@ -123,7 +123,7 @@ class T(unittest.TestCase):
   self.assertIn('openssl verify -purpose sslserver -CAfile "$RC" -untrusted "$IC" "$TMP/b.crt"',s)
   self.assertIn('openssl verify -purpose sslclient -CAfile "$RC" -untrusted "$IC" "$TMP/c.crt"',s)
   self.assertIn('echo "mTLS handshake failed" >&2',s)
-  self.assertIn("for command in curl flock openssl python3 sed seq ssh-keygen ss step systemctl; do",s)
+  self.assertIn("for command in curl flock openssl python3 sed seq ssh-keygen ss systemctl; do",s)\n  self.assertIn('STEP_BIN="/usr/local/lib/fa3/step-cli/0.30.6/bin/step"',s)
  def test_restore_cleanup_is_fail_safe(self):
   s=(ROOT/"bin/fa3-step-ca-backup-restore-drill.sh").read_text()
   self.assertIn('if [[ -n "$PID" ]] && kill -0 "$PID"',s)
@@ -135,5 +135,5 @@ class T(unittest.TestCase):
   self.assertTrue(x["production_runtime_promoted"])
   self.assertEqual("CURRENT_HOST_PROVIDER_RUNTIME_ONLY",x["production_promotion_scope"])
   self.assertFalse(x["global_promotion_claim"])
-  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["durable_current_host_evidence_reference"])
+  self.assertIsNone(x["durable_current_host_evidence_reference"])\n  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["superseded_historical_evidence"])
 if __name__=="__main__": unittest.main()
