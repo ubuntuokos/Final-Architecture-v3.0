@@ -5,7 +5,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "MarketingContact",
     "MarketingAccount",
@@ -56,7 +56,13 @@
     "native_hungarian_generation_required": true,
     "translation_only_pipeline_forbidden": true,
     "quality_receipt_required": true,
-    "quality_dimensions": ["language_identification", "grammar_style", "terminology", "register", "policy"],
+    "quality_dimensions": [
+      "language_identification",
+      "grammar_style",
+      "terminology",
+      "register",
+      "policy"
+    ],
     "single_metric_authority_forbidden": true,
     "human_review_must_pass_when_required": true
   },
@@ -118,5 +124,6 @@
     "secret_values_are_opaque_refs_only": true,
     "provider_runtime_admission_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
     "static_or_reference_evidence_is_production_pass": false
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -7,15 +7,28 @@
   "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
   "profile_id": "FA3-AI-IMAGE-EDITING-001",
   "contract_id": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
-  "provider_ids": ["FA3-PROVIDER-KRITA-001", "FA3-PROVIDER-KRITA-AI-DIFFUSION-001", "FA3-PROVIDER-KRITA-VISION-TOOLS-001", "FA3-PROVIDER-KRITA-MCP-001"],
+  "provider_ids": [
+    "FA3-PROVIDER-KRITA-001",
+    "FA3-PROVIDER-KRITA-AI-DIFFUSION-001",
+    "FA3-PROVIDER-KRITA-VISION-TOOLS-001",
+    "FA3-PROVIDER-KRITA-MCP-001"
+  ],
   "gate_id": "FA3-KRITA-AI-IMAGE-EDITING-GATESET-001",
   "gate_record_id": "FA3-GATE-KRITA-AI-IMAGE-EDITING-001",
   "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
-  "related_decisions": ["FA3-DEC-GIMP-LOCAL-AI-2026-09-08", "FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09"],
-  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "related_decisions": [
+    "FA3-DEC-GIMP-LOCAL-AI-2026-09-08",
+    "FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120",
+    "CAP-135"
+  ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "current_host_runtime_evidence": "NOT_CLAIMED",
   "current_host_runtime_promotion_claim": false,
   "decisions": [
@@ -27,5 +40,6 @@
     "No Krita plugin or adapter becomes workflow, model registry/router, MCP gateway, host resource, policy, secrets, provenance, evidence or generation-context authority.",
     "GPU selection remains capability-discovered; replacement of the accelerator must not require Krita-specific canonical reconfiguration.",
     "Reference/design PASS proves canonical conformance only; no current-host production runtime claim is made."
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
