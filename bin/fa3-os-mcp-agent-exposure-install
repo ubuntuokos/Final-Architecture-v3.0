@@ -9,6 +9,35 @@ UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
 TEMPLATE="$ROOT/deployment/mcp-gateway/fa3-mcp-gateway-user.service.in"
 REGISTRY_SOURCE="$ROOT/canonical/mcp-capability-registry.json"
 START=0
+UNINSTALL=0
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/fa3/mcp-gateway"
+STATE_FILE="$STATE_DIR/install-state.json"
+MANAGED_MARKER="# FA3-MANAGED: FA3-MCP-GATEWAY-001"
+
+unit_owned_by_fa3() {
+  [[ -f "$UNIT_PATH" ]] && grep -Fqx "$MANAGED_MARKER" "$UNIT_PATH"
+}
+
+capture_previous_state() {
+  mkdir -p "$STATE_DIR"
+  python3 - "$STATE_FILE" "$UNIT_PATH" "$(systemctl --user is-enabled "$UNIT_NAME" 2>/dev/null || true)" "$(systemctl --user is-active "$UNIT_NAME" 2>/dev/null || true)" <<'PY'
+import json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+out,unit,enabled,active=sys.argv[1:]
+p=Path(unit)
+payload={
+  "schema":"fa3.mcp-gateway-install-state.v1",
+  "unit_path":unit,
+  "unit_existed":p.exists(),
+  "unit_owned_by_fa3":p.exists() and "# FA3-MANAGED: FA3-MCP-GATEWAY-001" in p.read_text(encoding="utf-8",errors="replace").splitlines(),
+  "previous_enabled_state":enabled,
+  "previous_active_state":active,
+  "captured_at":datetime.now(timezone.utc).isoformat(),
+}
+Path(out).write_text(json.dumps(payload,indent=2)+"\n",encoding="utf-8")
+PY
+}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -24,6 +53,10 @@ while [[ $# -gt 0 ]]; do
       systemctl --user disable --now "$UNIT_NAME" || true
       exit 0
       ;;
+    --uninstall)
+      UNINSTALL=1
+      shift
+      ;;
     *)
       echo "Unknown argument: $1" >&2
       exit 2
@@ -31,8 +64,45 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ "$UNINSTALL" -eq 1 ]]; then
+  if [[ -e "$UNIT_PATH" ]] && ! unit_owned_by_fa3; then
+    echo "DENY: refusing to remove non-FA3-owned unit: $UNIT_PATH" >&2
+    exit 5
+  fi
+  before_enabled="$(systemctl --user is-enabled "$UNIT_NAME" 2>/dev/null || true)"
+  before_active="$(systemctl --user is-active "$UNIT_NAME" 2>/dev/null || true)"
+  systemctl --user disable --now "$UNIT_NAME" 2>/dev/null || true
+  [[ ! -e "$UNIT_PATH" ]] || rm -f -- "$UNIT_PATH"
+  systemctl --user daemon-reload
+  [[ ! -d "$RUNTIME_ROOT" ]] || rm -rf -- "$RUNTIME_ROOT"
+  mkdir -p "$STATE_DIR"
+  python3 - "$STATE_DIR/uninstall-receipt.json" "$before_enabled" "$before_active" <<'PY'
+import json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+out,enabled,active=sys.argv[1:]
+Path(out).write_text(json.dumps({
+  "schema":"fa3.mcp-gateway-uninstall-receipt.v1",
+  "component_id":"FA3-MCP-GATEWAY-001",
+  "removed_owned_unit":True,
+  "removed_owned_runtime":True,
+  "previous_enabled_state":enabled,
+  "previous_active_state":active,
+  "upstream_resources_modified":False,
+  "completed_at":datetime.now(timezone.utc).isoformat()
+},indent=2)+"\n",encoding="utf-8")
+PY
+  exit 0
+fi
+
 [[ -f "$REGISTRY_SOURCE" ]] || { echo "Missing registry: $REGISTRY_SOURCE" >&2; exit 3; }
 [[ -f "$TEMPLATE" ]] || { echo "Missing service template: $TEMPLATE" >&2; exit 4; }
+
+if [[ -e "$UNIT_PATH" ]] && ! unit_owned_by_fa3; then
+  echo "DENY: unit collision with non-FA3-owned file: $UNIT_PATH" >&2
+  exit 5
+fi
+capture_previous_state
 
 JOURNAL_DIR="${FA3_OS_JOURNAL_DIR:-$HOME/.local/share/Final Architecture/FA3 Control Center/journal}"
 mkdir -p "$RUNTIME_ROOT/src" "$RUNTIME_ROOT/bin" "$RUNTIME_ROOT/canonical" "$UNIT_DIR" "$JOURNAL_DIR"
@@ -54,7 +124,7 @@ if not Path(runtime_root).is_absolute():
     raise SystemExit("FA3 MCP runtime root must be absolute")
 if any(ch.isspace() for ch in runtime_root) or any(ch in runtime_root for ch in ('"', "'", "\\", "%")):
     raise SystemExit("FA3 MCP runtime root contains unsupported systemd WorkingDirectory characters")
-text = Path(template_path).read_text(encoding="utf-8")
+text = "# FA3-MANAGED: FA3-MCP-GATEWAY-001\n" + Path(template_path).read_text(encoding="utf-8")
 def q(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 text = text.replace("@WORKING_DIR@", runtime_root)
