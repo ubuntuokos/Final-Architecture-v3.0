@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +23,7 @@ class DeveloperAgentCoordinationTests(unittest.TestCase):
         self.assertTrue(contract["provider_neutral"])
         self.assertFalse(contract["new_capability"])
         self.assertFalse(contract["new_architectural_authority"])
-        self.assertEqual(contract["capability_count"], 143)
+        self.assertEqual(contract["capability_count"], load_active_release_baseline(ROOT).capability_count)
         self.assertEqual(contract["communication_policy"], "FA3-AI-COMMS-001")
         self.assertIn("PRIVATE_MODEL_LANGUAGE", contract["forbidden_semantics"])
         self.assertIn("MODEL_ONLY_SLANG", contract["forbidden_semantics"])
