@@ -2,7 +2,7 @@
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-CONDUCTOR-001",
   "classification": "PROVIDER_RUNTIME",
-  "risk": "P2",
+  "risk": "P1",
   "upstream_relation": "INTEGRATES",
   "coexistence": {
     "executables": [],
@@ -18,13 +18,15 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "FA3-PROVIDER-CONDUCTOR-001: separately admitted non-authoritative provider/reference surface; FA3 does not require upstream uninstall or claim upstream-owned runtime paths"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [

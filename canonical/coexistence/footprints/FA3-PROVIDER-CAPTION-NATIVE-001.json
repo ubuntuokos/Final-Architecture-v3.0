@@ -2,7 +2,7 @@
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
   "classification": "PROVIDER_RUNTIME",
-  "risk": "P2",
+  "risk": "P1",
   "upstream_relation": "NONE",
   "coexistence": {
     "executables": [],
@@ -18,17 +18,20 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "FA3-PROVIDER-CAPTION-NATIVE-001: FA3-native/reference provider surface; no independently installed upstream application is claimed"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json"
+      "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+      "canonical/assessments/FA3-PROVIDER-CAPTION-NATIVE-DECISION-ASSESSMENT-2026-09-25.json"
     ]
   }
 }

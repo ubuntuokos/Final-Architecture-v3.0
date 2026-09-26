@@ -18,17 +18,22 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "FA3-PROVIDER-AGENCY-AGENTS-001: separately admitted non-authoritative provider/reference surface; FA3 does not require upstream uninstall or claim upstream-owned runtime paths"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
-    "current_host_status": "PENDING_CURRENT_HOST",
+    "static_status": "PASS",
+    "current_host_status": "NOT_APPLICABLE",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json"
+      "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
+      ".github/workflows/fa3-agency-agents-gate.yml",
+      "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
+      "canonical/agency-agents-enforcement.json"
     ]
   }
 }
