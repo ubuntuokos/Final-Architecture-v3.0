@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.provider-count-policy.v1",
+  "id": "FA3-PROVIDER-COUNT-POLICY-001",
+  "status": "CANONICAL_CANDIDATE",
+  "decision": "DYNAMIC_DERIVED_PROVIDER_COUNT",
+  "canonical_source": "canonical/providers/*.json",
+  "count_semantics": {
+    "fixed_target": null,
+    "maximum": null,
+    "minimum_quota": null,
+    "derived_from_canonical_records": true,
+    "count_only_valid_canonical_provider_records": true,
+    "numeric_quota_must_not_create_provider_identity": true,
+    "provider_identity_requires_semantic_boundary": true
+  },
+  "provider_identity_criteria": [
+    "DISTINCT_EXECUTION_OR_INTEGRATION_BOUNDARY",
+    "DISTINCT_ADMISSION_OR_LIFECYCLE_BOUNDARY",
+    "FAILURE_ISOLATION_OR_COMPATIBILITY_BOUNDARY",
+    "INDEPENDENT_EVIDENCE_IDENTITY_WHERE_APPLICABLE"
+  ],
+  "non_provider_examples": [
+    "CAPABILITY",
+    "PROFILE",
+    "GATE",
+    "REFERENCE_ONLY_RECORD",
+    "MODEL_VARIANT_WITHIN_SAME_PROVIDER",
+    "RUNTIME_RECEIPT",
+    "CONFIGURATION_ONLY_ADAPTER_VARIANT"
+  ],
+  "capability_count": 175,
+  "capability_count_fixed": true,
+  "provider_count_fixed": false,
+  "authority_delta": 0,
+  "capability_delta": 0
+}
