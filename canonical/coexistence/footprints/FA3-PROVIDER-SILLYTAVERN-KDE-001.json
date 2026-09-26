@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-SILLYTAVERN-KDE-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": ["~/.local/libexec/fa3/sillytavern-kde-launch","~/.local/libexec/fa3/sillytavern-kde-start"],
+    "services": ["fa3-sillytavern-kde.service"],
+    "sockets": [],
+    "ports": ["DYNAMIC"],
+    "config_paths": ["~/.config/fa3/sillytavern-kde.env"],
+    "data_paths": [],
+    "cache_paths": [],
+    "desktop_ids": ["fa3-sillytavern-kde.desktop"],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": ["SillyTavern/SillyTavern"],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PENDING",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": []
+  }
+}
