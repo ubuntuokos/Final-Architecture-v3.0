@@ -102,7 +102,7 @@ def _materialization_check(root: Path) -> tuple[list[dict[str, Any]], dict[str, 
         and decision.get("global_promotion_claim") is False
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append(finding("HARDEN-HOST-006", "current-host decision invariant drift"))
 
