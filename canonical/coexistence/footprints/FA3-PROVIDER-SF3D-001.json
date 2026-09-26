@@ -2,7 +2,7 @@
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-SF3D-001",
   "classification": "PROVIDER_RUNTIME",
-  "risk": "P2",
+  "risk": "P1",
   "upstream_relation": "INTEGRATES",
   "coexistence": {
     "executables": [],
@@ -18,13 +18,15 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "Stable Fast 3D runtime is disabled until explicit admission; provider does not own host-global installation"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [

@@ -18,17 +18,22 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "TencentDB Agent Memory is security/license-blocked reference provider; runtime is not admitted"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
-    "current_host_status": "PENDING_CURRENT_HOST",
+    "static_status": "PASS",
+    "current_host_status": "NOT_APPLICABLE",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json"
+      "canonical/providers/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json",
+      "canonical/FA3-GATE-TENCENTDB-AGENT-MEMORY-001.json",
+      "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
+      "canonical/references/FA3-TENCENTDB-AGENT-MEMORY-UPSTREAM-REFERENCE-2026-09-03.json"
     ]
   }
 }
