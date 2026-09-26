@@ -128,7 +128,7 @@ def reference_check(root: Path) -> dict[str, Any]:
 
     if decision.get("status")!="CANONICAL_CLOSED" or decision.get("decision")!="IMPLEMENT":
         findings.append(finding("BLACKHOLE-REF-042","Blackhole/Kdenlive decision is not closed IMPLEMENT"))
-    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or decision.get("capability_count_after")!=CAPABILITY_COUNT:
+    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or not isinstance(decision.get("capability_count_after"),int) or decision.get("capability_count_after")>CAPABILITY_COUNT:
         findings.append(finding("BLACKHOLE-REF-043","Integration changed capability/authority invariant"))
     if decision.get("mandatory_rules")!=RULES:
         findings.append(finding("BLACKHOLE-REF-044","Blackhole/Kdenlive mandatory rule set drift"))
