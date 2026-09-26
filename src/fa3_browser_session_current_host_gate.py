@@ -40,7 +40,14 @@ def issue_hrb(tmp,workload_id):
     workload_path=tmp/"browser-session-workload.json";auth_path=tmp/"browser-session-authorization.json"
     workload={"schema":"fa3.workload-resource-envelope.v1","workload_id":workload_id,"requirements":[{"metric":"cpu.physical_cores","operator":">=","value":1},{"metric":"memory.total_gib","operator":">=","value":0.1}]}
     workload_path.write_text(json.dumps(workload,indent=2)+"\n");os.chmod(workload_path,0o600)
-    if run([str(client),"authorize","--workload",str(workload_path),"--output",str(auth_path)],timeout=30).returncode:raise RuntimeError("HRB_ADMISSION_AUTHORIZATION_DENIED")
+    issued=run([str(client),"authorize","--workload",str(workload_path),"--output",str(auth_path)],timeout=30)
+    if issued.returncode:
+        reason="ADMISSION_DENIED"
+        text=(issued.stderr or "").strip()
+        if "(" in text and text.endswith(")"):
+            candidate=text.rsplit("(",1)[1][:-1]
+            if candidate.replace("_","").isalnum() and candidate.upper()==candidate:reason=candidate
+        raise RuntimeError("HRB_ADMISSION_AUTHORIZATION_DENIED:"+reason)
     if run([str(client),"validate","--authorization",str(auth_path)],timeout=30).returncode:raise RuntimeError("HRB_ADMISSION_AUTHORIZATION_INVALID")
     auth=json.loads(auth_path.read_text())
     if auth.get("authority")!="FA3-AUTH-HOST-RESOURCE-BROKER-001" or auth.get("status")!="ACTIVE":raise RuntimeError("HRB_ADMISSION_AUTHORITY_MISMATCH")

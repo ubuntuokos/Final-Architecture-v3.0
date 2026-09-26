@@ -29,6 +29,14 @@ FORBIDDEN_METRICS = {"cu", "tu", "compute_unit", "tensor_unit", "aggregate.cu", 
 class AdmissionError(RuntimeError):
     pass
 
+def _denial_code(exc: AdmissionError) -> str:
+    message=str(exc)
+    if message.startswith("HRB admission keyring"): return "KEYRING_INVALID"
+    if message.startswith("workload"): return "WORKLOAD_INVALID"
+    if message.startswith("input"): return "INPUT_INVALID"
+    if message.startswith("authorization"): return "AUTHORIZATION_INVALID"
+    return "ADMISSION_INVALID"
+
 def _canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
@@ -220,9 +228,10 @@ def main() -> int:
             validate_authorization_bytes(data)
             print("VALID")
             return 0
-    except AdmissionError:
-        pass
-    print("DENIED", file=sys.stderr)
+    except AdmissionError as exc:
+        print(f"DENIED:{_denial_code(exc)}", file=sys.stderr)
+        return 2
+    print("DENIED:ACTION_INVALID", file=sys.stderr)
     return 2
 
 if __name__ == "__main__":

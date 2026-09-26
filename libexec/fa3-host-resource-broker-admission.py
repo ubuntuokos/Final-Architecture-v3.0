@@ -56,7 +56,10 @@ def authorize(workload_path: Path, output_path: Path, *, helper: Path=HELPER) ->
         raise ClientError("workload identity invalid")
     proc=_run_helper("authorize",workload_path,helper)
     if proc.returncode!=0:
-        raise ClientError("HRB admission bridge denied authorization")
+        detail=(proc.stderr or "").strip().splitlines()[-1:] or [""]
+        token=detail[0].removeprefix("DENIED:") if detail[0].startswith("DENIED:") else "ADMISSION_DENIED"
+        token=token if token.replace("_","").isalnum() and token.upper()==token else "ADMISSION_DENIED"
+        raise ClientError(f"HRB admission bridge denied authorization ({token})")
     try:
         doc=json.loads(proc.stdout)
     except json.JSONDecodeError as exc:
@@ -83,6 +86,25 @@ def doctor(helper: Path=HELPER) -> int:
         return 2
     if proc.returncode!=0:
         print("BLOCKED: non-interactive HRB admission bridge unavailable",file=sys.stderr); return 2
+    try:
+        with tempfile.TemporaryDirectory(prefix="fa3-hrb-admission-doctor-") as td:
+            workload=Path(td)/"workload.json"
+            workload.write_text(json.dumps({"schema":WORKLOAD_SCHEMA,"workload_id":"hrb-admission-doctor","requirements":[{"metric":"cpu.physical_cores","operator":">=","value":1}]},separators=(",",":"))+"\n",encoding="utf-8")
+            os.chmod(workload,0o600)
+            issued=_run_helper("authorize",workload,helper)
+    except (OSError,ClientError):
+        print("BLOCKED: HRB admission functional probe unavailable",file=sys.stderr); return 2
+    if issued.returncode!=0:
+        detail=(issued.stderr or "").strip().splitlines()[-1:] or [""]
+        token=detail[0].removeprefix("DENIED:") if detail[0].startswith("DENIED:") else "ADMISSION_DENIED"
+        token=token if token.replace("_","").isalnum() and token.upper()==token else "ADMISSION_DENIED"
+        print(f"BLOCKED: HRB admission functional probe denied ({token})",file=sys.stderr); return 2
+    try:
+        doc=json.loads(issued.stdout)
+    except json.JSONDecodeError:
+        print("BLOCKED: HRB admission functional probe returned invalid JSON",file=sys.stderr); return 2
+    if not isinstance(doc,dict) or doc.get("schema")!=AUTH_SCHEMA or doc.get("workload_id")!="hrb-admission-doctor":
+        print("BLOCKED: HRB admission functional probe returned invalid authorization",file=sys.stderr); return 2
     print("FA3 HRB ADMISSION BRIDGE: READY"); return 0
 
 def main() -> int:
