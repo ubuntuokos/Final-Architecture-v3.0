@@ -4,7 +4,6 @@ set -euo pipefail
 REPO_ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RUNTIME_ROOT="${FA3_MODEL_SECURITY_HOME:-/ai-cache/fa3/model-security}"
 ALLOW_NETWORK="${FA3_MODEL_SECURITY_ALLOW_NETWORK_BOOTSTRAP:-0}"
-ALLOW_SUDO="${FA3_MODEL_SECURITY_ALLOW_SUDO:-0}"
 
 if [[ "$(id -u)" -eq 0 ]]; then
   echo "Refusing root execution" >&2; exit 2
