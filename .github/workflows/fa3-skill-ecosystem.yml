@@ -12,7 +12,7 @@ on:
       - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
       - 'src/fa3_skill_ecosystem.py'
       - 'src/fa3_skill_ecosystem_gate.py'
-      - 'src/fa3_skill_fabric_gate.py'
+      - 'src/fa3_skill_fabric_gate.py'\n      - 'tests/test_skill_fabric_gate.py'\n      - 'src/fa3_skill_execution_closure.py'\n      - 'canonical/decisions/FA3-DEC-SKILL-EXECUTION-CLOSURE-2026-09-26.json'\n      - 'canonical/assessments/FA3-SKILL-EXECUTION-CLOSURE-REUSE-ASSESSMENT-001.json'\n      - 'canonical/intents/FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001.json'
       - 'tests/test_skill_ecosystem.py'
       - '.github/workflows/fa3-skill-ecosystem.yml'
   push:
@@ -42,9 +42,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax
-        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_gate.py
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_execution_closure.py src/fa3_skill_fabric_gate.py
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem -v
+        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_gate -v
       - name: Agent Skills ecosystem gate
         run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
       - name: Parent Skill Fabric gate
