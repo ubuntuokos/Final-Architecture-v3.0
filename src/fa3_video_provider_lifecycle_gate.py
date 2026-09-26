@@ -174,13 +174,13 @@ def reference_check(root:Path):
         except Exception as exc: fs.append(_f("VPLC-REF-002","invalid JSON",path=rel,error=str(exc)))
     if fs:return {"result":"FAIL","findings":fs}
     osp,hel,c,dec,ref,gate_rec,enf,adm,ev,pol,profile,venf=[d[x] for x in ("open_sora","helios","contract","decision","reference","gate_record","enforcement","admission","evidence","policy","profile","video_enforcement")]
-    if not(osp.get("id")==OPEN_SORA_ID and osp.get("canonical_root") is False and osp.get("architectural_authority") is False and osp.get("capability_projection")==CAPABILITIES and osp.get("capability_count")==143 and osp.get("upstream",{}).get("immutable_commit")==OPEN_SORA_PIN):
+    if not(osp.get("id")==OPEN_SORA_ID and osp.get("canonical_root") is False and osp.get("architectural_authority") is False and osp.get("capability_projection")==CAPABILITIES and osp.get("capability_count")==CAPABILITY_COUNT and osp.get("upstream",{}).get("immutable_commit")==OPEN_SORA_PIN):
         fs.append(_f("VPLC-REF-003","Open-Sora provider drift"))
-    if not(hel.get("id")==HELIOS_ID and hel.get("canonical_root") is False and hel.get("architectural_authority") is False and hel.get("capability_projection")==CAPABILITIES and hel.get("capability_count")==143 and hel.get("upstream",{}).get("immutable_commit")==HELIOS_PIN):
+    if not(hel.get("id")==HELIOS_ID and hel.get("canonical_root") is False and hel.get("architectural_authority") is False and hel.get("capability_projection")==CAPABILITIES and hel.get("capability_count")==CAPABILITY_COUNT and hel.get("upstream",{}).get("immutable_commit")==HELIOS_PIN):
         fs.append(_f("VPLC-REF-004","Helios provider drift"))
     if not(c.get("id")==CONTRACT_ID and c.get("status")=="CANONICAL" and c.get("provider_neutral") is True and c.get("rules",{}).get("cache_is_derived_not_canonical") is True):
         fs.append(_f("VPLC-REF-005","contract drift"))
-    if not(dec.get("id")==DECISION_ID and dec.get("mandatory_p0_rules")==P0_RULES and dec.get("new_capabilities")==0 and dec.get("new_architectural_authorities")==0 and dec.get("capability_count_after")==143):
+    if not(dec.get("id")==DECISION_ID and dec.get("mandatory_p0_rules")==P0_RULES and dec.get("new_capabilities")==0 and dec.get("new_architectural_authorities")==0 and dec.get("capability_count_after")==CAPABILITY_COUNT):
         fs.append(_f("VPLC-REF-006","decision drift"))
     if not(ref.get("id")==REFERENCE_ID and ref.get("open_sora_plan",{}).get("immutable_observed_commit")==OPEN_SORA_PIN and ref.get("helios",{}).get("immutable_observed_commit")==HELIOS_PIN and ref.get("promotion_evidence") is False):
         fs.append(_f("VPLC-REF-007","upstream reference drift"))
