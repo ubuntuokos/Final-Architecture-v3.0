@@ -54,5 +54,16 @@ class CoexistenceAuditTests(unittest.TestCase):
             self.assertEqual(r["current_host_status"],"PENDING_CURRENT_HOST")
         finally: td.cleanup()
 
+    def test_secret_broker_installer_and_uninstaller_are_ownership_safe(self):
+        root=Path(__file__).resolve().parents[1]
+        install=(root/"bin/fa3-secret-broker-install").read_text(encoding="utf-8")
+        uninstall=(root/"bin/fa3-secret-broker-uninstall").read_text(encoding="utf-8")
+        self.assertIn("fa3.secret-broker-install-manifest.v1", install)
+        self.assertIn("DENY: destination exists without FA3 ownership proof", install)
+        self.assertIn("DENY: installed FA3 file drifted outside installer ownership", install)
+        self.assertIn("DENY: ownership manifest missing", uninstall)
+        self.assertIn("refusing ambiguous removal", uninstall)
+        self.assertIn("Preserved: /var/lib/fa3/state and /etc/fa3/secret-policy.d", uninstall)
+
 if __name__=="__main__":
     unittest.main()
