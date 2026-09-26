@@ -7,7 +7,11 @@
   "capability_id": "CAP-175",
   "decision_id": "FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26",
   "footprint_schema": "canonical/contracts/FA3-COEXISTENCE-FOOTPRINT-001.schema.json",
-  "ordinary_classifications": ["ORDINARY_APPLICATION","PROVIDER_RUNTIME","LOCAL_SERVICE"],
+  "ordinary_classifications": [
+    "ORDINARY_APPLICATION",
+    "PROVIDER_RUNTIME",
+    "LOCAL_SERVICE"
+  ],
   "system_classification": "SYSTEM_LEVEL_AUTHORITY",
   "namespace_defaults": {
     "config": "~/.config/fa3/",
@@ -18,20 +22,53 @@
     "systemd_prefix": "fa3-"
   },
   "required_collision_domains": [
-    "EXECUTABLE","PACKAGE","DESKTOP_APPID","DESKTOP_ENTRY","MIME","PROTOCOL_HANDLER",
-    "CONFIG","USER_DATA","CACHE","MODEL_CACHE","PYTHON","NODE","SHARED_LIBRARY",
-    "QT_QML_PLUGIN","GPU_RUNTIME","SYSTEMD","UNIX_SOCKET","PORT","LOOPBACK_SERVICE",
-    "DATABASE","SECRETS","LOGS","ENVIRONMENT","FILE_ASSOCIATION","PLUGIN_DIRECTORY"
+    "EXECUTABLE",
+    "PACKAGE",
+    "DESKTOP_APPID",
+    "DESKTOP_ENTRY",
+    "MIME",
+    "PROTOCOL_HANDLER",
+    "CONFIG",
+    "USER_DATA",
+    "CACHE",
+    "MODEL_CACHE",
+    "PYTHON",
+    "NODE",
+    "SHARED_LIBRARY",
+    "QT_QML_PLUGIN",
+    "GPU_RUNTIME",
+    "SYSTEMD",
+    "UNIX_SOCKET",
+    "PORT",
+    "LOOPBACK_SERVICE",
+    "DATABASE",
+    "SECRETS",
+    "LOGS",
+    "ENVIRONMENT",
+    "FILE_ASSOCIATION",
+    "PLUGIN_DIRECTORY"
   ],
   "ordinary_forbidden": [
-    "REQUIRE_UPSTREAM_UNINSTALL","SHADOW_UPSTREAM_BINARY","REUSE_UPSTREAM_APPID",
-    "WRITE_FA3_STATE_TO_UPSTREAM_CONFIG","WRITE_FA3_STATE_TO_UPSTREAM_USER_DATA",
-    "GLOBAL_PIP_MUTATION","GLOBAL_NPM_MUTATION","GLOBAL_LIBRARY_INJECTION",
-    "PERSISTENT_GLOBAL_ENV_MUTATION","SILENT_MIME_TAKEOVER","SILENT_PROTOCOL_TAKEOVER",
+    "REQUIRE_UPSTREAM_UNINSTALL",
+    "SHADOW_UPSTREAM_BINARY",
+    "REUSE_UPSTREAM_APPID",
+    "WRITE_FA3_STATE_TO_UPSTREAM_CONFIG",
+    "WRITE_FA3_STATE_TO_UPSTREAM_USER_DATA",
+    "GLOBAL_PIP_MUTATION",
+    "GLOBAL_NPM_MUTATION",
+    "GLOBAL_LIBRARY_INJECTION",
+    "PERSISTENT_GLOBAL_ENV_MUTATION",
+    "SILENT_MIME_TAKEOVER",
+    "SILENT_PROTOCOL_TAKEOVER",
     "UNOWNED_STATIC_PORT_OR_SOCKET"
   ],
   "system_authority_controls": [
-    "EXPLICIT_AUTHORITY","CONFLICT_DETECTION","PREVIOUS_STATE_CAPTURE","CONTROLLED_MUTATION","ROLLBACK","RECOVERY_EVIDENCE"
+    "EXPLICIT_AUTHORITY",
+    "CONFLICT_DETECTION",
+    "PREVIOUS_STATE_CAPTURE",
+    "CONTROLLED_MUTATION",
+    "ROLLBACK",
+    "RECOVERY_EVIDENCE"
   ],
   "adguardhome": {
     "fa3_must_not_move_adguardhome_port": true,
@@ -44,10 +81,35 @@
   },
   "current_host": {
     "static_pass_promotes_runtime": false,
-    "required_physical_proofs": ["INSTALL","START","CONCURRENT_RUN","PORT_SERVICE_PATH_PROCESS_INSPECTION","REBOOT_WHERE_APPLICABLE","UNINSTALL_FA3_VERIFY_UPSTREAM","RESTORE_FA3_REMOVE_UPSTREAM_VERIFY_FA3"],
+    "required_physical_proofs": [
+      "INSTALL",
+      "START",
+      "CONCURRENT_RUN",
+      "PORT_SERVICE_PATH_PROCESS_INSPECTION",
+      "REBOOT_WHERE_APPLICABLE",
+      "UNINSTALL_FA3_VERIFY_UPSTREAM",
+      "RESTORE_FA3_REMOVE_UPSTREAM_VERIFY_FA3"
+    ],
     "status_without_fresh_physical_evidence": "PENDING_CURRENT_HOST"
   },
   "capability_count": 175,
   "capability_delta": 0,
-  "authority_delta": 0
+  "authority_delta": 0,
+  "system_dependency_package_management": {
+    "generic_linux_distribution": true,
+    "installer_or_provisioning_package_may_invoke_native_package_manager": true,
+    "scope": "DECLARED_SYSTEM_DEPENDENCIES_ONLY",
+    "native_package_manager_discovery_required": true,
+    "single_distribution_or_single_package_manager_hardcoding_forbidden": true,
+    "package_manager_adapter_not_architectural_authority": true,
+    "application_runtime_package_manager_mutation": "DENY",
+    "provider_runtime_bootstrap_package_manager_mutation": "DENY",
+    "current_host_test_package_manager_mutation": "DENY",
+    "explicit_dependency_manifest_required": true,
+    "package_transaction_receipt_required": true,
+    "previous_state_capture_required_for_host_mutation": true,
+    "rollback_or_native_package_manager_recovery_path_required": true,
+    "repository_source_mutation": "DENY_UNLESS_EXPLICITLY_DECLARED_POLICY_ADMITTED_AND_REVERSIBLE",
+    "unattended_install": "ONLY_IN_EXPLICIT_INSTALLER_OR_PROVISIONING_MODE"
+  }
 }

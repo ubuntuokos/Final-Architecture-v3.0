@@ -30,5 +30,14 @@
   },
   "capability_count": 175,
   "capability_delta": 0,
-  "authority_delta": 0
+  "authority_delta": 0,
+  "installer_package_manager_boundary": {
+    "generic_linux": true,
+    "system_installer_may_install_declared_system_dependencies_with_detected_native_package_manager": true,
+    "runtime_and_provider_bootstrap_may_not_mutate_host_global_package_state": true,
+    "current_host_validation_may_not_install_packages": true,
+    "no_single_distribution_package_manager_is_canonical": true,
+    "package_manager_execution_requires_explicit_installer_or_provisioning_context": true,
+    "transaction_evidence_and_recovery_required": true
+  }
 }

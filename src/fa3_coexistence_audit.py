@@ -38,6 +38,28 @@ def audit(root: Path):
     tb=decision.get("truth_boundary",{})
     if tb.get("static_pass_is_current_host_pass") is not False or tb.get("physical_current_host_evidence_required_for_runtime_pass") is not True:
         findings.append(finding("COEX-003","current-host truth boundary weakened"))
+    pm=policy.get("system_dependency_package_management",{})
+    if not (
+        pm.get("generic_linux_distribution") is True
+        and pm.get("installer_or_provisioning_package_may_invoke_native_package_manager") is True
+        and pm.get("scope")=="DECLARED_SYSTEM_DEPENDENCIES_ONLY"
+        and pm.get("native_package_manager_discovery_required") is True
+        and pm.get("single_distribution_or_single_package_manager_hardcoding_forbidden") is True
+        and pm.get("application_runtime_package_manager_mutation")=="DENY"
+        and pm.get("provider_runtime_bootstrap_package_manager_mutation")=="DENY"
+        and pm.get("current_host_test_package_manager_mutation")=="DENY"
+        and pm.get("explicit_dependency_manifest_required") is True
+        and pm.get("package_transaction_receipt_required") is True
+    ):
+        findings.append(finding("COEX-004","generic Linux installer/package-manager boundary weakened"))
+    dpm=decision.get("installer_package_manager_boundary",{})
+    if not (
+        dpm.get("generic_linux") is True
+        and dpm.get("system_installer_may_install_declared_system_dependencies_with_detected_native_package_manager") is True
+        and dpm.get("runtime_and_provider_bootstrap_may_not_mutate_host_global_package_state") is True
+        and dpm.get("no_single_distribution_package_manager_is_canonical") is True
+    ):
+        findings.append(finding("COEX-005","installer package-manager decision boundary drift"))
 
     # Existing ApplicationIntent records are already partial coexistence declarations.
     intent_files=sorted((root/"canonical/intents").glob("*.json")) if (root/"canonical/intents").exists() else []
