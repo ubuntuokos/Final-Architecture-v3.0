@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
@@ -40,7 +41,7 @@ def validate() -> list[str]:
     checks = [
         (p.get("id") == "FA3-INSPECTOR-001", "profile-id"),
         (p.get("priority") == "P0" and p.get("requirement") == "MUST", "profile-p0-must"),
-        (p.get("new_capability") is False and p.get("capability_count") == 143, "profile-capability-invariant"),
+        (p.get("new_capability") is False and p.get("capability_count") == module_active_capability_count(__file__), "profile-capability-invariant"),
         (p.get("new_architectural_authority") is False, "profile-no-new-authority"),
         (c.get("provider_neutral") is True, "contracts-provider-neutral"),
         (c.get("separation_of_duties", {}).get("executor_may_be_sole_accepting_verifier") is False, "separation-of-duties"),
@@ -52,7 +53,7 @@ def validate() -> list[str]:
         (enf.get("fail_closed") is True and set(enf.get("rules", [])) == MANDATORY_RULES, "enforcement-rules"),
         (conf.get("decision_ref") == "FA3-DEC-INSPECTOR-2026-09-12", "conformance-decision-link"),
         (runtime.get("status") == "PENDING_CURRENT_HOST" and runtime.get("production_admitted") is False and runtime.get("evidence_present") is False, "runtime-not-falsely-promoted"),
-        (gate.get("fail_closed") is True and gate.get("rule_count") == 12 and gate.get("capability_count_after") == 143, "gate-invariants"),
+        (gate.get("fail_closed") is True and gate.get("rule_count") == 12 and gate.get("capability_count_after") == module_active_capability_count(__file__), "gate-invariants"),
     ]
     failures.extend(name for ok, name in checks if not ok)
     try:
@@ -70,7 +71,7 @@ def main() -> int:
         for failure in failures: print(f" - {failure}")
         return 1
     print("FA3 Inspector gate: PASS")
-    print("profile=FA3-INSPECTOR-001 capabilities=143 new_authorities=0 runtime=PENDING_CURRENT_HOST")
+    print(f"profile=FA3-INSPECTOR-001 capabilities={module_active_capability_count(__file__)} new_authorities=0 runtime=PENDING_CURRENT_HOST")
     return 0
 
 if __name__ == "__main__":
