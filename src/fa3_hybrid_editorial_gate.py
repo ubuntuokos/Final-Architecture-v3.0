@@ -97,7 +97,7 @@ def run_regressions() -> dict[str, Any]:
 
     cases.append(case(
         "HYB-001", "zero-new-capability-authority",
-        CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144,
+        CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1,
     ))
     cases.append(case(
         "HYB-002", "provider-local-formats-not-canonical",
