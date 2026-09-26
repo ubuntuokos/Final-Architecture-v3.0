@@ -6,7 +6,8 @@ from typing import Any
 from fa3_distribution_compliance_gate import classification_valid
 from fa3_release_baseline import load_active_release_baseline
 from fa3_skill_ecosystem_gate import evaluate as skill_ecosystem_gate
-from fa3_skill_fabric_v13 import activation_preview_allowed, context_budget_allowed, evaluate as skill_fabric_v13_gate, interface_allowed, provenance_attestation_allowed\nfrom fa3_skill_execution_closure import evaluate as skill_execution_closure_gate
+from fa3_skill_fabric_v13 import activation_preview_allowed, context_budget_allowed, evaluate as skill_fabric_v13_gate, interface_allowed, provenance_attestation_allowed
+from fa3_skill_execution_closure import evaluate as skill_execution_closure_gate
 PROFILE="canonical/profiles/FA3-SKILL-FABRIC-001.json"; CONTRACT="canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json"
 DISCOVERY_CONTRACT="canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
 MATERIALIZATION_CONTRACT="canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json"
