@@ -28,7 +28,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "runtime_activation_status": "BLOCKED_PENDING_TARGET_NATIVE_CURRENT_HOST_CONFORMANCE",
   "current_host_runtime_evidence": false,
@@ -67,5 +67,6 @@
     "cuda_driver_runtime": "EXISTING_FA3_CUDA_DRIVER_RUNTIME_AUTHORITIES_ONLY",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
-  "normative_constraint": "CPM.cu SHALL be an execution backend only. GPU discovery SHALL NOT imply placement authority; execution requires an authorized HRB lease and target-native current-host compatibility/correctness evidence."
+  "normative_constraint": "CPM.cu SHALL be an execution backend only. GPU discovery SHALL NOT imply placement authority; execution requires an authorized HRB lease and target-native current-host compatibility/correctness evidence.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

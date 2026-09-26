@@ -73,7 +73,7 @@ def _f(code,msg,**extra): return {"code":code,"severity":"P0","message":msg,**ex
 
 def provider_not_authority(canonical_root=False,architectural_authority=False,owns_authority=False):
     return not canonical_root and not architectural_authority and not owns_authority
-def count_invariant(count=143,new_caps=0,new_auth=0): return count==143 and new_caps==0 and new_auth==0
+def count_invariant(count=None,new_caps=0,new_auth=0):\n    active = module_active_capability_count(__file__)\n    if count is None:\n        count = active\n    return count == active and new_caps == 0 and new_auth == 0
 def immutable_pins_valid(open_pin,helios_pin):
     return open_pin==OPEN_SORA_PIN and helios_pin==HELIOS_PIN and all(x not in {"main","master","latest","floating",""} for x in (open_pin,helios_pin))
 def lifecycle_valid(predecessor,successor,distinct): return predecessor==OPEN_SORA_ID and successor==HELIOS_ID and distinct
@@ -199,7 +199,7 @@ def reference_check(root:Path):
 def gate(root:Path):
     ref=reference_check(root);auth=scan_authority(root);reg=run_regressions()
     ok=ref["result"]==auth["result"]==reg["result"]=="PASS"
-    r={"schema":"fa3.video-provider-lifecycle-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"provider_ids":[OPEN_SORA_ID,HELIOS_ID],"capability_count":143,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":reg,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":"REFERENCE_AND_CANDIDATE_NOT_PROMOTED"}
+    r={"schema":"fa3.video-provider-lifecycle-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"provider_ids":[OPEN_SORA_ID,HELIOS_ID],"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":reg,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":"REFERENCE_AND_CANDIDATE_NOT_PROMOTED"}
     _write(root/"reports/video-provider-lifecycle-gate-report.json",r)
     return r
 
