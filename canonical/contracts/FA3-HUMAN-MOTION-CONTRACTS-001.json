@@ -9,7 +9,7 @@
   "provider_native_representation_is_canonical": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "HumanMotionJobManifest",
     "HumanBodyDescriptor",
@@ -24,8 +24,25 @@
   ],
   "human_motion_ir": {
     "schema": "fa3.human-motion-ir.v1",
-    "required_fields": ["sequence_id", "timebase", "timestamps", "coordinate_frame", "units", "skeleton_schema", "joint_rotations", "root_trajectory", "provenance"],
-    "optional_fields": ["joint_positions", "identity_shape_projection", "hand_articulation", "face_articulation", "camera_trajectory", "confidence"],
+    "required_fields": [
+      "sequence_id",
+      "timebase",
+      "timestamps",
+      "coordinate_frame",
+      "units",
+      "skeleton_schema",
+      "joint_rotations",
+      "root_trajectory",
+      "provenance"
+    ],
+    "optional_fields": [
+      "joint_positions",
+      "identity_shape_projection",
+      "hand_articulation",
+      "face_articulation",
+      "camera_trajectory",
+      "confidence"
+    ],
     "coordinate_frame_must_be_explicit": true,
     "units_must_be_explicit": true,
     "timestamps_must_be_monotonic": true,
@@ -34,8 +51,24 @@
   },
   "job_manifest": {
     "schema": "fa3.human-motion-job.v1",
-    "required_fields": ["job_id", "operation", "input_assets", "output_contract", "provider_id", "license_receipt_ids", "execution_device", "fallback_policy", "evidence_sink"],
-    "allowed_operations": ["human.body.interchange", "human.pose.convert", "human.motion.estimate", "human.motion.retarget", "human.motion.export"],
+    "required_fields": [
+      "job_id",
+      "operation",
+      "input_assets",
+      "output_contract",
+      "provider_id",
+      "license_receipt_ids",
+      "execution_device",
+      "fallback_policy",
+      "evidence_sink"
+    ],
+    "allowed_operations": [
+      "human.body.interchange",
+      "human.pose.convert",
+      "human.motion.estimate",
+      "human.motion.retarget",
+      "human.motion.export"
+    ],
     "input_assets_content_addressed": true,
     "output_assets_content_addressed": true,
     "runtime_network_fetch": false,
@@ -43,7 +76,15 @@
   },
   "interchange": {
     "canonical_semantics_owner": "FA3-3D-GEOM-001",
-    "admitted_projection_formats": ["SOMA", "USD", "NPZ", "SMPL", "SMPL-H", "SMPL-X", "MANO"],
+    "admitted_projection_formats": [
+      "SOMA",
+      "USD",
+      "NPZ",
+      "SMPL",
+      "SMPL-H",
+      "SMPL-X",
+      "MANO"
+    ],
     "provider_native_format_requires_projection_receipt": true,
     "soma_is_interchange_projection_not_fa3_authority": true,
     "dcc_finalization_authority": "FA3-DCC-RT3D-001"
@@ -57,7 +98,10 @@
   },
   "accelerator_execution": {
     "hrb_lease_required_when_gpu_is_used": true,
-    "stable_accelerator_identity_required_when_available": ["DEVICE_UUID", "PCI_BDF"],
+    "stable_accelerator_identity_required_when_available": [
+      "DEVICE_UUID",
+      "PCI_BDF"
+    ],
     "runtime_ordinal_is_ephemeral_mapping_only": true,
     "display_accelerator_implicit_selection": false,
     "silent_accelerator_fallback": false,
@@ -85,5 +129,6 @@
     "NO_HOST_RESOURCE_OR_DEVICE_ROUTING_AUTHORITY",
     "NO_WORKFLOW_OR_MCP_GATEWAY_AUTHORITY",
     "NO_SECURITY_OR_EVIDENCE_AUTHORITY"
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
