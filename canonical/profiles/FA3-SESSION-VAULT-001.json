@@ -10,7 +10,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "purpose": "Provide encrypted user-session key custody without adding a second login to the default single-user FA3 experience.",
   "storage": {
     "default_type": "LUKS2_FILE_IMAGE",
@@ -68,5 +68,7 @@
     "raw_machine_application_secret_storage": "FORBIDDEN",
     "session_vault_role": "USER_SESSION_CUSTODY_AND_ROOT_CA_STORAGE",
     "legacy_credentials_directory": "NON_CANONICAL_MIGRATION_SOURCE_ONLY"
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
