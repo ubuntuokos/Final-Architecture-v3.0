@@ -23,7 +23,7 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
 
     def test_recipe_registry_is_explicit_and_nontrivial(self):
         primitives, recipes = required_primitives(ROOT)
-        self.assertEqual(117, len(recipes))
+        self.assertEqual(149, len(recipes))
         self.assertGreaterEqual(len(primitives), 12)
         excluded_primitive = "un" + "real_runtime"
         self.assertNotIn(excluded_primitive, primitives)
