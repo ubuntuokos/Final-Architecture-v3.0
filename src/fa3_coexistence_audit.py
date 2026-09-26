@@ -2,8 +2,8 @@
 from __future__ import annotations
 import argparse, json, re
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
-CAPABILITY_COUNT=175
 POLICY_ID="FA3-COEXISTENCE-POLICY-001"
 DECISION_ID="FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26"
 
@@ -31,8 +31,8 @@ def audit(root: Path):
     coverage=[]
     policy=load(root/"canonical/FA3-COEXISTENCE-POLICY-001.json")
     decision=load(root/"canonical/decisions/FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26.json")
-    if policy.get("capability_count") != CAPABILITY_COUNT or decision.get("capability_count") != CAPABILITY_COUNT:
-        findings.append(finding("COEX-001","capability baseline drift",expected=CAPABILITY_COUNT))
+    if policy.get("capability_count") != load_active_release_baseline(root).capability_count or decision.get("capability_count") != load_active_release_baseline(root).capability_count:
+        findings.append(finding("COEX-001","capability baseline drift",expected=load_active_release_baseline(root).capability_count))
     if policy.get("capability_delta") != 0 or policy.get("authority_delta") != 0:
         findings.append(finding("COEX-002","coexistence policy illegally changes capability/authority baseline"))
     tb=decision.get("truth_boundary",{})
@@ -105,7 +105,7 @@ def audit(root: Path):
       "policy_id":POLICY_ID,
       "decision_id":DECISION_ID,
       "capability_id":"CAP-175",
-      "capability_count":CAPABILITY_COUNT,
+      "capability_count":load_active_release_baseline(root).capability_count,
       "capability_delta":0,
       "authority_delta":0,
       "static_result":static_result,
