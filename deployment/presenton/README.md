@@ -43,7 +43,7 @@ Secret rotation is an explicit stop/recreate/start operation. Never place these 
 ## Install and start
 
 ```bash
-install -d "$HOME/.config/containers/systemd" "$HOME/Dokumentumok/Presenton/app_data" /ai-cache/presenton/tmp
+install -d "$HOME/.config/containers/systemd" "$HOME/Dokumentumok/Presenton/app_data" /ai-cache/fa3/presenton/tmp
 install -m 0644 deployment/presenton/presenton.container "$HOME/.config/containers/systemd/presenton.container"
 install -m 0644 deployment/presenton/ai-creative.target "$HOME/.config/systemd/user/ai-creative.target"
 systemctl --user daemon-reload
