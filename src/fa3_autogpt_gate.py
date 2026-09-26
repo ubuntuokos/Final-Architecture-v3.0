@@ -67,7 +67,7 @@ def disabled_provider_cost_valid(*,resident_processes,active_pollers,active_netw
  return all(int(x)==0 for x in (resident_processes,active_pollers,active_network_sessions,active_resource_leases))
 def provider_shape_valid(p):
  b=p.get("authority_boundaries",{})
- return bool(p.get("id")==PROVIDER_ID and p.get("capability_count")==143 and p.get("canonical_root") is False and p.get("architectural_authority") is False and p.get("new_capability") is False and p.get("global_runtime_promotion_required_when_disabled") is False and p.get("runtime_activation_requires_current_host_conformance") is True and p.get("runtime_activation_status")=="NOT_PROMOTED_REFERENCE_ONLY" and p.get("normative_constraint")==MANDATORY_CONSTRAINT and all(b.get(k)==v for k,v in EXTERNAL.items()))
+ return bool(p.get("id")==PROVIDER_ID and p.get("capability_count")==CAPABILITY_COUNT and p.get("canonical_root") is False and p.get("architectural_authority") is False and p.get("new_capability") is False and p.get("global_runtime_promotion_required_when_disabled") is False and p.get("runtime_activation_requires_current_host_conformance") is True and p.get("runtime_activation_status")=="NOT_PROMOTED_REFERENCE_ONLY" and p.get("normative_constraint")==MANDATORY_CONSTRAINT and all(b.get(k)==v for k,v in EXTERNAL.items()))
 
 AUTH_KEYS=("identity_authority","authentication_authority","authorization_authority","secrets_authority","mcp_authority","capability_gateway_authority","model_routing_authority","workflow_authority","orchestration_authority","evidence_authority","network_egress_authority","host_resource_authority","developer_execution_authority","artifact_trust_authority","registry_authority","authority_owner","authority_provider")
 
@@ -114,7 +114,7 @@ def reference_check(root:Path):
  if f:return {"result":"FAIL","findings":f}
  p,d,r,e,a,pol=(_load(paths[k]) for k in ("provider","decision","reference","enforcement","admission","policy"))
  if not provider_shape_valid(p): f.append(_f("AUTOGPT-REF-002","AutoGPT provider invariant drift"))
- if not (d.get("id")==DECISION_ID and d.get("status")=="CANONICAL_CLOSED" and d.get("gate_id")==GATE_ID and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("capability_count_after")==143 and d.get("mandatory_constraint")==MANDATORY_CONSTRAINT): f.append(_f("AUTOGPT-REF-003","AutoGPT decision invariant drift"))
+ if not (d.get("id")==DECISION_ID and d.get("status")=="CANONICAL_CLOSED" and d.get("gate_id")==GATE_ID and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("capability_count_after")==CAPABILITY_COUNT and d.get("mandatory_constraint")==MANDATORY_CONSTRAINT): f.append(_f("AUTOGPT-REF-003","AutoGPT decision invariant drift"))
  if not (r.get("id")==REFERENCE_ID and r.get("observed_default_branch_head")==OBSERVED_MASTER_HEAD and r.get("latest_release")==REFERENCE_RELEASE and r.get("latest_release_commit")==REFERENCE_RELEASE_COMMIT and r.get("promotion_evidence") is False and r.get("floating_master_allowed_as_promotion_evidence") is False): f.append(_f("AUTOGPT-REF-004","AutoGPT upstream reference drift"))
  if not (e.get("gate_id")==GATE_ID and e.get("fail_closed") is True and e.get("mandatory_rule_count")==17 and e.get("p0_invariants")==P0_INVARIANTS and e.get("mandatory_constraint")==MANDATORY_CONSTRAINT): f.append(_f("AUTOGPT-REF-005","AutoGPT enforcement drift"))
  if not (a.get("id")==RUNTIME_ADMISSION_ID and a.get("status")=="NOT_ADMITTED" and a.get("fail_closed") is True and a.get("current_host_evidence_required") is True and a.get("license_admission_required") is True): f.append(_f("AUTOGPT-REF-006","AutoGPT runtime admission drift"))
@@ -144,7 +144,7 @@ def run_regressions():
  c.append(_case(14,"immutable runtime reference",immutable_reference_valid(ref=REFERENCE_RELEASE,commit_sha=REFERENCE_RELEASE_COMMIT),not immutable_reference_valid(ref="master",commit_sha=None)))
  c.append(_case(15,"license admission",license_admission_valid(component="autogpt_platform",explicit_license_admission=True),not license_admission_valid(component="autogpt_platform",explicit_license_admission=False)))
  c.append(_case(16,"disabled provider zero near-zero cost",disabled_provider_cost_valid(resident_processes=0,active_pollers=0,active_network_sessions=0,active_resource_leases=0),not disabled_provider_cost_valid(resident_processes=1,active_pollers=0,active_network_sessions=0,active_resource_leases=0)))
- gp={"id":PROVIDER_ID,"capability_count":143,"canonical_root":False,"architectural_authority":False,"new_capability":False,"global_runtime_promotion_required_when_disabled":False,"runtime_activation_requires_current_host_conformance":True,"runtime_activation_status":"NOT_PROMOTED_REFERENCE_ONLY","authority_boundaries":EXTERNAL,"normative_constraint":MANDATORY_CONSTRAINT}; bp=dict(gp);bp["architectural_authority"]=True
+ gp={"id":PROVIDER_ID,"capability_count":CAPABILITY_COUNT,"canonical_root":False,"architectural_authority":False,"new_capability":False,"global_runtime_promotion_required_when_disabled":False,"runtime_activation_requires_current_host_conformance":True,"runtime_activation_status":"NOT_PROMOTED_REFERENCE_ONLY","authority_boundaries":EXTERNAL,"normative_constraint":MANDATORY_CONSTRAINT}; bp=dict(gp);bp["architectural_authority"]=True
  c.append(_case(17,"provider non-authority invariant",provider_shape_valid(gp),not provider_shape_valid(bp)))
  passed=sum(x["status"]=="PASS" for x in c)
  return {"schema":"fa3.autogpt-regression-report.v1","result":"PASS" if passed==len(c) else "FAIL","passed":passed,"total":len(c),"cases":c}
@@ -152,7 +152,7 @@ def run_regressions():
 def gate(root:Path):
  ref=reference_check(root);scan=scan_canonical_authority_assignments(root);reg=run_regressions()
  ok=ref["result"]==scan["result"]==reg["result"]=="PASS"
- out={"schema":"fa3.autogpt-gate-report.v1","gate_id":GATE_ID,"provider_id":PROVIDER_ID,"capability_count":143,"result":"PASS" if ok else "FAIL","mode":"CANONICAL_BOUNDARY_AND_EXECUTABLE_AGENTIC_WORKFLOW_REGRESSIONS","reference":ref,"authority_scan":scan,"regressions":reg,"runtime_provider_required":False,"runtime_activation_status":"NOT_PROMOTED_REFERENCE_ONLY","promotion_effect":"MANDATORY_CANONICAL_INVARIANTS_PROVIDER_RUNTIME_OPTIONAL_AND_SEPARATELY_ADMITTED"}
+ out={"schema":"fa3.autogpt-gate-report.v1","gate_id":GATE_ID,"provider_id":PROVIDER_ID,"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","mode":"CANONICAL_BOUNDARY_AND_EXECUTABLE_AGENTIC_WORKFLOW_REGRESSIONS","reference":ref,"authority_scan":scan,"regressions":reg,"runtime_provider_required":False,"runtime_activation_status":"NOT_PROMOTED_REFERENCE_ONLY","promotion_effect":"MANDATORY_CANONICAL_INVARIANTS_PROVIDER_RUNTIME_OPTIONAL_AND_SEPARATELY_ADMITTED"}
  _write(root/"reports/autogpt-gate-report.json",out);return out
 
 def main():
