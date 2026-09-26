@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CREATIVE-PROJECT-WORKFLOW-APPLICATION-INTENT-001",
+  "project_id": "FA3-CREATIVE-PROJECT-WORKFLOW-001",
+  "project_type": "PROFILE_OVERLAY",
+  "goal": "Add project-scoped creative context, reusable workflow guidance, storyboard/media binding and dependency-aware scoped revision to the existing FA3 creative/video/editorial stack without creating a new authority or external platform dependency.",
+  "required_capabilities": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-111",
+    "CAP-170",
+    "CAP-172"
+  ],
+  "optional_capabilities": [
+    "CAP-159",
+    "CAP-166",
+    "CAP-168",
+    "CAP-171"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "integration_requirements": [
+    "FA3-SKILL-FABRIC-001",
+    "FA3-VIDEO-001",
+    "FA3-MMG-CONTEXT-IR-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "AUTH-HUMAN"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-creative-project-workflow",
+    "config_root": "$XDG_CONFIG_HOME/fa3/creative-project-workflow",
+    "cache_root": "$XDG_CACHE_HOME/fa3/creative-project-workflow",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/creative-project-workflow",
+    "data_root": "$XDG_DATA_HOME/fa3/creative-project-workflow",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required_for_parameter_mutation": true
+  }
+}

@@ -1,0 +1,35 @@
+name: FA3 Creative Project Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+      - fa3/capability-model-175-20260926
+  push:
+    branches:
+      - fa3/creative-project-workflow-flova-patterns-20260926
+      - fa3/capability-model-175-20260926
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-reference:
+    name: creative-project-workflow / static-reference
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_creative_project_workflow.py src/fa3_creative_project_workflow_gate.py
+      - name: Canonical gate
+        run: ./bin/fa3-enforce creative-project-workflow
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_creative_project_workflow -v

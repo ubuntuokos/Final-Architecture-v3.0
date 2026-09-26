@@ -1,0 +1,141 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+  "name": "FA3 Creative Project Workflow, Context, Scoped Revision & Editorial Projection Contracts",
+  "profile": "FA3-VIDEO-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-111",
+    "CAP-159",
+    "CAP-166",
+    "CAP-168",
+    "CAP-170",
+    "CAP-171",
+    "CAP-172"
+  ],
+  "contracts": [
+    "CreativeProjectState",
+    "CreativeProjectGraph",
+    "CreativeProjectNode",
+    "CreativeProjectDependencyEdge",
+    "ProjectDocumentContext",
+    "CreativeWorkflowSkillBinding",
+    "StoryboardMediaBinding",
+    "ScopedRevisionRequest",
+    "DependencyInvalidationPlan",
+    "CreativeTimelineProjectionPlan",
+    "CreativeProjectReceipt"
+  ],
+  "project_graph": {
+    "node_types": [
+      "PROJECT_SPEC",
+      "STORY_DOCUMENT",
+      "SCREENPLAY",
+      "SHOT",
+      "STORYBOARD_CARD",
+      "CHARACTER",
+      "ENVIRONMENT",
+      "ASSET",
+      "AUDIO",
+      "CAPTION",
+      "TIMELINE_SEGMENT",
+      "REVIEW_NOTE",
+      "APPROVAL",
+      "DELIVERY"
+    ],
+    "edge_types": [
+      "DEPENDS_ON",
+      "DERIVED_FROM",
+      "BINDS_MEDIA",
+      "CONTINUES_FROM",
+      "PROVIDES_CONTEXT",
+      "EDIT_SOURCE",
+      "REVISION_IMPACTS"
+    ],
+    "revision_invalidation_must_be_explicit_per_edge": true,
+    "implicit_global_invalidation_forbidden": true
+  },
+  "project_context": {
+    "final_video_spec_role": "PROJECT_SCOPED_SPECIFICATION_NOT_GLOBAL_MEMORY_AUTHORITY",
+    "user_documents_and_ai_notes_separate": true,
+    "ai_authored_documents_require_provenance": true,
+    "imported_references_read_only_by_default": true,
+    "human_edits_preserve_origin_lineage": true,
+    "context_selection": "TASK_SCOPED_MINIMUM_RELEVANT_SET",
+    "global_project_corpus_auto_injection_forbidden": true
+  },
+  "skill_binding": {
+    "skill_id": "fa3-creative-project-workflow",
+    "skill_fabric": "FA3-SKILL-FABRIC-001",
+    "deterministic_eligibility_first": true,
+    "minimum_matching_skill_set_required": true,
+    "task_scoped_materialization_required": true,
+    "skill_is_execution_authority": false,
+    "skill_is_provider_selector": false
+  },
+  "scoped_revision": {
+    "plan_required_before_execution": true,
+    "explicit_changed_nodes_required": true,
+    "downstream_invalidation": "TRANSITIVE_ONLY_OVER_EDGES_WITH_INVALIDATE_ON_REVISION_TRUE",
+    "unaffected_nodes_preserved_by_default": true,
+    "frozen_constraints_preserved": true,
+    "locked_or_human_approved_affected_nodes_require_approval": true,
+    "scope_expansion_requires_receipt": true,
+    "full_project_regeneration_is_default": false,
+    "mmg_contracts": [
+      "ContextRevisionPatch",
+      "ContextAwareRegenerationContext"
+    ]
+  },
+  "storyboard_media_timeline": {
+    "storyboard_media_binding_explicit": true,
+    "orphan_media_silent_binding_forbidden": true,
+    "canonical_interchange": "OpenTimelineIO",
+    "native_timeline_mutation": "FA3_VIDEO_EDITOR_COMMAND_BUS_OR_SEPARATELY_ADMITTED_EDITORIAL_SURFACE_ONLY",
+    "direct_kdenlive_xml_mutation_forbidden": true,
+    "destructive_editorial_commit_requires_human_or_policy_approval": true
+  },
+  "execution_routing": {
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_approval": "AUTH-HUMAN",
+    "direct_provider_bypass": false,
+    "silent_provider_fallback": false,
+    "billable_remote_execution_requires_explicit_ack": true
+  },
+  "native_project_preservation": {
+    "capability": "CAP-171",
+    "preserve_native_editable_artifacts": true,
+    "round_trip_interchange_required": true,
+    "destructive_flattening_without_explicit_export_intent_forbidden": true
+  },
+  "external_pattern_policy": {
+    "source": "Flova public product documentation",
+    "classification": "REFERENCE_ONLY_PATTERN_SOURCE",
+    "runtime_dependency": false,
+    "provider_dependency": false,
+    "external_account_dependency": false,
+    "credential_dependency": false,
+    "external_code_imported": false,
+    "external_skill_content_imported": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_planning_and_validation_viable": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_execution_requires_hrb": true,
+    "hardware_parameter_mutation_requires_safety_envelope": true
+  },
+  "current_host_runtime_promotion_claim": false
+}

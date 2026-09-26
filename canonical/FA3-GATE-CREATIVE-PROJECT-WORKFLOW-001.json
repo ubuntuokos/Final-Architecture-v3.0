@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-CREATIVE-PROJECT-WORKFLOW-001",
+  "gateset": "FA3-CREATIVE-PROJECT-WORKFLOW-GATESET-001",
+  "status": "CANONICAL",
+  "fail_closed": true,
+  "command": "./bin/fa3-enforce creative-project-workflow",
+  "tests": "PYTHONPATH=src python -m unittest tests.test_creative_project_workflow -v",
+  "reference_evidence": "evidence/reference/creative-project-workflow-ci-2026-09-26.json",
+  "current_host_runtime_promotion": false
+}
