@@ -97,5 +97,13 @@
     "borrow_semantics": "LOGICAL_LEASE_WITHOUT_USER_TAB_REPARENTING",
     "bounded_action_runtime_reused": true,
     "real_hrb_authorization_required": true
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "fail_closed": true,
+    "hardware_parameter_mutation": "DENY",
+    "unsafe_or_unknown_hardware_tuning": "DENY",
+    "safety_protection_bypass": "DENY",
+    "workload_semantics": "NO_HARDWARE_PARAMETER_MUTATION_REQUIRED"
   }
 }

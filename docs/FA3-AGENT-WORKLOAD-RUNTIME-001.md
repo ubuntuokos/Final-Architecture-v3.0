@@ -44,7 +44,7 @@ The provider now has a pinned-schema manifest compiler (`src/fa3_google_ax_provi
 
 At pinned commit `e6211f84a9e30dd309304167b8f1d51cbdaf8dab`, AX `Workspace.spec.git` supports a floating `branch` but no immutable commit field. Therefore a FA3 workspace containing an immutable Git source is **not** downgraded to a branch: provider compilation fails closed with `AX_V1ALPHA1_IMMUTABLE_GIT_COMMIT_UNREPRESENTABLE`. AX-native MCP/Skill registry discovery is likewise not used to bypass Central MCP Gateway or Skill Fabric.
 
-The static manifest bridge does not promote the provider. A FA3-compatible custom AX runner plus scope-bound cluster E2E remain required; runtime activation is `PENDING_CUSTOM_RUNNER_AND_CLUSTER_E2E`.
+The custom-runner execution-plan compiler (`src/fa3_google_ax_custom_runner.py`) is now materialized. It preserves immutable Git semantics by performing HTTPS fetch-by-commit, detached checkout, and HEAD verification inside the runner plan; the Git host must be explicitly present in the default-deny network envelope. Skill and MCP workspace sources are not reinterpreted by the runner, so Skill Fabric and Central MCP Gateway remain the admission/mediation boundaries.\n\nThis is still **source/static materialization only**. No digest-pinned runner image has been built/evidenced, no cluster-apply adapter is admitted, and no scope-bound cluster E2E exists. Runtime activation therefore remains `PENDING_RUNNER_IMAGE_CLUSTER_APPLY_AND_CLUSTER_E2E`.
 
 ## Static closure versus runtime closure
 

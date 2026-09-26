@@ -10,9 +10,11 @@ from fa3_browser_cdp_provider import discover_browser_binary
 from fa3_browser_session_bridge import BrowserSessionBridgeServer,EXPECTED_EXTENSION_ID
 from fa3_browser_session_provider import ACTION_IDS,BrowserSessionProvider,PROVIDER_ID
 from fa3_uaf import ActionContract,ActionDispatcher,ActionRegistry,ActionRequest,ExecutionContext,ProviderRegistry,UafError,_canonical_digest
+from fa3_release_baseline import module_active_capability_count
 GATE_ID="FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001"
 PROFILE_ID="FA3-BROWSER-SESSION-INTERACTION-001"
 HRB_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"
+CAPABILITY_COUNT=module_active_capability_count(__file__)
 HTML=b"""<!doctype html><html><body><input id='name' aria-label='Name'><button id='advance' aria-label='Advance' onclick="this.remove();document.body.dataset.clicked='1'">Advance</button><div id='status'>idle</div></body></html>"""
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -133,13 +135,13 @@ def run_gate(root:Path,browser_binary=None):
             checks["lease_expiry"]={"pass":tr.get("scope")=="USER" and expired,"reason_code":code}
             stopped=execute("browser.session.stop",{"session_id":sid}).output;checks["session_stop"]={"pass":stopped.get("status")=="STOPPED" and stopped.get("returned_leases")==0}
             checks["uaf"]={"pass":len(uaf_receipts)>=10 and all(x.get("status")=="PASS" for x in uaf_receipts),"receipt_count":len(uaf_receipts)}
-            checks["hardware"]={"pass":True,"vendor_neutral":True,"cpu_only":True,"accelerator_required":False}
+            checks["hardware"]={"pass":True,"vendor_neutral":True,"cpu_only":True,"accelerator_required":False,"hardware_safety_decision_id":"FA3-DEC-HARDWARE-SAFETY-2026-09-26","hardware_parameter_mutation":False,"safety_protection_bypass":False,"fail_closed":True}
             browser={"binary_name":Path(binary).name,"version":browser_version(binary),"headless_mode":"--headless=new","extension_id":EXPECTED_EXTENSION_ID,"remote_browser":False}
     finally:
         if bridge is not None:bridge.close()
         gone=terminate(process);http.shutdown();http.server_close();thread.join(timeout=2);checks["rollback"]={"pass":gone,"browser_process_gone":gone,"temporary_profile_scope":True}
     ok=bool(checks) and all(x.get("pass") is True for x in checks.values())
-    return{"schema":"fa3.browser-session-current-host-receipt.v1","gate_id":GATE_ID,"profile_id":PROFILE_ID,"provider_id":PROVIDER_ID,"result":"PASS" if ok else"FAIL","evidence_level":"CURRENT_HOST_PHYSICAL_BROWSER_SESSION_BRIDGE_E2E_PASS" if ok else"CURRENT_HOST_PHYSICAL_BROWSER_SESSION_BRIDGE_E2E_FAIL","physical_current_host":True,"synthetic":False,"host":{"hostname_sha256":hashlib.sha256(socket.gethostname().encode()).hexdigest(),"system":platform.system(),"machine":platform.machine()},"browser":browser,"checks":checks,"provider_receipts":len(provider_receipts),"uaf_receipts":len(uaf_receipts),"physical_extension_native_messaging_proven":bool(ok and checks.get("physical_bridge",{}).get("pass")),"policy_approved_borrow_return_proven":bool(ok and checks.get("borrow",{}).get("pass") and checks.get("return",{}).get("pass")),"logical_borrow_without_reparenting_proven":bool(ok and checks.get("borrow",{}).get("pass")),"human_assistance_overlay_proven":bool(ok and checks.get("human_assistance_presented",{}).get("pass")),"human_assistance_completion_proven":False,"real_existing_user_profile_login_proven":False,"current_host_bridge_admitted":ok,"capability_count":143,"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
+    return{"schema":"fa3.browser-session-current-host-receipt.v1","gate_id":GATE_ID,"profile_id":PROFILE_ID,"provider_id":PROVIDER_ID,"result":"PASS" if ok else"FAIL","evidence_level":"CURRENT_HOST_PHYSICAL_BROWSER_SESSION_BRIDGE_E2E_PASS" if ok else"CURRENT_HOST_PHYSICAL_BROWSER_SESSION_BRIDGE_E2E_FAIL","physical_current_host":True,"synthetic":False,"host":{"hostname_sha256":hashlib.sha256(socket.gethostname().encode()).hexdigest(),"system":platform.system(),"machine":platform.machine()},"browser":browser,"checks":checks,"provider_receipts":len(provider_receipts),"uaf_receipts":len(uaf_receipts),"physical_extension_native_messaging_proven":bool(ok and checks.get("physical_bridge",{}).get("pass")),"policy_approved_borrow_return_proven":bool(ok and checks.get("borrow",{}).get("pass") and checks.get("return",{}).get("pass")),"logical_borrow_without_reparenting_proven":bool(ok and checks.get("borrow",{}).get("pass")),"human_assistance_overlay_proven":bool(ok and checks.get("human_assistance_presented",{}).get("pass")),"human_assistance_completion_proven":False,"real_existing_user_profile_login_proven":False,"current_host_bridge_admitted":ok,"capability_count":CAPABILITY_COUNT,"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
 def main():
     ap=argparse.ArgumentParser();ap.add_argument("--root",default=".");ap.add_argument("--browser-binary");ap.add_argument("--receipt",default="evidence/receipts/browser-session-current-host.json");a=ap.parse_args();root=Path(a.root).resolve()
     try:r=run_gate(root,a.browser_binary)

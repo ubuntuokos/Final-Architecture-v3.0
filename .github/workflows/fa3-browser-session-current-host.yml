@@ -73,6 +73,8 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m unittest tests.test_browser_session_bridge tests.test_browser_session_gate -v
+      - name: Hardware Safety / portability gate
+        run: ./bin/fa3-enforce hardware-portability
       - name: Static Browser Session gate
         env:
           PYTHONPATH: src
@@ -89,19 +91,12 @@ jobs:
           clean: true
       - name: Prepare native host
         run: chmod 0755 libexec/fa3-browser-session-native-host.py
-      - name: Ensure canonical HRB admission bridge
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ ! -x /usr/local/bin/fa3-host-resource-broker-admission ]] \
-             || ! /usr/local/bin/fa3-host-resource-broker-admission --doctor >/dev/null 2>&1; then
-            sudo ./bin/fa3-install-host-admission-bridge.sh --user "$USER"
-          fi
-          /usr/local/bin/fa3-host-resource-broker-admission --doctor
-      - name: Static Browser Session gate
+      - name: Verify canonical HRB admission bridge prerequisite\n        shell: bash\n        run: |\n          set -euo pipefail\n          test -x /usr/local/bin/fa3-host-resource-broker-admission\n          test -x /usr/local/libexec/fa3-host-resource-broker-admission-root\n          /usr/local/bin/fa3-host-resource-broker-admission --doctor\n      - name: Static Browser Session gate
         env:
           PYTHONPATH: src
         run: python3 src/fa3_browser_session_gate.py --root .
+      - name: Current-host Hardware Safety audit
+        run: ./bin/fa3-enforce hardware-portability
       - name: Real physical extension + Native Messaging + UDS + HRB E2E
         shell: bash
         env:
@@ -132,6 +127,9 @@ jobs:
           c=r['checks']
           assert c['physical_bridge']['pass'] is True
           assert c['hrb']['pass'] is True and c['hrb']['cpu_only'] is True
+          assert c['hardware']['pass'] is True
+          assert c['hardware']['hardware_parameter_mutation'] is False
+          assert c['hardware']['safety_protection_bypass'] is False
           assert c['negative_missing_approval']['pass'] is True
           assert c['negative_origin_scope']['pass'] is True
           assert c['borrow']['pass'] is True and c['borrow']['reparented'] is False

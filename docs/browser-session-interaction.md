@@ -134,3 +134,7 @@ The following remain separate manual qualifications until real evidence exists:
 - actual human completion of an assistance request.
 
 Static/canonical success and automated bridge E2E do not imply either manual claim or global FA3 promotion.
+
+## Hardware Safety Envelope
+
+The Browser Session bridge is CPU-only viable and performs no hardware-parameter tuning. It inherits FA3-DEC-HARDWARE-SAFETY-2026-09-26: hardware mutation and safety-protection bypass are denied, and unknown safety conditions fail closed. Browser or extension execution never becomes hardware-resource authority.
