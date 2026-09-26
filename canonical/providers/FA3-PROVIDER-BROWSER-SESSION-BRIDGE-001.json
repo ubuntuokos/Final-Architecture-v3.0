@@ -1,0 +1,113 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+  "name": "FA3 Native Existing-Profile Browser Session Bridge Provider",
+  "status": "ACCEPTED_OPTIONAL_CURRENT_HOST_CANDIDATE",
+  "provider_role": "BOUNDED_LOCAL_EXISTING_PROFILE_BROWSER_SESSION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "BROWSER_EXECUTION_PROVIDER",
+    "UAF_ACTION_PROVIDER",
+    "LOCAL_NATIVE_MESSAGING_PROVIDER",
+    "NAMESPACED_UNIX_SOCKET_PROVIDER",
+    "CURRENT_HOST_EVIDENCE_GATED_PROVIDER"
+  ],
+  "parent_profile": "FA3-BROWSER-SESSION-INTERACTION-001",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "PHYSICAL_BRIDGE_EVIDENCE_PENDING",
+  "action_ids": [
+    "browser.action.execute",
+    "browser.session.start",
+    "browser.session.stop",
+    "browser.tab.list",
+    "browser.tab.borrow",
+    "browser.tab.return",
+    "browser.human_assistance.request",
+    "browser.human_assistance.cancel"
+  ],
+  "cpu_only_supported": true,
+  "transport": {
+    "extension": "FA3_NATIVE_MV3",
+    "extension_id": "hkcdjepmkpeglfgejcejjdpdidinipdc",
+    "browser_to_host": "CHROMIUM_NATIVE_MESSAGING",
+    "host_to_fa3": "NAMESPACED_UNIX_DOMAIN_SOCKET",
+    "socket": "$XDG_RUNTIME_DIR/fa3/browser-session/bridge.sock",
+    "fixed_tcp_port": false,
+    "remote_browser": "DENY",
+    "accelerator_required": false,
+    "browser_sandbox_disable": "DENY"
+  },
+  "session_boundaries": {
+    "agent_window_separate": true,
+    "existing_user_tab_default_scope": "OUT_OF_SCOPE",
+    "borrow_model": "LOGICAL_TTL_LEASE_WITHOUT_TAB_REPARENTING",
+    "borrow_requires_explicit_human_or_policy_approval": true,
+    "borrow_origin_scope_required": true,
+    "borrow_action_scope_required": true,
+    "borrow_ttl_required": true,
+    "popup_authority_inheritance": "DENY",
+    "sibling_tab_authority_inheritance": "DENY",
+    "origin_change_under_lease": "DENY_AND_REQUIRE_NEW_AUTHORIZATION",
+    "session_stop_revokes_all_leases": true
+  },
+  "execution_boundaries": {
+    "action_source": "FA3_BROWSER_ACTION_SPACE_ONLY",
+    "arbitrary_selector_from_model": "DENY",
+    "arbitrary_script_from_model": "DENY",
+    "stale_binding_execution": "DENY",
+    "blind_mutation_retry": "DENY",
+    "independent_outcome_verification": true,
+    "page_content_trust": "UNTRUSTED_EXTERNAL_CONTENT",
+    "credential_cookie_token_export": "DENY"
+  },
+  "human_assistance": {
+    "visible_overlay": true,
+    "request_is_completion": false,
+    "cancellation_is_completion": false,
+    "human_completion_requires_manual_qualification": true,
+    "resume_requires_fresh_observation_and_authorization": true
+  },
+  "authority_boundaries": {
+    "browser_action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "human_approval": "AUTH-HUMAN",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "coexistence": {
+    "upstream_browser_or_browserskill_installation_required": false,
+    "upstream_uninstall_or_replace": false,
+    "global_browser_configuration_mutation": false,
+    "native_host_registration_for_current_host_test": "TEMPORARY_HOME_ONLY",
+    "runtime_paths_namespaced": true
+  },
+  "distribution_class": "FA3_NATIVE",
+  "product_bundle_allowed": true,
+  "distribution": {
+    "class": "FA3_NATIVE",
+    "release_bundle_status": "INCLUDED",
+    "classification_basis": "FA3_NATIVE_IMPLEMENTATION_NO_IMPORTED_BROWSERSKILL_RUNTIME"
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "fail_closed": true,
+    "hardware_parameter_mutation": "DENY",
+    "unsafe_or_unknown_hardware_tuning": "DENY",
+    "safety_protection_bypass": "DENY",
+    "workload_semantics": "NO_HARDWARE_PARAMETER_MUTATION_REQUIRED",
+    "provider_may_set_hardware_values": false,
+    "provider_may_become_hardware_authority": false
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.gate.record.v1",
+  "id": "FA3-GATE-BROWSER-SESSION-CURRENT-HOST-001",
+  "title": "Physical current-host existing-profile browser session bridge",
+  "priority": "P0",
+  "status": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "fail_closed": true,
+  "parent_profile": "FA3-BROWSER-SESSION-INTERACTION-001",
+  "parent_runtime": "FA3-BROWSER-ACTION-RUNTIME-001",
+  "provider_id": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+  "evidence_level": "CURRENT_HOST_PHYSICAL_BROWSER_SESSION_BRIDGE_E2E_PASS",
+  "implementation": "src/fa3_browser_session_current_host_gate.py",
+  "receipt": "evidence/receipts/browser-session-current-host.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "global_promotion_claim": false,
+  "manual_qualification_remaining": [
+    "REAL_EXISTING_USER_PROFILE_LOGIN_REUSE",
+    "REAL_HUMAN_ASSISTANCE_COMPLETION"
+  ],
+  "requirements": [
+    "REAL_CHROMIUM_COMPATIBLE_BROWSER_PROCESS",
+    "REAL_FA3_NATIVE_MV3_EXTENSION",
+    "REAL_NATIVE_MESSAGING_HOST_PROCESS",
+    "REAL_NAMESPACED_UNIX_SOCKET",
+    "REAL_HRB_CPU_ONLY_ADMISSION_AUTHORIZATION",
+    "SEPARATE_AGENT_WINDOW",
+    "OPAQUE_TAB_LIST_WITHOUT_FULL_URL_OR_TITLE_EXPORT",
+    "EXPLICIT_POLICY_OR_HUMAN_APPROVED_TAB_LEASE",
+    "LOGICAL_BORROW_WITHOUT_TAB_REPARENTING",
+    "ORIGIN_AND_ACTION_SCOPE_BINDING",
+    "LEASE_TTL_EXPIRY_FAIL_CLOSED",
+    "BOUNDED_BROWSER_ACTION_RUNTIME_EXECUTION",
+    "STALE_BINDING_REJECTED",
+    "HUMAN_ASSISTANCE_OVERLAY_PRESENTED_WITHOUT_SYNTHETIC_COMPLETION",
+    "SESSION_STOP_AND_PROCESS_ROLLBACK"
+  ]
+}

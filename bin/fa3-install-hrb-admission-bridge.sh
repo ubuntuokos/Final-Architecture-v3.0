@@ -43,7 +43,7 @@ PY
 fi
 owner="$(stat -c '%u' "$KEY_FILE")"; mode="$(stat -c '%a' "$KEY_FILE")"
 [[ "$owner" == 0 ]] || { echo "FAIL: admission keyring not root-owned" >&2; exit 25; }
-(( 8#$mode & 077 == 0 )) || { echo "FAIL: admission keyring permissions too broad: $mode" >&2; exit 26; }
+(( (8#$mode & 077) == 0 )) || { echo "FAIL: admission keyring permissions too broad: $mode" >&2; exit 26; }
 
 SUDOERS="/etc/sudoers.d/fa3-hrb-admission-$TARGET_USER"
 TMP="$(mktemp)"

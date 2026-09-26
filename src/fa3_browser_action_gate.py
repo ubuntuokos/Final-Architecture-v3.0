@@ -51,7 +51,11 @@ def gate(root:Path)->dict[str,Any]:
     rt=(root/"src/fa3_browser_action_runtime.py").read_text(encoding="utf-8")
     for token,code in [("UNTRUSTED_EXTERNAL_CONTENT","BAR-020"),("BLIND_MUTATION_RETRY_DENIED","BAR-021"),("COMPLETION_CLAIM","BAR-022"),("VERIFIED_SUCCESS","BAR-023")]:
         if token not in rt: findings.append({"code":code,"message":"runtime invariant token missing","token":token})
-    return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"upstream_pin":{"repository":UPSTREAM_REPO,"commit":UPSTREAM_COMMIT,"license":"MIT"},"capability_count":143,"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
+    from fa3_browser_session_gate import gate as browser_session_gate
+    session_report=browser_session_gate(root)
+    if session_report.get("result")!="PASS":
+        findings.append({"code":"BAR-024","message":"Browser Session child gate failed","findings":session_report.get("findings",[])})
+    return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"browser_session_child_gate":{"gate_id":session_report.get("gate_id"),"result":session_report.get("result"),"current_host_runtime_claim":session_report.get("current_host_runtime_claim",False)},"upstream_pin":{"repository":UPSTREAM_REPO,"commit":UPSTREAM_COMMIT,"license":"MIT"},"capability_count":143,"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
 def main()->int:
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default="."); ap.add_argument("--report",default="reports/browser-action-runtime-gate-report.json"); args=ap.parse_args()
     root=Path(args.root).resolve(); report=gate(root); path=root/args.report; path.parent.mkdir(parents=True,exist_ok=True); path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); print(json.dumps(report,ensure_ascii=False,indent=2)); return 0 if report["result"]=="PASS" else 2
