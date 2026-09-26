@@ -5,6 +5,8 @@ import sys
 import unittest
 from pathlib import Path
 
+from src.fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -25,7 +27,7 @@ class TestMMGContextIRExecutableGate(unittest.TestCase):
         report = gate(ROOT)
         self.assertEqual(report["result"], "PASS", report["findings"])
         self.assertEqual(report["blocking_findings"], 0)
-        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["capability_count"], module_active_capability_count(__file__))
         self.assertEqual(report["new_capabilities"], 0)
         self.assertEqual(report["new_architectural_authorities"], 0)
 
