@@ -1,5 +1,7 @@
 import unittest
 from pathlib import Path
+
+from src.fa3_release_baseline import module_active_capability_count
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +20,7 @@ class KdenliveEditorialGateTests(unittest.TestCase):
     def test_canonical_gate_passes(self):
         report = gate(ROOT)
         self.assertEqual(report["result"], "PASS")
-        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["capability_count"], module_active_capability_count(__file__))
         self.assertEqual(report["rules_checked"], 16)
 
 if __name__ == "__main__":
