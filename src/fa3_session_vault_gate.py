@@ -2,7 +2,9 @@
 from __future__ import annotations
 import json,sys
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
 ROOT=Path(__file__).resolve().parents[1]
+CAPABILITY_COUNT=module_active_capability_count(__file__)
 def load(p): return json.loads((ROOT/p).read_text())
 def main():
  findings=[]
@@ -12,7 +14,7 @@ def main():
  c=load("canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json")
  def req(ok,code): 
   if not ok: findings.append(code)
- req(p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==143,"SV-001")
+ req(p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==CAPABILITY_COUNT,"SV-001")
  req(p["storage"]["default_type"]=="LUKS2_FILE_IMAGE" and p["storage"]["removable_media_required"] is False,"SV-002")
  req(p["session_semantics"]["separate_fa3_login_required"] is False and p["multi_user"]["default_enabled"] is False,"SV-002A")
  req("FREEDESKTOP_SECRET_SERVICE" in p["unlock_sources"] and "FA3_HUMAN_CREDENTIAL_VAULT_ADAPTER" in p["unlock_sources"],"SV-003")
