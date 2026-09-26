@@ -24,4 +24,4 @@ jobs:
       - name: Khronos canonical gate
         run: PYTHONPATH=src python3 src/fa3_khronos_open_standards_gate.py --json
       - name: Khronos regression
-        run: PYTHONPATH=src python3 -m unittest tests.test_khronos_open_standards_gate
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_khronos_open_standards_gate.py'
