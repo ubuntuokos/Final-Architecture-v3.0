@@ -39,7 +39,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_coexistence_audit -v
+        run: PYTHONPATH=src python -m unittest tests.test_coexistence_audit tests.test_provider_count -v
+      - name: Derive canonical provider count
+        run: PYTHONPATH=src python src/fa3_provider_count.py --root .
       - name: Fail-closed coexistence audit
         run: PYTHONPATH=src python src/fa3_coexistence_audit.py --root .
       - name: Assert truth boundary and fixed capability baseline
@@ -52,4 +54,9 @@ jobs:
           assert r['authority_delta']==0
           assert r['current_host_status']=='PENDING_CURRENT_HOST'
           assert r['runtime_promotion_claim'] is False
+          p=json.load(open('reports/provider-count-report.json'))
+          assert p['capability_count']==175
+          assert p['capability_count_fixed'] is True
+          assert p['provider_count_fixed'] is False
+          assert p['invalid_record_count']==0
           PY
