@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse
 import json
 from pathlib import Path
@@ -119,14 +120,14 @@ def canonical_check(root):
         and profile.get("status") == "CANONICAL"
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
-        and profile.get("capability_count") == 143
+        and profile.get("capability_count") == module_active_capability_count(__file__)
         and profile.get("capabilities") == CAPABILITY_IDS
     ):
         findings.append(finding("MKT-CANON-001", "Marketing profile identity/capability invariant drift"))
     if not (
         contracts.get("id") == CONTRACT_ID
         and contracts.get("provider_neutral") is True
-        and contracts.get("capability_count") == 143
+        and contracts.get("capability_count") == module_active_capability_count(__file__)
         and contracts.get("consent_and_delivery", {}).get("suppression_and_unsubscribe_fail_closed") is True
         and contracts.get("publication", {}).get("human_approval_required_for_public_campaign_launch") is True
         and contracts.get("localization", {}).get("quality_receipt_required") is True
@@ -147,7 +148,7 @@ def canonical_check(root):
         and decision.get("status") == "CANONICAL_CLOSED"
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == 143
+        and decision.get("capability_count_after") == module_active_capability_count(__file__)
         and decision.get("current_host_runtime_claim") is False
     ):
         findings.append(finding("MKT-CANON-004", "Marketing decision/capability/authority invariant drift"))
@@ -158,7 +159,7 @@ def canonical_check(root):
             or provider.get("architectural_authority") is not False
             or provider.get("new_capability") is not False
             or provider.get("new_architectural_authority") is not False
-            or provider.get("capability_count") != 143
+            or provider.get("capability_count") != module_active_capability_count(__file__)
             or any(
                 provider.get("authority_boundaries", {}).get(key) is not False
                 for key in (
@@ -232,7 +233,7 @@ def canonical_check(root):
         and evidence.get("gate_id") == GATE_ID
         and evidence.get("current_host_runtime_evidence") == "NOT_CLAIMED"
         and evidence.get("current_host_runtime_promotion_claim") is False
-        and evidence.get("capability_count_after") == 143
+        and evidence.get("capability_count_after") == module_active_capability_count(__file__)
     ):
         findings.append(finding("MKT-CANON-012", "Reference evidence/runtime-claim separation drift"))
     ref = run_reference_e2e()
