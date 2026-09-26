@@ -9,6 +9,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -285,7 +287,7 @@ def canonical_check(root: Path) -> list[str]:
         if not row or row.get("commit") != commit or row.get("classification") != "REFERENCE_ONLY":
             findings.append(f"external radar pin/classification missing: {repo}")
     effect = decision.get("authority_effect", {})
-    if effect != {"new_capability": False, "new_architectural_authority": False, "capability_count_after": 143}:
+    if effect != {"new_capability": False, "new_architectural_authority": False, "capability_count_after": module_active_capability_count(__file__)}:
         findings.append("1.3 decision capability/authority invariant drift")
     hw = decision.get("hardware_audit", {})
     if not (hw.get("vendor_neutral") and hw.get("cpu_only_viable") and hw.get("global_accelerator_requirement") is False):
@@ -304,7 +306,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         "findings": findings,
         "regressions": regressions,
         "provider_specific": False,
-        "capability_count": 143,
+        "capability_count": module_active_capability_count(__file__),
         "new_architectural_authority": False,
         "current_host_runtime_claim": False,
         "browser_session_current_host_claim": False,
