@@ -73,6 +73,30 @@ def _assessment_index(root: Path) -> dict[str, list[dict[str, Any]]]:
     return index
 
 
+def _capability_model_175_mirror_only(root: Path, marker: str, rel: str, current: dict[str, Any]) -> bool:
+    """Allow only the declared 143->175 baseline-mirror migration without treating it as a new project."""
+    previous_text = _git(root, "show", f"{marker}:{rel}")
+    if not previous_text:
+        return False
+    try:
+        previous = json.loads(previous_text)
+    except Exception:
+        return False
+    if previous.get("capability_count") != 143 or current.get("capability_count") != 175:
+        return False
+    if current.get("capability_baseline_release") != "2026-09-26/v3.1.0":
+        return False
+    if current.get("capability_model_reconciliation") != "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26":
+        return False
+    old = dict(previous)
+    new = dict(current)
+    old.pop("capability_count", None)
+    new.pop("capability_count", None)
+    new.pop("capability_baseline_release", None)
+    new.pop("capability_model_reconciliation", None)
+    return old == new
+
+
 def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
     history = _git(root, "log", "--format=%H", "--reverse", "--", DECISION)
     if not history:
@@ -95,7 +119,7 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
             continue
         checked.append(str(rid))
         matches = assessments.get(str(rid), [])
-        valid = False
+        valid = _capability_model_175_mirror_only(root, marker, rel, row)
         for match in matches:
             assessment = match["row"]
             intent_path = assessment.get("intent_path")
