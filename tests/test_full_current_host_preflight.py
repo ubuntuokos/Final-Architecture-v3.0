@@ -10,16 +10,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class FullCurrentHostPreflightTests(unittest.TestCase):
-    def test_full_materialization_is_exactly_429_of_429(self):
+    def test_175_baseline_exposes_96_unmaterialized_obligations(self):
         plan = build_plan(ROOT, batch_size=5)
-        self.assertEqual(143, plan["capability_count"])
-        self.assertEqual(429, plan["required_test_obligation_count"])
+        self.assertEqual(175, plan["capability_count"])
+        self.assertEqual(525, plan["required_test_obligation_count"])
         self.assertEqual(429, plan["materialized_obligation_count"])
-        self.assertEqual(0, plan["pending_obligation_count"])
+        self.assertEqual(96, plan["pending_obligation_count"])
         self.assertEqual(143, plan["fully_materialized_capability_count"])
-        self.assertEqual(0, plan["pending_materialization_capability_count"])
-        self.assertIsNone(plan["next_materialization_batch"])
-        self.assertEqual([], plan["materialization_batches"])
+        self.assertEqual(32, plan["pending_materialization_capability_count"])
+        self.assertEqual(["CAP-144", "CAP-145", "CAP-146", "CAP-147", "CAP-148"], plan["next_materialization_batch"]["capabilities"])
+        self.assertEqual(7, len(plan["materialization_batches"]))
 
     def test_recipe_registry_is_explicit_and_nontrivial(self):
         primitives, recipes = required_primitives(ROOT)
