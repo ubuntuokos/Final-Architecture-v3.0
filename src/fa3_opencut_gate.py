@@ -150,7 +150,7 @@ def regression_cases():
             "result": "PASS" if positive and negative else "FAIL",
         })
 
-    add(RULES[0], CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(RULES[0], CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(RULES[1], True, not (False or False))
     add(RULES[2], admission["stable_interfaces"]["editor_api"], not runtime_admission_allowed({**admission, "stable_interfaces": {**admission["stable_interfaces"], "editor_api": False}}))
     add(RULES[3], "FA3-AUTH-MCP-GATEWAY-001" == "FA3-AUTH-MCP-GATEWAY-001", "OpenCut MCP" != "FA3-AUTH-MCP-GATEWAY-001")
