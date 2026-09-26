@@ -12,16 +12,30 @@
     "AI_IMAGE_EDITING_FRONTEND"
   ],
   "profile": "FA3-HYBRID-EDITORIAL-001",
-  "additional_profiles": ["FA3-AI-IMAGE-EDITING-001"],
-  "capability_projection": ["CAP-016"],
+  "additional_profiles": [
+    "FA3-AI-IMAGE-EDITING-001"
+  ],
+  "capability_projection": [
+    "CAP-016"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_WHEN_2D_RASTER_FRAME_ANIMATION_OR_AI_IMAGE_AUTHORING_USED",
-  "provider_local_state": [".kra", "brush_state", "layer_state", "animation_workspace_state"],
-  "canonical_projection_formats": ["PNG_SEQUENCE", "EXR_SEQUENCE", "RENDERED_CLIP", "ASSET_MANIFEST"],
+  "provider_local_state": [
+    ".kra",
+    "brush_state",
+    "layer_state",
+    "animation_workspace_state"
+  ],
+  "canonical_projection_formats": [
+    "PNG_SEQUENCE",
+    "EXR_SEQUENCE",
+    "RENDERED_CLIP",
+    "ASSET_MANIFEST"
+  ],
   "ai_image_editing_extensions": [
     "FA3-PROVIDER-KRITA-AI-DIFFUSION-001",
     "FA3-PROVIDER-KRITA-VISION-TOOLS-001",
@@ -49,5 +63,7 @@
     "SCENE_GEOMETRY_CAMERA_AUTHORITY",
     "GENERATION_CONTEXT_IR_AUTHORITY"
   ],
-  "current_host_runtime_evidence": "NOT_CLAIMED"
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
