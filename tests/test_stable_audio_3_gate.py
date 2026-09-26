@@ -5,6 +5,7 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 import fa3_stable_audio_3_gate as s
 
@@ -28,7 +29,7 @@ class StableAudio3GateTests(unittest.TestCase):
     def test_baseline_passes_without_current_host_promotion(self):
         r = s.gate(ROOT)
         self.assertEqual("PASS", r["result"], r)
-        self.assertEqual(143, r["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, r["capability_count"])
         self.assertFalse(r["current_host_runtime_evidence"])
         self.assertFalse(r["production_promotion_claim"])
 
