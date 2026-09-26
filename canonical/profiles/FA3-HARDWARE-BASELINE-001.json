@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HARDWARE-BASELINE-001",
   "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -13,7 +13,7 @@
   },
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "FA3-HW-CONTRACTS-001",
     "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
@@ -143,8 +143,45 @@
     "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
     "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
     "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT",
-    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION"
+    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
+    "HARDWARE_SAFETY_OVERRIDES_PERFORMANCE_OPTIMIZATION",
+    "FA3_MUST_NOT_SET_HARDWARE_VALUES_OUTSIDE_VENDOR_SUPPORTED_OPERATING_ENVELOPE",
+    "FA3_MUST_NOT_DISABLE_OR_BYPASS_HARDWARE_SAFETY_PROTECTIONS",
+    "UNKNOWN_SAFE_RANGE_MUST_FAIL_CLOSED_WITH_NO_HARDWARE_MUTATION",
+    "EXISTING_USER_HARDWARE_TUNING_MUST_NOT_AUTHORIZE_ESCALATION"
   ],
   "current_host_semantics": "EXACT_HOST_TUPLES_ALLOWED_AS_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS",
-  "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND"
+  "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND",
+  "hardware_safety_envelope": {
+    "policy": "MANDATORY_FAIL_CLOSED",
+    "precedence": "HARDWARE_SAFETY_OVERRIDES_PERFORMANCE_OPTIMIZATION",
+    "applies_to": [
+      "FA3_RUNTIME",
+      "INSTALLER",
+      "PROVISIONING",
+      "TUNING",
+      "BENCHMARK",
+      "AUTOMATION",
+      "AGENT_ACTIONS"
+    ],
+    "permitted_mutation_basis": "ATTRIBUTABLE_DEVICE_IDENTITY_PLUS_VENDOR_SUPPORTED_RANGE_EVIDENCE_PLUS_POLICY_ADMISSION",
+    "vendor_supported_operating_envelope_required": true,
+    "unknown_safe_range": "NO_MUTATION_FAIL_CLOSED",
+    "existing_user_tuning": "DOES_NOT_AUTHORIZE_ESCALATION",
+    "forbidden": [
+      "OUT_OF_VENDOR_SUPPORTED_RANGE",
+      "OVERVOLT",
+      "OUT_OF_POLICY_OVERCLOCK",
+      "UNSAFE_POWER_LIMIT",
+      "THERMAL_PROTECTION_BYPASS",
+      "CURRENT_PROTECTION_BYPASS",
+      "FAN_SAFETY_BYPASS",
+      "FIRMWARE_SAFETY_BYPASS"
+    ],
+    "installer_override": false,
+    "expert_mode_override": false,
+    "user_override_bypass": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
