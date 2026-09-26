@@ -9,10 +9,15 @@
   "related_provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
   "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
   "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120",
+    "CAP-135"
+  ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
   "current_host_runtime_promotion_claim": false,
   "decisions": [
@@ -24,5 +29,6 @@
     "Provider SQLite or JSON state remains operator-local and non-canonical; PostgreSQL and the existing artifact/model registry remain canonical authorities.",
     "Provider failure cannot stop already promoted native workers; damaged environments are isolated and clean uninstall plus orphan scan is required.",
     "Reference regression PASS does not claim current-host production worker E2E or global runtime promotion."
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
