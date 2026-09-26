@@ -200,7 +200,7 @@ Then collect production E2E evidence with a **real** audio file through the exis
 bash bin/fa3-demucs-hrb-production-e2e.sh /path/to/real-audio.wav
 ```
 
-The default broker path is `/usr/local/bin/fa3-host-resource-broker`; override it with `FA3_HRB_BIN` only when the canonical HRB is installed elsewhere. The default lease asks for 6 GiB VRAM for one hour and can be changed with `FA3_DEMUCS_HRB_MEMORY_BYTES` and `FA3_DEMUCS_HRB_TTL_SECONDS`. CUDA has **no implicit CPU fallback** and bare `cuda` is rejected: execution must resolve to explicit `cuda:N` from the broker-issued GPU UUID.
+Demucs model downloads use the FA3-namespaced `${XDG_CACHE_HOME:-$HOME/.cache}/fa3/demucs-hf` cache by default (override with `FA3_DEMUCS_MODEL_CACHE`). The default broker path is `/usr/local/bin/fa3-host-resource-broker`; override it with `FA3_HRB_BIN` only when the canonical HRB is installed elsewhere. The default lease asks for 6 GiB VRAM for one hour and can be changed with `FA3_DEMUCS_HRB_MEMORY_BYTES` and `FA3_DEMUCS_HRB_TTL_SECONDS`. CUDA has **no implicit CPU fallback** and bare `cuda` is rejected: execution must resolve to explicit `cuda:N` from the broker-issued GPU UUID.
 
 For an already-issued canonical lease, the lower-level collector is also available:
 
@@ -425,7 +425,7 @@ No Conda/Miniforge is used:
 bash bin/fa3-whisper-bootstrap.sh
 ```
 
-This creates `.venv-whisper` and installs the exact upstream commit. Override the venv with `FA3_WHISPER_VENV`. Model cache defaults to `${XDG_CACHE_HOME:-$HOME/.cache}/whisper`; set `FA3_WHISPER_MODEL_CACHE` to place it on the workstation AI cache.
+This creates `.venv-whisper` and installs the exact upstream commit. Override the venv with `FA3_WHISPER_VENV`. Model cache defaults to the FA3-namespaced `${XDG_CACHE_HOME:-$HOME/.cache}/fa3/whisper`; set `FA3_WHISPER_MODEL_CACHE` to place it on the workstation AI cache.
 
 Model fetch is **offline by default**. The first trusted fetch must be explicit with `--allow-network-model-fetch`; the downloaded bytes are then checked against the canonical SHA256.
 

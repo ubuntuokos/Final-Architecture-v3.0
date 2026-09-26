@@ -40,5 +40,6 @@ for name in ("demucs","torch","safetensors","huggingface-hub","sphn"):
 PY
 
 echo "FA3 Demucs provider venv ready: $VENV"
+echo "Model cache: ${FA3_DEMUCS_MODEL_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/fa3/demucs-hf}"
 echo "Managed lock: FA3-UPSTREAM-LOCK-REGISTRY-001#demucs@$DEMUCS_REVISION"
 echo "No conda/mamba environment is used."

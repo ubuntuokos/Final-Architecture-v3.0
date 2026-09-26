@@ -172,7 +172,7 @@ def resolve_model_cache(options: RuntimeOptions) -> Path:
     import os
     xdg = os.environ.get("XDG_CACHE_HOME")
     base = Path(xdg).expanduser() if xdg else Path.home() / ".cache"
-    return (base / "whisper").resolve()
+    return (base / "fa3" / "whisper").resolve()
 
 def validate_cached_model(cache_dir: Path, descriptor: dict[str, Any], *, require_present: bool) -> Path | None:
     path = cache_dir / str(descriptor["artifact_filename"])

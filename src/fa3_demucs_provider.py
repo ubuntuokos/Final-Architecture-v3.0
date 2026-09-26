@@ -25,6 +25,14 @@ HRB_LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
 DEFAULT_HRB_VERIFY_COMMAND = ("/usr/local/bin/fa3-host-resource-broker", "validate-lease", "{lease}")
 MODEL_ALLOWLIST_ID = "FA3-DEMUCS-MODEL-ALLOWLIST-001"
 
+def resolve_model_cache() -> Path:
+    explicit = os.environ.get("FA3_DEMUCS_MODEL_CACHE")
+    if explicit:
+        return Path(explicit).expanduser().resolve()
+    xdg = os.environ.get("XDG_CACHE_HOME")
+    base = Path(xdg).expanduser() if xdg else Path.home() / ".cache"
+    return (base / "fa3" / "demucs-hf").resolve()
+
 class ProviderError(RuntimeError):
     pass
 
@@ -388,11 +396,14 @@ def load_trusted_model(
     from demucs.apply import BagOfModels
 
     local_only = bool(request.offline)
+    cache_dir = resolve_model_cache()
+    cache_dir.mkdir(parents=True, exist_ok=True)
     try:
         yaml_path = Path(hf_hub_download(
             repo_id=repo_id,
             filename=f"{request.model}.yaml",
             local_files_only=local_only,
+            cache_dir=str(cache_dir),
         ))
     except Exception as exc:
         mode = "offline cache" if local_only else "HuggingFace"
@@ -414,6 +425,7 @@ def load_trusted_model(
                 repo_id=repo_id,
                 filename=f"{sig}.safetensors",
                 local_files_only=local_only,
+                cache_dir=str(cache_dir),
             ))
         except Exception as exc:
             raise ModelTrustDenied("could not resolve trusted safetensors artifact") from exc

@@ -42,4 +42,4 @@ PY
 
 echo "FA3 Whisper venv ready: $VENV"
 echo "Managed lock: FA3-UPSTREAM-LOCK-REGISTRY-001#whisper@$UPSTREAM_COMMIT"
-echo "Model cache: ${FA3_WHISPER_MODEL_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/whisper}"
+echo "Model cache: ${FA3_WHISPER_MODEL_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/fa3/whisper}"
