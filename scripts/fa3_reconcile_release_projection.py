@@ -310,6 +310,38 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     }
 
+    projection["ai_engineering_reference_reconciliation"] = {
+        "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+        "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
+        "reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+        "decision_id": "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30",
+        "gate_id": "FA3-AIENG-GATESET-001",
+        "application_intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+        "reuse_assessment_id": "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001",
+        "pattern_bundle_id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
+        "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
+        "reuse_catalog_id": "FA3-REUSE-CATALOG-001",
+        "classification": "REFERENCE_AND_PATTERN_SOURCE_ONLY",
+        "runtime_provider": False,
+        "automatic_fetch": False,
+        "automatic_install": False,
+        "automatic_activation": False,
+        "software_coexistence_required": True,
+        "hardware_audit": {
+            "vendor_neutral": True,
+            "cpu_only_viable": True,
+            "accelerator_cardinality": "0..N",
+            "global_accelerator_requirement": False,
+        },
+        "current_host_runtime_evidence_required": False,
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_REFERENCE_PATTERN_ABSORPTION_REUSE_DISCOVERABLE_RUNTIME_NOT_ADMITTED",
+    }
+
     projection["quality_anti_slop_reconciliation"] = {
         "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
         "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
