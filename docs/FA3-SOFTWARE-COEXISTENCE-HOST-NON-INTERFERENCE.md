@@ -50,3 +50,14 @@ FA3-AUTH-MODEL-ROUTER-001 remains the sole model-routing authority. Ollama, LM S
 - CI: .github/workflows/fa3-software-coexistence.yml
 
 Retroactive component coverage and physical current-host evidence are intentionally tracked separately until proven.
+
+
+## Dynamic canonical provider count
+
+The FA3 capability baseline is fixed at 175. The canonical provider count is deliberately not fixed.
+
+The provider count is derived from valid records under `canonical/providers/*.json`. There is no architectural maximum, release quota or numeric target that may force creation, deletion, merging or splitting of provider identities.
+
+A new canonical provider increases the count automatically when it satisfies the normal provider identity, admission, coexistence and evidence requirements. Removing or superseding a provider changes the derived count only through the corresponding canonical lifecycle transition.
+
+The authoritative policy is `canonical/FA3-PROVIDER-COUNT-POLICY-001.json`; `src/fa3_provider_count.py` produces the derived count report.
