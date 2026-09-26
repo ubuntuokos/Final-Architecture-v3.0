@@ -3,15 +3,34 @@
   "id": "FA3-INSPECTION-CONTRACTS-001",
   "status": "CANONICAL",
   "provider_neutral": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
-    "InspectionRequest", "InspectionSubject", "InspectionScope", "InspectionLevel",
-    "ExecutorIdentity", "InspectorIdentity", "EvidenceReference", "EvidenceProvenance",
-    "FreshnessAssertion", "ReproducibilityAssertion", "DriftAssertion",
-    "InspectionFinding", "InspectionClassification", "PromotionBlockSignal", "RemediationRequest"
+    "InspectionRequest",
+    "InspectionSubject",
+    "InspectionScope",
+    "InspectionLevel",
+    "ExecutorIdentity",
+    "InspectorIdentity",
+    "EvidenceReference",
+    "EvidenceProvenance",
+    "FreshnessAssertion",
+    "ReproducibilityAssertion",
+    "DriftAssertion",
+    "InspectionFinding",
+    "InspectionClassification",
+    "PromotionBlockSignal",
+    "RemediationRequest"
   ],
   "classification_model": {
-    "allowed": ["PASS", "FAIL", "BLOCKED", "INCONCLUSIVE", "EVIDENCE_MISSING", "EVIDENCE_STALE", "DRIFT_DETECTED"],
+    "allowed": [
+      "PASS",
+      "FAIL",
+      "BLOCKED",
+      "INCONCLUSIVE",
+      "EVIDENCE_MISSING",
+      "EVIDENCE_STALE",
+      "DRIFT_DETECTED"
+    ],
     "unknown_or_unprovable": "INCONCLUSIVE",
     "self_attestation_only_p0_must_production": "BLOCKED",
     "missing_evidence": "EVIDENCE_MISSING",
@@ -28,5 +47,6 @@
     "subject_mutation_during_certification": "FORBIDDEN",
     "silent_repair_then_pass": "FORBIDDEN",
     "remediation": "SEPARATE_TASK_THEN_REINSPECTION"
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
