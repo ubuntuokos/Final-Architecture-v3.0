@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,hashlib,json,os,platform,signal,socket,subprocess,tempfile,threading,time
+import argparse,hashlib,json,os,platform,shutil,signal,socket,subprocess,tempfile,threading,time
 from datetime import datetime,timedelta,timezone
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from pathlib import Path
@@ -50,6 +50,25 @@ def browser_version(binary):
     try:
         p=run([binary,"--version"],timeout=5);return(p.stdout or p.stderr).strip()[:256]
     except Exception:return"UNKNOWN"
+SESSION_BROWSER_CANDIDATES=("chromium","chromium-browser","brave-browser","microsoft-edge","microsoft-edge-stable","google-chrome-for-testing","chrome-for-testing","google-chrome","google-chrome-stable")
+def cli_unpacked_extension_supported(version):
+    value=str(version or "").strip().lower()
+    return not(value.startswith("google chrome ") and "for testing" not in value)
+def discover_session_browser(explicit=None):
+    if explicit:
+        binary=discover_browser_binary(explicit);version=browser_version(binary)
+        if not cli_unpacked_extension_supported(version):raise RuntimeError("BRANDED_GOOGLE_CHROME_CLI_EXTENSION_UNSUPPORTED")
+        return binary,version
+    observed=[]
+    for candidate in SESSION_BROWSER_CANDIDATES:
+        resolved=shutil.which(candidate)
+        if not resolved:continue
+        binary=str(Path(resolved).resolve());version=browser_version(binary);observed.append({"binary":Path(binary).name,"version":version})
+        if cli_unpacked_extension_supported(version):return binary,version
+    fallback=discover_browser_binary();version=browser_version(fallback)
+    if not cli_unpacked_extension_supported(version):
+        raise RuntimeError("NO_CLI_EXTENSION_CAPABLE_BROWSER_DISCOVERED:"+json.dumps(observed,separators=(",",":")))
+    return fallback,version
 def launch_browser(binary,profile,extension,url,env):
     args=[binary,"--headless=new","--disable-gpu","--disable-background-networking","--disable-component-update","--disable-default-apps","--disable-sync","--no-first-run","--no-default-browser-check",f"--user-data-dir={profile}",f"--disable-extensions-except={extension}",f"--load-extension={extension}",url]
     return subprocess.Popen(args,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,text=True,env=env,start_new_session=True)
@@ -75,7 +94,8 @@ def run_gate(root:Path,browser_binary=None):
             extension=root/"browser"/"fa3-session-extension";native=root/"libexec"/"fa3-browser-session-native-host.py"
             if not extension.is_dir() or not native.is_file():raise RuntimeError("BROWSER_SESSION_IMPLEMENTATION_MISSING")
             if not os.access(native,os.X_OK):raise RuntimeError("NATIVE_HOST_NOT_EXECUTABLE")
-            install_temp_manifests(home,native);bridge=BrowserSessionBridgeServer(runtime_root,timeout=20);bridge.start();binary=discover_browser_binary(browser_binary)
+            install_temp_manifests(home,native);bridge=BrowserSessionBridgeServer(runtime_root,timeout=20);bridge.start();binary,browser_ver=discover_session_browser(browser_binary)
+            browser={"binary_name":Path(binary).name,"version":browser_ver,"headless_mode":"--headless=new","extension_id":EXPECTED_EXTENSION_ID,"remote_browser":False}
             env={**os.environ,"HOME":str(home),"XDG_CONFIG_HOME":str(home/".config"),"XDG_RUNTIME_DIR":str(xdg),"FA3_BROWSER_SESSION_SOCKET":str(bridge.socket_path)}
             process=launch_browser(binary,profile,extension,url,env);bridge.accept();pong=bridge.request("ping",{})
             checks["physical_bridge"]={"pass":pong.get("status")=="PONG" and pong.get("extension_id")==EXPECTED_EXTENSION_ID,"native_messaging":True,"unix_socket":str(bridge.socket_path),"extension_id":pong.get("extension_id")}
@@ -136,7 +156,7 @@ def run_gate(root:Path,browser_binary=None):
             stopped=execute("browser.session.stop",{"session_id":sid}).output;checks["session_stop"]={"pass":stopped.get("status")=="STOPPED" and stopped.get("returned_leases")==0}
             checks["uaf"]={"pass":len(uaf_receipts)>=10 and all(x.get("status")=="PASS" for x in uaf_receipts),"receipt_count":len(uaf_receipts)}
             checks["hardware"]={"pass":True,"vendor_neutral":True,"cpu_only":True,"accelerator_required":False,"hardware_safety_decision_id":"FA3-DEC-HARDWARE-SAFETY-2026-09-26","hardware_parameter_mutation":False,"safety_protection_bypass":False,"fail_closed":True}
-            browser={"binary_name":Path(binary).name,"version":browser_version(binary),"headless_mode":"--headless=new","extension_id":EXPECTED_EXTENSION_ID,"remote_browser":False}
+            browser={"binary_name":Path(binary).name,"version":browser_ver,"headless_mode":"--headless=new","extension_id":EXPECTED_EXTENSION_ID,"remote_browser":False}
     finally:
         if bridge is not None:bridge.close()
         gone=terminate(process);http.shutdown();http.server_close();thread.join(timeout=2);checks["rollback"]={"pass":gone,"browser_process_gone":gone,"temporary_profile_scope":True}

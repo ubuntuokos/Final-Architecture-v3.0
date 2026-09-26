@@ -3,9 +3,15 @@ import unittest
 from pathlib import Path
 
 from fa3_browser_session_gate import gate
+from fa3_browser_session_current_host_gate import cli_unpacked_extension_supported
 
 
 class BrowserSessionGateTests(unittest.TestCase):
+    def test_extension_test_browser_rejects_branded_chrome_cli_loading(self):
+        self.assertFalse(cli_unpacked_extension_supported("Google Chrome 154.0.0.0"))
+        self.assertTrue(cli_unpacked_extension_supported("Google Chrome for Testing 154.0.0.0"))
+        self.assertTrue(cli_unpacked_extension_supported("Chromium 154.0.0.0"))
+
     def test_repository_static_gate_passes_without_runtime_promotion_claim(self):
         root=Path(__file__).resolve().parents[1]
         report=gate(root)

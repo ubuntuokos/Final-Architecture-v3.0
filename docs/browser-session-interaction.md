@@ -138,3 +138,7 @@ Static/canonical success and automated bridge E2E do not imply either manual cla
 ## Hardware Safety Envelope
 
 The Browser Session bridge is CPU-only viable and performs no hardware-parameter tuning. It inherits FA3-DEC-HARDWARE-SAFETY-2026-09-26: hardware mutation and safety-protection bypass are denied, and unknown safety conditions fail closed. Browser or extension execution never becomes hardware-resource authority.
+
+## Extension-test browser compatibility
+
+The isolated physical current-host qualification must select a browser that actually supports command-line loading of the unpacked FA3 MV3 test extension. Browser selection is capability-aware and fail-closed; FA3 does not uninstall, replace, or globally reconfigure the user's browser. Official Google Chrome builds removed `--load-extension` beginning with Chrome 137, so the automated isolated qualification prefers compatible Chromium-family test builds such as Chromium or Chrome for Testing when available. Real existing-profile/browser qualification remains a separate manual evidence lane.
