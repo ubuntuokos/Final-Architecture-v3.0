@@ -13,13 +13,20 @@
     "GENERATIVE_3D_PRECONDITIONING_PATTERN_SOURCE",
     "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
   ],
-  "profiles": ["FA3-VIDEO-001", "FA3-3D-GEOM-001"],
-  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "profiles": [
+    "FA3-VIDEO-001",
+    "FA3-3D-GEOM-001"
+  ],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "runtime_activation_requires_current_host_conformance": true,
@@ -27,7 +34,15 @@
   "current_host_runtime_evidence": false,
   "contract": "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
   "upstream_reference": "FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01",
-  "model_families": ["SDXL", "SDXL_TURBO", "SVD", "SVD_XT", "SV3D", "SV4D", "SV4D_2_0"],
+  "model_families": [
+    "SDXL",
+    "SDXL_TURBO",
+    "SVD",
+    "SVD_XT",
+    "SV3D",
+    "SV4D",
+    "SV4D_2_0"
+  ],
   "domains": [
     "IMAGE_GENERATION",
     "IMAGE_TO_VIDEO",
@@ -63,5 +78,7 @@
     "GEOMETRY_SEMANTIC_AUTHORITY",
     "REGISTRY_AUTHORITY"
   ],
-  "normative_constraint": "Stability SGM SHALL remain an optional reference provider/pattern source and SHALL NOT become an FA3 model-management, model-routing, inference-placement, host-resource, CUDA/driver, workflow, evidence, video-semantic, geometry-semantic or registry authority."
+  "normative_constraint": "Stability SGM SHALL remain an optional reference provider/pattern source and SHALL NOT become an FA3 model-management, model-routing, inference-placement, host-resource, CUDA/driver, workflow, evidence, video-semantic, geometry-semantic or registry authority.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
