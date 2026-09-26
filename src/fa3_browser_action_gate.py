@@ -1,6 +1,6 @@
-from fa3_release_baseline import module_active_capability_count
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse,json
 from pathlib import Path
 from typing import Any
