@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse,json,os,platform,socket,subprocess,sys,time,urllib.request
 from datetime import datetime,timezone
 from pathlib import Path
+from src.fa3_release_baseline import module_active_capability_count
 from typing import Any
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -407,7 +408,7 @@ def main()->int:
             "accelerator_requires_hrb_for_separate_evidence":True,
             "optional_provider_absence_blocks_other_provider_admission":False,
         },
-        "providers":{},"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143,
+        "providers":{},"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":module_active_capability_count(__file__),
     }
 
     receipt["providers"][HF_PROVIDER_ID]=attempt_provider(HF_PROVIDER_ID,collect_hf)
