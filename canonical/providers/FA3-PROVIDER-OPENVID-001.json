@@ -19,11 +19,14 @@
     "FA3-NEURAL-MEDIA-EXECUTION-001"
   ],
   "contract": "FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001",
-  "capability_projection": ["CAP-121", "CAP-126"],
+  "capability_projection": [
+    "CAP-121",
+    "CAP-126"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "hard_dependency": false,
   "exclusive_nle": false,
   "upstream": {
@@ -55,10 +58,18 @@
     "evidence_provenance": "FA3_EXISTING_EVIDENCE_PROVENANCE_AUTHORITY_REMAINS_CANONICAL"
   },
   "forbidden_authorities": [
-    "IDENTITY_AUTHORITY", "AUTHORIZATION_AUTHORITY", "GLOBAL_MCP_AUTHORITY",
-    "DURABLE_WORKFLOW_AUTHORITY", "EVENT_FABRIC_AUTHORITY", "RUNTIME_STATE_CACHE_AUTHORITY",
-    "HOST_RESOURCE_AUTHORITY", "EVIDENCE_PROVENANCE_AUTHORITY", "ARTIFACT_REGISTRY_AUTHORITY",
+    "IDENTITY_AUTHORITY",
+    "AUTHORIZATION_AUTHORITY",
+    "GLOBAL_MCP_AUTHORITY",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "EVENT_FABRIC_AUTHORITY",
+    "RUNTIME_STATE_CACHE_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_PROVENANCE_AUTHORITY",
+    "ARTIFACT_REGISTRY_AUTHORITY",
     "FINAL_HUMAN_EDITORIAL_AUTHORITY"
   ],
-  "normative_constraint": "OpenVid SHALL remain an optional, replaceable, non-authoritative reference provider. Its PolyForm Noncommercial-licensed upstream source SHALL NOT be vendored or admitted as FA3 baseline/commercial production runtime absent a separately admitted license; FA3 SHALL consume only provider-neutral architectural patterns or an independently implemented compatible adapter."
+  "normative_constraint": "OpenVid SHALL remain an optional, replaceable, non-authoritative reference provider. Its PolyForm Noncommercial-licensed upstream source SHALL NOT be vendored or admitted as FA3 baseline/commercial production runtime absent a separately admitted license; FA3 SHALL consume only provider-neutral architectural patterns or an independently implemented compatible adapter.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
