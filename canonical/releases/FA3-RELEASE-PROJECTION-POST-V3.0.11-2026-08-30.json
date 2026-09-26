@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "37383166bef3c2286ce4fc89911037af05d22b6b",
-    "pre_projection_root_tree_sha": "d2b9fed3b6b890522d53bd62b39a37413903b93c",
-    "pre_projection_canonical_tree_sha": "a4124efd9f9d94fbac92f545ba1f7e829c9eac24",
-    "commits_ahead_of_v3_0_11_conformance_commit": 947,
-    "total_post_baseline_commits": 947,
-    "delta_file_count": 2274,
-    "delta_added_files": 2269,
+    "pre_projection_head_sha": "fce0eabc1870a43d82476845ba08fa2b5945d203",
+    "pre_projection_root_tree_sha": "c44b9b83acc023142dbd8fa63d0791514e224684",
+    "pre_projection_canonical_tree_sha": "e11cf97b07d68dcf7e5dc7aaf8b649659b48470f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 954,
+    "total_post_baseline_commits": 954,
+    "delta_file_count": 2277,
+    "delta_added_files": 2272,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1102,
+    "canonical_files_in_post_baseline_delta": 1105,
     "evidence_files_in_post_baseline_delta": 167,
     "source_files_in_post_baseline_delta": 303,
     "test_files_in_post_baseline_delta": 245,
@@ -478,6 +478,7 @@
       "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
       "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
       "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
+      "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",
       "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
@@ -977,7 +978,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2265,
+  "manifest_entry_count": 2268,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1546,7 +1547,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "5109f76f8d0ad7b057e50b2558d9ead50bcbf3b2",
+      "git_blob_sha": "ce8fc19925309ea703ead0948d1ea57774394cf1",
       "baseline_delta_status": "added"
     },
     {
@@ -2641,7 +2642,7 @@
     },
     {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
-      "git_blob_sha": "306e0e14e626f4aaae0d049ad40768aa2cd27096",
+      "git_blob_sha": "6b12ade4a1e45858c55fe6c802af51f59d2dc088",
       "baseline_delta_status": "added"
     },
     {
@@ -3735,6 +3736,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-HARDWARE-SAFETY-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "cef43cb1f48046943592b08c8cfeedd2a3bee9aa",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-HRB-ADMISSION-AUTHORIZATION-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "617a4328b574c2c9d298540e7a0066ab97c4b232",
       "baseline_delta_status": "added"
@@ -4186,7 +4192,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "68cc3c495ba8a575ede05589825a35602a2207f6",
+      "git_blob_sha": "8518b58c150a5b9462069dc196f0ad51621f646c",
       "baseline_delta_status": "added"
     },
     {
@@ -4915,6 +4921,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",
+      "git_blob_sha": "605d95bb5b95811b1b58ecd8e4ff823ab331d69c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
       "git_blob_sha": "346d199cec73a8c30448c6da2a794c685b2ab2f3",
       "baseline_delta_status": "added"
@@ -5466,7 +5477,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "a7c40ee85e04490eafbe4d623f125e7b11384fbb",
+      "git_blob_sha": "28dc281f0ae30d22ba0a1c41f5c2eef7d6fa14b6",
       "baseline_delta_status": "modified"
     },
     {
@@ -5541,7 +5552,7 @@
     },
     {
       "path": "canonical/hardware-portability-enforcement.json",
-      "git_blob_sha": "bd0293119caaef675707b9da76ec59e6de320d6e",
+      "git_blob_sha": "8056b350071f7ef771c5f28b44ba28a478982a34",
       "baseline_delta_status": "added"
     },
     {
@@ -5637,6 +5648,11 @@
     {
       "path": "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
       "git_blob_sha": "7c66088d73ba41678a766f91473e6c4b7a118077",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-HARDWARE-SAFETY-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "26512b5079ff324c639ebb3cada762b9390845ed",
       "baseline_delta_status": "added"
     },
     {
@@ -6146,7 +6162,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
-      "git_blob_sha": "9fda90411ca4cba65be5cfaa1bdb700921cd0649",
+      "git_blob_sha": "c95f5951eebe72340b225c8645ea4d1a33bb2cad",
       "baseline_delta_status": "added"
     },
     {
@@ -10076,7 +10092,7 @@
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
-      "git_blob_sha": "0a9f7e3048f90f4dbec60e648c09a7f930ac8b3d",
+      "git_blob_sha": "78e2739d6b60982dc51e6e570450b994fe507a8c",
       "baseline_delta_status": "added"
     },
     {
@@ -11471,7 +11487,7 @@
     },
     {
       "path": "tests/test_hardware_portability_gate.py",
-      "git_blob_sha": "9c5771748e81cfcbf11e2f98e18786ba57c08733",
+      "git_blob_sha": "9592d03bf184e79993b487b925ffd4602cf2e771",
       "baseline_delta_status": "added"
     },
     {
@@ -12502,7 +12518,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-25",
+  "last_reconciled_at": "2026-09-26",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",

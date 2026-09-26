@@ -12,6 +12,7 @@ from fa3_release_baseline import module_active_capability_count
 PROFILE = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
 CONTRACT = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
 DECISION = "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json"
+SAFETY_DECISION = "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json"
 ENFORCEMENT = "canonical/hardware-portability-enforcement.json"
 GATE_RECORD = "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json"
 HW_PROFILE = "canonical/profiles/FA3-HW-001.json"
@@ -230,7 +231,7 @@ def _neutral_accelerator_record(accelerator: dict[str, Any]) -> bool:
 
 def evaluate(root: Path) -> dict[str, Any]:
     root = root.resolve()
-    profile=loadj(root,PROFILE); contract=loadj(root,CONTRACT); decision=loadj(root,DECISION)
+    profile=loadj(root,PROFILE); contract=loadj(root,CONTRACT); decision=loadj(root,DECISION); safety_decision=loadj(root,SAFETY_DECISION)
     enforcement=loadj(root,ENFORCEMENT); gate_record=loadj(root,GATE_RECORD)
     hw_profile=loadj(root,HW_PROFILE); hw_contract=loadj(root,HW_CONTRACT); mgpu=loadj(root,MGPU_PROFILE)
     hrb_profile=loadj(root,HRB_PROFILE); hrb_contract=loadj(root,HRB_CONTRACT)
@@ -268,6 +269,26 @@ def evaluate(root: Path) -> dict[str, Any]:
       check("mgpu-vendor-neutral", mgpu.get("cardinality_policy",{}).get("minimum_qualifying_accelerator_count")==0 and "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N" in mgpu.get("invariants",[]) and "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants",[]) and "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu.get("invariants",[]), "multi-accelerator profile is conditional and vendor-neutral"),
       check("enforcement-vendor-neutral", any(r.get("invariant")=="NO_VENDOR_OR_RUNTIME_API_DEFINES_THE_GLOBAL_ACCELERATOR_FLOOR" for r in enforcement.get("rules",[])), "vendor-neutral floor mandatory"),
       check(
+          "hardware-safety-envelope-profile",
+          profile.get("hardware_safety_envelope",{}).get("policy")=="MANDATORY_FAIL_CLOSED"
+          and profile.get("hardware_safety_envelope",{}).get("vendor_supported_operating_envelope_required") is True
+          and profile.get("hardware_safety_envelope",{}).get("unknown_safe_range")=="NO_MUTATION_FAIL_CLOSED"
+          and profile.get("hardware_safety_envelope",{}).get("installer_override") is False
+          and profile.get("hardware_safety_envelope",{}).get("expert_mode_override") is False,
+          "hardware safety envelope is mandatory, non-bypassable and fail-closed",
+      ),
+      check(
+          "hardware-safety-contract-enforcement",
+          contract.get("hardware_mutation_safety",{}).get("unknown_safe_range")=="REJECT_MUTATION"
+          and contract.get("hardware_mutation_safety",{}).get("out_of_supported_range")=="REJECT_MUTATION"
+          and contract.get("hardware_mutation_safety",{}).get("installer_and_expert_override")=="FORBIDDEN"
+          and enforcement.get("hardware_safety_decision_id")=="FA3-DEC-HARDWARE-SAFETY-2026-09-26"
+          and enforcement.get("hardware_safety_fail_closed") is True
+          and safety_decision.get("decision")=="MANDATORY_FAIL_CLOSED_HARDWARE_SAFETY_ENVELOPE_NO_UNSAFE_HARDWARE_TUNING"
+          and safety_decision.get("enforcement",{}).get("user_override_may_bypass_safety_envelope") is False,
+          "hardware mutation safety is contract-bound, enforced and cannot be bypassed by installer, expert or user mode",
+      ),
+      check(
           "decision-vendor-neutral",
           decision.get("decision")=="SINGLE_CURRENT_VENDOR_NEUTRAL_HARDWARE_AUDIT_NO_LEGACY_HOST_BASELINE"
           and decision.get("evidence_policy",{}).get("legacy_hardware_audit_artifacts")=="REMOVE_FROM_REPOSITORY"
@@ -300,6 +321,7 @@ def evaluate(root: Path) -> dict[str, Any]:
       "legacy_host_evidence_accepted":False,
       "fresh_current_host_evidence_required":True,
       "accelerator_floor":{"vendor_pin":"FORBIDDEN","runtime_api_pin":"FORBIDDEN","minimum_device_count":0,"cardinality":"0_TO_N","cpu_only_host_conforms":True,"cpu_only_workload_requires_lease":False,"required_workload_admission":"COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE","compatibility":"WORKLOAD_PROVIDER_SCOPED"},
+      "hardware_safety":{"policy":"MANDATORY_FAIL_CLOSED","unsafe_or_unknown_mutation":"FORBIDDEN","installer_override":False,"expert_mode_override":False},
       "supported_reference_vendor_families":sorted(REFERENCE_VENDOR_FAMILIES),
       "supported_reference_platform_families":sorted(REFERENCE_PLATFORM_FAMILIES),
       "checks":checks,
