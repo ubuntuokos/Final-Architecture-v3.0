@@ -65,7 +65,7 @@ def audit(root: Path):
             findings.append(finding("COEX-020","repository-managed systemd unit is not FA3 namespaced",path=rel,unit=name))
 
     # Machine-readable footprint collision detector.
-    seen={k:{} for k in ["executables","services","sockets","desktop_ids","protocol_handlers","databases"]}
+    seen={k:{} for k in ["executables","services","sockets","ports","desktop_ids","protocol_handlers","databases"]}
     footprints=_declared_footprints(root)
     for p,obj in footprints:
         rel=str(p.relative_to(root))
@@ -79,11 +79,13 @@ def audit(root: Path):
                 findings.append(finding("COEX-032","forbidden coexistence claim",path=rel,field=flag))
         for domain in seen:
             for value in co.get(domain,[]):
-                owner=seen[domain].get(value)
+                if domain=="ports" and value=="DYNAMIC":
+                    continue
+                owner=seen[domain].get(str(value))
                 if owner and owner != obj.get("component_id"):
                     findings.append(finding("COEX-033","collision between FA3 footprints",domain=domain,value=value,owners=[owner,obj.get("component_id")]))
                 else:
-                    seen[domain][value]=obj.get("component_id")
+                    seen[domain][str(value)]=obj.get("component_id")
         ev=obj.get("evidence",{})
         if ev.get("runtime_promotion_claim") is not False:
             findings.append(finding("COEX-034","footprint attempts document-only runtime promotion",path=rel))
