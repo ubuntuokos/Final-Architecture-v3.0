@@ -8,8 +8,8 @@ Image=ghcr.io/presenton/presenton@sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4
 ContainerName=fa3-presenton
 PublishPort=127.0.0.1:5001:80
 AddHost=host.containers.internal:host-gateway
-Volume=%h/Dokumentumok/Presenton/app_data:/app_data:Z,rw
-Volume=/ai-cache/presenton/tmp:/var/tmp/presenton:Z,rw
+Volume=%h/.local/share/fa3/presenton/app_data:/app_data:Z,rw
+Volume=/ai-cache/fa3/presenton/tmp:/var/tmp/presenton:Z,rw
 NoNewPrivileges=true
 DropCapability=ALL
 PodmanArgs=--cpus=8 --memory=16g --memory-reservation=12g --pids-limit=2048
