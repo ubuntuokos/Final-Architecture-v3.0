@@ -105,7 +105,7 @@ def valid_unavailable(item:dict[str,Any],provider_id:str)->bool:
     )
 
 def gate(root:Path)->dict[str,Any]:
-    path=root/RECEIPT; fs=[]
+    path=root/RECEIPT; fs=[]; serving=[]
     if not path.is_file():
         fs.append(finding("MODEL-MGR-HOST-001","current-host Model Manager provider receipt missing")); receipt={}
     else:
@@ -175,7 +175,7 @@ def gate(root:Path)->dict[str,Any]:
         "gate_id":GATE_ID,
         "runtime_id":RUNTIME_ID,
         "provider_ids":PROVIDER_IDS,
-        "serving_provider_ids":sorted(SERVING_PROVIDER_IDS),
+        "serving_provider_ids":serving,
         "result":"PASS" if not fs else "FAIL",
         "evidence_level":receipt.get("evidence_level") if receipt else None,
         "findings":fs,
