@@ -1,21 +1,21 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "status": "CANONICAL",
   "provider_neutral": true,
-  "provider_adapter_contract": true,
+  "provider_adapter_contract": false,
   "profile": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
-  "source_pattern_provider": "FA3-PROVIDER-LYNXHUB-001",
+  "source_pattern_origin": "FA3_NATIVE_DERIVED_CAPABILITY",
+  "external_runtime_dependency": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "capability_projection": [
     "CAP-057"
   ],
   "contracts": [
-    "CreativeDashboardProviderDescriptor",
-    "VerifiedDebPackageDescriptor",
+    "CreativeDashboardSurfaceDescriptor",
     "DesktopSessionLaunchPlan",
     "ApprovedActionDescriptor",
     "ApprovedLocalUrlDescriptor",
@@ -25,35 +25,28 @@
     "DashboardRollbackReceipt"
   ],
   "lifecycle": [
-    "package.verify",
     "desktop.session.admit",
     "policy.load",
-    "single.instance.check",
-    "dashboard.launch",
+    "dashboard.surface.load",
     "action.resolve",
     "action.authorize",
     "versioned.wrapper.execute",
-    "audit.append",
-    "dashboard.stop"
+    "audit.append"
   ],
   "deployment": {
-    "native_deb_package": true,
-    "package_digest_required": true,
-    "floating_latest_for_activation": "FORBIDDEN",
-    "self_update_without_admission": "FORBIDDEN",
-    "user_session_scope": true,
-    "single_named_user_service": "lynxhub.service",
-    "session_target": "ai-creative-ops.target",
+    "fa3_native_surface": true,
+    "external_package_required": false,
+    "external_dashboard_service_required": false,
+    "session_target": "fa3-creative-ops.target",
     "activation": "ON_DEMAND",
     "duplicate_desktop_autostart": "FORBIDDEN",
-    "vendor_transient_app_unit_as_parallel_lifecycle": "FORBIDDEN",
     "own_platform_port_or_daemon": "FORBIDDEN"
   },
   "desktop": {
     "wayland": "PREFERRED",
     "x11": "SUPPORTED_COMPATIBILITY",
     "display_backend": "AUTO_FROM_ADMITTED_XDG_SESSION",
-    "electron_no_sandbox_flag": "FORBIDDEN",
+    "external_electron_runtime_required": false,
     "root_or_setuid_helper_owned_by_adapter": "FORBIDDEN",
     "gpu_use": "DISPLAY_COMPOSITING_ONLY",
     "gpu_model_or_count_assumption": "FORBIDDEN"
@@ -69,52 +62,40 @@
     "browser_open": "ALLOW_APPROVED_LOOPBACK_URLS_ONLY",
     "read_only_status": "ALLOW",
     "direct_mcp_tool_execution": "DENY",
-    "direct_ollama_agent_route": "DENY",
+    "direct_model_runtime_route": "DENY",
     "direct_secret_or_database_access": "DENY"
   },
   "ownership": {
     "systemd": "PLATFORM_SERVICE_LIFECYCLE",
-    "stability_matrix": "GENERATIVE_MEDIA_PACKAGE_LIFECYCLE",
-    "open_webui_and_goose": "USER_AND_AGENT_OPERATOR_CLIENTS",
+    "generative_media_package_lifecycle": "FA3_LOCAL_GENERATIVE_MEDIA_LIFECYCLE",
+    "operator_clients": "USER_AND_AGENT_OPERATOR_CLIENTS",
     "orchestrator_and_temporal": "WORKFLOW_EXECUTION_AND_DURABILITY",
     "central_mcp_gateway": "CAPABILITY_AND_TOOL_POLICY",
-    "lynxhub": "DASHBOARD_PRESENTATION_AND_APPROVED_LAUNCH_ONLY"
+    "dashboard": "FA3_CONTROL_CENTER_OR_APPROVED_FA3_FRONTEND"
   },
   "state_and_security": {
-    "provider_lowdb": "APPLICATION_STATE_ONLY",
-    "provider_state_as_canonical_shared_memory": false,
-    "api_keys_in_provider": "FORBIDDEN",
-    "network_egress": "DEFAULT_DENY_WITH_EXPLICIT_TEMPORARY_UPDATE_EXCEPTION",
-    "provider_failure_may_stop_platform": false,
+    "dashboard_state": "APPLICATION_STATE_ONLY",
+    "dashboard_state_as_canonical_shared_memory": false,
+    "api_keys_in_dashboard": "FORBIDDEN",
+    "network_egress": "DEFAULT_DENY",
+    "dashboard_failure_may_stop_platform": false,
     "disabled_zero_resident_processes": true
   },
-  "plugins": {
-    "custom_actions": "PINNED_REQUIRED_WHEN_ACTION_CARDS_ARE_USED",
-    "hardware_monitor": "OPTIONAL_PRESENTATION_ONLY",
-    "python_toolkit": "DISABLED_BY_DEFAULT",
-    "local_ai_collection": "DISABLED",
-    "skills_manager": "SEPARATELY_ADMITTED_PILOT_ONLY",
-    "automatic_plugin_updates": "DISABLED"
-  },
   "evidence": {
-    "installed_package_identity": true,
-    "downloaded_deb_digest": true,
-    "effective_desktop_entry_uses_hardened_wrapper": true,
-    "single_user_service_and_no_duplicate_autostart": true,
-    "admitted_session_and_sandboxed_process": true,
+    "admitted_session": true,
     "positive_and_negative_action_cases": true,
-    "egress_and_bypass_denial": true,
+    "loopback_url_enforcement": true,
+    "privileged_action_denial": true,
     "clean_stop_and_rollback": true,
     "reference_pass_is_current_host_runtime": false
   },
   "forbidden_semantics": [
-    "LYNXHUB_AS_ORCHESTRATOR_OR_MCP_GATEWAY",
-    "LYNXHUB_AS_SYSTEMD_STABILITY_MATRIX_OR_MODEL_AUTHORITY",
-    "LYNXHUB_DIRECT_MCP_OR_OLLAMA_AGENT_ROUTE",
-    "LYNXHUB_FREE_FORM_PRIVILEGED_CUSTOM_ACTION",
-    "LYNXHUB_SECRET_DATABASE_OR_MODEL_STORE_ACCESS",
-    "LYNXHUB_PARALLEL_AUTOSTART_OR_TRANSIENT_UNIT",
-    "LYNXHUB_EFFECTIVE_NO_SANDBOX_LAUNCH",
+    "DASHBOARD_AS_ORCHESTRATOR_OR_MCP_GATEWAY",
+    "DASHBOARD_AS_PACKAGE_OR_MODEL_AUTHORITY",
+    "DASHBOARD_DIRECT_MCP_OR_MODEL_RUNTIME_ROUTE",
+    "DASHBOARD_FREE_FORM_PRIVILEGED_ACTION",
+    "DASHBOARD_SECRET_DATABASE_OR_MODEL_STORE_ACCESS",
     "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

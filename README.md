@@ -1167,32 +1167,22 @@ PYTHONPATH=src python -m unittest tests.test_openyak_gate -v
 See `docs/openyak-integration.md` for the exact activation boundary and pending current-host evidence.
 
 
-## LynxHub optional Creative Operations Dashboard
+## FA3 Creative Operations Dashboard
 
-`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in an admitted Linux desktop session; KDE/Wayland remains the reference path and X11 is supported.
+CAP-057 keeps the Creative Operations Dashboard and approved local-launch capability as an **FA3-native** surface. It has no external dashboard provider or package dependency. The UI is provided by FA3, while the fixed-action dispatcher permits only enumerated user-service actions and approved loopback URLs.
 
-The immutable application baseline is LynxHub `V3.5.8` / source commit `96129c218b8bd4337fd3e4cf220aa97a46c486a5`; the native `LynxHub-V3.5.8-linux_amd64.deb` digest is `b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435`. When action cards are used, Custom Actions is pinned to `v0.4.4` / commit `418be2f8d2488f67f8c6f7728729161577f4c90e` / artifact digest `125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83`. Floating updates and automatic plugin updates are forbidden.
+Free-form shell, privilege escalation, direct MCP/model-runtime routing, secrets/database access, and non-loopback browser targets are denied. Wayland remains preferred and X11 remains supported.
 
-The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, selects the admitted Wayland or X11 session, and deliberately omits `--no-sandbox`.
-
-LynxHub owns only dashboard presentation and approved launch requests. systemd keeps service lifecycle; Stability Matrix keeps ComfyUI/InvokeAI/Forge/Wan2GP package lifecycle; Open WebUI and Goose remain operator clients; the Orchestrator and Temporal keep workflow execution/durability; the Central MCP/Capability Gateway keeps tool policy. Direct MCP/Ollama agent routes, secrets/database access, free-form shell actions, `sudo`/root administration and duplicate desktop autostart are denied.
-
-Install/reconcile and check the user-scoped adapter without enabling or starting LynxHub:
+Install or validate the user-scoped fixed-action integration with:
 
 ```bash
-./bin/fa3-lynxhub-install-user-integration.sh --install
-./bin/fa3-lynxhub-install-user-integration.sh --check
+./bin/fa3-creative-ops-install-user-integration.sh --install
+./bin/fa3-creative-ops-install-user-integration.sh --check
+./bin/fa3-enforce creative-operations-dashboard
+PYTHONPATH=src python -m unittest tests.test_creative_operations_dashboard_gate -v
 ```
 
-Run the 28-rule positive/negative canonical gate with:
-
-```bash
-./bin/fa3-enforce lynxhub
-PYTHONPATH=src python -m unittest tests.test_lynxhub_gate -v
-```
-
-The current-host collector is read-only and remains fail-closed until the real installed package, session-native sandboxed launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
-
+Reference CI does not claim current-host runtime promotion.
 
 ## FA3 portable hardware baseline
 

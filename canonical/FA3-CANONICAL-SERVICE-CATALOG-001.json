@@ -17,12 +17,6 @@
   },
   "services": [
     {
-      "id": "svc:lynxhub",
-      "kind": "SYSTEMD_USER",
-      "source_path": "deployment/lynxhub/systemd/user/lynxhub.service",
-      "activation": "ON_DEMAND"
-    },
-    {
       "id": "svc:mcp-gateway-user",
       "kind": "SYSTEMD_USER_TEMPLATE",
       "source_path": "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in",
@@ -101,18 +95,6 @@
     }
   ],
   "edges": [
-    {
-      "source": "svc:lynxhub",
-      "target": "res:graphical-session.target",
-      "relation": "AFTER",
-      "evidence_token": "After=graphical-session.target ai-creative-ops.target"
-    },
-    {
-      "source": "svc:lynxhub",
-      "target": "res:ai-creative-ops.target",
-      "relation": "AFTER",
-      "evidence_token": "After=graphical-session.target ai-creative-ops.target"
-    },
     {
       "source": "svc:mcp-gateway-user",
       "target": "res:default.target",

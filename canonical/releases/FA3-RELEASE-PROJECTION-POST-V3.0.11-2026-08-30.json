@@ -74,7 +74,6 @@
     "FA3-MUSE-CODE-GATESET-001",
     "FA3-OPENHANDS-GATESET-001",
     "FA3-OPENYAK-GATESET-001",
-    "FA3-LYNXHUB-GATESET-001",
     "FA3-STABILITY-SGM-GATESET-001",
     "FA3-KANBOARD-GATESET-001",
     "FA3-AIENG-GATESET-001",
@@ -137,7 +136,8 @@
     "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
     "FA3-GUI-CURRENT-HOST-GATESET-001",
     "FA3-MODERNIZATION-INTEGRATION-GATESET-001",
-    "FA3-CAPTION-SUBTITLE-GATESET-001"
+    "FA3-CAPTION-SUBTITLE-GATESET-001",
+    "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1388,11 +1388,6 @@
     {
       "path": "bin/fa3-lavasr-enforce",
       "git_blob_sha": "44f1e29b1ca9d42cecd7cccaac0cd2ec6714259c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "bin/fa3-lynxhub-install-user-integration.sh",
-      "git_blob_sha": "7ed333995512a6c4236ec5cda9a7d39a8d97f799",
       "baseline_delta_status": "added"
     },
     {
@@ -3456,11 +3451,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
-      "git_blob_sha": "434c9ee664c77a7b61307820bcf678cb83ca1dfa",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a",
       "baseline_delta_status": "unchanged"
@@ -4258,11 +4248,6 @@
     {
       "path": "canonical/FA3-GATE-LOOP-ENGINEERING-001.json",
       "git_blob_sha": "450727f7a1d869d3bbe03e2b6b90fcb10b3195c5",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "canonical/FA3-GATE-LYNXHUB-001.json",
-      "git_blob_sha": "922623f70dbbeb7682996e8585975210a97413fa",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -5123,16 +5108,6 @@
     {
       "path": "canonical/loop-engineering-runtime-admission.json",
       "git_blob_sha": "499c5d37a417e2c6fc132111bf7548359a7521c0",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "canonical/lynxhub-enforcement.json",
-      "git_blob_sha": "22f3452ee1abedf765f25f6e02d7196fbee9ea99",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "canonical/lynxhub-runtime-admission.json",
-      "git_blob_sha": "43cd0e4e88c52ce3dc9cd33b30a1c4d3d239bd3d",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -6111,11 +6086,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
-      "git_blob_sha": "0102837e9633e5e478cf45cf626bc99bf122dace",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
       "git_blob_sha": "d7441ffa87e1c54a73a7591caa6b05cdad110434",
       "baseline_delta_status": "unchanged"
@@ -6691,11 +6661,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
-      "git_blob_sha": "acc85e0db5d91955ba8a94dd8e999ff573e00f85",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f",
       "baseline_delta_status": "unchanged"
@@ -6953,11 +6918,6 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-LAVASR-2026-09-09.json",
       "git_blob_sha": "c8001f5bea100e5970f1c75c1cd260d3d1ff5ec2",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "canonical/releases/FA3-RELEASE-PROJECTION-LYNXHUB-2026-09-05.json",
-      "git_blob_sha": "bbfcdaa40d72a0847ba7eda144fe56f2f90de451",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -7286,46 +7246,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "deployment/lynxhub/applications/ai.kindabrazy.lynxhub.desktop.in",
-      "git_blob_sha": "deaba29c5c51849c4f8f90076024efae0266a37b",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/bin/lynxhub-action",
-      "git_blob_sha": "369a7e96e54a25e13df414f0f069743e70a1c5d1",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/bin/lynxhub-launch",
-      "git_blob_sha": "95a2698dd2e9de1e8940b4b7c99d45e13fcf025e",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/bin/lynxhub-start",
-      "git_blob_sha": "7b33be4cdbdefe3b8d074a0c2dd53f371be654c8",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/lynxhub-actions.env.example",
-      "git_blob_sha": "5903fafc8a809cc3d2153f9e24a27c6e2ef203b9",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/README.md",
-      "git_blob_sha": "0c24237a386405017429371074570e2e0e9a0695",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/systemd/user/ai-creative-ops.target",
-      "git_blob_sha": "c787cd86d5749188eda0c28eeb9eb9200ddf85cf",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "deployment/lynxhub/systemd/user/lynxhub.service",
-      "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in",
       "git_blob_sha": "3152a94e877ff35bcf146176adcb7eb91579f660",
       "baseline_delta_status": "unchanged"
@@ -7646,11 +7566,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "docs/lynxhub-integration.md",
-      "git_blob_sha": "7f943097e10d334d604111736aa784c4c158428a",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "docs/metric-3d-provider-fabric.md",
       "git_blob_sha": "8fc5f9146091f38db5e3c6b79edfe03e54ba79da",
       "baseline_delta_status": "unchanged"
@@ -7963,11 +7878,6 @@
     {
       "path": "evidence/collect-lavasr-current-host.py",
       "git_blob_sha": "3c29b6448adaf5e99a530428d24d49be6d20496d",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "evidence/collect-lynxhub-current-host.py",
-      "git_blob_sha": "3baf39317a626b85b0e9c3e6e9adbf2ede7524d1",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -8368,11 +8278,6 @@
     {
       "path": "evidence/reference/loop-engineering-ci-2026-09-03.json",
       "git_blob_sha": "56b3f901ccbd07e375bacde6d864e6b9dc3648db",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "evidence/reference/lynxhub-ci-2026-09-05.json",
-      "git_blob_sha": "dde734a19a359b3c65a278483dd9571b56c50d2d",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -9703,11 +9608,6 @@
     {
       "path": "src/fa3_loop_engineering_gate.py",
       "git_blob_sha": "54e23995e56ecb6ad6695cdc7c5e26cf0b672abf",
-      "baseline_delta_status": "unchanged"
-    },
-    {
-      "path": "src/fa3_lynxhub_gate.py",
-      "git_blob_sha": "0c52535e72d2465d34fea0373d73b5a622af3209",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -11106,11 +11006,6 @@
       "baseline_delta_status": "unchanged"
     },
     {
-      "path": "tests/test_lynxhub_gate.py",
-      "git_blob_sha": "21a20586d4122cad01f510f2020f3b8a24e62f76",
-      "baseline_delta_status": "unchanged"
-    },
-    {
       "path": "tests/test_managed_lock_bootstraps.py",
       "git_blob_sha": "4c82d8496c3c14efb5e9092d340ff5f2f3e1f8c1",
       "baseline_delta_status": "unchanged"
@@ -12280,32 +12175,6 @@
     "reference_evidence": "evidence/reference/openyak-ci-2026-09-05.json",
     "immutable_upstream_commit": "73240597e17d31749f2dbc6c52e8820a6074acad",
     "native_deb_sha256": "dfa0358736312c8cdf8b88192cea9c5554efdc5a22643faee6e3e46a5157f531",
-    "provider_runtime_required_for_global_promotion_when_disabled": false,
-    "current_host_runtime_evidence": "NOT_CLAIMED",
-    "current_host_runtime_promotion_claim": false,
-    "new_capabilities": 0,
-    "new_architectural_authorities": 0,
-    "capability_count_after": 175
-  },
-  "lynxhub_reconciliation": {
-    "profile_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
-    "provider_id": "FA3-PROVIDER-LYNXHUB-001",
-    "contract_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
-    "decision_id": "FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05",
-    "gate_id": "FA3-LYNXHUB-GATESET-001",
-    "executable_gate_id": "FA3-GATE-LYNXHUB-001",
-    "capability_ids": [
-      "CAP-057"
-    ],
-    "classification": "OPTIONAL_CREATIVE_OPERATIONS_DASHBOARD_PROVIDER",
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING",
-    "runtime_activation_status": "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING",
-    "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
-    "reference_evidence": "evidence/reference/lynxhub-ci-2026-09-05.json",
-    "immutable_upstream_commit": "96129c218b8bd4337fd3e4cf220aa97a46c486a5",
-    "native_deb_sha256": "b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435",
-    "custom_actions_commit": "418be2f8d2488f67f8c6f7728729161577f4c90e",
-    "custom_actions_artifact_sha256": "125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "current_host_runtime_promotion_claim": false,
@@ -13651,5 +13520,21 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "capability_model_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "creative_operations_dashboard_reconciliation": {
+    "profile_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+    "contract_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+    "decision_id": "FA3-DEC-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-2026-09-26",
+    "gate_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
+    "capability_ids": [
+      "CAP-057"
+    ],
+    "implementation": "FA3_NATIVE",
+    "external_provider_required": false,
+    "reference_evidence": "evidence/reference/creative-operations-dashboard-ci-2026-09-26.json",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175
+  }
 }
