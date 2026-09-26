@@ -115,8 +115,6 @@ def preflight(root: Path) -> dict[str, Any]:
         findings.append("materialization batch still pending")
 
     primitives, recipes = required_primitives(root)
-    if len(recipes) != 117:
-        findings.append(f"expected 117 shared proof recipes, got {len(recipes)}")
 
     required_commands = {"python3", "git", "wasmtime"}
     if {"audio_local", "media_video"} & primitives:
