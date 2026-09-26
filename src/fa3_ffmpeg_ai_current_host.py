@@ -489,6 +489,6 @@ def make_reference_receipt() -> dict[str, Any]:
         "vs_mlrt_runtime": "DISABLED_CONDITIONAL_PROVIDER_NOT_REQUIRED_FOR_THIS_FFMPEG_PRIMARY_E2E",
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "capability_count_after": 143,
+        "capability_count_after": CAPABILITY_COUNT,
         "global_promotion_claim": False,
     }
