@@ -202,7 +202,7 @@ def regression_cases() -> list[dict[str, Any]]:
 
     add(0, "optional provider remains non-authoritative", provider_boundary_valid(optional=True, authority=False, hard_dependency=False), not provider_boundary_valid(optional=True, authority=True, hard_dependency=False))
     add(1, "provider projects only to CAP-057", CAPABILITY_IDS == ("CAP-057",), "CAP-011" not in CAPABILITY_IDS)
-    add(2, "capability and authority counts remain frozen", CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(2, "capability and authority counts remain frozen", CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(3, "LynxHub release, commit and Debian digest are pinned", immutable_component_tuple_valid(component), not immutable_component_tuple_valid({**component, "commit": "master"}))
     add(4, "Custom Actions release, commit and artifact digest are pinned", immutable_actions_tuple_valid(actions), not immutable_actions_tuple_valid({**actions, "automatic_update": True}))
     add(5, "floating latest and unadmitted self-update are denied", True, "latest" not in {PINNED_VERSION, PINNED_ACTIONS_VERSION})
