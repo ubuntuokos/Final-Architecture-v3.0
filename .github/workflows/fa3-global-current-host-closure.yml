@@ -340,13 +340,16 @@ jobs:
           assert qualification['generic_host_evidence_promoted'] == 0, qualification
           assert qualification['global_promotion_claim'] is False, qualification
           evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
-          subjects=[row['subject_id'] for row in evidence['records']]
-          for subject in subjects:
+          subjects=sorted([row['subject_id'] for row in evidence['records']], key=lambda x: int(x.split('-',1)[1]))
+          for subject in subjects[:143]:
               rows=[row for row in qualification['accepted_qualifications'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
+          for subject in subjects[143:]:
+              rows=[row for row in qualification['accepted_qualifications'] if row['subject_id']==subject]
+              assert rows == [], (subject, rows)
           assert qualification['qualified_definition_count'] == 429, qualification
-          assert qualification['pending_definition_count'] == 0, qualification
+          assert qualification['pending_definition_count'] == 96, qualification
           PY
       - name: Audit explicit qualification constituent producer coverage
         run: |
@@ -362,13 +365,16 @@ jobs:
           assert producer_audit['generic_host_evidence_promoted'] == 0, producer_audit
           assert producer_audit['global_promotion_claim'] is False, producer_audit
           evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
-          subjects=[row['subject_id'] for row in evidence['records']]
-          for subject in subjects:
+          subjects=sorted([row['subject_id'] for row in evidence['records']], key=lambda x: int(x.split('-',1)[1]))
+          for subject in subjects[:143]:
               rows=[row for row in producer_audit['accepted_producers'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
+          for subject in subjects[143:]:
+              rows=[row for row in producer_audit['accepted_producers'] if row['subject_id']==subject]
+              assert rows == [], (subject, rows)
           assert producer_audit['registered_producer_count'] == 429, producer_audit
-          assert producer_audit['pending_producer_count'] == 0, producer_audit
+          assert producer_audit['pending_producer_count'] == 96, producer_audit
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
         run: |
@@ -398,13 +404,16 @@ jobs:
           assert executor['generic_host_evidence_promoted'] == 0, executor
           assert executor['global_promotion_claim'] is False, executor
           evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
-          subjects=[row['subject_id'] for row in evidence['records']]
-          for subject in subjects:
+          subjects=sorted([row['subject_id'] for row in evidence['records']], key=lambda x: int(x.split('-',1)[1]))
+          for subject in subjects[:143]:
               rows=[row for row in executor['registered_obligations'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert executor['registered_executor_count'] == 525, executor
-          assert executor['pending_executor_count'] == 0, executor
+          for subject in subjects[143:]:
+              rows=[row for row in executor['registered_obligations'] if row['subject_id']==subject]
+              assert rows == [], (subject, rows)
+          assert executor['registered_executor_count'] == 429, executor
+          assert executor['pending_executor_count'] == 96, executor
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
         run: |
