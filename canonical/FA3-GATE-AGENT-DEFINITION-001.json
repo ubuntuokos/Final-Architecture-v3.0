@@ -9,7 +9,7 @@
   "fail_closed": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "regression_case_count": 12,
   "current_host_runtime_evidence": false,
   "mandatory_rules": [
@@ -34,5 +34,7 @@
   ],
   "executable": "PYTHONPATH=src python3 src/fa3_agent_definition_gate.py --root .",
   "report_path": "reports/agent-definition-gate-report.json",
-  "profile_id": "FA3-AGENT-DEFINITION-001"
+  "profile_id": "FA3-AGENT-DEFINITION-001",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
