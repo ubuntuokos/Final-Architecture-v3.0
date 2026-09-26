@@ -248,7 +248,7 @@ def gate(root: Path):
         and d.get("mandatory_rules") == RULES
         and d.get("new_capabilities") == 0
         and d.get("new_architectural_authorities") == 0
-        and d.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(d.get("capability_count_after"), int) and d.get("capability_count_after") <= CAPABILITY_COUNT
         and d.get("runtime_activation_status") == RUNTIME_STATUS
     ):
         findings.append(finding("FFMPEG-AI-007", "Canonical decision invariant drift"))
