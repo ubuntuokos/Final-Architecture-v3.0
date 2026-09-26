@@ -123,7 +123,8 @@ class T(unittest.TestCase):
   self.assertIn('openssl verify -purpose sslserver -CAfile "$RC" -untrusted "$IC" "$TMP/b.crt"',s)
   self.assertIn('openssl verify -purpose sslclient -CAfile "$RC" -untrusted "$IC" "$TMP/c.crt"',s)
   self.assertIn('echo "mTLS handshake failed" >&2',s)
-  self.assertIn("for command in curl flock openssl python3 sed seq ssh-keygen ss systemctl; do",s)\n  self.assertIn('STEP_BIN="/usr/local/lib/fa3/step-cli/0.30.6/bin/step"',s)
+  self.assertIn("for command in curl flock openssl python3 sed seq ssh-keygen ss systemctl; do",s)
+  self.assertIn('STEP_BIN="/usr/local/lib/fa3/step-cli/0.30.6/bin/step"',s)
  def test_restore_cleanup_is_fail_safe(self):
   s=(ROOT/"bin/fa3-step-ca-backup-restore-drill.sh").read_text()
   self.assertIn('if [[ -n "$PID" ]] && kill -0 "$PID"',s)
