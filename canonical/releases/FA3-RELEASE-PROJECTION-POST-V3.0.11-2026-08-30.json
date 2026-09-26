@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f29f986549dd84c3e373011047b19eda0c7057b7",
-    "pre_projection_root_tree_sha": "353bf9102c479812e790704e31bb98d1945a659f",
-    "pre_projection_canonical_tree_sha": "3d5bc88651a681ab3290bf8a5f8e9ed3156d200c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1106,
-    "total_post_baseline_commits": 1106,
-    "delta_file_count": 2336,
-    "delta_added_files": 2330,
+    "pre_projection_head_sha": "f59f48e52f0cd4cc4e5043d79f9c99fc59f57710",
+    "pre_projection_root_tree_sha": "f84d4022be181f2c881fbb55d9bf71817f6ca49a",
+    "pre_projection_canonical_tree_sha": "49103ea7b7166170bc5f8ab4ba920ec0af38ddca",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1117,
+    "total_post_baseline_commits": 1117,
+    "delta_file_count": 2455,
+    "delta_added_files": 2449,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1148,
+    "canonical_files_in_post_baseline_delta": 1267,
     "evidence_files_in_post_baseline_delta": 166,
     "source_files_in_post_baseline_delta": 311,
     "test_files_in_post_baseline_delta": 250,
@@ -982,7 +982,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2326,
+  "manifest_entry_count": 2445,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1571,7 +1571,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "ec3c69302347a07727fccb057a1bdaa4d1a9a4ba",
+      "git_blob_sha": "07a081159ae67d76f6a85fa2714f23a1ca7780eb",
       "baseline_delta_status": "added"
     },
     {
@@ -2006,7 +2006,7 @@
     },
     {
       "path": "bin/fa3-demucs-bootstrap.sh",
-      "git_blob_sha": "3ac8de1863a06d9c1c8b2740d127e8bfa1461bb5",
+      "git_blob_sha": "28664acfe6f1733f2d549ad8278e6449fe9dcf9d",
       "baseline_delta_status": "added"
     },
     {
@@ -2366,7 +2366,7 @@
     },
     {
       "path": "bin/fa3-whisper-bootstrap.sh",
-      "git_blob_sha": "b71eef91c5d0106ac56f2e9a674c4c2c0ef3dc60",
+      "git_blob_sha": "ca814f2d26954d97664897b6b8ff6deda0aa09bb",
       "baseline_delta_status": "added"
     },
     {
@@ -4035,6 +4035,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-ACE-STEP-001.json",
+      "git_blob_sha": "332331cfe105a90df0ff48a52c8ac94f50496b11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-AGENCY-AGENTS-001.json",
+      "git_blob_sha": "6cf93eba3f36014622c1e9826b12e9e47d2307d6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-AGENT-RUNNER-NATIVE-001.json",
       "git_blob_sha": "bbdff1493688d8ea4e7d1b25e60f8c682c951b1f",
       "baseline_delta_status": "added"
@@ -4045,8 +4055,38 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-AGENTCPM-001.json",
+      "git_blob_sha": "33030f32ecc0015bcc6b2f73beeeecb1cac6e395",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
       "git_blob_sha": "8c2d28048625397eafd810f76eb71038b1183e6d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
+      "git_blob_sha": "628f22ae9cddba57b317b67a06e57fb1e1b9491a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-ANY-GUARDRAIL-001.json",
+      "git_blob_sha": "c359cd98f5541e4dd619094bccd6762c9af04db7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-ARBOR-001.json",
+      "git_blob_sha": "68de8d1561bfcec0a8c4fd6573a8b02623334480",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-AUTOGPT-001.json",
+      "git_blob_sha": "2fe9ba3563da7a51ae8ee286093329ea2d5d6d5b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-BROWSER-CDP-001.json",
+      "git_blob_sha": "b280e89964a77e79b6e38c7017519b1c75bfdd5c",
       "baseline_delta_status": "added"
     },
     {
@@ -4055,13 +4095,423 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-BUZZ-001.json",
+      "git_blob_sha": "b84a1c25efacc8140999f009b799939c585b40d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+      "git_blob_sha": "9b2f9e62aa032d6763299b7830937b3484eef33c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CAVEMAN-001.json",
+      "git_blob_sha": "d272b563ea4b701172d889d34c49d76cacbee908",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-COACH-LOCAL-001.json",
+      "git_blob_sha": "a6981872202c8e5d28373db6c7d412bf3a1ca20c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CODEGRAFF-001.json",
+      "git_blob_sha": "a5abb9414299d8826ab00d52fd3bb777f21ce78e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CODEX-001.json",
+      "git_blob_sha": "0b899eec7354446887deee3cbd275275e3cc7e68",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CONDUCTOR-001.json",
+      "git_blob_sha": "e4fb6631a97d36b0ce3be6ca89e515f556edf0da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-COSYVOICE-001.json",
+      "git_blob_sha": "e4980bea98b4e188701e51884f8b4e31c1ee888b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CPMCU-001.json",
+      "git_blob_sha": "7c80cd5ae0bab6686644910e69136e81e437bc97",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-CREWAI-001.json",
+      "git_blob_sha": "223cc8a9e941fa14f7eba3ddb755bec02f7020e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-DECISION-LOCAL-001.json",
+      "git_blob_sha": "57fb3f29dee3a0a9855fbf4ba0f67250eda05f76",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-DECISION-RULES-001.json",
+      "git_blob_sha": "476e7128322d5d6af9b6eb164e7e33597039e496",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-DEEPGEMM-001.json",
+      "git_blob_sha": "d8b769dea1b7c4227a98fec591f6177b9603ca42",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-DEMUCS-001.json",
+      "git_blob_sha": "76670015cc284a08b7ab51289f06221acf3dbd2c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-DITTOFEED-001.json",
+      "git_blob_sha": "b8023b4a74ebd934d4e0c021a00ace137958900f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-FFMPEG-001.json",
+      "git_blob_sha": "8052933468eb9e3aca6933e10ab560b4d80c422e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
+      "git_blob_sha": "61eedbcba3c1705ee2ef60835f2ecd362bac6ce9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-GEM-X-001.json",
+      "git_blob_sha": "80eaf5cdbf265b7e22dd535544da4ab1486c4094",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-GIMP-AI-LOCAL-001.json",
+      "git_blob_sha": "91c5f5ab5654cfd420c6511c1e8345baa3fc529e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
+      "git_blob_sha": "31fa801d222a38b9689a7a622011d7fa86af6d91",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-GOOGLE-AX-001.json",
+      "git_blob_sha": "5a257924e68436ac5d22ff5ec085e088f8ff991a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-GTCRN-001.json",
+      "git_blob_sha": "5deda57d3f40485553510ae163cf2c011fe54df1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-HAYSTACK-001.json",
+      "git_blob_sha": "9c5133760e0e9fca9721d75debd363e69e1023de",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-HELIOS-001.json",
+      "git_blob_sha": "dac3c9572d58fd8f4624d4a91fa89f5ddd398865",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-HF-MODEL-STORE-001.json",
+      "git_blob_sha": "3ffe91f7140411c0dbbdec36dea103c2ab92138b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json",
+      "git_blob_sha": "7b00feac64bdecdbe0cad1fd42556c2b9f3fb3e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
+      "git_blob_sha": "7867c315c97be2ca1014a7ada61eafcd95bad831",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-JEV-DECISION-001.json",
+      "git_blob_sha": "ac317b2f3ddaa0406771ce1b78cc11f043f41068",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-JOURNAL-LOCAL-001.json",
       "git_blob_sha": "9e33b69436195f9945868c4691a3d982816a94ef",
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KANBOARD-001.json",
+      "git_blob_sha": "b4938655d82b672d489a6d89bf1824b3f36cc3da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KANEO-001.json",
+      "git_blob_sha": "074f5dfd1696c73e003b3eab483f5cd119b700a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KAOLIN-001.json",
+      "git_blob_sha": "726a57896fd5e4031e8d2691b2d8f2da4393e3e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KDENLIVE-001.json",
+      "git_blob_sha": "b175d652a1633d4a70cd78b0ffa67884534e0cc4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KESTRA-001.json",
+      "git_blob_sha": "d6a7b9c9bbf0d633404b026e6829afc95ca72698",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KLING-001.json",
+      "git_blob_sha": "162e4b44552146be7114bb77ca7317b94e04cebf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KRITA-001.json",
+      "git_blob_sha": "ab6715e6924fb8e1b3d9da1c667fad8975a314ec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KRITA-AI-DIFFUSION-001.json",
+      "git_blob_sha": "e1877f5c0409235b0753ee200387560124e21962",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KRITA-MCP-001.json",
+      "git_blob_sha": "f08ed2bd6777ffa7eb5de05e988f92d174969b04",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-KRITA-VISION-TOOLS-001.json",
+      "git_blob_sha": "5a86eb5e57fc851bf365f65a42bdca96a9318514",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-LANGGRAPH-001.json",
+      "git_blob_sha": "55357cea6f1e42f4b5f26bc4e554829023d4fa34",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-LAVASR-001.json",
+      "git_blob_sha": "1841ed4f68f752ac2e3ee47ef57bdf096ee7c822",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-LISTMONK-001.json",
+      "git_blob_sha": "29586fe71206259135779d1acf29feb6faad8b74",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
+      "git_blob_sha": "46843ea7eaa459d878758b29fd85a39a3b8dab82",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
+      "git_blob_sha": "f48593803d0a15bf3510ba8a16a26d1bdc7d22c0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MARKETINGSKILLS-001.json",
+      "git_blob_sha": "42a3ad5c2e3f0f56e2b8c620b03240451ab73098",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MAUTIC-001.json",
+      "git_blob_sha": "ebcbedaecd7c178ab9a2ff3ae5745cde5de98553",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MAX-001.json",
+      "git_blob_sha": "68fa8c218da2e8c043bd664d59e289da39bbfc7f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MENGTO-SKILLS-001.json",
+      "git_blob_sha": "7251221d6c4fbe5f94e5362e87a3fba3417792c2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MENTOR-LOCAL-001.json",
+      "git_blob_sha": "9ee8bd0e0d224e0cd3117db9514414be39a30863",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-META-LLAMA-001.json",
+      "git_blob_sha": "dd7596d434792ed657164cccba17d03434fce651",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MINICPM-O-001.json",
+      "git_blob_sha": "f1fe24dccc0b48b06b43cac16610a9d2db44f067",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MINICPM-V-001.json",
+      "git_blob_sha": "4d3990145c312c688403c7576a9777cc5905eb99",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MINIMAX-H3-001.json",
+      "git_blob_sha": "99946f2ac5ae6455562b63bdc3172ed36e59e411",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MMS-TTS-HUN-001.json",
+      "git_blob_sha": "5aada4f2afcc7c93bef79722d89bfa8e21342229",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-MODEL-ARTIFACT-SECURITY-STACK-001.json",
       "git_blob_sha": "4eaa8ed4b674e89e229ca8197839a28f948b5e02",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MOJO-001.json",
+      "git_blob_sha": "6bf2a44677040334eaa364fb733a7a815c3072cf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MUNDER-DIFFLIN-001.json",
+      "git_blob_sha": "b985088232002870e71f92f0c86ab0e5233cfbb7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MUSE-CODE-001.json",
+      "git_blob_sha": "081e19912e0af10491bcbdc4a0d458eaba162a88",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MUSE-IMAGE-001.json",
+      "git_blob_sha": "4536853a7bb087bed774afd3c18f88569bf6da4f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-MYNA-001.json",
+      "git_blob_sha": "55d2c0e68ff15da6d7d32ef58c8bbaea3d4d2a57",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-N8N-001.json",
+      "git_blob_sha": "ae87ffafa49de687cdee79ddc9b89b8ad16c74f7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-NATRON-001.json",
+      "git_blob_sha": "d0e6eac0efe21a35e5cadea1faea17fb33411683",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-NEMOTRON-001.json",
+      "git_blob_sha": "beff1b8c13decffa377dd955f617665bf1353bf6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-NVDIFFRAST-001.json",
+      "git_blob_sha": "2138c8fdb373c4a353772ae0fd808bfe22971f7d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OBSIDIAN-001.json",
+      "git_blob_sha": "a683a3547bcb8f87b0fa274033575f5aa55a3223",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001.json",
+      "git_blob_sha": "74fbb59cc9c131f0e96fc492def72bc4aa146b7b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OLLAMA-MODEL-001.json",
+      "git_blob_sha": "18cd98a3f4390dffd32164cd504c158789e6124a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-ONNXRUNTIME-001.json",
+      "git_blob_sha": "c595130abbb4382a3416de87b5319f4a2a960776",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPEN-MULTI-AGENT-001.json",
+      "git_blob_sha": "293076eb4355bacbde5caa18b42ad37568efd2e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
+      "git_blob_sha": "1ec04d1c05545100516612c03503a2518006a934",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPEN3D-001.json",
+      "git_blob_sha": "e4e7e46de7677954119444847ae0f01fa7b4f400",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENAI-API-001.json",
+      "git_blob_sha": "e1c96715ffd7b4a58e38612a70ef738c8f2421c0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENCUT-001.json",
+      "git_blob_sha": "2231161fe351d2751d298a336cd20521c20f2eeb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENDLSS-NR-001.json",
+      "git_blob_sha": "44431a6efa314cd0b1b87f2cabef0558effc7aa7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENHANDS-001.json",
+      "git_blob_sha": "18a1cfdb9c4fea02942c2d33a7be30a3e99ff1b8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENMODELDB-001.json",
+      "git_blob_sha": "72df820aeb3307a6547d7379363abe6b25e487aa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENVID-001.json",
+      "git_blob_sha": "e45d5d0b02ac5185580080c9ff2015276aea6e51",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENVINO-001.json",
+      "git_blob_sha": "b49e54931dca25178bd529471abcaea5a3e1dd5b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-OPENYAK-001.json",
+      "git_blob_sha": "a47ef4931f684949690e7b1590949ef792d39033",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PAGEINDEX-LOCAL-001.json",
+      "git_blob_sha": "60b4145b2958a98bea5de4e8bed76483586b4a2f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PAGEINDEX-MCP-001.json",
+      "git_blob_sha": "fd4dbb5d39bf4b0f2b1daecef55931f53731fb70",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PIPECAT-001.json",
+      "git_blob_sha": "9e09fe9556d393d4720e8ffb17e1ad97c24b3832",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PIPER-001.json",
+      "git_blob_sha": "b3d188ce2e4071c0e4f5089181a264b556c1e9cd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-POSTHOG-001.json",
+      "git_blob_sha": "1c46cf76a7f287bf9b250cab41dcd14468460519",
       "baseline_delta_status": "added"
     },
     {
@@ -4075,13 +4525,103 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PYNVVIDEOCODEC-001.json",
+      "git_blob_sha": "830cf11e1724f8461f10edee7abdf6a6c1c4c138",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PYRIT-001.json",
+      "git_blob_sha": "d46d5784a81bf874c93a125cbff84cb5837a8bf0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-PYTORCH3D-001.json",
+      "git_blob_sha": "914f93d65ac546f5ef9f000eb1dc02eceb62bef5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-QWEN3-TTS-001.json",
+      "git_blob_sha": "6487128b4a877dabb327902985a297532d7a4f0b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-RAGFLOW-001.json",
+      "git_blob_sha": "3f10b7a2ba529bc3e9e43e88b8e470524f2c8579",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-RELI3D-001.json",
+      "git_blob_sha": "dcd4521b2b80f4300172e2da9e1a1966f7a4638b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-SCHED-EXT-001.json",
       "git_blob_sha": "902c399e5cc2e1e52f30b9a738ac48300cf41bd9",
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-SD35-NVIDIA-NIM-001.json",
+      "git_blob_sha": "4daf80d87dbc4e5eca2a8a31af81266272938b8d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-SEEDANCE-001.json",
+      "git_blob_sha": "840769e1a163156d41da64f4223eec5170113b07",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-SF3D-001.json",
+      "git_blob_sha": "c3b4a8e88b77091adc34713b5beca4f9458477fe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-SILERO-VAD-001.json",
+      "git_blob_sha": "56cc630653b7bfab3ed45dec6ebbda0ee08fa52f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
       "git_blob_sha": "d349e686891befea5780e7845fe43daff846e9d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-SOMA-X-001.json",
+      "git_blob_sha": "a34ac6c75b2a20e65656bcd49bdc5f64ec4bfcc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-SPAR3D-001.json",
+      "git_blob_sha": "a8806a2a23e94f94b90c8185699ccc120372945f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-STABILITY-MODELSPEC-001.json",
+      "git_blob_sha": "949d90cab3eb63b1c0d81e8ce6d7968239536d61",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-STABILITY-SD35-001.json",
+      "git_blob_sha": "492f2a90361e039cc2bc5e73665dd6614ad505db",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-STABILITY-SGM-001.json",
+      "git_blob_sha": "4809321671277489f165823acb5dc0fdbfe87937",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-STABLE-AUDIO-3-001.json",
+      "git_blob_sha": "a41fdf66163a66c2d7f8ec5df82f4f07223a6d6b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-STABLE-LAYERS-001.json",
+      "git_blob_sha": "72d9bb9c0729c1fab6959d20488bab71ab4aa345",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001.json",
+      "git_blob_sha": "97ef5e1eb1f8d209a6c683ccf53d8204f7d85ae4",
       "baseline_delta_status": "added"
     },
     {
@@ -4095,13 +4635,68 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json",
+      "git_blob_sha": "ce100167e65100c296d703404d4e8562835aa21a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-TENSORRT-001.json",
+      "git_blob_sha": "3d06b85f76c1b0ede54fcf3581eab586dfa6c420",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-TENSORRT-RTX-001.json",
+      "git_blob_sha": "89ba8b995b112e693f8727384595536756db2310",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json",
+      "git_blob_sha": "2fb80e23b88ba861587fa03d0420ce23508099a7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-TWENTY-001.json",
+      "git_blob_sha": "6e5a2c85d6ec2e41549514d7d898d3bf64af11db",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-ULTRARAG-001.json",
+      "git_blob_sha": "6321f888bf7de3f9da992670d0462949c865814c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-VAULTWARDEN-001.json",
       "git_blob_sha": "246aba7f0c42d5bf1a483114731f7453ebef20cb",
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-VOXCPM-001.json",
+      "git_blob_sha": "bb61691727b86928715dc5d3e43f74e1786d2fdf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-VS-MLRT-001.json",
+      "git_blob_sha": "9d728bcf73f1e55663d192952978c12f10e0a137",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-WHISPER-001.json",
+      "git_blob_sha": "df90b4e0633f8ea1854390801a3c47e838444a00",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-XANMOD-001.json",
       "git_blob_sha": "ddda105174ca2bf871171f7da4aac94d1f02ec12",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-XCMD-001.json",
+      "git_blob_sha": "9a2c95aa115a323ee1c68715f09bfb0eb3a055e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-XTTS-001.json",
+      "git_blob_sha": "60355824228182ae9246d8bd4be4c653211f153c",
       "baseline_delta_status": "added"
     },
     {
@@ -10036,12 +10631,12 @@
     },
     {
       "path": "src/fa3_coexistence_audit.py",
-      "git_blob_sha": "038727bef4cf755a8be914383db5b64e2c417092",
+      "git_blob_sha": "83d62ab5f83333e1787bd40ba5a288cf48b9b8ea",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_coexistence_inventory.py",
-      "git_blob_sha": "7616de8389b1d3a33478a6970765decd142fe404",
+      "git_blob_sha": "b67873d510abd9b6220db05ff2b45f3afdc14ed1",
       "baseline_delta_status": "added"
     },
     {
@@ -10196,7 +10791,7 @@
     },
     {
       "path": "src/fa3_demucs_provider.py",
-      "git_blob_sha": "ea1538a8e77582801db447876228ff06e211b9b0",
+      "git_blob_sha": "5b2f7a114831320e5c0a6e17ba8088bca53f351a",
       "baseline_delta_status": "added"
     },
     {
@@ -11266,7 +11861,7 @@
     },
     {
       "path": "src/fa3_whisper_stt_provider.py",
-      "git_blob_sha": "f391561eaa0137f0abad0f903be236140d02bf45",
+      "git_blob_sha": "2ab9004cfeefce78e62d6329e07d9696a0e105b4",
       "baseline_delta_status": "added"
     },
     {
@@ -11506,7 +12101,7 @@
     },
     {
       "path": "tests/test_coexistence_audit.py",
-      "git_blob_sha": "4d211e0095bb4e2a0d580ca77cc359a08be9988d",
+      "git_blob_sha": "668cee5cdf357e070fd1cbff2babc3701c6c535d",
       "baseline_delta_status": "added"
     },
     {
@@ -11626,7 +12221,7 @@
     },
     {
       "path": "tests/test_demucs_provider_runtime.py",
-      "git_blob_sha": "8756cc192f3bca8277fcad58d9137895becda1a3",
+      "git_blob_sha": "3342bb0398857274656e3e89ce218e2d19354411",
       "baseline_delta_status": "added"
     },
     {
@@ -12521,7 +13116,7 @@
     },
     {
       "path": "tests/test_whisper_stt_provider.py",
-      "git_blob_sha": "8136b20ef0ae08ff659d0523f0c45683f9edd702",
+      "git_blob_sha": "a74b325f32d57e54cbc594ed888a21e79f3c9ab0",
       "baseline_delta_status": "added"
     },
     {
