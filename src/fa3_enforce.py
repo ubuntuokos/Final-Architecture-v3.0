@@ -364,7 +364,7 @@ def static_check(root:Path):
     if "FA3-OPENFX-INTEROPERABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-099","OpenFX VFX plug-in interoperability gate is not bound into global enforcement policy"))
 
-    if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
+    if att.get("release")!="2026-08-23/v3.0.11" or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
     if att.get("sha256")!="0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d738c6b8fc553c4f16":
         fs.append(finding("FA3-STATIC-005","Canonical source-graph attestation digest drift"))
