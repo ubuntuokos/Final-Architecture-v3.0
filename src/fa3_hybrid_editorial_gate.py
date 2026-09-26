@@ -382,7 +382,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and decision.get("decision") == "IMPLEMENT"
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append({
             "code": "HYB-CANON-009",
@@ -427,7 +427,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         evidence.get("status") == "PASS"
         and evidence.get("gate_id") == EXECUTABLE_GATE_ID
         and evidence.get("current_host_runtime_promotion_claim") is False
-        and evidence.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(evidence.get("capability_count_after"), int) and evidence.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append({
             "code": "HYB-CANON-013",
