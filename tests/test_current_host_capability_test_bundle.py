@@ -101,7 +101,7 @@ class CurrentHostCapabilityTestBundleAssemblerTests(unittest.TestCase):
             report = materialize(root)
             self.assertEqual(report["assembler_integrity"], "PASS")
             self.assertEqual(report["bundles_materialized"], 1)
-            self.assertEqual(report["pending_capability_count"], 142)
+            self.assertEqual(report["pending_capability_count"], 174)
             bundle_path = root / ".fa3-current-host/test-bundles/capabilities/CAP-001.json"
             self.assertTrue(bundle_path.is_file())
             bundle = json.loads(bundle_path.read_text())
