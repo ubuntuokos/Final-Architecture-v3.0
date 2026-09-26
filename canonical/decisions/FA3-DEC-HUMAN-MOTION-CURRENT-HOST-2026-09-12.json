@@ -6,10 +6,18 @@
   "subject": "Human Motion current-host production admission",
   "decision": "Materialize a manual-dispatch, fail-closed current-host E2E gate for GEM-X -> provider-neutral Human Motion IR/SOMA NPZ -> SOMA-X -> SMPL-X/USD -> Bforartists or Blender import. Hosted CI validates only contracts; it cannot claim runtime promotion.",
   "profile_id": "FA3-HUMAN-MOTION-001",
-  "provider_ids": ["FA3-PROVIDER-GEM-X-001", "FA3-PROVIDER-SOMA-X-001"],
+  "provider_ids": [
+    "FA3-PROVIDER-GEM-X-001",
+    "FA3-PROVIDER-SOMA-X-001"
+  ],
   "conformance_id": "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001",
   "gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
-  "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
   "security": {
     "runtime_network_fetch": false,
     "automatic_model_download": false,
@@ -21,8 +29,9 @@
   },
   "baseline_effect": {
     "capability_count_before": 143,
-    "capability_count_after": 143,
+    "capability_count_after": 175,
     "new_capabilities": 0,
     "new_architectural_authorities": 0
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

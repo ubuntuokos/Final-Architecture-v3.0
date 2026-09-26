@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 import fa3_codex_adapter as adapter
 import fa3_codex_gate as gate
+from fa3_release_baseline import module_active_capability_count
 
 
 class CodexAdapterTests(unittest.TestCase):
@@ -22,7 +23,7 @@ class CodexAdapterTests(unittest.TestCase):
         self.assertFalse(provider["canonical_root"])
         self.assertFalse(provider["architectural_authority"])
         self.assertFalse(provider["new_capability"])
-        self.assertEqual(provider["capability_count"], 143)
+        self.assertEqual(provider["capability_count"], module_active_capability_count(__file__))
         self.assertEqual(provider["parent_profile"], "FA3-AGENT-EXEC-001")
         self.assertEqual(
             provider["coordination_contract"],

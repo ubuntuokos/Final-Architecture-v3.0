@@ -3,10 +3,15 @@
   "id": "FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12",
   "date": "2026-09-12",
   "profile_id": "FA3-HUMAN-MOTION-001",
-  "provider_ids": ["FA3-PROVIDER-SOMA-X-001", "FA3-PROVIDER-GEM-X-001"],
-  "capability_bindings": ["CAP-032"],
+  "provider_ids": [
+    "FA3-PROVIDER-SOMA-X-001",
+    "FA3-PROVIDER-GEM-X-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
   "capability_count_before": 143,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "new_architectural_authorities": 0,
   "reference_gate_status": "MATERIALIZED_EXPECTED_PASS",
   "current_host_runtime_status": "PENDING_CURRENT_HOST",
@@ -24,5 +29,6 @@
     "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
   ],
   "production_promotion_claimed": false,
-  "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+  "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

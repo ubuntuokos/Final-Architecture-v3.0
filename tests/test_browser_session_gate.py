@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fa3_browser_session_gate import gate
 from fa3_browser_session_current_host_gate import cli_unpacked_extension_supported
+from fa3_release_baseline import module_active_capability_count
 
 
 class BrowserSessionGateTests(unittest.TestCase):
@@ -16,7 +17,7 @@ class BrowserSessionGateTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         report=gate(root)
         self.assertEqual("PASS",report["result"],report)
-        self.assertEqual(143,report["capability_count"])
+        self.assertEqual(module_active_capability_count(__file__),report["capability_count"])
         self.assertEqual(0,report["capability_delta"])
         self.assertEqual(0,report["authority_delta"])
         self.assertFalse(report["current_host_runtime_claim"])

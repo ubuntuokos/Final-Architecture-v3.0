@@ -8,6 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 import fa3_external_api_discovery_gate as d
+from fa3_release_baseline import module_active_capability_count
 
 class ExternalAPIDiscoveryGateTests(unittest.TestCase):
     def _copy_root(self):
@@ -25,7 +26,7 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         self.assertEqual("PASS", r["result"], r)
         self.assertEqual((13, 13), (r["regressions"]["passed"], r["regressions"]["total"]))
         self.assertFalse(r["runtime_provider_required"])
-        self.assertEqual(143, r["capability_count"])
+        self.assertEqual(module_active_capability_count(__file__), r["capability_count"])
 
     def test_catalog_listing_never_authorizes(self):
         self.assertTrue(d.metadata_boundary_valid(
