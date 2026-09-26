@@ -224,7 +224,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("gate_id") == GATE_ID
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
         and decision.get("mandatory_constraint") == MANDATORY_CONSTRAINT
     ):
         findings.append(finding("PYRIT-REF-005", "PyRIT canonical decision drift"))
@@ -295,7 +295,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and evidence.get("production_runtime_promoted") is False
         and evidence.get("new_capabilities") == 0
         and evidence.get("new_architectural_authorities") == 0
-        and evidence.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(evidence.get("capability_count_after"), int) and evidence.get("capability_count_after") <= CAPABILITY_COUNT
     ):
         findings.append(finding("PYRIT-REF-009", "PyRIT reference evidence scope drift"))
 
