@@ -306,11 +306,13 @@ def reuse_governance_check(root: Path):
     assessment_path = root / "canonical/assessments/FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001.json"
     pattern_path = root / "canonical/patterns/FA3-AI-ENGINEERING-DERIVED-PATTERNS-001.json"
     ref_path = root / "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json"
+    projection_path = root / "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 
     for code, path in (
         ("AIENG-REUSE-001", intent_path),
         ("AIENG-REUSE-002", assessment_path),
         ("AIENG-REUSE-003", pattern_path),
+        ("AIENG-REUSE-014", projection_path),
     ):
         if not path.exists():
             findings.append(finding(code, "Required reuse-governance artifact missing", path=str(path.relative_to(root))))
@@ -322,6 +324,7 @@ def reuse_governance_check(root: Path):
     assessment = loadj(assessment_path)
     patterns = loadj(pattern_path)
     ref = loadj(ref_path)
+    projection = loadj(projection_path)
     ns = intent.get("namespace_claims", {})
     ihw = intent.get("hardware_audit", {})
     ahw = assessment.get("hardware_audit", {})
@@ -422,6 +425,38 @@ def reuse_governance_check(root: Path):
         and binding.get("automatic_activation") is False
     ):
         findings.append(finding("AIENG-REUSE-011", "Upstream reference reuse-discovery binding drift"))
+
+    release_rec = projection.get("ai_engineering_reference_reconciliation", {})
+    if not (
+        release_rec.get("source_id") == SOURCE_ID
+        and release_rec.get("reference_id") == REFERENCE_ID
+        and release_rec.get("reference_commit") == REFERENCE_COMMIT
+        and release_rec.get("decision_id") == DECISION_ID
+        and release_rec.get("gate_id") == GATE_ID
+        and release_rec.get("application_intent_id") == INTENT_ID
+        and release_rec.get("reuse_assessment_id") == ASSESSMENT_ID
+        and release_rec.get("pattern_bundle_id") == PATTERN_BUNDLE_ID
+        and release_rec.get("reuse_discovery_profile_id") == "FA3-REUSE-DISCOVERY-001"
+        and release_rec.get("reuse_catalog_id") == "FA3-REUSE-CATALOG-001"
+        and release_rec.get("classification") == "REFERENCE_AND_PATTERN_SOURCE_ONLY"
+        and release_rec.get("runtime_provider") is False
+        and release_rec.get("automatic_fetch") is False
+        and release_rec.get("automatic_install") is False
+        and release_rec.get("automatic_activation") is False
+        and release_rec.get("software_coexistence_required") is True
+        and release_rec.get("current_host_runtime_evidence_required") is False
+        and release_rec.get("current_host_runtime_promotion_claim") is False
+        and release_rec.get("global_promotion_claim") is False
+        and release_rec.get("new_capabilities") == 0
+        and release_rec.get("new_architectural_authorities") == 0
+        and release_rec.get("capability_count_after") == CAPABILITY_COUNT
+        and release_rec.get("hardware_audit", {}).get("vendor_neutral") is True
+        and release_rec.get("hardware_audit", {}).get("cpu_only_viable") is True
+        and release_rec.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N"
+        and release_rec.get("hardware_audit", {}).get("global_accelerator_requirement") is False
+        and release_rec.get("reconciliation_status") == "CANONICAL_REFERENCE_PATTERN_ABSORPTION_REUSE_DISCOVERABLE_RUNTIME_NOT_ADMITTED"
+    ):
+        findings.append(finding("AIENG-REUSE-015", "Unified release projection AI engineering reconciliation drift"))
 
     catalog = build_catalog(root)
     by_id = {}
