@@ -86,6 +86,15 @@ def audit(root: Path):
                     findings.append(finding("COEX-033","collision between FA3 footprints",domain=domain,value=value,owners=[owner,obj.get("component_id")]))
                 else:
                     seen[domain][str(value)]=obj.get("component_id")
+        if obj.get("classification")=="SYSTEM_LEVEL_AUTHORITY":
+            controls=obj.get("authority_controls",{})
+            required_controls=["authority_id","conflict_detection","previous_state_capture","controlled_mutation","rollback","recovery_evidence"]
+            missing_controls=[name for name in required_controls if name not in controls]
+            false_controls=[name for name in required_controls[1:] if controls.get(name) is not True]
+            if missing_controls:
+                findings.append(finding("COEX-036","system authority footprint missing control declarations",path=rel,missing=missing_controls))
+            if false_controls:
+                coverage.append({"kind":"SYSTEM_LEVEL_AUTHORITY","id":obj.get("component_id"),"path":rel,"status":"PENDING_AUTHORITY_CONTROL_REMEDIATION","pending_controls":false_controls})
         ev=obj.get("evidence",{})
         if ev.get("runtime_promotion_claim") is not False:
             findings.append(finding("COEX-034","footprint attempts document-only runtime promotion",path=rel))
