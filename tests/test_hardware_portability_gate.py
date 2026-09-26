@@ -29,6 +29,10 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertTrue(result["accelerator_floor"]["cpu_only_host_conforms"])
         self.assertFalse(result["accelerator_floor"]["cpu_only_workload_requires_lease"])
         self.assertFalse(result["current_host_runtime_promotion_claim"])
+        self.assertEqual("MANDATORY_FAIL_CLOSED",result["hardware_safety"]["policy"])
+        self.assertEqual("FORBIDDEN",result["hardware_safety"]["unsafe_or_unknown_mutation"])
+        self.assertFalse(result["hardware_safety"]["installer_override"])
+        self.assertFalse(result["hardware_safety"]["expert_mode_override"])
 
     def test_vendor_neutral_reference_families(self):
         self.assertTrue({"NVIDIA","AMD","INTEL"} <= REFERENCE_VENDOR_FAMILIES)
@@ -70,7 +74,7 @@ class HardwarePortabilityGateTests(unittest.TestCase):
 
     def test_discovery_contract_distinguishes_cpu_and_backend_dimensions(self):
         obj=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
-        self.assertEqual("1.4.1",obj["version"])
+        self.assertEqual("1.5.0",obj["version"])
         cpu=obj["descriptor_schemas"]["cpu"]
         accel=obj["descriptor_schemas"]["accelerator"]
         self.assertIn("physical_cores_fully_allocated",cpu["required_counts"])
@@ -95,6 +99,35 @@ class HardwarePortabilityGateTests(unittest.TestCase):
             "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
             obj["invariants"],
         )
+
+
+    def test_hardware_safety_envelope_is_fail_closed_and_non_bypassable(self):
+        profile=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        contract=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        enforcement=json.loads((ROOT/"canonical/hardware-portability-enforcement.json").read_text(encoding="utf-8"))
+        decision=json.loads((ROOT/"canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json").read_text(encoding="utf-8"))
+
+        safety=profile["hardware_safety_envelope"]
+        self.assertEqual("MANDATORY_FAIL_CLOSED",safety["policy"])
+        self.assertTrue(safety["vendor_supported_operating_envelope_required"])
+        self.assertEqual("NO_MUTATION_FAIL_CLOSED",safety["unknown_safe_range"])
+        self.assertFalse(safety["installer_override"])
+        self.assertFalse(safety["expert_mode_override"])
+        self.assertFalse(safety["user_override_bypass"])
+
+        mutation=contract["hardware_mutation_safety"]
+        self.assertEqual("REJECT_MUTATION",mutation["unknown_safe_range"])
+        self.assertEqual("REJECT_MUTATION",mutation["out_of_supported_range"])
+        self.assertEqual("FORBIDDEN",mutation["installer_and_expert_override"])
+
+        self.assertTrue(enforcement["hardware_safety_fail_closed"])
+        self.assertEqual("FA3-DEC-HARDWARE-SAFETY-2026-09-26",enforcement["hardware_safety_decision_id"])
+        self.assertEqual(40,enforcement["mandatory_rule_count"])
+        self.assertEqual(
+            "MANDATORY_FAIL_CLOSED_HARDWARE_SAFETY_ENVELOPE_NO_UNSAFE_HARDWARE_TUNING",
+            decision["decision"],
+        )
+        self.assertFalse(decision["enforcement"]["user_override_may_bypass_safety_envelope"])
 
     def test_runtime_fixed_vendor_lists_are_blocking(self):
         for line in (
