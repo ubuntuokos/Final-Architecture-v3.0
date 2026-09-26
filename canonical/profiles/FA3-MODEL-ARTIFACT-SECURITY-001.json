@@ -26,7 +26,7 @@
   ],
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "capability_bindings": [
     "CAP-003",
     "CAP-005",
@@ -60,9 +60,18 @@
     "MODEL_MANAGER_PROMOTION_ELIGIBILITY"
   ],
   "format_policy": {
-    "preferred": ["safetensors"],
+    "preferred": [
+      "safetensors"
+    ],
     "safe_format_is_not_trust": true,
-    "dangerous_serialization_extensions": [".pkl", ".pickle", ".pt", ".pth", ".bin", ".ckpt"],
+    "dangerous_serialization_extensions": [
+      ".pkl",
+      ".pickle",
+      ".pt",
+      ".pth",
+      ".bin",
+      ".ckpt"
+    ],
     "unknown_format": "FAIL_CLOSED_UNTIL_EXPLICITLY_CLASSIFIED_AND_SCANNED"
   },
   "remote_code_policy": {
@@ -97,7 +106,12 @@
     "promotion_before_pass": "FORBIDDEN"
   },
   "behavior_security": {
-    "garak_required_for": ["LLM", "CHAT", "TEXT_GENERATION", "AGENTIC_TEXT_MODEL"],
+    "garak_required_for": [
+      "LLM",
+      "CHAT",
+      "TEXT_GENERATION",
+      "AGENTIC_TEXT_MODEL"
+    ],
     "non_applicable_requires_reason": true,
     "behavior_pass_does_not_replace_static_scan": true
   },
@@ -134,5 +148,6 @@
   ],
   "decision_id": "FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07",
   "gate_id": "FA3-GATE-MODEL-ARTIFACT-SECURITY-001",
-  "implementation_status": "CANONICAL_MANDATORY_ADMISSION_MATERIALIZED_CURRENT_HOST_SCANNER_TOOLCHAIN_E2E_PENDING"
+  "implementation_status": "CANONICAL_MANDATORY_ADMISSION_MATERIALIZED_CURRENT_HOST_SCANNER_TOOLCHAIN_E2E_PENDING",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
