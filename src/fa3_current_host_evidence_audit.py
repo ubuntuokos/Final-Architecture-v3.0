@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from fa3_release_baseline import module_active_capability_count
+from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
 
 import argparse
 import hashlib
@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
-RELEASE = "2026-08-23/v3.0.11"
+RELEASE = load_active_release_baseline(Path(__file__).resolve().parents[1]).release
 RECEIPT_SCHEMA = "fa3.capability-current-host-evidence.v1"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 COMPONENT_REFERENCE = "evidence/reference/hrb-cuda-current-host-2026-08-28.json"
