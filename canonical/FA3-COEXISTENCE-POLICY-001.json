@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.coexistence-policy.v1",
+  "id": "FA3-COEXISTENCE-POLICY-001",
+  "version": "1.0.0",
+  "status": "CANONICAL_CANDIDATE",
+  "priority": "P0",
+  "capability_id": "CAP-175",
+  "decision_id": "FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26",
+  "footprint_schema": "canonical/contracts/FA3-COEXISTENCE-FOOTPRINT-001.schema.json",
+  "ordinary_classifications": ["ORDINARY_APPLICATION","PROVIDER_RUNTIME","LOCAL_SERVICE"],
+  "system_classification": "SYSTEM_LEVEL_AUTHORITY",
+  "namespace_defaults": {
+    "config": "~/.config/fa3/",
+    "data": "~/.local/share/fa3/",
+    "cache": "~/.cache/fa3/",
+    "runtime": "$XDG_RUNTIME_DIR/fa3/",
+    "system_runtime": "/run/fa3/",
+    "systemd_prefix": "fa3-"
+  },
+  "required_collision_domains": [
+    "EXECUTABLE","PACKAGE","DESKTOP_APPID","DESKTOP_ENTRY","MIME","PROTOCOL_HANDLER",
+    "CONFIG","USER_DATA","CACHE","MODEL_CACHE","PYTHON","NODE","SHARED_LIBRARY",
+    "QT_QML_PLUGIN","GPU_RUNTIME","SYSTEMD","UNIX_SOCKET","PORT","LOOPBACK_SERVICE",
+    "DATABASE","SECRETS","LOGS","ENVIRONMENT","FILE_ASSOCIATION","PLUGIN_DIRECTORY"
+  ],
+  "ordinary_forbidden": [
+    "REQUIRE_UPSTREAM_UNINSTALL","SHADOW_UPSTREAM_BINARY","REUSE_UPSTREAM_APPID",
+    "WRITE_FA3_STATE_TO_UPSTREAM_CONFIG","WRITE_FA3_STATE_TO_UPSTREAM_USER_DATA",
+    "GLOBAL_PIP_MUTATION","GLOBAL_NPM_MUTATION","GLOBAL_LIBRARY_INJECTION",
+    "PERSISTENT_GLOBAL_ENV_MUTATION","SILENT_MIME_TAKEOVER","SILENT_PROTOCOL_TAKEOVER",
+    "UNOWNED_STATIC_PORT_OR_SOCKET"
+  ],
+  "system_authority_controls": [
+    "EXPLICIT_AUTHORITY","CONFLICT_DETECTION","PREVIOUS_STATE_CAPTURE","CONTROLLED_MUTATION","ROLLBACK","RECOVERY_EVIDENCE"
+  ],
+  "adguardhome": {
+    "fa3_must_not_move_adguardhome_port": true,
+    "fa3_service_must_adapt": true
+  },
+  "model_router": {
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "external_runtimes_remain_independently_usable": true,
+    "provider_specific_global_environment_forbidden": true
+  },
+  "current_host": {
+    "static_pass_promotes_runtime": false,
+    "required_physical_proofs": ["INSTALL","START","CONCURRENT_RUN","PORT_SERVICE_PATH_PROCESS_INSPECTION","REBOOT_WHERE_APPLICABLE","UNINSTALL_FA3_VERIFY_UPSTREAM","RESTORE_FA3_REMOVE_UPSTREAM_VERIFY_FA3"],
+    "status_without_fresh_physical_evidence": "PENDING_CURRENT_HOST"
+  },
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
