@@ -20,8 +20,13 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
-  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120",
+    "CAP-135"
+  ],
   "activation_mode": "CURRENT_HOST_INTERACTIVE_USER_SESSION",
   "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_PRODUCTION_WORKER_E2E_PENDING",
   "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
@@ -59,5 +64,6 @@
     "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
     "service_lifecycle": "SYSTEMD_NATIVE_WORKER_PROJECTION"
   },
-  "normative_constraint": "Stability Matrix SHALL remain a replaceable interactive lifecycle adapter, package/environment/model manager and diagnostic launcher. It SHALL NOT become an FA3 control plane, production orchestrator, durable worker, workflow, model-registry, artifact, secrets, policy, evidence, host-resource or canonical-state authority."
+  "normative_constraint": "Stability Matrix SHALL remain a replaceable interactive lifecycle adapter, package/environment/model manager and diagnostic launcher. It SHALL NOT become an FA3 control plane, production orchestrator, durable worker, workflow, model-registry, artifact, secrets, policy, evidence, host-resource or canonical-state authority.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
