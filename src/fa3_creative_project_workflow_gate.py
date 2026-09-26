@@ -88,7 +88,7 @@ def canonical_check(root: Path) -> list[str]:
     if not (pat.get("classification")=="REFERENCE_ONLY_PATTERN_SOURCE" and pat.get("runtime_dependency") is False and pat.get("provider_dependency") is False and pat.get("external_code_imported") is False and pat.get("external_skill_content_imported") is False): f.append("external Flova pattern boundary drift")
     hw=i.get("hardware_audit",{})
     if not (hw.get("vendor_neutral") is True and hw.get("cpu_only_viable") is True and hw.get("accelerator_cardinality")=="0..N" and hw.get("global_accelerator_requirement") is False and hw.get("hardware_safety_envelope_required_for_parameter_mutation") is True): f.append("Hardware Audit invariant drift")
-    if not (a.get("result")=="PASS" and a.get("new_capabilities")==0 and a.get("new_architectural_authorities")==0 and a.get("current_host_runtime_promotion_claim") is False and a.get("global_promotion_claim") is False): f.append("ReuseAssessment drift or runtime overclaim")
+    if not (a.get("result")=="PASS" and "FA3-VIDEO-001" in a.get("covered_ids",[]) and a.get("new_capabilities")==0 and a.get("new_architectural_authorities")==0 and a.get("current_host_runtime_promotion_claim") is False and a.get("global_promotion_claim") is False): f.append("ReuseAssessment drift or runtime overclaim")
     effect=d.get("authority_effect",{})
     if not (effect.get("new_capability") is False and effect.get("new_architectural_authority") is False and effect.get("capability_count_after")==cap and d.get("current_host",{}).get("runtime_promotion_claim") is False): f.append("decision capability/authority/runtime boundary drift")
     wf=v.get("creative_project_workflow",{})
