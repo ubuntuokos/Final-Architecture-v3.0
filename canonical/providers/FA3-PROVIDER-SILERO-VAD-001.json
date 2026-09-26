@@ -5,7 +5,7 @@
   "provider_role": "OPTIONAL_LOCAL_SPEECH_ACTIVITY_SEGMENTATION_REFERENCE_PROVIDER",
   "profile": "FA3-SPEECH-ENHANCEMENT-001",
   "capability_binding": "CAP-017",
-  "capability_count": 143,
+  "capability_count": 175,
   "architectural_authority_delta": 0,
   "upstream": {
     "repository": "snakers4/silero-vad",
@@ -24,7 +24,10 @@
   },
   "audio_contract": {
     "preferred_sample_rate_hz": 16000,
-    "supported_sample_rates_hz": [8000, 16000],
+    "supported_sample_rates_hz": [
+      8000,
+      16000
+    ],
     "preferred_channels": 1,
     "analysis_projection_only": true,
     "master_audio_mutation_forbidden": true,
@@ -51,5 +54,7 @@
     "production_status": "PENDING_CURRENT_HOST",
     "requires_real_current_host_e2e": true,
     "document_or_mock_evidence_cannot_promote": true
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
