@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fa3:coexistence-footprint:v1",
+  "title": "FA3 Coexistence Footprint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema","component_id","classification","risk","upstream_relation","coexistence","evidence"],
+  "properties": {
+    "schema": {"const": "fa3.coexistence-footprint.v1"},
+    "component_id": {"type": "string","minLength": 1},
+    "classification": {"enum": ["ORDINARY_APPLICATION","PROVIDER_RUNTIME","LOCAL_SERVICE","SYSTEM_LEVEL_AUTHORITY"]},
+    "risk": {"enum": ["P0","P1","P2"]},
+    "upstream_relation": {"enum": ["NONE","INTEGRATES","DERIVED","COMPATIBLE","REPLACES_CAPABILITY_NOT_APPLICATION"]},
+    "coexistence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["executables","services","sockets","ports","config_paths","data_paths","cache_paths","desktop_ids","mime_types","protocol_handlers","env_mutations","databases","plugin_paths","external_app_integrations","requires_upstream_uninstall","global_environment_mutation","claims_default_port"],
+      "properties": {
+        "executables": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "services": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "sockets": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "ports": {"type":"array","items":{"oneOf":[{"type":"integer","minimum":1,"maximum":65535},{"const":"DYNAMIC"}]},"uniqueItems":true},
+        "config_paths": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "data_paths": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "cache_paths": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "desktop_ids": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "mime_types": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "protocol_handlers": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "env_mutations": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "databases": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "plugin_paths": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "external_app_integrations": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+        "requires_upstream_uninstall": {"const": false},
+        "global_environment_mutation": {"const": false},
+        "claims_default_port": {"const": false}
+      }
+    },
+    "authority_controls": {
+      "type":"object",
+      "additionalProperties": false,
+      "properties": {
+        "authority_id":{"type":"string"},
+        "conflict_detection":{"type":"boolean"},
+        "previous_state_capture":{"type":"boolean"},
+        "controlled_mutation":{"type":"boolean"},
+        "rollback":{"type":"boolean"},
+        "recovery_evidence":{"type":"boolean"}
+      }
+    },
+    "evidence": {
+      "type":"object",
+      "additionalProperties": false,
+      "required":["static_status","current_host_status","runtime_promotion_claim"],
+      "properties": {
+        "static_status":{"enum":["PENDING","PASS","FAIL"]},
+        "current_host_status":{"enum":["PENDING_CURRENT_HOST","PASS","FAIL","NOT_APPLICABLE"]},
+        "runtime_promotion_claim":{"const":false},
+        "artifacts":{"type":"array","items":{"type":"string"}}
+      }
+    }
+  }
+}
