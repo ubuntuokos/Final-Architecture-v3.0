@@ -2,6 +2,7 @@
 from __future__ import annotations
 import json
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 ROOT=Path(__file__).resolve().parents[1]
 PROFILE="canonical/profiles/FA3-SECRET-BROKER-001.json"
 CONTRACT="canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json"
@@ -16,11 +17,12 @@ REQUAL_DECISION="canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-
 def load(path:str):return json.loads((ROOT/path).read_text())
 def check()->dict:
     findings=[]
+    capability_count=load_active_release_baseline(ROOT).capability_count
     def req(ok:bool,code:str):
         if not ok:findings.append(code)
     p,c,d,e,r,g,h,rq=map(load,[PROFILE,CONTRACT,DECISION,ENFORCEMENT,CONFORMANCE,GATE,CURRENT_HOST_EVIDENCE,REQUAL_DECISION])
     req(p.get("priority")=="P0" and p.get("requirement")=="MUST" and p.get("parent_profile")=="FA3-SCS-001","SB-001")
-    req(p.get("provider_neutral") is True and p.get("architectural_authority") is False and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==143,"SB-002")
+    req(p.get("provider_neutral") is True and p.get("architectural_authority") is False and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==capability_count,"SB-002")
     machine=p.get("storage_classes",{}).get("machine_service",{})
     req(machine.get("default_type")=="LUKS2_FILE_IMAGE" and machine.get("default_image")=="/var/lib/fa3/state/fa3-machine-state.img" and machine.get("filesystem_label")=="FA3_MSTATE","SB-003")
     req(set(machine.get("mount_options",[]))=={"rw","nodev","nosuid","noexec"} and machine.get("raw_mount_visible_to_consumers") is False and machine.get("external_naming_policy")=="GENERIC_NON_DISCLOSING" and machine.get("content_scope")=="FA3_CREDENTIAL_SECRETS_ONLY","SB-004")
@@ -104,7 +106,7 @@ def check()->dict:
     req("PartOf=fa3-secrets.target" in example_projection and "fa3-secret-clients" in example_projection,"SB-023I")
     sv=load("canonical/profiles/FA3-SESSION-VAULT-001.json")
     req(sv.get("machine_secret_boundary",{}).get("profile")=="FA3-SECRET-BROKER-001" and sv["machine_secret_boundary"].get("raw_machine_application_secret_storage")=="FORBIDDEN","SB-024")
-    return {"schema":"fa3.secret-broker-gate-report.v1","gate_id":"FA3-GATE-SECRET-BROKER-001","result":"PASS" if not findings else "FAIL","findings":findings,"production_runtime_promoted":False,"global_promotion_claim":False,"capability_count":143}
+    return {"schema":"fa3.secret-broker-gate-report.v1","gate_id":"FA3-GATE-SECRET-BROKER-001","result":"PASS" if not findings else "FAIL","findings":findings,"production_runtime_promoted":False,"global_promotion_claim":False,"capability_count":capability_count}
 def main()->int:
     out=check()
     q=ROOT/"reports/secret-broker-gate-report.json";q.parent.mkdir(parents=True,exist_ok=True);q.write_text(json.dumps(out,indent=2)+"\n")
