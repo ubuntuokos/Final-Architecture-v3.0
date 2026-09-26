@@ -33,5 +33,26 @@ class CoexistenceAuditTests(unittest.TestCase):
             self.assertFalse(r["runtime_promotion_claim"])
         finally: td.cleanup()
 
+    def test_system_authority_incomplete_controls_remain_pending(self):
+        td,root=self.fixture()
+        try:
+            fp=root/"canonical/coexistence/footprints/mcp.json"
+            fp.write_text(json.dumps({
+                "schema":"fa3.coexistence-footprint.v1",
+                "component_id":"FA3-MCP-GATEWAY-001",
+                "classification":"SYSTEM_LEVEL_AUTHORITY",
+                "risk":"P0",
+                "upstream_relation":"REPLACES_CAPABILITY_NOT_APPLICATION",
+                "coexistence":{"executables":[],"services":["fa3-mcp-gateway.service"],"sockets":["$XDG_RUNTIME_DIR/fa3/mcp-gateway.sock"],"ports":[18790],"config_paths":[],"data_paths":[],"cache_paths":[],"desktop_ids":[],"mime_types":[],"protocol_handlers":[],"env_mutations":[],"databases":[],"plugin_paths":[],"external_app_integrations":[],"requires_upstream_uninstall":False,"global_environment_mutation":False,"claims_default_port":False},
+                "authority_controls":{"authority_id":"FA3-AUTH-MCP-GATEWAY-001","conflict_detection":True,"previous_state_capture":False,"controlled_mutation":False,"rollback":True,"recovery_evidence":False},
+                "evidence":{"static_status":"PENDING","current_host_status":"PENDING_CURRENT_HOST","runtime_promotion_claim":False,"artifacts":[]}
+            }))
+            r=audit(root)
+            self.assertEqual(r["static_result"],"PASS")
+            rows=[x for x in r["coverage"] if x.get("id")=="FA3-MCP-GATEWAY-001"]
+            self.assertTrue(any(x["status"]=="PENDING_AUTHORITY_CONTROL_REMEDIATION" for x in rows))
+            self.assertEqual(r["current_host_status"],"PENDING_CURRENT_HOST")
+        finally: td.cleanup()
+
 if __name__=="__main__":
     unittest.main()
