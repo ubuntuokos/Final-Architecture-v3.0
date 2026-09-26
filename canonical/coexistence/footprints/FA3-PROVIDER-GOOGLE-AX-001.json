@@ -2,7 +2,7 @@
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-GOOGLE-AX-001",
   "classification": "PROVIDER_RUNTIME",
-  "risk": "P0",
+  "risk": "P1",
   "upstream_relation": "INTEGRATES",
   "coexistence": {
     "executables": [],
@@ -18,17 +18,21 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "optional external Google AX cluster runner projection; disabled by default and separately cluster-E2E gated"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-GOOGLE-AX-001.json"
+      "canonical/providers/FA3-PROVIDER-GOOGLE-AX-001.json",
+      "src/fa3_google_ax_custom_runner.py",
+      "canonical/FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001.json"
     ]
   }
 }

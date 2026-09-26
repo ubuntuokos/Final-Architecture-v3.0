@@ -18,17 +18,21 @@
     "env_mutations": [],
     "databases": [],
     "plugin_paths": [],
-    "external_app_integrations": [],
+    "external_app_integrations": [
+      "x-cmd optional reference/provider surface; any host package mutation remains outside provider authority and requires existing FA3 host-package authorization"
+    ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-XCMD-001.json"
+      "canonical/providers/FA3-PROVIDER-XCMD-001.json",
+      "src/fa3_xcmd_gate.py",
+      "canonical/xcmd-enforcement.json"
     ]
   }
 }
