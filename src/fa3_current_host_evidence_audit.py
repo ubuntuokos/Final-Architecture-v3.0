@@ -204,7 +204,7 @@ def audit(root: Path, apply_reconciliation: bool = False) -> dict[str, Any]:
     if registry.get("architecture_release") != RELEASE:
         findings.append({"code": "EVAUD-001", "message": "Evidence Registry release mismatch"})
     if registry.get("record_count") != CAPABILITY_COUNT or len(records) != CAPABILITY_COUNT or actual_ids != expected_ids:
-        findings.append({"code": "EVAUD-002", "message": "Evidence Registry is not the exact 143 capability set"})
+        findings.append({"code": "EVAUD-002", "message": f"Evidence Registry is not the exact {CAPABILITY_COUNT} capability set"})
 
     rows: list[dict[str, Any]] = []
     invalid_pass_claims: list[str] = []
@@ -281,7 +281,7 @@ def audit(root: Path, apply_reconciliation: bool = False) -> dict[str, Any]:
             "path": COMPONENT_REFERENCE,
             "status": ref.get("status"),
             "global_promotion_claim": ref.get("global_promotion_claim"),
-            "interpretation": "COMPONENT_SCOPE_ONLY_NOT_A_143_CAPABILITY_RECEIPT",
+            "interpretation": "COMPONENT_SCOPE_ONLY_NOT_A_CANONICAL_CAPABILITY_RECEIPT",
         }
 
     report = {
@@ -313,7 +313,7 @@ def audit(root: Path, apply_reconciliation: bool = False) -> dict[str, Any]:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="FA3 143-capability current-host Evidence Registry audit")
+    ap = argparse.ArgumentParser(description=f"FA3 {CAPABILITY_COUNT}-capability current-host Evidence Registry audit")
     ap.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--apply-reconciliation", action="store_true")
     args = ap.parse_args()
