@@ -6,7 +6,7 @@
   "fail_closed": true,
   "runtime_source_required_for_global_promotion": false,
   "floating_main_allowed_as_promotion_evidence": false,
-  "mandatory_rule_count": 11,
+  "mandatory_rule_count": 14,
   "p0_invariants": [
     "REGISTRY_PUBLICATION_NOT_PRODUCTION_ADMISSION",
     "SKILL_CONTEXT_NOT_EXECUTION_AUTHORITY",
@@ -18,7 +18,10 @@
     "COMPATIBILITY_DOWNGRADE_FAIL_CLOSED",
     "EVIDENCE_REDACTION_BEFORE_PERSISTENCE",
     "ROLLBACK_READINESS_REQUIRED_BEFORE_PROMOTION",
-    "PROGRESSIVE_DISCLOSURE_WITHOUT_AUTHORITY_ESCALATION"
+    "PROGRESSIVE_DISCLOSURE_WITHOUT_AUTHORITY_ESCALATION",
+    "REUSE_DISCOVERY_BINDING_REQUIRED",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE",
+    "HARDWARE_AUDIT_REFERENCE_ONLY_NO_RUNTIME_PROMOTION"
   ],
   "rules": [
     {
@@ -75,10 +78,33 @@
       "id": "FA3-AIENG-P0-011",
       "name": "progressive disclosure without authority escalation",
       "requirement": "Discovery MAY expose minimal metadata, but branch-specific context/resources MUST be materialized only after activation and MUST NOT confer policy, identity, secret, network, host-resource or execution authority."
+    },
+    {
+      "id": "FA3-AIENG-P0-012",
+      "name": "reuse discovery binding required",
+      "requirement": "The accepted upstream source and every absorbed pattern bundle MUST be discoverable through FA3 Reuse Discovery with explicit ApplicationIntent and PASS ReuseAssessment; discovery never implies installation, activation or authority."
+    },
+    {
+      "id": "FA3-AIENG-P0-013",
+      "name": "software coexistence and host non-interference",
+      "requirement": "Reference absorption MUST NOT require uninstalling, replacing, shadowing or globally reconfiguring the upstream project or independently installed equivalents; FA3-derived artifacts remain namespaced and non-interfering."
+    },
+    {
+      "id": "FA3-AIENG-P0-014",
+      "name": "hardware audit and no runtime overclaim",
+      "requirement": "The reference integration is vendor-neutral, CPU-only viable with 0..N accelerators, introduces no global accelerator requirement and MUST NOT claim current-host runtime evidence or promotion because no upstream runtime is admitted."
     }
   ],
   "executable_gate": "./bin/fa3-enforce ai-engineering",
   "report_path": "reports/ai-engineering-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 11
+  "regression_case_count": 14,
+  "reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+  "application_intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+  "reuse_assessment_id": "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001",
+  "pattern_bundle_id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
+  "reuse_discovery_required": true,
+  "software_coexistence_required": true,
+  "hardware_audit_required": true,
+  "current_host_runtime_evidence_required": false
 }
