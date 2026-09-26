@@ -136,7 +136,7 @@ def regression_cases():
             "result": "PASS" if positive and negative else "FAIL",
         })
 
-    add(RULES[0], CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(RULES[0], CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(RULES[1], FFMPEG_PROVIDER_ID != "Temporal", FFMPEG_PROVIDER_ID != "FA3-PROVIDER-KDENLIVE-001")
     add(RULES[2], "n9.0.1".startswith("n9."), "master" != "n9.0.1")
     add(RULES[3], all(("dnn_processing", "onnx", "openvino")), not all(("dnn_processing", "", "openvino")))
