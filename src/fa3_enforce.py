@@ -237,7 +237,7 @@ def static_check(root:Path):
     if "FA3-INFERENCE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-050","Inference portability compatibility/provider gate is not bound into global enforcement policy"))
     if "FA3-MODEL-MANAGER-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-052","Model Manager/StabilityMatrix canonical gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-052","Model Manager canonical-store gate is not bound into global enforcement policy"))
     if "FA3-MUNDER-DIFFLIN-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-034","Munder Difflin multi-agent coordination gate is not bound into global enforcement policy"))
     if "FA3-MUSE-CODE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -447,7 +447,7 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-051","Inference portability compatibility/provider regression gate failed",inference_portability_gate=inference_portability_ref))
     model_manager_ref=model_manager_gate(root)
     if model_manager_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-053","Model Manager/StabilityMatrix canonical regression gate failed",model_manager_gate=model_manager_ref))
+        fs.append(finding("FA3-STATIC-053","Model Manager canonical-store regression gate failed",model_manager_gate=model_manager_ref))
     munder_ref=munder_difflin_gate(root)
     if munder_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-035","Munder Difflin mandatory multi-agent coordination regression gate failed",munder_difflin_gate=munder_ref))

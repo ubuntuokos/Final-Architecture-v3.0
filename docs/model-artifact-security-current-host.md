@@ -25,12 +25,12 @@ export FA3_MODEL_SECURITY_HOME=/ai-cache/fa3/model-security
 export FA3_MODEL_SECURITY_ALLOW_NETWORK_BOOTSTRAP=0
 # Optional deterministic selection of a real local model:
 export FA3_MODEL_SECURITY_E2E_TARGET=/path/to/existing/model.safetensors
-# Required for explicit/custom targets unless the file is from the known Stability Matrix media store:
+# Required for all real E2E targets; model class is never inferred from storage location:
 export FA3_MODEL_SECURITY_E2E_MODEL_CLASS=DIFFUSION
 bash bin/fa3-model-artifact-security-current-host.sh
 ```
 
-Without `FA3_MODEL_SECURITY_E2E_TARGET`, the collector searches only the known Stability Matrix media-model stores and selects a real regular `.safetensors` or `.gguf` artifact. This avoids silently classifying an unknown Hugging Face/LM Studio artifact as non-generative. For an explicit/custom target, `FA3_MODEL_SECURITY_E2E_MODEL_CLASS` is required unless the target resides under the known Stability Matrix store. A synthetic target can never satisfy production E2E.
+Without `FA3_MODEL_SECURITY_E2E_TARGET`, the collector searches only configured FA3 canonical-model-store roots and selects a real regular `.safetensors` or `.gguf` artifact. `FA3_MODEL_SECURITY_E2E_MODEL_CLASS` is always required because model class is never inferred from storage location. A synthetic target can never satisfy production E2E.
 
 The current-host proof includes: all eleven scanner identities and digests, ClamAV and Trivy database presence, real-model quarantine/hash/static scan, bubblewrap isolated first-load, Model Manager hash-bound `SECURITY_ADMITTED` hook, and a controlled malicious Pickle negative regression that is scanned but never unpickled or executed.
 
