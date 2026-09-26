@@ -15,13 +15,19 @@
     "OPTIONAL_DENOISE",
     "PERMISSIVE_LICENSE"
   ],
-  "profile_ids": ["FA3-SPEECH-ENHANCEMENT-001"],
-  "contract_ids": ["FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001"],
-  "capability_bindings": ["CAP-017"],
+  "profile_ids": [
+    "FA3-SPEECH-ENHANCEMENT-001"
+  ],
+  "contract_ids": [
+    "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-017"
+  ],
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "upstream": {
     "repository": "ysharma3501/LavaSR",
     "revision": "33ac040892519c1bb4aed7eb32e79af51cc29e2a",
@@ -55,9 +61,14 @@
     "accelerator_optional_with_hrb_receipt": true,
     "accelerator_promotion_requires_no_silent_cpu_fallback_evidence": true,
     "provider_native_input_sample_rate_hz": 16000,
-    "admitted_external_input_sample_rate_range_hz": [8000, 48000],
+    "admitted_external_input_sample_rate_range_hz": [
+      8000,
+      48000
+    ],
     "external_non_native_rate_requires_explicit_resample_projection": true,
-    "channels": [1],
+    "channels": [
+      1
+    ],
     "output_sample_rate_hz": 48000,
     "default_denoise": false,
     "optional_denoiser": "ULUNAS_DERIVED_ONNX_CORE"
@@ -100,5 +111,7 @@
     "denoise_policy_regression": "REQUIRED",
     "rollback_bypass": "REQUIRED",
     "runtime_promotion_claimed": false
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
