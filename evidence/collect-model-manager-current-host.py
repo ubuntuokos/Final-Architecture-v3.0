@@ -3,11 +3,11 @@ from __future__ import annotations
 import argparse,json,os,platform,socket,subprocess,sys,time,urllib.request
 from datetime import datetime,timezone
 from pathlib import Path
-from src.fa3_release_baseline import module_active_capability_count
 from typing import Any
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
+from fa3_release_baseline import module_active_capability_count
 from fa3_model_manager_provider_adapter import (
     EVIDENCE_LEVEL,HF_PROVIDER_ID,LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID,
     RUNTIME_ID,find_binary,ollama_models_from_systemd_environment,provider_failure_code,
