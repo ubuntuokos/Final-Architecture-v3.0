@@ -256,6 +256,17 @@ print(json.dumps(verdict))
         })
         self.assertEqual(_structured_rejection_findings(wrong,entry),[])
 
+    def test_rejection_channel_accepts_registered_hrb_gate_code(self):
+        entry={"producer_id":PID,"qualification_id":QID,"constituent_id":CID,"subject_id":"CAP-001"}
+        payload={
+            "schema":"fa3.qualification-producer-rejection.v1","status":"REJECTED",
+            **entry,"stage":"GATE","reason_codes":["HRB-SYSD-HOST-008"],"summary":{},
+        }
+        self.assertEqual(
+            _structured_rejection_findings(json.dumps(payload),entry),
+            ["producer stage: GATE","producer reason code: HRB-SYSD-HOST-008"],
+        )
+
     def test_rejection_channel_rejects_unknown_code_and_summary_field(self):
         entry={"producer_id":PID,"qualification_id":QID,"constituent_id":CID,"subject_id":"CAP-001"}
         base={

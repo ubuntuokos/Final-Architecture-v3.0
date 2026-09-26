@@ -13,6 +13,10 @@ spec.loader.exec_module(collector)
 
 
 class HrbSystemdManagerCollectorTests(unittest.TestCase):
+    def test_receipt_capability_baseline_tracks_active_release(self):
+        from fa3_release_baseline import module_active_capability_count
+        self.assertEqual(collector.CAPABILITY_COUNT, module_active_capability_count(COLLECTOR))
+
     def test_provider_enrichment_does_not_create_a_global_cuda_floor(self):
         rows = collector.parse_gpu_rows(
             "GPU-A, 00000000:A1:00.0, NVIDIA Fixture Accelerator X, 610.57.04, 8188, 8.6\n"
