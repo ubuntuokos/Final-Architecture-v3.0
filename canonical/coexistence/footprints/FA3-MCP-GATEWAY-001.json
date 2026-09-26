@@ -42,13 +42,13 @@
   "authority_controls": {
     "authority_id": "FA3-AUTH-MCP-GATEWAY-001",
     "conflict_detection": true,
-    "previous_state_capture": false,
-    "controlled_mutation": false,
+    "previous_state_capture": true,
+    "controlled_mutation": true,
     "rollback": true,
     "recovery_evidence": false
   },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PENDING_RECOVERY_EVIDENCE",
     "current_host_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "artifacts": []
