@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse,json,os,re
 from pathlib import Path
 from urllib.parse import urlparse
@@ -166,7 +167,7 @@ def gate(root:Path)->dict[str,Any]:
             fs.append(finding("MODEL-MGR-HOST-014","provider coverage classification mismatch"))
         if receipt.get("combined_pass_semantics")!="AT_LEAST_ONE_REAL_LOCAL_SERVING_RUNTIME_PASS":
             fs.append(finding("MODEL-MGR-HOST-015","combined PASS semantics are not provider-neutral"))
-        if receipt.get("new_capabilities")!=0 or receipt.get("new_architectural_authorities")!=0 or receipt.get("capability_count_after")!=143:
+        if receipt.get("new_capabilities")!=0 or receipt.get("new_architectural_authorities")!=0 or receipt.get("capability_count_after")!=module_active_capability_count(__file__):
             fs.append(finding("MODEL-MGR-HOST-016","capability/authority invariant drift"))
 
     report={
