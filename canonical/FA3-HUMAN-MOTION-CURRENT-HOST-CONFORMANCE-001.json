@@ -2,12 +2,20 @@
   "schema": "fa3.runtime-conformance.v1",
   "id": "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001",
   "profile_id": "FA3-HUMAN-MOTION-001",
-  "provider_ids": ["FA3-PROVIDER-GEM-X-001", "FA3-PROVIDER-SOMA-X-001"],
+  "provider_ids": [
+    "FA3-PROVIDER-GEM-X-001",
+    "FA3-PROVIDER-SOMA-X-001"
+  ],
   "status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
   "production_admitted": false,
   "current_host_receipt_present": false,
   "evidence_level_required": "CURRENT_HOST_REAL_VIDEO_GEM_X_SOMA_X_DCC_E2E",
-  "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
   "receipt_path": "evidence/receipts/human-motion-current-host.json",
   "hardware_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
   "hardware_contract_bindings": [
@@ -62,7 +70,8 @@
     "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY"
   },
   "promotion_scope": "COMPONENT_RUNTIME_ONLY_GLOBAL_CAPABILITY_COUNT_UNCHANGED",
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "new_architectural_authorities": 0,
-  "fail_closed": true
+  "fail_closed": true,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
