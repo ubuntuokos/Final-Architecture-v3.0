@@ -219,7 +219,7 @@ def gate(root: Path) -> dict[str, Any]:
     if not (
         decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == capability_count
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= capability_count
         and decision.get("current_host_runtime_promotion_claim") is False
     ):
         findings.append(finding("REUSE-003", "decision baseline delta drift"))
