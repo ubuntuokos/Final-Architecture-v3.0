@@ -1,7 +1,8 @@
 import copy,sys,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/"src"))
-from fa3_skill_fabric_gate import gate,good_package,good_use_receipt,package_admission_allowed,skill_use_allowed\nfrom fa3_skill_execution_closure import good_execution_binding,good_execution_receipt,execution_binding_allowed,execution_receipt_allowed
+from fa3_skill_fabric_gate import gate,good_package,good_use_receipt,package_admission_allowed,skill_use_allowed
+from fa3_skill_execution_closure import good_execution_binding,good_execution_receipt,execution_binding_allowed,execution_receipt_allowed
 class SkillFabricGateTests(unittest.TestCase):
     def test_gate(self):
         r=gate(ROOT);self.assertEqual(r["result"],"PASS");self.assertGreaterEqual(r["regressions"]["total"],45)
