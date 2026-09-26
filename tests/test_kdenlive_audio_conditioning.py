@@ -64,7 +64,7 @@ class KdenliveAudioConditioningTests(unittest.TestCase):
     def test_executable_canonical_gate_passes_under_permanent_ci(self):
         report = kdenlive_audio_gate(ROOT)
         self.assertEqual(report["result"], "PASS", report.get("findings"))
-        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["capability_count"], 175)
         self.assertEqual(report["architectural_authority_delta"], 0)
         self.assertEqual(report["production_promotion"], "PENDING_CURRENT_HOST")
 
