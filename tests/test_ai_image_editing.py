@@ -2,7 +2,7 @@ import json
 import pathlib
 import unittest
 
-from src.fa3_release_baseline import module_active_capability_count
+from fa3_release_baseline import module_active_capability_count
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
