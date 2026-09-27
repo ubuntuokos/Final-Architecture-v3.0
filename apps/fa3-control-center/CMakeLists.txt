@@ -46,7 +46,7 @@ set_source_files_properties(qml/ProviderExplorerView.qml PROPERTIES QT_RESOURCE_
 set_source_files_properties(qml/ProviderExecutionView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExecutionView.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SubtitleStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS SubtitleStudioPage.qml)
-set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS NarrationStudioPage.qml)
+set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS NarrationStudioPage.qml)\nset_source_files_properties(qml/StoryStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS StoryStudioPage.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
