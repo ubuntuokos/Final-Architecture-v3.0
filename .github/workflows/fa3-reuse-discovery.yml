@@ -46,7 +46,7 @@ jobs:
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
       - name: Full repository unit regression
-        run: ./bin/fa3-test -v
+        run: bash bin/fa3-test -v
       - name: Hardware audit remains vendor-neutral
         run: ./bin/fa3-enforce hardware-portability
       - name: Unified release projection
