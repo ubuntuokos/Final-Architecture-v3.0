@@ -37,6 +37,7 @@ REQUIRED = {
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
     "subtitle_studio_qml": ROOT / "apps/fa3-control-center/qml/SubtitleStudioPage.qml",
     "narration_studio_qml": ROOT / "apps/fa3-control-center/qml/NarrationStudioPage.qml",
+    "story_studio_qml": ROOT / "apps/fa3-control-center/qml/StoryStudioPage.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
     "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",
@@ -59,7 +60,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
+NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Story Studio", "Subtitle Studio", "Narration Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
 NAVIGATION_GROUPS = ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
@@ -171,6 +172,11 @@ def validate() -> list[str]:
         if module not in studio_qml: failures.append(f"qml-studio-module-missing:{module}")
     for office_surface in ["Writer", "Calc", "Impress", "Preview", "Apply/UNO", "Undo"]:
         if office_surface not in studio_qml: failures.append(f"qml-office-surface-missing:{office_surface}")
+    story_studio_qml = REQUIRED["story_studio_qml"].read_text(encoding="utf-8")
+    for token in ["FA3 Story Studio", "Production Profile", "Story Branches", "Collaboration", "Final Publisher", "Rejected / Stash", "Writer Goals", "Interchange"]:
+        if token not in story_studio_qml: failures.append(f"qml-story-studio-surface-missing:{token}")
+    if "StoryStudioPage" not in qml or '"create.story-studio": 39' not in qml:
+        failures.append("qml-story-studio-route-wiring-missing")
     if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
     if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")
     if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
@@ -357,7 +363,7 @@ def validate() -> list[str]:
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
-    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml", "AgentActionCenterPage.qml", "UpdateCenterPage.qml", "SubtitleStudioPage.qml", "NarrationStudioPage.qml"]:
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml", "AgentActionCenterPage.qml", "UpdateCenterPage.qml", "SubtitleStudioPage.qml", "NarrationStudioPage.qml", "StoryStudioPage.qml"]:
         if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
