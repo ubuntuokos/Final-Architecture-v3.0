@@ -41,6 +41,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         _check("pytest-test-root", pytest_cfg.get("testpaths") == ["tests"], "pytest canonical test root is tests"),
         _check("namespace-audit", namespace.get("result") == "PASS", "no package-style src.fa3_* or relative FA3 imports remain"),
         _check("test-entrypoint", (root / "bin/fa3-test").is_file(), "canonical venv-backed test entrypoint exists"),
+        _check("test-env-outside-worktree", canonical.get("tests", {}).get("repository_worktree_mutation") is False and ".venv-fa3-test" not in (root / "bin/fa3-test").read_text(encoding="utf-8"), "test environment does not mutate the repository release surface"),
         _check("repo-entrypoint", (root / "bin/fa3-prepare-repository").is_file(), "canonical repository history bootstrap exists"),
         _check("repo-module", (root / "src/fa3_repository_prepare.py").is_file(), "repository bootstrap implementation exists"),
         _check("permanent-uses-test", "bash bin/fa3-test -v" in permanent, "Permanent Enforcement uses canonical full-suite entrypoint"),
