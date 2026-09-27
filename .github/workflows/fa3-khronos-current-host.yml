@@ -189,8 +189,9 @@ jobs:
           receipt_obj = json.loads(receipt.read_text(encoding="utf-8"))
           if receipt_obj.get("status") != "PASS" or receipt_obj.get("source_commit") != head:
               raise SystemExit("CAP-083 current-host receipt is not PASS on exact repository head")
-          if receipt_obj.get("global_promotion_claim") is not False:
-              raise SystemExit("CAP-083 receipt must not claim global promotion")
+          handoff = receipt_obj.get("handoff", {})
+          if not isinstance(handoff, dict) or handoff.get("global_promotion_claim") is not False:
+              raise SystemExit("CAP-083 receipt handoff must not claim global promotion")
           if registry.get("status") != "PENDING_CURRENT_HOST":
               raise SystemExit("isolated CAP-083 proof must not claim full 175-capability runtime closure")
           PY
