@@ -1,0 +1,82 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AUDACITY-MCP-001",
+  "name": "xDarkzx/Audacity-MCP reference adapter",
+  "status": "REQUIRED_SUPPORTED_REFERENCE_ADAPTER_RUNTIME_CONDITIONAL",
+  "provider_role": "PRIMARY_AUDACITY_MCP_CONTROL_REFERENCE_FOR_CAP_124",
+  "classification": [
+    "REQ_ADAPTER_PLUS_REFERENCE",
+    "MCP_SERVER_REFERENCE",
+    "LOCAL_FIRST",
+    "REPLACEABLE_PROVIDER",
+    "AUDACITY_3_X_COMPATIBILITY_PROVIDER"
+  ],
+  "capability_projection": [
+    "CAP-124"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "upstream": {
+    "repository": "xDarkzx/Audacity-MCP",
+    "observed_commit": "ef7612eb6766ee96d630783d64c1ce94d602dc9e",
+    "observed_package_version": "0.1.24",
+    "license": "Apache-2.0",
+    "audacity_3_x_interface": "mod-script-pipe",
+    "audacity_4_status": "UPSTREAM_SERVER_NOT_COMPATIBLE_MOD_SCRIPT_PIPE_REMOVED",
+    "floating_ref_allowed_for_promotion_evidence": false
+  },
+  "fa3_adapter_policy": {
+    "central_mcp_gateway_required": true,
+    "direct_agent_to_provider_production_path": "DENY",
+    "upstream_installer_execution_in_fa3_managed_mode": "FORBIDDEN",
+    "reason": "UPSTREAM_INSTALLER_CAN_MODIFY_AUDACITY_AND_CLAUDE_DESKTOP_CONFIGURATION",
+    "isolated_runtime": "DEDICATED_VENV_OR_EQUIVALENT_NAMESPACED_RUNTIME",
+    "host_config_mutation": "DENY",
+    "audacity_configuration": "DETECT_AND_REPORT_ONLY_OPERATOR_ENABLES_SUPPORTED_INTERFACE",
+    "tool_surface": "POLICY_FILTERED_TYPED_ALLOWLIST",
+    "unsupported_interface_behavior": "FAIL_CLOSED_NO_GUI_CLICK_FALLBACK"
+  },
+  "ipc_policy": {
+    "transport": "LOCAL_AUDACITY_SUPPORTED_AUTOMATION_BOUNDARY",
+    "same_user_required": true,
+    "pipe_or_socket_discovery": "CAPABILITY_PROBE_ONLY",
+    "arbitrary_endpoint_override": "DENY_UNLESS_POLICY_ALLOWLISTED",
+    "network_exposure": "NONE_BY_DEFAULT"
+  },
+  "mutation_policy": {
+    "destructive_operation_checkpoint_required": true,
+    "source_overwrite_default": "DENY",
+    "delete_or_irreversible_mutation": "AUTHENTICATED_APPROVAL_REQUIRED",
+    "recording_or_microphone_activation": "AUTHENTICATED_APPROVAL_REQUIRED",
+    "export_path": "CANONICALIZED_POLICY_ALLOWLIST_ONLY",
+    "derived_asset_default": true,
+    "native_project_preservation": true
+  },
+  "authority_boundaries": {
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "runtime_activation": {
+    "audacity_3_x": "CONDITIONAL_ON_SUPPORTED_INTERFACE_AND_CURRENT_HOST_E2E",
+    "audacity_4": "NOT_ADMITTED_BY_THIS_PROVIDER",
+    "future_official_audacity_command_or_mcp_interface": "PREFERRED_WHEN_STABLE_AND_ADMITTED",
+    "silent_provider_fallback": false,
+    "global_promotion_claim": false
+  },
+  "software_coexistence": {
+    "requires_upstream_uninstall": false,
+    "replaces_upstream_package": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "writes_other_client_configuration": false,
+    "namespaced_runtime": true,
+    "host_non_interference": "MANDATORY_CAP_175"
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
