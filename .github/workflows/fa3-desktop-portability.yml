@@ -41,7 +41,7 @@ jobs:
           python-version: '3.12'
 
       - name: Run desktop portability regression tests
-        run: python3 -m unittest discover -s tests -p 'test_desktop_portability.py' -v
+        run: bash bin/fa3-test -v tests/test_desktop_portability.py
 
       - name: Run canonical desktop portability gate
         run: python3 ./bin/fa3-desktop-admission --self-test --json | tee desktop-portability-gate-report.json
