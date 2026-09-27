@@ -899,7 +899,42 @@ The 32-rule CI PASS is not an installed-provider or language-quality claim. Ever
 
 The portable baseline is physical-core-first and derived from live topology plus the admitted cpuset. Global `nproc` fan-out, copied host-specific CPU/NUMA IDs, fixed global OpenMP/NumExpr thread counts, mirrored full-size PyTorch inter-op pools and default `numactl --interleave=all` are fail-closed. `OMP_PLACES=cores`, NUMA-local `OMP_PROC_BIND=close`, disabled nested parallelism, bounded BLAS pools, `min(8,budget)` NumExpr and separate PyTorch intra/inter-op planning remain mandatory defaults. SMT, OpenMP spread and NUMA interleave require benchmark evidence plus explicit admission. KMP settings remain provider-scoped; `DNNL_VERBOSE` is logging only.
 
+The CPU/NUMA policy is hardware-agnostic: topology, SMT, NUMA domains, accelerator locality and admitted thread budgets are discovered live. No workstation model, CPU SKU, package/core/thread count, NUMA count or accelerator SKU is retained as a canonical or reference-host constant.
+
 `FA3-OPENMP-RUNTIME-GOVERNANCE-001` is the mandatory P0 OpenMP child profile. It identifies the loaded OpenMP runtime family, rejects unqualified multi-runtime collisions, sanitizes inherited `OMP_*`/`GOMP_*`/`KMP_*` variables in the FA3 child process, accounts nested teams and worker stacks against HRB budgets, and verifies observed worker placement. OpenMP target offload is vendor-neutral, requires an HRB accelerator lease plus stable device identity, and uses `OMP_TARGET_OFFLOAD=MANDATORY` so an accelerator request cannot silently fall back to host execution. Static gate PASS never creates current-host runtime evidence.
+
+Run the executable gates and reference launcher with:
+
+```bash
+./bin/fa3-enforce cpu-numa-threading
+PYTHONPATH=src python -m unittest tests.test_cpu_numa_threading_gate tests.test_openmp_runtime_governance -v
+bin/fa3-cpu-thread-budget --request request.json
+```
+
+Committed static evidence proves policy structure only. Physical promotion requires fresh current-host topology, cgroup/systemd receipt matching, OpenMP runtime/affinity observation, oversubscription negatives, locality/performance telemetry and rollback evidence.
+
+### CPU/NUMA and OpenMP current-host closure
+
+`FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001` validates the real target host from live sysfs/procfs, process affinity, unified-cgroup-v2 cpusets/memory nodes, HRB-derived placement, live PCI locality and fail-closed oversubscription/policy negatives. It accepts any host satisfying the current vendor-neutral FA3 hardware baseline; no machine model or fixed CPU/NUMA topology is an admission identity.
+
+The OpenMP collector compiles a temporary local probe with the host compiler and executes it inside the HRB-derived child environment. It records the loaded OpenMP runtime family, effective maximum thread count, runtime places/binding state and the actual CPU used by each worker. It performs no package installation, system-wide environment change or persistent host mutation. If a compiler/OpenMP runtime is unavailable, the physical OpenMP evidence remains fail-closed rather than being inferred from configuration.
+
+A real CPU/NUMA PASS additionally requires workload-specific benchmark evidence with at least three iterations, rollback/failure-injection evidence bound to the same live hardware fingerprint, and a PASS OpenMP physical runtime/affinity receipt. Accelerator target-offload evidence is conditional and separately required only when that execution path is used.
+
+Run the collectors and component gate on the current admitted host with:
+
+```bash
+python evidence/collect-openmp-current-host.py
+
+python evidence/collect-cpu-numa-threading-current-host.py \
+  --performance-evidence /path/to/cpu-numa-performance.json \
+  --rollback-evidence /path/to/cpu-numa-rollback.json \
+  --openmp-evidence evidence/receipts/openmp-current-host.json
+
+./bin/fa3-enforce cpu-numa-threading-current-host
+```
+
+The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 19 acceptance criteria.
 
 ## FA3 Stability AI mandatory support portfolio
 
