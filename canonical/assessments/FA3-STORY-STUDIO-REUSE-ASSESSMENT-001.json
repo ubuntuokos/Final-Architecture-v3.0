@@ -1,0 +1,112 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-STORY-STUDIO-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-STORY-STUDIO-001",
+  "intent_id": "FA3-STORY-STUDIO-APPLICATION-INTENT-001",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-DESKTOP-001",
+      "use": "SINGLE_NATIVE_QT_QML_HOST_APPLICATION"
+    },
+    {
+      "id": "CAP-170",
+      "use": "STORY_SCREENPLAY_AUTHORING_AND_AI_NOTES_PROVENANCE"
+    },
+    {
+      "id": "CAP-171",
+      "use": "NATIVE_PROJECT_PRESERVATION_AND_ROUND_TRIP"
+    },
+    {
+      "id": "CAP-172",
+      "use": "REVIEW_APPROVAL_AND_HUMAN_SIGN_OFF"
+    },
+    {
+      "id": "CAP-173",
+      "use": "LIVE_BROADCAST_PRODUCTION_PROFILE_INTEGRATION"
+    },
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "STORY_TO_MEDIA_AND_EDITORIAL_HANDOFF"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "STORY_CHARACTER_SHOT_CONTEXT_LINEAGE"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_EXECUTION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "AI_MODEL_PROVIDER_SELECTION"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION"
+    }
+  ],
+  "prior_plans_reopened_for_reconciliation": [
+    "FA3-STORY-001_FROM_PR_137_138",
+    "FA3-CREATIVE-PROJECT-WORKFLOW-001_FROM_PR_405",
+    "FA3_VIDEO_EDITOR_AND_QUICKCLIP_ACCEPTED_DESIGN",
+    "FA3_STORY_SCREENPLAY_CAPABILITY_CAP_170"
+  ],
+  "external_reference_sources": [
+    "Final Draft",
+    "Arc Studio",
+    "WriterDuet",
+    "Fade In",
+    "Story Architect/STARC",
+    "Scrite",
+    "Beat",
+    "Trelby",
+    "DramaQueen",
+    "Slugline",
+    "Celtx",
+    "StudioBinder",
+    "Screenplain",
+    "screenplay-tools",
+    "afterwriting"
+  ],
+  "reuse_policy": {
+    "external_products_are_reference_only_unless_separately_admitted": true,
+    "permissive_components_require_immutable_source_and_license_admission": true,
+    "copyleft_code_not_implicitly_embedded": true
+  },
+  "rejected_candidates": [
+    {
+      "id": "SEPARATE_STORY_APP_PER_PRODUCTION_TYPE",
+      "reason": "ONE_APPLICATION_WITH_PRODUCTION_PROFILES_REQUIRED"
+    },
+    {
+      "id": "PROVIDER_LOCAL_STORY_STATE_AS_AUTHORITY",
+      "reason": "CANONICAL_FA3_STORY_STATE_REQUIRED"
+    },
+    {
+      "id": "ONE_WAY_IMPORT_CODEC",
+      "reason": "IMPORT_EXPORT_SYMMETRY_REQUIRED"
+    },
+    {
+      "id": "UNDESIGNATED_FINAL_PUBLISHER",
+      "reason": "FINAL_RELEASE_MUST_BE_ROLE_AND_PROJECT_POLICY_GATED"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
