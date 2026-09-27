@@ -23,6 +23,9 @@ P={
  "distribution_manifest":"canonical/distribution-manifest.json",
  "release_projection":"canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
  "evidence":"evidence/evidence-registry.json",
+ "build_dependencies":"canonical/third-party/FA3-KHRONOS-BUILD-DEPENDENCIES-001.json",
+ "proof_recipes":"canonical/current-host-capability-proof-recipes.json",
+ "producer_registry":"canonical/current-host-capability-qualification-constituent-producers.json",
  "matrix":"canonical/conformance-matrix.csv",
 }
 EXPECTED={
@@ -42,6 +45,17 @@ EXPECTED={
 "KhronosGroup/OpenVX-sample-impl":"031f44bdcd6648f0957c9e351f76c3a64a0bfc32",
 "KhronosGroup/NNEF-Tools":"765d27d9095e0c90301165f8933fb325b54ddd17",
 }
+
+EXPECTED_BUILD_DEPS={
+"KhronosGroup/SPIRV-Headers":"29981f65241605e08b0ede4cfeb999fe3b723c6a",
+"KhronosGroup/Vulkan-Utility-Libraries":"c279fa4350059faac3d2365df0538977e7e5b097",
+"open-source-parsers/jsoncpp":"89e2973c754a9c02a49974d839779b151e95afd6",
+"tristanpenman/valijson":"0b4771e273a065d437814baf426bcfcafec0f434",
+}
+CAP083_PRODUCER_PATH="src/fa3_cap083_khronos_current_host.py"
+CAP083_PRODUCER_SHA256="e98a9a44372df017213e618762dcbcbd871d2989ac5643b1cbf30d3f4d5e1be9"
+KHRONOS_CURRENT_HOST_WORKFLOW=".github/workflows/fa3-khronos-current-host.yml"
+GLOBAL_CURRENT_HOST_WORKFLOW=".github/workflows/fa3-global-current-host-closure.yml"
 
 def load(root:Path,key:str)->dict[str,Any]:
     v=json.loads((root/P[key]).read_text(encoding="utf-8"))
@@ -68,6 +82,7 @@ def gate(root:Path)->dict[str,Any]:
     if not all(x in matrix_text for x in required_caps): f.append({"code":"KHR-002","message":"required capability bindings missing from conformance matrix"})
     p=d["profile"]; c=d["contract"]; i=d["intent"]; a=d["assessment"]; dec=d["decision"]; ref=d["reference"]; mat=d["materialization"]; integ=d["integration"]; ar=d["adapter_registry"]
     greg=d["gate_registry"]; pol=d["policy"]; dist=d["distribution_registry"]; mani=d["distribution_manifest"]; proj=d["release_projection"]; ev=d["evidence"]
+    deps=d["build_dependencies"]; recipes=d["proof_recipes"]; producers=d["producer_registry"]
     checks=[
       (count==p.get("capability_count")==c.get("capability_count")==dec.get("capability_count_after")==a.get("capability_count_after")==integ.get("capability_count"),"KHR-003","active capability baseline drift"),
       (p.get("new_capability") is False and p.get("new_architectural_authority") is False and dec.get("new_capability") is False and dec.get("new_architectural_authority") is False,"KHR-004","capability or authority delta"),
@@ -82,15 +97,32 @@ def gate(root:Path)->dict[str,Any]:
       (GATESET_ID in greg.get("mandatory_reference_gates",[]) and greg.get("mandatory_reference_gates")==pol.get("mandatory_reference_gates"),"KHR-013","Gate Registry/policy mirror missing or divergent"),
       (proj.get("khronos_open_standards_reconciliation",{}).get("gate_id")==GATESET_ID and proj.get("khronos_open_standards_reconciliation",{}).get("capability_count_after")==count,"KHR-014","release projection reconciliation missing"),
       (p.get("current_host",{}).get("runtime_promotion_claim") is False and dec.get("current_host",{}).get("current_host_runtime_promotion_claim") is False,"KHR-015","unproven current-host promotion claim"),
+      (ref.get("build_dependency_record_id")=="FA3-KHRONOS-BUILD-DEPENDENCIES-001" and mat.get("build_dependency_record_id")=="FA3-KHRONOS-BUILD-DEPENDENCIES-001","KHR-019","build-only dependency record binding missing"),
+      (mat.get("build_dependency_count")==4 and mat.get("build_policy",{}).get("automatic_upstream_dependency_fetch") is False and mat.get("build_policy",{}).get("cmake_update_deps")=="OFF","KHR-020","deterministic offline build policy invalid"),
     ]
     actual={x.get("repo"):x.get("commit") for x in ref.get("projects",[]) if isinstance(x,dict)}
     checks.append((actual==EXPECTED,"KHR-016","upstream immutable pin set drift"))
+    dep_actual={x.get("repo"):x.get("commit") for x in deps.get("projects",[]) if isinstance(x,dict)}
+    checks.append((dep_actual==EXPECTED_BUILD_DEPS,"KHR-021","build-only immutable dependency pin set drift"))
+    checks.append((deps.get("role")=="IMMUTABLE_BUILD_ONLY_DEPENDENCIES_NOT_RUNTIME_PROVIDERS_NOT_AUTHORITIES" and deps.get("architectural_authority") is False and deps.get("runtime_dependency") is False,"KHR-022","build dependency authority/runtime boundary invalid"))
+    openvx=next((x for x in ar.get("adapters",[]) if x.get("project")=="OpenVX-sample-impl"),{})
+    checks.append((openvx.get("runtime_admitted") is False and "SAMPLE_IMPLEMENTATION" in str(openvx.get("mode")),"KHR-023","OpenVX sample implementation was promoted or mislabeled"))
     dist_ids={x.get("subject_id") for x in dist.get("records",[]) if isinstance(x,dict)}
     excluded_ids={x.get("subject_id") for x in mani.get("excluded",[]) if isinstance(x,dict)}
-    for sid in ("FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27","FA3-KHRONOS-SDK-MATERIALIZATION-001"):
+    for sid in ("FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27","FA3-KHRONOS-SDK-MATERIALIZATION-001","FA3-KHRONOS-BUILD-DEPENDENCIES-001"):
         checks.append((sid in dist_ids and sid in excluded_ids,"KHR-017","distribution exclusion missing: "+sid))
     cap83=next((x for x in ev.get("records",[]) if x.get("subject_id")=="CAP-083"),{})
     checks.append(("FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27" in cap83.get("source_decision_ids",[]),"KHR-018","CAP-083 Evidence Registry decision binding missing"))
+    cap83_recipe=next((x for x in recipes.get("recipes",[]) if x.get("capability_id")=="CAP-083"),{})
+    checks.append((cap83_recipe.get("primitive")=="khronos_open_standards_sdk","KHR-024","CAP-083 proof recipe is not Khronos-specific"))
+    cap83_producers=[x for x in producers.get("entries",[]) if x.get("subject_id")=="CAP-083"]
+    checks.append((len(cap83_producers)==3 and {x.get("test_kind") for x in cap83_producers}=={"positive","negative","rollback"} and all(x.get("adapter_path")==CAP083_PRODUCER_PATH and x.get("adapter_sha256")==CAP083_PRODUCER_SHA256 for x in cap83_producers),"KHR-025","CAP-083 dedicated producer registration/digest invalid"))
+    producer_file=root/CAP083_PRODUCER_PATH
+    checks.append((producer_file.is_file(),"KHR-026","CAP-083 dedicated producer file missing"))
+    ch_workflow=(root/KHRONOS_CURRENT_HOST_WORKFLOW).read_text(encoding="utf-8") if (root/KHRONOS_CURRENT_HOST_WORKFLOW).is_file() else ""
+    global_workflow=(root/GLOBAL_CURRENT_HOST_WORKFLOW).read_text(encoding="utf-8") if (root/GLOBAL_CURRENT_HOST_WORKFLOW).is_file() else ""
+    checks.append(("--build-core" in ch_workflow and "github.event.pull_request.head.sha || github.sha" in ch_workflow,"KHR-027","exact-head Khronos current-host core build workflow binding missing"))
+    checks.append(("Materialize exact-head Khronos core SDK when CAP-083 is selected" in global_workflow and "--build-core" in global_workflow,"KHR-028","global current-host closure lacks exact-head CAP-083 build"))
     for ok,code,msg in checks:
         if not ok:f.append({"code":code,"message":msg})
     return {"schema":"fa3.khronos-open-standards-gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"capability_delta":0,"authority_delta":0,"current_host_runtime_promotion_claim":False}
