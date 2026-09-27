@@ -67,8 +67,11 @@
     "materialize_task_scoped_context_within_budget",
     "activate_only_for_bound_task_scope",
     "propose_tool_intent_if_needed",
+    "emit_SkillExecutionBinding_for_non_context_execution",
+    "validate_cross_authority_execution_preconditions",
     "route_execution_through_existing_authority",
     "verify_acceptance_checks",
+    "emit_SkillExecutionReceipt_with_postconditions_cleanup_and_rollback",
     "optionally_project_admitted_skill_to_host_specific_surface_with_collision_fail_closed",
     "emit_skill_use_materialization_projection_and_evidence_receipts"
   ],
@@ -102,7 +105,9 @@
     "context_budget_overflow_fails_closed": true,
     "side_effect_free_activation_preview_required": true,
     "activation_preview_cannot_expand_permissions": true,
-    "host_projection_collision_fails_closed": true
+    "host_projection_collision_fails_closed": true,
+    "execution_binding_required_for_non_context_execution": true,
+    "execution_receipt_required_after_execution": true
   },
   "authority_boundaries": {
     "identity": false,
@@ -136,7 +141,7 @@
     "SKILL_MUTATION_REQUIRES_EXISTING_AUTHORIZATION_AND_HITL_WHERE_APPLICABLE",
     "EXTERNAL_PATTERN_SOURCE_INSTALLATION_NOT_REQUIRED",
     "UPSTREAM_BRANDING_NOT_CANONICAL_AUTHORITY",
-    "CAPABILITY_COUNT_REMAINS_143",
+    "CAPABILITY_COUNT_REMAINS_ACTIVE_RELEASE",
     "PROJECT_STACK_DISCOVERY_IS_READ_ONLY_AND_NON_EXECUTING",
     "DETERMINISTIC_SKILL_ELIGIBILITY_PRECEDES_ADVISORY_SELECTION",
     "DECISION_FABRIC_CANNOT_EXPAND_SKILL_CANDIDATES",
@@ -159,7 +164,18 @@
     "SKILL_HOST_PROJECTION_ONLY_AFTER_ADMISSION",
     "SKILL_HOST_PROJECTION_COLLISION_FAIL_CLOSED",
     "SKILL_PROVENANCE_SIGNATURE_ALONE_NOT_ADMISSION",
-    "BROWSER_SESSION_INTERACTION_REUSES_BROWSER_ACTION_RUNTIME"
+    "BROWSER_SESSION_INTERACTION_REUSES_BROWSER_ACTION_RUNTIME",
+    "SKILL_EXECUTION_BINDING_REQUIRED_FOR_NON_CONTEXT_EXECUTION",
+    "SKILL_EXECUTION_CANNOT_CREATE_OR_BYPASS_ARCHITECTURAL_AUTHORITY",
+    "SKILL_CODE_EXECUTION_REQUIRES_EXISTING_AGENT_WORKLOAD_AND_SANDBOX",
+    "SKILL_RESOURCE_EXECUTION_REQUIRES_HRB_ADMISSION",
+    "SKILL_MODEL_EXECUTION_REQUIRES_MODEL_ROUTER",
+    "SKILL_SECRET_ACCESS_REQUIRES_SECRET_BROKER_REFERENCE_ONLY",
+    "SKILL_HARDWARE_MUTATION_REQUIRES_HARDWARE_SAFETY_ENVELOPE",
+    "SKILL_EXECUTION_REQUIRES_CAP175_COEXISTENCE_PRECONDITION",
+    "SKILL_EXECUTION_POSTCONDITION_AND_CLEANUP_REQUIRED",
+    "SKILL_EXECUTION_RECEIPT_MUST_NOT_CONTAIN_SECRET_VALUES",
+    "SKILL_EXECUTION_STATIC_PASS_CANNOT_CLAIM_CURRENT_HOST_RUNTIME"
   ],
   "discovery_contract_id": "FA3-SKILL-DISCOVERY-CONTRACTS-001",
   "materialization_contract_id": "FA3-SKILL-MATERIALIZATION-CONTRACTS-001",
@@ -179,7 +195,16 @@
     "provenance_attestation": "FA3-SKILL-PROVENANCE-ATTESTATION-CONTRACTS-001",
     "browser_action_runtime": "FA3-BROWSER-ACTION-RUNTIME-001",
     "browser_session_interaction": "FA3-BROWSER-SESSION-INTERACTION-001",
-    "agent_federation": "FA3-AGENT-FEDERATION-001"
+    "agent_federation": "FA3-AGENT-FEDERATION-001",
+    "agent_workload_runtime": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "agent_sandbox": "FA3-AGENT-SANDBOX-001",
+    "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secret_broker": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "hardware_safety": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "software_coexistence": "FA3-COEXISTENCE-POLICY-001"
   },
   "agent_skills_ecosystem": {
     "compatibility_mode": "SAFE_IMMUTABLE_PARSE_THEN_FA3_NORMALIZATION",
@@ -210,5 +235,21 @@
     "current_host_runtime_claim": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "skill_execution_closure": {
+    "decision_id": "FA3-DEC-SKILL-EXECUTION-CLOSURE-2026-09-26",
+    "reuse_assessment_id": "FA3-SKILL-EXECUTION-CLOSURE-REUSE-ASSESSMENT-001",
+    "application_intent_id": "FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001",
+    "binding_contract": "SkillExecutionBinding",
+    "receipt_contract": "SkillExecutionReceipt",
+    "execution_authority": false,
+    "privilege_authority": false,
+    "orchestration_authority": false,
+    "resource_authority": false,
+    "model_routing_authority": false,
+    "secret_authority": false,
+    "evidence_authority": false,
+    "coexistence_capability": "CAP-175",
+    "current_host_runtime_claim": false
+  }
 }

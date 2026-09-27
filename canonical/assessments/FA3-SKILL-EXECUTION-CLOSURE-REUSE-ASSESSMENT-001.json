@@ -1,0 +1,99 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SKILL-EXECUTION-CLOSURE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SKILL-FABRIC-001",
+  "intent_id": "FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "DECLARATIVE_SKILL_ADMISSION_SELECTION_MATERIALIZATION"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "TASK_LOCAL_EXECUTION_LIFECYCLE"
+    },
+    {
+      "id": "FA3-AGENT-SANDBOX-001",
+      "use": "CODE_EXECUTION_ISOLATION"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "TOOL_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_PLACEMENT_LEASE"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "SECRET_REFERENCE_DELIVERY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "DURABLE_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+      "use": "NON_BYPASSABLE_HARDWARE_SAFETY_PRECONDITION"
+    },
+    {
+      "id": "FA3-COEXISTENCE-POLICY-001",
+      "use": "CAP175_NAMESPACE_AND_HOST_NON_INTERFERENCE"
+    },
+    {
+      "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+      "use": "DURABLE_LOOP_VERIFICATION_WHERE_APPLICABLE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_SKILL_EXECUTION_AUTHORITY",
+      "reason": "DUPLICATES_EXISTING_ACTION_WORKLOAD_MCP_HRB_AUTHORITIES"
+    },
+    {
+      "id": "ROOT_SYSTEM_AGENT_DAEMON",
+      "reason": "VIOLATES_LEAST_PRIVILEGE_AND_EXISTING_RUNTIME_BOUNDARIES"
+    },
+    {
+      "id": "NEW_SANDBOX_FABRIC",
+      "reason": "FA3_AGENT_SANDBOX_ALREADY_CANONICAL"
+    },
+    {
+      "id": "NEW_MODEL_OR_RESOURCE_ROUTER",
+      "reason": "MODEL_ROUTER_AND_HRB_ALREADY_AUTHORITATIVE"
+    },
+    {
+      "id": "DOCUMENT_ONLY_CURRENT_HOST_PASS",
+      "reason": "PHYSICAL_CURRENT_HOST_EVIDENCE_REQUIRED"
+    }
+  ],
+  "gaps_to_materialize": [
+    "SkillExecutionBinding in existing Skill Package Admission contract",
+    "SkillExecutionReceipt in existing Skill Package Admission contract",
+    "cross-authority fail-closed validator embedded in existing Skill Fabric gate",
+    "negative and cleanup/rollback regression coverage"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "depends_on_capability": "CAP-175"
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_delta": 0,
+  "new_daemon_count": 0,
+  "current_host_runtime_promotion_claim": false
+}

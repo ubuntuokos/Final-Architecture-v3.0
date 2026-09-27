@@ -25,7 +25,9 @@
     "SkillContextBudget",
     "SkillActivationPreview",
     "SkillProvenanceAttestation",
-    "SkillHostProjectionReceipt"
+    "SkillHostProjectionReceipt",
+    "SkillExecutionBinding",
+    "SkillExecutionReceipt"
   ],
   "descriptor_required_fields": [
     "package_id",
@@ -90,7 +92,20 @@
     "absolute_path_and_parent_traversal_forbidden": true,
     "activation_preview_required": true,
     "activation_preview_side_effects_forbidden": true,
-    "activation_preview_authority_expansion_forbidden": true
+    "activation_preview_authority_expansion_forbidden": true,
+    "execution_binding_required_for_non_context_execution": true,
+    "arbitrary_privileged_shell_from_skill_forbidden": true,
+    "code_execution_requires_existing_agent_workload_runtime": true,
+    "code_execution_requires_existing_agent_sandbox": true,
+    "resource_requests_require_existing_hrb": true,
+    "model_requests_require_existing_model_router": true,
+    "secret_requests_require_existing_secret_broker": true,
+    "hardware_mutation_requires_hardware_safety_envelope": true,
+    "coexistence_precondition_required": true,
+    "postcondition_verification_required": true,
+    "cleanup_verification_required": true,
+    "rollback_receipt_required_when_applicable": true,
+    "static_pass_cannot_claim_current_host_runtime": true
   },
   "dependency_governance": {
     "explicit_graph_required": true,
@@ -187,7 +202,19 @@
     "SKILL_ACTIVATION_PREVIEW_REQUIRED_NO_SIDE_EFFECTS",
     "SKILL_ACTIVATION_PREVIEW_CANNOT_EXPAND_AUTHORITY",
     "SKILL_HOST_PROJECTION_COLLISION_FAILS_CLOSED",
-    "SKILL_PROVENANCE_ATTESTATION_SIGNATURE_ALONE_NOT_SUFFICIENT"
+    "SKILL_PROVENANCE_ATTESTATION_SIGNATURE_ALONE_NOT_SUFFICIENT",
+    "SKILL_EXECUTION_BINDING_REQUIRED_FOR_NON_CONTEXT_EXECUTION",
+    "SKILL_EXECUTION_EXISTING_AUTHORITIES_ONLY",
+    "SKILL_ARBITRARY_PRIVILEGED_SHELL_FORBIDDEN",
+    "SKILL_CODE_EXECUTION_REQUIRES_AGENT_WORKLOAD_AND_SANDBOX",
+    "SKILL_RESOURCE_REQUEST_REQUIRES_HRB",
+    "SKILL_MODEL_REQUEST_REQUIRES_MODEL_ROUTER",
+    "SKILL_SECRET_REQUEST_REQUIRES_SECRET_BROKER",
+    "SKILL_HARDWARE_MUTATION_REQUIRES_SAFETY_ENVELOPE",
+    "SKILL_CAP175_COEXISTENCE_PRECONDITION_REQUIRED",
+    "SKILL_EXECUTION_PASS_REQUIRES_POSTCONDITIONS_AND_CLEANUP",
+    "SKILL_EXECUTION_RECEIPT_SECRET_VALUES_FORBIDDEN",
+    "SKILL_STATIC_EXECUTION_CLOSURE_CANNOT_PROMOTE_CURRENT_HOST"
   ],
   "distribution_governance": {
     "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
@@ -252,5 +279,64 @@
     "host_precedence_may_not_hide_collision": true,
     "version_digest_provenance_preserved": true
   },
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "skill_execution_binding_governance": {
+    "schema": "fa3.skill-execution-binding.v1",
+    "required_fields": [
+      "skill_id",
+      "skill_version",
+      "content_sha256",
+      "task_scope",
+      "execution_class",
+      "admission_receipt_ref",
+      "selection_receipt_ref",
+      "activation_preview_ref",
+      "authority_bindings",
+      "runtime",
+      "safety",
+      "postconditions"
+    ],
+    "execution_classes": [
+      "CONTEXT_ONLY",
+      "READ_ONLY_TOOL",
+      "MUTATING_TOOL",
+      "MODEL_OPERATION",
+      "USER_JOB",
+      "RESOURCE_JOB",
+      "BROWSER_ACTION",
+      "PRIVILEGED_HOST_ACTION",
+      "DURABLE_AGENT_LOOP",
+      "UNTRUSTED_CODE"
+    ],
+    "existing_authorities_only": true,
+    "arbitrary_root_shell_forbidden": true,
+    "direct_model_provider_forbidden": true,
+    "direct_tool_bypass_forbidden": true,
+    "direct_secret_value_access_forbidden": true,
+    "direct_hrb_bypass_forbidden": true,
+    "sandbox_required_for_code_execution": true,
+    "cap175_coexistence_required": true,
+    "hardware_safety_required": true
+  },
+  "execution_receipt_governance": {
+    "schema": "fa3.skill-execution-receipt.v1",
+    "required_fields": [
+      "execution_id",
+      "task_id",
+      "binding_ref",
+      "binding_digest_sha256",
+      "result",
+      "authority_receipts",
+      "postconditions",
+      "cleanup",
+      "rollback",
+      "current_host",
+      "secret_values_collected"
+    ],
+    "secret_values_collected_must_be_false": true,
+    "pass_requires_postconditions": true,
+    "pass_requires_cleanup": true,
+    "current_host_pass_requires_physical_evidence": true,
+    "document_or_ci_only_current_host_promotion_forbidden": true
+  }
 }

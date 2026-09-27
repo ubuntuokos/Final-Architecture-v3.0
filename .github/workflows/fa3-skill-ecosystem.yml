@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/skill-fabric-enforcement.json'
+      - 'canonical/FA3-GATE-SKILL-FABRIC-001.json'
       - 'canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json'
@@ -13,12 +15,25 @@ on:
       - 'src/fa3_skill_ecosystem.py'
       - 'src/fa3_skill_ecosystem_gate.py'
       - 'src/fa3_skill_fabric_gate.py'
+      - 'tests/test_skill_fabric_gate.py'
+      - 'src/fa3_skill_execution_closure.py'
+      - 'canonical/decisions/FA3-DEC-SKILL-EXECUTION-CLOSURE-2026-09-26.json'
+      - 'canonical/assessments/FA3-SKILL-EXECUTION-CLOSURE-REUSE-ASSESSMENT-001.json'
+      - 'canonical/intents/FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001.json'
       - 'tests/test_skill_ecosystem.py'
       - '.github/workflows/fa3-skill-ecosystem.yml'
   push:
     branches: [main]
     paths:
       - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/skill-fabric-enforcement.json'
+      - 'canonical/FA3-GATE-SKILL-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json'
+      - 'canonical/intents/FA3-SKILL-EXECUTION-CLOSURE-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-SKILL-EXECUTION-CLOSURE-REUSE-ASSESSMENT-001.json'
+      - 'canonical/decisions/FA3-DEC-SKILL-EXECUTION-CLOSURE-2026-09-26.json'
+      - 'src/fa3_skill_execution_closure.py'
+      - 'tests/test_skill_fabric_gate.py'
       - 'canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json'
@@ -42,9 +57,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax
-        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_gate.py
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_execution_closure.py src/fa3_skill_fabric_gate.py
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem -v
+        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_gate -v
       - name: Agent Skills ecosystem gate
         run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
       - name: Parent Skill Fabric gate
