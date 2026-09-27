@@ -907,6 +907,7 @@ Run the executable gates and reference launcher with:
 
 ```bash
 ./bin/fa3-enforce cpu-numa-threading
+./bin/fa3-enforce openmp
 PYTHONPATH=src python -m unittest tests.test_cpu_numa_threading_gate tests.test_openmp_runtime_governance -v
 bin/fa3-cpu-thread-budget --request request.json
 ```
