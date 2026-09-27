@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-STORY-STUDIO-UNIFIED-2026-09-27",
+  "covered_ids": [
+    "FA3-STORY-001",
+    "FA3-STORY-STUDIO-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Story Studio contains bounded advisory choice points such as comparing user-created narrative branches or resolving ambiguous production-profile mappings. Decision Fabric may advise only within an already permitted candidate set. Authorship, edit acceptance, branch promotion, final screenplay state and final publication remain explicit human-controlled operations.",
+  "decision_points": [
+    {
+      "id": "story-branch-advisory",
+      "purpose": "compare or rank already existing user-created narrative alternatives using declared project criteria without creating or deleting branches",
+      "contract": "RANK",
+      "candidate_source": "FA3-STORY-001 NarrativeBranchGraph existing branch set",
+      "final_policy_owner": "AUTH-HUMAN + FA3-STORY-001",
+      "failure_policy": "HUMAN_CONFIRM"
+    },
+    {
+      "id": "production-profile-conversion-ambiguity",
+      "purpose": "surface candidate mappings when a source story element has multiple valid representations in the selected target Production Profile",
+      "contract": "MULTI_LABEL",
+      "candidate_source": "FA3-STORY-STUDIO-001 Production Profile Registry deterministic compatible mappings",
+      "final_policy_owner": "AUTH-HUMAN + FA3-STORY-STUDIO-001",
+      "failure_policy": "HUMAN_CONFIRM"
+    }
+  ],
+  "not_delegated": [
+    "creation of new narrative alternatives without user intent",
+    "destructive deletion of story content",
+    "acceptance or rejection of collaborative edits",
+    "Final Publisher designation",
+    "final release approval or publication",
+    "permission grants",
+    "model or provider admission",
+    "candidate-set expansion outside deterministic Story Studio rules",
+    "release or promotion authority"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
