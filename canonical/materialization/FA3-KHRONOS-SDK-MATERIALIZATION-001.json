@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.materialization-plan.v1",
+  "id": "FA3-KHRONOS-SDK-MATERIALIZATION-001",
+  "date": "2026-09-27",
+  "profile": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "upstream_reference": "FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27",
+  "capability_binding": "CAP-083",
+  "install_root": "$XDG_DATA_HOME/fa3/khronos-sdk",
+  "source_root": "$XDG_DATA_HOME/fa3/khronos-sdk/src",
+  "build_root": "$XDG_CACHE_HOME/fa3/khronos-sdk/build",
+  "prefix_root": "$XDG_DATA_HOME/fa3/khronos-sdk/prefix",
+  "source_policy": "IMMUTABLE_GIT_COMMIT_PIN",
+  "system_package_replacement": false,
+  "global_environment_mutation": false,
+  "production_promotion_from_materialization": false,
+  "phases": [
+    {
+      "id": "SOURCE",
+      "result_semantics": "MATERIALIZED_SOURCE_ONLY_NOT_RUNTIME_PASS",
+      "required": true
+    },
+    {
+      "id": "BUILD",
+      "result_semantics": "SDK_BUILD_ARTIFACT_ONLY_NOT_RUNTIME_PASS",
+      "required_for_runtime_use": true
+    },
+    {
+      "id": "ADAPTER_BIND",
+      "result_semantics": "FA3_ADAPTER_DISCOVERY_BOUND_TO_EXISTING_FABRICS",
+      "required": true
+    },
+    {
+      "id": "CURRENT_HOST_EXECUTION",
+      "result_semantics": "SEPARATE_PHYSICAL_EVIDENCE_REQUIRED",
+      "required_for_runtime_promotion": true
+    }
+  ],
+  "integration_targets": {
+    "Vulkan-Profiles": "HOST_RESOURCE_BROKER_READ_ONLY_CAPABILITY_INPUT",
+    "OpenCL-ICD-Loader": "COMPUTE_PROVIDER_AND_HRB_READ_ONLY_OBSERVATION",
+    "glslang": "SHADER_FABRIC_COMPILER",
+    "SPIRV-Tools": "SHADER_FABRIC_VALIDATION_OPTIMIZATION",
+    "SPIRV-Cross": "SHADER_FABRIC_TRANSLATION_REFLECTION",
+    "glTF-Validator": "ASSET_GRAPH_VALIDATION",
+    "KTX-Software": "ASSET_GRAPH_TEXTURE_INTERCHANGE",
+    "ANARI-SDK": "RENDER_FABRIC_PROVIDER_ABSTRACTION",
+    "Vulkan-Loader": "RENDER_COMPUTE_RUNTIME_BOUNDARY",
+    "Vulkan-ValidationLayers": "CURRENT_HOST_VULKAN_VALIDATION",
+    "OpenXR-SDK": "XR_PROVIDER",
+    "OpenCL-Headers": "COMPUTE_PROVIDER_INTERFACE",
+    "OpenVX-sample-impl": "VISION_FABRIC_REFERENCE_PROVIDER",
+    "NNEF-Tools": "MODEL_ARTIFACT_INTERCHANGE"
+  },
+  "excluded_runtime_baseline": [
+    "Vulkan-Samples",
+    "VulkanTutorial",
+    "glTF-Sample-Assets",
+    "glTF-Tutorials",
+    "OpenXR-CTS",
+    "SYCL-CTS",
+    "SYCL-Docs",
+    "OpenCL-Guide"
+  ],
+  "current_host_status": "PENDING_PHYSICAL_MATERIALIZATION_AND_EXECUTION"
+}
