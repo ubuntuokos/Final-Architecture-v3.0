@@ -48,7 +48,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Agent instruction unit tests
-        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agent_instructions_gate.py' -v
+        run: bash bin/fa3-test -v tests/test_agent_instructions_gate.py
       - name: Agent instruction fail-closed gate
         run: PYTHONPATH=src python3 -m fa3_agent_instructions_gate --root .
       - name: Scope resolver smoke test
