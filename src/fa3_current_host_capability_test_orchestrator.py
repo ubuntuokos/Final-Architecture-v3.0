@@ -214,6 +214,8 @@ def _execute_entry(
     except subprocess.TimeoutExpired:
         return None, ["adapter timed out"]
     finished = datetime.now(timezone.utc)
+    if git_head(root) != source_commit:
+        return None, ["repository source commit changed during current-host test execution"]
     if proc.returncode != 0:
         return None, [f"adapter returncode {proc.returncode}"]
     try:
