@@ -75,7 +75,9 @@
     "LINE_PARAGRAPH_SCENE_BRANCH_ALTERNATES",
     "STORY_STASH_GRAVEYARD",
     "SEMANTIC_DIFF",
-    "REVISION_HISTORY"
+    "REVISION_HISTORY",
+    "STORY_PRESENTATION_PROJECTION",
+    "DUBBING_SCRIPT_AND_ADR_CUE_AUTHORING"
   ],
   "collaboration": {
     "concurrent_multi_author_editing_required": true,
@@ -177,13 +179,7 @@
     "final_story_release_authority_not_transferred": true
   },
   "dubbing_localization": {
-    "profile_type": "DERIVED_POST_PRODUCTION_SCRIPT_PROFILE",
-    "bindings": [
-      "FA3-CAPTION-SUBTITLE-001",
-      "FA3-VOICE-001",
-      "FA3-VIDEO-001",
-      "CAP-168"
-    ],
+    "profile": "DUBBING_LOCALIZATION",
     "document_types": [
       "DIALOGUE_LIST",
       "PIVOT_DIALOGUE_LIST",
@@ -192,37 +188,18 @@
       "ADR_CUE_SHEET",
       "CHARACTER_SCRIPT"
     ],
-    "mandatory_event_fields": [
-      "cue_id",
-      "source_event_ref",
-      "source_character",
-      "in_timecode",
-      "out_timecode",
-      "source_text",
-      "target_language",
-      "target_text"
-    ],
-    "optional_event_fields": [
-      "pivot_text",
-      "adapted_text",
-      "as_recorded_text",
-      "annotation",
-      "phonetic_hint",
-      "reaction_effort",
-      "lip_sync_note",
-      "key_moment",
-      "take_count",
-      "preferred_take",
-      "voice_actor_ref",
-      "voice_identity_ref",
-      "terminology_refs"
-    ],
-    "source_video_digest_binding_required": true,
     "frame_accurate_timing_required": true,
-    "source_intent_preservation_required": true,
-    "adaptation_revision_lineage_required": true,
-    "dialogue_list_conformance_required_when_source_changes": true,
-    "final_as_recorded_script_must_match_delivered_audio": true,
-    "voice_provider_selection_owned_by_story_studio": false
+    "source_revision_binding_required": true,
+    "silent_target_text_rewrite": false,
+    "human_review_required_on_source_change": true,
+    "caption_timing_profile": "FA3-CAPTION-SUBTITLE-001",
+    "voice_authority": "FA3-VOICE-001"
+  },
+  "presentation_projection": {
+    "target_capability": "CAP-018",
+    "primary_human_authoring": "LIBREOFFICE_IMPRESS_UNO",
+    "optional_generation_provider": "FA3-PROVIDER-PRESENTON-001",
+    "non_authoritative_projection": true,
+    "silent_story_writeback": false
   }
 }
