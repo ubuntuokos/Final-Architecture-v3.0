@@ -9,24 +9,43 @@ on:
       - 'canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-SKILL-FABRIC-V14-ENGINEERING-HARDENING-2026-09-27.json'
+      - 'canonical/skill-rejected-change-ledger.json'
+      - 'canonical/skill-artifact-bindings.json'
       - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
+      - 'canonical/skill-fabric-enforcement.json'
+      - 'canonical/FA3-GATE-SKILL-FABRIC-001.json'
       - 'src/fa3_skill_ecosystem.py'
       - 'src/fa3_skill_ecosystem_gate.py'
       - 'src/fa3_skill_fabric_gate.py'
+      - 'src/fa3_skill_fabric_v13.py'
+      - 'src/fa3_skill_fabric_v14.py'
       - 'tests/test_skill_ecosystem.py'
+      - 'tests/test_skill_fabric_v13.py'
+      - 'tests/test_skill_fabric_v14.py'
       - '.github/workflows/fa3-skill-ecosystem.yml'
   push:
     branches: [main]
     paths:
       - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
-      - 'canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json'
-      - 'canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json'
-      - 'canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json'
-      - 'canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-SKILL-FABRIC-V14-ENGINEERING-HARDENING-2026-09-27.json'
+      - 'canonical/skill-rejected-change-ledger.json'
+      - 'canonical/skill-artifact-bindings.json'
+      - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
+      - 'canonical/skill-fabric-enforcement.json'
+      - 'canonical/FA3-GATE-SKILL-FABRIC-001.json'
       - 'src/fa3_skill_ecosystem.py'
       - 'src/fa3_skill_ecosystem_gate.py'
       - 'src/fa3_skill_fabric_gate.py'
+      - 'src/fa3_skill_fabric_v13.py'
+      - 'src/fa3_skill_fabric_v14.py'
       - 'tests/test_skill_ecosystem.py'
+      - 'tests/test_skill_fabric_v13.py'
+      - 'tests/test_skill_fabric_v14.py'
+      - '.github/workflows/fa3-skill-ecosystem.yml'
   workflow_dispatch:
 
 permissions:
@@ -38,13 +57,15 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Syntax
-        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_gate.py
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_v13.py src/fa3_skill_fabric_v14.py src/fa3_skill_fabric_gate.py
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem -v
+        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_v13 tests.test_skill_fabric_v14 -v
       - name: Agent Skills ecosystem gate
         run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
       - name: Parent Skill Fabric gate
@@ -56,4 +77,6 @@ jobs:
           name: fa3-skill-ecosystem-gate
           path: |
             reports/skill-ecosystem-gate-report.json
+            reports/skill-fabric-v13-gate-report.json
+            reports/skill-fabric-v14-gate-report.json
             reports/skill-fabric-gate-report.json
