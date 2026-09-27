@@ -1,0 +1,199 @@
+{
+  "schema": "fa3.visual-style-consumer-bindings.v1",
+  "id": "FA3-VISUAL-STYLE-CONSUMER-BINDINGS-001",
+  "profile_id": "FA3-VISUAL-STYLE-FABRIC-001",
+  "policy": "EVERY_FA3_VISUAL_INTENT_CONSUMER_USES_SHARED_FABRIC",
+  "runtime_promotion_policy": "BINDING_DOES_NOT_PROVE_APPLICATION_RUNTIME",
+  "consumers": [
+    {
+      "consumer_id": "fa3.photo",
+      "name": "FA3 Photo",
+      "capability_ids": [
+        "CAP-122"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.video-editor",
+      "name": "FA3 Video Editor",
+      "capability_ids": [
+        "CAP-121",
+        "CAP-123"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.quickclip",
+      "name": "FA3 QuickClip",
+      "capability_ids": [
+        "CAP-042"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SHOT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.story-screenplay",
+      "name": "FA3 Story / Screenplay",
+      "capability_ids": [
+        "CAP-170"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.storyboard",
+      "name": "FA3 Storyboard",
+      "capability_ids": [
+        "CAP-041"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "SHOT"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.vector-graphics",
+      "name": "FA3 Vector Graphics",
+      "capability_ids": [],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.world-location-generator",
+      "name": "FA3 World / Location Generator",
+      "capability_ids": [],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.character-animation",
+      "name": "FA3 Character / Animation",
+      "capability_ids": [
+        "CAP-043",
+        "CAP-118"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.3d-fabric",
+      "name": "FA3 3D Fabric / Bforartists",
+      "capability_ids": [
+        "CAP-032"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false,
+      "canonical_authority_preserved": "FA3-3D-GEOM-001"
+    },
+    {
+      "consumer_id": "fa3.vfx-compositing",
+      "name": "FA3 VFX / Compositing",
+      "capability_ids": [],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.credits-titles",
+      "name": "FA3 Credits / Titles",
+      "capability_ids": [
+        "CAP-169"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.marketing-poster",
+      "name": "FA3 Marketing / Poster",
+      "capability_ids": [],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    },
+    {
+      "consumer_id": "fa3.live-broadcast",
+      "name": "FA3 Live / Broadcast",
+      "capability_ids": [
+        "CAP-173"
+      ],
+      "status": "PLANNED_REQUIRED",
+      "scopes": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ],
+      "parallel_style_authority_allowed": false,
+      "runtime_promoted": false
+    }
+  ]
+}
