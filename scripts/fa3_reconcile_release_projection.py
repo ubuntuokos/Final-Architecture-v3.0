@@ -190,7 +190,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "production_profile_registry_id": "FA3-STORY-PRODUCTION-PROFILE-REGISTRY-001",
         "decision_id": "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27",
         "gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
-        "capability_bindings": ["CAP-018", "CAP-033", "CAP-170", "CAP-171"],
+        "capability_bindings": ["CAP-018", "CAP-030", "CAP-033", "CAP-170", "CAP-171"],
         "story_to_presentation": "CANONICAL_LINEAGE_PROVENANCE_PROJECTION",
         "presentation_to_story": "CHANGE_PROPOSAL_REVIEW_COMPARE_EXPLICIT_HUMAN_APPLY",
         "silent_story_writeback": False,
