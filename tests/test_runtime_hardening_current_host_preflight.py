@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_runtime_hardening_current_host_preflight import (
+from fa3_runtime_hardening_current_host_preflight import (
     validate_frame_trace,
     validate_json_file,
     validate_quadlet,
