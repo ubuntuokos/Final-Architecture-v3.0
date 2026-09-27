@@ -49,6 +49,7 @@ class CurrentHostCapabilityHandoffTests(unittest.TestCase):
             "ci_reference_only": False,
             "attestation_authority": EVIDENCE_AUTHORITY,
             "global_promotion_claim": False,
+            "source_commit": "a" * 40,
             "host_fingerprint_path": "evidence/runtime/CAP-001/host-fingerprint.json",
             "host_fingerprint_sha256": host_sha,
             "collected_at": now.isoformat(),
