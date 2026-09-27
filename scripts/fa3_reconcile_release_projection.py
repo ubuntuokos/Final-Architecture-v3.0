@@ -168,6 +168,42 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
 
     projection.setdefault("invariants", {})["canonical_capability_count"] = capability_count
     projection["mandatory_reference_gates"] = list(policy.get("mandatory_reference_gates", []))
+    projection["presenton_reconciliation"] = {
+        "provider_id": "FA3-PROVIDER-PRESENTON-001",
+        "historical_decision_id": "FA3-DEC-PRESENTON-2026-08-30",
+        "superseding_decision_id": "FA3-DEC-PRESENTON-SUPERSEDED-2026-09-27",
+        "native_profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+        "native_gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
+        "classification": "SUPERSEDED_REFERENCE_ONLY_SELECTIVE_CODE_DONOR",
+        "runtime_admitted": False,
+        "runtime_provider_required": False,
+        "historical_evidence_transfer_to_native": False,
+        "current_host_production_e2e": "NOT_APPLICABLE_SUPERSEDED_RUNTIME",
+        "reconciliation_status": "SUPERSEDED_REFERENCE_ONLY_NATIVE_PRESENTATION_RECONCILED",
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
+    projection["story_presentation_reconciliation"] = {
+        "profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+        "contract_id": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+        "production_profile_registry_id": "FA3-STORY-PRODUCTION-PROFILE-REGISTRY-001",
+        "decision_id": "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27",
+        "gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
+        "capability_bindings": ["CAP-018", "CAP-033", "CAP-170", "CAP-171"],
+        "story_to_presentation": "CANONICAL_LINEAGE_PROVENANCE_PROJECTION",
+        "presentation_to_story": "CHANGE_PROPOSAL_REVIEW_COMPARE_EXPLICIT_HUMAN_APPLY",
+        "silent_story_writeback": False,
+        "presenton_runtime_required": False,
+        "presenton_historical_evidence_reused_as_native_runtime_proof": False,
+        "current_host_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_NATIVE_STORY_PRESENTATION_STATIC_MATERIALIZED_CURRENT_HOST_PENDING",
+    }
     projection["inference_cache_hardening_reconciliation"] = {
         "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
         "subgate_id": "FA3-INFERENCE-PORTABILITY-CACHE-HARDENING-001",
