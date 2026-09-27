@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Prepare gate
-        run: chmod +x bin/fa3-enforce
+        run: chmod +x bin/fa3-enforce bin/fa3-test bin/fa3-prepare-repository
       - name: Native quality gate syntax check
         run: python -m py_compile src/fa3_quality_filter.py src/fa3_quality_gate.py
       - name: Skill Fabric ecosystem syntax check
@@ -53,8 +53,12 @@ jobs:
         run: ./bin/fa3-enforce uaf
       - name: Encrypted Secret Broker P0 gate
         run: ./bin/fa3-enforce secret-broker
+      - name: Prepare required repository history
+        run: ./bin/fa3-prepare-repository
+      - name: Canonical Python namespace audit
+        run: PYTHONPATH=src python tools/fa3_python_namespace_audit.py
       - name: Executable invariant tests
-        run: PYTHONPATH=src python -m unittest discover -s tests -v
+        run: ./bin/fa3-test -v
       - name: External RT3D engine exclusion gate
         run: PYTHONPATH=src python src/fa3_external_rt3d_engine_exclusion_gate.py --root .
       - name: Unified post-v3.0.11 release projection gate
@@ -288,7 +292,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Prepare gate
-        run: chmod +x bin/fa3-enforce
+        run: chmod +x bin/fa3-enforce bin/fa3-test bin/fa3-prepare-repository
       - name: Prove runtime promotion cannot bypass evidence
         shell: bash
         run: |
