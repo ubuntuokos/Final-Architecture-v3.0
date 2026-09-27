@@ -108,12 +108,21 @@ jobs:
           test -f "${{ inputs.resource_admission }}"
           command -v nvidia-smi
           command -v ffprobe
+      - name: Admit exact Wan2.2 model set from existing artifact receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/receipts
+          python3 bin/fa3-wan22-model-set-admit.py \
+            --manifest "${{ inputs.model_set_manifest }}" \
+            --output evidence/receipts/wan22-model-set-admission.json
+
       - name: Admit exact Wan2.2 runtime without install or download
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p evidence/receipts evidence/runtime/wan22-current-host
-          python3 bin/fa3-wan22-current-host-admit.py             --runtime-config "${{ inputs.runtime_config }}"             --model-admission "${{ inputs.model_set_manifest }}"             --output evidence/receipts/wan22-provider-admission.json
+          python3 bin/fa3-wan22-current-host-admit.py             --runtime-config "${{ inputs.runtime_config }}"             --model-admission evidence/receipts/wan22-model-set-admission.json             --output evidence/receipts/wan22-provider-admission.json
           python3 bin/fa3-wan22-build-motion-video-manifest.py             --runtime-config "${{ inputs.runtime_config }}"             --admission-receipt evidence/receipts/wan22-provider-admission.json             --output evidence/runtime/wan22-current-host/provider-manifest.json
           python3 - <<'PY'
           import json
