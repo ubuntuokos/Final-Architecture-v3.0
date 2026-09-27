@@ -1198,7 +1198,8 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-DEC-MARKETING-2026-08-31",
-        "FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07"
+        "FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07",
+        "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -1226,6 +1227,16 @@
         "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "local_rest_mcp_adapter_admitted": false
+      },
+      "story_presentation_projection_status": {
+        "profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+        "contract_id": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+        "gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
+        "static_design_status": "CANONICAL_MATERIALIZED",
+        "current_host_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": false,
+        "presenton_runtime_required": false,
+        "presenton_historical_evidence_reused_as_native_runtime_proof": false
       }
     },
     {
@@ -1917,14 +1928,35 @@
         "GC-06",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27",
+        "FA3-DEC-PRESENTON-SUPERSEDED-2026-09-27"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/presenton-provider-ci-2026-08-30.json"
       ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "story_presentation_projection_status": {
+        "profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+        "contract_id": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+        "gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
+        "static_design_status": "CANONICAL_MATERIALIZED",
+        "current_host_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": false,
+        "presenton_runtime_required": false,
+        "presenton_historical_evidence_reused_as_native_runtime_proof": false
+      },
+      "presenton_disposition": {
+        "status": "SUPERSEDED",
+        "allowed_roles": [
+          "REFERENCE_ONLY",
+          "SELECTIVE_CODE_DONOR"
+        ],
+        "historical_reference_evidence_retained": true,
+        "current_host_evidence_transfer_to_native": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-034-CURRENT-HOST",
@@ -7948,7 +7980,8 @@
         "FA3-CORE-008",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27"
       ],
       "source": "v3.1.0 capability-model expansion",
       "evidence_artifacts": [],
@@ -7959,6 +7992,16 @@
         "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
         "previous_143_closure_reused_as_runtime_proof": false,
         "reference_or_design_status_does_not_promote_runtime": true
+      },
+      "story_presentation_projection_status": {
+        "profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+        "contract_id": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+        "gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
+        "static_design_status": "CANONICAL_MATERIALIZED",
+        "current_host_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": false,
+        "presenton_runtime_required": false,
+        "presenton_historical_evidence_reused_as_native_runtime_proof": false
       }
     },
     {
@@ -7992,7 +8035,8 @@
         "FA3-CORE-008",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27"
       ],
       "source": "v3.1.0 capability-model expansion",
       "evidence_artifacts": [],
@@ -8003,6 +8047,16 @@
         "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
         "previous_143_closure_reused_as_runtime_proof": false,
         "reference_or_design_status_does_not_promote_runtime": true
+      },
+      "story_presentation_projection_status": {
+        "profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+        "contract_id": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+        "gate_id": "FA3-STORY-PRESENTATION-GATESET-001",
+        "static_design_status": "CANONICAL_MATERIALIZED",
+        "current_host_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": false,
+        "presenton_runtime_required": false,
+        "presenton_historical_evidence_reused_as_native_runtime_proof": false
       }
     },
     {
