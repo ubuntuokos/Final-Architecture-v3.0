@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from src.fa3_current_host_batch_planner import TEST_KINDS, build_plan
+from fa3_current_host_batch_planner import TEST_KINDS, build_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 

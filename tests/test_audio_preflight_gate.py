@@ -1,4 +1,4 @@
-from src.fa3_audio_preflight_gate import validate_request
+from fa3_audio_preflight_gate import validate_request
 
 
 def valid_request():

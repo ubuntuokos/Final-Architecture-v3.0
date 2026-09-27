@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_secret_broker_current_host_gate import REQUIRED_CHECKS, validate
+from fa3_release_baseline import active_capability_count
 
 RAW_SCHEMA = "fa3.secret-broker-current-host-receipt.v1"
 GATE_SCHEMA = "fa3.secret-broker-current-host-gate-report.v1"
@@ -37,6 +38,7 @@ def collect(root: Path, receipt_path: Path, gate_path: Path) -> dict[str, Any]:
     receipt = loadj(receipt_path)
     report = loadj(gate_path)
     head = git_head(root)
+    capability_count = active_capability_count(root)
 
     findings = validate(receipt)
     if findings:
@@ -102,7 +104,7 @@ def collect(root: Path, receipt_path: Path, gate_path: Path) -> dict[str, Any]:
         "invariants": {
             "new_capabilities": 0,
             "new_architectural_authorities": 0,
-            "capability_count_after": 143,
+            "capability_count_after": capability_count,
             "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE",
             "document_only_global_promotion_forbidden": True,
         },

@@ -11,7 +11,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Unit tests
-        run: PYTHONPATH=. python -m unittest tests.test_session_vault_current_host -v
+        run: PYTHONPATH=src python -m unittest tests.test_session_vault_current_host -v
       - name: Committed real current-host receipt passes
         run: PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root .
       - name: Missing receipt remains fail-closed

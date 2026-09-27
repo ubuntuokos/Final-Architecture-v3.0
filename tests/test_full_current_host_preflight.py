@@ -4,8 +4,8 @@ import json
 import unittest
 from pathlib import Path
 
-from src.fa3_current_host_batch_planner import build_plan
-from src.fa3_full_current_host_preflight import required_primitives
+from fa3_current_host_batch_planner import build_plan
+from fa3_full_current_host_preflight import required_primitives
 
 ROOT = Path(__file__).resolve().parents[1]
 

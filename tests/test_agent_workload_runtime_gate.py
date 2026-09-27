@@ -2,8 +2,8 @@ import copy
 import unittest
 from pathlib import Path
 
-from src.fa3_agent_workload import WorkloadContractError, project_to_ax, resume_requirements, validate_task
-from src.fa3_agent_workload_gate import gate, regression_cases
+from fa3_agent_workload import WorkloadContractError, project_to_ax, resume_requirements, validate_task
+from fa3_agent_workload_gate import gate, regression_cases
 
 ROOT=Path(__file__).resolve().parents[1]
 

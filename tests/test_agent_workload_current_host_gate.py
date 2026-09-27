@@ -1,7 +1,7 @@
 import copy
 import unittest
 from pathlib import Path
-from src.fa3_agent_workload_current_host_gate import LABELS, NATIVE, PROFILE, WORKLOAD, validate_materialization, validate_receipt
+from fa3_agent_workload_current_host_gate import LABELS, NATIVE, PROFILE, WORKLOAD, validate_materialization, validate_receipt
 
 ROOT=Path(__file__).resolve().parents[1]
 

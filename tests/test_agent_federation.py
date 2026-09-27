@@ -3,8 +3,8 @@ import copy
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from src.fa3_agent_federation import ClaimLedger, FederationContractError, ReplayGuard, admit_adaptive_worker, admit_remote_execution, build_execution_trajectory, create_pattern_candidate, derive_child_budget, payload_digest, project_lifecycle_event, review_pattern_candidate, validate_envelope
-from src.fa3_agent_federation_gate import gate, regression_cases
+from fa3_agent_federation import ClaimLedger, FederationContractError, ReplayGuard, admit_adaptive_worker, admit_remote_execution, build_execution_trajectory, create_pattern_candidate, derive_child_budget, payload_digest, project_lifecycle_event, review_pattern_candidate, validate_envelope
+from fa3_agent_federation_gate import gate, regression_cases
 
 ROOT=Path(__file__).resolve().parents[1]
 

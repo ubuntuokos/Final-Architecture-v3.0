@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from src.fa3_external_rt3d_engine_exclusion_gate import (
+from fa3_external_rt3d_engine_exclusion_gate import (
     DECISION_PATH,
     gate,
     token_findings,
