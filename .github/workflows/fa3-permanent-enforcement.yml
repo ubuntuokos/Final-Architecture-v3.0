@@ -54,7 +54,7 @@ jobs:
       - name: Encrypted Secret Broker P0 gate
         run: ./bin/fa3-enforce secret-broker
       - name: Executable invariant tests
-        run: PYTHONPATH=src python -m unittest discover -s tests -v
+        run: bash bin/fa3-test -v
       - name: External RT3D engine exclusion gate
         run: PYTHONPATH=src python src/fa3_external_rt3d_engine_exclusion_gate.py --root .
       - name: Unified post-v3.0.11 release projection gate
