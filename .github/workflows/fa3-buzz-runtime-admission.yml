@@ -32,7 +32,7 @@ jobs:
       - name: Syntax check
         run: python -m py_compile src/fa3_buzz_runtime_admission.py src/fa3_buzz_runtime_admission_gate.py
       - name: Buzz runtime-admission regression tests
-        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_buzz_runtime_admission_gate.py' -v
+        run: bash bin/fa3-test -v tests/test_buzz_runtime_admission_gate.py
       - name: Buzz runtime-admission executable gate
         run: ./bin/fa3-buzz-runtime-admission-gate
       - name: Upload Buzz runtime-admission report
