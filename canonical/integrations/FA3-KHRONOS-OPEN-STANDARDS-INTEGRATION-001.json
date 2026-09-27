@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.integration-map.v1",
+  "id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+  "profile": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "capability": "CAP-083",
+  "authority_delta": 0,
+  "bindings": [
+    {
+      "layer": "HOST_RESOURCE_BROKER",
+      "projects": [
+        "Vulkan-Profiles",
+        "OpenCL-ICD-Loader"
+      ],
+      "mode": "READ_ONLY_CAPABILITY_OBSERVATION",
+      "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    {
+      "layer": "SHADER_FABRIC",
+      "projects": [
+        "glslang",
+        "SPIRV-Tools",
+        "SPIRV-Cross"
+      ],
+      "mode": "COMPILE_VALIDATE_OPTIMIZE_REFLECT",
+      "fail_closed": true
+    },
+    {
+      "layer": "ASSET_GRAPH",
+      "projects": [
+        "glTF-Validator",
+        "KTX-Software"
+      ],
+      "mode": "INTERCHANGE_VALIDATE_TRANSCODE",
+      "native_project_files_preserved": true
+    },
+    {
+      "layer": "RENDER_FABRIC",
+      "projects": [
+        "ANARI-SDK",
+        "Vulkan-Loader",
+        "Vulkan-ValidationLayers"
+      ],
+      "mode": "REPLACEABLE_RENDER_PROVIDER_BOUNDARY"
+    },
+    {
+      "layer": "XR_PROVIDER",
+      "projects": [
+        "OpenXR-SDK"
+      ],
+      "mode": "VENDOR_NEUTRAL_XR_RUNTIME_BOUNDARY"
+    },
+    {
+      "layer": "COMPUTE_PROVIDER",
+      "projects": [
+        "OpenCL-Headers",
+        "OpenCL-ICD-Loader"
+      ],
+      "mode": "OPTIONAL_HETEROGENEOUS_COMPUTE_BACKEND"
+    },
+    {
+      "layer": "VISION_FABRIC",
+      "projects": [
+        "OpenVX-sample-impl"
+      ],
+      "mode": "SAMPLE_IMPLEMENTATION_PATTERN_SOURCE_NOT_PRODUCTION_PROVIDER",
+      "runtime_admitted": false
+    },
+    {
+      "layer": "MODEL_ARTIFACT_FABRIC",
+      "projects": [
+        "NNEF-Tools"
+      ],
+      "mode": "OPTIONAL_IMPORT_EXPORT_INTERCHANGE"
+    }
+  ],
+  "forbidden": [
+    "provider authority takeover",
+    "silent backend fallback",
+    "system package replacement",
+    "global environment mutation",
+    "GPU SKU based capability inference"
+  ],
+  "current_host_runtime_promotion": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 175,
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001"
+}

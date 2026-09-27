@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f56b438060df8077683e9db638d633cc92ab008e",
-    "pre_projection_root_tree_sha": "a7758b8f5befab61dc4855f48dbc05f4b365a845",
-    "pre_projection_canonical_tree_sha": "fd54bfffad431278e48083a307a6caba00766988",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1222,
-    "total_post_baseline_commits": 1222,
-    "delta_file_count": 2368,
-    "delta_added_files": 2362,
+    "pre_projection_head_sha": "d45370c97fb36e3bb3e8a4a34b46349490af22fd",
+    "pre_projection_root_tree_sha": "d87e31f4c6835f57d64861ba88ab1fbe0989a8d8",
+    "pre_projection_canonical_tree_sha": "edcabb0654445cf0733dd50667d03fef6293f716",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1286,
+    "total_post_baseline_commits": 1286,
+    "delta_file_count": 2390,
+    "delta_added_files": 2384,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1152,
-    "evidence_files_in_post_baseline_delta": 168,
-    "source_files_in_post_baseline_delta": 321,
-    "test_files_in_post_baseline_delta": 257,
-    "workflow_files_in_post_baseline_delta": 114,
+    "canonical_files_in_post_baseline_delta": 1164,
+    "evidence_files_in_post_baseline_delta": 169,
+    "source_files_in_post_baseline_delta": 324,
+    "test_files_in_post_baseline_delta": 259,
+    "workflow_files_in_post_baseline_delta": 116,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -237,6 +237,7 @@
       "canonical/profiles/FA3-JOURNAL-001.json",
       "canonical/profiles/FA3-JOURNAL-ARCHIVE-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
+      "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-LANGUAGE-ADMISSION-001.json",
       "canonical/profiles/FA3-LANGUAGE-FABRIC-001.json",
@@ -364,6 +365,7 @@
       "canonical/contracts/FA3-JOURNAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
+      "canonical/contracts/FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json",
       "canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json",
@@ -510,6 +512,7 @@
       "canonical/decisions/FA3-DEC-KANEO-UPSTREAM-RECONCILIATION-2026-09-12.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27.json",
       "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
       "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json",
       "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
@@ -624,6 +627,7 @@
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27.json",
       "canonical/references/FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09.json",
       "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
@@ -862,6 +866,7 @@
     "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
     "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
     "FA3-REPRODUCIBILITY-GATESET-001",
+    "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
     "FA3-GATE-REGISTRY-GATESET-001",
     "FA3-GOVERNANCE-STATUS-GATESET-001"
   ],
@@ -989,7 +994,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2358,
+  "manifest_entry_count": 2380,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1178,7 +1183,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "d975de86ee31cefffefdf60bc52f3ef0a0d21e81",
+      "git_blob_sha": "7d4a1b053aef8aa49bf5dbeb3fb7d1c8fd1d0582",
       "baseline_delta_status": "added"
     },
     {
@@ -1274,6 +1279,16 @@
     {
       "path": ".github/workflows/fa3-journal-reconcile.yml",
       "git_blob_sha": "6bb6412f2bdf94f4fbfc26c62b02bb3281ff8a04",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-khronos-current-host.yml",
+      "git_blob_sha": "ad050e3339cbd2a53d1cfc68b649305a656f677f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-khronos-open-standards.yml",
+      "git_blob_sha": "d5029714541b4b613f5b7e7ad1192d35e6649317",
       "baseline_delta_status": "added"
     },
     {
@@ -1383,7 +1398,7 @@
     },
     {
       "path": ".github/workflows/fa3-orchestration-workforce.yml",
-      "git_blob_sha": "bc468781daef02d91c2630e7c098c21bc89b089b",
+      "git_blob_sha": "5b576caa2b0f054a189d5b65acb1710834458422",
       "baseline_delta_status": "added"
     },
     {
@@ -2043,7 +2058,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "cab9450472861b91038b6c75cc1dbbcf4fbd0aff",
+      "git_blob_sha": "c60f615380fcd56ec69df777e672ebdcd6f4c7dc",
       "baseline_delta_status": "modified"
     },
     {
@@ -2139,6 +2154,11 @@
     {
       "path": "bin/fa3-lavasr-enforce",
       "git_blob_sha": "44f1e29b1ca9d42cecd7cccaac0cd2ec6714259c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-materialize-khronos-sdks.sh",
+      "git_blob_sha": "451f281b6687d54f7bd4985bb8e0c0b4cac75677",
       "baseline_delta_status": "added"
     },
     {
@@ -2787,6 +2807,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-KHRONOS-OPEN-STANDARDS-001.json",
+      "git_blob_sha": "b45d656e433efef19b3ebc2c76b9cb9c9f14adcb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-KNOWLEDGE-HYBRID-RETRIEVAL-001.json",
       "git_blob_sha": "8dca22be14816ef5f444ca06de97f96662b2340a",
       "baseline_delta_status": "added"
@@ -2933,7 +2958,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "f98f22ebac951bb2f73fd994f7834d429c9efbd9",
+      "git_blob_sha": "c3b8fda23b51582cce0748d5142c66779ba6b378",
       "baseline_delta_status": "added"
     },
     {
@@ -3154,6 +3179,11 @@
     {
       "path": "canonical/FA3-JOURNAL-ARCHIVE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "aab93937a0c55e9699b8b13587d3703a6254bcea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+      "git_blob_sha": "9fad0192d636654bcb285a62ca14bf5723221135",
       "baseline_delta_status": "added"
     },
     {
@@ -3937,6 +3967,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-KHRONOS-OPEN-STANDARDS-DECISION-ASSESSMENT-2026-09-27.json",
+      "git_blob_sha": "2dc17971e8ac7116b4dda627aa0a87a276d96a41",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-KHRONOS-OPEN-STANDARDS-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "d1371428af977f2be36f2455340c589b0bebde30",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-LANGUAGE-FABRIC-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "f5d0efab54257a83b9475c3c8a263f43af3c006b",
       "baseline_delta_status": "added"
@@ -4502,6 +4542,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001.json",
+      "git_blob_sha": "80e86adbd2bb3e133474353432e9f3c6d3488375",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "git_blob_sha": "94dabda5df5a88f656346a83de40b445486a6d86",
       "baseline_delta_status": "added"
@@ -4893,12 +4938,12 @@
     },
     {
       "path": "canonical/current-host-capability-proof-recipes.json",
-      "git_blob_sha": "05e0dec63275d19659e9f7eea6fb36c2788b6f34",
+      "git_blob_sha": "a79aefdaebbbfcf2e14338bb2dfdc3543dab35be",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/current-host-capability-qualification-constituent-producers.json",
-      "git_blob_sha": "61240a8a7165aeeb692aee18292a2c0bf64f8297",
+      "git_blob_sha": "12fb1e4f9022f3e89eefef30896a0ef5268820dc",
       "baseline_delta_status": "added"
     },
     {
@@ -4908,7 +4953,7 @@
     },
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
-      "git_blob_sha": "3cb3c58238e138da47d27ef59a1f419b89d329ab",
+      "git_blob_sha": "aa2e0d1c91e844dad5e5d4184077019513bd3f79",
       "baseline_delta_status": "added"
     },
     {
@@ -5279,6 +5324,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27.json",
+      "git_blob_sha": "bf176bfc6e89e68b9b58f784d7bf75baac802eec",
       "baseline_delta_status": "added"
     },
     {
@@ -5713,17 +5763,17 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "8826d1d90ec9eaedce108cfaacdbb8a1711e0c38",
+      "git_blob_sha": "6e83882691939b82a6f7a39990e0b9fbee54d038",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "ee04960457a70db9d5a95ff79f74cfc32d8c5af3",
+      "git_blob_sha": "505d06c92adf77d9e31dd23d4b24fde032e8ed98",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "c4db7dd636604234b15a1178d4a84937aea2016d",
+      "git_blob_sha": "4f1d3cffe2b77c39b6c48c9744e62ad8222e0e53",
       "baseline_delta_status": "modified"
     },
     {
@@ -5857,6 +5907,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
+      "git_blob_sha": "b925707572446b2c1aadeeafddee4c4b4edc0d08",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-AGENCY-AGENTS-PROVIDER-APPLICATION-INTENT-001.json",
       "git_blob_sha": "37db712579c6847870d05631fbba06fcb8f879f7",
       "baseline_delta_status": "added"
@@ -5939,6 +5994,11 @@
     {
       "path": "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
       "git_blob_sha": "9b1e1a970212b622343738b8c852f85866929873",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-KHRONOS-OPEN-STANDARDS-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "eb1e1e1af722680435cabfa5269a9c17ce84d6f7",
       "baseline_delta_status": "added"
     },
     {
@@ -6064,6 +6124,11 @@
     {
       "path": "canonical/marketingskills-skill-admission-enforcement.json",
       "git_blob_sha": "9778f4b6f491eb0c9e3df478c2c682b706c8e604",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/materialization/FA3-KHRONOS-SDK-MATERIALIZATION-001.json",
+      "git_blob_sha": "a84b8269fa562d74575100efb5ecd214724f5437",
       "baseline_delta_status": "added"
     },
     {
@@ -6539,6 +6604,11 @@
     {
       "path": "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "git_blob_sha": "7abae913ab53d0c29bffc3a8ecaabaa36d458c46",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json",
+      "git_blob_sha": "f434549a64914c32518caf67ecc060ee0ae992de",
       "baseline_delta_status": "added"
     },
     {
@@ -7607,6 +7677,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27.json",
+      "git_blob_sha": "731e707c68924eb69eeb72a3c5de45ef57d645ca",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11.json",
       "git_blob_sha": "d1647a25256211f2083ec207a81517bb95a03f57",
       "baseline_delta_status": "added"
@@ -8117,6 +8192,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/third-party/FA3-KHRONOS-BUILD-DEPENDENCIES-001.json",
+      "git_blob_sha": "0eedc3582428a434e0fd139bcff45fd613a8f8e8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
       "git_blob_sha": "a69a96be9d93c1c57a173f42088e86a228322f86",
       "baseline_delta_status": "added"
@@ -8399,6 +8479,11 @@
     {
       "path": "docs/FA3-JOURNAL-ARCHIVE-001.md",
       "git_blob_sha": "c3eef92dba9cb6af1552510b227e90f83284cdc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-KHRONOS-OPEN-STANDARDS-MATERIALIZATION-2026-09-27.md",
+      "git_blob_sha": "ed270f2169537db410537b2edefa7e5c2a7015b4",
       "baseline_delta_status": "added"
     },
     {
@@ -8872,6 +8957,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-khronos-sdk-materialization-current-host.py",
+      "git_blob_sha": "8559df5c1f8f019bac0c9d91589d919b4610eed8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-language-gateway-current-host.py",
       "git_blob_sha": "3b11dbcf8e00e693b9a29af0216f6fd7c45fdffd",
       "baseline_delta_status": "added"
@@ -9013,7 +9103,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "4d50e7caf314fbdc31a24f03ff9c7e62bdf787bb",
+      "git_blob_sha": "ce67eb64e8185ca862248eebbd72e723e1dca9c5",
       "baseline_delta_status": "added"
     },
     {
@@ -9763,7 +9853,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "cc95946fd8dff467b7078576173a36fa830b50a9",
+      "git_blob_sha": "63a589b4df5d8f904a911c674cc149b2cae9d5fa",
       "baseline_delta_status": "added"
     },
     {
@@ -10047,6 +10137,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_cap083_khronos_current_host.py",
+      "git_blob_sha": "2635a112730e145e30fc58600e0988b942d93445",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_capability_count_dehardcode_gate.py",
       "git_blob_sha": "3189565037a7a8c78586164d77aeb99a2f22280f",
       "baseline_delta_status": "added"
@@ -10318,7 +10413,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "6f7d12409296339cf37a61f2845655e936559008",
+      "git_blob_sha": "4cba0d7e9d63e5630b94473e49e4b67236cee8dd",
       "baseline_delta_status": "modified"
     },
     {
@@ -10614,6 +10709,16 @@
     {
       "path": "src/fa3_kdenlive_editorial_gate.py",
       "git_blob_sha": "28cbf171c0eef7832092faa1a7d0e7572f330b6c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_khronos_adapters.py",
+      "git_blob_sha": "0a4a71da0a75e7bf95836cfea55ab1636d5e0d6f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_khronos_open_standards_gate.py",
+      "git_blob_sha": "255afd9021409ff0a386a57b17d31ddc7a3e25e1",
       "baseline_delta_status": "added"
     },
     {
@@ -11597,6 +11702,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_cap083_khronos_current_host.py",
+      "git_blob_sha": "9f3d5aac923e447b91eb8f99e9d5778f89bd3c23",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_capability_count_dehardcode.py",
       "git_blob_sha": "6f6675c8de6d6e8798a349d9c49b15a2a3e84cfc",
       "baseline_delta_status": "added"
@@ -12074,6 +12184,11 @@
     {
       "path": "tests/test_kdenlive_editorial.py",
       "git_blob_sha": "709ecc0d35bb81fab106d5c75d4fb39187f25d82",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_khronos_open_standards_gate.py",
+      "git_blob_sha": "293491901445ef944446b92d82c46ed728b75ef1",
       "baseline_delta_status": "added"
     },
     {
@@ -14700,5 +14815,30 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175,
     "reconciliation_status": "CANONICAL_REFERENCE_PATTERN_ABSORPTION_REUSE_DISCOVERABLE_RUNTIME_NOT_ADMITTED"
+  },
+  "khronos_open_standards_reconciliation": {
+    "profile_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "contract_id": "FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001",
+    "decision_id": "FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27",
+    "upstream_reference_id": "FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27",
+    "materialization_plan_id": "FA3-KHRONOS-SDK-MATERIALIZATION-001",
+    "integration_id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+    "adapter_registry_id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+    "gate_id": "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
+    "capability_bindings": [
+      "CAP-083",
+      "CAP-146",
+      "CAP-147",
+      "CAP-175"
+    ],
+    "source_distribution_class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "current_host_source_materialization_status": "PENDING_CURRENT_HOST",
+    "compiled_sdk_runtime_status": "PENDING_CURRENT_HOST",
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175
   }
 }

@@ -102,6 +102,11 @@ if [[ "${1:-}" == "neural-rendering" ]]; then
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_neural_rendering_gate.py" --root "$ROOT" "$@"
 fi
 
+if [[ "${1:-}" == "khronos-open-standards" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_khronos_open_standards_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "marketing-current-host" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_marketing_current_host_gate.py" --root "$ROOT" "$@"

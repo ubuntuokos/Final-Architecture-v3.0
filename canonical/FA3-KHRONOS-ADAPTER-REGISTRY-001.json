@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.adapter-registry.v1",
+  "id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "adapters": [
+    {
+      "id": "fa3.khronos.vulkan-profiles",
+      "project": "Vulkan-Profiles",
+      "target": "HOST_RESOURCE_BROKER",
+      "authority": false,
+      "mode": "READ_ONLY_CAPABILITY_DESCRIPTOR"
+    },
+    {
+      "id": "fa3.khronos.vulkan-loader",
+      "project": "Vulkan-Loader",
+      "target": "RENDER_COMPUTE_RUNTIME",
+      "authority": false,
+      "mode": "CHILD_PROCESS_SCOPED_LOADER"
+    },
+    {
+      "id": "fa3.khronos.vulkan-validation",
+      "project": "Vulkan-ValidationLayers",
+      "target": "EVIDENCE_VALIDATION",
+      "authority": false,
+      "mode": "OPT_IN_CHILD_PROCESS_LAYER"
+    },
+    {
+      "id": "fa3.khronos.glslang",
+      "project": "glslang",
+      "target": "SHADER_FABRIC",
+      "authority": false,
+      "mode": "COMPILER"
+    },
+    {
+      "id": "fa3.khronos.spirv-tools",
+      "project": "SPIRV-Tools",
+      "target": "SHADER_FABRIC",
+      "authority": false,
+      "mode": "VALIDATE_OPTIMIZE"
+    },
+    {
+      "id": "fa3.khronos.spirv-cross",
+      "project": "SPIRV-Cross",
+      "target": "SHADER_FABRIC",
+      "authority": false,
+      "mode": "TRANSLATE_REFLECT"
+    },
+    {
+      "id": "fa3.khronos.gltf-validator",
+      "project": "glTF-Validator",
+      "target": "ASSET_GRAPH",
+      "authority": false,
+      "mode": "VALIDATE"
+    },
+    {
+      "id": "fa3.khronos.ktx",
+      "project": "KTX-Software",
+      "target": "ASSET_GRAPH",
+      "authority": false,
+      "mode": "TEXTURE_INTERCHANGE"
+    },
+    {
+      "id": "fa3.khronos.openxr",
+      "project": "OpenXR-SDK",
+      "target": "XR_PROVIDER",
+      "authority": false,
+      "mode": "RUNTIME_INTERFACE"
+    },
+    {
+      "id": "fa3.khronos.opencl",
+      "project": "OpenCL-ICD-Loader",
+      "target": "COMPUTE_PROVIDER",
+      "authority": false,
+      "mode": "OPTIONAL_ICD_LOADER"
+    },
+    {
+      "id": "fa3.khronos.anari",
+      "project": "ANARI-SDK",
+      "target": "RENDER_FABRIC",
+      "authority": false,
+      "mode": "PROVIDER_ABSTRACTION"
+    },
+    {
+      "id": "fa3.khronos.openvx",
+      "project": "OpenVX-sample-impl",
+      "target": "VISION_FABRIC",
+      "authority": false,
+      "mode": "SAMPLE_IMPLEMENTATION_PATTERN_SOURCE_NOT_PRODUCTION_PROVIDER",
+      "runtime_admitted": false
+    },
+    {
+      "id": "fa3.khronos.nnef",
+      "project": "NNEF-Tools",
+      "target": "MODEL_ARTIFACT_FABRIC",
+      "authority": false,
+      "mode": "IMPORT_EXPORT"
+    }
+  ],
+  "host_projection": {
+    "global_environment_mutation": false,
+    "system_loader_replacement": false,
+    "system_icd_replacement": false,
+    "child_process_scoped_environment_only": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001"
+}
