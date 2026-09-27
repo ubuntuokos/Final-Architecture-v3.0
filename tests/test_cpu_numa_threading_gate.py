@@ -15,7 +15,8 @@ class CpuNumaThreadingGateTests(unittest.TestCase):
     def test_reference_gate_passes(self):
         result = evaluate(ROOT)
         self.assertEqual(result["status"], "PASS")
-        self.assertEqual(result["summary"], {"passed": 21, "total": 21})
+        self.assertEqual(result["summary"], {"passed": 22, "total": 22})
+        self.assertEqual(result["required_child_gates"], {"FA3-GATE-OPENMP-001": "PASS"})
         self.assertFalse(result["current_host_runtime_promotion_claim"])
 
     def test_physical_core_first_and_numa_local(self):

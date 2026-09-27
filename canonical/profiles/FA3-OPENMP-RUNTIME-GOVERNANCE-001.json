@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OPENMP-RUNTIME-GOVERNANCE-001",
+  "name": "OpenMP Runtime Governance",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "parent_profile_id": "FA3-CPU-NUMA-THREADING-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": {
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "linux_enforcement_projection": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+    "openmp_runtime": "CONSUMER_NOT_AUTHORITY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "scope": [
+    "runtime family discovery",
+    "multiple-runtime collision detection",
+    "per-workload environment sanitization",
+    "HRB-bound OpenMP thread and affinity projection",
+    "nested parallelism admission",
+    "wait and schedule policy",
+    "worker stack memory accounting",
+    "determinism declaration",
+    "vendor-neutral target offload binding",
+    "requested-versus-observed runtime verification"
+  ],
+  "defaults": {
+    "places": "cores",
+    "proc_bind": "close",
+    "dynamic": false,
+    "max_active_levels": 1,
+    "wait_policy": "PASSIVE",
+    "schedule": "static",
+    "target_offload_host_fallback": "FORBIDDEN_WHEN_ACCELERATOR_REQUESTED"
+  },
+  "runtime_families": [
+    "GNU_LIBGOMP",
+    "LLVM_LIBOMP",
+    "INTEL_LIBIOMP",
+    "OTHER_OR_UNKNOWN"
+  ],
+  "provider_neutrality": {
+    "cpu_only_supported": true,
+    "accelerator_cardinality": "0..N",
+    "target_device_vendor": "UNSPECIFIED_VENDOR_NEUTRAL",
+    "fixed_cuda_or_gpu_index_forbidden": true
+  },
+  "environment_policy": {
+    "scope": "CHILD_PROCESS_ONLY",
+    "global_shell_or_host_mutation_forbidden": true,
+    "inherited_omp_gomp_kmp_variables": "AUDIT_AND_SANITIZE",
+    "conflicting_environment_is_not_authority": true
+  },
+  "target_offload_policy": {
+    "hrb_accelerator_lease_required": true,
+    "stable_device_identity_required": true,
+    "local_device_ordinal_is_projection_not_identity": true,
+    "silent_host_fallback_forbidden": true,
+    "cpu_execution_is_separate_explicit_path": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0"
+}
