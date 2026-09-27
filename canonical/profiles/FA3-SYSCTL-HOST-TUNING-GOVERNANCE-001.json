@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001",
+  "name": "Sysctl Host Tuning Governance",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "parent_profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "covered_capabilities": ["CAP-063", "CAP-065"],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": {
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "sysctl_runtime": "PROJECTION_NOT_AUTHORITY"
+  },
+  "default_mode": "OBSERVE_ONLY",
+  "modes": [
+    "OBSERVE_ONLY",
+    "EPHEMERAL_MUTATION",
+    "PERSISTENT_MUTATION"
+  ],
+  "key_classes": [
+    "OBSERVE_ONLY",
+    "WORKLOAD_SENSITIVE",
+    "SAFETY_SECURITY_SENSITIVE",
+    "FORBIDDEN_AUTOMATIC_MUTATION"
+  ],
+  "policy": {
+    "universal_optimization_profile": "FORBIDDEN",
+    "magic_constants_as_canonical_defaults": "FORBIDDEN",
+    "unknown_key_mutation": "DENY",
+    "unknown_effect_or_safe_range": "NO_MUTATION_FAIL_CLOSED",
+    "existing_user_tuning": "OBSERVE_PRESERVE_NOT_AUTHORITY_TO_ESCALATE",
+    "current_state_capture_before_mutation": true,
+    "semantic_diff_required": true,
+    "explicit_user_approval_required": true,
+    "hrb_authorization_required": true,
+    "security_authorization_required_for_security_sensitive_keys": true,
+    "workload_benchmark_required_for_workload_sensitive_keys": true,
+    "post_apply_acceptance_required": true,
+    "rollback_required": true,
+    "rollback_verification_required": true
+  },
+  "persistence_policy": {
+    "default": "EPHEMERAL",
+    "persistent_requires_separate_admission": true,
+    "allowed_root": "/etc/sysctl.d",
+    "allowed_filename_pattern": "90-fa3-<purpose>.conf",
+    "overwrite_distribution_files": false,
+    "overwrite_user_or_third_party_files": false,
+    "modify_etc_sysctl_conf": false,
+    "modify_99_sysctl_conf": false
+  },
+  "coexistence": {
+    "host_non_interference_required": true,
+    "package_manager_mutation": false,
+    "global_shell_environment_mutation": false,
+    "independent_tuning_tools_must_not_be_replaced": true,
+    "existing_sysctl_sources_are_discovered_not_hijacked": true
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "required": true,
+    "precedence": "SAFETY_OVERRIDES_PERFORMANCE",
+    "bypass": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0"
+}
