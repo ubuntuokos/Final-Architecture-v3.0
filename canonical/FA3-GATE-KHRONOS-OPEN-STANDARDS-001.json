@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-KHRONOS-OPEN-STANDARDS-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
+  "entrypoint": "src/fa3_khronos_open_standards_gate.py::gate",
+  "profile_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "capability_binding": "CAP-083",
+  "fail_closed": true,
+  "static_pass_promotes_runtime": false,
+  "tests": [
+    "tests/test_khronos_open_standards_gate.py"
+  ],
+  "required_boundaries": [
+    "CAP-083",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175",
+    "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
