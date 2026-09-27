@@ -67,8 +67,8 @@ jobs:
             tests/test_secret_leak_negative.py
       - name: Broker and secret negative regressions
         run: |
-          PYTHONPATH=src python -m unittest discover -s tests -p 'test_integration_broker.py' -v
-          PYTHONPATH=src python -m unittest discover -s tests -p 'test_secret_leak_negative.py' -v
+          bash bin/fa3-test -v tests/test_integration_broker.py
+          bash bin/fa3-test -v tests/test_secret_leak_negative.py
       - name: Integration broker canonical gate
         run: ./bin/fa3-enforce integration-broker
       - name: Hosted CI must not claim Podman current-host PASS
