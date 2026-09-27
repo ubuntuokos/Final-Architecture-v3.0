@@ -56,7 +56,7 @@ jobs:
       - name: Integration broker regression
         run: ./bin/fa3-enforce integration-broker
       - name: GUI canonical regression
-        run: PYTHONPATH=. python src/fa3_gui_gate.py
+        run: PYTHONPATH=src python src/fa3_gui_gate.py
       - name: Reuse discovery fail-closed gate
         run: ./bin/fa3-enforce reuse-discovery
       - name: Global static enforcement
