@@ -744,6 +744,164 @@ def approve_spoiler_publication(
     item["publication_approved_at"] = _utc_now()
     return deepcopy(item)
 
+
+TRAILER_SOURCE_MODES = {
+    "SCRIPT_ONLY_CONCEPT",
+    "SCRIPT_PLUS_EXISTING_ASSETS",
+    "FINISHED_FILM_CUT",
+}
+TRAILER_OUTPUT_TYPES = {
+    "TEASER", "TRAILER", "TV_SPOT", "SOCIAL_TEASER", "CHARACTER_TRAILER",
+    "EPISODE_PROMO", "SEASON_PROMO", "CUSTOM_PROMO",
+}
+TRAILER_SPOILER_LEVELS = {"NONE", "LIGHT", "PARTIAL", "FULL", "ENDING"}
+TRAILER_ASPECT_RATIOS = {"16:9", "9:16", "1:1", "4:5", "CUSTOM"}
+
+
+def build_trailer_generation_plan(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    source_document_id: str,
+    source_revision: int,
+    branch_id: str,
+    source_mode: str,
+    output_type: str,
+    target_duration_seconds: int,
+    spoiler_ceiling: str,
+    aspect_ratio: str,
+    selected_story_node_refs: list[str],
+    source_media_refs: list[str] | None = None,
+    target_audience: str = "GENERAL",
+) -> dict[str, Any]:
+    """Build a non-authoritative script-to-teaser/trailer execution plan."""
+    validate_project(project)
+    if actor_id not in _members(project):
+        raise StoryStudioError("actor is not a project collaborator")
+    if source_mode not in TRAILER_SOURCE_MODES:
+        raise StoryStudioError("unsupported trailer source_mode")
+    if output_type not in TRAILER_OUTPUT_TYPES:
+        raise StoryStudioError("unsupported trailer output_type")
+    if spoiler_ceiling not in TRAILER_SPOILER_LEVELS:
+        raise StoryStudioError("unsupported trailer spoiler_ceiling")
+    if aspect_ratio not in TRAILER_ASPECT_RATIOS:
+        raise StoryStudioError("unsupported trailer aspect_ratio")
+    if not isinstance(target_duration_seconds, int) or not 6 <= target_duration_seconds <= 180:
+        raise StoryStudioError("trailer target duration must be 6..180 seconds")
+
+    documents = _document_map(project)
+    if source_document_id not in documents:
+        raise StoryStudioError("source document not found")
+    source_doc = documents[source_document_id]
+    if source_revision != source_doc["revision"]:
+        raise StoryStudioError("trailer source revision must match selected document revision")
+
+    branches = {item.get("branch_id") for item in project.get("branches", [])}
+    if branch_id not in branches:
+        raise StoryStudioError("trailer branch must exist")
+    if not selected_story_node_refs:
+        raise StoryStudioError("selected_story_node_refs required")
+    nodes = _project_node_map(project)
+    if any(node_id not in nodes for node_id in selected_story_node_refs):
+        raise StoryStudioError("trailer node refs must reference known story nodes")
+
+    media_refs = list(dict.fromkeys(source_media_refs or []))
+    if source_mode != "SCRIPT_ONLY_CONCEPT" and not media_refs:
+        raise StoryStudioError("existing-asset trailer modes require source_media_refs")
+
+    source_digest = str(source_doc.get("content_digest") or sha256(
+        str(source_doc.get("content", "")).encode("utf-8")
+    ).hexdigest())
+    released_digests = {
+        receipt.get("revision_digest") for receipt in project.get("releases", [])
+        if receipt.get("final") is True
+    }
+    source_is_released = source_digest in released_digests
+
+    if source_mode == "SCRIPT_ONLY_CONCEPT":
+        execution_route = "FA3-STORY-001 -> FA3-MMG-CONTEXT-IR-001 -> FA3-VIDEO-001 -> OTIO_KDENLIVE"
+        generated_visuals_required = True
+    elif source_mode == "SCRIPT_PLUS_EXISTING_ASSETS":
+        execution_route = "FA3-STORY-001 + SOURCE_MEDIA -> FA3-MMG-CONTEXT-IR-001/FA3-VIDEO-001 as needed -> OTIO_KDENLIVE"
+        generated_visuals_required = False
+    else:
+        execution_route = "FA3-STORY-001 + FINISHED_SOURCE_MEDIA -> OTIO_KDENLIVE"
+        generated_visuals_required = False
+
+    beat_roles = ["HOOK", "SETUP", "ESCALATION", "TURN", "MONTAGE", "EMOTIONAL_BEAT", "BUTTON", "TITLE_CARD"]
+    if target_duration_seconds <= 30:
+        beat_roles = ["HOOK", "ESCALATION", "BUTTON", "TITLE_CARD"]
+    elif target_duration_seconds <= 60:
+        beat_roles = ["HOOK", "SETUP", "ESCALATION", "MONTAGE", "BUTTON", "TITLE_CARD"]
+
+    return {
+        "schema": "fa3.trailer-generation-plan.v1",
+        "project_id": project["project_id"],
+        "requested_by": actor_id,
+        "source_document_id": source_document_id,
+        "source_revision": source_revision,
+        "source_revision_digest": source_digest,
+        "source_is_released": source_is_released,
+        "draft_marker_required": not source_is_released,
+        "branch_id": branch_id,
+        "selected_story_node_refs": list(dict.fromkeys(selected_story_node_refs)),
+        "source_mode": source_mode,
+        "source_media_refs": media_refs,
+        "output_type": output_type,
+        "target_duration_seconds": target_duration_seconds,
+        "spoiler_ceiling": spoiler_ceiling,
+        "aspect_ratio": aspect_ratio,
+        "target_audience": target_audience,
+        "beat_roles": beat_roles,
+        "generated_visuals_required": generated_visuals_required,
+        "generated_visuals_must_be_labeled": source_mode != "FINISHED_FILM_CUT",
+        "generated_marketing_copy_must_not_impersonate_story_dialogue": True,
+        "sourced_dialogue_requires_exact_source_reference": True,
+        "cross_branch_mixing": False,
+        "canonical_story_mutation": False,
+        "execution_route": execution_route,
+        "generation_context_ir": "FA3-MMG-CONTEXT-IR-001",
+        "video_profile": "FA3-VIDEO-001",
+        "editorial_handoff": "OTIO_KDENLIVE",
+        "provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+        "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+        "final_editorial_approval_required": True,
+        "execution_authorized": False,
+    }
+
+
+def validate_trailer_shot_selection(
+    plan: dict[str, Any],
+    selections: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Validate that trailer shots are traceable and do not silently exceed the plan."""
+    if plan.get("schema") != "fa3.trailer-generation-plan.v1":
+        raise StoryStudioError("trailer plan schema mismatch")
+    allowed_nodes = set(plan.get("selected_story_node_refs", []))
+    source_mode = plan.get("source_mode")
+    for selection in selections:
+        node_ref = selection.get("story_node_ref")
+        if node_ref not in allowed_nodes:
+            raise StoryStudioError("trailer shot references story node outside selected source")
+        source_kind = selection.get("source_kind")
+        if source_kind not in {"SOURCE_MEDIA", "GENERATED_PREVIS"}:
+            raise StoryStudioError("trailer shot source_kind invalid")
+        if source_kind == "SOURCE_MEDIA" and not selection.get("media_ref"):
+            raise StoryStudioError("source-media trailer shot requires media_ref")
+        if source_kind == "GENERATED_PREVIS" and source_mode == "FINISHED_FILM_CUT":
+            raise StoryStudioError("finished-film-cut mode cannot silently inject generated previs")
+        if source_kind == "GENERATED_PREVIS" and selection.get("generated_label") is not True:
+            raise StoryStudioError("generated/previs trailer shot must be explicitly labeled")
+        if selection.get("dialogue_text") and not selection.get("dialogue_source_ref"):
+            raise StoryStudioError("quoted/sourced dialogue requires exact source reference")
+    return {
+        "result": "PASS",
+        "selection_count": len(selections),
+        "source_mode": source_mode,
+        "spoiler_ceiling": plan["spoiler_ceiling"],
+        "canonical_story_mutation": False,
+    }
+
 def new_reference_project() -> dict[str, Any]:
     return {
         "schema": SCHEMA,
