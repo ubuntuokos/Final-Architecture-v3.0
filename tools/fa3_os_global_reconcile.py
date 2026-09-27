@@ -95,10 +95,10 @@ def patch_fa3_enforce() -> None:
 
     command = '"fa3-os-event-privacy"'
     if command not in text:
-        anchor = '"presenton-current-host","acceptance"'
+        anchor = '"story-presentation","acceptance"'
         if anchor not in text:
             raise RuntimeError("fa3_enforce command-choice anchor missing")
-        text = text.replace(anchor, '"presenton-current-host","fa3-os-event-privacy","acceptance"', 1)
+        text = text.replace(anchor, '"story-presentation","fa3-os-event-privacy","acceptance"', 1)
 
     handler = (
         "        if a.command==\"fa3-os-event-privacy\":\n"
@@ -128,7 +128,7 @@ def patch_permanent_workflow() -> None:
         "        run: ./bin/fa3-enforce fa3-os-event-privacy\n"
     )
     if step not in text:
-        anchor = "      - name: Presenton provider/deployment/artifact regression gate\n"
+        anchor = "      - name: FA3-native Story/Presentation supersedence gate\n"
         if anchor not in text:
             raise RuntimeError("permanent workflow gate-step anchor missing")
         text = text.replace(anchor, step + anchor, 1)
