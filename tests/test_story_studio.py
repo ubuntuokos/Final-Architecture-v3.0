@@ -4,13 +4,16 @@ from fa3_story_studio import (
     StoryStudioError,
     add_collaboration_comment,
     apply_collaborative_edit,
+    approve_spoiler_publication,
     build_dubbing_conformance_plan,
     build_presentation_projection,
+    build_spoiler_generation_plan,
     create_branch,
     issue_final_release,
     new_reference_project,
     plan_scoped_revision,
     render_note_markdown,
+    register_spoiler_derivative,
     save_stash_as_note,
     stash_rejected_content,
     validate_codec_registry,
@@ -192,6 +195,54 @@ class StoryStudioTests(unittest.TestCase):
         self.assertEqual(plan["stage_1"], "ALIGN_AND_RETIME")
         self.assertFalse(plan["silent_target_text_rewrite"])
         self.assertTrue(plan["human_review_required"])
+
+
+    def test_spoiler_plan_is_branch_and_revision_bound(self):
+        p = new_reference_project()
+        plan = build_spoiler_generation_plan(
+            p,
+            actor_id="writer-a",
+            source_document_id="screenplay-1",
+            source_revision=0,
+            branch_id="main",
+            mode="ENDING_EXPLAINED",
+            source_node_refs=["story-1", "scene-1"],
+            intended_audience="press-kit",
+        )
+        self.assertEqual(plan["disclosure_level"], "ENDING")
+        self.assertEqual(plan["branch_id"], "main")
+        self.assertFalse(plan["cross_branch_detail_mixing"])
+        self.assertFalse(plan["canonical_story_mutation"])
+        self.assertTrue(plan["draft_marker_required"])
+
+    def test_spoiler_derivative_requires_disclosure_map_and_release_approval(self):
+        p = new_reference_project()
+        plan = build_spoiler_generation_plan(
+            p,
+            actor_id="writer-a",
+            source_document_id="screenplay-1",
+            source_revision=0,
+            branch_id="main",
+            mode="FULL_PLOT",
+            source_node_refs=["story-1", "scene-1"],
+            intended_audience="internal-review",
+        )
+        derivative = register_spoiler_derivative(
+            p,
+            actor_id="writer-b",
+            spoiler_id="spoiler-1",
+            plan=plan,
+            text="Full plot summary including the ending.",
+            disclosure_map=[
+                {"source_node_ref": "story-1", "level": "FULL"},
+                {"source_node_ref": "scene-1", "level": "ENDING"},
+            ],
+        )
+        self.assertFalse(derivative["external_publication_approved"])
+        with self.assertRaises(StoryStudioError):
+            approve_spoiler_publication(p, actor_id="writer-b", spoiler_id="spoiler-1")
+        approved = approve_spoiler_publication(p, actor_id="writer-a", spoiler_id="spoiler-1")
+        self.assertTrue(approved["external_publication_approved"])
 
 
 if __name__ == "__main__":
