@@ -61,5 +61,287 @@
     "SYCL-Docs",
     "OpenCL-Guide"
   ],
-  "current_host_status": "PENDING_PHYSICAL_MATERIALIZATION_AND_EXECUTION"
+  "current_host_status": "PENDING_PHYSICAL_MATERIALIZATION_AND_EXECUTION",
+  "projects": [
+    {
+      "project": "Vulkan-Headers",
+      "repo": "KhronosGroup/Vulkan-Headers",
+      "commit": "e3b1eec08173d6b825cd3ac88c885a63b621504a",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "HOST_GRAPHICS_COMPUTE_INTERFACE",
+      "preflight": [
+        "git",
+        "cmake",
+        "C/C++ toolchain"
+      ],
+      "validation": [
+        "installed Vulkan headers present"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "Vulkan-Loader",
+      "repo": "KhronosGroup/Vulkan-Loader",
+      "commit": "5f157b62e333c63260d05d81bf66faa216ab0fb8",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "RENDER_COMPUTE_RUNTIME_BOUNDARY",
+      "preflight": [
+        "Vulkan-Headers",
+        "cmake",
+        "C/C++ toolchain",
+        "platform loader libraries"
+      ],
+      "validation": [
+        "FA3-scoped loader resolves without replacing system loader"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "Vulkan-ValidationLayers",
+      "repo": "KhronosGroup/Vulkan-ValidationLayers",
+      "commit": "f4874eee15c78d7bdb2b7e60659d539f14741500",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "CURRENT_HOST_VULKAN_VALIDATION",
+      "preflight": [
+        "Vulkan-Headers",
+        "Vulkan-Loader",
+        "required SPIR-V build dependencies",
+        "cmake",
+        "C++ toolchain"
+      ],
+      "validation": [
+        "layer manifest and library installed in FA3 prefix",
+        "activation child-process scoped only"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "Vulkan-Profiles",
+      "repo": "KhronosGroup/Vulkan-Profiles",
+      "commit": "1f139a2ea3c475eed7e6699d67fc362203a69c41",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "HRB_READ_ONLY_CAPABILITY_INPUT",
+      "preflight": [
+        "Vulkan-Headers",
+        "Vulkan-Loader",
+        "cmake",
+        "C++ toolchain"
+      ],
+      "validation": [
+        "profile tooling available in FA3 prefix",
+        "no HRB authority transfer"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "SPIRV-Tools",
+      "repo": "KhronosGroup/SPIRV-Tools",
+      "commit": "b707790a898e44038547df54580022fc1cf89c3d",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "SHADER_FABRIC_VALIDATE_OPTIMIZE",
+      "preflight": [
+        "cmake",
+        "C++ toolchain",
+        "immutable SPIR-V headers dependency"
+      ],
+      "validation": [
+        "spirv-val present",
+        "spirv-opt present"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "glslang",
+      "repo": "KhronosGroup/glslang",
+      "commit": "e1b562a8bed273a02f30b59b66a5d499793cede5",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "SHADER_FABRIC_COMPILER",
+      "preflight": [
+        "cmake",
+        "C++ toolchain"
+      ],
+      "validation": [
+        "glslangValidator present"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "SPIRV-Cross",
+      "repo": "KhronosGroup/SPIRV-Cross",
+      "commit": "aa217aeb6c9f0ace7a0ab233b28807edf45eb165",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "SHADER_FABRIC_TRANSLATE_REFLECT",
+      "preflight": [
+        "cmake",
+        "C++ toolchain"
+      ],
+      "validation": [
+        "spirv-cross CLI present"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "KTX-Software",
+      "repo": "KhronosGroup/KTX-Software",
+      "commit": "4d6fc70eaf62ad0558e63e8d97eb9766118327a6",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "ASSET_GRAPH_TEXTURE_INTERCHANGE",
+      "preflight": [
+        "cmake",
+        "C/C++ toolchain",
+        "project-declared build dependencies"
+      ],
+      "validation": [
+        "KTX tools/libraries present in FA3 prefix"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "glTF-Validator",
+      "repo": "KhronosGroup/glTF-Validator",
+      "commit": "434283be08a668a8fb4e437145630ddbf93b0686",
+      "build_system": "UPSTREAM_DART",
+      "build": true,
+      "install_scope": "FA3_ISOLATED_TOOL_ROOT",
+      "target": "ASSET_GRAPH_VALIDATION",
+      "preflight": [
+        "upstream-declared Dart toolchain available or separately admitted"
+      ],
+      "validation": [
+        "validator artifact present in isolated FA3 tool root"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "OpenXR-SDK",
+      "repo": "KhronosGroup/OpenXR-SDK",
+      "commit": "f2448a8797c85814aa892efc1ab8707900fbcc78",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "XR_PROVIDER",
+      "preflight": [
+        "cmake",
+        "C/C++ toolchain",
+        "project-declared platform headers/libs"
+      ],
+      "validation": [
+        "OpenXR SDK components available under FA3 prefix",
+        "no system OpenXR runtime replacement"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "OpenCL-Headers",
+      "repo": "KhronosGroup/OpenCL-Headers",
+      "commit": "6fe718c31a45fe25151362a72ef041c3a1047cbd",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "COMPUTE_PROVIDER_INTERFACE",
+      "preflight": [
+        "cmake"
+      ],
+      "validation": [
+        "OpenCL headers present in FA3 prefix"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "OpenCL-ICD-Loader",
+      "repo": "KhronosGroup/OpenCL-ICD-Loader",
+      "commit": "b7bd2803acc779c03d96588e9ca9e9568a18698a",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "COMPUTE_PROVIDER",
+      "preflight": [
+        "OpenCL-Headers",
+        "cmake",
+        "C toolchain"
+      ],
+      "validation": [
+        "FA3-scoped OpenCL loader present",
+        "no system ICD configuration mutation"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "ANARI-SDK",
+      "repo": "KhronosGroup/ANARI-SDK",
+      "commit": "7534bd263d6ff97764eda93d0e1bd6bd2f108c32",
+      "build_system": "CMAKE",
+      "build": true,
+      "install_scope": "FA3_PREFIX",
+      "target": "RENDER_FABRIC_PROVIDER_ABSTRACTION",
+      "preflight": [
+        "cmake",
+        "C++ toolchain",
+        "project-declared optional dependencies separately admitted"
+      ],
+      "validation": [
+        "ANARI SDK installed to FA3 prefix"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "OpenVX-sample-impl",
+      "repo": "KhronosGroup/OpenVX-sample-impl",
+      "commit": "031f44bdcd6648f0957c9e351f76c3a64a0bfc32",
+      "build_system": "UPSTREAM_BUILD",
+      "build": true,
+      "install_scope": "FA3_PREFIX_OR_ISOLATED_REFERENCE_ROOT",
+      "target": "VISION_FABRIC_REFERENCE_PROVIDER",
+      "preflight": [
+        "upstream-declared compiler/build dependencies"
+      ],
+      "validation": [
+        "reference implementation builds without system replacement"
+      ],
+      "runtime_promotion": false
+    },
+    {
+      "project": "NNEF-Tools",
+      "repo": "KhronosGroup/NNEF-Tools",
+      "commit": "765d27d9095e0c90301165f8933fb325b54ddd17",
+      "build_system": "PYTHON_VENV",
+      "build": true,
+      "install_scope": "FA3_ISOLATED_VENV",
+      "target": "MODEL_ARTIFACT_INTERCHANGE",
+      "preflight": [
+        "python3",
+        "venv",
+        "project-declared Python dependencies"
+      ],
+      "validation": [
+        "NNEF import/CLI smoke in dedicated venv"
+      ],
+      "runtime_promotion": false
+    }
+  ],
+  "build_policy": {
+    "dependency_installation": "NO_IMPLICIT_HOST_MUTATION",
+    "package_manager_rule": "FA3 installer/materializer may emit distribution package-manager dependency instructions for required system dependencies; it must not replace unrelated host packages or globally reconfigure runtimes",
+    "missing_dependency": "FAIL_CLOSED_WITH_ACTIONABLE_DEPENDENCY_REPORT",
+    "system_runtime_replacement": false,
+    "child_process_scoped_runtime_env": true,
+    "per_project_build_receipt_required": true,
+    "aggregate_build_receipt_required": true
+  }
 }
