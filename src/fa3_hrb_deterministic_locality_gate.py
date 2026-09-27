@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_page_cache_prefetch_gate import gate as page_cache_prefetch_gate
+from fa3_sysctl_governance_gate import gate as sysctl_governance_gate
 
 PROFILE = "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json"
 CONTRACT = "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json"
@@ -38,6 +39,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     decision = loadj(root, DECISION)
     providers = [loadj(root, path) for path in PROVIDERS]
     page_cache_ref = page_cache_prefetch_gate(root)
+    sysctl_ref = sysctl_governance_gate(root)
 
     invariants = set(contract.get("invariants", []))
     enforced = set(enforcement.get("p0_invariants", []))
@@ -80,6 +82,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("preload-optional", "FA3-PROVIDER-PRELOAD-001" in provider_ids and providers[3].get("status") == "OPTIONAL_REFERENCE_PROVIDER" and providers[3].get("new_architectural_authority") is False, "preload is optional non-authoritative page-cache projection"),
         check("legacy-schedulers-not-baseline", all(x in decision.get("explicitly_not_baseline", []) for x in ["PDS", "BMQ", "MuQSS", "PREEMPT_RT"]), "legacy/RT schedulers are not required baseline"),
         check("page-cache-prefetch-subgate", page_cache_ref.get("result") == "PASS" and page_cache_ref.get("gateset_id") == "FA3-PAGE-CACHE-PREFETCH-GATESET-001", "provider-neutral page-cache/prefetch subgate passes and is bound below HRB"),
+        check("sysctl-governance-subgate", sysctl_ref.get("result") == "PASS" and sysctl_ref.get("current_host_runtime_promotion_claim") is False, "mandatory sysctl governance child gate passes without current-host promotion claim"),
         check(
             "execution-path-binding",
             {

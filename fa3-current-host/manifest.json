@@ -68,6 +68,7 @@
     "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-SESSION-VAULT-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-STABLE-AUDIO-3-001.json",
+    "canonical/FA3-GATE-SYSCTL-HOST-TUNING-001.json",
     "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
     "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
     "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
@@ -75,6 +76,7 @@
     "canonical/conformance-matrix.csv",
     "canonical/contracts/FA3-OPENMP-RUNTIME-GOVERNANCE-CONTRACTS-001.json",
     "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
+    "canonical/contracts/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-CONTRACTS-001.json",
     "canonical/cpu-numa-threading-current-host-enforcement.json",
     "canonical/current-host-capability-qualification-constituent-producers.json",
     "canonical/current-host-capability-test-executors.json",
@@ -91,6 +93,7 @@
     "canonical/openmp-runtime-governance-enforcement.json",
     "canonical/pageindex-mcp-enforcement.json",
     "canonical/profiles/FA3-OPENMP-RUNTIME-GOVERNANCE-001.json",
+    "canonical/profiles/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001.json",
     "canonical/providers/FA3-PROVIDER-PAGEINDEX-MCP-001.json",
     "canonical/references/FA3-PAGEINDEX-MCP-UPSTREAM-REFERENCE-2026-09-18.json",
     "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
@@ -105,6 +108,7 @@
     "canonical/stable-audio-3-enforcement.json",
     "canonical/step-ca-current-host-enforcement.json",
     "canonical/step-ca-current-host-tool-lock.json",
+    "canonical/sysctl-host-tuning-governance-enforcement.json",
     "docs/FA3-GUI-CURRENT-HOST-CLOSURE-001.md",
     "docs/pageindex-mcp-current-host.md",
     "docs/runtime-hardening-current-host.md",
@@ -127,6 +131,7 @@
     "evidence/collect-stable-audio-3-current-host.py",
     "evidence/collect-step-ca-current-host.py",
     "evidence/collect-step-ca-root-ceremony.py",
+    "evidence/collect-sysctl-current-host.py",
     "evidence/evidence-registry.json",
     "evidence/reference/pageindex-mcp-ci-2026-09-18.json",
     "evidence/reference/pageindex-mcp-current-host-pending.json",
@@ -158,6 +163,8 @@
     "src/fa3_session_vault_current_host_gate.py",
     "src/fa3_stable_audio_3_gate.py",
     "src/fa3_step_ca_current_host_gate.py",
+    "src/fa3_sysctl_governance.py",
+    "src/fa3_sysctl_governance_gate.py",
     "tests/test_agent_workload_current_host_gate.py",
     "tests/test_cap028_agent_execution_current_host.py",
     "tests/test_cosyvoice_gate.py",
@@ -176,7 +183,8 @@
     "tests/test_session_vault_current_host.py",
     "tests/test_stable_audio_3_gate.py",
     "tests/test_step_ca_current_host.py",
-    "tests/test_step_ca_session_vault_ceremony.py"
+    "tests/test_step_ca_session_vault_ceremony.py",
+    "tests/test_sysctl_governance.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -391,6 +399,17 @@
       "tested_source_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
       "evidence_id": "EVID-FA3-GUI-CURRENT-HOST-001",
       "requalification_reason": "CONTROL_CENTER_RUNTIME_SURFACE_CHANGED_BY_CAPTION_AND_NARRATION_STUDIO_INTEGRATION"
+    },
+    {
+      "name": "sysctl-observation",
+      "collector": "evidence/collect-sysctl-current-host.py",
+      "gate": "sysctl-host-tuning",
+      "activation": "READ_ONLY_OBSERVATION",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "collection_status": "EXECUTABLE_READ_ONLY_OBSERVATION_MATERIALIZED_CURRENT_HOST_EXECUTION_PENDING",
+      "mutation_performed": false,
+      "persistent_mutation_performed": false,
+      "global_promotion_claim": false
     }
   ],
   "global_gate_sequence": [
