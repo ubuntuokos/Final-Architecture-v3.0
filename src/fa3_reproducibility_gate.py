@@ -28,7 +28,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     reuse = (root / ".github/workflows/fa3-reuse-discovery.yml").read_text(encoding="utf-8")
     requirements = (root / "requirements-test.txt").read_text(encoding="utf-8").splitlines()
 
-    from tools.fa3_python_namespace_audit import audit
+    from fa3_python_namespace_audit import audit
     namespace = audit(root)
 
     checks = [
