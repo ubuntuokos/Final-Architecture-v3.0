@@ -8,6 +8,7 @@ from fa3_story_studio import (
     build_dubbing_conformance_plan,
     build_presentation_projection,
     build_spoiler_generation_plan,
+    build_trailer_generation_plan,
     create_branch,
     issue_final_release,
     new_reference_project,
@@ -19,6 +20,7 @@ from fa3_story_studio import (
     validate_codec_registry,
     validate_dubbing_script,
     validate_project,
+    validate_trailer_shot_selection,
 )
 
 
@@ -243,6 +245,74 @@ class StoryStudioTests(unittest.TestCase):
             approve_spoiler_publication(p, actor_id="writer-b", spoiler_id="spoiler-1")
         approved = approve_spoiler_publication(p, actor_id="writer-a", spoiler_id="spoiler-1")
         self.assertTrue(approved["external_publication_approved"])
+
+
+    def test_script_only_concept_trailer_uses_mmg_and_marks_generated_visuals(self):
+        p = new_reference_project()
+        plan = build_trailer_generation_plan(
+            p,
+            actor_id="writer-a",
+            source_document_id="screenplay-1",
+            source_revision=0,
+            branch_id="main",
+            source_mode="SCRIPT_ONLY_CONCEPT",
+            output_type="TEASER",
+            target_duration_seconds=30,
+            spoiler_ceiling="LIGHT",
+            aspect_ratio="16:9",
+            selected_story_node_refs=["story-1", "scene-1"],
+            target_audience="GENERAL",
+        )
+        self.assertTrue(plan["generated_visuals_required"])
+        self.assertTrue(plan["generated_visuals_must_be_labeled"])
+        self.assertIn("FA3-MMG-CONTEXT-IR-001", plan["execution_route"])
+        self.assertEqual(plan["editorial_handoff"], "OTIO_KDENLIVE")
+        self.assertFalse(plan["canonical_story_mutation"])
+
+    def test_footage_based_trailer_requires_media_lineage(self):
+        p = new_reference_project()
+        with self.assertRaises(StoryStudioError):
+            build_trailer_generation_plan(
+                p,
+                actor_id="writer-a",
+                source_document_id="screenplay-1",
+                source_revision=0,
+                branch_id="main",
+                source_mode="FINISHED_FILM_CUT",
+                output_type="TRAILER",
+                target_duration_seconds=120,
+                spoiler_ceiling="PARTIAL",
+                aspect_ratio="16:9",
+                selected_story_node_refs=["story-1", "scene-1"],
+            )
+
+    def test_trailer_shot_selection_rejects_unlabeled_generated_previs(self):
+        p = new_reference_project()
+        plan = build_trailer_generation_plan(
+            p,
+            actor_id="writer-a",
+            source_document_id="screenplay-1",
+            source_revision=0,
+            branch_id="main",
+            source_mode="SCRIPT_ONLY_CONCEPT",
+            output_type="TRAILER",
+            target_duration_seconds=90,
+            spoiler_ceiling="PARTIAL",
+            aspect_ratio="16:9",
+            selected_story_node_refs=["story-1", "scene-1"],
+        )
+        with self.assertRaises(StoryStudioError):
+            validate_trailer_shot_selection(plan, [{
+                "story_node_ref": "scene-1",
+                "source_kind": "GENERATED_PREVIS",
+                "generated_label": False,
+            }])
+        result = validate_trailer_shot_selection(plan, [{
+            "story_node_ref": "scene-1",
+            "source_kind": "GENERATED_PREVIS",
+            "generated_label": True,
+        }])
+        self.assertEqual(result["result"], "PASS")
 
 
 if __name__ == "__main__":
