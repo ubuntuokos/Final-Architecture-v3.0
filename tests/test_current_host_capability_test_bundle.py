@@ -108,6 +108,7 @@ class CurrentHostCapabilityTestBundleAssemblerTests(unittest.TestCase):
             bundle = json.loads(bundle_path.read_text())
             self.assertEqual(bundle["schema"], BUNDLE_SCHEMA)
             self.assertEqual(bundle["execution_scope"], "CURRENT_HOST")
+            self.assertEqual(bundle["source_commit"], "a" * 40)
             self.assertFalse(bundle["synthetic"])
             self.assertEqual(bundle["tests"]["positive"]["id"], "AT-CAP-001-POS")
             self.assertEqual(bundle["tests"]["negative"]["id"], "AT-CAP-001-NEG")
@@ -176,6 +177,24 @@ class CurrentHostCapabilityTestBundleAssemblerTests(unittest.TestCase):
             report = materialize(root)
             self.assertEqual(report["assembler_integrity"], "FAIL")
             self.assertTrue(any("digest mismatch" in item for item in report["blocking_findings"][0]["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_mixed_source_commits_are_rejected(self):
+        td, root, host = self._root()
+        try:
+            self._write_complete_cap001(root, host)
+            path = root / ".fa3-current-host/test-results/capabilities/CAP-001/rollback.json"
+            obj = json.loads(path.read_text())
+            obj["source_commit"] = "b" * 40
+            path.write_text(json.dumps(obj))
+            report = materialize(root)
+            self.assertEqual(report["assembler_integrity"], "FAIL")
+            self.assertTrue(any(
+                "one source commit" in item
+                for finding in report["blocking_findings"]
+                for item in finding.get("findings", [])
+            ))
         finally:
             td.cleanup()
 
