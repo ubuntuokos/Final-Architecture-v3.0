@@ -65,6 +65,13 @@ def validate(root: Path | None = None) -> list[str]:
 
     rules = set(enforcement.get("rules", []))
     invariants = set(contract.get("invariants", []))
+    schema_paths = contract.get("schema_paths", [])
+    check("canonical-data-schemas", len(schema_paths) == 4 and all((root / path).is_file() for path in schema_paths) and {
+        "FA3-VISUAL-STYLE-RECIPE-001",
+        "FA3-STYLE-DNA-001",
+        "FA3-VISUAL-INTENT-IR-001",
+        "FA3-VISUAL-STYLE-BINDING-001",
+    } == {loadj(root, path).get("x-fa3-contract-id") for path in schema_paths})
     check("baseline-stable", profile.get("capability_count") == contract.get("capability_count") == enforcement.get("capability_count") == decision.get("capability_count_after") == count)
     check("no-new-capability", profile.get("new_capability") is False and contract.get("new_capability") is False and enforcement.get("new_capabilities") == 0 and decision.get("capability_delta") == 0 and intent.get("declared_new_capabilities") == [] and assessment.get("new_capabilities") == 0)
     check("no-new-authority", profile.get("new_architectural_authority") is False and contract.get("new_architectural_authority") is False and enforcement.get("new_architectural_authorities") == 0 and decision.get("authority_delta") == 0 and intent.get("proposed_authority_roles") == [] and assessment.get("new_architectural_authorities") == 0)
