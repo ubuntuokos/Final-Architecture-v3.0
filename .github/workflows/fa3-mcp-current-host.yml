@@ -43,7 +43,7 @@ jobs:
           src/fa3_mcp_gateway_server.py
           src/fa3_mcp_current_host_gate.py
       - name: Gateway and fail-closed contract regressions
-        run: PYTHONPATH=src python -m unittest tests.test_mcp_gateway_current_host -v
+        run: bash bin/fa3-test -v tests/test_mcp_gateway_current_host.py
       - name: Static current-host contract gate
         run: bash bin/fa3-enforce mcp-current-host --static
       - name: Missing real current-host receipt must remain blocked
