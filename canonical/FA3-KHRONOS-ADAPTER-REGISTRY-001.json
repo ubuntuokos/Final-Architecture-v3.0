@@ -86,7 +86,8 @@
       "project": "OpenVX-sample-impl",
       "target": "VISION_FABRIC",
       "authority": false,
-      "mode": "REFERENCE_PROVIDER"
+      "mode": "SAMPLE_IMPLEMENTATION_PATTERN_SOURCE_NOT_PRODUCTION_PROVIDER",
+      "runtime_admitted": false
     },
     {
       "id": "fa3.khronos.nnef",
@@ -102,5 +103,6 @@
     "system_icd_replacement": false,
     "child_process_scoped_environment_only": true
   },
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001"
 }
