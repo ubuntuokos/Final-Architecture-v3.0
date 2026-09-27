@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-STORY-STUDIO-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-STORY-STUDIO-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "StoryStudioProject",
+    "ProductionProfile",
+    "StoryDocument",
+    "CanonicalStoryIR",
+    "ScreenplayIR",
+    "NarrativeBranchGraph",
+    "StoryBranch",
+    "StoryAlternate",
+    "SeriesBible",
+    "SeasonBible",
+    "EpisodeDescriptor",
+    "Rundown",
+    "RundownSegment",
+    "ProductionCue",
+    "CommercialVariant",
+    "RevisionGraph",
+    "RevisionQuery",
+    "StoryStashEntry",
+    "RejectedContentNote",
+    "WriterGoal",
+    "WritingStatistics",
+    "WritingSprint",
+    "CollaborationMember",
+    "CollaborationRoleBinding",
+    "FinalPublisherPolicy",
+    "FinalReleaseReceipt",
+    "DocumentCodecDescriptor",
+    "RoundTripCompatibilityReport",
+    "TableReadPlan",
+    "ProductionHandoff"
+  ],
+  "invariants": [
+    "ONE_FA3_STORY_STUDIO_APPLICATION_SURFACE",
+    "PRODUCTION_TYPE_PROFILE_REQUIRED",
+    "ARBITRARY_DEPTH_NARRATIVE_BRANCHING",
+    "REJECTED_CONTENT_RECOVERABLE_AND_EXPORTABLE_AS_NOTE",
+    "MULTI_AUTHOR_ATTRIBUTION_REQUIRED",
+    "FINAL_PUBLISHER_MUST_BE_EXPLICITLY_DESIGNATED",
+    "NON_DESIGNATED_ACTOR_CANNOT_ISSUE_FINAL",
+    "IMPORT_EXPORT_SYMMETRY_REQUIRED",
+    "SILENT_INTERCHANGE_LOSS_FORBIDDEN",
+    "AI_NOTES_AND_HUMAN_NOTES_SEPARATE",
+    "HUMAN_APPROVAL_REQUIRED_FOR_FINAL_STATE",
+    "CPU_ONLY_CORE_OPERATION_REQUIRED",
+    "NO_PROVIDER_AUTHORITY_ESCALATION"
+  ],
+  "collaboration": {
+    "edit_roles": [
+      "OWNER",
+      "AUTHOR",
+      "EDITOR"
+    ],
+    "comment_roles": [
+      "OWNER",
+      "AUTHOR",
+      "EDITOR",
+      "COMMENTER",
+      "FINAL_PUBLISHER",
+      "RELEASE_APPROVER"
+    ],
+    "final_release_roles": [
+      "OWNER",
+      "FINAL_PUBLISHER"
+    ],
+    "designated_final_publisher_list_required": true,
+    "release_policy_must_be_explicit": true,
+    "release_receipt_must_include_actor_revision_digest_and_timestamp": true
+  },
+  "stash_note_contract": {
+    "rejected_fragment_never_silently_destroyed": true,
+    "note_fields": [
+      "note_id",
+      "title",
+      "content",
+      "source_document_id",
+      "source_range",
+      "source_revision",
+      "author",
+      "reason",
+      "created_at"
+    ],
+    "save_as_project_note": true,
+    "export_as_standalone_document": true
+  },
+  "interchange_contract": {
+    "each_import_codec_must_export_same_media_type": true,
+    "roundtrip_test_required": true,
+    "compatibility_classes": [
+      "EXACT",
+      "COMPATIBLE",
+      "DEGRADED",
+      "FLATTENED",
+      "UNSUPPORTED_FEATURE"
+    ],
+    "fail_closed_on_unknown_loss": true
+  }
+}
