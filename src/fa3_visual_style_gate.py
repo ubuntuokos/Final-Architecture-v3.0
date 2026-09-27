@@ -14,6 +14,7 @@ from fa3_visual_style import (
     VisualStyleDenied,
     build_style_dna,
     build_visual_intent,
+    compile_visual_style,
     normalize_recipe,
     validate_consumer_binding,
 )
@@ -66,11 +67,12 @@ def validate(root: Path | None = None) -> list[str]:
     rules = set(enforcement.get("rules", []))
     invariants = set(contract.get("invariants", []))
     schema_paths = contract.get("schema_paths", [])
-    check("canonical-data-schemas", len(schema_paths) == 4 and all((root / path).is_file() for path in schema_paths) and {
+    check("canonical-data-schemas", len(schema_paths) == 5 and all((root / path).is_file() for path in schema_paths) and {
         "FA3-VISUAL-STYLE-RECIPE-001",
         "FA3-STYLE-DNA-001",
         "FA3-VISUAL-INTENT-IR-001",
         "FA3-VISUAL-STYLE-BINDING-001",
+        "FA3-VISUAL-STYLE-COMPILE-RECEIPT-001",
     } == {loadj(root, path).get("x-fa3-contract-id") for path in schema_paths})
     check("baseline-stable", profile.get("capability_count") == contract.get("capability_count") == enforcement.get("capability_count") == decision.get("capability_count_after") == count)
     check("no-new-capability", profile.get("new_capability") is False and contract.get("new_capability") is False and enforcement.get("new_capabilities") == 0 and decision.get("capability_delta") == 0 and intent.get("declared_new_capabilities") == [] and assessment.get("new_capabilities") == 0)
@@ -126,6 +128,12 @@ def validate(root: Path | None = None) -> list[str]:
     check("canonical-import", recipe.get("schema") == "fa3.visual-style-recipe.v1" and recipe.get("provider_neutral") is True and recipe.get("provenance", {}).get("license") == "CC-BY-4.0" and recipe.get("provenance", {}).get("attribution") == "@VigoCreativeAI")
     check("constraints-preserved", recipe.get("style_fidelity_anchors") == synthetic["style_fidelity_anchors"] and recipe.get("source_content_to_avoid") == synthetic["source_content_to_avoid"] and recipe.get("negative_prompt") == synthetic["negative_prompt"])
     check("fa3-extension-preserved", recipe.get("fa3_extensions", {}).get("camera_language") == synthetic["camera_language"] and recipe.get("fa3_extensions", {}).get("continuity_constraints") == synthetic["continuity_constraints"])
+
+    compile_recipe = copy.deepcopy(recipe)
+    compile_recipe["prompt_template"] = "Create {SUBJECT} with {STYLE_FIDELITY_ANCHORS}; avoid {SOURCE_CONTENT_TO_AVOID}"
+    receipt = compile_visual_style(compile_recipe, values={"SUBJECT": "new subject"})
+    check("compile-receipt", receipt.get("schema") == "fa3.visual-style-compile-receipt.v1" and receipt.get("canonical") is False and receipt.get("route_request", {}).get("provider") is None and receipt.get("route_request", {}).get("model") is None and receipt.get("route_request", {}).get("runtime") is None and "high contrast" in receipt.get("derived_prompt", "") and "copied identity" in receipt.get("derived_prompt", ""))
+    check("compile-missing-variable-denied", denied(lambda: compile_visual_style(compile_recipe, values={})))
 
     ir = build_visual_intent(recipe, values={"SUBJECT": "new subject"}, scope="SHOT", target_id="shot-001")
     route = ir.get("route_request", {})
