@@ -48,7 +48,8 @@
     "AsRecordedDubbingScript",
     "ADRCueSheet",
     "DubbingCue",
-    "DubbingConformancePlan"
+    "DubbingConformancePlan",
+    "DubbingScript"
   ],
   "invariants": [
     "ONE_FA3_STORY_STUDIO_APPLICATION_SURFACE",
@@ -71,7 +72,10 @@
     "DUBBING_SCRIPT_MUST_BIND_SOURCE_VIDEO_AND_TIMECODES",
     "DUBBING_ADAPTATION_AND_AS_RECORDED_STATES_MUST_BE_DISTINCT",
     "DUBBING_FINAL_TEXT_MUST_MATCH_FINAL_AUDIO",
-    "DUBBING_CONFORMANCE_REQUIRED_AFTER_SOURCE_DIALOGUE_CHANGE"
+    "DUBBING_CONFORMANCE_REQUIRED_AFTER_SOURCE_DIALOGUE_CHANGE",
+    "PRESENTATION_PROJECTION_MUST_NOT_GAIN_STORY_AUTHORITY",
+    "DUBBING_SOURCE_REVISION_LINEAGE_REQUIRED",
+    "DUBBING_SOURCE_CHANGE_MUST_NOT_SILENTLY_REWRITE_TARGET_TEXT"
   ],
   "collaboration": {
     "edit_roles": [
@@ -127,48 +131,23 @@
     "fail_closed_on_unknown_loss": true
   },
   "presentation_contract": {
-    "story_to_deck": [
-      "PITCH_DECK",
-      "TREATMENT_DECK",
-      "SERIES_BIBLE_DECK",
-      "CHARACTER_DECK",
-      "LOCATION_DECK",
-      "STORYBOARD_DECK",
-      "PRODUCTION_BRIEF"
-    ],
-    "deck_to_story": "LINKED_REFERENCE_OR_EXPLICIT_PROPOSAL",
-    "mutation": "NO_SILENT_CANONICAL_STORY_MUTATION",
-    "provider": "OPTIONAL_PRESENTON_OR_LIBREOFFICE_IMPRESS_UNO",
-    "provider_authority": false
+    "source_story_nodes_required": true,
+    "writeback": "LINKED_REFERENCE_OR_EXPLICIT_PROPOSAL",
+    "authority_transfer": false
   },
   "dubbing_contract": {
-    "canonical_chain": [
-      "SOURCE_STORY_OR_SCREENPLAY",
-      "LOCKED_VIDEO",
-      "DIALOGUE_LIST_OR_PIVOT_DL",
-      "TARGET_TRANSLATION",
-      "LIP_SYNC_ADAPTATION",
-      "RECORDING_CUES",
-      "AS_RECORDED_SCRIPT",
-      "FINAL_AUDIO"
+    "document_types": [
+      "DIALOGUE_LIST",
+      "PIVOT_DIALOGUE_LIST",
+      "DUBBING_ADAPTATION_SCRIPT",
+      "AS_RECORDED_DUBBING_SCRIPT",
+      "ADR_CUE_SHEET",
+      "CHARACTER_SCRIPT"
     ],
-    "timing": [
-      "IN_TIMECODE",
-      "OUT_TIMECODE",
-      "TARGET_DURATION",
-      "FRAME_REFERENCE"
-    ],
-    "collaboration_roles": [
-      "TRANSLATOR",
-      "ADAPTOR",
-      "DUBBING_DIRECTOR",
-      "SCRIPT_EDITOR",
-      "RECORDING_ENGINEER",
-      "VOICE_ACTOR",
-      "FINAL_PUBLISHER"
-    ],
-    "downstream_voice_authority": "FA3-VOICE-001",
-    "caption_timing_authority": "FA3-CAPTION-SUBTITLE-001",
-    "provider_selection_owned_by_story_studio": false
+    "source_video_digest_required": true,
+    "source_revision_required": true,
+    "frame_accurate_timing_required": true,
+    "as_recorded_requires_final_audio_binding": true,
+    "source_change_policy": "ALIGN_RETIME_THEN_HUMAN_REVIEW"
   }
 }
