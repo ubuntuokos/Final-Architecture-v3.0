@@ -60,6 +60,8 @@ def validate(root: Path) -> list[str]:
         ("MULTI_AUTHOR_ATTRIBUTION_REQUIRED" in contract.get("invariants", []), "author-attribution"),
         ("FINAL_PUBLISHER_MUST_BE_EXPLICITLY_DESIGNATED" in contract.get("invariants", []), "publisher-invariant"),
         ("REJECTED_CONTENT_RECOVERABLE_AND_EXPORTABLE_AS_NOTE" in contract.get("invariants", []), "stash-invariant"),
+        ("STALE_CONCURRENT_EDIT_MUST_FAIL_CLOSED" in contract.get("invariants", []), "concurrent-edit-conflict"),
+        (contract.get("collaboration", {}).get("silent_last_writer_wins") is False, "no-silent-last-writer-wins"),
         (intent.get("declared_new_capabilities") == [], "intent-capabilities"),
         (assessment.get("result") == "PASS", "reuse-assessment"),
         (enforcement.get("fail_closed") is True, "fail-closed"),
