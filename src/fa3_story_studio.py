@@ -14,10 +14,13 @@ RELEASE_SCHEMA = "fa3.story-studio-final-release.v1"
 PRODUCTION_PROFILES = {
     "FEATURE_FILM", "TV_MOVIE", "TV_SERIES", "COMMERCIAL", "LIVE_BROADCAST",
     "DOCUMENTARY", "NEWS_MAGAZINE", "ANIMATION", "AUDIO_DRAMA", "STAGE_PLAY",
-    "MUSIC_VIDEO", "SHORT_FORM", "INTERACTIVE", "CUSTOM",
+    "MUSIC_VIDEO", "SHORT_FORM", "INTERACTIVE", "DUBBING_LOCALIZATION", "CUSTOM",
 }
-ROLES = {"OWNER", "AUTHOR", "EDITOR", "COMMENTER", "FINAL_PUBLISHER", "RELEASE_APPROVER"}
-EDIT_ROLES = {"OWNER", "AUTHOR", "EDITOR"}
+ROLES = {
+    "OWNER", "AUTHOR", "EDITOR", "COMMENTER", "FINAL_PUBLISHER", "RELEASE_APPROVER",
+    "TRANSLATOR", "ADAPTOR", "DUBBING_DIRECTOR", "RECORDING_ENGINEER", "VOICE_ACTOR",
+}
+EDIT_ROLES = {"OWNER", "AUTHOR", "EDITOR", "TRANSLATOR", "ADAPTOR", "DUBBING_DIRECTOR"}
 RELEASE_POLICIES = {"SINGLE_DESIGNATED", "ANY_DESIGNATED", "ALL_DESIGNATED"}
 
 
@@ -454,6 +457,134 @@ def issue_final_release(
     project.setdefault("releases", []).append(receipt)
     return deepcopy(receipt)
 
+
+
+PRESENTATION_TYPES = {
+    "PITCH_DECK", "TREATMENT_DECK", "SERIES_BIBLE_DECK", "CHARACTER_DECK",
+    "LOCATION_DECK", "STORYBOARD_DECK", "PRODUCTION_BRIEF", "LIVE_SHOW_DECK",
+}
+DUBBING_DOCUMENT_TYPES = {
+    "DIALOGUE_LIST", "PIVOT_DIALOGUE_LIST", "DUBBING_ADAPTATION_SCRIPT",
+    "AS_RECORDED_DUBBING_SCRIPT", "ADR_CUE_SHEET", "CHARACTER_SCRIPT",
+}
+DUBBING_SCHEMA = "fa3.dubbing-script.v1"
+
+
+def build_presentation_projection(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    presentation_type: str,
+    selected_node_ids: list[str],
+    title: str,
+) -> dict[str, Any]:
+    """Build a non-authoritative Story -> Presentation projection plan."""
+    validate_project(project)
+    members = _members(project)
+    if actor_id not in members:
+        raise StoryStudioError("actor is not a project collaborator")
+    if presentation_type not in PRESENTATION_TYPES:
+        raise StoryStudioError("unsupported presentation_type")
+    nodes = _project_node_map(project)
+    if not selected_node_ids or any(node_id not in nodes for node_id in selected_node_ids):
+        raise StoryStudioError("presentation projection requires known story node refs")
+    if not title:
+        raise StoryStudioError("presentation title required")
+    return {
+        "schema": "fa3.story-presentation-projection.v1",
+        "project_id": project["project_id"],
+        "presentation_type": presentation_type,
+        "title": title,
+        "requested_by": actor_id,
+        "source_node_refs": list(dict.fromkeys(selected_node_ids)),
+        "source_story_profile": "FA3-STORY-001",
+        "document_capability": "CAP-018",
+        "primary_human_authoring": "LIBREOFFICE_IMPRESS_UNO",
+        "optional_generation_provider": "FA3-PROVIDER-PRESENTON-001",
+        "provider_authority": False,
+        "writeback_mode": "LINKED_REFERENCE_OR_EXPLICIT_PROPOSAL",
+        "silent_story_mutation": False,
+        "final_story_release_authority_transferred": False,
+    }
+
+
+def validate_dubbing_script(document: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(document, dict) or document.get("schema") != DUBBING_SCHEMA:
+        raise StoryStudioError("dubbing script schema mismatch")
+    if document.get("document_type") not in DUBBING_DOCUMENT_TYPES:
+        raise StoryStudioError("unsupported dubbing document_type")
+    for key in ("document_id", "target_language", "source_video_digest", "source_revision"):
+        if not document.get(key):
+            raise StoryStudioError(f"dubbing script missing {key}")
+    digest = str(document["source_video_digest"])
+    normalized_digest = digest[7:] if digest.startswith("sha256:") else digest
+    if len(normalized_digest) != 64 or any(ch not in "0123456789abcdefABCDEF" for ch in normalized_digest):
+        raise StoryStudioError("source_video_digest must be SHA-256")
+
+    seen: set[str] = set()
+    events = document.get("events", [])
+    if not isinstance(events, list):
+        raise StoryStudioError("dubbing events must be a list")
+    for event in events:
+        for key in (
+            "cue_id", "source_event_ref", "source_character", "in_timecode_ms",
+            "out_timecode_ms", "source_text", "target_text",
+        ):
+            if key not in event or event[key] in (None, ""):
+                raise StoryStudioError(f"dubbing cue missing {key}")
+        cue_id = str(event["cue_id"])
+        if cue_id in seen:
+            raise StoryStudioError(f"duplicate dubbing cue_id: {cue_id}")
+        seen.add(cue_id)
+        start = event["in_timecode_ms"]
+        end = event["out_timecode_ms"]
+        if not isinstance(start, int) or not isinstance(end, int) or start < 0 or end <= start:
+            raise StoryStudioError(f"invalid dubbing timing for {cue_id}")
+        if document["document_type"] == "AS_RECORDED_DUBBING_SCRIPT" and not event.get("as_recorded_text"):
+            raise StoryStudioError(f"as-recorded text required for {cue_id}")
+
+    if document["document_type"] == "AS_RECORDED_DUBBING_SCRIPT" and not document.get("final_audio_digest"):
+        raise StoryStudioError("final_audio_digest required for as-recorded dubbing script")
+    return {
+        "result": "PASS",
+        "document_id": document["document_id"],
+        "document_type": document["document_type"],
+        "target_language": document["target_language"],
+        "cue_count": len(events),
+        "source_video_bound": True,
+        "frame_accurate_timing_required": True,
+        "caption_timing_profile": "FA3-CAPTION-SUBTITLE-001",
+        "voice_authority": "FA3-VOICE-001",
+        "provider_selection_owned_by_story_studio": False,
+    }
+
+
+def build_dubbing_conformance_plan(
+    document: dict[str, Any],
+    *,
+    new_source_revision: str,
+    changed_source_event_refs: list[str],
+) -> dict[str, Any]:
+    """Plan re-alignment after source dialogue/video revision without silently rewriting adaptation."""
+    validate_dubbing_script(document)
+    if not new_source_revision:
+        raise StoryStudioError("new_source_revision required")
+    changed = set(changed_source_event_refs)
+    affected = [
+        event["cue_id"] for event in document.get("events", [])
+        if event.get("source_event_ref") in changed
+    ]
+    return {
+        "schema": "fa3.dubbing-conformance-plan.v1",
+        "document_id": document["document_id"],
+        "old_source_revision": document["source_revision"],
+        "new_source_revision": new_source_revision,
+        "affected_cue_ids": affected,
+        "stage_1": "ALIGN_AND_RETIME",
+        "stage_2": "REVIEW_AND_EXPLICITLY_ADAPT_CONTENT",
+        "silent_target_text_rewrite": False,
+        "human_review_required": bool(affected),
+    }
 
 def new_reference_project() -> dict[str, Any]:
     return {
