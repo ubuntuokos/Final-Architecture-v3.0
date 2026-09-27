@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from fa3_cpu_thread_budget import AdmissionDenied, build_thread_plan, make_synthetic_dual_numa_topology
+from fa3_openmp_governance_gate import evaluate as openmp_governance_evaluate
 
 
 PROFILE = "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json"
@@ -65,6 +66,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     )
     intel_plan = build_thread_plan(topology, _request(requested_threads=8, openmp_provider="INTEL_LIBIOMP"))
     generic_plan = build_thread_plan(topology, _request(requested_threads=8))
+    openmp_child = openmp_governance_evaluate(root)
 
     forbidden = " ".join(profile.get("explicitly_forbidden_as_global_baseline", [])).lower()
     runtime_env = host_plan["environment"]
@@ -89,6 +91,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("pytorch-intra-inter-separated", host_plan["pytorch"]["intra_op_threads"] == 16 and host_plan["pytorch"]["inter_op_threads"] == 2 and host_plan["pytorch"]["apply_before_parallel_execution"], "PyTorch intra-op and inter-op budgets are separate"),
         check("intel-kmp-provider-scoped", "KMP_AFFINITY" in intel_plan["provider_settings"] and "KMP_AFFINITY" not in generic_plan["provider_settings"] and "DNNL_VERBOSE" in generic_plan["logging_settings"], "KMP is Intel-provider scoped and oneDNN verbosity is logging only"),
         check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 24 and len(enforcement.get("rules", [])) == 24 and invariants == enforced, "all 24 contract invariants are enforced fail-closed"),
+        check("openmp-governance-child", openmp_child.get("result") == "PASS" and openmp_child.get("current_host_runtime_promotion_claim") is False, "mandatory OpenMP P0 child gate passes without current-host overclaim"),
         check("current-host-claim-honest", enforcement.get("current_host_runtime_promotion_claim") is False and decision.get("current_host_claim") == "FRESH_CURRENT_HOST_TOPOLOGY_THREADING_E2E_PENDING", "static PASS does not claim current-host runtime promotion"),
     ]
     passed = all(item["status"] == "PASS" for item in checks)
@@ -99,6 +102,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         "scope": "CANONICAL_PORTABLE_RUNTIME_CONFORMANCE",
         "current_host_runtime_promotion_claim": False,
         "runtime_scenarios": 10,
+        "required_child_gates": {"FA3-GATE-OPENMP-001": openmp_child.get("result")},
         "checks": checks,
         "summary": {"passed": sum(item["status"] == "PASS" for item in checks), "total": len(checks)},
     }
