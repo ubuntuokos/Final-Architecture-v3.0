@@ -34,7 +34,21 @@
     "portal_absence": "LIMITED_WITH_APPROVED_FALLBACK_NOT_CORE_FAILURE",
     "optional_desktop_feature_absence_must_not_block_core_admission": true,
     "full_control_surface_must_not_depend_on_system_tray": true,
-    "design_system_must_not_require_breeze": true
+    "design_system_must_not_require_breeze": true,
+    "application_toolkit": "QT6_QML_NATIVE",
+    "qt_native_desktop_integration": "PREFERRED_WHEN_AVAILABLE",
+    "qt_native_feature_downleveling": "FORBIDDEN_WHEN_SAFE_AND_AVAILABLE",
+    "kf6_enhancement_on_plasma": "ALLOWED_AND_PREFERRED_WHEN_CAPABILITY_ADDS_VALUE",
+    "xdg_freedesktop_role": "INTEROPERABILITY_AND_NON_QT_DESKTOP_BOUNDARY",
+    "desktop_specific_enhancement_adapter": "ALLOWED_NON_AUTHORITY",
+    "integration_priority": [
+      "FA3_QT6_QML_APPLICATION_CORE",
+      "QT_NATIVE_DESKTOP_INTEGRATION_WHEN_AVAILABLE",
+      "KF6_ENHANCEMENT_ON_KDE_PLASMA_WHEN_USEFUL",
+      "XDG_FREEDESKTOP_INTEROPERABILITY",
+      "XDG_DESKTOP_PORTAL_WHEN_SESSION_OR_SANDBOX_REQUIRES",
+      "OPTIONAL_DESKTOP_SPECIFIC_ADAPTER_WHEN_GENERIC_PATH_IS_INSUFFICIENT"
+    ]
   },
   "support_tiers": {
     "tier_1_reference": [
@@ -78,5 +92,12 @@
     "runtime_probe_command": "python3 ./bin/fa3-desktop-admission --json"
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "native_integration_constraints": {
+    "portable_core_remains_desktop_neutral": true,
+    "qt_desktop_native_enhancements_may_exceed_generic_integration": true,
+    "canonical_capability_must_remain_available_on_supported_non_qt_desktops": true,
+    "optional_enhancement_may_not_create_architectural_authority": true,
+    "optional_enhancement_may_not_require_upstream_uninstall_or_global_host_mutation": true
+  }
 }
