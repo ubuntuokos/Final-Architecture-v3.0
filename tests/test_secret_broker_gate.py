@@ -1,7 +1,7 @@
 import json,os,pwd,subprocess,tempfile,unittest
 from pathlib import Path
-from src import fa3_secret_broker_gate as g
-from src.fa3_secret_broker_current_host_gate import REQUIRED_CHECKS
+import fa3_secret_broker_gate as g
+from fa3_secret_broker_current_host_gate import REQUIRED_CHECKS
 ROOT=Path(__file__).resolve().parents[1]
 
 class SecretBrokerGateTests(unittest.TestCase):
