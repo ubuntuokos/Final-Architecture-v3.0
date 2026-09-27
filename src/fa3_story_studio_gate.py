@@ -17,8 +17,10 @@ REQUIRED_FILES = [
     "canonical/contracts/FA3-STORY-STUDIO-CONTRACTS-001.json",
     "canonical/intents/FA3-STORY-STUDIO-APPLICATION-INTENT-001.json",
     "canonical/assessments/FA3-STORY-STUDIO-REUSE-ASSESSMENT-001.json",
+    "canonical/assessments/FA3-STORY-STUDIO-DECISION-ASSESSMENT-2026-09-27.json",
     "canonical/decisions/FA3-DEC-STORY-STUDIO-UNIFIED-2026-09-27.json",
     "canonical/story-studio-enforcement.json",
+    "canonical/enforcement-policy.json",
     "apps/fa3-control-center/qml/StoryStudioPage.qml",
     "src/fa3_story_studio.py",
 ]
@@ -40,7 +42,9 @@ def validate(root: Path) -> list[str]:
     contract = loadj(root / REQUIRED_FILES[1])
     intent = loadj(root / REQUIRED_FILES[2])
     assessment = loadj(root / REQUIRED_FILES[3])
+    decision_assessment = loadj(root / "canonical/assessments/FA3-STORY-STUDIO-DECISION-ASSESSMENT-2026-09-27.json")
     enforcement = loadj(root / "canonical/story-studio-enforcement.json")
+    policy = loadj(root / "canonical/enforcement-policy.json")
     qml = (root / "apps/fa3-control-center/qml/StoryStudioPage.qml").read_text(encoding="utf-8")
 
     checks = [
@@ -70,7 +74,12 @@ def validate(root: Path) -> list[str]:
         (contract.get("collaboration", {}).get("silent_last_writer_wins") is False, "no-silent-last-writer-wins"),
         (intent.get("declared_new_capabilities") == [], "intent-capabilities"),
         (assessment.get("result") == "PASS", "reuse-assessment"),
+        (set(decision_assessment.get("covered_ids", [])) >= {"FA3-STORY-001", "FA3-STORY-STUDIO-001"}, "decision-assessment-covered"),
+        (decision_assessment.get("project_radar_checked") is True, "decision-project-radar"),
         (enforcement.get("fail_closed") is True, "fail-closed"),
+        ("FA3-STORY-STUDIO-GATESET-001" in policy.get("mandatory_reference_gates", []), "global-policy-gate-binding"),
+        (policy.get("story_studio_capability_bindings") == ["CAP-014", "CAP-017", "CAP-018", "CAP-041", "CAP-168", "CAP-170", "CAP-171", "CAP-172", "CAP-173"], "global-policy-capability-bindings"),
+        (policy.get("story_studio_mandatory_p0_rules") == enforcement.get("rules"), "global-policy-p0-rules"),
         (enforcement.get("current_host_runtime_promotion_claim") is False, "no-runtime-overclaim"),
     ]
     for ok, code in checks:
