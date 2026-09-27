@@ -29,7 +29,7 @@ Item {
 
     property var workspaceTabs: [
         "Script", "Outline", "Story Branches", "Timeline", "Collaboration",
-        "Rejected / Stash", "Writer Goals", "Interchange", "Presentation", "Dubbing / ADR", "Spoiler / Recap", "Production"
+        "Rejected / Stash", "Writer Goals", "Interchange", "Presentation", "Dubbing / ADR", "Teaser / Trailer", "Spoiler / Recap", "Production"
     ]
 
     ColumnLayout {
@@ -441,6 +441,76 @@ Item {
                             onClicked: root.stageActionIntentRequested(
                                 "story.dubbing.recording-plan", "current-dubbing-script",
                                 "Build ADR/dubbing cues through Caption/Voice contracts; no direct provider execution.")
+                        }
+                    }
+                    Item { Layout.fillHeight: true }
+                }
+            }
+
+            Rectangle {
+                color: root.panel; radius: 8; border.color: root.border
+                ColumnLayout {
+                    anchors.fill: parent; anchors.margins: 16; spacing: 10
+                    Label { text: "Teaser / Trailer"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
+                    Label {
+                        text: "A kiválasztott forgatókönyv-revízióból és branchből videós előzetes-terv készül, majd a meglévő Video/MMG és OTIO editorial rétegek hajtják végre."
+                        color: root.textMuted; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        ComboBox {
+                            id: trailerSourceMode
+                            model: ["Script-only concept", "Script + existing assets", "Finished film cut"]
+                            Layout.preferredWidth: 190
+                        }
+                        ComboBox {
+                            id: trailerType
+                            model: ["Teaser", "Trailer", "TV Spot", "Social Teaser", "Character Trailer", "Episode Promo", "Season Promo", "Custom Promo"]
+                            Layout.preferredWidth: 170
+                        }
+                        ComboBox {
+                            id: trailerDuration
+                            model: ["15 s", "30 s", "60 s", "90 s", "120 s", "150 s", "Custom"]
+                            Layout.preferredWidth: 100
+                        }
+                    }
+                    RowLayout {
+                        ComboBox {
+                            id: trailerSpoiler
+                            model: ["No spoilers", "Light", "Partial", "Full", "Ending"]
+                            Layout.preferredWidth: 130
+                        }
+                        ComboBox {
+                            id: trailerAspect
+                            model: ["16:9", "9:16", "1:1", "4:5", "Custom"]
+                            Layout.preferredWidth: 100
+                        }
+                    }
+                    Label {
+                        text: "Concept trailer: a generált/previs képek kötelezően jelöltek. Existing/finished footage módban minden shot forrás-média lineage-et kap."
+                        color: root.orange; wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: "Trailer beat sheet: Hook · Setup · Escalation · Turn · Montage · Emotional Beat · Button · Title Card/CTA. A spoiler-ceiling korlátozza a felhasználható Story node-okat."
+                        color: root.green; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        Button {
+                            text: "Trailer plan készítése"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.trailer.plan", trailerType.currentText,
+                                "Build branch/revision-bound teaser or trailer plan; Story remains canonical and unchanged.")
+                        }
+                        Button {
+                            text: "MMG / Video handoff"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.trailer.generate", trailerSourceMode.currentText,
+                                "Use FA3-MMG-CONTEXT-IR-001 and FA3-VIDEO-001 only when generation is needed.")
+                        }
+                        Button {
+                            text: "OTIO editorial handoff"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.trailer.editorial", trailerAspect.currentText,
+                                "Create canonical OTIO editorial intent; final cut remains human-approved.")
                         }
                     }
                     Item { Layout.fillHeight: true }
