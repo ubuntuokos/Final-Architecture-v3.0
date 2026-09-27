@@ -394,7 +394,8 @@ SYSTEMD_E2E_ARTIFACT_CLEANUP_PASS=true
 
 opts='["rw","nodev","nosuid","noexec"]'
 mkdir -p "$(dirname "$RECEIPT")"
-python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" "$BRIDGE_SOURCE_COMMIT" <<'PY'
+CAPABILITY_COUNT="$(PYTHONPATH="$ROOT/src" python3 -c 'from fa3_release_baseline import active_capability_count; from pathlib import Path; print(active_capability_count(Path("'"$ROOT"'")))' )"
+python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" "$BRIDGE_SOURCE_COMMIT" "$CAPABILITY_COUNT" <<'PY'
 import json,sys
 from datetime import datetime,timezone
 from pathlib import Path
@@ -408,7 +409,7 @@ x={
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},
  "test_unlock_key_ephemeral":True,"secret_values_collected":False,"runtime_promotion_eligible":True,
- "global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143
+ "global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":int(sys.argv[5])
 }
 Path(sys.argv[1]).write_text(json.dumps(x,indent=2)+"\n")
 PY
