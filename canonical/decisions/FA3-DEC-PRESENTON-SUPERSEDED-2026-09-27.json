@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-PRESENTON-SUPERSEDED-2026-09-27",
+  "date": "2026-09-27",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Presenton provider disposition",
+  "decision": "SUPERSEDE_ACTIVE_RUNTIME_PROVIDER",
+  "rationale": "Presenton is retained only as an upstream reference and selective code donor. FA3 presentation capability is owned by the FA3-native Presentation Layer and must remain directly connected to canonical Story/Document layers without a mandatory Presenton dependency.",
+  "supersedes_runtime_role_from": "FA3-DEC-PRESENTON-2026-08-30",
+  "provider_id": "FA3-PROVIDER-PRESENTON-001",
+  "allowed_roles": [
+    "REFERENCE_ONLY",
+    "SELECTIVE_CODE_DONOR"
+  ],
+  "forbidden_roles": [
+    "MANDATORY_RUNTIME_PROVIDER",
+    "CANONICAL_AUTHORITY",
+    "STORY_DEPENDENCY",
+    "PRESENTATION_CANONICAL_AUTHORITY"
+  ],
+  "runtime_admitted": false,
+  "current_host_evidence_transfer_to_native_layer": false,
+  "historical_decision_mutation": false,
+  "historical_reference_evidence_mutation": false,
+  "capability_projection": [
+    "CAP-018",
+    "CAP-033",
+    "CAP-170",
+    "CAP-171"
+  ],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority_delta": 0,
+  "current_host_runtime_promotion_claim": false,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
