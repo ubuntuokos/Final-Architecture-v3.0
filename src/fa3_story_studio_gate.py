@@ -68,6 +68,11 @@ def validate(root: Path) -> list[str]:
         (profile.get("spoiler_derivatives", {}).get("source_node_lineage_required") is True, "spoiler-lineage"),
         (profile.get("spoiler_derivatives", {}).get("cross_branch_detail_mixing_forbidden") is True, "spoiler-branch-isolation"),
         (profile.get("spoiler_derivatives", {}).get("external_publication_requires_release_approval") is True, "spoiler-release-approval"),
+        (profile.get("trailer_teaser_derivatives", {}).get("status") == "MANDATORY", "trailer-mandatory"),
+        (profile.get("trailer_teaser_derivatives", {}).get("spoiler_ceiling_required") is True, "trailer-spoiler-ceiling"),
+        (profile.get("trailer_teaser_derivatives", {}).get("source_node_lineage_required") is True, "trailer-lineage"),
+        (profile.get("trailer_teaser_derivatives", {}).get("generated_visuals_must_be_marked_as_generated_or_previs") is True, "trailer-generated-label"),
+        (profile.get("trailer_teaser_derivatives", {}).get("editorial_handoff") == "OTIO_KDENLIVE", "trailer-otio"),
         (profile.get("interchange", {}).get("import_export_symmetry_required") is True, "codec-symmetry"),
         (profile.get("hardware_audit", {}).get("cpu_only_core_required") is True, "cpu-only"),
         (contract.get("id") == "FA3-STORY-STUDIO-CONTRACTS-001", "contract-id"),
@@ -93,7 +98,7 @@ def validate(root: Path) -> list[str]:
     for token in [
         "FA3 Story Studio", "Production Profile", "Collaboration", "Final Publisher",
         "Story Branches", "Rejected / Stash", "Writer Goals", "Interchange",
-        "Presentation Layer", "Dubbing / ADR Script", "Spoiler / Recap", "Final Publisher",
+        "Presentation Layer", "Dubbing / ADR Script", "Teaser / Trailer", "Spoiler / Recap", "Final Publisher",
         "Feature Film", "TV Series", "Commercial", "Live Broadcast", "Dubbing / Localization",
     ]:
         if token not in qml:
