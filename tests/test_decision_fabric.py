@@ -40,6 +40,7 @@ class DecisionFabricTests(unittest.TestCase):
     def test_repository_decision_gate_accepts_enforcement_scanner_sources(self):
         report = decision_fabric_gate(Path(__file__).resolve().parents[1])
         self.assertEqual("PASS", report["result"], report["findings"])
+        self.assertEqual(175, report["capability_count"])
 
     def test_rule_provider_selects_only_candidate(self):
         fabric = DecisionFabric([RuleDecisionProvider()])
