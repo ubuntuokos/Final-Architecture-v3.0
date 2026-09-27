@@ -1,7 +1,7 @@
 import base64,json,os,pwd,tempfile,unittest
 from unittest import mock
 from pathlib import Path
-from src import fa3_secret_broker as b
+import fa3_secret_broker as b
 
 class SecretBrokerTests(unittest.TestCase):
     def test_peer_identity_maps_linux_so_peercred_order(self):

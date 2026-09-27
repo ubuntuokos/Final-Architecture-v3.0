@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from src.fa3_release_baseline import module_active_capability_count
+from fa3_release_baseline import module_active_capability_count
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]

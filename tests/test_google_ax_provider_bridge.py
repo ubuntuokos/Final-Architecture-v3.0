@@ -3,7 +3,7 @@ from __future__ import annotations
 import copy
 import unittest
 
-from src.fa3_google_ax_provider import AxProviderBridgeError, compile_ax_provider_bridge
+from fa3_google_ax_provider import AxProviderBridgeError, compile_ax_provider_bridge
 
 
 def task() -> dict:

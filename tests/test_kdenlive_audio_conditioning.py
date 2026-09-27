@@ -1,9 +1,9 @@
 import unittest
 from pathlib import Path
 
-from src.fa3_kdenlive_audio_gate import gate as kdenlive_audio_gate
-from src.fa3_kdenlive_audio_pipeline import AudioConditioningRequest, plan_request
-from src.fa3_silero_vad_provider import build_speech_activity_map
+from fa3_kdenlive_audio_gate import gate as kdenlive_audio_gate
+from fa3_kdenlive_audio_pipeline import AudioConditioningRequest, plan_request
+from fa3_silero_vad_provider import build_speech_activity_map
 
 ROOT = Path(__file__).resolve().parents[1]
 

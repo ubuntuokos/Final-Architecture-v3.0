@@ -1,8 +1,10 @@
 import json,os,pwd,subprocess,tempfile,unittest
 from pathlib import Path
-from src import fa3_secret_broker_gate as g
-from src.fa3_secret_broker_current_host_gate import REQUIRED_CHECKS
+from fa3_release_baseline import module_active_capability_count
+import fa3_secret_broker_gate as g
+from fa3_secret_broker_current_host_gate import REQUIRED_CHECKS
 ROOT=Path(__file__).resolve().parents[1]
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 class SecretBrokerGateTests(unittest.TestCase):
     def test_static_gate_passes(self):
@@ -249,7 +251,7 @@ class SecretBrokerGateTests(unittest.TestCase):
                 "checks":{name:True for name in REQUIRED_CHECKS},
                 "test_unlock_key_ephemeral":True,"secret_values_collected":False,
                 "runtime_promotion_eligible":True,"global_promotion_claim":False,
-                "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143
+                "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":CAPABILITY_COUNT
             }))
             report.write_text(json.dumps({
                 "schema":"fa3.secret-broker-current-host-gate-report.v1",

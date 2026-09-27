@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.reproducibility-fabric.v1",
+  "id": "FA3-REPRODUCIBILITY-FABRIC-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "python": {
+    "canonical_module_namespace": "TOP_LEVEL_FA3_MODULES",
+    "source_root": "src",
+    "package_style_src_imports": "FORBIDDEN",
+    "relative_fa3_imports": "FORBIDDEN"
+  },
+  "tests": {
+    "canonical_entrypoint": "bin/fa3-test",
+    "runner": "pytest",
+    "runner_version": "9.1.1",
+    "isolated_venv": "${XDG_CACHE_HOME:-$HOME/.cache}/fa3/test-venv",
+    "full_suite_source": "tests",
+    "physical_current_host_marker": "physical_current_host",
+    "repository_worktree_mutation": false
+  },
+  "repository_prepare": {
+    "entrypoint": "bin/fa3-prepare-repository",
+    "projection": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+    "fetch_exact_missing_objects": true,
+    "working_tree_mutation": false,
+    "check_only_supported": true,
+    "snapshot_tree_identity_verified": true
+  },
+  "ci": {
+    "permanent_enforcement_uses_canonical_test_entrypoint": true,
+    "release_projection_reconcile_uses_canonical_test_entrypoint": true,
+    "reuse_discovery_full_regression_uses_canonical_test_entrypoint": true
+  },
+  "hardware_audit": {
+    "hardware_mutation": false,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "vendor_neutral": true
+  },
+  "current_host_runtime_promotion_claim": false
+}
