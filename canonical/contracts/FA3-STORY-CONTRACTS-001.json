@@ -35,7 +35,12 @@
     "DubbingScript",
     "DubbingCue",
     "DubbingConformancePlan",
-    "StoryPresentationProjection"
+    "StoryPresentationProjection",
+    "DialogueListIR",
+    "PivotDialogueListIR",
+    "DubbingAdaptationScript",
+    "AsRecordedDubbingScript",
+    "ADRCueSheet"
   ],
   "mandatory_semantics": [
     "SOURCE_AND_REVISION_LINEAGE",
@@ -51,6 +56,10 @@
     "NO_PROVIDER_AUTHORITY_ESCALATION",
     "DUBBING_SOURCE_REVISION_LINEAGE",
     "DUBBING_NO_SILENT_ADAPTATION_REWRITE",
-    "PRESENTATION_IS_DERIVED_NON_AUTHORITATIVE_PROJECTION"
+    "PRESENTATION_IS_DERIVED_NON_AUTHORITATIVE_PROJECTION",
+    "PRESENTATION_PROJECTION_PRESERVES_STORY_LINEAGE",
+    "DUBBING_SCRIPT_BINDS_SOURCE_VIDEO_AND_TIMING",
+    "DUBBING_AS_RECORDED_STATE_SEPARATE_FROM_ADAPTATION",
+    "DUBBING_SOURCE_CHANGE_REQUIRES_CONFORMANCE"
   ]
 }
