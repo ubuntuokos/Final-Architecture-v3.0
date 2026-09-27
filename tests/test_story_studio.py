@@ -4,6 +4,8 @@ from fa3_story_studio import (
     StoryStudioError,
     add_collaboration_comment,
     apply_collaborative_edit,
+    build_dubbing_conformance_plan,
+    build_presentation_projection,
     create_branch,
     issue_final_release,
     new_reference_project,
@@ -12,6 +14,7 @@ from fa3_story_studio import (
     save_stash_as_note,
     stash_rejected_content,
     validate_codec_registry,
+    validate_dubbing_script,
     validate_project,
 )
 
@@ -116,6 +119,79 @@ class StoryStudioTests(unittest.TestCase):
             validate_codec_registry([
                 {"media_type": "application/x-test", "import": True, "export": False, "roundtrip_test_required": True}
             ])
+
+
+    def test_story_to_presentation_projection_is_non_authoritative(self):
+        p = new_reference_project()
+        plan = build_presentation_projection(
+            p,
+            actor_id="writer-a",
+            presentation_type="PITCH_DECK",
+            selected_node_ids=["story-1", "scene-1"],
+            title="Project pitch",
+        )
+        self.assertEqual(plan["document_capability"], "CAP-018")
+        self.assertEqual(plan["optional_generation_provider"], "FA3-PROVIDER-PRESENTON-001")
+        self.assertFalse(plan["provider_authority"])
+        self.assertFalse(plan["silent_story_mutation"])
+
+    def test_dubbing_script_requires_video_timing_and_as_recorded_audio_binding(self):
+        doc = {
+            "schema": "fa3.dubbing-script.v1",
+            "document_id": "dub-hu-1",
+            "document_type": "DUBBING_ADAPTATION_SCRIPT",
+            "target_language": "hu-HU",
+            "source_video_digest": "a" * 64,
+            "source_revision": "picture-lock-r7",
+            "events": [{
+                "cue_id": "C001",
+                "source_event_ref": "DL-001",
+                "source_character": "CHARACTER A",
+                "in_timecode_ms": 1000,
+                "out_timecode_ms": 2500,
+                "source_text": "Where are you going?",
+                "target_text": "Hová mész?",
+                "adapted_text": "Hová mész?",
+                "lip_sync_note": "close-up",
+            }],
+        }
+        result = validate_dubbing_script(doc)
+        self.assertEqual(result["voice_authority"], "FA3-VOICE-001")
+        self.assertEqual(result["caption_timing_profile"], "FA3-CAPTION-SUBTITLE-001")
+
+        final_doc = dict(doc)
+        final_doc["document_type"] = "AS_RECORDED_DUBBING_SCRIPT"
+        final_doc["events"] = [dict(doc["events"][0], as_recorded_text="Hová mész?")]
+        with self.assertRaises(StoryStudioError):
+            validate_dubbing_script(final_doc)
+        final_doc["final_audio_digest"] = "b" * 64
+        self.assertEqual(validate_dubbing_script(final_doc)["result"], "PASS")
+
+    def test_dubbing_conformance_does_not_silently_rewrite_adaptation(self):
+        doc = {
+            "schema": "fa3.dubbing-script.v1",
+            "document_id": "dub-hu-1",
+            "document_type": "DUBBING_ADAPTATION_SCRIPT",
+            "target_language": "hu-HU",
+            "source_video_digest": "c" * 64,
+            "source_revision": "dl-r1",
+            "events": [{
+                "cue_id": "C001",
+                "source_event_ref": "DL-001",
+                "source_character": "CHARACTER A",
+                "in_timecode_ms": 1000,
+                "out_timecode_ms": 2100,
+                "source_text": "Stop!",
+                "target_text": "Állj!",
+            }],
+        }
+        plan = build_dubbing_conformance_plan(
+            doc, new_source_revision="dl-r2", changed_source_event_refs=["DL-001"]
+        )
+        self.assertEqual(plan["affected_cue_ids"], ["C001"])
+        self.assertEqual(plan["stage_1"], "ALIGN_AND_RETIME")
+        self.assertFalse(plan["silent_target_text_rewrite"])
+        self.assertTrue(plan["human_review_required"])
 
 
 if __name__ == "__main__":
