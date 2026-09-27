@@ -17,6 +17,9 @@
     "tier": 1
   },
   "enhancements": [
+    "KIO_VIA_FA3_ENHANCEMENT_ADAPTER",
+    "KF6_NATIVE_ENHANCEMENT",
+    "QT6_NATIVE_DESKTOP_INTEGRATION",
     "PLASMA_NATIVE_UX",
     "KWALLET_VIA_SECRET_BROKER",
     "KDE_FILE_DIALOG_WHEN_SELECTED_BY_PORTAL_OR_ADAPTER",
@@ -30,7 +33,12 @@
     "kwallet_direct_use_by_providers": "FORBIDDEN",
     "kio_direct_use_by_portable_core": "FORBIDDEN",
     "plasma_private_api_core_dependency": "FORBIDDEN",
-    "non_plasma_desktop_core_feature_parity": "REQUIRED_EXCEPT_OPTIONAL_ENHANCEMENTS"
+    "non_plasma_desktop_core_feature_parity": "REQUIRED_EXCEPT_OPTIONAL_ENHANCEMENTS",
+    "qt_native_integration_may_be_full_strength": true,
+    "lowest_common_denominator_restriction": false,
+    "kf6_enhancement_requires_fa3_interface_boundary": true,
+    "native_enhancement_must_not_reduce_non_plasma_support": true,
+    "desktop_native_enhancement_is_not_architectural_authority": true
   },
   "appearance": {
     "breeze": "REFERENCE_APPEARANCE_ONLY",
@@ -56,5 +64,12 @@
     "activation_method": "DBUS_START_SERVICE_BY_NAME"
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "integration_strategy": {
+    "application_core": "QT6_QML_NATIVE",
+    "preferred": "QT6_NATIVE_KF6_ENHANCED",
+    "interoperability": "XDG_FREEDESKTOP",
+    "portal": "WHEN_SESSION_OR_SANDBOX_REQUIRES",
+    "portable_core_direct_private_kde_api": "FORBIDDEN"
+  }
 }
