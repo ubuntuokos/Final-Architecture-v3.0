@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import json
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 FORBIDDEN_RUNTIME_PATHS = [
     "bin/fa3-minimax-h3-current-host.sh",
@@ -24,8 +27,8 @@ def gate(root: Path):
         errors.append("replacement policy must be mandatory and fail-closed")
     if policy.get("capability_delta") != 0 or policy.get("authority_delta") != 0:
         errors.append("replacement must not add capability or authority")
-    if policy.get("capability_count") != 143:
-        errors.append("capability count must remain 143")
+    if policy.get("capability_count") != CAPABILITY_COUNT:
+        errors.append("capability count must match active release baseline")
     if "FA3-PROVIDER-MINIMAX-H3-001" in profile.get("providers", []):
         errors.append("H3 must not be an active FA3-VIDEO-001 provider")
     if "FA3-PROVIDER-MINIMAX-H3-001" in video.get("provider_ids", []):
@@ -64,7 +67,7 @@ def gate(root: Path):
         "gate_id": "FA3-H3-REPLACEMENT-GATESET-001",
         "result": "PASS" if not errors else "FAIL",
         "errors": errors,
-        "capability_count": 143,
+        "capability_count": CAPABILITY_COUNT,
         "capability_delta": 0,
         "authority_delta": 0,
         "current_host_runtime_claim": False,

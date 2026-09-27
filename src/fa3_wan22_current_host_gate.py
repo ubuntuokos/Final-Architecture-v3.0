@@ -2,9 +2,11 @@
 from __future__ import annotations
 import argparse, json
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
 ROOT=Path(__file__).resolve().parents[1]
 PIN="1ea34ff48f87168174e12956e200b1d908b1c5ff"
 PROVIDER="FA3-PROVIDER-WAN22-001"
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 def load(p:Path): return json.loads(p.read_text(encoding="utf-8"))
 def gate(root:Path, motion_receipt:Path, admission_receipt:Path)->dict:
@@ -43,7 +45,7 @@ def gate(root:Path, motion_receipt:Path, admission_receipt:Path)->dict:
       "errors":errors,
       "provider_id":PROVIDER,
       "source_revision":PIN,
-      "capability_count":143,
+      "capability_count":CAPABILITY_COUNT,
       "capability_delta":0,
       "authority_delta":0,
       "provider_current_host_e2e_claim":not errors,

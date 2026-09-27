@@ -2,8 +2,10 @@
 from __future__ import annotations
 import argparse, json
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
 
 GATE_ID="FA3-MOTION-VIDEO-CURRENT-HOST-GATESET-001"
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 def load(path:Path):return json.loads(path.read_text(encoding="utf-8"))
 
@@ -41,7 +43,7 @@ def gate(root:Path,receipt_path:Path)->dict:
       "cost_class":receipt.get("cost_class"),
       "transport":receipt.get("transport"),
       "artifact_reference":receipt.get("artifact_reference"),
-      "capability_count":143,
+      "capability_count":CAPABILITY_COUNT,
       "capability_delta":0,
       "authority_delta":0,
       "global_promotion_claim":False
