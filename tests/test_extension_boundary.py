@@ -1,4 +1,4 @@
-from src.fa3_extension_boundary_gate import ExtensionBoundaryError, validate_extension
+from fa3_extension_boundary_gate import ExtensionBoundaryError, validate_extension
 
 
 def test_capability_neutral_extension_passes():
