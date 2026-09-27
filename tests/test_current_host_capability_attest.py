@@ -51,6 +51,7 @@ class CurrentHostCapabilityAttestationProducerTests(unittest.TestCase):
             "synthetic": False,
             "ci_reference_only": False,
             "global_promotion_claim": False,
+            "source_commit": "a" * 40,
             "collected_at": now.isoformat(),
             "expires_at": (now + timedelta(days=7)).isoformat(),
             "host_fingerprint_path": "evidence/runtime/CAP-001/host-fingerprint.json",
