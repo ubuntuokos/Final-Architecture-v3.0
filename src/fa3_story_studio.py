@@ -733,7 +733,8 @@ def approve_spoiler_publication(
     if actor_id not in members:
         raise StoryStudioError("actor is not a project collaborator")
     roles = set(members[actor_id].get("roles", []))
-    if not roles & {"OWNER", "FINAL_PUBLISHER", "RELEASE_APPROVER"}:
+    designated = set(project.get("collaboration", {}).get("final_publishers", []))
+    if actor_id not in designated and "RELEASE_APPROVER" not in roles:
         raise StoryStudioError("actor cannot approve spoiler publication")
     item = next((x for x in project.get("spoiler_derivatives", []) if x.get("spoiler_id") == spoiler_id), None)
     if item is None:
