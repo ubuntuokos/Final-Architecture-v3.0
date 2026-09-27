@@ -8,7 +8,7 @@
   "fail_closed": true,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "mandatory_rule_count": 13,
   "p0_invariants": [
     "H3_VIDEO_IR_PROJECTED_NOT_REPLACED",
@@ -58,18 +58,16 @@
     "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE",
     "DISCOVERED_NOT_ADMITTED"
   ],
-  "current_host_runner": [
-    "self-hosted",
-    "linux",
-    "x64",
-    "fa3-current-host"
-  ],
-  "canonical_runner_for_promotion_validation": [
-    "self-hosted",
-    "linux",
-    "x64",
-    "fa3-canonical"
-  ],
+  "current_host_runner": [],
+  "canonical_runner_for_promotion_validation": [],
   "billable_execution_requires_explicit_acknowledgement": true,
-  "runtime_promotion_claim": false
+  "runtime_promotion_claim": false,
+  "status": "RETIRED_SUPERSEDED",
+  "active": false,
+  "runtime_execution_forbidden": true,
+  "superseded_by": "FA3-H3-REPLACEMENT-001",
+  "superseding_decision": "FA3-DEC-H3-REPLACEMENT-2026-09-25",
+  "historical_reference_only": true,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "current_host_runtime_promotion_claim": false
 }

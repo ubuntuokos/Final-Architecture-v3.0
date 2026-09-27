@@ -5,17 +5,14 @@
   "profile_id": "FA3-VIDEO-001",
   "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
   "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
-  "status": "CANONICAL_ADMISSION_MATERIALIZED_RUNTIME_PENDING",
+  "status": "RETIRED_SUPERSEDED",
   "priority": "P0",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "implementation": {
-    "adapter": "src/fa3_minimax_h3_provider_adapter.py",
-    "admission_gate": "src/fa3_minimax_h3_runtime_admission_gate.py",
-    "current_host_collector": "evidence/collect-minimax-h3-current-host.py",
-    "current_host_harness": "bin/fa3-minimax-h3-current-host.sh",
-    "current_host_workflow": ".github/workflows/fa3-minimax-h3-current-host.yml"
+    "historical_paths_removed": true,
+    "active_runtime_paths": []
   },
   "supported_runtime_paths": {
     "HOSTED_REMOTE": {
@@ -52,5 +49,12 @@
   "missing_secret_or_entitlement_state": "PENDING_EXTERNAL_ADMISSION",
   "missing_local_license_state": "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE",
   "runtime_promotion_claim": false,
-  "fail_closed": true
+  "fail_closed": true,
+  "active": false,
+  "runtime_execution_forbidden": true,
+  "superseded_by": "FA3-H3-REPLACEMENT-001",
+  "superseding_decision": "FA3-DEC-H3-REPLACEMENT-2026-09-25",
+  "historical_reference_only": true,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "current_host_runtime_promotion_claim": false
 }
