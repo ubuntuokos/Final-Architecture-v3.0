@@ -17,6 +17,10 @@ class AIEngineeringGateTests(unittest.TestCase):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         shutil.copytree(ROOT / "canonical", root / "canonical")
+        reval = ROOT / a.REVALIDATION_EVIDENCE
+        target = root / a.REVALIDATION_EVIDENCE
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(reval, target)
         return td, root
 
     def _write(self, path, obj):
@@ -146,6 +150,16 @@ class AIEngineeringGateTests(unittest.TestCase):
             o["immutable_reference_commit"] = "main"
             self._write(p, o)
             self.assertEqual(a.gate(root)["result"], "FAIL")
+        finally:
+            td.cleanup()
+
+    def test_missing_revalidation_evidence_fails_closed(self):
+        td, root = self._copy_root()
+        try:
+            (root / a.REVALIDATION_EVIDENCE).unlink()
+            r = a.gate(root)
+            self.assertEqual(r["result"], "FAIL")
+            self.assertTrue(any(x["code"] == "AIENG-REF-015" for x in r["reference"]["findings"]))
         finally:
             td.cleanup()
 
