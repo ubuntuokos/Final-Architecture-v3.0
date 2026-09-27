@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from src import fa3_current_host_runtime_resolver as resolver
+import fa3_current_host_runtime_resolver as resolver
 
 
 class CurrentHostRuntimeResolverTests(unittest.TestCase):
