@@ -41,6 +41,8 @@ class KhronosOpenStandardsTests(unittest.TestCase):
    "canonical/current-host-capability-test-executors.json",
    "evidence/evidence-registry.json",
    "evidence/collect-current-host.sh",
+   "tests/test_khronos_open_standards_gate.py",
+   "tests/test_cap083_khronos_current_host.py",
   ):
    self.assertIn(f"'{path}'",text)
   self.assertIn("  push:\n    branches: [main]\n",text)
