@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d7dc7ac6fce6dc09d28f6278e6fc72df91d02f52",
-    "pre_projection_root_tree_sha": "ffeed396ebd3536eb649837e15fb8fdf7843384b",
-    "pre_projection_canonical_tree_sha": "d236489db50ca8bd1b352685e7ad281ea556fb5b",
+    "pre_projection_head_sha": "39c63436b89a881d9afcee65dd3fa55383237b88",
+    "pre_projection_root_tree_sha": "3773cb5cb39683fc4ee8dfb58bc083dd9bbab130",
+    "pre_projection_canonical_tree_sha": "92c3c15eabada0a0151d59b273a0adbbb098f9b6",
     "commits_ahead_of_v3_0_11_conformance_commit": 962,
     "total_post_baseline_commits": 962,
-    "delta_file_count": 2300,
-    "delta_added_files": 2294,
+    "delta_file_count": 2307,
+    "delta_added_files": 2301,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1120,
+    "canonical_files_in_post_baseline_delta": 1124,
     "evidence_files_in_post_baseline_delta": 166,
-    "source_files_in_post_baseline_delta": 308,
-    "test_files_in_post_baseline_delta": 248,
+    "source_files_in_post_baseline_delta": 310,
+    "test_files_in_post_baseline_delta": 249,
     "workflow_files_in_post_baseline_delta": 113,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -253,6 +253,7 @@
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
       "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+      "canonical/profiles/FA3-OPENMP-RUNTIME-GOVERNANCE-001.json",
       "canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
       "canonical/profiles/FA3-OS-001.json",
       "canonical/profiles/FA3-OS-POLICY-001.json",
@@ -382,6 +383,7 @@
       "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-OPENMP-RUNTIME-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001.schema.json",
       "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
       "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
@@ -977,7 +979,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2290,
+  "manifest_entry_count": 2297,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2601,7 +2603,7 @@
     },
     {
       "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
-      "git_blob_sha": "6e7c8326fd185a0eeb26bc9328afda92b3fb6e7b",
+      "git_blob_sha": "d2dc84ecd7597e1d413a38c64bad4b87b717b19d",
       "baseline_delta_status": "added"
     },
     {
@@ -2827,6 +2829,11 @@
     {
       "path": "canonical/FA3-GATE-OPENHANDS-001.json",
       "git_blob_sha": "3dfd653b329b0ce700f3059210f4e25ff44b7bde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-OPENMP-001.json",
+      "git_blob_sha": "8b1661057b8d4859bcd77af8b23d8746d822e9ad",
       "baseline_delta_status": "added"
     },
     {
@@ -4181,7 +4188,7 @@
     },
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
-      "git_blob_sha": "06baa76f9b6cb3b455bb171787c606514a526c62",
+      "git_blob_sha": "0bf8fbc545dd79254f2dab2529b8d821e9a0f1d7",
       "baseline_delta_status": "added"
     },
     {
@@ -4490,6 +4497,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-OPENMP-RUNTIME-GOVERNANCE-CONTRACTS-001.json",
+      "git_blob_sha": "700a1d10a6ba02482481730b283c1f273ee95180",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001.schema.json",
       "git_blob_sha": "0351e2825f27f997c5b8a1835022a4aefed959b8",
       "baseline_delta_status": "added"
@@ -4741,7 +4753,7 @@
     },
     {
       "path": "canonical/cpu-numa-threading-enforcement.json",
-      "git_blob_sha": "937128eddb10d8f65898e604ac40a05c44f6e526",
+      "git_blob_sha": "a6cb80115d424448201844db9490bb42394acb16",
       "baseline_delta_status": "added"
     },
     {
@@ -6050,6 +6062,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/openmp-runtime-governance-enforcement.json",
+      "git_blob_sha": "31e44a767ba14088471349d755a2eece4a042381",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/openvid-enforcement.json",
       "git_blob_sha": "5d8c2a436ad322562f4fba3fab96b4468498907e",
       "baseline_delta_status": "added"
@@ -6221,7 +6238,7 @@
     },
     {
       "path": "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
-      "git_blob_sha": "1d4377663266460cb15097cbc7a44083f058fed3",
+      "git_blob_sha": "614c7d3f0c5510fa385f59c53f00b7eeffb36404",
       "baseline_delta_status": "added"
     },
     {
@@ -6442,6 +6459,11 @@
     {
       "path": "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
       "git_blob_sha": "cf20d75679e8d6b69711d329d69798eaee573b0d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-OPENMP-RUNTIME-GOVERNANCE-001.json",
+      "git_blob_sha": "38c7502af8b0ce6bb4ca68d46a088b3e4712b0b5",
       "baseline_delta_status": "added"
     },
     {
@@ -9896,7 +9918,7 @@
     },
     {
       "path": "src/fa3_cpu_numa_threading_gate.py",
-      "git_blob_sha": "c3bc042975e1c08f503012dd503337464ebf19ea",
+      "git_blob_sha": "1930bea09ad66f732ae3defb306223c16a9c4ba4",
       "baseline_delta_status": "added"
     },
     {
@@ -10690,6 +10712,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_openmp_governance.py",
+      "git_blob_sha": "ab7bad2812bc6abbee7c6444f9f8fc7df3ee54fd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_openmp_governance_gate.py",
+      "git_blob_sha": "a2ced7a9922729e6dec9cdbf59ec29193e3cc713",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_openvid_gate.py",
       "git_blob_sha": "7664869c636071194dbf82f9a33a0b6f7639e87e",
       "baseline_delta_status": "added"
@@ -11346,7 +11378,7 @@
     },
     {
       "path": "tests/test_cpu_numa_threading_gate.py",
-      "git_blob_sha": "f873efeebb2b59d5f095dce4586890a29ff4fc30",
+      "git_blob_sha": "e4d009fabfc1344df875d6b8af5d46a5b8091bc1",
       "baseline_delta_status": "added"
     },
     {
@@ -12045,6 +12077,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_openmp_runtime_governance.py",
+      "git_blob_sha": "8bcc5a77cbe76962e5bb42f63e0aa5488b75d487",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_openvid_gate.py",
       "git_blob_sha": "140d2b47ae6b53c5defaf537d006230985e72e88",
       "baseline_delta_status": "added"
@@ -12627,7 +12664,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-09-26",
+  "last_reconciled_at": "2026-09-27",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
