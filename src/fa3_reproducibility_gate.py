@@ -47,7 +47,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         _check("reconcile-uses-test", "bash bin/fa3-test -v" in reconcile, "release reconciliation uses canonical full-suite entrypoint"),
         _check("reconcile-prepares-history", "bash bin/fa3-prepare-repository" in reconcile, "release reconciliation prepares required Git history"),
         _check("reuse-uses-test", "bash bin/fa3-test -v" in reuse, "Reuse Discovery full regression uses canonical test entrypoint"),
-        _check("physical-marker-declared", "physical_current_host" in pytest_cfg.get("markers", []), "physical current-host tests have a dedicated marker"),
+        _check("physical-marker-declared", any(str(x).startswith("physical_current_host:") for x in pytest_cfg.get("markers", [])), "physical current-host tests have a dedicated marker"),
         _check("bootstrap-regression", (root / "tests/test_reproducibility_bootstrap.py").is_file(), "shallow-clone recovery and namespace regression are covered"),
         _check("no-current-host-overclaim", canonical.get("current_host_runtime_promotion_claim") is False, "reproducibility PASS never creates runtime promotion"),
     ]
