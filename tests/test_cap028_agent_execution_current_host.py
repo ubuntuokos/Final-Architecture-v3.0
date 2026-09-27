@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-import src.fa3_cap028_agent_execution_current_host as cap028
+import fa3_cap028_agent_execution_current_host as cap028
 
 
 ROOT = Path(__file__).resolve().parents[1]
