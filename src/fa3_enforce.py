@@ -4,6 +4,7 @@ import argparse,csv,json,sys
 from pathlib import Path
 from fa3_release_baseline import load_active_release_baseline
 from fa3_evidence_validation import git_head, validate_capability_receipt
+from fa3_authenticated_approval import ApprovalVerificationError, PROMOTION_RECEIPT_FILENAMES, consume_promotion_receipts, ensure_promotion_receipts_unconsumed, requirement_for_filename, sha256_file, verify_receipt_file
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
@@ -631,24 +632,35 @@ def runtime_check(root:Path):
     writej(root/"reports/runtime-gate-report.json",rep)
     return rep
 
-def receipt_ok(p:Path,signed=False,human=False,independent=False):
-    if not p.exists(): return False,"missing"
+def receipt_ok(root:Path,p:Path,source_commit:str|None):
+    requirement=requirement_for_filename(p.name)
+    if requirement is not None:
+        if source_commit is None:
+            return False,"current source commit unavailable",None
+        try:
+            result=verify_receipt_file(p,expected_source_commit=source_commit)
+        except ApprovalVerificationError as exc:
+            return False,str(exc),None
+        if not result.get("qualified"):
+            return False,"; ".join(result.get("findings",[])) or "authenticated receipt invalid",result
+        return True,"PASS",result
+    if not p.exists(): return False,"missing",None
     try: d=loadj(p)
-    except Exception: return False,"unreadable"
-    if d.get("status")!="PASS": return False,str(d.get("status","not PASS"))
-    if signed and not d.get("signed"): return False,"not signed"
-    if human and not d.get("approved"): return False,"not approved"
-    if independent and not d.get("independent"): return False,"not independent"
-    return True,"PASS"
+    except Exception: return False,"unreadable",None
+    if d.get("status")!="PASS": return False,str(d.get("status","not PASS")),None
+    return True,"PASS",{"qualified":True,"legacy_domain_receipt":True}
 
 def acceptance_check(root:Path):
     RELEASE,CAPS=active_release_values(root)
     s=static_check(root)
     r=runtime_check(root)
     t=terax_gate(root,require_current_host=True)
+    source_commit=git_head(root)
     results=[]
+    authenticated_receipts=[]
     for i in range(1,20):
         reasons=[]
+        evidence_details=[]
         if i in (1,2):
             ok=s["result"]=="PASS"
             if not ok: reasons=["static/authority structural gate not PASS"]
@@ -658,30 +670,62 @@ def acceptance_check(root:Path):
         else:
             ok=True
             for fn in RECEIPTS[i]:
-                rok,why=receipt_ok(root/"evidence/receipts"/fn,
-                                   signed=(i in (4,19)),
-                                   human=(fn=="human-promotion-receipt.json"),
-                                   independent=(fn=="independent-review.json"))
+                rok,why,detail=receipt_ok(root,root/"evidence/receipts"/fn,source_commit)
+                if detail is not None:
+                    evidence_details.append({"filename":fn,**detail})
+                    if requirement_for_filename(fn) is not None and detail.get("qualified"):
+                        authenticated_receipts.append({"filename":fn,**detail})
                 if not rok:
                     ok=False
                     reasons.append(f"{fn}: {why}")
-        results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons})
+        results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons,"evidence":evidence_details})
     all_ok=all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
-         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
+         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],"source_commit":source_commit,"authenticated_receipts":authenticated_receipts,
          "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
 
 def promote(root:Path):
     RELEASE,_=active_release_values(root)
+    head=git_head(root)
+    existing_path=root/"promotion/runtime-status.json"
+    if existing_path.is_file():
+        try:
+            existing=loadj(existing_path)
+        except Exception:
+            existing={}
+        if existing.get("actual_state")=="PROMOTED" and existing.get("source_commit")==head:
+            return existing,OK
     a=acceptance_check(root)
     allowed=a["status"]=="PASS"
+    consumption=None
+    reason=None
+    if allowed:
+        receipt_paths=[root/"evidence/receipts"/fn for fn in PROMOTION_RECEIPT_FILENAMES]
+        availability=ensure_promotion_receipts_unconsumed(root,receipt_paths)
+        if not availability.get("available"):
+            allowed=False
+            reason="Fail-closed: one or more promotion approval receipts were already consumed or are invalid."
+        else:
+            try:
+                acceptance_digest=sha256_file(root/"acceptance/acceptance-report.json")
+                consumption=consume_promotion_receipts(
+                    root,
+                    receipt_paths,
+                    source_commit=str(head),
+                    acceptance_report_sha256=acceptance_digest,
+                )
+            except ApprovalVerificationError as exc:
+                allowed=False
+                reason=f"Fail-closed: promotion approval receipt consumption failed: {exc}"
+    if not allowed and reason is None:
+        reason="Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, authenticated approvals, and the mandatory Terax gate are PASS."
     state={"schema":"fa3.runtime-status.v1","architecture_release":RELEASE,"target_state":"PROMOTED",
            "actual_state":"PROMOTED" if allowed else "PROMOTION_BLOCKED","promotion_allowed":allowed,"acceptance":a["status"],
-           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, and the mandatory Terax gate are PASS."}
-    writej(root/"promotion/runtime-status.json",state)
+           "source_commit":head,"approval_consumption":consumption,"reason":None if allowed else reason}
+    writej(existing_path,state)
     return state,OK if allowed else BLOCKED
 
 def main():
