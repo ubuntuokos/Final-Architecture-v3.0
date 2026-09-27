@@ -71,7 +71,7 @@ jobs:
         run: python3 -m py_compile src/fa3_agency_agents_gate.py src/fa3_enforce.py
 
       - name: Agency Agents unit tests
-        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agency_agents_gate.py' -v
+        run: bash bin/fa3-test -v tests/test_agency_agents_gate.py
 
       - name: Agency Agents fail-closed gate
         run: PYTHONPATH=src python3 src/fa3_agency_agents_gate.py --root .
