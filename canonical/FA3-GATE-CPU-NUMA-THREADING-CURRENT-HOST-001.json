@@ -14,5 +14,10 @@
   "evidence_level": "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_effect": "NONE_UNTIL_EVIDENCE_REGISTRY_AND_19_POINT_ACCEPTANCE_PASS",
-  "capability_count": 175
+  "capability_count": 175,
+  "openmp_collector": "evidence/collect-openmp-current-host.py",
+  "openmp_receipt": "evidence/receipts/openmp-current-host.json",
+  "required_child_evidence": [
+    "CURRENT_HOST_OPENMP_RUNTIME_PASS"
+  ]
 }
