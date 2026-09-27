@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from src.fa3_runtime_hardening import (
+from fa3_runtime_hardening import (
     agent_sandbox_valid,
     evaluate_hungarian_aqc,
     runtime_isolation_valid,
     shadow_execution_valid,
     zero_host_round_trip_valid,
 )
-from src.fa3_runtime_hardening_gate import gate
+from fa3_runtime_hardening_gate import gate
 
 
 ROOT = Path(__file__).resolve().parents[1]
