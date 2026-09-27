@@ -27,6 +27,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     reconcile = (root / ".github/workflows/fa3-release-projection-reconcile.yml").read_text(encoding="utf-8")
     reuse = (root / ".github/workflows/fa3-reuse-discovery.yml").read_text(encoding="utf-8")
     requirements = (root / "requirements-test.txt").read_text(encoding="utf-8").splitlines()
+    policy = json.loads((root / "canonical/enforcement-policy.json").read_text(encoding="utf-8"))
 
     from fa3_python_namespace_audit import audit
     namespace = audit(root)
@@ -49,6 +50,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         _check("reuse-uses-test", "bash bin/fa3-test -v" in reuse, "Reuse Discovery full regression uses canonical test entrypoint"),
         _check("physical-marker-declared", any(str(x).startswith("physical_current_host:") for x in pytest_cfg.get("markers", [])), "physical current-host tests have a dedicated marker"),
         _check("bootstrap-regression", (root / "tests/test_reproducibility_bootstrap.py").is_file(), "shallow-clone recovery and namespace regression are covered"),
+        _check("global-enforcement-binding", ENFORCEMENT_ID in policy.get("mandatory_reference_gates", []), "reproducibility gate is globally mandatory"),
         _check("no-current-host-overclaim", canonical.get("current_host_runtime_promotion_claim") is False, "reproducibility PASS never creates runtime promotion"),
     ]
     result = "PASS" if all(x["status"] == "PASS" for x in checks) else "FAIL"
