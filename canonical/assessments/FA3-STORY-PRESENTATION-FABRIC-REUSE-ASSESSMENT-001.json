@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-STORY-PRESENTATION-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+  "intent_id": "FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-STORY-PRESENTATION-FABRIC-001",
+    "FA3-PROVIDER-PRESENTON-001"
+  ],
+  "project_status": "CANONICAL_NATIVE_FABRIC_MATERIALIZED_CURRENT_HOST_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "CAP-018",
+      "use": "EXISTING_DOCUMENT_KNOWLEDGE_AUTHORING_CAPABILITY"
+    },
+    {
+      "id": "CAP-033",
+      "use": "EXISTING_PRESENTATION_GENERATION_CAPABILITY"
+    },
+    {
+      "id": "CAP-170",
+      "use": "EXISTING_STORY_SCREENPLAY_AUTHORING_CAPABILITY"
+    },
+    {
+      "id": "CAP-171",
+      "use": "EXISTING_ROUND_TRIP_INTERCHANGE_CAPABILITY"
+    },
+    {
+      "id": "AUTH-HUMAN",
+      "use": "EXISTING_EXPLICIT_APPLY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PRESENTON_ACTIVE_RUNTIME",
+      "reason": "SUPERSEDED; REFERENCE_ONLY_AND_SELECTIVE_CODE_DONOR"
+    },
+    {
+      "id": "NEW_PRESENTATION_AUTHORITY",
+      "reason": "EXISTING_CAPABILITY_AND_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "ONE_WAY_IMPORT_CODEC",
+      "reason": "IMPORT_WITHOUT_SAME_FILETYPE_EXPORT_IS_NOT_ADMITTED"
+    },
+    {
+      "id": "SILENT_PRESENTATION_TO_STORY_WRITEBACK",
+      "reason": "EXPLICIT_HUMAN_REVIEW_AND_APPLY_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "human_approval": "AUTH-HUMAN",
+    "registry": "AUTH-REGISTRY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable": "AUTH-DURABLE",
+    "memory": "AUTH-MEMORY"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "STATIC_CANONICAL_READY_CURRENT_HOST_RUNTIME_EVIDENCE_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
