@@ -3,6 +3,14 @@ on:
   pull_request:
     paths:
       - 'canonical/**/FA3-KHRONOS-*'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'canonical/current-host-capability-test-qualifications.json'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_cap083_khronos_current_host.py'
+      - 'src/fa3_khronos_open_standards_gate.py'
+      - 'src/fa3_current_host_capability_qualification_constituent_orchestrator.py'
+      - 'evidence/collect-current-host.sh'
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'evidence/collect-khronos-sdk-materialization-current-host.py'
       - '.github/workflows/fa3-khronos-current-host.yml'
@@ -16,7 +24,7 @@ concurrency:
 jobs:
   materialize-source:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,11 +36,103 @@ jobs:
       - name: Collect physical source-materialization receipt
         run: |
           mkdir -p "$RUNNER_TEMP/fa3-khronos"
-          PYTHONPATH=src python3 evidence/collect-khronos-sdk-materialization-current-host.py             --repo-root .             --sdk-root "${XDG_DATA_HOME:-$HOME/.local/share}/fa3/khronos-sdk"             --require-build             --output "$RUNNER_TEMP/fa3-khronos/materialization.json"
+          PYTHONPATH=src python3 evidence/collect-khronos-sdk-materialization-current-host.py \
+            --repo-root . \
+            --sdk-root "${XDG_DATA_HOME:-$HOME/.local/share}/fa3/khronos-sdk" \
+            --require-build \
+            --output "$RUNNER_TEMP/fa3-khronos/materialization.json"
+      - name: Collect fresh host fingerprint for CAP-083 proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf \
+            .fa3-current-host/global-closure \
+            .fa3-current-host/qualification-source-artifacts \
+            .fa3-current-host/qualification-constituents
+          mkdir -p .fa3-current-host/global-closure
+          bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
+      - name: Audit CAP-083 qualification producer coverage
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_test_qualification_audit.py --root .
+          PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_producer_audit.py --root .
+      - name: Execute physical CAP-083 qualification constituents
+        run: PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects CAP-083
+      - name: Assert physical CAP-083 proof payloads
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          root = Path(".").resolve()
+          head = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+
+          report = json.loads((root / "reports/current-host-capability-qualification-constituent-orchestrator.json").read_text(encoding="utf-8"))
+          if report.get("orchestrator_integrity") != "PASS":
+              raise SystemExit("CAP-083 constituent orchestrator did not PASS")
+          if report.get("requested_subjects") != ["CAP-083"]:
+              raise SystemExit("CAP-083 constituent execution scope drift")
+          if report.get("selected_producer_count") != 3 or report.get("constituents_materialized") != 3:
+              raise SystemExit("CAP-083 requires exactly three materialized qualification constituents")
+          if any(row.get("status") != "PASS" for row in report.get("executions", [])):
+              raise SystemExit("CAP-083 constituent execution contains non-PASS result")
+
+          base = root / ".fa3-current-host/qualification-source-artifacts"
+          pos = json.loads((base / "FA3-QUAL-CAP-083-POS-001/CAP083-POS-FULL-CURRENT-HOST/cap083-khronos-evidence.json").read_text(encoding="utf-8"))
+          neg = json.loads((base / "FA3-QUAL-CAP-083-NEG-001/CAP083-NEG-FULL-CURRENT-HOST/cap083-khronos-evidence.json").read_text(encoding="utf-8"))
+          rollback = json.loads((base / "FA3-QUAL-CAP-083-ROLLBACK-001/CAP083-ROLLBACK-FULL-CURRENT-HOST/cap083-khronos-evidence.json").read_text(encoding="utf-8"))
+
+          result = pos.get("result", {})
+          verified = result.get("verified", {})
+          smoke = result.get("functional_smoke", {})
+          if result.get("mode") != "positive" or result.get("status") != "PASS":
+              raise SystemExit("CAP-083 positive proof is not PASS")
+          if verified.get("source_commit") != head or verified.get("source_count") != 19:
+              raise SystemExit("CAP-083 positive proof is not bound to exact head and 19 immutable sources")
+          for key in ("shader_source_sha256", "spirv_sha256", "optimized_spirv_sha256"):
+              value = smoke.get(key)
+              if not isinstance(value, str) or len(value) != 64:
+                  raise SystemExit(f"CAP-083 positive proof missing {key}")
+          if not smoke.get("reflection_keys"):
+              raise SystemExit("CAP-083 positive proof missing SPIRV-Cross reflection")
+          if not smoke.get("ktx_version"):
+              raise SystemExit("CAP-083 positive proof missing KTX CLI execution")
+          installed = smoke.get("installed_runtime_artifacts", {})
+          required = {"vulkan_loader", "vulkan_validation_layer", "openxr_loader", "opencl_loader", "anari_frontend"}
+          if set(installed) != required:
+              raise SystemExit("CAP-083 installed runtime artifact set mismatch")
+          if any(not Path(path).is_file() for path in installed.values()):
+              raise SystemExit("CAP-083 installed runtime artifact path is not physical")
+          if smoke.get("physical_accelerator_required") is not False:
+              raise SystemExit("CAP-083 proof incorrectly requires a physical accelerator")
+          if smoke.get("xr_device_required") is not False or smoke.get("opencl_device_required") is not False:
+              raise SystemExit("CAP-083 proof incorrectly requires XR/OpenCL devices")
+
+          neg_result = neg.get("result", {})
+          if neg_result.get("mode") != "negative" or neg_result.get("status") != "PASS":
+              raise SystemExit("CAP-083 negative proof is not PASS")
+          if not neg_result.get("cases") or not all(neg_result["cases"].values()):
+              raise SystemExit("CAP-083 coexistence negative matrix is not fully PASS")
+
+          rollback_result = rollback.get("result", {})
+          if rollback_result.get("mode") != "rollback" or rollback_result.get("status") != "PASS":
+              raise SystemExit("CAP-083 rollback proof is not PASS")
+          if rollback_result.get("rollback_hash_equal") is not True:
+              raise SystemExit("CAP-083 rollback hash proof failed")
+          if rollback_result.get("pre_sha256") != rollback_result.get("post_sha256"):
+              raise SystemExit("CAP-083 rollback did not restore exact baseline")
+          if rollback_result.get("pre_sha256") == rollback_result.get("mutated_sha256"):
+              raise SystemExit("CAP-083 rollback fault injection did not mutate state")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: fa3-khronos-sdk-current-host-materialization
           path: |
             ${{ runner.temp }}/fa3-khronos/materialization.json
             ~/.local/share/fa3/khronos-sdk/receipts/core-build.json
+            .fa3-current-host/global-closure/host/host-fingerprint.json
+            .fa3-current-host/qualification-source-artifacts/**
+            .fa3-current-host/qualification-constituents/**
+            reports/current-host-capability-qualification-constituent-orchestrator.json
           if-no-files-found: error
