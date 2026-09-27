@@ -57,6 +57,7 @@ class CurrentHostCapabilityTestBundleAssemblerTests(unittest.TestCase):
             "synthetic": False,
             "ci_reference_only": False,
             "global_promotion_claim": False,
+            "source_commit": "a" * 40,
             "collected_at": now.isoformat(),
             "expires_at": (now + timedelta(days=7)).isoformat(),
             "host_fingerprint_path": ".fa3-current-host/global-closure/host/host-fingerprint.json",
