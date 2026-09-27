@@ -28,4 +28,7 @@ class KhronosOpenStandardsTests(unittest.TestCase):
    "evidence/collect-current-host.sh",
   ):
    self.assertIn(f"'{path}'",text)
+  self.assertIn("  push:\n    branches: [main]\n",text)
+  self.assertIn("  pull_request:\n",text)
+  self.assertIn("  workflow_dispatch:\n",text)
 if __name__=="__main__":unittest.main()
