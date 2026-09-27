@@ -1,9 +1,11 @@
 import importlib.util
 import json
 import unittest
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 SPEC = importlib.util.spec_from_file_location("fa3_audacity_mcp_gate", ROOT / "src/fa3_audacity_mcp_gate.py")
 MOD = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
