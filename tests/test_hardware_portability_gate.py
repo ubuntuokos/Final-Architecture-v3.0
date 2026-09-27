@@ -33,6 +33,18 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertEqual("FORBIDDEN",result["hardware_safety"]["unsafe_or_unknown_mutation"])
         self.assertFalse(result["hardware_safety"]["installer_override"])
         self.assertFalse(result["hardware_safety"]["expert_mode_override"])
+        self.assertEqual(
+            "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+            result["host_adaptation"]["hrb_resource_authority"],
+        )
+        self.assertTrue(result["host_adaptation"]["startup_revalidation_required"])
+        self.assertFalse(result["host_adaptation"]["selective_materialization_plan_is_authority"])
+        self.assertFalse(result["host_adaptation"]["missing_device_automatic_uninstall"])
+        host_check = next(
+            row for row in result["checks"]
+            if row["name"] == "host-adaptation-reuses-hardware-authorities"
+        )
+        self.assertEqual("PASS", host_check["status"])
 
     def test_vendor_neutral_reference_families(self):
         self.assertTrue({"NVIDIA","AMD","INTEL"} <= REFERENCE_VENDOR_FAMILIES)

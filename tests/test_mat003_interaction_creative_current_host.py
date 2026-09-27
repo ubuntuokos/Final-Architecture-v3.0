@@ -81,8 +81,14 @@ class Mat003InteractionCreativeCurrentHostTests(unittest.TestCase):
     def test_cap013_scoped_admission_allows_only_secret_backend_full_gate_failure(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_NATIVE_KF6_ENHANCED",
+                "architectural_authority": False,
+                "kf6_enhancement": True,
+            },
             "capabilities": {
                 "linux_host": "PASS",
                 "xdg_runtime": "PASS",
@@ -106,11 +112,52 @@ class Mat003InteractionCreativeCurrentHostTests(unittest.TestCase):
         self.assertEqual(scoped["secret_backend_status"], "FAIL")
         self.assertFalse(scoped["secret_backend_used_for_cap013_admission"])
 
+    def test_cap013_scoped_admission_accepts_gnome_x11_via_portal(self):
+        report = {
+            "result": "PASS",
+            "desktop": {"desktop": "GNOME", "tier": 2},
+            "session": {"type": "x11"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_XDG_FREEDESKTOP",
+                "architectural_authority": False,
+                "kf6_enhancement": False,
+            },
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "PASS",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        session_evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": None,
+            "portal_bus_identity_proven": True,
+        }
+        scoped = cap013_computer_use_desktop_admission(report, session_evidence)
+        self.assertEqual("PASS", scoped["result"], scoped)
+        self.assertEqual("QT6_XDG_FREEDESKTOP", scoped["integration_strategy"])
+        self.assertFalse(scoped["kde_native_enhancement"])
+        self.assertEqual(
+            "CAP013_GENERIC_QT6_DESKTOP_COMPUTER_USE_NOT_FULL_DESKTOP_ADMISSION",
+            scoped["scope_semantics"],
+        )
+
     def test_cap013_scoped_admission_still_fails_on_computer_use_prerequisite(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_NATIVE_KF6_ENHANCED",
+                "architectural_authority": False,
+                "kf6_enhancement": True,
+            },
             "capabilities": {
                 "linux_host": "PASS",
                 "xdg_runtime": "PASS",

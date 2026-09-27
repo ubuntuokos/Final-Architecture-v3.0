@@ -113,10 +113,19 @@ def probe_python(path: Path) -> dict[str, Any]:
         "import importlib.util,json,sys;"
         "mods={n:(importlib.util.find_spec(n) is not None) for n in ('torch','pytorch3d')};"
         "out={'python':sys.executable,'version':sys.version.split()[0],'modules':mods,"
-        "'torch_version':None,'pytorch3d_version':None,'cuda_available':False,'cuda_count':0};"
+        "'torch_version':None,'pytorch3d_version':None,'cuda_available':False,'cuda_count':0,"
+        "'hip_version':None,'xpu_available':False,'xpu_count':0,"
+        "'accelerator_available':False,'accelerator_backend':None};"
         "\nif mods['torch']:\n"
         " import torch;out['torch_version']=getattr(torch,'__version__','unknown');"
         "out['cuda_available']=bool(torch.cuda.is_available());out['cuda_count']=int(torch.cuda.device_count());"
+        "out['hip_version']=getattr(getattr(torch,'version',None),'hip',None);"
+        "out['xpu_available']=bool(hasattr(torch,'xpu') and torch.xpu.is_available());"
+        "out['xpu_count']=int(torch.xpu.device_count()) if out['xpu_available'] else 0;"
+        "out['accelerator_available']=bool(out['cuda_available'] or out['xpu_available']);"
+        "out['accelerator_backend']=('PYTORCH_XPU' if out['xpu_available'] else "
+        "('PYTORCH_HIP' if out['cuda_available'] and out['hip_version'] else "
+        "('PYTORCH_CUDA' if out['cuda_available'] else None)));"
         "\nif mods['pytorch3d']:\n"
         " import pytorch3d;out['pytorch3d_version']=getattr(pytorch3d,'__version__','unknown');"
         "\nprint(json.dumps(out))"
@@ -151,7 +160,13 @@ def probe_python(path: Path) -> dict[str, Any]:
     return value
 
 
-def resolve_python_runtime(*, require_torch: bool, require_pytorch3d: bool, require_cuda: bool) -> dict[str, Any]:
+def resolve_python_runtime(
+    *,
+    require_torch: bool,
+    require_pytorch3d: bool,
+    require_cuda: bool,
+    require_accelerator: bool = False,
+) -> dict[str, Any]:
     probes = [probe_python(path) for path in candidate_python_interpreters()]
     selected: dict[str, Any] | None = None
     for row in probes:
@@ -164,6 +179,8 @@ def resolve_python_runtime(*, require_torch: bool, require_pytorch3d: bool, requ
             continue
         if require_cuda and (row.get("cuda_available") is not True or int(row.get("cuda_count", 0)) < 1):
             continue
+        if require_accelerator and row.get("accelerator_available") is not True:
+            continue
         selected = row
         break
     return {
@@ -173,13 +190,19 @@ def resolve_python_runtime(*, require_torch: bool, require_pytorch3d: bool, requ
             "torch": require_torch,
             "pytorch3d": require_pytorch3d,
             "cuda": require_cuda,
+            "accelerator": require_accelerator,
         },
     }
 
 
 if __name__ == "__main__":
     payload = {
-        "gpu_python": resolve_python_runtime(require_torch=True, require_pytorch3d=False, require_cuda=True),
+        "accelerator_python": resolve_python_runtime(
+            require_torch=True,
+            require_pytorch3d=False,
+            require_cuda=False,
+            require_accelerator=True,
+        ),
         "pytorch3d_python": resolve_python_runtime(require_torch=True, require_pytorch3d=True, require_cuda=False),
     }
     print(json.dumps(payload, indent=2))

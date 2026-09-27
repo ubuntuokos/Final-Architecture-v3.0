@@ -131,8 +131,13 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
     def test_desktop_wayland_scoped_admission_ignores_only_secret_backend_failure(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_NATIVE_KF6_ENHANCED",
+                "architectural_authority": False,
+            },
             "capabilities": {
                 "linux_host": "PASS",
                 "xdg_runtime": "PASS",
@@ -155,11 +160,49 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
         self.assertEqual("FAIL", scoped["secret_backend_status"])
         self.assertFalse(scoped["secret_backend_used_for_desktop_wayland_admission"])
 
+    def test_legacy_desktop_wayland_primitive_accepts_supported_non_qt_x11_session(self):
+        report = {
+            "result": "PASS",
+            "desktop": {"desktop": "GNOME", "tier": 2},
+            "session": {"type": "x11"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_XDG_FREEDESKTOP",
+                "architectural_authority": False,
+            },
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "PASS",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "LIMITED",
+            },
+        }
+        session_evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": None,
+        }
+        scoped = desktop_wayland_scoped_admission(report, session_evidence)
+        self.assertEqual("PASS", scoped["result"], scoped)
+        self.assertEqual(
+            "GENERIC_QT6_DESKTOP_SESSION_PROOF_WAYLAND_PREFERRED_X11_SUPPORTED",
+            scoped["scope_semantics"],
+        )
+        self.assertFalse(scoped["portal_required_for_scope"])
+        self.assertEqual("QT6_XDG_FREEDESKTOP", scoped["integration_strategy"])
+
     def test_desktop_wayland_scoped_admission_remains_fail_closed_for_session_failure(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_NATIVE_KF6_ENHANCED",
+                "architectural_authority": False,
+            },
             "capabilities": {
                 "linux_host": "PASS",
                 "xdg_runtime": "PASS",

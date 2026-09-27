@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-HOST-ADAPTATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-HOST-ADAPTATION-001",
+  "project_type": "PROFILE",
+  "goal": "Materialize host-adaptive installation/startup discovery, semantic drift classification and selective materialization planning by reusing the existing hardware, desktop, distribution, HRB, safety, coexistence and evidence authorities without creating a parallel resource or installation authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "host-lifecycle",
+    "startup-revalidation",
+    "selective-materialization",
+    "desktop-integration",
+    "accelerator-binding"
+  ],
+  "task_classes": [
+    "hardware-audit",
+    "desktop-session-discovery",
+    "host-drift-classification",
+    "reconciliation-planning"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "LIVE_HOST_FACTS",
+    "INSTALLATION_HOST_PROFILE",
+    "ACCEPTED_HOST_PROFILE"
+  ],
+  "output_modalities": [
+    "HOST_SNAPSHOT",
+    "DRIFT_REPORT",
+    "MATERIALIZATION_PLAN"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "INSTALLATION_HOST_PROFILE_LIFECYCLE",
+    "SEMANTIC_HOST_DRIFT_CLASSIFICATION",
+    "SELECTIVE_HOST_MATERIALIZATION_PLAN",
+    "QT6_NATIVE_DESKTOP_INTEGRATION_SELECTION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "NON_AUTHORITY_CAPABILITY",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-host-adaptation",
+    "service_prefix": "fa3-host-adaptation",
+    "config_root": "$XDG_CONFIG_HOME/fa3/host-adaptation",
+    "cache_root": "$XDG_CACHE_HOME/fa3/host-adaptation",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/host-adaptation",
+    "state_root": "$XDG_STATE_HOME/fa3/host-adaptation",
+    "socket_namespace": "fa3/host-adaptation",
+    "data_root": "$XDG_DATA_HOME/fa3/host-adaptation",
+    "desktop_prefix": "org.fa3.host-adaptation",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-DESKTOP-BASE-001",
+    "FA3-GATE-DESKTOP-PORTABILITY-001",
+    "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "CAP-175"
+  ]
+}
