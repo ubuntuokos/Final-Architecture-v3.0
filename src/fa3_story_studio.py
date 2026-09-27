@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+from collections import deque
 from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -121,6 +122,95 @@ def validate_codec_registry(codecs: list[dict[str, Any]]) -> dict[str, Any]:
 def can_edit(project: dict[str, Any], actor_id: str) -> bool:
     members = _members(project)
     return actor_id in members and bool(set(members[actor_id].get("roles", [])) & EDIT_ROLES)
+
+
+PROJECT_NODE_TYPES = {
+    "PROJECT_SPEC", "STORY_DOCUMENT", "SCREENPLAY", "SERIES_BIBLE", "SEASON_BIBLE",
+    "RUNDOWN", "SEGMENT", "SCENE", "BEAT", "SHOT", "STORYBOARD_CARD", "CHARACTER",
+    "LOCATION", "ENVIRONMENT", "ASSET", "AUDIO", "CAPTION", "TIMELINE_SEGMENT",
+    "REVIEW_NOTE", "APPROVAL", "DELIVERY",
+}
+PROJECT_EDGE_TYPES = {
+    "DEPENDS_ON", "DERIVED_FROM", "BINDS_MEDIA", "CONTINUES_FROM",
+    "PROVIDES_CONTEXT", "EDIT_SOURCE", "REVISION_IMPACTS",
+}
+
+
+def _project_node_map(project: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for node in project.get("nodes", []):
+        node_id = node.get("node_id")
+        if not isinstance(node_id, str) or not node_id:
+            raise StoryStudioError("project node_id required")
+        if node_id in out:
+            raise StoryStudioError(f"duplicate project node_id: {node_id}")
+        if node.get("type") not in PROJECT_NODE_TYPES:
+            raise StoryStudioError(f"unsupported project node type: {node.get('type')}")
+        out[node_id] = node
+    return out
+
+
+def validate_project_graph(project: dict[str, Any]) -> dict[str, Any]:
+    nodes = _project_node_map(project)
+    for edge in project.get("edges", []):
+        if edge.get("type") not in PROJECT_EDGE_TYPES:
+            raise StoryStudioError(f"unsupported project edge type: {edge.get('type')}")
+        if edge.get("from") not in nodes or edge.get("to") not in nodes:
+            raise StoryStudioError("project edge references unknown node")
+        if not isinstance(edge.get("invalidate_on_revision"), bool):
+            raise StoryStudioError("invalidate_on_revision must be explicit boolean")
+    return {"result": "PASS", "nodes": len(nodes), "edges": len(project.get("edges", []))}
+
+
+def plan_scoped_revision(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    changed_node_ids: list[str],
+) -> dict[str, Any]:
+    """Compute only explicit downstream invalidation; preserve unrelated work by default."""
+    validate_project(project)
+    if not can_edit(project, actor_id):
+        raise StoryStudioError("actor cannot edit project")
+    validate_project_graph(project)
+    nodes = _project_node_map(project)
+    if not changed_node_ids or any(node_id not in nodes for node_id in changed_node_ids):
+        raise StoryStudioError("changed_node_ids must reference known project nodes")
+
+    graph: dict[str, list[str]] = {node_id: [] for node_id in nodes}
+    for edge in project.get("edges", []):
+        if edge["invalidate_on_revision"]:
+            graph[edge["from"]].append(edge["to"])
+
+    affected = set(changed_node_ids)
+    queue = deque(sorted(affected))
+    while queue:
+        current = queue.popleft()
+        for child in sorted(graph[current]):
+            if child not in affected:
+                affected.add(child)
+                queue.append(child)
+
+    approval_nodes = sorted(
+        node_id for node_id in affected
+        if nodes[node_id].get("locked") is True or nodes[node_id].get("human_approved") is True
+    )
+    return {
+        "schema": "fa3.story-studio-scoped-revision-plan.v1",
+        "project_id": project["project_id"],
+        "requested_by": actor_id,
+        "changed_node_ids": sorted(set(changed_node_ids)),
+        "affected_node_ids": sorted(affected),
+        "preserved_node_ids": sorted(set(nodes) - affected),
+        "approval_required": bool(approval_nodes),
+        "approval_boundary_node_ids": approval_nodes,
+        "unaffected_nodes_preserved": True,
+        "full_project_regeneration_default": False,
+        "execution_authorized": False,
+        "model_provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+        "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+        "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    }
 
 
 def _document_map(project: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -389,6 +479,17 @@ def new_reference_project() -> dict[str, Any]:
         ],
         "revision_history": [],
         "comments": [],
+        "nodes": [
+            {"node_id": "story-1", "type": "STORY_DOCUMENT", "locked": False},
+            {"node_id": "scene-1", "type": "SCENE", "locked": False},
+            {"node_id": "shot-1", "type": "SHOT", "locked": False},
+            {"node_id": "delivery-1", "type": "DELIVERY", "locked": True, "human_approved": True},
+        ],
+        "edges": [
+            {"type": "DERIVED_FROM", "from": "story-1", "to": "scene-1", "invalidate_on_revision": True},
+            {"type": "DERIVED_FROM", "from": "scene-1", "to": "shot-1", "invalidate_on_revision": True},
+            {"type": "REVISION_IMPACTS", "from": "shot-1", "to": "delivery-1", "invalidate_on_revision": True},
+        ],
         "branches": [{"branch_id": "main", "label": "Main", "parent_branch_id": None}],
         "stash": [],
         "notes": [],
