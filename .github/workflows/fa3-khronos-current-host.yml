@@ -1,0 +1,28 @@
+name: FA3 Khronos SDK Current-Host Materialization
+on:
+  pull_request:
+    paths:
+      - 'canonical/**/FA3-KHRONOS-*'
+      - 'bin/fa3-materialize-khronos-sdks.sh'
+      - 'evidence/collect-khronos-sdk-materialization-current-host.py'
+      - '.github/workflows/fa3-khronos-current-host.yml'
+  workflow_dispatch:
+jobs:
+  materialize-source:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static admission first
+        run: PYTHONPATH=src python3 src/fa3_khronos_open_standards_gate.py --root . --json
+      - name: Materialize immutable SDK sources
+        run: bash bin/fa3-materialize-khronos-sdks.sh --source-only
+      - name: Collect physical source-materialization receipt
+        run: |
+          mkdir -p "$RUNNER_TEMP/fa3-khronos"
+          PYTHONPATH=src python3 evidence/collect-khronos-sdk-materialization-current-host.py             --repo-root .             --sdk-root "${XDG_DATA_HOME:-$HOME/.local/share}/fa3/khronos-sdk"             --output "$RUNNER_TEMP/fa3-khronos/materialization.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fa3-khronos-sdk-current-host-materialization
+          path: ${{ runner.temp }}/fa3-khronos/materialization.json
+          if-no-files-found: error
