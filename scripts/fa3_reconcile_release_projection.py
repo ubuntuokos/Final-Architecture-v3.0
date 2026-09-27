@@ -313,7 +313,9 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     projection["ai_engineering_reference_reconciliation"] = {
         "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
         "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
-        "reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+        "reference_commit": "968da0791b83917c9d8a5ba197ff190fa0b24093",
+        "reference_revalidated_at": "2026-09-27",
+        "reference_evidence": "evidence/reference/ai-engineering-upstream-revalidation-2026-09-27.json",
         "decision_id": "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30",
         "gate_id": "FA3-AIENG-GATESET-001",
         "application_intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
