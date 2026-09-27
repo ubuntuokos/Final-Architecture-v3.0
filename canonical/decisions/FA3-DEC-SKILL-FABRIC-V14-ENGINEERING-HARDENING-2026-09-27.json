@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SKILL-FABRIC-V14-ENGINEERING-HARDENING-2026-09-27",
+  "date": "2026-09-27",
+  "status": "CANONICAL_DECISION",
+  "subject": "Skill Fabric 1.4 engineering-discipline hardening from addyosmani/agent-skills reference audit",
+  "decision": "EXTEND_EXISTING_SKILL_FABRIC_WITH_QUALITY_FLOOR_REJECTED_CHANGE_LEDGER_SOURCE_GROUNDING_ADVERSARIAL_REVIEW_ARTIFACT_BINDING_AND_TARGETED_CROSS_AUTHORITY_HARDENING",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "upstream_reference": {
+    "repository": "addyosmani/agent-skills",
+    "previous_pin": "bcab6a1b8503100e8618c3b4e32cc78de43de769",
+    "audited_pin": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "delta_commits": 21,
+    "license": "MIT",
+    "classification": "REFERENCE_ONLY"
+  },
+  "adopted": [
+    "quality-floor guard semantics: tightening silent, weakening blocking",
+    "append-only rejected skill-change ledger with retry conditions",
+    "source-grounded engineering for implementation-affecting claims",
+    "fresh-context adversarial review with original conclusion withheld",
+    "skill-trigger lint where negated trigger clauses cannot establish eligibility",
+    "producer-consumer artifact path/schema/identity drift checking",
+    "destructive-path resolve/allowlist/depth/ownership guard pattern",
+    "shared-counter-store requirement for multi-instance rate limiting",
+    "entry-point attribution alongside correlation identity for shared observability sinks"
+  ],
+  "rejected": [
+    "wholesale import of the 25 upstream skills",
+    "upstream runtime or command surfaces as FA3 authority",
+    "skill-local provider or model selection",
+    "direct Gemini/Codex/other model CLI bypass of FA3 Model Router",
+    "new execution, security, evidence, resource or workflow authority",
+    "automatic upstream installation or runtime fetch"
+  ],
+  "authority_effect": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_count_after": 175
+  },
+  "reconciliation": {
+    "open_pr_412": "SEPARATE",
+    "note": "PR #412 cross-authority execution closure remains a separate branch based on PR #410 and must be reconciled explicitly; this decision does not claim its runtime closure.",
+    "current_main_base": "eb340dbe1632e91b765fcc78165de81a14b8298a"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "replaces_upstream_tools": false,
+    "installs_upstream_repository": false,
+    "modifies_upstream_installations": false,
+    "namespaced_fa3_artifacts": true,
+    "external_tools_may_coexist_independently": true
+  },
+  "evidence_boundary": {
+    "static_materialization_is_current_host_runtime_proof": false,
+    "current_host_runtime_claim": false,
+    "external_reference_is_runtime_admission": false
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

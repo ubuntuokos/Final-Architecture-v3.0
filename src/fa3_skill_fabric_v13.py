@@ -252,8 +252,8 @@ def canonical_check(root: Path) -> list[str]:
     enforcement = loadj(root / ENFORCEMENT)
     decision = loadj(root / DECISION)
 
-    if profile.get("version") != "1.3.0" or admission.get("version") != "1.3.0":
-        findings.append("Skill Fabric/admission 1.3 not active")
+    if profile.get("version") not in {"1.3.0", "1.4.0"} or admission.get("version") not in {"1.3.0", "1.4.0"}:
+        findings.append("Skill Fabric/admission 1.3 compatibility baseline not active")
     expected = {INTERFACE.split("/")[-1][:-5], PROJECTION.split("/")[-1][:-5], ATTESTATION.split("/")[-1][:-5]}
     if not expected.issubset(set(admission.get("extension_contracts", []))):
         findings.append("Skill Fabric 1.3 extension contract binding missing")
