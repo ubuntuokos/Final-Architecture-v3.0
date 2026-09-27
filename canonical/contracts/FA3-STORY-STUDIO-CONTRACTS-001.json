@@ -53,7 +53,16 @@
     "SpoilerGenerationPlan",
     "SpoilerDerivative",
     "SpoilerDisclosureMap",
-    "SpoilerPublicationReceipt"
+    "SpoilerPublicationReceipt",
+    "TrailerGenerationPlan",
+    "TrailerBeatSheet",
+    "TrailerShotSelection",
+    "TrailerMusicCuePlan",
+    "TrailerVoiceOverPlan",
+    "TrailerTitleCardPlan",
+    "TrailerDeliveryVariant",
+    "TrailerEditorialHandoff",
+    "TrailerGenerationHandoff"
   ],
   "invariants": [
     "ONE_FA3_STORY_STUDIO_APPLICATION_SURFACE",
@@ -85,7 +94,17 @@
     "SPOILER_GENERATION_MUST_SELECT_BRANCH_WHEN_ALTERNATIVES_EXIST",
     "SPOILER_CROSS_BRANCH_MIXING_FORBIDDEN",
     "SPOILER_EXTERNAL_PUBLICATION_REQUIRES_RELEASE_APPROVAL",
-    "SPOILER_DERIVATIVE_NEVER_MUTATES_CANONICAL_STORY"
+    "SPOILER_DERIVATIVE_NEVER_MUTATES_CANONICAL_STORY",
+    "TRAILER_SOURCE_REVISION_AND_BRANCH_LINEAGE_REQUIRED",
+    "TRAILER_SPOILER_CEILING_REQUIRED",
+    "TRAILER_CROSS_BRANCH_MIXING_FORBIDDEN",
+    "GENERATED_PREVIS_MUST_BE_DISTINGUISHABLE_FROM_FILMED_SOURCE",
+    "GENERATED_MARKETING_COPY_MUST_NOT_IMPERSONATE_SOURCE_DIALOGUE",
+    "SOURCED_DIALOGUE_REQUIRES_EXACT_SOURCE_REFERENCE",
+    "TRAILER_EDITORIAL_HANDOFF_USES_CANONICAL_OTIO",
+    "TRAILER_GENERATIVE_HANDOFF_USES_EXISTING_MMG_CONTEXT_IR",
+    "TRAILER_FINAL_EDITORIAL_DECISION_REQUIRES_HUMAN_APPROVAL",
+    "TRAILER_DERIVATIVE_NEVER_MUTATES_CANONICAL_STORY"
   ],
   "collaboration": {
     "edit_roles": [
@@ -189,6 +208,53 @@
       "FINAL_PUBLISHER",
       "RELEASE_APPROVER"
     ],
+    "writeback": "FORBIDDEN"
+  },
+  "trailer_contract": {
+    "source_modes": [
+      "SCRIPT_ONLY_CONCEPT",
+      "SCRIPT_PLUS_EXISTING_ASSETS",
+      "FINISHED_FILM_CUT"
+    ],
+    "output_types": [
+      "TEASER",
+      "TRAILER",
+      "TV_SPOT",
+      "SOCIAL_TEASER",
+      "CHARACTER_TRAILER",
+      "EPISODE_PROMO",
+      "SEASON_PROMO",
+      "CUSTOM_PROMO"
+    ],
+    "beat_roles": [
+      "HOOK",
+      "SETUP",
+      "ESCALATION",
+      "TURN",
+      "MONTAGE",
+      "EMOTIONAL_BEAT",
+      "BUTTON",
+      "TITLE_CARD",
+      "CTA"
+    ],
+    "required_fields": [
+      "source_document_id",
+      "source_revision",
+      "source_revision_digest",
+      "branch_id",
+      "output_type",
+      "source_mode",
+      "target_duration_seconds",
+      "spoiler_ceiling",
+      "aspect_ratio",
+      "selected_story_node_refs"
+    ],
+    "execution_routes": {
+      "script_only_concept": "FA3-STORY-001 -> FA3-MMG-CONTEXT-IR-001 -> FA3-VIDEO-001 -> OTIO_KDENLIVE",
+      "existing_assets": "FA3-STORY-001 + source media -> OTIO_KDENLIVE",
+      "mixed": "FA3-STORY-001 + source media + FA3-MMG-CONTEXT-IR-001 -> FA3-VIDEO-001 -> OTIO_KDENLIVE"
+    },
+    "final_cut_authority": "HUMAN_EDITORIAL_APPROVAL",
     "writeback": "FORBIDDEN"
   }
 }
