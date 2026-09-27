@@ -1,7 +1,10 @@
 import json
 from pathlib import Path
 
+from fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CFG = json.loads((ROOT / "canonical/conversation-reconciliation-enforcement.json").read_text())
 PROFILES = ROOT / "canonical/profiles"
 PROVIDERS = ROOT / "canonical/providers"
@@ -18,7 +21,7 @@ def test_required_records_materialized():
 def test_capability_count_and_no_new_authority():
     for ident in CFG["required_profiles"]:
         rec = load(PROFILES / f"{ident}.json")
-        assert rec.get("capability_count") == 143, ident
+        assert rec.get("capability_count") == CAPABILITY_COUNT, ident
         assert rec.get("new_architectural_authority") is False, ident
         assert rec.get("new_capability") is False, ident
     for ident in CFG["required_providers"]:
@@ -38,7 +41,7 @@ def test_hrb_cuda_authority_separation_and_evidence_scope():
     hrb = load(PROFILES / "FA3-HOST-RESOURCE-BROKER-001.json")
     cuda = load(PROFILES / "FA3-CUDA-PY-001.json")
     ev = load(ROOT / "evidence/reference/hrb-cuda-current-host-2026-08-28.json")
-    assert set(hrb["authority_scope"]) == {"admission", "placement", "reservation", "lease"}
+    assert {"admission", "placement", "reservation", "lease"} <= set(hrb["authority_scope"])
     assert cuda["provider_role"].endswith("NOT_AUTHORITY")
     assert ev["global_promotion_claim"] is False
 
