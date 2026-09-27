@@ -26,7 +26,7 @@ OPTIONAL_COPY_FIELDS = (
     "color_palette", "photographic_direction", "design_rules", "do", "avoid",
     "negative_prompt", "examples",
 )
-TEMPLATE_VARIABLE = re.compile(r"\\{([A-Z][A-Z0-9_]*)\\}")
+TEMPLATE_VARIABLE = re.compile(r"\{([A-Z][A-Z0-9_]*)\}")
 
 EXTENDED_FA3_FIELDS = (
     "camera_language", "lens_language", "lighting_language", "material_language",
