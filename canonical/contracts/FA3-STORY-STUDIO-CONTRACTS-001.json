@@ -37,7 +37,9 @@
     "DocumentCodecDescriptor",
     "RoundTripCompatibilityReport",
     "TableReadPlan",
-    "ProductionHandoff"
+    "ProductionHandoff",
+    "CollaborativeEditTransaction",
+    "RevisionConflictReceipt"
   ],
   "invariants": [
     "ONE_FA3_STORY_STUDIO_APPLICATION_SURFACE",
@@ -52,7 +54,9 @@
     "AI_NOTES_AND_HUMAN_NOTES_SEPARATE",
     "HUMAN_APPROVAL_REQUIRED_FOR_FINAL_STATE",
     "CPU_ONLY_CORE_OPERATION_REQUIRED",
-    "NO_PROVIDER_AUTHORITY_ESCALATION"
+    "NO_PROVIDER_AUTHORITY_ESCALATION",
+    "STALE_CONCURRENT_EDIT_MUST_FAIL_CLOSED",
+    "SILENT_LAST_WRITER_WINS_FORBIDDEN"
   ],
   "collaboration": {
     "edit_roles": [
@@ -74,7 +78,10 @@
     ],
     "designated_final_publisher_list_required": true,
     "release_policy_must_be_explicit": true,
-    "release_receipt_must_include_actor_revision_digest_and_timestamp": true
+    "release_receipt_must_include_actor_revision_digest_and_timestamp": true,
+    "optimistic_revision_binding_required": true,
+    "stale_base_revision_policy": "CONFLICT_FAIL_CLOSED",
+    "silent_last_writer_wins": false
   },
   "stash_note_contract": {
     "rejected_fragment_never_silently_destroyed": true,
