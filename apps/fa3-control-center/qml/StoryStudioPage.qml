@@ -453,7 +453,7 @@ Item {
                     anchors.fill: parent; anchors.margins: 16; spacing: 10
                     Label { text: "Production"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
                     Label {
-                        text: "Breakdown · Sides · Shot planning · Storyboard · Scheduling · Budget handoff · Table Read · Audio read export"
+                        text: "Breakdown · Sides · Shot planning · Storyboard · Presentation projection · Scheduling · Budget handoff · Table Read · Dubbing/ADR · Audio read export"
                         color: root.textMuted; wrapMode: Text.WordWrap
                     }
                     Label {
