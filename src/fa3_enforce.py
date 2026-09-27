@@ -60,6 +60,7 @@ from fa3_marketing_gate import gate as marketing_gate
 from fa3_marketing_agent_native_gate import gate as marketing_agent_native_gate
 from fa3_caption_subtitle_gate import gate as caption_subtitle_gate
 from fa3_caption_subtitle_current_host_gate import gate as caption_subtitle_current_host_gate
+from fa3_hu_speech_editable_video_reference_gate import gate as hu_speech_editable_video_reference_gate
 from fa3_marketingskills_gate import gate as marketingskills_gate
 from fa3_skill_fabric_gate import gate as skill_fabric_gate
 from fa3_distribution_compliance_gate import gate as distribution_compliance_gate
@@ -203,6 +204,9 @@ def static_check(root:Path):
     caption_subtitle_ref=caption_subtitle_gate(root)
     if caption_subtitle_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-136","Caption/Subtitle/Narration Fabric canonical/runtime-reference gate failed",caption_subtitle_gate=caption_subtitle_ref))
+    hu_speech_reference_ref=hu_speech_editable_video_reference_gate(root)
+    if hu_speech_reference_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-141","Hungarian speech to editable video project reference journey failed",hu_speech_reference_gate=hu_speech_reference_ref))
     neural_rendering_ref=neural_rendering_gate(root)
     if neural_rendering_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-119","Neural Rendering / OpenDLSS-NR provider projection gate failed",neural_rendering_gate=neural_rendering_ref))
@@ -754,7 +758,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","hu-speech-editable-video-reference","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -884,6 +888,8 @@ def main():
             x=caption_subtitle_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="caption-subtitle-current-host":
             x=caption_subtitle_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="hu-speech-editable-video-reference":
+            x=hu_speech_editable_video_reference_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="marketingskills":
             x=marketingskills_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="skill-fabric":
