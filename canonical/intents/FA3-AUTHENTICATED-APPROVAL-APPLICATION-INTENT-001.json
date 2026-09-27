@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AUTHENTICATED-APPROVAL-APPLICATION-INTENT-001",
+  "project_id": "FA3-AUTHENTICATED-APPROVAL-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Replace boolean release-approval assertions with cryptographically authenticated, authorization-bound, expiring and replay-protected receipts while preserving existing FA3 identity, Security Governance, Trust PKI, Evidence and Promotion authorities.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": ["release-approval-authentication","independent-review-integrity","promotion-replay-protection"],
+  "task_classes": ["security-governance","evidence-validation","release-promotion"],
+  "skill_triggers": [],
+  "input_modalities": ["X509_IDENTITY","SIGNED_ROLE_GRANT","APPROVAL_PAYLOAD","SOURCE_COMMIT"],
+  "output_modalities": ["AUTHENTICATED_APPROVAL_RECEIPT","PROMOTION_CONSUMPTION_LEDGER"],
+  "execution_classes": ["LOCAL_CRYPTOGRAPHIC_VERIFICATION"],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-approval",
+    "service_prefix": "fa3-approval",
+    "config_root": "/etc/fa3/trust",
+    "data_root": "promotion/approval-consumption-ledger.json",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FA3-TRUST-PKI-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "AUTH-HUMAN"
+  ],
+  "integration_requirements": [
+    "src/fa3_enforce.py::acceptance_check",
+    "src/fa3_enforce.py::promote"
+  ]
+}
