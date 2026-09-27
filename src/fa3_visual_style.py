@@ -26,6 +26,8 @@ OPTIONAL_COPY_FIELDS = (
     "color_palette", "photographic_direction", "design_rules", "do", "avoid",
     "negative_prompt", "examples",
 )
+TEMPLATE_VARIABLE = re.compile(r"\\{([A-Z][A-Z0-9_]*)\\}")
+
 EXTENDED_FA3_FIELDS = (
     "camera_language", "lens_language", "lighting_language", "material_language",
     "environment_language", "character_language", "motion_language", "animation_language",
@@ -186,6 +188,68 @@ def build_visual_intent(
     }
 
 
+
+def _constraint_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        return "; ".join(str(item).strip() for item in value if str(item).strip())
+    return _canonical_json(value)
+
+
+def compile_visual_style(
+    recipe: Mapping[str, Any],
+    *,
+    values: Mapping[str, Any],
+) -> dict[str, Any]:
+    if recipe.get("schema") != "fa3.visual-style-recipe.v1":
+        raise VisualStyleDenied("canonical FA3 visual style recipe required")
+
+    runtime = recipe.get("runtime", {})
+    if any(runtime.get(key) for key in ("fixed_provider", "fixed_model", "fixed_runtime")):
+        raise VisualStyleDenied("canonical recipes may not pin provider, model or runtime")
+
+    template = _require_nonempty_string(recipe.get("prompt_template"), "prompt_template")
+    effective = {str(k): str(v) for k, v in dict(values).items()}
+    effective.setdefault(
+        "STYLE_FIDELITY_ANCHORS",
+        _constraint_text(recipe.get("style_fidelity_anchors", [])),
+    )
+    effective.setdefault(
+        "SOURCE_CONTENT_TO_AVOID",
+        _constraint_text(recipe.get("source_content_to_avoid", [])),
+    )
+
+    required = sorted(set(TEMPLATE_VARIABLE.findall(template)))
+    missing = [name for name in required if not effective.get(name, "").strip()]
+    if missing:
+        raise VisualStyleDenied("missing template variables: " + ", ".join(missing))
+
+    derived_prompt = TEMPLATE_VARIABLE.sub(lambda match: effective[match.group(1)], template)
+    receipt = {
+        "schema": "fa3.visual-style-compile-receipt.v1",
+        "style_recipe_id": recipe.get("id"),
+        "style_recipe_sha256": recipe.get("recipe_sha256"),
+        "resolved_variables": {name: effective[name] for name in required},
+        "derived_prompt": derived_prompt,
+        "negative_prompt": recipe.get("negative_prompt"),
+        "prompt_sha256": hashlib.sha256(derived_prompt.encode("utf-8")).hexdigest(),
+        "canonical": False,
+        "route_request": {
+            "route_class": "visual.generation",
+            "authority": MODEL_ROUTER_AUTHORITY,
+            "resource_authority": HRB_AUTHORITY,
+            "provider": None,
+            "model": None,
+            "runtime": None,
+            "silent_fallback_allowed": False,
+        },
+        "current_host_runtime_promotion_claim": False,
+    }
+    return receipt
+
 def validate_consumer_binding(binding: Mapping[str, Any]) -> bool:
     if binding.get("status") not in {"MATERIALIZED_REQUIRED", "PLANNED_REQUIRED"}:
         return False
@@ -208,6 +272,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     imp.add_argument("--attribution", required=True)
     imp.add_argument("--source-url")
 
+    compile_cmd = sub.add_parser("compile", help="derive a non-canonical provider-neutral prompt receipt")
+    compile_cmd.add_argument("--recipe", required=True)
+    compile_cmd.add_argument("--values", required=True)
+
     intent = sub.add_parser("intent", help="build provider-neutral Visual Intent IR")
     intent.add_argument("--recipe", required=True)
     intent.add_argument("--values")
@@ -225,6 +293,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             attribution=args.attribution,
             source_url=args.source_url,
         )
+    elif args.command == "compile":
+        recipe = json.loads(Path(args.recipe).read_text(encoding="utf-8"))
+        values = json.loads(Path(args.values).read_text(encoding="utf-8"))
+        result = compile_visual_style(recipe, values=values)
     else:
         recipe = json.loads(Path(args.recipe).read_text(encoding="utf-8"))
         values = json.loads(Path(args.values).read_text(encoding="utf-8")) if args.values else {}
