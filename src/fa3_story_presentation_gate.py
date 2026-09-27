@@ -43,7 +43,7 @@ REQUIRED_AUTHORING_FEATURES = {
     "TYPEWRITER_FOCUS_MODE",
     "ALTERNATIVE_CONTINUATIONS_NARRATIVE_BRANCHING",
 }
-REQUIRED_CAPABILITIES = {"CAP-018", "CAP-033", "CAP-170", "CAP-171"}
+REQUIRED_CAPABILITIES = {"CAP-018", "CAP-030", "CAP-033", "CAP-170", "CAP-171"}
 REQUIRED_PRODUCTION_CHAIN = [
     "screenplay",
     "scene",
@@ -217,6 +217,23 @@ def gate(root: Path) -> dict[str, Any]:
 
     if not interchange_contract_valid(contract):
         findings.append(_finding("STORY-PRES-008", "document interchange is not bidirectional/loss-explicit for every admitted file type"))
+
+    presentation = contract.get("contracts", {}).get("PresentationStudio", {})
+    required_operations = {
+        "CREATE", "EDIT", "GENERATE_SYNC", "GENERATE_ASYNC_BOUNDED",
+        "GET_GENERATION_STATUS", "EXPORT_PPTX", "EXPORT_PDF"
+    }
+    if not (
+        required_operations.issubset(set(presentation.get("operations", [])))
+        and presentation.get("async_execution") == "BOUNDED_FAIL_CLOSED"
+        and presentation.get("model_route") == "FA3-AUTH-MODEL-ROUTER-001"
+        and presentation.get("direct_provider_key_possession") is False
+        and presentation.get("external_worker_replaceability") is True
+        and presentation.get("external_worker_is_authority") is False
+        and presentation.get("output_artifacts", {}).get("pptx", {}).get("lineage") is True
+        and presentation.get("output_artifacts", {}).get("pdf", {}).get("lineage") is True
+    ):
+        findings.append(_finding("STORY-PRES-025", "native Presentation Studio capability-preservation contract drift"))
 
     if production.get("id") != PRODUCTION_REGISTRY_ID:
         findings.append(_finding("STORY-PRES-009", "production profile registry identity drift"))
