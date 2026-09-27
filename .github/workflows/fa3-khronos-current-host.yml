@@ -73,7 +73,19 @@ jobs:
           PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_producer_audit.py --root .
       - name: Execute physical CAP-083 qualification constituents
         run: PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects CAP-083
-      - name: Assert physical CAP-083 proof payloads
+      - name: Audit CAP-083 capability executor coverage
+        run: PYTHONPATH=src python3 src/fa3_current_host_capability_test_executor_audit.py --root .
+      - name: Execute qualified CAP-083 current-host obligations
+        run: PYTHONPATH=src python3 src/fa3_current_host_capability_test_orchestrator.py --root . --execute --subjects CAP-083
+      - name: Assemble CAP-083 current-host bundle
+        run: PYTHONPATH=src python3 src/fa3_current_host_capability_test_bundle.py --root .
+      - name: Produce CAP-083 current-host attestation
+        run: PYTHONPATH=src python3 src/fa3_current_host_capability_attest.py --root .
+      - name: Materialize CAP-083 current-host receipt
+        run: PYTHONPATH=src python3 src/fa3_current_host_capability_handoff.py --root .
+      - name: Reconcile qualified CAP-083 Evidence Registry receipt
+        run: PYTHONPATH=src python3 src/fa3_current_host_evidence_audit.py --root . --apply-reconciliation
+      - name: Assert physical CAP-083 proof payloads and receipt
         shell: bash
         run: |
           python3 - <<'PY'
@@ -140,6 +152,23 @@ jobs:
               raise SystemExit("CAP-083 rollback did not restore exact baseline")
           if rollback_result.get("pre_sha256") == rollback_result.get("mutated_sha256"):
               raise SystemExit("CAP-083 rollback fault injection did not mutate state")
+
+          registry = json.loads((root / "evidence/evidence-registry.json").read_text(encoding="utf-8"))
+          cap83 = next((row for row in registry.get("records", []) if row.get("subject_id") == "CAP-083"), None)
+          if not isinstance(cap83, dict) or cap83.get("status") != "PASS":
+              raise SystemExit("CAP-083 Evidence Registry status was not reconciled to PASS")
+          if cap83.get("runtime_conformance") != "PASS":
+              raise SystemExit("CAP-083 runtime_conformance was not reconciled to PASS")
+          receipt = root / "evidence/receipts/capabilities/CAP-083.json"
+          if not receipt.is_file():
+              raise SystemExit("CAP-083 canonical current-host receipt missing")
+          receipt_obj = json.loads(receipt.read_text(encoding="utf-8"))
+          if receipt_obj.get("status") != "PASS" or receipt_obj.get("source_commit") != head:
+              raise SystemExit("CAP-083 current-host receipt is not PASS on exact repository head")
+          if receipt_obj.get("global_promotion_claim") is not False:
+              raise SystemExit("CAP-083 receipt must not claim global promotion")
+          if registry.get("status") != "PENDING_CURRENT_HOST":
+              raise SystemExit("isolated CAP-083 proof must not claim full 175-capability runtime closure")
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -150,5 +179,16 @@ jobs:
             .fa3-current-host/global-closure/host/host-fingerprint.json
             .fa3-current-host/qualification-source-artifacts/**
             .fa3-current-host/qualification-constituents/**
+            .fa3-current-host/test-results/capabilities/CAP-083/**
+            .fa3-current-host/test-artifacts/capabilities/CAP-083/**
+            .fa3-current-host/test-bundles/capabilities/CAP-083.json
+            .fa3-current-host/attestations/capabilities/CAP-083.json
+            evidence/receipts/capabilities/CAP-083.json
+            evidence/evidence-registry.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
+            reports/current-host-capability-test-orchestrator.json
+            reports/current-host-capability-test-bundle-assembler.json
+            reports/current-host-capability-attestation-producer.json
+            reports/current-host-capability-handoff.json
+            reports/current-host-evidence-audit.json
           if-no-files-found: error
