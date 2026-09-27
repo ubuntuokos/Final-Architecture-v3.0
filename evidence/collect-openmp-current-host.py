@@ -60,13 +60,19 @@ def _sha256(path: Path) -> str:
 
 
 def _loaded_runtime_libraries(executable: Path) -> list[str]:
-    cp = subprocess.run(
-        ["ldd", str(executable)],
-        text=True,
-        capture_output=True,
-        check=False,
-        timeout=20,
-    )
+    ldd = shutil.which("ldd")
+    if not ldd:
+        return []
+    try:
+        cp = subprocess.run(
+            [ldd, str(executable)],
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=20,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return []
     if cp.returncode != 0:
         return []
     libraries: list[str] = []
