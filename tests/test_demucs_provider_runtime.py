@@ -18,6 +18,7 @@ from fa3_demucs_provider import (
     SeparationRequest,
     load_allowlist,
     run_executable_conformance,
+    resolve_model_cache,
     validate_hrb_lease_document,
     validate_hrb_broker_output,
     validate_request,
@@ -36,6 +37,11 @@ class DemucsProviderRuntimeTests(unittest.TestCase):
         self.assertEqual(report["result"], "PASS")
         self.assertEqual(report["passed"], report["total"])
         self.assertGreaterEqual(report["total"], 13)
+
+    def test_default_model_cache_is_fa3_namespaced(self):
+        from unittest.mock import patch
+        with patch.dict("os.environ", {"XDG_CACHE_HOME": "/tmp/xdg-cache"}, clear=False):
+            self.assertEqual(resolve_model_cache(), Path("/tmp/xdg-cache/fa3/demucs-hf"))
 
     def test_arbitrary_hf_model_is_rejected(self):
         request = SeparationRequest(

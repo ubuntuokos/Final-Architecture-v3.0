@@ -7,6 +7,9 @@ set -euo pipefail
 }
 
 ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+STEP_CA_BIN="/usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca"
+STEP_BIN="/usr/local/lib/fa3/step-cli/0.30.6/bin/step"
+[[ -x "$STEP_CA_BIN" && -x "$STEP_BIN" ]] || { echo "FA3-namespaced Smallstep binaries missing" >&2; exit 2; }
 OUT="$ROOT/evidence/runtime/step-ca-current-host/e2e.json"
 CA="https://127.0.0.1:9443"
 RC="/var/lib/fa3-step-ca/certs/root_ca.crt"
@@ -101,7 +104,7 @@ trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
-for command in curl flock openssl python3 sed seq ssh-keygen ss step systemctl; do
+for command in curl flock openssl python3 sed seq ssh-keygen ss systemctl; do
   command -v "$command" >/dev/null || {
     echo "required command missing: $command" >&2
     exit 2
@@ -160,7 +163,7 @@ OVERRIDE_ACTIVE=true
 {
   printf '%s\n' '[Service]' 'ExecStart='
   printf '%s\n' \
-    "ExecStart=/usr/local/bin/step-ca /etc/fa3/step-ca/ca.json --password-file=%d/step-ca-password --insecure --acme-http-port=$ACME_HTTP_PORT"
+    "ExecStart=$STEP_CA_BIN /etc/fa3/step-ca/ca.json --password-file=%d/step-ca-password --insecure --acme-http-port=$ACME_HTTP_PORT"
 } >"$DROPIN"
 chmod 0644 "$DROPIN"
 
@@ -168,14 +171,14 @@ systemctl daemon-reload
 systemctl restart fa3-step-ca.service
 wait_for_ca
 
-step ca certificate localhost "$TMP/a.crt" "$TMP/a.key" \
+"$STEP_BIN" ca certificate localhost "$TMP/a.crt" "$TMP/a.key" \
   --provisioner fa3-acme \
   --ca-url "$CA" \
   --root "$RC" \
   --standalone \
   --http-listen "127.0.0.1:$ACME_HTTP_PORT" \
   --not-after 10m
-step ca certificate localhost "$TMP/b.crt" "$TMP/b.key" \
+"$STEP_BIN" ca certificate localhost "$TMP/b.crt" "$TMP/b.key" \
   --provisioner fa3-acme \
   --ca-url "$CA" \
   --root "$RC" \
@@ -195,7 +198,7 @@ PORT80_AFTER="$(ss -H -ltnp 'sport = :80' || true)"
   exit 1
 }
 
-step ca certificate fa3-mtls-client "$TMP/c.crt" "$TMP/c.key" \
+"$STEP_BIN" ca certificate fa3-mtls-client "$TMP/c.crt" "$TMP/c.key" \
   --provisioner fa3-jwk \
   --provisioner-password-file "$JP" \
   --ca-url "$CA" \
@@ -237,7 +240,7 @@ kill "$PID"
 wait "$PID" 2>/dev/null || true
 PID=""
 
-step ssh certificate fa3-e2e "$TMP/ssh_e2e" \
+"$STEP_BIN" ssh certificate fa3-e2e "$TMP/ssh_e2e" \
   --provisioner fa3-jwk \
   --provisioner-password-file "$JP" \
   --ca-url "$CA" \

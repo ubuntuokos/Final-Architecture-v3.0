@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_quality_filter import analyze_text, infer_concerns, load_rules, select_quality_skills
+from fa3_quality_filter import _candidate_paths, analyze_text, infer_concerns, load_rules, select_quality_skills
 
 class QualityFilterTests(unittest.TestCase):
     @classmethod
@@ -68,6 +68,11 @@ class QualityFilterTests(unittest.TestCase):
             ["fa3-quality-ui", "fa3-quality-copy", "fa3-quality-human", "fa3-quality-responsive"],
         )
         self.assertNotIn("fa3-quality-code", selected)
+
+    def test_deleted_changed_path_is_not_scan_candidate(self):
+        from unittest import mock
+        with mock.patch("fa3_quality_filter._git_changed_paths", return_value=["src/deleted_provider.py"]):
+            self.assertEqual(_candidate_paths(ROOT, "repo", "origin/main"), [])
 
     def test_registry_shape(self):
         ids = [r["id"] for r in self.registry["rules"]]

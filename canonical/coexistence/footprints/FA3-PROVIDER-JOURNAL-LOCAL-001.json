@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P0",
+  "upstream_relation": "NONE",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [
+      "QStandardPaths::AppLocalDataLocation/journal"
+    ],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [
+      "QStandardPaths::AppLocalDataLocation/journal/events/active.jsonl"
+    ],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "xdg-email optional share adapter",
+      "FA3_CHAT_SHARE_URL optional chat adapter"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-JOURNAL-LOCAL-001.json",
+      "apps/fa3-control-center/src/main.cpp",
+      "apps/fa3-control-center/src/JournalService.cpp"
+    ]
+  }
+}

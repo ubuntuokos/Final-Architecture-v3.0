@@ -5,6 +5,7 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 from fa3_model_artifact_security_current_host_gate import gate as current_host_gate
 from fa3_model_artifact_security_gate import _base_receipt, admission_valid
@@ -18,7 +19,7 @@ class ModelArtifactSecurityCurrentHostTests(unittest.TestCase):
     def test_runtime_conformance_materialized_without_false_pass(self):
         x = json.loads((ROOT / "canonical/FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-CONFORMANCE-001.json").read_text())
         self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION", x["status"])
-        self.assertEqual(143, x["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, x["capability_count"])
         self.assertFalse(x["new_capability"])
         self.assertFalse(x["new_architectural_authority"])
         self.assertTrue(x["production_e2e"]["real_local_model_required"])
@@ -63,6 +64,9 @@ class ModelArtifactSecurityCurrentHostTests(unittest.TestCase):
         self.assertNotIn("python3.14 -m venv", s)
         self.assertIn("cosign 3.1.2", s)
         self.assertIn("trivy 0.74.0", s)
+        self.assertNotIn("FA3_MODEL_SECURITY_ALLOW_SUDO", s)
+        self.assertNotIn("apt-get install", s)
+        self.assertIn("forbids this bootstrap from mutating host-global package state", s)
 
     def test_runtime_sandbox_is_network_and_secret_denied(self):
         s = (ROOT / "src/fa3_model_artifact_security_runtime.py").read_text()

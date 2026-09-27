@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-WAN22-MODEL-SET-MANIFEST-001",
+  "title": "FA3 Wan2.2 model-set admission manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "provider_id",
+    "upstream_revision",
+    "checkpoint_dir",
+    "artifacts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.wan22-model-set-manifest.v1"
+    },
+    "provider_id": {
+      "const": "FA3-PROVIDER-WAN22-001"
+    },
+    "upstream_revision": {
+      "const": "1ea34ff48f87168174e12956e200b1d908b1c5ff"
+    },
+    "checkpoint_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "relative_path",
+          "admission_receipt"
+        ],
+        "properties": {
+          "relative_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "admission_receipt": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

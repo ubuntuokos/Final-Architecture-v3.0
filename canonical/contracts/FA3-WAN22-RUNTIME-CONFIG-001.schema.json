@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-WAN22-RUNTIME-CONFIG-001",
+  "title": "FA3 Wan2.2 current-host runtime config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "provider_id",
+    "runtime_kind",
+    "source_root",
+    "python",
+    "checkpoint_dir",
+    "task"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.wan22-runtime-config.v1"
+    },
+    "provider_id": {
+      "const": "FA3-PROVIDER-WAN22-001"
+    },
+    "runtime_kind": {
+      "const": "OFFICIAL_WAN22_CHECKOUT"
+    },
+    "source_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "python": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task": {
+      "enum": [
+        "t2v-A14B",
+        "i2v-A14B",
+        "ti2v-5B",
+        "s2v-14B"
+      ]
+    },
+    "offload_model": {
+      "type": "boolean",
+      "default": true
+    },
+    "convert_model_dtype": {
+      "type": "boolean",
+      "default": true
+    },
+    "t5_cpu": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

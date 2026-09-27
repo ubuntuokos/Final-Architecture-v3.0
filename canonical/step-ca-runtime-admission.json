@@ -2,7 +2,7 @@
   "schema": "fa3.runtime-admission.v1",
   "id": "FA3-STEP-CA-RUNTIME-ADMISSION-001",
   "provider_id": "FA3-PROVIDER-STEP-CA-001",
-  "status": "ADMITTED_CURRENT_HOST",
+  "status": "PENDING_CURRENT_HOST_REQUALIFICATION",
   "fail_closed": true,
   "optional_provider": false,
   "disabled_state_global_blocker": false,
@@ -26,18 +26,21 @@
     "BACKUP_AND_RESTORE_DRILL_PASS",
     "CURRENT_HOST_PRODUCTION_E2E_RECEIPT_PASS"
   ],
-  "current_blockers": [],
-  "production_runtime_promoted": true,
+  "current_blockers": [
+    "COEXISTENCE_RUNTIME_SURFACE_CHANGED_REQUALIFICATION_REQUIRED"
+  ],
+  "production_runtime_promoted": false,
   "current_host_closure": {
     "conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
     "enforcement_id": "FA3-STEP-CA-CURRENT-HOST-ENFORCEMENT-001",
     "gate_id": "FA3-GATE-STEP-CA-CURRENT-HOST-001",
     "composite_receipt": "evidence/receipts/step-ca-current-host.json",
-    "status": "CURRENT_HOST_PRODUCTION_E2E_PASS",
-    "tested_main_sha": "bc2762ddc85a7501ab3d2be612329399470ea276",
-    "durable_evidence_reference": "evidence/reference/step-ca-current-host-2026-09-20.json"
+    "status": "PENDING_CURRENT_HOST_REQUALIFICATION",
+    "tested_main_sha": null,
+    "durable_evidence_reference": null
   },
   "global_promotion_claim": false,
-  "current_host_evidence_reference": "evidence/reference/step-ca-current-host-2026-09-20.json",
-  "promotion_decision": "FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20"
+  "current_host_evidence_reference": null,
+  "promotion_decision": "FA3-DEC-STEP-CA-COEXISTENCE-REQUALIFICATION-2026-09-26",
+  "superseded_historical_evidence": "evidence/reference/step-ca-current-host-2026-09-20.json"
 }

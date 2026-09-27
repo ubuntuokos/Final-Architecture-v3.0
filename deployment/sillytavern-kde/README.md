@@ -16,7 +16,7 @@ This directory materializes the optional SillyTavern Linux desktop client projec
 
 - `bin/sillytavern-kde-launch`: immutable-source and admitted-session preflight, then direct Electron launch.
 - `bin/sillytavern-kde-start`: starts the on-demand user service.
-- `systemd/user/sillytavern-kde.service`: single user-session lifecycle; no install/autostart target.
+- `systemd/user/fa3-sillytavern-kde.service`: single user-session lifecycle; no install/autostart target.
 - `applications/fa3-sillytavern-kde.desktop.in`: KDE application menu entry.
 - `sillytavern-kde.env.example`: host-local source-path and presentation preferences.
 

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fa3:coexistence-evidence:v1",
+  "title": "FA3 Coexistence Evidence Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema","evidence_type","component_id","status","source_commit","current_host","artifacts","runtime_promotion_claim"],
+  "properties": {
+    "schema": {"const":"fa3.coexistence-evidence.v1"},
+    "evidence_type": {"enum":[
+      "COEXISTENCE_STATIC_AUDIT",
+      "COEXISTENCE_CURRENT_HOST",
+      "COEXISTENCE_UPSTREAM_INSTALL",
+      "COEXISTENCE_CONCURRENT_RUN",
+      "COEXISTENCE_UNINSTALL",
+      "COEXISTENCE_REBOOT"
+    ]},
+    "component_id":{"type":"string","minLength":1},
+    "status":{"enum":["PASS","FAIL","PENDING"]},
+    "source_commit":{"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "current_host":{"type":"boolean"},
+    "host_fingerprint":{"type":["string","null"]},
+    "artifacts":{"type":"array","items":{"type":"string"},"minItems":1},
+    "observations":{"type":"object"},
+    "runtime_promotion_claim":{"const":false}
+  }
+}

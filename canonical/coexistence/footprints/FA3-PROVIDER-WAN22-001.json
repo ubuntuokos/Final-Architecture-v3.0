@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-WAN22-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [
+      "bin/fa3-wan22-provider-exec.py"
+    ],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "Wan-Video/Wan2.2 pre-provisioned pinned checkout or separately admitted runtime; no LynxHub, Pinokio or Stability Matrix runtime ownership"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-WAN22-001.json",
+      "canonical/references/FA3-WAN22-UPSTREAM-REFERENCE-2026-09-26.json",
+      "src/fa3_wan22_gate.py",
+      "bin/fa3-wan22-provider-exec.py",
+      "canonical/FA3-WAN22-CURRENT-HOST-CONFORMANCE-001.json"
+    ]
+  }
+}

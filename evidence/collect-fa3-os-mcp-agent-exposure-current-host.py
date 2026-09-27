@@ -144,6 +144,21 @@ def collect(output: Path) -> dict[str, Any]:
             cwd=ROOT, check=True, timeout=30,
         )
 
+    state_root = Path(os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state"))) / "fa3/mcp-gateway"
+    install_receipt = json.loads((state_root / "install-success-receipt.json").read_text(encoding="utf-8"))
+    ownership_transition = install_receipt.get("ownership_transition")
+    install_control_ok = (
+        install_receipt.get("schema") == "fa3.mcp-gateway-install-success-receipt.v1"
+        and install_receipt.get("component_id") == "FA3-MCP-GATEWAY-001"
+        and ownership_transition in {"NO_ADOPTION", "LEGACY_BYTE_EQUIVALENT_ADOPTION"}
+        and install_receipt.get("previous_state_captured") is True
+        and install_receipt.get("conflict_detection") == "FAIL_CLOSED"
+        and install_receipt.get("legacy_adoption_policy") == "BYTE_EQUIVALENT_ONLY"
+        and install_receipt.get("rollback_mechanism") is True
+        and install_receipt.get("recovery_evidence_materialized") is True
+        and install_receipt.get("upstream_resources_modified") is False
+    )
+
     socket_path = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")) / "fa3/mcp-gateway.sock"
     health, readiness = _wait_socket(socket_path)
     socket_mode = stat.S_IMODE(socket_path.stat().st_mode)
@@ -194,6 +209,8 @@ def collect(output: Path) -> dict[str, Any]:
         "minimized_projection_verified": result.get("projection_mode") == "MINIMIZED_AGENT_CONTEXT",
         "global_promotion_not_claimed": ok_body.get("global_promotion_claim") is False,
         "canonical_registry_unchanged": hashlib.sha256(registry_path.read_bytes()).hexdigest() == registry_sha,
+        "installer_coexistence_controls_verified": install_control_ok,
+        "legacy_unit_adoption_safe": ownership_transition in {"NO_ADOPTION", "LEGACY_BYTE_EQUIVALENT_ADOPTION"},
     }
     passed = all(checks.values())
 
@@ -209,6 +226,8 @@ def collect(output: Path) -> dict[str, Any]:
         "service_left_enabled": source_state == "CONNECTED" and passed,
         "host": {"node": os.uname().nodename, "system": os.uname().sysname, "release": os.uname().release, "machine": os.uname().machine},
         "socket_path": str(socket_path),
+        "installer_ownership_transition": ownership_transition,
+        "installer_recovery_receipt": str(state_root / "install-success-receipt.json"),
         "checks": checks,
         "gateway_health": health_after,
         "gateway_readiness": ready_after,

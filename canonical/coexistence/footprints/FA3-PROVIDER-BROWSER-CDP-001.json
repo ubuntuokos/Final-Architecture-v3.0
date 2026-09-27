@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-BROWSER-CDP-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [
+      "DYNAMIC"
+    ],
+    "config_paths": [],
+    "data_paths": [
+      "$TMPDIR/fa3-browser-cdp-*"
+    ],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "externally installed Chromium-compatible browser discovered from PATH or explicit FA3_BROWSER_BINARY"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-BROWSER-CDP-001.json",
+      "src/fa3_browser_cdp_provider.py",
+      "docs/browser-cdp-provider.md"
+    ]
+  }
+}

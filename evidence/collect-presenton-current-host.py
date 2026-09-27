@@ -92,8 +92,8 @@ def download(url: str, token: str, destination: Path, limit: int = 512 * 1024 * 
 def inspect_runtime() -> dict[str, bool]:
     if os.geteuid() == 0:
         raise RuntimeError("Current-host production evidence must run as the rootless service user")
-    if run("systemctl", "--user", "is-active", "presenton.service") != "active":
-        raise RuntimeError("presenton.service is not active")
+    if run("systemctl", "--user", "is-active", "fa3-presenton.service") != "active":
+        raise RuntimeError("fa3-presenton.service is not active")
     inspect = json.loads(run("podman", "inspect", "fa3-presenton"))[0]
     env = {}
     for entry in inspect.get("Config", {}).get("Env", []):

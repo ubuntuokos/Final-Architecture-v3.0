@@ -36,7 +36,7 @@ class StepCAGateTests(unittest.TestCase):
     def test_current_host_promotion_evidence_is_bound_to_runtime_surface(self):
         root = Path(__file__).resolve().parents[1]
         evidence = g.loadj(root / g.CURRENT_HOST_EVIDENCE_PATH)
-        self.assertTrue(g.current_host_evidence_valid(root, evidence))
+        self.assertFalse(g.current_host_evidence_valid(root, evidence))
         bad = copy.deepcopy(evidence)
         bad["global_promotion_claim"] = True
         self.assertFalse(g.current_host_evidence_valid(root, bad))

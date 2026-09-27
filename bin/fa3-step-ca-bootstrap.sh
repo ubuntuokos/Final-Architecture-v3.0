@@ -89,7 +89,7 @@ install_runtime(){
  install -d -o fa3-step-ca -g fa3-step-ca -m0711 /var/lib/fa3-step-ca/secrets
  install -d -o fa3-step-ca -g fa3-step-ca -m0700 /var/lib/fa3-step-ca/db
  install -d -o root -g root -m0755 /usr/local/lib/fa3/step-ca/0.30.2/bin /usr/local/lib/fa3/step-cli/0.30.6/bin /etc/fa3/step-ca; install -d -o root -g root -m0700 /etc/fa3/secrets
- install -m0755 "$STATE/bin/step-ca" /usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca; install -m0755 "$STATE/bin/step" /usr/local/lib/fa3/step-cli/0.30.6/bin/step; ln -sfn /usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca /usr/local/bin/step-ca; ln -sfn /usr/local/lib/fa3/step-cli/0.30.6/bin/step /usr/local/bin/step
+ install -m0755 "$STATE/bin/step-ca" /usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca; install -m0755 "$STATE/bin/step" /usr/local/lib/fa3/step-cli/0.30.6/bin/step
  install -m0644 "$ROOT/deployment/step-ca/fa3-step-ca.service" /etc/systemd/system/fa3-step-ca.service; systemctl daemon-reload; echo "Installed verified binaries/unit only; no CA key created, service not started."
 }
 case "${1:-}" in prepare) prepare;; install) install_runtime;; *) echo "usage: $0 {prepare|install}" >&2; exit 2;; esac

@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P0",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [
+      "~/.local/lib/fa3/ai-infra-guard/v4.6.0/bin/ai-infra-guard"
+    ],
+    "services": [],
+    "sockets": [],
+    "ports": [
+      "DYNAMIC"
+    ],
+    "config_paths": [],
+    "data_paths": [
+      "~/.local/lib/fa3/ai-infra-guard/v4.6.0/source",
+      "~/.local/lib/fa3/ai-infra-guard/v4.6.0/build-metadata.json"
+    ],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "current-host Ollama loopback target"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "bin/fa3-ai-infra-guard-bootstrap.sh",
+      "src/fa3_ai_infra_guard_adapter.py",
+      "canonical/ai-infra-guard-runtime-admission.json"
+    ]
+  }
+}

@@ -51,7 +51,7 @@ Item {
                     Label {
                         id: stateLabel
                         anchors.centerIn: parent
-                        text: "RUNTIME PROMOTED · CURRENT HOST"
+                        text: "RUNTIME REQUALIFICATION PENDING"
                         color: root.green; font.pixelSize: 8; font.bold: true
                     }
                 }

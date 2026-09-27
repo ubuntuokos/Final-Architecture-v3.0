@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-SESSION-VAULT-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P0",
+  "upstream_relation": "NONE",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [
+      "~/.local/share/fa3/state/fa3-state.img",
+      "$XDG_RUNTIME_DIR/fa3-state"
+    ],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "freedesktop Secret Service optional unlock source",
+      "optional removable secret file"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/profiles/FA3-SESSION-VAULT-001.json"
+    ]
+  }
+}

@@ -12,7 +12,7 @@ def _load(p:Path)->dict[str,Any]: return json.loads(p.read_text(encoding="utf-8"
 def _write(p:Path,v:dict[str,Any])->None: p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(v,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 def _f(code,msg,**extra): return {"code":code,"severity":"P0","message":msg,**extra}
 def provider_not_authority(canonical_root=False,architectural_authority=False,provider_owns_boundary=False): return not canonical_root and not architectural_authority and not provider_owns_boundary
-def count_invariant(capability_count=143,new_capabilities=0,new_authorities=0): return capability_count==143 and new_capabilities==0 and new_authorities==0
+def count_invariant(capability_count=CAPABILITY_COUNT,new_capabilities=0,new_authorities=0): return capability_count==CAPABILITY_COUNT and new_capabilities==0 and new_authorities==0
 def immutable_pin_valid(commit): return commit==PINNED_COMMIT and commit not in {"main","master","latest","floating",""}
 def layered_lineage_valid(levels,source_linked): return levels==["L0_CONVERSATION","L1_ATOM","L2_SCENARIO","L3_CORE_PERSONA"] and source_linked
 def source_derived_valid(raw_preserved,separate_types): return raw_preserved and separate_types
@@ -45,7 +45,7 @@ def run_regressions():
  c=[]
  def add(rule,name,p,n): c.append({"rule_id":rule,"name":name,"status":"PASS" if p and n else "FAIL","positive_case":bool(p),"negative_case":bool(n)})
  add(P0_RULES[0],"provider is never authority",provider_not_authority(),not provider_not_authority(architectural_authority=True,provider_owns_boundary=True))
- add(P0_RULES[1],"143 capability and zero authority delta",count_invariant(),not count_invariant(144,1,1))
+ add(P0_RULES[1],"active capability baseline and zero authority delta",count_invariant(),not count_invariant(144,1,1))
  add(P0_RULES[2],"immutable upstream pin",immutable_pin_valid(PINNED_COMMIT),not immutable_pin_valid("main"))
  add(P0_RULES[3],"L0-L3 lineage",layered_lineage_valid(["L0_CONVERSATION","L1_ATOM","L2_SCENARIO","L3_CORE_PERSONA"],True),not layered_lineage_valid(["L0_CONVERSATION","L3_CORE_PERSONA"],False))
  add(P0_RULES[4],"source/derived separation",source_derived_valid(True,True),not source_derived_valid(False,False))
@@ -100,7 +100,7 @@ def reference_check(root):
   except Exception as exc:fs.append(_f("TDAI-REF-002","invalid JSON",path=rel,error=str(exc)))
  if fs:return {"result":"FAIL","findings":fs}
  p,c,dec,ref,enf,adm,ev,pol,know=[d[x] for x in ("provider","contract","decision","reference","enforcement","admission","evidence","policy","knowledge")]
- if not(p.get("id")==PROVIDER_ID and p.get("canonical_root") is False and p.get("architectural_authority") is False and p.get("capability_projection")==CAPABILITY_IDS and p.get("capability_count")==143 and p.get("runtime_activation_status")==RUNTIME_STATUS):fs.append(_f("TDAI-REF-003","provider drift"))
+ if not(p.get("id")==PROVIDER_ID and p.get("canonical_root") is False and p.get("architectural_authority") is False and p.get("capability_projection")==CAPABILITY_IDS and p.get("capability_count")==CAPABILITY_COUNT and p.get("runtime_activation_status")==RUNTIME_STATUS):fs.append(_f("TDAI-REF-003","provider drift"))
  if not(c.get("id")==CONTRACT_ID and c.get("status")=="CANONICAL" and c.get("provider_neutral") is True):fs.append(_f("TDAI-REF-004","contract drift"))
  if not(dec.get("id")==DECISION_ID and dec.get("mandatory_p0_rules")==P0_RULES and dec.get("new_capabilities")==0 and dec.get("new_architectural_authorities")==0):fs.append(_f("TDAI-REF-005","decision drift"))
  if not(ref.get("id")==REFERENCE_ID and ref.get("immutable_observed_commit")==PINNED_COMMIT and ref.get("promotion_evidence") is False and ref.get("security_observations",{}).get("issue_672",{}).get("confirmed_at_pin") is True and ref.get("acl_issue_890",{}).get("blocker") is False and ref.get("license_observations",{}).get("issue_1073",{}).get("blocker") is True):fs.append(_f("TDAI-REF-006","upstream risk/reference drift"))
@@ -112,7 +112,7 @@ def reference_check(root):
  return {"result":"PASS" if not fs else "FAIL","findings":fs}
 def gate(root):
  ref=reference_check(root);auth=scan_authority(root);reg=run_regressions();ok=ref["result"]==auth["result"]==reg["result"]=="PASS"
- r={"schema":"fa3.tencentdb-agent-memory-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"provider_id":PROVIDER_ID,"contract_id":CONTRACT_ID,"capability_count":143,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":reg,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":RUNTIME_STATUS}
+ r={"schema":"fa3.tencentdb-agent-memory-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"provider_id":PROVIDER_ID,"contract_id":CONTRACT_ID,"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":reg,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":RUNTIME_STATUS}
  _write(root/"reports/tencentdb-agent-memory-gate-report.json",r);return r
 def main():
  a=argparse.ArgumentParser();a.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));x=a.parse_args();r=gate(Path(x.root).resolve());print(json.dumps(r,indent=2));return 0 if r["result"]=="PASS" else 2

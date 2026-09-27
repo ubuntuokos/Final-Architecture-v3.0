@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-STEP-CA-COEXISTENCE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-PROVIDER-STEP-CA-001",
+  "intent_id": "FA3-STEP-CA-COEXISTENCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-STEP-CA-COEXISTENCE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-STEP-CA-001"
+  ],
+  "project_status": "STATIC_REMEDIATION_MATERIALIZED_CURRENT_HOST_REQUALIFICATION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-PROVIDER-STEP-CA-001",
+      "use": "RETAIN_EXISTING_PROVIDER_IDENTITY_AND_UPSTREAM_PIN"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-SESSION-VAULT-001",
+      "use": "EXISTING_SECRET_AND_ROOT_CUSTODY_BOUNDARY"
+    },
+    {
+      "id": "CAP-175",
+      "use": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIREMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "HOST_GLOBAL_SMALLSTEP_SYMLINKS",
+      "reason": "WOULD_SHADOW_OR_COLLIDE_WITH_INDEPENDENT_SMALLSTEP_INSTALLATION"
+    },
+    {
+      "id": "NEW_PKI_AUTHORITY",
+      "reason": "EXISTING_STEP_CA_PROVIDER_AND_FA3_SECURITY_AUTHORITIES_ALREADY_OWN_REQUIRED_BOUNDARIES"
+    },
+    {
+      "id": "DOCUMENT_ONLY_RUNTIME_REPROMOTION",
+      "reason": "RUNTIME_SURFACE_CHANGED_AND_REQUIRES_FRESH_PHYSICAL_CURRENT_HOST_EVIDENCE"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "gaps": [
+    "CURRENT_HOST_COEXISTENCE_REQUALIFICATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "STATIC_REMEDIATION_PASS_CURRENT_HOST_PENDING",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "upstream_paths_shadowed": false,
+    "current_host_coexistence_evidence": "PENDING"
+  },
+  "implementation_readiness": "READY_FOR_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

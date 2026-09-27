@@ -7,6 +7,7 @@ import os
 import platform
 import sys
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -144,7 +145,7 @@ def main() -> int:
         "negative_pickle_regression": {"fixture_sha256": sha256_file(fixture), "fixture_executed": False, "blocked": negative_ok, "blocking_scanners": sorted(blocking), "scanner_results": negative_results},
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "capability_count_after": 175,
+        "capability_count_after": load_active_release_baseline(root).capability_count,
     }
     RECEIPT.parent.mkdir(parents=True, exist_ok=True)
     RECEIPT.write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

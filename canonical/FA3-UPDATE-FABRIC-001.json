@@ -11,7 +11,7 @@
   "decision": "UNIFIED_USER_EXPERIENCE_PROVIDER_SPECIFIC_UPDATE_EXECUTION",
   "classes": {
     "OS_MANAGED": [
-      "APT",
+      "native_distribution_package_manager",
       "distribution_repository"
     ],
     "FA3_MANAGED": [
@@ -139,8 +139,22 @@
     "UPDATE_ACTIVATION_REQUIRES_HEALTH_VALIDATION",
     "GUI_AGENT_AUTOMATION_EXECUTION_ENTERS_THROUGH_UAF",
     "NO_GLOBAL_ACCELERATOR_VENDOR_PIN",
-    "CPU_ONLY_HOST_IS_VALID"
+    "CPU_ONLY_HOST_IS_VALID",
+    "GENERIC_LINUX_NATIVE_PACKAGE_MANAGER_DISCOVERY_REQUIRED",
+    "SYSTEM_DEPENDENCY_PACKAGE_INSTALL_ONLY_FROM_EXPLICIT_INSTALLER_OR_PROVISIONING_CONTEXT",
+    "RUNTIME_BOOTSTRAP_HOST_GLOBAL_PACKAGE_MANAGER_MUTATION_FORBIDDEN"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "distribution_package_management": {
+    "platform": "GENERIC_LINUX",
+    "discovery": "HOST_NATIVE_PACKAGE_MANAGER",
+    "hardcoded_single_manager_forbidden": true,
+    "installer_or_provisioning_scope_only_for_dependency_install": true,
+    "declared_system_dependencies_only": true,
+    "runtime_bootstrap_host_global_mutation": "DENY",
+    "current_host_validation_host_global_mutation": "DENY",
+    "transaction_receipt_required": true,
+    "rollback_or_native_recovery_required": true
+  }
 }

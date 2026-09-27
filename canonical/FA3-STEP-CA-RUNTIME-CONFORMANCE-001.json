@@ -2,7 +2,7 @@
   "schema": "fa3.runtime-conformance.v1",
   "id": "FA3-STEP-CA-RUNTIME-CONFORMANCE-001",
   "provider_id": "FA3-PROVIDER-STEP-CA-001",
-  "status": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "status": "PENDING_CURRENT_HOST_REQUALIFICATION",
   "scope": "CURRENT_HOST_INTERNAL_PKI_RUNTIME",
   "synthetic_evidence_allowed_for_promotion": false,
   "required_checks": [
@@ -20,8 +20,8 @@
     "BACKUP_RESTORE_AND_POST_RESTORE_ISSUANCE_PASS"
   ],
   "current_host_receipt": "evidence/receipts/step-ca-current-host.json",
-  "production_runtime_promoted": true,
-  "note": "Real current-host composite evidence passed; step-ca is admitted and promoted only for the current-host provider runtime. This is not a global FA3 promotion claim.",
+  "production_runtime_promoted": false,
+  "note": "Runtime surface changed for software coexistence: FA3 Smallstep binaries are now namespaced. The 2026-09-20 receipt remains historical evidence for the former surface and cannot promote the new surface.",
   "current_host_tooling": {
     "conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
     "bootstrap": "bin/fa3-step-ca-bootstrap.sh",
@@ -38,9 +38,10 @@
     "root_ceremony_transfer_bundle_lifecycle": "PURGED_AFTER_SUCCESSFUL_ACTIVATION"
   },
   "current_host_receipt_persistence": "LOCAL_GITIGNORED_RUNTIME_EVIDENCE",
-  "durable_current_host_evidence_reference": "evidence/reference/step-ca-current-host-2026-09-20.json",
-  "tested_main_sha": "bc2762ddc85a7501ab3d2be612329399470ea276",
-  "production_promotion_scope": "CURRENT_HOST_PROVIDER_RUNTIME_ONLY",
+  "durable_current_host_evidence_reference": null,
+  "tested_main_sha": null,
+  "production_promotion_scope": "CURRENT_HOST_PROVIDER_RUNTIME_REQUALIFICATION_PENDING",
   "global_promotion_claim": false,
-  "promotion_decision": "FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20"
+  "promotion_decision": "FA3-DEC-STEP-CA-COEXISTENCE-REQUALIFICATION-2026-09-26",
+  "superseded_historical_evidence": "evidence/reference/step-ca-current-host-2026-09-20.json"
 }

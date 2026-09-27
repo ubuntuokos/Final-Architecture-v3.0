@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P2",
+  "upstream_relation": "REFERENCE_ONLY",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "MiniMax H3 historical/reference provider only; runtime execution and provider selection are forbidden"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "NOT_APPLICABLE",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
+      "canonical/decisions/FA3-DEC-H3-REPLACEMENT-2026-09-25.json",
+      "canonical/h3-replacement-enforcement.json",
+      "src/fa3_h3_replacement_gate.py"
+    ]
+  }
+}

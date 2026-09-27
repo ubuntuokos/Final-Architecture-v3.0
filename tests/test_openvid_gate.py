@@ -1,8 +1,10 @@
 from pathlib import Path
 import importlib.util
 import unittest
+import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"src"))
 spec=importlib.util.spec_from_file_location("gate", ROOT/"src/fa3_openvid_gate.py")
 gate=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(gate)
@@ -29,7 +31,8 @@ class OpenVidGateTests(unittest.TestCase):
         report=gate.gate(ROOT)
         self.assertEqual(report["status"],"PASS",report)
         self.assertEqual(report["finding_count"],0)
-        self.assertEqual(report["capability_count_after"],143)
+        from fa3_release_baseline import load_active_release_baseline
+        self.assertEqual(report["capability_count_after"],load_active_release_baseline(ROOT).capability_count)
         self.assertFalse(report["current_host_runtime_promotion_claimed"])
 
 if __name__=="__main__":

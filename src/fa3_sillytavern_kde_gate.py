@@ -63,7 +63,7 @@ PATHS = {
 DEPLOYMENT_PATHS = (
     "deployment/sillytavern-kde/bin/sillytavern-kde-launch",
     "deployment/sillytavern-kde/bin/sillytavern-kde-start",
-    "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
+    "deployment/sillytavern-kde/systemd/user/fa3-sillytavern-kde.service",
     "deployment/sillytavern-kde/applications/fa3-sillytavern-kde.desktop.in",
     "deployment/sillytavern-kde/sillytavern-kde.env.example",
     "deployment/sillytavern-kde/README.md",
@@ -219,7 +219,7 @@ def deployment_check(root: Path) -> dict[str, Any]:
         return {"result": "FAIL", "findings": findings}
 
     launch = (root / "deployment/sillytavern-kde/bin/sillytavern-kde-launch").read_text(encoding="utf-8")
-    unit = (root / "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service").read_text(encoding="utf-8")
+    unit = (root / "deployment/sillytavern-kde/systemd/user/fa3-sillytavern-kde.service").read_text(encoding="utf-8")
     desktop = (root / "deployment/sillytavern-kde/applications/fa3-sillytavern-kde.desktop.in").read_text(encoding="utf-8")
     installer = (root / "bin/fa3-sillytavern-kde-install-user-integration.sh").read_text(encoding="utf-8")
 

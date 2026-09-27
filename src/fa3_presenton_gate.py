@@ -324,7 +324,7 @@ def reference_check(root: Path) -> dict[str, Any]:
 
 def deployment_check(root: Path) -> dict[str, Any]:
     paths = {
-        "quadlet": root / "deployment/presenton/presenton.container",
+        "quadlet": root / "deployment/presenton/fa3-presenton.container",
         "caddy": root / "deployment/presenton/presenton.caddy",
         "postgres": root / "deployment/presenton/postgresql-bootstrap.sql",
         "runbook": root / "deployment/presenton/README.md",

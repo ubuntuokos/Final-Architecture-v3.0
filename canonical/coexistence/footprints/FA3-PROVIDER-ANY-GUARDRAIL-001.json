@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-ANY-GUARDRAIL-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P1",
+  "upstream_relation": "INTEGRATES",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [],
+    "data_paths": [],
+    "cache_paths": [],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "mozilla-ai/any-guardrail optional request-time runtime; FA3 provider disabled by default"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "evidence": {
+    "static_status": "PASS",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-ANY-GUARDRAIL-001.json",
+      "src/fa3_ai_guardrail_runtime_gate.py",
+      "canonical/any-guardrail-runtime-enforcement.json"
+    ]
+  }
+}

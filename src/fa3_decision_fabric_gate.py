@@ -5,6 +5,7 @@ import argparse
 import json
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import active_capability_count
 
 GATE_ID = "FA3-GATE-DECISION-FABRIC-001"
 
@@ -23,6 +24,7 @@ def finding(code: str, message: str, **extra: Any) -> dict[str, Any]:
 def gate(root: Path) -> dict[str, Any]:
     root = root.resolve()
     findings: list[dict[str, Any]] = []
+    capability_count = active_capability_count(root)
     required = [
         "canonical/profiles/FA3-DECISION-FABRIC-001.json",
         "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
@@ -71,8 +73,8 @@ def gate(root: Path) -> dict[str, Any]:
 
     if profile.get("architectural_authority") is not False or profile.get("authority_delta") != 0:
         findings.append(finding("DECISION-001", "Decision Fabric must not become an architectural authority"))
-    if profile.get("capability_count") != 143 or profile.get("capability_delta") != 0:
-        findings.append(finding("DECISION-002", "capability baseline drift"))
+    if profile.get("capability_count") != capability_count or profile.get("capability_delta") != 0:
+        findings.append(finding("DECISION-002", "capability baseline drift", expected=capability_count, actual=profile.get("capability_count")))
     if profile.get("mandatory_jev_dependency") is not False or profile.get("mandatory_cloud_dependency") is not False:
         findings.append(finding("DECISION-003", "Jev/cloud must remain optional"))
     result_contract = contracts.get("result", {})
@@ -105,8 +107,8 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("DECISION-007", "Jev provider boundary drift"))
     if jev.get("physical_model_pin") is not False or jev.get("silent_local_to_cloud_fallback") != "DENY":
         findings.append(finding("DECISION-008", "Jev pin/fallback drift"))
-    if decision.get("new_architectural_authorities") != 0 or decision.get("capability_count_after") != 143:
-        findings.append(finding("DECISION-009", "canonical decision baseline drift"))
+    if decision.get("new_architectural_authorities") != 0 or decision.get("capability_count_before") != decision.get("capability_count_after"):
+        findings.append(finding("DECISION-009", "historical canonical decision delta drift"))
 
     # Direct TypeSafe network calls are allowed only inside the optional provider adapter
     # and immutable research snapshots. Applications must cross the Decision Fabric.
@@ -137,7 +139,7 @@ def gate(root: Path) -> dict[str, Any]:
         "gate_id": GATE_ID,
         "result": "PASS" if not findings else "FAIL",
         "findings": findings,
-        "capability_count": 143,
+        "capability_count": capability_count,
         "authority_delta": 0,
         "global_promotion_claim": False,
     }

@@ -4,15 +4,28 @@
   "name": "NVlabs/GEM-X",
   "status": "ACCEPTED_PREFERRED_REFERENCE_OPTIONAL_RUNTIME_NOT_PROMOTED",
   "provider_role": "PREFERRED_MONOCULAR_VIDEO_TO_3D_HUMAN_MOTION_ESTIMATION_REFERENCE_PROVIDER",
-  "classification": ["PREFERRED_REFERENCE", "OPTIONAL_EXECUTION_PROVIDER", "LOCAL_FIRST", "PERMISSIVE_SOURCE_LICENSE", "SEPARATE_MODEL_LICENSE", "CUDA_ACCELERATED"],
-  "profile_ids": ["FA3-HUMAN-MOTION-001"],
-  "contract_ids": ["FA3-HUMAN-MOTION-CONTRACTS-001"],
-  "capability_bindings": ["CAP-032"],
+  "classification": [
+    "PREFERRED_REFERENCE",
+    "OPTIONAL_EXECUTION_PROVIDER",
+    "LOCAL_FIRST",
+    "PERMISSIVE_SOURCE_LICENSE",
+    "SEPARATE_MODEL_LICENSE",
+    "CUDA_ACCELERATED"
+  ],
+  "profile_ids": [
+    "FA3-HUMAN-MOTION-001"
+  ],
+  "contract_ids": [
+    "FA3-HUMAN-MOTION-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "upstream": {
     "repository": "NVlabs/GEM-X",
     "revision": "32992550dba114c62243fb55e361311972dce8f9",
@@ -22,7 +35,15 @@
     "model_license": "NVIDIA Open Model License Agreement",
     "reference_id": "FA3-GEM-X-UPSTREAM-REFERENCE-2026-09-12"
   },
-  "capability_surface": ["monocular_video_to_3d_human_motion", "camera_space_motion", "world_space_motion", "dynamic_camera_processing", "soma_77_joint_projection", "onnx_tensorrt_accelerated_reference_path", "humanoid_retargeting_projection"],
+  "capability_surface": [
+    "monocular_video_to_3d_human_motion",
+    "camera_space_motion",
+    "world_space_motion",
+    "dynamic_camera_processing",
+    "soma_77_joint_projection",
+    "onnx_tensorrt_accelerated_reference_path",
+    "humanoid_retargeting_projection"
+  ],
   "model_policy": {
     "checkpoint_identity_must_be_content_addressed": true,
     "checkpoint_sha256_required": true,
@@ -33,7 +54,10 @@
   },
   "execution": {
     "hrb_lease_required": true,
-    "stable_accelerator_identity_required": ["DEVICE_UUID", "PCI_BDF"],
+    "stable_accelerator_identity_required": [
+      "DEVICE_UUID",
+      "PCI_BDF"
+    ],
     "display_accelerator_implicit_selection": false,
     "silent_gpu_fallback": false,
     "silent_cpu_fallback": false,
@@ -60,7 +84,20 @@
     "usd_export_required": true,
     "bforartists_or_blender_import_smoke_required": true
   },
-  "authority_boundaries": {"human_motion_semantics": false, "geometry_semantics": false, "human_identity": false, "dcc_scene_and_final_asset": false, "model_registry": false, "model_routing": false, "host_resource": false, "device_routing": false, "workflow": false, "mcp_gateway": false, "security": false, "evidence": false},
+  "authority_boundaries": {
+    "human_motion_semantics": false,
+    "geometry_semantics": false,
+    "human_identity": false,
+    "dcc_scene_and_final_asset": false,
+    "model_registry": false,
+    "model_routing": false,
+    "host_resource": false,
+    "device_routing": false,
+    "workflow": false,
+    "mcp_gateway": false,
+    "security": false,
+    "evidence": false
+  },
   "promotion": {
     "reference_gate": "PASS_REQUIRED",
     "source_and_model_license_receipts": "REQUIRED",
@@ -69,5 +106,7 @@
     "interchange_and_dcc_smoke": "REQUIRED",
     "current_host_runtime_evidence": "PENDING",
     "runtime_promotion_claimed": false
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

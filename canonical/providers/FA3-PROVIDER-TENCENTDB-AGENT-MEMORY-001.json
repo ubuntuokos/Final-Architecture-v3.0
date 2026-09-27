@@ -17,7 +17,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "runtime_activation_requires_current_host_conformance": true,
@@ -113,5 +113,7 @@
     "FA3_SECRETS_AUTHORITY",
     "FA3_CANONICAL_REGISTRY_AUTHORITY"
   ],
-  "normative_constraint": "TencentDB Agent Memory SHALL remain an optional replaceable memory provider/reference and pattern source. It SHALL NOT become an FA3 memory, knowledge, identity, authorization, MCP/capability-gateway, model-routing, host-resource, durable-orchestration, evidence/provenance, secrets or registry authority."
+  "normative_constraint": "TencentDB Agent Memory SHALL remain an optional replaceable memory provider/reference and pattern source. It SHALL NOT become an FA3 memory, knowledge, identity, authorization, MCP/capability-gateway, model-routing, host-resource, durable-orchestration, evidence/provenance, secrets or registry authority.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

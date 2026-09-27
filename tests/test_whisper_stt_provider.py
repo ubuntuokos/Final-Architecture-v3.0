@@ -19,6 +19,7 @@ from fa3_whisper_stt_provider import (
     execute_transcription,
     evidence_complete,
     load_allowlist,
+    resolve_model_cache,
     run_executable_conformance,
     sha256_file,
     validate_audio_contract,
@@ -50,6 +51,11 @@ class WhisperSTTTests(unittest.TestCase):
         self.assertEqual(r["reference"]["result"],"PASS")
         self.assertEqual(r["conformance"]["passed"],18)
         self.assertEqual(r["current_host_production_status"],"PENDING_REAL_HOST_EXECUTION")
+
+    def test_default_model_cache_is_fa3_namespaced(self):
+        from unittest.mock import patch
+        with patch.dict("os.environ", {"XDG_CACHE_HOME": "/tmp/xdg-cache"}, clear=False):
+            self.assertEqual(resolve_model_cache(RuntimeOptions()), Path("/tmp/xdg-cache/fa3/whisper"))
 
     def test_arbitrary_checkpoint_path_rejected(self):
         allow=load_allowlist(ROOT)

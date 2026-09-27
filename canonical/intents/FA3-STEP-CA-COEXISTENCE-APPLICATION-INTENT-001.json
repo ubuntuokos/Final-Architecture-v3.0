@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-STEP-CA-COEXISTENCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-PROVIDER-STEP-CA-001",
+  "project_type": "MATERIAL_MODIFICATION",
+  "goal": "Remediate step-ca host interference by isolating FA3-owned Smallstep binaries and lifecycle resources without replacing, shadowing, uninstalling, or globally reconfiguring an independently installed Smallstep deployment.",
+  "required_capabilities": [
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "software-coexistence",
+    "host-non-interference",
+    "pki-runtime-isolation",
+    "current-host-requalification"
+  ],
+  "input_modalities": [
+    "CANONICAL_CONFIGURATION",
+    "CURRENT_HOST_RUNTIME_EVIDENCE"
+  ],
+  "output_modalities": [
+    "NAMESPACED_RUNTIME",
+    "COEXISTENCE_EVIDENCE",
+    "REQUALIFICATION_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_CONTROL_PLANE"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CURRENT_HOST_COEXISTENCE_REQUALIFICATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "provider_specific_accelerator_requirements_are_scoped": true,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-step-ca",
+    "service_prefix": "fa3-step-ca",
+    "config_root": "/etc/fa3/step-ca",
+    "data_root": "/var/lib/fa3-step-ca",
+    "cache_root": "~/.cache/fa3/step-ca",
+    "runtime_root": "/run/fa3/step-ca",
+    "socket_namespace": "fa3/step-ca",
+    "executable_root": "/usr/local/lib/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "default_port": null
+  },
+  "integration_requirements": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-SESSION-VAULT-001"
+  ]
+}

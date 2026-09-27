@@ -2,6 +2,7 @@
 import argparse,hashlib,json,pwd,stat,subprocess
 from datetime import datetime,timezone
 from pathlib import Path
+from fa3_release_baseline import module_active_capability_count
 ROOT=Path(__file__).resolve().parents[1]
 def load(p): return json.loads(Path(p).read_text())
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -27,7 +28,7 @@ def main():
  if act.get("status")!="PASS": fs.append("ACTIVATION")
  try: account=pwd.getpwnam("fa3-step-ca"); user=account.pw_name
  except KeyError: account=None; user=None; fs.append("SERVICE_USER")
- b=Path("/usr/local/bin/step-ca")
+ b=Path("/usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca")
  if not b.is_file(): fs.append("BINARY")
  elif s.get("server",{}).get("binary_sha256")!=sha(b.resolve()): fs.append("BINARY_DIGEST")
  ik=Path("/var/lib/fa3-step-ca/secrets/intermediate_ca_key"); encrypted=intermediate_key_boundary(ik,act,account); present=act.get("root_private_key_present_online") is not False or rootkey()
@@ -45,6 +46,6 @@ def main():
  e=load(ep) if ep.is_file() else {}; br=load(bp) if bp.is_file() else {}
  if e.get("status")!="PASS": fs.append("E2E")
  if br.get("status")!="PASS": fs.append("RESTORE")
- st="PASS" if not fs else "FAIL"; out={"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":"FA3-PROVIDER-STEP-CA-001","status":st,"evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS" if st=="PASS" else "CURRENT_HOST_EXECUTION_FAILED","synthetic":False,"completed_at":datetime.now(timezone.utc).isoformat(),"supply_chain":s,"root_ceremony":c,"activation":act,"runtime":rt,"e2e":e,"backup_restore":br,"secret_values_collected":False,"runtime_promotion_eligible":st=="PASS","global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143,"findings":fs}
+ st="PASS" if not fs else "FAIL"; out={"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":"FA3-PROVIDER-STEP-CA-001","status":st,"evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS" if st=="PASS" else "CURRENT_HOST_EXECUTION_FAILED","synthetic":False,"completed_at":datetime.now(timezone.utc).isoformat(),"supply_chain":s,"root_ceremony":c,"activation":act,"runtime":rt,"e2e":e,"backup_restore":br,"secret_values_collected":False,"runtime_promotion_eligible":st=="PASS","global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":module_active_capability_count(__file__),"findings":fs}
  p=ROOT/"evidence/receipts/step-ca-current-host.json"; p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(out,indent=2)+"\n"); print(json.dumps(out,indent=2)); return 0 if st=="PASS" else 2
 if __name__=="__main__": raise SystemExit(main())
