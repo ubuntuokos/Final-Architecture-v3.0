@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-from src.fa3_mat003_interaction_creative_current_host import (
+from fa3_mat003_interaction_creative_current_host import (
     CAPABILITIES,
     browser_target_allowed,
     cap013_authority_scope,
