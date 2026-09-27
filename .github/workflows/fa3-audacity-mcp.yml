@@ -34,4 +34,4 @@ jobs:
       - name: Audacity MCP canonical gate
         run: python3 src/fa3_audacity_mcp_gate.py
       - name: Audacity MCP regression tests
-        run: python3 -m pytest -q tests/test_audacity_mcp_gate.py
+        run: python3 -m unittest tests.test_audacity_mcp_gate -v
