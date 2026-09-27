@@ -6,6 +6,7 @@ on:
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'evidence/collect-khronos-sdk-materialization-current-host.py'
       - '.github/workflows/fa3-khronos-current-host.yml'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   workflow_dispatch:
 jobs:
   materialize-source:
@@ -13,6 +14,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Static admission first
         run: PYTHONPATH=src python3 src/fa3_khronos_open_standards_gate.py --root . --json
       - name: Materialize immutable SDK sources
