@@ -1,0 +1,37 @@
+name: FA3 Audacity MCP static gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-AUDACITY-*.json'
+      - 'canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-AUDACITY-MCP-2026-09-28.json'
+      - 'src/fa3_audacity_mcp_gate.py'
+      - 'tests/test_audacity_mcp_gate.py'
+      - '.github/workflows/fa3-audacity-mcp.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-AUDACITY-*.json'
+      - 'canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-AUDACITY-MCP-2026-09-28.json'
+      - 'src/fa3_audacity_mcp_gate.py'
+      - 'tests/test_audacity_mcp_gate.py'
+      - '.github/workflows/fa3-audacity-mcp.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audacity MCP canonical gate
+        run: python3 src/fa3_audacity_mcp_gate.py
+      - name: Audacity MCP regression tests
+        run: python3 -m pytest -q tests/test_audacity_mcp_gate.py
