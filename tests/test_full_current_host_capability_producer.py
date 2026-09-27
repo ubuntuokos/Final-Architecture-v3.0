@@ -131,7 +131,7 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
     def test_desktop_wayland_scoped_admission_ignores_only_secret_backend_failure(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
             "integration": {
                 "application_core": "QT6_QML_NATIVE",
@@ -196,7 +196,7 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
     def test_desktop_wayland_scoped_admission_remains_fail_closed_for_session_failure(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
             "integration": {
                 "application_core": "QT6_QML_NATIVE",
