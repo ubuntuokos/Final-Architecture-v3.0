@@ -1,9 +1,9 @@
 {
   "schema": "fa3.coexistence-footprint.v1",
   "component_id": "FA3-PROVIDER-SCHED-EXT-001",
-  "classification": "SYSTEM_LEVEL_AUTHORITY",
-  "risk": "P0",
-  "upstream_relation": "INTEGRATES",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P2",
+  "upstream_relation": "REFERENCE_ONLY",
   "coexistence": {
     "executables": [],
     "services": [],
@@ -19,26 +19,19 @@
     "databases": [],
     "plugin_paths": [],
     "external_app_integrations": [
-      "Linux sched_ext experimental scheduler surface"
+      "Linux sched_ext optional experimental reference projection; no FA3 host mutation implementation is materialized"
     ],
     "requires_upstream_uninstall": false,
     "global_environment_mutation": false,
     "claims_default_port": false
   },
-  "authority_controls": {
-    "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "conflict_detection": false,
-    "previous_state_capture": false,
-    "controlled_mutation": false,
-    "rollback": true,
-    "recovery_evidence": false
-  },
   "evidence": {
-    "static_status": "PENDING",
+    "static_status": "PASS",
     "current_host_status": "NOT_APPLICABLE",
     "runtime_promotion_claim": false,
     "artifacts": [
-      "canonical/providers/FA3-PROVIDER-SCHED-EXT-001.json"
+      "canonical/providers/FA3-PROVIDER-SCHED-EXT-001.json",
+      "src/fa3_page_cache_prefetch_gate.py"
     ]
   }
 }
