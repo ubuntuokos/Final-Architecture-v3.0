@@ -203,5 +203,36 @@
     "optional_generation_provider": "FA3-PROVIDER-PRESENTON-001",
     "non_authoritative_projection": true,
     "silent_story_writeback": false
+  },
+  "spoiler_derivatives": {
+    "status": "MANDATORY",
+    "source": "RELEASED_OR_EXPLICITLY_SELECTED_STORY_REVISION",
+    "branch_selection_required_when_story_has_alternatives": true,
+    "modes": [
+      "SPOILER_FREE_TEASER",
+      "LIGHT_SPOILER",
+      "PARTIAL_PLOT",
+      "FULL_PLOT",
+      "ENDING_EXPLAINED",
+      "CHARACTER_ARC",
+      "EPISODE_RECAP"
+    ],
+    "disclosure_map_required": true,
+    "source_node_lineage_required": true,
+    "source_revision_digest_required": true,
+    "cross_branch_detail_mixing_forbidden": true,
+    "draft_source_requires_visible_draft_marker": true,
+    "external_publication_requires_release_approval": true,
+    "outputs_may_project_to": [
+      "CAP-018_PRESENTATION",
+      "MARKETING",
+      "PRESS_KIT",
+      "SOCIAL",
+      "WEB",
+      "DOCUMENT_EXPORT"
+    ],
+    "canonical_story_mutation": false,
+    "ai_generation_route": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
   }
 }
