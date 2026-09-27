@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AUDACITY-001",
+  "name": "Audacity interactive waveform, repair and utility editor",
+  "status": "REQUIRED_SUPPORTED_REFERENCE_CONDITIONAL_RUNTIME",
+  "provider_role": "HUMAN_FACING_WAVEFORM_REPAIR_AND_UTILITY_EDITOR",
+  "classification": [
+    "REQUIRED_SUPPORTED_REFERENCE",
+    "REPLACEABLE_PROVIDER",
+    "LOCAL_FIRST",
+    "HUMAN_FACING_EDITOR",
+    "CAP_124_PROVIDER"
+  ],
+  "capability_projection": [
+    "CAP-124",
+    "CAP-171"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "upstream": {
+    "repository": "audacity/audacity",
+    "observed_commit": "36146d838c934ae429cb164e8eb3d39af75a65ff",
+    "floating_ref_allowed_for_promotion_evidence": false
+  },
+  "runtime_policy": {
+    "cpu_only_supported": true,
+    "accelerator_required": false,
+    "desktop_session": "WAYLAND_PREFERRED_X11_SUPPORTED_DE_NEUTRAL",
+    "current_host_runtime_promotion": "SEPARATE_REAL_HOST_EVIDENCE_REQUIRED"
+  },
+  "native_artifact_policy": {
+    "project_format": ".aup3",
+    "preserve_native_project": true,
+    "source_overwrite_default": "DENY",
+    "derived_asset_default": true
+  },
+  "authority_boundaries": {
+    "human_audio_finishing": "ARDOUR_REMAINS_PRIMARY_FINISHING_DAW_PROVIDER",
+    "mcp_tool_boundary": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "forbidden_authorities": [
+    "GLOBAL_MCP_AUTHORITY",
+    "MODEL_ROUTING_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "SECURITY_POLICY_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "DURABLE_WORKFLOW_AUTHORITY"
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
