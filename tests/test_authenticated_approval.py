@@ -23,6 +23,7 @@ from fa3_authenticated_approval import (
     sha256_bytes,
     verify_authenticated_receipt,
 )
+from fa3_enforce import receipt_ok
 
 
 @unittest.skipUnless(shutil.which("openssl"), "openssl required")
@@ -174,6 +175,20 @@ class AuthenticatedApprovalTests(unittest.TestCase):
         legacy = {"status": "PASS", "signed": True, "approved": True, "independent": True}
         result = self._verify(legacy)
         self.assertFalse(result["qualified"])
+
+    def test_enforcer_receipt_path_rejects_boolean_only_legacy_receipt(self):
+        receipt_dir = self.root / "evidence/receipts"
+        receipt_dir.mkdir(parents=True)
+        path = receipt_dir / "independent-review.json"
+        path.write_text(json.dumps({
+            "status": "PASS",
+            "signed": True,
+            "approved": True,
+            "independent": True,
+        }), encoding="utf-8")
+        ok, why, _ = receipt_ok(self.root, path, self.SOURCE)
+        self.assertFalse(ok)
+        self.assertNotEqual(why, "PASS")
 
     def test_tampered_payload_is_rejected(self):
         receipt = self._receipt()
