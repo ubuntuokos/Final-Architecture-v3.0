@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_cpu_thread_budget import AdmissionDenied, build_thread_plan, discover_live_topology
+from fa3_release_baseline import active_capability_count
 
 EVIDENCE_LEVEL = "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS"
 
@@ -234,6 +235,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         and placement["affinity_matches_effective_cpuset"]
     )
     status = "PASS" if hardware_ok and placement_ok and all(negatives.values()) and external_ok else "FAIL"
+    capability_count = active_capability_count(ROOT)
     return {
         "schema": "fa3.cpu-numa-threading-current-host-receipt.v1",
         "status": status,
@@ -250,7 +252,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         "negative_tests": negatives,
         "performance_evidence": performance,
         "rollback_evidence": rollback,
-        "capability_count_after": 143,
+        "capability_count_after": capability_count,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,
