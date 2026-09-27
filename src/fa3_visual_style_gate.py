@@ -26,6 +26,7 @@ DECISION = "canonical/decisions/FA3-DEC-VISUAL-STYLE-FABRIC-2026-09-27.json"
 REFERENCE = "canonical/references/FA3-REF-AI-VISUAL-PROMPT-COOKBOOK-001.json"
 INTENT = "canonical/intents/FA3-VISUAL-STYLE-FABRIC-APPLICATION-INTENT-001.json"
 ASSESSMENT = "canonical/assessments/FA3-VISUAL-STYLE-FABRIC-REUSE-ASSESSMENT-001.json"
+DECISION_ASSESSMENT = "canonical/assessments/FA3-VISUAL-STYLE-FABRIC-DECISION-ASSESSMENT-2026-09-27.json"
 GATE_ID = "FA3-GATE-VISUAL-STYLE-FABRIC-001"
 
 
@@ -53,6 +54,7 @@ def validate(root: Path | None = None) -> list[str]:
     reference = loadj(root, REFERENCE)
     intent = loadj(root, INTENT)
     assessment = loadj(root, ASSESSMENT)
+    decision_assessment = loadj(root, DECISION_ASSESSMENT)
 
     count = module_active_capability_count(__file__)
     failures: list[str] = []
@@ -71,6 +73,8 @@ def validate(root: Path | None = None) -> list[str]:
     check("resource-authority", profile.get("authority", {}).get("resource_admission") == HRB_AUTHORITY)
     check("no-fixed-route", profile.get("routing", {}).get("fixed_provider_allowed") is False and profile.get("routing", {}).get("fixed_model_allowed") is False and profile.get("routing", {}).get("fixed_runtime_allowed") is False and profile.get("routing", {}).get("silent_fallback_allowed") is False)
     check("upstream-pin", reference.get("upstream", {}).get("commit") == "d320e7a99819a54da6ff56abbc19a83fb6741772" and reference.get("upstream", {}).get("catalog_cardinality_policy") == "DISCOVER_AT_IMPORT_TIME_DO_NOT_HARDCODE")
+    check("distribution-reference-only", reference.get("distribution_class") == "REFERENCE_ONLY" and reference.get("product_bundle_allowed") is False)
+    check("decision-adoption", decision_assessment.get("schema") == "fa3.decision-fabric-assessment.v1" and profile.get("id") in decision_assessment.get("covered_ids", []) and decision_assessment.get("assessment") == "NOT_APPLICABLE" and decision_assessment.get("project_radar_checked") is True)
     check("license-split", reference.get("licensing", {}).get("code_scripts_documentation") == "MIT" and reference.get("licensing", {}).get("style_json_prompt_content") == "CC-BY-4.0" and reference.get("licensing", {}).get("attribution_required_for_style_content") is True and reference.get("licensing", {}).get("preview_images") == "VISUAL_REFERENCE_ONLY_NOT_BUNDLED_BY_DEFAULT")
     storage = profile.get("storage", {})
     check("namespaced-storage", all(str(storage.get(k, "")).startswith("$XDG_") for k in ("config_root","data_root","cache_root","runtime_root")) and storage.get("project_local_root") == ".fa3/visual-style" and storage.get("shared_global_unscoped_paths") is False)
