@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a8408a4851204efb875ae9b73c583ff05326fa12",
-    "pre_projection_root_tree_sha": "70b0b03542d6c740b60b7508be19feff7e8eb22d",
-    "pre_projection_canonical_tree_sha": "93769accfe077f56674294883e9f79236bd9d5b8",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1030,
-    "total_post_baseline_commits": 1030,
-    "delta_file_count": 2323,
-    "delta_added_files": 2317,
+    "pre_projection_head_sha": "693ebd5e7c5f8e2bf5fb0e35de5a78a542fd04e5",
+    "pre_projection_root_tree_sha": "a0492dab1d8fe89dbad35c90bc4689ca487b462e",
+    "pre_projection_canonical_tree_sha": "47d110fca9c9cf582e661e292d514548c07230be",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1034,
+    "total_post_baseline_commits": 1034,
+    "delta_file_count": 2324,
+    "delta_added_files": 2318,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1133,
     "evidence_files_in_post_baseline_delta": 168,
-    "source_files_in_post_baseline_delta": 313,
+    "source_files_in_post_baseline_delta": 314,
     "test_files_in_post_baseline_delta": 251,
     "workflow_files_in_post_baseline_delta": 113,
     "provider_records": [
@@ -981,7 +981,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2313,
+  "manifest_entry_count": 2314,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -9766,6 +9766,11 @@
     {
       "path": "src/fa3_audio_preflight_gate.py",
       "git_blob_sha": "1b662a3c1117496ba99aad48ee9bdc6b46cf9fb7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_authenticated_approval.py",
+      "git_blob_sha": "e96a2c83472854d266989825f708a1dead2f8e20",
       "baseline_delta_status": "added"
     },
     {
