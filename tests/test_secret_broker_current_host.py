@@ -1,6 +1,6 @@
 import tempfile,unittest
 from pathlib import Path
-from src import fa3_secret_broker_current_host_gate as g
+import fa3_secret_broker_current_host_gate as g
 class SecretBrokerCurrentHostTests(unittest.TestCase):
     def good(self):
         return {"schema":g.SCHEMA,"status":"PASS","real_execution":True,"synthetic":False,"luks2":True,"filesystem":"ext4",
