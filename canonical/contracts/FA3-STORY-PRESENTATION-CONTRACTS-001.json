@@ -120,6 +120,47 @@
         "production_editorial_handoff"
       ],
       "presentation_substitutes_chain": false
+    },
+    "PresentationStudio": {
+      "input_sources": [
+        "CANONICAL_STORY_IR",
+        "CANONICAL_DOCUMENT_IR",
+        "CANONICAL_PRESENTATION_IR"
+      ],
+      "operations": [
+        "CREATE",
+        "EDIT",
+        "GENERATE_SYNC",
+        "GENERATE_ASYNC_BOUNDED",
+        "GET_GENERATION_STATUS",
+        "EXPORT_PPTX",
+        "EXPORT_PDF"
+      ],
+      "async_execution": "BOUNDED_FAIL_CLOSED",
+      "model_route": "FA3-AUTH-MODEL-ROUTER-001",
+      "direct_provider_key_possession": false,
+      "image_generation": "SEPARATE_PROVIDER_ADMISSION_REQUIRED",
+      "web_grounding": "SEPARATE_POLICY_AND_PROVIDER_ADMISSION_REQUIRED",
+      "source_references": "CANONICAL_LOCAL_ARTIFACT_REFERENCES",
+      "output_artifacts": {
+        "pptx": {
+          "integrity": "PACKAGE_STRUCTURE_PLUS_SHA256",
+          "lineage": true,
+          "provenance": true
+        },
+        "pdf": {
+          "integrity": "PDF_STRUCTURE_PAGE_COUNT_RENDER_QA_PLUS_SHA256",
+          "lineage": true,
+          "provenance": true
+        }
+      },
+      "presentation_scoped_memory": {
+        "allowed": true,
+        "authority": "AUTH-MEMORY",
+        "provider_memory_is_global_authority": false
+      },
+      "external_worker_replaceability": true,
+      "external_worker_is_authority": false
     }
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
