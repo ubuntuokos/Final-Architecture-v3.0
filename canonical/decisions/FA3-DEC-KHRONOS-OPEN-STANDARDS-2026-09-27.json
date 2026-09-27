@@ -25,9 +25,10 @@
     "ANARI is a replaceable Render Fabric provider abstraction",
     "OpenXR is the vendor-neutral XR runtime boundary",
     "OpenCL is an optional heterogeneous compute backend and never a resource authority",
-    "OpenVX reference semantics inform Vision Fabric graph/operator providers",
+    "OpenVX sample implementation semantics may inform Vision Fabric graph/operator design but the sample implementation is not a production/reference provider",
     "NNEF Tools is an optional Model Artifact interchange adapter",
-    "all source materialization is immutable-pinned and namespaced under FA3 user data"
+    "all source materialization is immutable-pinned and namespaced under FA3 user data",
+    "All build-only transitive sources required for deterministic offline builds are immutable-pinned and remain non-authoritative"
   ],
   "rejected": [
     "vendor or GPU SKU as global requirement",
@@ -60,5 +61,6 @@
     "compiled_runtime_evidence_required_for_runtime_promotion": true,
     "current_host_runtime_promotion_claim": false,
     "global_promotion_claim": false
-  }
+  },
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001"
 }
