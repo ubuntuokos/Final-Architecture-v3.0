@@ -92,10 +92,10 @@ jobs:
         run: python -m py_compile src/fa3_quality_filter.py src/fa3_quality_gate.py src/fa3_skill_discovery.py
 
       - name: Native quality unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_quality_filter -v
+        run: bash bin/fa3-test -v tests/test_quality_filter.py
 
       - name: Skill discovery regression
-        run: PYTHONPATH=src python -m unittest tests.test_skill_discovery -v
+        run: bash bin/fa3-test -v tests/test_skill_discovery.py
 
       - name: Canonical quality gate
         run: PYTHONPATH=src python src/fa3_quality_gate.py --root .
