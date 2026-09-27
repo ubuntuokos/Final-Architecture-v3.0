@@ -24,12 +24,12 @@ Item {
     property var productionProfiles: [
         "Feature Film", "TV Movie", "TV Series", "Commercial", "Live Broadcast",
         "Documentary", "News / Magazine", "Animation", "Audio Drama", "Stage Play",
-        "Music Video", "Short-form", "Interactive", "Custom"
+        "Music Video", "Short-form", "Interactive", "Dubbing / Localization", "Custom"
     ]
 
     property var workspaceTabs: [
         "Script", "Outline", "Story Branches", "Timeline", "Collaboration",
-        "Rejected / Stash", "Writer Goals", "Interchange", "Production"
+        "Rejected / Stash", "Writer Goals", "Interchange", "Presentation", "Dubbing / ADR", "Production"
     ]
 
     ColumnLayout {
@@ -94,7 +94,9 @@ Item {
                                 ? "Rundown / Segment / Cue / Camera / Audio / Graphics / Planned vs Actual timing"
                                 : root.productionProfile === "TV Series"
                                   ? "Series Bible / Season / Episode / A-B-C story / continuity"
-                                  : "Canonical Story IR / Scene / Beat / Revision / Production handoff"
+                                  : root.productionProfile === "Dubbing / Localization"
+                                    ? "Dialogue List / PLDL / lip-sync adaptation / ADR cues / As-Recorded Script"
+                                    : "Canonical Story IR / Scene / Beat / Revision / Production handoff"
                         color: root.textMuted
                         font.pixelSize: 9
                     }
@@ -350,6 +352,96 @@ Item {
                         Button { text: "Import…" }
                         Button { text: "Export…" }
                         Button { text: "Round-trip report" }
+                    }
+                    Item { Layout.fillHeight: true }
+                }
+            }
+
+            Rectangle {
+                color: root.panel; radius: 8; border.color: root.border
+                ColumnLayout {
+                    anchors.fill: parent; anchors.margins: 16; spacing: 10
+                    Label { text: "Presentation Layer"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
+                    Label {
+                        text: "Story → Pitch Deck / Treatment / Series Bible / Character / Location / Storyboard / Production Brief"
+                        color: root.textMuted; wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: "CAP-018 · LibreOffice Impress/UNO primary human authoring · Presenton optional generation worker"
+                        color: root.accent; wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: "A slide-ok megőrzik a Story node hivatkozásokat. Presentation → Story csak explicit proposal vagy linked reference; csendes screenplay-módosítás tilos."
+                        color: root.green; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        ComboBox {
+                            id: deckType
+                            model: ["Pitch Deck", "Treatment Deck", "Series Bible Deck", "Character Deck", "Location Deck", "Storyboard Deck", "Production Brief", "Live Show Deck"]
+                            Layout.preferredWidth: 220
+                        }
+                        Button {
+                            text: "Presentation projection"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.presentation.project", deckType.currentText,
+                                "Create CAP-018 linked presentation projection; Presenton is optional and non-authoritative.")
+                        }
+                    }
+                    Item { Layout.fillHeight: true }
+                }
+            }
+
+            Rectangle {
+                color: root.panel; radius: 8; border.color: root.border
+                ColumnLayout {
+                    anchors.fill: parent; anchors.margins: 16; spacing: 10
+                    Label { text: "Dubbing / ADR Script"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
+                    Label {
+                        text: "Locked picture → Dialogue List / PLDL → target translation → lip-sync adaptation → recording cues → As-Recorded Script → final audio"
+                        color: root.textMuted; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        ComboBox {
+                            model: ["Dialogue List", "Pivot Dialogue List", "Dubbing Adaptation Script", "As-Recorded Dubbing Script", "ADR Cue Sheet", "Character Script"]
+                            Layout.preferredWidth: 250
+                        }
+                        ComboBox { model: ["hu-HU", "en-US", "de-DE", "fr-FR", "Custom"]; Layout.preferredWidth: 120 }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true; implicitHeight: 112; radius: 7; color: root.panelRaised; border.color: root.border
+                        GridLayout {
+                            anchors.fill: parent; anchors.margins: 10; columns: 4
+                            Label { text: "CUE"; color: root.textMuted; font.bold: true }
+                            Label { text: "IN / OUT"; color: root.textMuted; font.bold: true }
+                            Label { text: "CHARACTER"; color: root.textMuted; font.bold: true }
+                            Label { text: "TARGET / ADAPTED"; color: root.textMuted; font.bold: true }
+                            Label { text: "C001"; color: root.textPrimary }
+                            Label { text: "00:01:04:12 → 00:01:06:03"; color: root.textPrimary }
+                            Label { text: "CHARACTER A"; color: root.textPrimary }
+                            Label { text: "Hová mész? · lip-sync: close-up"; color: root.textPrimary }
+                        }
+                    }
+                    Label {
+                        text: "Frame-accurate timing · source-video digest · source-event lineage · phonetic/effort notes · key moments · take/preferred-take · voice identity mapping"
+                        color: root.textMuted; wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: "Timing: FA3-CAPTION-SUBTITLE-001 · voice/consent: FA3-VOICE-001 · provider/model választás nem a Story Studio hatásköre."
+                        color: root.orange; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        Button {
+                            text: "Conform new picture/DL"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.dubbing.conform", "current-dubbing-script",
+                                "Align/retime first; adapted text changes require explicit human review.")
+                        }
+                        Button {
+                            text: "Send recording plan"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.dubbing.recording-plan", "current-dubbing-script",
+                                "Build ADR/dubbing cues through Caption/Voice contracts; no direct provider execution.")
+                        }
                     }
                     Item { Layout.fillHeight: true }
                 }
