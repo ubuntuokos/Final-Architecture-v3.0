@@ -504,6 +504,27 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "reconciliation_status": "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING",
     }
 
+    projection["khronos_open_standards_reconciliation"] = {
+        "profile_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "contract_id": "FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001",
+        "decision_id": "FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27",
+        "upstream_reference_id": "FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27",
+        "materialization_plan_id": "FA3-KHRONOS-SDK-MATERIALIZATION-001",
+        "integration_id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+        "adapter_registry_id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "gate_id": "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
+        "capability_bindings": ["CAP-083", "CAP-146", "CAP-147", "CAP-175"],
+        "source_distribution_class": "USER_LOCAL_EXTERNAL",
+        "release_bundle_status": "EXCLUDED",
+        "current_host_source_materialization_status": "PENDING_CURRENT_HOST",
+        "compiled_sdk_runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
+
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
     for record in ls.split("\0"):
