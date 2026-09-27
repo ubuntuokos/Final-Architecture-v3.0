@@ -19,7 +19,8 @@
     "CAP-172",
     "CAP-173",
     "CAP-017",
-    "CAP-018"
+    "CAP-018",
+    "CAP-016"
   ],
   "contracts": [
     "FA3-STORY-STUDIO-CONTRACTS-001"
@@ -234,5 +235,69 @@
     "canonical_story_mutation": false,
     "ai_generation_route": "FA3-AUTH-MODEL-ROUTER-001",
     "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "trailer_teaser_derivatives": {
+    "status": "MANDATORY",
+    "canonical_story_authority": "FA3-STORY-001",
+    "video_semantics": "FA3-VIDEO-001",
+    "generation_context_ir": "FA3-MMG-CONTEXT-IR-001",
+    "editorial_handoff": "OTIO_KDENLIVE",
+    "source_modes": [
+      "SCRIPT_ONLY_CONCEPT",
+      "SCRIPT_PLUS_EXISTING_ASSETS",
+      "FINISHED_FILM_CUT"
+    ],
+    "output_types": [
+      "TEASER",
+      "TRAILER",
+      "TV_SPOT",
+      "SOCIAL_TEASER",
+      "CHARACTER_TRAILER",
+      "EPISODE_PROMO",
+      "SEASON_PROMO",
+      "CUSTOM_PROMO"
+    ],
+    "target_duration_seconds": {
+      "min": 6,
+      "max": 180,
+      "custom_allowed": true
+    },
+    "spoiler_ceiling_required": true,
+    "source_revision_digest_required": true,
+    "branch_selection_required": true,
+    "source_node_lineage_required": true,
+    "source_media_lineage_required_when_assets_used": true,
+    "generated_visuals_must_be_marked_as_generated_or_previs": true,
+    "generated_marketing_copy_must_not_be_misrepresented_as_story_dialogue": true,
+    "sourced_dialogue_must_preserve_exact_source_reference": true,
+    "cross_branch_mixing_forbidden": true,
+    "final_editorial_decision_requires_human_approval": true,
+    "outputs": [
+      "TRAILER_PLAN",
+      "TRAILER_BEAT_SHEET",
+      "SHOT_SELECTION_PLAN",
+      "MUSIC_CUE_PLAN",
+      "VOICE_OVER_PLAN",
+      "TITLE_CARD_PLAN",
+      "OTIO_TIMELINE_INTENT",
+      "MMG_GENERATION_PLAN",
+      "DELIVERY_VARIANTS"
+    ],
+    "aspect_ratio_variants": [
+      "16:9",
+      "9:16",
+      "1:1",
+      "4:5",
+      "CUSTOM"
+    ],
+    "downstream": [
+      "FA3-VIDEO-001",
+      "FA3-MMG-CONTEXT-IR-001",
+      "OTIO_KDENLIVE",
+      "FA3-VOICE-001",
+      "CAP-017"
+    ],
+    "canonical_story_mutation": false,
+    "current_host_runtime_promotion_claim": false
   }
 }
