@@ -1024,12 +1024,15 @@ The following are rejected as global AI/HPC baselines: Manager-level `CPUAffinit
 
 Resource and lifecycle tuning is projected per service/slice/scope from an HRB receipt and requires semantic diff, bounded apply, rollback and evidence. The vendor/default `system.conf` remains the neutral host baseline unless an explicit host-survival policy requires a reviewed exception.
 
-Run the fail-closed canonical gate with:
+Run the fail-closed canonical gates with:
 
 ```bash
 ./bin/fa3-enforce hrb-deterministic-locality
-PYTHONPATH=src python -m unittest tests.test_hrb_deterministic_locality_gate -v
+./bin/fa3-enforce sysctl-host-tuning
+PYTHONPATH=src python -m unittest tests.test_hrb_deterministic_locality_gate tests.test_sysctl_governance -v
 ```
+
+`FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001` is a mandatory P0 child of HRB for existing CAP-063 Kernel/VM/I/O Tuning and CAP-065 Tuning Change Control. Its default is read-only observation. There is no universal FA3 sysctl optimization profile and no canonical swappiness/overcommit/dirty-ratio magic constant. Any admitted host-global mutation requires HRB authorization, explicit approval, benchmark evidence for workload-sensitive keys, Security Governance approval for security-sensitive keys, pre-state capture, semantic diff, post-apply acceptance and verified rollback. Persistent changes use only a purpose-specific `/etc/sysctl.d/90-fa3-*.conf` file and never overwrite `/etc/sysctl.conf`, `99-sysctl.conf`, distribution, user or third-party configuration.
 
 This policy adds no capability and no architectural authority; the canonical capability count remains **143**.
 
