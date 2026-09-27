@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from fa3_repository_prepare import PROJECTION, prepare_repository
-from tools.fa3_python_namespace_audit import audit
+from fa3_python_namespace_audit import audit
 
 
 ROOT = Path(__file__).resolve().parents[1]
