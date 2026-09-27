@@ -5,6 +5,10 @@ import argparse
 import json
 from pathlib import Path
 
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 SCHEMA = "fa3.secret-broker-current-host-receipt.v1"
 
 REQUIRED_CHECKS = [
@@ -95,7 +99,7 @@ def validate(x: dict) -> list[str]:
     req(
         x.get("new_capabilities") == 0
         and x.get("new_architectural_authorities") == 0
-        and x.get("capability_count_after") == 143,
+        and x.get("capability_count_after") == CAPABILITY_COUNT,
         "SBH-006",
     )
     return findings
