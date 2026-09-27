@@ -1,0 +1,145 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-VISUAL-STYLE-FABRIC-001",
+  "name": "Visual Style / Art Direction Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_WHEN_VISUAL_INTENT_IS_USED",
+  "covered_capabilities": [
+    "CAP-032",
+    "CAP-041",
+    "CAP-042",
+    "CAP-043",
+    "CAP-121",
+    "CAP-122",
+    "CAP-123",
+    "CAP-169",
+    "CAP-170",
+    "CAP-171"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "style_fabric": "PROJECTION_AND_COMPILATION_NOT_MODEL_OR_RESOURCE_AUTHORITY"
+  },
+  "canonical_objects": [
+    "VisualStyleRecipe",
+    "StyleDNA",
+    "VisualIntentIR",
+    "VisualStyleBinding",
+    "VisualStyleSourceProvenance",
+    "VisualStyleImportReceipt",
+    "StyleMixRequest",
+    "StyleCompileReceipt"
+  ],
+  "recipe_model": {
+    "provider_neutral": true,
+    "required_source_fields": [
+      "style_name",
+      "style_slug",
+      "prompt_template"
+    ],
+    "reusable_fields": [
+      "environment_variables",
+      "style_fidelity_anchors",
+      "source_content_to_avoid",
+      "negative_prompt",
+      "visual_deconstruction",
+      "composition",
+      "typography",
+      "color_palette",
+      "photographic_direction",
+      "design_rules",
+      "do",
+      "avoid",
+      "examples"
+    ],
+    "fa3_extensions": [
+      "camera_language",
+      "lens_language",
+      "lighting_language",
+      "material_language",
+      "environment_language",
+      "character_language",
+      "motion_language",
+      "animation_language",
+      "era",
+      "genre",
+      "weather",
+      "time_of_day",
+      "cultural_context",
+      "production_type",
+      "continuity_constraints",
+      "identity_constraints",
+      "shot_constraints",
+      "temporal_consistency",
+      "spatial_consistency"
+    ],
+    "derived_prompts_are_canonical": false
+  },
+  "scope_model": [
+    "PROJECT",
+    "SCENE",
+    "SHOT",
+    "ASSET"
+  ],
+  "consumer_policy": {
+    "shared_fabric_required": true,
+    "application_local_parallel_style_authority_allowed": false,
+    "local_ui_projection_allowed": true,
+    "planned_consumers_may_bind_before_runtime_exists": true,
+    "planned_binding_runtime_promotion": false
+  },
+  "upstream_reference": "FA3-REF-AI-VISUAL-PROMPT-COOKBOOK-001",
+  "storage": {
+    "config_root": "$XDG_CONFIG_HOME/fa3/visual-style",
+    "data_root": "$XDG_DATA_HOME/fa3/visual-style",
+    "cache_root": "$XDG_CACHE_HOME/fa3/visual-style",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/visual-style",
+    "project_local_root": ".fa3/visual-style",
+    "shared_global_unscoped_paths": false
+  },
+  "routing": {
+    "route_class": "visual.generation",
+    "required_path": [
+      "VISUAL_STYLE_CLIENT",
+      "FA3-VISUAL-STYLE-FABRIC-001",
+      "FA3-AUTH-MODEL-ROUTER-001",
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "ADMITTED_PROVIDER_RUNTIME_MODEL"
+    ],
+    "fixed_provider_allowed": false,
+    "fixed_model_allowed": false,
+    "fixed_runtime_allowed": false,
+    "silent_fallback_allowed": false
+  },
+  "preservation": {
+    "native_project_files_remain_authoritative": true,
+    "story_documents_remain_authoritative": true,
+    "canonical_3d_scene_graph_remains_authoritative": true,
+    "style_binding_may_guide_lookdev_but_not_replace_scene_or_document_semantics": true
+  },
+  "hardware_audit": {
+    "required": true,
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope": "FA3-DEC-HARDWARE-SAFETY-2026-09-26"
+  },
+  "coexistence": {
+    "host_non_interference_required": true,
+    "requires_upstream_uninstall": false,
+    "replaces_upstream_application": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "namespaced_storage_required": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0"
+}
