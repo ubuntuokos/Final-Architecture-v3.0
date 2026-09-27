@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_full_current_host_capability_producer import (
+from fa3_full_current_host_capability_producer import (
     common_request_allowed,
     desktop_wayland_scoped_admission,
     exact_rollback,
