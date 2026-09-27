@@ -173,7 +173,7 @@ def validate() -> list[str]:
     for office_surface in ["Writer", "Calc", "Impress", "Preview", "Apply/UNO", "Undo"]:
         if office_surface not in studio_qml: failures.append(f"qml-office-surface-missing:{office_surface}")
     story_studio_qml = REQUIRED["story_studio_qml"].read_text(encoding="utf-8")
-    for token in ["FA3 Story Studio", "Production Profile", "Story Branches", "Collaboration", "Final Publisher", "Rejected / Stash", "Writer Goals", "Interchange"]:
+    for token in ["FA3 Story Studio", "Production Profile", "Story Branches", "Collaboration", "Final Publisher", "Rejected / Stash", "Writer Goals", "Interchange", "Presentation Layer", "Dubbing / ADR Script"]:
         if token not in story_studio_qml: failures.append(f"qml-story-studio-surface-missing:{token}")
     if "StoryStudioPage" not in qml or '"create.story-studio": 39' not in qml:
         failures.append("qml-story-studio-route-wiring-missing")
