@@ -49,7 +49,11 @@
     "ADRCueSheet",
     "DubbingCue",
     "DubbingConformancePlan",
-    "DubbingScript"
+    "DubbingScript",
+    "SpoilerGenerationPlan",
+    "SpoilerDerivative",
+    "SpoilerDisclosureMap",
+    "SpoilerPublicationReceipt"
   ],
   "invariants": [
     "ONE_FA3_STORY_STUDIO_APPLICATION_SURFACE",
@@ -75,7 +79,13 @@
     "DUBBING_CONFORMANCE_REQUIRED_AFTER_SOURCE_DIALOGUE_CHANGE",
     "PRESENTATION_PROJECTION_MUST_NOT_GAIN_STORY_AUTHORITY",
     "DUBBING_SOURCE_REVISION_LINEAGE_REQUIRED",
-    "DUBBING_SOURCE_CHANGE_MUST_NOT_SILENTLY_REWRITE_TARGET_TEXT"
+    "DUBBING_SOURCE_CHANGE_MUST_NOT_SILENTLY_REWRITE_TARGET_TEXT",
+    "SPOILER_DERIVATIVE_MUST_BIND_SOURCE_REVISION",
+    "SPOILER_DERIVATIVE_MUST_PRESERVE_STORY_NODE_LINEAGE",
+    "SPOILER_GENERATION_MUST_SELECT_BRANCH_WHEN_ALTERNATIVES_EXIST",
+    "SPOILER_CROSS_BRANCH_MIXING_FORBIDDEN",
+    "SPOILER_EXTERNAL_PUBLICATION_REQUIRES_RELEASE_APPROVAL",
+    "SPOILER_DERIVATIVE_NEVER_MUTATES_CANONICAL_STORY"
   ],
   "collaboration": {
     "edit_roles": [
@@ -149,5 +159,37 @@
     "frame_accurate_timing_required": true,
     "as_recorded_requires_final_audio_binding": true,
     "source_change_policy": "ALIGN_RETIME_THEN_HUMAN_REVIEW"
+  },
+  "spoiler_contract": {
+    "modes": [
+      "SPOILER_FREE_TEASER",
+      "LIGHT_SPOILER",
+      "PARTIAL_PLOT",
+      "FULL_PLOT",
+      "ENDING_EXPLAINED",
+      "CHARACTER_ARC",
+      "EPISODE_RECAP"
+    ],
+    "required_binding": [
+      "source_document_id",
+      "source_revision",
+      "source_revision_digest",
+      "branch_id",
+      "source_node_refs"
+    ],
+    "disclosure_levels": [
+      "NONE",
+      "LIGHT",
+      "PARTIAL",
+      "FULL",
+      "ENDING"
+    ],
+    "draft_watermark_required": true,
+    "external_release_roles": [
+      "OWNER",
+      "FINAL_PUBLISHER",
+      "RELEASE_APPROVER"
+    ],
+    "writeback": "FORBIDDEN"
   }
 }
