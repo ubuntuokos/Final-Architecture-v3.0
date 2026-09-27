@@ -21,6 +21,9 @@ MGPU_PROFILE = "canonical/profiles/FA3-HW-MGPU-001.json"
 HRB_PROFILE = "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json"
 HRB_CONTRACT = "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json"
 EVIDENCE_REGISTRY = "evidence/evidence-registry.json"
+HOST_ADAPTATION_PROFILE = "canonical/profiles/FA3-HOST-ADAPTATION-001.json"
+HOST_ADAPTATION_CONTRACT = "canonical/contracts/FA3-HOST-ADAPTATION-CONTRACTS-001.json"
+HOST_ADAPTATION_DECISION = "canonical/decisions/FA3-DEC-HOST-ADAPTATION-2026-09-27.json"
 
 GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
@@ -236,6 +239,9 @@ def evaluate(root: Path) -> dict[str, Any]:
     hw_profile=loadj(root,HW_PROFILE); hw_contract=loadj(root,HW_CONTRACT); mgpu=loadj(root,MGPU_PROFILE)
     hrb_profile=loadj(root,HRB_PROFILE); hrb_contract=loadj(root,HRB_CONTRACT)
     evidence_registry=loadj(root,EVIDENCE_REGISTRY)
+    host_adaptation=loadj(root,HOST_ADAPTATION_PROFILE)
+    host_adaptation_contract=loadj(root,HOST_ADAPTATION_CONTRACT)
+    host_adaptation_decision=loadj(root,HOST_ADAPTATION_DECISION)
 
     cpu=profile.get("portable_minimum",{}).get("cpu",{}); accelerator=profile.get("portable_minimum",{}).get("accelerator",{})
     discovery=contract.get("discovery_semantics",{}); envelope=contract.get("portable_minimum_envelope",{})
@@ -266,6 +272,21 @@ def evaluate(root: Path) -> dict[str, Any]:
       check("stable-identity", discovery.get("ephemeral_runtime_indices_are_identity") is False and {"PROVIDER_STABLE_ID","DEVICE_UUID","PCI_BDF_WHEN_APPLICABLE"} <= set(discovery.get("stable_accelerator_identity_when_available",[])), "runtime ordinal is not canonical identity and PCI identity is conditional"),
       check("hrb-linked", hrb_profile.get("hardware_portability_baseline_profile")=="FA3-HARDWARE-BASELINE-001" and "FA3-HARDWARE-DISCOVERY-CONTRACTS-001" in hrb_profile.get("contracts",[]), "HRB remains sole authority"),
       check("hrb-dynamic", "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED" in hrb_contract.get("invariants",[]), "HRB consumes dynamic topology"),
+      check(
+          "host-adaptation-reuses-hardware-authorities",
+          host_adaptation.get("capability_count")==CAPABILITY_COUNT
+          and host_adaptation.get("new_capability") is False
+          and host_adaptation.get("new_architectural_authority") is False
+          and host_adaptation.get("authority",{}).get("resource_admission_placement_lease")=="FA3-AUTH-HOST-RESOURCE-BROKER-001"
+          and host_adaptation.get("lifecycle",{}).get("startup_live_discovery_required") is True
+          and host_adaptation.get("lifecycle",{}).get("discovery_may_mutate_host") is False
+          and host_adaptation.get("selective_materialization",{}).get("missing_device_does_not_trigger_automatic_uninstall") is True
+          and host_adaptation_contract.get("materialization_semantics",{}).get("output_is_plan_not_install_authority") is True
+          and host_adaptation_contract.get("evidence_semantics",{}).get("assigned_accelerator_requires_separate_actual_use_evidence") is True
+          and host_adaptation_decision.get("new_capabilities")==0
+          and host_adaptation_decision.get("new_architectural_authorities")==0,
+          "host adaptation remains non-authoritative, HRB-bound, startup-revalidated and evidence-separated",
+      ),
       check("mgpu-vendor-neutral", mgpu.get("cardinality_policy",{}).get("minimum_qualifying_accelerator_count")==0 and "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N" in mgpu.get("invariants",[]) and "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants",[]) and "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu.get("invariants",[]), "multi-accelerator profile is conditional and vendor-neutral"),
       check("enforcement-vendor-neutral", any(r.get("invariant")=="NO_VENDOR_OR_RUNTIME_API_DEFINES_THE_GLOBAL_ACCELERATOR_FLOOR" for r in enforcement.get("rules",[])), "vendor-neutral floor mandatory"),
       check(
@@ -322,6 +343,13 @@ def evaluate(root: Path) -> dict[str, Any]:
       "fresh_current_host_evidence_required":True,
       "accelerator_floor":{"vendor_pin":"FORBIDDEN","runtime_api_pin":"FORBIDDEN","minimum_device_count":0,"cardinality":"0_TO_N","cpu_only_host_conforms":True,"cpu_only_workload_requires_lease":False,"required_workload_admission":"COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE","compatibility":"WORKLOAD_PROVIDER_SCOPED"},
       "hardware_safety":{"policy":"MANDATORY_FAIL_CLOSED","unsafe_or_unknown_mutation":"FORBIDDEN","installer_override":False,"expert_mode_override":False},
+      "host_adaptation":{
+          "profile_id":"FA3-HOST-ADAPTATION-001",
+          "startup_revalidation_required":True,
+          "selective_materialization_plan_is_authority":False,
+          "missing_device_automatic_uninstall":False,
+          "hrb_resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001"
+      },
       "supported_reference_vendor_families":sorted(REFERENCE_VENDOR_FAMILIES),
       "supported_reference_platform_families":sorted(REFERENCE_PLATFORM_FAMILIES),
       "checks":checks,
