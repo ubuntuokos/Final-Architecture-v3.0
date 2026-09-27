@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-STORY-STUDIO-001",
+  "profile": "FA3-STORY-STUDIO-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python3 src/fa3_story_studio_gate.py --root .",
+  "obligations": [
+    "SINGLE_APPLICATION_SURFACE",
+    "PRODUCTION_PROFILE_AWARENESS",
+    "MULTI_AUTHOR_COLLABORATION",
+    "DESIGNATED_FINAL_PUBLISHER",
+    "REJECTED_CONTENT_NOTE_EXPORT",
+    "NARRATIVE_BRANCHING",
+    "IMPORT_EXPORT_SYMMETRY",
+    "CPU_ONLY_CORE",
+    "NO_CURRENT_HOST_RUNTIME_OVERCLAIM"
+  ],
+  "current_host_runtime_promotion_claim": false
+}
