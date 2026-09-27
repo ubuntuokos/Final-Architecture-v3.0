@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-VISUAL-STYLE-FABRIC-2026-09-27",
+  "date": "2026-09-27",
+  "status": "CANONICAL",
+  "subject": "Shared provider-neutral Visual Style / Art Direction Fabric for FA3 creative applications",
+  "decision": "ADOPT_SHARED_VISUAL_STYLE_FABRIC_AND_REQUIRE_ALL_FA3_VISUAL_INTENT_CONSUMERS_TO_USE_IT_WITHOUT_CREATING_PARALLEL_MODEL_RESOURCE_OR_STYLE_AUTHORITIES",
+  "basis": {
+    "repository_base_commit": "eb340dbe1632e91b765fcc78165de81a14b8298a",
+    "upstream_reference": "FA3-REF-AI-VISUAL-PROMPT-COOKBOOK-001",
+    "upstream_commit": "d320e7a99819a54da6ff56abbc19a83fb6741772"
+  },
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "capability_delta": 0,
+  "new_capabilities": 0,
+  "authority_delta": 0,
+  "new_architectural_authorities": 0,
+  "profile_id": "FA3-VISUAL-STYLE-FABRIC-001",
+  "contract_id": "FA3-VISUAL-STYLE-FABRIC-CONTRACTS-001",
+  "enforcement_id": "FA3-VISUAL-STYLE-FABRIC-GATESET-001",
+  "consumer_binding_id": "FA3-VISUAL-STYLE-CONSUMER-BINDINGS-001",
+  "architecture": {
+    "upstream_role": "REFERENCE_AND_IMPORT_SOURCE",
+    "canonical_style_object": "VisualStyleRecipe",
+    "composable_style_object": "StyleDNA",
+    "provider_neutral_intermediate_representation": "VisualIntentIR",
+    "model_selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "local_parallel_style_authority": "FORBIDDEN",
+    "derived_prompt_status": "NON_CANONICAL_RUNTIME_DERIVATIVE"
+  },
+  "future_application_rule": "PLANNED_APPLICATIONS_MAY_BE_BOUND_NOW_AS_REQUIRED_CONSUMERS_BUT_MUST_NOT_BE_REPORTED_AS_RUNTIME_IMPLEMENTED_OR_CURRENT_HOST_PASS",
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "safety_envelope": "FA3-DEC-HARDWARE-SAFETY-2026-09-26"
+  },
+  "coexistence": {
+    "upstream_can_remain_installed": true,
+    "independently_installed_equivalents_can_coexist": true,
+    "namespaced_paths_required": true,
+    "host_global_mutation": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
