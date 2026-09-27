@@ -118,11 +118,30 @@ test -x "$INSTALLED_BIN" || {
   exit 4
 }
 
+# Capture the immutable installation host profile after the host-relevant build
+# dependencies and application payload are materialized. Discovery is read-only
+# and deliberately does not become package/provider or HRB authority.
+HOST_ADAPTATION_INIT_REPORT="$BUILD_DIR/host-adaptation-installation.json"
+if ! python3 "$REPO_ROOT/bin/fa3-host-adaptation" --initialize --json >"$HOST_ADAPTATION_INIT_REPORT"; then
+  echo "FA3 host-adaptation initialization FAILED." >&2
+  cat "$HOST_ADAPTATION_INIT_REPORT" >&2 || true
+  exit 5
+fi
+
 mkdir -p "$PREFIX/bin" "$PREFIX/share/applications" "$PREFIX/share/fa3-control-center"
 cat >"$WRAPPER_BIN" <<EOF
 #!/usr/bin/env bash
+set -euo pipefail
 export FA3_REPO_ROOT="${REPO_ROOT}"
 export FA3_GUI_SOURCE_REV="${SOURCE_REV}"
+STATE_ROOT="\${XDG_STATE_HOME:-\$HOME/.local/state}/fa3/host-adaptation"
+mkdir -p "\$STATE_ROOT"
+STARTUP_REPORT="\$STATE_ROOT/startup-host-drift.json"
+if ! python3 "${REPO_ROOT}/bin/fa3-host-adaptation" --check --json >"\$STARTUP_REPORT"; then
+  echo "FA3 startup host audit blocked this launch:" >&2
+  cat "\$STARTUP_REPORT" >&2 || true
+  exit 5
+fi
 exec "${INSTALLED_BIN}" "\$@"
 EOF
 chmod 0755 "$WRAPPER_BIN"
@@ -158,4 +177,6 @@ echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
 echo "Installed binary: $INSTALLED_BIN"
 echo "Desktop launcher: $DESKTOP_FILE"
 echo "Repository revision: $SOURCE_REV"
+echo "Host adaptation profile: initialized or already present"
+echo "Startup host drift audit: enabled"
 echo "Launch exactly: $WRAPPER_BIN"
