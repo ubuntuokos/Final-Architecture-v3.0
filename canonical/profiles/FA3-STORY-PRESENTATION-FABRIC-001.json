@@ -14,6 +14,7 @@
   "capability_count": 175,
   "capability_projection": [
     "CAP-018",
+    "CAP-030",
     "CAP-033",
     "CAP-170",
     "CAP-171"
@@ -68,7 +69,9 @@
       "REFERENCE_ONLY",
       "SELECTIVE_CODE_DONOR"
     ],
-    "libreoffice_impress_role": "OPTIONAL_REPLACEABLE_WORKER_IF_ADMITTED"
+    "libreoffice_impress_role": "OPTIONAL_REPLACEABLE_WORKER_IF_ADMITTED",
+    "model_generation_route": "FA3-AUTH-MODEL-ROUTER-001",
+    "image_generation_requires_separate_admission": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -83,5 +86,18 @@
   "application_intent": "canonical/intents/FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001.json",
   "reuse_assessment": "canonical/assessments/FA3-STORY-PRESENTATION-FABRIC-REUSE-ASSESSMENT-001.json",
   "contract": "FA3-STORY-PRESENTATION-CONTRACTS-001",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "presentation_capabilities": [
+    "CREATE_FROM_CANONICAL_STORY_OR_DOCUMENT",
+    "EDIT_PRESENTATION",
+    "BOUNDED_SYNCHRONOUS_GENERATION",
+    "BOUNDED_ASYNCHRONOUS_GENERATION",
+    "GENERATION_JOB_STATUS",
+    "PPTX_EXPORT",
+    "PDF_EXPORT",
+    "ARTIFACT_INTEGRITY_HASHING",
+    "ARTIFACT_LINEAGE_AND_PROVENANCE",
+    "CANONICAL_LOCAL_ARTIFACT_REFERENCES",
+    "OPTIONAL_IMAGE_GENERATION_VIA_SEPARATELY_ADMITTED_PROVIDER"
+  ]
 }
