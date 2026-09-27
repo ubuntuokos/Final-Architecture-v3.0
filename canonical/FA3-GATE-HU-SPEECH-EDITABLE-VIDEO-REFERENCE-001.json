@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-GATESET-001",
+  "entrypoint": "src/fa3_hu_speech_editable_video_reference_gate.py::gate",
+  "tests": [
+    "tests/test_hu_speech_editable_video_reference.py"
+  ],
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "reference_ci_current_host_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  }
+}

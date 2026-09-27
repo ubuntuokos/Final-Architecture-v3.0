@@ -296,6 +296,19 @@
       "projection": "EVIDENCE"
     },
     {
+      "route_id": "governance.status",
+      "title": "Governance Status",
+      "group": "GOVERNANCE",
+      "projection": "GOVERNANCE_STATUS_READ_ONLY",
+      "machine_source": "reports/governance-status-projection.json",
+      "mode": "READ_ONLY_GENERATED_OUTPUT",
+      "direct_runtime_execution": false,
+      "mutation": "NONE",
+      "authority": false,
+      "runtime_promotion_claim": false,
+      "missing_source_semantics": "UNKNOWN_OR_PENDING"
+    },
+    {
       "route_id": "governance.observability",
       "title": "Observability",
       "group": "GOVERNANCE",

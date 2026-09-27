@@ -18,7 +18,9 @@
   "missing_source_semantics": {
     "acceptance": "UNKNOWN_OR_PENDING",
     "promotion": "UNKNOWN_OR_PENDING",
-    "evidence_artifact_binding": "ABSENT_OR_UNBOUND_VISIBLE_NOT_INFERRED"
+    "evidence_artifact_binding": "ABSENT_OR_UNBOUND_VISIBLE_NOT_INFERRED",
+    "assurance": "UNKNOWN_OR_PENDING",
+    "canonical": "UNKNOWN_OR_PENDING"
   },
   "required_dimensions": [
     "repository.head_commit",
@@ -33,7 +35,15 @@
     "evidence.expiring_within_7d_subjects",
     "evidence.artifact_bindings",
     "acceptance.state",
-    "promotion.state"
+    "promotion.state",
+    "assurance_state",
+    "canonical_state",
+    "evidence.artifact_bindings[].collected_at",
+    "evidence.artifact_bindings[].run_id",
+    "evidence.artifact_bindings[].host_id",
+    "evidence.artifact_bindings[].expires_at",
+    "promotion.promotion_id",
+    "evidence.artifact_bindings[].present"
   ],
   "forbidden_inferences": [
     "DOCUMENTATION_IMPLIES_RUNTIME_PASS",

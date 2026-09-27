@@ -1120,7 +1120,8 @@
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/gtcrn-reference-pass.json",
-        "evidence/reference/lavasr-reference-pass.json"
+        "evidence/reference/lavasr-reference-pass.json",
+        "evidence/receipts/hu-speech-editable-video-current-host.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -1162,6 +1163,15 @@
         "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_DURATION_PADDING_AND_ROLLBACK",
         "denoise_policy": "OPTIONAL_EXPLICIT_NO_IMPLICIT_DOUBLE_DENOISE",
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "hu_speech_editable_video_reference_status": {
+        "reference_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-001",
+        "gate_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-GATESET-001",
+        "receipt": "evidence/receipts/hu-speech-editable-video-current-host.json",
+        "materialization_status": "REFERENCE_IMPLEMENTATION_AND_COLLECTOR_MATERIALIZED",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "global_promotion_claim": false
       }
     },
     {
@@ -5523,7 +5533,8 @@
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/opencut-ci-2026-09-01.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/receipts/hu-speech-editable-video-current-host.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5571,6 +5582,15 @@
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
+        "global_promotion_claim": false
+      },
+      "hu_speech_editable_video_reference_status": {
+        "reference_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-001",
+        "gate_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-GATESET-001",
+        "receipt": "evidence/receipts/hu-speech-editable-video-current-host.json",
+        "materialization_status": "REFERENCE_IMPLEMENTATION_AND_COLLECTOR_MATERIALIZED",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
         "global_promotion_claim": false
       }
     },
@@ -5798,7 +5818,8 @@
         "evidence/reference/opencut-ci-2026-09-01.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
-        "evidence/reference/openfx-interoperability-ci-2026-09-11.json"
+        "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
+        "evidence/receipts/hu-speech-editable-video-current-host.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5872,6 +5893,15 @@
         "runtime_status": "PENDING_CURRENT_HOST",
         "current_host_runtime_evidence": "PENDING_REAL_OPENFX_HOST_PLUGIN_RENDER_EXECUTION",
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "hu_speech_editable_video_reference_status": {
+        "reference_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-001",
+        "gate_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-GATESET-001",
+        "receipt": "evidence/receipts/hu-speech-editable-video-current-host.json",
+        "materialization_status": "REFERENCE_IMPLEMENTATION_AND_COLLECTOR_MATERIALIZED",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "global_promotion_claim": false
       }
     },
     {
@@ -7864,7 +7894,9 @@
         "FA3-REG-003"
       ],
       "source": "v3.1.0 capability-model expansion",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/receipts/hu-speech-editable-video-current-host.json"
+      ],
       "expires_at": null,
       "blocking": true,
       "capability_model_175_status": {
@@ -7872,6 +7904,15 @@
         "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
         "previous_143_closure_reused_as_runtime_proof": false,
         "reference_or_design_status_does_not_promote_runtime": true
+      },
+      "hu_speech_editable_video_reference_status": {
+        "reference_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-001",
+        "gate_id": "FA3-HU-SPEECH-EDITABLE-VIDEO-REFERENCE-GATESET-001",
+        "receipt": "evidence/receipts/hu-speech-editable-video-current-host.json",
+        "materialization_status": "REFERENCE_IMPLEMENTATION_AND_COLLECTOR_MATERIALIZED",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "global_promotion_claim": false
       }
     },
     {

@@ -47,6 +47,7 @@ set_source_files_properties(qml/ProviderExecutionView.qml PROPERTIES QT_RESOURCE
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SubtitleStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS SubtitleStudioPage.qml)
 set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS NarrationStudioPage.qml)
+set_source_files_properties(qml/GovernanceStatusPage.qml PROPERTIES QT_RESOURCE_ALIAS GovernanceStatusPage.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
@@ -85,6 +86,7 @@ qt_add_qml_module(fa3-control-center
         qml/AiStudioPage.qml
         qml/SubtitleStudioPage.qml
         qml/NarrationStudioPage.qml
+        qml/GovernanceStatusPage.qml
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml

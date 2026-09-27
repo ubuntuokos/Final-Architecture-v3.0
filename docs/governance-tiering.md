@@ -97,3 +97,13 @@ The dedicated CI workflow is `.github/workflows/fa3-governance-tiering.yml`. It 
 `FA3-GOVERNANCE-STATUS-PROJECTION-001` provides the non-authoritative machine view over commit, capability baseline, mandatory gates, Evidence Registry status, current-host state, run/commit/host/expiry bindings, Acceptance and Promotion. It never creates evidence or promotion.
 
 `FA3-GATE-REGISTRY-001` is the canonical membership source for mandatory reference gates. `canonical/enforcement-policy.json::mandatory_reference_gates` is a compatibility mirror and must match the registry exactly.
+
+
+## Materialized Control Center status surface
+
+The Control Center now exposes `governance.status` as a read-only consumer of
+`reports/governance-status-projection.json`. The GUI does not recalculate or own
+canonical, Evidence Registry, Acceptance, current-host, or Promotion state. Missing
+or invalid projection data is rendered as `UNKNOWN_OR_PENDING`/invalid rather than
+being upgraded to PASS. Refresh only rereads repository state; it performs no
+governance mutation.

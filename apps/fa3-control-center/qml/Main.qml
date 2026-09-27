@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "governance.status": 39
     })
 
     function routeIndex(routeId) {
@@ -159,6 +160,7 @@ ApplicationWindow {
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
+        {title: "Governance Status", detail: "Read-only canonical/evidence/acceptance/promotion machine projection", category: "FUNCTION", routeId: "governance.status"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -721,6 +723,7 @@ ApplicationWindow {
                         NavButton { iconText: "⌾"; label: "Trust & Certificates"; routeId: "governance.trust" }
                         NavButton { iconText: "▣"; label: "Session Vault / Kulcsvault"; routeId: "governance.session-vault" }
                         NavButton { iconText: "✓"; label: "Evidence"; routeId: "governance.evidence" }
+                        NavButton { iconText: "◉"; label: "Governance Status"; routeId: "governance.status" }
                         NavButton { iconText: "⌁"; label: "Observability"; routeId: "governance.observability" }
                         NavButton { iconText: "◇"; label: "Architecture"; routeId: "governance.architecture" }
                         NavButton { iconText: "≡"; label: "Napló / Journal"; routeId: "governance.journal" }
@@ -1725,6 +1728,17 @@ ApplicationWindow {
                     textPrimary: window.textPrimary
                     textMuted: window.textMuted
                     accent: window.magenta
+                    green: window.green
+                    orange: window.orange
+                }
+
+                GovernanceStatusPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
                     green: window.green
                     orange: window.orange
                 }
