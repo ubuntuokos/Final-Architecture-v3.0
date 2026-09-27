@@ -29,6 +29,11 @@ class GovernanceStatusTests(unittest.TestCase):
             self.assertEqual("UNKNOWN_OR_PENDING", projection["promotion"]["state"])
         self.assertEqual(175, projection["repository"]["capability_count"])
         self.assertEqual(175, projection["evidence"]["record_count"])
+        hu_receipt = "evidence/receipts/hu-speech-editable-video-current-host.json"
+        hu_bindings = [b for b in projection["evidence"]["artifact_bindings"] if b.get("path") == hu_receipt]
+        self.assertEqual(4, len(hu_bindings))
+        if not (ROOT / hu_receipt).is_file():
+            self.assertTrue(all(b.get("present") is False for b in hu_bindings))
 
     def test_governance_status_gate_passes_without_claiming_runtime(self):
         result = governance_status_gate(ROOT)
