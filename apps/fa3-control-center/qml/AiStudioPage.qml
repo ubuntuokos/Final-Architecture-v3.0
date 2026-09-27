@@ -17,6 +17,8 @@ Item {
     property color magenta: "#b778ff"
     property color red: "#ff6b7a"
 
+    signal navigateRequested(string routeId)
+
     property int selectedIndex: 7
     property int pageMode: 0
     property int selectedAppIndex: 0
@@ -33,7 +35,7 @@ Item {
         {title: "3D / VFX", badge: "READY", tone: root.orange, summary: "Geometry, Bforartist/Blender, Natron/Gaffer kapcsolatok.", actions: ["Geometry / mesh", "DCC bridge", "Compositing", "Scene és artifact provenance"]},
         {title: "Audio", badge: "READY", tone: root.green, summary: "STT, TTS, restoration, separation és voice fabric.", actions: ["Speech-to-text", "Text-to-speech", "Restoration / separation", "Voice workflow"]},
         {title: "Music", badge: "READY", tone: root.magenta, summary: "Music generation, stems, DAW és mastering workflow-k.", actions: ["Generation", "Stem separation", "DAW handoff", "Mastering"]},
-        {title: "Story / Screenplay", badge: "READY", tone: root.accent, summary: "FA3 Story profile és production-context projection.", actions: ["Story planning", "Screenplay structure", "Scene breakdown", "Production handoff"]},
+        {title: "Story / Screenplay", badge: "READY", tone: root.accent, routeId: "create.story-studio", summary: "Egységes FA3 Story Studio: production profile, screenplay, branching, collaboration és handoff.", actions: ["Production-type profiles", "Story / screenplay / rundown", "Branching + collaboration", "Interchange + production handoff"]},
         {title: "Office", badge: "UNO", tone: root.cyan, summary: "Writer, Calc és Impress AI-réteg Preview → explicit Apply / Undo folyamattal.", actions: ["Writer · Rewrite · Summarize · Translate · Explain · Continue text · Review", "Calc · Formula · Table analysis · Formula explanation · Data-cleaning plan", "Impress · Slide outline · Slide rewrite · Speaker notes", "Selection/context → proposal → Preview → explicit Apply/UNO mutation → Undo"]},
         {title: "Marketing", badge: "E2E PENDING", tone: root.orange, summary: "Agent Native UAF-folyamatok; a provider runtime csak current-host E2E után éles.", actions: ["Twenty CRM contact projection", "Mautic campaign draft / validate / approve", "listmonk prepare / dispatch", "Consent + suppression fail-closed", "DecisionReceipt + evidence", "CURRENT_HOST_PRODUCTION_E2E_PASS szükséges"]},
         {title: "Weboldal", badge: "PUBLISH", tone: root.cyan, summary: "Webes publikáció, preview és deployment workflow-k.", actions: ["Page/content planning", "Preview", "Asset handoff", "Controlled deployment"]},
@@ -274,6 +276,12 @@ Item {
                                         Label { id: actionText; text: modelData; color: root.textPrimary; font.pixelSize: 10; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                                     }
                                 }
+                            }
+
+                            Button {
+                                visible: root.modules[root.selectedIndex].routeId !== undefined
+                                text: "Munkaterület megnyitása"
+                                onClicked: root.navigateRequested(root.modules[root.selectedIndex].routeId)
                             }
 
                             Item { Layout.fillHeight: true }

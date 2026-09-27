@@ -1,0 +1,238 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STORY-STUDIO-001",
+  "name": "FA3 Unified Story Studio — Production-Type-Aware Story, Screenplay & Rundown Authoring",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-168",
+    "CAP-170",
+    "CAP-171",
+    "CAP-172",
+    "CAP-173",
+    "CAP-017",
+    "CAP-018"
+  ],
+  "contracts": [
+    "FA3-STORY-STUDIO-CONTRACTS-001"
+  ],
+  "application_surface": {
+    "host_application": "FA3 Control Center",
+    "route_id": "create.story-studio",
+    "separate_application_forbidden": true,
+    "separate_desktop_entry_forbidden": true,
+    "native_toolkit": "Qt 6 / QML",
+    "display": "WAYLAND_PRIMARY_X11_SUPPORTED"
+  },
+  "canonical_model": {
+    "story_screenplay_ir": "REQUIRED",
+    "project_graph": "REQUIRED",
+    "narrative_branch_graph": "REQUIRED_ARBITRARY_DEPTH",
+    "production_profile_registry": "REQUIRED",
+    "revision_graph": "REQUIRED",
+    "stash_graveyard": "REQUIRED",
+    "collaboration_state": "REQUIRED",
+    "release_state": "REQUIRED",
+    "story_authority_profile": "FA3-STORY-001"
+  },
+  "production_profiles": [
+    "FEATURE_FILM",
+    "TV_MOVIE",
+    "TV_SERIES",
+    "COMMERCIAL",
+    "LIVE_BROADCAST",
+    "DOCUMENTARY",
+    "NEWS_MAGAZINE",
+    "ANIMATION",
+    "AUDIO_DRAMA",
+    "STAGE_PLAY",
+    "MUSIC_VIDEO",
+    "SHORT_FORM",
+    "INTERACTIVE",
+    "CUSTOM",
+    "DUBBING_LOCALIZATION"
+  ],
+  "mandatory_authoring": [
+    "SCREENPLAY_SEMANTICS",
+    "BEAT_BOARD",
+    "OUTLINE",
+    "TIMELINE_PACING",
+    "MIND_MAP_RELATIONSHIPS",
+    "WRITER_GOALS",
+    "WRITING_STATISTICS",
+    "SPRINT_TIMER",
+    "MIDNIGHT_MODE",
+    "TYPEWRITER_MODE",
+    "FOCUS_MODE",
+    "LINE_PARAGRAPH_SCENE_BRANCH_ALTERNATES",
+    "STORY_STASH_GRAVEYARD",
+    "SEMANTIC_DIFF",
+    "REVISION_HISTORY",
+    "STORY_PRESENTATION_PROJECTION",
+    "DUBBING_SCRIPT_AND_ADR_CUE_AUTHORING"
+  ],
+  "collaboration": {
+    "concurrent_multi_author_editing_required": true,
+    "roles": [
+      "OWNER",
+      "AUTHOR",
+      "EDITOR",
+      "COMMENTER",
+      "FINAL_PUBLISHER",
+      "RELEASE_APPROVER",
+      "TRANSLATOR",
+      "ADAPTOR",
+      "DUBBING_DIRECTOR",
+      "RECORDING_ENGINEER",
+      "VOICE_ACTOR"
+    ],
+    "designated_final_publishers_required": true,
+    "release_policies": [
+      "SINGLE_DESIGNATED",
+      "ANY_DESIGNATED",
+      "ALL_DESIGNATED"
+    ],
+    "non_publisher_final_release_forbidden": true,
+    "authorship_and_revision_attribution_required": true,
+    "comments_and_review_required": true
+  },
+  "rejected_content": {
+    "destructive_discard_default": false,
+    "stash_required": true,
+    "save_as_note_required": true,
+    "note_can_be_standalone_document": true,
+    "note_export_required": true,
+    "origin_and_source_location_preserved": true
+  },
+  "interchange": {
+    "canonical_native_project": ".fa3story",
+    "import_export_symmetry_required": true,
+    "silent_loss_forbidden": true,
+    "loss_report_required": true,
+    "families": [
+      "FDX",
+      "FOUNTAIN",
+      "PDF",
+      "TXT",
+      "RTF",
+      "HTML",
+      "MICROSOFT_OFFICE",
+      "LIBREOFFICE_ODF",
+      "OPENOFFICE_ODF_LEGACY",
+      "WPS_OFFICE",
+      "ONLYOFFICE_SUPPORTED_DOCUMENT_FORMATS"
+    ],
+    "unsupported_or_one_way_codec_admission": "DENY"
+  },
+  "authority_boundaries": {
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "security_rights": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_final_release": "AUTH-HUMAN",
+    "model_provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_core_required": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_optional": true,
+    "accelerator_work_requires_hrb": true,
+    "hardware_parameter_mutation": false,
+    "hardware_safety_envelope_applies": true
+  },
+  "coexistence": {
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_format_handler_hijack_forbidden": true,
+    "global_default_app_takeover_forbidden": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "canonical_story_profile": "FA3-STORY-001",
+  "presentation_interop": {
+    "capability": "CAP-018",
+    "canonical_relationship": "DERIVED_BIDIRECTIONALLY_LINKED_PRESENTATION_PROJECTION",
+    "primary_human_authoring": "LIBREOFFICE_IMPRESS_UNO",
+    "optional_generation_provider": "FA3-PROVIDER-PRESENTON-001",
+    "allowed_projection_types": [
+      "PITCH_DECK",
+      "TREATMENT_DECK",
+      "SERIES_BIBLE_DECK",
+      "CHARACTER_DECK",
+      "LOCATION_DECK",
+      "STORYBOARD_DECK",
+      "PRODUCTION_BRIEF",
+      "LIVE_SHOW_DECK"
+    ],
+    "story_to_presentation_preserves_node_refs": true,
+    "presentation_to_story": "PROPOSAL_OR_LINKED_REFERENCE_ONLY",
+    "silent_story_mutation_from_slides_forbidden": true,
+    "final_story_release_authority_not_transferred": true
+  },
+  "dubbing_localization": {
+    "profile": "DUBBING_LOCALIZATION",
+    "document_types": [
+      "DIALOGUE_LIST",
+      "PIVOT_DIALOGUE_LIST",
+      "DUBBING_ADAPTATION_SCRIPT",
+      "AS_RECORDED_DUBBING_SCRIPT",
+      "ADR_CUE_SHEET",
+      "CHARACTER_SCRIPT"
+    ],
+    "frame_accurate_timing_required": true,
+    "source_revision_binding_required": true,
+    "silent_target_text_rewrite": false,
+    "human_review_required_on_source_change": true,
+    "caption_timing_profile": "FA3-CAPTION-SUBTITLE-001",
+    "voice_authority": "FA3-VOICE-001",
+    "final_as_recorded_script_must_match_delivered_audio": true,
+    "final_audio_digest_required_for_as_recorded": true
+  },
+  "presentation_projection": {
+    "target_capability": "CAP-018",
+    "primary_human_authoring": "LIBREOFFICE_IMPRESS_UNO",
+    "optional_generation_provider": "FA3-PROVIDER-PRESENTON-001",
+    "non_authoritative_projection": true,
+    "silent_story_writeback": false
+  },
+  "spoiler_derivatives": {
+    "status": "MANDATORY",
+    "source": "RELEASED_OR_EXPLICITLY_SELECTED_STORY_REVISION",
+    "branch_selection_required_when_story_has_alternatives": true,
+    "modes": [
+      "SPOILER_FREE_TEASER",
+      "LIGHT_SPOILER",
+      "PARTIAL_PLOT",
+      "FULL_PLOT",
+      "ENDING_EXPLAINED",
+      "CHARACTER_ARC",
+      "EPISODE_RECAP"
+    ],
+    "disclosure_map_required": true,
+    "source_node_lineage_required": true,
+    "source_revision_digest_required": true,
+    "cross_branch_detail_mixing_forbidden": true,
+    "draft_source_requires_visible_draft_marker": true,
+    "external_publication_requires_release_approval": true,
+    "outputs_may_project_to": [
+      "CAP-018_PRESENTATION",
+      "MARKETING",
+      "PRESS_KIT",
+      "SOCIAL",
+      "WEB",
+      "DOCUMENT_EXPORT"
+    ],
+    "canonical_story_mutation": false,
+    "ai_generation_route": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  }
+}

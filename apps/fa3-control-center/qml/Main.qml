@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "create.story-studio": 39
     })
 
     function routeIndex(routeId) {
@@ -165,7 +166,7 @@ ApplicationWindow {
         {title: "3D / VFX", detail: "AI Studio 3D és VFX", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Audio", detail: "AI Studio audio", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Music", detail: "AI Studio zenei workflow", category: "FUNCTION", routeId: "create.ai-studio"},
-        {title: "Story / Screenplay", detail: "Történet és forgatókönyv", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Story Studio", detail: "Production-type-aware történet, forgatókönyv, rundown és kollaboráció", category: "FUNCTION", routeId: "create.story-studio"},
         {title: "Marketing", detail: "Marketing és publikációs workflow", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Weboldal", detail: "Webes publikáció", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Prezentáció", detail: "Prezentáció készítés és export", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -963,6 +964,7 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
 
                 ModulePage {
@@ -1727,6 +1729,22 @@ ApplicationWindow {
                     accent: window.magenta
                     green: window.green
                     orange: window.orange
+                }
+
+                StoryStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onStageActionIntentRequested: function(actionId, target, rationale) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "STORY_STUDIO", actionId, target, rationale)
+                    }
                 }
             }
 

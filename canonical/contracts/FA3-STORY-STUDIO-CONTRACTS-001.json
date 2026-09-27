@@ -1,0 +1,195 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-STORY-STUDIO-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-STORY-STUDIO-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "StoryStudioProject",
+    "ProductionProfile",
+    "StoryDocument",
+    "CanonicalStoryIR",
+    "ScreenplayIR",
+    "NarrativeBranchGraph",
+    "StoryBranch",
+    "StoryAlternate",
+    "SeriesBible",
+    "SeasonBible",
+    "EpisodeDescriptor",
+    "Rundown",
+    "RundownSegment",
+    "ProductionCue",
+    "CommercialVariant",
+    "RevisionGraph",
+    "RevisionQuery",
+    "StoryStashEntry",
+    "RejectedContentNote",
+    "WriterGoal",
+    "WritingStatistics",
+    "WritingSprint",
+    "CollaborationMember",
+    "CollaborationRoleBinding",
+    "FinalPublisherPolicy",
+    "FinalReleaseReceipt",
+    "DocumentCodecDescriptor",
+    "RoundTripCompatibilityReport",
+    "TableReadPlan",
+    "ProductionHandoff",
+    "CollaborativeEditTransaction",
+    "RevisionConflictReceipt",
+    "StoryPresentationProjection",
+    "PresentationStoryLink",
+    "DialogueListIR",
+    "PivotDialogueListIR",
+    "DubbingAdaptationScript",
+    "AsRecordedDubbingScript",
+    "ADRCueSheet",
+    "DubbingCue",
+    "DubbingConformancePlan",
+    "DubbingScript",
+    "SpoilerGenerationPlan",
+    "SpoilerDerivative",
+    "SpoilerDisclosureMap",
+    "SpoilerPublicationReceipt"
+  ],
+  "invariants": [
+    "ONE_FA3_STORY_STUDIO_APPLICATION_SURFACE",
+    "PRODUCTION_TYPE_PROFILE_REQUIRED",
+    "ARBITRARY_DEPTH_NARRATIVE_BRANCHING",
+    "REJECTED_CONTENT_RECOVERABLE_AND_EXPORTABLE_AS_NOTE",
+    "MULTI_AUTHOR_ATTRIBUTION_REQUIRED",
+    "FINAL_PUBLISHER_MUST_BE_EXPLICITLY_DESIGNATED",
+    "NON_DESIGNATED_ACTOR_CANNOT_ISSUE_FINAL",
+    "IMPORT_EXPORT_SYMMETRY_REQUIRED",
+    "SILENT_INTERCHANGE_LOSS_FORBIDDEN",
+    "AI_NOTES_AND_HUMAN_NOTES_SEPARATE",
+    "HUMAN_APPROVAL_REQUIRED_FOR_FINAL_STATE",
+    "CPU_ONLY_CORE_OPERATION_REQUIRED",
+    "NO_PROVIDER_AUTHORITY_ESCALATION",
+    "STALE_CONCURRENT_EDIT_MUST_FAIL_CLOSED",
+    "SILENT_LAST_WRITER_WINS_FORBIDDEN",
+    "PRESENTATION_PROJECTION_MUST_PRESERVE_STORY_NODE_LINEAGE",
+    "PRESENTATION_MUST_NOT_SILENTLY_MUTATE_CANONICAL_STORY",
+    "DUBBING_SCRIPT_MUST_BIND_SOURCE_VIDEO_AND_TIMECODES",
+    "DUBBING_ADAPTATION_AND_AS_RECORDED_STATES_MUST_BE_DISTINCT",
+    "DUBBING_FINAL_TEXT_MUST_MATCH_FINAL_AUDIO",
+    "DUBBING_CONFORMANCE_REQUIRED_AFTER_SOURCE_DIALOGUE_CHANGE",
+    "PRESENTATION_PROJECTION_MUST_NOT_GAIN_STORY_AUTHORITY",
+    "DUBBING_SOURCE_REVISION_LINEAGE_REQUIRED",
+    "DUBBING_SOURCE_CHANGE_MUST_NOT_SILENTLY_REWRITE_TARGET_TEXT",
+    "SPOILER_DERIVATIVE_MUST_BIND_SOURCE_REVISION",
+    "SPOILER_DERIVATIVE_MUST_PRESERVE_STORY_NODE_LINEAGE",
+    "SPOILER_GENERATION_MUST_SELECT_BRANCH_WHEN_ALTERNATIVES_EXIST",
+    "SPOILER_CROSS_BRANCH_MIXING_FORBIDDEN",
+    "SPOILER_EXTERNAL_PUBLICATION_REQUIRES_RELEASE_APPROVAL",
+    "SPOILER_DERIVATIVE_NEVER_MUTATES_CANONICAL_STORY"
+  ],
+  "collaboration": {
+    "edit_roles": [
+      "OWNER",
+      "AUTHOR",
+      "EDITOR"
+    ],
+    "comment_roles": [
+      "OWNER",
+      "AUTHOR",
+      "EDITOR",
+      "COMMENTER",
+      "FINAL_PUBLISHER",
+      "RELEASE_APPROVER"
+    ],
+    "final_release_roles": [
+      "OWNER",
+      "FINAL_PUBLISHER"
+    ],
+    "designated_final_publisher_list_required": true,
+    "release_policy_must_be_explicit": true,
+    "release_receipt_must_include_actor_revision_digest_and_timestamp": true,
+    "optimistic_revision_binding_required": true,
+    "stale_base_revision_policy": "CONFLICT_FAIL_CLOSED",
+    "silent_last_writer_wins": false
+  },
+  "stash_note_contract": {
+    "rejected_fragment_never_silently_destroyed": true,
+    "note_fields": [
+      "note_id",
+      "title",
+      "content",
+      "source_document_id",
+      "source_range",
+      "source_revision",
+      "author",
+      "reason",
+      "created_at"
+    ],
+    "save_as_project_note": true,
+    "export_as_standalone_document": true
+  },
+  "interchange_contract": {
+    "each_import_codec_must_export_same_media_type": true,
+    "roundtrip_test_required": true,
+    "compatibility_classes": [
+      "EXACT",
+      "COMPATIBLE",
+      "DEGRADED",
+      "FLATTENED",
+      "UNSUPPORTED_FEATURE"
+    ],
+    "fail_closed_on_unknown_loss": true
+  },
+  "presentation_contract": {
+    "source_story_nodes_required": true,
+    "writeback": "LINKED_REFERENCE_OR_EXPLICIT_PROPOSAL",
+    "authority_transfer": false
+  },
+  "dubbing_contract": {
+    "document_types": [
+      "DIALOGUE_LIST",
+      "PIVOT_DIALOGUE_LIST",
+      "DUBBING_ADAPTATION_SCRIPT",
+      "AS_RECORDED_DUBBING_SCRIPT",
+      "ADR_CUE_SHEET",
+      "CHARACTER_SCRIPT"
+    ],
+    "source_video_digest_required": true,
+    "source_revision_required": true,
+    "frame_accurate_timing_required": true,
+    "as_recorded_requires_final_audio_binding": true,
+    "source_change_policy": "ALIGN_RETIME_THEN_HUMAN_REVIEW"
+  },
+  "spoiler_contract": {
+    "modes": [
+      "SPOILER_FREE_TEASER",
+      "LIGHT_SPOILER",
+      "PARTIAL_PLOT",
+      "FULL_PLOT",
+      "ENDING_EXPLAINED",
+      "CHARACTER_ARC",
+      "EPISODE_RECAP"
+    ],
+    "required_binding": [
+      "source_document_id",
+      "source_revision",
+      "source_revision_digest",
+      "branch_id",
+      "source_node_refs"
+    ],
+    "disclosure_levels": [
+      "NONE",
+      "LIGHT",
+      "PARTIAL",
+      "FULL",
+      "ENDING"
+    ],
+    "draft_watermark_required": true,
+    "external_release_roles": [
+      "OWNER",
+      "FINAL_PUBLISHER",
+      "RELEASE_APPROVER"
+    ],
+    "writeback": "FORBIDDEN"
+  }
+}
