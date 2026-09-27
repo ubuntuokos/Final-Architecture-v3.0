@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: python -m py_compile src/fa3_orchestration_workforce.py src/fa3_orchestration_provider_spi.py src/fa3_orchestration_workforce_gate.py
-      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_orchestration_workforce*.py' -v
+      - run: bash bin/fa3-test -v tests/test_orchestration_workforce*.py
       - run: |
           ./bin/fa3-enforce uaf
           ./bin/fa3-enforce ai-comms
