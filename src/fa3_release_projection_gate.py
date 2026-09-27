@@ -48,6 +48,7 @@ STORY_PRESENTATION_GATE_PATH = "src/fa3_story_presentation_gate.py"
 STORY_PRESENTATION_TEST_PATH = "tests/test_story_presentation_gate.py"
 STORY_PRESENTATION_INTENT_PATH = "canonical/intents/FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001.json"
 STORY_PRESENTATION_REUSE_PATH = "canonical/assessments/FA3-STORY-PRESENTATION-FABRIC-REUSE-ASSESSMENT-001.json"
+STORY_PRESENTATION_DECISION_ASSESSMENT_PATH = "canonical/assessments/FA3-STORY-PRESENTATION-DECISION-ASSESSMENT-2026-09-27.json"
 AUTOGPT_PROVIDER_ID = "FA3-PROVIDER-AUTOGPT-001"
 AUTOGPT_GATE_ID = "FA3-AUTOGPT-GATESET-001"
 AUTOGPT_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json"
@@ -1006,6 +1007,7 @@ def gate(root: Path):
         STORY_PRESENTATION_TEST_PATH,
         STORY_PRESENTATION_INTENT_PATH,
         STORY_PRESENTATION_REUSE_PATH,
+        STORY_PRESENTATION_DECISION_ASSESSMENT_PATH,
     }
     forbidden_active_presenton_paths = {
         "canonical/presenton-enforcement.json",
@@ -1020,6 +1022,7 @@ def gate(root: Path):
         "deployment/presenton/postgresql-bootstrap.sql",
         "deployment/presenton/presenton.caddy",
         "deployment/presenton/fa3-presenton.container",
+        "deployment/presenton/presenton.container",
     }
     required_overlay_members = {
         "provider_records": [PRESENTON_PROVIDER_PATH],
