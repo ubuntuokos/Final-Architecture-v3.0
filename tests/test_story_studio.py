@@ -2,6 +2,8 @@ import unittest
 
 from fa3_story_studio import (
     StoryStudioError,
+    add_collaboration_comment,
+    apply_collaborative_edit,
     create_branch,
     issue_final_release,
     new_reference_project,
@@ -18,6 +20,56 @@ class StoryStudioTests(unittest.TestCase):
         result = validate_project(new_reference_project())
         self.assertEqual(result["result"], "PASS")
         self.assertEqual(result["collaborators"], 2)
+
+    def test_collaborative_edit_is_attributed_and_revisioned(self):
+        p = new_reference_project()
+        revision = apply_collaborative_edit(
+            p,
+            actor_id="writer-b",
+            document_id="screenplay-1",
+            base_revision=0,
+            content="INT. ROOM — DAY",
+            change_summary="Open scene",
+        )
+        self.assertEqual(revision["revision"], 1)
+        self.assertEqual(revision["author"], "writer-b")
+        self.assertEqual(p["documents"][0]["revision"], 1)
+
+    def test_stale_collaborative_edit_fails_closed(self):
+        p = new_reference_project()
+        apply_collaborative_edit(
+            p,
+            actor_id="writer-a",
+            document_id="screenplay-1",
+            base_revision=0,
+            content="Version A",
+            change_summary="First edit",
+        )
+        with self.assertRaises(StoryStudioError):
+            apply_collaborative_edit(
+                p,
+                actor_id="writer-b",
+                document_id="screenplay-1",
+                base_revision=0,
+                content="Stale Version B",
+                change_summary="Conflicting edit",
+            )
+
+    def test_collaborator_can_comment_without_edit_authority(self):
+        p = new_reference_project()
+        p["collaboration"]["members"].append(
+            {"actor_id": "reviewer", "display_name": "Reviewer", "roles": ["COMMENTER"]}
+        )
+        comment = add_collaboration_comment(
+            p, actor_id="reviewer", document_id="screenplay-1",
+            body="Check this dialogue.", anchor="scene-1/dialogue-2",
+        )
+        self.assertEqual(comment["author"], "reviewer")
+        with self.assertRaises(StoryStudioError):
+            apply_collaborative_edit(
+                p, actor_id="reviewer", document_id="screenplay-1",
+                base_revision=0, content="Not allowed", change_summary="Edit",
+            )
 
     def test_nested_branches_supported(self):
         p = new_reference_project()
