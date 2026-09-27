@@ -8,6 +8,11 @@ on:
       - '.github/workflows/fa3-khronos-current-host.yml'
       - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   workflow_dispatch:
+
+concurrency:
+  group: fa3-khronos-current-host-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   materialize-source:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
