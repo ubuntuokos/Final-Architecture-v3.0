@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AUDACITY-MCP-2026-09-28",
+  "date": "2026-09-28",
+  "status": "CANONICAL_DECISION",
+  "title": "Materialize CAP-124 Audacity MCP provider boundary without adding capability or authority",
+  "decision": "MATERIALIZE_PROVIDER_ADAPTER_AND_REFERENCE_BOUNDARIES",
+  "capability_id": "CAP-124",
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "hardware_audit": {
+    "result": "DESIGN_PASS_RUNTIME_EVIDENCE_SEPARATE",
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "vendor_neutral": true,
+    "wayland_preferred_x11_supported": true,
+    "fixed_hardware_placement": "FORBIDDEN"
+  },
+  "final_disposition": {
+    "audacity": "REQUIRED_SUPPORTED_HUMAN_WAVEFORM_REPAIR_UTILITY_REFERENCE",
+    "xdarkzx_audacity_mcp": "REQUIRED_SUPPORTED_PRIMARY_REFERENCE_ADAPTER_AUDACITY_3_X_ONLY",
+    "dream_pixels_forge_audacity_mcp": "OPTIONAL_SECONDARY_DSP_QA_PATTERN_SOURCE",
+    "audacity_4_companion_fork": "NOT_BASELINE_ADMITTED",
+    "openvino": "EXISTING_OPTIONAL_INFERENCE_PROVIDER_REMAINS_SEPARATE_NOT_AUDACITY_AUTHORITY"
+  },
+  "rules": [
+    "CAP-124 remains the sole capability projection; no duplicate audio-edit capability is created.",
+    "Central MCP Gateway remains the only canonical MCP/tool execution boundary.",
+    "The xDarkzx upstream installer is not executed by FA3 because it can modify Audacity and Claude Desktop configuration.",
+    "Audacity 4 is fail-closed for the xDarkzx provider until a stable admitted automation interface exists; no implicit GUI automation fallback.",
+    "OpenVINO stays an optional inference provider behind existing Model Router/HRB admission.",
+    "Ardour remains the primary human audio finishing DAW provider; Audacity is repair/utility editing.",
+    "Provider absence or incompatibility cannot fail unrelated FA3 audio capabilities."
+  ],
+  "supersedes_legacy_pr_intent": "PR_213_AUDACITY_OPENVINO_MATERIALIZATION_IS_RECONCILED_BY_CAP_124_AND_THIS_PROVIDER_BOUNDARY",
+  "runtime_promotion": "CURRENT_HOST_E2E_REQUIRED_SEPARATELY"
+}

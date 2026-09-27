@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AUDACITY-MCP-APPLICATION-INTENT-001",
+  "project_id": "FA3-AUDACITY-MCP-CAP124-2026-09-28",
+  "project_type": "INTEGRATION",
+  "goal": "Materialize the existing CAP-124 Audacity waveform-repair, utility-editing and MCP integration boundary using replaceable external providers while preserving Central MCP Gateway, Model Router, HRB, security/evidence authorities, Ardour finishing authority, native .aup3 projects and host non-interference.",
+  "required_capabilities": [
+    "CAP-124",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "waveform-repair-and-utility-editing",
+    "audacity-agent-control",
+    "local-audio-dsp-quality-assurance",
+    "software-coexistence-and-host-non-interference"
+  ],
+  "task_classes": [
+    "audio-editing",
+    "audio-repair",
+    "mcp-provider-integration",
+    "local-dsp",
+    "capability-probing"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "AUDIO_ASSET",
+    "AUDACITY_PROJECT",
+    "AUDACITY_CAPABILITY_OBSERVATION"
+  ],
+  "output_modalities": [
+    "DERIVED_AUDIO_ASSET",
+    "AUDACITY_PROJECT",
+    "AUDIO_QA_DELTA",
+    "PROVENANCE_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_CURRENT_HOST_AUDACITY_MCP_E2E_EVIDENCE_PENDING",
+    "AUDACITY_4_STABLE_AUTOMATION_INTERFACE_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-audacity",
+    "service_prefix": "fa3-audacity",
+    "config_root": "$XDG_CONFIG_HOME/fa3/audacity",
+    "cache_root": "$XDG_CACHE_HOME/fa3/audacity",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/audacity",
+    "socket_namespace": "fa3/audacity",
+    "data_root": "$XDG_DATA_HOME/fa3/audacity",
+    "desktop_prefix": "org.fa3.audacity",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "CENTRAL_MCP_GATEWAY_REQUIRED",
+    "DESTRUCTIVE_MUTATION_APPROVAL_GATED",
+    "SOURCE_OVERWRITE_DEFAULT_DENY",
+    "RECORDING_AND_MICROPHONE_ACTIVATION_APPROVAL_GATED",
+    "EXPORT_PATH_POLICY_ALLOWLIST"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-001"
+  ]
+}

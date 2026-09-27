@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ee8fdd2290adf4316e8dd729af7c075915b03745",
-    "pre_projection_root_tree_sha": "9386fc456de7d11be298fa8995dd7e34fc347c5a",
-    "pre_projection_canonical_tree_sha": "fd0190c51ddc188777dafec6a66398c98fd4964e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1316,
-    "total_post_baseline_commits": 1316,
-    "delta_file_count": 2402,
-    "delta_added_files": 2396,
+    "pre_projection_head_sha": "19fc7abbfd1f49affd624b901b6132565a6e6b79",
+    "pre_projection_root_tree_sha": "25e8afa5b0d2fa1bc0a2ad8e5d37c2b8aac9851b",
+    "pre_projection_canonical_tree_sha": "752c29f163e9292d1e7071ab47d75280ff63c575",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1336,
+    "total_post_baseline_commits": 1336,
+    "delta_file_count": 2414,
+    "delta_added_files": 2408,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1168,
+    "canonical_files_in_post_baseline_delta": 1176,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 325,
-    "test_files_in_post_baseline_delta": 260,
-    "workflow_files_in_post_baseline_delta": 116,
+    "source_files_in_post_baseline_delta": 326,
+    "test_files_in_post_baseline_delta": 261,
+    "workflow_files_in_post_baseline_delta": 117,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -61,6 +61,9 @@
       "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
       "canonical/providers/FA3-PROVIDER-ANY-GUARDRAIL-001.json",
       "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
+      "canonical/providers/FA3-PROVIDER-AUDACITY-001.json",
+      "canonical/providers/FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001.json",
+      "canonical/providers/FA3-PROVIDER-AUDACITY-MCP-001.json",
       "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json",
       "canonical/providers/FA3-PROVIDER-BROWSER-CDP-001.json",
       "canonical/providers/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json",
@@ -310,6 +313,7 @@
       "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-APPLICATION-INTENT-001.schema.json",
+      "canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
@@ -453,6 +457,7 @@
       "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-ANY-GUARDRAIL-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-AUDACITY-MCP-2026-09-28.json",
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BROWSER-ACTION-RUNTIME-JEV-ULTRAFAST-2026-09-23.json",
@@ -997,7 +1002,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2392,
+  "manifest_entry_count": 2404,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1062,6 +1067,11 @@
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
       "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-audacity-mcp.yml",
+      "git_blob_sha": "3d7493069a1bc1320df0d473143b7fb78d442528",
       "baseline_delta_status": "added"
     },
     {
@@ -3875,6 +3885,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-AUDACITY-MCP-DECISION-ASSESSMENT-2026-09-28.json",
+      "git_blob_sha": "67f06a010f26870a491e1c603e8eec8efb404fbc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-AUDACITY-MCP-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "b3fadfd48d7154bfd3840da77d107dec914dfb68",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-AUTHENTICATED-APPROVAL-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "537136255255fc8092384d6d00922a2ab5833e21",
       "baseline_delta_status": "added"
@@ -4267,6 +4287,11 @@
     {
       "path": "canonical/contracts/FA3-APPLICATION-INTENT-001.schema.json",
       "git_blob_sha": "4fe311eb03a0c5610f88c193fa4f1b090a3b7a94",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json",
+      "git_blob_sha": "e3f215e7d00b43b81489eb8cf1f437f0be40fb85",
       "baseline_delta_status": "added"
     },
     {
@@ -5035,6 +5060,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-AUDACITY-MCP-2026-09-28.json",
+      "git_blob_sha": "a75940721c88c1bc3bb64ddbc121052229e6bc31",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "git_blob_sha": "6e3bc95d58f3ea20adc3e109b209eab72323763c",
       "baseline_delta_status": "added"
@@ -5776,12 +5806,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "6e83882691939b82a6f7a39990e0b9fbee54d038",
+      "git_blob_sha": "d7f0833355ea85413dab21d6edd13d29a0adeacb",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "505d06c92adf77d9e31dd23d4b24fde032e8ed98",
+      "git_blob_sha": "4d8c84f071035ccdb00ac55e5ea6d2791b8107ce",
       "baseline_delta_status": "added"
     },
     {
@@ -5942,6 +5972,11 @@
     {
       "path": "canonical/intents/FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "205759d7792bd7f292cfeec41ddac2ee43795f41",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-AUDACITY-MCP-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "5935b83048a665652f96eea82653915048491126",
       "baseline_delta_status": "added"
     },
     {
@@ -6902,6 +6937,21 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
       "git_blob_sha": "48367b1dc57dc7cb9e7431979487abeb82f04145",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-AUDACITY-001.json",
+      "git_blob_sha": "4224ece6531fa765694728d8397be9f4d7cc53be",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001.json",
+      "git_blob_sha": "d6ed675e4141cc6f67637869db608a63beae9607",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-AUDACITY-MCP-001.json",
+      "git_blob_sha": "ba2d8d1aa3629a821bead938eba3f364e5a41218",
       "baseline_delta_status": "added"
     },
     {
@@ -8485,6 +8535,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-AUDACITY-MCP-001.md",
+      "git_blob_sha": "4c6d28681f10dc5fba7d72a0191e018e4f836b2e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-DEV-UPDATE-FABRIC-001.md",
       "git_blob_sha": "40f841fb1f2f4c64d85e57fb20151ee9d5a554f3",
       "baseline_delta_status": "added"
@@ -10057,6 +10112,11 @@
     {
       "path": "src/fa3_ai_infra_guard_gate.py",
       "git_blob_sha": "58e342713523a7d9c05b7bd95e50b5c2d02d6c79",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_audacity_mcp_gate.py",
+      "git_blob_sha": "56d3907c209683a135381bf885f1d59b801f3614",
       "baseline_delta_status": "added"
     },
     {
@@ -11662,6 +11722,11 @@
     {
       "path": "tests/test_ai_studio_app_lifecycle.py",
       "git_blob_sha": "3e56d5ac8f622f0d1596e288fd9ab70b0cb553b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_audacity_mcp_gate.py",
+      "git_blob_sha": "93261f9074d05c2346b732cd136a5f0aa9d60503",
       "baseline_delta_status": "added"
     },
     {
