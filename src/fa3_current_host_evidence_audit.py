@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
+from fa3_evidence_validation import validate_capability_receipt
 
 import argparse
 import hashlib
@@ -71,115 +72,7 @@ def _test_ok(test: Any, expected_id: str) -> tuple[bool, str | None]:
 
 
 def validate_receipt(root: Path, record: dict[str, Any]) -> dict[str, Any]:
-    cap = record.get("subject_id")
-    rel = f"evidence/receipts/capabilities/{cap}.json"
-    path = root / rel
-    findings: list[str] = []
-    if not path.is_file():
-        return {"qualified": False, "receipt": rel, "findings": ["receipt missing"]}
-
-    try:
-        receipt = _load(path)
-    except Exception as exc:
-        return {"qualified": False, "receipt": rel, "findings": [f"receipt unreadable: {exc}"]}
-
-    if receipt.get("schema") != RECEIPT_SCHEMA:
-        findings.append("receipt schema mismatch")
-    if receipt.get("subject_id") != cap:
-        findings.append("receipt subject_id mismatch")
-    if receipt.get("status") != "PASS":
-        findings.append("receipt status is not PASS")
-    if receipt.get("execution_scope") != "CURRENT_HOST":
-        findings.append("execution_scope is not CURRENT_HOST")
-    if receipt.get("current_host") is not True:
-        findings.append("current_host flag is not true")
-    if receipt.get("synthetic") is not False:
-        findings.append("synthetic evidence cannot promote a capability")
-    if receipt.get("ci_reference_only") is not False:
-        findings.append("CI/reference-only evidence cannot promote a capability")
-
-    fingerprint = receipt.get("host_fingerprint_sha256")
-    if not isinstance(fingerprint, str) or not HEX64.fullmatch(fingerprint):
-        findings.append("host_fingerprint_sha256 missing/invalid")
-
-    collected = _parse_time(receipt.get("collected_at"))
-    expires = _parse_time(receipt.get("expires_at"))
-    if collected is None:
-        findings.append("collected_at missing/invalid")
-    if expires is None:
-        findings.append("expires_at missing/invalid")
-    elif collected is not None and expires <= collected:
-        findings.append("expires_at must be after collected_at")
-    elif expires <= datetime.now(timezone.utc):
-        findings.append("receipt expired")
-
-    tests = receipt.get("tests", {})
-    for key, expected in (
-        ("positive", record.get("required_positive_test")),
-        ("negative", record.get("required_negative_test")),
-        ("rollback", record.get("rollback_requirement")),
-    ):
-        ok, why = _test_ok(tests.get(key), str(expected or ""))
-        if not ok:
-            findings.append(why or f"{key} test invalid")
-
-    artifacts = receipt.get("evidence_artifacts")
-    artifact_hashes: set[str] = set()
-    artifact_paths: set[str] = set()
-    if not isinstance(artifacts, list) or not artifacts:
-        findings.append("evidence_artifacts must be non-empty")
-    else:
-        for item in artifacts:
-            if not isinstance(item, dict):
-                findings.append("evidence_artifact entry invalid")
-                continue
-            rel_path = item.get("path")
-            digest = item.get("sha256")
-            if not isinstance(rel_path, str) or not rel_path or Path(rel_path).is_absolute():
-                findings.append("evidence_artifact path missing/absolute")
-                continue
-            if not isinstance(digest, str) or not HEX64.fullmatch(digest):
-                findings.append("evidence_artifact sha256 invalid")
-                continue
-            candidate = (root / rel_path).resolve()
-            if candidate == root or root not in candidate.parents:
-                findings.append("evidence_artifact path escapes repository")
-                continue
-            if not candidate.is_file():
-                findings.append(f"evidence_artifact missing: {rel_path}")
-                continue
-            actual = _sha256_file(candidate)
-            if actual != digest:
-                findings.append(f"evidence_artifact digest mismatch: {rel_path}")
-                continue
-            artifact_hashes.add(digest)
-            artifact_paths.add(rel_path)
-
-    host_rel = receipt.get("host_fingerprint_path")
-    if not isinstance(host_rel, str) or not host_rel or Path(host_rel).is_absolute():
-        findings.append("host_fingerprint_path missing/absolute")
-    else:
-        host_path = (root / host_rel).resolve()
-        if host_path == root or root not in host_path.parents or not host_path.is_file():
-            findings.append("host_fingerprint_path missing or escapes repository")
-        elif _sha256_file(host_path) != fingerprint:
-            findings.append("host fingerprint file digest mismatch")
-        elif host_rel not in artifact_paths or fingerprint not in artifact_hashes:
-            findings.append("host fingerprint must be a verified evidence artifact")
-
-    for key in ("positive", "negative", "rollback"):
-        test = tests.get(key)
-        digest = test.get("artifact_sha256") if isinstance(test, dict) else None
-        if isinstance(digest, str) and HEX64.fullmatch(digest) and digest not in artifact_hashes:
-            findings.append(f"{key} test artifact hash is not bound to a verified evidence artifact")
-
-    return {
-        "qualified": not findings,
-        "receipt": rel,
-        "receipt_sha256": _sha256_file(path),
-        "expires_at": receipt.get("expires_at"),
-        "findings": findings,
-    }
+    return validate_capability_receipt(root, record)
 
 
 def _activation_class(record: dict[str, Any]) -> str:
