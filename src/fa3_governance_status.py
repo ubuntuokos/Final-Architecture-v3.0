@@ -60,6 +60,7 @@ def _artifact_binding(root: Path, rel: str) -> dict[str, Any]:
             obj.get("run_id"),obj.get("workflow_run_id"),
             obj.get("source",{}).get("run_id") if isinstance(obj.get("source"),dict) else None,
         ],
+        "collected_at":[obj.get("collected_at"),obj.get("created_at"),obj.get("generated_at")],
         "expires_at":[obj.get("expires_at"),obj.get("expiry"),obj.get("valid_until")],
         "host_id":[obj.get("host_id"),obj.get("machine_id"),obj.get("runner_name")],
     }
@@ -107,8 +108,10 @@ def project(root: Path, *, now: datetime | None=None) -> dict[str, Any]:
     if acceptance is not None:
         acceptance_state=str(acceptance.get("result") or acceptance.get("status") or "UNKNOWN_OR_PENDING")
     promotion_state="UNKNOWN_OR_PENDING"
+    promotion_id=None
     if promotion is not None:
         promotion_state=str(promotion.get("state") or promotion.get("status") or promotion.get("result") or "UNKNOWN_OR_PENDING")
+        promotion_id=promotion.get("promotion_id") or promotion.get("id")
 
     current_host_pass=sum(1 for r in records if isinstance(r,dict) and str(r.get("status","")).upper() in {"PASS","CURRENT_HOST_PASS","CURRENT_HOST_ADMITTED"})
     current_host_pending=sum(1 for r in records if isinstance(r,dict) and "PENDING_CURRENT_HOST" in str(r.get("status","")).upper())
@@ -119,6 +122,8 @@ def project(root: Path, *, now: datetime | None=None) -> dict[str, Any]:
         "generated_at":now.isoformat(),
         "non_authoritative":True,
         "source_of_truth":False,
+        "assurance_state":"UNKNOWN_OR_PENDING",
+        "canonical_state":"UNKNOWN_OR_PENDING",
         "repository":{
             "head_commit":_git_head(root),
             "release":baseline.release,
@@ -150,6 +155,7 @@ def project(root: Path, *, now: datetime | None=None) -> dict[str, Any]:
             "path":"promotion/runtime-status.json",
             "present":promotion is not None,
             "state":promotion_state,
+            "promotion_id":promotion_id,
             "inferred":False,
         },
         "invariants":{
@@ -179,6 +185,8 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append({"code":"GSTAT-005","message":"missing promotion output was inferred as a state"})
     if p.get("current_host_runtime_promotion_claim") is not False:
         findings.append({"code":"GSTAT-006","message":"status projection claimed runtime promotion"})
+    if p.get("assurance_state") != "UNKNOWN_OR_PENDING" or p.get("canonical_state") != "UNKNOWN_OR_PENDING":
+        findings.append({"code":"GSTAT-007","message":"assurance/canonical state was inferred without an explicit authoritative current-state source"})
     return {
         "schema":"fa3.governance-status-gate-report.v1",
         "gate_id":STATUS_GATE_ID,
