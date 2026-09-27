@@ -103,7 +103,8 @@
     "FA3-CAPTION-SUBTITLE-GATESET-001",
     "FA3-CAPABILITY-MODEL-175-GATESET-001",
     "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
-    "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001"
+    "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+    "FA3-STORY-STUDIO-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -2057,5 +2058,37 @@
   "ai_engineering_pattern_bundle_id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
   "ai_engineering_reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
   "ai_engineering_runtime_provider": false,
-  "ai_engineering_current_host_runtime_evidence_required": false
+  "ai_engineering_current_host_runtime_evidence_required": false,
+  "story_studio_profile_id": "FA3-STORY-STUDIO-001",
+  "story_studio_contract_id": "FA3-STORY-STUDIO-CONTRACTS-001",
+  "story_studio_gate_id": "FA3-STORY-STUDIO-GATESET-001",
+  "story_studio_capability_bindings": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-168",
+    "CAP-170",
+    "CAP-171",
+    "CAP-172",
+    "CAP-173"
+  ],
+  "story_studio_mandatory_p0_rules": [
+    "ONE_NATIVE_STORY_STUDIO_INSIDE_CONTROL_CENTER",
+    "PRODUCTION_PROFILE_REQUIRED",
+    "MULTI_AUTHOR_ATTRIBUTION_REQUIRED",
+    "FINAL_RELEASE_BY_DESIGNATED_PUBLISHER_ONLY",
+    "ALL_DESIGNATED_POLICY_REQUIRES_ALL_APPROVALS",
+    "REJECTED_CONTENT_STASH_REQUIRED",
+    "STASH_TO_STANDALONE_NOTE_REQUIRED",
+    "ARBITRARY_DEPTH_BRANCH_GRAPH_REQUIRED",
+    "IMPORT_CODEC_REQUIRES_MATCHING_EXPORT_CODEC",
+    "ROUNDTRIP_VALIDATION_REQUIRED",
+    "SILENT_INTERCHANGE_LOSS_FORBIDDEN",
+    "CPU_ONLY_CORE_REQUIRED",
+    "AI_PROVIDER_SELECTION_ONLY_BY_MODEL_ROUTER",
+    "ACCELERATOR_ADMISSION_ONLY_BY_HRB",
+    "NO_HARDWARE_PARAMETER_MUTATION",
+    "NO_UPSTREAM_UNINSTALL_OR_FORMAT_HIJACK",
+    "STATIC_PASS_DOES_NOT_CLAIM_CURRENT_HOST_RUNTIME"
+  ],
+  "story_studio_current_host_runtime_promotion_claim": false
 }
