@@ -17,7 +17,7 @@ Certificate issuance alone never grants an approval role.
 Security Governance's approval **public** key is installed explicitly:
 
 ```bash
-sudo ./bin/fa3-install-security-governance-approval-key.sh /path/to/security-governance-approval.pub
+sudo bash bin/fa3-install-security-governance-approval-key.sh /path/to/security-governance-approval.pub
 ```
 
 This installs only:
