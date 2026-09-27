@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "status": "CANONICAL_MATERIALIZED_CURRENT_HOST_SDK_RUNTIME_PENDING",
+  "capability_bindings": [
+    "CAP-083",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175"
+  ],
+  "provider_neutral": true,
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": {
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "registry": "AUTH-REGISTRY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "physical_vs_logical_cpu_reporting_required": true,
+    "live_capability_discovery_required_for_acceleration": true
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "fail_closed": true,
+    "hardware_parameter_mutation": "DENY",
+    "safety_protection_bypass": "DENY"
+  },
+  "software_coexistence": {
+    "capability": "CAP-175",
+    "namespaced": true,
+    "requires_upstream_uninstall": false,
+    "system_package_replacement": false,
+    "global_environment_mutation": false,
+    "default_port_hijack": false,
+    "install_root": "$XDG_DATA_HOME/fa3/khronos-sdk",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/khronos"
+  },
+  "fabrics": {
+    "host_resource_broker": [
+      "Vulkan-Profiles",
+      "OpenCL-ICD-Loader"
+    ],
+    "shader_fabric": [
+      "glslang",
+      "SPIRV-Tools",
+      "SPIRV-Cross"
+    ],
+    "asset_graph": [
+      "glTF-Validator",
+      "KTX-Software"
+    ],
+    "render_fabric": [
+      "ANARI-SDK",
+      "Vulkan-Loader",
+      "Vulkan-ValidationLayers"
+    ],
+    "xr_provider": [
+      "OpenXR-SDK"
+    ],
+    "compute_provider": [
+      "OpenCL-Headers",
+      "OpenCL-ICD-Loader"
+    ],
+    "vision_fabric": [
+      "OpenVX-sample-impl"
+    ],
+    "model_artifact_fabric": [
+      "NNEF-Tools"
+    ]
+  },
+  "current_host": {
+    "source_materialization": "PENDING_PHYSICAL_CURRENT_HOST",
+    "compiled_sdk_runtime": "PENDING_PHYSICAL_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "global_promotion_claim": false
+  }
+}
