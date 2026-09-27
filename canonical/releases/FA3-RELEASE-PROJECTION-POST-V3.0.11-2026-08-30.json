@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "5709db59257e350604674866e0865bd52bbea8bd",
-    "pre_projection_root_tree_sha": "9eac9c01c7f6e437ca484abb42e8d1d976b99b2c",
-    "pre_projection_canonical_tree_sha": "eb3a66619950ac568f26ba1ad41dfa5828237d4b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1297,
-    "total_post_baseline_commits": 1297,
-    "delta_file_count": 2395,
-    "delta_added_files": 2389,
+    "pre_projection_head_sha": "eac7c1c271df382045b94e8cc60653a7becc647c",
+    "pre_projection_root_tree_sha": "f23b79080c4d40dfa4bc4fd828e0511450f99073",
+    "pre_projection_canonical_tree_sha": "7704b6245d5234bc2e06b715ba4d3987468975a5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1300,
+    "total_post_baseline_commits": 1300,
+    "delta_file_count": 2401,
+    "delta_added_files": 2395,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1164,
+    "canonical_files_in_post_baseline_delta": 1168,
     "evidence_files_in_post_baseline_delta": 169,
-    "source_files_in_post_baseline_delta": 324,
-    "test_files_in_post_baseline_delta": 259,
+    "source_files_in_post_baseline_delta": 325,
+    "test_files_in_post_baseline_delta": 260,
     "workflow_files_in_post_baseline_delta": 116,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -407,6 +407,7 @@
       "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-HOST-PROJECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json",
@@ -577,6 +578,7 @@
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25.json",
+      "canonical/decisions/FA3-DEC-SKILL-FABRIC-V14-ENGINEERING-HARDENING-2026-09-27.json",
       "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
@@ -994,7 +996,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2385,
+  "manifest_entry_count": 2391,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1508,7 +1510,7 @@
     },
     {
       "path": ".github/workflows/fa3-skill-ecosystem.yml",
-      "git_blob_sha": "54cd7a17bc8f04e56f4a3d9419e390f2a7511049",
+      "git_blob_sha": "0d15ebdcd43ae0c6970f26d375948898f3923f96",
       "baseline_delta_status": "added"
     },
     {
@@ -2583,7 +2585,7 @@
     },
     {
       "path": "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json",
-      "git_blob_sha": "a060d5741cf5b77a7c59ff9daa0975663420abed",
+      "git_blob_sha": "f4cfbfef6e2d025cff10db700400246a5aada365",
       "baseline_delta_status": "added"
     },
     {
@@ -3018,7 +3020,7 @@
     },
     {
       "path": "canonical/FA3-GATE-SKILL-FABRIC-001.json",
-      "git_blob_sha": "e8c3018477141a414889d6b885d59620a79b82cb",
+      "git_blob_sha": "d712f3a3187619ed9fcd761d38364e842ac0e3da",
       "baseline_delta_status": "added"
     },
     {
@@ -4752,6 +4754,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json",
+      "git_blob_sha": "e044ff65cbad45c9b86d8c9655464645ab0dc7ad",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json",
       "git_blob_sha": "65a924ca0edcd8040df9914a55b4a0aaa51370d8",
       "baseline_delta_status": "added"
@@ -4778,7 +4785,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
-      "git_blob_sha": "d804988ff0c30b2fc31b45bfe5b26d53e3d3f70e",
+      "git_blob_sha": "cc3cd2c849dce67e4b4ec1ebb961c7901fee7d71",
       "baseline_delta_status": "added"
     },
     {
@@ -5649,6 +5656,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25.json",
       "git_blob_sha": "3a1a3ecb1b157a8f42deb8deba4e533f3deff7e8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SKILL-FABRIC-V14-ENGINEERING-HARDENING-2026-09-27.json",
+      "git_blob_sha": "b5de123ebd74f917b9696e321564dc8ac24ae67c",
       "baseline_delta_status": "added"
     },
     {
@@ -6778,7 +6790,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SKILL-FABRIC-001.json",
-      "git_blob_sha": "f43ef9f34e45a6bd2fe6c36d71216a648128b6d8",
+      "git_blob_sha": "88937ac8b03e645506b157f9a71e184baaab65aa",
       "baseline_delta_status": "added"
     },
     {
@@ -8102,13 +8114,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/skill-artifact-bindings.json",
+      "git_blob_sha": "64fa46c7c08f7416ddc00c8e24482cc3e1bac9d9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/skill-fabric-enforcement.json",
-      "git_blob_sha": "df14f98ac33cda2d59da5e0984daba172ec61d92",
+      "git_blob_sha": "23d10b03be5d0db5514b18ba5c163ee26c669862",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/skill-registry.json",
       "git_blob_sha": "cbdc7309e3269da130ba0b74da762b27f3882253",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/skill-rejected-change-ledger.json",
+      "git_blob_sha": "9eec951797e0699f0c788bc8ec6bab98df504576",
       "baseline_delta_status": "added"
     },
     {
@@ -11388,17 +11410,22 @@
     },
     {
       "path": "src/fa3_skill_ecosystem_gate.py",
-      "git_blob_sha": "50cc4a3de16c60c49f283d9623ba49378d75909a",
+      "git_blob_sha": "0b72ad8a824111891878d4977f412df78970f0a3",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_skill_fabric_gate.py",
-      "git_blob_sha": "61e34e379854375faa4b4788f71291ee95d074e3",
+      "git_blob_sha": "e349a3f01f06c46258f609bed488bcd1bfd2a07c",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_skill_fabric_v13.py",
-      "git_blob_sha": "5936678fb396e1ecfcf4eaa87444dea0560fbc0c",
+      "git_blob_sha": "a5037d0f428876744e84b34ba0bb56c1a1a31d2b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_skill_fabric_v14.py",
+      "git_blob_sha": "d461a6a9999e87e7da4ef7ebbff849bb0eb3aa90",
       "baseline_delta_status": "added"
     },
     {
@@ -12704,6 +12731,11 @@
     {
       "path": "tests/test_skill_fabric_v13.py",
       "git_blob_sha": "07b09af5adaab4cbbc639c6622ca522c98b2abb3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_skill_fabric_v14.py",
+      "git_blob_sha": "5fa28162dfc1b4110dc0cc65acf0373dbee761a4",
       "baseline_delta_status": "added"
     },
     {
