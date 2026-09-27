@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV="${FA3_TEST_VENV:-$ROOT/.venv-fa3-test}"
+PYTHON_BIN="${FA3_TEST_PYTHON:-python3}"
+
+if [[ ! -x "$VENV/bin/python" ]]; then
+  if [[ "${FA3_TEST_NO_BOOTSTRAP:-0}" == "1" ]]; then
+    echo "FA3 test venv missing: $VENV" >&2
+    echo "Run without FA3_TEST_NO_BOOTSTRAP or create the venv and install requirements-test.txt." >&2
+    exit 2
+  fi
+  "$PYTHON_BIN" -m venv "$VENV"
+fi
+
+"$VENV/bin/python" -m pip install --disable-pip-version-check -q -r "$ROOT/requirements-test.txt"
+
+export PYTHONPATH="$ROOT/src"
+exec "$VENV/bin/python" -m pytest "$@"
