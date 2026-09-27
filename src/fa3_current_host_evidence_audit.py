@@ -6,6 +6,7 @@ from fa3_evidence_validation import git_head as _git_head, validate_capability_r
 import argparse
 import json
 from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
