@@ -3,9 +3,9 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from src.fa3_current_host_batch_planner import build_plan
-from src.fa3_current_host_capability_qualification_constituent_orchestrator import orchestrate as orchestrate_producers
-from src.fa3_current_host_capability_test_orchestrator import orchestrate as orchestrate_tests
+from fa3_current_host_batch_planner import build_plan
+from fa3_current_host_capability_qualification_constituent_orchestrator import orchestrate as orchestrate_producers
+from fa3_current_host_capability_test_orchestrator import orchestrate as orchestrate_tests
 
 ROOT = Path(__file__).resolve().parents[1]
 
