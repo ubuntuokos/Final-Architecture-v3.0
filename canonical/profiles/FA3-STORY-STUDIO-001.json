@@ -1,0 +1,149 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STORY-STUDIO-001",
+  "name": "FA3 Unified Story Studio — Production-Type-Aware Story, Screenplay & Rundown Authoring",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-168",
+    "CAP-170",
+    "CAP-171",
+    "CAP-172",
+    "CAP-173"
+  ],
+  "contracts": [
+    "FA3-STORY-STUDIO-CONTRACTS-001"
+  ],
+  "application_surface": {
+    "host_application": "FA3 Control Center",
+    "route_id": "create.story-studio",
+    "separate_application_forbidden": true,
+    "separate_desktop_entry_forbidden": true,
+    "native_toolkit": "Qt 6 / QML",
+    "display": "WAYLAND_PRIMARY_X11_SUPPORTED"
+  },
+  "canonical_model": {
+    "story_screenplay_ir": "REQUIRED",
+    "project_graph": "REQUIRED",
+    "narrative_branch_graph": "REQUIRED_ARBITRARY_DEPTH",
+    "production_profile_registry": "REQUIRED",
+    "revision_graph": "REQUIRED",
+    "stash_graveyard": "REQUIRED",
+    "collaboration_state": "REQUIRED",
+    "release_state": "REQUIRED"
+  },
+  "production_profiles": [
+    "FEATURE_FILM",
+    "TV_MOVIE",
+    "TV_SERIES",
+    "COMMERCIAL",
+    "LIVE_BROADCAST",
+    "DOCUMENTARY",
+    "NEWS_MAGAZINE",
+    "ANIMATION",
+    "AUDIO_DRAMA",
+    "STAGE_PLAY",
+    "MUSIC_VIDEO",
+    "SHORT_FORM",
+    "INTERACTIVE",
+    "CUSTOM"
+  ],
+  "mandatory_authoring": [
+    "SCREENPLAY_SEMANTICS",
+    "BEAT_BOARD",
+    "OUTLINE",
+    "TIMELINE_PACING",
+    "MIND_MAP_RELATIONSHIPS",
+    "WRITER_GOALS",
+    "WRITING_STATISTICS",
+    "SPRINT_TIMER",
+    "MIDNIGHT_MODE",
+    "TYPEWRITER_MODE",
+    "FOCUS_MODE",
+    "LINE_PARAGRAPH_SCENE_BRANCH_ALTERNATES",
+    "STORY_STASH_GRAVEYARD",
+    "SEMANTIC_DIFF",
+    "REVISION_HISTORY"
+  ],
+  "collaboration": {
+    "concurrent_multi_author_editing_required": true,
+    "roles": [
+      "OWNER",
+      "AUTHOR",
+      "EDITOR",
+      "COMMENTER",
+      "FINAL_PUBLISHER",
+      "RELEASE_APPROVER"
+    ],
+    "designated_final_publishers_required": true,
+    "release_policies": [
+      "SINGLE_DESIGNATED",
+      "ANY_DESIGNATED",
+      "ALL_DESIGNATED"
+    ],
+    "non_publisher_final_release_forbidden": true,
+    "authorship_and_revision_attribution_required": true,
+    "comments_and_review_required": true
+  },
+  "rejected_content": {
+    "destructive_discard_default": false,
+    "stash_required": true,
+    "save_as_note_required": true,
+    "note_can_be_standalone_document": true,
+    "note_export_required": true,
+    "origin_and_source_location_preserved": true
+  },
+  "interchange": {
+    "canonical_native_project": ".fa3story",
+    "import_export_symmetry_required": true,
+    "silent_loss_forbidden": true,
+    "loss_report_required": true,
+    "families": [
+      "FDX",
+      "FOUNTAIN",
+      "PDF",
+      "TXT",
+      "RTF",
+      "HTML",
+      "MICROSOFT_OFFICE",
+      "LIBREOFFICE_ODF",
+      "OPENOFFICE_ODF_LEGACY",
+      "WPS_OFFICE",
+      "ONLYOFFICE_SUPPORTED_DOCUMENT_FORMATS"
+    ],
+    "unsupported_or_one_way_codec_admission": "DENY"
+  },
+  "authority_boundaries": {
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "security_rights": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_final_release": "AUTH-HUMAN",
+    "model_provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_core_required": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_optional": true,
+    "accelerator_work_requires_hrb": true,
+    "hardware_parameter_mutation": false,
+    "hardware_safety_envelope_applies": true
+  },
+  "coexistence": {
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_format_handler_hijack_forbidden": true,
+    "global_default_app_takeover_forbidden": true
+  },
+  "current_host_runtime_promotion_claim": false
+}
