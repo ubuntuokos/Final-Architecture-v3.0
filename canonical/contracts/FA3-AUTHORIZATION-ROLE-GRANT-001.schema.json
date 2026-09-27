@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-AUTHORIZATION-ROLE-GRANT-001",
+  "title": "FA3 Authorization Role Grant",
+  "type": "object",
+  "required": ["schema","authority","identity","identity_class","certificate_sha256","roles","receipt_types","scope","issued_at","expires_at"],
+  "properties": {
+    "schema":{"const":"fa3.authorization-role-grant.v1"},
+    "authority":{"const":"FA3-AUTH-SECURITY-GOV-001"},
+    "identity":{"type":"string","minLength":1},
+    "identity_class":{"enum":["HUMAN","WORKLOAD"]},
+    "certificate_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "roles":{"type":"array","items":{"enum":["CURRENT_HOST_EVIDENCE_SIGNER","RELEASE_INTEGRITY_SIGNER","INDEPENDENT_REVIEWER","RELEASE_PROMOTER"]},"minItems":1,"uniqueItems":true},
+    "receipt_types":{"type":"array","items":{"enum":["CURRENT_HOST_EVIDENCE_SIGNING","SOURCE_EXCLUSION_SIGNING","RELEASE_INTEGRITY","INDEPENDENT_REVIEW","HUMAN_PROMOTION"]},"minItems":1,"uniqueItems":true},
+    "scope":{"const":"FA3_RELEASE_ACCEPTANCE"},
+    "issued_at":{"type":"string"},
+    "expires_at":{"type":"string"}
+  },
+  "additionalProperties": false
+}

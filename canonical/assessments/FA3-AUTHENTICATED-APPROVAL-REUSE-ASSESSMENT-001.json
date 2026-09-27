@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AUTHENTICATED-APPROVAL-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-AUTHENTICATED-APPROVAL-001",
+  "intent_id": "FA3-AUTHENTICATED-APPROVAL-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AUTHENTICATED-APPROVAL-APPLICATION-INTENT-001.json",
+  "covered_ids": ["FA3-AUTHENTICATED-APPROVAL-001"],
+  "project_status": "CANONICAL_AUTHENTICATED_APPROVAL_MATERIALIZED",
+  "result": "PASS",
+  "selected_reuse": [
+    {"id":"FA3-TRUST-PKI-001","use":"EXISTING_X509_IDENTITY_AND_TRUST_CHAIN"},
+    {"id":"FA3-AUTH-SECURITY-GOV-001","use":"EXISTING_APPROVAL_ROLE_AUTHORIZATION_AUTHORITY"},
+    {"id":"FA3-AUTH-OBS-EVIDENCE-001","use":"EXISTING_EVIDENCE_AUTHORITY"},
+    {"id":"AUTH-HUMAN","use":"EXISTING_HUMAN_PROMOTION_AUTHORITY"}
+  ],
+  "rejected_candidates": [
+    {"id":"BOOLEAN_APPROVAL_FIELDS","reason":"NOT_AUTHENTICATED_OR_CONTENT_BOUND"},
+    {"id":"CERTIFICATE_EQUALS_AUTHORIZATION","reason":"FA3_TRUST_PKI_EXPLICITLY_FORBIDS_CERTIFICATE_ISSUANCE_FROM_GRANTING_APPLICATION_AUTHORIZATION"},
+    {"id":"NEW_APPROVAL_AUTHORITY","reason":"SECURITY_GOVERNANCE_AND_AUTH_HUMAN_ALREADY_OWN_AUTHORIZATION"},
+    {"id":"REUSABLE_PROMOTION_RECEIPT","reason":"PROMOTION_APPROVALS_REQUIRE_REPLAY_PROTECTION"}
+  ],
+  "pattern_reuse": ["FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"],
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result":"PASS",
+    "namespaced":true,
+    "upstream_uninstall_required":false,
+    "global_environment_mutation":false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

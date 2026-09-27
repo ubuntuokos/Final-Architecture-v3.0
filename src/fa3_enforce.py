@@ -4,6 +4,8 @@ import argparse,csv,json,sys
 from pathlib import Path
 from fa3_release_baseline import load_active_release_baseline
 from fa3_evidence_validation import git_head, validate_capability_receipt
+from fa3_authenticated_approval import ApprovalVerificationError, PROMOTION_RECEIPT_FILENAMES, consume_promotion_receipts, ensure_promotion_receipts_unconsumed, requirement_for_filename, sha256_file, verify_receipt_file
+from fa3_authenticated_approval_gate import gate as authenticated_approval_gate
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
@@ -162,6 +164,10 @@ def static_check(root:Path):
     geom=loadj(root/"canonical/geometry-closure.json")
     mapping=loadj(root/"canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json")
     rows=list(csv.DictReader((root/"canonical/conformance-matrix.csv").open(encoding="utf-8-sig",newline="")))
+
+    authenticated_approval_ref=authenticated_approval_gate(root)
+    if authenticated_approval_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-136","Authenticated approval trust boundary gate failed",authenticated_approval_gate=authenticated_approval_ref))
 
     hardware_portability_ref=hardware_portability_gate(root)
     if hardware_portability_ref["result"]!="PASS":
@@ -631,24 +637,35 @@ def runtime_check(root:Path):
     writej(root/"reports/runtime-gate-report.json",rep)
     return rep
 
-def receipt_ok(p:Path,signed=False,human=False,independent=False):
-    if not p.exists(): return False,"missing"
+def receipt_ok(root:Path,p:Path,source_commit:str|None):
+    requirement=requirement_for_filename(p.name)
+    if requirement is not None:
+        if source_commit is None:
+            return False,"current source commit unavailable",None
+        try:
+            result=verify_receipt_file(p,expected_source_commit=source_commit)
+        except ApprovalVerificationError as exc:
+            return False,str(exc),None
+        if not result.get("qualified"):
+            return False,"; ".join(result.get("findings",[])) or "authenticated receipt invalid",result
+        return True,"PASS",result
+    if not p.exists(): return False,"missing",None
     try: d=loadj(p)
-    except Exception: return False,"unreadable"
-    if d.get("status")!="PASS": return False,str(d.get("status","not PASS"))
-    if signed and not d.get("signed"): return False,"not signed"
-    if human and not d.get("approved"): return False,"not approved"
-    if independent and not d.get("independent"): return False,"not independent"
-    return True,"PASS"
+    except Exception: return False,"unreadable",None
+    if d.get("status")!="PASS": return False,str(d.get("status","not PASS")),None
+    return True,"PASS",{"qualified":True,"legacy_domain_receipt":True}
 
 def acceptance_check(root:Path):
     RELEASE,CAPS=active_release_values(root)
     s=static_check(root)
     r=runtime_check(root)
     t=terax_gate(root,require_current_host=True)
+    source_commit=git_head(root)
     results=[]
+    authenticated_receipts=[]
     for i in range(1,20):
         reasons=[]
+        evidence_details=[]
         if i in (1,2):
             ok=s["result"]=="PASS"
             if not ok: reasons=["static/authority structural gate not PASS"]
@@ -658,30 +675,62 @@ def acceptance_check(root:Path):
         else:
             ok=True
             for fn in RECEIPTS[i]:
-                rok,why=receipt_ok(root/"evidence/receipts"/fn,
-                                   signed=(i in (4,19)),
-                                   human=(fn=="human-promotion-receipt.json"),
-                                   independent=(fn=="independent-review.json"))
+                rok,why,detail=receipt_ok(root,root/"evidence/receipts"/fn,source_commit)
+                if detail is not None:
+                    evidence_details.append({"filename":fn,**detail})
+                    if requirement_for_filename(fn) is not None and detail.get("qualified"):
+                        authenticated_receipts.append({"filename":fn,**detail})
                 if not rok:
                     ok=False
                     reasons.append(f"{fn}: {why}")
-        results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons})
+        results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons,"evidence":evidence_details})
     all_ok=all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
-         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
+         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],"source_commit":source_commit,"authenticated_receipts":authenticated_receipts,
          "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
 
 def promote(root:Path):
     RELEASE,_=active_release_values(root)
+    head=git_head(root)
+    existing_path=root/"promotion/runtime-status.json"
+    if existing_path.is_file():
+        try:
+            existing=loadj(existing_path)
+        except Exception:
+            existing={}
+        if existing.get("actual_state")=="PROMOTED" and existing.get("source_commit")==head:
+            return existing,OK
     a=acceptance_check(root)
     allowed=a["status"]=="PASS"
+    consumption=None
+    reason=None
+    if allowed:
+        receipt_paths=[root/"evidence/receipts"/fn for fn in PROMOTION_RECEIPT_FILENAMES]
+        availability=ensure_promotion_receipts_unconsumed(root,receipt_paths)
+        if not availability.get("available"):
+            allowed=False
+            reason="Fail-closed: one or more promotion approval receipts were already consumed or are invalid."
+        else:
+            try:
+                acceptance_digest=sha256_file(root/"acceptance/acceptance-report.json")
+                consumption=consume_promotion_receipts(
+                    root,
+                    receipt_paths,
+                    source_commit=str(head),
+                    acceptance_report_sha256=acceptance_digest,
+                )
+            except ApprovalVerificationError as exc:
+                allowed=False
+                reason=f"Fail-closed: promotion approval receipt consumption failed: {exc}"
+    if not allowed and reason is None:
+        reason="Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, authenticated approvals, and the mandatory Terax gate are PASS."
     state={"schema":"fa3.runtime-status.v1","architecture_release":RELEASE,"target_state":"PROMOTED",
            "actual_state":"PROMOTED" if allowed else "PROMOTION_BLOCKED","promotion_allowed":allowed,"acceptance":a["status"],
-           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, and the mandatory Terax gate are PASS."}
-    writej(root/"promotion/runtime-status.json",state)
+           "source_commit":head,"approval_consumption":consumption,"reason":None if allowed else reason}
+    writej(existing_path,state)
     return state,OK if allowed else BLOCKED
 
 def main():
@@ -689,7 +738,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -699,6 +748,8 @@ def main():
             x=release_projection_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="runtime":
             x=runtime_check(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="authenticated-approval":
+            x=authenticated_approval_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="terax":
             x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kaneo":
