@@ -17,9 +17,10 @@
     "canonical_entrypoint": "bin/fa3-test",
     "runner": "pytest",
     "runner_version": "9.1.1",
-    "isolated_venv": ".venv-fa3-test",
+    "isolated_venv": "${XDG_CACHE_HOME:-$HOME/.cache}/fa3/test-venv",
     "full_suite_source": "tests",
-    "physical_current_host_marker": "physical_current_host"
+    "physical_current_host_marker": "physical_current_host",
+    "repository_worktree_mutation": false
   },
   "repository_prepare": {
     "entrypoint": "bin/fa3-prepare-repository",
