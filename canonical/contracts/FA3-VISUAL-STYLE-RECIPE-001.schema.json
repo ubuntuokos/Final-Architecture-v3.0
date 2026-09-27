@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-VISUAL-STYLE-RECIPE-001.schema.json",
+  "x-fa3-contract-id": "FA3-VISUAL-STYLE-RECIPE-001",
+  "title": "FA3 Visual Style Recipe",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "name",
+    "version",
+    "provider_neutral",
+    "prompt_template",
+    "provenance",
+    "runtime",
+    "recipe_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.visual-style-recipe.v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^fa3\\.visual-style\\.[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_format": {
+      "type": "string"
+    },
+    "provider_neutral": {
+      "const": true
+    },
+    "prompt_template": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_project",
+        "source_revision",
+        "license",
+        "attribution",
+        "source_sha256",
+        "derived"
+      ],
+      "properties": {
+        "source_project": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "derived": {
+          "const": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "fa3_extensions": {
+      "type": "object"
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "model_router_authority",
+        "resource_authority",
+        "fixed_provider",
+        "fixed_model",
+        "fixed_runtime"
+      ],
+      "properties": {
+        "model_router_authority": {
+          "const": "FA3-AUTH-MODEL-ROUTER-001"
+        },
+        "resource_authority": {
+          "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        },
+        "fixed_provider": {
+          "type": "null"
+        },
+        "fixed_model": {
+          "type": "null"
+        },
+        "fixed_runtime": {
+          "type": "null"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recipe_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": true
+}
