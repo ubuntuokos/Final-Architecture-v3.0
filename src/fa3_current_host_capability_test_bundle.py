@@ -394,6 +394,8 @@ def materialize(root: Path) -> dict[str, Any]:
         "ci_reference_results_allowed": False,
         "provider_receipt_substitution_allowed": False,
         "generic_host_evidence_substitution_allowed": False,
+        "source_commit_required": True,
+        "source_commit_semantics": "EXACT_REPOSITORY_REVISION_EXECUTED_BY_THE_CURRENT_HOST_TEST",
         "capabilities": plan_rows,
     }
     _write(root / ".fa3-current-host/test-plan/capabilities.json", plan)
@@ -435,6 +437,7 @@ def materialize(root: Path) -> dict[str, Any]:
             "exact_registry_test_ids_required": True,
             "positive_negative_rollback_required_for_bundle": True,
             "single_host_fingerprint_required_per_bundle": True,
+            "single_source_commit_required_per_bundle": True,
             "all_artifacts_must_be_hash_bound": True,
         },
     }
