@@ -10,7 +10,7 @@ class ReproducibilityGateTests(unittest.TestCase):
     def test_gate_passes_and_has_no_runtime_claim(self):
         result = evaluate(ROOT)
         self.assertEqual("PASS", result["result"], result)
-        self.assertEqual({"passed": 18, "total": 18}, result["summary"])
+        self.assertEqual({"passed": 19, "total": 19}, result["summary"])
         self.assertFalse(result["current_host_runtime_promotion_claim"])
 
 
