@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_current_host_closure_assertion import assert_current_host_closure
+from fa3_current_host_closure_assertion import assert_current_host_closure
 
 
 class CurrentHostClosureAssertionTests(unittest.TestCase):
