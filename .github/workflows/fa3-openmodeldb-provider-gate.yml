@@ -27,6 +27,6 @@ jobs:
         with:
           python-version: '3.12'
       - name: OpenModelDB provider fail-closed gate
-        run: python -m unittest tests.test_openmodeldb_provider_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_openmodeldb_provider_gate -v
       - name: Existing Model Manager v2 regression gate
-        run: python -m unittest tests.test_model_manager_v2_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_model_manager_v2_gate -v
