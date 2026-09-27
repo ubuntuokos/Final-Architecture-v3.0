@@ -11,4 +11,21 @@ class KhronosOpenStandardsTests(unittest.TestCase):
   self.assertEqual(15,len(EXPECTED));self.assertEqual(4,len(EXPECTED_BUILD_DEPS))
  def test_adapter_registry_non_authoritative(self):
   r=load_registry(ROOT);self.assertTrue(r["adapters"]);self.assertTrue(all(x["authority"] is False for x in r["adapters"]))
+ def test_dedicated_current_host_executes_physical_cap083_proof(self):
+  text=(ROOT/".github/workflows/fa3-khronos-current-host.yml").read_text(encoding="utf-8")
+  self.assertIn("src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects CAP-083",text)
+  self.assertIn("Assert physical CAP-083 proof payloads",text)
+  self.assertIn(".fa3-current-host/qualification-source-artifacts/**",text)
+  self.assertIn(".fa3-current-host/qualification-constituents/**",text)
+  for path in (
+   "src/fa3_cap083_khronos_current_host.py",
+   "src/fa3_khronos_open_standards_gate.py",
+   "src/fa3_current_host_capability_qualification_constituent_orchestrator.py",
+   "canonical/current-host-capability-proof-recipes.json",
+   "canonical/current-host-capability-qualification-constituent-producers.json",
+   "canonical/current-host-capability-test-qualifications.json",
+   "evidence/evidence-registry.json",
+   "evidence/collect-current-host.sh",
+  ):
+   self.assertIn(f"'{path}'",text)
 if __name__=="__main__":unittest.main()
