@@ -114,6 +114,7 @@ class CurrentHostCapabilityHandoffTests(unittest.TestCase):
             receipt = json.loads(receipt_path.read_text())
             self.assertEqual(receipt["schema"], "fa3.capability-current-host-evidence.v1")
             self.assertEqual(receipt["subject_id"], "CAP-001")
+            self.assertEqual(receipt["source_commit"], "a" * 40)
             self.assertFalse(receipt["handoff"]["provider_receipt_is_capability_authority"])
             self.assertFalse(receipt["handoff"]["global_promotion_claim"])
             self.assertEqual(
