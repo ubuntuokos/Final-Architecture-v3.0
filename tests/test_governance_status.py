@@ -21,6 +21,8 @@ class GovernanceStatusTests(unittest.TestCase):
         self.assertTrue(projection["non_authoritative"])
         self.assertFalse(projection["source_of_truth"])
         self.assertFalse(projection["current_host_runtime_promotion_claim"])
+        self.assertEqual("UNKNOWN_OR_PENDING", projection["assurance_state"])
+        self.assertEqual("UNKNOWN_OR_PENDING", projection["canonical_state"])
         if not (ROOT / "acceptance/acceptance-report.json").is_file():
             self.assertEqual("UNKNOWN_OR_PENDING", projection["acceptance"]["state"])
         if not (ROOT / "promotion/runtime-status.json").is_file():
