@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-REPRODUCIBILITY-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-REPRODUCIBILITY-FABRIC-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Make the full FA3 Python regression suite and release-projection checkout preparation reproducible from one canonical local/CI path while eliminating duplicate Python module identities.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": ["test-reproducibility", "python-module-identity", "git-history-bootstrap"],
+  "task_classes": ["repository-bootstrap", "full-regression", "namespace-audit"],
+  "skill_triggers": [],
+  "input_modalities": ["GIT_REPOSITORY"],
+  "output_modalities": ["TEST_REPORT", "REPOSITORY_PREPARE_REPORT"],
+  "execution_classes": ["CPU_ONLY"],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-reproducibility",
+    "service_prefix": "fa3-reproducibility",
+    "config_root": "pyproject.toml",
+    "cache_root": ".venv-fa3-test",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": ["FA3-REUSE-DISCOVERY-001"]
+}
