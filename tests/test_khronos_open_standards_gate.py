@@ -23,6 +23,7 @@ class KhronosOpenStandardsTests(unittest.TestCase):
   self.assertIn("evidence/receipts/capabilities/CAP-083.json",text)
   self.assertIn("evidence/evidence-registry.json",text)
   self.assertIn('cap83.get("runtime_conformance") != "CURRENT_HOST_EVIDENCE_PASS"',text)
+  self.assertIn('handoff.get("global_promotion_claim") is not False',text)
   for path in (
    "src/fa3_cap083_khronos_current_host.py",
    "src/fa3_khronos_open_standards_gate.py",
