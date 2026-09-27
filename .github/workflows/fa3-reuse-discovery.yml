@@ -44,9 +44,9 @@ jobs:
       - name: Syntax
         run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py
       - name: Reuse discovery regressions
-        run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
+        run: bash bin/fa3-test -v tests/test_reuse_discovery_gate.py
       - name: Full repository unit regression
-        run: PYTHONPATH=src python -m unittest discover -s tests -v
+        run: bash bin/fa3-test -v
       - name: Hardware audit remains vendor-neutral
         run: ./bin/fa3-enforce hardware-portability
       - name: Unified release projection
