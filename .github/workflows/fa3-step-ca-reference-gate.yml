@@ -33,4 +33,4 @@ jobs:
       - name: Run step-ca canonical gate
         run: PYTHONPATH=src python3 src/fa3_step_ca_gate.py
       - name: Run step-ca unit tests
-        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_step_ca_gate.py' -v
+        run: bash bin/fa3-test -v tests/test_step_ca_gate.py
