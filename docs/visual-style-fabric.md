@@ -52,6 +52,10 @@ FA3 extends the source model with film/3D-oriented fields such as camera languag
 
 A weighted mixture of one or more recipe IDs. Weights are normalized to 1.0. The object is descriptive; it does not pick a model or allocate hardware.
 
+### StyleCompileReceipt
+
+A deterministic compiler resolves declared `{VARIABLE}` placeholders into a derived prompt receipt. Missing required variables fail closed. The receipt is explicitly non-canonical and still contains no provider, model or runtime selection; those remain Model Router responsibilities.
+
 ### VisualIntentIR
 
 A provider-neutral intermediate representation bound to exactly one of:
@@ -107,6 +111,14 @@ PYTHONPATH=src python3 src/fa3_visual_style.py import \
   --source-revision d320e7a99819a54da6ff56abbc19a83fb6741772 \
   --source-license CC-BY-4.0 \
   --attribution @VigoCreativeAI
+```
+
+Compile a provider-neutral derived prompt receipt:
+
+```bash
+PYTHONPATH=src python3 src/fa3_visual_style.py compile \
+  --recipe canonical-recipe.json \
+  --values values.json
 ```
 
 Visual Intent IR:
