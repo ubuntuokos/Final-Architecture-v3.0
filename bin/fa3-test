@@ -2,14 +2,36 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PY="${FA3_TEST_PYTHON:-python3}"
+REQUESTED_PY="${FA3_TEST_PYTHON:-python3}"
+PYTEST_VERSION="9.1.1"
+CACHE_ROOT="${XDG_CACHE_HOME:-${HOME}/.cache}/fa3/test-runtime"
+VENV="${FA3_TEST_VENV:-${CACHE_ROOT}/pytest-${PYTEST_VERSION}}"
 
 export PYTHONPATH="${ROOT}/src"
 export PYTHONNOUSERSITE=1
 
-if ! "${PY}" -c 'import pytest,sys; sys.exit(0 if pytest.__version__ == "9.1.1" else 3)' >/dev/null 2>&1; then
-  echo "FA3 test runner requires pytest==9.1.1 in the selected Python environment." >&2
-  echo "Prepare an isolated test venv with: bash bin/fa3-prepare-repository --venv .venv-fa3-test --fetch" >&2
+has_exact_pytest() {
+  "$1" -c 'import pytest,sys; sys.exit(0 if pytest.__version__ == "9.1.1" else 3)' >/dev/null 2>&1
+}
+
+PY="${REQUESTED_PY}"
+if ! has_exact_pytest "${PY}"; then
+  if [[ "${FA3_TEST_AUTO_BOOTSTRAP:-1}" != "1" ]]; then
+    echo "FA3 test runner requires pytest==${PYTEST_VERSION}; auto-bootstrap disabled." >&2
+    exit 3
+  fi
+  if [[ ! -x "${VENV}/bin/python" ]]; then
+    mkdir -p "$(dirname "${VENV}")"
+    "${REQUESTED_PY}" -m venv "${VENV}"
+  fi
+  PY="${VENV}/bin/python"
+  if ! has_exact_pytest "${PY}"; then
+    "${PY}" -m pip install --disable-pip-version-check --no-input -r "${ROOT}/requirements/test.txt"
+  fi
+fi
+
+if ! has_exact_pytest "${PY}"; then
+  echo "Unable to establish pinned FA3 test runtime pytest==${PYTEST_VERSION}." >&2
   exit 3
 fi
 
