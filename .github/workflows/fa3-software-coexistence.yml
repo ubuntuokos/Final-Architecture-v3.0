@@ -39,7 +39,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_coexistence_audit tests.test_provider_count -v
+        run: PYTHONPATH=src python -m unittest tests.test_coexistence_audit tests.test_provider_count tests.test_story_presentation_gate -v
+      - name: Native Story/Presentation supersedence gate
+        run: PYTHONPATH=src python src/fa3_story_presentation_gate.py --root .
       - name: Derive canonical provider count
         run: PYTHONPATH=src python src/fa3_provider_count.py --root .
       - name: Build coexistence inventory
