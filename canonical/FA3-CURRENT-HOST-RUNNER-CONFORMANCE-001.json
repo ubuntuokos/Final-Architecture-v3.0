@@ -34,7 +34,7 @@
   "service": {
     "manager": "systemd --user",
     "unit": "fa3-github-runner.service",
-    "restart_policy": "on-failure",
+    "restart_policy": "always",
     "linger_required": true
   },
   "evidence": {
