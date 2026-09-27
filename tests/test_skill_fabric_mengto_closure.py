@@ -37,7 +37,7 @@ def test_mengto_is_reference_only_and_not_installed():
     runtime = provider["runtime"]
     assert provider["architectural_authority"] is False
     assert provider["new_capability"] is False
-    assert provider["capability_count"] == CAPABILITY_COUNT
+    assert provider["capability_count"] == 143
     assert runtime["install_MengTo_Skills"] is False
     assert runtime["clone_MengTo_Skills"] is False
     assert runtime["import_python_or_node_package"] is False
