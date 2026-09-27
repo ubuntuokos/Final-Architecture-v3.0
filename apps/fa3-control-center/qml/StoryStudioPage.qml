@@ -29,7 +29,7 @@ Item {
 
     property var workspaceTabs: [
         "Script", "Outline", "Story Branches", "Timeline", "Collaboration",
-        "Rejected / Stash", "Writer Goals", "Interchange", "Presentation", "Dubbing / ADR", "Production"
+        "Rejected / Stash", "Writer Goals", "Interchange", "Presentation", "Dubbing / ADR", "Spoiler / Recap", "Production"
     ]
 
     ColumnLayout {
@@ -441,6 +441,53 @@ Item {
                             onClicked: root.stageActionIntentRequested(
                                 "story.dubbing.recording-plan", "current-dubbing-script",
                                 "Build ADR/dubbing cues through Caption/Voice contracts; no direct provider execution.")
+                        }
+                    }
+                    Item { Layout.fillHeight: true }
+                }
+            }
+
+            Rectangle {
+                color: root.panel; radius: 8; border.color: root.border
+                ColumnLayout {
+                    anchors.fill: parent; anchors.margins: 16; spacing: 10
+                    Label { text: "Spoiler / Recap"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
+                    Label {
+                        text: "A kiválasztott story-revízióból és branchből kontrollált, lineage-et megőrző származtatott összefoglaló készül."
+                        color: root.textMuted; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        ComboBox {
+                            id: spoilerMode
+                            model: ["Spoiler-free teaser", "Light spoiler", "Partial plot", "Full plot", "Ending explained", "Character arc", "Episode recap"]
+                            Layout.preferredWidth: 210
+                        }
+                        ComboBox {
+                            id: spoilerAudience
+                            model: ["Internal review", "Press kit", "Presentation", "Marketing", "Web", "Social"]
+                            Layout.preferredWidth: 160
+                        }
+                    }
+                    Label {
+                        text: "Branch-aware: alternatív történetszálak részletei nem keverhetők. Draft forrás esetén kötelező a draft-jelölés."
+                        color: root.orange; wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: "Disclosure map: minden felfedett fordulat / ending visszaköthető a forrás Story node-hoz."
+                        color: root.green; wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        Button {
+                            text: "Spoiler készítése"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.spoiler.generate", spoilerMode.currentText,
+                                "Generate a branch-bound spoiler derivative through Model Router; canonical Story must remain unchanged.")
+                        }
+                        Button {
+                            text: "Külső publikálás jóváhagyása"
+                            onClicked: root.stageActionIntentRequested(
+                                "story.spoiler.publish", spoilerAudience.currentText,
+                                "External publication requires an authorized release approver.")
                         }
                     }
                     Item { Layout.fillHeight: true }
