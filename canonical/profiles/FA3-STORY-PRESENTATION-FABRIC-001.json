@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STORY-PRESENTATION-FABRIC-001",
+  "name": "FA3 Story Studio, Canonical Document Interchange & Presentation Studio Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-DOC-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_projection": [
+    "CAP-018",
+    "CAP-033",
+    "CAP-170",
+    "CAP-171"
+  ],
+  "canonical_components": {
+    "story_studio": "ONE_FA3_STORY_STUDIO",
+    "story_ir": "ONE_CANONICAL_STORY_SCREENPLAY_IR",
+    "story_graph": "CANONICAL_STORY_GRAPH_WITH_BRANCH_LINEAGE",
+    "document_interchange": "FA3_CANONICAL_DOCUMENT_INTERCHANGE_FABRIC",
+    "presentation_layer": "FA3_PRESENTATION_LAYER_PRESENTATION_STUDIO",
+    "production_profile_registry": "FA3-STORY-PRODUCTION-PROFILE-REGISTRY-001"
+  },
+  "story_presentation_projection": {
+    "story_to_presentation": "CANONICAL_PROJECTION_WITH_LINEAGE_AND_PROVENANCE",
+    "presentation_to_story": "CHANGE_PROPOSAL_REVIEW_COMPARE_EXPLICIT_HUMAN_APPLY",
+    "silent_writeback": false,
+    "external_worker_may_mutate_story": false
+  },
+  "story_authoring_features": [
+    "WRITER_GOALS",
+    "WRITING_STATISTICS",
+    "SPRINT_TIMER",
+    "MIDNIGHT_MODE",
+    "TYPEWRITER_FOCUS_MODE",
+    "ALTERNATIVE_CONTINUATIONS_NARRATIVE_BRANCHING"
+  ],
+  "narrative_branching": {
+    "any_story_point_may_branch": true,
+    "common_canonical_story_graph": true,
+    "independently_editable": true,
+    "independently_versioned": true,
+    "lineage_preserved": true
+  },
+  "production_graph_handoff": [
+    "screenplay",
+    "scene",
+    "script_passage",
+    "shot",
+    "camera_setup",
+    "blocking",
+    "lighting",
+    "schedule",
+    "production_editorial_handoff"
+  ],
+  "presentation_relation_to_production_graph": "SEPARATE_DERIVED_ARTIFACT_NOT_REPLACEMENT",
+  "worker_policy": {
+    "fa3_native_layer_required": true,
+    "external_workers_replaceable": true,
+    "external_worker_is_authority": false,
+    "story_dependency_on_external_worker": false,
+    "presenton_role": [
+      "REFERENCE_ONLY",
+      "SELECTIVE_CODE_DONOR"
+    ],
+    "libreoffice_impress_role": "OPTIONAL_REPLACEABLE_WORKER_IF_ADMITTED"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": "PENDING_CURRENT_HOST",
+  "current_host_runtime_promotion_claim": false,
+  "application_intent": "canonical/intents/FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001.json",
+  "reuse_assessment": "canonical/assessments/FA3-STORY-PRESENTATION-FABRIC-REUSE-ASSESSMENT-001.json",
+  "contract": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
