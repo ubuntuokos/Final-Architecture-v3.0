@@ -142,7 +142,8 @@ def audit(root: Path):
         try: obj=load(p)
         except Exception: continue
         pid=obj.get("id")
-        coverage.append({"kind":"PROVIDER_RUNTIME","id":pid or p.stem,"path":str(p.relative_to(root)),"status":"DECLARED" if pid in footprint_ids else "PENDING_FOOTPRINT"})
+        kind="REFERENCE_ONLY_PROVIDER_SOURCE" if obj.get("status")=="SUPERSEDED" and obj.get("active_runtime_provider") is False else "PROVIDER_RUNTIME"
+        coverage.append({"kind":kind,"id":pid or p.stem,"path":str(p.relative_to(root)),"status":"DECLARED" if pid in footprint_ids else "PENDING_FOOTPRINT"})
 
     pending=sum(1 for r in coverage if r["status"].startswith("PENDING"))
     static_result="PASS" if not findings else "FAIL"
