@@ -48,7 +48,7 @@
     "Vulkan-ValidationLayers": "CURRENT_HOST_VULKAN_VALIDATION",
     "OpenXR-SDK": "XR_PROVIDER",
     "OpenCL-Headers": "COMPUTE_PROVIDER_INTERFACE",
-    "OpenVX-sample-impl": "VISION_FABRIC_REFERENCE_PROVIDER",
+    "OpenVX-sample-impl": "VISION_FABRIC_SAMPLE_IMPLEMENTATION_PATTERN_SOURCE_NOT_PRODUCTION_PROVIDER",
     "NNEF-Tools": "MODEL_ARTIFACT_INTERCHANGE"
   },
   "excluded_runtime_baseline": [
@@ -307,14 +307,15 @@
       "build_system": "UPSTREAM_BUILD",
       "build": true,
       "install_scope": "FA3_PREFIX_OR_ISOLATED_REFERENCE_ROOT",
-      "target": "VISION_FABRIC_REFERENCE_PROVIDER",
+      "target": "VISION_FABRIC_SAMPLE_IMPLEMENTATION_PATTERN_SOURCE",
       "preflight": [
         "upstream-declared compiler/build dependencies"
       ],
       "validation": [
         "reference implementation builds without system replacement"
       ],
-      "runtime_promotion": false
+      "runtime_promotion": false,
+      "production_provider": false
     },
     {
       "project": "NNEF-Tools",
@@ -342,6 +343,33 @@
     "system_runtime_replacement": false,
     "child_process_scoped_runtime_env": true,
     "per_project_build_receipt_required": true,
-    "aggregate_build_receipt_required": true
-  }
+    "aggregate_build_receipt_required": true,
+    "automatic_upstream_dependency_fetch": false,
+    "cmake_update_deps": "OFF",
+    "immutable_build_dependency_record": "FA3-KHRONOS-BUILD-DEPENDENCIES-001",
+    "optional_specialized_missing_toolchain": "PENDING_NOT_PROMOTED_NOT_SILENTLY_SKIPPED"
+  },
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001",
+  "build_dependency_count": 4,
+  "core_runtime_build_set": [
+    "Vulkan-Headers",
+    "Vulkan-Utility-Libraries",
+    "SPIRV-Headers",
+    "SPIRV-Tools",
+    "glslang",
+    "SPIRV-Cross",
+    "Vulkan-Loader",
+    "Vulkan-Profiles",
+    "Vulkan-ValidationLayers",
+    "KTX-Software",
+    "OpenXR-SDK",
+    "OpenCL-Headers",
+    "OpenCL-ICD-Loader",
+    "ANARI-SDK"
+  ],
+  "optional_specialized_build_set": [
+    "glTF-Validator",
+    "OpenVX-sample-impl",
+    "NNEF-Tools"
+  ]
 }
