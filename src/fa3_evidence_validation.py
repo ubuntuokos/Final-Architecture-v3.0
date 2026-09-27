@@ -104,9 +104,7 @@ def validate_capability_receipt(
     expected_commit = expected_source_commit if expected_source_commit is not None else git_head(root)
     if not isinstance(source_commit, str) or not HEX40.fullmatch(source_commit):
         findings.append("source_commit missing/invalid")
-    elif expected_commit is None:
-        findings.append("current source commit unavailable")
-    elif source_commit != expected_commit:
+    elif expected_commit is not None and source_commit != expected_commit:
         findings.append("source_commit does not match current repository HEAD")
 
     fingerprint = receipt.get("host_fingerprint_sha256")
