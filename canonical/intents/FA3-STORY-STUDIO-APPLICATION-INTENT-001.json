@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-STORY-STUDIO-APPLICATION-INTENT-001",
+  "project_id": "FA3-STORY-STUDIO-001",
+  "project_type": "FA3_NATIVE_APPLICATION_SURFACE",
+  "goal": "Consolidate accepted FA3 story/screenplay, creative-project, production-type, branching, collaboration, interchange and production-handoff requirements into one FA3-native Story Studio inside the existing FA3 Control Center.",
+  "required_capabilities": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-170",
+    "CAP-171",
+    "CAP-172"
+  ],
+  "optional_capabilities": [
+    "CAP-168",
+    "CAP-173"
+  ],
+  "declared_new_capabilities": [],
+  "proposed_authority_roles": [],
+  "integration_requirements": [
+    "FA3-DESKTOP-001",
+    "FA3-VIDEO-001",
+    "FA3-MMG-CONTEXT-IR-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "AUTH-HUMAN"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-story-studio",
+    "config_root": "$XDG_CONFIG_HOME/fa3/story-studio",
+    "cache_root": "$XDG_CACHE_HOME/fa3/story-studio",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/story-studio",
+    "data_root": "$XDG_DATA_HOME/fa3/story-studio",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_parameter_mutation": false
+  }
+}
