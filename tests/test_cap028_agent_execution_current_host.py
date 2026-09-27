@@ -130,7 +130,7 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
 
     def test_sandbox_policy_admits_wasmtime_and_rejects_host_subprocess_backend(self):
         self.assertTrue(cap028._sandbox_policy_ok())
-        from src.fa3_runtime_hardening import agent_sandbox_valid
+        from fa3_runtime_hardening import agent_sandbox_valid
         self.assertFalse(
             agent_sandbox_valid(
                 backend="HOST_SUBPROCESS",
