@@ -394,7 +394,7 @@ SYSTEMD_E2E_ARTIFACT_CLEANUP_PASS=true
 
 opts='["rw","nodev","nosuid","noexec"]'
 mkdir -p "$(dirname "$RECEIPT")"
-CAPABILITY_COUNT="$(PYTHONPATH="$ROOT/src" python3 -c 'from fa3_release_baseline import active_capability_count; from pathlib import Path; print(active_capability_count(Path("'"$ROOT"'")))' )"
+CAPABILITY_COUNT="$(PYTHONPATH="$ROOT/src" python3 -c 'import sys; from pathlib import Path; from fa3_release_baseline import active_capability_count; print(active_capability_count(Path(sys.argv[1])))' "$ROOT")"
 python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" "$BRIDGE_SOURCE_COMMIT" "$CAPABILITY_COUNT" <<'PY'
 import json,sys
 from datetime import datetime,timezone
