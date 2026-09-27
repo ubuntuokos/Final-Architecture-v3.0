@@ -81,7 +81,7 @@ class Mat003InteractionCreativeCurrentHostTests(unittest.TestCase):
     def test_cap013_scoped_admission_allows_only_secret_backend_full_gate_failure(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
             "integration": {
                 "application_core": "QT6_QML_NATIVE",
@@ -150,7 +150,7 @@ class Mat003InteractionCreativeCurrentHostTests(unittest.TestCase):
     def test_cap013_scoped_admission_still_fails_on_computer_use_prerequisite(self):
         report = {
             "result": "FAIL",
-            "desktop": {"desktop": "KDE_PLASMA"},
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
             "session": {"type": "wayland"},
             "integration": {
                 "application_core": "QT6_QML_NATIVE",
