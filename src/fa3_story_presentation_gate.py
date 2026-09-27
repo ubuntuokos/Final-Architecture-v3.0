@@ -68,6 +68,7 @@ FORBIDDEN_ACTIVE_PRESENTON_PATHS = [
     "deployment/presenton/postgresql-bootstrap.sql",
     "deployment/presenton/presenton.caddy",
     "deployment/presenton/fa3-presenton.container",
+    "deployment/presenton/presenton.container",
 ]
 
 
@@ -147,6 +148,7 @@ def gate(root: Path) -> dict[str, Any]:
         "evidence/reference/presenton-provider-ci-2026-08-30.json",
         "canonical/intents/FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001.json",
         "canonical/assessments/FA3-STORY-PRESENTATION-FABRIC-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-STORY-PRESENTATION-DECISION-ASSESSMENT-2026-09-27.json",
         "canonical/enforcement-policy.json",
         "canonical/conformance-matrix.csv",
         "evidence/evidence-registry.json",
@@ -169,8 +171,9 @@ def gate(root: Path) -> dict[str, Any]:
     historical_evidence = _load(root, required[9])
     intent = _load(root, required[10])
     reuse = _load(root, required[11])
-    policy = _load(root, required[12])
-    evidence_registry = _load(root, required[14])
+    decision_assessment = _load(root, required[12])
+    policy = _load(root, required[13])
+    evidence_registry = _load(root, required[15])
 
     if capability_count != 175:
         findings.append(_finding("STORY-PRES-002", "canonical capability baseline is not 175", actual=capability_count))
@@ -277,6 +280,15 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(_finding("STORY-PRES-018", "Story/Presentation enforcement inventory drift"))
 
     if not (
+        decision_assessment.get("schema") == "fa3.decision-fabric-assessment.v1"
+        and decision_assessment.get("project_id") == PROFILE_ID
+        and decision_assessment.get("project_radar_checked") is True
+        and decision_assessment.get("capability_delta") == 0
+        and decision_assessment.get("authority_delta") == 0
+    ):
+        findings.append(_finding("STORY-PRES-019", "Decision Fabric assessment boundary drift"))
+
+    if not (
         intent.get("proposed_authority_roles") == []
         and intent.get("declared_new_capabilities") == []
         and reuse.get("result") == "PASS"
@@ -286,7 +298,7 @@ def gate(root: Path) -> dict[str, Any]:
         and PROFILE_ID in reuse.get("covered_ids", [])
         and PRESENTON_PROVIDER_ID in reuse.get("covered_ids", [])
     ):
-        findings.append(_finding("STORY-PRES-019", "Reuse Discovery / authority boundary drift"))
+        findings.append(_finding("STORY-PRES-020", "Reuse Discovery / authority boundary drift"))
 
     matrix_rows: dict[str, list[str]] = {}
     with (root / "canonical/conformance-matrix.csv").open(encoding="utf-8", newline="") as fh:
@@ -294,12 +306,12 @@ def gate(root: Path) -> dict[str, Any]:
             if len(row) > 2 and row[1] in REQUIRED_CAPABILITIES:
                 matrix_rows[row[1]] = row
     if set(matrix_rows) != REQUIRED_CAPABILITIES:
-        findings.append(_finding("STORY-PRES-020", "canonical capability rows missing"))
+        findings.append(_finding("STORY-PRES-021", "canonical capability rows missing"))
     else:
         if "Presenton self-hosted adapter" in ",".join(matrix_rows["CAP-033"]) or "FA3 Presentation Layer / Presentation Studio" not in ",".join(matrix_rows["CAP-033"]):
-            findings.append(_finding("STORY-PRES-021", "CAP-033 still maps to Presenton rather than native Presentation Studio"))
+            findings.append(_finding("STORY-PRES-022", "CAP-033 still maps to Presenton rather than native Presentation Studio"))
         if "FA3 Canonical Document/Interchange Fabric" not in ",".join(matrix_rows["CAP-018"]):
-            findings.append(_finding("STORY-PRES-022", "CAP-018 does not map to canonical Document/Interchange Fabric"))
+            findings.append(_finding("STORY-PRES-023", "CAP-018 does not map to canonical Document/Interchange Fabric"))
 
     registry_rows = {row.get("subject_id"): row for row in evidence_registry.get("records", []) if isinstance(row, dict)}
     for cap in sorted(REQUIRED_CAPABILITIES):
@@ -310,7 +322,7 @@ def gate(root: Path) -> dict[str, Any]:
             or row.get("story_presentation_projection_status", {}).get("current_host_runtime_promotion_claim") is not False
             or row.get("story_presentation_projection_status", {}).get("presenton_historical_evidence_reused_as_native_runtime_proof") is not False
         ):
-            findings.append(_finding("STORY-PRES-023", "current-host truth boundary drift", capability=cap))
+            findings.append(_finding("STORY-PRES-024", "current-host truth boundary drift", capability=cap))
 
     return {
         "schema": "fa3.story-presentation-gate-report.v1",
