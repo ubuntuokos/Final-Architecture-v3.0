@@ -51,7 +51,7 @@ jobs:
       - name: Syntax check
         run: python3 -m py_compile src/fa3_agent_definition_gate.py src/fa3_enforce.py
       - name: Agent Definition unit tests
-        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agent_definition_gate.py' -v
+        run: bash bin/fa3-test -v tests/test_agent_definition_gate.py
       - name: Agent Definition fail-closed gate
         run: PYTHONPATH=src python3 src/fa3_agent_definition_gate.py --root .
       - name: Orchestration Workforce regression
