@@ -50,4 +50,5 @@ class KhronosOpenStandardsTests(unittest.TestCase):
   self.assertIn("  push:\n    branches: [main]\n",text)
   self.assertIn("  pull_request:\n",text)
   self.assertIn("  workflow_dispatch:\n",text)
+  self.assertNotIn("canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",text)
 if __name__=="__main__":unittest.main()
