@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,csv,json
+import argparse,csv,json,hashlib
 from pathlib import Path
 from typing import Any
 from fa3_release_baseline import load_active_release_baseline
@@ -118,7 +118,9 @@ def gate(root:Path)->dict[str,Any]:
     cap83_producers=[x for x in producers.get("entries",[]) if x.get("subject_id")=="CAP-083"]
     checks.append((len(cap83_producers)==3 and {x.get("test_kind") for x in cap83_producers}=={"positive","negative","rollback"} and all(x.get("adapter_path")==CAP083_PRODUCER_PATH and x.get("adapter_sha256")==CAP083_PRODUCER_SHA256 for x in cap83_producers),"KHR-025","CAP-083 dedicated producer registration/digest invalid"))
     producer_file=root/CAP083_PRODUCER_PATH
+    producer_digest=hashlib.sha256(producer_file.read_bytes()).hexdigest() if producer_file.is_file() else None
     checks.append((producer_file.is_file(),"KHR-026","CAP-083 dedicated producer file missing"))
+    checks.append((producer_digest==CAP083_PRODUCER_SHA256,"KHR-029","CAP-083 dedicated producer file digest drift"))
     ch_workflow=(root/KHRONOS_CURRENT_HOST_WORKFLOW).read_text(encoding="utf-8") if (root/KHRONOS_CURRENT_HOST_WORKFLOW).is_file() else ""
     global_workflow=(root/GLOBAL_CURRENT_HOST_WORKFLOW).read_text(encoding="utf-8") if (root/GLOBAL_CURRENT_HOST_WORKFLOW).is_file() else ""
     checks.append(("--build-core" in ch_workflow and "github.event.pull_request.head.sha || github.sha" in ch_workflow,"KHR-027","exact-head Khronos current-host core build workflow binding missing"))
