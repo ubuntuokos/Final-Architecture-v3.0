@@ -106,7 +106,8 @@
       "ref": "openvx_1.3.2",
       "commit": "031f44bdcd6648f0957c9e351f76c3a64a0bfc32",
       "license_reported": "Apache-2.0",
-      "role": "VISION_GRAPH_REFERENCE_IMPLEMENTATION"
+      "role": "VISION_GRAPH_SAMPLE_IMPLEMENTATION_PATTERN_SOURCE",
+      "production_provider": false
     },
     {
       "repo": "KhronosGroup/NNEF-Tools",
@@ -126,5 +127,8 @@
     "release_bundle_status": "EXCLUDED",
     "product_bundle_allowed": false,
     "classification_basis": "Pinned upstream SDK source metadata only; FA3 materializes source user-locally and does not redistribute this set."
-  }
+  },
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001",
+  "build_dependency_record_path": "canonical/third-party/FA3-KHRONOS-BUILD-DEPENDENCIES-001.json",
+  "build_stage_network_fetch": "FORBIDDEN_AFTER_EXPLICIT_MATERIALIZATION"
 }
