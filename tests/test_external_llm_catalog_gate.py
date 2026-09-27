@@ -4,13 +4,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_external_llm_catalog import (
+from fa3_external_llm_catalog import (
     normalize_markdown,
     runtime_eligible,
     transition_allowed,
     validate_runtime_catalog,
 )
-from src.fa3_external_llm_catalog_gate import UPSTREAM_COMMIT, reference_check
+from fa3_external_llm_catalog_gate import UPSTREAM_COMMIT, reference_check
 
 ROOT = Path(__file__).resolve().parents[1]
 
