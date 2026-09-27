@@ -16,6 +16,12 @@ on:
       - 'evidence/collect-cpu-numa-threading-current-host.py'
       - 'evidence/collect-openmp-current-host.py'
       - 'src/fa3_openmp_governance.py'
+      - 'evidence/collect-sysctl-current-host.py'
+      - 'src/fa3_sysctl_governance.py'
+      - 'src/fa3_sysctl_governance_gate.py'
+      - 'canonical/profiles/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001.json'
+      - 'canonical/contracts/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-CONTRACTS-001.json'
+      - 'canonical/sysctl-host-tuning-governance-enforcement.json'
       - 'canonical/cpu-numa-threading-current-host-enforcement.json'
       - 'canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json'
       - 'canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json'
@@ -84,9 +90,9 @@ jobs:
           chmod +x bin/fa3-current-host bin/fa3-enforce
           ./bin/fa3-current-host verify
       - name: Executable regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_ffmpeg_ai_current_host_gate tests.test_resource_admission_current_host_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_sysctl_governance tests.test_ffmpeg_ai_current_host_gate tests.test_resource_admission_current_host_gate -v
       - name: Current-host collector syntax check
-        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py evidence/collect-openmp-current-host.py src/fa3_openmp_governance.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py
+        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py evidence/collect-openmp-current-host.py src/fa3_openmp_governance.py evidence/collect-sysctl-current-host.py src/fa3_sysctl_governance.py src/fa3_sysctl_governance_gate.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py
       - name: Resource admission canonical parent gate
         run: ./bin/fa3-enforce resource-evidence-normalization
       - name: Missing real resource-admission receipt must remain fail-closed
@@ -112,11 +118,13 @@ jobs:
           fetch-depth: 0
       - name: Execute current-host resource admission, collection and global fail-closed gates
         run: |
-          chmod +x bin/fa3-current-host bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-current-host.sh evidence/collect-cpu-numa-threading-current-host.py evidence/collect-openmp-current-host.py evidence/collect-resource-admission-current-host.py
+          chmod +x bin/fa3-current-host bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-current-host.sh evidence/collect-cpu-numa-threading-current-host.py evidence/collect-openmp-current-host.py evidence/collect-sysctl-current-host.py evidence/collect-resource-admission-current-host.py
           ./bin/fa3-resource-admission-current-host.sh collect \
             --workload-envelope "${{ inputs.resource_workload_envelope }}" \
             --hrb-lease "${{ inputs.resource_hrb_lease }}"
           ./bin/fa3-enforce resource-admission-current-host
+          python evidence/collect-sysctl-current-host.py
+          ./bin/fa3-enforce sysctl-host-tuning
           python evidence/collect-openmp-current-host.py
           python evidence/collect-cpu-numa-threading-current-host.py \
             --performance-evidence "${{ inputs.cpu_numa_performance_evidence }}" \
@@ -134,6 +142,7 @@ jobs:
             .fa3-current-host/**
             evidence/receipts/resource-admission-current-host.json
             evidence/receipts/openmp-current-host.json
+            evidence/receipts/sysctl-current-host.json
             evidence/receipts/cpu-numa-threading-current-host.json
             reports/**
             acceptance/**
