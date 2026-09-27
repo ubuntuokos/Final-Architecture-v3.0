@@ -113,6 +113,7 @@ class CurrentHostCapabilityAttestationProducerTests(unittest.TestCase):
             attestation = json.loads(path.read_text())
             self.assertEqual(attestation["schema"], "fa3.capability-current-host-attestation.v1")
             self.assertEqual(attestation["attestation_authority"], "FA3-AUTH-OBS-EVIDENCE-001")
+            self.assertEqual(attestation["source_commit"], "a" * 40)
             self.assertFalse(attestation["producer"]["provider_receipt_is_attestation_authority"])
             self.assertFalse(attestation["producer"]["automatic_promotion"])
         finally:
