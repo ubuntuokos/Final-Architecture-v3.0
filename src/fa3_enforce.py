@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse,csv,json,sys
 from pathlib import Path
 from fa3_release_baseline import load_active_release_baseline
+from fa3_evidence_validation import git_head, validate_capability_receipt
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
@@ -602,21 +603,30 @@ def runtime_check(root:Path):
         fs.append(finding("FA3-RUNTIME-002",f"Evidence Registry is not exact {CAPS} capability set",records=len(recs)))
     pending=[]
     invalid=[]
+    invalid_details=[]
+    head=git_head(root)
+    if head is None:
+        fs.append(finding("FA3-RUNTIME-005","Current source revision unavailable for evidence binding"))
     for r in recs:
         s=str(r.get("status","")).upper()
         if s!="PASS":
             pending.append(r.get("subject_id"))
         if not r.get("required_positive_test") or not r.get("required_negative_test") or not r.get("rollback_requirement"):
             invalid.append(r.get("subject_id"))
-        if s=="PASS" and not r.get("expires_at"):
-            invalid.append(r.get("subject_id"))
+            invalid_details.append({"subject_id":r.get("subject_id"),"findings":["registry test/rollback requirements missing"]})
+        if s=="PASS":
+            validation=validate_capability_receipt(root,r,expected_source_commit=head)
+            if not validation.get("qualified"):
+                invalid.append(r.get("subject_id"))
+                invalid_details.append({"subject_id":r.get("subject_id"),"receipt":validation.get("receipt"),"findings":validation.get("findings",[])})
     if pending:
         fs.append(finding("FA3-RUNTIME-003","Current-host evidence is not complete",pending_count=len(pending),sample=pending[:20]))
     if invalid:
-        fs.append(finding("FA3-RUNTIME-004","Evidence record missing test/rollback/expiry requirement",sample=invalid[:20]))
+        dedup=list(dict.fromkeys(invalid))
+        fs.append(finding("FA3-RUNTIME-004","Current-host PASS evidence failed shared qualification",invalid_count=len(dedup),sample=dedup[:20],details=invalid_details[:20]))
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.runtime-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),
-         "evidence_records":len(recs),"pass_count":sum(str(r.get("status","")).upper()=="PASS" for r in recs),
+         "evidence_records":len(recs),"pass_count":sum(str(r.get("status","")).upper()=="PASS" for r in recs),"source_commit":head,
          "pending_count":sum(str(r.get("status","")).upper()!="PASS" for r in recs),"findings":fs}
     writej(root/"reports/runtime-gate-report.json",rep)
     return rep
