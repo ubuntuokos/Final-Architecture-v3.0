@@ -2,7 +2,7 @@ from __future__ import annotations
 import importlib.util
 import unittest
 from pathlib import Path
-from src.fa3_supply_runtime_hardening_current_host_gate import gate,validate_scs,validate_provider,validate_hrb,validate_hu
+from fa3_supply_runtime_hardening_current_host_gate import gate,validate_scs,validate_provider,validate_hrb,validate_hu
 ROOT=Path(__file__).resolve().parents[1]
 _spec=importlib.util.spec_from_file_location("fa3_hrb_composite_current_host",ROOT/"evidence/collect-hrb-composite-current-host.py")
 assert _spec is not None and _spec.loader is not None
