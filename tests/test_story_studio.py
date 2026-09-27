@@ -7,6 +7,7 @@ from fa3_story_studio import (
     create_branch,
     issue_final_release,
     new_reference_project,
+    plan_scoped_revision,
     render_note_markdown,
     save_stash_as_note,
     stash_rejected_content,
@@ -70,6 +71,16 @@ class StoryStudioTests(unittest.TestCase):
                 p, actor_id="reviewer", document_id="screenplay-1",
                 base_revision=0, content="Not allowed", change_summary="Edit",
             )
+
+    def test_scoped_revision_preserves_unrelated_nodes_and_hits_approval_boundary(self):
+        p = new_reference_project()
+        p["nodes"].append({"node_id": "unrelated-note", "type": "REVIEW_NOTE", "locked": False})
+        plan = plan_scoped_revision(p, actor_id="writer-a", changed_node_ids=["scene-1"])
+        self.assertEqual(plan["affected_node_ids"], ["delivery-1", "scene-1", "shot-1"])
+        self.assertIn("unrelated-note", plan["preserved_node_ids"])
+        self.assertTrue(plan["approval_required"])
+        self.assertEqual(plan["approval_boundary_node_ids"], ["delivery-1"])
+        self.assertFalse(plan["full_project_regeneration_default"])
 
     def test_nested_branches_supported(self):
         p = new_reference_project()
