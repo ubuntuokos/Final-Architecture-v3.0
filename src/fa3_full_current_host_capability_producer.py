@@ -19,7 +19,9 @@ from pathlib import Path
 from typing import Any
 from urllib.request import urlopen
 
+from fa3_accelerator_backend_probe import enrich_accelerator_backends
 from fa3_current_host_runtime_resolver import resolve_python_runtime
+from fa3_hardware_discovery import discover_accelerator_devices
 
 VERDICT_SCHEMA = "fa3.capability-current-host-qualification-constituent-verdict.v1"
 MODES = ("positive", "negative", "rollback")
@@ -343,40 +345,72 @@ def proof_metric_3d_reconstruction(scope: Path, cap: str, subject: str) -> dict[
     }
 
 def proof_gpu_compute(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    """Execute a real framework accelerator operation without a global vendor pin.
+
+    The legacy primitive name is retained for recipe compatibility. This proof
+    demonstrates accelerator-backed execution through an admitted local Python
+    runtime; it does not claim that discovery selected the device or that an HRB
+    assignment has been matched to a stable physical identity.
+    """
     scope.mkdir(parents=True, exist_ok=True)
-    smi = shutil.which("nvidia-smi")
-    if not smi:
-        raise RuntimeError("nvidia-smi required")
-    resolved = resolve_python_runtime(require_torch=True, require_pytorch3d=False, require_cuda=True)
+    inventory = [
+        device.as_dict()
+        for device in enrich_accelerator_backends(
+            discover_accelerator_devices(),
+            include_framework_probes=False,
+        )
+    ]
+    if not inventory:
+        raise RuntimeError("accelerator-required proof has no physical accelerator inventory")
+
+    resolved = resolve_python_runtime(
+        require_torch=True,
+        require_pytorch3d=False,
+        require_cuda=False,
+        require_accelerator=True,
+    )
     selected = resolved.get("selected")
     if not isinstance(selected, dict):
-        raise RuntimeError("approved local Python runtime with torch + CUDA required")
+        raise RuntimeError("approved local Python runtime with supported Torch accelerator backend required")
     python = str(selected["path"])
-    inv = cmd([smi, "--query-gpu=uuid,pci.bus_id,driver_version", "--format=csv,noheader,nounits"], 20)
-    if inv.returncode != 0 or not inv.stdout.strip():
-        raise RuntimeError("NVIDIA inventory unavailable")
     code = (
         "import json,torch;"
-        "assert torch.cuda.is_available();"
-        "d=torch.device('cuda');"
+        "backend=('PYTORCH_XPU' if hasattr(torch,'xpu') and torch.xpu.is_available() else "
+        "('PYTORCH_HIP' if torch.cuda.is_available() and getattr(torch.version,'hip',None) else "
+        "('PYTORCH_CUDA' if torch.cuda.is_available() else None)));"
+        "assert backend is not None;"
+        "d=torch.device('xpu' if backend=='PYTORCH_XPU' else 'cuda');"
         "a=torch.arange(4096,dtype=torch.float32,device=d).reshape(64,64);"
-        "c=a@a.T;torch.cuda.synchronize();"
-        "print(json.dumps({'device':torch.cuda.get_device_name(),'sum':float(c.sum().item())}))"
+        "c=a@a.T;"
+        "(torch.xpu.synchronize() if backend=='PYTORCH_XPU' else torch.cuda.synchronize());"
+        "idx=(torch.xpu.current_device() if backend=='PYTORCH_XPU' else torch.cuda.current_device());"
+        "name=(torch.xpu.get_device_name(idx) if backend=='PYTORCH_XPU' else torch.cuda.get_device_name(idx));"
+        "print(json.dumps({'backend':backend,'runtime_device_index':int(idx),'device':name,'sum':float(c.sum().item())}))"
     )
     proc = cmd([python, "-c", code], 60)
     if proc.returncode != 0:
-        raise RuntimeError(f"CUDA compute proof failed: {proc.stderr[-1500:]}")
+        raise RuntimeError(f"accelerator compute proof failed: {proc.stderr[-1500:]}")
     row = json.loads(proc.stdout.strip())
+    if row.get("backend") not in {"PYTORCH_CUDA", "PYTORCH_HIP", "PYTORCH_XPU"}:
+        raise RuntimeError("accelerator compute backend invalid")
     if not isinstance(row.get("sum"), (int, float)):
-        raise RuntimeError("CUDA compute result invalid")
+        raise RuntimeError("accelerator compute result invalid")
+    inventory_bytes = json.dumps(inventory, sort_keys=True, separators=(",", ":")).encode()
     return {
-        "cuda_compute": True,
+        "accelerator_compute": True,
+        "legacy_primitive_name": "gpu_compute",
         "python": python,
         "torch_version": selected.get("torch_version"),
+        "backend": row.get("backend"),
+        "runtime_device_index": row.get("runtime_device_index"),
         "device_name": row.get("device"),
         "result_sum": row.get("sum"),
-        "inventory_sha256": sha(inv.stdout.encode()),
+        "inventory_sha256": sha(inventory_bytes),
+        "physical_accelerator_count": len(inventory),
         "hardcoded_gpu_ordinal_claim": False,
+        "global_vendor_requirement": False,
+        "hrb_assignment_verified": False,
+        "actual_execution_scope": "FRAMEWORK_ACCELERATOR_BACKEND_EXECUTION",
     }
 
 
@@ -443,6 +477,7 @@ def desktop_wayland_scoped_admission(
     report: dict[str, Any],
     session_evidence: dict[str, Any],
 ) -> dict[str, Any]:
+    """Compatibility-named proof for a generic admitted Qt6 desktop session."""
     capabilities = report.get("capabilities")
     if not isinstance(capabilities, dict):
         return {
@@ -457,19 +492,24 @@ def desktop_wayland_scoped_admission(
         key: capabilities.get(key) == "PASS"
         for key in DESKTOP_WAYLAND_REQUIRED_CAPABILITIES
     }
-    required["xdg_desktop_portal"] = capabilities.get("xdg_desktop_portal") == "PASS"
 
     desktop = report.get("desktop") if isinstance(report.get("desktop"), dict) else {}
     session = report.get("session") if isinstance(report.get("session"), dict) else {}
+    integration = report.get("integration") if isinstance(report.get("integration"), dict) else {}
+    session_type = str(session.get("type") or "").lower()
+    desktop_tier = desktop.get("tier")
     session_checks = {
-        "desktop_kde_plasma": desktop.get("desktop") == "KDE_PLASMA",
-        "session_wayland": session.get("type") == "wayland",
+        "supported_desktop": desktop_tier in {1, 2, 3},
+        "supported_session": session_type in {"wayland", "x11"},
         "active_local_graphical_session": session_evidence.get(
             "active_local_graphical_session_proven"
         ) is True,
-        "wayland_socket": session_evidence.get("wayland_socket_proven") is True,
-        "kde_bus_identity": session_evidence.get("kde_bus_identity_proven") is True,
-        "portal_bus_identity": session_evidence.get("portal_bus_identity_proven") is True,
+        "wayland_socket_if_wayland": (
+            session_type != "wayland"
+            or session_evidence.get("wayland_socket_proven") is True
+        ),
+        "qt6_native_application_core": integration.get("application_core") == "QT6_QML_NATIVE",
+        "integration_not_authority": integration.get("architectural_authority") is False,
     }
 
     failed = sorted(
@@ -505,7 +545,11 @@ def desktop_wayland_scoped_admission(
         "full_desktop_required_failures": full_required_failures,
         "secret_backend_status": capabilities.get("secret_backend"),
         "secret_backend_used_for_desktop_wayland_admission": False,
-        "scope_semantics": "DESKTOP_WAYLAND_SESSION_PROOF_NOT_FULL_DESKTOP_ADMISSION",
+        "portal_status": capabilities.get("xdg_desktop_portal"),
+        "portal_required_for_scope": False,
+        "integration_strategy": integration.get("strategy"),
+        "legacy_primitive_name": "desktop_wayland",
+        "scope_semantics": "GENERIC_QT6_DESKTOP_SESSION_PROOF_WAYLAND_PREFERRED_X11_SUPPORTED",
     }
 
 
@@ -530,13 +574,15 @@ def proof_desktop_wayland(scope: Path, cap: str, subject: str) -> dict[str, Any]
     )
     if scoped.get("result") != "PASS":
         raise RuntimeError(
-            f"desktop/Wayland scoped admission failed for {cap}: {scoped}; "
+            f"desktop/session scoped admission failed for {cap}: {scoped}; "
             f"full_desktop_admission={report}"
         )
 
     return {
         "desktop": report.get("desktop"),
         "session": report.get("session"),
+        "integration": report.get("integration"),
+        "desktop_session_scope": scoped,
         "desktop_wayland_scope": scoped,
         "full_desktop_admission_result": report.get("result"),
         "secret_backend_status": report.get("capabilities", {}).get("secret_backend"),
