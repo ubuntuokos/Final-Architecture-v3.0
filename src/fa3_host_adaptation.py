@@ -363,8 +363,15 @@ def regression_check() -> dict[str, Any]:
     cases["no_drift"] = compare_snapshots(base, base, physical_core_min=8)["classification"] == "NO_DRIFT"
     cases["kernel_observational"] = compare_snapshots(base, synthetic_snapshot(kernel="k2"), physical_core_min=8)["classification"] == "OBSERVATIONAL_DRIFT"
     cases["session_rebind"] = compare_snapshots(base, synthetic_snapshot(session="x11"), physical_core_min=8)["classification"] == "RUNTIME_REBIND"
-    amd = {"discovery_id": "pci:0000:03:00.0", "vendor": "AMD", "pci_bdf": "0000:03:00.0",
-           "kernel_driver": "amdgpu", "workload_compatible": True, "backends": []}
+    amd = {
+        "discovery_id": "synthetic:accelerator-a",
+        "stable_device_id": "synthetic-accelerator-a",
+        "vendor": "AMD",
+        "pci_bdf": None,
+        "kernel_driver": "amdgpu",
+        "workload_compatible": True,
+        "backends": [],
+    }
     cases["new_accelerator_admission"] = compare_snapshots(base, synthetic_snapshot(accelerators=[amd]), physical_core_min=8)["classification"] == "COMPONENT_ADMISSION"
     missing = compare_snapshots(synthetic_snapshot(accelerators=[amd]), base, physical_core_min=8)
     cases["missing_accelerator_no_uninstall"] = (
