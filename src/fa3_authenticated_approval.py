@@ -4,7 +4,6 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -451,3 +450,100 @@ def verify_receipt_file(
 
 def receipt_digest(path: Path) -> str:
     return sha256_file(path)
+
+
+PROMOTION_CONSUMPTION_LEDGER = Path("promotion/approval-consumption-ledger.json")
+PROMOTION_RECEIPT_FILENAMES = (
+    "release-integrity.json",
+    "independent-review.json",
+    "human-promotion-receipt.json",
+)
+
+
+def load_consumption_ledger(root: Path) -> dict[str, Any]:
+    path = Path(root) / PROMOTION_CONSUMPTION_LEDGER
+    if not path.is_file():
+        return {
+            "schema": "fa3.approval-consumption-ledger.v1",
+            "authority": SECURITY_AUTHORITY,
+            "consumed": [],
+        }
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if data.get("schema") != "fa3.approval-consumption-ledger.v1":
+        raise ApprovalVerificationError("approval consumption ledger schema mismatch")
+    if data.get("authority") != SECURITY_AUTHORITY:
+        raise ApprovalVerificationError("approval consumption ledger authority mismatch")
+    if not isinstance(data.get("consumed"), list):
+        raise ApprovalVerificationError("approval consumption ledger consumed list invalid")
+    return data
+
+
+def ensure_promotion_receipts_unconsumed(root: Path, receipt_paths: list[Path]) -> dict[str, Any]:
+    ledger = load_consumption_ledger(root)
+    consumed = {
+        item.get("receipt_id")
+        for item in ledger.get("consumed", [])
+        if isinstance(item, dict)
+    }
+    reused: list[str] = []
+    receipts: list[dict[str, str]] = []
+    for path in receipt_paths:
+        if not path.is_file():
+            reused.append(f"missing:{path.name}")
+            continue
+        try:
+            receipt = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            reused.append(f"unreadable:{path.name}")
+            continue
+        rid = receipt.get("receipt_id")
+        if not isinstance(rid, str) or not rid:
+            reused.append(f"missing-id:{path.name}")
+            continue
+        if rid in consumed:
+            reused.append(rid)
+        receipts.append({
+            "receipt_id": rid,
+            "filename": path.name,
+            "receipt_sha256": sha256_file(path),
+        })
+    return {
+        "available": not reused,
+        "reused_or_invalid": reused,
+        "receipts": receipts,
+    }
+
+
+def consume_promotion_receipts(
+    root: Path,
+    receipt_paths: list[Path],
+    *,
+    source_commit: str,
+    acceptance_report_sha256: str,
+) -> dict[str, Any]:
+    root = Path(root)
+    state = ensure_promotion_receipts_unconsumed(root, receipt_paths)
+    if not state["available"]:
+        raise ApprovalVerificationError(
+            "promotion approval receipt already consumed or invalid: "
+            + ",".join(state["reused_or_invalid"])
+        )
+    ledger = load_consumption_ledger(root)
+    now = datetime.now(timezone.utc).isoformat()
+    for item in state["receipts"]:
+        ledger["consumed"].append({
+            **item,
+            "source_commit": source_commit,
+            "acceptance_report_sha256": acceptance_report_sha256,
+            "consumed_at": now,
+        })
+    ledger_path = root / PROMOTION_CONSUMPTION_LEDGER
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = ledger_path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(ledger, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    tmp.replace(ledger_path)
+    return {
+        "status": "CONSUMED",
+        "receipt_ids": [item["receipt_id"] for item in state["receipts"]],
+        "ledger": str(PROMOTION_CONSUMPTION_LEDGER),
+    }
