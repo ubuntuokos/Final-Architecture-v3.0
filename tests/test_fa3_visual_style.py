@@ -51,6 +51,18 @@ class Fa3VisualStyleTests(unittest.TestCase):
         self.assertFalse(route["silent_fallback_allowed"])
         self.assertFalse(ir["current_host_runtime_promotion_claim"])
 
+    def test_compile_receipt_is_derived_and_unpinned(self):
+        recipe = self.recipe()
+        recipe["prompt_template"] = "Create {SUBJECT} with {STYLE_FIDELITY_ANCHORS}; avoid {SOURCE_CONTENT_TO_AVOID}"
+        receipt = fa3_visual_style.compile_visual_style(recipe, values={"SUBJECT": "new subject"})
+        self.assertEqual("fa3.visual-style-compile-receipt.v1", receipt["schema"])
+        self.assertFalse(receipt["canonical"])
+        self.assertIn("high contrast", receipt["derived_prompt"])
+        self.assertIn("copied identity", receipt["derived_prompt"])
+        self.assertIsNone(receipt["route_request"]["provider"])
+        with self.assertRaises(fa3_visual_style.VisualStyleDenied):
+            fa3_visual_style.compile_visual_style(recipe, values={})
+
     def test_style_dna_is_normalized(self):
         dna = fa3_visual_style.build_style_dna([
             {"recipe_id": "fa3.visual-style.a", "weight": 2},
