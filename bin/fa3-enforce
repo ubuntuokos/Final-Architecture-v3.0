@@ -77,6 +77,11 @@ if [[ "${1:-}" == "orchestration-workforce" ]]; then
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_orchestration_workforce_gate.py" --root "$ROOT" "$@"
 fi
 
+if [[ "${1:-}" == "agent-deliberation" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_agent_deliberation_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "marketing-agent-native" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_marketing_agent_native_gate.py" --root "$ROOT" "$@"
@@ -195,6 +200,7 @@ if [[ "${1:-}" == "static" || "${1:-}" == "promote" || "${1:-}" == "all" ]]; the
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_fabric_gate.py" --root "$ROOT" >/dev/null
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_adoption_gate.py" --root "$ROOT" >/dev/null
   env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_jev_reuse_gate.py" --root "$ROOT" >/dev/null
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_agent_deliberation_gate.py" --root "$ROOT" >/dev/null
 fi
 
 if [[ "${1:-}" == "quality-extension-lock" ]]; then

@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AGENT-COLLABORATION-DELIBERATION-2026-09-27",
+  "date": "2026-09-27",
+  "status": "CANONICAL_IMPLEMENTED_STATIC_REFERENCE",
+  "title": "Materialize governed Agent Collaboration & Deliberation from Agent Room patterns",
+  "decision": "MATERIALIZE_FA3_NATIVE_AGENT_COLLABORATION_AND_DELIBERATION_PROFILE_WITHOUT_IMPORTING_UPSTREAM_RUNTIMES_OR_CREATING_NEW_AUTHORITY",
+  "profile_id": "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+  "contract_id": "FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001",
+  "reference_id": "FA3-AGENT-ROOM-PATTERN-REFERENCE-2026-09-27",
+  "capability_bindings": [
+    "CAP-028",
+    "CAP-070"
+  ],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "upstream_runtime_dependencies": [],
+  "adopted_patterns": [
+    "LOCAL_FIRST_ROOM_STATE_AND_PER_PARTICIPANT_READ_CURSOR",
+    "DIRECTED_ONLY_WHEN_ADDRESSED_TURN_DISCIPLINE",
+    "STRUCTURED_DECISION_TODO_STATUS_RESULT_ARTIFACTS",
+    "OPEN_SEQUENTIAL_MODERATOR_STYLE_TURN_CONTROL",
+    "EVIDENCE_GATED_COMPLETION_AND_INDEPENDENT_VERIFICATION",
+    "HUMAN_CONTROL_PLANE_APPROVAL_AND_ATTRIBUTABLE_INTERVENTION",
+    "INDEPENDENT_SEALED_POSITION_ROUND_BEFORE_REVEAL",
+    "OBJECTION_WINDOW_BEFORE_CONSENSUS_OR_CLOSURE"
+  ],
+  "rejected_patterns": [
+    "GLOBAL_CODEX_OR_CLAUDE_SKILL_INSTALLATION",
+    "UPSTREAM_HOME_DIRECTORY_STATE",
+    "FIXED_DEFAULT_PORT_OWNERSHIP",
+    "UNAUTHENTICATED_SENDER_NAME_AS_IDENTITY",
+    "CLIENT_ASSERTED_HOSTVERIFIED_TRUST",
+    "CHAT_MESSAGE_AS_AUTHORIZATION",
+    "CHAT_INFERRED_TASK_COMPLETION",
+    "PROVIDER_OR_ROOM_PARTICIPANT_SET_EXPANSION",
+    "DIRECT_MODEL_PROVIDER_SELECTION",
+    "UPSTREAM_CONTROL_PLANE_AS_FA3_AUTHORITY"
+  ],
+  "authority_preservation": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "human_approval": "AUTH-HUMAN",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "communication": "FA3-AI-COMMS-001",
+    "cross_host": "FA3-AGENT-FEDERATION-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "accelerator_use_only_through_model_router_and_hrb": true,
+    "hardware_parameter_mutation": false
+  },
+  "coexistence": {
+    "cap_175_applies": true,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "global_agent_config_mutation": false,
+    "fixed_port_claim": false,
+    "namespaced_paths_required": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

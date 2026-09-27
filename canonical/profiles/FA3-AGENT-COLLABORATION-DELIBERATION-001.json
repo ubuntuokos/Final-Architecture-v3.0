@@ -1,0 +1,155 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+  "name": "Governed Agent Collaboration & Deliberation Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "domain_root": false,
+  "relationship": "CROSS_CUTTING_COORDINATION_PROFILE",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-028",
+    "CAP-070"
+  ],
+  "composes": [
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-AGENT-FEDERATION-001",
+    "FA3-AI-COMMS-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "contract_id": "FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001",
+  "decision_id": "FA3-DEC-AGENT-COLLABORATION-DELIBERATION-2026-09-27",
+  "reference_id": "FA3-AGENT-ROOM-PATTERN-REFERENCE-2026-09-27",
+  "gate_id": "FA3-AGENT-COLLABORATION-DELIBERATION-GATESET-001",
+  "authority_boundaries": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "human_approval": "AUTH-HUMAN",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "ai_communication": "FA3-AI-COMMS-001",
+    "workforce": "FA3-ORCHESTRATION-WORKFORCE-001",
+    "semantic_advisory": "FA3-DECISION-FABRIC-001_OPTIONAL_NON_AUTHORITY",
+    "cross_host_coordination": "FA3-AGENT-FEDERATION-001_NON_RESOURCE_AUTHORITY"
+  },
+  "room_modes": [
+    "OPEN",
+    "DIRECTED",
+    "ROUND_ROBIN",
+    "MODERATOR",
+    "CHALLENGE",
+    "INDEPENDENT",
+    "CONSENSUS_CHECK",
+    "HUMAN_ONLY",
+    "CLOSED"
+  ],
+  "deliberation_phases": [
+    "EVIDENCE_COLLECTION",
+    "INDEPENDENT_POSITIONS",
+    "CHALLENGE",
+    "CONTRADICTION_RESOLUTION",
+    "PROPOSED_DECISION",
+    "OBJECTION_WINDOW",
+    "HUMAN_APPROVAL",
+    "CLOSED"
+  ],
+  "participant_policy": {
+    "participant_set_source": "PREAUTHORIZED_BY_CALLING_WORKFLOW_OR_HUMAN_POLICY",
+    "room_may_expand_participant_set": false,
+    "provider_may_expand_participant_set": false,
+    "role_definition_may_expand_participant_set": false,
+    "agent_may_self_grant_authority": false,
+    "participant_identity_receipt_required": true,
+    "agent_model_binding_source": "MODEL_ROUTER_RECEIPT",
+    "self_asserted_provider_or_model_binding": false
+  },
+  "communication_policy": {
+    "contract": "FA3-AI-COMMS-CONTRACTS-001",
+    "human_readable_semantics_authoritative": true,
+    "private_model_language_allowed": false,
+    "model_only_slang_allowed": false,
+    "secret_values_in_transcript_allowed": false,
+    "secret_handles_may_be_referenced": true,
+    "sender_display_name_is_identity_proof": false,
+    "client_asserted_host_verified_is_trusted": false
+  },
+  "turn_policy": {
+    "directed_mode_requires_explicit_recipient": true,
+    "round_robin_requires_current_turn_owner": true,
+    "moderator_mode_requires_moderator_or_current_turn_owner": true,
+    "independent_mode_seals_submissions_until_reveal_barrier": true,
+    "consensus_requires_objection_opportunity": true,
+    "closed_room_accepts_messages": false
+  },
+  "artifact_policy": {
+    "structured_kinds": [
+      "DECISION",
+      "TODO",
+      "STATUS",
+      "RESULT",
+      "BLOCKER",
+      "EVIDENCE"
+    ],
+    "structured_artifact_is_authorization": false,
+    "chat_message_is_task_transition": false,
+    "completion_requires_evidence": true,
+    "independent_verifier_must_differ_from_claimant": true
+  },
+  "human_control_policy": {
+    "intervention_is_explicit_typed_action": true,
+    "chat_text_alone_grants_authorization": false,
+    "consequential_close_or_publish_uses_existing_human_approval_policy": true,
+    "intervention_and_approval_are_auditable": true
+  },
+  "decision_policy": {
+    "decision_fabric_role": "OPTIONAL_BOUNDED_ADVISORY_SYNTHESIS_AFTER_DETERMINISTIC_ELIGIBILITY",
+    "candidate_set_expansion": false,
+    "may_authorize_execution": false,
+    "may_route_model_or_provider": false,
+    "may_allocate_resources": false,
+    "consensus_is_not_authorization": true,
+    "objection_window_required": true
+  },
+  "storage_network_policy": {
+    "canonical_service_required": false,
+    "fixed_default_port_claim": false,
+    "dynamic_or_brokered_endpoint_if_runtime_materialized": true,
+    "xdg_namespaced_state_only": true,
+    "upstream_skill_directories_may_be_modified": false,
+    "upstream_runtime_required": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "accelerator_use_only_through_model_router_and_hrb": true,
+    "hardware_parameter_mutation": false
+  },
+  "coexistence": {
+    "cap_175_applies": true,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "global_agent_config_mutation": false,
+    "fixed_port_claim": false,
+    "namespaced_paths_required": true
+  },
+  "runtime_status": "STATIC_REFERENCE_MATERIALIZED_CURRENT_HOST_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

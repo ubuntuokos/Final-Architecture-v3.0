@@ -1,0 +1,135 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AGENT-COLLABORATION-DELIBERATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+  "intent_id": "FA3-AGENT-COLLABORATION-DELIBERATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AGENT-COLLABORATION-DELIBERATION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+    "FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001",
+    "FA3-DEC-AGENT-COLLABORATION-DELIBERATION-2026-09-27",
+    "FA3-AGENT-ROOM-PATTERN-REFERENCE-2026-09-27"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "use": "AUTHORIZED_PARTICIPANT_AND_SPECIALIST_SELECTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "TASK_LOCAL_AGENT_EXECUTION_PROJECTION"
+    },
+    {
+      "id": "FA3-AGENT-FEDERATION-001",
+      "use": "SIGNED_BOUNDED_CROSS_HOST_COORDINATION"
+    },
+    {
+      "id": "FA3-AI-COMMS-001",
+      "use": "HUMAN_AUDITABLE_AGENT_TO_AGENT_COMMUNICATION"
+    },
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "OPTIONAL_BOUNDED_ADVISORY_SYNTHESIS"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ALL_SIDE_EFFECTING_ACTION_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_MODEL_PROVIDER_RUNTIME_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_HOST_RESOURCE_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AND_COMPLETION_PROOF_AUTHORITY"
+    },
+    {
+      "id": "CAP-175",
+      "use": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_AGENT_ROOM_AUTHORITY",
+      "reason": "EXISTING_FA3_ORCHESTRATION_AI_COMMS_UAF_SECURITY_EVIDENCE_AND_DECISION_BOUNDARIES_ALREADY_OWN_THE_REQUIRED_SEMANTICS"
+    },
+    {
+      "id": "UPSTREAM_AGENT_ROOM_RUNTIME",
+      "reason": "PATTERN_REUSE_IS_SUFFICIENT_AND_AVOIDS_HOST_NAMESPACE_AND_RUNTIME_COLLISIONS"
+    },
+    {
+      "id": "ROOM_MANAGED_MODEL_ROUTER",
+      "reason": "FA3_AUTH_MODEL_ROUTER_001_IS_SOLE_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "ROOM_MANAGED_IDENTITY_AUTHORITY",
+      "reason": "DISPLAY_NAMES_AND_CLIENT_FLAGS_ARE_NOT_TRUST_ANCHORS"
+    }
+  ],
+  "pattern_reuse": [
+    "LOCAL_FIRST_TRANSCRIPT_AND_READ_CURSOR",
+    "DIRECTED_AND_MODERATED_TURN_DISCIPLINE",
+    "STRUCTURED_ROOM_ARTIFACTS",
+    "EVIDENCE_GATED_COMPLETION",
+    "HUMAN_CONTROL_PLANE",
+    "INDEPENDENT_SEALED_DELIBERATION"
+  ],
+  "existing_authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "communication": "FA3-AI-COMMS-001",
+    "workforce": "FA3-ORCHESTRATION-WORKFORCE-001",
+    "cross_host_coordination": "FA3-AGENT-FEDERATION-001_PROFILE_NON_RESOURCE_AUTHORITY"
+  },
+  "gaps": [
+    "GOVERNED_MULTI_AGENT_ROOM_CONTRACT",
+    "TURN_DISCIPLINE_AND_INDEPENDENT_DELIBERATION",
+    "EVIDENCE_BOUND_COMPLETION_AND_OBJECTION_CLOSURE"
+  ],
+  "gap_resolution": [
+    {
+      "gap": "GOVERNED_MULTI_AGENT_ROOM_CONTRACT",
+      "status": "MATERIALIZED_BY_THIS_CHANGE",
+      "evidence": "FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001"
+    },
+    {
+      "gap": "TURN_DISCIPLINE_AND_INDEPENDENT_DELIBERATION",
+      "status": "MATERIALIZED_BY_THIS_CHANGE",
+      "evidence": "FA3-AGENT-COLLABORATION-DELIBERATION-GATESET-001"
+    },
+    {
+      "gap": "EVIDENCE_BOUND_COMPLETION_AND_OBJECTION_CLOSURE",
+      "status": "MATERIALIZED_BY_THIS_CHANGE",
+      "evidence": "FA3-AGENT-COLLABORATION-DELIBERATION-GATESET-001"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_specific_accelerator_requirements_may_narrow_selected_provider_scope_only": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION_CURRENT_HOST_RUNTIME_SEPARATE",
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

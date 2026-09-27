@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AGENT-COLLABORATION-DELIBERATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Materialize provider-neutral, human-auditable multi-agent rooms and deliberation semantics by reusing existing FA3 orchestration, AI communication, decision, action, identity, evidence and federation authorities.",
+  "required_capabilities": [
+    "CAP-028",
+    "CAP-070"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "multi-agent-collaboration",
+    "deliberation",
+    "human-in-the-loop",
+    "evidence-bound-completion",
+    "turn-discipline",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "HUMAN_LANGUAGE",
+    "CANONICAL_STRUCTURED",
+    "EVIDENCE_REFERENCES"
+  ],
+  "output_modalities": [
+    "HUMAN_AUDITABLE_TRANSCRIPT",
+    "STRUCTURED_ARTIFACTS",
+    "DECISION_RECEIPTS",
+    "COMPLETION_EVIDENCE_CLAIMS"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "GOVERNED_MULTI_AGENT_ROOM_CONTRACT",
+    "TURN_DISCIPLINE_AND_INDEPENDENT_DELIBERATION",
+    "EVIDENCE_BOUND_COMPLETION_AND_OBJECTION_CLOSURE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_specific_accelerator_requirements_may_narrow_selected_provider_scope_only": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "task_classes": [
+    "architecture",
+    "developer",
+    "creative",
+    "research",
+    "review"
+  ],
+  "skill_triggers": []
+}

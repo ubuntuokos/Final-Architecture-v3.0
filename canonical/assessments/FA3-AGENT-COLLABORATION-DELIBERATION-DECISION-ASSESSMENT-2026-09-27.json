@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+  "covered_ids": [
+    "FA3-AGENT-COLLABORATION-DELIBERATION-001",
+    "FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001",
+    "FA3-DEC-AGENT-COLLABORATION-DELIBERATION-2026-09-27"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "Multi-agent deliberation contains semantic synthesis, contradiction resolution and consensus-proposal points where the existing Decision Fabric can advise over an already-authorized participant and candidate set. It must never construct or expand that set, authorize actions, route models, admit providers, allocate resources, decide identity, or promote evidence.",
+  "decision_points": [
+    {
+      "id": "deliberation-advisory-synthesis",
+      "purpose": "synthesize evidence-backed positions and contradictions after deterministic participant admission and policy filtering",
+      "contract": "SELECT_ONE",
+      "candidate_source": "AUTHORIZED_SESSION_POSITIONS_AND_EVIDENCE_ONLY",
+      "final_policy_owner": "AUTH-HUMAN_OR_CALLING_WORKFLOW_DETERMINISTIC_POLICY",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "participant-set construction or expansion",
+    "execution authorization",
+    "provider admission",
+    "model/provider/runtime routing",
+    "identity verification",
+    "hardware or HRB resource leasing",
+    "security or approval authority",
+    "task completion transition",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "steviebuilds/agent-room, agent-room-alkl/agent-room, msitarzewski/agent-room plus existing FA3 agent/orchestration fabrics",
+    "result": "REUSE_EXISTING_FA3_AUTHORITIES_AND_DERIVE_ROOM_PATTERNS_ONLY",
+    "note": "No upstream runtime or control plane is admitted by this assessment."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

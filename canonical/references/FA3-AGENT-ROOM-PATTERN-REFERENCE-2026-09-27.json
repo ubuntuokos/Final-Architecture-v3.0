@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.reference-record.v1",
+  "id": "FA3-AGENT-ROOM-PATTERN-REFERENCE-2026-09-27",
+  "status": "REFERENCE_ONLY",
+  "purpose": "Pattern provenance for FA3-native governed multi-agent collaboration and deliberation.",
+  "source_reuse": "PATTERN_DERIVATION_ONLY",
+  "source_code_copied": false,
+  "upstream_runtime_imported": false,
+  "upstream_installers_admitted": false,
+  "sources": [
+    {
+      "repository": "steviebuilds/agent-room",
+      "commit": "ae600ecb4790a4fdc526020fd6946e8f57e2b1b4",
+      "license": "MIT",
+      "observed_patterns": [
+        "LOCALHOST_ROOM",
+        "PER_PARTICIPANT_LAST_READ_CURSOR",
+        "ADDRESSED_ONLY_MODE",
+        "LONG_POLL_WAKEUP",
+        "OBJECTIVE_TRANSCRIPT_CLOSE_SUMMARY"
+      ]
+    },
+    {
+      "repository": "agent-room-alkl/agent-room",
+      "commit": "080b13d2bf927a1ee3e66981dece0d2eee698d37",
+      "license": "MIT",
+      "observed_patterns": [
+        "STRUCTURED_ARTIFACTS",
+        "EVIDENCE_GATED_TASK_BOARD",
+        "TURN_DISCIPLINE",
+        "PRESENCE",
+        "MCP_BOUNDARY",
+        "HOSTVERIFIED_TRUST_GAP_DOCUMENTATION"
+      ]
+    },
+    {
+      "repository": "msitarzewski/agent-room",
+      "commit": "c48e8036159c2bf0a03473a3352457a2ef2c3e7e",
+      "license": "Apache-2.0",
+      "observed_patterns": [
+        "HUMAN_CONTROL_PLANE",
+        "APPROVALS",
+        "ATTRIBUTABLE_INTERVENTIONS",
+        "CANONICAL_COORDINATION_RECORD",
+        "COMPLETION_EVIDENCE",
+        "EXPLICIT_TASK_TRANSITIONS"
+      ]
+    }
+  ],
+  "adopted_patterns": [
+    "LOCAL_FIRST_ROOM_STATE_AND_PER_PARTICIPANT_READ_CURSOR",
+    "DIRECTED_ONLY_WHEN_ADDRESSED_TURN_DISCIPLINE",
+    "STRUCTURED_DECISION_TODO_STATUS_RESULT_ARTIFACTS",
+    "OPEN_SEQUENTIAL_MODERATOR_STYLE_TURN_CONTROL",
+    "EVIDENCE_GATED_COMPLETION_AND_INDEPENDENT_VERIFICATION",
+    "HUMAN_CONTROL_PLANE_APPROVAL_AND_ATTRIBUTABLE_INTERVENTION",
+    "INDEPENDENT_SEALED_POSITION_ROUND_BEFORE_REVEAL",
+    "OBJECTION_WINDOW_BEFORE_CONSENSUS_OR_CLOSURE"
+  ],
+  "mandatory_deviations": [
+    "FA3_IDENTITY_RECEIPT_REPLACES_DISPLAY_NAME_TRUST",
+    "MODEL_ROUTER_RECEIPT_REPLACES_AGENT_SELF_ASSERTED_MODEL_IDENTITY",
+    "FA3_AI_COMMS_REPLACES_PROVIDER_PRIVATE_PROTOCOL",
+    "UAF_AND_SECURITY_APPROVAL_REPLACE_CHAT_COMMAND_AUTHORITY",
+    "EVIDENCE_AUTHORITY_REPLACES_CHAT_INFERRED_COMPLETION",
+    "DYNAMIC_OR_BROKERED_ENDPOINT_REPLACES_FIXED_PORT",
+    "XDG_FA3_NAMESPACE_REPLACES_UPSTREAM_HOME_DIRECTORIES",
+    "UPSTREAM_RUNTIMES_REMAIN_REFERENCE_ONLY"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "distribution_class": "REFERENCE_ONLY"
+}
