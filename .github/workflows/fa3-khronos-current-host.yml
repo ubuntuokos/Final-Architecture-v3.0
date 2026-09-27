@@ -27,7 +27,6 @@ on:
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'evidence/collect-khronos-sdk-materialization-current-host.py'
       - '.github/workflows/fa3-khronos-current-host.yml'
-      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   pull_request:
     paths:
       - 'canonical/**/FA3-KHRONOS-*'
@@ -54,7 +53,6 @@ on:
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'evidence/collect-khronos-sdk-materialization-current-host.py'
       - '.github/workflows/fa3-khronos-current-host.yml'
-      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   workflow_dispatch:
 
 concurrency:
