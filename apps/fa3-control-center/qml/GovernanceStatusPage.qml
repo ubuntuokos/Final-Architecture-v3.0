@@ -141,7 +141,7 @@ Item {
                                 anchors.margins: 9
                                 spacing: 3
                                 Label { text: root.shown(modelData.path); color: root.textPrimary; font.family: "monospace"; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
-                                Label { text: "Host " + root.shown(modelData.host_id) + " · Run " + root.shown(modelData.run_id); color: root.textMuted; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
+                                Label { text: "Present " + root.shown(modelData.present) + " · Host " + root.shown(modelData.host_id) + " · Run " + root.shown(modelData.run_id); color: modelData.present === false ? root.orange : root.textMuted; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
                                 Label { text: "Collected " + root.shown(modelData.collected_at) + " · Expires " + root.shown(modelData.expires_at); color: root.textMuted; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
                                 Label { text: "Commit " + root.shown(modelData.source_commit); color: root.textMuted; font.family: "monospace"; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
                             }
