@@ -647,6 +647,39 @@ def _capability(state: bool, required: bool = False) -> str:
     return "FAIL" if required else "LIMITED"
 
 
+QT_NATIVE_DESKTOPS = {"KDE_PLASMA", "LXQT"}
+
+
+def desktop_integration_strategy(
+    desktop: Mapping[str, Any],
+    session_type: str,
+    *,
+    local_gui: bool = True,
+) -> dict[str, Any]:
+    """Select the strongest safe desktop integration without changing authority."""
+    name = str(desktop.get("desktop", "UNKNOWN"))
+    if not local_gui:
+        strategy, qt_native, kf6 = "HEADLESS_NO_LOCAL_GUI", False, False
+    elif name == "KDE_PLASMA":
+        strategy, qt_native, kf6 = "QT6_NATIVE_KF6_ENHANCED", True, True
+    elif name == "LXQT":
+        strategy, qt_native, kf6 = "QT6_NATIVE_DESKTOP", True, False
+    else:
+        strategy, qt_native, kf6 = "QT6_XDG_FREEDESKTOP", False, False
+    return {
+        "application_core": "QT6_QML_NATIVE",
+        "strategy": strategy,
+        "qt_native_application_core": True,
+        "qt_desktop_native_integration": qt_native,
+        "kf6_enhancement": kf6,
+        "xdg_freedesktop_interoperability": True,
+        "portal_role": "INTEROPERABILITY_OR_SANDBOX",
+        "session_backend": session_type or ("headless" if not local_gui else "inferred"),
+        "lowest_common_denominator_restriction": False,
+        "architectural_authority": False,
+    }
+
+
 def evaluate_desktop(
     env: Mapping[str, str] | None = None,
     probes: Mapping[str, bool] | None = None,
@@ -667,6 +700,7 @@ def evaluate_desktop(
             "local_gui_required": False,
             "desktop": desktop,
             "session": {"type": session_type or "headless", "support": "NOT_APPLICABLE"},
+            "integration": desktop_integration_strategy(desktop, session_type, local_gui=False),
             "capabilities": {"desktop_integration": "NOT_APPLICABLE"},
             "findings": [],
             "capability_count": CAPABILITY_COUNT,
@@ -712,6 +746,7 @@ def evaluate_desktop(
         "local_gui_required": require_gui,
         "desktop": desktop,
         "session": {"type": session_type or "inferred", "support": session_support},
+        "integration": desktop_integration_strategy(desktop, session_type, local_gui=True),
         "capabilities": {
             **{name: _capability(ok, required=True) for name, ok in required.items()},
             **{name: _capability(ok, required=False) for name, ok in optional.items()},
@@ -761,6 +796,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
     forbidden = set(base.get("policy", {}).get("direct_core_dependencies_forbidden", []))
     required_forbidden = {"KWALLET_DIRECT_API", "KIO_DIRECT_API", "KWIN_PRIVATE_API", "PLASMA_PRIVATE_DBUS_API"}
     tier2 = set(base.get("support_tiers", {}).get("tier_2_supported_targets", []))
+    policy = base.get("policy", {})
+    integration_priority = policy.get("integration_priority", [])
 
     if not (
         base.get("id") == BASE_ID
@@ -774,6 +811,16 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and base.get("policy", {}).get("x11") == "SUPPORTED_COMPATIBILITY"
         and base.get("policy", {}).get("system_tray") == "OPTIONAL_ENHANCEMENT"
         and base.get("policy", {}).get("global_shortcuts") == "OPTIONAL_ENHANCEMENT"
+        and policy.get("application_toolkit") == "QT6_QML_NATIVE"
+        and policy.get("qt_native_desktop_integration") == "PREFERRED_WHEN_AVAILABLE"
+        and policy.get("qt_native_feature_downleveling") == "FORBIDDEN_WHEN_SAFE_AND_AVAILABLE"
+        and policy.get("kf6_enhancement_on_plasma") == "ALLOWED_AND_PREFERRED_WHEN_CAPABILITY_ADDS_VALUE"
+        and policy.get("xdg_freedesktop_role") == "INTEROPERABILITY_AND_NON_QT_DESKTOP_BOUNDARY"
+        and integration_priority[:3] == [
+            "FA3_QT6_QML_APPLICATION_CORE",
+            "QT_NATIVE_DESKTOP_INTEGRATION_WHEN_AVAILABLE",
+            "KF6_ENHANCEMENT_ON_KDE_PLASMA_WHEN_USEFUL",
+        ]
         and required_forbidden.issubset(forbidden)
         and {"COSMIC_WAYLAND", "GNOME_WAYLAND", "CINNAMON", "XFCE", "LXQT"}.issubset(tier2)
     ):
@@ -788,6 +835,11 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and plasma.get("new_capabilities") == 0
         and plasma.get("capability_count") == CAPABILITY_COUNT
         and plasma.get("constraints", {}).get("enhancements_must_not_become_core_requirements") is True
+        and plasma.get("constraints", {}).get("qt_native_integration_may_be_full_strength") is True
+        and plasma.get("constraints", {}).get("lowest_common_denominator_restriction") is False
+        and plasma.get("constraints", {}).get("kf6_enhancement_requires_fa3_interface_boundary") is True
+        and plasma.get("constraints", {}).get("desktop_native_enhancement_is_not_architectural_authority") is True
+        and plasma.get("integration_strategy", {}).get("preferred") == "QT6_NATIVE_KF6_ENHANCED"
         and plasma.get("appearance", {}).get("runtime_dependency") is False
         and secret_activation.get("mode") == "REFERENCE_PROVIDER_SECRET_SERVICE_ADAPTER"
         and secret_activation.get("core_requirement") is False
@@ -808,6 +860,15 @@ def canonical_check(root: Path) -> dict[str, Any]:
     ):
         findings.append({"code": "DESKTOP_PLASMA_REFERENCE_DRIFT", "severity": "P0"})
 
+    gate_invariants = set(gate.get("mandatory_invariants", []))
+    required_qt_invariants = {
+        "QT6_QML_IS_NATIVE_APPLICATION_CORE",
+        "QT_BASED_DESKTOP_MAY_USE_NATIVE_QT_INTEGRATION_WITHOUT_DOWNLEVELING",
+        "KDE_KF6_ENHANCEMENTS_ALLOWED_BEHIND_FA3_INTERFACES",
+        "XDG_FREEDESKTOP_INTEROP_PRESERVES_NON_QT_DESKTOP_SUPPORT",
+        "NATIVE_DESKTOP_ENHANCEMENTS_DO_NOT_CREATE_AUTHORITY_OR_CORE_DESKTOP_DEPENDENCY",
+    }
+
     if not (
         gate.get("id") == GATE_ID
         and gate.get("priority") == "P0"
@@ -817,6 +878,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and gate.get("new_capabilities") == 0
         and gate.get("new_architectural_authorities") == 0
         and gate.get("capability_count") == CAPABILITY_COUNT
+        and required_qt_invariants.issubset(gate_invariants)
     ):
         findings.append({"code": "DESKTOP_GATE_RECORD_DRIFT", "severity": "P0"})
 
@@ -846,14 +908,25 @@ def regression_check() -> dict[str, Any]:
         full,
         require_gui=True,
     )
-    cases["plasma_wayland_reference_pass"] = plasma["result"] == "PASS" and plasma["desktop"]["tier"] == 1 and plasma["session"]["support"] == "PREFERRED"
+    cases["plasma_wayland_reference_pass"] = (
+        plasma["result"] == "PASS"
+        and plasma["desktop"]["tier"] == 1
+        and plasma["session"]["support"] == "PREFERRED"
+        and plasma["integration"]["strategy"] == "QT6_NATIVE_KF6_ENHANCED"
+        and plasma["integration"]["lowest_common_denominator_restriction"] is False
+    )
 
     cosmic = evaluate_desktop(
         {"XDG_CURRENT_DESKTOP": "COSMIC", "XDG_SESSION_TYPE": "wayland", "XDG_RUNTIME_DIR": "/run/user/1000", "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus"},
         {**full, "system_tray": False, "global_shortcuts": False},
         require_gui=True,
     )
-    cases["cosmic_generic_xdg_pass"] = cosmic["result"] == "PASS" and cosmic["desktop"]["tier"] == 2 and cosmic["capabilities"]["system_tray"] == "LIMITED"
+    cases["cosmic_generic_xdg_pass"] = (
+        cosmic["result"] == "PASS"
+        and cosmic["desktop"]["tier"] == 2
+        and cosmic["capabilities"]["system_tray"] == "LIMITED"
+        and cosmic["integration"]["strategy"] == "QT6_XDG_FREEDESKTOP"
+    )
 
     gnome_x11 = evaluate_desktop(
         {"XDG_CURRENT_DESKTOP": "GNOME", "XDG_SESSION_TYPE": "x11", "XDG_RUNTIME_DIR": "/run/user/1000", "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus", "DISPLAY": ":0"},
@@ -874,7 +947,11 @@ def regression_check() -> dict[str, Any]:
         {**full, "secret_service": False, "fa3_vault": True},
         require_gui=True,
     )
-    cases["fa3_vault_satisfies_secret_backend"] = vault_fallback["result"] == "PASS" and vault_fallback["capabilities"]["secret_backend"] == "PASS"
+    cases["fa3_vault_satisfies_secret_backend"] = (
+        vault_fallback["result"] == "PASS"
+        and vault_fallback["capabilities"]["secret_backend"] == "PASS"
+        and vault_fallback["integration"]["strategy"] == "QT6_NATIVE_DESKTOP"
+    )
 
     headless = evaluate_desktop({}, {key: False for key in full}, require_gui=False)
     cases["headless_without_local_gui_requirement_pass"] = headless["result"] == "PASS" and headless["mode"] == "HEADLESS_COMPATIBLE"
