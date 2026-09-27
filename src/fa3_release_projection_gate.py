@@ -1061,7 +1061,7 @@ def gate(root: Path):
         or story_presentation.get("profile_id") != STORY_PRESENTATION_PROFILE_ID
         or story_presentation.get("contract_id") != STORY_PRESENTATION_CONTRACT_ID
         or story_presentation.get("gate_id") != STORY_PRESENTATION_GATE_ID
-        or story_presentation.get("capability_bindings") != ["CAP-018", "CAP-033", "CAP-170", "CAP-171"]
+        or story_presentation.get("capability_bindings") != ["CAP-018", "CAP-030", "CAP-033", "CAP-170", "CAP-171"]
         or story_presentation.get("silent_story_writeback") is not False
         or story_presentation.get("presenton_runtime_required") is not False
         or story_presentation.get("presenton_historical_evidence_reused_as_native_runtime_proof") is not False
@@ -1084,7 +1084,7 @@ def gate(root: Path):
         or not {"REFERENCE_ONLY", "SELECTIVE_CODE_DONOR"}.issubset(set(presenton_provider.get("classification", [])))
         or superseding_decision.get("current_host_evidence_transfer_to_native_layer") is not False
         or story_profile.get("capability_count") != CAPABILITY_COUNT
-        or set(story_profile.get("capability_projection", [])) != {"CAP-018", "CAP-033", "CAP-170", "CAP-171"}
+        or set(story_profile.get("capability_projection", [])) != {"CAP-018", "CAP-030", "CAP-033", "CAP-170", "CAP-171"}
         or presenton_evidence.get("provider_id") != PRESENTON_PROVIDER_ID
         or presenton_evidence.get("status") != "PASS"
         or presenton_evidence.get("evidence_scope") != "LOCAL_EXECUTABLE_CONFORMANCE_NOT_CURRENT_HOST_PRODUCTION"
