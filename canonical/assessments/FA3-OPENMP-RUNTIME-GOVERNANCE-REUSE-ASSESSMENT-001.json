@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-OPENMP-RUNTIME-GOVERNANCE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-OPENMP-RUNTIME-GOVERNANCE-001",
+  "intent_id": "FA3-OPENMP-RUNTIME-GOVERNANCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-OPENMP-RUNTIME-GOVERNANCE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-CPU-NUMA-THREADING-001",
+    "FA3-OPENMP-RUNTIME-GOVERNANCE-001"
+  ],
+  "project_status": "CANONICAL_OPENMP_GOVERNANCE_MATERIALIZED_PHYSICAL_CURRENT_HOST_EXECUTION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {"id": "FA3-CPU-NUMA-THREADING-001", "use": "EXISTING_PARENT_CPU_NUMA_THREAD_BUDGET_AND_POLICY"},
+    {"id": "FA3-HARDWARE-BASELINE-001", "use": "EXISTING_VENDOR_NEUTRAL_LIVE_HARDWARE_DISCOVERY_BOUNDARY"},
+    {"id": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "use": "EXISTING_SOLE_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY"},
+    {"id": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001", "use": "EXISTING_LINUX_CPUSET_AND_RESOURCE_ENFORCEMENT_PROJECTION"},
+    {"id": "FA3-AUTH-OBS-EVIDENCE-001", "use": "EXISTING_EVIDENCE_AUTHORITY"},
+    {"id": "FA3-REUSE-DISCOVERY-001", "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"}
+  ],
+  "rejected_candidates": [
+    {"id": "NEW_OPENMP_RESOURCE_AUTHORITY", "reason": "HRB_REMAINS_SOLE_RESOURCE_AUTHORITY"},
+    {"id": "GLOBAL_OPENMP_ENVIRONMENT_TUNING", "reason": "HOST_NON_INTERFERENCE_REQUIRES_CHILD_PROCESS_SCOPED_PROJECTION"},
+    {"id": "FIXED_VENDOR_OR_DEVICE_DEFAULT", "reason": "HARDWARE_AUDIT_REQUIRES_VENDOR_NEUTRAL_LIVE_DISCOVERY"},
+    {"id": "SILENT_TARGET_HOST_FALLBACK", "reason": "EXPLICIT_EXECUTION_PATH_AND_HRB_ADMISSION_REQUIRED"}
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "linux_enforcement_projection": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "openmp_runtime_role": "CONSUMER_NOT_AUTHORITY"
+  },
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_OPENMP_RUNTIME_EXECUTION_PENDING",
+    "ACCELERATOR_TARGET_OFFLOAD_EVIDENCE_CONDITIONAL_WHEN_USED"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "child_process_environment_only": true,
+    "system_openmp_runtime_replacement_required": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
