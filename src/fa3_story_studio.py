@@ -586,6 +586,163 @@ def build_dubbing_conformance_plan(
         "human_review_required": bool(affected),
     }
 
+
+SPOILER_MODES = {
+    "SPOILER_FREE_TEASER",
+    "LIGHT_SPOILER",
+    "PARTIAL_PLOT",
+    "FULL_PLOT",
+    "ENDING_EXPLAINED",
+    "CHARACTER_ARC",
+    "EPISODE_RECAP",
+}
+SPOILER_LEVEL_BY_MODE = {
+    "SPOILER_FREE_TEASER": "NONE",
+    "LIGHT_SPOILER": "LIGHT",
+    "PARTIAL_PLOT": "PARTIAL",
+    "FULL_PLOT": "FULL",
+    "ENDING_EXPLAINED": "ENDING",
+    "CHARACTER_ARC": "PARTIAL",
+    "EPISODE_RECAP": "FULL",
+}
+
+
+def build_spoiler_generation_plan(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    source_document_id: str,
+    source_revision: int,
+    branch_id: str,
+    mode: str,
+    source_node_refs: list[str],
+    intended_audience: str,
+) -> dict[str, Any]:
+    """Plan a non-authoritative spoiler derivative from one explicit story revision and branch."""
+    validate_project(project)
+    members = _members(project)
+    if actor_id not in members:
+        raise StoryStudioError("actor is not a project collaborator")
+    if mode not in SPOILER_MODES:
+        raise StoryStudioError("unsupported spoiler mode")
+    documents = _document_map(project)
+    if source_document_id not in documents:
+        raise StoryStudioError("source document not found")
+    source_doc = documents[source_document_id]
+    if source_revision != source_doc["revision"]:
+        raise StoryStudioError("spoiler source revision must match selected document revision")
+    branches = {item.get("branch_id") for item in project.get("branches", [])}
+    if branch_id not in branches:
+        raise StoryStudioError("spoiler branch must exist")
+    if not source_node_refs:
+        raise StoryStudioError("spoiler source_node_refs required")
+    nodes = _project_node_map(project)
+    if any(node_id not in nodes for node_id in source_node_refs):
+        raise StoryStudioError("spoiler source_node_refs must reference known story nodes")
+    if not intended_audience:
+        raise StoryStudioError("intended_audience required")
+
+    source_digest = str(source_doc.get("content_digest") or sha256(
+        str(source_doc.get("content", "")).encode("utf-8")
+    ).hexdigest())
+    released_digests = {r.get("revision_digest") for r in project.get("releases", []) if r.get("final") is True}
+    source_is_released = source_digest in released_digests
+
+    return {
+        "schema": "fa3.spoiler-generation-plan.v1",
+        "project_id": project["project_id"],
+        "source_document_id": source_document_id,
+        "source_revision": source_revision,
+        "source_revision_digest": source_digest,
+        "branch_id": branch_id,
+        "source_node_refs": list(dict.fromkeys(source_node_refs)),
+        "mode": mode,
+        "disclosure_level": SPOILER_LEVEL_BY_MODE[mode],
+        "intended_audience": intended_audience,
+        "source_is_released": source_is_released,
+        "draft_marker_required": not source_is_released,
+        "cross_branch_detail_mixing": False,
+        "canonical_story_mutation": False,
+        "model_provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+        "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+        "external_publication_requires_release_approval": True,
+        "execution_authorized": False,
+    }
+
+
+def register_spoiler_derivative(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    spoiler_id: str,
+    plan: dict[str, Any],
+    text: str,
+    disclosure_map: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Register generated spoiler text while preserving source lineage and disclosure metadata."""
+    validate_project(project)
+    if actor_id not in _members(project):
+        raise StoryStudioError("actor is not a project collaborator")
+    if plan.get("schema") != "fa3.spoiler-generation-plan.v1":
+        raise StoryStudioError("spoiler generation plan schema mismatch")
+    if not spoiler_id or not text:
+        raise StoryStudioError("spoiler_id and text required")
+    if any(x.get("spoiler_id") == spoiler_id for x in project.get("spoiler_derivatives", [])):
+        raise StoryStudioError("spoiler_id already exists")
+    if not isinstance(disclosure_map, list) or not disclosure_map:
+        raise StoryStudioError("spoiler disclosure_map required")
+    allowed_refs = set(plan.get("source_node_refs", []))
+    for item in disclosure_map:
+        if item.get("source_node_ref") not in allowed_refs:
+            raise StoryStudioError("disclosure map references node outside selected spoiler source")
+        if item.get("level") not in {"NONE", "LIGHT", "PARTIAL", "FULL", "ENDING"}:
+            raise StoryStudioError("invalid disclosure level")
+    derivative = {
+        "schema": "fa3.spoiler-derivative.v1",
+        "spoiler_id": spoiler_id,
+        "created_by": actor_id,
+        "created_at": _utc_now(),
+        "source_document_id": plan["source_document_id"],
+        "source_revision": plan["source_revision"],
+        "source_revision_digest": plan["source_revision_digest"],
+        "branch_id": plan["branch_id"],
+        "source_node_refs": deepcopy(plan["source_node_refs"]),
+        "mode": plan["mode"],
+        "disclosure_level": plan["disclosure_level"],
+        "intended_audience": plan["intended_audience"],
+        "draft_marker_required": plan["draft_marker_required"],
+        "text": text,
+        "text_digest": sha256(text.encode("utf-8")).hexdigest(),
+        "disclosure_map": deepcopy(disclosure_map),
+        "canonical_story_mutation": False,
+        "external_publication_approved": False,
+    }
+    project.setdefault("spoiler_derivatives", []).append(derivative)
+    return deepcopy(derivative)
+
+
+def approve_spoiler_publication(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    spoiler_id: str,
+) -> dict[str, Any]:
+    """Approve a spoiler derivative for external publication using release-capable roles."""
+    validate_project(project)
+    members = _members(project)
+    if actor_id not in members:
+        raise StoryStudioError("actor is not a project collaborator")
+    roles = set(members[actor_id].get("roles", []))
+    if not roles & {"OWNER", "FINAL_PUBLISHER", "RELEASE_APPROVER"}:
+        raise StoryStudioError("actor cannot approve spoiler publication")
+    item = next((x for x in project.get("spoiler_derivatives", []) if x.get("spoiler_id") == spoiler_id), None)
+    if item is None:
+        raise StoryStudioError("spoiler derivative not found")
+    item["external_publication_approved"] = True
+    item["publication_approved_by"] = actor_id
+    item["publication_approved_at"] = _utc_now()
+    return deepcopy(item)
+
 def new_reference_project() -> dict[str, Any]:
     return {
         "schema": SCHEMA,
@@ -625,6 +782,7 @@ def new_reference_project() -> dict[str, Any]:
         "stash": [],
         "notes": [],
         "releases": [],
+        "spoiler_derivatives": [],
         "codec_registry": [
             {"media_type": "application/x-fountain", "import": True, "export": True, "roundtrip_test_required": True},
             {"media_type": "application/vnd.finaldraft", "import": True, "export": True, "roundtrip_test_required": True},
