@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PY="${FA3_TEST_PYTHON:-python3}"
+
+export PYTHONPATH="${ROOT}/src"
+export PYTHONNOUSERSITE=1
+
+if ! "${PY}" -c 'import pytest,sys; sys.exit(0 if pytest.__version__ == "9.1.1" else 3)' >/dev/null 2>&1; then
+  echo "FA3 test runner requires pytest==9.1.1 in the selected Python environment." >&2
+  echo "Prepare an isolated test venv with: bash bin/fa3-prepare-repository --venv .venv-fa3-test --fetch" >&2
+  exit 3
+fi
+
+cd "${ROOT}"
+exec "${PY}" -m pytest "$@"
