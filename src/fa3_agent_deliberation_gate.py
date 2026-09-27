@@ -24,6 +24,7 @@ from fa3_agent_deliberation import (
     validate_participant,
 )
 from fa3_release_baseline import load_active_release_baseline
+from fa3_agent_deliberation_runtime import make_server
 
 PROFILE = "canonical/profiles/FA3-AGENT-COLLABORATION-DELIBERATION-001.json"
 CONTRACT = "canonical/contracts/FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001.json"
@@ -149,7 +150,8 @@ def gate(root: Path) -> dict[str, Any]:
     count = load_active_release_baseline(root).capability_count
     findings: list[dict[str, Any]] = []
     paths = [PROFILE, CONTRACT, DECISION, REFERENCE, ENFORCEMENT, INTENT, REUSE, DFA]
-    for rel in paths:
+    runtime_paths = ["src/fa3_agent_deliberation_runtime.py", "evidence/collect-agent-deliberation-reference-e2e.py"]
+    for rel in paths + runtime_paths:
         if not (root / rel).is_file():
             findings.append({"code": "DEL-001", "message": "required materialization missing", "path": rel})
     if findings:
@@ -170,14 +172,24 @@ def gate(root: Path) -> dict[str, Any]:
         (i.get("declared_new_capabilities") == [] and i.get("proposed_authority_roles") == [] and i.get("hardware_audit", {}).get("cpu_only_viable") is True and i.get("namespace_claims", {}).get("claims_default_port") is False, "DEL-020", "ApplicationIntent hardware/coexistence drift"),
         (reuse.get("result") == "PASS" and reuse.get("current_host_runtime_promotion_claim") is False and reuse.get("new_capabilities") == 0 and reuse.get("new_architectural_authorities") == 0 and p.get("id") in reuse.get("covered_ids", []), "DEL-021", "ReuseAssessment drift"),
         (dfa.get("assessment") == "REQUIRED" and dfa.get("project_radar_checked") is True and dfa.get("security_boundary", {}).get("may_expand_candidate_set") is False and dfa.get("hardware_audit", {}).get("cpu_only_viable") is True, "DEL-022", "Decision Fabric applicability boundary drift"),
-        (e.get("fail_closed") is True and e.get("mandatory") is True and e.get("capability_count") == count and len(e.get("p0_invariants", [])) == 20, "DEL-023", "enforcement inventory drift"),
+        (e.get("fail_closed") is True and e.get("mandatory") is True and e.get("capability_count") == count and len(e.get("p0_invariants", [])) == 21, "DEL-023", "enforcement inventory drift"),
         (p.get("hardware_audit", {}).get("vendor_neutral") is True and p.get("hardware_audit", {}).get("cpu_only_viable") is True and p.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N" and p.get("hardware_audit", {}).get("global_accelerator_requirement") is False, "DEL-024", "Hardware Audit drift"),
         (p.get("coexistence", {}).get("cap_175_applies") is True and p.get("coexistence", {}).get("requires_upstream_uninstall") is False and p.get("coexistence", {}).get("fixed_port_claim") is False and p.get("coexistence", {}).get("global_agent_config_mutation") is False, "DEL-025", "CAP-175 coexistence drift"),
-        (p.get("current_host_runtime_promotion_claim") is False and p.get("global_promotion_claim") is False and p.get("runtime_status") == "STATIC_REFERENCE_MATERIALIZED_CURRENT_HOST_PENDING", "DEL-026", "runtime promotion truth boundary drift"),
+        (p.get("current_host_runtime_promotion_claim") is False and p.get("global_promotion_claim") is False and p.get("runtime_status") == "REFERENCE_RUNTIME_MATERIALIZED_CI_E2E_CURRENT_HOST_PENDING", "DEL-026", "runtime promotion truth boundary drift"),
     ]
     for ok, code, message_text in checks:
         if not ok:
             findings.append({"code": code, "message": message_text})
+
+    try:
+        server = make_server(port=0)
+        host, port = server.server_address
+        runtime_smoke = host == "127.0.0.1" and isinstance(port, int) and port > 0
+        server.server_close()
+    except Exception:
+        runtime_smoke = False
+    if not runtime_smoke:
+        findings.append({"code":"DEL-029","message":"loopback dynamic-port reference runtime smoke failed"})
 
     cases = regression_cases()
     for name, ok in cases:
@@ -188,7 +200,7 @@ def gate(root: Path) -> dict[str, Any]:
     workflow_text = (root / ".github/workflows/fa3-permanent-enforcement.yml").read_text(encoding="utf-8")
     if 'agent-deliberation' not in bin_text or 'fa3_agent_deliberation_gate.py' not in bin_text:
         findings.append({"code":"DEL-027","message":"bin/fa3-enforce binding missing"})
-    if "./bin/fa3-enforce agent-deliberation" not in workflow_text or "agent-collaboration-deliberation-gate-report.json" not in workflow_text:
+    if "./bin/fa3-enforce agent-deliberation" not in workflow_text or "collect-agent-deliberation-reference-e2e.py" not in workflow_text or "agent-collaboration-deliberation-gate-report.json" not in workflow_text:
         findings.append({"code":"DEL-028","message":"permanent CI/report binding missing"})
 
     return {

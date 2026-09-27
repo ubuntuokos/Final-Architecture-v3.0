@@ -2,7 +2,7 @@
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-AGENT-COLLABORATION-DELIBERATION-2026-09-27",
   "date": "2026-09-27",
-  "status": "CANONICAL_IMPLEMENTED_STATIC_REFERENCE",
+  "status": "CANONICAL_IMPLEMENTED_REFERENCE_RUNTIME",
   "title": "Materialize governed Agent Collaboration & Deliberation from Agent Room patterns",
   "decision": "MATERIALIZE_FA3_NATIVE_AGENT_COLLABORATION_AND_DELIBERATION_PROFILE_WITHOUT_IMPORTING_UPSTREAM_RUNTIMES_OR_CREATING_NEW_AUTHORITY",
   "profile_id": "FA3-AGENT-COLLABORATION-DELIBERATION-001",
@@ -66,5 +66,14 @@
     "namespaced_paths_required": true
   },
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "reference_runtime": {
+    "implementation": "src/fa3_agent_deliberation_runtime.py",
+    "bind_host": "127.0.0.1",
+    "default_port": 0,
+    "persistence": "IN_MEMORY_ONLY",
+    "production_daemon_claim": false,
+    "ci_e2e": "evidence/collect-agent-deliberation-reference-e2e.py",
+    "ci_reference_is_current_host_promotion": false
+  }
 }

@@ -71,6 +71,12 @@ A chat message cannot transition a task to completed. Completion requires typed 
 
 The FA3 implementation does not write to `~/.codex`, `~/.claude`, `~/.agent-room`, or other upstream namespaces. It claims no fixed default port. Any future runtime endpoint must be dynamic or brokered and any state must live under FA3 XDG namespaces. Upstream Agent Room installations remain independently usable.
 
+## FA3-native reference runtime
+
+A runnable stdlib-only loopback reference runtime is materialized in `src/fa3_agent_deliberation_runtime.py`. It binds only to `127.0.0.1`, requests port `0` by default so the OS assigns an ephemeral port, keeps room state in memory, and does not install a daemon or claim a service name. Its HTTP surface is deliberately small: health, create/read session, validated message append, and receipt-bound close.
+
+`evidence/collect-agent-deliberation-reference-e2e.py` exercises the real HTTP path in CI and proves a valid message is accepted, a forged client `hostVerified` claim is rejected without transcript mutation, closure works, and a closed room rejects new messages.
+
 ## Evidence boundary
 
-This change is a canonical/static reference materialization. It does not claim a live room daemon, external-agent runtime admission, cross-host production pass, current-host runtime pass, or global production promotion. Those require separate physical evidence.
+The reference runtime and CI loopback E2E prove executable semantics only. They do not claim external-agent runtime admission, a persistent production room daemon, physical current-host PASS, cross-host production PASS, or global production promotion. Those require separate physical evidence.

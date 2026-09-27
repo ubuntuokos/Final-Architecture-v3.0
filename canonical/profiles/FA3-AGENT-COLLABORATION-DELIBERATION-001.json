@@ -129,7 +129,11 @@
     "dynamic_or_brokered_endpoint_if_runtime_materialized": true,
     "xdg_namespaced_state_only": true,
     "upstream_skill_directories_may_be_modified": false,
-    "upstream_runtime_required": false
+    "upstream_runtime_required": false,
+    "reference_runtime_bind_host": "127.0.0.1",
+    "reference_runtime_default_port": 0,
+    "reference_runtime_persistence": "IN_MEMORY_ONLY",
+    "reference_runtime_is_production_daemon": false
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -147,7 +151,7 @@
     "fixed_port_claim": false,
     "namespaced_paths_required": true
   },
-  "runtime_status": "STATIC_REFERENCE_MATERIALIZED_CURRENT_HOST_PENDING",
+  "runtime_status": "REFERENCE_RUNTIME_MATERIALIZED_CI_E2E_CURRENT_HOST_PENDING",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "capability_baseline_release": "2026-09-26/v3.1.0",
