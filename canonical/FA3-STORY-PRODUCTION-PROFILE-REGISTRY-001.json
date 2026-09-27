@@ -1,0 +1,100 @@
+{
+  "schema": "fa3.story-production-profile-registry.v1",
+  "id": "FA3-STORY-PRODUCTION-PROFILE-REGISTRY-001",
+  "status": "CANONICAL",
+  "canonical_story_ir": "FA3-STORY-PRESENTATION-FABRIC-001",
+  "common_core": [
+    "story_graph",
+    "document_identity",
+    "lineage",
+    "provenance",
+    "version",
+    "authoring_state",
+    "production_links"
+  ],
+  "profiles": [
+    {
+      "id": "FEATURE_FILM",
+      "semantics": "FEATURE_FILM",
+      "fields": "PROFILE_SPECIFIC",
+      "ui_behavior": "PROFILE_SPECIFIC",
+      "validation": "PROFILE_SPECIFIC",
+      "timing": "FILM_TIMING",
+      "reports": "FILM_REPORTS",
+      "import_export": "PROFILE_RULED",
+      "production_handoff": "FILM_HANDOFF"
+    },
+    {
+      "id": "TV_MOVIE",
+      "semantics": "TV_MOVIE",
+      "fields": "PROFILE_SPECIFIC",
+      "ui_behavior": "PROFILE_SPECIFIC",
+      "validation": "PROFILE_SPECIFIC",
+      "timing": "TV_MOVIE_TIMING",
+      "reports": "TV_MOVIE_REPORTS",
+      "import_export": "PROFILE_RULED",
+      "production_handoff": "TV_MOVIE_HANDOFF"
+    },
+    {
+      "id": "EPISODIC_TV_SERIES",
+      "semantics": "EPISODIC_TV_SERIES",
+      "fields": "PROFILE_SPECIFIC",
+      "ui_behavior": "PROFILE_SPECIFIC",
+      "validation": "PROFILE_SPECIFIC",
+      "timing": "EPISODIC_TIMING",
+      "reports": "EPISODIC_REPORTS",
+      "import_export": "PROFILE_RULED",
+      "production_handoff": "EPISODIC_HANDOFF"
+    },
+    {
+      "id": "COMMERCIAL_ADVERTISING",
+      "semantics": "COMMERCIAL_ADVERTISING",
+      "fields": "PROFILE_SPECIFIC",
+      "ui_behavior": "PROFILE_SPECIFIC",
+      "validation": "PROFILE_SPECIFIC",
+      "timing": "SPOT_DURATION_BOUND",
+      "reports": "COMMERCIAL_REPORTS",
+      "import_export": "PROFILE_RULED",
+      "production_handoff": "COMMERCIAL_HANDOFF"
+    },
+    {
+      "id": "LIVE_BROADCAST",
+      "semantics": "LIVE_BROADCAST",
+      "fields": "RUNDOWN_AND_SEGMENT_AWARE",
+      "ui_behavior": "LIVE_CUE_AWARE",
+      "validation": "LIVE_CUE_VALIDATION",
+      "timing": "LIVE_RUNDOWN_BOUND",
+      "reports": "BROADCAST_REPORTS",
+      "import_export": "PROFILE_RULED",
+      "production_handoff": "LIVE_BROADCAST_HANDOFF"
+    },
+    {
+      "id": "DUBBING_LOCALIZATION",
+      "semantics": "DUBBING_LOCALIZATION",
+      "fields": "SOURCE_VIDEO_TIMECODE_DIALOGUE_CUE_LOCALIZED_TEXT",
+      "ui_behavior": "VIDEO_TIMECODE_BOUND",
+      "validation": "TIMECODE_AND_CUE_BOUNDARY_VALIDATION",
+      "timing": "SOURCE_VIDEO_TIMECODE_BOUND",
+      "reports": "LOCALIZATION_CUE_REPORTS",
+      "import_export": "PROFILE_RULED",
+      "production_handoff": "DUBBING_LOCALIZATION_HANDOFF",
+      "first_class": true,
+      "video_bound": true,
+      "timecode_bound": true
+    },
+    {
+      "id": "FUTURE_CUSTOM",
+      "semantics": "EXTENSIBLE_PROFILE",
+      "fields": "DECLARED_BY_PROFILE",
+      "ui_behavior": "DECLARED_BY_PROFILE",
+      "validation": "DECLARED_BY_PROFILE",
+      "timing": "DECLARED_BY_PROFILE",
+      "reports": "DECLARED_BY_PROFILE",
+      "import_export": "DECLARED_BY_PROFILE_WITH_BIDIRECTIONAL_CODEC_RULE",
+      "production_handoff": "DECLARED_BY_PROFILE"
+    }
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 175
+}
