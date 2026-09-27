@@ -19,6 +19,7 @@ PLAN_SCHEMA = "fa3.current-host-capability-test-plan.v1"
 ASSEMBLER_ID = "FA3-CURRENT-HOST-CAPABILITY-TEST-BUNDLE-ASSEMBLER-001"
 CAP_ID = re.compile(r"^CAP-\d{3}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
 KINDS = ("positive", "negative", "rollback")
 
 
@@ -105,6 +106,10 @@ def _validate_result(
     if result.get("global_promotion_claim") is not False:
         findings.append("test result must not claim global promotion")
 
+    source_commit = result.get("source_commit")
+    if not isinstance(source_commit, str) or not HEX40.fullmatch(source_commit):
+        findings.append("source_commit missing/invalid")
+
     executor = result.get("executor")
     if not isinstance(executor, dict):
         findings.append("executor missing/invalid")
@@ -152,6 +157,7 @@ def _validate_result(
     return {
         "kind": kind,
         "test_id": result["test_id"],
+        "source_commit": source_commit,
         "collected_at": result["collected_at"],
         "expires_at": result["expires_at"],
         "artifact_path": artifact_rel,
@@ -169,6 +175,10 @@ def _bundle_from_results(cap: str, rows: dict[str, dict[str, Any]]) -> dict[str,
     host_digests = {row["host_fingerprint_sha256"] for row in rows.values()}
     if len(host_paths) != 1 or len(host_digests) != 1:
         raise ValueError("positive/negative/rollback results must bind to one host fingerprint")
+    source_commits = {row["source_commit"] for row in rows.values()}
+    if len(source_commits) != 1:
+        raise ValueError("positive/negative/rollback results must bind to one source commit")
+    source_commit = next(iter(source_commits))
 
     collected = max(_parse_time(row["collected_at"]) for row in rows.values())
     expires = min(_parse_time(row["expires_at"]) for row in rows.values())
@@ -193,6 +203,7 @@ def _bundle_from_results(cap: str, rows: dict[str, dict[str, Any]]) -> dict[str,
         "synthetic": False,
         "ci_reference_only": False,
         "global_promotion_claim": False,
+        "source_commit": source_commit,
         "collected_at": collected.isoformat(),
         "expires_at": expires.isoformat(),
         "host_fingerprint_path": host_path,
@@ -383,6 +394,8 @@ def materialize(root: Path) -> dict[str, Any]:
         "ci_reference_results_allowed": False,
         "provider_receipt_substitution_allowed": False,
         "generic_host_evidence_substitution_allowed": False,
+        "source_commit_required": True,
+        "source_commit_semantics": "EXACT_REPOSITORY_REVISION_EXECUTED_BY_THE_CURRENT_HOST_TEST",
         "capabilities": plan_rows,
     }
     _write(root / ".fa3-current-host/test-plan/capabilities.json", plan)
@@ -424,6 +437,7 @@ def materialize(root: Path) -> dict[str, Any]:
             "exact_registry_test_ids_required": True,
             "positive_negative_rollback_required_for_bundle": True,
             "single_host_fingerprint_required_per_bundle": True,
+            "single_source_commit_required_per_bundle": True,
             "all_artifacts_must_be_hash_bound": True,
         },
     }

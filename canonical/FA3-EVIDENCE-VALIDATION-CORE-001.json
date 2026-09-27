@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.evidence-validation-core.v1",
+  "id": "FA3-EVIDENCE-VALIDATION-CORE-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": "FA3-AUTH-OBS-EVIDENCE-001",
+  "implementation": "src/fa3_evidence_validation.py",
+  "consumers": [
+    "src/fa3_current_host_evidence_audit.py",
+    "src/fa3_enforce.py::runtime_check",
+    "src/fa3_enforce.py::acceptance_check",
+    "src/fa3_enforce.py::promote"
+  ],
+  "qualification_invariants": [
+    "PASS_RECEIPT_REQUALIFIED_AT_DECISION_TIME",
+    "EXACT_CURRENT_SOURCE_COMMIT_REQUIRED",
+    "SOURCE_DRIFT_DURING_PHYSICAL_TEST_EXECUTION_REJECTED",
+    "CURRENT_HOST_SCOPE_REQUIRED",
+    "SYNTHETIC_EVIDENCE_FORBIDDEN_FOR_PROMOTION",
+    "CI_REFERENCE_EVIDENCE_FORBIDDEN_FOR_PROMOTION",
+    "HOST_FINGERPRINT_HASH_REQUIRED",
+    "HOST_FINGERPRINT_MUST_BE_VERIFIED_ARTIFACT",
+    "COLLECTED_AT_REQUIRED",
+    "EXPIRY_REQUIRED_AND_MUST_BE_FRESH",
+    "POSITIVE_TEST_ID_AND_PASS_REQUIRED",
+    "NEGATIVE_TEST_ID_AND_PASS_REQUIRED",
+    "ROLLBACK_TEST_ID_AND_PASS_REQUIRED",
+    "TEST_ARTIFACTS_MUST_BE_HASH_BOUND",
+    "ALL_EVIDENCE_ARTIFACTS_MUST_EXIST_AND_MATCH_SHA256",
+    "EVIDENCE_ARTIFACT_PATH_ESCAPE_FORBIDDEN"
+  ],
+  "decision_path": {
+    "runtime": "SHARED_VALIDATOR_REQUIRED",
+    "acceptance": "RUNTIME_REQUALIFICATION_REQUIRED",
+    "promotion": "ACCEPTANCE_REQUALIFICATION_REQUIRED",
+    "cached_registry_pass_is_sufficient": false
+  },
+  "evidence_boundary": {
+    "validator_is_evidence_authority": false,
+    "validator_may_fabricate_receipts": false,
+    "validator_may_upgrade_pending_to_pass": false,
+    "current_host_promotion_claim": false
+  }
+}

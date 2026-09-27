@@ -17,6 +17,7 @@ RECEIPT_SCHEMA = "fa3.capability-current-host-evidence.v1"
 EVIDENCE_AUTHORITY = "FA3-AUTH-OBS-EVIDENCE-001"
 HANDOFF_ID = "FA3-CURRENT-HOST-CAPABILITY-HANDOFF-001"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
 CAP_ID = re.compile(r"^CAP-\d{3}$")
 
 
@@ -126,6 +127,9 @@ def validate_attestation(
         findings.append("attestation authority mismatch")
     if attestation.get("global_promotion_claim") is not False:
         findings.append("attestation must not claim global promotion")
+    source_commit = attestation.get("source_commit")
+    if not isinstance(source_commit, str) or not HEX40.fullmatch(source_commit):
+        findings.append("source_commit missing/invalid")
 
     collected = _parse_time(attestation.get("collected_at"))
     expires = _parse_time(attestation.get("expires_at"))
@@ -202,6 +206,7 @@ def validate_attestation(
         "current_host": True,
         "synthetic": False,
         "ci_reference_only": False,
+        "source_commit": source_commit,
         "host_fingerprint_path": host_rel,
         "host_fingerprint_sha256": host_digest,
         "collected_at": attestation["collected_at"],
