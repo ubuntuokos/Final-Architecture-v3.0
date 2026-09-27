@@ -64,6 +64,10 @@ def validate(root: Path) -> list[str]:
         ("DUBBING_LOCALIZATION" in profile.get("production_profiles", []), "dubbing-profile"),
         (profile.get("dubbing_localization", {}).get("frame_accurate_timing_required") is True, "dubbing-timing"),
         (profile.get("dubbing_localization", {}).get("final_as_recorded_script_must_match_delivered_audio") is True, "dubbing-as-recorded"),
+        (profile.get("spoiler_derivatives", {}).get("status") == "MANDATORY", "spoiler-mandatory"),
+        (profile.get("spoiler_derivatives", {}).get("source_node_lineage_required") is True, "spoiler-lineage"),
+        (profile.get("spoiler_derivatives", {}).get("cross_branch_detail_mixing_forbidden") is True, "spoiler-branch-isolation"),
+        (profile.get("spoiler_derivatives", {}).get("external_publication_requires_release_approval") is True, "spoiler-release-approval"),
         (profile.get("interchange", {}).get("import_export_symmetry_required") is True, "codec-symmetry"),
         (profile.get("hardware_audit", {}).get("cpu_only_core_required") is True, "cpu-only"),
         (contract.get("id") == "FA3-STORY-STUDIO-CONTRACTS-001", "contract-id"),
@@ -89,7 +93,7 @@ def validate(root: Path) -> list[str]:
     for token in [
         "FA3 Story Studio", "Production Profile", "Collaboration", "Final Publisher",
         "Story Branches", "Rejected / Stash", "Writer Goals", "Interchange",
-        "Presentation Layer", "Dubbing / ADR Script", "Final Publisher",
+        "Presentation Layer", "Dubbing / ADR Script", "Spoiler / Recap", "Final Publisher",
         "Feature Film", "TV Series", "Commercial", "Live Broadcast", "Dubbing / Localization",
     ]:
         if token not in qml:
