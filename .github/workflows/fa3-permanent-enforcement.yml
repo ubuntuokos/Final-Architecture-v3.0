@@ -54,11 +54,11 @@ jobs:
       - name: Encrypted Secret Broker P0 gate
         run: ./bin/fa3-enforce secret-broker
       - name: Prepare required repository history
-        run: ./bin/fa3-prepare-repository
+        run: bash bin/fa3-prepare-repository
       - name: Canonical Python namespace audit
         run: PYTHONPATH=src python tools/fa3_python_namespace_audit.py
       - name: Executable invariant tests
-        run: ./bin/fa3-test -v
+        run: bash bin/fa3-test -v
       - name: External RT3D engine exclusion gate
         run: PYTHONPATH=src python src/fa3_external_rt3d_engine_exclusion_gate.py --root .
       - name: Unified post-v3.0.11 release projection gate
