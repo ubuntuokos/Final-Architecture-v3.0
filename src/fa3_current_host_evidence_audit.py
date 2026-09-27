@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
-from fa3_evidence_validation import validate_capability_receipt
+from fa3_evidence_validation import git_head as _git_head, validate_capability_receipt
 
 import argparse
-import hashlib
 import json
-import re
-import subprocess
 from collections import Counter
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 RELEASE = load_active_release_baseline(Path(__file__).resolve().parents[1]).release
-RECEIPT_SCHEMA = "fa3.capability-current-host-evidence.v1"
-HEX64 = re.compile(r"^[0-9a-f]{64}$")
 COMPONENT_REFERENCE = "evidence/reference/hrb-cuda-current-host-2026-08-28.json"
 
 
@@ -27,48 +21,6 @@ def _load(path: Path) -> dict[str, Any]:
 def _write(path: Path, obj: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-
-def _parse_time(value: Any) -> datetime | None:
-    if not isinstance(value, str) or not value:
-        return None
-    try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00"))
-    except ValueError:
-        return None
-
-
-def _sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as fh:
-        for block in iter(lambda: fh.read(1024 * 1024), b""):
-            h.update(block)
-    return h.hexdigest()
-
-
-def _git_head(root: Path) -> str | None:
-    try:
-        cp = subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=root, text=True,
-            capture_output=True, check=False, timeout=10,
-        )
-    except Exception:
-        return None
-    value = cp.stdout.strip()
-    return value if cp.returncode == 0 and re.fullmatch(r"[0-9a-f]{40}", value) else None
-
-
-def _test_ok(test: Any, expected_id: str) -> tuple[bool, str | None]:
-    if not isinstance(test, dict):
-        return False, "test result missing"
-    if test.get("id") != expected_id:
-        return False, f"test id mismatch: expected {expected_id}"
-    if test.get("status") != "PASS":
-        return False, f"{expected_id} is not PASS"
-    digest = test.get("artifact_sha256")
-    if not isinstance(digest, str) or not HEX64.fullmatch(digest):
-        return False, f"{expected_id} artifact_sha256 missing/invalid"
-    return True, None
 
 
 def validate_receipt(root: Path, record: dict[str, Any]) -> dict[str, Any]:
