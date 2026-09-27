@@ -5,9 +5,12 @@
   "priority": "P0",
   "enforcement_id": "FA3-REPRODUCIBILITY-GATESET-001",
   "entrypoint": "src/fa3_reproducibility_gate.py",
-  "tests": ["tests/test_reproducibility_gate.py","tests/test_reproducibility_bootstrap.py"],
+  "tests": [
+    "tests/test_reproducibility_gate.py",
+    "tests/test_reproducibility_bootstrap.py"
+  ],
   "fail_closed": true,
-  "mandatory_checks": 18,
+  "mandatory_checks": 19,
   "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
