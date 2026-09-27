@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SYSCTL-HOST-TUNING-APPLICATION-INTENT-001",
+  "project_id": "FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001",
+  "project_type": "PROFILE",
+  "goal": "Strengthen existing Kernel/VM/I/O Tuning and Tuning Change Control with fail-closed sysctl observation, classification, authorization, namespaced persistence and rollback governance without creating a new capability or authority.",
+  "required_capabilities": ["CAP-063", "CAP-065"],
+  "optional_capabilities": [],
+  "problem_classes": ["kernel-vm-io-tuning", "host-global-change-control", "software-coexistence"],
+  "task_classes": ["hardware-audit", "sysctl-observation", "tuning-change-control"],
+  "skill_triggers": [],
+  "input_modalities": ["CURRENT_HOST_SYSCTL_STATE", "HRB_AUTHORIZATION", "SECURITY_AUTHORIZATION", "BENCHMARK_EVIDENCE"],
+  "output_modalities": ["SYSCTL_SNAPSHOT", "SYSCTL_CHANGE_PLAN", "ROLLBACK_EVIDENCE"],
+  "execution_classes": ["CPU_ONLY", "HOST_GLOBAL_PRIVILEGED_CHANGE_WHEN_EXPLICITLY_ADMITTED"],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": ["PRIVILEGED_MUTATION_EXECUTOR_NOT_ADMITTED_BY_STATIC_POLICY_ALONE"],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "config_root": "/etc/sysctl.d/90-fa3-<purpose>.conf",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}
