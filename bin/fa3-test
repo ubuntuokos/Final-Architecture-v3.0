@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VENV="${FA3_TEST_VENV:-$ROOT/.venv-fa3-test}"
+VENV="${FA3_TEST_VENV:-${XDG_CACHE_HOME:-$HOME/.cache}/fa3/test-venv}"
 PYTHON_BIN="${FA3_TEST_PYTHON:-python3}"
 
 if [[ ! -x "$VENV/bin/python" ]]; then
