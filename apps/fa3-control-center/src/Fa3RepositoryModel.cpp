@@ -107,6 +107,29 @@ void Fa3RepositoryModel::scanEvidence()
     while (it.hasNext()) { it.next(); ++m_evidenceCount; }
 }
 
+void Fa3RepositoryModel::scanGovernanceStatus()
+{
+    QVariantMap status;
+    status.insert(QStringLiteral("_projection_present"), false);
+    status.insert(QStringLiteral("_projection_path"), QStringLiteral("reports/governance-status-projection.json"));
+    status.insert(QStringLiteral("_projection_state"), QStringLiteral("UNKNOWN_OR_PENDING"));
+
+    QFile file(m_repoRoot + QStringLiteral("/reports/governance-status-projection.json"));
+    if (file.open(QIODevice::ReadOnly)) {
+        QJsonParseError error;
+        const auto document = QJsonDocument::fromJson(file.readAll(), &error);
+        if (error.error == QJsonParseError::NoError && document.isObject()) {
+            status = document.object().toVariantMap();
+            status.insert(QStringLiteral("_projection_present"), true);
+            status.insert(QStringLiteral("_projection_path"), QStringLiteral("reports/governance-status-projection.json"));
+            status.insert(QStringLiteral("_projection_state"), QStringLiteral("READ_ONLY_MACHINE_PROJECTION"));
+        } else {
+            status.insert(QStringLiteral("_projection_state"), QStringLiteral("INVALID_PROJECTION_JSON"));
+        }
+    }
+    m_governanceStatus = status;
+}
+
 void Fa3RepositoryModel::scanApplications()
 {
     m_installedApplications.clear();
@@ -159,8 +182,10 @@ void Fa3RepositoryModel::refresh()
     scanCanonical();
     scanEvidence();
     scanApplications();
+    scanGovernanceStatus();
     m_lastRefresh = QDateTime::currentDateTime().toString(Qt::ISODate);
     emit recordsChanged();
+    emit governanceStatusChanged();
     emit statisticsChanged();
 }
 

@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QVariantList>
+#include <QVariantMap>
 
 class Fa3RepositoryModel final : public QObject
 {
@@ -19,6 +20,7 @@ class Fa3RepositoryModel final : public QObject
     Q_PROPERTY(int cpuThreads READ cpuThreads CONSTANT)
     Q_PROPERTY(double memoryGiB READ memoryGiB CONSTANT)
     Q_PROPERTY(QVariantList records READ records NOTIFY recordsChanged)
+    Q_PROPERTY(QVariantMap governanceStatus READ governanceStatus NOTIFY governanceStatusChanged)
 
 public:
     explicit Fa3RepositoryModel(QObject *parent = nullptr);
@@ -36,6 +38,7 @@ public:
     int cpuThreads() const;
     double memoryGiB() const;
     QVariantList records() const { return m_records; }
+    QVariantMap governanceStatus() const { return m_governanceStatus; }
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE QVariantList searchRecords(const QString &query) const;
@@ -49,17 +52,20 @@ signals:
     void repoRootChanged();
     void statisticsChanged();
     void recordsChanged();
+    void governanceStatusChanged();
 
 private:
     QString discoverRepositoryRoot() const;
     void scanCanonical();
     void scanEvidence();
     void scanApplications();
+    void scanGovernanceStatus();
     QVariantMap recordFromJson(const QString &absolutePath, const QString &relativePath) const;
 
     QString m_repoRoot;
     QVariantList m_records;
     QVariantList m_installedApplications;
+    QVariantMap m_governanceStatus;
     int m_canonicalRecordCount = 0;
     int m_profileCount = 0;
     int m_providerCount = 0;

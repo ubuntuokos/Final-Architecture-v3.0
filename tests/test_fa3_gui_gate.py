@@ -168,6 +168,25 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("McpControlService.cpp", cmake)
         self.assertIn("IntegrationsPage.qml", cmake)
 
+    def test_governance_status_is_read_only_machine_projection(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        page = (ROOT / "apps/fa3-control-center/qml/GovernanceStatusPage.qml").read_text(encoding="utf-8")
+        model_h = (ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.h").read_text(encoding="utf-8")
+        model_cpp = (ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.cpp").read_text(encoding="utf-8")
+        cmake = (ROOT / "apps/fa3-control-center/CMakeLists.txt").read_text(encoding="utf-8")
+        registry = (ROOT / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json").read_text(encoding="utf-8")
+
+        self.assertIn('"governance.status": 39', main)
+        self.assertIn('routeId: "governance.status"', main)
+        self.assertIn("GovernanceStatusPage {", main)
+        for token in ["READ-ONLY MACHINE PROJECTION", "reports/governance-status-projection.json", "UNKNOWN_OR_PENDING", "fa3Repository.governanceStatus"]:
+            self.assertIn(token, page)
+        self.assertIn("Q_PROPERTY(QVariantMap governanceStatus", model_h)
+        self.assertIn("scanGovernanceStatus", model_cpp)
+        self.assertIn("qml/GovernanceStatusPage.qml", cmake)
+        self.assertIn('"route_id": "governance.status"', registry)
+        self.assertIn('"mutation": "NONE"', registry)
+
 
 if __name__ == "__main__":
     unittest.main()
