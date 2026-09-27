@@ -47,6 +47,8 @@ def build(root: Path) -> dict:
                 coexistence_status="STATIC_AUDIT_FAIL"
             elif static=="PASS" and host=="PASS":
                 coexistence_status="CURRENT_HOST_PASS"
+            elif static=="PASS" and host=="NOT_APPLICABLE":
+                coexistence_status="STATIC_AUDIT_PASS_RUNTIME_NOT_APPLICABLE"
             elif static=="PASS":
                 coexistence_status="STATIC_AUDIT_PASS_CURRENT_HOST_PENDING"
             else:
@@ -55,6 +57,7 @@ def build(root: Path) -> dict:
             "component_id":cid,
             "record_path":path.relative_to(root).as_posix(),
             "record_status":row.get("status") or row.get("implementation_status"),
+            "runtime_classification":"REFERENCE_ONLY_SOURCE" if row.get("status")=="SUPERSEDED" and row.get("active_runtime_provider") is False else "PROVIDER_RUNTIME",
             "footprint_status":footprint_status,
             "footprint_path":footprint_path,
             "coexistence_status":coexistence_status,
@@ -62,7 +65,7 @@ def build(root: Path) -> dict:
 
     all_fp=all(x["footprint_status"]=="MATERIALIZED" for x in entries)
     all_host=bool(entries) and all(x["coexistence_status"]=="CURRENT_HOST_PASS" for x in entries)
-    static_pass=sum(x["coexistence_status"] in {"STATIC_AUDIT_PASS_CURRENT_HOST_PENDING","CURRENT_HOST_PASS"} for x in entries)
+    static_pass=sum(x["coexistence_status"] in {"STATIC_AUDIT_PASS_CURRENT_HOST_PENDING","STATIC_AUDIT_PASS_RUNTIME_NOT_APPLICABLE","CURRENT_HOST_PASS"} for x in entries)
     static_pending=sum(x["coexistence_status"]=="STATIC_AUDIT_PENDING" for x in entries)
     static_fail=sum(x["coexistence_status"]=="STATIC_AUDIT_FAIL" for x in entries)
     return {
