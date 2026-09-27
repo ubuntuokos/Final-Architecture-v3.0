@@ -29,17 +29,25 @@ KANBOARD_GATE_PATH = "src/fa3_kanboard_gate.py"
 KANBOARD_TEST_PATH = "tests/test_kanboard_gate.py"
 KANBOARD_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED"
 PRESENTON_PROVIDER_ID = "FA3-PROVIDER-PRESENTON-001"
-PRESENTON_GATE_ID = "FA3-PRESENTON-GATESET-001"
-PRESENTON_CONTRACT_ID = "FA3-PRESENTON-CONTRACTS-001"
 PRESENTON_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-PRESENTON-001.json"
-PRESENTON_DECISION_PATH = "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json"
+PRESENTON_HISTORICAL_DECISION_PATH = "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json"
+PRESENTON_SUPERSEDING_DECISION_PATH = "canonical/decisions/FA3-DEC-PRESENTON-SUPERSEDED-2026-09-27.json"
 PRESENTON_REFERENCE_PATH = "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json"
-PRESENTON_EVIDENCE_PATH = "evidence/reference/presenton-provider-ci-2026-08-30.json"
-PRESENTON_CONTRACT_PATH = "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json"
-PRESENTON_ENFORCEMENT_PATH = "canonical/presenton-enforcement.json"
-PRESENTON_GATE_PATH = "src/fa3_presenton_gate.py"
-PRESENTON_TEST_PATH = "tests/test_presenton_gate.py"
-PRESENTON_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING"
+PRESENTON_HISTORICAL_EVIDENCE_PATH = "evidence/reference/presenton-provider-ci-2026-08-30.json"
+PRESENTON_HISTORICAL_CONTRACT_PATH = "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json"
+PRESENTON_RECONCILIATION_STATUS = "SUPERSEDED_REFERENCE_ONLY_NATIVE_PRESENTATION_RECONCILED"
+STORY_PRESENTATION_PROFILE_ID = "FA3-STORY-PRESENTATION-FABRIC-001"
+STORY_PRESENTATION_PROFILE_PATH = "canonical/profiles/FA3-STORY-PRESENTATION-FABRIC-001.json"
+STORY_PRESENTATION_CONTRACT_ID = "FA3-STORY-PRESENTATION-CONTRACTS-001"
+STORY_PRESENTATION_CONTRACT_PATH = "canonical/contracts/FA3-STORY-PRESENTATION-CONTRACTS-001.json"
+STORY_PRESENTATION_REGISTRY_PATH = "canonical/FA3-STORY-PRODUCTION-PROFILE-REGISTRY-001.json"
+STORY_PRESENTATION_DECISION_PATH = "canonical/decisions/FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27.json"
+STORY_PRESENTATION_GATE_ID = "FA3-STORY-PRESENTATION-GATESET-001"
+STORY_PRESENTATION_ENFORCEMENT_PATH = "canonical/story-presentation-enforcement.json"
+STORY_PRESENTATION_GATE_PATH = "src/fa3_story_presentation_gate.py"
+STORY_PRESENTATION_TEST_PATH = "tests/test_story_presentation_gate.py"
+STORY_PRESENTATION_INTENT_PATH = "canonical/intents/FA3-STORY-PRESENTATION-FABRIC-APPLICATION-INTENT-001.json"
+STORY_PRESENTATION_REUSE_PATH = "canonical/assessments/FA3-STORY-PRESENTATION-FABRIC-REUSE-ASSESSMENT-001.json"
 AUTOGPT_PROVIDER_ID = "FA3-PROVIDER-AUTOGPT-001"
 AUTOGPT_GATE_ID = "FA3-AUTOGPT-GATESET-001"
 AUTOGPT_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json"
@@ -981,17 +989,31 @@ def gate(root: Path):
         )
 
     presenton = projection.get("presenton_reconciliation", {})
+    story_presentation = projection.get("story_presentation_reconciliation", {})
     required_presenton_manifest_paths = {
         PRESENTON_PROVIDER_PATH,
-        PRESENTON_DECISION_PATH,
+        PRESENTON_HISTORICAL_DECISION_PATH,
+        PRESENTON_SUPERSEDING_DECISION_PATH,
         PRESENTON_REFERENCE_PATH,
-        PRESENTON_EVIDENCE_PATH,
-        PRESENTON_CONTRACT_PATH,
-        PRESENTON_ENFORCEMENT_PATH,
-        PRESENTON_GATE_PATH,
-        PRESENTON_TEST_PATH,
+        PRESENTON_HISTORICAL_EVIDENCE_PATH,
+        PRESENTON_HISTORICAL_CONTRACT_PATH,
+        STORY_PRESENTATION_PROFILE_PATH,
+        STORY_PRESENTATION_CONTRACT_PATH,
+        STORY_PRESENTATION_REGISTRY_PATH,
+        STORY_PRESENTATION_DECISION_PATH,
+        STORY_PRESENTATION_ENFORCEMENT_PATH,
+        STORY_PRESENTATION_GATE_PATH,
+        STORY_PRESENTATION_TEST_PATH,
+        STORY_PRESENTATION_INTENT_PATH,
+        STORY_PRESENTATION_REUSE_PATH,
+    }
+    forbidden_active_presenton_paths = {
+        "canonical/presenton-enforcement.json",
+        "src/fa3_presenton_gate.py",
+        "tests/test_presenton_gate.py",
         "evidence/collect-presenton-current-host.py",
         "bin/fa3-presenton-current-host.sh",
+        ".github/workflows/fa3-presenton.yml",
         ".github/workflows/fa3-presenton-current-host.yml",
         "deployment/presenton/README.md",
         "deployment/presenton/ai-creative.target",
@@ -999,59 +1021,85 @@ def gate(root: Path):
         "deployment/presenton/presenton.caddy",
         "deployment/presenton/fa3-presenton.container",
     }
-    presenton_overlay_requirements = {
-        "provider_records": PRESENTON_PROVIDER_PATH,
-        "decision_records": PRESENTON_DECISION_PATH,
-        "upstream_reference_records": PRESENTON_REFERENCE_PATH,
-        "reference_evidence_records": PRESENTON_EVIDENCE_PATH,
-        "contract_records": PRESENTON_CONTRACT_PATH,
+    required_overlay_members = {
+        "provider_records": [PRESENTON_PROVIDER_PATH],
+        "profile_records": [STORY_PRESENTATION_PROFILE_PATH],
+        "decision_records": [PRESENTON_HISTORICAL_DECISION_PATH, PRESENTON_SUPERSEDING_DECISION_PATH, STORY_PRESENTATION_DECISION_PATH],
+        "upstream_reference_records": [PRESENTON_REFERENCE_PATH],
+        "reference_evidence_records": [PRESENTON_HISTORICAL_EVIDENCE_PATH],
+        "contract_records": [PRESENTON_HISTORICAL_CONTRACT_PATH, STORY_PRESENTATION_CONTRACT_PATH],
     }
     missing_presenton_overlay_members = [
         {"inventory": key, "path": required}
-        for key, required in presenton_overlay_requirements.items()
+        for key, required_list in required_overlay_members.items()
+        for required in required_list
         if required not in inventory.get(key, [])
     ]
     presenton_manifest_missing = sorted(required_presenton_manifest_paths - manifest_paths)
+    forbidden_presenton_manifest_paths = sorted(forbidden_active_presenton_paths & manifest_paths)
     presenton_provider = loadj(root / PRESENTON_PROVIDER_PATH) if (root / PRESENTON_PROVIDER_PATH).is_file() else {}
-    presenton_evidence = loadj(root / PRESENTON_EVIDENCE_PATH) if (root / PRESENTON_EVIDENCE_PATH).is_file() else {}
+    presenton_evidence = loadj(root / PRESENTON_HISTORICAL_EVIDENCE_PATH) if (root / PRESENTON_HISTORICAL_EVIDENCE_PATH).is_file() else {}
+    superseding_decision = loadj(root / PRESENTON_SUPERSEDING_DECISION_PATH) if (root / PRESENTON_SUPERSEDING_DECISION_PATH).is_file() else {}
+    story_profile = loadj(root / STORY_PRESENTATION_PROFILE_PATH) if (root / STORY_PRESENTATION_PROFILE_PATH).is_file() else {}
     cap033 = next((item for item in evidence.get("records", []) if item.get("subject_id") == "CAP-033"), {})
     if (
         presenton.get("provider_id") != PRESENTON_PROVIDER_ID
-        or presenton.get("contract_id") != PRESENTON_CONTRACT_ID
-        or presenton.get("gate_id") != PRESENTON_GATE_ID
-        or presenton.get("classification") != "OPTIONAL_PRODUCTION_CANDIDATE_PROVIDER"
+        or presenton.get("superseding_decision_id") != "FA3-DEC-PRESENTON-SUPERSEDED-2026-09-27"
+        or presenton.get("native_profile_id") != STORY_PRESENTATION_PROFILE_ID
+        or presenton.get("native_gate_id") != STORY_PRESENTATION_GATE_ID
+        or presenton.get("classification") != "SUPERSEDED_REFERENCE_ONLY_SELECTIVE_CODE_DONOR"
+        or presenton.get("runtime_admitted") is not False
+        or presenton.get("historical_evidence_transfer_to_native") is not False
+        or presenton.get("current_host_production_e2e") != "NOT_APPLICABLE_SUPERSEDED_RUNTIME"
         or presenton.get("reconciliation_status") != PRESENTON_RECONCILIATION_STATUS
-        or presenton.get("current_host_production_e2e") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
-        or presenton.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
         or presenton.get("new_capabilities") != 0
         or presenton.get("new_architectural_authorities") != 0
         or presenton.get("capability_count_after") != CAPABILITY_COUNT
-        or PRESENTON_GATE_ID not in projection_gates
-        or PRESENTON_GATE_ID not in policy_gates
+        or story_presentation.get("profile_id") != STORY_PRESENTATION_PROFILE_ID
+        or story_presentation.get("contract_id") != STORY_PRESENTATION_CONTRACT_ID
+        or story_presentation.get("gate_id") != STORY_PRESENTATION_GATE_ID
+        or story_presentation.get("capability_bindings") != ["CAP-018", "CAP-033", "CAP-170", "CAP-171"]
+        or story_presentation.get("silent_story_writeback") is not False
+        or story_presentation.get("presenton_runtime_required") is not False
+        or story_presentation.get("presenton_historical_evidence_reused_as_native_runtime_proof") is not False
+        or story_presentation.get("current_host_status") != "PENDING_CURRENT_HOST"
+        or story_presentation.get("current_host_runtime_promotion_claim") is not False
+        or story_presentation.get("new_capabilities") != 0
+        or story_presentation.get("new_architectural_authorities") != 0
+        or story_presentation.get("capability_count_after") != CAPABILITY_COUNT
+        or STORY_PRESENTATION_GATE_ID not in projection_gates
+        or STORY_PRESENTATION_GATE_ID not in policy_gates
+        or "FA3-PRESENTON-GATESET-001" in projection_gates
+        or "FA3-PRESENTON-GATESET-001" in policy_gates
         or missing_presenton_overlay_members
         or presenton_manifest_missing
+        or forbidden_presenton_manifest_paths
         or presenton_provider.get("id") != PRESENTON_PROVIDER_ID
-        or presenton_provider.get("canonical_root") is not False
-        or presenton_provider.get("architectural_authority") is not False
-        or presenton_provider.get("new_capability") is not False
-        or presenton_provider.get("capability_count") != CAPABILITY_COUNT
-        or "OPTIONAL_PROVIDER" not in presenton_provider.get("classification", [])
+        or presenton_provider.get("status") != "SUPERSEDED"
+        or presenton_provider.get("active_runtime_provider") is not False
+        or presenton_provider.get("runtime_admitted") is not False
+        or not {"REFERENCE_ONLY", "SELECTIVE_CODE_DONOR"}.issubset(set(presenton_provider.get("classification", [])))
+        or superseding_decision.get("current_host_evidence_transfer_to_native_layer") is not False
+        or story_profile.get("capability_count") != CAPABILITY_COUNT
+        or set(story_profile.get("capability_projection", [])) != {"CAP-018", "CAP-033", "CAP-170", "CAP-171"}
         or presenton_evidence.get("provider_id") != PRESENTON_PROVIDER_ID
-        or presenton_evidence.get("gate_id") != PRESENTON_GATE_ID
         or presenton_evidence.get("status") != "PASS"
+        or presenton_evidence.get("evidence_scope") != "LOCAL_EXECUTABLE_CONFORMANCE_NOT_CURRENT_HOST_PRODUCTION"
         or presenton_evidence.get("current_host_production_e2e", {}).get("status") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
-        or "FA3-DEC-PRESENTON-2026-08-30" not in cap033.get("source_decision_ids", [])
-        or PRESENTON_EVIDENCE_PATH not in cap033.get("evidence_artifacts", [])
         or cap033.get("status") != "PENDING_CURRENT_HOST"
+        or "FA3-DEC-STORY-PRESENTATION-NATIVE-2026-09-27" not in cap033.get("source_decision_ids", [])
+        or "FA3-DEC-PRESENTON-SUPERSEDED-2026-09-27" not in cap033.get("source_decision_ids", [])
+        or cap033.get("story_presentation_projection_status", {}).get("presenton_historical_evidence_reused_as_native_runtime_proof") is not False
     ):
         findings.append(
             finding(
                 "FA3-RELEASE-PROJECTION-022",
-                "Presenton global projection/inventory/evidence reconciliation invariant mismatch",
+                "Presenton supersedence / FA3-native Story-Presentation projection invariant mismatch",
                 reconciliation_status=presenton.get("reconciliation_status"),
-                current_host_production_e2e=presenton.get("current_host_production_e2e"),
+                native_story_presentation_status=story_presentation.get("reconciliation_status"),
                 missing_overlay_members=missing_presenton_overlay_members,
                 missing_manifest_paths=presenton_manifest_missing,
+                forbidden_presenton_manifest_paths=forbidden_presenton_manifest_paths,
             )
         )
 
@@ -3409,6 +3457,8 @@ def gate(root: Path):
             "kanboard_reconciliation": kanboard.get("reconciliation_status"),
             "presenton_reconciliation": presenton.get("reconciliation_status"),
             "presenton_current_host_production_e2e": presenton.get("current_host_production_e2e"),
+            "story_presentation_reconciliation": story_presentation.get("reconciliation_status"),
+            "story_presentation_current_host_status": story_presentation.get("current_host_status"),
             "autogpt_reconciliation": autogpt.get("reconciliation_status"),
             "autogpt_runtime_activation_status": autogpt.get("runtime_activation_status"),
             "developer_agent_coordination_reconciliation": dac.get("reconciliation_status"),
