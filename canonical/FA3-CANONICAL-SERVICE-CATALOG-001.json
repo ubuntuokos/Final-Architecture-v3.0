@@ -29,12 +29,6 @@
       "activation": "SYSTEM"
     },
     {
-      "id": "svc:presenton",
-      "kind": "PODMAN_QUADLET",
-      "source_path": "deployment/presenton/fa3-presenton.container",
-      "activation": "OPTIONAL"
-    },
-    {
       "id": "svc:sillytavern-kde",
       "kind": "SYSTEMD_USER",
       "source_path": "deployment/sillytavern-kde/systemd/user/fa3-sillytavern-kde.service",
@@ -53,10 +47,6 @@
       "kind": "SYSTEMD_TARGET"
     },
     {
-      "id": "res:ai-creative-ops.target",
-      "kind": "SYSTEMD_TARGET"
-    },
-    {
       "id": "res:default.target",
       "kind": "SYSTEMD_TARGET"
     },
@@ -69,29 +59,9 @@
       "kind": "SYSTEMD_TARGET"
     },
     {
-      "id": "res:ai-creative.target",
-      "kind": "SYSTEMD_TARGET"
-    },
-    {
       "id": "res:mcp-capability-registry",
       "kind": "CANONICAL_ARTIFACT",
       "path": "canonical/mcp-capability-registry.json"
-    },
-    {
-      "id": "res:litellm-loopback",
-      "kind": "LOCAL_API"
-    },
-    {
-      "id": "res:comfyui-loopback",
-      "kind": "LOCAL_API"
-    },
-    {
-      "id": "res:presenton-database-url",
-      "kind": "SECRET"
-    },
-    {
-      "id": "res:presenton-auth-password",
-      "kind": "SECRET"
     }
   ],
   "edges": [
@@ -112,42 +82,6 @@
       "target": "res:mcp-capability-registry",
       "relation": "REQUIRES_ARTIFACT",
       "evidence_token": "ConditionPathExists=/opt/fa3/Final-Architecture-v3.0/canonical/mcp-capability-registry.json"
-    },
-    {
-      "source": "svc:presenton",
-      "target": "res:network-online.target",
-      "relation": "AFTER",
-      "evidence_token": "After=network-online.target"
-    },
-    {
-      "source": "svc:presenton",
-      "target": "res:ai-creative.target",
-      "relation": "WANTED_BY",
-      "evidence_token": "WantedBy=ai-creative.target"
-    },
-    {
-      "source": "svc:presenton",
-      "target": "res:litellm-loopback",
-      "relation": "LOCAL_API",
-      "evidence_token": "LITELLM_BASE_URL=http://host.containers.internal:4000/v1"
-    },
-    {
-      "source": "svc:presenton",
-      "target": "res:comfyui-loopback",
-      "relation": "LOCAL_API",
-      "evidence_token": "COMFYUI_URL=http://host.containers.internal:9876"
-    },
-    {
-      "source": "svc:presenton",
-      "target": "res:presenton-database-url",
-      "relation": "SECRET",
-      "evidence_token": "Secret=presenton-database-url,type=env,target=DATABASE_URL"
-    },
-    {
-      "source": "svc:presenton",
-      "target": "res:presenton-auth-password",
-      "relation": "SECRET",
-      "evidence_token": "Secret=presenton-auth-password,type=env,target=AUTH_PASSWORD"
     },
     {
       "source": "svc:sillytavern-kde",
