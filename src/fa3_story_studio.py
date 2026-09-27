@@ -123,6 +123,92 @@ def can_edit(project: dict[str, Any], actor_id: str) -> bool:
     return actor_id in members and bool(set(members[actor_id].get("roles", [])) & EDIT_ROLES)
 
 
+def _document_map(project: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for doc in project.get("documents", []):
+        document_id = doc.get("document_id")
+        if not isinstance(document_id, str) or not document_id:
+            raise StoryStudioError("document_id required")
+        if document_id in out:
+            raise StoryStudioError(f"duplicate document_id: {document_id}")
+        if not isinstance(doc.get("revision"), int) or doc["revision"] < 0:
+            raise StoryStudioError("document revision must be a non-negative integer")
+        out[document_id] = doc
+    return out
+
+
+def apply_collaborative_edit(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    document_id: str,
+    base_revision: int,
+    content: str,
+    change_summary: str,
+) -> dict[str, Any]:
+    """Apply an attributed optimistic-concurrency edit; stale writers fail closed."""
+    validate_project(project)
+    if not can_edit(project, actor_id):
+        raise StoryStudioError("actor cannot edit project")
+    documents = _document_map(project)
+    if document_id not in documents:
+        raise StoryStudioError("document not found")
+    doc = documents[document_id]
+    if base_revision != doc["revision"]:
+        raise StoryStudioError(
+            f"revision conflict: expected {doc['revision']}, got {base_revision}"
+        )
+    previous_digest = str(doc.get("content_digest") or sha256(
+        str(doc.get("content", "")).encode("utf-8")
+    ).hexdigest())
+    next_revision = doc["revision"] + 1
+    next_digest = sha256(content.encode("utf-8")).hexdigest()
+    revision = {
+        "document_id": document_id,
+        "revision": next_revision,
+        "parent_revision": base_revision,
+        "parent_content_digest": previous_digest,
+        "content_digest": next_digest,
+        "author": actor_id,
+        "change_summary": change_summary,
+        "created_at": _utc_now(),
+    }
+    doc["content"] = content
+    doc["revision"] = next_revision
+    doc["content_digest"] = next_digest
+    project.setdefault("revision_history", []).append(revision)
+    return deepcopy(revision)
+
+
+def add_collaboration_comment(
+    project: dict[str, Any],
+    *,
+    actor_id: str,
+    document_id: str,
+    body: str,
+    anchor: str | None = None,
+) -> dict[str, Any]:
+    validate_project(project)
+    members = _members(project)
+    if actor_id not in members:
+        raise StoryStudioError("actor is not a project collaborator")
+    if document_id not in _document_map(project):
+        raise StoryStudioError("document not found")
+    if not body:
+        raise StoryStudioError("comment body required")
+    comment = {
+        "comment_id": f"comment-{len(project.get('comments', [])) + 1}",
+        "document_id": document_id,
+        "anchor": anchor,
+        "author": actor_id,
+        "body": body,
+        "created_at": _utc_now(),
+        "resolved": False,
+    }
+    project.setdefault("comments", []).append(comment)
+    return deepcopy(comment)
+
+
 def create_branch(
     project: dict[str, Any],
     *,
@@ -292,6 +378,17 @@ def new_reference_project() -> dict[str, Any]:
             "final_publishers": ["writer-a"],
             "release_policy": "SINGLE_DESIGNATED",
         },
+        "documents": [
+            {
+                "document_id": "screenplay-1",
+                "document_type": "SCREENPLAY",
+                "content": "",
+                "revision": 0,
+                "content_digest": sha256(b"").hexdigest(),
+            }
+        ],
+        "revision_history": [],
+        "comments": [],
         "branches": [{"branch_id": "main", "label": "Main", "parent_branch_id": None}],
         "stash": [],
         "notes": [],
