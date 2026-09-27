@@ -100,9 +100,8 @@ def project(root: Path, *, now: datetime | None=None) -> dict[str, Any]:
         for rel in rec.get("evidence_artifacts",[]) or []:
             if isinstance(rel,str):
                 b=_artifact_binding(root,rel)
-                if any(k in b for k in ("source_commit","run_id","expires_at","host_id")):
-                    b["subject_id"]=rec.get("subject_id")
-                    bindings.append(b)
+                b["subject_id"]=rec.get("subject_id")
+                bindings.append(b)
 
     acceptance_state="UNKNOWN_OR_PENDING"
     if acceptance is not None:
