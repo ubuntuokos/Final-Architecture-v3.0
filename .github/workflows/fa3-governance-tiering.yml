@@ -5,12 +5,19 @@ on:
     branches: [main]
     paths:
       - 'canonical/FA3-GOVERNANCE-TIERING-001.json'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/FA3-GOVERNANCE-STATUS-PROJECTION-001.json'
+      - 'canonical/FA3-GATE-GOVERNANCE-STATUS-001.json'
+      - 'canonical/FA3-GATE-GATE-REGISTRY-001.json'
       - 'canonical/enforcement-policy.json'
       - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
       - 'evidence/evidence-registry.json'
       - 'src/fa3_enforce.py'
       - 'src/fa3_governance_tiering_gate.py'
+      - 'src/fa3_gate_registry.py'
+      - 'src/fa3_governance_status.py'
       - 'tests/test_governance_tiering_gate.py'
+      - 'tests/test_governance_status.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
       - '.github/workflows/fa3-governance-tiering.yml'
       - 'docs/governance-tiering.md'
@@ -18,12 +25,19 @@ on:
     branches: [main]
     paths:
       - 'canonical/FA3-GOVERNANCE-TIERING-001.json'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/FA3-GOVERNANCE-STATUS-PROJECTION-001.json'
+      - 'canonical/FA3-GATE-GOVERNANCE-STATUS-001.json'
+      - 'canonical/FA3-GATE-GATE-REGISTRY-001.json'
       - 'canonical/enforcement-policy.json'
       - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
       - 'evidence/evidence-registry.json'
       - 'src/fa3_enforce.py'
       - 'src/fa3_governance_tiering_gate.py'
+      - 'src/fa3_gate_registry.py'
+      - 'src/fa3_governance_status.py'
       - 'tests/test_governance_tiering_gate.py'
+      - 'tests/test_governance_status.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
       - '.github/workflows/fa3-governance-tiering.yml'
       - 'docs/governance-tiering.md'
@@ -50,9 +64,13 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax check
-        run: python -m py_compile src/fa3_governance_tiering_gate.py tests/test_governance_tiering_gate.py
+        run: python -m py_compile src/fa3_governance_tiering_gate.py src/fa3_gate_registry.py src/fa3_governance_status.py tests/test_governance_tiering_gate.py tests/test_governance_status.py
       - name: Projection regression tests
-        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_tiering_gate.py' -v
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance*t*.py' -v
+      - name: Canonical mandatory gate registry
+        run: ./bin/fa3-enforce gate-registry
+      - name: Machine governance status projection
+        run: ./bin/fa3-enforce governance-status
       - name: Validate zero-authority governance projection
         run: PYTHONPATH=src python src/fa3_governance_tiering_gate.py --root .
       - name: Upload projection report
@@ -61,4 +79,8 @@ jobs:
         with:
           name: fa3-governance-tiering-gate-report
           if-no-files-found: error
-          path: reports/governance-tiering-gate-report.json
+          path: |
+            reports/governance-tiering-gate-report.json
+            reports/gate-registry-gate-report.json
+            reports/governance-status-gate-report.json
+            reports/governance-status-projection.json
