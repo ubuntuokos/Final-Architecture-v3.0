@@ -17,9 +17,10 @@ class Cap083KhronosCurrentHostTests(unittest.TestCase):
         return {"FA3_COVERS_SOURCE_DECISION_IDS_JSON": json.dumps(ids, separators=(",", ":"))}
 
     def _verified(self):
+        sdk_root = cap083._sdk_root()
         return {
-            "sdk_root": str(ROOT / ".fa3-test-sdk"),
-            "prefix": str(ROOT / ".fa3-test-sdk/prefix"),
+            "sdk_root": str(sdk_root),
+            "prefix": str(sdk_root / "prefix"),
             "source_count": 19,
             "sources": [],
             "build_receipt_sha256": "a" * 64,
