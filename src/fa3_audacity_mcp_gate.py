@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Fail-closed static governance gate for CAP-124 Audacity MCP materialization."""
 from __future__ import annotations
-import argparse, json
+
+import argparse
+import json
 from pathlib import Path
 
-CAPABILITY_COUNT = 175
+from fa3_release_baseline import load_active_release_baseline
+
 ROOT_DEFAULT = Path(__file__).resolve().parents[1]
 FILES = {
     "audacity": "canonical/providers/FA3-PROVIDER-AUDACITY-001.json",
@@ -23,8 +26,14 @@ def check(ok: bool, code: str, message: str) -> dict:
 def gate(root: Path) -> dict:
     a, m, d, c, dec = (load(root, k) for k in ("audacity", "mcp", "dsp", "contract", "decision"))
     inv = set(c["invariants"])
+    baseline = load_active_release_baseline(root)
+    capability_count = baseline.capability_count
     checks = [
-        check(c["capability_id"] == "CAP-124" and c["capability_count"] == CAPABILITY_COUNT, "AUD-MCP-001", "CAP-124 / 175 baseline preserved"),
+        check(
+            c["capability_id"] == "CAP-124" and c["capability_count"] == capability_count,
+            "AUD-MCP-001",
+            "CAP-124 / active release baseline preserved",
+        ),
         check(c["new_capabilities"] == 0 and c["new_architectural_authorities"] == 0 and dec["capability_delta"] == 0 and dec["architectural_authority_delta"] == 0, "AUD-MCP-002", "zero capability/authority delta"),
         check(m["authority_boundaries"]["mcp"] == "FA3-AUTH-MCP-GATEWAY-001" and m["fa3_adapter_policy"]["direct_agent_to_provider_production_path"] == "DENY", "AUD-MCP-003", "Central MCP Gateway cannot be bypassed"),
         check(m["fa3_adapter_policy"]["upstream_installer_execution_in_fa3_managed_mode"] == "FORBIDDEN" and m["fa3_adapter_policy"]["host_config_mutation"] == "DENY", "AUD-MCP-004", "upstream installer/config mutation blocked"),
@@ -40,7 +49,16 @@ def gate(root: Path) -> dict:
         check(dec["final_disposition"]["openvino"] == "EXISTING_OPTIONAL_INFERENCE_PROVIDER_REMAINS_SEPARATE_NOT_AUDACITY_AUTHORITY", "AUD-MCP-014", "OpenVINO remains optional and non-authoritative"),
     ]
     result = "PASS" if all(x["result"] == "PASS" for x in checks) else "FAIL"
-    return {"schema":"fa3.audacity-mcp-gate-report.v1","gate_id":"FA3-GATE-AUDACITY-MCP-001","result":result,"capability_id":"CAP-124","checks":checks,"runtime_promotion_claim":False}
+    return {
+        "schema": "fa3.audacity-mcp-gate-report.v1",
+        "gate_id": "FA3-GATE-AUDACITY-MCP-001",
+        "result": result,
+        "capability_id": "CAP-124",
+        "active_release": baseline.release,
+        "active_release_capability_count": capability_count,
+        "checks": checks,
+        "runtime_promotion_claim": False,
+    }
 
 def main() -> int:
     p = argparse.ArgumentParser()
