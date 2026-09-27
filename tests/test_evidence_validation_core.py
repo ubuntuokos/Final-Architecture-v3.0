@@ -35,6 +35,7 @@ class EvidenceValidationCoreTests(unittest.TestCase):
         rh = hashlib.sha256(runtime.read_bytes()).hexdigest()
         hh = hashlib.sha256(host.read_bytes()).hexdigest()
         now = datetime.now(timezone.utc)
+        collected = now - timedelta(days=2) if expired else now - timedelta(hours=1)
         expires = now - timedelta(days=1) if expired else now + timedelta(days=7)
         receipt = {
             "schema": "fa3.capability-current-host-evidence.v1",
@@ -47,7 +48,7 @@ class EvidenceValidationCoreTests(unittest.TestCase):
             "source_commit": self.SOURCE,
             "host_fingerprint_path": "evidence/runtime/CAP-001/host-fingerprint.json",
             "host_fingerprint_sha256": hh,
-            "collected_at": (now - timedelta(hours=1)).isoformat(),
+            "collected_at": collected.isoformat(),
             "expires_at": expires.isoformat(),
             "tests": {
                 "positive": {"id": "AT-CAP-001-POS", "status": "PASS", "artifact_sha256": rh},
