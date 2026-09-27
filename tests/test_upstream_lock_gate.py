@@ -1,4 +1,4 @@
-from src.fa3_upstream_lock_gate import validate_registry
+from fa3_upstream_lock_gate import validate_registry
 
 
 def test_registry_rejects_floating_revisions():
