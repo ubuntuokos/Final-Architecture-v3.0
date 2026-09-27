@@ -54,6 +54,12 @@ def validate(root: Path) -> list[str]:
         (profile.get("collaboration", {}).get("designated_final_publishers_required") is True, "final-publisher"),
         (set(profile.get("collaboration", {}).get("release_policies", [])) == RELEASE_POLICIES, "release-policies"),
         (profile.get("rejected_content", {}).get("save_as_note_required") is True, "stash-note"),
+        (profile.get("presentation_interop", {}).get("capability") == "CAP-018", "presentation-capability"),
+        (profile.get("presentation_interop", {}).get("optional_generation_provider") == "FA3-PROVIDER-PRESENTON-001", "presentation-provider"),
+        (profile.get("presentation_interop", {}).get("silent_story_mutation_from_slides_forbidden") is True, "presentation-no-silent-writeback"),
+        ("DUBBING_LOCALIZATION" in profile.get("production_profiles", []), "dubbing-profile"),
+        (profile.get("dubbing_localization", {}).get("frame_accurate_timing_required") is True, "dubbing-timing"),
+        (profile.get("dubbing_localization", {}).get("final_as_recorded_script_must_match_delivered_audio") is True, "dubbing-as-recorded"),
         (profile.get("interchange", {}).get("import_export_symmetry_required") is True, "codec-symmetry"),
         (profile.get("hardware_audit", {}).get("cpu_only_core_required") is True, "cpu-only"),
         (contract.get("id") == "FA3-STORY-STUDIO-CONTRACTS-001", "contract-id"),
@@ -74,7 +80,8 @@ def validate(root: Path) -> list[str]:
     for token in [
         "FA3 Story Studio", "Production Profile", "Collaboration", "Final Publisher",
         "Story Branches", "Rejected / Stash", "Writer Goals", "Interchange",
-        "Feature Film", "TV Series", "Commercial", "Live Broadcast",
+        "Presentation Layer", "Dubbing / ADR Script", "Final Publisher",
+        "Feature Film", "TV Series", "Commercial", "Live Broadcast", "Dubbing / Localization",
     ]:
         if token not in qml:
             failures.append(f"qml:{token}")
