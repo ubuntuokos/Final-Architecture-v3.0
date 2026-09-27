@@ -1,6 +1,6 @@
 import json, tempfile, unittest
 from pathlib import Path
-from src import fa3_session_vault_current_host_gate as gate
+import fa3_session_vault_current_host_gate as gate
 
 ROOT=Path(__file__).resolve().parents[1]
 
