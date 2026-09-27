@@ -34,6 +34,11 @@ ENFORCEMENT = "canonical/agent-collaboration-deliberation-enforcement.json"
 INTENT = "canonical/intents/FA3-AGENT-COLLABORATION-DELIBERATION-APPLICATION-INTENT-001.json"
 REUSE = "canonical/assessments/FA3-AGENT-COLLABORATION-DELIBERATION-REUSE-ASSESSMENT-001.json"
 DFA = "canonical/assessments/FA3-AGENT-COLLABORATION-DELIBERATION-DECISION-ASSESSMENT-2026-09-27.json"
+GATE_RECORD = "canonical/FA3-GATE-AGENT-COLLABORATION-DELIBERATION-001.json"
+GATE_REGISTRY = "canonical/FA3-GATE-REGISTRY-001.json"
+POLICY = "canonical/enforcement-policy.json"
+PROJECTION = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+GATESET_ID = "FA3-AGENT-COLLABORATION-DELIBERATION-GATESET-001"
 REPORT = "reports/agent-collaboration-deliberation-gate-report.json"
 
 
@@ -149,7 +154,7 @@ def gate(root: Path) -> dict[str, Any]:
     root = root.resolve()
     count = load_active_release_baseline(root).capability_count
     findings: list[dict[str, Any]] = []
-    paths = [PROFILE, CONTRACT, DECISION, REFERENCE, ENFORCEMENT, INTENT, REUSE, DFA]
+    paths = [PROFILE, CONTRACT, DECISION, REFERENCE, ENFORCEMENT, INTENT, REUSE, DFA, GATE_RECORD, GATE_REGISTRY, POLICY, PROJECTION]
     runtime_paths = ["src/fa3_agent_deliberation_runtime.py", "evidence/collect-agent-deliberation-reference-e2e.py"]
     for rel in paths + runtime_paths:
         if not (root / rel).is_file():
@@ -157,7 +162,12 @@ def gate(root: Path) -> dict[str, Any]:
     if findings:
         return {"schema":"fa3.agent-collaboration-deliberation-gate-report.v1","gate_id":"FA3-AGENT-COLLABORATION-DELIBERATION-GATESET-001","result":"FAIL","findings":findings}
 
-    p, c, d, r, e, i, reuse, dfa = [load(root, rel) for rel in paths]
+    p, c, d, r, e, i, reuse, dfa = [load(root, rel) for rel in [PROFILE, CONTRACT, DECISION, REFERENCE, ENFORCEMENT, INTENT, REUSE, DFA]]
+    gate_record = load(root, GATE_RECORD)
+    gate_registry = load(root, GATE_REGISTRY)
+    policy = load(root, POLICY)
+    projection = load(root, PROJECTION)
+    projection_reconciliation = projection.get("agent_collaboration_deliberation_reconciliation", {})
     checks: list[tuple[bool, str, str]] = [
         (p.get("id") == "FA3-AGENT-COLLABORATION-DELIBERATION-001" and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count") == count and p.get("capability_bindings") == ["CAP-028", "CAP-070"], "DEL-010", "profile capability/authority baseline drift"),
         (c.get("id") == "FA3-AGENT-COLLABORATION-DELIBERATION-CONTRACTS-001" and c.get("provider_neutral") is True and c.get("fail_closed") is True and c.get("capability_count") == count, "DEL-011", "contract baseline drift"),
@@ -176,6 +186,9 @@ def gate(root: Path) -> dict[str, Any]:
         (p.get("hardware_audit", {}).get("vendor_neutral") is True and p.get("hardware_audit", {}).get("cpu_only_viable") is True and p.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N" and p.get("hardware_audit", {}).get("global_accelerator_requirement") is False, "DEL-024", "Hardware Audit drift"),
         (p.get("coexistence", {}).get("cap_175_applies") is True and p.get("coexistence", {}).get("requires_upstream_uninstall") is False and p.get("coexistence", {}).get("fixed_port_claim") is False and p.get("coexistence", {}).get("global_agent_config_mutation") is False, "DEL-025", "CAP-175 coexistence drift"),
         (p.get("current_host_runtime_promotion_claim") is False and p.get("global_promotion_claim") is False and p.get("runtime_status") == "REFERENCE_RUNTIME_MATERIALIZED_CI_E2E_CURRENT_HOST_PENDING", "DEL-026", "runtime promotion truth boundary drift"),
+        (gate_record.get("id") == "FA3-GATE-AGENT-COLLABORATION-DELIBERATION-001" and gate_record.get("gateset_id") == GATESET_ID and gate_record.get("status") == "CANONICAL_EXECUTABLE" and gate_record.get("fail_closed") is True and gate_record.get("mandatory") is True and gate_record.get("capability_count") == count, "DEL-030", "canonical executable gate record drift"),
+        (GATESET_ID in gate_registry.get("mandatory_reference_gates", []) and gate_registry.get("mandatory_reference_gates") == policy.get("mandatory_reference_gates"), "DEL-031", "mandatory gate registry/policy membership drift"),
+        (GATESET_ID in projection.get("mandatory_reference_gates", []) and projection_reconciliation.get("gate_id") == GATESET_ID and projection_reconciliation.get("profile_id") == p.get("id") and projection_reconciliation.get("reference_runtime_status") == "CI_REFERENCE_LOOPBACK_PASS_CURRENT_HOST_PENDING" and projection_reconciliation.get("new_capabilities") == 0 and projection_reconciliation.get("new_architectural_authorities") == 0 and projection_reconciliation.get("capability_count_after") == count and projection_reconciliation.get("current_host_runtime_promotion_claim") is False and projection_reconciliation.get("global_promotion_claim") is False, "DEL-032", "global release projection reconciliation drift"),
     ]
     for ok, code, message_text in checks:
         if not ok:
