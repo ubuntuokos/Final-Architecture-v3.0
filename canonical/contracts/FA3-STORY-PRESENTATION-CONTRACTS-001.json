@@ -1,0 +1,127 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-STORY-PRESENTATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "profile_id": "FA3-STORY-PRESENTATION-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": {
+    "StoryPresentationProjection": {
+      "forward": "CANONICAL_STORY_TO_PRESENTATION",
+      "reverse": "PRESENTATION_EDIT_TO_CHANGE_PROPOSAL",
+      "lineage_required": true,
+      "provenance_required": true,
+      "silent_writeback": false,
+      "reverse_apply_requires": "EXPLICIT_HUMAN_APPROVAL"
+    },
+    "CanonicalDocumentInterchange": {
+      "admitted_file_types": [
+        {
+          "family": "FINAL_DRAFT",
+          "file_type": ".fdx",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "FOUNTAIN",
+          "file_type": ".fountain",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "MICROSOFT_OFFICE",
+          "file_type": ".docx",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "MICROSOFT_OFFICE",
+          "file_type": ".pptx",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "LIBREOFFICE",
+          "file_type": ".odt",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "LIBREOFFICE",
+          "file_type": ".odp",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "APACHE_OPENOFFICE",
+          "file_type": ".odt",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "APACHE_OPENOFFICE",
+          "file_type": ".odp",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "WPS_OFFICE",
+          "file_type": ".docx",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "WPS_OFFICE",
+          "file_type": ".pptx",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "ONLYOFFICE",
+          "file_type": ".docx",
+          "import": true,
+          "export": true
+        },
+        {
+          "family": "ONLYOFFICE",
+          "file_type": ".pptx",
+          "import": true,
+          "export": true
+        }
+      ],
+      "one_way_codec_admission": false,
+      "round_trip_required": true,
+      "structural_meaning_preservation_required": true,
+      "provenance_required": true,
+      "lineage_required": true,
+      "versioning_required": true,
+      "explicit_loss_reporting_required": true,
+      "silent_data_loss": false,
+      "proprietary_legacy_codec_without_bidirectional_path": "NOT_ADMITTED"
+    },
+    "NarrativeBranch": {
+      "common_story_graph_required": true,
+      "independently_editable": true,
+      "independently_versioned": true,
+      "lineage_required": true
+    },
+    "ProductionHandoff": {
+      "required_chain": [
+        "screenplay",
+        "scene",
+        "script_passage",
+        "shot",
+        "camera_setup",
+        "blocking",
+        "lighting",
+        "schedule",
+        "production_editorial_handoff"
+      ],
+      "presentation_substitutes_chain": false
+    }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
