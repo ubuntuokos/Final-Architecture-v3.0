@@ -16,6 +16,7 @@ from fa3_desktop_admission import (
     PLASMA_ID,
     canonical_check,
     classify_desktop,
+    desktop_integration_strategy,
     collect_runtime_probes,
     discover_current_user_session_environment,
     _dbus_start_service_by_name,
@@ -76,6 +77,10 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertEqual(plasma["base_profile"], BASE_ID)
         self.assertEqual(gate["base_profile"], BASE_ID)
         self.assertEqual(gate["reference_profile"], PLASMA_ID)
+        self.assertEqual(base["policy"]["application_toolkit"], "QT6_QML_NATIVE")
+        self.assertEqual(base["policy"]["qt_native_desktop_integration"], "PREFERRED_WHEN_AVAILABLE")
+        self.assertEqual(plasma["integration_strategy"]["preferred"], "QT6_NATIVE_KF6_ENHANCED")
+        self.assertFalse(plasma["constraints"]["lowest_common_denominator_restriction"])
         self.assertEqual(base["new_capabilities"], 0)
         self.assertEqual(plasma["new_capabilities"], 0)
         self.assertEqual(gate["new_capabilities"], 0)
@@ -86,6 +91,11 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertEqual(report["desktop"]["desktop"], "KDE_PLASMA")
         self.assertEqual(report["desktop"]["tier"], 1)
         self.assertEqual(report["session"]["support"], "PREFERRED")
+        self.assertEqual(report["integration"]["application_core"], "QT6_QML_NATIVE")
+        self.assertEqual(report["integration"]["strategy"], "QT6_NATIVE_KF6_ENHANCED")
+        self.assertTrue(report["integration"]["qt_desktop_native_integration"])
+        self.assertTrue(report["integration"]["kf6_enhancement"])
+        self.assertFalse(report["integration"]["lowest_common_denominator_restriction"])
 
     def test_cosmic_is_tier_2_and_optional_features_do_not_fail(self):
         probes = {**FULL_PROBES, "system_tray": False, "global_shortcuts": False}
@@ -102,6 +112,22 @@ class DesktopPortabilityTests(unittest.TestCase):
                 profile = classify_desktop(self._env(desktop))
                 self.assertEqual(profile["tier"], 2)
                 self.assertEqual(profile["support"], "SUPPORTED_TARGET")
+
+    def test_qt_desktop_native_integration_is_not_downleveled(self):
+        lxqt = evaluate_desktop(self._env("LXQt", "wayland"), FULL_PROBES, require_gui=True)
+        self.assertEqual(lxqt["result"], "PASS")
+        self.assertEqual(lxqt["integration"]["strategy"], "QT6_NATIVE_DESKTOP")
+        self.assertTrue(lxqt["integration"]["qt_desktop_native_integration"])
+        self.assertFalse(lxqt["integration"]["kf6_enhancement"])
+        self.assertFalse(lxqt["integration"]["lowest_common_denominator_restriction"])
+
+    def test_non_qt_desktop_keeps_qt6_core_through_xdg_interop(self):
+        gnome = evaluate_desktop(self._env("GNOME", "wayland"), FULL_PROBES, require_gui=True)
+        self.assertEqual(gnome["result"], "PASS")
+        self.assertEqual(gnome["integration"]["application_core"], "QT6_QML_NATIVE")
+        self.assertEqual(gnome["integration"]["strategy"], "QT6_XDG_FREEDESKTOP")
+        self.assertFalse(gnome["integration"]["qt_desktop_native_integration"])
+        self.assertTrue(gnome["integration"]["xdg_freedesktop_interoperability"])
 
     def test_x11_is_compatibility_not_failure(self):
         report = evaluate_desktop(self._env("GNOME", "x11"), {**FULL_PROBES, "portal": False}, require_gui=True)
