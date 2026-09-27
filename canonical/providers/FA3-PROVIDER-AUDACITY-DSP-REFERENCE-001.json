@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001",
+  "name": "Dream-Pixels-Forge/audacity-mcp local DSP reference",
+  "status": "OPTIONAL_REFERENCE_PATTERN_SOURCE_RUNTIME_NOT_REQUIRED",
+  "provider_role": "SECONDARY_LOCAL_AUDIO_DSP_REPAIR_QA_PATTERN_SOURCE",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "PATTERN_SOURCE",
+    "LOCAL_FIRST",
+    "REPLACEABLE_PROVIDER",
+    "MEASURABLE_AUDIO_QA_REFERENCE"
+  ],
+  "capability_projection": [
+    "CAP-124"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "upstream": {
+    "repository": "Dream-Pixels-Forge/audacity-mcp",
+    "observed_commit": "9d812922e46f504f91cca48338ed68511f8d4243",
+    "floating_ref_allowed_for_promotion_evidence": false
+  },
+  "adopted_patterns": [
+    "LOCAL_DSP_PROVIDER_SEPARATE_FROM_EDITOR_CONTROL",
+    "BEFORE_AFTER_MEASURABLE_AUDIO_QA",
+    "DENOISE_DEREVERB_DECLICK_DECLIP_DECRACKLE",
+    "LOUDNESS_NORMALIZATION_LIMITING_EQ_MIXING",
+    "OPTIONAL_STEM_SEPARATION_AND_TRANSCRIPTION"
+  ],
+  "execution_policy": {
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hrb_required_for_resource_admission": true,
+    "model_router_required": "WHEN_OPERATION_USES_A_ROUTED_AI_MODEL",
+    "deterministic_non_model_dsp_may_execute_without_model_router": true,
+    "silent_device_or_provider_fallback": false
+  },
+  "authority_constraints": [
+    "NOT_MCP_AUTHORITY",
+    "NOT_MODEL_ROUTING_AUTHORITY",
+    "NOT_HOST_RESOURCE_AUTHORITY",
+    "NOT_STT_AUTHORITY",
+    "NOT_EVIDENCE_AUTHORITY",
+    "NOT_HUMAN_FINISHING_AUTHORITY"
+  ],
+  "global_runtime_requirement": "NONE_WHEN_DISABLED"
+}
