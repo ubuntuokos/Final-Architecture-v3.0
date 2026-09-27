@@ -1,5 +1,5 @@
-from src.fa3_decision_fabric import DecisionFabric, ProviderResult
-from src.fa3_voice_quality_router import VoiceQualityRoutingDenied, resolve_quality_route
+from fa3_decision_fabric import DecisionFabric, ProviderResult
+from fa3_voice_quality_router import VoiceQualityRoutingDenied, resolve_quality_route
 
 
 class PreferPiperProvider:
