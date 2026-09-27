@@ -895,38 +895,11 @@ The 32-rule CI PASS is not an installed-provider or language-quality claim. Ever
 
 ## FA3 CPU/NUMA thread-pool governance
 
-`FA3-CPU-NUMA-THREADING-001` materializes the existing `FA3-HOST-001` / `PROFILE-CPU-NUMA` decision as a mandatory subprofile of `FA3-HOST-RESOURCE-BROKER-001`. It adds no capability and no authority; the canonical count remains **143**. HRB owns admission, placement and the `ThreadPoolBudget`, while systemd plus unified cgroup v2 is the Linux enforcement projection. OpenMP, MKL, OpenBLAS, NumExpr, PyTorch and Intel libiomp consume the admitted plan and cannot enlarge it.
+`FA3-CPU-NUMA-THREADING-001` materializes the existing `FA3-HOST-001` / `PROFILE-CPU-NUMA` decision as a mandatory subprofile of `FA3-HOST-RESOURCE-BROKER-001`. It adds no capability and no authority; the active canonical count is **175**. HRB owns admission, placement and the `ThreadPoolBudget`, while systemd plus unified cgroup v2 is the Linux enforcement projection. OpenMP, MKL, OpenBLAS, NumExpr, PyTorch and provider-specific math runtimes consume the admitted plan and cannot enlarge it.
 
-The portable baseline is physical-core-first and derived from the live process affinity/admitted cpuset. Global `nproc` fan-out, fixed CPU/NUMA IDs, `OMP_NUM_THREADS=88`, `NUMEXPR_NUM_THREADS=44`, mirrored full-size PyTorch inter-op pools and default `numactl --interleave=all` are fail-closed. `OMP_PLACES=cores`, NUMA-local `OMP_PROC_BIND=close`, disabled nested parallelism, bounded BLAS pools, `min(8,budget)` NumExpr and separate PyTorch intra/inter-op planning are mandatory. SMT, OpenMP spread and NUMA interleave require benchmark evidence plus explicit admission. KMP affinity/blocktime remains Intel-provider-scoped; `DNNL_VERBOSE` is logging only.
+The portable baseline is physical-core-first and derived from live topology plus the admitted cpuset. Global `nproc` fan-out, copied host-specific CPU/NUMA IDs, fixed global OpenMP/NumExpr thread counts, mirrored full-size PyTorch inter-op pools and default `numactl --interleave=all` are fail-closed. `OMP_PLACES=cores`, NUMA-local `OMP_PROC_BIND=close`, disabled nested parallelism, bounded BLAS pools, `min(8,budget)` NumExpr and separate PyTorch intra/inter-op planning remain mandatory defaults. SMT, OpenMP spread and NUMA interleave require benchmark evidence plus explicit admission. KMP settings remain provider-scoped; `DNNL_VERBOSE` is logging only.
 
-The CPU/NUMA policy is hardware-agnostic: topology, SMT, NUMA domains, accelerator locality and admitted thread budgets are discovered live. No workstation model, CPU SKU, package/core/thread count, NUMA count or accelerator SKU is retained as a canonical or reference-host constant.
-
-Run the executable gate and reference launcher with:
-
-```bash
-./bin/fa3-enforce cpu-numa-threading
-PYTHONPATH=src python -m unittest tests.test_cpu_numa_threading_gate -v
-bin/fa3-cpu-thread-budget --request request.json
-```
-
-Committed static evidence proves policy structure only. Physical promotion requires fresh current-host topology, cgroup/systemd receipt matching, oversubscription negatives, locality/performance telemetry and rollback evidence.
-
-### CPU/NUMA current-host closure
-
-`FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001` validates the real target host from live sysfs/procfs, process affinity, unified-cgroup-v2 cpusets/memory nodes, HRB-derived placement, live PCI locality and fail-closed oversubscription/policy negatives. It accepts any host satisfying the current vendor-neutral FA3 hardware baseline; no machine model or fixed CPU/NUMA topology is an admission identity.
-
-Those numbers remain a reference-host assertion, not portable FA3 hardware defaults and not global thread counts. A real PASS additionally requires workload-specific benchmark evidence with at least three iterations plus rollback/failure-injection evidence bound to the same live hardware fingerprint. CI fixtures validate the contract but cannot claim current-host PASS.
-
-Run the collector and component gate on the current admitted host with:
-
-```bash
-python evidence/collect-cpu-numa-threading-current-host.py \
-  --performance-evidence /path/to/cpu-numa-performance.json \
-  --rollback-evidence /path/to/cpu-numa-rollback.json
-./bin/fa3-enforce cpu-numa-threading-current-host
-```
-
-The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 19 acceptance criteria.
+`FA3-OPENMP-RUNTIME-GOVERNANCE-001` is the mandatory P0 OpenMP child profile. It identifies the loaded OpenMP runtime family, rejects unqualified multi-runtime collisions, sanitizes inherited `OMP_*`/`GOMP_*`/`KMP_*` variables in the FA3 child process, accounts nested teams and worker stacks against HRB budgets, and verifies observed worker placement. OpenMP target offload is vendor-neutral, requires an HRB accelerator lease plus stable device identity, and uses `OMP_TARGET_OFFLOAD=MANDATORY` so an accelerator request cannot silently fall back to host execution. Static gate PASS never creates current-host runtime evidence.
 
 ## FA3 Stability AI mandatory support portfolio
 
