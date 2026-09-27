@@ -124,6 +124,9 @@ def gate(root:Path)->dict[str,Any]:
     ch_workflow=(root/KHRONOS_CURRENT_HOST_WORKFLOW).read_text(encoding="utf-8") if (root/KHRONOS_CURRENT_HOST_WORKFLOW).is_file() else ""
     global_workflow=(root/GLOBAL_CURRENT_HOST_WORKFLOW).read_text(encoding="utf-8") if (root/GLOBAL_CURRENT_HOST_WORKFLOW).is_file() else ""
     checks.append(("--build-core" in ch_workflow and "github.event.pull_request.head.sha || github.sha" in ch_workflow,"KHR-027","exact-head Khronos current-host core build workflow binding missing"))
+    checks.append(("src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects CAP-083" in ch_workflow and "Assert physical CAP-083 proof payloads" in ch_workflow and ".fa3-current-host/qualification-source-artifacts/**" in ch_workflow and ".fa3-current-host/qualification-constituents/**" in ch_workflow,"KHR-030","dedicated Khronos workflow lacks physical CAP-083 qualification proof execution/artifacts"))
+    required_physical_triggers={"src/fa3_cap083_khronos_current_host.py","src/fa3_khronos_open_standards_gate.py","src/fa3_current_host_capability_qualification_constituent_orchestrator.py","canonical/current-host-capability-proof-recipes.json","canonical/current-host-capability-qualification-constituent-producers.json","canonical/current-host-capability-test-qualifications.json","evidence/evidence-registry.json","evidence/collect-current-host.sh"}
+    checks.append((all(("'" + path + "'") in ch_workflow for path in required_physical_triggers),"KHR-031","dedicated Khronos physical-proof workflow trigger coverage incomplete"))
     checks.append(("Materialize exact-head Khronos core SDK when CAP-083 is selected" in global_workflow and "--build-core" in global_workflow,"KHR-028","global current-host closure lacks exact-head CAP-083 build"))
     for ok,code,msg in checks:
         if not ok:f.append({"code":code,"message":msg})
