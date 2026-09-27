@@ -17,6 +17,8 @@ Item {
     property color magenta: "#b778ff"
     property color red: "#ff6b7a"
 
+    signal navigateRequested(string routeId)
+
     property int selectedIndex: 7
     property int pageMode: 0
     property int selectedAppIndex: 0
@@ -274,6 +276,12 @@ Item {
                                         Label { id: actionText; text: modelData; color: root.textPrimary; font.pixelSize: 10; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                                     }
                                 }
+                            }
+
+                            Button {
+                                visible: root.modules[root.selectedIndex].routeId !== undefined
+                                text: "Munkaterület megnyitása"
+                                onClicked: root.navigateRequested(root.modules[root.selectedIndex].routeId)
                             }
 
                             Item { Layout.fillHeight: true }
