@@ -17,5 +17,8 @@
     "CPU_ONLY_CORE",
     "NO_CURRENT_HOST_RUNTIME_OVERCLAIM"
   ],
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "gateset": "FA3-STORY-STUDIO-GATESET-001",
+  "command": "./bin/fa3-enforce story-studio",
+  "tests": "PYTHONPATH=src python -m unittest tests.test_story_studio -v"
 }
