@@ -42,6 +42,10 @@ on:
       - 'src/fa3_plasma_secret_service_diagnostic.py'
       - 'src/fa3_mat004_media_authoring_verification_current_host.py'
       - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_cap083_khronos_current_host.py'
+      - 'tests/test_cap083_khronos_current_host.py'
+      - 'bin/fa3-materialize-khronos-sdks.sh'
+      - 'canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json'
       - 'src/fa3_full_current_host_preflight.py'
       - 'src/fa3_current_host_runtime_resolver.py'
       - 'src/fa3_pytorch3d_build_readiness.py'
@@ -126,6 +130,10 @@ on:
       - 'src/fa3_plasma_secret_service_diagnostic.py'
       - 'src/fa3_mat004_media_authoring_verification_current_host.py'
       - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_cap083_khronos_current_host.py'
+      - 'tests/test_cap083_khronos_current_host.py'
+      - 'bin/fa3-materialize-khronos-sdks.sh'
+      - 'canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json'
       - 'src/fa3_full_current_host_preflight.py'
       - 'src/fa3_current_host_runtime_resolver.py'
       - 'src/fa3_pytorch3d_build_readiness.py'
@@ -228,6 +236,7 @@ jobs:
             src/fa3_mat004_media_authoring_verification_current_host.py \
             tests/test_plasma_secret_service_diagnostic.py \
             src/fa3_full_current_host_capability_producer.py \
+            src/fa3_cap083_khronos_current_host.py \
             src/fa3_full_current_host_preflight.py \
             src/fa3_current_host_runtime_resolver.py \
             src/fa3_pytorch3d_build_readiness.py \
@@ -257,6 +266,7 @@ jobs:
             tests/test_mat001_foundation_current_host.py \
             tests/test_mat002_runtime_knowledge_current_host.py \
             tests/test_full_current_host_capability_producer.py \
+            tests/test_cap083_khronos_current_host.py \
             tests/test_full_current_host_preflight.py \
             tests/test_current_host_runtime_resolver.py \
             tests/test_pytorch3d_build_readiness.py \
@@ -332,6 +342,7 @@ jobs:
             tests.test_hrb_systemd_manager_current_host_gate \
             tests.test_hrb_systemd_manager_current_host_collector \
             tests.test_full_current_host_capability_producer \
+            tests.test_cap083_khronos_current_host \
             tests.test_full_current_host_preflight \
             tests.test_current_host_runtime_resolver \
             tests.test_pytorch3d_build_readiness \
@@ -670,6 +681,20 @@ jobs:
           PY
         env:
           FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-525' || inputs.execution_batch_id }}
+      - name: Materialize exact-head Khronos core SDK when CAP-083 is selected
+        shell: bash
+        run: |
+          set -euo pipefail
+          case ",$FA3_CURRENT_HOST_SUBJECTS," in
+            *,CAP-083,*)
+              bash bin/fa3-materialize-khronos-sdks.sh --build-core
+              mkdir -p .fa3-current-host/global-closure/khronos
+              cp "${XDG_DATA_HOME:-$HOME/.local/share}/fa3/khronos-sdk/receipts/core-build.json"                 .fa3-current-host/global-closure/khronos/core-build.json
+              ;;
+            *)
+              echo "CAP-083 is not selected; Khronos core build not required for this batch."
+              ;;
+          esac
       - name: Audit explicit capability qualification coverage before execution
         shell: bash
         run: |
