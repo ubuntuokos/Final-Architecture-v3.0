@@ -54,6 +54,7 @@ The same contract is exposed to `FA3-WEB-AI-001` for bounded browser/UI reflexes
 
 See `docs/system-one-reflex-runtime.md`.
 
+
 ## Rollout
 
 Semantic decision points start in `SHADOW`.
@@ -144,3 +145,20 @@ FA3 Control Center surfaces:
 - Context Inspector
 
 These are inspection/projection surfaces. The GUI does not self-approve or directly execute a model/tool decision.
+
+
+## Donor & Reference Registry
+
+`FA3-DONOR-REFERENCE-REGISTRY-001` is the central non-authoritative donor/reference knowledge base federated into `FA3-REUSE-DISCOVERY-001`. It exists so planned and future applications do not need to rediscover donor research from earlier conversations, notes, or isolated project assessments.
+
+A source is captured as soon as FA3 research identifies it as potentially useful as a donor or reference. Tentative mention is sufficient for `CANDIDATE` capture; capture is deliberately weaker than analysis or admission. Repeated mentions merge into the same source-normalized record.
+
+Every new or materially modified application, capability, or module queries the donor registry before a new implementation is proposed. Matching uses capability, domain, problem, target, and tag hints. `REJECTED` and `SUPERSEDED` entries remain recorded to prevent repeated research but are excluded from planning candidates.
+
+Donor discovery never grants architectural authority and never performs dependency adoption, code import, fetch/install, provider admission, model selection, activation, or runtime promotion. Those actions remain behind the existing FA3 license/provenance, security, coexistence, provider, Model Router, HRB, and evidence gates.
+
+The capture helper is:
+
+`./bin/fa3-donor-capture --name "<name>" --source "<locator>" [--tag ...] [--capability ...] [--domain ...] [--problem ...] [--target ...] [--note ...]`
+
+The helper deduplicates by normalized source key or name and atomically merges subsequent observations.
