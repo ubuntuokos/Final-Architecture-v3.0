@@ -1,0 +1,43 @@
+name: FA3 Strata tiered MoE static gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/intents/FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-STRATA-001.json'
+      - 'canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json'
+      - 'canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json'
+      - 'canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json'
+      - 'src/fa3_tiered_moe_plan.py'
+      - 'src/fa3_strata_tiered_moe_gate.py'
+      - 'tests/test_strata_tiered_moe.py'
+      - '.github/workflows/fa3-strata-tiered-moe.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/intents/FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-STRATA-001.json'
+      - 'canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json'
+      - 'canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json'
+      - 'canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json'
+      - 'src/fa3_tiered_moe_plan.py'
+      - 'src/fa3_strata_tiered_moe_gate.py'
+      - 'tests/test_strata_tiered_moe.py'
+      - '.github/workflows/fa3-strata-tiered-moe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strata tiered MoE canonical gate
+        run: python3 src/fa3_strata_tiered_moe_gate.py
+      - name: Tiered MoE planner regression tests
+        run: python3 -m unittest tests.test_strata_tiered_moe -v
