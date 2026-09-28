@@ -163,7 +163,7 @@ ApplicationWindow {
                     implicitHeight: statusLabel.implicitHeight + 24
                     radius: 7
                     color: "#091624"
-                    border.color: studioBackend.statusText.indexOf("BLOCKED") === 0 ? orange : border
+                    border.color: studioBackend.statusText.indexOf("BLOCKED") === 0 ? root.orange : root.border
                     Label {
                         id: statusLabel
                         anchors.fill: parent
