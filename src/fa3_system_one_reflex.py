@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -246,7 +247,20 @@ def compile_system_one_step(request: DecisionRequest) -> CompiledSystemOneStep:
 def _number(value: Any) -> float:
     if not isinstance(value, (int, float)) or isinstance(value, bool):
         return 0.0
-    return min(max(float(value), 0.0), 1.0)
+    number = float(value)
+    if not math.isfinite(number):
+        return 0.0
+    return min(max(number, 0.0), 1.0)
+
+
+def _probability(value: Any, *, label: str) -> float:
+    """Reject missing, non-finite and out-of-range gate inputs before scoring."""
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        raise SystemOneSpecError(f"{label} must be an explicit numeric probability")
+    number = float(value)
+    if not math.isfinite(number) or not 0.0 <= number <= 1.0:
+        raise SystemOneSpecError(f"{label} must be finite and within 0..1")
+    return number
 
 
 def _choice(answer: dict[str, Any], question: dict[str, Any]) -> tuple[str, float]:
@@ -254,13 +268,11 @@ def _choice(answer: dict[str, Any], question: dict[str, Any]) -> tuple[str, floa
     criteria = question.get("criteria", {})
     if not isinstance(value, str) or value not in criteria:
         raise SystemOneSpecError("model selected a value outside the compiled finite set")
-    probabilities = answer.get("probabilities", {})
-    probability = None
-    if isinstance(probabilities, dict):
-        probability = probabilities.get(value)
-    if not isinstance(probability, (int, float)):
-        probability = answer.get("confidence")
-    return value, _number(probability)
+    probabilities = answer.get("probabilities")
+    if not isinstance(probabilities, dict) or set(probabilities) != set(criteria):
+        raise SystemOneSpecError("choice answer requires the exact compiled probability distribution")
+    checked = {key: _probability(raw, label=f"choice {key}") for key, raw in probabilities.items()}
+    return value, checked[value]
 
 
 def _param_value(answer: dict[str, Any], question: dict[str, Any]) -> tuple[Any, float]:
@@ -268,23 +280,24 @@ def _param_value(answer: dict[str, Any], question: dict[str, Any]) -> tuple[Any,
     if qtype == "choice":
         return _choice(answer, question)
     if qtype == "noul":
-        p = _number(answer.get("noul"))
+        p = _probability(answer.get("noul"), label="noul answer")
         return p >= 0.5, max(p, 1.0 - p)
     if qtype == "score":
         probabilities = answer.get("probabilities", {})
         criteria = question.get("criteria", [])
         if not isinstance(probabilities, dict) or not probabilities:
             raise SystemOneSpecError("score answer requires per-level probabilities")
-        best_key = max(probabilities, key=lambda key: _number(probabilities[key]))
+        checked = {key: _probability(raw, label=f"score {key}") for key, raw in probabilities.items()}
+        best_key = max(checked, key=checked.__getitem__)
         try:
             index = int(best_key)
         except (TypeError, ValueError):
             if best_key in criteria:
-                return best_key, _number(probabilities[best_key])
+                return best_key, checked[best_key]
             raise SystemOneSpecError("score answer legend/index is invalid")
         if not 0 <= index < len(criteria):
             raise SystemOneSpecError("score answer index is outside compiled levels")
-        return criteria[index], _number(probabilities[best_key])
+        return criteria[index], checked[best_key]
     raise SystemOneSpecError(f"unsupported compiled question type: {qtype!r}")
 
 
@@ -403,7 +416,7 @@ def evaluate_system_one_answers(
         stated_key = compiled.stated_keys.get(action, {}).get(param_name)
         if stated_key is not None:
             stated_answer = answers.get(stated_key, {})
-            stated_probability = _number(stated_answer.get("noul")) if isinstance(stated_answer, dict) else 0.0
+            stated_probability = _probability(stated_answer.get("noul"), label=stated_key) if isinstance(stated_answer, dict) else _probability(None, label=stated_key)
             judgments[stated_key] = max(stated_probability, 1.0 - stated_probability)
             if stated_probability < 0.5:
                 params[param_name] = params_spec[param_name].get("default")
