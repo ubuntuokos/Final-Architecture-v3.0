@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
+  "date": "2026-09-28",
+  "status": "CANONICAL",
+  "title": "Central donor and reference registry for FA3 planning reuse discovery",
+  "decision": "FEDERATE_ALL_POTENTIAL_AND_REVIEWED_DONORS_INTO_EXISTING_REUSE_DISCOVERY_WITH_AUTOMATIC_CANDIDATE_CAPTURE",
+  "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
+  "reuse_catalog_id": "FA3-REUSE-CATALOG-001",
+  "gate_id": "FA3-REUSE-DISCOVERY-GATESET-001",
+  "capture_rule": "ANY_SOURCE_IDENTIFIED_AS_POTENTIALLY_USEFUL_AS_A_DONOR_IS_CAPTURED_OR_MERGED_AS_CANDIDATE",
+  "planning_rule": "QUERY_DONOR_REGISTRY_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_IMPLEMENTATION",
+  "backfill_rule": "CENTRALIZE_PRIOR_FA3_DONOR_RESEARCH_AND_PRESERVE_REJECTIONS_TO_AVOID_REPEAT_RESEARCH",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "authority": false,
+  "automatic_dependency": false,
+  "automatic_code_import": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_provider_admission": false,
+  "automatic_model_selection": false,
+  "automatic_activation": false,
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_parameter_mutation": false
+  },
+  "invariants": [
+    "POTENTIAL_DONOR_SIGNAL_IS_CAPTURED_AS_CANDIDATE",
+    "DONOR_REGISTRY_IS_CENTRAL_PLANNING_INPUT_NOT_ARCHITECTURAL_AUTHORITY",
+    "DONOR_CANDIDATE_CAPTURE_IS_NOT_DEPENDENCY_CODE_IMPORT_PROVIDER_OR_MODEL_ADMISSION",
+    "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN"
+  ]
+}
