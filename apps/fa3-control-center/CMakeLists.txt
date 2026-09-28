@@ -32,6 +32,8 @@ qt_add_executable(fa3-control-center
     src/PreferenceStore.cpp
     src/PreferenceStore.h
     src/SessionVaultService.cpp
+    src/PrWatchService.cpp
+    src/PrWatchService.h
     src/SessionVaultService.h
     src/SystemDeviceModel.cpp
     src/SystemDeviceModel.h
