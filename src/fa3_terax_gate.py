@@ -3,6 +3,7 @@ from __future__ import annotations
 from fa3_release_baseline import module_active_capability_count
 
 import hashlib
+import hmac
 import ipaddress
 import json
 import tempfile
@@ -146,7 +147,7 @@ def local_control_valid(request: dict[str, Any], *, expected_token: str, granted
     }
     if not required.issubset(request):
         return False
-    if request["protocol_version"] != 1 or request["authorization_token"] != expected_token:
+    if request["protocol_version"] != 1 or not (isinstance(request["authorization_token"], str) and hmac.compare_digest(request["authorization_token"], expected_token)):
         return False
     if not request["request_id"] or not request["caller_identity"] or not request["target"]:
         return False
@@ -203,6 +204,69 @@ def resource_admission_valid(*, workload_execution_requested: bool, requested_re
         return False
     return True
 
+
+
+def validate_coexistence_footprint(footprint: dict[str, Any]) -> bool:
+    if footprint.get("schema") != "fa3.coexistence-footprint.v1" or footprint.get("component_id") != PROVIDER_ID:
+        return False
+    if footprint.get("classification") != "PROVIDER_RUNTIME":
+        return False
+    co = footprint.get("coexistence", {})
+    mandatory_false = ("requires_upstream_uninstall", "global_environment_mutation",
+                       "claims_default_port", "shared_upstream_config_mutation",
+                       "shadow_upstream_executable")
+    if any(co.get(key) is not False for key in mandatory_false):
+        return False
+    if any(co.get(key) != [] for key in ("executables", "services", "sockets", "ports",
+                                       "env_mutations", "desktop_ids", "mime_types")):
+        return False
+    if co.get("dynamic_local_control_endpoint_required_when_enabled") is not True:
+        return False
+    hardware = footprint.get("hardware_audit", {})
+    if not (hardware.get("vendor_neutral") is True and hardware.get("cpu_only_viable") is True
+            and hardware.get("accelerator_cardinality") == "0..N"
+            and hardware.get("disabled_reference_gpu_probe") is False
+            and hardware.get("display_gpu_is_not_ai_compute_lease") is True):
+        return False
+    evidence = footprint.get("evidence", {})
+    if evidence.get("runtime_promotion_claim") is not False:
+        return False
+    if evidence.get("current_host_status") != "PENDING_CURRENT_HOST":
+        return False
+    return True
+
+
+def coexistence_static_check(root: Path) -> dict[str, Any]:
+    path = root / "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json"
+    if not path.is_file():
+        return {"result": "FAIL", "findings": [_finding("TERAX-COEX-001", "Missing Terax coexistence footprint")]}
+    try:
+        footprint = _load(path)
+    except (ValueError, OSError) as exc:
+        return {"result": "FAIL", "findings": [_finding("TERAX-COEX-002", f"Unreadable Terax coexistence footprint: {exc}")]}
+    if not validate_coexistence_footprint(footprint):
+        return {"result": "FAIL", "findings": [_finding("TERAX-COEX-003", "Terax footprint may collide with upstream, claim unverified current-host evidence, or violate hardware boundaries")]}
+    return {"result": "PASS", "findings": [], "physical_current_host_pass_claim": False}
+
+
+def approved_change_binding_valid(read: dict[str, Any], proposal: dict[str, Any],
+                                  approval: dict[str, Any], current: dict[str, Any],
+                                  *, now_epoch: int) -> bool:
+    """Reference-contract validator: does NOT itself perform a race-free filesystem mutation."""
+    keys = ("artifact_id", "artifact_version", "workspace_id", "resolved_path")
+    if any(not read.get(k) or read.get(k) != proposal.get(k) or read.get(k) != current.get(k)
+           for k in keys):
+        return False
+    if any(not proposal.get(k) or proposal.get(k) != approval.get(k)
+           for k in ("artifact_id", "artifact_version", "workspace_id", "resolved_path",
+                     "caller_identity", "diff_sha256")):
+        return False
+    if not isinstance(proposal.get("diff_sha256"), str) or len(proposal["diff_sha256"]) != 64:
+        return False
+    if not isinstance(approval.get("expires_at_epoch"), int) or approval["expires_at_epoch"] <= now_epoch:
+        return False
+    return (approval.get("decision") == "ALLOW" and approval.get("authorized") is True
+            and isinstance(approval.get("evidence_ref"), str) and bool(approval["evidence_ref"]))
 
 
 def reference_check(root: Path) -> dict[str, Any]:
@@ -277,6 +341,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("TERAX-EVID-001", "Terax auxiliary receipt boundary drift"))
     if decision.get("active_capability_count") != 175 or decision.get("authority_delta") != 0 or decision.get("capability_delta") != 0:
         findings.append(_finding("TERAX-EVID-002", "Reconciliation decision count drift"))
+        coexistence = coexistence_static_check(root)
+    findings.extend(coexistence["findings"])
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
 
@@ -370,8 +436,9 @@ def gate(root: Path, *, require_current_host: bool = True) -> dict[str, Any]:
     reference = reference_check(root)
     regressions = run_regressions()
     hardware = run_hardware_regressions()
+    coexistence = coexistence_static_check(root)
     host = current_host_check(root) if require_current_host else {"result":"NOT_REQUIRED_IN_CI","findings":[],"receipt":None,"promotion_effect":"NONE"}
-    ok = reference["result"] == "PASS" and regressions["result"] == "PASS" and hardware["result"] == "PASS" and (not require_current_host or host["result"] in {"PASS", "NOT_PRESENT_OPTIONAL", "OBSERVATIONAL_ONLY"})
+    ok = reference["result"] == "PASS" and regressions["result"] == "PASS" and hardware["result"] == "PASS" and coexistence["result"] == "PASS" and (not require_current_host or host["result"] in {"PASS", "NOT_PRESENT_OPTIONAL", "OBSERVATIONAL_ONLY"})
     report = {
         "schema":"fa3.terax-gate-report.v2",
         "provider_id":PROVIDER_ID,
@@ -381,6 +448,7 @@ def gate(root: Path, *, require_current_host: bool = True) -> dict[str, Any]:
         "reference":reference,
         "regressions":regressions,
         "hardware_regressions":hardware,
+        "coexistence_static":coexistence,
         "current_host":host,
         "current_host_is_global_promotion_requirement":False,
         "provider_receipt_substitution_allowed":False,
