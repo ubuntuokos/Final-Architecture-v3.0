@@ -156,8 +156,12 @@ class SkillTaskBindingTests(unittest.TestCase):
                     tasks, dac.BuiltinDeterministicAdapter(),
                     skill_contexts={"TASK-1": bound},
                 )
+            # Git worktree branch names from the denied attempt still exist; use
+            # a separate fixture repository instead of silently deleting history.
+            allowed_repo = self.root / "repo-allowed"
+            dac._init_fixture_repo(allowed_repo, {"work/a.txt": "base a\n", "work/b.txt": "base b\n"})
             adapter = CapturingAdapter()
-            result = dac.Coordinator(repo, self.root / "control-allowed").run(
+            result = dac.Coordinator(allowed_repo, self.root / "control-allowed").run(
                 tasks, adapter, skill_contexts={"TASK-1": bound}
             )
             self.assertEqual(result["status"], "PASS")
