@@ -1,0 +1,23 @@
+name: FA3 Developer Workspace Path Hardening
+on:
+  pull_request:
+    paths:
+      - "src/fa3_developer_agent_coordination.py"
+      - "tests/test_developer_workspace_path_hardening.py"
+      - ".github/workflows/fa3-developer-workspace-path-hardening.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_developer_agent_coordination.py"
+      - "tests/test_developer_workspace_path_hardening.py"
+      - ".github/workflows/fa3-developer-workspace-path-hardening.yml"
+permissions:
+  contents: read
+jobs:
+  workspace-paths:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m py_compile src/fa3_developer_agent_coordination.py tests/test_developer_workspace_path_hardening.py
+      - run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_developer_workspace_path_hardening.py" -v
+      - run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_developer_agent_coordination.py" -v

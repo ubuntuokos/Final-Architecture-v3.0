@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c4671e1792fa771274a6defaa7a5c51567caada1",
-    "pre_projection_root_tree_sha": "35794dd45964800a0c2ef2431db1608fa3bcf24f",
-    "pre_projection_canonical_tree_sha": "03bce38735a5dd08c84140c6adaa960aa032a436",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1582,
-    "total_post_baseline_commits": 1582,
-    "delta_file_count": 2490,
-    "delta_added_files": 2484,
+    "pre_projection_head_sha": "e7397cee2501de5e6d2673812b8e8f02495ff4bc",
+    "pre_projection_root_tree_sha": "cbddd0d3f73d14878ff49fb97708ae0f5570695f",
+    "pre_projection_canonical_tree_sha": "29e1c17e1e5ff31dde5b560a5315dd0faf3279c7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1587,
+    "total_post_baseline_commits": 1587,
+    "delta_file_count": 2493,
+    "delta_added_files": 2487,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,8 +49,8 @@
     "canonical_files_in_post_baseline_delta": 1198,
     "evidence_files_in_post_baseline_delta": 170,
     "source_files_in_post_baseline_delta": 340,
-    "test_files_in_post_baseline_delta": 275,
-    "workflow_files_in_post_baseline_delta": 124,
+    "test_files_in_post_baseline_delta": 276,
+    "workflow_files_in_post_baseline_delta": 125,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -1013,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2480,
+  "manifest_entry_count": 2483,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1188,6 +1188,11 @@
     {
       "path": ".github/workflows/fa3-dev-update-gate.yml",
       "git_blob_sha": "bac8e420d6b9bbdccac75c7db6dd0dfd976a3a56",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-developer-workspace-path-hardening.yml",
+      "git_blob_sha": "61c18b6d2cf928d6bd1f8aff7f52b7720b3f52ff",
       "baseline_delta_status": "added"
     },
     {
@@ -8801,6 +8806,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/agent-hardening-workspace-paths.md",
+      "git_blob_sha": "77bd0277318c553c48af5fa43c296d2a0b911c4c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/agent-workload-runtime-current-host.md",
       "git_blob_sha": "819f0543e0e26a25c9bbe79d1e2763bc13ce477b",
       "baseline_delta_status": "added"
@@ -10757,7 +10767,7 @@
     },
     {
       "path": "src/fa3_developer_agent_coordination.py",
-      "git_blob_sha": "9533a73b726d1744d28cf7eb040d671c53ff40e6",
+      "git_blob_sha": "b76c893c5e352f3f502d9289054cbda631f8536f",
       "baseline_delta_status": "added"
     },
     {
@@ -12323,6 +12333,11 @@
     {
       "path": "tests/test_developer_agent_coordination.py",
       "git_blob_sha": "5c1f0cbea252055765205c54d43a3d0e32a03bb8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_developer_workspace_path_hardening.py",
+      "git_blob_sha": "b92542e0911ea41a8a5135c4138f1c51409a1b58",
       "baseline_delta_status": "added"
     },
     {

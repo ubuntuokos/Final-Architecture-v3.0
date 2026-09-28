@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -142,21 +143,32 @@ def _json_write(path: Path, obj: Any) -> None:
     path.write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+_WORKSPACE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
+
+def _safe_workspace_component(value: str, name: str) -> str:
+    if not isinstance(value, str) or not _WORKSPACE_ID.fullmatch(value) or value in {".", ".."}:
+        raise CoordinationDenied(f"invalid {name}: must be a single bounded path component")
+    return value
+
 def _resolve_within(root: Path, relative_path: str) -> Path:
-    if not relative_path or Path(relative_path).is_absolute():
+    if not isinstance(relative_path, str) or not relative_path or Path(relative_path).is_absolute():
         raise CoordinationDenied("workspace path must be non-empty and relative")
     normalized = Path(relative_path)
-    if ".." in normalized.parts:
+    if ".." in normalized.parts or not normalized.parts:
         raise CoordinationDenied("workspace path traversal denied")
-    root_resolved = root.resolve()
-    target = (root_resolved / normalized).resolve(strict=False)
+    if ".git" in normalized.parts:
+        raise CoordinationDenied("direct Git metadata mutation denied")
+    root_resolved = root.resolve(strict=True)
+    candidate = root_resolved
+    # Check each original segment BEFORE resolve(): Path.resolve() erases
+    # symlink identity, including dangling links and links back inside root.
+    for segment in normalized.parts:
+        candidate = candidate / segment
+        if candidate.is_symlink():
+            raise CoordinationDenied("symlink traversal or mutation denied")
+    target = candidate.resolve(strict=False)
     if target == root_resolved or root_resolved not in target.parents:
         raise CoordinationDenied("workspace escape denied")
-    parent = target.parent.resolve(strict=False)
-    if parent != root_resolved and root_resolved not in parent.parents:
-        raise CoordinationDenied("workspace parent escape denied")
-    if target.exists() and target.is_symlink():
-        raise CoordinationDenied("symlink target mutation denied")
     return target
 
 
@@ -275,10 +287,19 @@ class Coordinator:
     def allocate_worktree(self, task: AgentTask) -> WorkspaceLease:
         if task.agent_id in self.workspaces:
             raise CoordinationDenied("agent already has a workspace")
+        _safe_workspace_component(task.agent_id, "agent identity")
+        _safe_workspace_component(task.task_id, "task identity")
+        if self.control_root == self.repo or self.repo in self.control_root.parents:
+            raise CoordinationDenied("worktree control directory cannot reside inside canonical repository")
+        worktree_root = self.control_root / "worktrees"
+        if worktree_root.is_symlink():
+            raise CoordinationDenied("worktree root symlink forbidden")
         workspace_id = f"ws-{task.agent_id}"
         workspace = self.control_root / "worktrees" / task.agent_id
         branch = f"fa3-dac/{task.agent_id}-{task.task_id.lower()}"
         workspace.parent.mkdir(parents=True, exist_ok=True)
+        if workspace.exists() or workspace.is_symlink():
+            raise CoordinationDenied("worktree path already exists or is symlink")
         self.git(self.repo, "worktree", "add", "-b", branch, str(workspace), self.base_commit)
         lease = WorkspaceLease(workspace_id, task.agent_id, branch, self.base_commit)
         self.workspaces[task.agent_id] = workspace
