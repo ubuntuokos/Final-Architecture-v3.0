@@ -292,11 +292,17 @@ class ReceptionAdapter:
 class ReceptionHub:
     """Generic receiver factory for every admitted app; unbound apps never execute."""
     def __init__(self, admitted: set[str], directory: MeshDirectory,
-                 principal_validator: Callable[[dict[str, Any], dict[str, Any]], bool]):
+                 principal_validator: Callable[[dict[str, Any], dict[str, Any]], bool],
+                 *, receipt_store: str = ":memory:"):
+        import threading
         self.admitted, self.directory = frozenset(admitted), directory
         self.principal_validator = principal_validator
         self.adapters: dict[str, ReceptionAdapter] = {}
-        self._seen: dict[str, dict[str, Any]] = {}
+        self._replay_lock = threading.RLock()
+        self._receipts = sqlite3.connect(receipt_store, check_same_thread=False)
+        self._receipts.execute("CREATE TABLE IF NOT EXISTS inbox (message_id TEXT PRIMARY KEY, "
+                               "message_hash TEXT NOT NULL, status TEXT NOT NULL, receipt TEXT)")
+        self._receipts.commit()
 
     def bind(self, app_id: str, capabilities: list[str], action_ids: list[str],
              uaf_dispatcher: Any) -> ReceptionAdapter:
@@ -319,13 +325,28 @@ class ReceptionHub:
                  and destination.get("host") == self.directory.host_id, "MESSAGE_WRONG_HOST")
         app_id = destination.get("application")
         _require(app_id in self.adapters, "RECEIVER_NOT_CONNECTED")
-        prior = self._seen.get(message["message_id"])
-        if prior is not None:
-            _require(prior["request_sha256"] == digest(message), "MESSAGE_ID_COLLISION")
-            return prior["receipt"]
-        result = self.adapters[app_id].receive(message, peer=peer)
-        self._seen[message["message_id"]] = {"request_sha256": digest(message), "receipt": result}
-        return result
+        _require(peer.get("authenticated") is True
+                 and self.principal_validator(message, peer) is True, "RECEIVER_POLICY_DENIED")
+        request_hash = digest(message)
+        with self._replay_lock:
+            row = self._receipts.execute(
+                "SELECT message_hash,status,receipt FROM inbox WHERE message_id=?",
+                (message["message_id"],)).fetchone()
+            if row is not None:
+                _require(row[0] == request_hash, "MESSAGE_ID_COLLISION")
+                _require(row[1] == "DONE", "MESSAGE_IN_DOUBT_RECONCILIATION_REQUIRED")
+                return json.loads(row[2])
+            self._receipts.execute(
+                "INSERT INTO inbox(message_id,message_hash,status) VALUES(?,?,?)",
+                (message["message_id"], request_hash, "PENDING"))
+            self._receipts.commit()
+            # Never auto-repeat an uncertain side effect after a crash/failure.
+            result = self.adapters[app_id].receive(message, peer=peer)
+            self._receipts.execute(
+                "UPDATE inbox SET status='DONE',receipt=? WHERE message_id=?",
+                (canonical(result).decode(), message["message_id"]))
+            self._receipts.commit()
+            return result
 
 
 def addressed_message(prompt: dict[str, Any], principal: dict[str, Any],
@@ -497,12 +518,18 @@ def verify_delivery(signed: dict[str, Any], *, directory: MeshDirectory,
 
 def admitted_mcp_adapter(hub: ReceptionHub):
     """The only inbound action bridge: signed envelope -> Central MCP -> UAF."""
-    from fa3_mcp_gateway import Adapter
+    from fa3_mcp_gateway import Adapter, GatewayDenied
+    from fa3_uaf import UafError
 
     def handle(arguments: dict[str, Any]) -> dict[str, Any]:
-        signed = arguments.get("signed_envelope")
-        message, peer = verify_delivery(signed, directory=hub.directory)
-        return hub.receive(message, peer)
+        try:
+            signed = arguments.get("signed_envelope")
+            message, peer = verify_delivery(signed, directory=hub.directory)
+            return hub.receive(message, peer)
+        except DispatchDenied as exc:
+            raise GatewayDenied(exc.code, "Receiver denied message") from exc
+        except UafError as exc:
+            raise GatewayDenied(exc.code, "UAF denied receiver action") from exc
 
     return Adapter(MCP_RECEPTION_ADAPTER, MCP_RECEPTION_PROVIDER, handle)
 
