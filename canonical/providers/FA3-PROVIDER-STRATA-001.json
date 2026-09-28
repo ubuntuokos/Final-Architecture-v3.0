@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STRATA-001",
+  "name": "Strata Tiered MoE Local Inference Provider",
+  "status": "ACCEPTED_REFERENCE_RUNTIME_ADMISSION_PENDING",
+  "provider_role": "OPTIONAL_TIERED_MOE_LOCAL_INFERENCE_EXECUTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_PROVIDER",
+    "LOCAL_INFERENCE_PROVIDER",
+    "TIERED_MOE_EXECUTION_PROVIDER",
+    "OPENAI_COMPATIBLE_API_PROVIDER",
+    "ANTHROPIC_COMPATIBLE_API_PROVIDER"
+  ],
+  "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
+  "upstream_repository": "Niko1221/Strata",
+  "upstream_snapshot_commit": "b742ff998704638903461a2d7d6c1e03b8032509",
+  "observed_release": "v0.1.12",
+  "observed_at": "2026-09-28",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "requirement": "OPTIONAL",
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "model_artifact_admission": "FA3-MODEL-ARTIFACT-SECURITY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "provider_constraints": {
+    "application_direct_endpoint_use": "FORBIDDEN",
+    "canonical_fixed_model": "FORBIDDEN",
+    "provider_owned_cross_provider_routing": "FORBIDDEN",
+    "provider_owned_global_resource_policy": "FORBIDDEN",
+    "provider_owned_model_trust_admission": "FORBIDDEN",
+    "silent_provider_or_model_fallback": "FORBIDDEN",
+    "auto_install_in_managed_mode": "FORBIDDEN",
+    "network_model_fetch_during_admission": "FORBIDDEN"
+  },
+  "observed_upstream_surface": {
+    "openai_compatible_api": true,
+    "anthropic_compatible_api": true,
+    "vision_optional": true,
+    "prompt_conversation_cache": true,
+    "mtp_speculative_decoding": true,
+    "tiered_expert_execution": true,
+    "kv_host_streaming": true,
+    "storage_auxiliary_lookup": true,
+    "current_upstream_accelerator_scope": "NVIDIA_CUDA",
+    "current_upstream_selected_gpu_cardinality": "1",
+    "multi_gpu_status": "NOT_ESTABLISHED_AT_PINNED_SNAPSHOT"
+  },
+  "hardware_execution_binding": {
+    "fa3_global_baseline": "VENDOR_NEUTRAL_CPU_ONLY_SUPPORTED_ACCELERATOR_CARDINALITY_0_TO_N",
+    "strata_provider_eligibility": "ONLY_WHEN_EXPLICITLY_SUPPORTED_HARDWARE_AND_RUNTIME_ARE_ADMITTED",
+    "accelerator_lease": "REQUIRED_WHEN_STRATA_PROVIDER_SELECTED",
+    "numa_policy": "HRB_OWNED",
+    "memory_pressure_policy": "HRB_OWNED_FAIL_CLOSED",
+    "storage_policy": "HRB_AND_STORAGE_GOVERNANCE_OWNED",
+    "no_provider_global_hardware_assumption": true
+  },
+  "reuse_license": {
+    "status": "UNRESOLVED_FOR_UPSTREAM_ORIGINAL_CODE",
+    "observed_repository_license_metadata": "NONE",
+    "root_license_file": "NOT_PRESENT",
+    "source_copy_into_fa3": "FORBIDDEN",
+    "clean_room_pattern_reimplementation": "PERMITTED_SUBJECT_TO_FA3_REVIEW",
+    "third_party_embedded_components": "MUST_BE_AUDITED_SEPARATELY"
+  },
+  "tiered_execution_contract": "FA3-TIERED-MOE-EXECUTION-CONTRACTS-001",
+  "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_OR_COMMIT_REQUIRED_AT_ADMISSION",
+  "global_promotion_claim": false,
+  "distribution_class": "REFERENCE_ONLY",
+  "product_bundle_allowed": false,
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED"
+  }
+}

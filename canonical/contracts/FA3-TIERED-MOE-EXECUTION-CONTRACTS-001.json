@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-TIERED-MOE-EXECUTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "provider_neutral": true,
+  "reference_provider": "FA3-PROVIDER-STRATA-001",
+  "authorities": {
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "tiers": [
+    {
+      "id": "ACCELERATOR_RESIDENT",
+      "purpose": [
+        "dense_always_used_weights",
+        "hot_expert_cache",
+        "active_kv_window"
+      ],
+      "authority": "HRB",
+      "optional": true
+    },
+    {
+      "id": "NUMA_HOST_MEMORY",
+      "purpose": [
+        "authoritative_expert_residency",
+        "kv_host_spill"
+      ],
+      "authority": "HRB",
+      "optional": false
+    },
+    {
+      "id": "PERSISTENT_STORAGE",
+      "purpose": [
+        "auxiliary_indexes",
+        "cold_artifacts",
+        "model_files"
+      ],
+      "authority": "HRB_AND_STORAGE_GOVERNANCE",
+      "optional": true
+    }
+  ],
+  "invariants": [
+    "CPU_ONLY_EXECUTION_REMAINS_VALID_FOR_THE_GLOBAL_FA3_BASELINE",
+    "NO_PROVIDER_MAY_BECOME_MODEL_ROUTING_OR_RESOURCE_AUTHORITY",
+    "ACCELERATOR_CACHE_IS_NON_AUTHORITATIVE_AND_REBUILDABLE",
+    "AUTHORITATIVE_EXPERT_BYTES_MUST_FIT_ADMITTED_HOST_MEMORY_BEFORE_EXECUTION",
+    "STORAGE_IS_NOT_SILENTLY_TREATED_AS_EXECUTABLE_EXPERT_MEMORY",
+    "NUMA_PLACEMENT_IS_EXPLICIT_AND_RECEIPTED_WHEN_MULTIPLE_NODES_EXIST",
+    "KV_HOST_SPILL_MUST_BE_EXPLICIT_AND_MEASURABLE",
+    "RESOURCE_PRESSURE_MUST_FAIL_CLOSED_OR_TRIGGER_ROUTER_RESELECTION",
+    "NO_SILENT_LOCAL_TO_CLOUD_OR_PROVIDER_FALLBACK"
+  ],
+  "request_contract": {
+    "id": "TieredMoEPlacementRequest",
+    "required": [
+      "model",
+      "hardware",
+      "policy"
+    ],
+    "model_fields": [
+      "expert_bytes",
+      "dense_bytes",
+      "kv_bytes",
+      "auxiliary_bytes"
+    ],
+    "hardware_fields": [
+      "numa_nodes",
+      "accelerators",
+      "storage_tiers"
+    ],
+    "policy_fields": [
+      "host_reserve_bytes",
+      "accelerator_reserve_bytes",
+      "allow_kv_host_spill"
+    ]
+  },
+  "result_contract": {
+    "id": "TieredMoEPlacementPlan",
+    "required": [
+      "result",
+      "expert_host_residency",
+      "accelerator_cache",
+      "kv_placement",
+      "auxiliary_storage",
+      "receipts"
+    ],
+    "result_values": [
+      "PASS",
+      "UNSATISFIABLE"
+    ],
+    "authority_receipts_required": [
+      "HRB_ADMISSION",
+      "MODEL_ROUTER_SELECTION_WHEN_PROVIDER_USED"
+    ]
+  }
+}

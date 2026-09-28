@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001",
+  "project_id": "FA3-STRATA-TIERED-MOE-2026-09-28",
+  "status": "MATERIALIZATION_APPROVED",
+  "title": "Strata reference provider and tiered MoE execution materialization",
+  "requested_outcomes": [
+    "Admit Niko1221/Strata only as an optional inference provider candidate behind the canonical Model Router and HRB.",
+    "Materialize a provider-neutral tiered MoE residency and execution contract inspired by observed upstream behavior.",
+    "Add an independent FA3 placement planner for accelerator cache, NUMA host memory, KV host spill and storage-resident auxiliary artifacts.",
+    "Preserve capability baseline 175 and all existing architectural authorities."
+  ],
+  "constraints": {
+    "capability_count": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "cpu_only_global_baseline_required": true,
+    "accelerator_cardinality_global": "0..N",
+    "direct_application_to_strata": "FORBIDDEN",
+    "fixed_model_route": "FORBIDDEN",
+    "silent_fallback": "FORBIDDEN",
+    "current_host_promotion_without_physical_evidence": "FORBIDDEN"
+  },
+  "upstream_reference": {
+    "repository": "Niko1221/Strata",
+    "commit": "b742ff998704638903461a2d7d6c1e03b8032509",
+    "observed_release": "v0.1.12",
+    "observed_at": "2026-09-28",
+    "repository_license_file": "NOT_PRESENT_AT_OBSERVATION",
+    "copying_file": "NOT_PRESENT_AT_OBSERVATION",
+    "notice_file": "NOT_PRESENT_AT_OBSERVATION",
+    "direct_source_reuse": "FORBIDDEN_UNTIL_EXPLICIT_REUSE_LICENSE_IS_VERIFIED"
+  }
+}
