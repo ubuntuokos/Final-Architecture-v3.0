@@ -18,6 +18,7 @@ on:
       - 'deployment/fa3-gui/**'
       - 'src/fa3_gui_gate.py'
       - 'tests/test_fa3_gui_gate.py'
+      - 'tests/test_skill_fabric_gui.py'
       - '.github/workflows/fa3-gui-gate.yml'
   workflow_dispatch:
 
@@ -41,7 +42,7 @@ jobs:
       - name: Run changed-GUI native quality gate
         run: PYTHONPATH=src python src/fa3_quality_gate.py --root . --scope gui --changed-from origin/main
       - name: Run GUI unit regression
-        run: PYTHONPATH=src python -m unittest tests.test_fa3_gui_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_fa3_gui_gate tests.test_skill_fabric_gui -v
       - name: Run installer source-contract regression
         run: bash deployment/fa3-gui/install.sh --check-source-contract
 
