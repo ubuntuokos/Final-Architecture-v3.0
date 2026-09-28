@@ -103,5 +103,25 @@ class CoexistenceAuditTests(unittest.TestCase):
         self.assertIn("refusing ambiguous removal", uninstall)
         self.assertIn("Preserved: /var/lib/fa3/state and /etc/fa3/secret-policy.d", uninstall)
 
+
+    def test_terax_footprint_retains_p0_host_non_interference_and_truth_boundaries(self):
+        root=Path(__file__).resolve().parents[1]
+        obj=json.loads((root/"canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json").read_text())
+        schema=json.loads((root/"canonical/contracts/FA3-COEXISTENCE-FOOTPRINT-001.schema.json").read_text())
+        self.assertEqual(obj["risk"],"P0")
+        self.assertEqual(obj["lifecycle"],"OPTIONAL_DISABLED_BY_DEFAULT")
+        self.assertEqual(obj["evidence"]["current_host_status"],"PENDING_CURRENT_HOST")
+        self.assertFalse(obj["evidence"]["runtime_promotion_claim"])
+        self.assertIn(obj["evidence"]["static_status"],schema["properties"]["evidence"]["properties"]["static_status"]["enum"])
+        self.assertTrue(set(obj) <= set(schema["properties"]))
+        self.assertTrue(set(obj["coexistence"]) <= set(schema["properties"]["coexistence"]["properties"]))
+        self.assertTrue(set(obj["evidence"]) <= set(schema["properties"]["evidence"]["properties"]))
+        self.assertTrue(set(obj["hardware_audit"]) <= set(schema["properties"]["hardware_audit"]["properties"]))
+        self.assertFalse(obj["coexistence"]["requires_upstream_uninstall"])
+        self.assertFalse(obj["coexistence"]["shared_upstream_config_mutation"])
+        self.assertFalse(obj["coexistence"]["shadow_upstream_executable"])
+        self.assertFalse(obj["hardware_audit"]["disabled_reference_gpu_probe"])
+        self.assertTrue(obj["hardware_audit"]["display_gpu_is_not_ai_compute_lease"])
+
 if __name__=="__main__":
     unittest.main()
