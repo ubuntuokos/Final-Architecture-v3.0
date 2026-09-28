@@ -15849,6 +15849,75 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-RSDOIEL-FDX-001",
+      "name": "rsdoiel/fdx",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/rsdoiel/fdx",
+        "normalized_key": "github:rsdoiel/fdx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-scriptwriting-followup-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Typed Final Draft FDX XML document structure and parsing/serialization patterns",
+        "Fountain-like FDX-to-text and Fountain-to-FDX CLI conversion reference",
+        "FDX regression-fixture and round-trip acceptance test design"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "document-interchange"
+      ],
+      "problem_hints": [
+        "FDX/Fountain semantic loss and format round-trip verification",
+        "Preserve scene numbers, title page, revisions, script notes, cast and style spans through canonical exchange"
+      ],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 canonical document/interchange layer",
+        "Creative Studio",
+        "Film Planning"
+      ],
+      "tags": [
+        "fdx",
+        "final-draft",
+        "fountain",
+        "bidirectional-codec-reference",
+        "xml",
+        "go",
+        "copyleft",
+        "license-conflict"
+      ],
+      "license": {
+        "declared": "AGPL-3.0 (repository LICENSE and GitHub); BSD-2-Clause in some Go file headers",
+        "status": "KNOWN_DECLARATION_WITH_RESTRICTIONS"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream revision e2ee6728c511d03922692bffaaef5b23da639889 (2025-08-09); README flags inactive maintenance. Both fdx2txt and txt2fdx are present, but TODO explicitly leaves embedded styling/FDX interoperability and layout incomplete; do not claim lossless round-trip.",
+        "Use as format/schema and independent test-design reference for an FA3-owned bidirectional FDX codec; never admit FDX import before validated export. No unreviewed AGPL code, assets, fixture reuse or external runtime installation.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SAHIELBOSE-TIDELINE-001",
       "name": "sahielbose/Tideline",
       "source": {
