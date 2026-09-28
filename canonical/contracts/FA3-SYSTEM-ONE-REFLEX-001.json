@@ -12,15 +12,27 @@
   "parameter_value_expansion": "DENY",
   "free_text_action_generation": "DENY",
   "free_text_parameter_generation": "DENY",
-  "parameter_kinds": ["choices", "candidates", "flag", "levels"],
-  "risk_classes": ["read", "write", "destructive"],
+  "parameter_kinds": [
+    "choices",
+    "candidates",
+    "flag",
+    "levels"
+  ],
+  "risk_classes": [
+    "read",
+    "write",
+    "destructive"
+  ],
   "default_confidence_thresholds": {
     "read": 0.5,
     "write": 0.6,
     "destructive": 0.8,
     "finish": 0.5
   },
-  "terminal_choices": ["FINISH", "ESCALATE"],
+  "terminal_choices": [
+    "FINISH",
+    "ESCALATE"
+  ],
   "one_model_request_per_step": true,
   "confidence_is_authorization": false,
   "execution_performed_by_contract": false,
@@ -31,8 +43,30 @@
   "handoff": {
     "required_on_low_confidence": true,
     "required_on_explicit_escalation": true,
-    "target_classes": ["SYSTEM_TWO", "HUMAN"]
+    "target_classes": [
+      "SYSTEM_TWO",
+      "HUMAN"
+    ]
   },
   "cpu_only_supported": true,
-  "vendor_neutral": true
+  "vendor_neutral": true,
+  "mcp_action_compiler": {
+    "implementation": "src/fa3_system_one_mcp_compiler.py",
+    "authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "execution_authority": false,
+    "supported_parameter_forms": [
+      "enum",
+      "boolean",
+      "x-fa3-candidate-source",
+      "x-fa3-levels"
+    ],
+    "unsupported_tool_reporting": "REQUIRED",
+    "free_text_tool_parameter": "UNSUPPORTED_FAIL_CLOSED"
+  },
+  "trace_requirements": {
+    "full_answer_distributions": "REQUIRED",
+    "question_digest": "REQUIRED",
+    "bounded_state_digest": "REQUIRED",
+    "gate_judgments": "REQUIRED"
+  }
 }
