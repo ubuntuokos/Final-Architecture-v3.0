@@ -99,7 +99,7 @@ def _reuse_mode(entry: dict[str, Any]) -> str:
         if entry.get("admitted") is True and status == "ADMITTED" and entry.get("task_scoped") is True:
             return "ADMITTED_SKILL_REUSE"
         return "SKILL_REFERENCE_ADMISSION_REQUIRED"
-    if cls in {"UPSTREAM_REFERENCE", "THIRD_PARTY_REFERENCE", "EXTERNAL_SKILL_SOURCE"} or dist == "REFERENCE_ONLY":
+    if cls in {"UPSTREAM_REFERENCE", "THIRD_PARTY_REFERENCE", "EXTERNAL_SKILL_SOURCE", "DONOR_REFERENCE"} or dist == "REFERENCE_ONLY":
         return "REFERENCE_ONLY"
     if cls == "PROVIDER" and ("PENDING" in status or "NOT_ADMITTED" in status or "BLOCKED" in status):
         return "DESIGN_REUSE_RUNTIME_PENDING"
