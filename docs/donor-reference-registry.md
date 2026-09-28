@@ -75,7 +75,7 @@ The [scriptwriting source-specific curation](scriptwriting-github-donor-curation
 
 ## Script-breakdown GitHub donor curation
 
-The [script-breakdown source-specific curation](script-breakdown-github-donor-curation-2026-09-28.md) captures the GitHub topic index and six new, separately sourced donor candidates for the **existing** FA3 Story/Screenplay and preproduction ecosystem. OpenDraft is enriched in place, not duplicated. The review separates narrative beats, typed production breakdown, candidate shots, project-wide assets and derived scheduling; it requires bidirectional format gates, human approval, current-host evidence, vendor-neutral CPU-only operation and the existing FA3 workflow/model/resource authorities.
+The [script-breakdown source-specific curation](script-breakdown-github-donor-curation-2026-09-28.md) captures the GitHub topic index and seven separately sourced donor candidates (including the apparent original Jellyfish upstream found through provenance tracing) for the **existing** FA3 Story/Screenplay and preproduction ecosystem. OpenDraft is enriched in place, not duplicated. The review separates narrative beats, typed production breakdown, candidate shots, project-wide assets and derived scheduling; it requires bidirectional format gates, human approval, current-host evidence, vendor-neutral CPU-only operation and the existing FA3 workflow/model/resource authorities.
 
 ## Automatic applications and cross-application reuse
 
