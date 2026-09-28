@@ -119,8 +119,8 @@ def _param_question(
         levels = spec.get("levels")
         if not isinstance(levels, list) or not 2 <= len(levels) <= 10:
             raise SystemOneSpecError(f"{action_id}.{param_name} levels require 2..10 values")
-        if any(not isinstance(x, str) or not x for x in levels):
-            raise SystemOneSpecError(f"{action_id}.{param_name} levels must be non-empty strings")
+        if any(not isinstance(x, str) or not x for x in levels) or len(set(levels)) != len(levels):
+            raise SystemOneSpecError(f"{action_id}.{param_name} levels must be unique non-empty strings")
         return {"type": "score", "instructions": instructions, "criteria": list(levels)}, None
     raise SystemOneSpecError(
         f"{action_id}.{param_name} would require free text; "
@@ -263,15 +263,26 @@ def _probability(value: Any, *, label: str) -> float:
     return number
 
 
+def _complete_distribution(probabilities: dict[str, float], *, label: str) -> None:
+    """Reject incomplete/non-normalized native distributions before any confidence gate."""
+    if not probabilities or not math.isclose(
+        math.fsum(probabilities.values()), 1.0, rel_tol=0.0, abs_tol=0.05
+    ):
+        raise SystemOneSpecError(f"{label} distribution is not normalized")
+
+
 def _choice(answer: dict[str, Any], question: dict[str, Any]) -> tuple[str, float]:
     value = answer.get("choice")
     criteria = question.get("criteria", {})
-    if not isinstance(value, str) or value not in criteria:
-        raise SystemOneSpecError("model selected a value outside the compiled finite set")
+    if answer.get("type") != "choice" or not isinstance(value, str) or value not in criteria:
+        raise SystemOneSpecError("model selected a value outside the compiled finite choice set")
     probabilities = answer.get("probabilities")
     if not isinstance(probabilities, dict) or set(probabilities) != set(criteria):
         raise SystemOneSpecError("choice answer requires the exact compiled probability distribution")
     checked = {key: _probability(raw, label=f"choice {key}") for key, raw in probabilities.items()}
+    _complete_distribution(checked, label="choice")
+    if checked[value] < max(checked.values()) - 1e-12:
+        raise SystemOneSpecError("selected choice contradicts its probability distribution")
     return value, checked[value]
 
 
@@ -283,21 +294,22 @@ def _param_value(answer: dict[str, Any], question: dict[str, Any]) -> tuple[Any,
         p = _probability(answer.get("noul"), label="noul answer")
         return p >= 0.5, max(p, 1.0 - p)
     if qtype == "score":
-        probabilities = answer.get("probabilities", {})
+        if answer.get("type") != "score":
+            raise SystemOneSpecError("score answer has incorrect type")
+        probabilities = answer.get("probabilities")
         criteria = question.get("criteria", [])
-        if not isinstance(probabilities, dict) or not probabilities:
-            raise SystemOneSpecError("score answer requires per-level probabilities")
+        if not isinstance(criteria, list) or not 2 <= len(criteria) <= 10:
+            raise SystemOneSpecError("score question has invalid finite levels")
+        labels = set(criteria)
+        indexes = {str(index) for index in range(len(criteria))}
+        if not isinstance(probabilities, dict) or set(probabilities) not in (labels, indexes):
+            raise SystemOneSpecError("score answer requires exactly every compiled level")
         checked = {key: _probability(raw, label=f"score {key}") for key, raw in probabilities.items()}
+        _complete_distribution(checked, label="score")
         best_key = max(checked, key=checked.__getitem__)
-        try:
-            index = int(best_key)
-        except (TypeError, ValueError):
-            if best_key in criteria:
-                return best_key, checked[best_key]
-            raise SystemOneSpecError("score answer legend/index is invalid")
-        if not 0 <= index < len(criteria):
-            raise SystemOneSpecError("score answer index is outside compiled levels")
-        return criteria[index], checked[best_key]
+        if set(probabilities) == labels:
+            return best_key, checked[best_key]
+        return criteria[int(best_key)], checked[best_key]
     raise SystemOneSpecError(f"unsupported compiled question type: {qtype!r}")
 
 
@@ -379,8 +391,10 @@ def evaluate_system_one_answers(
     if action == FINISH:
         if not compiled.allow_finish:
             raise SystemOneSpecError("finish was not offered")
-        goal_answer = answers.get(GOAL_REACHED, {})
-        goal_probability = _number(goal_answer.get("noul")) if isinstance(goal_answer, dict) else 0.0
+        goal_answer = answers.get(GOAL_REACHED)
+        if not isinstance(goal_answer, dict) or goal_answer.get("type") != "noul":
+            raise SystemOneSpecError("finish requires explicit independent goal confirmation")
+        goal_probability = _probability(goal_answer.get("noul"), label=GOAL_REACHED)
         threshold = compiled.thresholds["finish"]
         weakest = min(action_probability, goal_probability)
         if weakest < threshold:

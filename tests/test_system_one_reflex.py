@@ -186,12 +186,14 @@ class SystemOneReflexTests(unittest.TestCase):
 
     @staticmethod
     def _next_answer(compiled, selected=0.99):
+        criteria = list(compiled.questions["next_action"]["criteria"])
+        alternative = next(key for key in criteria if key != "inspect")
         return {
             "type": "choice",
             "choice": "inspect",
             "probabilities": {
-                key: (selected if key == "inspect" else 0.0)
-                for key in compiled.questions["next_action"]["criteria"]
+                key: (selected if key == "inspect" else 1.0 - selected if key == alternative else 0.0)
+                for key in criteria
             },
             "confidence": selected,
         }
@@ -249,6 +251,71 @@ class SystemOneReflexTests(unittest.TestCase):
         )
         self.assertEqual(accepted.status, "DECIDED")
         self.assertEqual(accepted.result["parameters"], {"record": "one"})
+
+
+    def test_choice_distribution_rejects_wrong_total_and_non_top_selection(self):
+        request = self._bounded_request()
+        compiled = compile_system_one_step(request)
+        wrong_total = self._next_answer(compiled)
+        wrong_total["probabilities"]["inspect"] = 0.8
+        with self.assertRaisesRegex(SystemOneSpecError, "not normalized"):
+            evaluate_system_one_answers(request, compiled, {"next_action": wrong_total})
+        contradiction = self._next_answer(compiled)
+        contradiction["probabilities"] = {
+            key: (0.45 if key == "inspect" else 0.55 if key == "__escalate__" else 0.0)
+            for key in compiled.questions["next_action"]["criteria"]
+        }
+        with self.assertRaisesRegex(SystemOneSpecError, "contradicts"):
+            evaluate_system_one_answers(request, compiled, {"next_action": contradiction})
+
+    def test_score_requires_all_compiled_levels_and_normalization(self):
+        parameters = {"severity": {"kind": "levels", "levels": ["low", "medium", "high"]}}
+        request = self._bounded_request(parameters)
+        compiled = compile_system_one_step(request)
+        choices = self._next_answer(compiled)
+        valid = {"type": "score", "probabilities": {"low": 0.05, "medium": 0.05, "high": 0.9}}
+        approved = evaluate_system_one_answers(
+            request, compiled, {"next_action": choices, "inspect__severity": valid}
+        )
+        self.assertEqual(approved.result["parameters"]["severity"], "high")
+        for invalid in (
+            {"type": "score", "probabilities": {"low": 0.1, "high": 0.9}},
+            {"type": "score", "probabilities": {"low": 0.05, "medium": 0.05, "high": 0.5}},
+            {"type": "score", "probabilities": {"0": 0.05, "medium": 0.05, "2": 0.9}},
+            {"type": "score", "probabilities": {"low": float("nan"), "medium": 0.05, "high": 0.95}},
+        ):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(SystemOneSpecError):
+                    evaluate_system_one_answers(
+                        request, compiled, {"next_action": choices, "inspect__severity": invalid}
+                    )
+        indexed = evaluate_system_one_answers(
+            request, compiled,
+            {"next_action": choices, "inspect__severity": {"type": "score", "probabilities": {"0": 0.05, "1": 0.05, "2": 0.9}}},
+        )
+        self.assertEqual(indexed.result["parameters"]["severity"], "high")
+
+    def test_duplicate_levels_rejected_before_provider_request(self):
+        request = self._bounded_request({"severity": {"kind": "levels", "levels": ["low", "low"]}})
+        with self.assertRaisesRegex(SystemOneSpecError, "unique"):
+            compile_system_one_step(request)
+
+    def test_finish_requires_explicit_finite_goal_confirmation(self):
+        request = self._bounded_request()
+        compiled = compile_system_one_step(request)
+        probabilities = {
+            key: (0.96 if key == FINISH else 0.04 if key == "inspect" else 0.0)
+            for key in compiled.questions["next_action"]["criteria"]
+        }
+        finishing = {"type": "choice", "choice": FINISH, "probabilities": probabilities}
+        for answer in (None, {"type": "noul"}, {"type": "noul", "noul": float("nan")},
+                       {"type": "noul", "noul": float("inf")}, {"type": "choice", "noul": 0.99}):
+            with self.subTest(answer=answer):
+                values = {"next_action": finishing}
+                if answer is not None:
+                    values["goal_reached"] = answer
+                with self.assertRaises(SystemOneSpecError):
+                    evaluate_system_one_answers(request, compiled, values)
 
     def test_missing_model_router_receipt_authority_fails_closed(self):
         provider = SystemOneDecisionProvider(
