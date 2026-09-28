@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 308,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1170,6 +1170,69 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-APITRACE-APITRACE-001",
+      "name": "apitrace",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/apitrace/apitrace",
+        "normalized_key": "github:apitrace/apitrace"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "TEST_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "diagnostics",
+        "api-tracing",
+        "graphics-debugging",
+        "direct3d",
+        "opengl"
+      ],
+      "notes": [
+        "Graphics API trace/replay and regression evidence patterns; compatibility varies by API/OS."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-ARDOUR-001",
       "name": "Ardour",
       "source": {
@@ -2018,6 +2081,70 @@
       "license": {
         "declared": "UNKNOWN",
         "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-BALDURK-RENDERDOC-001",
+      "name": "RenderDoc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/baldurk/renderdoc",
+        "normalized_key": "github:baldurk/renderdoc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "TEST_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "VFX/Gaffer",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "diagnostics",
+        "graphics-debugging",
+        "frame-capture",
+        "vulkan",
+        "d3d"
+      ],
+      "notes": [
+        "Cross-API graphics capture/debug patterns; inspect live Linux capture support separately rather than presuming all D3D paths."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
@@ -4072,6 +4199,73 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
+      "name": "DXVK",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/doitsujin/dxvk",
+        "normalized_key": "github:doitsujin/dxvk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "Creative Studio",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "linux",
+        "linux",
+        "d3d8",
+        "d3d9",
+        "d3d10",
+        "d3d11",
+        "vulkan",
+        "wine"
+      ],
+      "notes": [
+        "D3D8–11 to Vulkan translation via Wine; Wine process boundary and per-app compatibility, never a native Linux D3D runtime claim."
+      ],
+      "license": {
+        "declared": "ZLIB",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-DONKEY-001",
       "name": "Donkey",
       "source": {
@@ -5844,6 +6038,70 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-HANSKRISTIAN-WORK-VKD3D-PROTON-001",
+      "name": "VKD3D-Proton",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HansKristian-Work/vkd3d-proton",
+        "normalized_key": "github:hanskristian-work/vkd3d-proton"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "Creative Studio",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "linux",
+        "linux",
+        "d3d12",
+        "vulkan",
+        "proton"
+      ],
+      "notes": [
+        "D3D12-to-Vulkan implementation with Proton-specific development; optional compatibility backend/reference, never global mandatory dependency."
+      ],
+      "license": {
+        "declared": "LGPL-2.1",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-HARDIKPANDYA-STOP-SLOP-001",
       "name": "hardikpandya/stop-slop",
       "source": {
@@ -6692,6 +6950,255 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-SPIRV-HEADERS-001",
+      "name": "SPIRV Headers",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/SPIRV-Headers",
+        "normalized_key": "github:khronosgroup/spirv-headers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SDK_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "VFX/Gaffer",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "foundation",
+        "spir-v",
+        "headers",
+        "shader-ir"
+      ],
+      "notes": [
+        "SPIR-V grammar/header foundation for Vulkan shader interoperability; coordinate with existing Khronos SDK Fabric."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-SPIRV-TOOLS-001",
+      "name": "SPIRV Tools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/SPIRV-Tools",
+        "normalized_key": "github:khronosgroup/spirv-tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SDK_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "VFX/Gaffer",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "foundation",
+        "spir-v",
+        "validation",
+        "shader-tools"
+      ],
+      "notes": [
+        "SPIR-V assembly/disassembly/validation references; no replacement for existing canonical shader pipeline."
+      ],
+      "license": {
+        "declared": "APACHE-2.0",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-VULKAN-HEADERS-001",
+      "name": "Vulkan Headers",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/Vulkan-Headers",
+        "normalized_key": "github:khronosgroup/vulkan-headers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SDK_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "foundation",
+        "vulkan",
+        "api",
+        "headers",
+        "portable-backend"
+      ],
+      "notes": [
+        "Optional Vulkan API header foundation for DXVK/VKD3D; reuse existing Khronos SDK Fabric instead of a parallel Vulkan authority."
+      ],
+      "license": {
+        "declared": "APACHE-2.0",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-VULKAN-LOADER-001",
+      "name": "Vulkan Loader",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/Vulkan-Loader",
+        "normalized_key": "github:khronosgroup/vulkan-loader"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SDK_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "foundation",
+        "vulkan",
+        "loader",
+        "icd",
+        "driver-discovery"
+      ],
+      "notes": [
+        "Vulkan ICD/driver loader reference; runtime driver availability and actual hardware use require separate current-host checks."
+      ],
+      "license": {
+        "declared": "APACHE-2.0",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -8096,6 +8603,446 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-GRAPHICS-SAMPLES-001",
+      "name": "DirectX Graphics Samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectX-Graphics-Samples",
+        "normalized_key": "github:microsoft/directx-graphics-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "Realtime / Virtual Production Interchange",
+        "VFX/Gaffer"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "d3d12",
+        "samples",
+        "raytracing",
+        "graphics"
+      ],
+      "notes": [
+        "Windows D3D12 samples: use as documented API/pipeline patterns, NOT as directly runnable Linux implementations."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-HEADERS-001",
+      "name": "DirectX Headers",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectX-Headers",
+        "normalized_key": "github:microsoft/directx-headers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Render Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "d3d12-abi",
+        "d3d12-headers",
+        "wsl2"
+      ],
+      "notes": [
+        "Official D3D12 headers and WSL shim. WSL2 shim is NOT a general Linux DirectX runtime; treat D3D12 ABI as reference, not globally mandatory."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-SPECS-001",
+      "name": "DirectX Specs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectX-Specs",
+        "normalized_key": "github:microsoft/directx-specs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "Developer Agent",
+        "VFX/Gaffer"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "specifications",
+        "d3d12",
+        "dxil"
+      ],
+      "notes": [
+        "Official DirectX feature engineering specifications: documentation/research reference only; no assumption of freely reusable code."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXMATH-001",
+      "name": "DirectXMath",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectXMath",
+        "normalized_key": "github:microsoft/directxmath"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Render Fabric",
+        "Character Studio"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "simd",
+        "math",
+        "geometry"
+      ],
+      "notes": [
+        "Linear algebra/SIMD reference; upstream primarily targets Windows toolchains, so Linux portability must be separately demonstrated."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXMESH-001",
+      "name": "DirectXMesh",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectXMesh",
+        "normalized_key": "github:microsoft/directxmesh"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Asset Graph",
+        "World Generator"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "meshes",
+        "geometry",
+        "meshlets"
+      ],
+      "notes": [
+        "Geometry processing and mesh optimization/reference patterns; not a justification for a new DCC or Unreal dependency."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXSHADERCOMPILER-001",
+      "name": "DirectX Shader Compiler",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectXShaderCompiler",
+        "normalized_key": "github:microsoft/directxshadercompiler"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "VFX/Gaffer",
+        "3D Fabric",
+        "Creative Studio"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "hlsl",
+        "dxc",
+        "dxil",
+        "spir-v"
+      ],
+      "notes": [
+        "LLVM/Clang-based HLSL/DXIL and SPIR-V shader compiler reference; individual third-party license review required; no fixed GPU backend."
+      ],
+      "license": {
+        "declared": "MIXED_REVIEW_REQUIRED",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTEX-001",
+      "name": "DirectXTex",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DirectXTex",
+        "normalized_key": "github:microsoft/directxtex"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "windows"
+      ],
+      "problem_hints": [
+        "D3D/Windows to cross-platform interoperability"
+      ],
+      "target_hints": [
+        "Asset Graph",
+        "Krita Integration",
+        "3D Fabric",
+        "Render Fabric"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "official",
+        "textures",
+        "dds",
+        "image-pipeline"
+      ],
+      "notes": [
+        "Texture processing and DDS/format interchange patterns; platform and dependency audit before portable code reuse."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -15930,6 +16877,69 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-VALVESOFTWARE-PROTON-001",
+      "name": "Valve Proton",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ValveSoftware/Proton",
+        "normalized_key": "github:valvesoftware/proton"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Developer Agent",
+        "Render Fabric"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "linux",
+        "linux",
+        "wine",
+        "proton",
+        "compatibility"
+      ],
+      "notes": [
+        "Composed Steam Play runtime containing Wine, DXVK and VKD3D-Proton; layered licenses, game-oriented scope; reference only."
+      ],
+      "license": {
+        "declared": "MIXED_REVIEW_REQUIRED",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-VANE-001",
       "name": "Vane",
       "source": {
@@ -16548,6 +17558,135 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-WINE-MIRROR-WINE-001",
+      "name": "Wine (GitHub mirror)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wine-mirror/wine",
+        "normalized_key": "github:wine-mirror/wine"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D to Vulkan interoperability and graphics diagnostics"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Developer Agent",
+        "Render Fabric"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "linux",
+        "wine",
+        "windows-api",
+        "linux",
+        "compatibility"
+      ],
+      "notes": [
+        "GitHub mirror of Wine; upstream releases/source identity must be checked against WineHQ before any code reuse."
+      ],
+      "license": {
+        "declared": "LGPL-2.1",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-WINEHQ-VKD3D-001",
+      "name": "WineHQ VKD3D (official)",
+      "source": {
+        "kind": "GIT",
+        "locator": "https://codeberg.org/vkd3d/vkd3d",
+        "normalized_key": "codeberg:vkd3d/vkd3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "directx-linux-curation-2026-09-28",
+        "winehq-2026-vkd3d-release-announcement"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-interoperability",
+        "shader-pipeline"
+      ],
+      "domain_hints": [
+        "graphics",
+        "directx",
+        "linux"
+      ],
+      "problem_hints": [
+        "D3D12-to-Vulkan and shader translation"
+      ],
+      "target_hints": [
+        "Render Fabric",
+        "3D Fabric",
+        "Creative Studio",
+        "Developer Agent"
+      ],
+      "tags": [
+        "directx-linux-curation-2026-09-28",
+        "directx",
+        "linux",
+        "wine",
+        "d3d12",
+        "vulkan",
+        "spir-v"
+      ],
+      "notes": [
+        "Official Wine vkd3d 2.0 source is hosted on Codeberg and WineHQ GitLab (verified WineHQ May 2026 announcement); do not confuse with Proton's fork or unofficial GitHub mirrors.",
+        "Build references Vulkan-Headers and SPIRV-Headers; runtime and source admission separately audited."
+      ],
+      "license": {
+        "declared": "LGPL-2.1",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-XGEN-JING-001",
       "name": "XGEN-Labs/XGEN-JING",
       "source": {
@@ -16995,5 +18134,14 @@
     "automatic_provider_admission": false,
     "automatic_model_selection": false,
     "hardware_audit_required": true
+  },
+  "directx_linux_curation": {
+    "date": "2026-09-28",
+    "status": "CANDIDATE_ONLY",
+    "non_authoritative": true,
+    "source_unique_records": 18,
+    "scope": "Official DirectX source, Linux D3D compatibility and Vulkan/SPIR-V foundations; metadata-only",
+    "no_runtime_admission": true,
+    "notes": "Upstream license identifiers are observations, never source-copy approval; future integrations must pass hardware/security/provenance/current-host gates."
   }
 }
