@@ -35,9 +35,14 @@ host credentials or CI-equivalent production evidence.
 ## Real execution
 
 Run the manual fa3-skill-codex-current-host.yml workflow only on the
-existing self-hosted fa3-current-host Linux x86_64 runner after the
-existing Codex current-host producer succeeds. The runner is nonroot,
-checks the independent trust config and existing provider receipt,
+existing self-hosted fa3-current-host Linux x86_64 runner **after**
+the PR chain has been reviewed and the workflow is available on the
+default branch. This is a fresh GitHub Actions checkout: the workflow
+first executes the existing real Codex current-host collector and its
+gate in the same checkout; it must not assume an untracked earlier
+provider receipt is present. It then executes the dependent signed
+skill consumer. The runner is nonroot, checks the independent trust
+config and the new physical provider receipt,
 re-verifies issuer X.509 chain and signed Security Governance role grants,
 checks actual native skill bytes and runs the pinned real Codex binary.
 It runs one explicit skill-consuming and one plain worktree worker,

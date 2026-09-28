@@ -51,9 +51,20 @@ jobs:
           command -v git
           command -v openssl
           command -v tar
-      - name: Existing Codex provider must already have real current-host admission
+      - name: Create and verify real Codex provider receipt in this checkout
         shell: bash
-        run: PYTHONPATH=src python src/fa3_codex_gate.py --root . --current-host
+        env:
+          CODEX_BINARY: ${{ inputs.codex_binary }}
+          CODEX_ARCHIVE: ${{ inputs.codex_archive }}
+        run: |
+          set -euo pipefail
+          args=()
+          if [ -n "$CODEX_BINARY" ]; then args+=(--codex-binary "$CODEX_BINARY"); fi
+          if [ -n "$CODEX_ARCHIVE" ]; then args+=(--archive "$CODEX_ARCHIVE"); fi
+          # actions/checkout starts clean: the previous host's untracked
+          # provider receipt is not available here. Collect physical proof
+          # with the existing provider before evaluating the dependent skill.
+          bash bin/fa3-codex-current-host.sh "${args[@]}"
       - name: Execute real signed skill consumer observation
         shell: bash
         env:

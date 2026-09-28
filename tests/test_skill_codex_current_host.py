@@ -60,6 +60,16 @@ class SkillHostStaticTests(unittest.TestCase):
         self.assertEqual(verify_signed_host_evidence(
             self.root, expected_source_commit="c" * 40)["result"], "FAIL")
 
+    def test_workflow_generates_real_provider_receipt_before_skill_probe(self):
+        workflow = (ROOT / ".github/workflows/fa3-skill-codex-current-host.yml"
+                    ).read_text(encoding="utf-8")
+        provider = workflow.find("bash bin/fa3-codex-current-host.sh")
+        skill = workflow.find("PYTHONPATH=src python src/fa3_skill_codex_current_host.py")
+        self.assertGreaterEqual(provider, 0)
+        self.assertGreater(skill, provider)
+        self.assertIn("fa3-current-host", workflow)
+        self.assertNotIn("synthetic PASS", workflow)
+
     def test_real_host_probe_denies_missing_execution_markers(self):
         import os
         prior = {k: os.environ.get(k) for k in (
