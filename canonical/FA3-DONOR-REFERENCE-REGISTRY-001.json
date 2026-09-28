@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 251,
+    "entry_count": 306,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -5794,6 +5794,202 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-HABANAAI-GAUDI-PYTORCH-BRIDGE-001",
+      "name": "HabanaAI/gaudi-pytorch-bridge",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HabanaAI/gaudi-pytorch-bridge",
+        "normalized_key": "github:habanaai/gaudi-pytorch-bridge"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "optional-gaudi-hpu-pytorch-backend"
+      ],
+      "domain_hints": [
+        "hpu",
+        "pytorch",
+        "gaudi"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "hpu",
+        "pytorch",
+        "gaudi",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HABANAAI-INDEX-001",
+      "name": "Intel Gaudi / HabanaAI organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HabanaAI",
+        "normalized_key": "github:habanaai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "gaudi-hpu-ecosystem"
+      ],
+      "domain_hints": [
+        "intel-ecosystem",
+        "discovery"
+      ],
+      "problem_hints": [
+        "standing-official-ecosystem-discovery"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Inference Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "official-ecosystem-index",
+        "intel-ecosystem",
+        "discovery",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata and official organization profile",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Standing discovery index only; index membership does not approve or add arbitrary child repositories."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HABANAAI-MODEL-REFERENCES-001",
+      "name": "HabanaAI/Model-References",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HabanaAI/Model-References",
+        "normalized_key": "github:habanaai/model-references"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-gaudi-model-examples"
+      ],
+      "domain_hints": [
+        "hpu",
+        "models",
+        "historical"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "hpu",
+        "models",
+        "historical",
+        "archived-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": true,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Archived upstream: historical design/reference patterns only, no runtime/dependency/source adoption."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-HABITAT-SIM-001",
       "name": "facebookresearch/habitat-sim",
       "source": {
@@ -6464,6 +6660,2175 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-AI-PLAYGROUND-001",
+      "name": "intel/AI-Playground",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/AI-Playground",
+        "normalized_key": "github:intel/ai-playground"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "local-ai-ux-reference"
+      ],
+      "domain_hints": [
+        "gui",
+        "local-ai",
+        "media"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "FA3 GUI",
+        "Model Manager",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gui",
+        "local-ai",
+        "media",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-AUTO-ROUND-001",
+      "name": "intel/auto-round",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/auto-round",
+        "normalized_key": "github:intel/auto-round"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "low-bit-quantization",
+        "calibration"
+      ],
+      "domain_hints": [
+        "model",
+        "ai",
+        "inference"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "model",
+        "ai",
+        "inference",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-COMPUTE-RUNTIME-001",
+      "name": "intel/compute-runtime",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/compute-runtime",
+        "normalized_key": "github:intel/compute-runtime"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-level-zero-opencl-runtime"
+      ],
+      "domain_hints": [
+        "gpu",
+        "runtime",
+        "compute"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Compute Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "runtime",
+        "compute",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-CONFIDENTIAL-COMPUTING-SGX-001",
+      "name": "intel/confidential-computing.sgx",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/confidential-computing.sgx",
+        "normalized_key": "github:intel/confidential-computing.sgx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "sgx-confidential-computing-patterns"
+      ],
+      "domain_hints": [
+        "security",
+        "attestation"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Security Governance",
+        "Secret Broker"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "security",
+        "attestation",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-GMMLIB-001",
+      "name": "intel/gmmlib",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/gmmlib",
+        "normalized_key": "github:intel/gmmlib"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-gpu-memory-management"
+      ],
+      "domain_hints": [
+        "gpu",
+        "memory",
+        "runtime"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "memory",
+        "runtime",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INDEX-001",
+      "name": "Intel GitHub organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel",
+        "normalized_key": "github:intel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "intel-platform"
+      ],
+      "domain_hints": [
+        "intel-ecosystem",
+        "discovery"
+      ],
+      "problem_hints": [
+        "standing-official-ecosystem-discovery"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Model Manager",
+        "Inference Fabric",
+        "Security Governance"
+      ],
+      "tags": [
+        "official-ecosystem-index",
+        "intel-ecosystem",
+        "discovery",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata and official organization profile",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Standing discovery index only; index membership does not approve or add arbitrary child repositories."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-CMT-CAT-001",
+      "name": "intel/intel-cmt-cat",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-cmt-cat",
+        "normalized_key": "github:intel/intel-cmt-cat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cache-and-bandwidth-measurement"
+      ],
+      "domain_hints": [
+        "cpu",
+        "memory",
+        "telemetry"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "cpu",
+        "memory",
+        "telemetry",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-DEVICE-PLUGINS-FOR-KUBERNETES-001",
+      "name": "intel/intel-device-plugins-for-kubernetes",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-device-plugins-for-kubernetes",
+        "normalized_key": "github:intel/intel-device-plugins-for-kubernetes"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "kubernetes-device-discovery-patterns"
+      ],
+      "domain_hints": [
+        "deployment",
+        "inventory",
+        "reference-only"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Deployment Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "deployment",
+        "inventory",
+        "reference-only",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-EXTENSION-FOR-PYTORCH-001",
+      "name": "intel/intel-extension-for-pytorch",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-extension-for-pytorch",
+        "normalized_key": "github:intel/intel-extension-for-pytorch"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-pytorch-optimization"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference",
+        "historical"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "historical",
+        "archived-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": true,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Archived upstream: historical design/reference patterns only, no runtime/dependency/source adoption."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-EXTENSION-FOR-TENSORFLOW-001",
+      "name": "intel/intel-extension-for-tensorflow",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-extension-for-tensorflow",
+        "normalized_key": "github:intel/intel-extension-for-tensorflow"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "tensorflow-acceleration-patterns"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-EXTENSION-FOR-TRANSFORMERS-001",
+      "name": "intel/intel-extension-for-transformers",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-extension-for-transformers",
+        "normalized_key": "github:intel/intel-extension-for-transformers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-transformer-optimization"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference",
+        "historical"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "historical",
+        "archived-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": true,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Archived upstream: historical design/reference patterns only, no runtime/dependency/source adoption."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-GRAPHICS-COMPILER-001",
+      "name": "intel/intel-graphics-compiler",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-graphics-compiler",
+        "normalized_key": "github:intel/intel-graphics-compiler"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-graphics-compiler-patterns"
+      ],
+      "domain_hints": [
+        "gpu",
+        "compiler",
+        "runtime"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "compiler",
+        "runtime",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-NPU-ACCELERATION-LIBRARY-001",
+      "name": "intel/intel-npu-acceleration-library",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-npu-acceleration-library",
+        "normalized_key": "github:intel/intel-npu-acceleration-library"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-npu-inference-patterns"
+      ],
+      "domain_hints": [
+        "npu",
+        "inference",
+        "historical"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "npu",
+        "inference",
+        "historical",
+        "archived-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": true,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Archived upstream: historical design/reference patterns only, no runtime/dependency/source adoption."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-RESOURCE-DRIVERS-FOR-KUBERNETES-001",
+      "name": "intel/intel-resource-drivers-for-kubernetes",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-resource-drivers-for-kubernetes",
+        "normalized_key": "github:intel/intel-resource-drivers-for-kubernetes"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "kubernetes-dra-resource-patterns"
+      ],
+      "domain_hints": [
+        "deployment",
+        "inventory",
+        "reference-only"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Deployment Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "deployment",
+        "inventory",
+        "reference-only",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-INTEL-XPU-BACKEND-FOR-TRITON-001",
+      "name": "intel/intel-xpu-backend-for-triton",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/intel-xpu-backend-for-triton",
+        "normalized_key": "github:intel/intel-xpu-backend-for-triton"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-gpu-triton-compiler-patterns"
+      ],
+      "domain_hints": [
+        "gpu",
+        "compiler",
+        "inference"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Inference Fabric",
+        "Compute Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "compiler",
+        "inference",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-IPEX-LLM-001",
+      "name": "intel/ipex-llm",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/ipex-llm",
+        "normalized_key": "github:intel/ipex-llm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-intel-llm-adaptation"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference",
+        "historical"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "historical",
+        "archived-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": true,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Archived upstream: historical design/reference patterns only, no runtime/dependency/source adoption."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-ITTAPI-001",
+      "name": "intel/ittapi",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/ittapi",
+        "normalized_key": "github:intel/ittapi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "instrumentation-api-patterns"
+      ],
+      "domain_hints": [
+        "telemetry",
+        "performance"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Observability",
+        "Performance Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "telemetry",
+        "performance",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LIBVPL-001",
+      "name": "intel/libvpl",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/libvpl",
+        "normalized_key": "github:intel/libvpl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "video-processing-dispatch"
+      ],
+      "domain_hints": [
+        "video",
+        "media",
+        "codec"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Media Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "video",
+        "media",
+        "codec",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LINUX-NPU-DRIVER-001",
+      "name": "intel/linux-npu-driver",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/linux-npu-driver",
+        "normalized_key": "github:intel/linux-npu-driver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "linux-intel-npu-driver-interface"
+      ],
+      "domain_hints": [
+        "npu",
+        "driver",
+        "compute"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "npu",
+        "driver",
+        "compute",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LINUX-SGX-001",
+      "name": "intel/linux-sgx",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/linux-sgx",
+        "normalized_key": "github:intel/linux-sgx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "sgx-runtime-and-enclave-patterns"
+      ],
+      "domain_hints": [
+        "security",
+        "attestation"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Security Governance",
+        "Secret Broker"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "security",
+        "attestation",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LLM-SCALER-001",
+      "name": "intel/llm-scaler",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/llm-scaler",
+        "normalized_key": "github:intel/llm-scaler"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "llm-scaling",
+        "serving-patterns"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference",
+        "distributed"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Inference Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "distributed",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LLVM-001",
+      "name": "intel/llvm",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/llvm",
+        "normalized_key": "github:intel/llvm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "sycl-compiler-and-toolchain"
+      ],
+      "domain_hints": [
+        "compiler",
+        "sycl",
+        "build"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Build Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "compiler",
+        "sycl",
+        "build",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-MEDIA-DRIVER-001",
+      "name": "intel/media-driver",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/media-driver",
+        "normalized_key": "github:intel/media-driver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-video-hardware-acceleration"
+      ],
+      "domain_hints": [
+        "video",
+        "media",
+        "gpu"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Media Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "video",
+        "media",
+        "gpu",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-METRICS-DISCOVERY-001",
+      "name": "intel/metrics-discovery",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/metrics-discovery",
+        "normalized_key": "github:intel/metrics-discovery"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "gpu-metric-enumeration"
+      ],
+      "domain_hints": [
+        "gpu",
+        "telemetry",
+        "observability"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "telemetry",
+        "observability",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-METRICS-LIBRARY-001",
+      "name": "intel/metrics-library",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/metrics-library",
+        "normalized_key": "github:intel/metrics-library"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "gpu-metrics-collection"
+      ],
+      "domain_hints": [
+        "gpu",
+        "telemetry",
+        "observability"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "telemetry",
+        "observability",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-NEURAL-COMPRESSOR-001",
+      "name": "intel/neural-compressor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/neural-compressor",
+        "normalized_key": "github:intel/neural-compressor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "quantization",
+        "compression",
+        "sparsity"
+      ],
+      "domain_hints": [
+        "model",
+        "ai",
+        "inference"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "model",
+        "ai",
+        "inference",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-PCM-001",
+      "name": "intel/pcm",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/pcm",
+        "normalized_key": "github:intel/pcm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu-and-memory-telemetry"
+      ],
+      "domain_hints": [
+        "cpu",
+        "telemetry",
+        "observability"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "cpu",
+        "telemetry",
+        "observability",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-PEPC-001",
+      "name": "intel/pepc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/pepc",
+        "normalized_key": "github:intel/pepc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "read-only-power-energy-performance-observation"
+      ],
+      "domain_hints": [
+        "cpu",
+        "telemetry",
+        "power-safety"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "cpu",
+        "telemetry",
+        "power-safety",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-PTI-GPU-001",
+      "name": "intel/pti-gpu",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/pti-gpu",
+        "normalized_key": "github:intel/pti-gpu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "gpu-performance-telemetry"
+      ],
+      "domain_hints": [
+        "gpu",
+        "telemetry",
+        "observability"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "telemetry",
+        "observability",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-SCIKIT-LEARN-INTELEX-001",
+      "name": "intel/scikit-learn-intelex",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/scikit-learn-intelex",
+        "normalized_key": "github:intel/scikit-learn-intelex"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu-analytics-acceleration"
+      ],
+      "domain_hints": [
+        "analytics",
+        "ml",
+        "cpu"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Data Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "analytics",
+        "ml",
+        "cpu",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-SGXDATACENTERATTESTATIONPRIMITIVES-001",
+      "name": "intel/SGXDataCenterAttestationPrimitives",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/SGXDataCenterAttestationPrimitives",
+        "normalized_key": "github:intel/sgxdatacenterattestationprimitives"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "sgx-remote-attestation-patterns"
+      ],
+      "domain_hints": [
+        "security",
+        "attestation"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Security Governance",
+        "Secret Broker"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "security",
+        "attestation",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-TORCH-XPU-OPS-001",
+      "name": "intel/torch-xpu-ops",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/torch-xpu-ops",
+        "normalized_key": "github:intel/torch-xpu-ops"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "pytorch-xpu-kernel-patterns"
+      ],
+      "domain_hints": [
+        "gpu",
+        "ai",
+        "inference"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Inference Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "ai",
+        "inference",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-XPUMANAGER-001",
+      "name": "intel/xpumanager",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/xpumanager",
+        "normalized_key": "github:intel/xpumanager"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-xpu-inventory-and-telemetry"
+      ],
+      "domain_hints": [
+        "gpu",
+        "inventory",
+        "telemetry"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "inventory",
+        "telemetry",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-IP-ADAPTER-001",
@@ -8892,6 +11257,862 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-INDEX-001",
+      "name": "oneAPI source organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src",
+        "normalized_key": "github:oneapi-src"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "oneapi-cross-backend"
+      ],
+      "domain_hints": [
+        "intel-ecosystem",
+        "discovery"
+      ],
+      "problem_hints": [
+        "standing-official-ecosystem-discovery"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Inference Fabric",
+        "Data Fabric",
+        "3D Fabric"
+      ],
+      "tags": [
+        "official-ecosystem-index",
+        "intel-ecosystem",
+        "discovery",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata and official organization profile",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Standing discovery index only; index membership does not approve or add arbitrary child repositories."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-LEVEL-ZERO-001",
+      "name": "oneapi-src/level-zero",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/level-zero",
+        "normalized_key": "github:oneapi-src/level-zero"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "device-enumeration-and-runtime-abstraction"
+      ],
+      "domain_hints": [
+        "gpu",
+        "level-zero",
+        "runtime"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Compute Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "gpu",
+        "level-zero",
+        "runtime",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONEAPI-SAMPLES-001",
+      "name": "oneapi-src/oneAPI-samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneAPI-samples",
+        "normalized_key": "github:oneapi-src/oneapi-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-backend-discovery-and-examples"
+      ],
+      "domain_hints": [
+        "sycl",
+        "build",
+        "examples"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "Build Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "sycl",
+        "build",
+        "examples",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONECCL-001",
+      "name": "oneapi-src/oneCCL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneCCL",
+        "normalized_key": "github:oneapi-src/oneccl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "collective-communications-patterns"
+      ],
+      "domain_hints": [
+        "distributed",
+        "training",
+        "compute"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Distributed Training Fabric",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "distributed",
+        "training",
+        "compute",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONEDAL-001",
+      "name": "oneapi-src/oneDAL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneDAL",
+        "normalized_key": "github:oneapi-src/onedal"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "data-analytics-kernels"
+      ],
+      "domain_hints": [
+        "analytics",
+        "ml",
+        "cpu"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Data Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "analytics",
+        "ml",
+        "cpu",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONEDNN-001",
+      "name": "oneapi-src/oneDNN",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneDNN",
+        "normalized_key": "github:oneapi-src/onednn"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-device-neural-kernels"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference",
+        "cpu"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Inference Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "cpu",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONEDPL-001",
+      "name": "oneapi-src/oneDPL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneDPL",
+        "normalized_key": "github:oneapi-src/onedpl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "portable-parallel-algorithms"
+      ],
+      "domain_hints": [
+        "parallelism",
+        "data",
+        "sycl"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Data Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "parallelism",
+        "data",
+        "sycl",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONEMKL-001",
+      "name": "oneapi-src/oneMKL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneMKL",
+        "normalized_key": "github:oneapi-src/onemkl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "math-kernel-interfaces"
+      ],
+      "domain_hints": [
+        "math",
+        "linear-algebra",
+        "cpu"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Data Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "math",
+        "linear-algebra",
+        "cpu",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONETBB-001",
+      "name": "oneapi-src/oneTBB",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneTBB",
+        "normalized_key": "github:oneapi-src/onetbb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "portable-parallel-tasking"
+      ],
+      "domain_hints": [
+        "cpu",
+        "parallelism",
+        "media"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Media Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "cpu",
+        "parallelism",
+        "media",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-SYCLOMATIC-001",
+      "name": "oneapi-src/SYCLomatic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/SYCLomatic",
+        "normalized_key": "github:oneapi-src/syclomatic"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "selective-cuda-to-sycl-migration-reference"
+      ],
+      "domain_hints": [
+        "migration",
+        "compiler",
+        "sycl"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Compute Fabric",
+        "Build Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "migration",
+        "compiler",
+        "sycl",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPEA-PROJECT-GENAICOMPS-001",
+      "name": "opea-project/GenAIComps",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/opea-project/GenAIComps",
+        "normalized_key": "github:opea-project/genaicomps"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "modular-genai-component-contracts"
+      ],
+      "domain_hints": [
+        "agents",
+        "rag",
+        "architecture"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Agent Fabric",
+        "Model Router",
+        "Retrieval Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "agents",
+        "rag",
+        "architecture",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPEA-PROJECT-GENAIEXAMPLES-001",
+      "name": "opea-project/GenAIExamples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/opea-project/GenAIExamples",
+        "normalized_key": "github:opea-project/genaiexamples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "enterprise-rag-agent-examples"
+      ],
+      "domain_hints": [
+        "agents",
+        "rag",
+        "reference-only"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Agent Fabric",
+        "Retrieval Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "agents",
+        "rag",
+        "reference-only",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPEA-PROJECT-INDEX-001",
+      "name": "OPEA open AI platform organization (Intel-participating community)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/opea-project",
+        "normalized_key": "github:opea-project"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "open-genai-components"
+      ],
+      "domain_hints": [
+        "intel-ecosystem",
+        "discovery"
+      ],
+      "problem_hints": [
+        "standing-official-ecosystem-discovery"
+      ],
+      "target_hints": [
+        "Agent Fabric",
+        "Model Router",
+        "Retrieval Fabric"
+      ],
+      "tags": [
+        "official-ecosystem-index",
+        "intel-ecosystem",
+        "discovery",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata and official organization profile",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Standing discovery index only; index membership does not approve or add arbitrary child repositories."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPEN-HIGGSFIELD-AI-001",
       "name": "Open-Higgsfield-AI",
       "source": {
@@ -9945,6 +13166,401 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Provider context storage cannot replace central Memory Fabric authority."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-INDEX-001",
+      "name": "OpenVINO Toolkit organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openvinotoolkit",
+        "normalized_key": "github:openvinotoolkit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "openvino-ecosystem"
+      ],
+      "domain_hints": [
+        "intel-ecosystem",
+        "discovery"
+      ],
+      "problem_hints": [
+        "standing-official-ecosystem-discovery"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Inference Fabric",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "official-ecosystem-index",
+        "intel-ecosystem",
+        "discovery",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata and official organization profile",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Standing discovery index only; index membership does not approve or add arbitrary child repositories."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-MODEL-SERVER-001",
+      "name": "openvinotoolkit/model_server",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openvinotoolkit/model_server",
+        "normalized_key": "github:openvinotoolkit/model_server"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "governed-serving-adapter-reference"
+      ],
+      "domain_hints": [
+        "serving",
+        "inference",
+        "reference-only"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Router",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "serving",
+        "inference",
+        "reference-only",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-OPEN-MODEL-ZOO-001",
+      "name": "openvinotoolkit/open_model_zoo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openvinotoolkit/open_model_zoo",
+        "normalized_key": "github:openvinotoolkit/open_model_zoo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "model-pipeline-examples"
+      ],
+      "domain_hints": [
+        "ai",
+        "models",
+        "reference-only"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "models",
+        "reference-only",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-OPENVINO-001",
+      "name": "openvinotoolkit/openvino",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openvinotoolkit/openvino",
+        "normalized_key": "github:openvinotoolkit/openvino"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "portable-inference-backend-reference"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference",
+        "openvino"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "inference",
+        "openvino",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-OPENVINO-GENAI-001",
+      "name": "openvinotoolkit/openvino.genai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openvinotoolkit/openvino.genai",
+        "normalized_key": "github:openvinotoolkit/openvino.genai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "local-generative-inference-reference"
+      ],
+      "domain_hints": [
+        "generative-ai",
+        "inference"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Generative Media Studio",
+        "Model Router",
+        "Model Manager"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "generative-ai",
+        "inference",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-OPENVINO-NOTEBOOKS-001",
+      "name": "openvinotoolkit/openvino_notebooks",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openvinotoolkit/openvino_notebooks",
+        "normalized_key": "github:openvinotoolkit/openvino_notebooks"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "official-intel-github-ecosystem-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "notebook-workflows-and-validation-patterns"
+      ],
+      "domain_hints": [
+        "ai",
+        "examples",
+        "reference-only"
+      ],
+      "problem_hints": [
+        "selective-non-authoritative-reuse"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Training Fabric"
+      ],
+      "tags": [
+        "verified-upstream-repository",
+        "ai",
+        "examples",
+        "reference-only",
+        "live-upstream"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_observation": {
+        "verified_at": "2026-09-28",
+        "verification": "GitHub repository metadata",
+        "archived": false,
+        "license_audited": false,
+        "source_copy_allowed": false
+      },
+      "notes": [
+        "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENWHIP-001",
