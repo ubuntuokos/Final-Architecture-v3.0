@@ -68,4 +68,3 @@ The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-202
 ## Pixar GitHub donor curation
 
 The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) inventories the official organization and records five individually checked repositories plus a discovery index as metadata-only donor candidates. It links OpenUSD/Hydra, OpenSubdiv and USD proposals to current or planned creative applications while preserving FA3-native projects, CPU-only viability, existing Khronos reuse, and all independent admission gates.
-
