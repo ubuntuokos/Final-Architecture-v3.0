@@ -5344,6 +5344,71 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FORGET-C-JELLYFISH-001",
+      "name": "Jellyfish (original upstream: Forget-C)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Forget-C/Jellyfish",
+        "normalized_key": "github:forget-c/jellyfish"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-origin-trace-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Upstream AI short-drama shot/asset readiness, confirmed dialogue/prop/costume candidates and cross-shot identity data flows",
+        "Multi-stage script-to-storyboard/shot and verified handoff reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "production-breakdown",
+        "short-drama"
+      ],
+      "problem_hints": [
+        "Typed asset and shot confirmation before media generation"
+      ],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Character Studio"
+      ],
+      "tags": [
+        "source-upstream",
+        "script-breakdown",
+        "shot-readiness",
+        "asset-consistency",
+        "short-drama"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream main a9678194ddf2d9be3ccbe78d4287d87d5089e123; README has matching title, images, feature narrative and original CI links also present in meo9805/Jellyfish mirror-like source; no assumption of code identity without diff audit.",
+        "Source-of-provenance candidate; the meo9805/Jellyfish record is a separate topic discovery and is not automatic justification for installing both. Use existing FA3 Model Router, HRB, Temporal, canonical project state and native files.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-FOUNTAIN-MODE-001",
       "name": "Fountain Mode",
       "source": {
@@ -7060,8 +7125,9 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Selective reference only: upstream model/provider manager, async task center and project authority duplicate existing FA3 Model Router, HRB, Temporal and canonical project. Do not import these or hard-code source's MySQL/Redis/RustFS/default ports.",
-        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md",
+        "README screenshot/CI links and title point to original https://github.com/Forget-C/Jellyfish; investigate provenance and code differences before reusing mirror. Original also recorded as separate source-specific candidate.",
+        "Selective reference only: upstream model/provider manager, async task center and project authority duplicate existing FA3 Model Router, HRB, Temporal and canonical project. Do not import these or hard-code source's MySQL/Redis/RustFS/default ports."
       ]
     },
     {
