@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-TIERED-MOE-EXECUTION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "capability_count": 175,
   "new_capabilities": 0,
@@ -54,7 +54,10 @@
     "NUMA_PLACEMENT_IS_EXPLICIT_AND_RECEIPTED_WHEN_MULTIPLE_NODES_EXIST",
     "KV_HOST_SPILL_MUST_BE_EXPLICIT_AND_MEASURABLE",
     "RESOURCE_PRESSURE_MUST_FAIL_CLOSED_OR_TRIGGER_ROUTER_RESELECTION",
-    "NO_SILENT_LOCAL_TO_CLOUD_OR_PROVIDER_FALLBACK"
+    "NO_SILENT_LOCAL_TO_CLOUD_OR_PROVIDER_FALLBACK",
+    "TIERED_MOE_PLACEMENT_IS_HRB_CHILD_PROJECTION_ONLY",
+    "PLANNER_MAY_NOT_ADMIT_DISCOVER_RESERVE_LEASE_OR_EXPAND_RESOURCES",
+    "PLACEMENT_INPUT_MUST_BE_BOUNDED_BY_VALIDATED_HRB_RECEIPT_AND_BROKER_VALIDATED_GRANT"
   ],
   "request_contract": {
     "id": "TieredMoEPlacementRequest",
@@ -98,5 +101,20 @@
       "HRB_ADMISSION",
       "MODEL_ROUTER_SELECTION_WHEN_PROVIDER_USED"
     ]
+  },
+  "hrb_child_projection": {
+    "adapter": "src/fa3_tiered_moe_hrb_projection.py",
+    "parent_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "parent_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "grant_schema": "fa3.tiered-moe-hrb-placement-grant.v1",
+    "parent_current_host_receipt_validation_required": true,
+    "broker_validated_grant_required": true,
+    "placement_plan_is_authoritative": false,
+    "may_admit_resources": false,
+    "may_expand_resources": false,
+    "may_create_lease": false,
+    "current_receipt_accelerator_cardinality": "0..1",
+    "global_fa3_accelerator_cardinality_remains": "0..N",
+    "multi_accelerator_extension_requires_hrb_multi_lease_contract": true
   }
 }
