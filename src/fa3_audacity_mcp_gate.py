@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed static governance gate for CAP-124 Audacity MCP materialization."""
+"""Fail-closed P0 governance gate for CAP-124 Audacity MCP materialization."""
 from __future__ import annotations
 
 import argparse
@@ -9,12 +9,20 @@ from pathlib import Path
 from fa3_release_baseline import load_active_release_baseline
 
 ROOT_DEFAULT = Path(__file__).resolve().parents[1]
+GATESET_ID = "FA3-AUDACITY-MCP-GATESET-001"
+EXECUTABLE_GATE_ID = "FA3-GATE-AUDACITY-MCP-001"
+DECISION_ID = "FA3-DEC-AUDACITY-MCP-2026-09-28"
+
 FILES = {
     "audacity": "canonical/providers/FA3-PROVIDER-AUDACITY-001.json",
     "mcp": "canonical/providers/FA3-PROVIDER-AUDACITY-MCP-001.json",
     "dsp": "canonical/providers/FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001.json",
     "contract": "canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json",
     "decision": "canonical/decisions/FA3-DEC-AUDACITY-MCP-2026-09-28.json",
+    "gate_record": "canonical/FA3-GATE-AUDACITY-MCP-001.json",
+    "gate_registry": "canonical/FA3-GATE-REGISTRY-001.json",
+    "policy": "canonical/enforcement-policy.json",
+    "evidence": "evidence/evidence-registry.json",
 }
 
 def load(root: Path, key: str) -> dict:
@@ -24,10 +32,35 @@ def check(ok: bool, code: str, message: str) -> dict:
     return {"code": code, "result": "PASS" if ok else "FAIL", "message": message}
 
 def gate(root: Path) -> dict:
-    a, m, d, c, dec = (load(root, k) for k in ("audacity", "mcp", "dsp", "contract", "decision"))
+    root = root.resolve()
+    missing = [rel for rel in FILES.values() if not (root / rel).is_file()]
+    if missing:
+        return {
+            "schema": "fa3.audacity-mcp-gate-report.v1",
+            "gate_id": GATESET_ID,
+            "executable_gate_id": EXECUTABLE_GATE_ID,
+            "result": "FAIL",
+            "findings": [{"code": "AUD-MCP-000", "message": "required files missing", "paths": missing}],
+            "runtime_promotion_claim": False,
+        }
+
+    a, m, d, c, dec, grec, greg, pol, ev = (
+        load(root, k)
+        for k in (
+            "audacity", "mcp", "dsp", "contract", "decision",
+            "gate_record", "gate_registry", "policy", "evidence"
+        )
+    )
     inv = set(c["invariants"])
     baseline = load_active_release_baseline(root)
     capability_count = baseline.capability_count
+    cap124 = next((x for x in ev.get("records", []) if x.get("subject_id") == "CAP-124"), {})
+    provider_ids = [
+        "FA3-PROVIDER-AUDACITY-001",
+        "FA3-PROVIDER-AUDACITY-MCP-001",
+        "FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001",
+    ]
+
     checks = [
         check(
             c["capability_id"] == "CAP-124" and c["capability_count"] == capability_count,
@@ -47,16 +80,49 @@ def gate(root: Path) -> dict:
         check("FA3 managed integration SHALL NOT execute upstream installers that modify Audacity or third-party client configuration." in inv, "AUD-MCP-012", "non-interference invariant is normative"),
         check(dec["final_disposition"]["audacity_4_companion_fork"] == "NOT_BASELINE_ADMITTED", "AUD-MCP-013", "Audacity 4 companion fork is not baseline-admitted"),
         check(dec["final_disposition"]["openvino"] == "EXISTING_OPTIONAL_INFERENCE_PROVIDER_REMAINS_SEPARATE_NOT_AUDACITY_AUTHORITY", "AUD-MCP-014", "OpenVINO remains optional and non-authoritative"),
+        check(
+            grec.get("id") == EXECUTABLE_GATE_ID
+            and grec.get("enforcement_id") == GATESET_ID
+            and grec.get("priority") == "P0"
+            and grec.get("fail_closed") is True
+            and grec.get("static_pass_promotes_runtime") is False,
+            "AUD-MCP-015",
+            "canonical executable P0 gate record",
+        ),
+        check(
+            GATESET_ID in greg.get("mandatory_reference_gates", [])
+            and greg.get("mandatory_reference_gates") == pol.get("mandatory_reference_gates"),
+            "AUD-MCP-016",
+            "mandatory Gate Registry / enforcement-policy mirror binding",
+        ),
+        check(
+            pol.get("audacity_mcp_gate_id") == GATESET_ID
+            and pol.get("audacity_mcp_capability_id") == "CAP-124"
+            and pol.get("audacity_mcp_provider_ids") == provider_ids
+            and pol.get("audacity_mcp_current_host_runtime_promotion_claim") is False,
+            "AUD-MCP-017",
+            "global enforcement policy Audacity binding",
+        ),
+        check(
+            cap124.get("status") == "PENDING_CURRENT_HOST"
+            and DECISION_ID in cap124.get("source_decision_ids", [])
+            and ev.get("audacity_mcp_reconciliation", {}).get("gate_id") == GATESET_ID
+            and ev.get("audacity_mcp_reconciliation", {}).get("current_host_runtime_promotion_claim") is False,
+            "AUD-MCP-018",
+            "Evidence Registry decision binding without runtime overclaim",
+        ),
     ]
     result = "PASS" if all(x["result"] == "PASS" for x in checks) else "FAIL"
     return {
         "schema": "fa3.audacity-mcp-gate-report.v1",
-        "gate_id": "FA3-GATE-AUDACITY-MCP-001",
+        "gate_id": GATESET_ID,
+        "executable_gate_id": EXECUTABLE_GATE_ID,
         "result": result,
         "capability_id": "CAP-124",
         "active_release": baseline.release,
         "active_release_capability_count": capability_count,
         "checks": checks,
+        "findings": [x for x in checks if x["result"] == "FAIL"],
         "runtime_promotion_claim": False,
     }
 
