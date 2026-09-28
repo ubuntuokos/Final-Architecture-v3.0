@@ -198,6 +198,26 @@
           ],
           "require_policy_purpose": true,
           "receipt_audit_required": true
+        },
+        {
+          "provider_id": "FA3-PROVIDER-DEJA-VU-001",
+          "adapter_id": "fa3.adapter.deja-vu.retrieve",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 30,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-DEJA-RECALL-GATESET-001",
+          "policy_mode": "external_resolver",
+          "require_scoped_arguments": true,
+          "policy_scope_arguments": [
+            "project_id"
+          ],
+          "require_policy_purpose": true,
+          "receipt_audit_required": true,
+          "model_routing": "NOT_USED",
+          "network_egress": "DENY",
+          "source_scope": "TRUSTED_PER_PROJECT_PARTITION"
         }
       ]
     },
