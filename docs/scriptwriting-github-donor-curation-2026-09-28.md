@@ -39,6 +39,10 @@ Source examined at upstream commit `e2ee6728c511d03922692bffaaef5b23da639889` (2
 
 **Hardware Audit:** inspection and planned codec tests must run CPU-only with zero GPUs/NPUs required, remain vendor-neutral and function in a headless test runner. GUI features remain FA3 Qt/QML with Wayland preferred and X11 supported. No change to HRB, Model Router, AdGuardHome ports or FA3-native project ownership.
 
+## Related script-breakdown research
+
+See [script-breakdown source-specific curation](script-breakdown-github-donor-curation-2026-09-28.md) for wildwinter's bidirectional but lossy Fountain/FDX Script model, ScriptBreak scene/shot/schedule workflow, staged human approval and visual-asset continuity references, typed narrative-beat validation and **OpenDraft's existing record enrichment**. This extends the prior FDX acceptance work; it does not admit a second document authority or duplicate OpenDraft donor.
+
 ## Selective design for the existing FA3 Story/Screenplay Fabric
 
 1. **Canonical story graph and document profiles:** keep the existing FA3 source of truth for scenes, acts, characters, alternatives, versioning, annotations and production metadata. Validate separate film, TV film, episodic/series, advertising/commercial, live broadcast and future profiles. No donor schema becomes canonical by import.
