@@ -17,6 +17,7 @@ Item {
 
     readonly property string profileId: "FA3-GUI-LANGUAGE-CONTROL-001"
     readonly property string bridgeId: "FA3-LANGUAGE-BRIDGE-001"
+    signal navigateRequested(string routeId)
 
     property string primaryLanguage: String(preferences.value("languageControl/primaryLanguage", ""))
     property string secondaryLanguage: String(preferences.value("languageControl/secondaryLanguage", ""))
@@ -117,6 +118,19 @@ Item {
                     font.pixelSize: 9
                     font.bold: true
                 }
+            }
+
+            RowLayout {
+                Layout.leftMargin: 18
+                Layout.rightMargin: 18
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    text: "Skill-nyelvi igazolások: csak feladatszintű validált evidence alapján."
+                    color: root.textMuted
+                    wrapMode: Text.WordWrap
+                }
+                Button { text: "Skill Fabric"; onClicked: root.navigateRequested("decision.skill-fabric") }
             }
 
             Card {
