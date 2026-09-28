@@ -6,6 +6,7 @@ transport cannot discover/admit a model, change provider, or contact a vendor AP
 """
 from __future__ import annotations
 
+import datetime as dt
 import hashlib
 import json
 import os
@@ -110,8 +111,16 @@ class NativeRouterTransport:
         credential = os.environ.get("FA3_MODEL_ROUTER_MASTER_KEY")
         if not selection or not origin or not credential:
             raise RouterNativeDenied("live Router selection, origin and broker-projected credential required")
-        return cls(selection_receipt=Path(selection), route_registry=root / "deployment/model-router/routes.json",
-                   router_origin=origin, master_key=credential)
+        transport = cls(
+            selection_receipt=Path(selection),
+            route_registry=root / "deployment/model-router/routes.json",
+            router_origin=origin, master_key=credential,
+        )
+        e2e_path = os.environ.get("FA3_SYSTEM_ONE_NATIVE_E2E_RECEIPT")
+        if not e2e_path:
+            raise RouterNativeDenied("live native Router E2E admission proof is required")
+        transport.validate_live_e2e(Path(e2e_path), root=root)
+        return transport
 
     def binding(self) -> tuple[dict[str, Any], dict[str, Any]]:
         receipt = _read_protected(self.selection_receipt)
@@ -147,6 +156,39 @@ class NativeRouterTransport:
         if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
             raise RouterNativeDenied("selected native provider has no current-host admission proof")
         return receipt, binding
+
+    def validate_live_e2e(self, receipt_path: Path, *, root: Path) -> None:
+        evidence = _read_protected(receipt_path)
+        selection, binding = self.binding()
+        try:
+            captured = dt.datetime.fromisoformat(str(evidence.get("captured_at") or ""))
+            if captured.tzinfo is None:
+                raise ValueError("timezone required")
+            age = dt.datetime.now(dt.timezone.utc) - captured.astimezone(dt.timezone.utc)
+            if not dt.timedelta(0) <= age <= dt.timedelta(hours=24):
+                raise ValueError("stale proof")
+        except (ValueError, TypeError):
+            raise RouterNativeDenied("native Router E2E evidence is stale or undated") from None
+        from fa3_model_router_materialize import git_head
+        if not (
+            evidence.get("schema") == "fa3.system-one-router-e2e-current-host.v1"
+            and evidence.get("result") == "PASS"
+            and evidence.get("authority") == AUTHORITY
+            and evidence.get("logical_route") == ROUTE
+            and evidence.get("data_plane") == "LITELLM_AUTHENTICATED_PASS_THROUGH"
+            and evidence.get("native_provider_id") == binding["provider_id"]
+            and evidence.get("selection_receipt_sha256") == sha256_file(self.selection_receipt)
+            and evidence.get("native_admission_sha256") == selection["admission_receipt_sha256"][NATIVE_PROVIDER]
+            and evidence.get("router_origin") == self.router_origin
+            and evidence.get("repository_head") == git_head(root)
+            and evidence.get("invalid_and_missing_master_key_rejected") is True
+            and evidence.get("native_probability_distribution_preserved") is True
+            and evidence.get("real_native_provider_request") is True
+            and evidence.get("execution_performed") is False
+            and evidence.get("confidence_is_authorization") is False
+            and evidence.get("global_promotion_claim") is False
+        ):
+            raise RouterNativeDenied("native LiteLLM E2E proof does not bind this exact live runtime")
 
     def __call__(self, envelope: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(envelope, dict) or not (
