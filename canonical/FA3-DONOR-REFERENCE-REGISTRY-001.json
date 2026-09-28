@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 312,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1245,6 +1245,65 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-ARM-SOFTWARE-ACLE-001",
+      "name": "Arm ACLE / NEON",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ARM-software/acle",
+        "normalized_key": "github:arm-software/acle"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "arm-neon-intrinsics",
+        "arm64-simd-reference",
+        "cpu-vectorization"
+      ],
+      "domain_hints": [
+        "hardware",
+        "standards"
+      ],
+      "problem_hints": [
+        "cpu-architecture-reference"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Hardware Audit",
+        "Developer Agent"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "cpu-architecture-reference",
+        "standards"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "ARM64 OSPRay requires NEON; the Arm C Language Extensions specification is an ISA reference, not a runtime dependency."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ART-001",
@@ -5328,6 +5387,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-GCC-MIRROR-GCC-001",
+      "name": "GCC C++ compiler",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gcc-mirror/gcc",
+        "normalized_key": "github:gcc-mirror/gcc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "gcc-cpp-toolchain",
+        "cplusplus11-support",
+        "portable-cpu-build"
+      ],
+      "domain_hints": [
+        "engineering",
+        "compilers"
+      ],
+      "problem_hints": [
+        "supported-cpp-toolchain-reference"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Developer Agent",
+        "Build Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "supported-cpp-toolchain-reference",
+        "compilers"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay README recommends GCC and requires a C++11-capable compiler; this mirror is toolchain reference, not a pinned mandatory provider."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GEGL-001",
       "name": "GEGL",
       "source": {
@@ -5627,6 +5746,65 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GLFW-GLFW-001",
+      "name": "GLFW",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/glfw/glfw",
+        "normalized_key": "github:glfw/glfw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "window-context-management",
+        "opengl-example-integration"
+      ],
+      "domain_hints": [
+        "creative",
+        "graphics"
+      ],
+      "problem_hints": [
+        "optional-example-ui"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Creative Studio",
+        "Developer Agent"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-example-ui",
+        "graphics"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay optional examples, tests and benchmarks use GLFW; not an FA3 display authority or required GUI runtime."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GOOGLE-ADK-001",
       "name": "Google ADK",
       "source": {
@@ -5675,6 +5853,183 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-BENCHMARK-001",
+      "name": "Google Benchmark",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google/benchmark",
+        "normalized_key": "github:google/benchmark"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpp-microbenchmarking",
+        "renderer-performance-evidence"
+      ],
+      "domain_hints": [
+        "engineering",
+        "tooling"
+      ],
+      "problem_hints": [
+        "optional-upstream-benchmark-tool"
+      ],
+      "target_hints": [
+        "Developer Agent",
+        "3D Fabric",
+        "Observability Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-upstream-benchmark-tool",
+        "tooling"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay optional benchmark tooling; benchmark results are not current-host execution evidence."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-GOOGLETEST-001",
+      "name": "GoogleTest",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google/googletest",
+        "normalized_key": "github:google/googletest"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpp-unit-testing",
+        "render-regression-testing"
+      ],
+      "domain_hints": [
+        "engineering",
+        "tooling"
+      ],
+      "problem_hints": [
+        "optional-upstream-test-tool"
+      ],
+      "target_hints": [
+        "Developer Agent",
+        "3D Fabric",
+        "CI Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-upstream-test-tool",
+        "tooling"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay optional test suite uses GoogleTest; donor as test-pattern reference only."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-SNAPPY-001",
+      "name": "Google Snappy",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google/snappy",
+        "normalized_key": "github:google/snappy"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "fast-data-compression",
+        "distributed-transfer"
+      ],
+      "domain_hints": [
+        "rendering",
+        "data"
+      ],
+      "problem_hints": [
+        "optional-distributed-rendering-dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Asset Graph"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-distributed-rendering-dependency",
+        "data"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay optional MPI modules require Google Snappy; no dependency for non-MPI OSPRay use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GOSS-001",
@@ -6466,6 +6821,127 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-INTEL-COMPUTE-RUNTIME-001",
+      "name": "Intel Graphics Compute Runtime",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/compute-runtime",
+        "normalized_key": "github:intel/compute-runtime"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "intel-graphics-runtime",
+        "level-zero-runtime",
+        "intel-gpu-device-admission"
+      ],
+      "domain_hints": [
+        "hardware",
+        "hardware"
+      ],
+      "problem_hints": [
+        "optional-gpu-stack-reference"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "3D Fabric",
+        "World Generator"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-gpu-stack-reference",
+        "hardware"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Related optional Intel GPU runtime candidate, not a claimed direct required OSPRay dependency; no global Intel GPU requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LLVM-001",
+      "name": "Intel oneAPI DPC++ (intel/llvm)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/llvm",
+        "normalized_key": "github:intel/llvm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "dpcpp-compiler",
+        "sycl-runtime",
+        "intel-xe-kernels"
+      ],
+      "domain_hints": [
+        "hardware",
+        "compilers"
+      ],
+      "problem_hints": [
+        "optional-gpu-compiler"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Developer Agent",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-gpu-compiler",
+        "compilers"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream Intel OSPRay beta GPU path uses oneAPI DPC++/SYCL; not portable proof for NVIDIA/AMD paths, not a mandatory FA3 compiler."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-IP-ADAPTER-001",
       "name": "IP-Adapter",
       "source": {
@@ -6531,6 +7007,66 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-ISPC-ISPC-001",
+      "name": "ISPC (Implicit SPMD Program Compiler)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ispc/ispc",
+        "normalized_key": "github:ispc/ispc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "simd-kernel-compilation",
+        "cpu-vectorization",
+        "portable-cpu-rendering"
+      ],
+      "domain_hints": [
+        "hardware",
+        "compilers"
+      ],
+      "problem_hints": [
+        "cpu-kernel-build-dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Developer Agent"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "cpu-kernel-build-dependency",
+        "compilers"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay CPU implementation uses ISPC >=1.23.0; x86 SSE4.1 and ARM NEON platform minima still apply to OSPRay runtime."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-JING-PROMPT-SKILLS-001",
@@ -6702,6 +7238,185 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-OPENGL-REGISTRY-001",
+      "name": "Khronos OpenGL Registry",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/OpenGL-Registry",
+        "normalized_key": "github:khronosgroup/opengl-registry"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "opengl-api",
+        "render-preview",
+        "graphics-interoperability"
+      ],
+      "domain_hints": [
+        "creative",
+        "standards"
+      ],
+      "problem_hints": [
+        "optional-example-standard"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Creative Studio",
+        "Khronos Open Standards SDK Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-example-standard",
+        "standards"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OpenGL is used by optional OSPRay examples/tests/benchmarks; NOT required for OSPRay headless/CPU rendering."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-SYCL-DOCS-001",
+      "name": "Khronos SYCL specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/SYCL-Docs",
+        "normalized_key": "github:khronosgroup/sycl-docs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "sycl-standard",
+        "heterogeneous-programming",
+        "gpu-backend-pattern"
+      ],
+      "domain_hints": [
+        "hardware",
+        "standards"
+      ],
+      "problem_hints": [
+        "optional-gpu-standard"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Hardware Audit",
+        "Khronos Open Standards SDK Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-gpu-standard",
+        "standards"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay Intel Xe GPU implementation (upstream beta) uses SYCL; SYCL spec is a standard reference, not automatically FA3 GPU support or an OSPRay dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-KITWARE-CMAKE-001",
+      "name": "CMake",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Kitware/CMake",
+        "normalized_key": "github:kitware/cmake"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-platform-build-configuration",
+        "dependency-configuration",
+        "superbuild"
+      ],
+      "domain_hints": [
+        "engineering",
+        "tooling"
+      ],
+      "problem_hints": [
+        "build-tool-reference"
+      ],
+      "target_hints": [
+        "Developer Agent",
+        "3D Fabric",
+        "Build Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "build-tool-reference",
+        "tooling"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay documented CMake build tool; discovery reference only, no new FA3 global build baseline."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-KRITA-001",
@@ -7315,6 +8030,66 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-LLVM-LLVM-PROJECT-001",
+      "name": "LLVM/Clang/OpenMP",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/llvm/llvm-project",
+        "normalized_key": "github:llvm/llvm-project"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "clang-cpp-toolchain",
+        "openmp-tasking",
+        "cpu-build-reference"
+      ],
+      "domain_hints": [
+        "engineering",
+        "compilers"
+      ],
+      "problem_hints": [
+        "alternative-build-and-tasking"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Developer Agent",
+        "Build Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "alternative-build-and-tasking",
+        "compilers"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Clang is an upstream-supported C++ compiler option; OpenMP is an rkcommon tasking alternative. This repo is a family-level implementation reference, not a dependency requirement."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LMMS-001",
@@ -8164,6 +8939,64 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFTDOCS-CPP-DOCS-001",
+      "name": "Microsoft C++ / MSVC documentation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MicrosoftDocs/cpp-docs",
+        "normalized_key": "github:microsoftdocs/cpp-docs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "msvc-compatibility",
+        "windows-cpp-build-reference"
+      ],
+      "domain_hints": [
+        "engineering",
+        "docs"
+      ],
+      "problem_hints": [
+        "supported-proprietary-toolchain-doc"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Developer Agent",
+        "Build Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "supported-proprietary-toolchain-doc",
+        "docs"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay documents MSVC as a supported compiler; official Microsoft C++ docs are documentation-only. No proprietary MSVC source-copy rights implied."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MINIMAX-H3-001",
@@ -11084,6 +11917,127 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-LEVEL-ZERO-001",
+      "name": "oneAPI Level Zero",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/level-zero",
+        "normalized_key": "github:oneapi-src/level-zero"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "level-zero-api",
+        "intel-gpu-backend-discovery",
+        "device-runtime-interop"
+      ],
+      "domain_hints": [
+        "hardware",
+        "hardware"
+      ],
+      "problem_hints": [
+        "optional-gpu-stack-reference"
+      ],
+      "target_hints": [
+        "Hardware Audit",
+        "3D Fabric",
+        "World Generator"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-gpu-stack-reference",
+        "hardware"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Related Intel GPU runtime API candidate, not a claimed direct required OSPRay dependency; separate device/runtime admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONEAPI-SRC-ONETBB-001",
+      "name": "oneTBB (uxlfoundation/oneTBB)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oneapi-src/oneTBB",
+        "normalized_key": "github:oneapi-src/onetbb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu-task-scheduling",
+        "thread-pools",
+        "parallelism"
+      ],
+      "domain_hints": [
+        "engineering",
+        "parallel"
+      ],
+      "problem_hints": [
+        "optional-rkcommon-tasking"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Developer Agent"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-rkcommon-tasking",
+        "parallel"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official former oneapi-src/oneTBB repository redirects to uxlfoundation/oneTBB. Keep existing pending Intel donor canonical source key github:oneapi-src/onetbb for cross-PR deduplication.",
+        "GitHub currently redirects https://github.com/oneapi-src/oneTBB to https://github.com/uxlfoundation/oneTBB; preserve pending Intel donor PR #450's original source key and ID for conflict-safe reconciliation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPEN-HIGGSFIELD-AI-001",
       "name": "Open-Higgsfield-AI",
       "source": {
@@ -11131,6 +12085,65 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPEN-MPI-OMPI-001",
+      "name": "Open MPI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-mpi/ompi",
+        "normalized_key": "github:open-mpi/ompi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "mpi-distributed-rendering",
+        "cluster-task-distribution"
+      ],
+      "domain_hints": [
+        "rendering",
+        "parallel"
+      ],
+      "problem_hints": [
+        "optional-distributed-rendering"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Render Fabric"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-distributed-rendering",
+        "parallel"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay optional OSPRAY_MODULE_MPI enables mpiOffload and mpiDistributed; Open MPI is one possible MPI implementation, not an imposed single provider."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPEN-PHOTO-AI-001",
@@ -14221,6 +15234,313 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-EMBREE-001",
+      "name": "Intel Embree",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RenderKit/embree",
+        "normalized_key": "github:renderkit/embree"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu-ray-tracing",
+        "rays-and-geometry-intersection",
+        "bvh-acceleration"
+      ],
+      "domain_hints": [
+        "3d",
+        "rendering"
+      ],
+      "problem_hints": [
+        "direct-core-dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "VFX/Gaffer"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "direct-core-dependency",
+        "rendering"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay direct ray-intersection dependency; upstream README declares Embree 4.3.3 or later."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-OIDN-001",
+      "name": "Intel Open Image Denoise",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RenderKit/oidn",
+        "normalized_key": "github:renderkit/oidn"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "image-denoising",
+        "render-postprocessing"
+      ],
+      "domain_hints": [
+        "creative",
+        "rendering"
+      ],
+      "problem_hints": [
+        "optional-denoiser-dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Creative Studio",
+        "VFX/Gaffer",
+        "Video Editor"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "optional-denoiser-dependency",
+        "rendering"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay optional denoiser module requires Open Image Denoise 2.3.0+; do not force as a global dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-OPENVKL-001",
+      "name": "Intel Open VKL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RenderKit/openvkl",
+        "normalized_key": "github:renderkit/openvkl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "volume-sampling",
+        "volume-visualization",
+        "scientific-volume-data"
+      ],
+      "domain_hints": [
+        "3d",
+        "rendering"
+      ],
+      "problem_hints": [
+        "volume-rendering-dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "VFX/Gaffer",
+        "Asset Graph"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "volume-rendering-dependency",
+        "rendering"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay Open VKL 2.0.1+ is required only if OSPRAY_ENABLE_VOLUMES is enabled; separate volume feature gate."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-OSPRAY-001",
+      "name": "Intel OSPRay",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RenderKit/ospray",
+        "normalized_key": "github:renderkit/ospray"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "surface-ray-tracing",
+        "volume-rendering",
+        "render-backend-design"
+      ],
+      "domain_hints": [
+        "3d",
+        "rendering"
+      ],
+      "problem_hints": [
+        "core-ray-tracing-engine"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Creative Studio",
+        "VFX/Gaffer",
+        "Asset Graph",
+        "Realtime / Virtual Production Interchange"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "core-ray-tracing-engine",
+        "rendering"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/RenderKit/ospray/blob/devel/LICENSE.txt",
+        "dependency_review_required": true
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay x86_64 runtime requires SSE4.1 and ARM64 NEON. The Intel Xe GPU SYCL/DPC++ implementation is upstream beta and optional. Separate current-host rendering admission required.",
+        "Verified upstream dev snapshot at https://github.com/RenderKit/ospray/commit/d5d60d47fb07973168194b83b694481797621213; provenance only, not a pinned FA3 dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-RKCOMMON-001",
+      "name": "RenderKit rkcommon",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RenderKit/rkcommon",
+        "normalized_key": "github:renderkit/rkcommon"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "ospray-ecosystem-user-request-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "task-scheduling",
+        "aligned-allocation",
+        "vector-math"
+      ],
+      "domain_hints": [
+        "engineering",
+        "rendering"
+      ],
+      "problem_hints": [
+        "direct-core-dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "VFX/Gaffer"
+      ],
+      "tags": [
+        "ospray-ecosystem",
+        "direct-core-dependency",
+        "rendering"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "OSPRay shared RenderKit library; rkcommon tasking options include oneTBB, OpenMP and Internal."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-RESTIC-001",
