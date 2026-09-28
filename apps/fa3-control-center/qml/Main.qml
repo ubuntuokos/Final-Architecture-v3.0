@@ -619,6 +619,7 @@ ApplicationWindow {
                 accent: window.accent
                 green: window.green
                 orange: window.orange
+                onNavigateRequested: function(routeId) { window.navigate(routeId) }
             }
         }
     }
@@ -1511,6 +1512,7 @@ ApplicationWindow {
                     accent: window.accent
                     green: window.green
                     orange: window.orange
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
 
                 WorkManagementPage {
@@ -1653,6 +1655,7 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
 
                 ProjectRadarPage {
