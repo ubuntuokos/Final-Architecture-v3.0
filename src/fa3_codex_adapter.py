@@ -555,6 +555,9 @@ events=[
  {"type":"item.completed","item":{"id":"f1","type":"file_change","changes":[{"path":payload["allowed_relative_path"],"kind":"update"}],"status":"completed"}},
  {"type":"turn.completed","usage":{"input_tokens":1,"cached_input_tokens":0,"cache_write_input_tokens":0,"output_tokens":1,"reasoning_output_tokens":0}},
 ]
+if ref_lines:
+    events.insert(2, {"type":"item.completed","item":{"id":"skill-reference",
+                      "type":"reasoning","status":"completed"}})
 for event in events:
     print(json.dumps(event))
 '''
