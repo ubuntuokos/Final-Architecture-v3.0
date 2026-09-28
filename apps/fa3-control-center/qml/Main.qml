@@ -1521,6 +1521,15 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    prWatchItems: fa3PrWatch.items
+                    prWatchStatus: fa3PrWatch.status
+                    onPrWatchRefreshRequested: fa3PrWatch.refresh()
+                    onPrWatchDraftRequested: function(externalKey, sourceSha) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "WORK_MANAGEMENT", "pr-watch.plan", externalKey,
+                            "GUI DRAFT only; exact observed source: " + sourceSha
+                            + ". No AI execution or security approval is implied.")
+                    }
                     onRefreshRequested: {
                         fa3Repository.refresh()
                         operationNotice = "Canonical projection refreshed. Provider runtime remains adapter/evidence-gated."
