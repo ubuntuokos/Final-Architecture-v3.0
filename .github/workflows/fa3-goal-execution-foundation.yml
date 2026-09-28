@@ -32,7 +32,7 @@ jobs:
         run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_execution_foundation.py" -v
       - name: Existing Agent Workload and Workforce compatibility
         run: |
-          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_agent_workload.py" -v
+          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_agent_workload_runtime_gate.py" -v
           PYTHONPATH=src python3 -m unittest discover -s tests -p "test_orchestration_workforce.py" -v
       - name: No runtime admission by schema alone
         run: |
