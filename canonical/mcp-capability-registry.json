@@ -326,6 +326,26 @@
           "candidate_set_expansion": "DENY"
         }
       ]
+    },
+    {
+      "capability_id": "fa3.prompt.dispatch",
+      "risk_class": "R2",
+      "side_effects": [
+        "application-write",
+        "cross-host-message"
+      ],
+      "approval": "policy",
+      "hrb_required": false,
+      "providers": [
+        {
+          "provider_id": "FA3-PROMPT-RECEPTION-001",
+          "adapter_id": "fa3-prompt-reception",
+          "state": "CONNECTED",
+          "priority": 20,
+          "policy_mode": "external_resolver",
+          "require_policy_purpose": true
+        }
+      ]
     }
   ],
   "canonical_gateway_profile": "FA3-MCP-GATEWAY-001",
