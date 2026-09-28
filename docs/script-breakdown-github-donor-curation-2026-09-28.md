@@ -1,0 +1,66 @@
+# Script-breakdown GitHub donor curation — 2026-09-28
+
+**Discovery index:** https://github.com/topics/script-breakdown  
+**Related screenplay curation:** [scriptwriting source curation](scriptwriting-github-donor-curation-2026-09-28.md)  
+**Canonical registry:** `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json`
+
+This is selective, metadata-only donor research for the **existing FA3 Story/Screenplay** application, canonical document/interchange layer, Film Planning, Storyboard, Character Studio, FA3 Video Editor, QuickClip and Creative Studio. Do not create another editor, project authority, MCP gateway, agent orchestrator, execution scheduler or model management service. The topic yielded six GitHub repositories in the observed search; five offer independently documented breakdown ideas. `calabashspouter212/scriptbreak` has an essentially empty `README.md` (title only), no GitHub-detected license and insufficient independent value/provenance evidence, so is recorded here for later investigation **without** promotion to a donor candidate.
+
+## Evaluated donor candidates
+
+| Source | License declaration at review | Focus and selective FA3 reuse | Important limit |
+| --- | --- | --- | --- |
+| [wildwinter/screenplay-tools](https://github.com/wildwinter/screenplay-tools) | MIT (GitHub and README) | Shared format-neutral screenplay element representation plus **both Parser and Writer** for Fountain and FDX; C++, Python, JS, C#; cross-language conformance fixtures | At `d0fc871f02a8bdaa66a107bf6005081a0974ef2f`, C++ FDX parser concatenates `Text` and maps `Shot` to heading; silently catches exceptions; FDX writer handles a subset of element types and omits title page, annotations, revisions and styling. Library availability != lossless round-trip. |
+| [wassermanproductions/scriptbreak](https://github.com/wassermanproductions/scriptbreak) | Apache-2.0 (GitHub and README) | Per-scene breakdown, suggested tagging (props, wardrobe, vehicles, VFX), explicit script-prescribed shot cues, draft comparison, page-weighted timeline, character-presence lanes, planning stripboard and cast Day Out of Days | At `ed9efb86125b713ce430b7337f27392adec071a9`, README says PDF import in features but format matrix lists only Fountain/FDX/TXT: verify separately. Day Out of Days derives cast mainly from dialogue, misses silent/background roles. Do not adopt `.scriptbreak` as project authority, an independent MCP server or self-executing AI prompt packs. |
+| [feicaiclub/script-breakdown-dsh](https://github.com/feicaiclub/script-breakdown-dsh) | Apache-2.0 (GitHub and README) | Production-type classification; staged director breakdown → per-shot table → asset consistency anchors → per-shot prompt planning; explicit human confirmation gates, backup and invalidated-downstream warnings | DeepSeek Harness and Jimeng prompt syntax are **not** FA3 runtime/model dependencies; templates are generic and not validated frame-accurate standards. Only donor workflow and validity ideas. |
+| [gujiapeng1991-droid/coco-preproduction](https://github.com/gujiapeng1991-droid/coco-preproduction) | MIT (GitHub and README) | Scene-by-scene shooting sheets, cast/prop/VFX columns, major-location grouping, location/day-night statistics, character bibles and typed relationship graphs | Weighted page-allocation heuristics are estimates, not exact screenplay page evidence. Do not use its automatic `openpyxl` package install path; only approved FA3 toolchains and symmetric Office-format paths. |
+| [meo9805/Jellyfish](https://github.com/meo9805/Jellyfish) | Apache-2.0 (GitHub and README) | Chapter/script → shot; candidate character/scene/prop/costume and dialogue linking; confirmed shot readiness; asset identity reuse; cancellable shot-level generation work reference | Its independent model/provider manager, async task center, FastAPI/React project, MySQL/Redis/RustFS stack and fixed ports duplicate FA3 authorities. No import of those systems. |
+| [zhangzhangco/script-structural-breakdown-skill](https://github.com/zhangzhangco/script-structural-breakdown-skill) | MIT (GitHub and README) | Unit script, rhythm curve, source-supported beat segmentation, per-beat blocking/lighting/camera/sound details, partial resume and schema-guided acceptance | Narrative beats are **not** automatically shots or schedule entries; generated inferences need provenance and human review. No extra skills runtime or unapproved model route. |
+| [OpenDraft](https://github.com/Proteus-Technologies-Private-Limited/OpenDraft) — **already registered** | MIT (GitHub/README) | Detailed `docs/FEATURES.md` declares production tags, beat board, character profiles, scene navigator, visual draft diff, offline complete backups, co-editing; bidirectional FDX/Fountain/Fade In/OSF/DOCX, **PDF export only** | Enrich **existing** donor record, never duplicate. At `17c51799d23d8c7a9ba3eae70ac872927122f3c7`, these are upstream documented claims; independently verify codec fidelity and collaboration/privacy behavior. |
+
+**Relationship to [rsdoiel/fdx](https://github.com/rsdoiel/fdx):** its typed FDX XML models, including title-page, notes, revisions, cast and page settings, complement the simpler wildwinter screenplay-element model. The upstream repository is AGPL-3.0 at root/GitHub with some BSD-2-Clause source headers, so all rsdoiel code copying remains blocked pending license review. See the prior [FDX acceptance matrix](scriptwriting-github-donor-curation-2026-09-28.md#fdx-codec-acceptance-note--rsdoielfdx). **No donor's FDX export is presumed lossless.**
+
+## FA3 selective architecture
+
+The preproduction breakdown is a **typed, versioned derived projection** of the canonical Story/Screenplay graph: it is not a second source of truth. Distinguish these related but nonidentical layers:
+
+1. **Story structure / narrative beat** — events, goal/conflict/tension/turning points, independent branch/version and dialogue/source-span identity.
+2. **Script scene** — stable scene identifier and revision, slugline, dialogue, participants, in/out, day/night, on-screen/off-screen cues, productions profile; preserve imported element anchors.
+3. **Production breakdown** — extracted or confirmed cast (spoken, silent, extras separately), location, set, props, costume, makeup, vehicles, animals, VFX/SFX, safety, time, estimates and provenance. User can approve, correct or reject every uncertain extraction.
+4. **Shot proposal / storyboard** — multiple candidate shots per scene, optional shot/beat links, camera/composition/blocking, transitions, source references, duration/timebase; no assumption of 1 beat = 1 shot.
+5. **Production handoff** — Film Planning location/day/night grouping and schedule suggestions; Shot/Asset Graph with global character/prop/costume identity; storyboard/media projections into **FA3 Video Editor** and **QuickClip** (preserve `project.fa3video` and `.fa3clip`), Review, Voice/Vocal and production documents.
+
+### Data integrity and revisions
+
+- Preserve original source bytes and safe opaque unsupported features where practicable; keep production tags and AI advice **separate from authorial text** so exporting Fountain/FDX/DOCX does not silently change the story.
+- Canonical identity: `story_id` + `branch_id` + `scene_id` + `source_revision`; derived `beat_id`, `shot_id`, `asset_id`, `schedule_id` maintain explicit provenance edges. Branch edits/versioning never rewrite unrelated alternatives.
+- Every derived output has `source_revision`, `profile_id`, `extractor_version`, human approval state, timebase/units and evidence; revisions mark only affected downstream derived nodes **STALE**, preserving old drafts. Selective recompute needs explicit user approval; silent cascading changes are not admitted.
+- Separate deterministic facts (scene headings, author-entered props/shot cues) from heuristics (dialogue-only cast, weighted page estimates) and AI interpretations. Never label estimates as exact.
+- Reconciliation gates check scene cardinality/IDs, shot coverage and explicit source-span links, asset references, missing cast, totals/timebase and contradictory cross-stage fields. Reject AI-invented characters/shots and reports not grounded to a versioned source.
+
+### Import/export contract
+
+All admitted format profiles must have **both import and export** paths through FA3's canonical document/interchange layer; a readable but unexportable codec remains experimental. Version-scoped Fountain, FDX, MS Office/LibreOffice/Apache OpenOffice/WPS Office/ONLYOFFICE families and any additional elected format need paired round-trip tests. Document unrepresentable extra production metadata in a separate FA3 sidecar rather than quietly pretending to preserve it inside a restricted foreign format. PDF text extraction is not equivalent to lossless script reconstruction; do not admit a PDF importer without an explicit paired export path and documented fidelity profile.
+
+The parser must treat malformed and adversarial XML, unknown fields, excessive nesting and hostile file sizes as explicit bounded errors; no silent catch-all producing an empty screenplay. Test Unicode including Hungarian accents, multi-span rich text, dual dialogue, scene-number inserts, title pages, cast and silent character presence, revisions/notes, page locks, multiple production profiles and visual pagination.
+
+### UX and application roles
+
+Implement the views in the **existing FA3 Qt6/QML/KF6 Story/Screenplay app** and related Creative Studio surfaces, not a new standalone Tauri/React GUI: original/edited script beside verified per-scene breakdown; typed tag review; beat/rhythm projection; candidate shot board; character/location/asset relation graph; per-scene readiness; version diff; human approval gates; audit/evidence status. Production-type-specific profiles cover commercials, live broadcasts, features, TV movies, episodic series and extensible future formats.
+
+The optional AI workflow runs only through **existing** Director/Workforce → Central MCP Gateway/UAF → Temporal → HRB → central Model Router → admitted provider/model. Reuse existing Decision Fabric and canonical Evidence/Gate, no second scheduler/model registry/MCP server. The upstream ScriptBreak Markdown prompt packs are reference material, **not** authorized executable instructions or auto-exfiltration of original scripts. External AI prompts remain separate user-reviewed artifacts; manuscript upload and model selection require explicit authorization.
+
+### Hardware Audit — mandatory
+
+Metadata capture and deterministic script breakdown are CPU-only viable; vendor-neutral hardware cardinality is CPU + optional `0..N` accelerators, without an assumed NVIDIA, ROCm, oneAPI or Vulkan runtime. Qt/QML prefers Wayland while supporting X11 and non-KDE desktops. Every proposed AI/audio/media task requires fresh HRB admission and an explicitly designated Model Router path; a designated display GPU may be used for compute **only** under existing FA3 display-GPU exception rules, never by automatic secondary enlistment or silent fallback. This research installs no dependencies, does not change AdGuardHome ports and does not override current-host evidence.
+
+## Implementation and admission sequence
+
+1. Validate **existing** FA3 registry, application and current hardware contracts, select donor candidates with Reuse Discovery, and freeze upstream commit/license/provenance.
+2. Extend the existing canonical story graph with source-span and typed, non-authoritative breakdown projections. Verify screenplay-language, scene-boundary and production-profile test vectors before AI extraction.
+3. Define round-trip **Fountain ↔ canonical** and **FDX ↔ canonical** with field-level loss reports, test against externally validated applications where available; independently review wildwinter's C++/Python parity and the already captured rsdoiel/OpenDraft references. Do not auto-approve formats.
+4. Implement deterministic tagging + author review, narrative beats and proposed shot cards. Connect approved assets to the common Asset Graph and separate scene/shot readiness from generation/render visibility.
+5. Add constrained AI suggestions through authorized existing FA3 workflow, revision-aware targeted reruns, backups and provenance receipts. Support production scheduling and DOOD only as verifiable proposals with explicit silent/background cast limitations.
+6. Verify stable cross-app handoff and native projects (Story/Screenplay, Film Planning, storyboard, Video Editor and QuickClip); negative security/fidelity cases, CPU-only current-host execution and rollback. Promote only those individual capabilities that pass all canonical gates.
+
+**Status:** research and donor candidates only. No donor app, new model, AI provider, MCP server, foreign project format or production-time dependency has been installed or admitted.
