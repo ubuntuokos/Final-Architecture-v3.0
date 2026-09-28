@@ -193,8 +193,11 @@ class NestedToolGuardTests(unittest.TestCase):
                 {**self.admission, "seccomp_path": str(self.root / "missing.json")},
             )
         self.profile.write_text('{"defaultAction":"SCMP_ACT_ALLOW"}', encoding="utf-8")
+        permissive_sha = hashlib.sha256(self.profile.read_bytes()).hexdigest()
         with self.assertRaises(NestedToolPolicyError):
-            compile_nested_tool_run(self.request, self.admission)
+            compile_nested_tool_run(
+                self.request, {**self.admission, "seccomp_sha256": permissive_sha}
+            )
 
     def test_reject_nonmapping_and_boolean_resource_injection(self):
         with self.assertRaises(NestedToolPolicyError):
