@@ -154,6 +154,29 @@ def bounded_rank(preauthorized_ids: list[str], ranked_ids: list[str]) -> list[st
     return ranked_ids
 
 
+def _bounded_diverse_candidates(candidates: list[dict[str, Any]], limit: int = 50) -> list[dict[str, Any]]:
+    """Preserve a best matching reference from each matched source family.
+
+    A growing donor registry must not crowd out already matching standards,
+    skill-source or provider references solely through candidate-class sorting.
+    This is discovery presentation, never admission or execution authority.
+    """
+    if len(candidates) <= limit:
+        return candidates
+    representatives: dict[str, dict[str, Any]] = {}
+    for row in candidates:
+        representatives.setdefault(row["candidate_class"], row)
+    pinned = list(representatives.values())[:limit]
+    selected = {row["candidate_id"] for row in pinned}
+    for row in candidates:
+        if len(pinned) >= limit:
+            break
+        if row["candidate_id"] not in selected:
+            pinned.append(row)
+            selected.add(row["candidate_id"])
+    return sorted(pinned, key=lambda row: (-row["score"], row["candidate_class"], row["candidate_id"]))
+
+
 def resolve(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
     catalog = build_catalog(root)
     candidates = []
@@ -225,7 +248,7 @@ def resolve(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         "intent_digest": "sha256:" + hashlib.sha256(payload).hexdigest(),
         "catalog_policy_id": catalog["policy_id"],
         "catalog_entry_count": catalog["entry_count"],
-        "candidates": candidates[:50],
+        "candidates": _bounded_diverse_candidates(candidates),
         "required_capability_satisfaction": satisfied,
         "gaps": gaps,
         "duplicate_declared_capabilities": duplicate_capabilities,
