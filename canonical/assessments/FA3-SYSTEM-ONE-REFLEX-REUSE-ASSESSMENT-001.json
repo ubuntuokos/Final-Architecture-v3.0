@@ -41,6 +41,14 @@
     {
       "id": "FA3-SYSTEM-ONE-HARNESS-REUSE-001",
       "use": "REFERENCE_ONLY_PATTERN_SOURCE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "CENTRAL_PRE_IMPLEMENTATION_DONOR_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "use": "ALREADY_ACCEPTED_REFERENCE_PATTERN_SOURCE_NO_CODE_COPY"
     }
   ],
   "rejected_candidates": [
@@ -109,5 +117,13 @@
       "automatic_selection": false,
       "automatic_activation": false
     }
-  ]
+  ],
+  "central_donor_registry_review": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+    "status": "ACCEPTED_REFERENCE",
+    "deduplicated": true,
+    "automatic_activation": false,
+    "code_copy": false
+  }
 }
