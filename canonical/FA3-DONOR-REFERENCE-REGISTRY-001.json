@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 163,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations."
+    "entry_count": 168,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available."
   },
   "entries": [
     {
@@ -392,11 +392,11 @@
     },
     {
       "donor_id": "FA3-DONOR-AGENT-SKILLS-001",
-      "name": "Agent Skills",
+      "name": "addyosmani/agent-skills",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Agent-Skills",
-        "normalized_key": "project:agent-skills"
+        "kind": "GITHUB",
+        "locator": "https://github.com/addyosmani/agent-skills",
+        "normalized_key": "github:addyosmani/agent-skills"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -1975,6 +1975,64 @@
       "automatic_model_selection": false
     },
     {
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-27",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-CYTOSTACK-OPENWOLF-001",
+      "name": "cytostack/openwolf",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cytostack/openwolf",
+        "normalized_key": "github:cytostack/openwolf"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "code-anatomy",
+        "context-broker",
+        "agent-handoff",
+        "known-issue-memory"
+      ],
+      "domain_hints": [
+        "agents",
+        "developer",
+        "knowledge"
+      ],
+      "target_hints": [
+        "Agent Runtime",
+        "Developer Agent",
+        "Knowledge Fabric"
+      ],
+      "tags": [
+        "agent",
+        "handoff",
+        "context",
+        "memory",
+        "clean-reimplementation"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION"
+    },
+    {
       "donor_id": "FA3-DONOR-DARKTABLE-001",
       "name": "darktable",
       "source": {
@@ -2386,11 +2444,11 @@
     },
     {
       "donor_id": "FA3-DONOR-DREAMX-WORLD-001",
-      "name": "DreamX-World",
+      "name": "AMAP-ML/DreamX-World",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:DreamX-World",
-        "normalized_key": "project:dreamx-world"
+        "kind": "GITHUB",
+        "locator": "https://github.com/AMAP-ML/DreamX-World",
+        "normalized_key": "github:amap-ml/dreamx-world"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -2592,11 +2650,11 @@
     },
     {
       "donor_id": "FA3-DONOR-FACEANYTHING-001",
-      "name": "FaceAnything",
+      "name": "kocasariumut/FaceAnything",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:FaceAnything",
-        "normalized_key": "project:faceanything"
+        "kind": "GITHUB",
+        "locator": "https://github.com/kocasariumut/FaceAnything",
+        "normalized_key": "github:kocasariumut/faceanything"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -2804,6 +2862,65 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-27",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-FBDD-CZ-EMBODIED-JEV-001",
+      "name": "FBddcz/embodied-jev",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/FBddcz/embodied-jev",
+        "normalized_key": "github:fbddcz/embodied-jev"
+      },
+      "status": "ANALYZED",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "bounded-decision-workbench",
+        "embodied-agent-evaluation",
+        "simulation-loop"
+      ],
+      "domain_hints": [
+        "embodied-ai",
+        "robotics",
+        "simulation",
+        "decision"
+      ],
+      "target_hints": [
+        "Decision Fabric",
+        "3D Fabric",
+        "Agent Runtime"
+      ],
+      "tags": [
+        "jev",
+        "mujoco",
+        "embodied",
+        "decision",
+        "simulation"
+      ],
+      "license": {
+        "declared": "MIT_CODE_WITH_THIRD_PARTY_ASSET_LICENSES",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED"
     },
     {
       "donor_id": "FA3-DONOR-FENDER-STUDIO-PRO-STUDIO-ONE-001",
@@ -3334,11 +3451,11 @@
     },
     {
       "donor_id": "FA3-DONOR-GENERATED-REALITY-001",
-      "name": "Generated Reality",
+      "name": "LafouCC/generated-reality",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Generated Reality",
-        "normalized_key": "project:generated reality"
+        "kind": "GITHUB",
+        "locator": "https://github.com/LafouCC/generated-reality",
+        "normalized_key": "github:lafoucc/generated-reality"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -3484,11 +3601,11 @@
     },
     {
       "donor_id": "FA3-DONOR-HABITAT-SIM-001",
-      "name": "Habitat-Sim",
+      "name": "facebookresearch/habitat-sim",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Habitat-Sim",
-        "normalized_key": "project:habitat-sim"
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/habitat-sim",
+        "normalized_key": "github:facebookresearch/habitat-sim"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -4424,11 +4541,11 @@
     },
     {
       "donor_id": "FA3-DONOR-MATRIX-3D-001",
-      "name": "Matrix-3D",
+      "name": "SkyworkAI/Matrix-3D",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Matrix-3D",
-        "normalized_key": "project:matrix-3d"
+        "kind": "GITHUB",
+        "locator": "https://github.com/SkyworkAI/Matrix-3D",
+        "normalized_key": "github:skyworkai/matrix-3d"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -4474,11 +4591,11 @@
     },
     {
       "donor_id": "FA3-DONOR-MATRIX-GAME-3-5-001",
-      "name": "Matrix-Game 3.5",
+      "name": "Riemann-Dynamics/Matrix-Game-3.5",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Matrix-Game 3.5",
-        "normalized_key": "project:matrix-game 3.5"
+        "kind": "GITHUB",
+        "locator": "https://github.com/Riemann-Dynamics/Matrix-Game-3.5",
+        "normalized_key": "github:riemann-dynamics/matrix-game-3.5"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -4688,6 +4805,64 @@
       "automatic_model_selection": false
     },
     {
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-27",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-MICROSOFT-MCP-GATEWAY-001",
+      "name": "microsoft/mcp-gateway",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/mcp-gateway",
+        "normalized_key": "github:microsoft/mcp-gateway"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION",
+        "CODE_COMPONENT_CANDIDATE"
+      ],
+      "capability_hints": [
+        "mcp-routing",
+        "session-aware-routing",
+        "server-lifecycle",
+        "authorization"
+      ],
+      "domain_hints": [
+        "mcp",
+        "integration",
+        "gateway"
+      ],
+      "target_hints": [
+        "MCP Gateway",
+        "Integration Fabric"
+      ],
+      "tags": [
+        "mcp",
+        "gateway",
+        "routing",
+        "lifecycle",
+        "session"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED"
+    },
+    {
       "donor_id": "FA3-DONOR-MINIMAX-H3-001",
       "name": "MiniMax H3",
       "source": {
@@ -4737,11 +4912,11 @@
     },
     {
       "donor_id": "FA3-DONOR-MINWM-001",
-      "name": "minWM",
+      "name": "shengshu-ai/minWM",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:minWM",
-        "normalized_key": "project:minwm"
+        "kind": "GITHUB",
+        "locator": "https://github.com/shengshu-ai/minWM",
+        "normalized_key": "github:shengshu-ai/minwm"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -6223,6 +6398,54 @@
       "automatic_model_selection": false
     },
     {
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-27",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PRISM-ML-001",
+      "name": "Prism ML",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:Prism ML",
+        "normalized_key": "project:prism ml"
+      },
+      "status": "CANDIDATE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "ml"
+      ],
+      "target_hints": [
+        "Model Manager"
+      ],
+      "tags": [
+        "identity-resolution-required",
+        "ml"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_SOURCE_AND_LICENSE_RESOLUTION",
+      "notes": [
+        "Prior FA3 conversation identified Prism ML as a possible donor; exact upstream identity must be resolved before reuse."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PUBLIC-APIS-001",
       "name": "public-apis",
       "source": {
@@ -7410,11 +7633,11 @@
     },
     {
       "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
-      "name": "System One Harness",
+      "name": "HarnessRouter/SystemOneHarness",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:System-One-Harness",
-        "normalized_key": "project:system-one-harness"
+        "kind": "GITHUB",
+        "locator": "https://github.com/HarnessRouter/SystemOneHarness",
+        "normalized_key": "github:harnessrouter/systemoneharness"
       },
       "status": "ACCEPTED_REFERENCE",
       "discovered_from": [
@@ -7889,6 +8112,70 @@
       "automatic_model_selection": false
     },
     {
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-27",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+      "name": "VigoZhao/AI-Visual-Prompt-Cookbook",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/VigoZhao/AI-Visual-Prompt-Cookbook",
+        "normalized_key": "github:vigozhao/ai-visual-prompt-cookbook"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE",
+        "PROMPT_PATTERN",
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE"
+      ],
+      "capability_hints": [
+        "visual-prompt-composition",
+        "style-taxonomy",
+        "camera-language",
+        "visual-parameter-structure"
+      ],
+      "domain_hints": [
+        "creative",
+        "image",
+        "video",
+        "prompt"
+      ],
+      "target_hints": [
+        "Prompt Builder",
+        "FA3 Video Editor",
+        "QuickClip",
+        "World Generator",
+        "Logo Designer",
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "visual-prompt",
+        "style",
+        "camera",
+        "image-generation",
+        "video-generation"
+      ],
+      "license": {
+        "declared": "MIT_CODE_CC-BY-4.0_PROMPT_CONTENT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED"
+    },
+    {
       "donor_id": "FA3-DONOR-VKDT-001",
       "name": "vkdt",
       "source": {
@@ -7990,11 +8277,11 @@
     },
     {
       "donor_id": "FA3-DONOR-WBENCH-001",
-      "name": "WBench",
+      "name": "meituan-longcat/WBench",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:WBench",
-        "normalized_key": "project:wbench"
+        "kind": "GITHUB",
+        "locator": "https://github.com/meituan-longcat/WBench",
+        "normalized_key": "github:meituan-longcat/wbench"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -8087,11 +8374,11 @@
     },
     {
       "donor_id": "FA3-DONOR-XGEN-JING-001",
-      "name": "XGEN-JING",
+      "name": "XGEN-Labs/XGEN-JING",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:XGEN-JING",
-        "normalized_key": "project:xgen-jing"
+        "kind": "GITHUB",
+        "locator": "https://github.com/XGEN-Labs/XGEN-JING",
+        "normalized_key": "github:xgen-labs/xgen-jing"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -8349,11 +8636,11 @@
     },
     {
       "donor_id": "FA3-DONOR-ZING-0-5-001",
-      "name": "Zing-0.5",
+      "name": "seedleap/zing-world-model",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Zing-0.5",
-        "normalized_key": "project:zing-0.5"
+        "kind": "GITHUB",
+        "locator": "https://github.com/seedleap/zing-world-model",
+        "normalized_key": "github:seedleap/zing-world-model"
       },
       "status": "ANALYZED",
       "discovered_from": [
