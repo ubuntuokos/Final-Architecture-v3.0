@@ -24,6 +24,7 @@ FILES={
  "gate_registry":"canonical/FA3-GATE-REGISTRY-001.json",
  "policy":"canonical/enforcement-policy.json",
  "evidence":"evidence/evidence-registry.json",
+ "distribution_registry":"canonical/distribution-registry.json",
 }
 def load(root,key): return json.loads((root/FILES[key]).read_text(encoding="utf-8"))
 def check(ok,code,message): return {"code":code,"result":"PASS" if ok else "FAIL","message":message}
@@ -31,7 +32,7 @@ def gate(root:Path)->dict:
  root=root.resolve()
  missing=[p for p in FILES.values() if not (root/p).is_file()]
  if missing:return {"schema":"fa3.binary-analysis-gate-report.v1","gate_id":GATESET_ID,"result":"FAIL","findings":[{"code":"BIN-AN-000","message":"required files missing","paths":missing}],"runtime_promotion_claim":False}
- intent,reuse,decision,upstream,contract,ir,profile,radar,grec,greg,policy,evidence=(load(root,k) for k in ("intent","reuse","decision","upstream","contract","ir","profile","radar","gate_record","gate_registry","policy","evidence"))
+intent,reuse,decision,upstream,contract,ir,profile,radar,grec,greg,policy,evidence,distreg=(load(root,k) for k in ("intent","reuse","decision","upstream","contract","ir","profile","radar","gate_record","gate_registry","policy","evidence","distribution_registry"))
  baseline=load_active_release_baseline(root)
  cap080=next((x for x in evidence.get("records",[]) if x.get("subject_id")=="CAP-080"),{})
  radar_entry=next((x for x in radar.get("sources",[]) if x.get("repository")=="P4nda0s/reverse-skills"),{})
@@ -55,7 +56,8 @@ def gate(root:Path)->dict:
   check(GATESET_ID in greg.get("mandatory_reference_gates",[]) and greg.get("mandatory_reference_gates")==policy.get("mandatory_reference_gates"),"BIN-AN-016","Gate Registry/policy mirror"),
   check(policy.get("binary_analysis_gate_id")==GATESET_ID and policy.get("binary_analysis_capability_id")=="CAP-080" and policy.get("binary_analysis_upstream_reference_id")==UPSTREAM_ID and policy.get("binary_analysis_current_host_runtime_promotion_claim") is False,"BIN-AN-017","global enforcement binding"),
   check(cap080.get("status")=="PENDING_CURRENT_HOST" and DECISION_ID in cap080.get("source_decision_ids",[]) and evidence.get("binary_analysis_reconciliation",{}).get("gate_id")==GATESET_ID and evidence.get("binary_analysis_reconciliation",{}).get("current_host_runtime_promotion_claim") is False,"BIN-AN-018","Evidence Registry binding without promotion"),
-  check(intent.get("hardware_audit",{}).get("cpu_only_viable") is True and reuse.get("coexistence",{}).get("result")=="PASS" and reuse.get("donor_registry_transition",{}).get("creates_parallel_authority") is False,"BIN-AN-019","Hardware Audit/coexistence/donor transition")
+  check(intent.get("hardware_audit",{}).get("cpu_only_viable") is True and reuse.get("coexistence",{}).get("result")=="PASS" and reuse.get("donor_registry_transition",{}).get("creates_parallel_authority") is False,"BIN-AN-019","Hardware Audit/coexistence/donor transition"),
+  check(any(x.get("subject_id")==UPSTREAM_ID and x.get("class")=="REFERENCE_ONLY" and x.get("release_bundle_status")=="EXCLUDED" for x in distreg.get("records",[])),"BIN-AN-020","Distribution Registry excludes reverse-skills reference")
  ]
  result="PASS" if all(x["result"]=="PASS" for x in checks) else "FAIL"
  report={"schema":"fa3.binary-analysis-gate-report.v1","gate_id":GATESET_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"result":result,"capability_id":"CAP-080","active_release":baseline.release,"active_release_capability_count":baseline.capability_count,"checks":checks,"findings":[x for x in checks if x["result"]=="FAIL"],"runtime_promotion_claim":False}

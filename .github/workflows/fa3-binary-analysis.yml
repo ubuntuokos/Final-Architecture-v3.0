@@ -7,6 +7,8 @@ on:
       - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
       - 'canonical/FA3-GATE-REGISTRY-001.json'
       - 'canonical/enforcement-policy.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
       - 'evidence/evidence-registry.json'
       - 'src/fa3_binary_analysis_gate.py'
       - 'src/fa3_enforce.py'
@@ -36,3 +38,4 @@ jobs:
       - run: python -m unittest tests.test_binary_analysis_gate -v
       - run: ./bin/fa3-enforce skill-fabric
       - run: ./bin/fa3-enforce reuse-discovery
+      - run: ./bin/fa3-enforce distribution-compliance
