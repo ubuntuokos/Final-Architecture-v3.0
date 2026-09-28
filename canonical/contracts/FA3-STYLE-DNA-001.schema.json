@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-STYLE-DNA-001.schema.json",
+  "x-fa3-contract-id": "FA3-STYLE-DNA-001",
+  "title": "FA3 Style DNA",
+  "type": "object",
+  "required": [
+    "schema",
+    "components",
+    "normalized",
+    "dna_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.style-dna.v1"
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "recipe_id",
+          "weight"
+        ],
+        "properties": {
+          "recipe_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "normalized": {
+      "const": true
+    },
+    "dna_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

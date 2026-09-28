@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-VISUAL-STYLE-BINDING-001.schema.json",
+  "x-fa3-contract-id": "FA3-VISUAL-STYLE-BINDING-001",
+  "title": "FA3 Visual Style Binding",
+  "type": "object",
+  "required": [
+    "schema",
+    "consumer_id",
+    "scope",
+    "target_id",
+    "style_recipe_id",
+    "parallel_style_authority_allowed",
+    "runtime_promoted"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.visual-style-binding.v1"
+    },
+    "consumer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "enum": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ]
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "style_recipe_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "style_dna_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "overrides": {
+      "type": "object"
+    },
+    "continuity_policy": {
+      "type": "object"
+    },
+    "parallel_style_authority_allowed": {
+      "const": false
+    },
+    "runtime_promoted": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

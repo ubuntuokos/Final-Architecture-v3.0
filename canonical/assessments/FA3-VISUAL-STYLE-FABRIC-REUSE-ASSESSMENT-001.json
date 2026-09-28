@@ -1,0 +1,119 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-VISUAL-STYLE-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-VISUAL-STYLE-FABRIC-001",
+  "intent_id": "FA3-VISUAL-STYLE-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-VISUAL-STYLE-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-VISUAL-STYLE-FABRIC-001",
+    "FA3-REF-AI-VISUAL-PROMPT-COOKBOOK-001"
+  ],
+  "project_status": "STATIC_MATERIALIZED_CURRENT_HOST_RUNTIME_NOT_CLAIMED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REF-AI-VISUAL-PROMPT-COOKBOOK-001",
+      "use": "STYLE_JSON_STRUCTURE_AND_REUSABLE_VISUAL_RECIPE_PATTERNS"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_MODEL_PROVIDER_RUNTIME_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_RESOURCE_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    },
+    {
+      "id": "CAP-175",
+      "use": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "APPLICATION_LOCAL_PROMPT_AUTHORITY",
+      "reason": "SHARED_VISUAL_STYLE_FABRIC_MUST_BE_REUSED"
+    },
+    {
+      "id": "FIXED_IMAGE_MODEL_OR_PROVIDER_PIN",
+      "reason": "MODEL_ROUTER_IS_SOLE_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "UPSTREAM_APPLICATION_BUNDLING_OR_REPLACEMENT",
+      "reason": "REFERENCE_ABSORPTION_AND_COEXISTENCE_REQUIRED"
+    },
+    {
+      "id": "PREVIEW_IMAGE_VENDORED_LIBRARY",
+      "reason": "UPSTREAM_PREVIEWS_ARE_VISUAL_REFERENCE_ONLY_BY_DECLARED_LICENSE_POLICY"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "coexistence": "CAP-175"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-BINDING:VISION_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.anari",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.openvx",
+        "fa3.khronos.vulkan-profiles"
+      ],
+      "matched_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.anari",
+        "fa3.khronos.ktx"
+      ],
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "DOWNSTREAM_CONSUMER_DESIGN_REFERENCE_ONLY_NO_SDK_DEPENDENCY_NO_RUNTIME_ADMISSION",
+      "scope": "Visual Style Fabric emits provider-neutral recipe/intent metadata only. Renderer/3D/asset consumers may separately evaluate Khronos texture/interchange and rendering patterns through their own admission and HRB gates."
+    }
+  ]
+}

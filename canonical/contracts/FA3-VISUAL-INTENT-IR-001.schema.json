@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-VISUAL-INTENT-IR-001.schema.json",
+  "x-fa3-contract-id": "FA3-VISUAL-INTENT-IR-001",
+  "title": "FA3 Visual Intent IR",
+  "type": "object",
+  "required": [
+    "schema",
+    "style_recipe_id",
+    "scope",
+    "values",
+    "constraints",
+    "continuity",
+    "route_request",
+    "canonical_prompt",
+    "derived_prompt_required",
+    "current_host_runtime_promotion_claim"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.visual-intent-ir.v1"
+    },
+    "style_recipe_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "style_recipe_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scope": {
+      "enum": [
+        "PROJECT",
+        "SCENE",
+        "SHOT",
+        "ASSET"
+      ]
+    },
+    "target_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "values": {
+      "type": "object"
+    },
+    "constraints": {
+      "type": "object"
+    },
+    "continuity": {
+      "type": "object"
+    },
+    "route_request": {
+      "type": "object",
+      "required": [
+        "route_class",
+        "authority",
+        "resource_authority",
+        "provider",
+        "model",
+        "runtime",
+        "silent_fallback_allowed"
+      ],
+      "properties": {
+        "route_class": {
+          "const": "visual.generation"
+        },
+        "authority": {
+          "const": "FA3-AUTH-MODEL-ROUTER-001"
+        },
+        "resource_authority": {
+          "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        },
+        "provider": {
+          "type": "null"
+        },
+        "model": {
+          "type": "null"
+        },
+        "runtime": {
+          "type": "null"
+        },
+        "silent_fallback_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "canonical_prompt": {
+      "const": false
+    },
+    "derived_prompt_required": {
+      "const": true
+    },
+    "current_host_runtime_promotion_claim": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}
