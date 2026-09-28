@@ -20,5 +20,72 @@
     "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "registry": "FA3-REGISTRY-001"
   },
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "repository": "https://github.com/crynta/terax-ai",
+  "donor_registry_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
+  "donor_registry_path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "application_intent": "FA3-TERAX-APPLICATION-INTENT-2026-09-28",
+  "reuse_assessment": "FA3-TERAX-REUSE-ASSESSMENT-2026-09-28",
+  "current_host_status": "PENDING_CURRENT_HOST",
+  "runtime_activation": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "gpu_discovery_for_disabled_reference": false,
+    "hrb_admission_for_enabled_workload": true,
+    "accelerator_lease_only_if_workload_requests_accelerator": true,
+    "display_gpu_is_not_compute_admission": true,
+    "hardware_safety_envelope": "FA3-DEC-HARDWARE-SAFETY-2026-09-26"
+  },
+  "coexistence": {
+    "required": true,
+    "policy_id": "FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26",
+    "pending_pr": 410,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "fixed_default_port": false,
+    "physical_evidence": "PENDING_CURRENT_HOST"
+  },
+  "hardware_audit_alignment": {
+    "status": "RECONCILED_2026_09_17",
+    "canonical_hardware_semantic_root": "FA3-HW-001",
+    "portable_floor_authority": "FA3-HARDWARE-BASELINE-001",
+    "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_may_redefine_global_hardware_floor": false,
+    "provider_may_narrow_execution_compatibility": true,
+    "workload_driven_resource_classes_required": true,
+    "provider_self_admission_forbidden": true,
+    "disabled_reference_state": {
+      "workload_execution_requested": false,
+      "requested_resource_classes": [],
+      "accelerator_discovery_required": false,
+      "accelerator_lease_required": false,
+      "nvidia_or_cuda_telemetry_required": false
+    },
+    "enabled_runtime_state": {
+      "hrb_admission_authorization_required": true,
+      "accelerator_lease_required_only_when_accelerator_resource_class_is_requested": true,
+      "cpu_only_execution_must_not_require_accelerator_discovery_or_lease": true,
+      "silent_device_or_cpu_fallback_forbidden": true
+    },
+    "terminal_renderer_acceleration": {
+      "classification": "PROVIDER_LOCAL_UI_DISPLAY_IMPLEMENTATION_DETAIL",
+      "webgpu_webgl_or_other_renderer_is_not_ai_compute_admission_authority": true,
+      "must_not_create_global_nvidia_cuda_requirement": true,
+      "must_not_be_confused_with_model_inference_accelerator_lease": true
+    },
+    "hardware_safety_envelope_decision": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "active_host_adaptation_profile": "FA3-HOST-ADAPTATION-001"
+  },
+  "current_host_evidence": {
+    "role": "AUXILIARY_PROVIDER_CONFORMANCE_ONLY",
+    "may_substitute_for_capability_specific_positive_negative_or_rollback_test": false,
+    "may_promote_any_of_143_capabilities": false,
+    "may_promote_global_runtime": false,
+    "missing_optional_provider_receipt_blocks_global_promotion": false,
+    "baseline_capability_obligations": 525
+  }
 }

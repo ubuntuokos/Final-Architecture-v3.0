@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a065ae2fc5ce3d1ab70a5a1d26831b856894eb78",
-    "pre_projection_root_tree_sha": "79d04b85e5155a51335ac0da636f7cb182651309",
-    "pre_projection_canonical_tree_sha": "fdedc3c0858d29fcdeed865206b0892aa24d2999",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1502,
-    "total_post_baseline_commits": 1502,
-    "delta_file_count": 2464,
-    "delta_added_files": 2458,
+    "pre_projection_head_sha": "66f23b03a9d39ada828fe8c1a36013191aee8d96",
+    "pre_projection_root_tree_sha": "a84162f218e73d1ae44bbd9fb49adb3769ea38bf",
+    "pre_projection_canonical_tree_sha": "58ac21bc240cafaf9880e49e22368264061561be",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1528,
+    "total_post_baseline_commits": 1528,
+    "delta_file_count": 2469,
+    "delta_added_files": 2463,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1191,
+    "canonical_files_in_post_baseline_delta": 1195,
     "evidence_files_in_post_baseline_delta": 170,
     "source_files_in_post_baseline_delta": 337,
     "test_files_in_post_baseline_delta": 271,
@@ -601,6 +601,7 @@
       "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
       "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json",
       "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
       "canonical/decisions/FA3-DEC-UNIFIED-ACTION-FABRIC-2026-09-21.json",
       "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
@@ -1011,7 +1012,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2454,
+  "manifest_entry_count": 2459,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2615,7 +2616,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "c966a1a389dd90b98d0f663685024c7f4807bdcd",
+      "git_blob_sha": "541a1b0559b60d476a2d7d2f824f4b12222a67d8",
       "baseline_delta_status": "added"
     },
     {
@@ -4154,6 +4155,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-TERAX-REUSE-ASSESSMENT-2026-09-28.json",
+      "git_blob_sha": "e5418b42f023085fcdfb7c1e9f110f88cd0f440d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/authenticated-approval-enforcement.json",
       "git_blob_sha": "ba25e2cb9d361c9aa53667d2ffc83d2e52eae6ba",
       "baseline_delta_status": "added"
@@ -4231,6 +4237,11 @@
     {
       "path": "canonical/codex-runtime-admission.json",
       "git_blob_sha": "53642081846c37762027f3fd843cee4102e40a6a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json",
+      "git_blob_sha": "81fda0cd63aa5fed0d89db51e0a7627dbe564053",
       "baseline_delta_status": "added"
     },
     {
@@ -5834,6 +5845,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json",
+      "git_blob_sha": "b2b3e62992051a590aba3f2528cb3f9f5d595a2c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
       "git_blob_sha": "2d3e614a5c703742e67510b9a09d2a9393155f11",
       "baseline_delta_status": "added"
@@ -6201,6 +6217,11 @@
     {
       "path": "canonical/intents/FA3-SYSTEM-ONE-REFLEX-APPLICATION-INTENT-001.json",
       "git_blob_sha": "d550573b2ba4cf68c32fdc05409e55e9dc9c026e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-TERAX-APPLICATION-INTENT-2026-09-28.json",
+      "git_blob_sha": "2950ac07fbab9c0f6211511ee83d27d4c32ea086",
       "baseline_delta_status": "added"
     },
     {
@@ -7635,7 +7656,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TERAX-001.json",
-      "git_blob_sha": "25ed18a6176c336e4a68df2fc852c71d76483f96",
+      "git_blob_sha": "1ab55e11f0489841d15eb364ddf55c7c0191f4c6",
       "baseline_delta_status": "added"
     },
     {
@@ -8365,7 +8386,7 @@
     },
     {
       "path": "canonical/terax-enforcement.json",
-      "git_blob_sha": "52a8dcfd009b31bd9640bffa77b4b7956cac98b6",
+      "git_blob_sha": "0bcca257cde08eb45032bd4aa52d0b465276105a",
       "baseline_delta_status": "added"
     },
     {
@@ -9069,6 +9090,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/terax-v3-reconciliation.md",
+      "git_blob_sha": "b858f10702387bd9a980267aaafc860e11d84bfc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/AGENTS.md",
       "git_blob_sha": "5fa400dfff39276878c0ce2601a204b31a270de5",
       "baseline_delta_status": "added"
@@ -9350,7 +9376,7 @@
     },
     {
       "path": "evidence/collect-terax-current-host.py",
-      "git_blob_sha": "d98ee85082047e114c731f24926d12f8ea56ee24",
+      "git_blob_sha": "ee79c5a24777d997b534e07d2ad4f4a0ed69eea2",
       "baseline_delta_status": "added"
     },
     {
@@ -9875,7 +9901,7 @@
     },
     {
       "path": "evidence/reference/terax-v0.8.6.json",
-      "git_blob_sha": "49b20d973d746a0d6bf911de89a0736ee77e55dd",
+      "git_blob_sha": "a7b804c0f18cfdf7824ffc432cf7c5d9ad296a26",
       "baseline_delta_status": "added"
     },
     {
@@ -11760,7 +11786,7 @@
     },
     {
       "path": "src/fa3_terax_gate.py",
-      "git_blob_sha": "5141aa77ae6c4bbc716ab08f67c462b71d6c5d90",
+      "git_blob_sha": "8c42fa57ef04c3c52b077cb22bdb547021b8bb70",
       "baseline_delta_status": "added"
     },
     {
@@ -13120,12 +13146,12 @@
     },
     {
       "path": "tests/test_terax_gate.py",
-      "git_blob_sha": "816c27f4ecf8d9f192165095e2a95e1eb2ce9b40",
+      "git_blob_sha": "f152d7715beaa67af05b9809271907e0d4ea87ed",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_terax_integration.py",
-      "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "git_blob_sha": "829d1ba7556e56a06cf723002a242425373084f4",
       "baseline_delta_status": "added"
     },
     {
@@ -14993,7 +15019,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 296,
+    "donor_registry_entry_count": 297,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
