@@ -13,6 +13,7 @@ import stat
 import subprocess
 import threading
 import time
+from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -628,7 +629,9 @@ class LeaseLedger:
         issued = self._wall_utc()
         expires_epoch = time.time() + float(ttl_seconds)
         expires = datetime.fromtimestamp(expires_epoch, timezone.utc).isoformat().replace("+00:00", "Z")
-        binding = dict(binding_seed)
+        # Detach nested caller-owned application selection and model bindings;
+        # mutation after signing must not corrupt the immutable lease MAC.
+        binding = deepcopy(binding_seed)
         binding.update({
             "lease_id": lease_id,
             "generation": generation,
