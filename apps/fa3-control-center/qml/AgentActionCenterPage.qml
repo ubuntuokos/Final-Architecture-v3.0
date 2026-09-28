@@ -64,6 +64,15 @@ Item {
             }
         }
 
+        Label {
+            Layout.fillWidth: true
+            text: "Skill Fabric · statikus kapu: " + (fa3Repository.skillFabricStatus.result || "UNVERIFIED")
+                  + " · current-host: NOT_VERIFIED. Feladataktiválás kizárólag ellenőrzött runtime-igazolással."
+            color: root.textMuted
+            wrapMode: Text.WordWrap
+            font.pixelSize: 10
+        }
+
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true

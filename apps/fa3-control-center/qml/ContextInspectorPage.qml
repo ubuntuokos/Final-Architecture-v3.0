@@ -18,6 +18,49 @@ Item {
         Label { text: "Context Inspector"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
         Label { text: "FA3-CONTEXT-SELECTION-001 · PROTECTED / ACTIVE / HIDDEN / ARCHIVED"; color: root.accent; font.pixelSize: 10; font.bold: true }
         Label { text: "HIDDEN ≠ DELETE · ARCHIVED ≠ DELETE · az eredeti Journal/artifact source authority változatlan."; color: root.green; font.bold: true }
+        Rectangle {
+            Layout.fillWidth: true
+            implicitHeight: 126
+            radius: 8
+            color: root.panel
+            border.color: root.border
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 7
+                RowLayout {
+                    Layout.fillWidth: true
+                    Label { text: "Skill Fabric · ellenőrzési állapot"; color: root.textPrimary; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Button { text: "Frissítés"; onClicked: fa3Repository.refresh() }
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Label {
+                        text: "Statikus kapu: " + (fa3Repository.skillFabricStatus.result || "UNVERIFIED")
+                        color: fa3Repository.skillFabricStatus.result === "PASS" ? root.green : root.orange
+                        font.bold: true
+                    }
+                    Item { Layout.fillWidth: true }
+                    Label {
+                        text: "Current-host: " + (fa3Repository.skillFabricStatus.currentHostStatus || "NOT_VERIFIED")
+                        color: root.orange
+                    }
+                }
+                Label {
+                    text: "Regresszió: " + (fa3Repository.skillFabricStatus.regressionPassed || 0)
+                          + "/" + (fa3Repository.skillFabricStatus.regressionTotal || 0)
+                    color: root.textMuted
+                }
+                Label {
+                    text: "Forrás: reports/skill-fabric-gate-report.json · A statikus PASS nem igazolja az éles skillbetöltést."
+                    color: root.textMuted
+                    font.pixelSize: 10
+                    wrapMode: Text.WordWrap
+                    Layout.fillWidth: true
+                }
+            }
+        }
         Label {
             visible: fa3DecisionFabric.contextItems.length === 0
             text: "Nincs aktív context-projection. A GUI nem hoz létre vagy módosít kontextust; csak a runtime által kiírt projectiont olvassa."
