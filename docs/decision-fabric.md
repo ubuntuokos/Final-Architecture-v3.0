@@ -17,7 +17,7 @@ Every result records `authority=false` and `candidate_set_expanded=false`.
 
 ## Contracts
 
-`SELECT_ONE`, `BOOLEAN`, `SCORE`, `RANK`, `MULTI_LABEL`, `RELEVANCE`, `STOP_CONTINUE`.
+`SELECT_ONE`, `BOOLEAN`, `SCORE`, `RANK`, `MULTI_LABEL`, `RELEVANCE`, `STOP_CONTINUE`, `BOUNDED_ACTION`.
 
 The caller must provide the complete pre-authorized candidate set. A provider response that refers to a candidate outside that set is rejected fail-closed.
 
