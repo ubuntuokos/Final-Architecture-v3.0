@@ -255,6 +255,42 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertEqual(resolution["decision_fabric_candidate_expansion"], "DENY")
         self.assertEqual(resolution["agent_native_output"], "PROPOSAL_ONLY")
 
+    def test_donor_backfill_includes_earlier_red_flag_and_security_research(self):
+        registry = json.loads((ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json").read_text(encoding="utf-8"))
+        keys = {row["source"]["normalized_key"] for row in registry["entries"]}
+        for key in ("github:anninhn/econ-research-skills", "github:sahielbose/tideline",
+                    "github:pu11en/clinical-triage-agent", "github:paulveillard/cybersecurity-iam",
+                    "github:anil-matcha/open-generative-ai"):
+            self.assertIn(key, keys)
+
+    def test_capture_does_not_conflate_same_name_distinct_repositories(self):
+        import tempfile
+        from fa3_donor_registry import capture_candidate
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+            path.parent.mkdir(parents=True)
+            path.write_text(json.dumps({"id":"FA3-DONOR-REFERENCE-REGISTRY-001", "entries":[]}), encoding="utf-8")
+            first = capture_candidate(root, name="Example", source_kind="GITHUB",
+                source_locator="https://github.com/alice/example", seen_date="2026-09-28")
+            second = capture_candidate(root, name="Example", source_kind="GITHUB",
+                source_locator="https://github.com/bob/example", seen_date="2026-09-28")
+            repeat = capture_candidate(root, name="Example", source_kind="GITHUB",
+                source_locator="https://github.com/alice/example", seen_date="2026-09-28")
+            self.assertTrue(first["created"])
+            self.assertTrue(second["created"])
+            self.assertFalse(repeat["created"])
+            self.assertEqual(2, len(json.loads(path.read_text(encoding="utf-8"))["entries"]))
+
+    def test_conversation_mention_extracts_only_source_metadata(self):
+        from fa3_donor_registry import parse_donor_mention
+        name, kind, url = parse_donor_mention("Ez donornak alkalmas lehet: https://github.com/example/source")
+        self.assertEqual((name,kind,url), ("example/source","GITHUB","https://github.com/example/source"))
+        with self.assertRaises(ValueError):
+            parse_donor_mention("Look at https://github.com/example/source")
+        with self.assertRaises(ValueError):
+            parse_donor_mention("donor https://github.com/a/one https://github.com/b/two")
+
 
 if __name__ == "__main__":
     unittest.main()

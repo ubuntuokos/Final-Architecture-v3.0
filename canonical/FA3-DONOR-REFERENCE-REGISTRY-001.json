@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 168,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available."
+    "entry_count": 174,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates."
   },
   "entries": [
     {
@@ -552,6 +552,110 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ANIL-MATCHA-OPEN-GENERATIVE-AI-001",
+      "name": "Anil-matcha/Open-Generative-AI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Anil-matcha/Open-Generative-AI",
+        "normalized_key": "github:anil-matcha/open-generative-ai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-21",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "creative",
+        "video",
+        "image",
+        "media"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Generative Media Studio",
+        "Video Editor",
+        "QuickClip",
+        "World Generator"
+      ],
+      "tags": [
+        "generative-media",
+        "selective-donor",
+        "upstream-review-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ANNINHN-ECON-RESEARCH-SKILLS-001",
+      "name": "anninhn/econ-research-skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/anninhn/econ-research-skills",
+        "normalized_key": "github:anninhn/econ-research-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "research",
+        "quality",
+        "safety"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Research Agent",
+        "Quality Fabric"
+      ],
+      "tags": [
+        "red-flag-taxonomy",
+        "specialist-validation",
+        "pre-submission-check"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-ARDOUR-001",
       "name": "Ardour",
       "source": {
@@ -843,6 +947,57 @@
       "license": {
         "declared": "UNKNOWN",
         "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTOM8AI-FORK-COLLECTION-001",
+      "name": "Autom8AI fork collection",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:Autom8AI-fork-collection",
+        "normalized_key": "project:autom8ai-fork-collection"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "generative-media",
+        "agents",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Generative Media Studio",
+        "Presentation Fabric",
+        "Creative Studio"
+      ],
+      "tags": [
+        "fork-collection",
+        "resolve-canonical-upstream",
+        "source-identity-unverified"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
@@ -6146,6 +6301,59 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-PAULVEILLARD-CYBERSECURITY-IAM-001",
+      "name": "paulveillard/cybersecurity-iam",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/paulveillard/cybersecurity-iam",
+        "normalized_key": "github:paulveillard/cybersecurity-iam"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-08-07",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "identity",
+        "security",
+        "agents"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Secret Broker",
+        "MCP Gateway",
+        "Security Fabric",
+        "Agent Runtime"
+      ],
+      "tags": [
+        "iam",
+        "policy",
+        "authorization",
+        "secret-boundary"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-PHOTOSHOPAPI-001",
       "name": "PhotoshopAPI",
       "source": {
@@ -6444,6 +6652,54 @@
       "notes": [
         "Prior FA3 conversation identified Prism ML as a possible donor; exact upstream identity must be resolved before reuse."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PU11EN-CLINICAL-TRIAGE-AGENT-001",
+      "name": "Pu11en/clinical-triage-agent",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Pu11en/clinical-triage-agent",
+        "normalized_key": "github:pu11en/clinical-triage-agent"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "safety",
+        "deterministic-validation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector"
+      ],
+      "tags": [
+        "safety-boundary",
+        "deterministic-checks",
+        "domain-specific-not-medical-advice"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-PUBLIC-APIS-001",
@@ -7150,6 +7406,57 @@
       "license": {
         "declared": "UNKNOWN",
         "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SAHIELBOSE-TIDELINE-001",
+      "name": "sahielbose/Tideline",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sahielbose/Tideline",
+        "normalized_key": "github:sahielbose/tideline"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "prior-fa3-research-backfill"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "agents",
+        "safety",
+        "evaluation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Agent Runtime",
+        "Quality Fabric"
+      ],
+      "tags": [
+        "classifier",
+        "evaluation",
+        "agent-independent"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,

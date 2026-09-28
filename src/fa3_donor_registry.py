@@ -70,9 +70,10 @@ def capture_candidate(
     key = _normalized_key(source_kind, source_locator)
     today = seen_date or dt.date.today().isoformat()
     entries = registry.setdefault("entries", [])
-    match = next((row for row in entries if isinstance(row, dict) and (
-        row.get("source", {}).get("normalized_key") == key or str(row.get("name", "")).casefold() == name.casefold()
-    )), None)
+    # Source identity wins. Equal display names with different source keys must
+    # not silently merge unrelated GitHub repositories or research projects.
+    match = next((row for row in entries if isinstance(row, dict)
+                  and row.get("source", {}).get("normalized_key") == key), None)
     created = match is None
     if match is None:
         base_id = f"FA3-DONOR-{_slug(name)}-001"
@@ -127,11 +128,32 @@ def capture_candidate(
         _atomic_write(path, registry)
     return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": key, "dry_run": dry_run}
 
+_DONOR_SIGNAL = re.compile(r"(?i)(?:\\bdonor(?:nak|ként|jelölt|ként\\s+alkalmas)?\\b|\\breference\\s+candidate\\b|\\breuse\\s+candidate\\b|\\breferenciajelölt\\b)")
+_GITHUB_URL = re.compile(r"https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\\.git)?", re.I)
+
+def parse_donor_mention(text: str, *, name: str | None = None, source: str | None = None) -> tuple[str, str, str]:
+    """Extract public donor metadata only. Never persist raw conversation text."""
+    if not _DONOR_SIGNAL.search(text):
+        raise ValueError("no explicit potential-donor signal in conversation mention")
+    found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(text)))
+    if len(found) > 1 and not source:
+        raise ValueError("multiple source URLs: capture each candidate separately")
+    locator = source or (found[0] if found else None)
+    if not locator and not name:
+        raise ValueError("source or explicit name required for source-less donor")
+    if not locator:
+        locator = "project:" + name.strip()
+    if not name:
+        name = "/".join(locator.split("/")[3:5]) if locator.startswith("https://github.com/") else locator
+    kind = "GITHUB" if locator.startswith("https://github.com/") else "PROJECT"
+    return name.strip(), kind, locator
+
 def main() -> int:
     p = argparse.ArgumentParser(description="Capture or merge a potential FA3 donor candidate.")
     p.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
-    p.add_argument("--name", required=True)
-    p.add_argument("--source", required=True, dest="source_locator")
+    p.add_argument("--name")
+    p.add_argument("--source", dest="source_locator")
+    p.add_argument("--mention", help="One tentative-donor conversation mention. Raw text is not stored.")
     p.add_argument("--source-kind", default="reference")
     p.add_argument("--tag", action="append", default=[])
     p.add_argument("--capability", action="append", default=[])
@@ -143,9 +165,15 @@ def main() -> int:
     p.add_argument("--date", dest="seen_date")
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args()
+    if args.mention:
+        name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
+    else:
+        if not args.name:
+            p.error("--name is required unless --mention identifies a GitHub project")
+        name, kind, locator = args.name, args.source_kind, args.source_locator or ("project:" + args.name)
     result = capture_candidate(
-        Path(args.root), name=args.name, source_kind=args.source_kind,
-        source_locator=args.source_locator, tags=args.tag, capabilities=args.capability,
+        Path(args.root), name=name, source_kind=kind,
+        source_locator=locator, tags=args.tag, capabilities=args.capability,
         domains=args.domain, targets=args.target, problems=args.problem,
         note=args.note, discovered_from=args.discovered_from,
         seen_date=args.seen_date, dry_run=args.dry_run,

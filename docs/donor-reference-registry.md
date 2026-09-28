@@ -37,3 +37,9 @@ The registry and its capture/query path are metadata-only, vendor-neutral, CPU-o
 ## Safety and provenance
 
 Every donor remains non-authoritative. Code or runtime reuse requires separate license, provenance, security, coexistence, distribution and admission review. Unknown or incompatible licenses remain reference-only or blocked for source copying. Runtime/current-host promotion can never be inferred from a registry entry.
+
+## Conversation-adapter contract
+
+A repository-aware FA3 planning/research agent MUST capture a tentative donor signal as soon as it is encountered. A bridge that receives a relevant conversation message can pass it to `./bin/fa3-donor-capture --mention "<message>"`. The parser recognizes explicit Hungarian/English donor cues, extracts one GitHub source or accepts `--name` for an unnamed project, and deliberately stores **only donor metadata**, not the original private conversation text. For multiple source URLs, call capture once for each source. Without a connected bridge, unrelated ChatGPT conversations are not automatically visible to this repository: a declaration in `AGENTS.md` cannot itself subscribe to external conversations.
+
+Identical display names from different source repositories are distinct records; repeat observations with the **same normalized source key** are merged. Newly captured references are always candidates regardless of earlier assessments until explicit normal admission.
