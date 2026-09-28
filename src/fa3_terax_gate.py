@@ -213,6 +213,10 @@ def validate_coexistence_footprint(footprint: dict[str, Any]) -> bool:
         return False
     if footprint.get("classification") != "PROVIDER_RUNTIME":
         return False
+    if footprint.get("risk") != "P0":
+        return False
+    if footprint.get("evidence", {}).get("static_status") not in {"PENDING", "PASS"}:
+        return False
     co = footprint.get("coexistence", {})
     mandatory_false = ("requires_upstream_uninstall", "global_environment_mutation",
                        "claims_default_port", "shared_upstream_config_mutation",
@@ -309,6 +313,9 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("TERAX-REF-007", "Provider baseline identity drift"))
     if any(provider.get(k) is not False for k in ("canonical_root", "architectural_authority", "new_capability", "global_promotion_claim")):
         findings.append(_finding("TERAX-REF-008", "Terax must not claim authority, capability or global promotion"))
+    ev = provider.get("current_host_evidence", {})
+    if "may_promote_any_of_143_capabilities" in ev or ev.get("may_promote_any_of_175_capabilities") is not False or ev.get("baseline_capability_obligations") != 525:
+        findings.append(_finding("TERAX-EVID-003", "Legacy 143 or active 175/525 evidence guard drift"))
     stable = evidence.get("stable_reference", {})
     if stable.get("release") != REFERENCE_RELEASE or stable.get("commit_sha") != REFERENCE_COMMIT or stable.get("tag_object_sha") != REFERENCE_TAG_OBJECT:
         findings.append(_finding("TERAX-REF-009", "Immutable release identity drift"))
