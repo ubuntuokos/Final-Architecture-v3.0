@@ -13,7 +13,7 @@ if [[ -e "$SERVICE" || -e "$PATH_UNIT" ]]; then
   echo "BLOCKED: donor watcher unit already exists; inspect before overwriting" >&2
   exit 2
 fi
-if [[ "$ROOT" == *%* || "$ROOT" == *'"'* || "$ROOT" == *\\* || "$ROOT" == *$'\n'* ]]; then
+if [[ "$ROOT" == *%* || "$ROOT" == *'"'* || "$ROOT" == *\\* || "$ROOT" =~ [[:space:]] ]]; then
   echo "BLOCKED: repository path cannot be represented safely in this unit" >&2
   exit 2
 fi
@@ -27,8 +27,8 @@ UMask=0077
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
-WorkingDirectory="$ROOT"
-ExecStart=/usr/bin/env bash "$ROOT/bin/fa3-donor-chat-inbox"
+WorkingDirectory=$ROOT
+ExecStart=/usr/bin/env bash $ROOT/bin/fa3-donor-chat-inbox
 EOF
 cat >"$PATH_UNIT" <<'EOF'
 [Unit]
