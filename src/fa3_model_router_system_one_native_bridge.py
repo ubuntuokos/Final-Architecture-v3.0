@@ -11,6 +11,7 @@ import argparse
 import hmac
 import json
 import os
+import stat
 import ssl
 import threading
 import time
@@ -235,6 +236,20 @@ def server(bridge: NativeBridge, port: int = 0) -> ThreadingHTTPServer:
     return httpd
 
 
+def read_projected_credential(directory: Path, name: str) -> str:
+    if not directory.is_absolute() or directory.is_symlink():
+        raise NativeBridgeDenied("systemd credential directory must be an absolute non-symlink path")
+    path = directory / name
+    if path.is_symlink() or not path.is_file():
+        raise NativeBridgeDenied("required projected native credential missing")
+    if stat.S_IMODE(path.stat().st_mode) not in {0o400, 0o600}:
+        raise NativeBridgeDenied("projected native credentials require protected file permissions")
+    value = path.read_text(encoding="utf-8").strip()
+    if not value:
+        raise NativeBridgeDenied("projected native credential is empty")
+    return value
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="FA3 loopback-only admitted native System One runtime")
     ap.add_argument("--upstream", choices=sorted(ENDPOINTS), required=True)
@@ -243,14 +258,18 @@ def main() -> int:
     args = ap.parse_args()
     if os.environ.get("FA3_SYSTEM_ONE_NATIVE_ENABLE") != "1":
         raise SystemExit("native runtime requires explicit enable")
-    for name in ("FA3_SYSTEM_ONE_UPSTREAM_KEY", "FA3_SYSTEM_ONE_BRIDGE_TOKEN"):
-        if not os.environ.get(name):
-            raise SystemExit(f"missing Secret Broker-projected credential: {name}")
+    directory = os.environ.get("CREDENTIALS_DIRECTORY")
+    if not directory:
+        raise SystemExit("systemd Secret Broker credential projection is required")
+    credential_dir = Path(directory)
+    upstream_key = read_projected_credential(credential_dir, "fa3-system-one-upstream")
+    bridge_token = read_projected_credential(credential_dir, "fa3-system-one-bridge-token")
+    if args.designation.is_symlink() or stat.S_IMODE(args.designation.stat().st_mode) not in {0o400, 0o600}:
+        raise SystemExit("primary-model designation must be a protected file")
     designation = json.loads(args.designation.read_text(encoding="utf-8"))
     bridge = NativeBridge(
         upstream=args.upstream, designation=designation,
-        upstream_key=os.environ["FA3_SYSTEM_ONE_UPSTREAM_KEY"],
-        bridge_token=os.environ["FA3_SYSTEM_ONE_BRIDGE_TOKEN"],
+        upstream_key=upstream_key, bridge_token=bridge_token,
     )
     bridge.models()  # Fail closed at startup if live catalogue does not prove a designated model.
     httpd = server(bridge, args.port)
