@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 296,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -12809,6 +12809,397 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "May not become the Unified Memory Gateway or memory authority."
       }
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "pixar-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PIXAR-CHOOK-001",
+      "name": "Pixar Chook (webhook patterns)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/chook",
+        "normalized_key": "github:pixaranimationstudios/chook"
+      },
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "webhook-event-dispatch",
+        "event-handler-isolation",
+        "test-event-simulation"
+      ],
+      "domain_hints": [
+        "software-engineering",
+        "event-processing",
+        "integration"
+      ],
+      "target_hints": [
+        "Event Fabric",
+        "Agent Collaboration Room",
+        "Developer Agent"
+      ],
+      "tags": [
+        "pixar-github",
+        "webhook",
+        "reference-only",
+        "jamf-specific"
+      ],
+      "license": {
+        "declared": "Tomorrow Open Source Technology License 1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Jamf-specific Ruby implementation; pattern reference only, not a proposed FA3 runtime dependency or replacement for existing Event Fabric."
+      ],
+      "source_reviewed_at": "2026-09-28",
+      "observed_commit": "a64e0eb52d088fc4b29e6e78f92b7a5431ac0536"
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "pixar-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PIXAR-GITHUB-ORGANIZATION-001",
+      "name": "Pixar Animation Studios GitHub (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios",
+        "normalized_key": "github:pixaranimationstudios"
+      },
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "3d",
+        "animation",
+        "rendering",
+        "software-engineering"
+      ],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "pixar-github",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "notes": [
+        "Organization discovery index only; each Pixar repository requires independent license, security, provenance, hardware, coexistence and source admission assessment."
+      ],
+      "source_reviewed_at": "2026-09-28"
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "pixar-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PIXAR-OPENSUBDIV-001",
+      "name": "Pixar OpenSubdiv",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/OpenSubdiv",
+        "normalized_key": "github:pixaranimationstudios/opensubdiv"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "catmull-clark-subdivision",
+        "deforming-mesh-evaluation",
+        "cpu-subdivision",
+        "optional-gpu-subdivision",
+        "subdivision-regression"
+      ],
+      "domain_hints": [
+        "3d",
+        "geometry",
+        "animation",
+        "rendering",
+        "performance"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists/Blender integration",
+        "Character Studio",
+        "Animation Studio",
+        "VFX/Gaffer",
+        "World Generator"
+      ],
+      "tags": [
+        "pixar-github",
+        "opensubdiv",
+        "subdivision",
+        "mesh-deformation",
+        "cpu-only",
+        "optional-accelerator"
+      ],
+      "license": {
+        "declared": "Tomorrow Open Source Technology License 1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Retain CPU-only execution; treat CUDA/OpenCL/OpenGL/Metal paths solely as independently evaluated optional backends.",
+        "Avoid duplicate import where Bforartists/Blender or OpenUSD already supplies OpenSubdiv."
+      ],
+      "source_reviewed_at": "2026-09-28",
+      "observed_commit": "c826d2713b51b64a9a6f6641c8c1e9a69f7aaa20"
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "pixar-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PIXAR-OPENUSD-001",
+      "name": "Pixar OpenUSD",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/OpenUSD",
+        "normalized_key": "github:pixaranimationstudios/openusd"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN",
+        "STANDARD_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "usd-scene-composition",
+        "usd-layering",
+        "usd-asset-resolution",
+        "usd-time-sampled-animation",
+        "hydra-render-delegates",
+        "storm-raster-preview",
+        "usd-schema-interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "scenegraph",
+        "animation",
+        "rendering",
+        "asset-management",
+        "khronos"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "Creative Studio",
+        "Bforartists/Blender integration",
+        "FA3 Video Editor",
+        "World Generator",
+        "VFX/Gaffer",
+        "Realtime / Virtual Production Interchange"
+      ],
+      "tags": [
+        "pixar-github",
+        "openusd",
+        "usd",
+        "hydra",
+        "storm",
+        "render-delegates",
+        "scene-interchange"
+      ],
+      "license": {
+        "declared": "Tomorrow Open Source Technology License 1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Hydra and Storm are components within this OpenUSD source, not independent Pixar GitHub donor repositories.",
+        "Plan selective interoperability and schema/render-adapter reuse; preserve FA3 native .fa3video and 3D-ready scene models, do not replace existing Khronos integration."
+      ],
+      "source_reviewed_at": "2026-09-28",
+      "observed_commit": "2a9a571d0f9957bad5c4a59ba859ebb8df518c51"
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "pixar-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PIXAR-OPENUSD-PROPOSALS-001",
+      "name": "Pixar OpenUSD proposals",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/OpenUSD-proposals",
+        "normalized_key": "github:pixaranimationstudios/openusd-proposals"
+      },
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "STANDARD_PROPOSAL_REFERENCE"
+      ],
+      "capability_hints": [
+        "usd-evolution-tracking",
+        "schema-proposal-review",
+        "interoperability-roadmapping"
+      ],
+      "domain_hints": [
+        "3d",
+        "scenegraph",
+        "standards",
+        "research"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "Reuse Discovery",
+        "Realtime / Virtual Production Interchange",
+        "Creative Studio"
+      ],
+      "tags": [
+        "pixar-github",
+        "openusd",
+        "standards-proposals",
+        "future-applications"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "TERMS_AND_INDIVIDUAL_PROPOSAL_REVIEW_REQUIRED"
+      },
+      "notes": [
+        "Proposal repository is a research/reference source, not permission to copy proposal text or claim implemented/approved standard status; review OpenUSD supplemental contribution terms."
+      ],
+      "source_reviewed_at": "2026-09-28",
+      "observed_commit": "28aabccf6048818ad3578e59a34db14ad3eb2dc8"
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "pixar-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-PIXAR-XOLO-001",
+      "name": "Pixar Xolo (release lifecycle patterns)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/xolo",
+        "normalized_key": "github:pixaranimationstudios/xolo"
+      },
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "package-lifecycle-governance",
+        "patch-promotion",
+        "staged-deployment"
+      ],
+      "domain_hints": [
+        "software-engineering",
+        "release-management"
+      ],
+      "target_hints": [
+        "Developer Agent",
+        "Release Fabric",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "pixar-github",
+        "release-management",
+        "reference-only",
+        "jamf-specific",
+        "macos-specific"
+      ],
+      "license": {
+        "declared": "Tomorrow Open Source Technology License 1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "macOS/Jamf-specific reference only. Do not import Jamf runtime or introduce Conda/Mamba, global package changes or macOS assumptions into Linux FA3."
+      ],
+      "source_reviewed_at": "2026-09-28",
+      "observed_commit": "89b7594fbff88bda139271a507a62540ffd24eca"
     },
     {
       "donor_id": "FA3-DONOR-PIXEL3DMM-001",
