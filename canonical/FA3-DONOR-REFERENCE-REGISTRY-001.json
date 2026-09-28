@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2959,6 +2959,83 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLAMPDOWN-001",
+      "name": "89luca89/clampdown",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/89luca89/clampdown",
+        "normalized_key": "github:89luca89/clampdown"
+      },
+      "status": "ANALYZED",
+      "discovered_from": [
+        "FA3 clampdown integration 2026-09-28",
+        "Clampdown donor PR #481"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Landlock scoped filesystem isolation reference",
+        "OCI nested-container precreate and createRuntime security policy reference",
+        "Seccomp-notify supervisor architecture",
+        "Default-deny agent egress and credential-isolated proxy architecture",
+        "Fail-closed mediated nested tool launch compiler"
+      ],
+      "domain_hints": [
+        "security",
+        "agent-runtime",
+        "container-isolation"
+      ],
+      "problem_hints": [
+        "Untrusted AI coding agents escaping workspaces",
+        "Nested tool OCI policy bypass",
+        "Prompt-injection-driven credential or host exposure"
+      ],
+      "target_hints": [
+        "Agent Sandbox",
+        "Agent Workload Runtime",
+        "Central MCP Gateway",
+        "Secret Broker",
+        "Runtime Hardening",
+        "Evidence Fabric"
+      ],
+      "tags": [
+        "landlock",
+        "seccomp",
+        "nested-oci",
+        "gvisor",
+        "agent-sandbox",
+        "rootless-podman",
+        "default-deny",
+        "credential-isolation"
+      ],
+      "license": {
+        "declared": "GPL-3.0-only (README SPDX; source files require separate provenance review)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected upstream main at 4ba28fda0c5e7df729c251d49e5736bfdb53f6f7.",
+        "FA3-native clean-room pattern implementation in src/fa3_nested_tool_guard.py; zero Clampdown source copied.",
+        "Retain existing mandatory Agent Sandbox and preferred gVisor/Wasmtime; no SYS_ADMIN/NET_ADMIN sidecar and no nested default-allow public egress.",
+        "Admission/current-host implementation and production promotion require separate runtime evidence; registry entry does not grant admission.",
+        "Hardware Audit: CPU-only; accelerator count 0..N; HRB exclusively allocates and projects devices."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLEARERVOICE-STUDIO-001",
