@@ -1,0 +1,75 @@
+name: FA3 Story Screenplay Reference Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/fa3-screenplay-reference-gate.yml'
+      - 'src/fa3_screenplay*.py'
+      - 'bin/fa3-screenplay'
+      - 'tests/test_screenplay*.py'
+      - 'canonical/contracts/FA3-STORY-SCREENPLAY-IMPLEMENTATION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SCREENPLAY-DOCUMENT-001.schema.json'
+      - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
+      - 'apps/fa3-control-center/**'
+  push:
+    branches: ["fa3/**"]
+    paths:
+      - '.github/workflows/fa3-screenplay-reference-gate.yml'
+      - 'src/fa3_screenplay*.py'
+      - 'bin/fa3-screenplay'
+      - 'tests/test_screenplay*.py'
+      - 'canonical/contracts/FA3-STORY-SCREENPLAY-IMPLEMENTATION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-SCREENPLAY-DOCUMENT-001.schema.json'
+      - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
+      - 'apps/fa3-control-center/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-code-and-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Source and executable syntax
+        run: |
+          python -m py_compile src/fa3_screenplay.py src/fa3_screenplay_cli.py src/fa3_screenplay_gate.py
+          bash -n bin/fa3-screenplay
+      - name: CPU-only stdlib runtime acceptance tests
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_screenplay*.py' -v
+      - name: Contract, donor and GUI route reference gate
+        run: |
+          mkdir -p reports
+          PYTHONPATH=src python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          from fa3_screenplay_gate import gate
+          report = gate(Path.cwd())
+          Path('reports/story-screenplay-reference-gate.json').write_text(
+              json.dumps(report, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(report, indent=2, ensure_ascii=False))
+          sys.exit(0 if report['result'] == 'PASS' and
+                   report['evidence_level'] == 'REFERENCE_ONLY_NOT_CURRENT_HOST' else 1)
+          PY
+      - name: Run existing canonical GUI static gate
+        run: PYTHONPATH=src python src/fa3_gui_gate.py
+      - name: Report local scope explicitly
+        run: |
+          echo "This is reference CI, not real FA3 current-host hardware / production admission."
+          echo "FDX and Fountain are experimental bidirectional subsets; Office codecs are NOT_ADMITTED."
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-story-screenplay-reference-evidence
+          if-no-files-found: warn
+          path: reports/story-screenplay-reference-gate.json
