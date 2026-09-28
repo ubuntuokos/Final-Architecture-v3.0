@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a1d765ed6c2dd4057b0e1be1411cc93ba8a7a08a",
-    "pre_projection_root_tree_sha": "7768de3abe8734e59a870ec6cc908f644af3f548",
-    "pre_projection_canonical_tree_sha": "29ba13bf33f7e3d6da1b9ae67eb88f764368627f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1535,
-    "total_post_baseline_commits": 1535,
-    "delta_file_count": 2473,
-    "delta_added_files": 2467,
+    "pre_projection_head_sha": "8a9fde1411cf041861eedf8832546fa25a40656d",
+    "pre_projection_root_tree_sha": "849b21547e17b9ebc99af93ff6f5fdd7da22ed8a",
+    "pre_projection_canonical_tree_sha": "d27186575916537017357b0a98ab801383f671b1",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1548,
+    "total_post_baseline_commits": 1548,
+    "delta_file_count": 2480,
+    "delta_added_files": 2474,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1195,
+    "canonical_files_in_post_baseline_delta": 1196,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 338,
-    "test_files_in_post_baseline_delta": 272,
-    "workflow_files_in_post_baseline_delta": 119,
+    "source_files_in_post_baseline_delta": 339,
+    "test_files_in_post_baseline_delta": 273,
+    "workflow_files_in_post_baseline_delta": 121,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -350,6 +350,7 @@
       "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json",
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
       "canonical/contracts/FA3-GOOGLE-AX-CUSTOM-RUNNER-PLAN-001.schema.json",
       "canonical/contracts/FA3-GOOGLE-AX-PROVIDER-BRIDGE-001.schema.json",
       "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
@@ -1012,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2463,
+  "manifest_entry_count": 2470,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1212,6 +1213,16 @@
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
       "git_blob_sha": "7d4a1b053aef8aa49bf5dbeb3fb7d1c8fd1d0582",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-goal-execution-foundation.yml",
+      "git_blob_sha": "e98f6bfa966fc323e0f6dfe3bf1d98db477653bd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-goal-foundation-projection-reconcile.yml",
+      "git_blob_sha": "bbc78e6927244992b73e4c303b80097c2d67fc64",
       "baseline_delta_status": "added"
     },
     {
@@ -2127,6 +2138,11 @@
     {
       "path": "bin/fa3-ffmpeg-ai-current-host.sh",
       "git_blob_sha": "02f2b32541f0d32b5ee001281961055eb51c2822",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-goal",
+      "git_blob_sha": "8aa99c1977f56d129830aba25b6bce0112e5efa9",
       "baseline_delta_status": "added"
     },
     {
@@ -4542,6 +4558,11 @@
     {
       "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+      "git_blob_sha": "ec057d0dd1d1607bba7bc9e5e0395d859ba60a8d",
       "baseline_delta_status": "added"
     },
     {
@@ -8865,6 +8886,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/goal-driven-execution-foundation.md",
+      "git_blob_sha": "ab2eadbaf7aa4f651ef360ee89bc21827873bc1b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/governance-tiering.md",
       "git_blob_sha": "087da9c9a1c15e7312baa7b311ddeeb1ff7c4c3f",
       "baseline_delta_status": "added"
@@ -10805,6 +10831,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_goal_execution.py",
+      "git_blob_sha": "a1ceb32a173610c539e5be8eb4f375dacb73eff4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_google_ax_custom_runner.py",
       "git_blob_sha": "0b3aa3328af1b81dc0e9ff33a34a944a68771f50",
       "baseline_delta_status": "added"
@@ -12382,6 +12413,11 @@
     {
       "path": "tests/test_global_current_host_workflow_trigger.py",
       "git_blob_sha": "dd22d36efe0cd38f6c4bbc3ac301966b21b270e6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_goal_execution_foundation.py",
+      "git_blob_sha": "a4263985b5a7f12d3d96c34a0a3c45ffef9873e2",
       "baseline_delta_status": "added"
     },
     {
