@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -17984,6 +17984,69 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SOXOJ-MAIGRET-001",
+      "name": "soxoj/maigret",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/soxoj/maigret",
+        "normalized_key": "github:soxoj/maigret",
+        "commit": "b6642744988e7e6c2d21f75db60ec3093019ba25"
+      },
+      "status": "ANALYZED",
+      "discovered_from": [
+        "osint-arsenal-independent-upstream-review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-053"
+      ],
+      "domain_hints": [
+        "osint",
+        "username-social"
+      ],
+      "problem_hints": [
+        "case-bound-authorized-username-investigation"
+      ],
+      "target_hints": [
+        "OSINT",
+        "Research"
+      ],
+      "tags": [
+        "maigret",
+        "reference-only",
+        "individual-license-verified",
+        "case-bound",
+        "provider-admission-pending"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "VERIFIED_UPSTREAM_LICENSE_FILE",
+        "scope": "MAIGRET_REPOSITORY_NOT_TRANSITIVE_DEPENDENCIES_OR_TARGET_SITES",
+        "upstream_path": "LICENSE",
+        "git_blob_sha1": "df0f2e5834bee985136efef18c6b2e038ba35e1a"
+      },
+      "code_reuse_policy": "INDIVIDUAL_LICENSE_VERIFIED_SECURITY_DEPENDENCIES_TOS_PRIVACY_AND_RUNTIME_ADMISSION_STILL_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Already named as Maigret primary reference in CAP-053; this record resolves the upstream repository identity and MIT source license.",
+        "Neither Maigret's transitive dependencies nor target sites' usage terms are verified by the MIT repository license.",
+        "Not installed, executable, admitted or authorized for a person-specific search by donor capture."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
