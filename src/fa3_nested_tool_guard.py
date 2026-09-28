@@ -38,7 +38,8 @@ def _safe_path(path: object, code: str) -> Path:
         value = Path(path).resolve(strict=True)
     except (OSError, RuntimeError) as exc:
         raise NestedToolPolicyError(code) from exc
-    _required(value.is_dir() and not value.is_symlink(), code)
+    _required(value.is_dir() and not value.is_symlink()
+              and not any(c in str(value) for c in ",\n\r\0"), code)
     return value
 
 
