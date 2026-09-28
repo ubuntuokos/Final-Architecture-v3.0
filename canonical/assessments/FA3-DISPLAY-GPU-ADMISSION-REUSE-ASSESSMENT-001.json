@@ -102,5 +102,14 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "rationale": "GPU role, explicit application intent and HRB lease policy do not require adoption of a graphics interchange or compute standards SDK; provider runtime remains separately negotiated."
+    }
+  ]
 }
