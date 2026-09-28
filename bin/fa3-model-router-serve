@@ -24,4 +24,14 @@ if [[ -n "$CREDENTIAL" ]]; then
 fi
 : "${FA3_MODEL_ROUTER_MASTER_KEY:?FA3_MODEL_ROUTER_MASTER_KEY or --credential-file is required}"
 export FA3_MODEL_ROUTER_BACKEND_DUMMY_KEY="${FA3_MODEL_ROUTER_BACKEND_DUMMY_KEY:-fa3-local-runtime-nonsecret}"
+if grep -Fq '/fa3/system-one/decisions' "$CONFIG"; then
+  : "${CREDENTIALS_DIRECTORY:?native System One route requires systemd Secret Broker projection}"
+  native_cred="$CREDENTIALS_DIRECTORY/fa3-system-one-bridge-token"
+  [[ -f "$native_cred" && ! -L "$native_cred" ]] || { echo "native bridge credential missing" >&2; exit 2; }
+  native_mode="$(stat -c '%a' "$native_cred")"
+  [[ "$native_mode" == "600" || "$native_mode" == "400" ]] || { echo "native bridge credential permissions invalid" >&2; exit 2; }
+  export FA3_SYSTEM_ONE_BRIDGE_TOKEN
+  FA3_SYSTEM_ONE_BRIDGE_TOKEN="$(<"$native_cred")"
+  [[ -n "$FA3_SYSTEM_ONE_BRIDGE_TOKEN" ]] || { echo "native bridge credential empty" >&2; exit 2; }
+fi
 exec "$LITELLM" --config "$CONFIG" --host 127.0.0.1 --port "$PORT"
