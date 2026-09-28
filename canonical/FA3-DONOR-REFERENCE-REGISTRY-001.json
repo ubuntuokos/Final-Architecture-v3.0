@@ -17960,6 +17960,62 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-SKILLOPT-001",
+      "name": "microsoft/SkillOpt",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/SkillOpt",
+        "normalized_key": "github:microsoft/skillopt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-external-skill-radar",
+        "fa3-skill-activation-audit-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "FA3-SKILL-FABRIC-001"
+      ],
+      "domain_hints": [
+        "agent-skills",
+        "offline-evaluation"
+      ],
+      "problem_hints": [
+        "offline-skill-improvement",
+        "held-out-validation",
+        "quality-floor"
+      ],
+      "target_hints": [
+        "FA3 Skill Fabric",
+        "FA3 Developer Agent Coordinator"
+      ],
+      "tags": [
+        "skill",
+        "offline-improvement",
+        "no-auto-promotion"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "RADAR_DECLARATION_REVALIDATION_REQUIRED"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     }
   ],
   "historical_partial_reuse_review": {
