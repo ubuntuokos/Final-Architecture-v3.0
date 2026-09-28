@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-DEJA-VU-SCOPED-RECALL-2026-09-28",
+  "covered_ids": [
+    "FA3-PROVIDER-DEJA-VU-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The optional read-only deja-vu CLI adapter performs deterministic lexical session retrieval inside a pre-authorized, exact project partition. It makes no semantic judgments, creates no candidates beyond authorized upstream search results, and cannot approve actions. The existing Decision Fabric may optionally rerank a separately closed, policy-authorized candidate set downstream; no new Decision Fabric provider or decision authority is introduced.",
+  "decision_points": [],
+  "project_radar_checked": true,
+  "project_radar_sources": [
+    "vshulcz/deja-vu@73ad34e5fdc2b0c245a0fb69b65a17f3cbb123c8",
+    "FA3-DONOR-VSHULCZ-DEJA-VU-001"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
