@@ -19,10 +19,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_model_router_materialize import (
     MaterializationDenied, render_litellm, select_bindings, sha256_file,
 )
-from fa3_model_router_system_one_admit import NativeAdmissionDenied, _probe
+from fa3_model_router_system_one_admit import NativeAdmissionDenied, _cpu_masks_are_explicitly_empty, _exact_cli_value, _probe
 from fa3_model_router_system_one_live_gate import NativeRouterE2EDenied, verify_live_router
 from fa3_model_router_system_one_native_bridge import (
     NativeBridge, NativeBridgeDenied, read_projected_credential, server,
+    verify_designation_approval,
 )
 from fa3_model_router_system_one_transport import (
     NativeRouterTransport, RouterNativeDenied,
@@ -154,6 +155,94 @@ class NativeProviderBridgeTests(unittest.TestCase):
             httpd.shutdown()
             httpd.server_close()
             thread.join(timeout=2)
+
+
+    def test_typesafe_catalogue_uses_official_models_name_schema(self):
+        selected = designation()
+        selected["upstream"] = "typesafe"
+
+        def typesafe_fetch(method, url, payload, key, timeout):
+            if method == "GET":
+                return {"models": [{"name": "native-a", "description": "approved"},
+                                   {"name": "undesignated", "description": "not selected"}]}
+            return fake_upstream(method, url, payload, key, timeout)
+
+        bridge = NativeBridge(
+            upstream="typesafe", designation=selected, upstream_key="upstream-test",
+            bridge_token="bridge-test", fetch=typesafe_fetch,
+        )
+        self.assertEqual(bridge.models(), ["native-a"])
+        self.assertEqual(bridge.decide({
+            "model": "native-a", "state": {"goal": "observe"},
+            "questions": {"test_question": {"type": "choice", "criteria": {"a": "a", "b": "b"}}},
+        })["model"], "native-a-version")
+        for invalid in ({"data": [{"id": "native-a"}]}, {"models": [{"id": "native-a"}]},
+                        {"models": [{"name": "native-a"}, {"name": ""}]}):
+            other = NativeBridge(
+                upstream="typesafe", designation=selected, upstream_key="a", bridge_token="b",
+                fetch=lambda *args, item=invalid: item,
+            )
+            with self.assertRaises(NativeBridgeDenied):
+                other.models()
+
+    def test_cpu_mask_proof_rejects_nonempty_and_duplicate_values(self):
+        empty = [f"{name}=".encode() for name in (
+            "CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK"
+        )]
+        self.assertTrue(_cpu_masks_are_explicitly_empty(empty))
+        self.assertFalse(_cpu_masks_are_explicitly_empty(empty[:-1]))
+        self.assertFalse(_cpu_masks_are_explicitly_empty(empty + [b"CUDA_VISIBLE_DEVICES=0"]))
+        self.assertFalse(_cpu_masks_are_explicitly_empty([
+            b"CUDA_VISIBLE_DEVICES=0", *empty[1:]
+        ]))
+        self.assertEqual(_exact_cli_value(["--designation", "/private/designation"], "--designation"), "/private/designation")
+        self.assertIsNone(_exact_cli_value(["--designation", "/a", "--designation", "/b"], "--designation"))
+
+    def test_signed_designation_required_and_exactly_bound(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "designation.json"
+            approval = Path(directory) / "approval.json"
+            target.write_text(json.dumps(designation()), encoding="utf-8")
+            target.chmod(0o600)
+            from fa3_model_router_materialize import sha256_file as sha
+            signed = {"schema": "fa3.authenticated-approval-receipt.v2", "payload": {
+                "model_designation_sha256": sha(target),
+                "provider_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+                "logical_route": "fa3-decision-system-one",
+                "upstream": "openrouter",
+                "approved_models": ["native-a"],
+            }}
+            approval.write_text(json.dumps(signed), encoding="utf-8")
+            approval.chmod(0o600)
+            seen = []
+            def verified(receipt, **kwargs):
+                seen.append(kwargs)
+                return {"qualified": True}
+            digest = verify_designation_approval(
+                root=ROOT, designation=target, approval_receipt=approval,
+                expected_source_commit="a" * 40, verifier=verified,
+            )
+            self.assertEqual(digest, sha(approval))
+            self.assertEqual(seen[0]["required_role"], "PRIMARY_MODEL_DESIGNATOR")
+            self.assertEqual(seen[0]["expected_receipt_type"], "MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION")
+            with self.assertRaisesRegex(NativeBridgeDenied, "authenticated"):
+                verify_designation_approval(
+                    root=ROOT, designation=target, approval_receipt=approval,
+                    expected_source_commit="a" * 40, verifier=lambda *a, **k: {"qualified": False},
+                )
+            signed["payload"]["approved_models"] = ["unapproved"]
+            approval.write_text(json.dumps(signed), encoding="utf-8")
+            with self.assertRaisesRegex(NativeBridgeDenied, "exact model designation"):
+                verify_designation_approval(
+                    root=ROOT, designation=target, approval_receipt=approval,
+                    expected_source_commit="a" * 40, verifier=verified,
+                )
+            approval.chmod(0o644)
+            with self.assertRaisesRegex(NativeBridgeDenied, "protected"):
+                verify_designation_approval(
+                    root=ROOT, designation=target, approval_receipt=approval,
+                    expected_source_commit="a" * 40, verifier=verified,
+                )
 
     def test_credential_file_projection_rejects_unprotected_and_symlinked_files(self):
         with tempfile.TemporaryDirectory() as directory:

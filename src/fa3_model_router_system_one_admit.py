@@ -26,6 +26,7 @@ from fa3_model_router_materialize import AUTHORITY, sha256_file
 from fa3_model_router_provider_discovery import process_start_ticks
 from fa3_model_router_system_one_native_bridge import (
     NATIVE_PROVIDER_ID, NativeBridgeDenied, read_projected_credential,
+    verify_designation_approval,
 )
 
 SCHEMA = "fa3.system-one-native-current-host-receipt.v1"
@@ -88,7 +89,25 @@ def _owned_listen_socket(pid: int, port: int) -> bool:
     return False
 
 
-def _native_process_proof(pid: int, port: int, designation: Path, upstream: str) -> int:
+def _cpu_masks_are_explicitly_empty(env: list[bytes]) -> bool:
+    """Exact-once empty masks; a present but nonempty duplicate must not pass."""
+    for name in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK"):
+        values = [item.partition(b"=")[2] for item in env if item.partition(b"=")[0] == name.encode()]
+        if values != [b""]:
+            return False
+    return True
+
+
+def _exact_cli_value(args: list[str], flag: str) -> str | None:
+    positions = [i for i, value in enumerate(args) if value == flag]
+    if len(positions) != 1 or positions[0] + 1 >= len(args):
+        return None
+    return args[positions[0] + 1]
+
+
+def _native_process_proof(
+    pid: int, port: int, designation: Path, approval_receipt: Path, upstream: str
+) -> int:
     ticks = process_start_ticks(pid)
     if not ticks:
         raise NativeAdmissionDenied("native backend process identity cannot be verified")
@@ -100,17 +119,13 @@ def _native_process_proof(pid: int, port: int, designation: Path, upstream: str)
         raise NativeAdmissionDenied("native backend command/environment cannot be inspected") from None
     if not (
         any(a.endswith("fa3_model_router_system_one_native_bridge.py") for a in args)
-        and "--designation" in args and str(designation.resolve()) in args
-        and "--upstream" in args and upstream in args
+        and _exact_cli_value(args, "--designation") == str(designation.resolve())
+        and _exact_cli_value(args, "--designation-approval") == str(approval_receipt.resolve())
+        and _exact_cli_value(args, "--upstream") == upstream
         and _owned_listen_socket(pid, port)
-        and all(f"{name}=".encode() in env for name in
-                ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK"))
+        and _cpu_masks_are_explicitly_empty(env)
     ):
-        raise NativeAdmissionDenied("native bridge process, listening socket, or CPU-only boundary invalid")
-    # The three accelerator masks must actually be empty.
-    for name in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK"):
-        if f"{name}=".encode() not in env:
-            raise NativeAdmissionDenied("native bridge accelerator masking is not established")
+        raise NativeAdmissionDenied("native bridge process, signed approval, socket, or CPU masks invalid")
     return ticks
 
 
@@ -187,7 +202,8 @@ def _atomic(path: Path, obj: dict[str, Any]) -> None:
             os.unlink(tmp)
 
 
-def admit(*, root: Path, designation: Path, bridge_api_base: str, bridge_pid: int,
+def admit(*, root: Path, designation: Path, model_approval_receipt: Path,
+          bridge_api_base: str, bridge_pid: int,
           secret_broker_reference: Path, output: Path, runtime_registry: Path | None = None,
           runtime_output: Path | None = None) -> dict[str, Any]:
     if os.environ.get("FA3_SYSTEM_ONE_NATIVE_ENABLE") != "1":
@@ -209,6 +225,12 @@ def admit(*, root: Path, designation: Path, bridge_api_base: str, bridge_pid: in
         and bool(designated["approved_models"])
     ):
         raise NativeAdmissionDenied("primary-model designation missing or not approved")
+    try:
+        approval_hash = verify_designation_approval(
+            root=root, designation=designation, approval_receipt=model_approval_receipt,
+        )
+    except NativeBridgeDenied as exc:
+        raise NativeAdmissionDenied(str(exc)) from None
     _validate_broker_reference(root, secret_broker_reference)
     credential_dir = os.environ.get("CREDENTIALS_DIRECTORY")
     if not credential_dir:
@@ -220,7 +242,9 @@ def admit(*, root: Path, designation: Path, bridge_api_base: str, bridge_pid: in
     if upstream_credential.is_symlink() or not upstream_credential.is_file() or stat.S_IMODE(upstream_credential.stat().st_mode) not in {0o400, 0o600}:
         raise NativeAdmissionDenied("native upstream credential projection missing")
     port = urlparse(bridge_api_base).port
-    ticks = _native_process_proof(bridge_pid, port, designation, designated["upstream"])
+    ticks = _native_process_proof(
+        bridge_pid, port, designation, model_approval_receipt, designated["upstream"]
+    )
     model = designated["approved_models"][0]
     served, request_id = _probe(
         bridge_api_base.rstrip("/"), token, model,
@@ -235,6 +259,8 @@ def admit(*, root: Path, designation: Path, bridge_api_base: str, bridge_pid: in
         "secret_broker_admission_verified": True,
         "secret_broker_reference_sha256": sha256_file(secret_broker_reference),
         "model_designation_sha256": sha256_file(designation),
+        "authenticated_designation_approval_verified": True,
+        "model_designation_approval_sha256": approval_hash,
         "selected_model": model, "served_model": served,
         "upstream_request_id_sha256": hashlib.sha256(request_id.encode()).hexdigest() if request_id else None,
         "real_execution": True, "synthetic": False,
@@ -265,6 +291,7 @@ def admit(*, root: Path, designation: Path, bridge_api_base: str, bridge_pid: in
             "routes": ["fa3-decision-system-one"], "runtime_apis": ["SYSTEM_ONE_DECISIONS_V1"],
             "approved_models": designated["approved_models"],
             "model_designation_receipt": str(designation.resolve()),
+            "model_designation_approval_receipt": str(model_approval_receipt.resolve()),
             "native_bridge_auth_env": "FA3_SYSTEM_ONE_BRIDGE_TOKEN",
             "api_key_env": "FA3_SYSTEM_ONE_BRIDGE_TOKEN",
             "admission_receipt": str(output.resolve()),
@@ -283,6 +310,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     ap.add_argument("--designation", type=Path, required=True)
+    ap.add_argument("--designation-approval", type=Path, required=True)
     ap.add_argument("--bridge-api-base", required=True)
     ap.add_argument("--bridge-pid", type=int, required=True)
     ap.add_argument("--secret-broker-reference", type=Path,
@@ -295,7 +323,9 @@ def main() -> int:
     broker_ref = args.secret_broker_reference
     if not broker_ref.is_absolute():
         broker_ref = root / broker_ref
-    result = admit(root=root, designation=args.designation.resolve(), bridge_api_base=args.bridge_api_base,
+    result = admit(root=root, designation=args.designation.resolve(),
+                   model_approval_receipt=args.designation_approval.resolve(),
+                   bridge_api_base=args.bridge_api_base,
                    bridge_pid=args.bridge_pid, secret_broker_reference=broker_ref,
                    output=args.output.resolve(), runtime_registry=args.runtime_registry,
                    runtime_output=args.runtime_output)

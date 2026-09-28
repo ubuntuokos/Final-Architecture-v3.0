@@ -400,6 +400,7 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
                 and native_rec.get("real_upstream_response") is True
                 and native_rec.get("invalid_bearer_rejected") is True
                 and native_rec.get("secret_broker_admission_verified") is True
+                and native_rec.get("authenticated_designation_approval_verified") is True
                 and native_rec.get("model_designation_sha256") == sha256_file(designation)
                 and native_rec.get("selected_model") in row["approved_models"]
                 and isinstance(native_rec.get("runtime_handoff"), dict)
@@ -408,6 +409,16 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
                 and _native_process_matches(native_rec["runtime_handoff"])
             ):
                 raise MaterializationDenied("native System One current-host receipt lacks real upstream/security proof")
+            approval_path = Path(str(row.get("model_designation_approval_receipt", "")))
+            try:
+                from fa3_model_router_system_one_native_bridge import verify_designation_approval
+                approval_digest = verify_designation_approval(
+                    root=root, designation=designation, approval_receipt=approval_path,
+                )
+            except Exception:
+                raise MaterializationDenied("native model designation lacks a valid exact signed approval") from None
+            if native_rec.get("model_designation_approval_sha256") != approval_digest:
+                raise MaterializationDenied("native signed model designation differs from admitted proof")
         copy = dict(row)
         copy["provider_id"] = provider_id
         copy["runtime_id"] = runtime_id

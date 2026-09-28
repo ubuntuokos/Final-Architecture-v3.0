@@ -8,11 +8,13 @@ primary-model designation, egress policy and Secret Broker projection precede la
 from __future__ import annotations
 
 import argparse
+import hashlib
 import hmac
 import json
 import os
 import stat
 import ssl
+import subprocess
 import threading
 import time
 import urllib.error
@@ -20,6 +22,8 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Callable
+
+from fa3_authenticated_approval import verify_authenticated_receipt
 
 AUTHORITY = "FA3-AUTH-MODEL-ROUTER-001"
 NATIVE_PROVIDER_ID = "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"
@@ -39,6 +43,53 @@ MAX_CATALOG_BYTES = 2 * 1024 * 1024
 
 class NativeBridgeDenied(RuntimeError):
     pass
+
+
+DESIGNATION_RECEIPT_TYPE = "MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION"
+DESIGNATION_SIGNER_ROLE = "PRIMARY_MODEL_DESIGNATOR"
+
+
+def verify_designation_approval(
+    *, root: Path, designation: Path, approval_receipt: Path,
+    expected_source_commit: str | None = None,
+    verifier: Callable[..., dict[str, Any]] = verify_authenticated_receipt,
+) -> str:
+    """Require an exact, PKI-verified primary-model designation before any live backend."""
+    for path in (designation, approval_receipt):
+        if (not path.is_absolute() or path.is_symlink() or not path.is_file()
+                or stat.S_IMODE(path.stat().st_mode) not in {0o400, 0o600}):
+            raise NativeBridgeDenied("model designation and signed approval must be protected regular files")
+    try:
+        signed = json.loads(approval_receipt.read_text(encoding="utf-8"))
+        designated = json.loads(designation.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        raise NativeBridgeDenied("protected model designation or signed approval unreadable") from None
+    if not isinstance(signed, dict) or not isinstance(designated, dict):
+        raise NativeBridgeDenied("protected model designation and signed approval require objects")
+    if expected_source_commit is None:
+        try:
+            expected_source_commit = subprocess.check_output(
+                ["git", "-C", str(root), "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL
+            ).strip()
+        except (OSError, subprocess.CalledProcessError):
+            raise NativeBridgeDenied("repository HEAD cannot bind model approval") from None
+    qualified = verifier(
+        signed, expected_receipt_type=DESIGNATION_RECEIPT_TYPE,
+        required_role=DESIGNATION_SIGNER_ROLE, expected_source_commit=expected_source_commit,
+    )
+    if not qualified.get("qualified"):
+        raise NativeBridgeDenied("primary-model designation lacks authenticated PKI approval")
+    payload = signed.get("payload")
+    if not isinstance(payload, dict) or not (
+        payload.get("model_designation_sha256") == hashlib.sha256(designation.read_bytes()).hexdigest()
+        and payload.get("provider_id") == NATIVE_PROVIDER_ID
+        and payload.get("logical_route") == "fa3-decision-system-one"
+        and payload.get("upstream") == designated.get("upstream")
+        and payload.get("approved_models") == designated.get("approved_models")
+        and designated.get("approved_by_primary_model") is True
+    ):
+        raise NativeBridgeDenied("authenticated approval payload does not bind the exact model designation")
+    return hashlib.sha256(approval_receipt.read_bytes()).hexdigest()
 
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -137,11 +188,18 @@ class NativeBridge:
                 return list(self._catalog[1])
             catalog_url, _ = ENDPOINTS[self.upstream]
             obj = self._fetch("GET", catalog_url, None, self._upstream_key, self.timeout)
-            rows = obj.get("data")
-            if not isinstance(rows, list):
-                raise NativeBridgeDenied("live provider model catalogue is unavailable")
-            live = {str(row.get("id")) for row in rows
-                    if isinstance(row, dict) and isinstance(row.get("id"), str)}
+            # TypeSafe's official SDK exposes models[].name; OpenRouter exposes data[].id.
+            # Never guess a model from an incompatible catalogue or invent a fallback.
+            if self.upstream == "typesafe":
+                rows, name_field = obj.get("models"), "name"
+            else:
+                rows, name_field = obj.get("data"), "id"
+            if not isinstance(rows, list) or not rows or any(
+                not isinstance(row, dict) or not isinstance(row.get(name_field), str)
+                or not row[name_field] for row in rows
+            ):
+                raise NativeBridgeDenied("live provider model catalogue has an invalid provider-specific shape")
+            live = {row[name_field] for row in rows}
             approved = tuple(model for model in self.approved if model in live)
             if not approved:
                 raise NativeBridgeDenied("no designated model appears in the live native catalogue")
@@ -254,6 +312,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="FA3 loopback-only admitted native System One runtime")
     ap.add_argument("--upstream", choices=sorted(ENDPOINTS), required=True)
     ap.add_argument("--designation", type=Path, required=True)
+    ap.add_argument("--designation-approval", type=Path, required=True)
     ap.add_argument("--port", type=int, default=0)
     args = ap.parse_args()
     if os.environ.get("FA3_SYSTEM_ONE_NATIVE_ENABLE") != "1":
@@ -266,6 +325,10 @@ def main() -> int:
     bridge_token = read_projected_credential(credential_dir, "fa3-system-one-bridge-token")
     if args.designation.is_symlink() or stat.S_IMODE(args.designation.stat().st_mode) not in {0o400, 0o600}:
         raise SystemExit("primary-model designation must be a protected file")
+    verify_designation_approval(
+        root=Path(__file__).resolve().parents[1], designation=args.designation,
+        approval_receipt=args.designation_approval,
+    )
     designation = json.loads(args.designation.read_text(encoding="utf-8"))
     bridge = NativeBridge(
         upstream=args.upstream, designation=designation,

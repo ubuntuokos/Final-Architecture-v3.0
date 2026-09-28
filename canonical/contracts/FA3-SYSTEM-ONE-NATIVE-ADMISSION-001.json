@@ -26,7 +26,13 @@
     "invalid_bearer_rejection": true,
     "lite_llm_pass_through_auth_negative_probe": true,
     "real_native_decision_response": true,
-    "version_bound_instance": true
+    "version_bound_instance": true,
+    "authenticated_primary_model_designation_receipt": true,
+    "model_designation_must_match_exact_repository_head": true,
+    "security_governance_role_grant_required": true,
+    "provider_specific_live_catalogue_shapes": true,
+    "exact_once_empty_accelerator_visibility_masks": true,
+    "hrb_runtime_isolation_separate_from_environment_masks": true
   },
   "evidence_scopes": {
     "static_and_recorded_ci": "REFERENCE_ONLY",
@@ -40,5 +46,19 @@
     "cpu_only": true,
     "gpu_npu_cardinality": "0..N",
     "hrb_only": true
+  },
+  "signed_approval": {
+    "schema": "fa3.authenticated-approval-receipt.v2",
+    "receipt_type": "MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION",
+    "required_role": "PRIMARY_MODEL_DESIGNATOR",
+    "payload_fields": [
+      "model_designation_sha256",
+      "provider_id",
+      "logical_route",
+      "upstream",
+      "approved_models"
+    ],
+    "source_commit": "EXACT_DEPLOYED_REPOSITORY_HEAD",
+    "runtime_activation_without_signature": "DENY"
   }
 }

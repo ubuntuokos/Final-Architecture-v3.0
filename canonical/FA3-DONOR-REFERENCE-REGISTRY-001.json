@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 251,
+    "entry_count": 253,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2102,6 +2102,68 @@
       "notes": [
         "Candidate/reference; not canonical dataset owner."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-BERRIAI-LITELLM-PASSTHROUGH-001",
+      "name": "BerriAI LiteLLM pass-through implementation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/BerriAI/litellm",
+        "normalized_key": "github:berriai/litellm",
+        "commit": "90e4962c816695a87f357e0a1774a6369ca4520a"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "system-one-native-router-post-merge-audit-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "authenticated-exact-path-passthrough",
+        "per-consumer-scoped-keys",
+        "credential-isolation",
+        "version-specific-auth-conformance"
+      ],
+      "domain_hints": [
+        "model-routing",
+        "decision",
+        "provider-admission"
+      ],
+      "problem_hints": [
+        "native-api-conformance",
+        "probability-response-validation",
+        "authenticated-provider-gateway"
+      ],
+      "target_hints": [
+        "Model Router",
+        "LLM Gateway",
+        "System One Native Provider"
+      ],
+      "tags": [
+        "native-system-one",
+        "provider-api",
+        "versioned-reference"
+      ],
+      "license": {
+        "declared": "MIT_OSS_WITH_SEPARATELY_LICENSED_ENTERPRISE_DIRECTORY",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-BESPOKE-SYNTH-001",
@@ -13592,6 +13654,68 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TYPESAFE-AI-PYTHON-SDK-001",
+      "name": "TypeSafe official Python SDK",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/typesafe-ai/typesafe-sdk-python",
+        "normalized_key": "github:typesafe-ai/typesafe-sdk-python",
+        "commit": "f078f1e208a0d885154dc758344ae4fce77ac168"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "system-one-native-router-post-merge-audit-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "typed-native-systemone-wire",
+        "provider-specific-model-catalog",
+        "retry-and-rate-limit-contract",
+        "bounded-answer-validation"
+      ],
+      "domain_hints": [
+        "model-routing",
+        "decision",
+        "provider-admission"
+      ],
+      "problem_hints": [
+        "native-api-conformance",
+        "probability-response-validation",
+        "authenticated-provider-gateway"
+      ],
+      "target_hints": [
+        "Decision Fabric",
+        "Model Router",
+        "System One Native Provider"
+      ],
+      "tags": [
+        "native-system-one",
+        "provider-api",
+        "versioned-reference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,

@@ -37,7 +37,8 @@ Start the native bridge in its own restricted systemd scope with transient Secre
 
 ```bash
 python3 src/fa3_model_router_system_one_native_bridge.py \
-  --upstream openrouter --designation /run/fa3/system-one/designation.json --port 0
+  --upstream openrouter --designation /run/fa3/system-one/designation.json \
+  --designation-approval /run/fa3/system-one/model-approval.json --port 0
 ```
 
 The bridge prints the dynamically assigned `http://127.0.0.1:<port>/v1` base. Obtain the real running PID of that process. In a separate scoped transient unit with its own authorized Secret Broker credential projection, create the provider admission receipt and append its descriptor to a registry containing the *already admitted* chat runtimes:
@@ -46,6 +47,7 @@ The bridge prints the dynamically assigned `http://127.0.0.1:<port>/v1` base. Ob
 FA3_SYSTEM_ONE_NATIVE_ENABLE=1 \
 python3 src/fa3_model_router_system_one_admit.py \
   --designation /run/fa3/system-one/designation.json \
+  --designation-approval /run/fa3/system-one/model-approval.json \
   --bridge-api-base "http://127.0.0.1:<port>/v1" \
   --bridge-pid "<actual-pid>" \
   --output /run/fa3/system-one/native-admission.json \
@@ -79,3 +81,9 @@ The E2E gate also needs the existing Secret Broker-projected `FA3_MODEL_ROUTER_M
 ## Fail-closed behavior
 
 Missing provider credential, missing/expired designation, unsupported native catalogue, provider redirects, unknown model, missing or stale provider process, invalid evidence, LiteLLM auth bypass, out-of-range/missing probability, changed generated config, mismatch in receipt hash, or downstream model disagreement all fail the scoped action without execution or fallback. The approval, native provider, Router, HRB and tool-execution authorities remain separate. A passing native bridge admission does **not** imply global FA3 production promotion.
+
+## Exact authenticated primary-model designation
+
+Before the bridge can start or any native provider is admitted, the existing FA3 Trust PKI and Security Governance system must verify a protected `fa3.authenticated-approval-receipt.v2` using receipt type `MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION` and the specifically authorized role `PRIMARY_MODEL_DESIGNATOR`. The Security Governance-signed role grant must authorize this receipt type and retain the existing security governance scope. The signed receipt payload must bind `model_designation_sha256` (SHA-256 of the protected JSON), `provider_id`, `logical_route`, `upstream` and the exact `approved_models` list. The receipt's `source_commit` must match the running repository's exact HEAD. The normal primary-model approval decision remains a prerequisite; a signed file is not a substitute for an authorized decision. Neither credentials nor specimen signatures are put in Git. An operator must provision the real Security Governance role grant and model-designator signing identity before physical admission; CI mocks are reference tests only. On code updates the designation must be reapproved for the exact deployment commit. This adds no new FA3 authority and cannot be bypassed by a self-reported boolean.
+
+The TypeSafe catalogue adapter reads the officially documented `models[].name`; the OpenRouter adapter reads `data[].id`. Wrong provider-specific catalogue shapes fail closed. CPU-only proof requires exactly one *empty* entry for each mask, an exact bridge process command and matching approved designation. Environment masks alone do not prove cgroup device isolation: the deployment still needs HRB-admitted restricted systemd execution with accelerator devices inaccessible, verified as separate current-host evidence. The LiteLLM authentication/probability E2E gate must be rerun for each deployed proxy version or configuration change; static YAML and these CI fixtures are not physical evidence.
