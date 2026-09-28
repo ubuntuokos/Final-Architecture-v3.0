@@ -283,6 +283,7 @@ class NativeRouterTransportTests(unittest.TestCase):
         }), encoding="utf-8")
         native.chmod(0o600)
         self.receipt["admission_receipt_sha256"]["FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"] = sha256_file(native)
+        self.receipt["route_registry_sha256"] = sha256_file(ROOT / "deployment/model-router/routes.json")
         self.save()
         def fake_http(url, method, key, body):
             if key != "broker-test":
@@ -306,7 +307,7 @@ class NativeRouterTransportTests(unittest.TestCase):
         e2e.write_text(json.dumps(proof), encoding="utf-8")
         e2e.chmod(0o600)
         transport = NativeRouterTransport(
-            selection_receipt=self.selection, route_registry=self.registry,
+            selection_receipt=self.selection, route_registry=ROOT / "deployment/model-router/routes.json",
             router_origin="http://127.0.0.1:40001", master_key="broker-test",
             request=lambda *a: {"model": "native-a-version",
                                 "answers": {"q": {"type": "noul", "noul": 0.9}}},
