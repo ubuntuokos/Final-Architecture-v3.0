@@ -72,3 +72,7 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## DAW and music-generation GitHub donor curation
+
+The [DAW and music-generation source review](daw-music-generation-donor-curation-2026-09-28.md) records source-checked candidate metadata for MAGDA, WebDAW and six adjacent repositories, while reusing the existing Ardour/LMMS/Zrythm/ACE-Step/Stable Audio references. It documents selective FA3 Music Studio, Audio Fabric, Voice/Vocal, Video Editor and QuickClip integration boundaries; runtime and code reuse remain independently gated.
