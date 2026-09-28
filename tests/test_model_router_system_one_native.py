@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import datetime as dt
 import math
 import os
 import stat
@@ -19,6 +20,7 @@ from fa3_model_router_materialize import (
     MaterializationDenied, render_litellm, select_bindings, sha256_file,
 )
 from fa3_model_router_system_one_admit import NativeAdmissionDenied, _probe
+from fa3_model_router_system_one_live_gate import NativeRouterE2EDenied, verify_live_router
 from fa3_model_router_system_one_native_bridge import (
     NativeBridge, NativeBridgeDenied, read_projected_credential, server,
 )
@@ -209,6 +211,7 @@ class NativeRouterTransportTests(unittest.TestCase):
                 "selection": "RUNTIME_DISCOVERED",
                 "provider_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
                 "runtime_id": "native-test",
+                "api_base": "http://127.0.0.1:43210/v1",
                 "native_bridge_auth_env": "FA3_SYSTEM_ONE_BRIDGE_TOKEN",
                 "model": "native-a",
             }},
@@ -245,6 +248,83 @@ class NativeRouterTransportTests(unittest.TestCase):
         self.assertEqual(calls[0][1]["model"], "native-a")
         self.assertEqual(response["_fa3_routing"]["data_plane"], "LITELLM_AUTHENTICATED_PASS_THROUGH")
         self.assertEqual(response["_fa3_routing"]["served_model_id"], "native-a-version")
+
+    def test_fake_http_cannot_satisfy_live_e2e_without_real_provider_receipt(self):
+        native = Path(self.tmp.name) / "native-admission.json"
+        native.write_text(json.dumps({
+            "schema": "fa3.system-one-native-current-host-receipt.v1",
+            "result": "PASS", "provider_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+            "selected_model": "native-a", "served_model": "native-a-version",
+            "api_base": "http://127.0.0.1:43210/v1",
+            "real_upstream_response": False,
+            "invalid_bearer_rejected": True,
+            "secret_broker_admission_verified": True,
+        }), encoding="utf-8")
+        native.chmod(0o600)
+        self.receipt["admission_receipt_sha256"]["FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"] = sha256_file(native)
+        self.save()
+        with self.assertRaises(NativeRouterE2EDenied):
+            verify_live_router(
+                root=ROOT, selection=self.selection, native_admission=native,
+                origin="http://127.0.0.1:40001", master_key="test",
+                http=lambda *a: self.fail("fake provider cannot be used"),
+            )
+
+    def test_e2e_proof_requires_real_native_and_litellm_bearer_rejection(self):
+        native = Path(self.tmp.name) / "native-admission.json"
+        native.write_text(json.dumps({
+            "schema": "fa3.system-one-native-current-host-receipt.v1",
+            "result": "PASS", "provider_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+            "selected_model": "native-a", "served_model": "native-a-version",
+            "api_base": "http://127.0.0.1:43210/v1",
+            "real_upstream_response": True,
+            "invalid_bearer_rejected": True,
+            "secret_broker_admission_verified": True,
+        }), encoding="utf-8")
+        native.chmod(0o600)
+        self.receipt["admission_receipt_sha256"]["FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"] = sha256_file(native)
+        self.save()
+        def fake_http(url, method, key, body):
+            if key != "broker-test":
+                return 401, {}
+            return 200, {
+                "model": "native-a-version",
+                "answers": {"e2e_noop_choice": {
+                    "type": "choice", "choice": "observe",
+                    "probabilities": {"observe": 0.92, "handoff": 0.08},
+                }},
+            }
+        proof = verify_live_router(
+            root=ROOT, selection=self.selection, native_admission=native,
+            origin="http://127.0.0.1:40001", master_key="broker-test",
+            http=fake_http,
+        )
+        self.assertEqual(proof["result"], "PASS")
+        self.assertTrue(proof["invalid_and_missing_master_key_rejected"])
+        self.assertFalse(proof["execution_performed"])
+        e2e = Path(self.tmp.name) / "e2e.json"
+        e2e.write_text(json.dumps(proof), encoding="utf-8")
+        e2e.chmod(0o600)
+        transport = NativeRouterTransport(
+            selection_receipt=self.selection, route_registry=self.registry,
+            router_origin="http://127.0.0.1:40001", master_key="broker-test",
+            request=lambda *a: {"model": "native-a-version",
+                                "answers": {"q": {"type": "noul", "noul": 0.9}}},
+        )
+        # Prove stale/scope mismatch is rejected (a mock test is never an admission).
+        proof["captured_at"] = "2020-01-01T00:00:00+00:00"
+        e2e.write_text(json.dumps(proof), encoding="utf-8")
+        with self.assertRaises(RouterNativeDenied):
+            transport.validate_live_e2e(e2e, root=ROOT)
+        # Incorrect LiteLLM authentication must fail independently of native provider authentication.
+        def bad_http(url, method, key, body):
+            return 200, {"model": "native-a-version", "answers": {}}
+        with self.assertRaises(NativeRouterE2EDenied):
+            verify_live_router(
+                root=ROOT, selection=self.selection, native_admission=native,
+                origin="http://127.0.0.1:40001", master_key="broker-test",
+                http=bad_http,
+            )
 
     def test_missing_receipt_drift_and_missing_admission_fail_closed(self):
         transport = NativeRouterTransport(
