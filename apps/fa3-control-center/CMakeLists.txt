@@ -33,6 +33,8 @@ qt_add_executable(fa3-control-center
     src/PreferenceStore.h
     src/SessionVaultService.cpp
     src/SessionVaultService.h
+    src/ScreenplayService.cpp
+    src/ScreenplayService.h
     src/SystemDeviceModel.cpp
     src/SystemDeviceModel.h
 )
@@ -47,6 +49,7 @@ set_source_files_properties(qml/ProviderExecutionView.qml PROPERTIES QT_RESOURCE
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SubtitleStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS SubtitleStudioPage.qml)
 set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS NarrationStudioPage.qml)
+set_source_files_properties(qml/StoryScreenplayPage.qml PROPERTIES QT_RESOURCE_ALIAS StoryScreenplayPage.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
@@ -85,6 +88,7 @@ qt_add_qml_module(fa3-control-center
         qml/AiStudioPage.qml
         qml/SubtitleStudioPage.qml
         qml/NarrationStudioPage.qml
+        qml/StoryScreenplayPage.qml
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
@@ -134,6 +138,7 @@ install(TARGETS fa3-control-center
 install(PROGRAMS
     "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/fa3-session-vault-init"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/fa3-screenplay"
     DESTINATION libexec
 )
 
@@ -142,6 +147,12 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-REQUEST-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
     DESTINATION share/fa3/canonical
+)
+
+install(FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../src/fa3_screenplay.py"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../src/fa3_screenplay_cli.py"
+    DESTINATION share/fa3/python
 )
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../deployment/app-providers/"
