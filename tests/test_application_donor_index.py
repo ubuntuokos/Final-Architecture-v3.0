@@ -69,6 +69,43 @@ class ApplicationDonorIndexTests(unittest.TestCase):
         self.assertTrue(all(e["human_approval_required"] and not e["automatic_activation"]
                             for e in report["cross_application_links"]))
 
+    def test_quickclip_donor_and_planned_handovers(self):
+        registry = json.loads((ROOT / SOURCES[2]).read_text())
+        self.assertEqual(registry["backfill"]["entry_count"], len(registry["entries"]))
+        matches = [row for row in registry["entries"]
+                   if row["source"]["normalized_key"] == "github:yils-lin/short-video-factory"]
+        self.assertEqual(len(matches), 1)
+        donor = matches[0]
+        self.assertEqual(donor["status"], "CANDIDATE")
+        self.assertEqual(donor["license"]["declared"], "AGPL-3.0")
+        self.assertEqual(donor["code_reuse_policy"],
+                         "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
+        self.assertFalse(donor["automatic_code_import"])
+        self.assertFalse(donor["automatic_provider_admission"])
+        self.assertFalse(donor["automatic_model_selection"])
+        self.assertTrue((ROOT / donor["selection_scope"]["implementation_plan"]).exists())
+
+        report = build_index(ROOT)
+        self.assertEqual(report["validation"]["result"], "PASS", report["validation"]["findings"])
+        by_id = {row["application_id"]: row for row in report["applications"]}
+        donor_suggestions = {row["donor_id"] for row in by_id["fa3.quickclip"]["suggested_donors"]}
+        self.assertIn(donor["donor_id"], donor_suggestions)
+        by_edge = {row["id"]: row for row in report["cross_application_links"]}
+        expected_edges = {
+            "FA3-APP-LINK-STORY-QUICKCLIP": ("fa3.story-screenplay", "fa3.quickclip"),
+            "FA3-APP-LINK-MUSIC-QUICKCLIP": ("fa3.music-studio", "fa3.quickclip"),
+            "FA3-APP-LINK-QUICKCLIP-MAUTIC": ("fa3.quickclip", "studio.mautic"),
+        }
+        for edge_id, (source, target) in expected_edges.items():
+            self.assertIn(edge_id, by_edge)
+            edge = by_edge[edge_id]
+            self.assertEqual((edge["from_application"], edge["to_application"]),
+                             (source, target))
+            self.assertEqual(edge["status"], "PROPOSED")
+            self.assertTrue(edge["human_approval_required"])
+            self.assertFalse(edge["automatic_activation"])
+            self.assertFalse(edge["automatic_code_import"])
+
     def test_new_donor_targets_only_matching_application(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
