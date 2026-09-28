@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 314,
+    "entry_count": 317,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -189,6 +189,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ACADEMY-OPENTIMELINEIO-001",
+      "name": "Academy OpenTimelineIO",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/OpenTimelineIO",
+        "normalized_key": "github:academysoftwarefoundation/opentimelineio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "INTERCHANGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "shot-cut-timing-interchange",
+        "editable-metadata-transit",
+        "editorial-timebase-reference"
+      ],
+      "domain_hints": [
+        "creative-production",
+        "worldbuilding",
+        "scene-planning"
+      ],
+      "problem_hints": [
+        "narrative-world-continuity",
+        "reusable-existing-runtime-interchange"
+      ],
+      "target_hints": [
+        "World & Event Director",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "world-event-director",
+        "selective-donor-candidate",
+        "story-driven-worldbuilding"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Editorial interchange only; preserves FA3 Video Editor timeline authority and media reference ownership."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ACE-STEP-1-5-001",
@@ -1367,7 +1429,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -1390,8 +1453,9 @@
         "historical-provenance-and-regional-season"
       ],
       "target_hints": [
+        "Scene / Shot Designer",
         "World & Environment Studio",
-        "Scene / Shot Designer"
+        "World & Event Director"
       ],
       "tags": [
         "daypart",
@@ -2413,7 +2477,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-natural-phenomena-review-2026-09-28"
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -2437,8 +2502,9 @@
       ],
       "target_hints": [
         "Bforartists",
+        "VFX Studio",
         "World & Environment Studio",
-        "VFX Studio"
+        "World & Event Director"
       ],
       "tags": [
         "selective-adapter-candidate",
@@ -3151,7 +3217,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-natural-phenomena-review-2026-09-28"
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -3174,9 +3241,10 @@
         "physical-effects-and-data-provenance"
       ],
       "target_hints": [
-        "World & Environment Studio",
         "3D Fabric",
-        "Realtime / Virtual Production Interchange"
+        "Realtime / Virtual Production Interchange",
+        "World & Environment Studio",
+        "World & Event Director"
       ],
       "tags": [
         "selective-adapter-candidate",
@@ -4524,6 +4592,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ECLIPSE-SUMO-001",
+      "name": "Eclipse SUMO",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/eclipse-sumo/sumo",
+        "normalized_key": "github:eclipse-sumo/sumo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-network-traffic-scenario",
+        "intermodal-vehicle-pedestrian-response",
+        "story-event-route-diversion"
+      ],
+      "domain_hints": [
+        "creative-production",
+        "worldbuilding",
+        "scene-planning"
+      ],
+      "problem_hints": [
+        "narrative-world-continuity",
+        "reusable-existing-runtime-interchange"
+      ],
+      "target_hints": [
+        "World & Event Director",
+        "World & Environment Studio",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "world-event-director",
+        "selective-donor-candidate",
+        "story-driven-worldbuilding"
+      ],
+      "license": {
+        "declared": "EPL-2.0 (repository license; dependencies and supplemental components separately reviewed)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional network/transport simulator; historic routes and traffic demand require independent time-valid sources; no false exact street traffic."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-EMOCA-001",
@@ -8415,6 +8544,67 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MESA-AGENT-BASED-MODELING-001",
+      "name": "Mesa agent-based modeling",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mesa/mesa",
+        "normalized_key": "github:mesa/mesa"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-based-crowd-scenario",
+        "spatial-interaction-pattern",
+        "narrative-triggered-pedestrian-behavior"
+      ],
+      "domain_hints": [
+        "creative-production",
+        "worldbuilding",
+        "scene-planning"
+      ],
+      "problem_hints": [
+        "narrative-world-continuity",
+        "reusable-existing-runtime-interchange"
+      ],
+      "target_hints": [
+        "World & Event Director",
+        "World & Environment Studio",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "world-event-director",
+        "selective-donor-candidate",
+        "story-driven-worldbuilding"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Behavioral simulation reference, not documented historic street-crowd observations or validated life-safety emergency behavior."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MICA-001",
@@ -12445,7 +12635,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -12467,9 +12658,10 @@
         "historical-provenance-and-regional-season"
       ],
       "target_hints": [
-        "World & Environment Studio",
         "3D Fabric",
-        "Scene / Shot Designer"
+        "Scene / Shot Designer",
+        "World & Environment Studio",
+        "World & Event Director"
       ],
       "tags": [
         "historical-maps",
@@ -12857,7 +13049,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-natural-phenomena-review-2026-09-28"
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -12880,9 +13073,10 @@
         "physical-effects-and-data-provenance"
       ],
       "target_hints": [
+        "3D Fabric",
         "VFX Studio",
         "World & Environment Studio",
-        "3D Fabric"
+        "World & Event Director"
       ],
       "tags": [
         "selective-adapter-candidate",
@@ -13844,6 +14038,7 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28",
         "pixar-github-org-curation-2026-09-28"
       ],
       "first_seen": "2026-09-28",
@@ -13899,6 +14094,7 @@
         "Realtime / Virtual Production Interchange",
         "VFX/Gaffer",
         "World & Environment Studio",
+        "World & Event Director",
         "World Generator"
       ],
       "tags": [
@@ -14733,7 +14929,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -14756,9 +14953,10 @@
         "historical-provenance-and-regional-season"
       ],
       "target_hints": [
-        "World & Environment Studio",
+        "3D Fabric",
         "Scene / Shot Designer",
-        "3D Fabric"
+        "World & Environment Studio",
+        "World & Event Director"
       ],
       "tags": [
         "solar-model",
@@ -16863,7 +17061,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -16885,8 +17084,9 @@
         "historical-provenance-and-regional-season"
       ],
       "target_hints": [
+        "Weather & Geo Data Provider",
         "World & Environment Studio",
-        "Weather & Geo Data Provider"
+        "World & Event Director"
       ],
       "tags": [
         "timezone",
