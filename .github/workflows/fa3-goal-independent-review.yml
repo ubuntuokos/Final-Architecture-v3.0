@@ -1,0 +1,36 @@
+name: FA3 Goal Independent Review
+on:
+  pull_request:
+    paths:
+      - "src/fa3_goal_independent_review.py"
+      - "tests/test_goal_independent_review.py"
+      - "apps/fa3-control-center/src/DecisionFabricService.h"
+      - "apps/fa3-control-center/src/DecisionFabricService.cpp"
+      - "apps/fa3-control-center/qml/AgentActionCenterPage.qml"
+      - ".github/workflows/fa3-goal-independent-review.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_goal_independent_review.py"
+      - "tests/test_goal_independent_review.py"
+      - "apps/fa3-control-center/src/DecisionFabricService.h"
+      - "apps/fa3-control-center/src/DecisionFabricService.cpp"
+      - "apps/fa3-control-center/qml/AgentActionCenterPage.qml"
+      - ".github/workflows/fa3-goal-independent-review.yml"
+permissions:
+  contents: read
+jobs:
+  independent-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source and reviewer regression
+        run: |
+          python3 -m py_compile src/fa3_goal_independent_review.py tests/test_goal_independent_review.py
+          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_independent_review.py" -v
+      - name: Existing goal foundation regression
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_execution_foundation.py" -v
+      - name: GUI read-only binding regression
+        run: |
+          grep -q 'Q_PROPERTY(QVariantMap goalReview' apps/fa3-control-center/src/DecisionFabricService.h
+          grep -q 'CANONICAL GATE REQUIRED' apps/fa3-control-center/qml/AgentActionCenterPage.qml
