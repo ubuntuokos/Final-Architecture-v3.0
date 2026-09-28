@@ -114,6 +114,16 @@ def auth_header(candidate: dict[str, Any]) -> dict[str, str]:
     if not env_name:
         return {}
     token = os.environ.get(env_name, "").strip()
+    if not token and env_name == "FA3_SYSTEM_ONE_BRIDGE_TOKEN":
+        # The current-host native bridge credentials are systemd LoadCredential
+        # files from Secret Broker, not a globally stored environment value.
+        import stat
+        directory = os.environ.get("CREDENTIALS_DIRECTORY", "")
+        if directory:
+            path = Path(directory) / "fa3-system-one-bridge-token"
+            if (not path.is_symlink() and path.is_file()
+                    and stat.S_IMODE(path.stat().st_mode) in {0o400, 0o600}):
+                token = path.read_text(encoding="utf-8").strip()
     if not token:
         raise MaterializationDenied(f"backend API key environment variable is empty: {env_name}")
     return {"Authorization": f"Bearer {token}"}
