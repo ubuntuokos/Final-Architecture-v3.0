@@ -342,6 +342,51 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
             receipt = (root / receipt).resolve()
         if not receipt_proves_provider(receipt, provider_id, admission_api_base):
             raise MaterializationDenied(f"current-host admission receipt does not prove provider instance: {provider_id}")
+        apis = row.get("runtime_apis", ["OPENAI_COMPATIBLE_CHAT"])
+        if not isinstance(apis, list) or not apis or any(
+            api not in {"OPENAI_COMPATIBLE_CHAT", "SYSTEM_ONE_DECISIONS_V1"} for api in apis
+        ):
+            raise MaterializationDenied(f"unknown native runtime API: {runtime_id}")
+        if "SYSTEM_ONE_DECISIONS_V1" in apis:
+            if (
+                apis != ["SYSTEM_ONE_DECISIONS_V1"]
+                or provider_id != "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"
+                or row.get("routes") != ["fa3-decision-system-one"]
+                or row.get("native_bridge_auth_env") != "FA3_SYSTEM_ONE_BRIDGE_TOKEN"
+            ):
+                raise MaterializationDenied("native System One provider must be explicitly scoped and projected")
+            designation_path = str(row.get("model_designation_receipt", "")).strip()
+            if not designation_path:
+                raise MaterializationDenied("native System One provider requires primary-model designation receipt")
+            designation = Path(designation_path).expanduser()
+            if not designation.is_absolute():
+                designation = (root / designation).resolve()
+            if not designation.is_file():
+                raise MaterializationDenied("model designation receipt is missing")
+            approved = loadj(designation)
+            if not (
+                approved.get("schema") == "fa3.system-one-model-designation.v1"
+                and approved.get("result") == "PASS"
+                and approved.get("router_authority") == AUTHORITY
+                and approved.get("provider_id") == provider_id
+                and approved.get("logical_route") == "fa3-decision-system-one"
+                and approved.get("approved_by_primary_model") is True
+                and approved.get("approved_models") == row.get("approved_models")
+                and isinstance(row.get("approved_models"), list)
+                and bool(row["approved_models"])
+            ):
+                raise MaterializationDenied("native System One model designation does not bind approved model set")
+            native_rec = loadj(receipt)
+            if not (
+                native_rec.get("schema") == "fa3.system-one-native-current-host-receipt.v1"
+                and native_rec.get("protocol") == "SYSTEM_ONE_DECISIONS_V1"
+                and native_rec.get("real_upstream_response") is True
+                and native_rec.get("invalid_bearer_rejected") is True
+                and native_rec.get("secret_broker_admission_verified") is True
+                and native_rec.get("model_designation_sha256") == sha256_file(designation)
+                and native_rec.get("selected_model") in row["approved_models"]
+            ):
+                raise MaterializationDenied("native System One current-host receipt lacks real upstream/security proof")
         copy = dict(row)
         copy["provider_id"] = provider_id
         copy["runtime_id"] = runtime_id
