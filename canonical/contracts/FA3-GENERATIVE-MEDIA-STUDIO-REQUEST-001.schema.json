@@ -4,28 +4,83 @@
   "title": "FA3 Generative Media Studio Request",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "request_id", "created_at", "application_id", "capability", "intent", "route", "authority_handoff", "hardware_audit", "state", "runtime_success_claim"],
+  "required": [
+    "schema",
+    "request_id",
+    "created_at",
+    "application_id",
+    "uaf_action",
+    "capability",
+    "intent",
+    "route",
+    "authority_handoff",
+    "hardware_audit",
+    "state",
+    "runtime_success_claim"
+  ],
   "properties": {
-    "schema": {"const": "fa3.generative-media-studio-request.v1"},
-    "request_id": {"type": "string", "minLength": 1},
-    "created_at": {"type": "string", "format": "date-time"},
-    "application_id": {"const": "FA3-GENERATIVE-MEDIA-STUDIO-001"},
-    "capability": {"enum": ["IMAGE_T2I","IMAGE_I2I","VIDEO_T2V","VIDEO_I2V","VIDEO_TI2V","VIDEO_S2V","LIPSYNC","CHARACTER_ANIMATE"]},
+    "schema": {
+      "const": "fa3.generative-media-studio-request.v1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "application_id": {
+      "const": "FA3-GENERATIVE-MEDIA-STUDIO-001"
+    },
+    "capability": {
+      "enum": [
+        "IMAGE_T2I",
+        "IMAGE_I2I",
+        "VIDEO_T2V",
+        "VIDEO_I2V",
+        "VIDEO_TI2V",
+        "VIDEO_S2V",
+        "LIPSYNC",
+        "CHARACTER_ANIMATE"
+      ]
+    },
     "intent": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["prompt", "aspect_ratio", "references"],
+      "required": [
+        "prompt",
+        "aspect_ratio",
+        "references"
+      ],
       "properties": {
-        "prompt": {"type": "string", "minLength": 1},
-        "aspect_ratio": {"type": "string", "minLength": 1},
-        "duration_seconds": {"type": "integer", "minimum": 6, "maximum": 20},
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aspect_ratio": {
+          "type": "string",
+          "minLength": 1
+        },
+        "duration_seconds": {
+          "type": "integer",
+          "minimum": 6,
+          "maximum": 20
+        },
         "references": {
           "type": "array",
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["ref"],
-            "properties": {"ref": {"type": "string", "minLength": 1}}
+            "required": [
+              "ref"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
           }
         }
       }
@@ -33,44 +88,121 @@
     "route": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["logical_route", "authority", "physical_provider_pin", "physical_model_pin"],
+      "required": [
+        "logical_route",
+        "authority",
+        "physical_provider_pin",
+        "physical_model_pin"
+      ],
       "properties": {
-        "logical_route": {"const": "creative.generative-media"},
-        "authority": {"const": "FA3-AUTH-MODEL-ROUTER-001"},
-        "physical_provider_pin": {"const": false},
-        "physical_model_pin": {"const": false}
+        "logical_route": {
+          "const": "creative.generative-media"
+        },
+        "authority": {
+          "const": "FA3-AUTH-MODEL-ROUTER-001"
+        },
+        "physical_provider_pin": {
+          "const": false
+        },
+        "physical_model_pin": {
+          "const": false
+        }
       }
     },
     "authority_handoff": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["action_execution", "host_resources", "secrets", "evidence"],
+      "required": [
+        "action_execution",
+        "host_resources",
+        "secrets",
+        "evidence"
+      ],
       "properties": {
-        "action_execution": {"const": "FA3-UNIFIED-ACTION-FABRIC-001"},
-        "host_resources": {"const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"},
-        "secrets": {"const": "FA3-SECRET-BROKER-001"},
-        "evidence": {"const": "FA3-AUTH-OBS-EVIDENCE-001"}
+        "action_execution": {
+          "const": "FA3-UNIFIED-ACTION-FABRIC-001"
+        },
+        "host_resources": {
+          "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        },
+        "secrets": {
+          "const": "FA3-SECRET-BROKER-001"
+        },
+        "evidence": {
+          "const": "FA3-AUTH-OBS-EVIDENCE-001"
+        }
       }
     },
     "hardware_audit": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["vendor_neutral", "cpu_only_architecture_supported", "accelerator_cardinality", "placement"],
+      "required": [
+        "vendor_neutral",
+        "cpu_only_architecture_supported",
+        "accelerator_cardinality",
+        "placement"
+      ],
       "properties": {
-        "vendor_neutral": {"const": true},
-        "cpu_only_architecture_supported": {"const": true},
-        "accelerator_cardinality": {"const": "0..N"},
-        "placement": {"const": "HRB_DOWNSTREAM"}
+        "vendor_neutral": {
+          "const": true
+        },
+        "cpu_only_architecture_supported": {
+          "const": true
+        },
+        "accelerator_cardinality": {
+          "const": "0..N"
+        },
+        "placement": {
+          "const": "HRB_DOWNSTREAM"
+        }
       }
     },
-    "state": {"const": "PENDING_ADMISSION"},
-    "runtime_success_claim": {"const": false}
+    "state": {
+      "const": "PENDING_ADMISSION"
+    },
+    "runtime_success_claim": {
+      "const": false
+    },
+    "uaf_action": {
+      "const": "media.generate.execute"
+    }
   },
   "allOf": [
     {
-      "if": {"properties": {"capability": {"enum": ["VIDEO_T2V","VIDEO_I2V","VIDEO_TI2V","VIDEO_S2V","LIPSYNC","CHARACTER_ANIMATE"]}}},
-      "then": {"properties": {"intent": {"required": ["duration_seconds"]}}},
-      "else": {"properties": {"intent": {"not": {"required": ["duration_seconds"]}}}}
+      "if": {
+        "properties": {
+          "capability": {
+            "enum": [
+              "VIDEO_T2V",
+              "VIDEO_I2V",
+              "VIDEO_TI2V",
+              "VIDEO_S2V",
+              "LIPSYNC",
+              "CHARACTER_ANIMATE"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "intent": {
+            "required": [
+              "duration_seconds"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "intent": {
+            "not": {
+              "required": [
+                "duration_seconds"
+              ]
+            }
+          }
+        }
+      }
     }
   ]
 }
