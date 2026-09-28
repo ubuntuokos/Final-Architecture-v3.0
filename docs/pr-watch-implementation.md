@@ -28,7 +28,7 @@ An admitted Secret Broker caller must arrange a preopened FD containing the GitH
 
 ```sh
 # Secret Broker provides an already open FD 3; no plaintext secret is stored.
-PYTHONPATH=src python3 bin/fa3-pr-watch-receiver --secret-fd 3 --bind 127.0.0.1 --port 0
+PYTHONPATH=src python3 bin/fa3-pr-watch-receiver --secret-fd 3 --bind 127.0.0.1 --port 0 --allow-repo ubuntuokos/Final-Architecture-v3.0
 # prints {"listen":"http://127.0.0.1:<dynamic-port>/github", ...}
 ```
 

@@ -42,7 +42,9 @@
     "older_revision": "STALE_NO_MUTATION",
     "same_revision_different_head": "CONFLICT_NO_MUTATION",
     "raw_untrusted_body_persisted": false,
-    "check_run_requires_unique_pr_binding": true
+    "check_run_requires_unique_pr_binding": true,
+    "repository_allowlist_required": true,
+    "explicit_app_or_repository_installation_required": true
   },
   "work_management": {
     "surface": "apps/fa3-control-center/qml/WorkManagementPage.qml",
@@ -70,7 +72,10 @@
     "direct_agent_execution": false,
     "protected_branch_direct_commit": false,
     "auto_merge": false,
-    "provider_switch_without_approval": false
+    "provider_switch_without_approval": false,
+    "existing_uaf_bridge": "src/fa3_pr_watch_workload_bridge.py",
+    "external_security_and_human_approval_required": true,
+    "existing_hrb_and_evidence_callbacks_required": true
   },
   "evidence": {
     "projection": "src/fa3_pr_watch.py::preview_evidence",
@@ -116,7 +121,18 @@
     "service": "deployment/pr-watch/fa3-pr-watch.service",
     "lifecycle": "REQUIRES_AND_PART_OF_FA3_SECRETS_TARGET",
     "no_cleartext_credential_in_argv_environment_files": true,
-    "automatic_deployment": false
+    "automatic_deployment": false,
+    "dedicated_private_state": "/var/lib/fa3-pr-watch/fa3/pr-watch/projection.json",
+    "redacted_operator_export": {
+      "module": "src/fa3_pr_watch_operator_export.py",
+      "file": "/run/fa3-pr-watch/operator.json",
+      "directory_mode": "0750",
+      "file_mode": "0640",
+      "group": "fa3-pr-watch-viewers",
+      "cross_uid_only_with_explicit_group_grant": true,
+      "exported_fields_only": true,
+      "can_read_broker_secret": false
+    }
   },
   "reference_e2e": {
     "status": "SOURCE_MATERIALIZED_CI_REFERENCE_ONLY",
@@ -128,5 +144,19 @@
     "authorized_external_pr_execution": false,
     "canonical_gate_promotion": false,
     "current_host_evidence": false
+  },
+  "deployment": {
+    "service_renderer": "src/fa3_pr_watch_service_render.py",
+    "cli": "bin/fa3-pr-watch-render-service",
+    "templates": [
+      "deployment/pr-watch/fa3-pr-watch.service",
+      "deployment/pr-watch/policy.example.json"
+    ],
+    "manifest_status": "READ_ONLY_PRIVATE_REPO_SCOPED_ADMIN_INSTALL_ONLY",
+    "secret_kind": "GENERIC_FA3_CREDENTIAL",
+    "automatic_github_app_registration": false,
+    "automatic_host_install": false,
+    "production_webhook_relay": "INDEPENDENT_ADMIN_APPROVAL_REQUIRED",
+    "adguardhome_port_changes": false
   }
 }
