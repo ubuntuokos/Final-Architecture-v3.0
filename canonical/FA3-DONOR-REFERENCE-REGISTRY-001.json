@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 291,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -12809,6 +12809,99 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "May not become the Unified Memory Gateway or memory authority."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-PIXAR-OPENUSD-001",
+      "name": "Pixar Animation Studios OpenUSD",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/OpenUSD",
+        "normalized_key": "github:pixaranimationstudios/openusd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-explicit-github-donor-2026-09-28",
+        "official-openusd-upstream-verification-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "usd-scene-composition",
+        "layered-scene-description",
+        "usd-asset-interchange",
+        "usd-variant-and-payload-workflows",
+        "hydra-render-delegation",
+        "usd-schema-extension",
+        "usd-time-sampled-animation"
+      ],
+      "domain_hints": [
+        "3d",
+        "scene",
+        "dcc",
+        "asset-graph",
+        "virtual-production",
+        "animation",
+        "rendering",
+        "vfx"
+      ],
+      "problem_hints": [
+        "non-destructive-scene-composition",
+        "cross-application-3d-interchange",
+        "asset-provenance-and-versioned-references",
+        "shot-scene-data-exchange"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "Bforartists",
+        "Character Studio",
+        "World Generator",
+        "FA3 Video Editor",
+        "Realtime / Virtual Production Interchange",
+        "Render Fabric",
+        "VFX/Gaffer"
+      ],
+      "tags": [
+        "openusd",
+        "usd",
+        "pixar",
+        "scenegraph",
+        "asset-composition",
+        "usda",
+        "usdc",
+        "usdz",
+        "hydra",
+        "usdskel",
+        "usdshade",
+        "usdlux",
+        "usdgeom",
+        "arresolver",
+        "khronos-interoperability"
+      ],
+      "license": {
+        "declared": "TOST-1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Verified official upstream tag v26.08 resolves to commit ee47c679abde5b467a7b6a41f3b2285564a4222e (tag verified 2026-09-28). Upstream license text declares Tomorrow Open Source Technology License 1.0; bundled third-party notices require independent review before code redistribution.",
+        "Reference-only donor for future FA3 scene/shot/asset interchange. Do not replace native .blend/.kra/.kdenlive or FA3 .fa3video project formats. No automatic USD plugin loading, ArResolver network/FS access, Hydra backend admission, or hardware/vendor requirement.",
+        "Metadata-only capture; CPU-only, 0..N accelerators, Wayland/X11-agnostic; HRB remains resource authority, Model Router remains sole model-routing authority; no Unreal Engine target."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-PIXEL3DMM-001",
