@@ -24,3 +24,4 @@ target_link_libraries(fa3-generative-media-studio PRIVATE
 )
 
 install(TARGETS fa3-generative-media-studio RUNTIME DESTINATION bin)
+install(FILES packaging/org.fa3.GenerativeMediaStudio.desktop DESTINATION share/applications)
