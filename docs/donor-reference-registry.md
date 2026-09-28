@@ -52,3 +52,11 @@ conversation-event streams. The event API is ready for an authorized external
 source; neither the registry nor agent instructions can independently subscribe
 to all ChatGPT conversations. Import remains a non-authoritative candidate
 capture path.
+
+## Historical selective reuse review
+
+The [archived Architecture v1/v2/v3 review](donor-historical-selective-review.md)
+labels selected capabilities, partial implementation patterns and intended
+current or future FA3 application targets without adopting entire upstream
+applications or changing FA3 runtime, provider, hardware or model authorities.
+Historical `REF`/`REQ` designations are not present-day admission approvals.

@@ -31,6 +31,9 @@ on:
       - "bin/fa3-donor-chat-watch-install"
       - "tests/test_donor_chat_inbox.py"
       - "tests/test_donor_chat_watch_install.py"
+      - "tests/test_donor_historical_partial_reuse.py"
+      - "docs/donor-historical-selective-review.md"
+      - "docs/donor-reference-registry.md"
       - "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json"
       - "bin/fa3-donor-chat-import"
       - "tests/test_donor_chat_import.py"
@@ -72,6 +75,8 @@ jobs:
         run: PYTHONPATH=src python -m unittest tests.test_donor_chat_inbox -v
       - name: Opt-in systemd watcher installer regression
         run: PYTHONPATH=src python -m unittest tests.test_donor_chat_watch_install -v
+      - name: Historical selective donor source and authority regressions
+        run: PYTHONPATH=src python -m unittest tests.test_donor_historical_partial_reuse -v
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
       - name: Full repository unit regression
