@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 314,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -997,6 +997,65 @@
       "notes": [
         "Adapter candidate; own provider database not canonical."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMPHION-001",
+      "name": "Amphion",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-mmlab/Amphion",
+        "normalized_key": "github:open-mmlab/amphion"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "speech",
+        "research"
+      ],
+      "problem_hints": [
+        "singing voice synthesis",
+        "vocoder evaluation",
+        "text/audio generation research"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Voice/Vocal",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT code license observed; specific model weights and training datasets may have separate rights. Existing FA3 MusicGeneration contracts, Model Router and HRB remain exclusive execution path."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-ANIL-MATCHA-OPEN-GENERATIVE-AI-001",
@@ -2943,6 +3002,63 @@
         "image-pipeline",
         "color",
         "raw"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLAP-AUDIO-PLUGIN-API-001",
+      "name": "CLAP Audio Plugin API",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/free-audio/clap",
+        "normalized_key": "github:free-audio/clap"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "plugin",
+        "standard"
+      ],
+      "problem_hints": [
+        "stable host-plugin ABI",
+        "plugin capability negotiation",
+        "synth/effect interoperability"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT license observed. Standard/API donor only; plugin hosting requires isolation, scanner hardening, reproducible discovery and explicit admission."
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -5873,6 +5989,62 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-GRIDSOUND-001",
+      "name": "GridSound",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gridsound/daw",
+        "normalized_key": "github:gridsound/daw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "browser-daw"
+      ],
+      "problem_hints": [
+        "browser-based synthesizer UI",
+        "drum sequencing and Web Audio patterns"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "AGPL-3.0 license observed and README describes application as half open-source; research/UI reference only pending component-by-component provenance and licence review."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-GSPLAT-001",
       "name": "gsplat",
       "source": {
@@ -7683,6 +7855,64 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MAGDA-001",
+      "name": "MAGDA",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Conceptual-Machines/magda-core",
+        "normalized_key": "github:conceptual-machines/magda-core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "agentic-editing"
+      ],
+      "problem_hints": [
+        "hybrid audio/MIDI tracks",
+        "typed AI-driven DAW editing",
+        "transport-scoped remote API"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "GPL-3.0 license observed; early v0 software. Use remote API/DSL concepts only until full licensing, security and compatibility audit. Do not reuse embedded provider routing or bearer-token storage; FA3 Gateway/Model Router/HRB remain authoritative."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-MATCHERING-001",
@@ -11807,6 +12037,63 @@
         "image-pipeline",
         "color",
         "raw"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENDAW-001",
+      "name": "openDAW",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/andremichelle/openDAW",
+        "normalized_key": "github:andremichelle/opendaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "browser-daw"
+      ],
+      "problem_hints": [
+        "browser-first DAW composition workflow",
+        "privacy-conscious UI",
+        "headless music session patterns"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "AGPL-3.0-or-later license observed. Research/reference only; do not embed source without distribution/network copyleft review. Keep distinct from previously recorded openDAW/headless project candidate."
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -16745,6 +17032,63 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-TRACKTION-ENGINE-001",
+      "name": "Tracktion Engine",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Tracktion/tracktion_engine",
+        "normalized_key": "github:tracktion/tracktion_engine"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "engine"
+      ],
+      "problem_hints": [
+        "sequencer architecture",
+        "offline render and audio engine patterns",
+        "automation/session design"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "GPL-3.0-or-later/commercial dual licensing observed; JUCE has a separate licence. Architecture/reference only pending full commercial distribution review; do not add as FA3 runtime dependency."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-TSUMUGI-001",
       "name": "Tsumugi",
       "source": {
@@ -17453,6 +17797,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-WAVEFORM-PLAYLIST-001",
+      "name": "Waveform Playlist",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/naomiaro/waveform-playlist",
+        "normalized_key": "github:naomiaro/waveform-playlist"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "media",
+        "waveform"
+      ],
+      "problem_hints": [
+        "multitrack waveform editing",
+        "time-synced annotations",
+        "clip fades/trim and export"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Voice/Vocal",
+        "Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT license observed. React/Tone.js implementation may be selectively adapted, not used to replace FA3 Qt6/QML GUI or native project formats."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-WBENCH-001",
       "name": "meituan-longcat/WBench",
       "source": {
@@ -17485,6 +17888,64 @@
         "world-generation",
         "simulation",
         "donor"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-WEBDAW-001",
+      "name": "WebDAW",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ai-music/webdaw",
+        "normalized_key": "github:ai-music/webdaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "browser-daw"
+      ],
+      "problem_hints": [
+        "browser-side audio/MIDI project model",
+        "portable composition UI",
+        "Web Audio/Web MIDI interchange"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Creative Studio"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT license observed. Repository's latest main commit observed 2024-02-02; Web Audio Modules 2.0 is a documented intention, not verified complete integration. Review code health and third-party assets before reuse."
       ],
       "license": {
         "declared": "UNKNOWN",
