@@ -60,6 +60,43 @@ class NestedToolGuardTests(unittest.TestCase):
             "seccomp_sha256": hashlib.sha256(self.profile.read_bytes()).hexdigest(),
         }
 
+    def test_existing_workload_api_rejects_raw_runtime_access_and_cross_task(self):
+        from fa3_agent_workload import (
+            WorkloadContractError, compile_nested_tool_action, validate_task,
+        )
+        task = {
+            "schema": "fa3.agent-workload-task.v1",
+            "task_id": self.request["task_id"],
+            "root_task_id": self.request["task_id"],
+            "action_ref": "orchestration.execute",
+            "agent_definition_ref": "agent:1",
+            "resource_requirements": {"cpu_physical_cores": 1},
+            "network_envelope_ref": "net:deny",
+            "model_intent": {"capability": "coding"},
+            "authorized_ai_participants": ["agent:1"],
+            "fanout_limits": {
+                "max_children": 1, "max_depth": 1,
+                "max_concurrent_children": 1, "max_runtime_seconds": 60,
+                "max_retries": 0, "max_tool_calls": 1, "max_model_requests": 1,
+            },
+        }
+        result = compile_nested_tool_action(
+            task, self.request, preverified_admission=self.admission,
+        )
+        self.assertEqual("GVISOR", result["backend"])
+        with self.assertRaises(WorkloadContractError):
+            validate_task({**task, "podman_flags": ["--privileged"]})
+        with self.assertRaises(WorkloadContractError):
+            compile_nested_tool_action(
+                task, {**self.request, "task_id": "another-task"},
+                preverified_admission=self.admission,
+            )
+        with self.assertRaises(WorkloadContractError):
+            compile_nested_tool_action(
+                task, self.request,
+                preverified_admission={**self.admission, "network_mode": "ALLOW"},
+            )
+
     def test_reference_static_regressions(self):
         self.assertEqual((True, True), static_regression_pair())
 
