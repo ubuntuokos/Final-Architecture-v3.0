@@ -3127,6 +3127,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-COCO-PREPRODUCTION-001",
+      "name": "Coco Preproduction",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gujiapeng1991-droid/coco-preproduction",
+        "normalized_key": "github:gujiapeng1991-droid/coco-preproduction"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Scene schedule sheet and scene summary/grouping",
+        "Character bibles and relationship graph layout",
+        "Per-scene cast/props/VFX report projections"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Film Planning",
+        "Character Studio",
+        "Creative Studio"
+      ],
+      "tags": [
+        "shooting-breakdown",
+        "xlsx",
+        "character-bible",
+        "relationship-graph",
+        "scene-summary"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Production sheet and character graph reference; its heuristic weighted page estimates cannot replace true per-scene pagination or FDX embedded lengths; no auto package installs, no unreviewed office codec changes.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-COLIBRI-001",
       "name": "Colibrì",
       "source": {
@@ -5800,6 +5862,60 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-SCRIPT-BREAKDOWN-TOPIC-001",
+      "name": "GitHub script-breakdown topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/script-breakdown",
+        "normalized_key": "github:topics/script-breakdown"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Discover script and production breakdown donors"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "discovery-index",
+        "script-breakdown"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery only: source-specific license, provenance and feature review required before admission.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
       "name": "GL-Colour-Grading",
       "source": {
@@ -6884,6 +7000,69 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-JELLYFISH-SHORT-DRAMA-STUDIO-001",
+      "name": "Jellyfish short-drama studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/meo9805/Jellyfish",
+        "normalized_key": "github:meo9805/jellyfish"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Script/chapter-to-shot preparation and confirmed asset/dialogue candidates",
+        "Per-shot readiness before generation and status-aware task handoff",
+        "Reused character/scene/prop/costume entity references"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "short-drama",
+        "shot-readiness",
+        "asset-consistency",
+        "production-handoff",
+        "async-jobs"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Selective reference only: upstream model/provider manager, async task center and project authority duplicate existing FA3 Model Router, HRB, Temporal and canonical project. Do not import these or hard-code source's MySQL/Redis/RustFS/default ports.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-JING-PROMPT-SKILLS-001",
@@ -12288,6 +12467,7 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
+        "github-script-breakdown-followup-2026-09-28",
         "github-topic-scriptwriting-2026-09-28"
       ],
       "first_seen": "2026-09-28",
@@ -12297,7 +12477,8 @@
         "ARCHITECTURE_PATTERN"
       ],
       "capability_hints": [
-        "Screenplay editor, beat board, real-time co-writing, version history and screenplay interchange"
+        "Screenplay editor, beat board, real-time co-writing, version history and screenplay interchange",
+        "Verified docs declare bidirectional .fdx, .fountain, .fadein/.osf and .docx support; production tags, project version diff, beat cards, character profiles and offline backups"
       ],
       "domain_hints": [
         "creative",
@@ -12305,16 +12486,20 @@
       ],
       "problem_hints": [],
       "target_hints": [
-        "FA3 Story/Screenplay",
         "Creative Studio",
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
         "Film Planning"
       ],
       "tags": [
-        "fountain",
-        "fdx",
-        "collaboration",
         "beat-board",
-        "revision"
+        "collaboration",
+        "document-interchange",
+        "fdx",
+        "fountain",
+        "production-tags",
+        "revision",
+        "semantic-diff"
       ],
       "license": {
         "declared": "MIT",
@@ -12332,8 +12517,10 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "MIT declaration from GitHub and README. Verify production-grade round-trip and security; FA3 retains native Qt/QML editor.",
-        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+        "At upstream main 17c51799d23d8c7a9ba3eae70ac872927122f3c7 docs/FEATURES.md explicitly lists FDX/Fountain/Fade In/OSF/DOCX import/export, PDF export only, production tags, version diff and full-project backups. Preserve FA3 native project authority and independently test codec fidelity/collaboration security.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md",
+        "MIT declaration from GitHub and README. Verify production-grade round-trip and security; FA3 retains native Qt/QML editor."
       ]
     },
     {
@@ -16132,6 +16319,254 @@
       "notes": [
         "README declares MIT but GitHub SPDX not detected; exact licensed files and formatting correctness need review.",
         "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCREENPLAY-TOOLS-WILDWINTER-001",
+      "name": "Screenplay Tools (wildwinter)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wildwinter/screenplay-tools",
+        "normalized_key": "github:wildwinter/screenplay-tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Format-neutral Script/Element representation across C++, Python, JS and C#",
+        "Bidirectional Fountain and FDX parsing/writing and cross-language fixtures"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 canonical document/interchange layer",
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "screenplay-interchange",
+        "fountain",
+        "fdx",
+        "cpp",
+        "python",
+        "javascript",
+        "csharp"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "At upstream main d0fc871f02a8bdaa66a107bf6005081a0974ef2f, C++ FDX parser drops non-element metadata, maps Shot to heading and suppresses parse errors in catch(...); writer skips unknown types, notes, revisions, title page and style spans. Never claim lossless FDX round-trip without independent coverage.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPT-BREAKDOWN-WORKFLOW-FEICAICLUB-001",
+      "name": "Script Breakdown Workflow (feicaiclub)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/feicaiclub/script-breakdown-dsh",
+        "normalized_key": "github:feicaiclub/script-breakdown-dsh"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Production-type-aware staged director breakdown, shot list, asset anchors and shot prompts",
+        "Approval checkpoints, metadata-only run log and explicit stale downstream artifacts"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Storyboarding",
+        "Creative Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "production-profiles",
+        "human-gates",
+        "shot-to-asset-consistency",
+        "stage-invalidation"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "DeepSeek Harness-specific preset; use only review, data-flow and shot/asset consistency reference. Do not install harness, add model authority, hard-code DeepSeek or Jimeng, or allow AI-authored prompts to bypass human approval.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPT-STRUCTURAL-BREAKDOWN-SKILL-001",
+      "name": "Script Structural Breakdown Skill",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zhangzhangco/script-structural-breakdown-skill",
+        "normalized_key": "github:zhangzhangco/script-structural-breakdown-skill"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Structured script unitization, rhythm curve, evidence-backed beat segmentation and beat completion",
+        "Partial resume, per-stage and per-beat retry with source-integrity checks"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Film Planning",
+        "Storyboarding",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "beat-segmentation",
+        "rhythm-curve",
+        "resumable",
+        "schema-validation",
+        "continuity"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Adopt specific schema/validation concepts only, no separate skills framework, model or orchestrator. AI proposals remain human-reviewed and source anchored.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPTBREAK-WASSERMAN-PRODUCTIONS-001",
+      "name": "ScriptBreak (Wasserman Productions)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wassermanproductions/scriptbreak",
+        "normalized_key": "github:wassermanproductions/scriptbreak"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Scene and element extraction, per-scene shot list and timeline, casting/locations/prop bibles",
+        "Draft scheduling stripboard and Day Out of Days report",
+        "Scoped breakdown APIs and handoff projections"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Film Planning",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Creative Studio"
+      ],
+      "tags": [
+        "scene-breakdown",
+        "production-tags",
+        "shot-list",
+        "schedule",
+        "cast",
+        "day-out-of-days",
+        "mcp"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "At upstream master ed9efb86125b713ce430b7337f27392adec071a9; candidate for deterministic breakdown and review UX, not the .scriptbreak project authority or separate MCP server. Upstream README contradicts itself on PDF import (feature list versus format matrix): independently verify. Do not import self-executing prompt packs, generated provider-specific prompts or undisclosed cloud egress.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
       ]
     },
     {
