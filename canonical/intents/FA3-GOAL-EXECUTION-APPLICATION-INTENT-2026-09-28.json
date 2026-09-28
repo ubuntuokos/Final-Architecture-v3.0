@@ -5,14 +5,17 @@
   "project_type": "EXISTING_AGENT_EXEC_WORKFLOW_EXTENSION_NO_NEW_CAPABILITY",
   "goal": "Extend existing FA3 goal execution design planning with deterministic source-bound reuse and action/agent registry preflight, while preserving every existing authority boundary.",
   "required_capabilities": [
-    "CAP-028",
+    "CAP-004",
+    "CAP-007",
+    "CAP-028"
+  ],
+  "optional_capabilities": [
     "CAP-144",
     "CAP-145",
     "CAP-146",
     "CAP-147",
     "CAP-175"
   ],
-  "optional_capabilities": [],
   "problem_classes": [
     "goal-contract-validation",
     "reusable-agent-action-planning",
