@@ -11,7 +11,8 @@ import tempfile
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Mapping, Protocol
+from fa3_skill_task_binding import TaskSkillBinding, SkillTaskBindingDenied
 
 from fa3_ai_comms import CommunicationDenied, message_semantics_allowed, validate_message_envelope
 
@@ -38,6 +39,7 @@ class AgentTask:
     content: str
     max_message_hops: int = 4
     risk_class: str = "LOW"
+    required_skill_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -343,14 +345,41 @@ class Coordinator:
         self.event("MESSAGE_CONSUMED", message_id=message_id, recipient=recipient)
         return "PROCESS"
 
-    def spawn_workers(self, tasks: list[AgentTask], adapter: ProviderAdapter) -> None:
+    def spawn_workers(
+        self,
+        tasks: list[AgentTask],
+        adapter: ProviderAdapter,
+        *,
+        skill_contexts: Mapping[str, TaskSkillBinding] | None = None,
+    ) -> None:
+        skill_contexts = skill_contexts or {}
+        required = {task.task_id for task in tasks if task.required_skill_id}
+        if set(skill_contexts) != required or len({task.task_id for task in tasks}) != len(tasks):
+            raise CoordinationDenied("task-scoped skill context set mismatch")
         for task in tasks:
             if task.provider_id != adapter.provider_id:
                 raise CoordinationDenied("task/provider adapter identity mismatch")
             workspace = self.workspaces[task.agent_id]
             req = self.control_root / "requests" / f"{task.task_id}.json"
             result = self.control_root / "results" / f"{task.task_id}.json"
-            proc = adapter.spawn(task=task, workspace=workspace, request_path=req, result_path=result)
+            if task.required_skill_id:
+                binding = skill_contexts[task.task_id]
+                if not isinstance(binding, TaskSkillBinding) or (
+                    binding.task_id != task.task_id or binding.skill_id != task.required_skill_id
+                ):
+                    raise CoordinationDenied("task/skill binding mismatch")
+                try:
+                    binding.check_live()
+                except SkillTaskBindingDenied as exc:
+                    raise CoordinationDenied("skill context invalid or expired") from exc
+                skill_spawn = getattr(adapter, "spawn_with_skill", None)
+                if not callable(skill_spawn):
+                    raise CoordinationDenied("provider adapter lacks explicit skill-aware spawn")
+                proc = skill_spawn(task=task, workspace=workspace,
+                                   request_path=req, result_path=result, skill_context=binding)
+                self.event("SKILL_TASK_CONTEXT_DELEGATED", **binding.safe_metadata())
+            else:
+                proc = adapter.spawn(task=task, workspace=workspace, request_path=req, result_path=result)
             self.processes[task.agent_id] = proc
             self.event("WORKER_SPAWNED", task_id=task.task_id, agent_id=task.agent_id, provider_id=task.provider_id)
 
@@ -465,7 +494,13 @@ class Coordinator:
         self.event("CLEANUP_COMPLETE", **state)
         return state
 
-    def run(self, tasks: list[AgentTask], adapter: ProviderAdapter) -> dict[str, Any]:
+    def run(
+        self,
+        tasks: list[AgentTask],
+        adapter: ProviderAdapter,
+        *,
+        skill_contexts: Mapping[str, TaskSkillBinding] | None = None,
+    ) -> dict[str, Any]:
         if len(tasks) < 2:
             raise CoordinationDenied("multi-agent reference flow requires at least two workers")
         if len({t.agent_id for t in tasks}) != len(tasks):
@@ -506,7 +541,7 @@ class Coordinator:
                     positive["mailbox_first"] = first
                     positive["mailbox_replay"] = replay
 
-            self.spawn_workers(tasks, adapter)
+            self.spawn_workers(tasks, adapter, skill_contexts=skill_contexts)
             results = self.collect_workers(tasks)
             commit, author, patch_hashes = self.integrate(tasks, results)
             positive.update(
