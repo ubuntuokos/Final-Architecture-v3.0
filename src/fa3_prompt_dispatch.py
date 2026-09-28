@@ -84,12 +84,18 @@ def build_prompt(spec: dict[str, Any], *, creative_project: dict[str, Any] | Non
     _require(isinstance(spec.get("dependencies", []), list), "PROMPT_DEPENDENCIES_INVALID")
     _require(spec.get("physical_model") is None and spec.get("provider_id") is None,
              "MODEL_ROUTER_BYPASS")
+    _require(spec.get("prompt_argument") is None
+             or nonempty(spec["prompt_argument"]), "PROMPT_ARGUMENT_BINDING_INVALID")
+    if spec.get("prompt_argument"):
+        _require(spec["prompt_argument"] not in spec.get("arguments", {}),
+                 "PROMPT_ARGUMENT_ALREADY_BOUND")
     result = {
         "schema": SCHEMA, "prompt_id": spec.get("prompt_id") or str(uuid.uuid4()),
         "project_id": spec["project_id"], "prompt": spec["prompt"],
         "to": {"application": spec["target_application"],
                "host": spec.get("target_host"), "capability": spec["capability_id"]},
         "action_id": spec["action_id"], "arguments": dict(spec.get("arguments", {})),
+        "prompt_argument": spec.get("prompt_argument"),
         "dependencies": list(spec.get("dependencies", [])),
         "not_before_epoch": int(spec.get("not_before_epoch", 0)),
         "deadline_epoch": spec.get("deadline_epoch"),
@@ -136,7 +142,8 @@ def _sign(value: dict[str, Any], key: bytes) -> str:
 def _valid_endpoint(endpoint: str) -> bool:
     parsed = urllib.parse.urlparse(endpoint)
     return parsed.scheme == "https" and bool(parsed.hostname) and not parsed.username \
-        and not parsed.password and not parsed.fragment and parsed.path in ("", "/")
+        and not parsed.password and not parsed.fragment and not parsed.query \
+        and parsed.path in ("", "/")
 
 
 class MeshDirectory:
@@ -146,19 +153,29 @@ class MeshDirectory:
     gossip never creates a new trust relationship or expands policy scope.
     """
     def __init__(self, host_id: str, endpoint: str, *, allowed_hosts: set[str],
-                 key_resolver: Callable[[str], bytes], ttl_seconds: int = 90):
+                 key_resolver: Callable[[str], bytes], ttl_seconds: int = 90,
+                 admitted_apps: set[str] | None = None,
+                 approved_endpoints: dict[str, str] | None = None):
         _require(nonempty(host_id) and _valid_endpoint(endpoint), "MESH_HOST_INVALID")
         _require(host_id in allowed_hosts and ttl_seconds > 0, "MESH_TRUST_INVALID")
         self.host_id, self.endpoint = host_id, endpoint.rstrip("/")
         self.allowed_hosts, self.key_resolver = frozenset(allowed_hosts), key_resolver
         self.ttl_seconds = ttl_seconds
+        self.admitted_apps = frozenset(admitted_apps) if admitted_apps is not None else None
+        self.approved_endpoints = dict(approved_endpoints) if approved_endpoints else None
+        if self.approved_endpoints is not None:
+            _require(self.approved_endpoints.get(host_id) == self.endpoint
+                     and all(host in allowed_hosts and _valid_endpoint(url)
+                             for host, url in self.approved_endpoints.items()),
+                     "MESH_ENDPOINT_CONFIG_INVALID")
         self._sequence = 0
         self._snapshots: dict[str, dict[str, Any]] = {}
         self._local_apps: dict[str, dict[str, Any]] = {}
 
     def register(self, app_id: str, capabilities: list[str], action_ids: list[str],
                  *, state: str = "READY") -> None:
-        _require(nonempty(app_id) and state in {"READY", "DRAINING", "OFFLINE"},
+        _require(nonempty(app_id) and state in {"READY", "DRAINING", "OFFLINE"}
+                 and (self.admitted_apps is None or app_id in self.admitted_apps),
                  "APP_REGISTRATION_INVALID")
         _require(capabilities and action_ids and all(map(nonempty, capabilities + action_ids)),
                  "APP_REGISTRATION_INVALID")
@@ -192,6 +209,9 @@ class MeshDirectory:
         _require(host in self.allowed_hosts and data.get("schema") == SNAPSHOT_SCHEMA,
                  "MESH_PEER_NOT_ADMITTED")
         _require(_valid_endpoint(data.get("endpoint", "")), "MESH_ENDPOINT_INVALID")
+        if self.approved_endpoints is not None:
+            _require(self.approved_endpoints.get(host) == data["endpoint"],
+                     "MESH_ENDPOINT_NOT_APPROVED")
         _require(isinstance(data.get("sequence"), int) and data["sequence"] >= 1,
                  "MESH_SEQUENCE_INVALID")
         _require(isinstance(data.get("issued_epoch"), int)
@@ -208,7 +228,10 @@ class MeshDirectory:
                      and app["app_id"] not in seen_apps
                      and app.get("state") in {"READY", "DRAINING", "OFFLINE"}
                      and isinstance(app.get("capabilities"), list)
-                     and isinstance(app.get("action_ids"), list), "MESH_APP_INVALID")
+                     and isinstance(app.get("action_ids"), list)
+                     and (self.admitted_apps is None or app["app_id"] in self.admitted_apps)
+                     and all(nonempty(c) for c in app["capabilities"])
+                     and all(nonempty(a) for a in app["action_ids"]), "MESH_APP_INVALID")
             seen_apps.add(app["app_id"])
         signature = snapshot.get("signature")
         expected = _sign(data, self.key_resolver(host))
@@ -236,6 +259,10 @@ class MeshDirectory:
         now = int(time.time()) if now is None else int(now)
         return [self._snapshots[k] for k in sorted(self._snapshots)
                 if self._snapshots[k]["data"]["expires_epoch"] > now]
+
+    def inventory(self, *, now: int | None = None) -> list[dict[str, Any]]:
+        """Read-only view of *all* admitted hosts, their live apps and capabilities."""
+        return [{**snap["data"], "available": True} for snap in self.export(now=now)]
 
     def locate(self, application: str, capability: str, action_id: str,
                *, host: str | None = None, now: int | None = None,
@@ -320,6 +347,11 @@ class ReceptionHub:
         _no_inline_secrets(message)
         _require(nonempty(message.get("message_id")) and nonempty(message.get("project_id")),
                  "MESSAGE_ID_INVALID")
+        now = int(time.time())
+        _require(now >= int(message.get("not_before_epoch", 0))
+                 and (message.get("deadline_epoch") is None
+                      or now <= int(message["deadline_epoch"])),
+                 "MESSAGE_OUTSIDE_SCHEDULE")
         destination = message.get("to")
         _require(isinstance(destination, dict)
                  and destination.get("host") == self.directory.host_id, "MESSAGE_WRONG_HOST")
@@ -357,12 +389,19 @@ def addressed_message(prompt: dict[str, Any], principal: dict[str, Any],
     _require(destination["application"] == prompt["to"]["application"]
              and destination["capability"] == prompt["to"]["capability"]
              and destination["action_id"] == prompt["action_id"], "MESSAGE_ROUTE_MISMATCH")
+    arguments = dict(prompt["arguments"])
+    if prompt.get("prompt_argument"):
+        _require(prompt["prompt_argument"] not in arguments, "PROMPT_ARGUMENT_ALREADY_BOUND")
+        arguments[prompt["prompt_argument"]] = prompt["prompt"]
     return {"schema": SCHEMA, "message_id": str(uuid.uuid4()),
             "prompt_id": prompt["prompt_id"], "project_id": prompt["project_id"],
+            "prompt": prompt["prompt"], "logical_model_route": prompt.get("logical_model_route"),
+            "not_before_epoch": prompt.get("not_before_epoch", 0),
+            "deadline_epoch": prompt.get("deadline_epoch"),
             "session_id": session_id, "principal": principal,
             "to": {"host": destination["host_id"], "application": destination["application"],
                    "capability": destination["capability"]},
-            "action_id": prompt["action_id"], "arguments": dict(prompt["arguments"]),
+            "action_id": prompt["action_id"], "arguments": arguments,
             "prompt_sha256": prompt["prompt_sha256"], "approval": approval}
 
 
