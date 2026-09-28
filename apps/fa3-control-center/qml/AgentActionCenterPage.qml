@@ -202,6 +202,7 @@ Item {
                     RowLayout {
                         Layout.fillWidth: true
                         Button { text: "Decision Inspector"; onClicked: root.navigateRequested("decision.inspector") }
+                        Button { text: "Skill Fabric"; onClicked: root.navigateRequested("decision.skill-fabric") }
                         Button { text: "Security & Approvals"; onClicked: root.navigateRequested("governance.security") }
                         Button { text: "Evidence"; onClicked: root.navigateRequested("governance.evidence") }
                     }
