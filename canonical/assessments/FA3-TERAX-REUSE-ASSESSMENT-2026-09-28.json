@@ -85,5 +85,14 @@
   "global_promotion_claim": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Terax reference-only security and interaction contracts do not require direct Khronos SDK import. If FA3 later implements an independent native WebGPU/renderer integration, reassess Khronos SDK reuse under the active fabric."
+    }
+  ]
 }
