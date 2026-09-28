@@ -416,6 +416,9 @@ class WorkflowProjection:
         self.db.execute("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY, spec TEXT NOT NULL)")
         self.db.execute("CREATE TABLE IF NOT EXISTS events (job TEXT, stage TEXT, event_id TEXT, "
                         "kind TEXT, artifact_ref TEXT, receipt TEXT, PRIMARY KEY (job,stage,event_id))")
+        self.db.execute("CREATE TABLE IF NOT EXISTS dispatch_claims ("
+                        "job TEXT NOT NULL, stage TEXT NOT NULL, message_id TEXT UNIQUE NOT NULL, "
+                        "state TEXT NOT NULL, receipt TEXT, PRIMARY KEY(job,stage))")
         self.db.commit()
 
     def submit(self, job_id: str, stages: list[dict[str, Any]]) -> None:
@@ -473,10 +476,13 @@ class WorkflowProjection:
         events = self.db.execute("SELECT stage,kind,artifact_ref,receipt FROM events WHERE job=?",
                                  (job_id,)).fetchall()
         complete = {stage for stage, kind, *_ in events if kind == "FINAL"}
+        claimed = {row[0] for row in self.db.execute(
+            "SELECT stage FROM dispatch_claims WHERE job=?", (job_id,)).fetchall()}
         available = {(stage, kind) for stage, kind, *_ in events}
         result = []
         for stage in self._stages(job_id):
-            if stage["stage_id"] in complete or now < int(stage.get("not_before_epoch", 0)):
+            if (stage["stage_id"] in complete or stage["stage_id"] in claimed
+                    or now < int(stage.get("not_before_epoch", 0))):
                 continue
             if stage.get("deadline_epoch") is not None and now > int(stage["deadline_epoch"]):
                 continue
@@ -491,6 +497,59 @@ class WorkflowProjection:
                          and (st, kind) in available]
             result.append({**stage, "input_artifacts": artifacts})
         return result
+
+
+    def reserve(self, job_id: str, stage_id: str, *, now: int | None = None) -> str:
+        """Atomic dispatch reservation: no blind retry after unknown external effects."""
+        now = int(time.time()) if now is None else int(now)
+        message_id = str(uuid.uuid4())
+        try:
+            self.db.execute("BEGIN IMMEDIATE")
+            eligible = {s["stage_id"] for s in self.ready(job_id, now=now)}
+            _require(stage_id in eligible, "WORKFLOW_STAGE_NOT_READY")
+            self.db.execute(
+                "INSERT INTO dispatch_claims(job,stage,message_id,state) VALUES (?,?,?,?)",
+                (job_id, stage_id, message_id, "DISPATCHING"))
+            self.db.commit()
+        except BaseException:
+            self.db.rollback()
+            raise
+        return message_id
+
+    def finish(self, job_id: str, stage_id: str, message_id: str,
+               receipt: dict[str, Any], *, state: str) -> None:
+        _require(state in {"ACKED", "IN_DOUBT"} and isinstance(receipt, dict),
+                 "WORKFLOW_RECEIPT_INVALID")
+        if state == "ACKED":
+            _require(receipt.get("result_status") == "success"
+                     and isinstance(receipt.get("result"), dict)
+                     and receipt["result"].get("status") == "success"
+                     and receipt["result"].get("request_id") == message_id
+                     and receipt["result"].get("evidence", {}).get("status") == "PASS",
+                     "WORKFLOW_UNVERIFIED_RECEIPT")
+        row = self.db.execute(
+            "SELECT state FROM dispatch_claims WHERE job=? AND stage=? AND message_id=?",
+            (job_id, stage_id, message_id)).fetchone()
+        _require(row is not None and row[0] == "DISPATCHING", "WORKFLOW_CLAIM_MISMATCH")
+        self.db.execute(
+            "UPDATE dispatch_claims SET state=?,receipt=? WHERE job=? AND stage=?",
+            (state, canonical(receipt).decode(), job_id, stage_id))
+        self.db.commit()
+
+    def claim_status(self, job_id: str, stage_id: str) -> str | None:
+        row = self.db.execute(
+            "SELECT state FROM dispatch_claims WHERE job=? AND stage=?",
+            (job_id, stage_id)).fetchone()
+        return row[0] if row else None
+
+    def events(self, job_id: str) -> list[dict[str, Any]]:
+        self._stages(job_id)
+        rows = self.db.execute(
+            "SELECT stage,kind,artifact_ref,receipt FROM events WHERE job=? "
+            "ORDER BY rowid", (job_id,)).fetchall()
+        return [{"stage_id": s, "kind": k, "artifact_ref": ref,
+                 "evidence_ref": json.loads(rec)["evidence_ref"]}
+                for s, k, ref, rec in rows]
 
 
 def https_exchange(endpoint: str, snapshots: list[dict[str, Any]], *,
