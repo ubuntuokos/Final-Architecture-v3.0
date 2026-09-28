@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.donor-reuse-assessment.v1",
+  "id": "FA3-PROMPT-DISPATCH-DONOR-CHECK-001",
+  "status": "EXECUTABLE_GATE",
+  "project": "FA3-PROMPT-BUILDER-DISPATCH-RECEPTION-001",
+  "registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "assessed_at": "2026-09-29",
+  "authority": false,
+  "code_copied_from_external_donors": false,
+  "sources": [
+    {
+      "donor_id": "FA3-DONOR-TEMPORALIO-SDK-PYTHON-001",
+      "use": "Existing Temporal durable activity/signal boundary; no second workflow authority",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-MCP-GATEWAY-001",
+      "use": "MCP transport/adapter patterns; FA3 Central MCP Gateway remains exclusive mediation",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001",
+      "use": "Stateful graph/checkpoint and human interruption concepts; FA3-owned graph",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-HTCONDOR-001",
+      "use": "Heterogeneous host/task advertisement reference; actual placement only via HRB",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-AYON-001",
+      "use": "Production application inventory and project-context reference",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENASSETIO-001",
+      "use": "Opaque asset-reference handoff and native-file preservation concepts",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-PYDANTIC-PYDANTIC-AI-001",
+      "use": "Typed action/result envelope reference; Python stdlib implementation",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-PROMPTFOO-PROMPTFOO-001",
+      "use": "Adversarial prompt and premature-completion regression patterns",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-PIXAR-CHOOK-001",
+      "use": "Authenticated webhook event/idempotency patterns",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-FLOVA-001",
+      "use": "PR #405 creative project scoped context and revision pattern provenance",
+      "mode": "REFERENCE_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+      "use": "PR #425 imported visual style/provenance reference; preserve upstream license boundary",
+      "mode": "REFERENCE_ONLY"
+    }
+  ],
+  "fa3_integrations": [
+    {
+      "pr": 364,
+      "state_at_assessment": "MERGED_MAIN",
+      "mode": "USE_EXISTING_UAF_DECISION_FABRIC_MODEL_ROUTER_HRB"
+    },
+    {
+      "pr": 405,
+      "state_at_assessment": "OPEN",
+      "mode": "OPTIONAL_FAIL_CLOSED_CREATIVE_PROJECT_PROFILE_IMPORT"
+    },
+    {
+      "pr": 425,
+      "state_at_assessment": "OPEN",
+      "mode": "OPTIONAL_FAIL_CLOSED_VISUAL_STYLE_PROFILE_IMPORT"
+    }
+  ],
+  "invariants": {
+    "new_authorities": 0,
+    "auto_admit_donors": false,
+    "source_copy_requires_separate_review": true,
+    "cpu_only_planning": true,
+    "accelerators": "0..N",
+    "vendor_neutral": true,
+    "wayland_preferred_x11_supported": true,
+    "model_router_exclusive": true,
+    "hrb_exclusive": true,
+    "mcp_gateway_exclusive": true,
+    "temporal_exclusive_durable": true,
+    "current_host_promotion_claim": false
+  }
+}
