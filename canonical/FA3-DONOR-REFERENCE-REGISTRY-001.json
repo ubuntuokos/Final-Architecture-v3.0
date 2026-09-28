@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
+    "entry_count": 506,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission."
   },
   "entries": [
     {
@@ -29607,6 +29607,1572 @@
       "notes": [
         "Use timeline/export and workflow patterns only; retain FA3 project.fa3video and OTIO gates."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HKUDS-DEEPTUTOR-001",
+      "name": "DeepTutor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HKUDS/DeepTutor",
+        "normalized_key": "github:hkuds/deeptutor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "lifelong-personalization-substrate",
+        "books-and-courses-learning-workspace",
+        "teach-back-assessment",
+        "research-to-learning-conversion",
+        "mastery-workspace",
+        "policy-bounded-proactive-intervention"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Knowledge/RAG",
+        "Research",
+        "Story and Documentation",
+        "Developer/ADE"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "deeptutor"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/HKUDS/DeepTutor/blob/main/LICENSE"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "lifelong personalization substrate",
+          "books and courses learning workspace",
+          "teach-back assessment",
+          "research-to-learning conversion",
+          "mastery workspace",
+          "policy-bounded proactive intervention"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Knowledge/RAG",
+          "Research",
+          "Story and Documentation",
+          "Developer/ADE"
+        ],
+        "prohibited_upstream_roles": [
+          "global agent runtime",
+          "MCP authority",
+          "memory authority",
+          "model routing",
+          "workspace execution authority"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_DESIGN_INPUT_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LS1INTUM-ARTEMIS-001",
+      "name": "Artemis",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ls1intum/Artemis",
+        "normalized_key": "github:ls1intum/artemis"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "typed-exercise-lifecycle",
+        "templates-solutions-and-tests",
+        "automatic-and-human-feedback",
+        "competency-analytics",
+        "uncertain-ai-answer-human-review",
+        "programming-text-quiz-and-modeling-assessment"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Developer/ADE",
+        "Task Manager",
+        "Manager",
+        "Model and Code Evaluation"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "artemis"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/ls1intum/Artemis"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "typed exercise lifecycle",
+          "templates solutions and tests",
+          "automatic and human feedback",
+          "competency analytics",
+          "uncertain AI answer human review",
+          "programming text quiz and modeling assessment"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Developer/ADE",
+          "Task Manager",
+          "Manager",
+          "Model and Code Evaluation"
+        ],
+        "prohibited_upstream_roles": [
+          "canonical VCS or CI authority",
+          "credential authority",
+          "global LMS authority",
+          "autonomous execution authority"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "develop@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_DESIGN_INPUT_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LS1INTUM-PYRIS-001",
+      "name": "Pyris / Iris AI service",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ls1intum/Pyris",
+        "normalized_key": "github:ls1intum/pyris"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "context-aware-hints-for-programming-exercises",
+        "pedagogically-meaningful-tutor-integration",
+        "ai-service-compatibility-boundary"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Developer/ADE",
+        "Code Evaluation"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "pyris-iris-ai-service"
+      ],
+      "license": {
+        "declared": "PENDING_LICENSE_AUDIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/ls1intum/Pyris"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "context-aware hints for programming exercises",
+          "pedagogically meaningful tutor integration",
+          "AI service compatibility boundary"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Developer/ADE",
+          "Code Evaluation"
+        ],
+        "prohibited_upstream_roles": [
+          "model routing",
+          "MCP authority",
+          "execution authority",
+          "final assessment authority"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "default-branch@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_PROTOCOL_AND_PEDAGOGY_INPUT_ONLY."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPPIA-001",
+      "name": "Oppia",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oppia/oppia",
+        "normalized_key": "github:oppia/oppia"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "branching-explorations",
+        "misconception-specific-remediation",
+        "answer-dependent-feedback",
+        "learning-by-doing-authoring"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Onboarding",
+        "Help",
+        "guided workflows in all FA3 applications"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "oppia"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/oppia/oppia"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "branching explorations",
+          "misconception-specific remediation",
+          "answer-dependent feedback",
+          "learning-by-doing authoring"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Onboarding",
+          "Help",
+          "guided workflows in all FA3 applications"
+        ],
+        "prohibited_upstream_roles": [
+          "learner identity authority",
+          "content registry authority",
+          "policy authority",
+          "mandatory web runtime"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "develop@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_DESIGN_INPUT_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SKILLCOCO-001",
+      "name": "SkillCoco",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/skillcoco/skillcoco",
+        "normalized_key": "github:skillcoco/skillcoco"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "bayesian-knowledge-tracing",
+        "local-first-adaptive-learning",
+        "spaced-practice-inputs",
+        "bounded-terminal-lab-progression"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Developer/ADE",
+        "Onboarding",
+        "application training"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "skillcoco"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/skillcoco/skillcoco"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "Bayesian Knowledge Tracing",
+          "local-first adaptive learning",
+          "spaced practice inputs",
+          "bounded terminal lab progression"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Developer/ADE",
+          "Onboarding",
+          "application training"
+        ],
+        "prohibited_upstream_roles": [
+          "provider routing",
+          "course authority",
+          "unrestricted terminal execution"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_DESIGN_INPUT_TEST_FIXTURE_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AITUTOR-EVALKIT-001",
+      "name": "AITutor-EvalKit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kaushal0494/AITutor-EvalKit",
+        "normalized_key": "github:kaushal0494/aitutor-evalkit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "multidimensional-pedagogical-evaluation",
+        "mistake-identification-and-location",
+        "guidance-and-actionability-scoring",
+        "tutor-response-comparison",
+        "evaluation-visualization"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor QA",
+        "Coach QA",
+        "Role Chat",
+        "Model Manager"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "aitutor-evalkit"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/kaushal0494/AITutor-EvalKit"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "multidimensional pedagogical evaluation",
+          "mistake identification and location",
+          "guidance and actionability scoring",
+          "tutor response comparison",
+          "evaluation visualization"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor QA",
+          "Coach QA",
+          "Role Chat",
+          "Model Manager"
+        ],
+        "prohibited_upstream_roles": [
+          "final evaluation authority",
+          "model routing",
+          "paid provider hard dependency"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: EVALUATION_REFERENCE_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TRYSKILLY-SKILLY-001",
+      "name": "Skilly",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/tryskilly/skilly",
+        "normalized_key": "github:tryskilly/skilly"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "voice-first-contextual-tutor",
+        "visible-screen-capture-state",
+        "application-aware-curriculum-skills",
+        "ui-element-pointing",
+        "bounded-capture-lifecycle"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor GUI",
+        "Video Editor",
+        "PhotoTux",
+        "Vector",
+        "Bforartists",
+        "Krita",
+        "Ardour"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "skilly"
+      ],
+      "license": {
+        "declared": "Apache-2.0_WITH_MIT_UPSTREAM_COMPONENTS",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/tryskilly/skilly"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "voice-first contextual tutor",
+          "visible screen capture state",
+          "application-aware curriculum skills",
+          "UI element pointing",
+          "bounded capture lifecycle"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor GUI",
+          "Video Editor",
+          "PhotoTux",
+          "Vector",
+          "Bforartists",
+          "Krita",
+          "Ardour"
+        ],
+        "prohibited_upstream_roles": [
+          "macOS runtime dependency",
+          "OpenAI Realtime hard dependency",
+          "silent capture",
+          "external control plane"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN_AND_THIRD_PARTY_LINEAGE_AUDIT",
+        "security_review": "REQUIRED_HIGH_PRIVACY",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: UX_AND_INTERACTION_REFERENCE_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-FLAGRARE-LLM-TUTOR-001",
+      "name": "Flagrare llm-tutor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Flagrare/llm-tutor",
+        "normalized_key": "github:flagrare/llm-tutor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "socratic-questioning",
+        "layered-hints",
+        "productive-struggle",
+        "learner-independence-objective",
+        "pedagogical-presentation-personas"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Developer/ADE",
+        "application help surfaces"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "flagrare-llm-tutor"
+      ],
+      "license": {
+        "declared": "PENDING_LICENSE_AUDIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/Flagrare/llm-tutor"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "Socratic questioning",
+          "layered hints",
+          "productive struggle",
+          "learner-independence objective",
+          "pedagogical presentation personas"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Developer/ADE",
+          "application help surfaces"
+        ],
+        "prohibited_upstream_roles": [
+          "Claude-specific runtime dependency",
+          "prompt package as policy authority"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: PEDAGOGY_AND_UX_REFERENCE_ONLY_UNTIL_LICENSE_PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPEN-SPACED-REPETITION-FSRS-001",
+      "name": "Free Spaced Repetition Scheduler",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler",
+        "normalized_key": "github:open-spaced-repetition/free-spaced-repetition-scheduler"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "difficulty-stability-retrievability-model",
+        "adaptive-review-scheduling",
+        "local-scheduler",
+        "parameter-optimization"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor mastery",
+        "training",
+        "rehearsal",
+        "language learning"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "free-spaced-repetition-scheduler"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "difficulty stability retrievability model",
+          "adaptive review scheduling",
+          "local scheduler",
+          "parameter optimization"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor mastery",
+          "training",
+          "rehearsal",
+          "language learning"
+        ],
+        "prohibited_upstream_roles": [
+          "canonical learner state",
+          "automatic schedule authority"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_LANGUAGE_IMPLEMENTATION_SELECTION_AND_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: ALGORITHM_REFERENCE_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-JUPYTERLAB-001",
+      "name": "JupyterLab",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jupyterlab/jupyterlab",
+        "normalized_key": "github:jupyterlab/jupyterlab"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "notebook-practice",
+        "terminal-editor-and-rich-outputs",
+        "reproducible-exercises",
+        "kernel-isolation-patterns"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "Developer Mentor",
+        "Data and Research",
+        "Model Manager"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "jupyterlab"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/jupyterlab/jupyterlab/blob/main/LICENSE"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "notebook practice",
+          "terminal editor and rich outputs",
+          "reproducible exercises",
+          "kernel isolation patterns"
+        ],
+        "intended_fa3_targets": [
+          "Developer Mentor",
+          "Data and Research",
+          "Model Manager"
+        ],
+        "prohibited_upstream_roles": [
+          "execution authority",
+          "unrestricted extension installation",
+          "Conda or Mamba baseline"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "main@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_RELEASE_AND_COMMIT_PIN",
+        "security_review": "REQUIRED_SANDBOX_AND_KERNEL",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: OPTIONAL_PRACTICE_SURFACE_AND_REFERENCE."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-H5P-INTERACTIVE-BOOK-001",
+      "name": "H5P Interactive Book",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/h5p/h5p-interactive-book",
+        "normalized_key": "github:h5p/h5p-interactive-book"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "page-and-section-learning-object",
+        "interactive-book-packaging",
+        "fullscreen-content-presentation"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Presentation",
+        "Story",
+        "Onboarding"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "h5p-interactive-book"
+      ],
+      "license": {
+        "declared": "MIT_REPORTED_COMPONENT_LICENSE",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/h5p/h5p-interactive-book/blob/master/library.json"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "page and section learning object",
+          "interactive book packaging",
+          "fullscreen content presentation"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Presentation",
+          "Story",
+          "Onboarding"
+        ],
+        "prohibited_upstream_roles": [
+          "content registry authority",
+          "mandatory LMS runtime",
+          "uninspected active content"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "master@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_AND_DEPENDENCY_LICENSE_AUDIT",
+        "security_review": "REQUIRED_ACTIVE_CONTENT",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: INTEROPERABILITY_AND_CONTENT_REFERENCE."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-H5P-INTERACTIVE-VIDEO-001",
+      "name": "H5P Interactive Video",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/h5p/h5p-interactive-video",
+        "normalized_key": "github:h5p/h5p-interactive-video"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "timed-interactive-video-overlays",
+        "embedded-questions",
+        "media-linked-learning-steps"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Video Editor",
+        "Presentation",
+        "Onboarding"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "h5p-interactive-video"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/h5p/h5p-interactive-video/blob/master/package.json"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "timed interactive video overlays",
+          "embedded questions",
+          "media-linked learning steps"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Video Editor",
+          "Presentation",
+          "Onboarding"
+        ],
+        "prohibited_upstream_roles": [
+          "media authority",
+          "mandatory LMS runtime",
+          "uninspected active content"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "master@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_AND_DEPENDENCY_LICENSE_AUDIT",
+        "security_review": "REQUIRED_ACTIVE_CONTENT",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: INTEROPERABILITY_AND_CONTENT_REFERENCE."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-H5P-PHP-LIBRARY-001",
+      "name": "H5P PHP Library",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/h5p/h5p-php-library",
+        "normalized_key": "github:h5p/h5p-php-library"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "h5p-package-validation",
+        "html-purification-boundary",
+        "platform-integration-behavior"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "Learning Content Interchange",
+        "Security Validation"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "h5p-php-library"
+      ],
+      "license": {
+        "declared": "GPL",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/h5p/h5p-php-library"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_PENDING_LICENSE_AND_ARCHITECTURE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "H5P package validation",
+          "HTML purification boundary",
+          "platform integration behavior"
+        ],
+        "intended_fa3_targets": [
+          "Learning Content Interchange",
+          "Security Validation"
+        ],
+        "prohibited_upstream_roles": [
+          "mandatory PHP runtime",
+          "content registry authority",
+          "unrestricted HTML execution"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "master@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_AND_LICENSE_COMPATIBILITY_DECISION",
+        "security_review": "REQUIRED_ACTIVE_CONTENT",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_ONLY_DEFAULT_NO_CODE_IMPORT."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LEARNINGLOCKER-001",
+      "name": "Learning Locker",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LearningLocker/learninglocker",
+        "normalized_key": "github:learninglocker/learninglocker"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "xapi-learning-event-lifecycle",
+        "learning-record-query-patterns",
+        "interoperability-fixtures"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Unified Evidence projection",
+        "Analytics",
+        "Task and Progress views"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "learning-locker"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/LearningLocker/learninglocker"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_PENDING_LICENSE_AND_ARCHITECTURE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "xAPI learning event lifecycle",
+          "learning record query patterns",
+          "interoperability fixtures"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Unified Evidence projection",
+          "Analytics",
+          "Task and Progress views"
+        ],
+        "prohibited_upstream_roles": [
+          "canonical Evidence authority",
+          "identity authority",
+          "Memory authority",
+          "analytics authority",
+          "mandatory LRS runtime"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "master@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED_DATA_PRIVACY",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: REFERENCE_ONLY_NO_CANONICAL_LRS_AUTHORITY."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LEARNINGLOCKER-XAPI-VALIDATION-001",
+      "name": "Learning Locker xAPI Validation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LearningLocker/xapi-validation",
+        "normalized_key": "github:learninglocker/xapi-validation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "mentor-enhancement-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "xapi-statement-validation",
+        "conformance-error-reporting",
+        "learning-event-compatibility-fixtures"
+      ],
+      "domain_hints": [
+        "learning",
+        "mentoring",
+        "education",
+        "cross-application-guidance"
+      ],
+      "problem_hints": [
+        "adaptive-learning",
+        "guided-practice",
+        "pedagogical-quality",
+        "learning-interoperability"
+      ],
+      "target_hints": [
+        "FA3 Mentor",
+        "Unified Evidence projection",
+        "Interoperability Gate"
+      ],
+      "tags": [
+        "mentor",
+        "pedagogy",
+        "cross-application-reuse",
+        "learning-locker-xapi-validation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "evidence_url": "https://github.com/LearningLocker/xapi-validation"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "xAPI statement validation",
+          "conformance error reporting",
+          "learning event compatibility fixtures"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Mentor",
+          "Unified Evidence projection",
+          "Interoperability Gate"
+        ],
+        "prohibited_upstream_roles": [
+          "canonical Evidence authority",
+          "event storage authority",
+          "policy authority"
+        ],
+        "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+        "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+        "notes": "Candidate metadata only. Exact commit pin, license/provenance/security review, Software Coexistence, current-host evidence and release gates are mandatory before code or runtime reuse."
+      },
+      "upstream_observation": {
+        "retrieved_at": "2026-09-28",
+        "version_ref": "default-branch@retrieved-2026-09-28",
+        "version_pin_status": "PENDING_EXACT_COMMIT_PIN",
+        "security_review": "REQUIRED",
+        "evidence_status": "PRIMARY_SOURCE_REVIEWED_NOT_RUNTIME_EVIDENCE",
+        "source_copy_allowed": false,
+        "runtime_admitted": false
+      },
+      "notes": [
+        "No automatic installation, activation, provider admission, model selection or authority transfer.",
+        "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
+        "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
+        "Original disposition: INTEROPERABILITY_TEST_FIXTURE_CODE_REUSE_CONDITIONAL."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
@@ -29677,5 +31243,36 @@
     "scope": "Official DirectX source, Linux D3D compatibility and Vulkan/SPIR-V foundations; metadata-only",
     "no_runtime_admission": true,
     "notes": "Upstream license identifiers are observations, never source-copy approval; future integrations must pass hardware/security/provenance/current-host gates."
+  },
+  "mentor_enhancement_curation": {
+    "observed_at": "2026-09-28",
+    "plan_id": "FA3-MENTOR-ENHANCEMENT-001",
+    "delta_id": "FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001",
+    "source_count": 15,
+    "normalized_source_keys": [
+      "github:hkuds/deeptutor",
+      "github:ls1intum/artemis",
+      "github:ls1intum/pyris",
+      "github:oppia/oppia",
+      "github:skillcoco/skillcoco",
+      "github:kaushal0494/aitutor-evalkit",
+      "github:tryskilly/skilly",
+      "github:flagrare/llm-tutor",
+      "github:open-spaced-repetition/free-spaced-repetition-scheduler",
+      "github:jupyterlab/jupyterlab",
+      "github:h5p/h5p-interactive-book",
+      "github:h5p/h5p-interactive-video",
+      "github:h5p/h5p-php-library",
+      "github:learninglocker/learninglocker",
+      "github:learninglocker/xapi-validation"
+    ],
+    "status": "CANDIDATE",
+    "non_authoritative": true,
+    "capability_count_delta": 0,
+    "authority_delta": 0,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "current_host_evidence_required": true
   }
 }
