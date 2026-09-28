@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 295,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2910,6 +2910,75 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CIMG-001",
+      "name": "CImg",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GreycLab/CImg",
+        "normalized_key": "github:greyclab/cimg"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "gmic-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "CODE_COMPONENT_CANDIDATE",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "image-processing-primitives",
+        "image-sequences",
+        "portable-cpp-image-types"
+      ],
+      "domain_hints": [
+        "creative",
+        "engineering",
+        "image"
+      ],
+      "problem_hints": [
+        "optional-image-data-interchange",
+        "portable-image-algorithm-reference"
+      ],
+      "target_hints": [
+        "Asset Graph",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Krita Integration"
+      ],
+      "tags": [
+        "c++",
+        "cpu-only-optional",
+        "gmic-curation-2026-09-28",
+        "gmic-ecosystem",
+        "gmic-foundation"
+      ],
+      "license": {
+        "declared": "CeCILL-C / CeCILL (upstream README)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-28",
+        "default_branch": "master",
+        "head_sha": "b89ff2b8f1b6cbfbbfb5100d8d5b6897b9294c6e"
+      },
+      "notes": [
+        "Supporting G'MIC C++ toolkit; evaluate separately from libgmic. Optional features may use FFmpeg, OpenCV and other external libraries, each requiring independent compliance."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-CINEPAINT-FILM-GIMP-001",
       "name": "CinePaint/Film Gimp",
       "source": {
@@ -5169,40 +5238,63 @@
       "donor_id": "FA3-DONOR-G-MIC-001",
       "name": "G'MIC",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:G'MIC",
-        "normalized_key": "project:g'mic"
+        "kind": "GITHUB",
+        "locator": "https://github.com/GreycLab/gmic",
+        "normalized_key": "github:greyclab/gmic"
       },
       "status": "ANALYZED",
       "discovered_from": [
+        "gmic-github-curation-2026-09-28",
         "prior-fa3-research-backfill"
       ],
       "first_seen": "2026-09-27",
       "last_seen": "2026-09-28",
       "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
+        "ARCHITECTURE_PATTERN",
+        "CODE_COMPONENT_CANDIDATE",
+        "REFERENCE_IMPLEMENTATION"
       ],
-      "capability_hints": [],
+      "capability_hints": [
+        "headless-image-filter-cli",
+        "image-sequence-processing",
+        "libgmic-cpp-c-api",
+        "programmable-image-filters"
+      ],
       "domain_hints": [
+        "creative",
         "image",
         "photo",
-        "creative"
+        "vfx",
+        "video"
       ],
-      "problem_hints": [],
+      "problem_hints": [
+        "optional-image-effects-adapter",
+        "reproducible-offline-image-filter-pipelines"
+      ],
       "target_hints": [
+        "Asset Graph",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Krita Integration",
         "Photo/Image Editor",
-        "Creative Studio"
+        "QuickClip",
+        "VFX"
       ],
       "tags": [
-        "photo-editing",
-        "image-pipeline",
         "color",
-        "raw"
+        "cpu-only-optional",
+        "effects",
+        "gmic-curation-2026-09-28",
+        "gmic-ecosystem",
+        "image-pipeline",
+        "image-processing",
+        "photo-editing",
+        "raw",
+        "script-review-required"
       ],
       "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
+        "declared": "CeCILL-C / CeCILL (component-level; upstream src/gmic.h)",
+        "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
@@ -5214,7 +5306,18 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "legacy_source_keys": [
+        "project:g'mic"
+      ],
+      "upstream_snapshot": {
+        "observed_at": "2026-09-28",
+        "default_branch": "master",
+        "head_sha": "0ae8bad5b32b0a1cc37f51746e28f66cb171218f"
+      },
+      "notes": [
+        "Former source-less project:G'MIC record normalized to verified GreycLab/gmic upstream in place. Existing ANALYZED state and 2026-09-27 historical research preserved; adoption still separately gated."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GARRYTAN-GSTACK-001",
@@ -5624,6 +5727,282 @@
       },
       "notes": [
         "License/release/conformance unresolved: direct code, shader, or pipeline copy DENY."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GMIC-BLENDER-001",
+      "name": "G'MIC Blender add-on (historical)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GreycLab/gmic-blender",
+        "normalized_key": "github:greyclab/gmic-blender"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "gmic-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "blender-gmic-node-pattern",
+        "procedural-texture-exchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "vfx"
+      ],
+      "problem_hints": [
+        "procedural-texture-and-node-interchange"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Blender Integration",
+        "Creative Studio"
+      ],
+      "tags": [
+        "blender",
+        "experimental-historical",
+        "gmic-curation-2026-09-28",
+        "gmic-ecosystem",
+        "reference-only",
+        "upstream-stale"
+      ],
+      "license": {
+        "declared": "CeCILL-A (upstream README)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-28",
+        "default_branch": "master",
+        "head_sha": "990324e645c56f4e2ef851d5b6ff99e8c28cc30b"
+      },
+      "notes": [
+        "Upstream is pre-pre-alpha, targets Blender 2.8x and last pushed 2020-06-30. Historical architectural reference only; do not install or presume modern Blender/Bforartists compatibility."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GMIC-COMMUNITY-001",
+      "name": "G'MIC community filters",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GreycLab/gmic-community",
+        "normalized_key": "github:greyclab/gmic-community"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "gmic-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "community-image-filter-patterns",
+        "procedural-image-effects"
+      ],
+      "domain_hints": [
+        "creative",
+        "image",
+        "vfx"
+      ],
+      "problem_hints": [
+        "filter-discovery-and-curation",
+        "safe-third-party-effects"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Krita Integration",
+        "VFX"
+      ],
+      "tags": [
+        "community-filters",
+        "gmic-curation-2026-09-28",
+        "gmic-ecosystem",
+        "offline-pin-required",
+        "script-review-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-28",
+        "default_branch": "master",
+        "head_sha": "478cfd9c1493e6bdef926d6ca9414928b0d50cb9"
+      },
+      "notes": [
+        "Community contributions may contain separate license and asset conditions. Never auto-download, auto-run or auto-promote external G'MIC scripts or filters."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GMIC-PY-001",
+      "name": "G'MIC Python binding",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GreycLab/gmic-py",
+        "normalized_key": "github:greyclab/gmic-py"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "gmic-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "CODE_COMPONENT_CANDIDATE",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gmic-python-binding",
+        "offline-image-test-fixtures",
+        "python-image-filter-orchestration"
+      ],
+      "domain_hints": [
+        "automation",
+        "creative",
+        "image"
+      ],
+      "problem_hints": [
+        "optional-python-binding",
+        "sandboxed-headless-image-processing"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Developer Agent",
+        "Krita Integration"
+      ],
+      "tags": [
+        "cpu-only-optional",
+        "gmic-curation-2026-09-28",
+        "gmic-ecosystem",
+        "pypi-release-drift",
+        "python",
+        "venv-required"
+      ],
+      "license": {
+        "declared": "CeCILL (variant to verify; upstream README)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-28",
+        "default_branch": "main",
+        "head_sha": "5517d689ce98c60a8d5e72a7143b3090357ab159"
+      },
+      "notes": [
+        "GREYC reworked binding and removed prior documentation/examples pending update; upstream README reports PyPI gmic package not yet updated. Pin exact Git source and require a venv for any later sandbox test."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GMIC-QT-001",
+      "name": "G'MIC-Qt",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/c-koi/gmic-qt",
+        "normalized_key": "github:c-koi/gmic-qt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "gmic-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION",
+        "UI_REFERENCE"
+      ],
+      "capability_hints": [
+        "host-adapter-api",
+        "krita-filter-workflow",
+        "out-of-process-filter-ui"
+      ],
+      "domain_hints": [
+        "creative",
+        "gui",
+        "image"
+      ],
+      "problem_hints": [
+        "isolated-filter-host-integration",
+        "reusable-filter-chooser"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Krita Integration"
+      ],
+      "tags": [
+        "gmic-curation-2026-09-28",
+        "gmic-ecosystem",
+        "host-api",
+        "out-of-process",
+        "qt",
+        "upstream-infrequent-activity"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-28",
+        "default_branch": "master",
+        "head_sha": "aa4a6f4ab174b37fcdf4df5f94fde0898856523a"
+      },
+      "notes": [
+        "New host HOWTO describes an out-of-process architecture and six-function host interface. GPL compatibility and FA3 Qt6/KF6 compatibility require specific review; branch last pushed 2024-09-04."
       ]
     },
     {
@@ -16995,5 +17374,18 @@
     "automatic_provider_admission": false,
     "automatic_model_selection": false,
     "hardware_audit_required": true
+  },
+  "gmic_github_curation": {
+    "observed_at": "2026-09-28",
+    "repository_count": 6,
+    "new_record_count": 5,
+    "normalized_existing_donor_id": "FA3-DONOR-G-MIC-001",
+    "non_authoritative": true,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "hardware_audit_required": true,
+    "scope": "VERIFIED_GMIC_CORE_AND_FIVE_SCOPED_UPSTREAM_COMPANIONS"
   }
 }
