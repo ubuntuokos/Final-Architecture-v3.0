@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 311,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -922,6 +922,63 @@
       },
       "notes": [
         "Architecture/build methodology only; architecture-specific artifacts conditional."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-VIDEO-EDITOR-TOPIC-001",
+      "name": "GitHub ai-video-editor topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/ai-video-editor",
+        "normalized_key": "github:topics/ai-video-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "video-editor-donor-discovery",
+        "ai-editing-pattern-review"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Director/Workforce",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "dynamic-github-topic",
+        "discovery-only",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic topic discovery snapshot reviewed 2026-09-28; individual projects require their own source-unique donor record, exact upstream revision and legal/security/architecture assessment. Listing does not grant permission to bulk-import or adopt a dependency."
       ]
     },
     {
@@ -11521,6 +11578,71 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-OPENCHATCUT-001",
+      "name": "OpenChatCut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/0xsline/OpenChatCut",
+        "normalized_key": "github:0xsline/openchatcut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-editable-timeline",
+        "reversible-editor-commands",
+        "human-reviewed-edit-proposals",
+        "mcp-editor-tools",
+        "transcript-driven-editing",
+        "native-project-preservation"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "editing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Director/Workforce",
+        "Central MCP Gateway"
+      ],
+      "tags": [
+        "agentic-editing",
+        "mcp",
+        "editable-timeline",
+        "agpl-3.0",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream bb2a4f7e1bb587aa55f3816583ec180d58eb1432. AGPL-3.0 source code is NOT approved for FA3 copying or linking. Study independently and design native FA3 Qt6/QML Command Bus proposals; do not replace project.fa3video, MLT/FFmpeg, UAF or Central MCP Gateway. Any actual upstream source reuse needs independent legal/distribution review."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENCODE-001",
       "name": "opencode",
       "source": {
@@ -12305,6 +12427,70 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENSHORTS-001",
+      "name": "OpenShorts",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mutonby/openshorts",
+        "normalized_key": "github:mutonby/openshorts"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "highlight-selection",
+        "speaker-aware-smart-reframe",
+        "split-speaker-layout",
+        "word-level-subtitles",
+        "clip-export",
+        "mcp-job-interface"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "short-form"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor",
+        "Voice/Vocal",
+        "Director/Workforce"
+      ],
+      "tags": [
+        "short-video",
+        "diarization",
+        "face-tracking",
+        "smart-reframe",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream 29c54fa04c42621310f768adf40c81a1f3436bf2. Assess per-file third-party NOTICE, ML model licenses, privacy/consent, publishing endpoints and external APIs separately. Do not inherit autonomous publishing or directly configured model/provider access; CPU-only fallback and HRB are required."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENTOONZ-001",
@@ -17289,6 +17475,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-VIDEO-GENERATION-TOPIC-001",
+      "name": "GitHub video-generation topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/video-generation",
+        "normalized_key": "github:topics/video-generation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "generative-video-donor-discovery",
+        "multi-shot-production-pattern-review"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Generative Media Studio",
+        "Director/Workforce",
+        "FA3 Video Editor",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "dynamic-github-topic",
+        "discovery-only",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic topic discovery snapshot reviewed 2026-09-28; related legacy donor records Wan2.2/LivePortrait and canonical Pixelle-Video must be source-reconciled rather than duplicated. Generation model admission remains strictly separate from donor discovery."
+      ]
+    },
+    {
       "discovered_from": [
         "prior-fa3-research-backfill"
       ],
@@ -17351,6 +17595,73 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIMAX-001",
+      "name": "ViMax",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HKUDS/ViMax",
+        "normalized_key": "github:hkuds/vimax"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "idea-to-video",
+        "script-to-video",
+        "novel-to-video",
+        "storyboard-generation",
+        "shot-continuity",
+        "persistent-agent-session",
+        "render-checkpoints"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "agents"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Director/Workforce",
+        "Story/Screenplay",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Character Studio"
+      ],
+      "tags": [
+        "agentic-video",
+        "multi-shot",
+        "character-consistency",
+        "production-graph",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream b596ca7793c7ec6346ddcc408a9ed1bc97998152. Treat Idea2Video/Script2Video/Novel2Video, shot-planning and session/checkpoint patterns as selective references. Its provider YAML/API and CUDA-specific package index MUST NOT bypass FA3 central Model Router, HRB, secret boundary or vendor-neutral CPU-only baseline."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-VKDT-001",
