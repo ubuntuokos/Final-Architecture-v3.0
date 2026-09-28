@@ -33,7 +33,7 @@ The self-contained video-shot UI exposes **6..20 seconds**. This is an applicati
     cmake -S apps/fa3-generative-media-studio -B build/fa3-generative-media-studio
     cmake --build build/fa3-generative-media-studio
 
-Requirements: Qt 6.5+ Core, Gui, Qml, Quick and QuickControls2.
+Requirements: Qt 6.4+ Core, Gui, Qml, Quick and QuickControls2.
 
 ## Hardware Audit
 
