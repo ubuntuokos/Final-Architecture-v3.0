@@ -37,6 +37,8 @@ FORBIDDEN_KEYS={
     "api_key","apikey","password","secret","secret_value","token","bearer_token",
     "direct_model_provider","direct_provider_endpoint","model_provider","physical_model_id",
     "gpu_index","gpu_ordinal","cuda_visible_devices","rocr_visible_devices",
+    "podman_flags","docker_flags","podman_socket","docker_socket",
+    "nested_oci_config","direct_nested_oci_launch",
 }
 HEX40=re.compile(r"^[0-9a-f]{40}$")
 
@@ -283,3 +285,26 @@ def compile_execution_plan(
             "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
         },
     }
+
+
+def compile_nested_tool_action(
+    task: dict[str, Any],
+    request: dict[str, Any],
+    *,
+    preverified_admission: dict[str, Any],
+) -> dict[str, Any]:
+    """UAF-facing nested OCI plan compiler; never launch via an agent runtime socket.
+
+    The caller must independently verify admission authenticity, freshness and
+    current-host scope before calling. This operation produces a non-authoritative
+    plan, not a production or kernel-isolation proof.
+    """
+    from fa3_nested_tool_guard import NestedToolPolicyError, compile_nested_tool_run
+
+    checked_task = validate_task(task)
+    if not isinstance(request, dict) or request.get("task_id") != checked_task["task_id"]:
+        raise WorkloadContractError("nested tool must belong to the admitted workload")
+    try:
+        return compile_nested_tool_run(request, preverified_admission)
+    except NestedToolPolicyError as exc:
+        raise WorkloadContractError(str(exc)) from exc
