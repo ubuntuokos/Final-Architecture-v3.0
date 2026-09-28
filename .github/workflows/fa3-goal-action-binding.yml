@@ -1,0 +1,28 @@
+name: FA3 Goal Bounded Action Binding
+on:
+  pull_request:
+    paths:
+      - "src/fa3_goal_action_binding.py"
+      - "tests/test_goal_action_binding.py"
+      - ".github/workflows/fa3-goal-action-binding.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_goal_action_binding.py"
+      - "tests/test_goal_action_binding.py"
+      - ".github/workflows/fa3-goal-action-binding.yml"
+permissions:
+  contents: read
+jobs:
+  bounded-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source syntax
+        run: python3 -m py_compile src/fa3_goal_action_binding.py tests/test_goal_action_binding.py
+      - name: Positive and negative bounded action checks
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_action_binding.py" -v
+      - name: Goal and Decision Fabric non-regression
+        run: |
+          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_execution_foundation.py" -v
+          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_decision_fabric.py" -v
