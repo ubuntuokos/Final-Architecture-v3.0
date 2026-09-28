@@ -28,6 +28,10 @@ class SystemOneDecisionProvider:
         if explicitly_enabled is None:
             explicitly_enabled = os.environ.get("FA3_SYSTEM_ONE_ENABLE") == "1"
         self.explicitly_enabled = bool(explicitly_enabled)
+        if router_transport is None and self.explicitly_enabled and os.environ.get("FA3_SYSTEM_ONE_LIVE_ROUTER_ENABLE") == "1":
+            from pathlib import Path
+            from fa3_model_router_system_one_transport import NativeRouterTransport
+            router_transport = NativeRouterTransport.from_env(root=Path(__file__).resolve().parents[1])
         self.router_transport = router_transport
 
     def _check_admission(self) -> None:
@@ -86,6 +90,10 @@ class SystemOneDecisionProvider:
             "runtime_model_id": routing.get("model_id"),
             "external_provider": bool(routing.get("external_provider", False)),
             "served_protocol": routing.get("protocol", "system-one-decision-v1"),
+            "data_plane": routing.get("data_plane"),
+            "native_provider_admission_sha256": routing.get("native_provider_admission_sha256"),
+            "upstream_request_id": routing.get("upstream_request_id"),
+            "usage": routing.get("usage", {}),
             "global_promotion_claim": False,
         })
         return result
