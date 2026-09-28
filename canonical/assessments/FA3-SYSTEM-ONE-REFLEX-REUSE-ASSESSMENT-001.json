@@ -6,7 +6,8 @@
   "intent_path": "canonical/intents/FA3-SYSTEM-ONE-REFLEX-APPLICATION-INTENT-001.json",
   "covered_ids": [
     "FA3-DECISION-FABRIC-001",
-    "FA3-PROVIDER-SYSTEM-ONE-DECISION-001"
+    "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+    "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"
   ],
   "result": "PASS",
   "selected_reuse": [
@@ -49,6 +50,18 @@
     {
       "id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
       "use": "ALREADY_ACCEPTED_REFERENCE_PATTERN_SOURCE_NO_CODE_COPY"
+    },
+    {
+      "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+      "use": "EXISTING_CREDENTIAL_AND_PROVIDER_EXECUTION_PROJECTION"
+    },
+    {
+      "id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+      "use": "EXPLICIT_ADMITTED_NATIVE_PROTOCOL_BRIDGE_BEHIND_LITELLM"
+    },
+    {
+      "id": "FA3-SYSTEM-ONE-NATIVE-ADMISSION-001",
+      "use": "CONTRACT_FOR_LIVE_UPSTREAM_AND_LITELLM_E2E_CURRENT_HOST_PROOF"
     }
   ],
   "rejected_candidates": [
@@ -81,7 +94,8 @@
     "secrets": "FA3_SECRET_BROKER"
   },
   "gaps": [
-    "LIVE_SYSTEM_ONE_MODEL_ROUTER_DATA_PLANE_ADMISSION"
+    "REAL_SYSTEM_ONE_UPSTREAM_CREDENTIAL_AND_PROVIDER_ADMISSION",
+    "LIVE_LITELLM_PASSTHROUGH_AUTH_AND_NATIVE_E2E_EVIDENCE"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
@@ -96,7 +110,7 @@
     "global_mutation": false,
     "default_port_hijack": false
   },
-  "implementation_readiness": "PENDING_GAPS",
+  "implementation_readiness": "IMPLEMENTED_LIVE_PROVIDER_ADMISSION_PENDING",
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 175,
