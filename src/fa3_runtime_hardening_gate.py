@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_nested_tool_guard import static_regression_pair
+
 from fa3_runtime_hardening import (
     CAPABILITY_COUNT,
     agent_sandbox_valid,
@@ -124,6 +126,13 @@ def regressions() -> list[dict[str, Any]]:
         not agent_sandbox_valid(**{**sandbox, "backend": "HOST_SUBPROCESS"}),
     )
 
+    nested_positive, nested_negative = static_regression_pair()
+    add(
+        "nested-oci-must-be-mediated-and-fail-closed",
+        nested_positive,
+        nested_negative,
+    )
+
     media = dict(
         requested_backend="cuda",
         observed_backend="cuda",
@@ -220,6 +229,26 @@ def gate(root: Path) -> dict[str, Any]:
             or record.get("capability_count") != CAPABILITY_COUNT
         ):
             findings.append(finding("HARDEN-001", "Profile capability/authority invariant drift", profile=record.get("id")))
+
+    nested_policy = data["agent_sandbox"].get("nested_tool_policy", {})
+    nested_invariants = set(data["agent_sandbox"].get("invariants", []))
+    if not (
+        nested_policy.get("fa3_native_compiler") ==
+        "fa3_nested_tool_guard.compile_nested_tool_run"
+        and nested_policy.get("untrusted_nested_oci_backend") ==
+        "GVISOR_ONLY_IF_CURRENT_HOST_COMPATIBLE"
+        and nested_policy.get("rootless_podman") ==
+        "EXECUTOR_ONLY_NEVER_AGENT_ACCESSIBLE_SOCKET"
+        and nested_policy.get("network") == "DENY_NO_IMPLICIT_PUBLIC_EGRESS"
+        and nested_policy.get("credentials") ==
+        "NO_AMBIENT_ENVIRONMENT_OR_SECRETS_IN_TOOL"
+        and nested_policy.get("provider_admission_automatic") is False
+        and {
+            "AGENT_MUST_NOT_ACCESS_PODMAN_OR_DOCKER_SOCKET",
+            "NESTED_TOOL_PUBLIC_EGRESS_DEFAULT_ALLOW_FORBIDDEN",
+        }.issubset(nested_invariants)
+    ):
+        findings.append(finding("HARDEN-025", "Nested OCI containment reference drift"))
 
     if data["contract"].get("capability_count") != CAPABILITY_COUNT:
         findings.append(finding("HARDEN-002", "Runtime hardening contract capability count drift"))
