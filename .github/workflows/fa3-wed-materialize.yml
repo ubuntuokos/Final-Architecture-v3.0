@@ -111,11 +111,11 @@ jobs:
           t=t.replace(needle,section,1)
           r.write_text(t,encoding="utf-8")
           PY
-      - name: Remove transport parts and self-disabling materializer
+      - name: Remove source transport and separate workflow definition
         shell: bash
         run: |
           git rm -f .github/staging/wed-source.part00 .github/staging/wed-source.part01 .github/staging/wed-source.part02 .github/staging/wed-source.part03 .github/staging/wed-source.part04
-          git rm -f .github/workflows/fa3-wed-materialize.yml
+          rm -f .github/workflows/fa3-world-event-director-ci.yml
       - name: Reconcile release projection Git-blob manifest fail-closed
         shell: bash
         run: |
