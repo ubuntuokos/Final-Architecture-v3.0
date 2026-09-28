@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -6710,6 +6710,86 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-JORDANHINDO-BEADBOARD-001",
+      "name": "jordanhindo/beadboard (BeadBoard)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jordanhindo/beadboard",
+        "normalized_key": "github:jordanhindo/beadboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-fa3-beadboard-reference-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "acknowledged-agent-handoff",
+        "task-linked-inter-agent-mail",
+        "liveness-aware-work-reservations",
+        "dag-task-observability",
+        "evidence-required-task-closure",
+        "agent-pool-visualization"
+      ],
+      "domain_hints": [
+        "agents",
+        "developer-agent",
+        "orchestration",
+        "coordination",
+        "observability"
+      ],
+      "problem_hints": [
+        "partial-task-completion",
+        "unacknowledged-agent-handoffs",
+        "stale-agent-ownership",
+        "concurrent-worker-collisions",
+        "missing-verification-evidence"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Developer Agent",
+        "Agent Collaboration Room",
+        "Verification Fabric",
+        "Goal-to-Acceptance"
+      ],
+      "tags": [
+        "beads",
+        "dolt",
+        "handoff-ack",
+        "liveness",
+        "ttl-reservations",
+        "work-graph",
+        "mit",
+        "reference-only-runtime"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official GitHub repository API resolves zenchantlive/beadboard to jordanhindo/beadboard; use the user's canonical jordanhindo locator and do not create alias duplicate.",
+        "Reuse selective coordination/GUI and evidence-gate patterns; FA3 already has canonical AgentMessage, WorkspaceLease, CoordinationEvent, ExecutionEvidence and Temporal global lifecycle. BeadBoard must not become a second authority, scheduler, model router or MCP tool gateway.",
+        "Upstream README warns embedded bb-pi is under construction, including reported silent runtime errors and rapid-session races. Do not admit the embedded runtime based on repository documentation.",
+        "Licensing declared MIT in inspected repository LICENSE; transitive Beads/Dolt/Pi/UI dependency, supply-chain and redistribution assessment still required before any code transfer. This registry capture is metadata only, not current-host runtime evidence.",
+        "Hardware audit: metadata only, vendor-neutral, CPU-only feasible, 0..N accelerators; runtime resource placement stays HRB, model selection stays central Model Router, tools enter via UAF/Central MCP Gateway, agent communication remains FA3-AI-COMMS-001 audited."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-KAANKIZILTUG-LOGO-DESIGN-SKILL-001",
