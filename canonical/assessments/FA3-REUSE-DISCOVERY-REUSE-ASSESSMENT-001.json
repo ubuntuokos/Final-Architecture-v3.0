@@ -44,6 +44,18 @@
     {
       "id": "FA3-EXTERNAL-SKILL-RADAR-001",
       "use": "REFERENCE_ONLY_EXTERNAL_SKILL_IDEA_SOURCE"
+    },
+    {
+      "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "use": "MANDATORY_OPEN_STANDARD_REUSE_SOURCE_FAMILY"
+    },
+    {
+      "id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+      "use": "RUNTIME_PROVIDER_AND_ADAPTER_DISCOVERY_SOURCE"
+    },
+    {
+      "id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+      "use": "INTERCHANGE_AND_DESIGN_PATTERN_INSTRUCTION_SOURCE"
     }
   ],
   "rejected_candidates": [],
@@ -97,5 +109,29 @@
     "full_repository_skipped": 1,
     "reuse_discovery_run_id": 36091773680,
     "permanent_enforcement_run_id": 36091773595
-  }
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "matched_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "roles": [
+        "RUNTIME_PROVIDER_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ]
 }
