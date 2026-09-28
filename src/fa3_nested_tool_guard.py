@@ -125,6 +125,14 @@ def compile_nested_tool_run(request: dict[str, Any], admission: dict[str, Any]) 
               and seccomp_path.resolve(strict=True) == seccomp_path
               and hashlib.sha256(seccomp_path.read_bytes()).hexdigest() == expected_hash,
               "NTO-016_SECCOMP_PROFILE_MISMATCH")
+    try:
+        seccomp_data = json.loads(seccomp_path.read_text(encoding="utf-8"))
+    except (UnicodeError, ValueError) as exc:
+        raise NestedToolPolicyError("NTO-016_INVALID_SECCOMP_JSON") from exc
+    _required(isinstance(seccomp_data, dict)
+              and seccomp_data.get("defaultAction") in
+              {"SCMP_ACT_ERRNO", "SCMP_ACT_KILL", "SCMP_ACT_KILL_PROCESS"},
+              "NTO-016_SECCOMP_DEFAULT_ALLOW_FORBIDDEN")
     _required(not any(c in str(seccomp_path) for c in ",\n\r\0"),
               "NTO-017_UNSAFE_SECCOMP_PATH")
 
