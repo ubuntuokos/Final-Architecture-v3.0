@@ -21,9 +21,23 @@
   "direct_external_model_call": "DENY",
   "direct_tool_execution": "DENY",
   "confidence_may_authorize": false,
-  "supported_contracts": ["BOUNDED_ACTION"],
-  "parameter_kinds": ["choices", "candidates", "flag", "levels"],
+  "supported_contracts": [
+    "BOUNDED_ACTION"
+  ],
+  "parameter_kinds": [
+    "choices",
+    "candidates",
+    "flag",
+    "levels"
+  ],
   "free_text_parameter_generation": "DENY",
-  "handoff_targets": ["SYSTEM_TWO", "HUMAN"],
-  "cpu_only_supported": true
+  "handoff_targets": [
+    "SYSTEM_TWO",
+    "HUMAN"
+  ],
+  "cpu_only_supported": true,
+  "activation_dependency": "MODEL_ROUTER_SYSTEM_ONE_DATA_PLANE_ADMISSION_REQUIRED",
+  "committed_route_activation": false,
+  "router_transport_binding": "REQUIRED_AT_RUNTIME",
+  "litellm_data_plane_bypass": "DENY"
 }
