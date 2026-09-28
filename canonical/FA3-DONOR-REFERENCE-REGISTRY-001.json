@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 297,
+    "entry_count": 298,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -7507,6 +7507,79 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-LOGICRW-AWESOME-JEV-PROJECTS-001",
+      "name": "logicrw/awesome-jev-projects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/logicrw/awesome-jev-projects",
+        "normalized_key": "github:logicrw/awesome-jev-projects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-github-source-analysis-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "commit-pinned-upstream-evidence",
+        "incremental-ecosystem-discovery",
+        "source-reviewed-decision-pattern-index",
+        "catalog-snapshot-reconciliation"
+      ],
+      "domain_hints": [
+        "agents",
+        "decision-fabric",
+        "donor-discovery",
+        "jev",
+        "research"
+      ],
+      "problem_hints": [
+        "external-project-source-verification",
+        "registry-deduplication",
+        "upstream-discovery-coverage",
+        "review-vs-runtime-evidence-separation"
+      ],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "External Project Radar",
+        "Reuse Discovery",
+        "Decision Fabric"
+      ],
+      "tags": [
+        "catalog",
+        "decision-patterns",
+        "evidence",
+        "jev",
+        "open-source-radar",
+        "source-pinning"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Already referenced by canonical FA3-EXTERNAL-PROJECT-RADAR-001; existing 2026-09-23 upstream snapshot is not FA3 runtime certification.",
+        "Directory software is MIT; individual catalogued projects retain their separate licenses. Treat upstream code evidence as source review only.",
+        "Candidate record only: no new model routing authority, provider admission, runtime dependency, or hardware requirement."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MATCHERING-001",
