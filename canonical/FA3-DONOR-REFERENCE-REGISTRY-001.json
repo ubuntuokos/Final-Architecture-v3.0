@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 297,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -8548,6 +8548,83 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MUSTAFAKENDIGUZEL-CLAUDE-CODE-UI-AGENTS-001",
+      "name": "mustafakendiguzel/claude-code-ui-agents",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mustafakendiguzel/claude-code-ui-agents",
+        "normalized_key": "github:mustafakendiguzel/claude-code-ui-agents"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SKILL_PATTERN",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "FA3 GUI Design System",
+        "FA3 Developer Agent",
+        "FA3 Prompt Builder"
+      ],
+      "domain_hints": [
+        "ui-ux",
+        "frontend-design",
+        "design-systems",
+        "accessibility",
+        "responsive-layout",
+        "micro-interactions"
+      ],
+      "problem_hints": [
+        "cross-application-ui-consistency",
+        "reusable-design-tokens",
+        "accessible-qt-interface-design",
+        "task-scoped-ui-design-prompts"
+      ],
+      "target_hints": [
+        "FA3 GUI",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Story / Screenplay Studio",
+        "Creative Studio",
+        "Developer Agent",
+        "Prompt Builder"
+      ],
+      "tags": [
+        "claude-code",
+        "ui-ux",
+        "prompt-templates",
+        "design-tokens",
+        "frontend",
+        "accessibility",
+        "qt-adaptation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "Upstream source observed at commit e224ca06d45fcbfdb05c581cc2257967a891ea79; repository README lists nine prompts across seven UI/UX and frontend categories; LICENSE declares MIT (copyright Mustafa Kendigüzel, 2025).",
+        "Reference patterns only. Original prompts hard-code model: sonnet and emphasize React/CSS/ARIA; adapt any accepted skill to FA3 Qt6/QML/KF6 and X11/Wayland, and route any model through the central Model Router and HRB with no fixed Claude provider, automatic selection, or silent fallback.",
+        "Metadata-only capture. No source copy, model/provider admission, auto-fetch, auto-install, runtime activation or current-host evidence is claimed. Full license, security, provenance, design-review and Hardware Audit gates required before implementation."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
