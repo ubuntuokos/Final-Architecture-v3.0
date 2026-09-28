@@ -42,7 +42,7 @@ jobs:
                   target=(root/m.name).resolve()
                   assert target.is_relative_to(root), m.name
                   assert m.isfile() or m.isdir(), m.name
-                  assert m.name.startswith(("apps/fa3-world-event-director/","bin/fa3-world-event-director","tests/test_world_event_director.py",".github/workflows/fa3-world-event-director-ci.yml")), m.name
+                  assert m.name == "apps/fa3-world-event-director" or m.name.startswith(("apps/fa3-world-event-director/","bin/fa3-world-event-director","tests/test_world_event_director.py",".github/workflows/fa3-world-event-director-ci.yml")), m.name
                   if target.exists() and m.isfile():
                       raise RuntimeError(f"refusing to overwrite unexpected existing source: {m.name}")
               archive.extractall(path=root, filter="data")
