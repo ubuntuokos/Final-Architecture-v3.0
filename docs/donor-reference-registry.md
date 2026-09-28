@@ -69,6 +69,10 @@ The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-202
 
 The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) inventories the official organization and records five individually checked repositories plus a discovery index as metadata-only donor candidates. It links OpenUSD/Hydra, OpenSubdiv and USD proposals to current or planned creative applications while preserving FA3-native projects, CPU-only viability, existing Khronos reuse, and all independent admission gates.
 
+## Short-form video donor and QuickClip gap plan
+
+[YILS-LIN/short-video-factory selective assessment and phased QuickClip implementation](FA3-QUICKCLIP-SHORT-VIDEO-FACTORY-IMPLEMENTATION-2026-09-28.md) compares upstream capabilities with existing FA3 contracts, identifies the outstanding native implementation work, and defines human-approved app handoffs plus release/Hardware Audit/privacy/license gates. The AGPL-3.0 upstream remains a source-unique **candidate/reference only**; no upstream code, Electron runtime, direct EdgeTTS route or telemetry is imported.
+
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
