@@ -17654,6 +17654,111 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-YILS-LIN-SHORT-VIDEO-FACTORY-001",
+      "name": "YILS-LIN/short-video-factory",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/YILS-LIN/short-video-factory",
+        "normalized_key": "github:yils-lin/short-video-factory"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28 FA3 GitHub donor review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "prompt-to-script short-video production",
+        "script-to-speech-to-subtitle synchronization",
+        "automated media segment selection and mixed cuts",
+        "batch short-video composition",
+        "subtitle frame rendering and FFmpeg overlay",
+        "cancellable rendering with progress reporting"
+      ],
+      "domain_hints": [
+        "creative",
+        "short-video",
+        "video",
+        "audio",
+        "marketing",
+        "automation"
+      ],
+      "problem_hints": [
+        "repeatable short-form production",
+        "duration alignment between script speech footage and captions",
+        "batch rendering from reusable presets"
+      ],
+      "target_hints": [
+        "FA3 QuickClip",
+        "FA3 Video Editor",
+        "FA3 Story/Screenplay",
+        "FA3 Subtitle Composer",
+        "FA3 Voice/Vocal",
+        "FA3 Marketing",
+        "FA3 Creative Studio"
+      ],
+      "tags": [
+        "quickclip",
+        "short-video",
+        "batch-video",
+        "script-generation",
+        "tts",
+        "captions",
+        "ffmpeg",
+        "pixi",
+        "agpl-3.0",
+        "selective-reuse",
+        "telemetry-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "automated short-video workflow",
+          "duration-aware randomized segment selection",
+          "speech and subtitle alignment",
+          "batch presets and repeatable production",
+          "progress/cancellation and temporary-artifact cleanup",
+          "cross-language caption layout patterns"
+        ],
+        "intended_fa3_targets": [
+          "FA3 QuickClip",
+          "FA3 Video Editor",
+          "FA3 Story/Screenplay",
+          "FA3 Subtitle Composer",
+          "FA3 Voice/Vocal",
+          "FA3 Marketing"
+        ],
+        "source_group": "direct-upstream-review",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Reference-only pending independent license/security/privacy assessment; AGPL-3.0 source copying or component incorporation needs distribution-compliance review. Keep native FA3 .fa3clip and .fa3video projects and central Router/HRB authority; CPU-only and X11/Wayland compatible. No complete Electron app adoption."
+      },
+      "notes": [
+        "Upstream v1.2.2 uses Electron/Vue/TypeScript, FFmpeg, EdgeTTS and Pixi; reviewed upstream commit f2aa5958b9a949b339e04d8aee9754223f07a18f (2026-09-28).",
+        "Upstream changelog v1.2.1 reports anonymous main-process event telemetry; do not assume offline-only/privacy compliance without independent inspection.",
+        "Registry capture alone is neither source import nor runtime/provider/model admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-YOUMIND-OPENLAB-NANO-BANANA-PRO-PROMPTS-RECOMMEND-SKILL-001",
       "name": "YouMind-OpenLab/nano-banana-pro-prompts-recommend-skill",
       "source": {
