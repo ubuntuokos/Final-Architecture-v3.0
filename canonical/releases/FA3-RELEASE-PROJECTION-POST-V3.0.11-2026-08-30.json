@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "17ae1bc279d948db03733d194bb8dd64bd2d0868",
-    "pre_projection_root_tree_sha": "d6bb87c554b853c0d19272f4c6e7eafad22d6f4e",
-    "pre_projection_canonical_tree_sha": "cf71d3c79e03452eeb93ad611ed41f4ead5e84d0",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1591,
-    "total_post_baseline_commits": 1591,
-    "delta_file_count": 2491,
-    "delta_added_files": 2485,
+    "pre_projection_head_sha": "339a39ee71ac39cfc9417d525a45dab9acc905d6",
+    "pre_projection_root_tree_sha": "55d96751e8b22e082674758e716781fb24ee3680",
+    "pre_projection_canonical_tree_sha": "0923c775f9f8922a00c83ae9e6655a3b1b8d0149",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1612,
+    "total_post_baseline_commits": 1612,
+    "delta_file_count": 2496,
+    "delta_added_files": 2490,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,8 +48,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1198,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 340,
-    "test_files_in_post_baseline_delta": 275,
+    "source_files_in_post_baseline_delta": 342,
+    "test_files_in_post_baseline_delta": 277,
     "workflow_files_in_post_baseline_delta": 124,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1013,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2481,
+  "manifest_entry_count": 2486,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1562,7 +1562,7 @@
     },
     {
       "path": ".github/workflows/fa3-skill-ecosystem.yml",
-      "git_blob_sha": "0d15ebdcd43ae0c6970f26d375948898f3923f96",
+      "git_blob_sha": "e672668faf788ec1f52ff005953047ab23ea40b6",
       "baseline_delta_status": "added"
     },
     {
@@ -4932,7 +4932,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
-      "git_blob_sha": "998ca1474187b55d2da2dae8947fcdbb8ae3e0ea",
+      "git_blob_sha": "57ea1d28560e1664a1d23bf1259d1699a95dae32",
       "baseline_delta_status": "added"
     },
     {
@@ -8791,6 +8791,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-SKILL-TASK-BINDING-2026-09-28.md",
+      "git_blob_sha": "313f4ab52568971e3737300bbe26788933de2a19",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
       "git_blob_sha": "735695d2f3e40f7d5b7014aa6ea6f01521db2ebe",
       "baseline_delta_status": "added"
@@ -10762,7 +10767,7 @@
     },
     {
       "path": "src/fa3_developer_agent_coordination.py",
-      "git_blob_sha": "9533a73b726d1744d28cf7eb040d671c53ff40e6",
+      "git_blob_sha": "df08696c4f722718fd1c68cc34560f21ea0105ee",
       "baseline_delta_status": "added"
     },
     {
@@ -11771,6 +11776,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_skill_activation.py",
+      "git_blob_sha": "4b78788736f6abbcf0267f850f051cdd5ab08b63",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_skill_discovery.py",
       "git_blob_sha": "5f03d8717ceffd37cd20f971b8470b49e2967b8b",
       "baseline_delta_status": "added"
@@ -11787,7 +11797,7 @@
     },
     {
       "path": "src/fa3_skill_fabric_gate.py",
-      "git_blob_sha": "e349a3f01f06c46258f609bed488bcd1bfd2a07c",
+      "git_blob_sha": "adc194d64920478aa6e9ef676d0fd5b2d5cb8ff0",
       "baseline_delta_status": "added"
     },
     {
@@ -11798,6 +11808,11 @@
     {
       "path": "src/fa3_skill_fabric_v14.py",
       "git_blob_sha": "d461a6a9999e87e7da4ef7ebbff849bb0eb3aa90",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_skill_task_binding.py",
+      "git_blob_sha": "59969f1ee1f90f34cb9654c7024f77be77b8b779",
       "baseline_delta_status": "added"
     },
     {
@@ -13161,6 +13176,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_skill_activation.py",
+      "git_blob_sha": "c21aff3246a2bc1e24ec28548d41503d81dbee54",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_skill_discovery.py",
       "git_blob_sha": "e33309120c7bf92692665c890ee0857c645acd03",
       "baseline_delta_status": "added"
@@ -13188,6 +13208,11 @@
     {
       "path": "tests/test_skill_fabric_v14.py",
       "git_blob_sha": "5fa28162dfc1b4110dc0cc65acf0373dbee761a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_skill_task_binding.py",
+      "git_blob_sha": "743f6c4b381c934cb63d9a1f3ed06abebefb07db",
       "baseline_delta_status": "added"
     },
     {
