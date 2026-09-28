@@ -1,0 +1,221 @@
+{
+  "schema": "fa3.application-donor-links.v1",
+  "id": "FA3-APPLICATION-DONOR-LINKS-001",
+  "status": "CANONICAL_LINK_DECLARATIONS",
+  "authority": false,
+  "derived_application_inventory": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "canonical_inputs": [
+    "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
+    "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+  ],
+  "policy": {
+    "auto_register_all_curated_applications": true,
+    "gui_surfaces_are_not_applications": true,
+    "planned_apps_explicitly_declared": true,
+    "relationships_are_proposals": true,
+    "exact_match_targeted_reevaluation": true,
+    "admission_not_inherited": true,
+    "native_project_files_preserved": true,
+    "automatic_code_import": false,
+    "automatic_activation": false,
+    "automatic_model_selection": false,
+    "automatic_provider_admission": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_exclusive_resource_authority": true,
+    "model_router_exclusive_route_authority": true,
+    "wayland_preferred_x11_supported": true
+  },
+  "applications": [
+    {
+      "application_id": "fa3.video-editor",
+      "name": "FA3 Video Editor",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Video Editor",
+        "Creative Studio",
+        "Hybrid Editorial",
+        "Video Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "name": "FA3 QuickClip",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "QuickClip",
+        "Short Video"
+      ]
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "name": "FA3 Story/Screenplay",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Story/Screenplay",
+        "Film Planning",
+        "Story",
+        "Screenplay"
+      ]
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "name": "FA3 Music Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Music Studio",
+        "Audio Fabric",
+        "Voice/Vocal"
+      ]
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "name": "FA3 Character Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Character Studio",
+        "Performance",
+        "Choreography",
+        "Digital Actor"
+      ]
+    },
+    {
+      "application_id": "reference.krita",
+      "name": "Krita",
+      "kind": "EXTERNAL_REFERENCE_APPLICATION",
+      "lifecycle": "REFERENCE_ONLY",
+      "source_ref": "project:krita",
+      "aliases": [
+        "Photo/Image Editor"
+      ]
+    },
+    {
+      "application_id": "reference.ardour",
+      "name": "Ardour",
+      "kind": "EXTERNAL_REFERENCE_APPLICATION",
+      "lifecycle": "REFERENCE_ONLY",
+      "source_ref": "project:ardour",
+      "aliases": [
+        "Audio Fabric",
+        "Music Studio"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "FA3-APP-LINK-QUICKCLIP-EDITOR",
+      "from_application": "fa3.quickclip",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        ".fa3clip timeline",
+        "captions",
+        "reframe",
+        "audio",
+        "style",
+        "provenance"
+      ],
+      "integration_boundary": "Explicit full import to native project.fa3video, never replace native project",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-EDITOR-QUICKCLIP",
+      "from_application": "fa3.video-editor",
+      "to_application": "fa3.quickclip",
+      "offered_artifacts": [
+        "approved sequence",
+        "clip selection",
+        "aspect-ratio intent"
+      ],
+      "integration_boundary": "Explicit approved export; preserve project.fa3video",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-STORY-EDITOR",
+      "from_application": "fa3.story-screenplay",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        "approved screenplay beats",
+        "scene/shot metadata"
+      ],
+      "integration_boundary": "Human approval of generated scene commands",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-MUSIC-EDITOR",
+      "from_application": "fa3.music-studio",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        "mixdown",
+        "score cue sheet",
+        "MIDI asset reference"
+      ],
+      "integration_boundary": "Project-preserving audio interchange",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-CHARACTER-EDITOR",
+      "from_application": "fa3.character-studio",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        "approved animation clip",
+        "rig/pose metadata"
+      ],
+      "integration_boundary": "3D-ready Scene/Shot interchange; explicit approval",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-BFORARTISTS-EDITOR",
+      "from_application": "studio.bforartists",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        "rendered scene",
+        "camera metadata"
+      ],
+      "integration_boundary": "Bforartists native project preserved",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-KRITA-EDITOR",
+      "from_application": "reference.krita",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        "approved layered artwork",
+        "animation frames"
+      ],
+      "integration_boundary": "Preserve .kra with explicit safe export/import",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-ARDOUR-MUSIC",
+      "from_application": "reference.ardour",
+      "to_application": "fa3.music-studio",
+      "offered_artifacts": [
+        "edited stems",
+        "native session references"
+      ],
+      "integration_boundary": "Preserve Ardour native session; no required dependency",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    }
+  ]
+}
