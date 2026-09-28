@@ -86,7 +86,7 @@ The **canonical registry** is the source of truth. The table documents intended 
 | [LISFLOOD-FP BMI](https://github.com/openearth/lisflood-fp-bmi) | floodplain and basic-model-interface design patterns | this older branch GPL-3.0 and not latest upstream |
 | [OpenSees](https://github.com/OpenSees/OpenSees) | structural/geotechnical response research for earthquake, wind and other loads | verify exact licensing and model validity before use |
 | [CityJSON](https://github.com/cityjson/specs) | 3D city, structures, roads and spatial LOD interchange | CC0 specification; tools/data are separately licensed |
-| [EnergyPlus](https://github.com/NREL/EnergyPlus) | building thermal state and indoor-environment research | license/dependency review pending |
+| [EnergyPlus](https://github.com/NatLabRockies/EnergyPlus) | building thermal state and indoor-environment research | upstream custom permissive license has attribution and trademark/name conditions; independent dependency review pending |
 | [NOAA NOMADS/GFS](https://nomads.ncep.noaa.gov/) | gridded meteorological boundary conditions | optional data provider; evaluate coverage, latency and terms |
 | [USGS Earthquake API](https://earthquake.usgs.gov/fdsnws/event/1/) | historical/recorded seismic event metadata | observation, not local building-damage prediction |
 | [NASA FIRMS API](https://firms.modaps.eosdis.nasa.gov/api/) | satellite hotspot data for wildfire scene research | not for life/property protection; detection != exact fire perimeter |
