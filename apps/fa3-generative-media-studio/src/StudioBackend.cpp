@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSaveFile>
-#include <QStandardPaths>
+#include <QtGlobal>
 #include <QUuid>
 
 namespace {
@@ -23,8 +23,10 @@ const QStringList kCapabilities = {
 
 QString requestRoot()
 {
-    const QString state = QStandardPaths::writableLocation(QStandardPaths::StateLocation);
-    return state + QStringLiteral("/fa3/generative-media-studio/requests");
+    QString state = qEnvironmentVariable("XDG_STATE_HOME");
+    if (state.trimmed().isEmpty())
+        state = QDir::homePath() + QStringLiteral("/.local/state");
+    return QDir::cleanPath(state + QStringLiteral("/fa3/generative-media-studio/requests"));
 }
 }
 
