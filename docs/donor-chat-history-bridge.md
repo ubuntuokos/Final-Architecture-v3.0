@@ -66,3 +66,33 @@ PYTHONPATH=src python3 -m unittest tests.test_reuse_discovery_gate -v
 
 The repository workflow runs the importer tests with synthetic conversation fixtures.
 No private ChatGPT export is required or used in CI.
+
+## Optional automatic local inbox (Linux/systemd user)
+
+Run `bash bin/fa3-donor-chat-watch-install` from the FA3 checkout to install an
+opt-in user-level `systemd.path` watcher. It creates a private
+`~/.local/share/fa3/donor-import/inbox/` (mode 0700) and imports ZIP or
+conversations JSON **after you put an export there**. A private SHA-256 checkpoint
+(mode 0600) prevents repeated processing of the same export. The importer
+never sends conversation content to a server and never pushes a commit.
+
+```bash
+mkdir -p "$HOME/.local/share/fa3/donor-import/inbox"
+cp "$HOME/Downloads/chatgpt-export.zip" "$HOME/.local/share/fa3/donor-import/inbox/"
+systemctl --user status fa3-donor-chat-import.path
+# To disable:
+systemctl --user disable --now fa3-donor-chat-import.path
+```
+
+Exports remain private files in your inbox until **you** remove them. Keep the
+folder private, and do not sync it to the public repository. The watcher only
+processes user-supplied exports; it does not monitor, log in to, or request new
+ChatGPT conversations. For ongoing near-real-time capture from another system,
+connect a separately approved event source to the `--events -` adapter.
+
+Test the inbox locally without installing the service:
+
+```bash
+PYTHONPATH=src python3 -m unittest tests.test_donor_chat_inbox -v
+bash bin/fa3-donor-chat-inbox
+```
