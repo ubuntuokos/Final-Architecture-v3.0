@@ -43,3 +43,12 @@ Every donor remains non-authoritative. Code or runtime reuse requires separate l
 A repository-aware FA3 planning/research agent MUST capture a tentative donor signal as soon as it is encountered. A bridge that receives a relevant conversation message can pass it to `./bin/fa3-donor-capture --mention "<message>"`. The parser recognizes explicit Hungarian/English donor cues, extracts one GitHub source or accepts `--name` for an unnamed project, and deliberately stores **only donor metadata**, not the original private conversation text. For multiple source URLs, call capture once for each source. Without a connected bridge, unrelated ChatGPT conversations are not automatically visible to this repository: a declaration in `AGENTS.md` cannot itself subscribe to external conversations.
 
 Identical display names from different source repositories are distinct records; repeat observations with the **same normalized source key** are merged. Newly captured references are always candidates regardless of earlier assessments until explicit normal admission.
+
+## Historical ChatGPT conversation bridge
+
+Use [FA3 ChatGPT donor-history bridge](donor-chat-history-bridge.md) for
+privacy-bounded import of user-provided history exports and approved local
+conversation-event streams. The event API is ready for an authorized external
+source; neither the registry nor agent instructions can independently subscribe
+to all ChatGPT conversations. Import remains a non-authoritative candidate
+capture path.
