@@ -61,6 +61,8 @@ jobs:
           python-version: "3.12"
       - name: Syntax
         run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py src/fa3_donor_registry.py src/fa3_donor_chat_import.py src/fa3_donor_chat_inbox.py
+      - name: Donor import wrapper and installer shell syntax
+        run: bash -n bin/fa3-donor-chat-import bin/fa3-donor-chat-inbox bin/fa3-donor-chat-watch-install
       - name: Donor capture dry-run
         run: ./bin/fa3-donor-capture --name "CI Donor Probe" --source "reference:ci-donor-probe" --tag ci --dry-run
       - name: Donor chat export and approved-event ingestion regressions
