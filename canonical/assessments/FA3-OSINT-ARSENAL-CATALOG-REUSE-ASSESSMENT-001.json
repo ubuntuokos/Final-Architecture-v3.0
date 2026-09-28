@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-OSINT-ARSENAL-CATALOG-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-OSINT-ARSENAL-CATALOG-001",
+  "intent_id": "FA3-OSINT-ARSENAL-CATALOG-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-OSINT-ARSENAL-CATALOG-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-OSINT-ARSENAL-CATALOG-001"
+  ],
+  "result": "PASS",
+  "project_status": "OFFLINE_CATALOG_MATERIALIZATION_ONLY",
+  "selected_reuse": [
+    {
+      "id": "FA3-DONOR-RAWFILEJSON-AWESOME-OSINT-ARSENAL-001",
+      "use": "EXISTING_NON_AUTHORITATIVE_DONOR_RECORD"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "NORMALIZED_CATALOG_FEDERATION"
+    },
+    {
+      "id": "CAP-053",
+      "use": "EXISTING_OSINT_INTELLIGENCE_PARENT"
+    },
+    {
+      "id": "CAP-054",
+      "use": "EXISTING_ASSET_DISCOVERY_PARENT"
+    },
+    {
+      "id": "FA3-EVIDENCE-ENVELOPE-001",
+      "use": "FUTURE_OBSERVATION_PROVENANCE_CONTRACT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "upstream/install.sh",
+      "reason": "ROOT_GLOBAL_INSTALLER_HOST_NON_INTERFERENCE_VIOLATION"
+    },
+    {
+      "id": "upstream/osint.sh",
+      "reason": "GLOBAL_PIP_BREAK_SYSTEM_PACKAGES_AND_UNPINNED_SOURCE_EXECUTION"
+    },
+    {
+      "id": "upstream/redteam.sh",
+      "reason": "UNAUTHORIZED_OFFENSIVE_TOOL_INSTALLATION_NOT_WITHIN_CATALOG_SCOPE"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "fa3.khronos.glslang",
+        "fa3.khronos.spirv-tools"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "gaps": [
+    "PINNED_SOURCE_NORMALIZATION",
+    "PER_TOOL_LICENSE_REVIEW",
+    "DOWNSTREAM_PROVIDER_ADMISSION",
+    "CURRENT_HOST_PROOF_FOR_FUTURE_RUNTIME_ADAPTERS"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false,
+    "python_isolation": "VENV_ONLY",
+    "service_installation": false
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "new_architectural_authorities": 0,
+  "new_capabilities": 0,
+  "automatic_install": false,
+  "automatic_provider_admission": false,
+  "reference_ci_not_current_host_runtime": true,
+  "current_host_runtime_promotion_claim": false
+}
