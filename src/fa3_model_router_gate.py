@@ -13,6 +13,7 @@ REQUIRED_ROUTES = {
     "fa3-text-secondary",
     "fa3-pageindex-index",
     "fa3-pageindex-reason",
+    "fa3-decision-system-one",
 }
 REQUIRED_RULES = {
     "ONE_CENTRAL_MODEL_ROUTER_AUTHORITY",
@@ -50,6 +51,11 @@ def gate(root: Path) -> dict[str, Any]:
         "host_gate": root / "src/fa3_model_router_current_host_gate.py",
         "installer": root / "bin/fa3-model-router-install",
         "serve": root / "bin/fa3-model-router-serve",
+        "native_contract": root / "canonical/contracts/FA3-SYSTEM-ONE-NATIVE-ADMISSION-001.json",
+        "native_provider": root / "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json",
+        "native_transport": root / "src/fa3_model_router_system_one_transport.py",
+        "native_bridge": root / "src/fa3_model_router_system_one_native_bridge.py",
+        "native_admit": root / "src/fa3_model_router_system_one_admit.py",
     }
     missing = [str(p.relative_to(root)) for p in paths.values() if not p.is_file()]
     if missing:
@@ -79,6 +85,15 @@ def gate(root: Path) -> dict[str, Any]:
     route_names = {str(x.get("route")) for x in route_rows if isinstance(x, dict)}
     if route_names != REQUIRED_ROUTES:
         findings.append(finding("MR-005", "required logical route set mismatch", routes=sorted(route_names)))
+    native = next((r for r in route_rows if isinstance(r, dict) and r.get("route") == "fa3-decision-system-one"), {})
+    if not (
+        native.get("optional") is True
+        and native.get("required_runtime_api") == "SYSTEM_ONE_DECISIONS_V1"
+        and native.get("activation") == "EXPLICIT_CURRENT_HOST_ADMISSION_ONLY"
+        and native.get("approved_model_set") == "EXPLICIT_PRIMARY_MODEL_DESIGNATION_ONLY"
+        and native.get("passthrough") == "LITELLM_AUTHENTICATED"
+    ):
+        findings.append(finding("MR-020", "native System One optional admission boundary drift"))
     for row in route_rows:
         if not isinstance(row, dict):
             findings.append(finding("MR-006", "route row is not an object"))
@@ -105,6 +120,11 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("MR-015", "baseline Model Router service is not loopback-egress constrained"))
     if "RuntimeDirectoryPreserve=restart" not in service or "selection.json" not in installer or "/v1/models" not in installer:
         findings.append(finding("MR-018", "Model Router lifecycle readiness does not preserve/prove runtime selection state"))
+    native_record = loadj(paths["native_provider"])
+    if (native_record.get("architectural_authority") is not False
+            or native_record.get("single_data_plane") != "LITELLM_AUTHENTICATED_PASS_THROUGH"
+            or native_record.get("status") != "RUNTIME_ADMISSION_PENDING_LIVE_PROVIDER_AND_SECRET_BROKER"):
+        findings.append(finding("MR-021", "native provider must remain optional and non-authoritative"))
     if paths["serve"].stat().st_mode & 0o111 == 0:
         findings.append(finding("MR-019", "Model Router service entrypoint is not executable"))
     required_materializer = (
@@ -122,6 +142,10 @@ def gate(root: Path) -> dict[str, Any]:
         "catalog_api_base",
         "admission_api_base",
         "reserved routing fields",
+        "SYSTEM_ONE_DECISIONS_V1",
+        "FA3_SYSTEM_ONE_BRIDGE_TOKEN",
+        "pass_through_endpoints",
+        "model_designation_receipt",
     )
     if any(token not in materializer for token in required_materializer):
         findings.append(finding("MR-016", "runtime materializer lacks provider admission/discovery/selection invariants"))

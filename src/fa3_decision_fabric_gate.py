@@ -32,6 +32,11 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/providers/FA3-PROVIDER-DECISION-LOCAL-001.json",
         "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json",
         "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+        "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json",
+        "canonical/contracts/FA3-SYSTEM-ONE-NATIVE-ADMISSION-001.json",
+        "src/fa3_model_router_system_one_native_bridge.py",
+        "src/fa3_model_router_system_one_transport.py",
+        "src/fa3_model_router_system_one_admit.py",
         "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json",
         "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json",
         "canonical/third-party/FA3-SYSTEM-ONE-HARNESS-REUSE-001.json",
@@ -77,6 +82,7 @@ def gate(root: Path) -> dict[str, Any]:
     jev = load(root / "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json")
     system_one = load(root / "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json")
     reflex = load(root / "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json")
+    native = load(root / "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json")
     system_one_decision = load(root / "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json")
     system_one_reuse = load(root / "canonical/third-party/FA3-SYSTEM-ONE-HARNESS-REUSE-001.json")
     decision = load(root / "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json")
@@ -136,9 +142,15 @@ def gate(root: Path) -> dict[str, Any]:
     if (
         system_one.get("committed_route_activation") is not False
         or system_one.get("litellm_data_plane_bypass") != "DENY"
-        or system_one.get("activation_dependency") != "MODEL_ROUTER_SYSTEM_ONE_DATA_PLANE_ADMISSION_REQUIRED"
+        or system_one.get("activation_dependency") != "MODEL_ROUTER_SYSTEM_ONE_NATIVE_CURRENT_HOST_ADMISSION_REQUIRED"
     ):
         findings.append(finding("DECISION-019", "System One activation/data-plane boundary drift"))
+    if (
+        native.get("architectural_authority") is not False
+        or native.get("status") != "RUNTIME_ADMISSION_PENDING_LIVE_PROVIDER_AND_SECRET_BROKER"
+        or native.get("single_data_plane") != "LITELLM_AUTHENTICATED_PASS_THROUGH"
+    ):
+        findings.append(finding("DECISION-020", "native System One provider admission/authority drift"))
     if reflex.get("execution_performed_by_contract") is not False or reflex.get("confidence_is_authorization") is not False:
         findings.append(finding("DECISION-015", "reflex contract authority drift"))
     if system_one_decision.get("authority_delta") != 0 or system_one_decision.get("capability_count_after") != 175:
@@ -167,6 +179,7 @@ def gate(root: Path) -> dict[str, Any]:
                 "src/fa3_jev_decision_provider.py",
                 "src/fa3_decision_fabric_gate.py",
                 "src/fa3_browser_action_gate.py",
+                "src/fa3_model_router_system_one_native_bridge.py",
             }
             if rel in direct_jev_scan_exempt:
                 continue

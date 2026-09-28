@@ -36,12 +36,13 @@
     "HUMAN"
   ],
   "cpu_only_supported": true,
-  "activation_dependency": "MODEL_ROUTER_SYSTEM_ONE_DATA_PLANE_ADMISSION_REQUIRED",
+  "activation_dependency": "MODEL_ROUTER_SYSTEM_ONE_NATIVE_CURRENT_HOST_ADMISSION_REQUIRED",
   "committed_route_activation": false,
-  "router_transport_binding": "REQUIRED_AT_RUNTIME",
+  "router_transport_binding": "FA3_MODEL_ROUTER_SYSTEM_ONE_NATIVE_TRANSPORT_V1",
   "litellm_data_plane_bypass": "DENY",
   "distribution": {
     "class": "FA3_NATIVE",
     "release_bundle_status": "INCLUDED"
-  }
+  },
+  "live_provider_admitted": false
 }

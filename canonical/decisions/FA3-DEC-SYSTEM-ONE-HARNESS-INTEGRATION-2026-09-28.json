@@ -18,7 +18,9 @@
     "resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
     "execution_plane": "EXISTING_CALLER_AUTHORITY",
-    "mcp_action_compiler": "src/fa3_system_one_mcp_compiler.py"
+    "mcp_action_compiler": "src/fa3_system_one_mcp_compiler.py",
+    "native_provider": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+    "native_admission_contract": "FA3-SYSTEM-ONE-NATIVE-ADMISSION-001"
   },
   "invariants": [
     "confidence never grants permission",
@@ -29,7 +31,10 @@
     "reflex runtime never performs tool execution itself",
     "low-confidence and explicit escalation produce a typed handoff",
     "unsupported MCP tools are reported with reason codes and never silently weakened",
-    "decision traces retain the model probability distributions required to audit the confidence gate"
+    "decision traces retain the model probability distributions required to audit the confidence gate",
+    "native route is emitted only for a real current-host admitted and explicitly designated live model",
+    "native HTTP requests cross the authenticated LiteLLM pass-through before the loopback backend",
+    "native provider and LiteLLM invalid-bearer rejection are separate admission obligations"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
@@ -41,5 +46,7 @@
     "npu_required": false,
     "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
   },
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "native_provider_status": "CODE_MATERIALIZED_LIVE_CURRENT_HOST_ADMISSION_PENDING",
+  "native_route_runtime_state": "OPTIONAL_NOT_AUTO_ACTIVATED"
 }

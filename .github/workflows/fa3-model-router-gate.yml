@@ -61,3 +61,8 @@ jobs:
             tests.test_model_router_current_host_gate \
             tests.test_model_manager_current_host_gate
           python3 src/fa3_model_router_gate.py --root .
+      - name: Native System One protocol regression (no live-provider claim)
+        run: |
+          set -euo pipefail
+          python3 -m py_compile src/fa3_model_router_system_one_native_bridge.py src/fa3_model_router_system_one_transport.py src/fa3_model_router_system_one_admit.py src/fa3_model_router_system_one_live_gate.py
+          PYTHONPATH=src python3 -m unittest tests.test_model_router_system_one_native -v
