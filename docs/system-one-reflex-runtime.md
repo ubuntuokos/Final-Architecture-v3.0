@@ -51,6 +51,8 @@ Low confidence returns a structured handoff for a System Two path or human revie
 
 The current Jev-specific provider remains supported for existing structured Decision Fabric contracts. The new provider is the provider-neutral route for bounded reflex steps and may be backed by Jev or a future admitted System One model without changing applications.
 
+The logical route is not added to the committed `deployment/model-router/routes.json` by this change. The current Router materializes OpenAI-compatible chat routes through LiteLLM; a System One wire must first gain an admitted LiteLLM-compatible/Model-Router data-plane adapter. Until then the provider remains `OPTIONAL_RUNTIME_ADMISSION_PENDING`, and only recorded/injected Router transports are used by tests and current-host boundary evidence. This prevents an architectural bypass disguised as a new route.
+
 ## Upstream provenance
 
 Pattern source:
