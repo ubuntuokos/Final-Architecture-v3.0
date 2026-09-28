@@ -60,3 +60,7 @@ labels selected capabilities, partial implementation patterns and intended
 current or future FA3 application targets without adopting entire upstream
 applications or changing FA3 runtime, provider, hardware or model authorities.
 Historical `REF`/`REQ` designations are not present-day admission approvals.
+
+## NVIDIA GitHub donor curation
+
+The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-2026-09-28.md) records 39 individually checked NVIDIA repositories plus the organization-level discovery source. Entries remain non-authoritative; NVIDIA-specific paths do not replace the CPU-only and vendor-neutral hardware baseline.

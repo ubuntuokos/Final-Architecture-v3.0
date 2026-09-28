@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 251,
+    "entry_count": 290,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -8661,16 +8661,1078 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-NVIDIA-AUDIO-FLAMINGO-001",
+      "name": "NVIDIA audio-flamingo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/audio-flamingo",
+        "normalized_key": "github:nvidia/audio-flamingo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "audio-language-model-reference",
+        "audio-understanding"
+      ],
+      "domain_hints": [
+        "audio",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "creative-audio",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CCCL-001",
+      "name": "NVIDIA cccl",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cccl",
+        "normalized_key": "github:nvidia/cccl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cuda-core-compute-patterns",
+        "parallel-algorithms"
+      ],
+      "domain_hints": [
+        "engineering",
+        "hardware"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Developer Agent",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "tooling"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-COSMOS-001",
+      "name": "NVIDIA cosmos",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cosmos",
+        "normalized_key": "github:nvidia/cosmos"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "physical-ai",
+        "video-world-model-reference",
+        "world-models"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "simulation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Creative Studio",
+        "World Generator"
+      ],
+      "tags": [
+        "creative-3d",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUDA-PYTHON-001",
+      "name": "NVIDIA cuda-python",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cuda-python",
+        "normalized_key": "github:nvidia/cuda-python"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cuda-python-api",
+        "cuda-runtime-interop"
+      ],
+      "domain_hints": [
+        "engineering",
+        "hardware"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Inference Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "tooling"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUDA-SAMPLES-001",
+      "name": "NVIDIA cuda-samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cuda-samples",
+        "normalized_key": "github:nvidia/cuda-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cuda-compatibility-examples",
+        "gpu-test-fixtures"
+      ],
+      "domain_hints": [
+        "engineering",
+        "hardware"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Developer Agent",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "tooling"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUDF-001",
+      "name": "NVIDIA cudf",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cudf",
+        "normalized_key": "github:nvidia/cudf"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "columnar-data-processing",
+        "gpu-dataframe"
+      ],
+      "domain_hints": [
+        "analytics",
+        "data"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Data Fabric",
+        "Knowledge Fabric"
+      ],
+      "tags": [
+        "data",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUDNN-FRONTEND-001",
+      "name": "NVIDIA cudnn-frontend",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cudnn-frontend",
+        "normalized_key": "github:nvidia/cudnn-frontend"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "dnn-kernel-interface",
+        "gpu-kernel-planning"
+      ],
+      "domain_hints": [
+        "engineering",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Inference Fabric",
+        "Training Fabric"
+      ],
+      "tags": [
+        "inference",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUML-001",
+      "name": "NVIDIA cuml",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cuml",
+        "normalized_key": "github:nvidia/cuml"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "clustering",
+        "machine-learning-primitives"
+      ],
+      "domain_hints": [
+        "analytics",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Analytics Fabric",
+        "Training Fabric"
+      ],
+      "tags": [
+        "data",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUTLASS-001",
+      "name": "NVIDIA cutlass",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cutlass",
+        "normalized_key": "github:nvidia/cutlass"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "accelerator-kernels",
+        "matrix-kernel-patterns"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "engineering"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Inference Fabric",
+        "Training Fabric"
+      ],
+      "tags": [
+        "inference",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-CUVS-001",
+      "name": "NVIDIA cuvs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/cuvs",
+        "normalized_key": "github:nvidia/cuvs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gpu-ann-index",
+        "vector-clustering",
+        "vector-search"
+      ],
+      "domain_hints": [
+        "knowledge",
+        "retrieval"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Embedding Fabric",
+        "Knowledge Fabric",
+        "PageIndex"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "retrieval"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-DALI-001",
+      "name": "NVIDIA DALI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/DALI",
+        "normalized_key": "github:nvidia/dali"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gpu-data-pipelines",
+        "media-data-preprocessing"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "creative",
+        "data"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Training Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "data",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-DCGM-001",
+      "name": "NVIDIA DCGM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/DCGM",
+        "normalized_key": "github:nvidia/dcgm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gpu-diagnostics",
+        "gpu-health-telemetry"
+      ],
+      "domain_hints": [
+        "hardware",
+        "observability"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Host Resource Broker"
+      ],
+      "tags": [
+        "hardware",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-DCGM-EXPORTER-001",
+      "name": "NVIDIA dcgm-exporter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/dcgm-exporter",
+        "normalized_key": "github:nvidia/dcgm-exporter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gpu-observability-export",
+        "telemetry-interface"
+      ],
+      "domain_hints": [
+        "hardware",
+        "observability"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Observability Fabric"
+      ],
+      "tags": [
+        "hardware",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-DEEPLEARNINGEXAMPLES-001",
+      "name": "NVIDIA DeepLearningExamples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/DeepLearningExamples",
+        "normalized_key": "github:nvidia/deeplearningexamples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "deep-learning-baselines",
+        "reproducible-training-recipes"
+      ],
+      "domain_hints": [
+        "evaluation",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Training Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "tooling"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-GARAK-001",
+      "name": "NVIDIA garak",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/garak",
+        "normalized_key": "github:nvidia/garak"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "llm-vulnerability-scanning",
+        "red-team-test-cases"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "security"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Model Manager",
+        "Security Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "security"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-GENERATIVEAIEXAMPLES-001",
+      "name": "NVIDIA GenerativeAIExamples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/GenerativeAIExamples",
+        "normalized_key": "github:nvidia/generativeaiexamples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "generative-ai-workflows",
+        "reference-microservices"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "Creative Studio",
+        "Knowledge Fabric"
+      ],
+      "tags": [
+        "creative",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-GITHUB-ORGANIZATION-001",
+      "name": "NVIDIA GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA",
+        "normalized_key": "github:nvidia"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "engineering",
+        "models",
+        "creative",
+        "security",
+        "hardware"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "nvidia-github",
+        "nvidia-curation-2026-09-28",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only. Each repository is independently verified, reviewed and admitted before code or runtime use; no blanket license or vendor requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-GPU-OPERATOR-001",
+      "name": "NVIDIA gpu-operator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/gpu-operator",
+        "normalized_key": "github:nvidia/gpu-operator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gpu-operator-patterns",
+        "orchestration-reference"
+      ],
+      "domain_hints": [
+        "deployment",
+        "hardware"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Deployment Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "hardware",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-ISAAC-GR00T-001",
+      "name": "NVIDIA Isaac-GR00T",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/Isaac-GR00T",
+        "normalized_key": "github:nvidia/isaac-gr00t"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "embodied-motion-reference",
+        "robot-motion-models"
+      ],
+      "domain_hints": [
+        "3d",
+        "animation",
+        "simulation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Character Studio",
+        "Choreography Planner"
+      ],
+      "tags": [
+        "creative-3d",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-NVIDIA-MODEL-OPTIMIZER-001",
       "name": "NVIDIA Model Optimizer",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:NVIDIA-Model-Optimizer",
-        "normalized_key": "project:nvidia-model-optimizer"
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/Model-Optimizer",
+        "normalized_key": "github:nvidia/model-optimizer",
+        "previous_locators": [
+          "project:NVIDIA-Model-Optimizer"
+        ]
       },
       "status": "ACCEPTED_REFERENCE",
       "discovered_from": [
         "historical-architecture-artifact-curation-2026-09-28",
+        "nvidia-github-org-curation-2026-09-28",
         "prior-fa3-research-backfill"
       ],
       "first_seen": "2026-09-27",
@@ -8700,11 +9762,16 @@
       ],
       "problem_hints": [],
       "target_hints": [
-        "Model Manager"
+        "Inference Fabric",
+        "Model Manager",
+        "Training Fabric"
       ],
       "tags": [
         "historical-review",
+        "inference",
         "mixed-precision",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
         "pruning",
         "ptq",
         "qat",
@@ -8742,7 +9809,1132 @@
         "source_group": "v1-v3-historical-artifacts",
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
+      },
+      "notes": [
+        "Canonical GitHub source identity verified; retain earlier ACCEPTED_REFERENCE status and independent admission gates."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NEMO-AGENT-TOOLKIT-001",
+      "name": "NVIDIA NeMo-Agent-Toolkit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/NeMo-Agent-Toolkit",
+        "normalized_key": "github:nvidia/nemo-agent-toolkit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-evaluation",
+        "agent-observability",
+        "multi-agent-orchestration"
+      ],
+      "domain_hints": [
+        "agents",
+        "workflow"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Agent Runtime",
+        "Decision Fabric"
+      ],
+      "tags": [
+        "agents",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NEMO-FABRIC-001",
+      "name": "NVIDIA NeMo-Fabric",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/NeMo-Fabric",
+        "normalized_key": "github:nvidia/nemo-fabric"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "nemo-fabric",
+        "training-workflow-reference"
+      ],
+      "domain_hints": [
+        "models",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Training Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "training"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NEMO-RETRIEVER-001",
+      "name": "NVIDIA NeMo-Retriever",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/NeMo-Retriever",
+        "normalized_key": "github:nvidia/nemo-retriever"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "document-extraction",
+        "multimodal-retrieval",
+        "rag-ingestion"
+      ],
+      "domain_hints": [
+        "document",
+        "knowledge",
+        "retrieval"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Document Fabric",
+        "Knowledge Fabric",
+        "PageIndex"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "retrieval"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NEMOCLAW-001",
+      "name": "NVIDIA NemoClaw",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/NemoClaw",
+        "normalized_key": "github:nvidia/nemoclaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-sandbox-reference",
+        "managed-agent-inference"
+      ],
+      "domain_hints": [
+        "agents",
+        "security"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "Model Router",
+        "Security Fabric"
+      ],
+      "tags": [
+        "agents",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NVFLARE-001",
+      "name": "NVIDIA NVFlare",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/NVFlare",
+        "normalized_key": "github:nvidia/nvflare"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "federated-learning-reference",
+        "federated-task-isolation"
+      ],
+      "domain_hints": [
+        "security",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Security Fabric",
+        "Training Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "security"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NVIDIA-CONTAINER-TOOLKIT-001",
+      "name": "NVIDIA nvidia-container-toolkit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/nvidia-container-toolkit",
+        "normalized_key": "github:nvidia/nvidia-container-toolkit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gpu-container-runtime-interface",
+        "runtime-isolation"
+      ],
+      "domain_hints": [
+        "deployment",
+        "hardware"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Deployment Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "hardware",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-NVIMAGECODEC-001",
+      "name": "NVIDIA nvImageCodec",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/nvImageCodec",
+        "normalized_key": "github:nvidia/nvimagecodec"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cpu-gpu-codec-abstraction",
+        "image-codec-interop"
+      ],
+      "domain_hints": [
+        "creative",
+        "images"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Asset Graph",
+        "Krita Integration",
+        "Video Editor"
+      ],
+      "tags": [
+        "creative-video",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+      "name": "NVIDIA OpenShell",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/OpenShell",
+        "normalized_key": "github:nvidia/openshell"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-permissions",
+        "policy-isolation",
+        "sandboxed-agent-runtime"
+      ],
+      "domain_hints": [
+        "agents",
+        "security"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Agent Runtime",
+        "Security Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "security"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-PERSONAL-AI-ROUTER-001",
+      "name": "NVIDIA Personal-AI-Router",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/Personal-AI-Router",
+        "normalized_key": "github:nvidia/personal-ai-router"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "multi-device-inference-routing",
+        "route-reference"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Inference Fabric",
+        "Model Router"
+      ],
+      "tags": [
+        "inference",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-PERSONAPLEX-001",
+      "name": "NVIDIA personaplex",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/personaplex",
+        "normalized_key": "github:nvidia/personaplex"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "duplex-speech-conversation",
+        "voice-persona-reference"
+      ],
+      "domain_hints": [
+        "agents",
+        "audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "Audio Fabric",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "creative-audio",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-PHYSICSNEMO-001",
+      "name": "NVIDIA physicsnemo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/physicsnemo",
+        "normalized_key": "github:nvidia/physicsnemo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "physics-ml",
+        "simulation-models"
+      ],
+      "domain_hints": [
+        "3d",
+        "simulation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator"
+      ],
+      "tags": [
+        "creative-3d",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-RAFT-001",
+      "name": "NVIDIA raft",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/raft",
+        "normalized_key": "github:nvidia/raft"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "accelerated-ml-primitives",
+        "vector-index-primitives"
+      ],
+      "domain_hints": [
+        "analytics",
+        "retrieval"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Embedding Fabric",
+        "Knowledge Fabric"
+      ],
+      "tags": [
+        "data",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-RULER-001",
+      "name": "NVIDIA RULER",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/RULER",
+        "normalized_key": "github:nvidia/ruler"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "context-evaluation",
+        "long-context-benchmark"
+      ],
+      "domain_hints": [
+        "evaluation",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Model Manager"
+      ],
+      "tags": [
+        "evaluation",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-SKILLS-001",
+      "name": "NVIDIA skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/skills",
+        "normalized_key": "github:nvidia/skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-skill-patterns",
+        "cuda-rag-robotics-skills"
+      ],
+      "domain_hints": [
+        "agents",
+        "skills"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Developer Agent",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "agents",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-SKILLSPECTOR-001",
+      "name": "NVIDIA SkillSpector",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/SkillSpector",
+        "normalized_key": "github:nvidia/skillspector"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "prompt-injection-detection",
+        "skill-security-scanning",
+        "supply-chain-review"
+      ],
+      "domain_hints": [
+        "agents",
+        "security",
+        "skills"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "MCP Gateway",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "security"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-TENSORRT-001",
+      "name": "NVIDIA TensorRT",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/TensorRT",
+        "normalized_key": "github:nvidia/tensorrt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "inference-engine",
+        "model-inference",
+        "onnx-deployment"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Inference Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "inference",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-TENSORRT-LLM-001",
+      "name": "NVIDIA TensorRT-LLM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/TensorRT-LLM",
+        "normalized_key": "github:nvidia/tensorrt-llm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "execution-runtime",
+        "llm-inference",
+        "serving-reference"
+      ],
+      "domain_hints": [
+        "ai-runtime",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Inference Fabric",
+        "Model Manager",
+        "Model Router"
+      ],
+      "tags": [
+        "inference",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-TRANSFORMERENGINE-001",
+      "name": "NVIDIA TransformerEngine",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/TransformerEngine",
+        "normalized_key": "github:nvidia/transformerengine"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "fp8-fp4-reference",
+        "low-precision-transformer-training"
+      ],
+      "domain_hints": [
+        "models",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Training Fabric"
+      ],
+      "tags": [
+        "inference",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-VIDEOPROCESSINGFRAMEWORK-001",
+      "name": "NVIDIA VideoProcessingFramework",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/VideoProcessingFramework",
+        "normalized_key": "github:nvidia/videoprocessingframework"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "frame-tensor-interop",
+        "gpu-video-decode",
+        "gpu-video-encode"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "QuickClip",
+        "Video Editor",
+        "Video Fabric"
+      ],
+      "tags": [
+        "archived-upstream",
+        "creative-video",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github",
+        "patterns-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Archived upstream: historical architecture/pattern reference only; do not adopt as a current runtime."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-WARP-001",
+      "name": "NVIDIA warp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NVIDIA/warp",
+        "normalized_key": "github:nvidia/warp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "nvidia-github-org-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "differentiable-simulation",
+        "physics-kernels",
+        "simulation-reference"
+      ],
+      "domain_hints": [
+        "3d",
+        "simulation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "VFX",
+        "World Generator"
+      ],
+      "tags": [
+        "creative-3d",
+        "nvidia-curation-2026-09-28",
+        "nvidia-github"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OBSIDIAN-SKILLS-001",
@@ -14788,5 +16980,20 @@
     "scope": "Source-file backfill only; not a claim to have read every ChatGPT conversation.",
     "automatic_install": false,
     "code_copy": false
+  },
+  "nvidia_github_curation": {
+    "observed_at": "2026-09-28",
+    "source": "https://github.com/NVIDIA",
+    "curation_scope": "SELECTIVE_VERIFIED_REPOSITORIES_PLUS_ORG_DISCOVERY_INDEX",
+    "repository_count": 39,
+    "upstream_archive_reference": [
+      "github:nvidia/videoprocessingframework"
+    ],
+    "non_authoritative": true,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "hardware_audit_required": true
   }
 }
