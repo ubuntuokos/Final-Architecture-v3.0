@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "67435d33b61a5bec0a8c497eff4ee9ffb5a97657",
-    "pre_projection_root_tree_sha": "eed2106bcc890058d5d5d29f453fcab83a048d34",
-    "pre_projection_canonical_tree_sha": "9b5b343b0e9dee69a051a1813d018d7f01d0d2ac",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1497,
-    "total_post_baseline_commits": 1497,
-    "delta_file_count": 2456,
-    "delta_added_files": 2450,
+    "pre_projection_head_sha": "9344b5431abe04fb775e24a72e21eac328714a3c",
+    "pre_projection_root_tree_sha": "038a7c5f050ed1a685e4b90846f2239da0ab1d23",
+    "pre_projection_canonical_tree_sha": "cf40a87108df2177ca4220967ae09c1469bb46bd",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1505,
+    "total_post_baseline_commits": 1505,
+    "delta_file_count": 2458,
+    "delta_added_files": 2452,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "canonical_files_in_post_baseline_delta": 1190,
     "evidence_files_in_post_baseline_delta": 170,
     "source_files_in_post_baseline_delta": 336,
-    "test_files_in_post_baseline_delta": 269,
+    "test_files_in_post_baseline_delta": 270,
     "workflow_files_in_post_baseline_delta": 117,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1011,7 +1011,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2446,
+  "manifest_entry_count": 2448,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1495,7 +1495,7 @@
     },
     {
       "path": ".github/workflows/fa3-reuse-discovery.yml",
-      "git_blob_sha": "65b9c32c32d98ece705250e7ccf5520f028e009c",
+      "git_blob_sha": "4085af9f2be98caa85ba12a0dae977a6af64ecae",
       "baseline_delta_status": "added"
     },
     {
@@ -2600,7 +2600,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "3a4368a3dfb69c2e96fb407ac6032a7231da6f51",
+      "git_blob_sha": "17628dff5d9640ff058b05edd7b919a878c5d3ab",
       "baseline_delta_status": "added"
     },
     {
@@ -8804,8 +8804,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-intel-github-ecosystem-2026-09-28.md",
+      "git_blob_sha": "ee47eed89872194858e3cbcf47a445cd4a133de3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-reference-registry.md",
-      "git_blob_sha": "b28d0827027d20c203fe5cac7225694badcf05ad",
+      "git_blob_sha": "04bf4cf225695671f461575fadd1ed47caac4d14",
       "baseline_delta_status": "added"
     },
     {
@@ -11560,7 +11565,7 @@
     },
     {
       "path": "src/fa3_reuse_resolver.py",
-      "git_blob_sha": "22f41ae42e363f776ec06f4f4eac9d8cd6b3f74e",
+      "git_blob_sha": "52a830fbcd166d0cbd6d82fce7365fc7bc63710b",
       "baseline_delta_status": "added"
     },
     {
@@ -12211,6 +12216,11 @@
     {
       "path": "tests/test_donor_historical_partial_reuse.py",
       "git_blob_sha": "2d01e7042eca4994c972302540962fe80f87380b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_intel_ecosystem.py",
+      "git_blob_sha": "be309f45aa042c88b527df37d04696825fe5a22e",
       "baseline_delta_status": "added"
     },
     {
@@ -14953,7 +14963,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 290,
+    "donor_registry_entry_count": 349,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
