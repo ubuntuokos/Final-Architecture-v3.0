@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ -f "$ROOT/src/fa3_screenplay_cli.py" ]]; then
+  SOURCES="$ROOT/src"
+elif [[ -f "$ROOT/share/fa3/python/fa3_screenplay_cli.py" ]]; then
+  SOURCES="$ROOT/share/fa3/python"
+else
+  echo "FA3 screenplay implementation not installed under this prefix" >&2
+  exit 2
+fi
+VENV="${FA3_SCREENPLAY_VENV:-${XDG_CACHE_HOME:-$HOME/.cache}/fa3/screenplay-venv}"
+if [[ ! -x "$VENV/bin/python" ]]; then
+  "${FA3_SCREENPLAY_BOOTSTRAP_PYTHON:-python3}" -m venv "$VENV"
+fi
+exec env PYTHONPATH="$SOURCES${PYTHONPATH:+:$PYTHONPATH}" "$VENV/bin/python" "$SOURCES/fa3_screenplay_cli.py" "$@"

@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-STORY-SCREENPLAY-IMPLEMENTATION-CONTRACTS-001",
+  "version": "0.1.0",
+  "status": "CANONICAL",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "implementation_phase": "DETERMINISTIC_CPU_FOUNDATION_PENDING_CURRENT_HOST_ADMISSION",
+  "application_id": "fa3.story-screenplay",
+  "related_reuse_discovery": "FA3-REUSE-DISCOVERY-CONTRACTS-001",
+  "canonical_story_data_source": "EXISTING_FA3_STORY_SCREENPLAY_FABRIC",
+  "document": {
+    "schema": "fa3.screenplay-document.v1",
+    "stable_ids": ["story_id", "branch_id", "scene_id"],
+    "production_profiles": ["FEATURE", "TV_MOVIE", "EPISODIC", "COMMERCIAL", "LIVE_BROADCAST", "OTHER"],
+    "alternative_continuations": "INDEPENDENT_BRANCH_IDS_WITH_PARENT_DIGEST",
+    "edits": "CREATE_NEW_REVISION_WITH_PARENT_SHA256",
+    "provenance_required": true,
+    "original_source_preservation_for_external_codecs": "LOSS_REPORT_REQUIRED_FOR_UNMODELED_FIELDS"
+  },
+  "interchange": {
+    "experimental_bidirectional_subsets": ["fountain", "fdx"],
+    "full_format_admission": "PENDING_EXTERNAL_INTEROPERABILITY_AND_FIDELITY_VALIDATION",
+    "office_family_codec_admission": "NOT_ADMITTED",
+    "pdf_import": "NOT_ADMITTED",
+    "bidirectional_import_export_required_for_every_admitted_format": true,
+    "unmodeled_fields": "FAIL_CLOSED_UNLESS_EXPLICIT_ALLOW_LOSS",
+    "field_level_loss_receipt": true,
+    "canonical_sidecar_required_for_external_script_export": true,
+    "forbid_xml_dtd_and_entity": true,
+    "bounded_input_bytes": 5242880,
+    "no_embedded_external_donor_code": true
+  },
+  "production_breakdown": {
+    "schema": "fa3.screenplay-breakdown.v1",
+    "authority": false,
+    "typed_source_linked_candidates": true,
+    "silent_cast_inferred_from_missing_dialogue": false,
+    "human_review_of_uncertain_extractions": true,
+    "unreviewed_candidates_enter_schedule": false,
+    "scene_stable_identity": true,
+    "unchanged_scene_reviews_survive_revision": true,
+    "changed_scene_downstream_becomes_stale": true,
+    "no_silent_cascade": true,
+    "unknown_page_counts_never_labeled_exact": true
+  },
+  "handoff": {
+    "schema": "fa3.screenplay-handoff.v1",
+    "status": ["BLOCKED", "LOCAL_REVIEW_ONLY"],
+    "schedule_authority": false,
+    "publish_authority": false,
+    "canonical_project_mutation": false,
+    "fa3_video_editor_native_project": "project.fa3video",
+    "fa3_quickclip_native_project": ".fa3clip",
+    "uaf_approval_gate_required_before_real_project_or_provider_actions": true,
+    "scene_storyboard_film_planning_projection": "READ_ONLY_PREVIEW_FOR_NOW"
+  },
+  "ai": {
+    "model_router_only": "FA3-AUTH-MODEL-ROUTER-001",
+    "hrb_resource_authority_only": true,
+    "automatic_model_selection": false,
+    "direct_provider_execution": false,
+    "automatic_script_upload": false,
+    "human_approval_before_accepting_ai_changes": true,
+    "new_mcp_gateway_or_orchestrator": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "wayland_preferred_x11_supported": true,
+    "display_gpu_automatic_compute": false,
+    "new_network_service_or_fixed_port": false
+  },
+  "current_host": {
+    "status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "evidence_level": "REFERENCE_TEST_ONLY",
+    "gui_physical_status": "PENDING",
+    "external_codec_interoperability_status": "PENDING",
+    "automatic_promotion": false
+  }
+}
