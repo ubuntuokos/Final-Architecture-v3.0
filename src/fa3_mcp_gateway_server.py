@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from fa3_mcp_gateway import Adapter, McpGateway
+from fa3_mcp_day1_telemetry import ReceiptTelemetry
 
 MODERN_PROTOCOL_VERSION = "2026-07-28"
 SERVER_INFO = {"name": "fa3-central-mcp-gateway", "version": "3.0"}
@@ -292,9 +293,11 @@ def main() -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=18790)
     parser.add_argument("--unix-socket")
+    parser.add_argument("--telemetry-jsonl", default=os.environ.get("FA3_MCP_TELEMETRY_JSONL"))
     args = parser.parse_args()
     resolver = load_policy_resolver()
-    gateway = McpGateway.from_path(Path(args.registry), policy_resolver=resolver)
+    observer = ReceiptTelemetry(Path(args.telemetry_jsonl)) if args.telemetry_jsonl else None
+    gateway = McpGateway.from_path(Path(args.registry), policy_resolver=resolver, receipt_observer=observer)
     load_adapter_factories(gateway)
     Handler.gateway = gateway
     if args.unix_socket:
