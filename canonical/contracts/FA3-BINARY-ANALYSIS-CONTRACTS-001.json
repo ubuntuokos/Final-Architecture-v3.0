@@ -1,0 +1,215 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-BINARY-ANALYSIS-CONTRACTS-001",
+  "name": "Provider-Neutral Binary and Software Analysis Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "primary_capability_id": "CAP-080",
+  "covered_capability_ids": [
+    "CAP-035",
+    "CAP-080",
+    "CAP-175"
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "provider_neutral": true,
+  "authorities": {
+    "tool": "FA3-AUTH-MCP-GATEWAY-001",
+    "action": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "contracts": {
+    "BinaryAnalysisArtifact": {
+      "required": [
+        "artifact_id",
+        "sha256",
+        "detected_format",
+        "architecture",
+        "bitness",
+        "source",
+        "provenance",
+        "read_only"
+      ]
+    },
+    "BinaryAnalysisProviderManifest": {
+      "required": [
+        "provider_id",
+        "provider_class",
+        "version",
+        "available_operations",
+        "supported_formats",
+        "supported_architectures",
+        "probe_timestamp"
+      ]
+    },
+    "SymbolHypothesis": {
+      "required": [
+        "function_id",
+        "candidate_name",
+        "semantic_role",
+        "confidence",
+        "supporting_evidence",
+        "contradicting_evidence",
+        "status"
+      ]
+    },
+    "StructureHypothesis": {
+      "required": [
+        "structure_id",
+        "estimated_size",
+        "fields",
+        "confidence",
+        "supporting_evidence",
+        "status"
+      ]
+    },
+    "FunctionEmulationRequest": {
+      "required": [
+        "artifact_id",
+        "architecture",
+        "entry_address",
+        "initial_registers",
+        "mapped_regions",
+        "external_function_policy",
+        "syscall_policy",
+        "instruction_budget",
+        "wallclock_budget",
+        "memory_budget"
+      ]
+    },
+    "FunctionEmulationResult": {
+      "required": [
+        "exit_reason",
+        "register_delta",
+        "memory_delta",
+        "basic_blocks",
+        "external_calls",
+        "faults",
+        "trace_digest",
+        "provider_identity"
+      ]
+    },
+    "DynamicInstrumentationRequest": {
+      "required": [
+        "target",
+        "operation_class",
+        "scope",
+        "policy_context",
+        "authorization_receipt",
+        "resource_request"
+      ]
+    },
+    "BinaryAnalysisEvidence": {
+      "required": [
+        "input_sha256",
+        "provider_identity",
+        "provider_version",
+        "analysis_profile",
+        "request_digest",
+        "result_digest",
+        "provenance",
+        "policy_receipts"
+      ]
+    }
+  },
+  "provider_discovery": {
+    "live_probe_required": true,
+    "unavailable_provider_behavior": "EXCLUDE_FROM_ELIGIBLE_SET",
+    "silent_fallback": "FORBIDDEN",
+    "provider_identity_must_be_recorded": true
+  },
+  "skill_governance": {
+    "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "external_skill_text_untrusted_by_default": true,
+    "derived_fa3_native_skill_requires_separate_admission": true,
+    "direct_upstream_skill_runtime_activation": false
+  },
+  "analyzed_content_security": {
+    "binary_strings_are_untrusted_data": true,
+    "symbol_names_are_untrusted_data": true,
+    "decompiler_comments_are_untrusted_data": true,
+    "embedded_json_or_text_is_untrusted_data": true,
+    "analyzed_content_must_not_become_system_instruction": true,
+    "analyzed_content_must_not_grant_tool_authorization": true,
+    "prompt_injection_adversarial_eval_required": true
+  },
+  "mutation_policy": {
+    "original_artifact_read_only_default": true,
+    "source_overwrite_default": "DENY",
+    "derived_artifact_output_preferred": true,
+    "memory_write": "EXPLICIT_AUTHORIZATION_REQUIRED",
+    "function_replacement": "EXPLICIT_AUTHORIZATION_REQUIRED",
+    "process_spawn": "POLICY_AND_AUTHORIZATION_REQUIRED",
+    "privileged_device_attach": "EXPLICIT_AUTHORIZATION_REQUIRED"
+  },
+  "emulation_safety": {
+    "network_default": "DENY",
+    "host_filesystem_default": "DENY",
+    "host_syscall_passthrough_default": "DENY",
+    "instruction_budget_required": true,
+    "wallclock_budget_required": true,
+    "memory_budget_required": true
+  },
+  "model_policy": {
+    "deterministic_analysis_may_run_without_model": true,
+    "model_backed_reasoning_requires_model_router": true,
+    "direct_ollama_lmstudio_cloud_or_other_model_backend_from_skill": "FORBIDDEN",
+    "model_output_is_hypothesis_until_evidence_backed": true
+  },
+  "evidence_policy": {
+    "digest_binding_required": true,
+    "provider_version_required": true,
+    "model_route_receipt_required_when_model_used": true,
+    "skill_digest_required_when_skill_used": true,
+    "static_design_pass_is_runtime_promotion": false
+  },
+  "coexistence": {
+    "cap_id": "CAP-175",
+    "host_global_config_mutation": false,
+    "global_plugin_install": false,
+    "system_python_mutation": false,
+    "fixed_global_port_claim": false,
+    "upstream_uninstall_required": false,
+    "namespaced_state_required": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_required": true,
+    "accelerator_cardinality": "0..N",
+    "fixed_cpu_gpu_npu_numa_values": "FORBIDDEN",
+    "accelerator_optional": true,
+    "hrb_required_for_execution": true
+  },
+  "upstream_reference_policy": {
+    "reference_id": "FA3-REVERSE-SKILLS-UPSTREAM-REFERENCE-2026-09-28",
+    "distribution_class": "REFERENCE_ONLY",
+    "runtime_dependency": false,
+    "bundled_executable_runtime_materialization": "FORBIDDEN_PENDING_SEPARATE_ADMISSION"
+  },
+  "invariants": [
+    "BINARY_ANALYSIS_FABRIC_NOT_AUTHORITY",
+    "CAPABILITY_COUNT_REMAINS_175",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "EXTERNAL_REVERSE_SKILLS_REFERENCE_ONLY",
+    "UPSTREAM_SKILL_DISCOVERY_NOT_ADMISSION_OR_ACTIVATION",
+    "STATIC_ANALYSIS_BACKENDS_REPLACEABLE_AND_NON_AUTHORITATIVE",
+    "ANALYZED_CONTENT_UNTRUSTED_DATA_NOT_INSTRUCTION",
+    "DIRECT_MODEL_BACKEND_FROM_SKILL_FORBIDDEN",
+    "MODEL_BACKED_REASONING_ROUTES_THROUGH_MODEL_ROUTER",
+    "TOOL_ACCESS_ROUTES_THROUGH_CENTRAL_MCP_AND_UAF",
+    "EXECUTION_RESOURCE_BOUND_TO_HRB",
+    "ORIGINAL_ARTIFACT_OVERWRITE_DEFAULT_DENY",
+    "PRIVILEGED_DEVICE_AND_PROCESS_OPERATIONS_AUTHORIZATION_GATED",
+    "EMULATION_HOST_SYSCALL_NETWORK_AND_FILESYSTEM_PASSTHROUGH_DEFAULT_DENY",
+    "SILENT_PROVIDER_FALLBACK_FORBIDDEN",
+    "HYPOTHESIS_DISTINCT_FROM_ESTABLISHED_EVIDENCE",
+    "CAP175_HOST_NON_INTERFERENCE_REQUIRED",
+    "CPU_ONLY_BASELINE_REQUIRED",
+    "ACCELERATOR_VENDOR_PIN_FORBIDDEN",
+    "STATIC_GATE_PASS_NOT_CURRENT_HOST_RUNTIME_PROMOTION"
+  ]
+}

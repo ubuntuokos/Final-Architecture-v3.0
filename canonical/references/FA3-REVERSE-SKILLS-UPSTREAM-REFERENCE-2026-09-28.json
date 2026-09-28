@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.reference.v1",
+  "id": "FA3-REVERSE-SKILLS-UPSTREAM-REFERENCE-2026-09-28",
+  "upstream": "P4nda0s/reverse-skills",
+  "upstream_url": "https://github.com/P4nda0s/reverse-skills",
+  "observed_commit": "a2baa31c58a3567977188414da68c8c842057152",
+  "observed_tree": "856b6bb8d3cb7c696a470dcc1e85fbee56f13f6b",
+  "observed_date": "2026-09-28",
+  "role": [
+    "SKILL_PATTERN_SOURCE",
+    "REVERSE_ENGINEERING_WORKFLOW_DONOR",
+    "REGRESSION_REFERENCE"
+  ],
+  "runtime_dependency": false,
+  "authority": false,
+  "distribution_class": "REFERENCE_ONLY",
+  "content_import": false,
+  "code_import": false,
+  "automatic_install": false,
+  "automatic_activation": false,
+  "license_review": {
+    "readme_claim": "MIT",
+    "root_license_file_observed": false,
+    "status": "INCOMPLETE_FAIL_CLOSED",
+    "redistribution_admission": false,
+    "note": "Repository README states MIT, but a root LICENSE file was not observed in the reviewed snapshot; FA3 does not infer redistribution rights from the README claim alone."
+  },
+  "reviewed_skills": [
+    "rev-symbol",
+    "rev-struct",
+    "rev-frida",
+    "rev-unicorn-debug",
+    "rev-dex-dumper",
+    "rev-u3d-dump",
+    "rev-idapython",
+    "rev-ios-dump"
+  ],
+  "bundled_executables": [
+    {
+      "path": "skills/rev-dex-dumper/panda-dex-dumper",
+      "observed_size_bytes": 1739688,
+      "git_blob_sha": "85f0d79218009ba1f8d8530376f0f37906f8435f",
+      "disposition": "BLOCKED_FROM_FA3_RUNTIME_MATERIALIZATION",
+      "unblock_requires": [
+        "source_correspondence",
+        "license_evidence",
+        "reproducible_or_attested_build_provenance",
+        "security_review",
+        "digest_bound_admission"
+      ]
+    }
+  ],
+  "adopt_patterns": [
+    "symbol recovery from strings constants imports exports and cross references",
+    "structure recovery from memory offset usage across call graph",
+    "function-scoped emulation with simulated external dependencies",
+    "runtime-load-aware dynamic instrumentation",
+    "IL2CPP symbol/type mapping as a domain-specific analysis profile"
+  ],
+  "do_not_inherit": [
+    "IDA as mandatory or authoritative backend",
+    "Claude-specific access assumptions",
+    "direct shell or device authority from skill text",
+    "implicit root or jailbreak requirement",
+    "direct model/provider selection",
+    "bundled executable trust",
+    "automatic runtime fetch or installation"
+  ],
+  "donor_registry_transition": {
+    "current_registration_surface": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "reuse_federation_surface": "FA3-REUSE-DISCOVERY-001",
+    "future_central_donor_registry_reconciliation_required": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "id": "FA3-REVERSE-SKILLS-DECISION-ASSESSMENT-2026-09-28",
+  "project_id": "FA3-BINARY-ANALYSIS-CAP080-2026-09-28",
+  "covered_ids": [
+    "CAP-035",
+    "CAP-080",
+    "CAP-175",
+    "FA3-BINARY-ANALYSIS-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "Provider admission, target authorization, privileged device attachment, mutation authorization, model routing, resource placement, evidence promotion and candidate eligibility are deterministic authority-owned decisions. Decision Fabric may later rank already-eligible analysis strategies but cannot grant authority or convert a hypothesis into established evidence.",
+  "decision_points": [],
+  "not_delegated": [
+    "provider admission or compatibility",
+    "target ownership or authorization",
+    "privileged device attachment",
+    "process spawn or instrumentation permission",
+    "memory or binary mutation approval",
+    "model/provider routing",
+    "host resource admission or placement",
+    "candidate-set construction or expansion",
+    "evidence promotion or runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}

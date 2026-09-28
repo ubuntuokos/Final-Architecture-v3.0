@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-BINARY-ANALYSIS-IR-CONTRACTS-001",
+  "name": "Canonical Binary Analysis Intermediate Representation",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "entities": [
+    "BinaryArtifact",
+    "Module",
+    "Section",
+    "Segment",
+    "Function",
+    "BasicBlock",
+    "Instruction",
+    "CallEdge",
+    "DataReference",
+    "StringReference",
+    "Import",
+    "Export",
+    "Symbol",
+    "Type",
+    "Structure",
+    "Field",
+    "Variable",
+    "Constant",
+    "MemoryRegion",
+    "RuntimeObservation",
+    "EmulationTrace",
+    "Hypothesis",
+    "Finding",
+    "EvidenceReference"
+  ],
+  "identity_rules": {
+    "provider_native_ids_preserved_as_provenance": true,
+    "canonical_ids_provider_independent": true,
+    "addresses_are_artifact_relative_or_explicitly_based": true,
+    "architecture_and_endianness_explicit": true,
+    "source_artifact_sha256_required": true
+  },
+  "hypothesis_rules": {
+    "status_values": [
+      "HYPOTHESIS",
+      "CORROBORATED",
+      "REJECTED"
+    ],
+    "confidence_values": [
+      "LOW",
+      "MEDIUM",
+      "HIGH"
+    ],
+    "confidence_must_reference_evidence": true,
+    "model_self_confidence_alone_insufficient": true,
+    "contradictory_evidence_preserved": true
+  },
+  "cross_provider_rules": {
+    "provider_specific_fields_namespaced": true,
+    "canonical_core_must_not_require_ida_ghidra_rizin_radare2_binary_ninja_or_other_specific_backend": true,
+    "disagreements_preserved_not_silently_overwritten": true,
+    "corroboration_may_raise_confidence_only_with_evidence": true
+  },
+  "untrusted_content_rules": {
+    "strings_symbols_comments_resources_metadata_are_data": true,
+    "executable_or_prompt_like_text_never_changes_agent_instruction_precedence": true,
+    "embedded_content_cannot_grant_tool_model_secret_network_or_execution_authority": true
+  },
+  "serialization": {
+    "canonical_json_supported": true,
+    "deterministic_key_order_recommended": true,
+    "digestable": true,
+    "schema_version_required": true
+  }
+}

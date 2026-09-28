@@ -1,0 +1,154 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-REVERSE-SKILLS-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-BINARY-ANALYSIS-CAP080-2026-09-28",
+  "intent_id": "FA3-BINARY-SOFTWARE-ANALYSIS-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-BINARY-SOFTWARE-ANALYSIS-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "CAP-035",
+    "CAP-080",
+    "CAP-175",
+    "FA3-SKILL-FABRIC-001"
+  ],
+  "project_status": "CANONICAL_FOUNDATION_MATERIALIZED_RUNTIME_PROVIDERS_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "CAP-035",
+      "use": "EXISTING_FILE_INTELLIGENCE_AND_SAFE_INGESTION_BOUNDARY"
+    },
+    {
+      "id": "CAP-080",
+      "use": "EXISTING_VERIFIED_AGENT_SKILL_SUPPLY_CHAIN"
+    },
+    {
+      "id": "CAP-175",
+      "use": "MANDATORY_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_SKILL_NORMALIZATION_ADMISSION_AND_TASK_SCOPING"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_SOLE_PRODUCTION_AGENT_TOOL_BOUNDARY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_ACTION_AUTHORIZATION_AND_MUTATION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_ADMISSION_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_AND_AUTHORIZATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_OBSERVABILITY_AND_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_BINARY_ANALYSIS_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_ALREADY_OWN_IDENTITY_AUTHORIZATION_TOOLS_MODELS_RESOURCES_AND_EVIDENCE"
+    },
+    {
+      "id": "DIRECT_REVERSE_SKILLS_INSTALL",
+      "reason": "UPSTREAM_IS_REFERENCE_ONLY_AND_EXTERNAL_SKILL_CONTENT_REQUIRES_SEPARATE_FA3_NORMALIZATION_AND_ADMISSION"
+    },
+    {
+      "id": "UPSTREAM_BUNDLED_PANDA_DEX_DUMPER",
+      "reason": "PREBUILT_EXECUTABLE_PROVENANCE_LICENSE_AND_BUILD_CORRESPONDENCE_NOT_ESTABLISHED_FAIL_CLOSED"
+    },
+    {
+      "id": "IDA_AS_CANONICAL_AUTHORITY",
+      "reason": "STATIC_ANALYSIS_BACKENDS_MUST_REMAIN_REPLACEABLE_PROVIDERS"
+    },
+    {
+      "id": "DIRECT_FRIDA_AGENT_AUTHORITY",
+      "reason": "DYNAMIC_INSTRUMENTATION_MUST_ROUTE_THROUGH_EXISTING_TOOL_ACTION_SECURITY_AND_APPROVAL_BOUNDARIES"
+    },
+    {
+      "id": "DIRECT_MODEL_BACKEND_FROM_SKILL",
+      "reason": "ALL_MODEL_BACKED_REASONING_MUST_ROUTE_THROUGH_CENTRAL_MODEL_ROUTER"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "source": "P4nda0s/reverse-skills@a2baa31c58a3567977188414da68c8c842057152",
+      "use": "SYMBOL_RECOVERY_FROM_STRINGS_CONSTANTS_IMPORTS_EXPORTS_AND_CALL_GRAPH"
+    },
+    {
+      "source": "P4nda0s/reverse-skills@a2baa31c58a3567977188414da68c8c842057152",
+      "use": "STRUCTURE_RECOVERY_FROM_CROSS_FUNCTION_MEMORY_ACCESS_PATTERNS"
+    },
+    {
+      "source": "P4nda0s/reverse-skills@a2baa31c58a3567977188414da68c8c842057152",
+      "use": "FUNCTION_SCOPED_EMULATION_WITH_STUBBED_EXTERNAL_DEPENDENCIES_AND_BOUNDED_TRACE"
+    },
+    {
+      "source": "P4nda0s/reverse-skills@a2baa31c58a3567977188414da68c8c842057152",
+      "use": "DYNAMIC_INSTRUMENTATION_WORKFLOW_PATTERN_WITH_RUNTIME_LOAD_AWARENESS"
+    },
+    {
+      "source": "P4nda0s/reverse-skills@a2baa31c58a3567977188414da68c8c842057152",
+      "use": "IL2CPP_DOMAIN_PROFILE_PATTERN_WITH_PROVIDER_NEUTRAL_CANONICAL_OUTPUT"
+    }
+  ],
+  "existing_authority_bindings": {
+    "tool": "FA3-AUTH-MCP-GATEWAY-001",
+    "action": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "skill_supply_chain": "CAP-080"
+  },
+  "donor_registry_transition": {
+    "current_canonical_surfaces": [
+      "FA3-EXTERNAL-SKILL-RADAR-001",
+      "FA3-REUSE-DISCOVERY-001"
+    ],
+    "central_donor_registry_present_on_base": false,
+    "future_reconciliation_required_when_canonical_donor_registry_lands": true,
+    "creates_parallel_authority": false
+  },
+  "gaps": [
+    "NATIVE_SYMBOL_RECOVERY_SKILL_PENDING",
+    "NATIVE_STRUCTURE_RECOVERY_SKILL_PENDING",
+    "STATIC_PROVIDER_BOUNDARIES_PENDING",
+    "UNICORN_PROVIDER_BOUNDARY_PENDING",
+    "FRIDA_PROVIDER_BOUNDARY_PENDING",
+    "ANDROID_IOS_IL2CPP_DOMAIN_PROFILES_PENDING",
+    "CURRENT_HOST_RUNTIME_EVIDENCE_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "other_client_configuration_mutation": false,
+    "system_runtime_replacement_required": false
+  },
+  "implementation_readiness": "READY_FOR_FOUNDATION_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

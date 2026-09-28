@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-BINARY-ANALYSIS-001",
+  "name": "Binary & Software Analysis Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL_FOUNDATION",
+  "priority": "P0",
+  "requirement": "MUST",
+  "primary_capability_id": "CAP-080",
+  "covered_capability_ids": [
+    "CAP-035",
+    "CAP-080",
+    "CAP-175"
+  ],
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "purpose": "Provide a common evidence-bound provider-neutral foundation for static binary analysis, semantic reconstruction, controlled function emulation and controlled dynamic instrumentation while preserving existing FA3 authority boundaries and host coexistence.",
+  "layers": [
+    "ANALYSIS_INTAKE",
+    "CANONICAL_BINARY_ANALYSIS_IR",
+    "STATIC_ANALYSIS_PROVIDER_BOUNDARY",
+    "SEMANTIC_RECONSTRUCTION_SKILLS",
+    "FUNCTION_EMULATION_PROVIDER_BOUNDARY",
+    "DYNAMIC_INSTRUMENTATION_PROVIDER_BOUNDARY",
+    "DOMAIN_ANALYSIS_PROFILES",
+    "EVIDENCE_AND_PROVENANCE"
+  ],
+  "planned_provider_classes": [
+    "STATIC_ANALYSIS_GHIDRA",
+    "STATIC_ANALYSIS_IDA_IDALIB",
+    "STATIC_ANALYSIS_RIZIN_RADARE2",
+    "STATIC_ANALYSIS_GENERIC_TOOLCHAIN",
+    "FUNCTION_EMULATION_UNICORN",
+    "DYNAMIC_INSTRUMENTATION_FRIDA"
+  ],
+  "planned_domain_profiles": [
+    "ANDROID",
+    "IOS",
+    "IL2CPP"
+  ],
+  "upstream_reference": {
+    "id": "FA3-REVERSE-SKILLS-UPSTREAM-REFERENCE-2026-09-28",
+    "repository": "P4nda0s/reverse-skills",
+    "commit": "a2baa31c58a3567977188414da68c8c842057152",
+    "classification": "REFERENCE_ONLY",
+    "runtime_dependency": false
+  },
+  "skill_derivation": {
+    "planned_native_skills": [
+      "binary.symbol.recover",
+      "binary.structure.recover"
+    ],
+    "upstream_skill_copy_is_admission": false,
+    "independent_normalization_required": true,
+    "separate_skill_admission_required": true
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "tool_execution": false,
+    "model_routing": false,
+    "host_resource_governance": false,
+    "evidence_authority": false,
+    "secret_authority": false
+  },
+  "execution_routing": {
+    "tools": "FA3-AUTH-MCP-GATEWAY-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "models": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "accelerator_required": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "capability_id": "CAP-175",
+    "namespaced_state": true,
+    "host_global_mutation": false,
+    "requires_upstream_uninstall": false
+  },
+  "security_posture": {
+    "analyzed_content_untrusted": true,
+    "original_artifacts_read_only_default": true,
+    "privileged_operations_explicitly_authorized": true,
+    "sandbox_and_resource_boundary_required_for_executable_helpers": true
+  },
+  "current_host_runtime_claim": false,
+  "global_runtime_promotion_claim": false
+}

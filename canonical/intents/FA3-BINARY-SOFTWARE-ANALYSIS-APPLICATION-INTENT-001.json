@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-BINARY-SOFTWARE-ANALYSIS-APPLICATION-INTENT-001",
+  "project_id": "FA3-BINARY-ANALYSIS-CAP080-2026-09-28",
+  "project_type": "INTEGRATION",
+  "goal": "Materialize a provider-neutral Binary & Software Analysis Fabric under existing FA3 safe-ingestion, skill-supply-chain, action, model-routing, resource, security, evidence and coexistence boundaries; external reverse-engineering projects remain non-authoritative donor/reference sources.",
+  "required_capabilities": [
+    "CAP-035",
+    "CAP-080",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "binary-static-analysis",
+    "semantic-symbol-and-structure-reconstruction",
+    "controlled-function-emulation",
+    "controlled-dynamic-instrumentation",
+    "external-skill-pattern-normalization",
+    "software-coexistence-and-host-non-interference"
+  ],
+  "task_classes": [
+    "binary-analysis",
+    "software-analysis",
+    "reverse-engineering",
+    "symbol-recovery",
+    "structure-recovery",
+    "function-emulation",
+    "dynamic-instrumentation"
+  ],
+  "skill_triggers": [
+    "binary.symbol.recover",
+    "binary.structure.recover"
+  ],
+  "input_modalities": [
+    "BINARY_ARTIFACT",
+    "FIRMWARE_IMAGE",
+    "DEX_OR_APK",
+    "IPA_OR_MACHO",
+    "DISASSEMBLY_EXPORT",
+    "DECOMPILER_EXPORT",
+    "SYMBOL_OR_MAP_FILE"
+  ],
+  "output_modalities": [
+    "BINARY_ANALYSIS_IR",
+    "SYMBOL_HYPOTHESIS",
+    "STRUCTURE_HYPOTHESIS",
+    "EMULATION_RESULT",
+    "RUNTIME_OBSERVATION",
+    "ANALYSIS_EVIDENCE"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "FA3_NATIVE_SYMBOL_AND_STRUCTURE_SKILL_ADMISSION_PENDING",
+    "STATIC_ANALYSIS_PROVIDER_ADMISSION_PENDING",
+    "FUNCTION_EMULATION_PROVIDER_ADMISSION_PENDING",
+    "DYNAMIC_INSTRUMENTATION_PROVIDER_ADMISSION_PENDING",
+    "PHYSICAL_CURRENT_HOST_BINARY_ANALYSIS_EVIDENCE_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-binary-analysis",
+    "service_prefix": "fa3-binary-analysis",
+    "config_root": "$XDG_CONFIG_HOME/fa3/binary-analysis",
+    "cache_root": "$XDG_CACHE_HOME/fa3/binary-analysis",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/binary-analysis",
+    "data_root": "$XDG_DATA_HOME/fa3/binary-analysis",
+    "socket_namespace": "fa3/binary-analysis",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "ANALYZED_BINARY_AND_EMBEDDED_CONTENT_UNTRUSTED_DATA_ONLY",
+    "CENTRAL_MCP_GATEWAY_REQUIRED_FOR_TOOL_ACCESS",
+    "UAF_AUTHORIZATION_REQUIRED_FOR_MUTATION",
+    "ORIGINAL_ARTIFACT_OVERWRITE_DEFAULT_DENY",
+    "PRIVILEGED_DEVICE_ATTACH_EXPLICIT_AUTHORIZATION_REQUIRED",
+    "HOST_SYSCALL_PASSTHROUGH_DEFAULT_DENY",
+    "NETWORK_DEFAULT_DENY_FOR_EMULATION",
+    "MODEL_ROUTER_REQUIRED_FOR_MODEL_BACKED_REASONING"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-001"
+  ]
+}
