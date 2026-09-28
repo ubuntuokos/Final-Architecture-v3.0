@@ -65,7 +65,7 @@ class PrivateDonorInboxTests(unittest.TestCase):
         (inbox / "conversations.json").write_text(json.dumps(rows("https://github.com/example/shared")), encoding="utf-8")
         first = process_inbox(self.root, self.home)
         self.assertEqual(first["created"], 1)
-        (inbox / "conversations_2.json").write_text(json.dumps(rows("https://github.com/example/shared")), encoding="utf-8")
+        (inbox / "conversations_2.json").write_text(json.dumps(rows("https://github.com/example/shared"), ensure_ascii=False, indent=2), encoding="utf-8")
         again = process_inbox(self.root, self.home)
         self.assertEqual(again["created"], 0)
         self.assertEqual(again["merged"], 1)
