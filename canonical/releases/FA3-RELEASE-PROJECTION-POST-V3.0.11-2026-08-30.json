@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f41de6f8cc961cdd2d4c4550ac3854656eddb36f",
-    "pre_projection_root_tree_sha": "cff7c0e9caa0cda14edcd4a4edbcf8679ac5a745",
-    "pre_projection_canonical_tree_sha": "25744347f7293df822157dc4ce5a35c8ff2f04d3",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1613,
-    "total_post_baseline_commits": 1613,
-    "delta_file_count": 2503,
-    "delta_added_files": 2497,
+    "pre_projection_head_sha": "1f41707eec19925b14d31dd5993cca8960a69625",
+    "pre_projection_root_tree_sha": "d179520bab4f4b14321a08298df1fee975ac5273",
+    "pre_projection_canonical_tree_sha": "6fab7399a5c1fb83bcf64574074df2358282c70c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1637,
+    "total_post_baseline_commits": 1637,
+    "delta_file_count": 2519,
+    "delta_added_files": 2513,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,8 +48,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1199,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 342,
-    "test_files_in_post_baseline_delta": 278,
+    "source_files_in_post_baseline_delta": 348,
+    "test_files_in_post_baseline_delta": 283,
     "workflow_files_in_post_baseline_delta": 125,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1014,7 +1014,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2493,
+  "manifest_entry_count": 2509,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1488,7 +1488,7 @@
     },
     {
       "path": ".github/workflows/fa3-pr-watch.yml",
-      "git_blob_sha": "65a333c327612546251e49eb3d06290ab4ebf1f1",
+      "git_blob_sha": "c711a38f7b0270778c6bd04d4d531ec92661c150",
       "baseline_delta_status": "added"
     },
     {
@@ -1928,12 +1928,12 @@
     },
     {
       "path": "apps/fa3-control-center/src/PrWatchService.cpp",
-      "git_blob_sha": "6f3080155fc09f3a1bce45c6c2495f288980383b",
+      "git_blob_sha": "d5955b6ab41f83ac93e1dc4a8cd10b430373f7b5",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/src/PrWatchService.h",
-      "git_blob_sha": "149e8f57e0313f40f7deedec1087d3263a820695",
+      "git_blob_sha": "db29495fd690495d1664983a457772b585a90444",
       "baseline_delta_status": "added"
     },
     {
@@ -2382,8 +2382,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-pr-watch-e2e-fixture",
+      "git_blob_sha": "2b09c2975bccb45e7c31771f643e868cf27ac4d9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-pr-watch-receiver",
       "git_blob_sha": "16d6f9b462e8de8dabc5696368f4a93ffc34dd96",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-pr-watch-render-service",
+      "git_blob_sha": "8f8003721282abe3ad33d996b1f1e5aa887c4be3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-pr-watch-secret-runtime",
+      "git_blob_sha": "f73e25e59e8eb9e8bc8c74d6150d3cccc6f29fa1",
       "baseline_delta_status": "added"
     },
     {
@@ -4608,7 +4623,7 @@
     },
     {
       "path": "canonical/contracts/FA3-GITHUB-DEVELOPMENT-INTEGRATION-CONTRACTS-001.json",
-      "git_blob_sha": "dd5decff6a9f71b2a680f426e9e390b8624fe5a7",
+      "git_blob_sha": "f99465e8597a519a0b58b34151970b7b17fd97e8",
       "baseline_delta_status": "added"
     },
     {
@@ -8617,6 +8632,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/pr-watch/fa3-pr-watch.service",
+      "git_blob_sha": "f6fde5f0cc96ce3a178f0da2ba6a5bc5825534f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/pr-watch/policy.example.json",
+      "git_blob_sha": "82b7e315b106d8492302bc15c1d830527da1eebd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/presenton/README.md",
       "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892",
       "baseline_delta_status": "added"
@@ -9048,7 +9073,7 @@
     },
     {
       "path": "docs/pr-watch-implementation.md",
-      "git_blob_sha": "af43624eca4f0f4574bd2a419b143f96025606de",
+      "git_blob_sha": "95919b61304d60cf169c1e9a5de85d662c34da2d",
       "baseline_delta_status": "added"
     },
     {
@@ -11617,8 +11642,38 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_pr_watch_operator_export.py",
+      "git_blob_sha": "d26fd2973ad115a89a1c9eebfdff4876a8813d00",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_pr_watch_receiver.py",
-      "git_blob_sha": "bd08524e5edcf1f9b65ea58f1fb517489fffe1c6",
+      "git_blob_sha": "88f5e6d7683c248dd6e3be2f96fb86967ab07e76",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pr_watch_reference_checker.py",
+      "git_blob_sha": "da9a965debd758baf3cd50af1f95507c72fbb51b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pr_watch_reference_e2e.py",
+      "git_blob_sha": "0f91418a3f507db5499bee59567221448ce05fdb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pr_watch_secret_runtime.py",
+      "git_blob_sha": "c0ec2ca006ed8f7d0fbfaf611980eb3fc84f75e1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pr_watch_service_render.py",
+      "git_blob_sha": "0accb501bdf35afbd39f35e8156d2ed20fde89ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pr_watch_workload_bridge.py",
+      "git_blob_sha": "7929d42755d52051b88ba853894afd57efde33fc",
       "baseline_delta_status": "added"
     },
     {
@@ -13082,8 +13137,33 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_pr_watch_operator_export.py",
+      "git_blob_sha": "c335c00f0c3a3d787d5fee662bbd912b491f8afa",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_pr_watch_receiver.py",
-      "git_blob_sha": "af529b126d0bd02873a0513fc68bffe37fb8bafb",
+      "git_blob_sha": "432dd7a09325e60a42b5f1f7fccaff420a4406f8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_pr_watch_reference_e2e.py",
+      "git_blob_sha": "f7cd11cd89bd580def990bb05e9caa3e690642ca",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_pr_watch_secret_runtime.py",
+      "git_blob_sha": "53c7ecb5d4df2c3159e91562b8fdcfff048899d2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_pr_watch_service_render.py",
+      "git_blob_sha": "8365caa288df63693fc7d973080bea4722ad99e0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_pr_watch_workload_bridge.py",
+      "git_blob_sha": "b91d70c5011a12d82aa6cdbfe70834fbad231f85",
       "baseline_delta_status": "added"
     },
     {
