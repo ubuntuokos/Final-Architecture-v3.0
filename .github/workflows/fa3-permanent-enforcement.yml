@@ -201,6 +201,8 @@ jobs:
         run: ./bin/fa3-enforce reuse-discovery
       - name: Presenton provider/deployment/artifact regression gate
         run: ./bin/fa3-enforce presenton
+      - name: Audacity MCP CAP-124 mandatory governance gate
+        run: ./bin/fa3-enforce audacity-mcp
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Upload static report
