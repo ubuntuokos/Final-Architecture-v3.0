@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -8412,6 +8412,58 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-SKILLOPT-001",
+      "name": "microsoft/SkillOpt",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/SkillOpt",
+        "normalized_key": "github:microsoft/skillopt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Skill Fabric verified-materialization review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "FA3-SKILL-FABRIC-001"
+      ],
+      "domain_hints": [
+        "offline skill evaluation and improvement"
+      ],
+      "problem_hints": [
+        "regression-based comparison of skill-improvement candidates"
+      ],
+      "target_hints": [
+        "Skill Fabric offline evaluation"
+      ],
+      "tags": [
+        "skill",
+        "offline",
+        "improvement",
+        "evaluation"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_REVALIDATED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-MINIMAX-H3-001",
