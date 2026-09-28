@@ -1,8 +1,8 @@
 # Pixar OpenUSD — scoped FA3 donor assessment (2026-09-28)
 
-**Registry ID:** `FA3-DONOR-PIXAR-OPENUSD-001`  
-**Upstream:** https://github.com/PixarAnimationStudios/OpenUSD  
-**Verified reference:** signed upstream tag `v26.08` resolves to commit `ee47c679abde5b467a7b6a41f3b2285564a4222e` (2026-09-28 check).  
+**Registry ID:** `FA3-DONOR-PIXAR-OPENUSD-001`
+**Upstream:** https://github.com/PixarAnimationStudios/OpenUSD
+**Verified reference:** signed upstream tag `v26.08` resolves to commit `ee47c679abde5b467a7b6a41f3b2285564a4222e` (2026-09-28 check).
 **Upstream license declaration:** Tomorrow Open Source Technology License 1.0 (`TOST-1.0`); https://github.com/PixarAnimationStudios/OpenUSD/blob/v26.08/LICENSE.txt . This is a declaration, **not** a completed redistribution or bundled-dependency clearance.
 
 ## Scope and FA3 reuse mapping
