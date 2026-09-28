@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 322,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -136,6 +136,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-6174-RECUT-001",
+      "name": "Recut (6174)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/6174/recut",
+        "normalized_key": "github:6174/recut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "persistent creative world canvas",
+        "reusable characters-scenes-styles",
+        "agent-accessible editable projects"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "reusing narrative world and media assets across videos"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Story/Screenplay",
+        "Asset Graph",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "adc8b2583c872d78539ef87f8b179e9fde877113",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-ABLETON-LIVE-001",
@@ -999,6 +1061,65 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-ANIL-AI-YOUTUBE-SHORTS-001",
+      "name": "AI YouTube Shorts Generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Anil-matcha/AI-Youtube-Shorts-Generator",
+        "normalized_key": "github:anil-matcha/ai-youtube-shorts-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "transcript-led highlight selection",
+        "automatic vertical cropping"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "long videos to short editable clips"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "de07f3a94a9ef0c4c55376cfa118141de62a3d43",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-ANIL-MATCHA-OPEN-GENERATIVE-AI-001",
       "name": "Anil-matcha/Open-Generative-AI",
       "source": {
@@ -1296,6 +1417,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ARTBYJAZI-AUTOCLIP-001",
+      "name": "AutoClip (artbyjazi)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/artbyjazi/autoclip",
+        "normalized_key": "github:artbyjazi/autoclip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "speaker-tracked vertical framing",
+        "subtitle-burn pipeline",
+        "local-first clipping"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "offline speaker-aware short clips"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "5d0eac36fa615b79dd2104083bf273a96f8d68bb",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-AT-SPI-001",
@@ -2813,6 +2994,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CAROCUT-001",
+      "name": "CaroCut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bilibili/carocut",
+        "normalized_key": "github:bilibili/carocut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "orchestrator-planner-builder-reviewer separation",
+        "durable incremental multi-agent video workflow"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "auditable multi-agent production pipeline"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Story/Screenplay",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "UNVERIFIED_README_MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "2f8dc102012036a20b1645c2183e680b3e4a8fd4",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-CAUSAL-FORCING-001",
       "name": "Causal Forcing/++",
       "source": {
@@ -3012,6 +3253,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLIPTALK-001",
+      "name": "ClipTalk",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GML-MMGroup/ClipTalk",
+        "normalized_key": "github:gml-mmgroup/cliptalk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversational video-editing intent interface",
+        "agent-skill reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "natural-language editorial intent translation"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Central MCP Gateway"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "c2870c289a8471f142fc90fd9dbe576c7be5250d",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-COLIBRI-001",
@@ -3808,6 +4109,67 @@
         "source_group": "v1-v3-historical-artifacts",
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-DAWN-CUT-001",
+      "name": "dawn-cut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kwakseongjae/dawn-cut",
+        "normalized_key": "github:kwakseongjae/dawn-cut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "deterministic edit-decision list",
+        "word-level subtitle review",
+        "text-guided silence trimming"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "reproducible text-based local editing"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "7de68fce41505d8092ec227806b8d4bea4127675",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
       }
     },
     {
@@ -5169,6 +5531,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FORGE-FILM-001",
+      "name": "Forge Film",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/F-R-L/forge-film",
+        "normalized_key": "github:f-r-l/forge-film"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "scene dependency DAG",
+        "critical-path candidate scheduling",
+        "cross-scene continuity reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "parallel scene generation with dependencies"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Story/Screenplay",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "f67f0a003aee58b3afe1b4f48b39ba8db5ed30f0",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-FREEMOCAP-001",
       "name": "FreeMoCap",
       "source": {
@@ -5631,6 +6054,171 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-CLIP-GENERATOR-001",
+      "name": "GitHub ai-clip-generator discovery topic",
+      "source": {
+        "kind": "DISCOVERY_INDEX",
+        "locator": "https://github.com/topics/ai-clip-generator",
+        "normalized_key": "github:topics/ai-clip-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "periodic source discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "new open-source video donor discovery"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "INDEX_NOT_CODE"
+      },
+      "code_reuse_policy": "INDEX_ONLY_NO_CODE_IMPORT",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-VIDEO-EDITOR-001",
+      "name": "GitHub ai-video-editor discovery topic",
+      "source": {
+        "kind": "DISCOVERY_INDEX",
+        "locator": "https://github.com/topics/ai-video-editor",
+        "normalized_key": "github:topics/ai-video-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "periodic source discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "new open-source video donor discovery"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "INDEX_NOT_CODE"
+      },
+      "code_reuse_policy": "INDEX_ONLY_NO_CODE_IMPORT",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-OPEN-SOURCE-VIDEO-001",
+      "name": "GitHub open-source-video discovery topic",
+      "source": {
+        "kind": "DISCOVERY_INDEX",
+        "locator": "https://github.com/topics/open-source-video",
+        "normalized_key": "github:topics/open-source-video"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "periodic source discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "new open-source video donor discovery"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "INDEX_NOT_CODE"
+      },
+      "code_reuse_policy": "INDEX_ONLY_NO_CODE_IMPORT",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
@@ -6175,6 +6763,67 @@
         "source_group": "v1.1-programlist",
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-HOTCLIP-001",
+      "name": "HotClip",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/xixihhhh/hotclip",
+        "normalized_key": "github:xixihhhh/hotclip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "livestream replay clip extraction",
+        "searchable transcript correction",
+        "short-form reframing"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "long live recordings to reviewable clips"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "Subtitle Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "62aef3919fdd7d8a974f80a9b721e0177eb408c2",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
       }
     },
     {
@@ -7685,6 +8334,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MAKEMYCLIP-EDITOR-001",
+      "name": "MakeMyClip Editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MakeMyClip/editor",
+        "normalized_key": "github:makemyclip/editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "structured agent editing tool catalog",
+        "versioned session log",
+        "non-destructive edits and snapshots"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "deterministic agent-to-timeline changes"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Central MCP Gateway",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "867333981a5bfa4fead1b12f5c96f9cdc34fb68b",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-MATCHERING-001",
       "name": "Matchering",
       "source": {
@@ -8576,6 +9286,66 @@
         "source_group": "v2.0.20-capability",
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-MONET-AI-EDITOR-001",
+      "name": "Monet AI Editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Monet-AI-Editor/Monet",
+        "normalized_key": "github:monet-ai-editor/monet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-driven video and image workflow",
+        "semantic-media-search reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "cross-media editing agent UX"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "74fcb1646a2329dfa35acfe7b3726491544fca18",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
       }
     },
     {
@@ -11521,6 +12291,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-OPENCHATCUT-001",
+      "name": "OpenChatCut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/0xsline/OpenChatCut",
+        "normalized_key": "github:0xsline/openchatcut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "proposal-based editable timeline mutations",
+        "transcript-linked editing",
+        "agent edit session review"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "auditable agent-assisted editing"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Central MCP Gateway"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "bb2a4f7e1bb587aa55f3816583ec180d58eb1432",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-OPENCODE-001",
       "name": "opencode",
       "source": {
@@ -12305,6 +13136,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENSHORTS-001",
+      "name": "OpenShorts",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mutonby/openshorts",
+        "normalized_key": "github:mutonby/openshorts"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "multispeaker dynamic reframing",
+        "highlight extraction",
+        "subtitles and dubbing"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "long-form to short-form repurposing"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "29c54fa04c42621310f768adf40c81a1f3436bf2",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-OPENTOONZ-001",
@@ -17810,6 +18702,65 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ZHOUXIAOKA-AUTOCLIP-001",
+      "name": "AutoClip (zhouxiaoka)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zhouxiaoka/autoclip",
+        "normalized_key": "github:zhouxiaoka/autoclip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "highlight detection",
+        "clip candidate generation"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "highlight discovery from existing footage"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "609e3fb31c4db3621712d7443fa33be8df94fbb0",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-ZING-0-5-001",
