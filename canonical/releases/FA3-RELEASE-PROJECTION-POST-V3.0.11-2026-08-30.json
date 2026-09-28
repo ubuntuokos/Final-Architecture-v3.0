@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "aad3cd310596a0dbe0bbbe18fd016fbd18741b31",
-    "pre_projection_root_tree_sha": "f7b1c59998030e7e06053027c63de895491a2bd6",
-    "pre_projection_canonical_tree_sha": "133b7dfed626b2cb1ba355769bb0f413099de727",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1569,
-    "total_post_baseline_commits": 1569,
-    "delta_file_count": 2483,
-    "delta_added_files": 2477,
+    "pre_projection_head_sha": "5b7cd8e7e1b50a96898c2f3b8cee7b52a8d5f491",
+    "pre_projection_root_tree_sha": "7bc2d47bc2f38ead81eea56bee606067dadc19b6",
+    "pre_projection_canonical_tree_sha": "509c60c4636cfdf14efd2a3bd66861e4c6e9743c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1587,
+    "total_post_baseline_commits": 1587,
+    "delta_file_count": 2489,
+    "delta_added_files": 2483,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,8 +48,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1196,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 339,
-    "test_files_in_post_baseline_delta": 274,
+    "source_files_in_post_baseline_delta": 341,
+    "test_files_in_post_baseline_delta": 276,
     "workflow_files_in_post_baseline_delta": 122,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1013,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2473,
+  "manifest_entry_count": 2479,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1552,7 +1552,7 @@
     },
     {
       "path": ".github/workflows/fa3-skill-ecosystem.yml",
-      "git_blob_sha": "0d15ebdcd43ae0c6970f26d375948898f3923f96",
+      "git_blob_sha": "e672668faf788ec1f52ff005953047ab23ea40b6",
       "baseline_delta_status": "added"
     },
     {
@@ -2642,7 +2642,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "4a95ea0c2a3f3a2a60e53630c354aec7905adcdd",
+      "git_blob_sha": "588b28c27e005876be1689226e1fb4599dae7f5e",
       "baseline_delta_status": "added"
     },
     {
@@ -4917,7 +4917,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
-      "git_blob_sha": "998ca1474187b55d2da2dae8947fcdbb8ae3e0ea",
+      "git_blob_sha": "57ea1d28560e1664a1d23bf1259d1699a95dae32",
       "baseline_delta_status": "added"
     },
     {
@@ -8756,6 +8756,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-SKILL-ACTIVATION-TRACE-2026-09-28.md",
+      "git_blob_sha": "02af69e03fe14c46a34a5e09de365d78337349d1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-SKILL-FABRIC-AGENT-SKILLS-EXPANSION-2026-09-24.md",
       "git_blob_sha": "eb13335a04a5b89a92003ef28737c3386f24160d",
       "baseline_delta_status": "added"
@@ -8763,6 +8768,11 @@
     {
       "path": "docs/FA3-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25.md",
       "git_blob_sha": "dbaa523e3dfc2338146d1b5a14656a6aee1d147b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SKILL-TASK-BINDING-2026-09-28.md",
+      "git_blob_sha": "313f4ab52568971e3737300bbe26788933de2a19",
       "baseline_delta_status": "added"
     },
     {
@@ -10732,7 +10742,7 @@
     },
     {
       "path": "src/fa3_developer_agent_coordination.py",
-      "git_blob_sha": "9533a73b726d1744d28cf7eb040d671c53ff40e6",
+      "git_blob_sha": "df08696c4f722718fd1c68cc34560f21ea0105ee",
       "baseline_delta_status": "added"
     },
     {
@@ -11736,6 +11746,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_skill_activation.py",
+      "git_blob_sha": "1c15727543a22f2ae6d6da38d5e892dfd954f49b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_skill_discovery.py",
       "git_blob_sha": "5f03d8717ceffd37cd20f971b8470b49e2967b8b",
       "baseline_delta_status": "added"
@@ -11752,7 +11767,7 @@
     },
     {
       "path": "src/fa3_skill_fabric_gate.py",
-      "git_blob_sha": "e349a3f01f06c46258f609bed488bcd1bfd2a07c",
+      "git_blob_sha": "adc194d64920478aa6e9ef676d0fd5b2d5cb8ff0",
       "baseline_delta_status": "added"
     },
     {
@@ -11763,6 +11778,11 @@
     {
       "path": "src/fa3_skill_fabric_v14.py",
       "git_blob_sha": "d461a6a9999e87e7da4ef7ebbff849bb0eb3aa90",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_skill_task_binding.py",
+      "git_blob_sha": "59969f1ee1f90f34cb9654c7024f77be77b8b779",
       "baseline_delta_status": "added"
     },
     {
@@ -13121,6 +13141,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_skill_activation.py",
+      "git_blob_sha": "a5ee28a97565647522715393b7de4de3fc608d82",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_skill_discovery.py",
       "git_blob_sha": "e33309120c7bf92692665c890ee0857c645acd03",
       "baseline_delta_status": "added"
@@ -13148,6 +13173,11 @@
     {
       "path": "tests/test_skill_fabric_v14.py",
       "git_blob_sha": "5fa28162dfc1b4110dc0cc65acf0373dbee761a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_skill_task_binding.py",
+      "git_blob_sha": "743f6c4b381c934cb63d9a1f3ed06abebefb07db",
       "baseline_delta_status": "added"
     },
     {
@@ -15090,7 +15120,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 306,
+    "donor_registry_entry_count": 307,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
