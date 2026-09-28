@@ -85,3 +85,12 @@ does not confer licenses or admission for any listed third-party tool.
 
 See docs/osint-arsenal-catalog-integration.md for CLI usage, independent
 downstream admission stages, mandatory authorization scope and Hardware Audit.
+
+## Maigret independent source review
+
+The existing CAP-053 Maigret reference has now been tied to its verified upstream
+source and a new source-unique donor record FA3-DONOR-SOXOJ-MAIGRET-001. The
+source license is MIT at the reviewed immutable commit, but transitive
+packages, destination website terms, case authorization and runtime admission
+remain independent and pending. The typed non-executing case interface and
+Maigret plan are described in docs/osint-case-interchange.md.
