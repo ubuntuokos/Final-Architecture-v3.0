@@ -21,6 +21,10 @@ on:
       - 'src/fa3_skill_fabric_gate.py'
       - 'src/fa3_skill_activation.py'
       - 'tests/test_skill_activation.py'
+      - 'src/fa3_skill_task_binding.py'
+      - 'src/fa3_developer_agent_coordination.py'
+      - 'tests/test_skill_task_binding.py'
+      - 'tests/test_developer_agent_coordination.py'
       - 'canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json'
       - 'src/fa3_skill_fabric_v13.py'
       - 'src/fa3_skill_fabric_v14.py'
@@ -45,6 +49,10 @@ on:
       - 'src/fa3_skill_fabric_gate.py'
       - 'src/fa3_skill_activation.py'
       - 'tests/test_skill_activation.py'
+      - 'src/fa3_skill_task_binding.py'
+      - 'src/fa3_developer_agent_coordination.py'
+      - 'tests/test_skill_task_binding.py'
+      - 'tests/test_developer_agent_coordination.py'
       - 'canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json'
       - 'src/fa3_skill_fabric_v13.py'
       - 'src/fa3_skill_fabric_v14.py'
@@ -69,9 +77,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax
-        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_v13.py src/fa3_skill_fabric_v14.py src/fa3_skill_fabric_gate.py src/fa3_skill_activation.py
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_v13.py src/fa3_skill_fabric_v14.py src/fa3_skill_fabric_gate.py src/fa3_skill_activation.py src/fa3_skill_task_binding.py src/fa3_developer_agent_coordination.py
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_v13 tests.test_skill_fabric_v14 tests.test_skill_fabric_gate tests.test_skill_activation -v
+        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_v13 tests.test_skill_fabric_v14 tests.test_skill_fabric_gate tests.test_skill_activation tests.test_skill_task_binding tests.test_developer_agent_coordination -v
       - name: Agent Skills ecosystem gate
         run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
       - name: Parent Skill Fabric gate
