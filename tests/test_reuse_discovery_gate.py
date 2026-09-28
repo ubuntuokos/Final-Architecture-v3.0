@@ -86,6 +86,74 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertFalse(review["authority"])
         self.assertFalse(review["automatic_selection"])
 
+    def test_donor_registry_backfill_is_central_and_non_authoritative(self):
+        registry = json.loads((ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json").read_text(encoding="utf-8"))
+        entries = registry["entries"]
+        ids = {row["donor_id"] for row in entries}
+        self.assertGreaterEqual(len(entries), 160)
+        self.assertEqual(registry["backfill"]["entry_count"], len(entries))
+        self.assertFalse(registry["authority"])
+        self.assertTrue(registry["capture_policy"]["potential_donor_signal_requires_capture"])
+        self.assertTrue(registry["planning_policy"]["query_required_for_every_new_or_materially_modified_application_capability_or_module"])
+        for donor_id in (
+            "FA3-DONOR-AGENT0AI-AGENT-ZERO-001",
+            "FA3-DONOR-MICROSOFT-MCP-GATEWAY-001",
+            "FA3-DONOR-CYTOSTACK-OPENWOLF-001",
+            "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+            "FA3-DONOR-NVIDIA-MODEL-OPTIMIZER-001",
+            "FA3-DONOR-GARRYTAN-GSTACK-001",
+            "FA3-DONOR-BOADIJ-PI-HERDSMAN-001",
+            "FA3-DONOR-P4NDA0S-REVERSE-SKILLS-001",
+            "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+        ):
+            self.assertIn(donor_id, ids)
+
+    def test_reuse_catalog_federates_active_donors_and_excludes_rejected(self):
+        registry = json.loads((ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json").read_text(encoding="utf-8"))
+        expected = {
+            row["donor_id"] for row in registry["entries"]
+            if row["discoverable_for_planning"] is True and row["status"] not in {"REJECTED", "SUPERSEDED"}
+        }
+        rows = [row for row in build_catalog(ROOT)["entries"] if row["candidate_class"] == "DONOR_REFERENCE"]
+        by_id = {row["candidate_id"]: row for row in rows}
+        self.assertEqual(set(by_id), expected)
+        self.assertNotIn("FA3-DONOR-DONUTBROWSER-001", by_id)
+        self.assertIn("FA3-DONOR-MICROSOFT-MCP-GATEWAY-001", by_id)
+        self.assertTrue(all(row["distribution_class"] == "REFERENCE_ONLY" for row in rows))
+        self.assertTrue(all(row["release_bundle_status"] == "EXCLUDED" for row in rows))
+        self.assertTrue(all(row["authority"] is False for row in rows))
+        self.assertTrue(all(row["automatic_dependency"] is False for row in rows))
+        self.assertTrue(all(row["automatic_code_import"] is False for row in rows))
+
+    def test_donor_terms_surface_for_future_application_planning(self):
+        intent = copy.deepcopy(self.intent)
+        intent["required_capabilities"] = []
+        intent["optional_capabilities"] = []
+        intent["problem_classes"] = ["code-anatomy", "context-broker", "agent-handoff"]
+        intent["task_classes"] = ["agent"]
+        intent["skill_triggers"] = []
+        intent["declared_gaps"] = []
+        resolution = resolve(ROOT, intent)
+        by_id = {row["candidate_id"]: row for row in resolution["candidates"]}
+        self.assertIn("FA3-DONOR-CYTOSTACK-OPENWOLF-001", by_id)
+        donor = by_id["FA3-DONOR-CYTOSTACK-OPENWOLF-001"]
+        self.assertEqual(donor["candidate_class"], "DONOR_REFERENCE")
+        self.assertEqual(donor["reuse_mode"], "REFERENCE_ONLY")
+        self.assertFalse(donor["authority"])
+        self.assertFalse(donor["activation_candidate"])
+
+    def test_visual_prompt_donor_surfaces_for_planned_creative_apps(self):
+        intent = copy.deepcopy(self.intent)
+        intent["required_capabilities"] = []
+        intent["optional_capabilities"] = []
+        intent["problem_classes"] = ["visual-prompt", "camera", "style"]
+        intent["task_classes"] = ["creative"]
+        intent["skill_triggers"] = []
+        intent["declared_gaps"] = []
+        resolution = resolve(ROOT, intent)
+        ids = {row["candidate_id"] for row in resolution["candidates"]}
+        self.assertIn("FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001", ids)
+
     def test_golden_embedding_intent_reuses_document_retrieval(self):
         result = assess_intent(ROOT, self.intent)
         self.assertEqual(result["result"], "PASS")
