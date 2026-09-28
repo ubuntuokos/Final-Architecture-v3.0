@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 315,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -334,6 +334,67 @@
       },
       "notes": [
         "Candidate only; route exclusively through central Model Router."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADAMSTARK-BTRACK-001",
+      "name": "adamstark/BTrack",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adamstark/BTrack",
+        "normalized_key": "github:adamstark/btrack"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "real-time-beat-tracking",
+        "beat-synchronous-events"
+      ],
+      "domain_hints": [
+        "music",
+        "audio",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Music Studio"
+      ],
+      "tags": [
+        "gplv3",
+        "cpp",
+        "python",
+        "vamp",
+        "realtime",
+        "cpu-only"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Real-time causal C++ beat tracker; GPLv3 or later plus third-party FFT/sample-rate dependencies. Reference-only until separate license, distribution, latency, correctness and CPU-only current-host review."
       ]
     },
     {
@@ -1168,6 +1229,67 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-APPSYOGI-COM-COMPOSEYOGI-001",
+      "name": "AppsYogi-com/ComposeYogi",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AppsYogi-com/ComposeYogi",
+        "normalized_key": "github:appsyogi-com/composeyogi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "step-sequencer",
+        "piano-roll",
+        "multitrack-midi-audio",
+        "local-first-music-workflow"
+      ],
+      "domain_hints": [
+        "music",
+        "audio",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "QuickClip"
+      ],
+      "tags": [
+        "mit",
+        "web-audio",
+        "midi",
+        "drum-patterns",
+        "qt-pattern-port"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT WebAudio/TypeScript reference for drum sequencing, piano roll, loop editing and local-first workflows; do not replace Qt-native GUI or established Ardour/LMMS native project preservation. Evaluate dependencies separately."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ARDOUR-001",
@@ -2101,6 +2223,63 @@
       },
       "notes": [
         "Candidate/reference; not canonical dataset owner."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-BEAT-BOARDS-BEATMAP-PARSER-001",
+      "name": "beat-boards/beatmap-parser",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/beat-boards/beatmap-parser",
+        "normalized_key": "github:beat-boards/beatmap-parser"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "beat-saber-beatmap-parsing",
+        "optional-beatsaver-beatmap-import"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "rhythm",
+        "game-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Rhythm Interchange",
+        "Music Studio"
+      ],
+      "tags": [
+        "rust",
+        "beat-saber",
+        "optional-format-adapter",
+        "source-specific"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Rust Beat Saber beatmap parser, not a general musical beat detector. Last repository push observed 2019; optional interchange only, independent dependency/security checks."
       ]
     },
     {
@@ -5633,6 +5812,114 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-BEAT-DETECTION-TOPIC-001",
+      "name": "GitHub beat-detection topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/beat-detection",
+        "normalized_key": "github:topics/beat-detection"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "discover-beat-tracking-donors"
+      ],
+      "domain_hints": [
+        "music",
+        "audio",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "discovery-index",
+        "beat-tracking",
+        "algorithm-comparison"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only; not a code dependency or algorithm validation. Individual implementations require benchmark, latency, license, security and current-host audit."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-BEAT-MAKER-TOPIC-001",
+      "name": "GitHub beat-maker topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/beat-maker",
+        "normalized_key": "github:topics/beat-maker"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "discover-beat-sequencer-donors"
+      ],
+      "domain_hints": [
+        "music",
+        "audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "discovery-index",
+        "unvetted-results",
+        "supply-chain-screening"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery feed only. Individual repositories require separate authenticity, maintenance, rights and supply-chain screening; avoid unverified premium-download repositories."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
       "name": "GL-Colour-Grading",
       "source": {
@@ -7616,6 +7903,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LMPARPPEI-BEAT-001",
+      "name": "lmparppei/Beat",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lmparppei/Beat",
+        "normalized_key": "github:lmparppei/beat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "fountain-screenplay-roundtrip",
+        "fdx-import-export",
+        "scene-management",
+        "revision-tracking",
+        "writer-statistics"
+      ],
+      "domain_hints": [
+        "creative",
+        "screenplay",
+        "story"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Professional Screenplay Fabric",
+        "Story/Docs",
+        "Storyboard"
+      ],
+      "tags": [
+        "fountain",
+        "fdx",
+        "distraction-free-editor",
+        "macos-ios-reference"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Apple-platform screenplay editor; GPL-3.0-or-later declaration in LICENSE.md. UX and file roundtrip reference, not direct macOS/iOS source incorporation into cross-desktop Qt6 FA3."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LOBECHAT-LOBEHUB-001",
@@ -14686,6 +15034,61 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-R3MOT-GRID-GROOVE-001",
+      "name": "r3mot/grid-groove",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/r3mot/grid-groove",
+        "normalized_key": "github:r3mot/grid-groove"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "step-sequencer",
+        "sample-track-organization"
+      ],
+      "domain_hints": [
+        "audio",
+        "music"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Music Studio"
+      ],
+      "tags": [
+        "web-audio",
+        "tonejs",
+        "drum-samples",
+        "small-reference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Small browser step-sequencer reference; repository README declares MIT. Samples and third-party dependencies require independent rights audit; reference UI pattern, not separate production DAW."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-RADIUM-001",
       "name": "Radium",
       "source": {
@@ -14737,6 +15140,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-RAINLIB-AI-STORYBOARD-001",
+      "name": "RainLib/AI-Storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RainLib/AI-Storyboard",
+        "normalized_key": "github:rainlib/ai-storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "narrative-beat-breakdown",
+        "progressive-storyboard",
+        "motion-prompt-handoff",
+        "director-review-loop"
+      ],
+      "domain_hints": [
+        "creative",
+        "story",
+        "storyboard",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Story/Screenplay Fabric",
+        "Storyboard",
+        "Director/Workforce",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storybeat",
+        "producer-director-agents",
+        "human-approval",
+        "branch-aware-adaptation"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only pending GPL compatibility and provenance review. Adapt workflow to variable panel counts, production-aware screenplay profiles, narrative branches, UAF/Director and central Model Router; no fixed Claude, proprietary model or 9/4-panel requirement."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-RAPIDRAW-001",
@@ -15557,6 +16022,61 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SCREENWEAVER-SCREENWRITING-COMPARISON-HUB-001",
+      "name": "ScreenWeaver screenwriting comparison hub",
+      "source": {
+        "kind": "URL",
+        "locator": "https://www.screenweaver.ai/blog/topics/screenwriting-software",
+        "normalized_key": "https://www.screenweaver.ai/blog/topics/screenwriting-software"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "screenwriting-tool-feature-comparison",
+        "screenplay-to-storyboard-workflow-reference"
+      ],
+      "domain_hints": [
+        "story",
+        "screenplay",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Professional Screenplay Fabric",
+        "Storyboard"
+      ],
+      "tags": [
+        "vendor-authored-comparison",
+        "research-only",
+        "verify-claims"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Vendor-operated comparison hub; original submitted /blog/screenwriting-software-comparisons-hub was not accessible at review, accessible topic hub used. Claims are marketing material pending independent verification. No code reuse."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-SEED-VC-001",
