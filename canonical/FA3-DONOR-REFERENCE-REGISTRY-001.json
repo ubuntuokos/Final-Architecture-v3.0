@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 295,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2281,6 +2281,323 @@
       },
       "notes": [
         "Lab/candidate; retain Bforartists primary, no independent scene authority."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-blender-donor-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-BLENDER-ADDONS-001",
+      "name": "Blender official legacy add-ons mirror (archived)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender-addons",
+        "normalized_key": "github:blender/blender-addons"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "python-extension-patterns",
+        "dcc-import-export",
+        "asset-workflows",
+        "rigging-tools"
+      ],
+      "domain_hints": [
+        "3d",
+        "dcc",
+        "interoperability"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Bforartists",
+        "3D Fabric",
+        "Asset Graph",
+        "Character Studio",
+        "Creative Studio"
+      ],
+      "tags": [
+        "blender",
+        "addons",
+        "legacy",
+        "archived",
+        "interchange"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "notes": [
+        "Official read-only mirror archived by Blender on 2025-05-09; historical reference only, not a maintained addon source. Per-file SPDX licenses vary; do not assume repository-wide license or compatibility."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-blender-donor-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-BLENDER-ADDONS-CONTRIB-001",
+      "name": "Blender official community add-ons mirror (archived)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender-addons-contrib",
+        "normalized_key": "github:blender/blender-addons-contrib"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "community-extension-patterns",
+        "asset-tools",
+        "python-extension-patterns"
+      ],
+      "domain_hints": [
+        "3d",
+        "dcc",
+        "interoperability"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Bforartists",
+        "3D Fabric",
+        "Asset Graph",
+        "Creative Studio"
+      ],
+      "tags": [
+        "blender",
+        "addons",
+        "community",
+        "legacy",
+        "archived"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "notes": [
+        "Official read-only mirror archived by Blender on 2025-05-09; community/experimental historical reference only. Per-file license, provenance and maintenance must be checked individually."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-blender-donor-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-BLENDER-BLENDER-001",
+      "name": "Blender official source mirror",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender",
+        "normalized_key": "github:blender/blender"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "3d-scene-graph",
+        "modeling",
+        "rigging",
+        "animation",
+        "geometry-nodes",
+        "compositing",
+        "asset-workflows",
+        "dcc-interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "animation",
+        "dcc",
+        "vfx",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Bforartists",
+        "3D Fabric",
+        "Character Studio",
+        "VFX/Gaffer",
+        "World Generator",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Asset Graph"
+      ],
+      "tags": [
+        "blender",
+        "official",
+        "source-mirror",
+        "geometry-nodes",
+        "animation",
+        "usd",
+        "gltf"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Official read-only GitHub mirror; authoritative development source is https://projects.blender.org/blender/blender . Blender as a whole GPL-3.0; files and bundled dependencies may have different compatible licenses. FA3 uses selective reference patterns; Bforartists remains primary DCC."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-blender-donor-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-BLENDER-CYCLES-001",
+      "name": "Blender Cycles official render engine mirror",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/cycles",
+        "normalized_key": "github:blender/cycles"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "path-tracing",
+        "render-delegate-patterns",
+        "render-qa",
+        "render-backend-abstraction",
+        "cpu-rendering"
+      ],
+      "domain_hints": [
+        "rendering",
+        "3d",
+        "vfx"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Bforartists",
+        "3D Fabric",
+        "VFX/Gaffer",
+        "World Generator",
+        "Creative Studio"
+      ],
+      "tags": [
+        "blender",
+        "cycles",
+        "path-tracing",
+        "hydra",
+        "cpu-render",
+        "official"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Official Cycles mirror. Upstream describes standalone rendering and a Hydra render delegate; CPU support is a possible selective reference, not an admitted FA3 renderer. Hardware-specific backends remain optional and subject to HRB admission."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-blender-donor-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-BLENDER-GITHUB-ORG-001",
+      "name": "Blender official GitHub discovery index",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender",
+        "normalized_key": "github:blender"
+      },
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "dcc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Bforartists",
+        "3D Fabric",
+        "Creative Studio",
+        "World Generator"
+      ],
+      "tags": [
+        "blender",
+        "official",
+        "discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "notes": [
+        "Verified Blender Foundation GitHub organization. Discovery index only: a listed repository is not automatically admitted."
       ]
     },
     {
