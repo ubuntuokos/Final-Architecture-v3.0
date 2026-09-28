@@ -10,6 +10,10 @@ on:
       - 'src/fa3_decision*.py'
       - 'src/fa3_context_selection.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_system_one*.py'
+      - 'canonical/**SYSTEM-ONE**'
+      - 'tests/test_system_one_reflex.py'
+      - 'tests/test_system_one_mcp_compiler.py'
       - 'bin/fa3-decision-current-host'
       - '.github/workflows/fa3-decision-fabric-current-host.yml'
   push:
@@ -21,6 +25,10 @@ on:
       - 'src/fa3_decision*.py'
       - 'src/fa3_context_selection.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_system_one*.py'
+      - 'canonical/**SYSTEM-ONE**'
+      - 'tests/test_system_one_reflex.py'
+      - 'tests/test_system_one_mcp_compiler.py'
       - 'bin/fa3-decision-current-host'
       - '.github/workflows/fa3-decision-fabric-current-host.yml'
   workflow_dispatch:
@@ -62,6 +70,7 @@ jobs:
           assert d["checks"]["negative"]["pass"] is True
           assert d["checks"]["rollback"]["pass"] is True
           assert d["checks"]["hardware"]["pass"] is True
+          assert d["checks"]["system_one_reflex"]["pass"] is True
           PY
       - uses: actions/upload-artifact@v4
         with:

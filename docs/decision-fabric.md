@@ -17,7 +17,7 @@ Every result records `authority=false` and `candidate_set_expanded=false`.
 
 ## Contracts
 
-`SELECT_ONE`, `BOOLEAN`, `SCORE`, `RANK`, `MULTI_LABEL`, `RELEVANCE`, `STOP_CONTINUE`.
+`SELECT_ONE`, `BOOLEAN`, `SCORE`, `RANK`, `MULTI_LABEL`, `RELEVANCE`, `STOP_CONTINUE`, `BOUNDED_ACTION`.
 
 The caller must provide the complete pre-authorized candidate set. A provider response that refers to a candidate outside that set is rejected fail-closed.
 
@@ -43,6 +43,17 @@ Runtime enablement requires all of:
 - runtime-selected `FA3_JEV_MODEL`.
 
 There is no silent local-to-cloud fallback.
+
+### System One reflex provider
+
+`FA3-PROVIDER-SYSTEM-ONE-DECISION-001` is the provider-neutral bounded reflex path. It accepts `BOUNDED_ACTION`, compiles only pre-authorized finite actions and parameters, and uses a runtime binding to the central Model Router. Confidence is evidence only: the result is an authorization-ready intent, never permission or execution.
+
+The committed Model Router route registry is deliberately not extended yet: its current admitted data plane is OpenAI-compatible chat through LiteLLM, while a native System One decision transport is a different protocol. Activation therefore remains pending until an admitted Model Router/LiteLLM-compatible System One data-plane adapter exists. Direct OpenRouter/TypeSafe transport remains forbidden.
+
+The same contract is exposed to `FA3-WEB-AI-001` for bounded browser/UI reflexes and to the MCP Gateway through the finite MCP tool compiler. UHP remains an optional compatibility adapter, not an FA3 authority.
+
+See `docs/system-one-reflex-runtime.md`.
+
 
 ## Rollout
 

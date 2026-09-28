@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2b8b67472dfc8a4aaf14a7ea784a23e471cb7fa0",
-    "pre_projection_root_tree_sha": "cf9586fb6ff6d8ec7e5b7558eaad478b863183ae",
-    "pre_projection_canonical_tree_sha": "645523d38dbdb4603e2e319f199941c326211219",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1364,
-    "total_post_baseline_commits": 1364,
-    "delta_file_count": 2421,
-    "delta_added_files": 2415,
+    "pre_projection_head_sha": "6b5ff6d017ebee52a427ead70d8783b4f3dafce5",
+    "pre_projection_root_tree_sha": "c695b082453650a9d893785896368f1be69adc01",
+    "pre_projection_canonical_tree_sha": "0d36f2065631550b8ef6ae3fc6e2be2599974e3a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1443,
+    "total_post_baseline_commits": 1443,
+    "delta_file_count": 2443,
+    "delta_added_files": 2437,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1180,
+    "canonical_files_in_post_baseline_delta": 1188,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 327,
-    "test_files_in_post_baseline_delta": 261,
+    "source_files_in_post_baseline_delta": 332,
+    "test_files_in_post_baseline_delta": 265,
     "workflow_files_in_post_baseline_delta": 117,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -174,6 +174,7 @@
       "canonical/providers/FA3-PROVIDER-STABLE-LAYERS-001.json",
       "canonical/providers/FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001.json",
       "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
+      "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
       "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
       "canonical/providers/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json",
       "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
@@ -341,6 +342,7 @@
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
       "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-EXECUTION-NETWORK-ENVELOPE-001.schema.json",
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
@@ -426,6 +428,7 @@
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "canonical/contracts/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json",
       "canonical/contracts/FA3-TOOL-CONFIRMATION-001.schema.json",
       "canonical/contracts/FA3-TRUST-PKI-CONTRACTS-001.json",
       "canonical/contracts/FA3-UAF-ACTION-CONTRACT-001.schema.json",
@@ -594,6 +597,7 @@
       "canonical/decisions/FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20.json",
       "canonical/decisions/FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
+      "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
       "canonical/decisions/FA3-DEC-UNIFIED-ACTION-FABRIC-2026-09-21.json",
@@ -1005,7 +1009,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2421,
+  "manifest_entry_count": 2434,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1125,11 +1129,11 @@
     },
     {
       "path": ".github/workflows/fa3-decision-fabric-current-host.yml",
-      "git_blob_sha": "09cffeeae8b76fbf2eee986ea9eb6489b21422c4"
+      "git_blob_sha": "f1fd3ca0ed44eeb95e417b5ea24c34a4421d5ce1"
     },
     {
       "path": ".github/workflows/fa3-decision-fabric.yml",
-      "git_blob_sha": "e01c49da34b37b3a844027550f32c87696e5d397"
+      "git_blob_sha": "ee64e70fc787efd37fb66ee0e99ceab6384581cf"
     },
     {
       "path": ".github/workflows/fa3-desktop-portability.yml",
@@ -3500,6 +3504,14 @@
       "git_blob_sha": "d5f3805e55b898e9ab966045ee2a097f73508914"
     },
     {
+      "path": "canonical/assessments/FA3-SYSTEM-ONE-REFLEX-2026-09-28.json",
+      "git_blob_sha": "ae52889018dd2b5bed3affc7c586d9d317aed5c0"
+    },
+    {
+      "path": "canonical/assessments/FA3-SYSTEM-ONE-REFLEX-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "869b0a0e09f5945e6870d61bcd10fe05a1289568"
+    },
+    {
       "path": "canonical/authenticated-approval-enforcement.json",
       "git_blob_sha": "ba25e2cb9d361c9aa53667d2ffc83d2e52eae6ba"
     },
@@ -3741,15 +3753,15 @@
     },
     {
       "path": "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
-      "git_blob_sha": "2f9f453041b7a5994ad454966c3d4429dcb696cc"
+      "git_blob_sha": "1b715ab4401b60de09a0dfbc96df54792934730c"
     },
     {
       "path": "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
-      "git_blob_sha": "486de2f202d108151d165325909d0e43ec94f9d9"
+      "git_blob_sha": "041d8e2b6ce49e13d59c158b22ad0766d90667d8"
     },
     {
       "path": "canonical/contracts/FA3-DECISION-FABRIC-CONTRACTS-001.json",
-      "git_blob_sha": "eb8063337b975d2150fb6e990ba311b272eaf4d3"
+      "git_blob_sha": "e90ea9516ca01b0606869846341ea481b668f1ee"
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
@@ -4116,6 +4128,10 @@
       "git_blob_sha": "b5b8fbacab2c41196d0e777e8dc58fce9f08b129"
     },
     {
+      "path": "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json",
+      "git_blob_sha": "21a466992360f661d07ff9e0bd4ed13611ef95c4"
+    },
+    {
       "path": "canonical/contracts/FA3-TOOL-CONFIRMATION-001.schema.json",
       "git_blob_sha": "7aca327355acc79c35185e66a2475ccbfaa72813"
     },
@@ -4229,11 +4245,11 @@
     },
     {
       "path": "canonical/decision-fabric-current-host-enforcement.json",
-      "git_blob_sha": "2e60bb80891b100e275ccc1c01b2241df4ef9316"
+      "git_blob_sha": "6245bcde1ce01343527a34bb4ddd6a822614bc70"
     },
     {
       "path": "canonical/decision-fabric-enforcement.json",
-      "git_blob_sha": "8d2eec22e7ba7f85bf761318c2cdc3efddf397a5"
+      "git_blob_sha": "820438154eaab217f74e36e681c1971968f56a67"
     },
     {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
@@ -4828,6 +4844,10 @@
       "git_blob_sha": "324b9619b3bcba38a66b1460cdf8cecf7dc45b85"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json",
+      "git_blob_sha": "84c841622b018bf193e4d6521afabe7ba547ac28"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "git_blob_sha": "afc982ff443bafea67e7299353a78a482a6485d2"
     },
@@ -4885,11 +4905,11 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "d7f0833355ea85413dab21d6edd13d29a0adeacb"
+      "git_blob_sha": "65abe614db9c0e035b281ebbde6cea01097addd6"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "4d8c84f071035ccdb00ac55e5ea6d2791b8107ce"
+      "git_blob_sha": "15eccf29d892bd7519f1dd09d555dd03a5871c1a"
     },
     {
       "path": "canonical/enforcement-policy.json",
@@ -5122,6 +5142,10 @@
     {
       "path": "canonical/intents/FA3-SYSCTL-HOST-TUNING-APPLICATION-INTENT-001.json",
       "git_blob_sha": "7e493217819bf4c8495cca6349e01be50caff819"
+    },
+    {
+      "path": "canonical/intents/FA3-SYSTEM-ONE-REFLEX-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "004ad76fa121ae33301ac4c632ee4b2416265d08"
     },
     {
       "path": "canonical/journal-enforcement.json",
@@ -5461,7 +5485,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DECISION-FABRIC-001.json",
-      "git_blob_sha": "4206b3f8fd6e42597bae666e4df89d7afb6c5bea"
+      "git_blob_sha": "fde6b74a8cff6959b648f51c54d7d48e33d30891"
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-001.json",
@@ -6244,6 +6268,10 @@
       "git_blob_sha": "4e764949a775e51589e08e710453e9ec6b27f06a"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+      "git_blob_sha": "f0144f62885a39264839be1dbee9149f4844c655"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
       "git_blob_sha": "550d2aa76a057aaa9fbb2ed36b2e6fd4af2fb1c3"
     },
@@ -6856,6 +6884,10 @@
       "git_blob_sha": "0eedc3582428a434e0fd139bcff45fd613a8f8e8"
     },
     {
+      "path": "canonical/third-party/FA3-SYSTEM-ONE-HARNESS-REUSE-001.json",
+      "git_blob_sha": "8c5359a3a6377ddd697274a652175f4c344aba74"
+    },
+    {
       "path": "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
       "git_blob_sha": "a69a96be9d93c1c57a173f42088e86a228322f86"
     },
@@ -7189,7 +7221,7 @@
     },
     {
       "path": "docs/decision-fabric.md",
-      "git_blob_sha": "eceb1e6a7c79d6bae8c01317156568da89890dec"
+      "git_blob_sha": "040112e27ff6bce2116a83653d0108c3a89e49a7"
     },
     {
       "path": "docs/desktop-portability.md",
@@ -7378,6 +7410,10 @@
     {
       "path": "docs/step-ca-current-host.md",
       "git_blob_sha": "886319d9299952fb8bd2ea1b1a68a0f1137881d9"
+    },
+    {
+      "path": "docs/system-one-reflex-runtime.md",
+      "git_blob_sha": "8aa2dca742b969e04b082acc7f7772abf0604941"
     },
     {
       "path": "evidence/AGENTS.md",
@@ -8605,15 +8641,15 @@
     },
     {
       "path": "src/fa3_decision_current_host_gate.py",
-      "git_blob_sha": "94588a92c9947c6e9b6dab2cfe9b5f338b795f51"
+      "git_blob_sha": "4ba5145bf7ea0a637d91ea2d74c0a9510edd804d"
     },
     {
       "path": "src/fa3_decision_fabric.py",
-      "git_blob_sha": "16fc73f30979e14f9310c48ec633b05c3738e4a5"
+      "git_blob_sha": "a4eee7e2590d94f094b61cb952df8d166cb3a90d"
     },
     {
       "path": "src/fa3_decision_fabric_gate.py",
-      "git_blob_sha": "4b924ff430366a88ef5a8910ae921fa29350df8a"
+      "git_blob_sha": "57049c5d7fff1d9dda726c4ce71dccab2c7ee610"
     },
     {
       "path": "src/fa3_decision_trace.py",
@@ -9494,6 +9530,18 @@
     {
       "path": "src/fa3_sysctl_governance_gate.py",
       "git_blob_sha": "c9a3d4624fb7e9d189764ed8beff026efe08a3c3"
+    },
+    {
+      "path": "src/fa3_system_one_decision_provider.py",
+      "git_blob_sha": "3285e09d7e78c85b6fd66af3ba251288ccabe6cc"
+    },
+    {
+      "path": "src/fa3_system_one_mcp_compiler.py",
+      "git_blob_sha": "f2a573f87ddce5334a0fe5562898d2a190e933d3"
+    },
+    {
+      "path": "src/fa3_system_one_reflex.py",
+      "git_blob_sha": "b816857315f6ee4eea940e3297f3099ede91a890"
     },
     {
       "path": "src/fa3_tencentdb_agent_memory_gate.py",
@@ -10554,6 +10602,14 @@
     {
       "path": "tests/test_sysctl_governance.py",
       "git_blob_sha": "7ae4f0ec4f7008cc093739426f3d43b22f8e2fa1"
+    },
+    {
+      "path": "tests/test_system_one_mcp_compiler.py",
+      "git_blob_sha": "df2391f394a724852de9baf904b353966150edf7"
+    },
+    {
+      "path": "tests/test_system_one_reflex.py",
+      "git_blob_sha": "2a4745baf621e7989c6a470e29c904bc92e590a1"
     },
     {
       "path": "tests/test_tencentdb_agent_memory_gate.py",
