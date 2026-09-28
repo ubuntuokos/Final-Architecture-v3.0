@@ -64,24 +64,24 @@ Modes: **ART_DIRECTED** (explicitly fictional/visual), **PHYSICS_INFORMED** (bou
 3. Derive hemisphere, latitude, altitude, topography, coast proximity, region-specific climate and biomes. Calculate solar position, sunrise/sunset, twilight, facade/roof exposure and seasonal phase from coordinates, date and optional clock. Account for polar day/night, equatorial wet/dry regimes, monsoons and differing Northern/Southern Hemisphere seasons. Avoid continent-wide weather templates where local geography controls conditions.
 4. Retrieve temporally and spatially scoped evidence when available: documented daily/hourly weather, reanalysis, population series and census reference dates, period maps, building footprints, transport routes/vehicle fleets, clothing and street photographs. Record source identifiers, attribution, usage rights, acquisition time, observation/reference dates, spatial/temporal resolution and uncertainty. Data coverage decreases unevenly as history recedes; absence must stay visible.
 5. Derive bounded crowd and traffic *scenarios* from period infrastructure, city/district population, land use, street capacity, documented vehicle fleet/routes, local daypart and authored event calendars. Never conflate a citywide resident count with the number of people on a particular street at a given hour. Reconstruct vehicles and period interiors from era-qualified sources or clearly marked substitutes.
-6. Preserve source observations as immutable baseline inputs. Show explicit \`OBSERVED\`, \`HISTORICAL_RECORD\`, \`REANALYSIS\`, \`DERIVED\`, \`AUTHOR_INVENTED\`, \`UNKNOWN\` origin labels per field or affected asset. An old date does not justify falsely presenting invented details as archival evidence.
+6. Preserve source observations as immutable baseline inputs. Show explicit `OBSERVED`, `HISTORICAL_RECORD`, `REANALYSIS`, `DERIVED`, `AUTHOR_INVENTED`, `UNKNOWN` origin labels per field or affected asset. An old date does not justify falsely presenting invented details as archival evidence.
 
 ### Four selectable world modes
 
 | Mode | Default behavior | What the user controls |
 | --- | --- | --- |
-| \`HISTORICAL\` | Follow dated source records for location, urban form, weather, era-specific objects, population and timeline, explicitly leaving unresolved claims unknown. | Select evidence quality, geographic precision, period and permitted aesthetic stylization; manually approve filling evidential gaps. |
-| \`ALTERNATE_HISTORY\` | Fork a sourced historical baseline at one or more user-defined **divergence points**. Recompute downstream urban, social, transport and environmental scene state from declared alternative assumptions. | Choose where/when history branches, what changes and what historically documented facts remain fixed. |
-| \`FICTIONAL\` | Build a fully authored world with optional real geography, history, calendar, climate or orbital physics as inspiration; do not force a factual year, country or historical claims. | Define own world rules, topology, climate, sky, seasons, day cycle, settlements, transport, cultural details and disaster behaviors. |
-| \`HYBRID\` | Lock selected sourced layers, override selected elements/scenes and optionally use authored or physically informed novel events. | Choose per-layer or per-asset authenticity; e.g. authentic Budapest streets and vehicles in 1976 with a scripted fictional storm. |
+| `HISTORICAL` | Follow dated source records for location, urban form, weather, era-specific objects, population and timeline, explicitly leaving unresolved claims unknown. | Select evidence quality, geographic precision, period and permitted aesthetic stylization; manually approve filling evidential gaps. |
+| `ALTERNATE_HISTORY` | Fork a sourced historical baseline at one or more user-defined **divergence points**. Recompute downstream urban, social, transport and environmental scene state from declared alternative assumptions. | Choose where/when history branches, what changes and what historically documented facts remain fixed. |
+| `FICTIONAL` | Build a fully authored world with optional real geography, history, calendar, climate or orbital physics as inspiration; do not force a factual year, country or historical claims. | Define own world rules, topology, climate, sky, seasons, day cycle, settlements, transport, cultural details and disaster behaviors. |
+| `HYBRID` | Lock selected sourced layers, override selected elements/scenes and optionally use authored or physically informed novel events. | Choose per-layer or per-asset authenticity; e.g. authentic Budapest streets and vehicles in 1976 with a scripted fictional storm. |
 
 A global mode is just a **default**; a per-layer policy can be overridden at scene/shot/asset/event level. Suggested policy axes: terrain/map, jurisdiction and architecture, vegetation/season, solar/astronomy, weather/disasters, population and crowds, transport and technology, clothes/props/signage, indoor materials/fixtures, audio/lighting. Preserve dependencies: if a fictional skyscraper shadows a historic street, recalibrate local lighting and wind; if a diverted river changes flood exposure, invalidate affected drainage outcomes; if the authored world has two suns, use an explicit custom orbital/light model rather than falsely attributing its sky to Earth astronomy.
 
-**UI:** \`Mode\` selector + collapsible layer overrides + an interactive **historical anchor / divergence timeline**. Each visual object/event exposes \`Source-based\`, \`Derived\`, \`Invented\` or \`Unknown\`; users can inspect the supporting evidence, switch an invented element back to baseline, preview only affected dependent changes and undo without modifying the archived baseline. A "historical-fidelity" indication is a list of verified/unknown/overridden elements, **never a fabricated numerical score**.
+**UI:** `Mode` selector + collapsible layer overrides + an interactive **historical anchor / divergence timeline**. Each visual object/event exposes `Source-based`, `Derived`, `Invented` or `Unknown`; users can inspect the supporting evidence, switch an invented element back to baseline, preview only affected dependent changes and undo without modifying the archived baseline. A "historical-fidelity" indication is a list of verified/unknown/overridden elements, **never a fabricated numerical score**.
 
 ### Non-authoritative proposed contract extension
 
-\`\`\`json
+```json
 {
   "schema": "fa3.environment-world-scenario.proposal.v1",
   "scenario_id": "budapest-example-1976-07-23",
@@ -125,11 +125,11 @@ A global mode is just a **default**; a per-layer policy can be overridden at sce
   "baseline_snapshot_id": "REQUIRED_BEFORE_REAL_SCENE_EXECUTION",
   "evidence_manifest_id": "REQUIRED_BEFORE_REAL_SCENE_EXECUTION"
 }
-\`\`\`
+```
 
-This JSON is illustrative schema content, not an actual verified reconstruction. \`null\` means the user has not provided a clock time or pinned time-zone database version; implementation must not derive an exact sun position or storm onset from this example.
+This JSON is illustrative schema content, not an actual verified reconstruction. `null` means the user has not provided a clock time or pinned time-zone database version; implementation must not derive an exact sun position or storm onset from this example.
 
-**Scene composition:** \`historical_snapshot -> selected layer policies -> divergent event/asset layers -> dependency-aware impact deltas -> shot-specific presentation\`. Keep original source snapshots immutable, store creative branches as reversible non-destructive overlays with an explicit branch lineage and export metadata; do not promote fictional overlays into observational datasets, real alerts or source-backed histories. Historical and fictional branches may share assets and simulations without duplicating the platform's scene, timeline, Model Router or HRB authorities.
+**Scene composition:** `historical_snapshot -> selected layer policies -> divergent event/asset layers -> dependency-aware impact deltas -> shot-specific presentation`. Keep original source snapshots immutable, store creative branches as reversible non-destructive overlays with an explicit branch lineage and export metadata; do not promote fictional overlays into observational datasets, real alerts or source-backed histories. Historical and fictional branches may share assets and simulations without duplicating the platform's scene, timeline, Model Router or HRB authorities.
 
 **Prompt Builder / screenplay:** a single mode and per-layer policy are inherited by generated shot prompts and all FA3 apps. Explicitly annotate deviations so a model cannot silently alter a locked historic building, source-based vehicle, chosen hemisphere/season or a user-authored fictional world rule. AI outputs are proposals under existing approval policies; the Model Router still chooses designated model/provider routes.
 
@@ -146,9 +146,9 @@ Existing registered meteorological donors (NOAA, Open-Meteo), flood/fire simulat
 
 ### Extended acceptance and boundary tests
 
-- **G1 – historical, city/date only:** Budapest on 1976-07-23 yields northern temperate summer and city-level spatial precision, but exact scene daypart, street, instantaneous weather, crowd and traffic remain \`UNKNOWN\` absent suitable evidence/inputs. Historic time-zone conversion never reuses current seasonal UTC offsets without checking versioned rules.
+- **G1 – historical, city/date only:** Budapest on 1976-07-23 yields northern temperate summer and city-level spatial precision, but exact scene daypart, street, instantaneous weather, crowd and traffic remain `UNKNOWN` absent suitable evidence/inputs. Historic time-zone conversion never reuses current seasonal UTC offsets without checking versioned rules.
 - **G2 – historical, exact place + time:** compute reproducible solar geometry, window/facade orientation and weather response using source- and timestamp-qualified inputs; heritage imagery, map and vehicles are period-specific and attribution-preserving.
-- **G3 – alternate:** create a divergently developed transport network from a dated baseline; preserve baseline provenance, show the changed dependencies, reject a transit line or invented population estimate as \`HISTORICAL_RECORD\`.
+- **G3 – alternate:** create a divergently developed transport network from a dated baseline; preserve baseline provenance, show the changed dependencies, reject a transit line or invented population estimate as `HISTORICAL_RECORD`.
 - **G4 – hybrid:** use historically grounded 1970s city scenery plus an explicitly fictional extraordinary storm; maintain persistent precipitation impacts coherently from watershed, urban drainage and roof to basement; no scripted weather in historical-observation exports.
 - **G5 – fictional:** allow imaginary planet, two suns and custom season/day/night rules; preserve self-consistency but do not display Earth solar or regional climate claims.
 - **G6 – latitudinal:** the same Gregorian date produces opposite astronomical seasonal context in Northern vs Southern Hemisphere; equatorial wet/dry and polar daylight regimes are not coerced into temperate four-season rules.
@@ -156,7 +156,7 @@ Existing registered meteorological donors (NOAA, Open-Meteo), flood/fire simulat
 
 ### Hardware Audit for this extension
 
-All geo/time/branch reasoning is metadata and must be CPU-only operable, vendor-neutral and offline-preview-capable. Optional data downloads or scientific/accelerated providers require explicit independent admission, per-source license checks and HRB-scoped resources. Accelerator count remains \`0..N\`; there is no required GPU vendor or fixed model/provider. The Qt6/QML integration should remain desktop/session neutral (Wayland preferred; X11 supported). The existing FA3-native media/project authority remains unchanged. Historical provenance and fictional overrides are planning contracts, not a new global authority or a certified historical/disaster-response service.
+All geo/time/branch reasoning is metadata and must be CPU-only operable, vendor-neutral and offline-preview-capable. Optional data downloads or scientific/accelerated providers require explicit independent admission, per-source license checks and HRB-scoped resources. Accelerator count remains `0..N`; there is no required GPU vendor or fixed model/provider. The Qt6/QML integration should remain desktop/session neutral (Wayland preferred; X11 supported). The existing FA3-native media/project authority remains unchanged. Historical provenance and fictional overrides are planning contracts, not a new global authority or a certified historical/disaster-response service.
 
 
 ## Cross-scale reference story / end-to-end acceptance scene
