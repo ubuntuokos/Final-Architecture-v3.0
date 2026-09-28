@@ -33,6 +33,7 @@ QString DecisionFabricService::state() const { return m_state; }
 QVariantList DecisionFabricService::recentDecisions() const { return m_recentDecisions; }
 QVariantList DecisionFabricService::radarProjects() const { return m_radarProjects; }
 QVariantList DecisionFabricService::contextItems() const { return m_contextItems; }
+QVariantMap DecisionFabricService::goalReview() const { return m_goalReview; }
 QString DecisionFabricService::snapshotCommit() const { return m_snapshotCommit; }
 QString DecisionFabricService::lastError() const { return m_lastError; }
 
@@ -70,6 +71,53 @@ QString DecisionFabricService::contextPath() const
         ? QDir::homePath() + QStringLiteral("/.local/state")
         : stateHome;
     return QDir(base).filePath(QStringLiteral("fa3/context-projection.json"));
+}
+
+
+QString DecisionFabricService::goalReviewPath() const
+{
+    const QString stateHome = qEnvironmentVariable("XDG_STATE_HOME");
+    const QString base = stateHome.isEmpty()
+        ? QDir::homePath() + QStringLiteral("/.local/state")
+        : stateHome;
+    return QDir(base).filePath(QStringLiteral("fa3/goal-review-projection.json"));
+}
+
+void DecisionFabricService::loadGoalReview()
+{
+    QVariantMap review;
+    QFile file(goalReviewPath());
+    if (file.open(QIODevice::ReadOnly) && file.size() <= 1024 * 1024) {
+        QJsonParseError error;
+        const QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &error);
+        if (error.error == QJsonParseError::NoError && doc.isObject()) {
+            const QJsonObject root = doc.object();
+            const QString status = root.value(QStringLiteral("status")).toString();
+            const QJsonArray criteria = root.value(QStringLiteral("criteria")).toArray();
+            bool valid = criteria.size() <= 100;
+            for (const QJsonValue &entry : criteria) {
+                const QString state = entry.toObject().value(QStringLiteral("status")).toString();
+                if (state != QStringLiteral("MISSING")
+                    && state != QStringLiteral("UNPROVEN")
+                    && state != QStringLiteral("BLOCKED")
+                    && state != QStringLiteral("REFERENCE_AUTHENTICATED_PENDING_CANONICAL_CLOSURE")) {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid
+                && root.value(QStringLiteral("schema")).toString() == QStringLiteral("fa3.goal-independent-review-projection.v1")
+                && root.value(QStringLiteral("authority")).toBool(true) == false
+                && root.value(QStringLiteral("verification_claim")).toBool(true) == false
+                && root.value(QStringLiteral("canonical_gate_required")).toBool(false) == true
+                && (status == QStringLiteral("MISSING_OR_BLOCKED")
+                    || status == QStringLiteral("ALL_REFERENCES_CHECKED_CANONICAL_CLOSURE_REQUIRED"))) {
+                review = root.toVariantMap();
+            }
+        }
+    }
+    m_goalReview = review;
+    emit goalReviewChanged();
 }
 
 void DecisionFabricService::loadTraces()
@@ -182,6 +230,7 @@ void DecisionFabricService::refresh()
     loadTraces();
     loadRadar();
     loadContext();
+    loadGoalReview();
 }
 
 
