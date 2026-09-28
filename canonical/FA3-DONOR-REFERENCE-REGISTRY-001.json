@@ -3971,6 +3971,80 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-VSHULCZ-DEJA-VU-001",
+      "name": "deja-vu (vshulcz)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/vshulcz/deja-vu",
+        "normalized_key": "github:vshulcz/deja-vu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-agent-session-recall",
+        "retroactive-session-indexing",
+        "decision-and-command-provenance",
+        "compaction-handoff"
+      ],
+      "domain_hints": [
+        "agent-memory",
+        "developer-tools",
+        "mcp",
+        "agent-orchestration"
+      ],
+      "problem_hints": [
+        "prior-work-recovery",
+        "cross-agent-evidence-reuse",
+        "repeat-debugging-prevention"
+      ],
+      "target_hints": [
+        "Agent Memory",
+        "SUB-Agents",
+        "Decision Fabric",
+        "MCP Gateway",
+        "Developer Tools"
+      ],
+      "tags": [
+        "agent-memory",
+        "local-index",
+        "cross-agent",
+        "mcp",
+        "go",
+        "redaction",
+        "provenance",
+        "session-search"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate for selective retroactive session indexing and evidence retrieval only; existing FA3 memory governance remains authoritative.",
+        "Require project/user ACL filtering before retrieval, secret redaction review, upstream pin and supply-chain verification, and current-host evidence before runtime admission.",
+        "Optional embedding/search model calls must be routed via the FA3 central Model Router and HRB; no direct Ollama/LM Studio pin or silent fallback.",
+        "Metadata path is CPU-only, vendor-neutral and 0..N accelerator compatible; no automatic use of display GPU."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-DIFFRHYTHM-2-001",
       "name": "DiffRhythm 2",
       "source": {
