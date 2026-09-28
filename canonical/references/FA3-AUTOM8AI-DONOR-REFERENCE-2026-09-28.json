@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.upstream-reference-set.v1",
+  "id": "FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28",
+  "observed_at": "2026-09-28",
+  "classification": "DISCOVERY_CATALOG_WITH_CANONICAL_UPSTREAM_PROVENANCE",
+  "autom8ai_account": "Autom8AI",
+  "autom8ai_repository_count_observed_by_search": 23,
+  "policy": {
+    "autom8ai_fork_is_canonical_source": false,
+    "original_upstream_is_canonical_donor_source": true,
+    "code_imported_by_this_change": false,
+    "license_security_dependency_review_required_before_future_code_import": true
+  },
+  "donors": [
+    {"role":"cinema_generation_ux","repository":"Anil-matcha/Open-Generative-AI","commit":"9d939bc8f29ae39b778a2ce4146a9c1df12700f4","autom8ai_repository":"Autom8AI/Open-Higgsfield-AI","license":"REQUIRES_FILE_LEVEL_CONFIRMATION","disposition":"PATTERN_REFERENCE"},
+    {"role":"timeline_and_agentic_editor","repository":"DonkeyCut/Donkey","commit":"f1238b4dadb21f2505433de0bac6c4b3c5746bfe","autom8ai_repository":"Autom8AI/Donkey","license":"Apache-2.0","disposition":"STRONG_DONOR"},
+    {"role":"programmable_editor_core","repository":"OpenCut-app/OpenCut","commit":"e668010778568641babef2cc40be4703ae6916d6","autom8ai_repository":"Autom8AI/OpenCut","license":"MIT","disposition":"STRONG_DONOR"},
+    {"role":"deterministic_motion_render","repository":"heygen-com/hyperframes","commit":"b41ef425cc0700f6a5d8d29b23a812af2f2f2f06","autom8ai_repository":"Autom8AI/hyperframes","license":"Apache-2.0","disposition":"STRONG_DONOR"},
+    {"role":"speech_transcript_subtitle","repository":"thewh1teagle/vibe","commit":"4d1db65fd07d7927d7b4ef3a3d949539010147dc","autom8ai_repository":"Autom8AI/vibe","license":"MIT","disposition":"STRONG_DONOR"},
+    {"role":"video_generation_provider","repository":"Wan-Video/Wan2.2","commit":"1ea34ff48f87168174e12956e200b1d908b1c5ff","autom8ai_repository":"Autom8AI/Wan2.2","license":"Apache-2.0","disposition":"PROVIDER_CANDIDATE"},
+    {"role":"presentation_workflow","repository":"presenton/presenton","commit":"f9d3eba1a25712e25766b35a7af3b25f93ec1c01","autom8ai_repository":"Autom8AI/presenton","license":"Apache-2.0","disposition":"EXISTING_FA3_PROVIDER_REFERENCE"}
+  ],
+  "excluded_from_code_intake": [
+    {"repository":"Autom8AI/donutbrowser","reason":"ANTI_DETECT_AND_FINGERPRINT_SPOOFING_SCOPE_PLUS_AGPL_BOUNDARY"},
+    {"repository":"Autom8AI/OpenSEO","reason":"UNMAINTAINED_NO_INCREMENTAL_FA3_VALUE"}
+  ]
+}

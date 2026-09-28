@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GENERATIVE-MEDIA-STUDIO-2026-09-28",
+  "date": "2026-09-28",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize the FA3-native Generative Media Studio application",
+  "decision": "MATERIALIZE_EXISTING_CAP_111_AS_PROVIDER_NEUTRAL_QT6_QML_APPLICATION",
+  "profile_id": "FA3-GENERATIVE-MEDIA-STUDIO-001",
+  "contract_id": "FA3-GENERATIVE-MEDIA-STUDIO-CONTRACTS-001",
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "rationale": [
+    "CAP-111 already defines the Generative Media Studio control surface; implementation must materialize it rather than create a parallel capability.",
+    "Autom8AI is treated as a discovery catalog. Canonical donor provenance points to original upstream repositories and immutable revisions.",
+    "The application compiles provider-neutral requests only. Model Router, HRB, UAF, Secret Broker, security and evidence authorities remain unchanged.",
+    "The Studio exposes 6-20 second self-contained video shot control without turning that UI range into a provider or global architecture limit."
+  ],
+  "donor_reference": "FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28",
+  "runtime_claims": {
+    "static_application_materialized": true,
+    "current_host_build_pass": false,
+    "current_host_provider_execution_pass": false,
+    "production_promotion": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "fixed_current_host_hardware_requirement": false
+  }
+}

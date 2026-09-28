@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-GENERATIVE-MEDIA-STUDIO-CONTRACTS-001",
+  "name": "FA3 Generative Media Studio Application Contracts",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": ["CAP-111", "CAP-112", "CAP-113", "CAP-121", "CAP-123", "CAP-126"],
+  "extends_contracts": [
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-VIDEO-CONTRACTS-001",
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+    "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001"
+  ],
+  "request_schema": "fa3.generative-media-studio-request.v1",
+  "supported_capability_classes": [
+    "IMAGE_T2I", "IMAGE_I2I", "VIDEO_T2V", "VIDEO_I2V",
+    "VIDEO_TI2V", "VIDEO_S2V", "LIPSYNC", "CHARACTER_ANIMATE"
+  ],
+  "studio_ui_policy": {
+    "self_contained_video_duration_seconds": {
+      "minimum": 6,
+      "maximum": 20,
+      "scope": "STUDIO_SHOT_CONTROL_ONLY",
+      "provider_capability_may_be_narrower": true,
+      "provider_capability_may_be_broader": true
+    },
+    "provider_and_model_fields": "READ_ONLY_RESOLVED_DOWNSTREAM",
+    "reference_inputs": "ZERO_TO_N_PROVIDER_NEUTRAL_REFERENCES",
+    "source_mutation_default": "NONDESTRUCTIVE"
+  },
+  "request_compilation": {
+    "logical_route": "creative.generative-media",
+    "physical_provider_pin_allowed": false,
+    "physical_model_pin_allowed": false,
+    "provider_native_prompt_syntax_upstream_allowed": false,
+    "initial_state": "PENDING_ADMISSION",
+    "execution_is_not_performed_by_gui": true
+  },
+  "authority_boundaries": {
+    "application_ui": "NON_AUTHORITY_REQUEST_COMPILER",
+    "generation_context": "FA3-MMG-CONTEXT-IR-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "security_and_license": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "editorial_timeline": "FA3-PROGRAMMABLE-VIDEO-EDITING-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_architecture_supported": true,
+    "accelerator_cardinality": "0..N",
+    "fixed_gpu_vendor_model_ordinal_or_count": "FORBIDDEN",
+    "display_accelerator_implicit_compute_fallback": "FORBIDDEN",
+    "resource_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "security": {
+    "inline_api_keys_tokens_or_passwords": "FORBIDDEN",
+    "direct_network_provider_calls_from_gui": "FORBIDDEN",
+    "direct_process_provider_launch_from_gui": "FORBIDDEN",
+    "direct_model_download_from_gui": "FORBIDDEN",
+    "provider_workflow_custom_node_auto_install": "FORBIDDEN"
+  },
+  "evidence": {
+    "compiled_request_must_include": [
+      "request_id", "created_at", "capability", "logical_route",
+      "authority_handoff", "hardware_audit", "state"
+    ],
+    "runtime_success_claim_requires_downstream_execution_receipt": true,
+    "static_materialization_is_not_current_host_runtime_evidence": true
+  },
+  "invariants": [
+    "CAPABILITY_COUNT_REMAINS_175",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "NO_DIRECT_GUI_TO_PROVIDER_BYPASS",
+    "NO_PHYSICAL_PROVIDER_OR_MODEL_PIN",
+    "MODEL_ROUTER_REMAINS_SINGLE_ROUTING_AUTHORITY",
+    "HRB_REMAINS_RESOURCE_AUTHORITY",
+    "SECRETS_REMAIN_OPAQUE_REFERENCES",
+    "CPU_ONLY_ARCHITECTURE_REMAINS_SUPPORTED",
+    "ACCELERATOR_CARDINALITY_ZERO_TO_N",
+    "NO_SILENT_FALLBACK",
+    "PROVIDER_NATIVE_SYNTAX_IS_DOWNSTREAM_ONLY",
+    "CURRENT_HOST_PASS_NOT_CLAIMED_BY_STATIC_IMPLEMENTATION"
+  ]
+}
