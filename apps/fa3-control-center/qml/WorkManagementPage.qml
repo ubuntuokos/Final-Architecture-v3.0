@@ -18,6 +18,9 @@ Item {
     property var workItems: []
     property var activityRows: []
     property var agentWorkloads: []
+    // Local signed-observation cache; no network access or execution rights in this page.
+    property var prWatchItems: []
+    property string prWatchStatus: "PENDING_NO_OBSERVATIONS"
     property string projectionState: "ADAPTER-GATED"
     property string operationNotice: ""
 
@@ -25,6 +28,8 @@ Item {
     signal createWorkItemRequested()
     signal transitionRequested(string canonicalWorkItemId, string requestedState)
     signal providerConfigureRequested(string providerId)
+    signal prWatchRefreshRequested()
+    signal prWatchDraftRequested(string externalKey, string sourceSha)
 
     property var providers: [
         {id: "FA3-PROVIDER-KANEO-001", name: "Kaneo", role: "PRIMARY INTERACTIVE", state: "OPTIONAL"},
@@ -94,6 +99,7 @@ Item {
             TabButton { text: "Agent Workloads" }
             TabButton { text: "Activity" }
             TabButton { text: "Providers" }
+            TabButton { text: "PR Watch" }
         }
 
         StackLayout {
@@ -295,6 +301,87 @@ Item {
                     Item { Layout.fillHeight: true }
                 }
             }
+
+            // This panel is part of the existing Work Management GUI, not a
+            // separately privileged GitHub app or a live-connection claim.
+            Item {
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 9
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "PR Watch"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        Button { text: "Refresh"; onClicked: root.prWatchRefreshRequested() }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Helyi, aláírással ellenőrzött GitHub-események. Nem élő GitHub-kapcsolat, nem work-item vagy bizonyíték authority. A tervezet nem indít AI-futtatást."
+                    }
+                    Label {
+                        text: "Adapter: " + root.prWatchStatus + " · megfigyelt tételek: " + root.prWatchItems.length
+                        color: root.prWatchStatus === "LOCAL_OBSERVATION_ONLY" ? root.green : root.orange
+                        font.pixelSize: 10
+                    }
+                    Label {
+                        visible: root.prWatchItems.length === 0
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Nincs hitelesített GitHub-esemény. Az engedélyezett receiver a fa3-pr-watch CLI-n keresztül töltheti a helyi projekciót."
+                    }
+                    ListView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        spacing: 6
+                        model: root.prWatchItems
+                        delegate: Rectangle {
+                            width: ListView.view.width
+                            height: 108
+                            radius: 7
+                            color: root.panel
+                            border.color: root.border
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.margins: 12
+                                spacing: 12
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    Label {
+                                        Layout.fillWidth: true
+                                        text: (modelData.repository || "repo") + " #" + modelData.number + " · " + (modelData.title || "Megfigyelt esemény")
+                                        elide: Text.ElideRight
+                                        color: root.textPrimary
+                                        font.bold: true
+                                    }
+                                    Label {
+                                        text: (modelData.last_event || "observed") + " · " + (modelData.reconciliation_state || "PENDING")
+                                        color: root.textMuted
+                                        font.pixelSize: 10
+                                    }
+                                    Label {
+                                        text: "HEAD " + ((modelData.head_sha || "unknown").substring(0, 12))
+                                            + " · " + (modelData.observed_at || "")
+                                        color: root.textMuted
+                                        font.pixelSize: 10
+                                    }
+                                }
+                                Button {
+                                    text: "Tervezet"
+                                    enabled: modelData.kind === "PR" && (modelData.head_sha || "").length === 40
+                                    onClicked: root.prWatchDraftRequested(modelData.external_key, modelData.head_sha)
+                                    ToolTip.visible: hovered
+                                    ToolTip.text: "Csak FA3 módosítási tervezet; engedélyezett UAF/Workload nélkül nincs futtatás."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
