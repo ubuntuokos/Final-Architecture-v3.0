@@ -97,6 +97,7 @@ Item {
                 TabButton { text: "Trace & Evidence" }
                 TabButton { text: "Multimodal" }
                 TabButton { text: "Authority" }
+                TabButton { text: "Session History" }
             }
 
             StackLayout {
@@ -140,6 +141,35 @@ Item {
                         Label { text: "MCP · FA3-AUTH-MCP-GATEWAY-001"; color: root.textMuted; font.pixelSize: 9 }
                         Label { text: "Evidence · FA3-AUTH-OBS-EVIDENCE-001"; color: root.textMuted; font.pixelSize: 9 }
                         Label { text: "Provider authority escalation: DENY"; color: root.magenta; font.pixelSize: 9; font.bold: true }
+                    }
+                }
+                Card {
+                    Layout.fillWidth: true; Layout.preferredHeight: 270
+                    ColumnLayout {
+                        anchors.fill: parent; anchors.margins: 15; spacing: 9
+                        Label { text: "Session History · deja-vu"; color: root.textPrimary; font.pixelSize: 14; font.bold: true }
+                        Label { text: "FA3-PROVIDER-DEJA-VU-001 · PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 9; font.bold: true }
+                        Label {
+                            Layout.fillWidth: true
+                            text: "Projekt szerint elkülönített Claude/Codex munkamenet-keresés a központi MCP Gateway és FA3 memóriajogosultságok alatt."
+                            color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 10
+                        }
+                        TextField {
+                            Layout.fillWidth: true
+                            enabled: false
+                            placeholderText: "Keresés a munkamenetekben (a jelenlegi gépen még nem engedélyezett)"
+                            accessibleDescription: "A keresés csak független current-host admission után aktiválható."
+                        }
+                        RowLayout {
+                            Label { text: "Index: nem aktivált"; color: root.orange; font.pixelSize: 10 }
+                            Item { Layout.fillWidth: true }
+                            Button { text: "Keresés"; enabled: false }
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: "Nincs valódi visszakeresési eredmény. A felület csak a jóváhagyott projekt- és felhasználói határok éles ellenőrzése után kapcsolható be."
+                            color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9
+                        }
                     }
                 }
             }
