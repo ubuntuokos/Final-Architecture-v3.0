@@ -123,6 +123,13 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertNotIn("fromtool", saved)
         self.assertNotIn("other-sensitive-file", saved)
 
+    def test_bare_github_domain_is_normalized_as_repository(self):
+        result = ingest(self.root, [
+            "donorként alkalmas lehet: github.com/example/domain-only"
+        ], origin="chatgpt-export")
+        self.assertEqual(result["created"], 1)
+        self.assertEqual(self.entries()[0]["source"]["normalized_key"], "github:example/domain-only")
+
     def test_bare_repo_and_explicit_adapter_event(self):
         report = ingest(self.root, [
             "This could be a donor p4nda0s/reverse-skills",
