@@ -213,5 +213,37 @@ class TeraxGateTests(unittest.TestCase):
             self.assertEqual(t.current_host_check(root)["result"], "NOT_PRESENT_OPTIONAL")
 
 
+    def test_coexistence_footprint_and_collision_rejections(self):
+        import json
+        root = Path(__file__).resolve().parents[1]
+        fp = json.loads((root / "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json").read_text())
+        self.assertTrue(t.validate_coexistence_footprint(fp))
+        self.assertEqual(t.coexistence_static_check(root)["result"], "PASS")
+        self.assertFalse(t.validate_coexistence_footprint({**fp, "coexistence": {**fp["coexistence"], "claims_default_port": True}}))
+        self.assertFalse(t.validate_coexistence_footprint({**fp, "coexistence": {**fp["coexistence"], "requires_upstream_uninstall": True}}))
+        self.assertFalse(t.validate_coexistence_footprint({**fp, "evidence": {**fp["evidence"], "current_host_status": "PASS"}}))
+
+    def test_exact_change_approval_binding_rejects_stale_and_modified_diff(self):
+        import hashlib
+        diff = "--- a/x\\n+++ b/x\\n@@ -1 +1 @@\\n-old\\n+new\\n"
+        digest = hashlib.sha256(diff.encode()).hexdigest()
+        read = dict(artifact_id="x", artifact_version="v1", workspace_id="w1", resolved_path="/w1/x")
+        proposal = {**read, "caller_identity": "agent-1", "diff_text": diff, "diff_sha256": digest}
+        approval = {**proposal, "expires_at_epoch": 200, "decision": "ALLOW",
+                    "authorized": True, "evidence_ref": "EVID-1"}
+        self.assertTrue(t.approved_change_binding_valid(read, proposal, approval, read, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, proposal, approval, {**read, "artifact_version": "v2"}, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, {**proposal, "diff_text": diff + "tampered"}, approval, read, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, proposal, {**approval, "workspace_id": "w2"}, read, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, proposal, {**approval, "expires_at_epoch": 10}, read, now_epoch=100))
+
+    def test_optional_collector_does_not_probe_nvidia_in_disabled_state(self):
+        root = Path(__file__).resolve().parents[1]
+        collector = (root / "evidence/collect-terax-current-host.py").read_text()
+        self.assertNotIn("nvidia-smi", collector)
+        self.assertIn('"accelerator_discovery_performed": False', collector)
+        self.assertIn('"physical_attestation": False', collector)
+
+
 if __name__ == "__main__":
     unittest.main()
