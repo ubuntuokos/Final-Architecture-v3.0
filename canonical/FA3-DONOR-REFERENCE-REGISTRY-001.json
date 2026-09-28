@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 310,
+    "entry_count": 314,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1356,6 +1356,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ASTRAL-001",
+      "name": "Astral",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sffjunkie/astral",
+        "normalized_key": "github:sffjunkie/astral"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "sunrise-sunset",
+        "twilight-calculation",
+        "sun-and-moon-position"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "daypart",
+        "solar",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional selective donor; validated historical context and CPU-only preview remain separate FA3 contracts."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AT-SPI-001",
@@ -12376,6 +12436,66 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-OPENHISTORICALMAP-MAPLIBRE-DATE-PLUGIN-001",
+      "name": "OpenHistoricalMap MapLibre date plugin",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenHistoricalMap/maplibre-gl-dates",
+        "normalized_key": "github:openhistoricalmap/maplibre-gl-dates"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "date-filtered-historical-map-display",
+        "temporal-geospatial-layer-pattern"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "3D Fabric",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "historical-maps",
+        "date-filter",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "CC0-1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "The CC0 declaration covers this code repository; historical map and imagery datasets are independently licensed, dated and attributed."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENIMAGEIO-001",
       "name": "OpenImageIO",
       "source": {
@@ -14604,6 +14724,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-PVLIB-PYTHON-001",
+      "name": "pvlib-python",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pvlib/pvlib-python",
+        "normalized_key": "github:pvlib/pvlib-python"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "solar-position",
+        "solar-irradiance",
+        "time-aware-solar-exposure"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scene / Shot Designer",
+        "3D Fabric"
+      ],
+      "tags": [
+        "solar-model",
+        "astronomy",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional selective donor; validated historical context and CPU-only preview remain separate FA3 contracts."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PYTEST-TESTINFRA-001",
       "name": "pytest-testinfra",
       "source": {
@@ -16671,6 +16852,65 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-TIMEZONEFINDER-001",
+      "name": "timezonefinder",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jannikmi/timezonefinder",
+        "normalized_key": "github:jannikmi/timezonefinder"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "coordinate-to-timezone-id",
+        "time-zone-lookup"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "timezone",
+        "historical-time-rules-separate",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Contemporary coordinate-to-IANA timezone mapping; historical local offsets must use dated time-zone rules and historic place boundary validation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TINY-SKIA-001",
