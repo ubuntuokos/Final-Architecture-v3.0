@@ -47,6 +47,8 @@ def process_inbox(root: Path, home: Path = DEFAULT_HOME) -> dict:
     inbox = home / "inbox"
     inbox.mkdir(parents=True, exist_ok=True, mode=0o700)
     home.mkdir(parents=True, exist_ok=True, mode=0o700)
+    os.chmod(home, 0o700)
+    os.chmod(inbox, 0o700)
     lock_path = home / ".import.lock"
     with lock_path.open("a+", encoding="utf-8") as lock:
         os.chmod(lock_path, 0o600)
@@ -69,6 +71,8 @@ def process_inbox(root: Path, home: Path = DEFAULT_HOME) -> dict:
             raise ValueError("too many pending export files; review private inbox")
         outcome = {"imports": 0, "previously_seen": 0, "created": 0, "merged": 0, "blocked": 0}
         for file_path in files:
+            if file_path.stat().st_size > 512 * 1024 * 1024:
+                raise ValueError("private donor inbox file exceeds safe size limit")
             digest = _file_digest(file_path)
             if digest in processed:
                 outcome["previously_seen"] += 1
