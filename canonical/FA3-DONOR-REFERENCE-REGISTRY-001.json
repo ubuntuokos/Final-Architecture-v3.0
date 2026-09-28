@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 297,
+    "entry_count": 299,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -996,6 +996,77 @@
       },
       "notes": [
         "Adapter candidate; own provider database not canonical."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-conversation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-ANDREWSHPAGIN-IO-COAT3D-001",
+      "name": "AndrewShpagin/io-coat3d",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AndrewShpagin/io-coat3d",
+        "normalized_key": "github:andrewshpagin/io-coat3d"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "3dcoat-blender-applink",
+        "bidirectional-3d-asset-interchange",
+        "exchange-folder-event-detection",
+        "pbr-texture-channel-mapping"
+      ],
+      "domain_hints": [
+        "3d",
+        "sculpting",
+        "interoperability",
+        "creative"
+      ],
+      "problem_hints": [
+        "3dcoat-blender-scene-transfer",
+        "pbr-texture-rebinding",
+        "native-project-preserving-dcc-interchange"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Blender MCP",
+        "Asset Graph",
+        "Creative Studio"
+      ],
+      "tags": [
+        "3dcoat",
+        "blender-applink",
+        "dcc-interchange",
+        "pbr-textures",
+        "linux-path-reference",
+        "3dcoat-curation-2026-09-28"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later (__init__.py header; repository-wide scope not established)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "observed_commit": "15b51ab8d1bfe9937fb6ecf967581c9a239b12b3",
+      "observed_commit_date": "2024-11-25",
+      "notes": [
+        "3DCoat-shipped Blender 4.2/4.3 AppLink per upstream README; addon bl_info reports Blender >=4.2 and v5.0.0. Exchange-folder and texture-mapping references only; Bforartists compatibility, 3DCoat licensing, other code-file licenses, current Blender compatibility and Linux current-host behavior are unverified. Preserve FA3 and DCC native files; never make 3DCoat a mandatory FA3 dependency."
       ]
     },
     {
@@ -6969,6 +7040,83 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-conversation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "donor_id": "FA3-DONOR-LIAMSMYTH-LKS-3DCTOOLS-001",
+      "name": "LiamSmyth/LKS_3DCTools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LiamSmyth/LKS_3DCTools",
+        "normalized_key": "github:liamsmyth/lks_3dctools"
+      },
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "customizable-hierarchical-radial-command-menu",
+        "batch-scene-tree-operations",
+        "mesh-density-matching",
+        "target-polycount-resampling",
+        "sculpt-workflow-automation",
+        "shortcut-conflict-resolution"
+      ],
+      "domain_hints": [
+        "3d",
+        "sculpting",
+        "ui",
+        "mesh",
+        "creative"
+      ],
+      "problem_hints": [
+        "bulk-mesh-operations",
+        "density-and-polycount-controls",
+        "contextual-command-discovery",
+        "hotkey-collision-management"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Character Studio",
+        "Asset Graph",
+        "Creative Studio"
+      ],
+      "tags": [
+        "3dcoat",
+        "mesh-density",
+        "lod-reference",
+        "radial-menu",
+        "batch-operations",
+        "hotkey-editor",
+        "3dcoat-curation-2026-09-28"
+      ],
+      "license": {
+        "declared": "README informal reuse statement; no explicit repository LICENSE/SPDX file observed",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "observed_commit": "8b69798f9ead57068aa8e53e7d05f45a947439c1",
+      "observed_commit_date": "2026-07-28",
+      "notes": [
+        "3DCoat cModule uses cPy.cCore, coat scripting APIs and PySide6; app-specific implementation is not a portable FA3 dependency. Use UI and operation patterns selectively. Upstream warns that hotkey XML editor may damage shortcuts and recommends backups; AUTopo->multires is marked WIP. Before any source copy obtain unambiguous rights and review dependencies/security; importing this module may invoke 3DCoat pipInstall(ftfy)."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LIBMYPAINT-001",
