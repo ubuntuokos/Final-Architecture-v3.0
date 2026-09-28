@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28",
+  "project_id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+  "project_type": "EXISTING_AGENT_EXEC_WORKFLOW_EXTENSION_NO_NEW_CAPABILITY",
+  "goal": "Extend existing FA3 goal execution design planning with deterministic source-bound reuse and action/agent registry preflight, while preserving every existing authority boundary.",
+  "required_capabilities": [
+    "CAP-028",
+    "CAP-144",
+    "CAP-145",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "goal-contract-validation",
+    "reusable-agent-action-planning",
+    "hardware-audit",
+    "donor-discovery",
+    "independent-evidence"
+  ],
+  "task_classes": [
+    "source-bound-reuse-preflight",
+    "typed-action-review",
+    "agent-definition-review"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "VERSIONED_USER_GOAL",
+    "CANONICAL_APPLICATION_INTENT",
+    "CANONICAL_UAF_ACTION_REGISTRY",
+    "CANONICAL_AGENT_DEFINITION_REGISTRY"
+  ],
+  "output_modalities": [
+    "NON_AUTHORITATIVE_DESIGN_PREFLIGHT",
+    "BOUNDED_TASK_DAG",
+    "SOURCE_DIGESTS"
+  ],
+  "execution_classes": [
+    "DESIGN_ONLY_NO_EXTERNAL_EFFECTS",
+    "CPU_ONLY_PORTABLE"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "runtime_host_observation_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-goal",
+    "service_prefix": "fa3.goal",
+    "config_root": "$XDG_CONFIG_HOME/fa3/goal",
+    "cache_root": "$XDG_CACHE_HOME/fa3/goal",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/goal",
+    "socket_namespace": "fa3-goal",
+    "data_root": "$XDG_DATA_HOME/fa3/goal",
+    "desktop_prefix": "fa3.goal",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}
