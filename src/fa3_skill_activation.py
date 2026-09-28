@@ -192,6 +192,7 @@ def activate_admitted_skill(
         selection_receipt.get("status") == "PASS"
         and selection_receipt.get("task_id") == task_id
         and isinstance(eligible, list) and isinstance(selected, list)
+        and all(isinstance(x, str) and bool(x) for x in eligible + selected)
         and len(set(selected)) == len(selected)
         and len(set(eligible)) == len(eligible)
         and set(selected).issubset(set(eligible))

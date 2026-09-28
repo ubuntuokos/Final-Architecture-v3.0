@@ -111,6 +111,21 @@ class SkillActivationTests(unittest.TestCase):
                     with activate_admitted_skill(**(base | changes)):
                         pass
 
+    def test_malformed_selection_members_fail_closed(self):
+        base = self.args()
+        for members in (["example", {"not": "hashable"}], [{"id": "example"}], [None]):
+            corrupted = dict(self.selection)
+            corrupted["selected_skill_ids"] = members
+            with self.subTest(members=repr(members)):
+                with self.assertRaises(SkillActivationDenied):
+                    with activate_admitted_skill(
+                        **(base | {
+                            "selection_receipt": corrupted,
+                            "verify_selection": lambda r: r is corrupted,
+                        })
+                    ):
+                        pass
+
     def test_snapshot_single_file_and_no_hidden_dependencies(self):
         package = copy.deepcopy(self.package)
         package["files"].append("scripts/evil.sh")
