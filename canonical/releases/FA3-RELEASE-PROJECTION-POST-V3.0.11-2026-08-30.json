@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "511b33b25587d06eca509515ee7b1471f61d032f",
-    "pre_projection_root_tree_sha": "3875a98f727a9608c4ba383c706ea619f0a49e9c",
-    "pre_projection_canonical_tree_sha": "fa6a27f937fcdb2804251216d9da810fd4389327",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1134,
-    "total_post_baseline_commits": 1134,
-    "delta_file_count": 2488,
-    "delta_added_files": 2482,
+    "pre_projection_head_sha": "ca4abd88924f61f8cdff8a1784e7a3d562cf60b8",
+    "pre_projection_root_tree_sha": "416df80d0fbbbd1cb319ce551879de37642b4bd3",
+    "pre_projection_canonical_tree_sha": "96aacf0406426414860df0f96cc5eb7ef645e13e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1137,
+    "total_post_baseline_commits": 1137,
+    "delta_file_count": 2489,
+    "delta_added_files": 2483,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1285,
+    "canonical_files_in_post_baseline_delta": 1286,
     "evidence_files_in_post_baseline_delta": 166,
     "source_files_in_post_baseline_delta": 315,
     "test_files_in_post_baseline_delta": 255,
@@ -990,7 +990,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2478,
+  "manifest_entry_count": 2479,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4018,6 +4018,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-WAN22-DECISION-ASSESSMENT-2026-09-27.json",
+      "git_blob_sha": "c0d591f1022d736714883eb7ca0c349ee2fcb60d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/autogpt-enforcement.json",
       "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
       "baseline_delta_status": "added"
@@ -4719,7 +4724,7 @@
     },
     {
       "path": "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json",
-      "git_blob_sha": "2fb80e23b88ba861587fa03d0420ce23508099a7",
+      "git_blob_sha": "e58367cc30b31c21ade6e0dcc457c9fb5df8d0d0",
       "baseline_delta_status": "added"
     },
     {
@@ -4969,7 +4974,7 @@
     },
     {
       "path": "canonical/contracts/FA3-COEXISTENCE-FOOTPRINT-001.schema.json",
-      "git_blob_sha": "85c5751498543c6e544387117477ad3dda70d80b",
+      "git_blob_sha": "ee90176d7193b1bd70acaf16ad44309f113ed3f5",
       "baseline_delta_status": "added"
     },
     {
@@ -7104,7 +7109,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DECISION-FABRIC-001.json",
-      "git_blob_sha": "4206b3f8fd6e42597bae666e4df89d7afb6c5bea",
+      "git_blob_sha": "2ee02f96ca38f79c08d94ce6b36c945f9ebfc075",
       "baseline_delta_status": "added"
     },
     {
@@ -10899,7 +10904,7 @@
     },
     {
       "path": "src/fa3_decision_fabric_gate.py",
-      "git_blob_sha": "4b924ff430366a88ef5a8910ae921fa29350df8a",
+      "git_blob_sha": "ab77df2493ff26c67ca9e36f83f06cdebbb8c7c2",
       "baseline_delta_status": "added"
     },
     {
@@ -12249,7 +12254,7 @@
     },
     {
       "path": "tests/test_coexistence_audit.py",
-      "git_blob_sha": "668cee5cdf357e070fd1cbff2babc3701c6c535d",
+      "git_blob_sha": "33d29c424bfb49fe23f607cac96ace70b4be0531",
       "baseline_delta_status": "added"
     },
     {
@@ -12359,7 +12364,7 @@
     },
     {
       "path": "tests/test_decision_fabric.py",
-      "git_blob_sha": "cd3c47a34cbf4b07bfa9e6467e9a0d77f389c2e5",
+      "git_blob_sha": "d187c379760eefa430b7983deb90ffb7f66b55d9",
       "baseline_delta_status": "added"
     },
     {
@@ -13580,7 +13585,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-09-27",
+  "last_reconciled_at": "2026-09-28",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
