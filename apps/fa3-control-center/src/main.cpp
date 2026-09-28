@@ -1,5 +1,6 @@
 #include "AppCatalogService.h"
 #include "ChatFileService.h"
+#include "CoachService.h"
 #include "DecisionFabricService.h"
 #include "ExternalLlmCatalogModel.h"
 #include "Fa3RepositoryModel.h"
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
     PreferenceStore preferences;
     SystemDeviceModel devices;
     ChatFileService chatFiles;
+    CoachService coach;
     ModelLibraryService modelLibrary;
     McpControlService mcpControl;
     McpGatewayService mcpGateway;
@@ -64,6 +66,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3Preferences", &preferences);
     engine.rootContext()->setContextProperty("fa3Devices", &devices);
     engine.rootContext()->setContextProperty("fa3ChatFiles", &chatFiles);
+    engine.rootContext()->setContextProperty("fa3Coach", &coach);
     engine.rootContext()->setContextProperty("fa3ModelLibrary", &modelLibrary);
     engine.rootContext()->setContextProperty("fa3McpControl", &mcpControl);
     engine.rootContext()->setContextProperty("fa3McpGateway", &mcpGateway);
