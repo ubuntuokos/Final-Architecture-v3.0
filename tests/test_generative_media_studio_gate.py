@@ -51,6 +51,17 @@ class GenerativeMediaStudioGateTests(unittest.TestCase):
         self.assertFalse(schema["properties"]["runtime_success_claim"]["const"])
         self.assertEqual(schema["properties"]["state"]["const"], "PENDING_ADMISSION")
 
+    def test_uaf_action_requires_auth_hrb_and_evidence(self) -> None:
+        action = self.load("canonical/actions/media.generate.execute.json")
+        self.assertEqual(action["id"], "media.generate.execute")
+        self.assertEqual(action["security"]["authentication"], "required")
+        self.assertEqual(action["security"]["authorization"], "required")
+        self.assertTrue(action["resources"]["hrb_required"])
+        self.assertEqual(action["resources"]["accelerator"]["cardinality"], "0..N")
+        self.assertTrue(action["evidence"]["required"])
+        schema = self.load("canonical/contracts/FA3-GENERATIVE-MEDIA-STUDIO-REQUEST-001.schema.json")
+        self.assertEqual(schema["properties"]["uaf_action"]["const"], "media.generate.execute")
+
     def test_ui_duration_is_application_scoped(self) -> None:
         contract = self.load("canonical/contracts/FA3-GENERATIVE-MEDIA-STUDIO-CONTRACTS-001.json")
         duration = contract["studio_ui_policy"]["self_contained_video_duration_seconds"]
