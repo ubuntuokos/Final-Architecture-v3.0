@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 297,
+    "entry_count": 298,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2959,6 +2959,82 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLAMPDOWN-001",
+      "name": "89luca89/clampdown",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/89luca89/clampdown",
+        "normalized_key": "github:89luca89/clampdown"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 research 2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Landlock-scoped agent filesystem isolation",
+        "Nested OCI precreate/createRuntime security-policy hooks",
+        "Seccomp-notify supervisor and immutable executable allowlist",
+        "Agent network egress policy and audit event correlation",
+        "Credential-isolating API proxy pattern"
+      ],
+      "domain_hints": [
+        "security",
+        "agent-runtime",
+        "container-isolation"
+      ],
+      "problem_hints": [
+        "Untrusted coding-agent command execution",
+        "Nested tool-container policy bypass",
+        "Host file or credential disclosure",
+        "Unapproved outbound connections"
+      ],
+      "target_hints": [
+        "Agent Runtime",
+        "Agent Sandbox",
+        "Secret Broker",
+        "MCP Gateway",
+        "Runtime Hardening",
+        "Audit/Evidence"
+      ],
+      "tags": [
+        "agent-sandbox",
+        "landlock",
+        "seccomp",
+        "rootless-podman",
+        "nested-oci",
+        "egress-control",
+        "audit",
+        "credential-isolation"
+      ],
+      "license": {
+        "declared": "GPL-3.0-only (upstream README SPDX; verify per-file provenance)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream revision inspected: 4ba28fda0c5e7df729c251d49e5736bfdb53f6f7. Record is metadata-only and not a runtime admission.",
+        "Review kernel-enforced containment and auditing patterns as selective donors; do not replace FA3's gVisor/WASMTIME_WASI preferred untrusted execution or the existing mandatory agent sandbox.",
+        "Upstream sidecar has SYS_ADMIN/NET_ADMIN and nested tools allow public egress by default: do not adopt defaults. Enforce FA3 default-deny, scoped egress leases, MCP Gateway, Secret Broker, Model Router, HRB and current-host evidence.",
+        "GPL-3.0-only declaration requires provenance, distribution/license, and coexistence review before copying any code. CPU-only and 0..N accelerator baseline remain mandatory."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLEARERVOICE-STUDIO-001",
