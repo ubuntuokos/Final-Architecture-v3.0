@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 297,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2339,6 +2339,80 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-BRAVOCW-SOCIAL-MEDIA-AUTOMATION-001",
+      "name": "bravocw/Social-Media-Automation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bravocw/Social-Media-Automation",
+        "normalized_key": "github:bravocw/social-media-automation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 donor evaluation 2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "CAP-040 Social Media Integration & Intelligence",
+        "CAP-049 Workflow Automation",
+        "Android multi-device task dispatch",
+        "Activity logging and status reporting"
+      ],
+      "domain_hints": [
+        "android",
+        "marketing",
+        "social-media",
+        "task-orchestration"
+      ],
+      "problem_hints": [
+        "batch multi-device scheduling",
+        "per-device execution status",
+        "operator dashboard and xlsx reporting"
+      ],
+      "target_hints": [
+        "CAP-040 Social Media Integration & Intelligence",
+        "CAP-049 Workflow Automation",
+        "FA3 Marketing"
+      ],
+      "tags": [
+        "adb",
+        "android",
+        "batch",
+        "device-management",
+        "excel-reporting",
+        "human-approval-required",
+        "observability",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "ISC in package.json only",
+        "status": "UNVERIFIED_NO_ROOT_LICENSE_FILE"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream commit 3fa75959c64777b51e3c0a94b78bb8fd0dcddb28 inspected on 2026-09-28. Electron/Node.js desktop tool bundles Windows ADB binaries and Windows installer; no native Linux runtime claimed.",
+        "Potential reuse is limited to generic multi-device inventory, bounded batch dispatch, status dashboard, activity logs and Excel-reporting patterns. Prefer FA3-native implementations; no upstream code import.",
+        "Do not reuse Instagram auto-like/comment/follow mass-engagement behaviors, UI automation, randomized interaction delays, bundled binaries, or external license/update channels as production integrations. Upstream README says it uses no official Instagram API.",
+        "Code audit found shell command string construction with child_process.exec and shared relative UI XML filenames; shell argument validation, device isolation, privacy and concurrency need independent review before any adapter.",
+        "FA3 publication/launch requires explicit human approval; CAP-040 Social Gateway, CAP-049 workflow authority, existing identity/secrets and evidence remain authoritative.",
+        "Hardware Audit: metadata-only, CPU-only viable, vendor-neutral, GPU/NPU 0..N; no device probing, installation, model execution or current-host PASS claimed. Wayland preferred for new FA3 GUI adapters, X11 supported."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-BROWSER-HARNESS-001",
