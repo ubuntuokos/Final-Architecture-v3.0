@@ -60,3 +60,11 @@ labels selected capabilities, partial implementation patterns and intended
 current or future FA3 application targets without adopting entire upstream
 applications or changing FA3 runtime, provider, hardware or model authorities.
 Historical `REF`/`REQ` designations are not present-day admission approvals.
+
+## NVIDIA GitHub donor curation
+
+The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-2026-09-28.md) records 39 individually checked NVIDIA repositories plus the organization-level discovery source. Entries remain non-authoritative; NVIDIA-specific paths do not replace the CPU-only and vendor-neutral hardware baseline.
+
+## Intel and oneAPI GitHub donor curation
+
+The [Intel ecosystem / oneAPI source index](donor-intel-github-ecosystem-2026-09-28.md) records 59 selectively scoped references (54 repositories and 5 discovery indexes), including the Level Zero API specification, unified memory framework, DPC++ reference and CI examples. These are candidate-only planning references; no new Intel dependency or provider/model authority is admitted.

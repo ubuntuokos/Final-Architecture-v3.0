@@ -1,6 +1,6 @@
 # Curated Intel GitHub donor sources for FA3 — 2026-09-28
 
-This bounded, non-authoritative curation captures **50 verified project repositories** and **5 standing ecosystem organization indexes** in the existing `FA3-DONOR-REFERENCE-REGISTRY-001`. GitHub upstream repository existence/archive status was checked on 2026-09-28. It does not audit source licenses, security, build reproducibility, current-host compatibility, provider suitability or upstream release quality.
+This bounded, non-authoritative curation captures **54 verified project repositories** and **5 standing ecosystem organization indexes** in the existing `FA3-DONOR-REFERENCE-REGISTRY-001`. GitHub upstream repository existence/archive status was checked on 2026-09-28. It does not audit source licenses, security, build reproducibility, current-host compatibility, provider suitability or upstream release quality.
 
 ## Planning integration
 
@@ -57,6 +57,10 @@ Every reference is searchable via the existing donor registry / Reuse Discovery 
 
 | Upstream repository | FA3 targets | State |
 |---|---|---|
+| [oneapi-src/oneapi-ci](https://github.com/oneapi-src/oneapi-ci) | Build Fabric, Compute Fabric | Candidate reference |
+| [oneapi-src/unified-memory-framework](https://github.com/oneapi-src/unified-memory-framework) | Compute Fabric, Inference Fabric | Candidate reference |
+| [oneapi-src/level-zero-spec](https://github.com/oneapi-src/level-zero-spec) | Hardware Audit, Compute Fabric | Candidate reference |
+| [oneapi-src/DPCPP_Reference](https://github.com/oneapi-src/DPCPP_Reference) | Build Fabric, Compute Fabric | Candidate reference |
 | [oneapi-src/level-zero](https://github.com/oneapi-src/level-zero) | Hardware Audit, Compute Fabric | Candidate reference |
 | [oneapi-src/oneAPI-samples](https://github.com/oneapi-src/oneAPI-samples) | Hardware Audit, Build Fabric | Candidate reference |
 | [oneapi-src/oneCCL](https://github.com/oneapi-src/oneCCL) | Distributed Training Fabric, Inference Fabric | Candidate reference |
@@ -100,10 +104,10 @@ Every reference is searchable via the existing donor registry / Reuse Discovery 
 - Intel Kubernetes device-plugin and DRA projects are design references; they do not introduce a Kubernetes requirement. SGX/attestation sources do not replace Security Governance or Secret Broker.
 - Video-specific Intel libvpl and media-driver references remain optional under FA3 Video Editor / Media Fabric, alongside CPU-only media paths and the existing MLT/FFmpeg boundary. No replacement of the native FA3 Video Editor is implied.
 - Archived Intel Extension for PyTorch, Extension for Transformers, ipex-llm, NPU Acceleration Library and HabanaAI Model-References remain **historical-only**. Intel recommends upstream PyTorch rather than the archived extension; no retired project may be automatically installed or used as an unreviewed runtime dependency.
-- **All 55 entries:** `CANDIDATE`, not an architectural authority; no code copy, dependency, automatic fetch, install, activation, provider admission, model selection, or current-host PASS. All licenses are deliberately **UNKNOWN until individually audited**, irrespective of upstream public GitHub display metadata.
+- **All 59 entries:** `CANDIDATE`, not an architectural authority; no code copy, dependency, automatic fetch, install, activation, provider admission, model selection, or current-host PASS. All licenses are deliberately **UNKNOWN until individually audited**, irrespective of upstream public GitHub display metadata.
 
 ## Follow-on admission, separate from donor capture
 
-For any selective implementation: perform per-source license/provenance/security and coexistence review, then full hardware audit with CPU-only evidence where applicable, exact current-host checks, applicable gates and explicit owner approval. Reconcile this registry if concurrent donor PRs (#447 NVIDIA, #448 AMD/ROCm, #449 Houdini) merge first; preserve all records and any previously accepted donor lifecycle state.
+For any selective implementation: perform per-source license/provenance/security and coexistence review, then full hardware audit with CPU-only evidence where applicable, exact current-host checks, applicable gates and explicit owner approval. NVIDIA PR #447 is reconciled. If concurrent AMD/ROCm #448 or Houdini #449 merges before this PR, reconcile again without losing entries or earlier accepted donor lifecycle state.
 
-**Baseline:** main `b814da7ea407155c6f0cbed249b00740253032a4` (251 entries); this branch adds 55 for a total of 306 before other donor PR reconciliation. No new capability or architectural authority.
+**Reconciled baseline:** main includes the NVIDIA donor curation. This branch contributes 59 Intel ecosystem candidates (54 scoped project repositories and 5 ecosystem indexes), preserving all previously admitted donors and adding no capability or authority. No new capability or architectural authority.

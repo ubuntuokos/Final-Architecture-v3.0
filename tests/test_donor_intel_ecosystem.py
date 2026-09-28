@@ -45,7 +45,11 @@ EXPECTED_KEYS = set([
     "github:intel/torch-xpu-ops",
     "github:intel/xpumanager",
     "github:oneapi-src",
+    "github:oneapi-src/dpcpp_reference",
     "github:oneapi-src/level-zero",
+    "github:oneapi-src/level-zero-spec",
+    "github:oneapi-src/oneapi-ci",
+    "github:oneapi-src/unified-memory-framework",
     "github:oneapi-src/oneapi-samples",
     "github:oneapi-src/oneccl",
     "github:oneapi-src/onedal",
@@ -84,10 +88,10 @@ class IntelEcosystemDonorTests(unittest.TestCase):
         self.assertEqual(len(keys), len(set(keys)))
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual({row["source"]["normalized_key"] for row in self.new}, EXPECTED_KEYS)
-        self.assertEqual(len(self.new), 55)
-        self.assertEqual(len(EXPECTED_KEYS - ORGANIZATION_INDEXES), 50)
+        self.assertEqual(len(self.new), 59)
+        self.assertEqual(len(EXPECTED_KEYS - ORGANIZATION_INDEXES), 54)
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.rows))
-        self.assertGreaterEqual(len(self.rows), 306)
+        self.assertGreaterEqual(len(self.rows), 349)
 
     def test_all_intel_sources_remain_non_authoritative_and_unadmitted(self):
         for row in self.new:
