@@ -17,7 +17,8 @@
     "model_router": "FA3-AUTH-MODEL-ROUTER-001",
     "resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
-    "execution_plane": "EXISTING_CALLER_AUTHORITY"
+    "execution_plane": "EXISTING_CALLER_AUTHORITY",
+    "mcp_action_compiler": "src/fa3_system_one_mcp_compiler.py"
   },
   "invariants": [
     "confidence never grants permission",
@@ -26,7 +27,9 @@
     "no physical model or provider is pinned",
     "no silent local-to-cloud fallback is allowed",
     "reflex runtime never performs tool execution itself",
-    "low-confidence and explicit escalation produce a typed handoff"
+    "low-confidence and explicit escalation produce a typed handoff",
+    "unsupported MCP tools are reported with reason codes and never silently weakened",
+    "decision traces retain the model probability distributions required to audit the confidence gate"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
