@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "decision.skill-fabric": 39
     })
 
     function routeIndex(routeId) {
@@ -193,6 +194,7 @@ ApplicationWindow {
         {title: "Decision Inspector", detail: "Read-only append-only Decision Trace inspection", category: "FUNCTION", routeId: "decision.inspector"},
         {title: "External Project Radar", detail: "Pinned Jev ecosystem source, license and reuse radar", category: "FUNCTION", routeId: "decision.project-radar"},
         {title: "Context Inspector", detail: "PROTECTED / ACTIVE / HIDDEN / ARCHIVED context projection", category: "FUNCTION", routeId: "decision.context-inspector"},
+        {title: "Skill Fabric Inspector", detail: "Skill registry, reference gate and current-host evidence boundary", category: "FUNCTION", routeId: "decision.skill-fabric"},
         {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", routeId: "integrations.root"},
         {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", routeId: "system.settings"},
         {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", routeId: "system.runtime"},
@@ -617,6 +619,7 @@ ApplicationWindow {
                 accent: window.accent
                 green: window.green
                 orange: window.orange
+                onNavigateRequested: function(routeId) { window.navigate(routeId) }
             }
         }
     }
@@ -690,6 +693,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "AGENTS"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "⚙"; label: "Agent Action Center"; routeId: "agents.action-center" }
+                        NavButton { iconText: "◈"; label: "Skill Fabric"; routeId: "decision.skill-fabric" }
                         NavButton { iconText: "⌘"; label: "Agents & Workflows"; routeId: "agents.workflows" }
 
                         Item { Layout.preferredHeight: 8 }
@@ -1508,6 +1512,7 @@ ApplicationWindow {
                     accent: window.accent
                     green: window.green
                     orange: window.orange
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
 
                 WorkManagementPage {
@@ -1650,6 +1655,7 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
 
                 ProjectRadarPage {
@@ -1671,6 +1677,7 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
 
                 AgentActionCenterPage {
@@ -1725,6 +1732,16 @@ ApplicationWindow {
                     textPrimary: window.textPrimary
                     textMuted: window.textMuted
                     accent: window.magenta
+                    green: window.green
+                    orange: window.orange
+                }
+
+                SkillFabricInspectorPage {
+                    panel: window.panel
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
                     green: window.green
                     orange: window.orange
                 }

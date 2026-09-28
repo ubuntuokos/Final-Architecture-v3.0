@@ -12,11 +12,22 @@ Item {
     property color green: "#35e0a1"
     property color orange: "#f0b14a"
     property color magenta: "#b778ff"
+    signal navigateRequested(string routeId)
 
     ColumnLayout {
         anchors.fill: parent; anchors.margins: 18; spacing: 10
         Label { text: "Context Inspector"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
         Label { text: "FA3-CONTEXT-SELECTION-001 · PROTECTED / ACTIVE / HIDDEN / ARCHIVED"; color: root.accent; font.pixelSize: 10; font.bold: true }
+        RowLayout {
+            Layout.fillWidth: true
+            Label {
+                Layout.fillWidth: true
+                text: "Skill Fabric: " + fa3SkillFabric.referenceGateState + " · current-host nem igazolt"
+                color: root.orange
+                wrapMode: Text.WordWrap
+            }
+            Button { text: "Skill Fabric"; onClicked: root.navigateRequested("decision.skill-fabric") }
+        }
         Label { text: "HIDDEN ≠ DELETE · ARCHIVED ≠ DELETE · az eredeti Journal/artifact source authority változatlan."; color: root.green; font.bold: true }
         Label {
             visible: fa3DecisionFabric.contextItems.length === 0

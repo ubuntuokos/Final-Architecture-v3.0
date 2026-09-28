@@ -17,6 +17,8 @@ qt_add_executable(fa3-control-center
     src/ChatFileService.h
     src/DecisionFabricService.cpp
     src/DecisionFabricService.h
+    src/SkillFabricService.cpp
+    src/SkillFabricService.h
     src/ExternalLlmCatalogModel.cpp
     src/ExternalLlmCatalogModel.h
     src/Fa3RepositoryModel.cpp
@@ -67,6 +69,7 @@ set_source_files_properties(qml/DecisionFabricPage.qml PROPERTIES QT_RESOURCE_AL
 set_source_files_properties(qml/DecisionInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS DecisionInspectorPage.qml)
 set_source_files_properties(qml/ProjectRadarPage.qml PROPERTIES QT_RESOURCE_ALIAS ProjectRadarPage.qml)
 set_source_files_properties(qml/ContextInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS ContextInspectorPage.qml)
+set_source_files_properties(qml/SkillFabricInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS SkillFabricInspectorPage.qml)
 set_source_files_properties(qml/AgentActionCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS AgentActionCenterPage.qml)
 set_source_files_properties(qml/UpdateCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS UpdateCenterPage.qml)
 
@@ -105,6 +108,7 @@ qt_add_qml_module(fa3-control-center
         qml/DecisionInspectorPage.qml
         qml/ProjectRadarPage.qml
         qml/ContextInspectorPage.qml
+        qml/SkillFabricInspectorPage.qml
         qml/AgentActionCenterPage.qml
         qml/UpdateCenterPage.qml
 )
