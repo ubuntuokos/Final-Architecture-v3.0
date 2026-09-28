@@ -1,0 +1,58 @@
+name: FA3 Generative Media Studio
+
+on:
+  pull_request:
+    paths:
+      - 'apps/fa3-generative-media-studio/**'
+      - 'canonical/contracts/FA3-GENERATIVE-MEDIA-STUDIO-**'
+      - 'canonical/profiles/FA3-GENERATIVE-MEDIA-STUDIO-001.json'
+      - 'canonical/decisions/FA3-DEC-GENERATIVE-MEDIA-STUDIO-2026-09-28.json'
+      - 'canonical/references/FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28.json'
+      - 'canonical/intents/FA3-GENERATIVE-MEDIA-STUDIO-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-GENERATIVE-MEDIA-STUDIO-REUSE-ASSESSMENT-001.json'
+      - 'canonical/generative-media-studio-enforcement.json'
+      - 'canonical/FA3-GATE-GENERATIVE-MEDIA-STUDIO-001.json'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'src/fa3_generative_media_studio_gate.py'
+      - 'src/fa3_enforce.py'
+      - 'tests/test_generative_media_studio_gate.py'
+      - '.github/workflows/fa3-generative-media-studio.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/fa3-generative-media-studio/**'
+      - 'canonical/contracts/FA3-GENERATIVE-MEDIA-STUDIO-**'
+      - 'canonical/profiles/FA3-GENERATIVE-MEDIA-STUDIO-001.json'
+      - 'src/fa3_generative_media_studio_gate.py'
+      - 'tests/test_generative_media_studio_gate.py'
+
+permissions:
+  contents: read
+
+jobs:
+  static-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Studio unit tests
+        run: python3 -m unittest tests.test_generative_media_studio_gate
+      - name: Studio canonical gate
+        run: ./bin/fa3-generative-media-studio-gate
+      - name: Permanent enforcement command
+        run: ./bin/fa3-enforce generative-media-studio
+      - name: Gate Registry mirror
+        run: ./bin/fa3-enforce gate-registry
+
+  qt6-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Qt6 build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build qt6-base-dev qt6-declarative-dev
+      - name: Configure
+        run: cmake -S apps/fa3-generative-media-studio -B build/fa3-generative-media-studio -G Ninja
+      - name: Build
+        run: cmake --build build/fa3-generative-media-studio
