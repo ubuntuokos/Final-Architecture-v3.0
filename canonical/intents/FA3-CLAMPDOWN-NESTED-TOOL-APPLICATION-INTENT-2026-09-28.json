@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CLAMPDOWN-NESTED-TOOL-APPLICATION-INTENT-2026-09-28",
+  "project_id": "FA3-AGENT-SANDBOX-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Add clean-room, fail-closed mediated nested-tool containment to the existing CAP-028 Agent Sandbox without installing Clampdown, adding authority, granting untrusted OCI fallback or claiming current-host promotion.",
+  "required_capabilities": [
+    "CAP-028"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "untrusted-coding-agent-nested-tool-escape",
+    "filesystem-mount-isolation",
+    "unapproved-network-egress",
+    "runtime-socket-exposure",
+    "secret-proxy-boundary"
+  ],
+  "task_classes": [
+    "agent-workload-mediated-nested-oci-tool"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "TYPED_UAF_ADMISSION",
+    "IMMUTABLE_IMAGE_DIGEST",
+    "HRB_LEASE_PROJECTION"
+  ],
+  "output_modalities": [
+    "NON_AUTHORITATIVE_NESTED_TOOL_LAUNCH_PLAN",
+    "STATIC_NEGATIVE_REGRESSION_RESULTS"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_STATIC_COMPILATION",
+    "CURRENT_HOST_PENDING"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "TRUSTED_EXECUTOR_AND_SIGNED_ADMISSION_VERIFICATION_PENDING",
+    "ACTUAL_GVISOR_SECCOMP_LANDLOCK_CURRENT_HOST_NEGATIVE_E2E_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "current_host_evidence_required_for_execution": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3.agent",
+    "config_root": "$XDG_CONFIG_HOME/fa3/agent",
+    "cache_root": "$XDG_CACHE_HOME/fa3/agent",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/agent",
+    "socket_namespace": "fa3-agent",
+    "data_root": "$XDG_DATA_HOME/fa3/agent",
+    "desktop_prefix": "fa3.agent",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "NETWORK_DEFAULT_DENY",
+    "NO_AGENT_VISIBLE_OCI_SOCKET",
+    "NO_AMBIENT_SECRETS",
+    "NO_PRIVILEGED_SIDECAR",
+    "NO_SILENT_SANDBOX_DOWNGRADE",
+    "SIGNED_PREVALIDATED_ADMISSION_REQUIRED_AT_EXECUTOR"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}
