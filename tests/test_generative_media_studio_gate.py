@@ -99,6 +99,16 @@ class GenerativeMediaStudioGateTests(unittest.TestCase):
         self.assertIn("FA3-AUTH-HOST-RESOURCE-BROKER-001", backend)
         self.assertIn("PENDING_ADMISSION", backend)
 
+    def test_global_mandatory_gate_binding(self) -> None:
+        registry = self.load("canonical/FA3-GATE-REGISTRY-001.json")
+        policy = self.load("canonical/enforcement-policy.json")
+        self.assertIn("FA3-GENERATIVE-MEDIA-STUDIO-GATESET-001", registry["mandatory_reference_gates"])
+        self.assertEqual(registry["mandatory_reference_gates"], policy["mandatory_reference_gates"])
+        self.assertEqual(policy["generative_media_studio_profile_id"], "FA3-GENERATIVE-MEDIA-STUDIO-001")
+        self.assertEqual(policy["generative_media_studio_contract_id"], "FA3-GENERATIVE-MEDIA-STUDIO-CONTRACTS-001")
+        self.assertEqual(policy["generative_media_studio_gate_id"], "FA3-GENERATIVE-MEDIA-STUDIO-GATESET-001")
+        self.assertFalse(policy["generative_media_studio_current_host_runtime_promotion_claim"])
+
     def test_gate_record_never_promotes_runtime(self) -> None:
         gate = self.load("canonical/FA3-GATE-GENERATIVE-MEDIA-STUDIO-001.json")
         enforcement = self.load("canonical/generative-media-studio-enforcement.json")
