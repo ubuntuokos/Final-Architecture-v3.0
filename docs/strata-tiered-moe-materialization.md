@@ -14,7 +14,7 @@ The reusable architectural result is `FA3-TIERED-MOE-EXECUTION-CONTRACTS-001`. I
 - explicit KV accelerator residency and optional host spill;
 - persistent-storage placement for auxiliary indexes and cold artifacts.
 
-`src/fa3_tiered_moe_plan.py` is an independent FA3 implementation of this contract. It is intentionally provider neutral and preserves the global CPU-only baseline and accelerator cardinality 0..N.
+`src/fa3_tiered_moe_plan.py` is an independent FA3 implementation of this contract. It is intentionally provider neutral and preserves the global CPU-only baseline and accelerator cardinality 0..N.\n\n`src/fa3_strata_provider_adapter.py` is a separate clean-room current-host admission probe for an already-running Strata service. It requires an explicitly configured loopback URL (no fixed port), checks `/health` and `/v1/models`, never installs or starts Strata, performs no external network egress or model download, and cannot promote the provider by itself. A production admission still requires immutable runtime identity, HRB admission/placement evidence, and Model Router selection provenance.
 
 ## Authority path
 
@@ -40,4 +40,4 @@ The FA3 contract is vendor neutral and keeps CPU-only execution viable. Strata's
 
 ## Promotion state
 
-Static materialization can pass in CI. Runtime promotion remains pending real physical current-host evidence: exact binary/source identity, API conformance, model identity, HRB lease/placement receipt, resource-pressure behavior, and Model Router selection provenance.
+Static materialization and the mock loopback adapter tests can pass in CI. Runtime promotion remains pending real physical current-host evidence: exact binary/source identity, live Strata API conformance, live model identity, HRB lease/placement receipt, resource-pressure behavior, and Model Router selection provenance. A successful loopback API probe is necessary but explicitly insufficient for promotion.
