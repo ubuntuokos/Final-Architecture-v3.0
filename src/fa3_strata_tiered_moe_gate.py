@@ -12,6 +12,9 @@ FILES = {
     "contracts": ROOT / "canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json",
     "assessment": ROOT / "canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json",
     "decision": ROOT / "canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json",
+    "decision_assessment": ROOT / "canonical/assessments/FA3-STRATA-TIERED-MOE-DECISION-ASSESSMENT-2026-09-28.json",
+    "distribution_registry": ROOT / "canonical/distribution-registry.json",
+    "distribution_manifest": ROOT / "canonical/distribution-manifest.json",
     "planner": ROOT / "src/fa3_tiered_moe_plan.py",
 }
 
@@ -28,8 +31,8 @@ def check() -> None:
     missing = [str(p.relative_to(ROOT)) for p in FILES.values() if not p.is_file()]
     assert not missing, f"missing files: {missing}"
 
-    intent, provider, contracts, assessment, decision = [
-        load(FILES[k]) for k in ("intent", "provider", "contracts", "assessment", "decision")
+    intent, provider, contracts, assessment, decision, decision_assessment, distribution_registry, distribution_manifest = [
+        load(FILES[k]) for k in ("intent", "provider", "contracts", "assessment", "decision", "decision_assessment", "distribution_registry", "distribution_manifest")
     ]
 
     assert provider["id"] == "FA3-PROVIDER-STRATA-001"
@@ -45,6 +48,9 @@ def check() -> None:
     assert provider["reuse_license"]["source_copy_into_fa3"] == "FORBIDDEN"
     assert provider["current_host_production_evidence"] == "NOT_CLAIMED"
     assert provider["global_promotion_claim"] is False
+    assert provider["distribution"]["class"] == "REFERENCE_ONLY"
+    assert provider["distribution"]["release_bundle_status"] == "EXCLUDED"
+    assert provider["product_bundle_allowed"] is False
 
     assert intent["constraints"]["capability_count"] == 175
     assert intent["constraints"]["capability_delta"] == 0
@@ -73,6 +79,15 @@ def check() -> None:
     assert decision["capability_delta"] == 0
     assert decision["authority_delta"] == 0
     assert decision["runtime_promotion"] == "PENDING_CURRENT_HOST_EVIDENCE"
+
+    assert decision_assessment["assessment"] == "NOT_APPLICABLE"
+    assert decision_assessment["project_radar_checked"] is True
+    assert decision_assessment["security_boundary"]["may_admit_provider"] is False
+
+    reg = [x for x in distribution_registry["records"] if x.get("subject_id") == "FA3-PROVIDER-STRATA-001"]
+    assert reg == [{"subject_id": "FA3-PROVIDER-STRATA-001", "class": "REFERENCE_ONLY", "release_bundle_status": "EXCLUDED"}]
+    manifest = [x for x in distribution_manifest["excluded"] if x.get("subject_id") == "FA3-PROVIDER-STRATA-001"]
+    assert manifest == reg
 
     planner_text = FILES["planner"].read_text(encoding="utf-8")
     assert "NO_UPSTREAM_STRATA_SOURCE_COPIED" in planner_text
