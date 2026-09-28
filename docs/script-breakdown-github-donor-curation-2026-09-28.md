@@ -1,7 +1,7 @@
 # Script-breakdown GitHub donor curation — 2026-09-28
 
-**Discovery index:** https://github.com/topics/script-breakdown  
-**Related screenplay curation:** [scriptwriting source curation](scriptwriting-github-donor-curation-2026-09-28.md)  
+**Discovery index:** https://github.com/topics/script-breakdown
+**Related screenplay curation:** [scriptwriting source curation](scriptwriting-github-donor-curation-2026-09-28.md)
 **Canonical registry:** `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json`
 
 This is selective, metadata-only donor research for the **existing FA3 Story/Screenplay** application, canonical document/interchange layer, Film Planning, Storyboard, Character Studio, FA3 Video Editor, QuickClip and Creative Studio. Do not create another editor, project authority, MCP gateway, agent orchestrator, execution scheduler or model management service. The topic yielded six GitHub repositories in the observed search; five offer independently documented breakdown ideas. The README and CI links in `meo9805/Jellyfish` point to `Forget-C/Jellyfish`, which was additionally recorded as a separately verified apparent upstream reference; a code-level diff/provenance audit is still necessary. `calabashspouter212/scriptbreak` has an essentially empty `README.md` (title only), no GitHub-detected license and insufficient independent value/provenance evidence, so is recorded here for later investigation **without** promotion to a donor candidate.
