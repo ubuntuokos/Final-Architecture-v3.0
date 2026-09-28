@@ -99,7 +99,7 @@ The **canonical registry** is the source of truth. The table documents intended 
 - Accelerator count is `0..N`; discover Intel/AMD/NVIDIA/other accelerators and physical versus logical CPU cores with current host evidence. HRB is the **only** compute-resource authority; keep time/memory/CPU/GPU budgets workload scoped.
 - GUI must be toolkit/desktop neutral: Wayland preferred, X11 supported; avoid KDE-only assumptions even when the primary FA3 GUI is Qt6/QML.
 - Simulators, codecs, model providers, dataset connectors and source copying require **independent** licensing, supply-chain/security, environment coexistence and current-host checks. No silent fallback from absent scientific solver to an unlabelled invented result.
-- Keep current studio formats (`.kra`, `.kdenlive`, Ardour sessions, `project.fa3video`, `.fa3clip`) intact. No Unreal installation/runtime/workflow or hidden application duplication.
+- Keep current studio formats (`.kra`, `.kdenlive`, Ardour sessions, `project.fa3video`, `.fa3clip`) intact. No excluded proprietary game-engine installation, runtime, workflow or hidden application duplication.
 
 ## Delivery slices and completion gates
 
