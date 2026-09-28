@@ -51,5 +51,30 @@ class AudacityMCPGateTests(unittest.TestCase):
         self.assertEqual(p["execution_policy"]["model_router_required"], "WHEN_OPERATION_USES_A_ROUTED_AI_MODEL")
         self.assertTrue(p["execution_policy"]["deterministic_non_model_dsp_may_execute_without_model_router"])
 
+    def test_global_gate_registry_and_policy_binding(self):
+        registry = load("canonical/FA3-GATE-REGISTRY-001.json")
+        policy = load("canonical/enforcement-policy.json")
+        self.assertIn("FA3-AUDACITY-MCP-GATESET-001", registry["mandatory_reference_gates"])
+        self.assertEqual(registry["mandatory_reference_gates"], policy["mandatory_reference_gates"])
+        self.assertEqual(policy["audacity_mcp_gate_id"], "FA3-AUDACITY-MCP-GATESET-001")
+        self.assertFalse(policy["audacity_mcp_current_host_runtime_promotion_claim"])
+
+    def test_cap124_evidence_registry_binds_materialization_decision_without_promotion(self):
+        registry = load("evidence/evidence-registry.json")
+        cap124 = next(x for x in registry["records"] if x["subject_id"] == "CAP-124")
+        self.assertIn("FA3-DEC-AUDACITY-MCP-2026-09-28", cap124["source_decision_ids"])
+        self.assertEqual(cap124["status"], "PENDING_CURRENT_HOST")
+        rec = registry["audacity_mcp_reconciliation"]
+        self.assertEqual(rec["gate_id"], "FA3-AUDACITY-MCP-GATESET-001")
+        self.assertFalse(rec["current_host_runtime_promotion_claim"])
+        self.assertFalse(rec["production_provider_admission"])
+
+    def test_canonical_gate_record_is_p0_fail_closed(self):
+        gate = load("canonical/FA3-GATE-AUDACITY-MCP-001.json")
+        self.assertEqual(gate["enforcement_id"], "FA3-AUDACITY-MCP-GATESET-001")
+        self.assertEqual(gate["priority"], "P0")
+        self.assertTrue(gate["fail_closed"])
+        self.assertFalse(gate["static_pass_promotes_runtime"])
+
 if __name__ == "__main__":
     unittest.main()
