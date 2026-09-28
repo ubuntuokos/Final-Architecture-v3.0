@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "29afb97fbb0cf8f62f1fcdb3cb0f12cfa2361127",
-    "pre_projection_root_tree_sha": "35cb3e43bbeb3b10cfd389d44dfd3ebe5a415adf",
-    "pre_projection_canonical_tree_sha": "56b680520d24f62a2eac3cf0575191624f31658d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1580,
-    "total_post_baseline_commits": 1580,
-    "delta_file_count": 2486,
-    "delta_added_files": 2480,
+    "pre_projection_head_sha": "17ae1bc279d948db03733d194bb8dd64bd2d0868",
+    "pre_projection_root_tree_sha": "d6bb87c554b853c0d19272f4c6e7eafad22d6f4e",
+    "pre_projection_canonical_tree_sha": "cf71d3c79e03452eeb93ad611ed41f4ead5e84d0",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1591,
+    "total_post_baseline_commits": 1591,
+    "delta_file_count": 2491,
+    "delta_added_files": 2485,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1196,
+    "canonical_files_in_post_baseline_delta": 1198,
     "evidence_files_in_post_baseline_delta": 170,
     "source_files_in_post_baseline_delta": 340,
     "test_files_in_post_baseline_delta": 275,
-    "workflow_files_in_post_baseline_delta": 122,
+    "workflow_files_in_post_baseline_delta": 124,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -1013,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2476,
+  "manifest_entry_count": 2481,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1228,6 +1228,16 @@
     {
       "path": ".github/workflows/fa3-goal-foundation-projection-reconcile.yml",
       "git_blob_sha": "bbc78e6927244992b73e4c303b80097c2d67fc64",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-goal-preflight-projection-reconcile.yml",
+      "git_blob_sha": "3b2818d451f2e107e7c3744823f538e32ce1925e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-goal-source-preflight.yml",
+      "git_blob_sha": "03a384bd2460ae0b79a6703c0e301f99406aa14b",
       "baseline_delta_status": "added"
     },
     {
@@ -1552,7 +1562,7 @@
     },
     {
       "path": ".github/workflows/fa3-skill-ecosystem.yml",
-      "git_blob_sha": "7dc0e101c9f3377a707e1d1e964aec2213d7d438",
+      "git_blob_sha": "0d15ebdcd43ae0c6970f26d375948898f3923f96",
       "baseline_delta_status": "added"
     },
     {
@@ -4026,6 +4036,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-GOAL-EXECUTION-REUSE-ASSESSMENT-2026-09-28.json",
+      "git_blob_sha": "f17f9d686a6bcc8e3a7539b781696c01f1bdac77",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-GOOGLE-AX-PROVIDER-BRIDGE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "0bcca69b88482ac958308e2d4691f752406f4751",
       "baseline_delta_status": "added"
@@ -4917,7 +4932,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
-      "git_blob_sha": "9d512f88b271bfd67875b78d78f629543c1d39c5",
+      "git_blob_sha": "998ca1474187b55d2da2dae8947fcdbb8ae3e0ea",
       "baseline_delta_status": "added"
     },
     {
@@ -6143,6 +6158,11 @@
     {
       "path": "canonical/intents/FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "277b5cd3488a13839978932cac08ba4ae5c7ac54",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28.json",
+      "git_blob_sha": "7cab4fea8e3bccb697e445f05f2b45d48ef56caf",
       "baseline_delta_status": "added"
     },
     {
@@ -8906,6 +8926,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/goal-driven-source-bound-preflight.md",
+      "git_blob_sha": "31b32ee5d16b01d086d88967d8e3d919f5ca8876",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/governance-tiering.md",
       "git_blob_sha": "087da9c9a1c15e7312baa7b311ddeeb1ff7c4c3f",
       "baseline_delta_status": "added"
@@ -10851,6 +10876,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_goal_preflight.py",
+      "git_blob_sha": "e25dbfcf271e193a98847715ac313c16cf030b67",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_google_ax_custom_runner.py",
       "git_blob_sha": "0b3aa3328af1b81dc0e9ff33a34a944a68771f50",
       "baseline_delta_status": "added"
@@ -11741,11 +11771,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_skill_activation.py",
-      "git_blob_sha": "1c15727543a22f2ae6d6da38d5e892dfd954f49b",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "src/fa3_skill_discovery.py",
       "git_blob_sha": "5f03d8717ceffd37cd20f971b8470b49e2967b8b",
       "baseline_delta_status": "added"
@@ -11762,7 +11787,7 @@
     },
     {
       "path": "src/fa3_skill_fabric_gate.py",
-      "git_blob_sha": "adc194d64920478aa6e9ef676d0fd5b2d5cb8ff0",
+      "git_blob_sha": "e349a3f01f06c46258f609bed488bcd1bfd2a07c",
       "baseline_delta_status": "added"
     },
     {
@@ -12443,6 +12468,11 @@
     {
       "path": "tests/test_goal_execution_foundation.py",
       "git_blob_sha": "a4263985b5a7f12d3d96c34a0a3c45ffef9873e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_goal_preflight.py",
+      "git_blob_sha": "fb395842983a11f53c60d8adb4cc8051f69d8b03",
       "baseline_delta_status": "added"
     },
     {
@@ -13128,11 +13158,6 @@
     {
       "path": "tests/test_sillytavern_kde_gate.py",
       "git_blob_sha": "b731c28f2a170d16f199b0ec448ed269570abb62",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "tests/test_skill_activation.py",
-      "git_blob_sha": "a5ee28a97565647522715393b7de4de3fc608d82",
       "baseline_delta_status": "added"
     },
     {
