@@ -14,7 +14,7 @@ StateDirectoryMode=0700
 RuntimeDirectory=fa3-pr-watch
 RuntimeDirectoryMode=0750
 Environment=XDG_STATE_HOME=/var/lib/fa3-pr-watch
-ExecStart=/usr/bin/python3 __FA3_REPO_ROOT__/bin/fa3-pr-watch-secret-runtime --secret-ref integration/relay/001 --bind 127.0.0.1 --port 0 --operator-export-path /run/fa3-pr-watch/operator.json
+ExecStart=/usr/bin/python3 __FA3_REPO_ROOT__/bin/fa3-pr-watch-secret-runtime --secret-ref integration/relay/001 --bind 127.0.0.1 --port 0 --operator-export-path /run/fa3-pr-watch/operator.json --allow-repo __FA3_GITHUB_REPOSITORY__
 Restart=no
 NoNewPrivileges=yes
 PrivateTmp=yes

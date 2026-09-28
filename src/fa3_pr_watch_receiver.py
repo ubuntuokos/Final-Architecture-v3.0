@@ -16,12 +16,13 @@ import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from fa3_pr_watch import (MAX_PAYLOAD, PRWatchDenied, ProjectionStore,
+from fa3_pr_watch import (MAX_PAYLOAD, PRWatchDenied, ProjectionStore, REPO,
                           normalize_webhook)
 from fa3_pr_watch_operator_export import export_operator_view
 
 
-def make_handler(secret: bytes, store: ProjectionStore, operator_export_path: Path | None = None):
+def make_handler(secret: bytes, store: ProjectionStore, operator_export_path: Path | None = None,
+                 allowed_repositories: frozenset[str] | None = None):
     class PRWatchHandler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
         timeout = 10
@@ -66,6 +67,9 @@ def make_handler(secret: bytes, store: ProjectionStore, operator_export_path: Pa
                     secret=secret, event_type=self.headers.get("X-GitHub-Event", ""),
                     delivery_id=self.headers.get("X-GitHub-Delivery", ""),
                 )
+                if (allowed_repositories is not None
+                        and event['repository'].lower() not in allowed_repositories):
+                    raise PRWatchDenied('REPOSITORY_OUTSIDE_ALLOWLIST')
                 result = store.ingest(event)
                 if operator_export_path is not None:
                     export_operator_view(store, operator_export_path)
@@ -86,6 +90,7 @@ def main(argv=None):
     parser.add_argument("--secret-fd", required=True, type=int)
     parser.add_argument("--state-dir", type=Path, default=None)
     parser.add_argument("--operator-export-path", type=Path)
+    parser.add_argument("--allow-repo", required=True, action="append")
     args = parser.parse_args(argv)
     try:
         if not ipaddress.ip_address(args.bind).is_loopback or args.secret_fd < 3 or not 0 <= args.port <= 65535:
@@ -94,10 +99,13 @@ def main(argv=None):
         os.close(args.secret_fd)
         if len(secret) < 16 or len(secret) > 4096:
             raise PRWatchDenied("SECRET_INVALID")
+        if any(not REPO.fullmatch(repo) for repo in args.allow_repo):
+            raise PRWatchDenied('REPOSITORY_ALLOWLIST_INVALID')
+        allow_repos = frozenset(repo.lower() for repo in args.allow_repo)
         store = ProjectionStore(args.state_dir)
         store._ensure_dir()
         family = ThreadingHTTPServer
-        with family((args.bind, args.port), make_handler(secret, store, args.operator_export_path)) as srv:
+        with family((args.bind, args.port), make_handler(secret, store, args.operator_export_path, allow_repos)) as srv:
             srv.daemon_threads = True
             address, port = srv.server_address[:2]
             print(json.dumps({"listen": f"http://{address}:{port}/github",

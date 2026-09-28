@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
-from fa3_pr_watch import PRWatchDenied
+from fa3_pr_watch import PRWatchDenied, REPO
 from fa3_secret_broker import DEFAULT_SOCKET, request
 
 CONSUMER_ID = "FA3-PR-WATCH-001"
@@ -71,6 +71,7 @@ def launch_receiver(
     state_dir: Path | None = None,
     receiver_entrypoint: Path = RECEIVER_ENTRYPOINT,
     operator_export_path: Path | None = None,
+    allowed_repositories: list[str] | None = None,
 ) -> subprocess.Popen:
     """Supply a preopened one-shot secret FD to the existing receiver process."""
     import ipaddress
@@ -83,6 +84,8 @@ def launch_receiver(
         raise PRWatchDenied("LOOPBACK_REQUIRED") from None
     if not ip.is_loopback:
         raise PRWatchDenied("LOOPBACK_REQUIRED")
+    if not allowed_repositories or any(not REPO.fullmatch(r) for r in allowed_repositories):
+        raise PRWatchDenied('REPOSITORY_ALLOWLIST_REQUIRED')
     if not receiver_entrypoint.is_file():
         raise PRWatchDenied("RECEIVER_ENTRYPOINT_MISSING")
     rd, wr = os.pipe2(os.O_CLOEXEC)
@@ -93,6 +96,8 @@ def launch_receiver(
             command += ["--state-dir", str(state_dir)]
         if operator_export_path is not None:
             command += ["--operator-export-path", str(operator_export_path)]
+        for repo in allowed_repositories:
+            command += ["--allow-repo", repo]
         # No inherited broker or GitHub credentials reach the receiver child.
         env = {k: v for k, v in os.environ.items()
                if not any(word in k.upper() for word in
@@ -120,12 +125,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--port", type=int, default=0)
     parser.add_argument("--state-dir", type=Path)
     parser.add_argument("--operator-export-path", type=Path)
+    parser.add_argument("--allow-repo", required=True, action="append")
     args = parser.parse_args(argv)
     proc = None
     try:
         value = obtain_single_secret(args.secret_ref, args.broker_socket)
         proc = launch_receiver(value, bind=args.bind, port=args.port, state_dir=args.state_dir,
-                               operator_export_path=args.operator_export_path)
+                               operator_export_path=args.operator_export_path,
+                               allowed_repositories=args.allow_repo)
         return proc.wait()
     except KeyboardInterrupt:
         return 130

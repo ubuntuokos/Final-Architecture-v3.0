@@ -95,8 +95,29 @@ class ReceiverTests(unittest.TestCase):
             self.assertIn(b" 413 ", sock.recv(2048))
         self.assertEqual(0, self.store.operator_projection()["count"])
 
+    def test_repository_outside_explicit_allowlist_denied(self):
+        scoped = ThreadingHTTPServer(("127.0.0.1",0),make_handler(
+            SECRET,self.store,allowed_repositories=frozenset({"approved/repo"})))
+        thread = threading.Thread(target=scoped.serve_forever,daemon=True)
+        thread.start()
+        try:
+            conn=http.client.HTTPConnection("127.0.0.1",scoped.server_port,timeout=3)
+            conn.request("POST","/github",DATA,headers={
+                "X-GitHub-Event":"issues","X-GitHub-Delivery":"repo-denied",
+                "X-Hub-Signature-256":"sha256="+hmac.new(SECRET,DATA,hashlib.sha256).hexdigest()})
+            result=conn.getresponse()
+            self.assertEqual(403,result.status)
+            result.read()
+            conn.close()
+            self.assertEqual(0,self.store.operator_projection()["count"])
+        finally:
+            scoped.shutdown()
+            thread.join(timeout=3)
+            scoped.server_close()
+
     def test_non_loopback_is_denied_without_socket_creation(self):
-        self.assertEqual(2, main(["--bind", "0.0.0.0", "--secret-fd", "1"]))
+        self.assertEqual(2, main(["--bind", "0.0.0.0", "--secret-fd", "1",
+                                  "--allow-repo", "fa3/reference-fixture"]))
 
 
 if __name__ == "__main__":

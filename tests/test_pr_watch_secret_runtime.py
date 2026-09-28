@@ -97,7 +97,8 @@ class SecretProjectionTests(unittest.TestCase):
             with out.open("wb") as sink:
                 with patch("fa3_pr_watch_secret_runtime.subprocess.Popen", wraps=subprocess.Popen) as spawn:
                     proc=launch_receiver(value,port=0,state_dir=Path(td)/"state",
-                                         receiver_entrypoint=receiver)
+                                         receiver_entrypoint=receiver,
+                                         allowed_repositories=["fa3/reference-fixture"])
                     try:
                         self.assertEqual(bytearray(b"\x00"*len(SECRET)),value)
                         argv=spawn.call_args.args[0]
