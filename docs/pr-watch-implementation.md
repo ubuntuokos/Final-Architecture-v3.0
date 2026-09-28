@@ -97,3 +97,72 @@ The GitHub Actions workflow tests source syntax, signed payload and real local H
 Stop the optional local receiver. This stops new observations without mutating GitHub, the original project, FA3 central work-item identity or existing Workload/Temporal state. Keep the signed observation cache as bounded private operational metadata under existing retention policy; it is never the proof source. At 10,000 delivery digests or 1,000 distinct work items, the reader remains available but ingestion **fails closed**, requiring an explicitly authorized archival/reconciliation procedure rather than silently forgetting replay IDs.
 
 The accepted FA3 donor registry is planning metadata. No upstream Claude Code Action code has been copied and no automatic provider/runtime/source promotion is implied by this app.
+
+## Opt-in dedicated service and GitHub App setup
+
+The source now includes the Secret Broker runtime bridge, a dedicated-service
+unit template, the Secret Broker allowlist policy, a group-only redacted GUI
+exporter and a safe configuration renderer. These are implemented sources,
+not installed services or an already registered GitHub App.
+
+1. From the FA3 repository run:
+
+    python3 bin/fa3-pr-watch-render-service --github-repo ubuntuokos/Final-Architecture-v3.0 --webhook-url https://YOUR-APPROVED-RELAY.example/github
+
+   This writes the service unit and private read-only GitHub App manifest to
+   reports/pr-watch. The action performs no privileged installation and writes
+   no secrets. Review both files. Register a private GitHub App using the
+   generated manifest and install it only on approved repositories. An
+   administrator must separately authorize the reachable HTTPS relay, which
+   preserves the exact signed request bytes and GitHub headers.
+
+2. The host administrator creates the dedicated fa3-pr-watch Unix service
+   account, fa3-pr-watch-viewers group and supplemental fa3-secret-clients
+   membership, then installs the rendered systemd unit. Never install the
+   unrendered template: FA3_REPO_ROOT and FA3_GITHUB_REPOSITORY are mandatory
+   substitution markers. The unit requires and is PartOf fa3-secrets.target;
+   it must stop before the encrypted credential image is closed.
+
+3. After starting the existing FA3 secrets runtime, use the existing tools:
+
+    fa3-secrets-admin policy-check deployment/pr-watch/policy.example.json
+    fa3-secrets-admin policy-install deployment/pr-watch/policy.example.json
+    fa3-secrets-admin put integration/relay/001 --kind GENERIC_FA3_CREDENTIAL
+
+   Enter the real webhook secret interactively, never through argv, environment,
+   a repository file or a log. Policy permits consumer FA3-PR-WATCH-001 only
+   in the named systemd unit for the dedicated Unix user and
+   UDS_SINGLE_SECRET projection. The runtime obtains the single secret from
+   the existing broker and passes it over an inherited one-shot pipe to the
+   already implemented loopback receiver. At least one exact --allow-repo is
+   mandatory. The dynamic local port does not interfere with AdGuardHome.
+
+4. Private service state remains under
+   /var/lib/fa3-pr-watch/fa3/pr-watch/projection.json (0700/0600).
+   The separately redacted GUI projection lives under
+   /run/fa3-pr-watch/operator.json (directory 0750, file 0640, group
+   fa3-pr-watch-viewers). Only explicitly admitted group members can read
+   that view. Following operator group re-login, start Control Center with
+   FA3_PR_WATCH_PROJECTION_PATH=/run/fa3-pr-watch/operator.json.
+   Work Management -> PR Watch then displays the local read-only view.
+   No agent commands, secrets, raw untrusted PR bodies or credentials are
+   exported to the GUI.
+
+5. The UAF bridge in src/fa3_pr_watch_workload_bridge.py checks immutable
+   PR and goal SHA binding, exact task and plan digests, external approval,
+   and the existing agent.workload.start action contract. It refuses to
+   dispatch without real connected Security authorization, external approval,
+   HRB acquire/release and evidence sink callbacks. It calls the existing
+   UAF dispatcher only and never claims canonical completion.
+
+6. The new bin/fa3-pr-watch-e2e-fixture --fixture-only command signs a
+   synthetic event, actually runs two subprocess workers in separate
+   isolated worktrees through the existing FA3 Developer Agent Coordinator,
+   and invokes a separate checker process on the immutable integrated Git
+   commit and exact expected file bytes. This is reference E2E, not a real
+   provider, untrusted GitHub checkout or current-host promotion.
+
+Not silently activated: the external GitHub App and HTTPS relay; local
+operator account/policy creation; approved production UAF/Temporal/HRB/Model
+Router dispatch; real scoped current-host and desktop-session evidence. The
+PR remains fail-closed and draft until independently proven.
