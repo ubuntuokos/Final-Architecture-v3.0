@@ -71,7 +71,7 @@ class SystemOneDecisionProvider:
         routing = raw.get("_fa3_routing") or {}
         if not isinstance(routing, dict):
             raise ValueError("invalid Model Router routing receipt")
-        if routing.get("authority", MODEL_ROUTER_AUTHORITY) != MODEL_ROUTER_AUTHORITY:
+        if routing.get("authority") != MODEL_ROUTER_AUTHORITY:
             raise ValueError("System One transport routing authority mismatch")
 
         result = evaluate_system_one_answers(request, compiled, answers)
