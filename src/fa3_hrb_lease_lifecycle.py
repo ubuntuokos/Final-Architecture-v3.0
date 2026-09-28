@@ -17,6 +17,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Protocol
+from fa3_display_gpu_admission import evaluate_display_gpu_admission, HRB_AUTHORITY, INVENTORY_SCHEMA
 
 HRB_AUTHORITY_ID = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 EVIDENCE_AUTHORITY_ID = "FA3-AUTH-OBS-EVIDENCE-001"
@@ -506,14 +507,96 @@ class LeaseLedger:
         boot_id_reader: Callable[[], str] = _read_boot_id,
         monotonic_ns: Callable[[], int] = time.monotonic_ns,
         wall_utc: Callable[[], str] = utc_now,
+        hardware_inventory_provider: Callable[[], dict[str, Any]] | None = None,
+        router_binding_verifier: Callable[[dict[str, Any]], bool] | None = None,
+        application_selection_verifier: Callable[[dict[str, Any]], bool] | None = None,
     ) -> None:
         self._keyring = keyring
         self._boot_id_reader = boot_id_reader
         self._monotonic_ns = monotonic_ns
         self._wall_utc = wall_utc
+        # These trusted adapters MUST be injected by the HRB service, never
+        # derived from workload-origin JSON. No adapter means fail-closed for
+        # accelerator leases.
+        self._hardware_inventory_provider = hardware_inventory_provider
+        self._router_binding_verifier = router_binding_verifier
+        self._application_selection_verifier = application_selection_verifier
         self._records: dict[tuple[str, int], dict[str, Any]] = {}
         self._current: dict[str, int] = {}
         self._lock = threading.RLock()
+
+    def _enforce_display_gpu_policy(self, binding: dict[str, Any]) -> None:
+        assignments = binding.get("accelerator_assignments", [])
+        if not assignments:
+            return
+        if self._hardware_inventory_provider is None:
+            raise LeaseBindingError("accelerator lease requires trusted current HRB inventory")
+        inventory = self._hardware_inventory_provider()
+        if not isinstance(inventory, dict) or (
+            inventory.get("schema") != INVENTORY_SCHEMA
+            or inventory.get("verified_by") != HRB_AUTHORITY
+            or inventory.get("topology_revalidated") is not True
+            or not isinstance(inventory.get("devices"), list)
+        ):
+            raise LeaseBindingError("current HRB inventory is missing or not revalidated")
+        present: dict[str, dict[str, Any]] = {}
+        for row in inventory["devices"]:
+            if not isinstance(row, dict) or not isinstance(row.get("stable_id"), str) or not row["stable_id"]:
+                raise LeaseBindingError("unattributed current accelerator inventory")
+            if row["stable_id"] in present:
+                raise LeaseBindingError("duplicate current accelerator identity")
+            kind = str(row.get("kind", "")).upper()
+            if kind not in {"GPU", "NPU", "OTHER"}:
+                raise LeaseBindingError("ambiguous accelerator kind in HRB inventory")
+            if kind == "GPU" and not isinstance(row.get("display_active"), bool):
+                raise LeaseBindingError("GPU display role missing from HRB inventory")
+            if row.get("present") is not False:
+                present[row["stable_id"]] = row
+        for assignment in assignments:
+            stable_id = str(assignment.get("stable_id", ""))
+            live = present.get(stable_id)
+            if live is None:
+                raise LeaseBindingError("assigned accelerator not present in current HRB inventory")
+            is_display = str(live.get("kind")).upper() == "GPU" and live.get("display_active") is True
+            if assignment.get("role") == "DISPLAY" and not is_display:
+                raise LeaseBindingError("declared display GPU role disagrees with HRB inventory")
+            if not is_display:
+                continue
+            if assignment.get("role") != "DISPLAY":
+                raise LeaseBindingError("display GPU misrepresented as compute-only")
+            workload = assignment.get("workload_binding")
+            if not isinstance(workload, dict):
+                raise LeaseBindingError("display GPU model/task binding missing")
+            workload = dict(workload)
+            reserve = inventory.get("display_reservations", {})
+            workload["display_reserve_confirmed"] = (
+                isinstance(reserve, dict) and reserve.get(stable_id) is True
+            )
+            router = workload.get("router_binding")
+            router = dict(router) if isinstance(router, dict) else {}
+            verified = (
+                self._router_binding_verifier is not None
+                and self._router_binding_verifier(router) is True
+            )
+            router["selection_receipt_verified"] = verified
+            workload["router_binding"] = router
+            others_exist = any(
+                sid != stable_id and str(device.get("kind", "")).upper() in {"GPU", "NPU"}
+                for sid, device in present.items()
+            )
+            selection = assignment.get("application_selection")
+            if others_exist and not (
+                isinstance(selection, dict)
+                and self._application_selection_verifier is not None
+                and self._application_selection_verifier(selection) is True
+            ):
+                raise LeaseBindingError("explicit application user selection has not been authenticated")
+            decision = evaluate_display_gpu_admission(
+                inventory=inventory, accelerator_id=stable_id, workload=workload,
+                application_selection=selection,
+            )
+            if decision["result"] != "PASS":
+                raise LeaseBindingError("display GPU admission denied: " + ",".join(decision["findings"]))
 
     def _resign(self, record: dict[str, Any]) -> None:
         record["authentication"] = self._keyring.sign(record)
@@ -554,6 +637,7 @@ class LeaseLedger:
             "ttl_seconds": float(ttl_seconds),
         })
         validate_runtime_binding(binding)
+        self._enforce_display_gpu_policy(binding)
         record = {
             "schema": LEASE_SCHEMA,
             "authority_id": HRB_AUTHORITY_ID,
@@ -609,6 +693,10 @@ class LeaseLedger:
                 raise LeaseExpiredError("boot identity changed; lease cannot survive reboot")
             if not allow_expired and self._monotonic_ns() >= int(record.get("expires_monotonic_ns", 0)):
                 raise LeaseExpiredError("lease expired")
+            # Revalidate device role and authorization before trusting an
+            # existing accelerator lease, including during renewal.
+            if not allow_expired:
+                self._enforce_display_gpu_policy(record["runtime_binding"])
             return record
 
     def renew(self, lease_id: str, generation: int, ttl_seconds: float) -> dict[str, Any]:
