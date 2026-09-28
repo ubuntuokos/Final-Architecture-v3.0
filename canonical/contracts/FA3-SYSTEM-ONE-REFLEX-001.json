@@ -68,5 +68,18 @@
     "question_digest": "REQUIRED",
     "bounded_state_digest": "REQUIRED",
     "gate_judgments": "REQUIRED"
+  },
+  "interoperability": {
+    "uhp": {
+      "status": "OPTIONAL_ADAPTER",
+      "authority": false,
+      "required_for_core": false
+    },
+    "browser": {
+      "consumer": "FA3-WEB-AI-001",
+      "mode": "BOUNDED_ACTION",
+      "dom_or_ui_candidates_must_be_pre_authorized": true,
+      "direct_browser_execution": false
+    }
   }
 }
