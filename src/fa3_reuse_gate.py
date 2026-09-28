@@ -35,6 +35,11 @@ DIST_MANIFEST = "canonical/distribution-manifest.json"
 EVIDENCE = "evidence/reference/reuse-discovery-ci-2026-09-24.json"
 SKILL_REGISTRY = "canonical/skill-registry.json"
 EXTERNAL_SKILL_RADAR = "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
+DONOR_REGISTRY = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+DONOR_DECISION = "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json"
+DONOR_CAPTURE = "src/fa3_donor_registry.py"
+DONOR_CAPTURE_BIN = "bin/fa3-donor-capture"
+AGENT_INSTRUCTIONS = "AGENTS.md"
 GUI_INTENT = "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json"
 GUI_REUSE_ASSESSMENT = "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json"
 WORKFLOW = ".github/workflows/fa3-permanent-enforcement.yml"
@@ -241,6 +246,7 @@ def gate(root: Path) -> dict[str, Any]:
         "src/fa3_reuse_catalog.py", "src/fa3_reuse_resolver.py", "src/fa3_reuse_assessment.py",
         "bin/fa3-reuse-assess", "tests/test_reuse_discovery_gate.py", DECISION_DOC,
         SKILL_REGISTRY, EXTERNAL_SKILL_RADAR, GUI_INTENT, GUI_REUSE_ASSESSMENT,
+        DONOR_REGISTRY, DONOR_DECISION, DONOR_CAPTURE, DONOR_CAPTURE_BIN, AGENT_INSTRUCTIONS,
     ]
     for rel in required:
         if not (root / rel).is_file():
@@ -269,6 +275,8 @@ def gate(root: Path) -> dict[str, Any]:
     evidence = load(root, EVIDENCE)
     skill_registry = load(root, SKILL_REGISTRY)
     external_skill_radar = load(root, EXTERNAL_SKILL_RADAR)
+    donor_registry = load(root, DONOR_REGISTRY)
+    donor_decision = load(root, DONOR_DECISION)
     gui_intent = load(root, GUI_INTENT)
     gui_reuse_assessment = load(root, GUI_REUSE_ASSESSMENT)
 
@@ -339,8 +347,8 @@ def gate(root: Path) -> dict[str, Any]:
     if not (
         gate_record.get("gateset_id") == "FA3-REUSE-DISCOVERY-GATESET-001"
         and gate_record.get("fail_closed") is True
-        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 25
-        and len(enforcement.get("p0_invariants", [])) == 25
+        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 29
+        and len(enforcement.get("p0_invariants", [])) == 29
     ):
         findings.append(finding("REUSE-006", "gate/enforcement inventory drift"))
 
@@ -353,6 +361,117 @@ def gate(root: Path) -> dict[str, Any]:
         and dfa.get("security_boundary", {}).get("may_expand_candidate_set") is False
     ):
         findings.append(finding("REUSE-007", "Decision Fabric bounded-advisory assessment drift"))
+
+    donor_binding = profile.get("donor_reference_binding", {})
+    donor_catalog_binding = catalog_policy.get("donor_registry_binding", {})
+    donor_contract = contract.get("contracts", {}).get("DonorReferenceProjection", {})
+    donor_capture_policy = donor_registry.get("capture_policy", {})
+    donor_planning_policy = donor_registry.get("planning_policy", {})
+    donor_safety = donor_registry.get("safety_boundary", {})
+    donor_hardware = donor_registry.get("hardware_audit", {})
+    donor_entries = [row for row in donor_registry.get("entries", []) if isinstance(row, dict)]
+    required_donor_fields = {
+        "donor_id", "name", "source", "status", "donor_modes", "capability_hints",
+        "domain_hints", "target_hints", "license", "code_reuse_policy",
+        "discoverable_for_planning", "authority",
+    }
+    allowed_donor_states = {"CANDIDATE", "ANALYZED", "ACCEPTED_REFERENCE", "REJECTED", "SUPERSEDED"}
+    donor_ids = [str(row.get("donor_id")) for row in donor_entries if row.get("donor_id")]
+    donor_keys = [
+        str(row.get("source", {}).get("normalized_key"))
+        for row in donor_entries
+        if isinstance(row.get("source"), dict) and row.get("source", {}).get("normalized_key")
+    ]
+    invalid_donor_entries = [
+        str(row.get("donor_id") or row.get("name") or "<unknown>")
+        for row in donor_entries
+        if not required_donor_fields.issubset(row)
+        or row.get("status") not in allowed_donor_states
+        or row.get("authority") is not False
+    ]
+    required_backfill = {
+        "FA3-DONOR-AGENT0AI-AGENT-ZERO-001",
+        "FA3-DONOR-MICROSOFT-MCP-GATEWAY-001",
+        "FA3-DONOR-CYTOSTACK-OPENWOLF-001",
+        "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+        "FA3-DONOR-NVIDIA-MODEL-OPTIMIZER-001",
+        "FA3-DONOR-GARRY-TAN-GSTACK-001",
+        "FA3-DONOR-BOADIJ-PI-HERDSMAN-001",
+        "FA3-DONOR-P4NDA0S-REVERSE-SKILLS-001",
+        "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+    }
+    if not (
+        donor_registry.get("schema") == "fa3.donor-reference-registry.v1"
+        and donor_registry.get("id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
+        and donor_registry.get("authority") is False
+        and donor_registry.get("new_capability") is False
+        and donor_registry.get("new_architectural_authority") is False
+        and donor_registry.get("capability_count") == capability_count
+        and donor_capture_policy.get("potential_donor_signal_requires_capture") is True
+        and donor_capture_policy.get("default_status") == "CANDIDATE"
+        and donor_capture_policy.get("conversation_capture_is_admission") is False
+        and donor_planning_policy.get("query_required_for_every_new_or_materially_modified_application_capability_or_module") is True
+        and donor_planning_policy.get("query_before_new_implementation") is True
+        and donor_planning_policy.get("future_applications_supported") is True
+        and donor_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
+        and donor_binding.get("potential_donor_signal_requires_capture") is True
+        and donor_binding.get("authority") is False
+        and donor_catalog_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
+        and donor_catalog_binding.get("query_required_before_new_implementation") is True
+        and donor_catalog_binding.get("authority") is False
+        and donor_contract.get("potential_signal_capture_required") is True
+        and donor_contract.get("authority") is False
+        and donor_contract.get("admission_authority") is False
+        and donor_hardware.get("vendor_neutral") is True
+        and donor_hardware.get("cpu_only_viable") is True
+        and donor_hardware.get("accelerator_cardinality") == "0..N"
+        and donor_hardware.get("global_accelerator_requirement") is False
+        and all(donor_safety.get(key) is False for key in (
+            "automatic_dependency", "automatic_code_import", "automatic_fetch", "automatic_install",
+            "automatic_provider_admission", "automatic_model_selection", "automatic_activation",
+            "architectural_authority", "runtime_promotion_from_registry_entry",
+        ))
+    ):
+        findings.append(finding("REUSE-031", "Donor Registry canonical non-authority/capture/planning boundary drift"))
+
+    if not (
+        len(donor_entries) >= 160
+        and donor_registry.get("backfill", {}).get("entry_count") == len(donor_entries)
+        and len(donor_ids) == len(set(donor_ids)) == len(donor_entries)
+        and len(donor_keys) == len(set(donor_keys)) == len(donor_entries)
+        and not invalid_donor_entries
+        and required_backfill.issubset(set(donor_ids))
+    ):
+        findings.append(finding(
+            "REUSE-032",
+            "Donor Registry backfill/integrity drift",
+            entry_count=len(donor_entries),
+            invalid_entries=invalid_donor_entries[:20],
+            missing_required_backfill=sorted(required_backfill - set(donor_ids)),
+        ))
+
+    if not (
+        donor_decision.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
+        and donor_decision.get("reuse_discovery_profile_id") == "FA3-REUSE-DISCOVERY-001"
+        and donor_decision.get("new_capabilities") == 0
+        and donor_decision.get("new_architectural_authorities") == 0
+        and donor_decision.get("capability_count_after") == capability_count
+        and donor_decision.get("authority") is False
+        and donor_decision.get("current_host_runtime_promotion_claim") is False
+    ):
+        findings.append(finding("REUSE-033", "Donor Registry adoption decision boundary drift"))
+
+    agent_instructions = (root / AGENT_INSTRUCTIONS).read_text(encoding="utf-8")
+    capture_source = (root / DONOR_CAPTURE).read_text(encoding="utf-8")
+    capture_bin = (root / DONOR_CAPTURE_BIN).read_text(encoding="utf-8")
+    if not (
+        "## FA3 donor capture rule" in agent_instructions
+        and "./bin/fa3-donor-capture" in agent_instructions
+        and "capture_candidate(" in capture_source
+        and "default=\"conversation\"" in capture_source
+        and "fa3_donor_registry.py" in capture_bin
+    ):
+        findings.append(finding("REUSE-034", "automatic potential-donor capture instruction/tooling drift"))
 
     source_review = next((
         row for row in catalog_policy.get("mandatory_source_reviews", [])
@@ -400,6 +519,41 @@ def gate(root: Path) -> dict[str, Any]:
     for rid in ("FA3-HARDWARE-BASELINE-001", "FA3-DISTRIBUTION-COMPLIANCE-001", "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001", "FA3-INFERENCE-PORTABILITY-001"):
         if rid not in ids:
             findings.append(finding("REUSE-008", "derived catalog missed required canonical reuse source", record_id=rid))
+
+    expected_donor_ids = {
+        str(row.get("donor_id"))
+        for row in donor_entries
+        if row.get("donor_id")
+        and row.get("discoverable_for_planning") is True
+        and row.get("status") not in {"REJECTED", "SUPERSEDED"}
+    }
+    catalog_donors = {
+        row["candidate_id"]: row
+        for row in built["entries"]
+        if row.get("candidate_class") == "DONOR_REFERENCE"
+    }
+    if set(catalog_donors) != expected_donor_ids:
+        findings.append(finding(
+            "REUSE-035",
+            "Donor Registry is not fully federated into derived Reuse Catalog",
+            missing=sorted(expected_donor_ids - set(catalog_donors)),
+            unexpected=sorted(set(catalog_donors) - expected_donor_ids),
+        ))
+    for donor_id, row in catalog_donors.items():
+        if not (
+            row.get("authority") is False
+            and row.get("distribution_class") == "REFERENCE_ONLY"
+            and row.get("release_bundle_status") == "EXCLUDED"
+            and row.get("automatic_selection") is False
+            and row.get("automatic_fetch") is False
+            and row.get("automatic_install") is False
+            and row.get("automatic_activation") is False
+            and row.get("automatic_dependency") is False
+            and row.get("automatic_code_import") is False
+            and row.get("automatic_provider_admission") is False
+            and row.get("automatic_model_selection") is False
+        ):
+            findings.append(finding("REUSE-036", "Donor catalog candidate gained authority/adoption semantics", donor_id=donor_id))
 
     adapter_ids = {
         str(row.get("id"))
@@ -630,6 +784,8 @@ def gate(root: Path) -> dict[str, Any]:
         "result": result,
         "findings": findings,
         "catalog_entry_count": built["entry_count"],
+        "donor_registry_entry_count": len(donor_entries),
+        "donor_catalog_candidate_count": len(catalog_donors),
         "golden_project": generated,
         "adoption_enforcement": adoption,
         "khronos_source_adoption_enforcement": khronos_adoption,
