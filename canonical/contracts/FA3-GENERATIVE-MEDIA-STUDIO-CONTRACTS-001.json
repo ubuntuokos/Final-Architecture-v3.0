@@ -8,7 +8,14 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 175,
-  "capability_bindings": ["CAP-111", "CAP-112", "CAP-113", "CAP-121", "CAP-123", "CAP-126"],
+  "capability_bindings": [
+    "CAP-111",
+    "CAP-112",
+    "CAP-113",
+    "CAP-121",
+    "CAP-123",
+    "CAP-126"
+  ],
   "extends_contracts": [
     "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
     "FA3-VIDEO-CONTRACTS-001",
@@ -16,10 +23,16 @@
     "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
     "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001"
   ],
-  "request_schema": "fa3.generative-media-studio-request.v1",
+  "request_schema": "FA3-GENERATIVE-MEDIA-STUDIO-REQUEST-001",
   "supported_capability_classes": [
-    "IMAGE_T2I", "IMAGE_I2I", "VIDEO_T2V", "VIDEO_I2V",
-    "VIDEO_TI2V", "VIDEO_S2V", "LIPSYNC", "CHARACTER_ANIMATE"
+    "IMAGE_T2I",
+    "IMAGE_I2I",
+    "VIDEO_T2V",
+    "VIDEO_I2V",
+    "VIDEO_TI2V",
+    "VIDEO_S2V",
+    "LIPSYNC",
+    "CHARACTER_ANIMATE"
   ],
   "studio_ui_policy": {
     "self_contained_video_duration_seconds": {
@@ -69,8 +82,13 @@
   },
   "evidence": {
     "compiled_request_must_include": [
-      "request_id", "created_at", "capability", "logical_route",
-      "authority_handoff", "hardware_audit", "state"
+      "request_id",
+      "created_at",
+      "capability",
+      "logical_route",
+      "authority_handoff",
+      "hardware_audit",
+      "state"
     ],
     "runtime_success_claim_requires_downstream_execution_receipt": true,
     "static_materialization_is_not_current_host_runtime_evidence": true
@@ -88,5 +106,6 @@
     "NO_SILENT_FALLBACK",
     "PROVIDER_NATIVE_SYNTAX_IS_DOWNSTREAM_ONLY",
     "CURRENT_HOST_PASS_NOT_CLAIMED_BY_STATIC_IMPLEMENTATION"
-  ]
+  ],
+  "request_schema_path": "canonical/contracts/FA3-GENERATIVE-MEDIA-STUDIO-REQUEST-001.schema.json"
 }
