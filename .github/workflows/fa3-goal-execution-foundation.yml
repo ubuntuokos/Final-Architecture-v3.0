@@ -1,0 +1,48 @@
+name: FA3 Goal Execution Foundation
+
+on:
+  pull_request:
+    paths:
+      - "src/fa3_goal_execution.py"
+      - "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json"
+      - "tests/test_goal_execution_foundation.py"
+      - "docs/goal-driven-execution-foundation.md"
+      - ".github/workflows/fa3-goal-execution-foundation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_goal_execution.py"
+      - "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json"
+      - "tests/test_goal_execution_foundation.py"
+      - "docs/goal-driven-execution-foundation.md"
+      - ".github/workflows/fa3-goal-execution-foundation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  goal-execution-foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python syntax and import gate
+        run: |
+          python3 -m py_compile src/fa3_goal_execution.py tests/test_goal_execution_foundation.py
+      - name: Goal foundation regression and negative tests
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_execution_foundation.py" -v
+      - name: Existing Agent Workload and Workforce compatibility
+        run: |
+          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_agent_workload.py" -v
+          PYTHONPATH=src python3 -m unittest discover -s tests -p "test_orchestration_workforce.py" -v
+      - name: No runtime admission by schema alone
+        run: |
+          PYTHONPATH=src python3 - <<'PY'
+          from fa3_goal_execution import prepare_goal, GoalContractError
+          assert prepare_goal.__doc__
+          import json
+          schema=json.load(open("canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json"))
+          invariants=schema["x-fa3-invariants"]
+          assert invariants["new_architectural_authority"] is False
+          assert invariants["new_capability"] is False
+          assert invariants["natural_language_direct_execution"] is False
+          PY
