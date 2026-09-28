@@ -52,6 +52,7 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
         "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
         "canonical/assessments/FA3-JEV-DECISION-FABRIC-2026-09-23.json",
+        "canonical/assessments/FA3-SYSTEM-ONE-REFLEX-2026-09-28.json",
         "canonical/decision-fabric-current-host-enforcement.json",
         "canonical/mcp-capability-registry.json",
         "canonical/third-party/FA3-JEV-CODE-REUSE-001.json",
@@ -132,6 +133,12 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("DECISION-013", "System One provider/model pin drift"))
     if system_one.get("direct_tool_execution") != "DENY" or system_one.get("confidence_may_authorize") is not False:
         findings.append(finding("DECISION-014", "System One confidence/execution authority drift"))
+    if (
+        system_one.get("committed_route_activation") is not False
+        or system_one.get("litellm_data_plane_bypass") != "DENY"
+        or system_one.get("activation_dependency") != "MODEL_ROUTER_SYSTEM_ONE_DATA_PLANE_ADMISSION_REQUIRED"
+    ):
+        findings.append(finding("DECISION-019", "System One activation/data-plane boundary drift"))
     if reflex.get("execution_performed_by_contract") is not False or reflex.get("confidence_is_authorization") is not False:
         findings.append(finding("DECISION-015", "reflex contract authority drift"))
     if system_one_decision.get("authority_delta") != 0 or system_one_decision.get("capability_count_after") != 143:
