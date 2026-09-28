@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 297,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -3406,6 +3406,78 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
+      "name": "crynta/terax-ai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/crynta/terax-ai",
+        "normalized_key": "github:crynta/terax-ai"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "provider_binding": "FA3-PROVIDER-TERAX-001",
+      "discovered_from": [
+        "FA3-TERAX-REF-001",
+        "FA3-TERAX-RECONCILIATION-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN",
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "workspace-authorization",
+        "read-before-edit",
+        "diff-before-apply",
+        "authenticated-local-control",
+        "capability-scoped-tool-execution",
+        "subagent-narrowing",
+        "zero-runtime-disabled"
+      ],
+      "domain_hints": [
+        "developer-agent",
+        "agent-runtime",
+        "security",
+        "desktop"
+      ],
+      "problem_hints": [
+        "authorized-edit-lifecycle",
+        "agent-host-boundary",
+        "provider-local-resource-lifecycle"
+      ],
+      "target_hints": [
+        "Developer Agent",
+        "Agent Runtime",
+        "Agent Workspace",
+        "Evidence"
+      ],
+      "tags": [
+        "terax",
+        "developer-ade",
+        "terminal",
+        "security",
+        "human-approval",
+        "hardware-audit",
+        "coexistence"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
