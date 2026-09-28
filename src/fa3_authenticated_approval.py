@@ -252,6 +252,7 @@ def verify_authenticated_receipt(
     require_independent: bool = False,
     now: datetime | None = None,
     strict_host_permissions: bool = True,
+    expected_grant_scope: str = "FA3_RELEASE_ACCEPTANCE",
 ) -> dict[str, Any]:
     findings: list[str] = []
     current = now or datetime.now(timezone.utc)
@@ -364,7 +365,8 @@ def verify_authenticated_receipt(
     types = grant.get("receipt_types")
     if not isinstance(types, list) or expected_receipt_type not in types:
         findings.append("authorization grant does not cover receipt type")
-    if grant.get("scope") != "FA3_RELEASE_ACCEPTANCE":
+    if (grant.get("scope") != expected_grant_scope
+            or expected_grant_scope not in {"FA3_RELEASE_ACCEPTANCE", "FA3_SKILL_RUNTIME"}):
         findings.append("authorization grant scope mismatch")
     grant_issued = parse_time(grant.get("issued_at"))
     grant_expires = parse_time(grant.get("expires_at"))

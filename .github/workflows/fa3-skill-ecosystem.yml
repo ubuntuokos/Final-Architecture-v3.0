@@ -27,6 +27,13 @@ on:
       - 'tests/test_cap080_verified_skill_supply_chain_current_host.py'
       - 'src/fa3_skill_task_binding.py'
       - 'src/fa3_skill_task_projection.py'
+      - 'tests/test_skill_signed_authority.py'
+      - 'canonical/contracts/FA3-AUTHENTICATED-APPROVAL-RECEIPT-001.schema.json'
+      - 'canonical/contracts/FA3-AUTHORIZATION-ROLE-GRANT-001.schema.json'
+      - 'canonical/contracts/FA3-SKILL-SIGNED-AUTHORITY-BINDING-001.json'
+      - 'tools/fa3_approval_tool.py'
+      - 'src/fa3_authenticated_approval.py'
+      - 'src/fa3_skill_signed_authority.py'
       - 'src/fa3_developer_agent_coordination.py'
       - 'src/fa3_language_gateway_gate.py'
       - 'tests/test_skill_task_binding.py'
@@ -58,6 +65,13 @@ on:
       - 'src/fa3_skill_materialization.py'
       - 'src/fa3_skill_task_binding.py'
       - 'src/fa3_skill_task_projection.py'
+      - 'tests/test_skill_signed_authority.py'
+      - 'canonical/contracts/FA3-AUTHENTICATED-APPROVAL-RECEIPT-001.schema.json'
+      - 'canonical/contracts/FA3-AUTHORIZATION-ROLE-GRANT-001.schema.json'
+      - 'canonical/contracts/FA3-SKILL-SIGNED-AUTHORITY-BINDING-001.json'
+      - 'tools/fa3_approval_tool.py'
+      - 'src/fa3_authenticated_approval.py'
+      - 'src/fa3_skill_signed_authority.py'
       - 'src/fa3_developer_agent_coordination.py'
       - 'src/fa3_language_gateway_gate.py'
       - 'tests/test_skill_task_binding.py'
@@ -85,9 +99,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax
-        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_v13.py src/fa3_skill_fabric_v14.py src/fa3_skill_fabric_gate.py src/fa3_skill_materialization.py src/fa3_skill_task_binding.py src/fa3_skill_task_projection.py src/fa3_developer_agent_coordination.py
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_v13.py src/fa3_skill_fabric_v14.py src/fa3_skill_fabric_gate.py src/fa3_skill_materialization.py src/fa3_skill_task_binding.py src/fa3_skill_task_projection.py src/fa3_skill_signed_authority.py src/fa3_authenticated_approval.py src/fa3_developer_agent_coordination.py
       - name: Unit tests
-        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_gate tests.test_skill_discovery tests.test_skill_materialization tests.test_skill_task_binding tests.test_developer_agent_coordination tests.test_cap080_verified_skill_supply_chain_current_host tests.test_skill_fabric_v13 tests.test_skill_fabric_v14 -v
+        run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_gate tests.test_skill_discovery tests.test_skill_materialization tests.test_skill_task_binding tests.test_skill_signed_authority tests.test_developer_agent_coordination tests.test_cap080_verified_skill_supply_chain_current_host tests.test_skill_fabric_v13 tests.test_skill_fabric_v14 -v
       - name: Agent Skills ecosystem gate
         run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
       - name: Parent Skill Fabric gate

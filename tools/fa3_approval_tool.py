@@ -62,7 +62,7 @@ def cmd_grant(args: argparse.Namespace) -> int:
         "certificate_sha256": certificate_fingerprint(cert_pem),
         "roles": sorted(set(args.role)),
         "receipt_types": sorted(set(args.receipt_type)),
-        "scope": "FA3_RELEASE_ACCEPTANCE",
+        "scope": args.scope,
         "issued_at": issued.isoformat(),
         "expires_at": (issued + timedelta(seconds=args.ttl_seconds)).isoformat(),
     }
@@ -88,9 +88,22 @@ def cmd_receipt(args: argparse.Namespace) -> int:
         raise SystemExit("signed grant identity does not match receipt signer")
     if grant.get("certificate_sha256") != cert_fp:
         raise SystemExit("signed grant certificate fingerprint does not match signer certificate")
+    if args.receipt_type not in grant.get("receipt_types", []):
+        raise SystemExit("role grant does not cover requested receipt type")
     payload = json.loads(Path(args.payload).read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise SystemExit("approval payload must be a JSON object")
+    from fa3_skill_signed_authority import KIND_POLICY
+    skill_types = {item[0] for item in KIND_POLICY.values()}
+    if args.receipt_type in skill_types:
+        if grant.get("scope") != "FA3_SKILL_RUNTIME":
+            raise SystemExit("skill receipt requires an FA3_SKILL_RUNTIME grant")
+        if (payload.get("schema") != "fa3.skill-authority-binding.v1"
+                or payload.get("kind") not in KIND_POLICY
+                or KIND_POLICY[payload["kind"]][0] != args.receipt_type
+                or not isinstance(payload.get("task_id"), str) or not payload["task_id"]
+                or not isinstance(payload.get("claim"), dict)):
+            raise SystemExit("skill receipt requires an exact typed task-bound claim")
     issued = _utcnow()
     receipt = {
         "schema": RECEIPT_SCHEMA,
@@ -142,6 +155,7 @@ def main() -> int:
     grant = sub.add_parser("grant", help="Create Security Governance signed role grant")
     grant.add_argument("--identity", required=True)
     grant.add_argument("--identity-class", choices=["HUMAN", "WORKLOAD"], required=True)
+    grant.add_argument("--scope", choices=["FA3_RELEASE_ACCEPTANCE", "FA3_SKILL_RUNTIME"], default="FA3_RELEASE_ACCEPTANCE")
     grant.add_argument("--certificate", required=True)
     grant.add_argument("--role", action="append", required=True)
     grant.add_argument("--receipt-type", action="append", required=True)
