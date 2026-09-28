@@ -72,3 +72,17 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+
+## Awesome OSINT Arsenal catalog source (offline pinned)
+
+The existing donor FA3-DONOR-RAWFILEJSON-AWESOME-OSINT-ARSENAL-001 is reconciled
+to the immutable upstream snapshot in
+research/external-project-radar/osint/awesome-osint-arsenal/. The catalog
+importer is a metadata-only, non-executing projection for existing CAP-053
+and CAP-054 planning: 753 raw tools, 752 distinct IDs, 26 categories and 264
+missing direct URLs at the reviewed source commit. The collection MIT license
+does not confer licenses or admission for any listed third-party tool.
+
+See docs/osint-arsenal-catalog-integration.md for CLI usage, independent
+downstream admission stages, mandatory authorization scope and Hardware Audit.
