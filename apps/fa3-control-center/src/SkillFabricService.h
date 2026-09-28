@@ -3,6 +3,7 @@
 #include <QFileSystemWatcher>
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QVariantList>
 
 class SkillFabricService final : public QObject
