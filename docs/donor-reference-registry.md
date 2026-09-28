@@ -72,3 +72,7 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## Chip Huyen ML systems design references
+
+The [selective ML systems design curation](chip-huyen-ml-systems-donor-curation-2026-09-28.md) captures the original 2019 booklet and the distinct 2022 book companion as two metadata-only candidates for FA3 model/data/inference/evidence lifecycle review. Neither source has a declared GitHub license; code/text copying and runtime promotion remain blocked pending independent review.
