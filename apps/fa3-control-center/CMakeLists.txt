@@ -14,6 +14,8 @@ qt_add_executable(fa3-control-center
     src/AppCatalogService.cpp
     src/AppCatalogService.h
     src/ChatFileService.cpp
+    src/CoachService.cpp
+    src/CoachService.h
     src/ChatFileService.h
     src/DecisionFabricService.cpp
     src/DecisionFabricService.h
@@ -50,6 +52,7 @@ set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_A
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
+set_source_files_properties(qml/CoachFloatingWindow.qml PROPERTIES QT_RESOURCE_ALIAS CoachFloatingWindow.qml)
 set_source_files_properties(qml/HelpBubble.qml PROPERTIES QT_RESOURCE_ALIAS HelpBubble.qml)
 set_source_files_properties(qml/CheckpointManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS CheckpointManagerPage.qml)
 set_source_files_properties(qml/ExternalProvidersSetupPage.qml PROPERTIES QT_RESOURCE_ALIAS ExternalProvidersSetupPage.qml)
@@ -88,6 +91,7 @@ qt_add_qml_module(fa3-control-center
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
+        qml/CoachFloatingWindow.qml
         qml/HelpBubble.qml
         qml/CheckpointManagerPage.qml
         qml/ExternalProvidersSetupPage.qml
@@ -152,3 +156,18 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../deployment/app-providers/"
 install(FILES packaging/org.fa3.ControlCenter.desktop
     DESTINATION share/applications
 )
+
+# Qt Test is optional in production packaging, mandatory in the Coach CI job.
+include(CTest)
+if(BUILD_TESTING)
+    find_package(Qt6 6.4 QUIET COMPONENTS Test)
+    if(Qt6Test_FOUND)
+        qt_add_executable(fa3-coach-service-test
+            tests/CoachServiceTest.cpp
+            src/CoachService.cpp
+            src/CoachService.h
+        )
+        target_link_libraries(fa3-coach-service-test PRIVATE Qt6::Core Qt6::Test)
+        add_test(NAME fa3-coach-service COMMAND fa3-coach-service-test)
+    endif()
+endif()
