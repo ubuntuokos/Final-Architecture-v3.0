@@ -216,6 +216,47 @@
       "integration_boundary": "Preserve Ardour native session; no required dependency",
       "status": "PROPOSED",
       "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-STORY-QUICKCLIP",
+      "from_application": "fa3.story-screenplay",
+      "to_application": "fa3.quickclip",
+      "offered_artifacts": [
+        "human-approved screenplay beats",
+        "scene/shot intent metadata",
+        "approved script revision",
+        "asset provenance references"
+      ],
+      "integration_boundary": "Human-approved script and shot metadata only; .fa3clip revisions and AI/user notes remain separate",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-MUSIC-QUICKCLIP",
+      "from_application": "fa3.music-studio",
+      "to_application": "fa3.quickclip",
+      "offered_artifacts": [
+        "approved voice/audio mixdown",
+        "music/stem cue references",
+        "MIDI asset reference",
+        "narration timing receipt"
+      ],
+      "integration_boundary": "Project-preserving audio interchange; existing Voice/Narration admission and consent, never direct TTS provider selection",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-QUICKCLIP-MAUTIC",
+      "from_application": "fa3.quickclip",
+      "to_application": "studio.mautic",
+      "offered_artifacts": [
+        "human-approved short-video campaign media package",
+        "caption and copy sidecar",
+        "artifact hashes and license/provenance receipt"
+      ],
+      "integration_boundary": "Approved media/package proposal only; independent Mautic provider admission and explicit human approval before any marketing action; no auto-posting",
+      "status": "PROPOSED",
+      "human_approval_required": true
     }
   ]
 }
