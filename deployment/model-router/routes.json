@@ -5,9 +5,44 @@
   "physical_provider_pins": false,
   "physical_model_pins": false,
   "routes": [
-    {"route":"fa3-text-primary","task":"chat","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"},
-    {"route":"fa3-text-secondary","task":"chat","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"},
-    {"route":"fa3-pageindex-index","task":"knowledge-index-assist","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"},
-    {"route":"fa3-pageindex-reason","task":"knowledge-reasoning","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"}
+    {
+      "route": "fa3-text-primary",
+      "task": "chat",
+      "locality": "LOCAL_ONLY",
+      "external_fallback": "DENY",
+      "required_runtime_api": "OPENAI_COMPATIBLE_CHAT"
+    },
+    {
+      "route": "fa3-text-secondary",
+      "task": "chat",
+      "locality": "LOCAL_ONLY",
+      "external_fallback": "DENY",
+      "required_runtime_api": "OPENAI_COMPATIBLE_CHAT"
+    },
+    {
+      "route": "fa3-pageindex-index",
+      "task": "knowledge-index-assist",
+      "locality": "LOCAL_ONLY",
+      "external_fallback": "DENY",
+      "required_runtime_api": "OPENAI_COMPATIBLE_CHAT"
+    },
+    {
+      "route": "fa3-pageindex-reason",
+      "task": "knowledge-reasoning",
+      "locality": "LOCAL_ONLY",
+      "external_fallback": "DENY",
+      "required_runtime_api": "OPENAI_COMPATIBLE_CHAT"
+    },
+    {
+      "route": "fa3-decision-system-one",
+      "task": "bounded-native-decision",
+      "locality": "LOCAL_ONLY",
+      "external_fallback": "DENY",
+      "required_runtime_api": "SYSTEM_ONE_DECISIONS_V1",
+      "optional": true,
+      "activation": "EXPLICIT_CURRENT_HOST_ADMISSION_ONLY",
+      "approved_model_set": "EXPLICIT_PRIMARY_MODEL_DESIGNATION_ONLY",
+      "passthrough": "LITELLM_AUTHENTICATED"
+    }
   ]
 }
