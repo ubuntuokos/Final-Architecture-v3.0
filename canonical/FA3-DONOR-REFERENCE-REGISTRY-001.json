@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 297,
+    "entry_count": 306,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -5699,6 +5699,63 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GOAL-SAARO-ARTICLE-001",
+      "name": "Stop Prompting Endlessly: Give the Agent a Goal",
+      "source": {
+        "kind": "ARTICLE",
+        "locator": "https://dev.to/saaro_net/stop-prompting-endlessly-give-the-agent-a-goal-om5",
+        "normalized_key": "https://dev.to/saaro_net/stop-prompting-endlessly-give-the-agent-a-goal-om5"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "goal-oriented-task-definition",
+        "goal-acceptance-research"
+      ],
+      "domain_hints": [
+        "agents",
+        "workflow"
+      ],
+      "problem_hints": [
+        "prompt-churn",
+        "premature-completion"
+      ],
+      "target_hints": [
+        "Goal Intake",
+        "Agent Runtime"
+      ],
+      "tags": [
+        "article",
+        "user-supplied",
+        "source-review-pending"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GOOGLE-ADK-001",
       "name": "Google ADK",
       "source": {
@@ -6918,6 +6975,125 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001",
+      "name": "langchain-ai/langgraph",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/langchain-ai/langgraph",
+        "normalized_key": "github:langchain-ai/langgraph"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "stateful-agent-graphs",
+        "interrupt-resume",
+        "checkpoint-workflow"
+      ],
+      "domain_hints": [
+        "agents",
+        "orchestration"
+      ],
+      "problem_hints": [
+        "stateful-goal-recovery",
+        "human-approval"
+      ],
+      "target_hints": [
+        "Orchestration Workforce",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "state-machine-reference",
+        "temporal-remains-sole-lifecycle-authority",
+        "security-advisory-review"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LANGFUSE-LANGFUSE-001",
+      "name": "langfuse/langfuse",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/langfuse/langfuse",
+        "normalized_key": "github:langfuse/langfuse"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "llm-agent-tracing",
+        "evaluation-dashboard",
+        "criterion-trace-correlation"
+      ],
+      "domain_hints": [
+        "observability",
+        "agents"
+      ],
+      "problem_hints": [
+        "opaque-agent-progress",
+        "insufficient-debug-trace"
+      ],
+      "target_hints": [
+        "Decision Inspector",
+        "Evidence Projection",
+        "Control Center"
+      ],
+      "tags": [
+        "observability-only",
+        "not-canonical-evidence",
+        "ee-license-review",
+        "telemetry-opt-out-review"
+      ],
+      "license": {
+        "declared": "MIT_CORE_EE_SEPARATE",
+        "status": "KNOWN_DECLARATION_WITH_RESTRICTIONS"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LENSFUN-001",
@@ -11847,6 +12023,65 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-OPENHANDS-SOFTWARE-AGENT-SDK-001",
+      "name": "OpenHands/software-agent-sdk",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenHands/software-agent-sdk",
+        "normalized_key": "github:openhands/software-agent-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "isolated-coding-workspace",
+        "coding-task-tracker",
+        "agent-execution-events"
+      ],
+      "domain_hints": [
+        "developer-agent",
+        "agents"
+      ],
+      "problem_hints": [
+        "code-agent-workspace-isolation",
+        "developer-task-traceability"
+      ],
+      "target_hints": [
+        "Developer Agent",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "sdk-reference-only",
+        "no-unsandboxed-execution",
+        "no-direct-llm-tools"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENIMAGEIO-001",
       "name": "OpenImageIO",
       "source": {
@@ -12349,6 +12584,67 @@
       },
       "notes": [
         "Archived legacy research; no production dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ORZIZ-ODAI-001",
+      "name": "orziz/odai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/orziz/odai",
+        "normalized_key": "github:orziz/odai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "risk-adaptive-goal-governance",
+        "acceptance-boundary",
+        "bounded-execution",
+        "evidence-driven-progress"
+      ],
+      "domain_hints": [
+        "agents",
+        "governance"
+      ],
+      "problem_hints": [
+        "scope-drift",
+        "false-verification",
+        "overengineered-workflow"
+      ],
+      "target_hints": [
+        "Goal Intake",
+        "Agent Runtime",
+        "Decision Fabric"
+      ],
+      "tags": [
+        "authorization",
+        "stop-line",
+        "no-import-of-host-routing"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
       ]
     },
     {
@@ -13538,6 +13834,69 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-POPONLINE63-NORTH-STAR-001",
+      "name": "poponline63/north-star (formerly hermes-jev-north-star)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/poponline63/north-star",
+        "normalized_key": "github:poponline63/north-star"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "definition-of-done",
+        "deterministic-first-acceptance-gate",
+        "criterion-evidence-link",
+        "unproven-criterion-feedback"
+      ],
+      "domain_hints": [
+        "agents",
+        "evaluation"
+      ],
+      "problem_hints": [
+        "premature-completion",
+        "unbounded-agent-loop"
+      ],
+      "target_hints": [
+        "Goal Intake",
+        "Agent Runtime",
+        "Canonical Gate",
+        "Decision Fabric"
+      ],
+      "tags": [
+        "north-star",
+        "jev-optional",
+        "renamed-upstream",
+        "original-alias:poponline63/hermes-jev-north-star"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PRAISONAI-001",
       "name": "PraisonAI",
       "source": {
@@ -13806,6 +14165,66 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-PROMPTFOO-PROMPTFOO-001",
+      "name": "promptfoo/promptfoo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/promptfoo/promptfoo",
+        "normalized_key": "github:promptfoo/promptfoo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-regression-evals",
+        "adversarial-testing",
+        "reproducible-ci-fixtures"
+      ],
+      "domain_hints": [
+        "evaluation",
+        "security"
+      ],
+      "problem_hints": [
+        "false-goal-closure",
+        "prompt-injection-regressions"
+      ],
+      "target_hints": [
+        "Canonical Gate",
+        "Agent Runtime",
+        "Security"
+      ],
+      "tags": [
+        "offline-eval",
+        "red-team",
+        "no-model-provider-bypass"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PU11EN-CLINICAL-TRIAGE-AGENT-001",
       "name": "Pu11en/clinical-triage-agent",
       "source": {
@@ -13948,6 +14367,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-PYDANTIC-PYDANTIC-AI-001",
+      "name": "pydantic/pydantic-ai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pydantic/pydantic-ai",
+        "normalized_key": "github:pydantic/pydantic-ai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "typed-agent-results",
+        "deferred-tool-approval",
+        "temporal-durable-adapter"
+      ],
+      "domain_hints": [
+        "agents",
+        "contracts"
+      ],
+      "problem_hints": [
+        "untyped-agent-execution",
+        "approval-resume"
+      ],
+      "target_hints": [
+        "Goal Execution Contracts",
+        "Agent Runtime",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "typed-contract",
+        "temporal-integration",
+        "no-direct-model-provider"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-PYTEST-TESTINFRA-001",
@@ -15881,6 +16360,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TEMPORALIO-SDK-PYTHON-001",
+      "name": "temporalio/sdk-python",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/temporalio/sdk-python",
+        "normalized_key": "github:temporalio/sdk-python"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "goal-driven-agent-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "durable-workflow",
+        "workflow-signal",
+        "retry-cancel-compensation"
+      ],
+      "domain_hints": [
+        "orchestration",
+        "agents"
+      ],
+      "problem_hints": [
+        "crash-recovery",
+        "durable-human-approval"
+      ],
+      "target_hints": [
+        "Temporal",
+        "Agent Workload Runtime",
+        "Orchestration Workforce"
+      ],
+      "tags": [
+        "existing-authority-reuse",
+        "no-second-scheduler",
+        "python-sdk"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TESTZEUS-HERCULES-001",
