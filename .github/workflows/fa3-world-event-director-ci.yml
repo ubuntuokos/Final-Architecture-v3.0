@@ -1,0 +1,36 @@
+name: FA3 World and Environment MVP
+on:
+  pull_request:
+    paths:
+      - 'apps/fa3-world-event-director/**'
+      - 'tests/test_world_event_director.py'
+      - '.github/workflows/fa3-world-event-director-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cpu-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Core and integration source syntax
+        run: python3 -m compileall -q apps/fa3-world-event-director
+      - name: World and Event Director regression
+        run: python3 -m unittest discover -s tests -p 'test_world_event_director.py' -v
+      - name: CPU-only headless smoke
+        run: python3 apps/fa3-world-event-director/launch.py --headless-preview > /tmp/fa3-world-preview.json
+      - name: Verify weather provenance is not silently historical
+        run: |
+          python3 - <<'PY'
+          import json
+          data=json.load(open('/tmp/fa3-world-preview.json'))
+          assert data['project']['weather']['origin']=='AUTHOR_INVENTED'
+          assert data['project']['current_host_admitted'] is False
+          assert len(data['four_scales'])==4
+          print('CPU-only preview PASS; all sources explicitly typed')
+          PY
