@@ -18,20 +18,20 @@ ApplicationWindow {
     readonly property color accent: "#25a7ff"
     readonly property color green: "#35e0a1"
     readonly property color orange: "#f0b14a"
-    color: bg
+    color: root.bg
 
     function isVideoCapability(value) {
         return value.indexOf("VIDEO_") === 0 || value === "LIPSYNC" || value === "CHARACTER_ANIMATE"
     }
 
     header: ToolBar {
-        background: Rectangle { color: panel; border.color: border }
+        background: Rectangle { color: root.panel; border.color: root.border }
         RowLayout {
             anchors.fill: parent
             anchors.leftMargin: 18
             anchors.rightMargin: 18
-            Label { text: "FA3 Generative Media Studio"; color: textPrimary; font.pixelSize: 20; font.bold: true; Layout.fillWidth: true }
-            Label { text: "CAP-111 · PROVIDER NEUTRAL"; color: green; font.pixelSize: 10; font.bold: true }
+            Label { text: "FA3 Generative Media Studio"; color: root.textPrimary; font.pixelSize: 20; font.bold: true; Layout.fillWidth: true }
+            Label { text: "CAP-111 · PROVIDER NEUTRAL"; color: root.green; font.pixelSize: 10; font.bold: true }
         }
     }
 
@@ -45,15 +45,15 @@ ApplicationWindow {
             Layout.fillHeight: true
             Layout.preferredWidth: 760
             radius: 10
-            color: panel
-            border.color: border
+            color: root.panel
+            border.color: root.border
 
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 18
                 spacing: 12
 
-                Label { text: "Generációs kérés"; color: textPrimary; font.pixelSize: 18; font.bold: true }
+                Label { text: "Generációs kérés"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
 
                 GridLayout {
                     Layout.fillWidth: true
@@ -61,44 +61,44 @@ ApplicationWindow {
                     columnSpacing: 12
                     rowSpacing: 10
 
-                    Label { text: "Capability"; color: textMuted }
+                    Label { text: "Capability"; color: root.textMuted }
                     ComboBox { id: capabilityBox; Layout.fillWidth: true; model: studioBackend.capabilities }
 
-                    Label { text: "Provider / model"; color: textMuted }
-                    Label { Layout.fillWidth: true; text: "Automatikus · FA3 Model Router"; color: green; font.bold: true }
+                    Label { text: "Provider / model"; color: root.textMuted }
+                    Label { Layout.fillWidth: true; text: "Automatikus · FA3 Model Router"; color: root.green; font.bold: true }
 
-                    Label { text: "Képarány"; color: textMuted }
+                    Label { text: "Képarány"; color: root.textMuted }
                     ComboBox { id: aspectBox; Layout.fillWidth: true; model: ["AUTO", "16:9", "9:16", "1:1", "4:3", "3:2", "21:9"] }
 
-                    Label { visible: root.isVideoCapability(capabilityBox.currentText); text: "Shot-hossz"; color: textMuted }
+                    Label { visible: root.isVideoCapability(capabilityBox.currentText); text: "Shot-hossz"; color: root.textMuted }
                     RowLayout {
                         visible: root.isVideoCapability(capabilityBox.currentText)
                         Layout.fillWidth: true
                         Slider { id: durationSlider; Layout.fillWidth: true; from: 6; to: 20; stepSize: 1; value: 8 }
-                        Label { text: Math.round(durationSlider.value) + " mp"; color: textPrimary; Layout.preferredWidth: 60 }
+                        Label { text: Math.round(durationSlider.value) + " mp"; color: root.textPrimary; Layout.preferredWidth: 60 }
                     }
                 }
 
-                Label { text: "Kreatív intent / prompt"; color: textMuted }
+                Label { text: "Kreatív intent / prompt"; color: root.textMuted }
                 TextArea {
                     id: promptArea
                     Layout.fillWidth: true
                     Layout.preferredHeight: 180
                     placeholderText: "Írd le a képet, snittet, karaktermozgást vagy lip-sync feladatot…"
                     wrapMode: TextEdit.Wrap
-                    color: textPrimary
-                    background: Rectangle { color: raised; border.color: border; radius: 7 }
+                    color: root.textPrimary
+                    background: Rectangle { color: root.raised; border.color: root.border; radius: 7 }
                 }
 
-                Label { text: "Referencia artifactok · egy hivatkozás soronként"; color: textMuted }
+                Label { text: "Referencia artifactok · egy hivatkozás soronként"; color: root.textMuted }
                 TextArea {
                     id: refsArea
                     Layout.fillWidth: true
                     Layout.preferredHeight: 120
                     placeholderText: "asset://…\nproject://…\nfile-ref://…"
                     wrapMode: TextEdit.WrapAnywhere
-                    color: textPrimary
-                    background: Rectangle { color: raised; border.color: border; radius: 7 }
+                    color: root.textPrimary
+                    background: Rectangle { color: root.raised; border.color: root.border; radius: 7 }
                 }
 
                 Item { Layout.fillHeight: true }
@@ -120,15 +120,15 @@ ApplicationWindow {
             Layout.fillHeight: true
             Layout.preferredWidth: 410
             radius: 10
-            color: panel
-            border.color: border
+            color: root.panel
+            border.color: root.border
 
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 18
                 spacing: 12
 
-                Label { text: "Végrehajtási lánc"; color: textPrimary; font.pixelSize: 18; font.bold: true }
+                Label { text: "Végrehajtási lánc"; color: root.textPrimary; font.pixelSize: 18; font.bold: true }
 
                 Repeater {
                     model: [
@@ -145,14 +145,14 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         implicitHeight: chainLabel.implicitHeight + 20
                         radius: 7
-                        color: raised
-                        border.color: border
+                        color: root.raised
+                        border.color: root.border
                         Label {
                             id: chainLabel
                             anchors.fill: parent
                             anchors.margins: 10
                             text: modelData
-                            color: textPrimary
+                            color: root.textPrimary
                             wrapMode: Text.WordWrap
                         }
                     }
@@ -169,7 +169,7 @@ ApplicationWindow {
                         anchors.fill: parent
                         anchors.margins: 12
                         text: studioBackend.statusText
-                        color: textMuted
+                        color: root.textMuted
                         wrapMode: Text.WordWrap
                     }
                 }
@@ -178,7 +178,7 @@ ApplicationWindow {
                     visible: studioBackend.lastRequestPath.length > 0
                     Layout.fillWidth: true
                     text: "Request:\n" + studioBackend.lastRequestPath
-                    color: accent
+                    color: root.accent
                     font.pixelSize: 9
                     wrapMode: Text.WrapAnywhere
                 }
@@ -188,7 +188,7 @@ ApplicationWindow {
                 Label {
                     Layout.fillWidth: true
                     text: "A GUI nem hív közvetlenül ComfyUI-t, Wan-t vagy más providert, nem választ fizikai modellt, és nem foglal GPU-t. Ezek meglévő FA3 authorityk feladatai."
-                    color: textMuted
+                    color: root.textMuted
                     font.pixelSize: 10
                     wrapMode: Text.WordWrap
                 }
