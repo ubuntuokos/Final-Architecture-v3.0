@@ -260,5 +260,45 @@ class GoalFoundationTests(unittest.TestCase):
         self.assertEqual(x["x-fa3-invariants"]["capability_baseline"], 175)
 
 
+    def test_cli_validates_without_execution_and_redacts_invalid_data(self):
+        import subprocess
+        import sys
+        executable = ROOT / "bin/fa3-goal"
+        ok = subprocess.run([sys.executable, str(executable), "validate", "--goal", "-"],
+                            input=json.dumps(fixture()), text=True, capture_output=True, check=False)
+        self.assertEqual(ok.returncode, 0, ok.stderr)
+        output = json.loads(ok.stdout)
+        self.assertEqual(output["status"], "VALIDATED_PLAN_ONLY")
+        self.assertFalse(output["execution_performed"])
+        invalid = fixture()
+        invalid["api_key"] = "DO_NOT_ECHO_ME"
+        no = subprocess.run([sys.executable, str(executable), "validate", "--goal", "-"],
+                            input=json.dumps(invalid), text=True, capture_output=True, check=False)
+        self.assertEqual(no.returncode, 2)
+        self.assertNotIn("DO_NOT_ECHO_ME", no.stderr)
+        self.assertEqual(json.loads(no.stderr)["status"], "REJECTED")
+
+    def test_cli_plan_uses_existing_workforce_with_no_runtime_effects(self):
+        import subprocess
+        import sys
+        import tempfile
+        with tempfile.TemporaryDirectory() as folder:
+            folder = Path(folder)
+            for name, value in (("goal.json", fixture()), ("steps.json", [task()]),
+                                ("preflight.json", preflight())):
+                (folder / name).write_text(json.dumps(value))
+            run = subprocess.run(
+                [sys.executable, str(ROOT / "bin/fa3-goal"), "plan",
+                 "--goal", str(folder / "goal.json"),
+                 "--steps", str(folder / "steps.json"),
+                 "--preflight", str(folder / "preflight.json")],
+                text=True, capture_output=True, check=False,
+            )
+            self.assertEqual(run.returncode, 0, run.stderr)
+            data = json.loads(run.stdout)
+            self.assertEqual(data["status"], "PLAN_ONLY_REQUIRES_EXISTING_AUTHORITY_ADMISSION")
+            self.assertFalse(data["execution_performed"])
+
+
 if __name__ == "__main__":
     unittest.main()
