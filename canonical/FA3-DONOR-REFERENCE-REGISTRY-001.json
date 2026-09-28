@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 298,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1298,6 +1298,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ASWF-OPENCOLORIO-001",
+      "name": "AcademySoftwareFoundation OpenColorIO",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/OpenColorIO",
+        "normalized_key": "github:academysoftwarefoundation/opencolorio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "STANDARD_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "scene-linear-color-workflows",
+        "ocio-config-interchange",
+        "cross-dcc-color-management"
+      ],
+      "domain_hints": [
+        "creative",
+        "color",
+        "vfx"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Krita",
+        "VFX/Gaffer",
+        "3D Fabric",
+        "Realtime / Virtual Production Interchange"
+      ],
+      "tags": [
+        "linux-maya",
+        "ocio",
+        "color-management",
+        "vfx"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Cross-DCC color-management reference; does not require Maya. Independently validate config/ABI compatibility before any runtime adoption.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AT-SPI-001",
       "name": "AT-SPI",
       "source": {
@@ -1708,6 +1770,252 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTODESK-ARNOLD-USD-001",
+      "name": "Autodesk Arnold USD",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Autodesk/arnold-usd",
+        "normalized_key": "github:autodesk/arnold-usd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "hydra-render-delegate",
+        "usd-render-schema",
+        "render-procedural-interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "render",
+        "vfx"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "VFX/Gaffer",
+        "3D Fabric",
+        "Realtime / Virtual Production Interchange"
+      ],
+      "tags": [
+        "linux-maya",
+        "arnold",
+        "hydra",
+        "render"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Open repository is not an open license for the proprietary Arnold renderer. No Arnold runtime install or admission; render-delegate patterns only pending separate review.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTODESK-BIFROST-USD-001",
+      "name": "Autodesk Bifrost USD",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Autodesk/bifrost-usd",
+        "normalized_key": "github:autodesk/bifrost-usd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "procedural-usd-node-graph",
+        "usd-variant-authoring",
+        "usd-stage-procedural-editing"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "procedural"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "VFX/Gaffer",
+        "Asset Graph",
+        "Animation/Character Motion"
+      ],
+      "tags": [
+        "linux-maya",
+        "bifrost",
+        "procedural",
+        "openusd"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Bifrost SDK/Maya-specific components are separate proprietary runtime dependencies. Reuse only compatible architectural patterns or independently reviewed source.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTODESK-MAYA-HYDRA-001",
+      "name": "Autodesk Maya Hydra",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Autodesk/maya-hydra",
+        "normalized_key": "github:autodesk/maya-hydra"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "hydra-scene-index",
+        "viewport-render-delegate",
+        "usd-interactive-viewport"
+      ],
+      "domain_hints": [
+        "3d",
+        "render",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "VFX/Gaffer",
+        "Realtime / Virtual Production Interchange",
+        "Bforartists/Blender"
+      ],
+      "tags": [
+        "linux-maya",
+        "hydra",
+        "viewport",
+        "usd"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Maya plugin is a technology preview; Hydra SceneIndex/render-delegate patterns only. Compatible Maya/OpenUSD versions require separate verification; no mandatory Maya runtime.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTODESK-MAYA-USD-001",
+      "name": "Autodesk Maya USD",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Autodesk/maya-usd",
+        "normalized_key": "github:autodesk/maya-usd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "openusd-scene-interchange",
+        "usd-layer-editor",
+        "dcc-usd-translation",
+        "usd-edit-routing"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists/Blender",
+        "Asset Graph",
+        "Animation/Character Motion",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "linux-maya",
+        "openusd",
+        "scene-graph",
+        "dcc-interchange"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Maya-specific plugin requires compatible proprietary Maya runtime and Autodesk devkit; use as USD interchange/pattern reference, not a drop-in FA3 implementation.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AUTOM8AI-FORK-COLLECTION-001",
@@ -8054,6 +8362,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MGEAR-DEV-MGEAR-001",
+      "name": "mGear Rigging Framework",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mgear-dev/mgear",
+        "normalized_key": "github:mgear-dev/mgear"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "modular-rigging",
+        "character-constraint-solvers",
+        "rig-graph-organization"
+      ],
+      "domain_hints": [
+        "3d",
+        "animation",
+        "rigging"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation/Character Motion",
+        "Character Studio",
+        "Performance",
+        "3D Fabric"
+      ],
+      "tags": [
+        "linux-maya",
+        "rigging",
+        "animation",
+        "character"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Maya-oriented rigging framework; C++ solvers/Linux CMake are reference candidates, not FA3 host-compatible binaries without independent review.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MICA-001",
       "name": "MICA",
       "source": {
@@ -8383,6 +8752,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MORGANLOOMIS-ML-TOOLS-001",
+      "name": "Morgan Loomis Maya Animation Tools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/morganloomis/ml_tools",
+        "normalized_key": "github:morganloomis/ml_tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "animator-workflow-tools",
+        "pose-animation-utilities",
+        "non-destructive-animation-workflows"
+      ],
+      "domain_hints": [
+        "animation",
+        "rigging",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation/Character Motion",
+        "Performance",
+        "Character Studio"
+      ],
+      "tags": [
+        "linux-maya",
+        "maya-python",
+        "animation",
+        "animator-ux"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Maya Python tools have Linux MAYA_MODULE_PATH instructions; selectively study editor UX and animation operations rather than introduce a required Maya/PyMEL dependency.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MOSS-MUSIC-001",
@@ -12809,6 +13238,69 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "May not become the Unified Memory Gateway or memory authority."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-PIXAR-OPENUSD-001",
+      "name": "Pixar OpenUSD",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PixarAnimationStudios/OpenUSD",
+        "normalized_key": "github:pixaranimationstudios/openusd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "linux-maya-github-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "STANDARD_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cross-dcc-scene-description",
+        "layered-scene-composition",
+        "asset-referencing",
+        "usd-animation-interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "interchange",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "Bforartists/Blender",
+        "FA3 Video Editor",
+        "Animation/Character Motion"
+      ],
+      "tags": [
+        "linux-maya",
+        "openusd",
+        "scene-graph",
+        "interchange"
+      ],
+      "license": {
+        "declared": "TOST-1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Foundational cross-DCC OpenUSD implementation; upstream LICENSE.txt declares Tomorrow Open Source Technology License 1.0. Audit exact components/transitive dependencies separately.",
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-PIXEL3DMM-001",
