@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 297,
+    "entry_count": 298,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -17113,6 +17113,108 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-YOLO-PROJECTS-001",
+      "name": "Nawaf-Rayhan585/YOLO_Projects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Nawaf-Rayhan585/YOLO_Projects",
+        "normalized_key": "github:nawaf-rayhan585/yolo_projects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-link-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "video-object-detection",
+        "multi-object-tracking",
+        "pose-estimation",
+        "instance-segmentation",
+        "face-anonymization",
+        "event-overlays",
+        "document-ocr"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "video",
+        "creative",
+        "safety",
+        "document-processing",
+        "natural-phenomena"
+      ],
+      "problem_hints": [
+        "video-object-following",
+        "background-replacement",
+        "privacy-preserving-video-export",
+        "fire-smoke-event-review",
+        "document-perspective-correction"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Review",
+        "FA3 Character Studio",
+        "Natural Phenomena"
+      ],
+      "tags": [
+        "yolo",
+        "opencv",
+        "mediapipe",
+        "bytetrack",
+        "ocr",
+        "video-tracking",
+        "segmentation",
+        "anonymization",
+        "fire-smoke"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "note": "Upstream repository MIT applies to its own files; dependencies, models, weights and datasets require independent checks. Ultralytics dependency declares AGPL-3.0/Enterprise licensing."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "instance-segmentation-foreground-masks-and-background-replacement",
+          "face-blur-and-pixelation-overlay-pattern",
+          "object-and-vehicle-tracking-with-stable-identifiers",
+          "crowd-heatmap-and-region-counting-visualization",
+          "document-edge-detection-perspective-warp-and-ocr",
+          "fire-smoke-and-fall-event-visual-review",
+          "hand-gesture-and-pose-interaction-prototypes",
+          "parking-occupancy-and-queue-wait-region-measurement"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Review",
+          "FA3 Character Studio",
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-user-supplied-research",
+        "source_reviewed_at": "2026-09-28",
+        "source_revision": "5c2ed6764acf546da35db8d6146fa97e56f61b7c",
+        "notes": "19 independent demonstrations with per-project requirements, not a production-grade shared runtime. No trained weights or datasets committed and no repository CI/test suite found at reviewed revision. Preserve FA3-native editor, projects and all admission authorities. Existing centralized Model Router selects only authorized models; HRB owns compute placement; vendor-neutral 0..N accelerators and CPU-only supported. The display GPU remains display-first and cannot be automatically enlisted if another GPU/NPU exists. Ultralytics package AGPL-3.0/Enterprise dependency needs explicit legal/distribution review, distinct from upstream MIT. Safety/security outputs are advisory until calibrated and human-reviewed; do not auto-label people as suspicious, auto-enforce access decisions or claim reliable fire alarms. Camera and face data require privacy impact and retention review. No runtime source or model adoption is approved by this metadata record."
+      }
     },
     {
       "donor_id": "FA3-DONOR-YOUMIND-OPENLAB-NANO-BANANA-PRO-PROMPTS-RECOMMEND-SKILL-001",
