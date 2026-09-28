@@ -53,5 +53,18 @@
     "code_execution_authority": false,
     "admission_authority": false,
     "evidence_authority": false
+  },
+  "task_agent_language_binding": {
+    "optional_and_explicit": true,
+    "required_skill_missing_context_fails_closed": true,
+    "skill_aware_adapter_required": true,
+    "source_context_must_remain_live_until_worker_spawn": true,
+    "language_admission_evidence_required": true,
+    "language_mediation_receipt_bound_to_exact_source_and_output_bytes": true,
+    "language_fallback_implicit": false,
+    "task_skill_binding_is_execution_authority": false,
+    "runtime_source": "src/fa3_skill_task_binding.py",
+    "developer_agent_source": "src/fa3_developer_agent_coordination.py",
+    "current_host_production_claim": false
   }
 }
