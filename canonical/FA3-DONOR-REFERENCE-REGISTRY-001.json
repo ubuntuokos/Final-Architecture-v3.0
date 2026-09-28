@@ -79,10 +79,95 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 324,
+    "entry_count": 325,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
+    {
+      "donor_id": "FA3-DONOR-0XSLINE-STORYGEN-ATELIER-001",
+      "name": "0xsline/StoryGen-Atelier",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/0xsline/StoryGen-Atelier",
+        "normalized_key": "github:0xsline/storygen-atelier"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-storygen-atelier-reference-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "storyboard-to-keyframe-motion-plan",
+        "adjacent-shot-interpolation-planning",
+        "closing-shot-generation-pattern",
+        "generated-clip-assembly-handoff",
+        "storyboard-gallery-and-activity-ux"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboard",
+        "screenplay",
+        "animation",
+        "video",
+        "preproduction",
+        "asset-provenance"
+      ],
+      "problem_hints": [
+        "storyboard-to-video-continuity",
+        "transition-planning",
+        "shot-pair-movement-instructions",
+        "generation-job-coordination",
+        "generated-media-provenance"
+      ],
+      "target_hints": [
+        "Story/Screenplay Fabric",
+        "Storyboard",
+        "Scene/Shot Designer",
+        "Director/Workforce",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Asset Graph",
+        "Review"
+      ],
+      "tags": [
+        "interpolation-chain",
+        "adjacent-shot-window",
+        "visual-continuity",
+        "closing-shot",
+        "story-branch-handoff",
+        "qt-native-adaptation",
+        "ffmpeg-reference",
+        "no-fixed-provider",
+        "apache-2.0-declaration"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Selective upstream at inspected commit 033e0c6ea2e54be23209cbaf29875b401e8a2010 (2026-09-17). Reuse pairwise storyboard-frame to transition-plan workflow and generated-clip asset handoff as architectural references only, not the full upstream application.",
+        "Root LICENSE declares Apache-2.0 but backend/package.json declares ISC; reconcile exact file provenance, dependency, assets and vendor API terms before any code reuse.",
+        "Upstream direct Gemini/Vertex/MiniMax calls, automatic MiniMax activation from key presence, hard-coded provider/models, generic fallback prompt, 2-12 shot limit and 4/6/8 second durations violate or restrict FA3 assumptions. FA3 must use central Model Router/UAF/MCP/HRB with no silent fallback, no direct cloud application bypass and no unauthorized display GPU.",
+        "Existing RainLib storyboard candidate and canonical FA3 creative graph take precedence. Preserve native story branches, production-specific screenplay profiles, independent AI notes, human approvals, native project files, MLT/FFmpeg editable Video Editor and QuickClip interchange.",
+        "Hardware Audit: metadata-only registration, CPU-only feasible, vendor neutral, 0..N accelerators, no provider/runtime admission or current-host E2E. Full review: docs/storygen-atelier-donor-review-2026-09-28.md."
+      ]
+    },
     {
       "donor_id": "FA3-DONOR-3DDFA-V2-001",
       "name": "3DDFA_V2",
