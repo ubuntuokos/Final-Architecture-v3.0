@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 506,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission."
+    "entry_count": 518,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority."
   },
   "entries": [
     {
@@ -31172,6 +31172,680 @@
         "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
         "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
         "Original disposition: INTEROPERABILITY_TEST_FIXTURE_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-VISUAL-EDITING-TOPIC-001",
+      "name": "GitHub visual-editing topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/visual-editing",
+        "normalized_key": "github:topics/visual-editing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "visual-editing-donor-discovery"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "GUI Fabric",
+        "Photo/Image Editor",
+        "2D Vector",
+        "3D Fabric"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic index; about 36 repositories observed on 2026-09-29. All require individual audit."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-FRONTMAN-AI-FRONTMAN-001",
+      "name": "frontman-ai/frontman",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/frontman-ai/frontman",
+        "normalized_key": "github:frontman-ai/frontman"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "live-rendered-ui-to-source-mapping"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "GUI Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "SPLIT_APACHE-2.0_AGPL-3.0_SUPPLEMENTARY_TERMS",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference-only: server has AGPL plus supplementary AI restrictions; no source reuse pending legal review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-DIRECTUS-VISUAL-EDITING-001",
+      "name": "directus/visual-editing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/directus/visual-editing",
+        "normalized_key": "github:directus/visual-editing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "inline-context-edit-overlay"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "Web/Publishing",
+        "Creative Studio"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Archived 2026-04-22; successor is directus/directus. No archived runtime dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-WHAT-DIGITAL-PAYLOAD-INLINE-VISUAL-EDITOR-001",
+      "name": "what-digital/payload-inline-visual-editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/what-digital/payload-inline-visual-editor",
+        "normalized_key": "github:what-digital/payload-inline-visual-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "preview-linked-structured-block-editing"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "Web/Publishing",
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference editable preview and blocks; no Payload CMS runtime authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-YUG-SPACE-VECTOR-EDIT-GYM-001",
+      "name": "yug-space/vector-edit-gym",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/yug-space/vector-edit-gym",
+        "normalized_key": "github:yug-space/vector-edit-gym"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "preservation-aware-svg-edit-verification"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "2D Vector",
+        "AI Task Verification"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT_PROJECT_CODE_ONLY",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "20 scenic illustrations have unresolved provenance and must not be redistributed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-PAINTBENCH-PAINTBENCH-001",
+      "name": "PaintBench/PaintBench",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PaintBench/PaintBench",
+        "normalized_key": "github:paintbench/paintbench"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "deterministic-pixel-exact-edit-testing"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "Photo/Image Editor",
+        "AI Task Verification"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT_REPOSITORY_DECLARATION",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Audit the dataset and third-party assets separately; use seeded visual test pattern."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-CGIFM-PICK-TO-EDIT-001",
+      "name": "CGIFM/pick-to-edit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CGIFM/pick-to-edit",
+        "normalized_key": "github:cgifm/pick-to-edit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "exact-visual-element-selection"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "GUI Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Adapt selector and annotation idea to native Qt object IDs; no Claude/browser dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-ANGELOLIBERO-TWEAKR-001",
+      "name": "angelolibero/tweakr",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/angelolibero/tweakr",
+        "normalized_key": "github:angelolibero/tweakr"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "deterministic-manual-ui-tuning"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "GUI Fabric",
+        "Developer Agent"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use editable UI parameter patterns; any FA3 source edits require human-reviewed scoped changes."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-OPACEDIGITALAGENCY-ASTRO-VISUAL-EDITOR-001",
+      "name": "OpaceDigitalAgency/astro-visual-editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpaceDigitalAgency/astro-visual-editor",
+        "normalized_key": "github:opacedigitalagency/astro-visual-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "validated-reviewed-visual-source-transactions"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "Web/Publishing",
+        "GUI Fabric"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Study queued changes, source validation, receipts and reversible writes; no Astro runtime authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-NEM0-LUMIXENGINE-PROCEDURAL-GEOM-001",
+      "name": "nem0/lumixengine_procedural_geom",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nem0/lumixengine_procedural_geom",
+        "normalized_key": "github:nem0/lumixengine_procedural_geom"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "procedural-geometry-node-editor"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream prototype may crash; pattern only, no Lumix runtime dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-LISUIWEN-AI-HTML-ANNOTATION-001",
+      "name": "Lisuiwen/ai-html-annotation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Lisuiwen/ai-html-annotation",
+        "normalized_key": "github:lisuiwen/ai-html-annotation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "element-linked-stateful-ui-review"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "GUI Fabric",
+        "AI Task Verification"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Experimental; adapt DOM-linked review to native FA3 GUI identities."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VISUAL-TEXLYRE-CODEMIRROR-VISUAL-MARKUP-001",
+      "name": "TeXlyre/codemirror-visual-markup",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/TeXlyre/codemirror-visual-markup",
+        "normalized_key": "github:texlyre/codemirror-visual-markup"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/visual-editing"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "single-document-visual-and-source-editing"
+      ],
+      "domain_hints": [
+        "visual-editing"
+      ],
+      "problem_hints": [
+        "precise-editing",
+        "preserve-unrequested-content"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "GUI Fabric"
+      ],
+      "tags": [
+        "visual-editing",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_DECLARATION_PENDING_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Experimental LaTeX/Typst editor; source-authority design reference, not Qt replacement."
       ]
     }
   ],
