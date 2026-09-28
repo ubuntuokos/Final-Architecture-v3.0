@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.contract.v1",
+  "id": "FA3-SYSTEM-ONE-REFLEX-001",
+  "profile": "FA3-DECISION-FABRIC-001",
+  "contract": "BOUNDED_ACTION",
+  "architectural_authority": false,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "purpose": "Compile a caller-authorized finite action space into one typed System One decision step and gate it by confidence before external authorization.",
+  "action_source": "CALLING_FA3_AUTHORITY_ONLY",
+  "candidate_expansion": "DENY",
+  "parameter_value_expansion": "DENY",
+  "free_text_action_generation": "DENY",
+  "free_text_parameter_generation": "DENY",
+  "parameter_kinds": ["choices", "candidates", "flag", "levels"],
+  "risk_classes": ["read", "write", "destructive"],
+  "default_confidence_thresholds": {
+    "read": 0.5,
+    "write": 0.6,
+    "destructive": 0.8,
+    "finish": 0.5
+  },
+  "terminal_choices": ["FINISH", "ESCALATE"],
+  "one_model_request_per_step": true,
+  "confidence_is_authorization": false,
+  "execution_performed_by_contract": false,
+  "external_policy_authorization_required_before_execution": true,
+  "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "trace_contract": "FA3-DECISION-TRACE-001",
+  "handoff": {
+    "required_on_low_confidence": true,
+    "required_on_explicit_escalation": true,
+    "target_classes": ["SYSTEM_TWO", "HUMAN"]
+  },
+  "cpu_only_supported": true,
+  "vendor_neutral": true
+}
