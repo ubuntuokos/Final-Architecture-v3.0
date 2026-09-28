@@ -67,3 +67,7 @@ FA3 replaces upstream direct provider transport, secret loading, resource choice
 ## Hardware Audit
 
 The contract is vendor- and accelerator-neutral. CPU-only operation remains valid. CUDA, ROCm, oneAPI and NPU runtimes are optional provider/runtime details admitted through Model Router and HRB, never requirements of the reflex contract.
+
+## Native answer validation hardening
+
+The bounded Decision Fabric rejects non-finite, incomplete, or non-normalized choice and score distributions (absolute sum-to-one tolerance 0.05); the selected choice must agree with the greatest reported probability (ties permitted). Finite score levels must be unique, and score distributions must cover every declared level, either all labels or all integer indexes, never a mixture. A FINISH recommendation requires a separate explicit finite `goal_reached` probability. These checks do not create authorization; every resulting action still requires the existing external policy owner.

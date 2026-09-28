@@ -81,5 +81,14 @@
       "dom_or_ui_candidates_must_be_pre_authorized": true,
       "direct_browser_execution": false
     }
+  },
+  "native_probability_validation": {
+    "choice_exact_finite_option_set": true,
+    "score_exact_finite_level_set": true,
+    "distribution_sum_tolerance": 0.05,
+    "selected_choice_must_have_maximum_reported_probability": true,
+    "finish_requires_explicit_finite_goal_reached": true,
+    "low_confidence_result": "NO_DECISION_OR_HANDOFF",
+    "does_not_grant_authority": true
   }
 }
