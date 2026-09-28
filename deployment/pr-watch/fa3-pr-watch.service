@@ -1,5 +1,5 @@
 [Unit]
-Description=FA3 PR Watch (opt-in, scoped Secret Broker credential projection)
+Description=FA3 PR Watch (opt-in, dedicated scoped Secret Broker consumer)
 Requires=fa3-secrets.target
 After=fa3-secrets.target
 PartOf=fa3-secrets.target
@@ -7,21 +7,27 @@ PartOf=fa3-secrets.target
 [Service]
 Type=simple
 User=fa3-pr-watch
-Group=fa3-secret-clients
-ExecStart=/usr/local/libexec/fa3-pr-watch-secret-runtime --secret-ref integration/relay/001 --bind 127.0.0.1 --port 0
+Group=fa3-pr-watch-viewers
+SupplementaryGroups=fa3-secret-clients
+StateDirectory=fa3-pr-watch
+StateDirectoryMode=0700
+RuntimeDirectory=fa3-pr-watch
+RuntimeDirectoryMode=0750
+Environment=XDG_STATE_HOME=/var/lib/fa3-pr-watch
+ExecStart=/usr/bin/python3 __FA3_REPO_ROOT__/bin/fa3-pr-watch-secret-runtime --secret-ref integration/relay/001 --bind 127.0.0.1 --port 0 --operator-export-path /run/fa3-pr-watch/operator.json
 Restart=no
 NoNewPrivileges=yes
 PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=read-only
-UMask=0077
+ReadOnlyPaths=__FA3_REPO_ROOT__
+ReadWritePaths=/var/lib/fa3-pr-watch /run/fa3-pr-watch
+UMask=0027
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
 CapabilityBoundingSet=
 LockPersonality=yes
 RestrictSUIDSGID=yes
 SystemCallArchitectures=native
-# Runtime/service identity, policy, proxy and certificate must be explicitly admitted.
-# Never install/start this template automatically or expose its loopback port.
 
 [Install]
 WantedBy=fa3-secrets.target
