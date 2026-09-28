@@ -58,12 +58,32 @@
     "SCOPED_EGRESS_REQUIRES_EXPLICIT_LEASE",
     "MCP_TOOL_ACCESS_REMAINS_CENTRAL_GATEWAY_MEDIATED",
     "SANDBOX_PROVIDER_NOT_SECURITY_RESOURCE_OR_EVIDENCE_AUTHORITY",
-    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER"
+    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER",
+    "NESTED_TOOL_CONTAINER_REQUIRES_UAF_MEDIATED_FAIL_CLOSED_COMPILER",
+    "AGENT_MUST_NOT_ACCESS_PODMAN_OR_DOCKER_SOCKET",
+    "NESTED_TOOL_PUBLIC_EGRESS_DEFAULT_ALLOW_FORBIDDEN"
   ],
   "current_host_runtime_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
   "current_host_runtime_promotion_claimed": false,
   "current_host_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
   "current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "nested_tool_policy": {
+    "reference_source": "https://github.com/89luca89/clampdown",
+    "reference_mode": "ARCHITECTURE_PATTERN_CLEAN_IMPLEMENTATION_NO_SOURCE_COPY",
+    "fa3_native_compiler": "fa3_nested_tool_guard.compile_nested_tool_run",
+    "compiler_schema": "fa3.nested-tool-request.v1",
+    "untrusted_nested_oci_backend": "GVISOR_ONLY_IF_CURRENT_HOST_COMPATIBLE",
+    "wasmtime_for_wasi_tools": "PREFERRED_WHEN_COMPATIBLE",
+    "rootless_podman": "EXECUTOR_ONLY_NEVER_AGENT_ACCESSIBLE_SOCKET",
+    "nested_oci_scope": "UAF_MEDIATED_ADMITTED_TOOL_ACTION_ONLY",
+    "network": "DENY_NO_IMPLICIT_PUBLIC_EGRESS",
+    "credentials": "NO_AMBIENT_ENVIRONMENT_OR_SECRETS_IN_TOOL",
+    "workspace": "ONLY_AUTHORIZED_EPHEMERAL_BIND_MOUNT",
+    "seccomp": "DIGEST_PINNED_DEFAULT_DENY_PROFILE",
+    "hardware": "HRB_EXCLUSIVE_CPU_ONLY_AND_ACCELERATOR_ZERO_TO_N",
+    "production_status": "REFERENCE_COMPILER_ONLY_PENDING_SEPARATE_CURRENT_HOST_KERNEl_AND_RUNTIME_EVIDENCE",
+    "provider_admission_automatic": false
+  }
 }
