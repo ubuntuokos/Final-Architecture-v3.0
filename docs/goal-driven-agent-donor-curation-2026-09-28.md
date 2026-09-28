@@ -72,7 +72,7 @@ Deliver a reusable, FA3-native **goal -> authorized work -> criterion-level proo
 
 In scope: explicit acceptance criteria, environment and source-of-truth hints, reuse assessment, hardware and policy preflight, typed plan compilation, approved task execution, pause/stop/resume, independent verification, bounded replan and inspectable provenance. First production-target pilot: Developer Agent working in a disposable, isolated workspace. Subsequent app consumers are adapters to the SAME goal contracts.
 
-Explicitly out of scope: a new FA3 app, capability ID, architecture authority, global orchestrator, independent long-term memory, provider/model router, ad hoc GPU scheduler, proprietary upstream framework bundled by default, autonomous source ingestion that executes untrusted instructions, new AI participants selected by agents, any Unreal installation or runtime, a new video editor, or replacement of native creative project files.
+Explicitly out of scope: a new FA3 app, capability ID, architecture authority, global orchestrator, independent long-term memory, provider/model router, ad hoc GPU scheduler, proprietary upstream framework bundled by default, autonomous source ingestion that executes untrusted instructions, new AI participants selected by agents, any excluded proprietary real-time engine installation or runtime, a new video editor, or replacement of native creative project files.
 
 The original 2026-09-21 user-provided article establishes the three authoring inputs **Goal, Acceptance Criteria, Context** and motivates autonomous plan/execute/verify behavior. This FA3 specification adds scoped authorization, full provenance and independent machine evidence. A semantic judge's confidence is NEVER authorization or independent proof.
 
