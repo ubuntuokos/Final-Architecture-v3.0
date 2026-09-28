@@ -5,6 +5,7 @@ ConditionPathExists=%PROVIDERS%
 
 [Service]
 Type=simple
+%SYSTEM_ONE_CREDENTIAL_DIRECTIVE%
 RuntimeDirectory=fa3-model-router
 RuntimeDirectoryMode=0700
 RuntimeDirectoryPreserve=restart
