@@ -248,7 +248,7 @@ class SystemOneReflexTests(unittest.TestCase):
             },
         )
         self.assertEqual(accepted.status, "DECIDED")
-        self.assertEqual(accepted.value["parameters"], {"record": "one"})
+        self.assertEqual(accepted.result["parameters"], {"record": "one"})
 
     def test_missing_model_router_receipt_authority_fails_closed(self):
         provider = SystemOneDecisionProvider(
