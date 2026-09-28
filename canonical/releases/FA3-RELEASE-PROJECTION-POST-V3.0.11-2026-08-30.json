@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d041f23deb31799dc6270d0802d25c3a178b2f45",
-    "pre_projection_root_tree_sha": "b80fad445693862f5502172c13c3178af17ddf36",
-    "pre_projection_canonical_tree_sha": "6df591d5a9c907e3c55c343856240149b7cd2b4a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1320,
-    "total_post_baseline_commits": 1320,
-    "delta_file_count": 2415,
-    "delta_added_files": 2409,
+    "pre_projection_head_sha": "5fcd67782d4957037278c91de661461aa58a43b6",
+    "pre_projection_root_tree_sha": "38d8c48cb9b5305fea47da3fa0053f4aad17346b",
+    "pre_projection_canonical_tree_sha": "375569d49706bbafc2b7ea0a670131244aa86048",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1350,
+    "total_post_baseline_commits": 1350,
+    "delta_file_count": 2430,
+    "delta_added_files": 2424,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1177,
+    "canonical_files_in_post_baseline_delta": 1183,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 326,
-    "test_files_in_post_baseline_delta": 261,
-    "workflow_files_in_post_baseline_delta": 117,
+    "source_files_in_post_baseline_delta": 330,
+    "test_files_in_post_baseline_delta": 264,
+    "workflow_files_in_post_baseline_delta": 118,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -174,6 +174,7 @@
       "canonical/providers/FA3-PROVIDER-STABLE-LAYERS-001.json",
       "canonical/providers/FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001.json",
       "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
+      "canonical/providers/FA3-PROVIDER-STRATA-001.json",
       "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
       "canonical/providers/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json",
       "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
@@ -426,6 +427,7 @@
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "canonical/contracts/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-TOOL-CONFIRMATION-001.schema.json",
       "canonical/contracts/FA3-TRUST-PKI-CONTRACTS-001.json",
       "canonical/contracts/FA3-UAF-ACTION-CONTRACT-001.schema.json",
@@ -591,6 +593,7 @@
       "canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json",
       "canonical/decisions/FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20.json",
       "canonical/decisions/FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20.json",
+      "canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json",
       "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
@@ -1003,7 +1006,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2405,
+  "manifest_entry_count": 2420,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1543,6 +1546,11 @@
     {
       "path": ".github/workflows/fa3-step-ca-session-vault-ceremony.yml",
       "git_blob_sha": "0a7ca2fa60782950696666b4e2e34551f76facff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-strata-tiered-moe.yml",
+      "git_blob_sha": "343b9f4412e86c28562cb600289878a2634d4d57",
       "baseline_delta_status": "added"
     },
     {
@@ -4091,6 +4099,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "40677501fbb7747663e99af00f1434e9bdaeafc4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-STRATA-TIERED-MOE-DECISION-ASSESSMENT-2026-09-28.json",
+      "git_blob_sha": "d972c6c0ee207aaeecbcf67daad0ebaf3ff3e0d6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SYSCTL-HOST-TUNING-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "d5f3805e55b898e9ab966045ee2a097f73508914",
       "baseline_delta_status": "added"
@@ -4858,6 +4876,11 @@
     {
       "path": "canonical/contracts/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-CONTRACTS-001.json",
       "git_blob_sha": "b5b8fbacab2c41196d0e777e8dc58fce9f08b129",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json",
+      "git_blob_sha": "1aac81bbba60a99d3e3bf3142b40d846b45e3372",
       "baseline_delta_status": "added"
     },
     {
@@ -5736,6 +5759,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json",
+      "git_blob_sha": "9db20275bf17b033dbc5437ced6763c066906b30",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
       "git_blob_sha": "324b9619b3bcba38a66b1460cdf8cecf7dc45b85",
       "baseline_delta_status": "added"
@@ -5812,12 +5840,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "d7f0833355ea85413dab21d6edd13d29a0adeacb",
+      "git_blob_sha": "d1bdc8fa9818588d3e92e72f9ca19640fa6e368d",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "4d8c84f071035ccdb00ac55e5ea6d2791b8107ce",
+      "git_blob_sha": "7e2164cb30093e0c9c28c619ac60a29754d16f5d",
       "baseline_delta_status": "added"
     },
     {
@@ -6103,6 +6131,11 @@
     {
       "path": "canonical/intents/FA3-SKILL-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "daadca1a2e6a6230ce3d4f6b193e533e152ff7af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "988d2ee688171989b5ca576bad0be52d86801e48",
       "baseline_delta_status": "added"
     },
     {
@@ -7508,6 +7541,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
       "git_blob_sha": "4e764949a775e51589e08e710453e9ec6b27f06a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-STRATA-001.json",
+      "git_blob_sha": "9bfedf78cb5d8cc8e3fb1eb2beb2bea44f51109d",
       "baseline_delta_status": "added"
     },
     {
@@ -8918,6 +8956,11 @@
     {
       "path": "docs/step-ca-current-host.md",
       "git_blob_sha": "886319d9299952fb8bd2ea1b1a68a0f1137881d9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/strata-tiered-moe-materialization.md",
+      "git_blob_sha": "4acfa04d572c0ae79acd355e4daf3dce2ebc06d8",
       "baseline_delta_status": "added"
     },
     {
@@ -11526,6 +11569,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_strata_provider_adapter.py",
+      "git_blob_sha": "cce6bb5e02ae8a7511ca1aedadd1b3a4b181eff7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_strata_tiered_moe_gate.py",
+      "git_blob_sha": "33b1fcd2ac27a7d49fad8db86a7f4b4e055813ec",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_supply_chain_admission.py",
       "git_blob_sha": "ce8d96812b9fad3d5c32873c0ae08c6fa035af64",
       "baseline_delta_status": "added"
@@ -11558,6 +11611,16 @@
     {
       "path": "src/fa3_terax_gate.py",
       "git_blob_sha": "5141aa77ae6c4bbc716ab08f67c462b71d6c5d90",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_tiered_moe_hrb_projection.py",
+      "git_blob_sha": "0c80cf7e944240582270fae0f4713f7d9cb003c0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_tiered_moe_plan.py",
+      "git_blob_sha": "a5953d852e9ad8f7c01cdf0d820ac6cb1268c730",
       "baseline_delta_status": "added"
     },
     {
@@ -12846,6 +12909,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_strata_provider_adapter.py",
+      "git_blob_sha": "13c2004e981a21e002509cea02ba00bee0be1191",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_strata_tiered_moe.py",
+      "git_blob_sha": "5aaff56f89b31a4371c41924f0e9d97261c5d57c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_supply_runtime_hardening.py",
       "git_blob_sha": "b838cccaed07e58787b909199c1fe10e0045ed16",
       "baseline_delta_status": "added"
@@ -12873,6 +12946,11 @@
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_tiered_moe_hrb_projection.py",
+      "git_blob_sha": "ce40608d58ceecf0fdf39731c3fd243344a7c4ec",
       "baseline_delta_status": "added"
     },
     {
