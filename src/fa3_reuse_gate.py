@@ -16,6 +16,10 @@ PROFILE = "canonical/profiles/FA3-REUSE-DISCOVERY-001.json"
 CONTRACT = "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json"
 CATALOG = "canonical/FA3-REUSE-CATALOG-001.json"
 DECISION = "canonical/decisions/FA3-DEC-REUSE-DISCOVERY-2026-09-24.json"
+KHRONOS_REUSE_DECISION = "canonical/decisions/FA3-DEC-KHRONOS-REUSE-SOURCE-2026-09-28.json"
+KHRONOS_PROFILE = "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json"
+KHRONOS_ADAPTER_REGISTRY = "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json"
+KHRONOS_INTEGRATION = "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
 GATE_RECORD = "canonical/FA3-GATE-REUSE-DISCOVERY-001.json"
 ENFORCEMENT = "canonical/reuse-discovery-enforcement.json"
 DECISION_ASSESSMENT = "canonical/assessments/FA3-REUSE-DISCOVERY-DECISION-ASSESSMENT-2026-09-24.json"
@@ -70,6 +74,24 @@ def _assessment_index(root: Path) -> dict[str, list[dict[str, Any]]]:
             continue
         for covered in row.get("covered_ids", []):
             index.setdefault(str(covered), []).append({"path": path.relative_to(root).as_posix(), "row": row})
+    return index
+
+
+def _assessment_by_intent_index(root: Path) -> dict[str, list[dict[str, Any]]]:
+    index: dict[str, list[dict[str, Any]]] = {}
+    base = root / "canonical/assessments"
+    if not base.is_dir():
+        return index
+    for path in sorted(base.glob("*.json")):
+        try:
+            row = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not isinstance(row, dict) or row.get("schema") != "fa3.reuse-assessment.v1":
+            continue
+        intent_id = row.get("intent_id")
+        if isinstance(intent_id, str) and intent_id:
+            index.setdefault(intent_id, []).append({"path": path.relative_to(root).as_posix(), "row": row})
     return index
 
 
@@ -148,12 +170,68 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
     return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
 
 
+def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
+    history = _git(root, "log", "--format=%H", "--reverse", "--", KHRONOS_REUSE_DECISION)
+    if not history:
+        return {"result": "PASS", "state": "ADOPTION_MARKER_NOT_COMMITTED_YET", "checked": []}
+    marker = history.splitlines()[0]
+    changed = _git(root, "diff", "--name-only", "--diff-filter=AM", f"{marker}..HEAD", "--", "canonical/intents")
+    if changed is None:
+        return {"result": "PASS", "state": "GIT_DIFF_UNAVAILABLE", "checked": []}
+    assessments = _assessment_by_intent_index(root)
+    findings = []
+    checked = []
+    for rel in [x for x in changed.splitlines() if x.endswith(".json")]:
+        try:
+            intent = load(root, rel)
+        except Exception as exc:
+            findings.append(finding("REUSE-KHRONOS-ADOPT-001", "ApplicationIntent unreadable", path=rel, error=repr(exc)))
+            continue
+        if intent.get("schema") != "fa3.application-intent.v1":
+            continue
+        intent_id = intent.get("id")
+        if not isinstance(intent_id, str) or not intent_id:
+            findings.append(finding("REUSE-KHRONOS-ADOPT-002", "ApplicationIntent missing id", path=rel))
+            continue
+        checked.append(intent_id)
+        discovery_declared = (
+            intent.get("project_id") == "FA3-REUSE-DISCOVERY-001"
+            or "FA3-REUSE-DISCOVERY-001" in intent.get("integration_requirements", [])
+        )
+        valid_assessment = False
+        for match in assessments.get(intent_id, []):
+            assessment = match["row"]
+            review = next((
+                row for row in assessment.get("mandatory_source_reviews", [])
+                if isinstance(row, dict) and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+            ), {})
+            if (
+                assessment.get("result") == "PASS"
+                and review.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+                and review.get("authority") is False
+                and review.get("automatic_selection") is False
+            ):
+                valid_assessment = True
+                break
+        if not discovery_declared or not valid_assessment:
+            findings.append(finding(
+                "REUSE-KHRONOS-ADOPT-003",
+                "post-adoption ApplicationIntent lacks mandatory Khronos source-family review",
+                intent_id=intent_id,
+                path=rel,
+                reuse_discovery_declared=discovery_declared,
+                matching_assessment=valid_assessment,
+            ))
+    return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
+
+
 def gate(root: Path) -> dict[str, Any]:
     root = root.resolve()
     capability_count = load_active_release_baseline(root).capability_count
     findings: list[dict[str, Any]] = []
     required = [
-        PROFILE, CONTRACT, CATALOG, DECISION, GATE_RECORD, ENFORCEMENT,
+        PROFILE, CONTRACT, CATALOG, DECISION, KHRONOS_REUSE_DECISION, KHRONOS_PROFILE,
+        KHRONOS_ADAPTER_REGISTRY, KHRONOS_INTEGRATION, GATE_RECORD, ENFORCEMENT,
         "canonical/contracts/FA3-APPLICATION-INTENT-001.schema.json",
         "canonical/contracts/FA3-REUSABLE-PATTERN-001.schema.json",
         "canonical/contracts/FA3-REUSE-ASSESSMENT-001.schema.json",
@@ -174,6 +252,10 @@ def gate(root: Path) -> dict[str, Any]:
     contract = load(root, CONTRACT)
     catalog_policy = load(root, CATALOG)
     decision = load(root, DECISION)
+    khronos_reuse_decision = load(root, KHRONOS_REUSE_DECISION)
+    khronos_profile = load(root, KHRONOS_PROFILE)
+    khronos_adapter_registry = load(root, KHRONOS_ADAPTER_REGISTRY)
+    khronos_integration = load(root, KHRONOS_INTEGRATION)
     gate_record = load(root, GATE_RECORD)
     enforcement = load(root, ENFORCEMENT)
     dfa = load(root, DECISION_ASSESSMENT)
@@ -257,8 +339,8 @@ def gate(root: Path) -> dict[str, Any]:
     if not (
         gate_record.get("gateset_id") == "FA3-REUSE-DISCOVERY-GATESET-001"
         and gate_record.get("fail_closed") is True
-        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 23
-        and len(enforcement.get("p0_invariants", [])) == 23
+        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 25
+        and len(enforcement.get("p0_invariants", [])) == 25
     ):
         findings.append(finding("REUSE-006", "gate/enforcement inventory drift"))
 
@@ -272,11 +354,87 @@ def gate(root: Path) -> dict[str, Any]:
     ):
         findings.append(finding("REUSE-007", "Decision Fabric bounded-advisory assessment drift"))
 
+    source_review = next((
+        row for row in catalog_policy.get("mandatory_source_reviews", [])
+        if isinstance(row, dict) and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+    ), {})
+    profile_binding = profile.get("open_standards_reuse_binding", {})
+    adapter_binding = khronos_adapter_registry.get("reuse_discovery_binding", {})
+    integration_binding = khronos_integration.get("reuse_discovery_binding", {})
+    khronos_profile_binding = khronos_profile.get("reuse_discovery_binding", {})
+    open_standard_contract = contract.get("contracts", {}).get("OpenStandardsReuseProjection", {})
+    expected_sources = {
+        "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json",
+        KHRONOS_ADAPTER_REGISTRY,
+        KHRONOS_INTEGRATION,
+    }
+    if not (
+        set(source_review.get("sources", [])) == expected_sources
+        and source_review.get("review") == "MANDATORY_BEFORE_IMPLEMENTATION"
+        and source_review.get("selection_semantics") == "MATCH_ONLY_NON_AUTHORITATIVE"
+        and source_review.get("no_match_disposition") == "REVIEWED_NO_MATCH"
+        and source_review.get("authority") is False
+        and source_review.get("automatic_selection") is False
+        and profile_binding.get("review_required_for_every_new_application") is True
+        and profile_binding.get("authority") is False
+        and profile_binding.get("automatic_selection") is False
+        and open_standard_contract.get("source_family_id_const") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        and open_standard_contract.get("authority") is False
+        and open_standard_contract.get("automatic_selection") is False
+        and all(binding.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001" for binding in (adapter_binding, integration_binding, khronos_profile_binding))
+        and all(binding.get("authority") is False and binding.get("automatic_selection") is False for binding in (adapter_binding, integration_binding, khronos_profile_binding))
+    ):
+        findings.append(finding("REUSE-026", "Khronos mandatory source-family binding drift"))
+
+    if not (
+        khronos_reuse_decision.get("new_capabilities") == 0
+        and khronos_reuse_decision.get("new_architectural_authorities") == 0
+        and khronos_reuse_decision.get("mandatory_review_scope") == "ALL_NEW_OR_MATERIALLY_MODIFIED_FA3_APPLICATION_INTENTS"
+        and khronos_reuse_decision.get("automatic_selection") is False
+        and khronos_reuse_decision.get("current_host_runtime_promotion_claim") is False
+    ):
+        findings.append(finding("REUSE-027", "Khronos reuse-source adoption decision boundary drift"))
+
     built = build_catalog(root)
     ids = {row["candidate_id"] for row in built["entries"]}
     for rid in ("FA3-HARDWARE-BASELINE-001", "FA3-DISTRIBUTION-COMPLIANCE-001", "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001", "FA3-INFERENCE-PORTABILITY-001"):
         if rid not in ids:
             findings.append(finding("REUSE-008", "derived catalog missed required canonical reuse source", record_id=rid))
+
+    adapter_ids = {
+        str(row.get("id"))
+        for row in khronos_adapter_registry.get("adapters", [])
+        if isinstance(row, dict) and row.get("id")
+    }
+    catalog_adapters = {
+        row["candidate_id"]: row
+        for row in built["entries"]
+        if row.get("candidate_class") == "OPEN_STANDARD_ADAPTER"
+    }
+    binding_ids = {
+        "FA3-KHRONOS-BINDING:" + str(row.get("layer"))
+        for row in khronos_integration.get("bindings", [])
+        if isinstance(row, dict) and row.get("layer")
+    }
+    catalog_bindings = {
+        row["candidate_id"]: row
+        for row in built["entries"]
+        if row.get("candidate_class") == "OPEN_STANDARD_FABRIC_BINDING"
+    }
+    if adapter_ids != set(catalog_adapters) or binding_ids != set(catalog_bindings):
+        findings.append(finding(
+            "REUSE-028",
+            "Khronos adapter/integration sources are not fully projected into reuse catalog",
+            missing_adapters=sorted(adapter_ids - set(catalog_adapters)),
+            missing_bindings=sorted(binding_ids - set(catalog_bindings)),
+        ))
+    for row in list(catalog_adapters.values()) + list(catalog_bindings.values()):
+        if not (
+            row.get("authority") is False
+            and row.get("automatic_selection") is False
+            and row.get("standard_family") == "KHRONOS"
+        ):
+            findings.append(finding("REUSE-029", "Khronos catalog candidate gained authority or automatic selection", row=row))
 
     skill_rows = {
         row["candidate_id"]: row
@@ -374,6 +532,14 @@ def gate(root: Path) -> dict[str, Any]:
         and not generated.get("authority_collisions")
         and not generated.get("hardware_findings")
         and not generated.get("coexistence_findings")
+        and any(
+            isinstance(row, dict)
+            and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+            and row.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+            and row.get("authority") is False
+            and row.get("automatic_selection") is False
+            for row in generated.get("mandatory_source_reviews", [])
+        )
     ):
         findings.append(finding("REUSE-009", "Embedding Fabric golden reuse assessment no longer resolves deterministically", generated=generated))
 
@@ -451,6 +617,10 @@ def gate(root: Path) -> dict[str, Any]:
     if adoption.get("result") != "PASS":
         findings.append(finding("REUSE-020", "post-adoption new-project requirement failed", adoption=adoption))
 
+    khronos_adoption = post_khronos_source_adoption_check(root)
+    if khronos_adoption.get("result") != "PASS":
+        findings.append(finding("REUSE-030", "post-adoption mandatory Khronos source review failed", adoption=khronos_adoption))
+
     result = "PASS" if not findings else "FAIL"
     return {
         "schema": "fa3.reuse-discovery-gate-report.v1",
@@ -462,6 +632,7 @@ def gate(root: Path) -> dict[str, Any]:
         "catalog_entry_count": built["entry_count"],
         "golden_project": generated,
         "adoption_enforcement": adoption,
+        "khronos_source_adoption_enforcement": khronos_adoption,
         "reference_evidence_status": evidence.get("status"),
         "capability_count": capability_count,
         "new_capabilities": 0,

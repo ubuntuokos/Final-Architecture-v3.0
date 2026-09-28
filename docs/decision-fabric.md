@@ -86,6 +86,8 @@ External code may be copied only after per-project license, provenance, security
 
 Every new FA3 application, provider, profile, derived implementation, GUI module, Agent Native component or material extension must first pass `FA3-REUSE-DISCOVERY-001`.
 
+As part of that deterministic pass, every new or materially modified ApplicationIntent must review `FA3-KHRONOS-OPEN-STANDARDS-001` through its canonical profile, adapter registry and integration map. The outcome is explicitly recorded as `MATCHED` or `REVIEWED_NO_MATCH`; review does not imply selection, authority, runtime admission or activation.
+
 The project records an `FA3-APPLICATION-INTENT-001` intent and a machine-readable `FA3-REUSE-ASSESSMENT-001`. Existing capabilities, contracts, providers, patterns, GUI projections and references are discovered before gap analysis. A new implementation is permitted only for a real documented gap or an explicitly bounded provider-local mechanism. Reuse Discovery cannot admit a provider, grant authority or promote runtime state.
 
 Skill discovery is part of the same mandatory stage. `FA3-REUSE-CATALOG-001` federates `FA3-SKILL-REGISTRY-001` and `FA3-EXTERNAL-SKILL-RADAR-001`: admitted FA3 skills may be proposed as task-scoped reusable context, while external skill repositories are reference/idea sources only. A skill selection is not activation; activation still requires the Skill Fabric materialization/use path. External skill sources never gain install, admission, activation, MCP, model, secret, resource or mutation authority through Reuse Discovery.

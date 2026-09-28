@@ -38,11 +38,14 @@
     "External Project Radar",
     "FA3-SKILL-FABRIC-001",
     "FA3-SKILL-REGISTRY-001",
-    "FA3-EXTERNAL-SKILL-RADAR-001"
+    "FA3-EXTERNAL-SKILL-RADAR-001",
+    "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
   ],
   "lifecycle": [
     "INTENT",
     "DISCOVER",
+    "DISCOVER_OPEN_STANDARD_SOURCES",
     "DISCOVER_SKILLS_AND_EXTERNAL_SKILL_SOURCES",
     "FILTER",
     "ASSESS_REUSE",
@@ -90,5 +93,23 @@
     "automatic_activation": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "open_standards_reuse_binding": {
+    "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "adapter_registry_id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+    "integration_map_id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+    "review_required_for_every_new_application": true,
+    "allowed_dispositions": [
+      "MATCHED",
+      "REVIEWED_NO_MATCH"
+    ],
+    "roles": [
+      "RUNTIME_PROVIDER_SOURCE",
+      "INTERCHANGE_STANDARD_SOURCE",
+      "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+    ],
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false
+  }
 }

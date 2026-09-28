@@ -21,7 +21,9 @@
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/distribution-registry.json",
     "canonical/skill-registry.json",
-    "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
+    "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json",
+    "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
   ],
   "classes": [
     "CAPABILITY",
@@ -37,7 +39,9 @@
     "THIRD_PARTY_REFERENCE",
     "DERIVED_IMPLEMENTATION",
     "SKILL",
-    "EXTERNAL_SKILL_SOURCE"
+    "EXTERNAL_SKILL_SOURCE",
+    "OPEN_STANDARD_ADAPTER",
+    "OPEN_STANDARD_FABRIC_BINDING"
   ],
   "deterministic_filters": [
     "EXACT_CAPABILITY_MATCH",
@@ -49,7 +53,9 @@
     "HARDWARE_AUDIT_FILTER",
     "SKILL_TASK_CLASS_AND_TRIGGER_MATCH",
     "SKILL_ADMISSION_STATUS_FILTER",
-    "EXTERNAL_SKILL_SOURCE_REFERENCE_ONLY_FILTER"
+    "EXTERNAL_SKILL_SOURCE_REFERENCE_ONLY_FILTER",
+    "MANDATORY_SOURCE_FAMILY_REVIEW",
+    "OPEN_STANDARD_SOURCE_MATCH"
   ],
   "decision_fabric_post_filter_ranking_only": true,
   "candidate_set_expansion_by_semantic_provider": false,
@@ -67,5 +73,25 @@
     "automatic_external_activation": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review": "MANDATORY_BEFORE_IMPLEMENTATION",
+      "sources": [
+        "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json",
+        "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+        "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
+      ],
+      "roles": [
+        "RUNTIME_PROVIDER_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "selection_semantics": "MATCH_ONLY_NON_AUTHORITATIVE",
+      "no_match_disposition": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false
+    }
+  ]
 }

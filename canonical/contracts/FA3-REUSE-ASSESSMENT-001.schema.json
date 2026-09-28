@@ -83,6 +83,63 @@
     },
     "external_skill_sources": {
       "type": "array"
+    },
+    "mandatory_source_reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_family_id",
+          "review_status",
+          "available_candidate_ids",
+          "matched_candidate_ids",
+          "roles",
+          "authority",
+          "automatic_selection"
+        ],
+        "properties": {
+          "source_family_id": {
+            "type": "string"
+          },
+          "review_status": {
+            "enum": [
+              "MATCHED",
+              "REVIEWED_NO_MATCH"
+            ]
+          },
+          "available_candidate_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "matched_candidate_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "authority": {
+            "const": false
+          },
+          "automatic_selection": {
+            "const": false
+          },
+          "automatic_activation": {
+            "const": false
+          }
+        },
+        "additionalProperties": true
+      }
     }
   },
   "additionalProperties": true
