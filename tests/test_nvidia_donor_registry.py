@@ -58,7 +58,7 @@ class NvidiaDonorCurationTests(unittest.TestCase):
         self.assertTrue(self.registry["hardware_audit"]["vendor_neutral"])
         self.assertTrue(self.registry["hardware_audit"]["cpu_only_viable"])
         self.assertEqual(self.registry["hardware_audit"]["accelerator_cardinality"], "0..N")
-        self.assertFalse(self.registry["nvidia_github_curation"]["non_authoritative"] is False)
+        self.assertTrue(self.registry["nvidia_github_curation"]["non_authoritative"])
         for row in self.curated:
             for key in (
                 "authority", "automatic_selection", "automatic_fetch",
