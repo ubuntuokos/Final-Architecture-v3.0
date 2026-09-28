@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.coexistence-footprint.v1",
+  "component_id": "FA3-PROVIDER-TERAX-001",
+  "classification": "PROVIDER_RUNTIME",
+  "risk": "P0",
+  "upstream_relation": "INTEGRATES",
+  "lifecycle": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "coexistence": {
+    "executables": [],
+    "services": [],
+    "sockets": [],
+    "ports": [],
+    "config_paths": [
+      "$XDG_CONFIG_HOME/fa3/terax"
+    ],
+    "data_paths": [
+      "$XDG_DATA_HOME/fa3/terax"
+    ],
+    "cache_paths": [
+      "$XDG_CACHE_HOME/fa3/terax"
+    ],
+    "runtime_paths": [
+      "$XDG_RUNTIME_DIR/fa3/terax"
+    ],
+    "desktop_ids": [],
+    "mime_types": [],
+    "protocol_handlers": [],
+    "env_mutations": [],
+    "databases": [],
+    "plugin_paths": [],
+    "external_app_integrations": [
+      "upstream crynta/terax-ai remains independently installed and functional; reference-only by default"
+    ],
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "shared_upstream_config_mutation": false,
+    "shadow_upstream_executable": false,
+    "dynamic_local_control_endpoint_required_when_enabled": true
+  },
+  "hardware_audit": {
+    "cpu_only_viable": true,
+    "vendor_neutral": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_safety_envelope": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "disabled_reference_gpu_probe": false,
+    "display_gpu_is_not_ai_compute_lease": true
+  },
+  "evidence": {
+    "static_status": "PENDING",
+    "current_host_status": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false,
+    "independent_upstream_non_interference_current_host": "PENDING_CURRENT_HOST",
+    "artifacts": [
+      "canonical/providers/FA3-PROVIDER-TERAX-001.json",
+      "canonical/terax-enforcement.json",
+      "evidence/collect-terax-current-host.py",
+      "evidence/reference/terax-v0.8.6.json"
+    ]
+  },
+  "pending_global_coexistence_integration": {
+    "upstream_pr": 410,
+    "policy_until_merge": "NO_NEW_AUTHORITY_INTERIM_STATIC_FOOTPRINT_ONLY",
+    "mandatory_reconciliation_after_global_policy_merge": true
+  }
+}

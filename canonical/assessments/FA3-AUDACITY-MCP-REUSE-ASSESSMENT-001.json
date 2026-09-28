@@ -1,0 +1,125 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AUDACITY-MCP-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-AUDACITY-MCP-CAP124-2026-09-28",
+  "intent_id": "FA3-AUDACITY-MCP-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AUDACITY-MCP-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-AUDACITY-001",
+    "FA3-PROVIDER-AUDACITY-MCP-001",
+    "FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001",
+    "CAP-124",
+    "CAP-175"
+  ],
+  "project_status": "CANONICAL_PROVIDER_BOUNDARY_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "CAP-124",
+      "use": "EXISTING_AUDACITY_NATIVE_MCP_AUDIO_EDITING_REPAIR_UTILITY_CAPABILITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_SOLE_PRODUCTION_AGENT_TOOL_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_ROUTING_AUTHORITY_FOR_MODEL_BACKED_DSP"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_SOLE_RESOURCE_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_AND_AUTHORIZATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_OBSERVABILITY_AND_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "CAP-175",
+      "use": "MANDATORY_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    },
+    {
+      "id": "ARDOUR",
+      "use": "EXISTING_PRIMARY_HUMAN_AUDIO_FINISHING_DAW_ROLE_RETAINED"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_AUDIO_EDIT_CAPABILITY",
+      "reason": "CAP_124_ALREADY_OWNS_THIS_CAPABILITY"
+    },
+    {
+      "id": "DIRECT_AGENT_TO_AUDACITY_MCP",
+      "reason": "CENTRAL_MCP_GATEWAY_REMAINS_REQUIRED"
+    },
+    {
+      "id": "UPSTREAM_AUDACITY_MCP_INSTALLER_IN_FA3_MANAGED_MODE",
+      "reason": "HOST_AND_THIRD_PARTY_CLIENT_CONFIGURATION_MUTATION_FORBIDDEN"
+    },
+    {
+      "id": "AUDACITY_4_COMPANION_FORK_BASELINE",
+      "reason": "REQUIRES_NONSTANDARD_AUDACITY_FORK_AND_IS_NOT_BASELINE_ADMITTED"
+    },
+    {
+      "id": "NEW_MODEL_ROUTING_OR_RESOURCE_AUTHORITY",
+      "reason": "MODEL_ROUTER_AND_HRB_REMAIN_SOLE_AUTHORITIES"
+    },
+    {
+      "id": "AUDACITY_AS_PRIMARY_FINISHING_DAW",
+      "reason": "ARDOUR_FINISHING_ROLE_REMAINS_UNCHANGED"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "source": "xDarkzx/Audacity-MCP",
+      "use": "TYPED_LOCAL_AUDACITY_CONTROL_SURFACE_AND_CAPABILITY_MAPPING_REFERENCE"
+    },
+    {
+      "source": "Dream-Pixels-Forge/audacity-mcp",
+      "use": "LOCAL_DSP_AND_MEASURABLE_BEFORE_AFTER_AUDIO_QA_PATTERN_REFERENCE"
+    },
+    {
+      "source": "FA3_EXISTING_AUDIO_AND_MCP_FABRICS",
+      "use": "AUTHORITY_BOUNDARIES_PROVENANCE_HITL_AND_NON_DESTRUCTIVE_ASSET_FLOW"
+    }
+  ],
+  "existing_authority_bindings": {
+    "mcp_authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_audio_finishing_role": "ARDOUR_REMAINS_PRIMARY",
+    "audacity_role": "REPLACEABLE_WAVEFORM_REPAIR_UTILITY_PROVIDER_NOT_AUTHORITY"
+  },
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_AUDACITY_MCP_E2E_EVIDENCE_PENDING",
+    "AUDACITY_4_STABLE_AUTOMATION_INTERFACE_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "other_client_configuration_mutation": false,
+    "system_runtime_replacement_required": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

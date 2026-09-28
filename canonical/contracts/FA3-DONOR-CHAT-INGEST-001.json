@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.contract.v1",
+  "id": "FA3-DONOR-CHAT-INGEST-001",
+  "status": "NON_AUTHORITATIVE_IMPORT_ADAPTER",
+  "version": "1.0.0",
+  "purpose": "PRIVACY_BOUNDED_IMPORT_OF_EXPLICIT_DONOR_SIGNALS_FROM_USER_SUPPLIED_CHATGPT_EXPORT_OR_APPROVED_LOCAL_EVENT_STREAM",
+  "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "reuse_discovery_profile": "FA3-REUSE-DISCOVERY-001",
+  "accepted_inputs": [
+    "CHATGPT_EXPORT_ZIP",
+    "CONVERSATIONS_JSON",
+    "APPROVED_LOCAL_EVENT_JSONL"
+  ],
+  "consent": "USER_PROVIDES_LOCAL_EXPORT_OR_CONFIGURES_APPROVED_EVENT_ADAPTER",
+  "unattended_chatgpt_account_access": false,
+  "automatic_export_request": false,
+  "automatic_chatgpt_subscription": false,
+  "incremental_input_replay": "IDEMPOTENT_BY_SOURCE_NORMALIZED_KEY",
+  "capture_state": "CANDIDATE",
+  "unknown_source_policy": "REQUIRE_EXPLICIT_OPT_IN_TO_PUBLISH_UNLINKED_NAMES",
+  "raw_conversation_persistence_forbidden": true,
+  "conversation_titles_persistence_forbidden": true,
+  "conversation_ids_persistence_forbidden": true,
+  "source_copy_requires_separate_license_and_security_admission": true,
+  "public_repo_private_data_guard": true,
+  "architectural_authority": false,
+  "automatic_code_import": false,
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_model_selection": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  }
+}

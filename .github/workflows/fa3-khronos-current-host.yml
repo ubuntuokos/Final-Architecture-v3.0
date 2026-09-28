@@ -7,7 +7,6 @@ on:
       - 'canonical/current-host-capability-proof-recipes.json'
       - 'canonical/current-host-capability-qualification-constituent-producers.json'
       - 'canonical/current-host-capability-test-qualifications.json'
-      - 'evidence/evidence-registry.json'
       - 'src/fa3_cap083_khronos_current_host.py'
       - 'src/fa3_khronos_open_standards_gate.py'
       - 'tests/test_khronos_open_standards_gate.py'
@@ -27,14 +26,12 @@ on:
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'evidence/collect-khronos-sdk-materialization-current-host.py'
       - '.github/workflows/fa3-khronos-current-host.yml'
-      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   pull_request:
     paths:
       - 'canonical/**/FA3-KHRONOS-*'
       - 'canonical/current-host-capability-proof-recipes.json'
       - 'canonical/current-host-capability-qualification-constituent-producers.json'
       - 'canonical/current-host-capability-test-qualifications.json'
-      - 'evidence/evidence-registry.json'
       - 'src/fa3_cap083_khronos_current_host.py'
       - 'src/fa3_khronos_open_standards_gate.py'
       - 'tests/test_khronos_open_standards_gate.py'
@@ -54,7 +51,6 @@ on:
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'evidence/collect-khronos-sdk-materialization-current-host.py'
       - '.github/workflows/fa3-khronos-current-host.yml'
-      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   workflow_dispatch:
 
 concurrency:

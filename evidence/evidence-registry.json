@@ -5697,7 +5697,8 @@
         "GC-14",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-AUDACITY-MCP-2026-09-28"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [],
@@ -8370,6 +8371,24 @@
     "source_materialization_status": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false,
     "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175
+  },
+  "audacity_mcp_reconciliation": {
+    "capability_id": "CAP-124",
+    "decision_id": "FA3-DEC-AUDACITY-MCP-2026-09-28",
+    "gate_id": "FA3-AUDACITY-MCP-GATESET-001",
+    "executable_gate_id": "FA3-GATE-AUDACITY-MCP-001",
+    "provider_ids": [
+      "FA3-PROVIDER-AUDACITY-001",
+      "FA3-PROVIDER-AUDACITY-MCP-001",
+      "FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001"
+    ],
+    "reference_status": "CI_CANONICAL_STATIC_PASS",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_runtime_promotion_claim": false,
+    "production_provider_admission": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 175

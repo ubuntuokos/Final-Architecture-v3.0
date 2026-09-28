@@ -1,5 +1,27 @@
 name: FA3 Khronos Open Standards Gate
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**KHRONOS**'
+      - 'canonical/**/FA3-KHRONOS-*'
+      - 'src/fa3_khronos_*'
+      - 'src/fa3_cap083_khronos_current_host.py'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'evidence/evidence-registry.json'
+      - 'tests/test_cap083_khronos_current_host.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+      - '.github/workflows/fa3-khronos-current-host.yml'
+      - 'bin/fa3-materialize-khronos-sdks.sh'
+      - 'evidence/collect-khronos-sdk-materialization-current-host.py'
+      - 'tests/test_khronos_open_standards_gate.py'
+      - 'docs/FA3-KHRONOS-*'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   pull_request:
     paths:
       - 'canonical/**KHRONOS**'
@@ -8,6 +30,7 @@ on:
       - 'src/fa3_cap083_khronos_current_host.py'
       - 'canonical/current-host-capability-proof-recipes.json'
       - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'evidence/evidence-registry.json'
       - 'tests/test_cap083_khronos_current_host.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
       - '.github/workflows/fa3-khronos-current-host.yml'

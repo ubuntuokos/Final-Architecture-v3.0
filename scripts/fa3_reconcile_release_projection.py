@@ -100,6 +100,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     policy_path = root / policy_rel
     projection = loadj(projection_path)
     policy = loadj(policy_path)
+    donor_registry = loadj(root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
 
     gui_conformance = loadj(root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json")
     gui_runtime_pass = (
@@ -308,12 +309,27 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
         "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
+        "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+        "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
+        "donor_registry_entry_count": len(donor_registry.get("entries", [])),
+        "donor_capture_default_status": donor_registry.get("capture_policy", {}).get("default_status"),
+        "donor_potential_signal_capture_required": donor_registry.get("capture_policy", {}).get("potential_donor_signal_requires_capture") is True,
+        "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
+        "donor_future_application_matching": donor_registry.get("planning_policy", {}).get("future_applications_supported") is True,
+        "donor_registry_authority": False,
+        "donor_automatic_dependency": False,
+        "donor_automatic_code_import": False,
+        "donor_automatic_provider_admission": False,
+        "donor_automatic_model_selection": False,
+        "donor_automatic_activation": False,
     }
 
     projection["ai_engineering_reference_reconciliation"] = {
         "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
         "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
-        "reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+        "reference_commit": "968da0791b83917c9d8a5ba197ff190fa0b24093",
+        "reference_revalidated_at": "2026-09-27",
+        "reference_evidence": "evidence/reference/ai-engineering-upstream-revalidation-2026-09-27.json",
         "decision_id": "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30",
         "gate_id": "FA3-AIENG-GATESET-001",
         "application_intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",

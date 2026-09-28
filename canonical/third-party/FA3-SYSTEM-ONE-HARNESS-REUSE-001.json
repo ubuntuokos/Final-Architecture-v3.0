@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.third-party-reuse.v1",
+  "id": "FA3-SYSTEM-ONE-HARNESS-REUSE-001",
+  "upstream": {
+    "repository": "HarnessRouter/SystemOneHarness",
+    "commit": "ab8e8f08b4a6268c0633a474423d556599ee06a4",
+    "license": "Apache-2.0"
+  },
+  "reviewed_on": "2026-09-28",
+  "disposition": "PATTERN_SOURCE",
+  "code_copy": false,
+  "distribution_obligation": "No upstream source file is vendored by this integration; preserve this provenance record for the design-pattern derivation.",
+  "adopted_patterns": [
+    "finite enumerated action and parameter space",
+    "single System One request containing action and parameter questions",
+    "risk-class confidence thresholds",
+    "weakest-required-judgment gate",
+    "explicit finish and escalate outcomes",
+    "structured low-confidence handoff",
+    "unsupported/free-text action forms fail closed"
+  ],
+  "rejected_or_replaced_patterns": [
+    "direct OpenRouter transport",
+    "direct TypeSafe transport",
+    "provider-owned secret loading",
+    "harness-owned environment execution",
+    "independent routing authority",
+    "independent resource authority"
+  ],
+  "fa3_replacements": {
+    "model_transport": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_selection": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secret_resolution": "FA3 Secret Broker",
+    "execution_authority": "existing MCP/UAF/application policy owner",
+    "trace": "FA3-DECISION-TRACE-001"
+  },
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED"
+  }
+}

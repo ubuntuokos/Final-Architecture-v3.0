@@ -10,7 +10,7 @@ from typing import Any, Protocol
 
 CONTRACTS = {
     "SELECT_ONE", "BOOLEAN", "SCORE", "RANK",
-    "MULTI_LABEL", "RELEVANCE", "STOP_CONTINUE",
+    "MULTI_LABEL", "RELEVANCE", "STOP_CONTINUE", "BOUNDED_ACTION",
 }
 FAILURE_POLICIES = {
     "FAIL_CLOSED", "RULE_FALLBACK", "EXISTING_BEHAVIOR",
@@ -83,7 +83,7 @@ class DecisionRequest:
         ids = [c.id for c in candidates]
         if len(ids) != len(set(ids)):
             raise DecisionError("candidate ids must be unique")
-        if contract in {"SELECT_ONE", "RANK", "MULTI_LABEL", "RELEVANCE"} and not candidates:
+        if contract in {"SELECT_ONE", "RANK", "MULTI_LABEL", "RELEVANCE", "BOUNDED_ACTION"} and not candidates:
             raise DecisionError(f"{contract} requires candidates")
         failure_policy = data.get("failure_policy", "NO_DECISION")
         if failure_policy not in FAILURE_POLICIES:
@@ -168,6 +168,8 @@ class RuleDecisionProvider:
                 return ProviderResult("NO_DECISION", None)
             key = "continue" if request.contract == "STOP_CONTINUE" else "value"
             return ProviderResult("DECIDED", {key: value}, 1.0)
+        if request.contract == "BOUNDED_ACTION":
+            return ProviderResult("NO_DECISION", None)
         if request.contract == "SCORE":
             value = request.constraints.get("score")
             if not isinstance(value, (int, float)):

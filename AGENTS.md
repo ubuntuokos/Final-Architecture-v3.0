@@ -36,3 +36,16 @@ This file is a scoped operational projection for coding agents. It is not a cano
 Canonical authority: repository canonical records and executable gates.
 Projection authority: none.
 If this file conflicts with a canonical record, contract, decision, executable gate, or verified evidence, stop and resolve the conflict at the higher-authority layer. Do not silently choose this file.
+
+
+## FA3 donor capture rule
+
+For FA3 research, planning, architecture, application, capability, module, provider, UI, workflow, model, standard, algorithm, SDK, library, paper, dataset, or external-project work, any source that is identified even tentatively as a potentially useful donor or reference MUST be captured or merged into `FA3-DONOR-REFERENCE-REGISTRY-001` before the task is closed.
+
+Use `./bin/fa3-donor-capture --name "<name>" --source "<locator>" ...` for candidate capture. The default state is `CANDIDATE`. Capture is non-authoritative: it MUST NOT imply dependency adoption, code import, fetch/install, provider admission, model selection, activation, architectural authority, or runtime promotion. Source/code reuse still requires the normal FA3 license, provenance, security, coexistence, hardware, and admission paths.
+
+Before designing or materially modifying an FA3 application, capability, or module, query Reuse Discovery including the donor registry. Rejected and superseded donors remain recorded so the same research is not repeated, but they are not planning candidates.
+
+## FA3 automatic application inventory and reciprocal reuse
+
+For any application added to the curated AI Studio catalog, derive its record through `bin/fa3-app-donor-index` rather than creating an untracked donor entry. GUI surface routes must be indexed as surfaces, never silently treated as applications. Planned FA3 applications must be explicitly registered in `canonical/FA3-APPLICATION-DONOR-LINKS-001.json`. Before new or materially modified application/module design, inspect both the existing Reuse Discovery results and the application's incoming/outgoing links. On donor-registry changes, run the previous-registry impact comparison and review only affected applications. Application registration does not confer donor approval, dependency, install, source-import, model, provider or runtime admission.

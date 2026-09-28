@@ -15,7 +15,10 @@ INTENT_ID = "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001"
 ASSESSMENT_ID = "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001"
 PATTERN_BUNDLE_ID = "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001"
 UPSTREAM_REPO = "rohitg00/ai-engineering-from-scratch"
-REFERENCE_COMMIT = "8bc378c2e07777899322ae77cd0dde94cb12fab3"
+PREVIOUS_REFERENCE_COMMIT = "8bc378c2e07777899322ae77cd0dde94cb12fab3"
+REFERENCE_COMMIT = "968da0791b83917c9d8a5ba197ff190fa0b24093"
+REVALIDATED_AT = "2026-09-27"
+REVALIDATION_EVIDENCE = "evidence/reference/ai-engineering-upstream-revalidation-2026-09-27.json"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 SOURCE_RULES = [
@@ -197,12 +200,14 @@ def reference_check(root: Path):
     dec_path = root / "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json"
     enf_path = root / "canonical/ai-engineering-from-scratch-enforcement.json"
     pol_path = root / "canonical/enforcement-policy.json"
+    reval_path = root / REVALIDATION_EVIDENCE
 
     for code, path in (
         ("AIENG-REF-001", ref_path),
         ("AIENG-REF-002", dec_path),
         ("AIENG-REF-003", enf_path),
         ("AIENG-REF-004", pol_path),
+        ("AIENG-REF-015", reval_path),
     ):
         if not path.exists():
             findings.append(finding(code, "Required canonical file missing", path=str(path.relative_to(root))))
@@ -214,6 +219,7 @@ def reference_check(root: Path):
     dec = loadj(dec_path)
     enf = loadj(enf_path)
     pol = loadj(pol_path)
+    reval = loadj(reval_path)
     disp = ref.get("fa3_disposition", {})
 
     if not (
@@ -224,7 +230,8 @@ def reference_check(root: Path):
         and ref.get("observed_default_branch_head") == REFERENCE_COMMIT
         and ref.get("default_branch") == "main"
         and ref.get("reference_kind") == "PINNED_COMMIT"
-        and ref.get("last_revalidated_at") == "2026-09-26"
+        and ref.get("last_revalidated_at") == REVALIDATED_AT
+        and ref.get("latest_revalidation_evidence") == REVALIDATION_EVIDENCE
     ):
         findings.append(finding("AIENG-REF-005", "Immutable upstream reference identity drift"))
 
@@ -258,6 +265,8 @@ def reference_check(root: Path):
         and dec.get("reuse_assessment_id") == ASSESSMENT_ID
         and dec.get("pattern_bundle_id") == PATTERN_BUNDLE_ID
         and dec.get("current_host_runtime_evidence_required") is False
+        and dec.get("active_reference_commit") == REFERENCE_COMMIT
+        and dec.get("latest_revalidation_evidence") == REVALIDATION_EVIDENCE
     ):
         findings.append(finding("AIENG-REF-007", "Canonical decision drift"))
 
@@ -281,6 +290,7 @@ def reference_check(root: Path):
         and enf.get("software_coexistence_required") is True
         and enf.get("hardware_audit_required") is True
         and enf.get("current_host_runtime_evidence_required") is False
+        and enf.get("latest_revalidation_evidence") == REVALIDATION_EVIDENCE
     ):
         findings.append(finding("AIENG-REF-008", "Enforcement record drift"))
 
@@ -296,6 +306,27 @@ def reference_check(root: Path):
         findings.append(finding("AIENG-REF-013", "Global policy ReuseAssessment binding drift"))
     if pol.get("ai_engineering_pattern_bundle_id") != PATTERN_BUNDLE_ID:
         findings.append(finding("AIENG-REF-014", "Global policy derived-pattern binding drift"))
+    if not (
+        pol.get("ai_engineering_reference_commit") == REFERENCE_COMMIT
+        and pol.get("ai_engineering_reference_revalidated_at") == REVALIDATED_AT
+        and pol.get("ai_engineering_reference_revalidation_evidence") == REVALIDATION_EVIDENCE
+    ):
+        findings.append(finding("AIENG-REF-016", "Global policy revalidation binding drift"))
+    if not (
+        reval.get("schema") == "fa3.ai-engineering-upstream-revalidation.v1"
+        and reval.get("source_id") == SOURCE_ID
+        and reval.get("reference_id") == REFERENCE_ID
+        and reval.get("base_reference_commit") == PREVIOUS_REFERENCE_COMMIT
+        and reval.get("validated_reference_commit") == REFERENCE_COMMIT
+        and reval.get("revalidated_at") == REVALIDATED_AT
+        and reval.get("upstream_commits_reviewed") == 6
+        and reval.get("new_p0_invariants") == 0
+        and reval.get("capability_count_after") == CAPABILITY_COUNT
+        and reval.get("runtime_provider_admitted") is False
+        and reval.get("current_host_runtime_promotion_claim") is False
+        and reval.get("result") == "PASS"
+    ):
+        findings.append(finding("AIENG-REF-017", "Upstream revalidation evidence drift"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
@@ -375,6 +406,8 @@ def reuse_governance_check(root: Path):
         and assessment.get("capability_count_after") == CAPABILITY_COUNT
         and assessment.get("current_host_runtime_promotion_claim") is False
         and assessment.get("global_promotion_claim") is False
+        and assessment.get("upstream_reference_commit") == REFERENCE_COMMIT
+        and assessment.get("latest_revalidation_evidence") == REVALIDATION_EVIDENCE
     ):
         findings.append(finding("AIENG-REUSE-007", "ReuseAssessment baseline or promotion boundary drift"))
 
@@ -410,6 +443,7 @@ def reuse_governance_check(root: Path):
         and patterns.get("capability_count") == CAPABILITY_COUNT
         and patterns.get("invariants") == SOURCE_RULES
         and len(patterns.get("patterns", [])) == len(SOURCE_RULES)
+        and patterns.get("latest_revalidation_evidence") == REVALIDATION_EVIDENCE
     ):
         findings.append(finding("AIENG-REUSE-010", "Derived pattern bundle drift"))
 
@@ -431,6 +465,8 @@ def reuse_governance_check(root: Path):
         release_rec.get("source_id") == SOURCE_ID
         and release_rec.get("reference_id") == REFERENCE_ID
         and release_rec.get("reference_commit") == REFERENCE_COMMIT
+        and release_rec.get("reference_revalidated_at") == REVALIDATED_AT
+        and release_rec.get("reference_evidence") == REVALIDATION_EVIDENCE
         and release_rec.get("decision_id") == DECISION_ID
         and release_rec.get("gate_id") == GATE_ID
         and release_rec.get("application_intent_id") == INTENT_ID

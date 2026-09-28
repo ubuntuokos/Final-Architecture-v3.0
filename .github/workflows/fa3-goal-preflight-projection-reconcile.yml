@@ -1,0 +1,63 @@
+name: FA3 Goal Source Preflight Projection Reconcile
+
+# One-shot maintenance of only the canonical release projection. The PR must
+# come from our exact same-owner protected feature branch, never from a fork.
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/fa3-goal-preflight-projection-reconcile.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  projection-reconcile:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == 'ubuntuokos/Final-Architecture-v3.0' &&
+      github.event.pull_request.head.ref == 'fa3/goal-driven-authenticated-preflight-20260928'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact immutable feature snapshot
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: One-shot explicit finalization only
+        id: one_shot
+        run: |
+          if [ "$(git log -1 --format=%s)" = "ci(release): finalize goal P2 source preflight" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Require clean committed repository snapshot
+        if: steps.one_shot.outputs.run == 'true'
+        run: test -z "$(git status --porcelain)"
+      - name: Governed immutable release projection regeneration
+        if: steps.one_shot.outputs.run == 'true'
+        run: PYTHONPATH=src python3 scripts/fa3_reconcile_release_projection.py
+      - name: Fail closed on unexpected changes
+        if: steps.one_shot.outputs.run == 'true'
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          expected='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          if changed != [expected]:
+              raise SystemExit('unexpected projection diff: '+repr(changed))
+          PY
+      - name: Commit projection with fast-forward only
+        if: steps.one_shot.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "build(release): reconcile exact source-bound preflight snapshot"
+          git push origin HEAD:refs/heads/fa3/goal-driven-authenticated-preflight-20260928
+      - name: Record exact output identity
+        if: steps.one_shot.outputs.run == 'true'
+        run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}

@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-REUSE-DISCOVERY-001",
   "name": "Capability, Contract, Pattern & Implementation Reuse Discovery Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -38,11 +38,16 @@
     "External Project Radar",
     "FA3-SKILL-FABRIC-001",
     "FA3-SKILL-REGISTRY-001",
-    "FA3-EXTERNAL-SKILL-RADAR-001"
+    "FA3-EXTERNAL-SKILL-RADAR-001",
+    "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
   ],
   "lifecycle": [
     "INTENT",
     "DISCOVER",
+    "DISCOVER_DONOR_REFERENCE_REGISTRY",
+    "DISCOVER_OPEN_STANDARD_SOURCES",
     "DISCOVER_SKILLS_AND_EXTERNAL_SKILL_SOURCES",
     "FILTER",
     "ASSESS_REUSE",
@@ -90,5 +95,36 @@
     "automatic_activation": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "open_standards_reuse_binding": {
+    "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "adapter_registry_id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+    "integration_map_id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+    "review_required_for_every_new_application": true,
+    "allowed_dispositions": [
+      "MATCHED",
+      "REVIEWED_NO_MATCH"
+    ],
+    "roles": [
+      "RUNTIME_PROVIDER_SOURCE",
+      "INTERCHANGE_STANDARD_SOURCE",
+      "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+    ],
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false
+  },
+  "donor_reference_binding": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "review_required_for_every_new_or_materially_modified_application_capability_or_module": true,
+    "potential_donor_signal_requires_capture": true,
+    "default_capture_state": "CANDIDATE",
+    "candidate_is_admission": false,
+    "candidate_is_dependency": false,
+    "code_import_requires_separate_license_security_and_admission_review": true,
+    "future_application_matching": true,
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false
+  }
 }

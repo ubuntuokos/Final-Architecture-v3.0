@@ -1,0 +1,89 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-AUDACITY-MCP-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "capability_id": "CAP-124",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "provider_neutral": true,
+  "providers": [
+    "FA3-PROVIDER-AUDACITY-001",
+    "FA3-PROVIDER-AUDACITY-MCP-001",
+    "FA3-PROVIDER-AUDACITY-DSP-REFERENCE-001"
+  ],
+  "authorities": {
+    "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "canonical_capabilities": [
+    "audacity.project.*",
+    "audacity.track.*",
+    "audacity.selection.*",
+    "audacity.edit.*",
+    "audacity.effect.*",
+    "audacity.analysis.*",
+    "audacity.transport.*",
+    "audacity.label.*",
+    "audacity.import.*",
+    "audacity.export.*",
+    "audacity.cleanup.*",
+    "audacity.mastering.*"
+  ],
+  "contracts": {
+    "AudacityCapabilityManifest": {
+      "required": ["provider_id", "audacity_version", "automation_interface", "available_capabilities", "read_write_scope", "probe_timestamp"],
+      "unsupported_capability": "FAIL_CLOSED"
+    },
+    "AudacityMutationRequest": {
+      "required": ["operation", "input_artifact", "selection", "parameters", "policy_context", "expected_output"],
+      "checkpoint_before_destructive": true,
+      "source_overwrite_default": "DENY"
+    },
+    "AudacityMutationResult": {
+      "required": ["output_artifacts", "input_hashes", "output_hashes", "operation", "parameters", "provider_identity", "provenance", "policy_receipt", "qa"],
+      "master_promotion": "HUMAN_OR_POLICY_GATED"
+    },
+    "AudioDSPQualityDelta": {
+      "required": ["metrics_before", "metrics_after", "operation", "provider_identity"],
+      "recommended_metrics": ["duration", "sample_rate", "channels", "peak", "loudness", "clipping", "noise_metrics"]
+    },
+    "AudacityRuntimeAdmission": {
+      "required": ["audacity_version", "automation_interface", "provider_version", "software_coexistence", "hardware_audit"],
+      "pass_condition": "SUPPORTED_INTERFACE_AND_CAPABILITY_MATCH_AND_POLICY_PASS",
+      "failure": "DENY_AFFECTED_PROVIDER_PATH_ONLY"
+    }
+  },
+  "hardware_audit": {
+    "cpu_only_required": true,
+    "accelerator_cardinality": "0..N",
+    "vendor_neutral": true,
+    "fixed_cpu_gpu_npu_numa_values": "FORBIDDEN",
+    "accelerator_execution": "HRB_ADMISSION_REQUIRED",
+    "display_gpu_compute_entitlement": false
+  },
+  "software_coexistence": {
+    "capability": "CAP-175",
+    "upstream_installer_may_mutate_host_configs": "NOT_USED_BY_FA3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "default_port_claim": false,
+    "namespaced_runtime_required": true
+  },
+  "invariants": [
+    "All production agent tool execution MUST traverse FA3 Central MCP Gateway.",
+    "Audacity/Audacity-MCP SHALL NOT become MCP, model-routing, resource, security, workflow or evidence authority.",
+    "Unsupported Audacity automation interfaces SHALL fail closed; GUI click automation is not an automatic fallback.",
+    "Base Audacity editing MUST remain CPU-only viable and SHALL NOT require an accelerator.",
+    "AI/model-backed DSP MUST use Model Router when the operation consumes a routed model and HRB for resource admission.",
+    "Non-model DSP MAY execute without Model Router but remains under HRB/policy/evidence governance.",
+    "Original audio and native .aup3 projects are preserved by default; derived outputs are preferred.",
+    "Recording/microphone activation and irreversible overwrite/delete require authenticated approval.",
+    "FA3 managed integration SHALL NOT execute upstream installers that modify Audacity or third-party client configuration.",
+    "Wayland is preferred; X11 remains supported; no desktop-environment-specific dependency is allowed."
+  ]
+}

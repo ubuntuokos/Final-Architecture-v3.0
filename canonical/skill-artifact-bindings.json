@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.skill-artifact-bindings.v1",
+  "id": "FA3-SKILL-ARTIFACT-BINDINGS-001",
+  "status": "CANONICAL",
+  "authority": false,
+  "capability_count": 175,
+  "drift_policy": "FAIL_CLOSED",
+  "path_change_requires_same_change_registry_update": true,
+  "bindings": [
+    {
+      "artifact_id": "FA3-ARTIFACT-SKILL-FABRIC-GATE-REPORT",
+      "schema_id": "fa3.skill-fabric-gate-report.v1",
+      "producer": {
+        "component": "src/fa3_skill_fabric_gate.py",
+        "path": "reports/skill-fabric-gate-report.json"
+      },
+      "consumers": [
+        {
+          "component": "FA3-GATE-SKILL-FABRIC-001",
+          "expected_path": "reports/skill-fabric-gate-report.json"
+        }
+      ],
+      "authority_owner": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    {
+      "artifact_id": "FA3-ARTIFACT-SKILL-FABRIC-V13-REPORT",
+      "schema_id": "fa3.skill-fabric-v13-gate-report.v1",
+      "producer": {
+        "component": "src/fa3_skill_fabric_v13.py",
+        "path": "reports/skill-fabric-v13-gate-report.json"
+      },
+      "consumers": [
+        {
+          "component": "src/fa3_skill_fabric_gate.py",
+          "expected_path": "reports/skill-fabric-v13-gate-report.json"
+        }
+      ],
+      "authority_owner": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    {
+      "artifact_id": "FA3-ARTIFACT-SKILL-FABRIC-V14-REPORT",
+      "schema_id": "fa3.skill-fabric-v14-gate-report.v1",
+      "producer": {
+        "component": "src/fa3_skill_fabric_v14.py",
+        "path": "reports/skill-fabric-v14-gate-report.json"
+      },
+      "consumers": [
+        {
+          "component": "src/fa3_skill_fabric_gate.py",
+          "expected_path": "reports/skill-fabric-v14-gate-report.json"
+        }
+      ],
+      "authority_owner": "FA3-AUTH-OBS-EVIDENCE-001"
+    }
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.provider.v1",
+  "id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+  "name": "FA3 System One Native Provider Protocol Bridge",
+  "profile": "FA3-DECISION-FABRIC-001",
+  "status": "RUNTIME_ADMISSION_PENDING_LIVE_PROVIDER_AND_SECRET_BROKER",
+  "architectural_authority": false,
+  "mandatory": false,
+  "provider_neutral": true,
+  "provider_runtime_adapter": true,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "credentials": "FA3-SECRET-BROKER-001",
+    "capability_execution": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "fa3_usage_policy": {
+    "model_routing": "DELEGATE_TO_EXISTING_FA3_MODEL_ROUTER",
+    "direct_application_calls": "DENY",
+    "direct_external_model_calls": "DENY",
+    "provider_runtime_egress": "EXPLICITLY_ADMITTED_FIXED_UPSTREAM_ONLY"
+  },
+  "runtime_api": "SYSTEM_ONE_DECISIONS_V1",
+  "local_runtime_endpoint": "DYNAMIC_LOOPBACK_ONLY",
+  "selection_route": "fa3-decision-system-one",
+  "single_data_plane": "LITELLM_AUTHENTICATED_PASS_THROUGH",
+  "approved_model_source": "EXPLICIT_PRIMARY_MODEL_DESIGNATION_RECEIPT",
+  "runtime_catalog": "LIVE_NATIVE_MODELS_ONLY",
+  "authentication": {
+    "native_upstream_key": "SECRET_BROKER_PROJECTED_ONLY",
+    "bridge_token": "SECRET_BROKER_PROJECTED_ONLY",
+    "lite_llm_key": "SECRET_BROKER_PROJECTED_ONLY",
+    "passthrough_auth_required": true,
+    "negative_bearer_proof_required": true
+  },
+  "external_egress_policy": {
+    "mode": "SINGLE_EXPLICIT_UPSTREAM",
+    "selection": "OPERATOR_ADMITTED_ONLY",
+    "hosts": [
+      "openrouter.ai",
+      "api.typesafe.ai"
+    ],
+    "redirects": "DENY",
+    "local_to_cloud_fallback": "DENY"
+  },
+  "activation_requirements": [
+    "EXPLICIT_OPERATOR_ENABLE",
+    "EXPLICIT_PRIMARY_MODEL_DESIGNATION",
+    "SECRET_BROKER_CURRENT_HOST_PASS",
+    "REAL_NATIVE_UPSTREAM_RESPONSE",
+    "INVALID_BEARER_REJECTION",
+    "SAME_INSTANCE_CURRENT_HOST_ADMISSION",
+    "MODEL_ROUTER_LIVE_SELECTION",
+    "LITELLM_PASSTHROUGH_AUTH_NEGATIVE_TEST"
+  ],
+  "direct_action_execution": false,
+  "confidence_is_authorization": false,
+  "client_may_select_model": false,
+  "cpu_only_supported": true,
+  "accelerator_cardinality": "0..N",
+  "new_architectural_authority": false,
+  "new_capability": false,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "distribution": {
+    "class": "FA3_NATIVE",
+    "release_bundle_status": "INCLUDED"
+  },
+  "global_promotion_claim": false
+}

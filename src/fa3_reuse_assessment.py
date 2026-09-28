@@ -61,6 +61,7 @@ def assess_intent(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         "selected_reuse": selected,
         "skill_reuse": skill_reuse,
         "external_skill_sources": external_skill_sources,
+        "mandatory_source_reviews": resolution.get("mandatory_source_reviews", []),
         "gaps": all_gaps,
         "existing_authority_bindings": resolution["existing_authority_bindings"],
         "authority_collisions": resolution["authority_collisions"],
