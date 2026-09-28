@@ -23,11 +23,22 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
           persist-credentials: true
+      - name: Run once only on explicit finalization commit
+        id: one_shot
+        run: |
+          if [ "$(git log -1 --format=%s)" = "ci(release): finalize goal donor one-shot projection" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Verify snapshot is clean
+        if: steps.one_shot.outputs.run == 'true'
         run: test -z "$(git status --porcelain)"
       - name: Regenerate governed projection from committed snapshot
+        if: steps.one_shot.outputs.run == 'true'
         run: PYTHONPATH=src python3 scripts/fa3_reconcile_release_projection.py
       - name: Fail closed if generator touched anything else
+        if: steps.one_shot.outputs.run == 'true'
         run: |
           python3 - <<'PY'
           import subprocess
@@ -37,6 +48,7 @@ jobs:
               raise SystemExit('Generator changed unexpected paths: '+repr(changed))
           PY
       - name: Commit projection using Git fast-forward only
+        if: steps.one_shot.outputs.run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -44,6 +56,7 @@ jobs:
           git commit -m "build(release): reconcile exact goal-donor snapshot projection"
           git push origin HEAD:refs/heads/fa3/goal-driven-agent-donor-plan-20260928
       - name: Report projection commit and tree
+        if: steps.one_shot.outputs.run == 'true'
         run: |
           git rev-parse HEAD
           git rev-parse HEAD^{tree}
