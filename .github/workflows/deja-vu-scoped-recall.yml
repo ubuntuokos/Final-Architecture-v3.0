@@ -1,0 +1,49 @@
+name: Deja-vu scoped recall checks
+on:
+  pull_request:
+    paths:
+      - "src/fa3_deja_vu_*.py"
+      - "tests/test_fa3_deja_vu_recall.py"
+      - "canonical/deja-vu-recall-enforcement.json"
+      - "canonical/providers/FA3-PROVIDER-DEJA-VU-001.json"
+      - "canonical/mcp-capability-registry.json"
+      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+      - ".github/workflows/deja-vu-scoped-recall.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_deja_vu_*.py"
+      - "tests/test_fa3_deja_vu_recall.py"
+      - "canonical/deja-vu-recall-enforcement.json"
+      - "canonical/providers/FA3-PROVIDER-DEJA-VU-001.json"
+      - "canonical/mcp-capability-registry.json"
+      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+      - ".github/workflows/deja-vu-scoped-recall.yml"
+permissions:
+  contents: read
+jobs:
+  static-and-isolated-adapter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python syntax and static canonical gate
+        run: |
+          python -m compileall -q src/fa3_deja_vu_recall.py src/fa3_deja_vu_gate.py tests/test_fa3_deja_vu_recall.py
+          PYTHONPATH=src python src/fa3_deja_vu_gate.py
+      - name: Offline scoped-adapter and MCP negative tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -p 'test_fa3_deja_vu_recall.py' -v
+      - name: No runtime-admission inference
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('canonical/providers/FA3-PROVIDER-DEJA-VU-001.json').read_text())
+          assert p['admission']['production_admitted'] is False
+          print('CI only: real current-host E2E and rollback remain pending')
+          PY
