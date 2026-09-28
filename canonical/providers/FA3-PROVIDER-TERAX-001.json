@@ -52,7 +52,6 @@
     "status": "RECONCILED_2026_09_17",
     "canonical_hardware_semantic_root": "FA3-HW-001",
     "portable_floor_authority": "FA3-HARDWARE-BASELINE-001",
-    "hardware_reconciliation": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
     "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
     "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "provider_may_redefine_global_hardware_floor": false,
@@ -77,7 +76,9 @@
       "webgpu_webgl_or_other_renderer_is_not_ai_compute_admission_authority": true,
       "must_not_create_global_nvidia_cuda_requirement": true,
       "must_not_be_confused_with_model_inference_accelerator_lease": true
-    }
+    },
+    "hardware_safety_envelope_decision": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "active_host_adaptation_profile": "FA3-HOST-ADAPTATION-001"
   },
   "current_host_evidence": {
     "role": "AUXILIARY_PROVIDER_CONFORMANCE_ONLY",
