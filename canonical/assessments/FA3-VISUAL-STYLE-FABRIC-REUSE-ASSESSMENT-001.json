@@ -82,5 +82,38 @@
   "new_architectural_authorities": 0,
   "capability_count_after": 175,
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-BINDING:VISION_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.anari",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.openvx",
+        "fa3.khronos.vulkan-profiles"
+      ],
+      "matched_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.anari",
+        "fa3.khronos.ktx"
+      ],
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "DOWNSTREAM_CONSUMER_DESIGN_REFERENCE_ONLY_NO_SDK_DEPENDENCY_NO_RUNTIME_ADMISSION",
+      "scope": "Visual Style Fabric emits provider-neutral recipe/intent metadata only. Renderer/3D/asset consumers may separately evaluate Khronos texture/interchange and rendering patterns through their own admission and HRB gates."
+    }
+  ]
 }
