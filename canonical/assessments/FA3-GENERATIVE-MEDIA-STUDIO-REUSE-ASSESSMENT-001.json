@@ -3,11 +3,113 @@
   "id": "FA3-GENERATIVE-MEDIA-STUDIO-REUSE-ASSESSMENT-001",
   "project_id": "FA3-GENERATIVE-MEDIA-STUDIO-001",
   "intent_id": "FA3-GENERATIVE-MEDIA-STUDIO-APPLICATION-INTENT-001",
-  "date": "2026-09-28",
-  "result": "PASS",
+  "intent_path": "canonical/intents/FA3-GENERATIVE-MEDIA-STUDIO-APPLICATION-INTENT-001.json",
   "covered_ids": [
     "FA3-GENERATIVE-MEDIA-STUDIO-001",
+    "CAP-111",
+    "CAP-112",
+    "CAP-113",
+    "CAP-121",
+    "CAP-123",
+    "CAP-126",
     "FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28"
+  ],
+  "project_status": "CANONICAL_APPLICATION_MATERIALIZED_PHYSICAL_CURRENT_HOST_AND_PROVIDER_EXECUTION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "CAP-111",
+      "use": "EXISTING_GENERATIVE_MEDIA_STUDIO_CAPABILITY"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "EXISTING_GENERATION_CONTEXT_IR"
+    },
+    {
+      "id": "FA3-VIDEO-CONTRACTS-001",
+      "use": "EXISTING_VIDEO_CONTRACTS"
+    },
+    {
+      "id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+      "use": "EXISTING_EDITORIAL_TIMELINE_AND_COMMAND_BOUNDARY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_ACTION_EXECUTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_ADMISSION_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_PRE_IMPLEMENTATION_REUSE_AND_GAP_ASSESSMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_GENERATIVE_MEDIA_ROUTING_AUTHORITY",
+      "reason": "FA3-AUTH-MODEL-ROUTER-001_REMAINS_SINGLE_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "NEW_GPU_RESOURCE_AUTHORITY",
+      "reason": "FA3-AUTH-HOST-RESOURCE-BROKER-001_REMAINS_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "AUTOM8AI_FORK_AS_CANONICAL_SOURCE",
+      "reason": "ORIGINAL_UPSTREAM_PROVENANCE_REQUIRED"
+    },
+    {
+      "id": "DIRECT_GUI_PROVIDER_CALLS",
+      "reason": "UAF_MODEL_ROUTER_HRB_BOUNDARIES_MUST_NOT_BE_BYPASSED"
+    },
+    {
+      "id": "SILENT_PROVIDER_FALLBACK",
+      "reason": "UNAVAILABLE_OR_INELIGIBLE_EXECUTION_PATH_MUST_FAIL_CLOSED"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "source": "DonkeyCut/Donkey",
+      "pattern": "TIMELINE_AND_AGENTIC_EDITOR_SEMANTICS",
+      "code_imported": false
+    },
+    {
+      "source": "OpenCut-app/OpenCut",
+      "pattern": "EDITOR_API_PLUGIN_HEADLESS_BOUNDARIES",
+      "code_imported": false
+    },
+    {
+      "source": "heygen-com/hyperframes",
+      "pattern": "DETERMINISTIC_MOTION_RENDERING",
+      "code_imported": false
+    },
+    {
+      "source": "thewh1teagle/vibe",
+      "pattern": "SPEECH_TRANSCRIPT_SUBTITLE_WORKFLOW",
+      "code_imported": false
+    },
+    {
+      "source": "Wan-Video/Wan2.2",
+      "pattern": "GENERATIVE_VIDEO_PROVIDER_CAPABILITIES",
+      "code_imported": false
+    }
+  ],
+  "existing_authority_bindings": {
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "studio_role": "NON_AUTHORITY_REQUEST_COMPILER"
+  },
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_QT_APPLICATION_EXECUTION_PENDING",
+    "ADMITTED_GENERATIVE_MEDIA_PROVIDER_EXECUTION_PENDING"
   ],
   "reuse_result": {
     "existing_capability_reused": "CAP-111",
@@ -20,21 +122,27 @@
   },
   "coexistence": {
     "result": "PASS",
+    "namespaced": true,
     "upstream_uninstall_required": false,
     "global_mutation": false,
-    "default_port_hijack": false
+    "default_port_hijack": false,
+    "modifies_external_application_configuration": false
   },
   "hardware_audit": {
     "vendor_neutral": true,
     "cpu_only_viable": true,
-    "accelerator_cardinality": "0..N"
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
   },
   "license_and_supply_chain": {
     "donor_code_imported": false,
     "future_code_import_requires_separate_file_level_license_security_dependency_admission": true
   },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "capability_count_after": 175,
+  "new_capabilities": 0,
   "new_architectural_authorities": 0
 }
