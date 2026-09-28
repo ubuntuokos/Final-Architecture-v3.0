@@ -29,6 +29,19 @@ jobs:
           fetch-depth: 0
       - name: Python syntax
         run: python3 -m py_compile src/fa3_goal_preflight.py tests/test_goal_preflight.py
+      - name: Emit deterministic reuse assessment for new ApplicationIntent
+        run: |
+          PYTHONPATH=src python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from fa3_reuse_assessment import assess_intent
+          root=Path('.').resolve()
+          path=root/'canonical/intents/FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28.json'
+          result=assess_intent(root,json.loads(path.read_text()))
+          subset={key:result.get(key) for key in ('project_id','intent_id','result','implementation_readiness','gaps','mandatory_source_reviews','selected_reuse','blocking_findings')}
+          print('GOAL_REUSE_ASSESSMENT='+json.dumps(subset,sort_keys=True))
+          assert result['result']=='PASS'
+          PY
       - name: Source-bound design and adversarial tests
         run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_goal_preflight.py" -v
       - name: Original goal foundation compatibility
