@@ -15,6 +15,10 @@
 - **CLI and graphical integration:** `bin/fa3-screenplay` invokes the stdlib-only Python CLI inside an isolated user venv. The integrated Qt6/QML `StoryScreenplayPage` in the **existing** FA3 Control Center is served by a local, file-only `ScreenplayService` process boundary; it offers text/local-file import, local canonical project save/load, scoped export, local candidate review, branch creation, scene heading revisions, production profile, writing goal, sprint timer, Midnight and Typewriter/focus controls and a blocked/preview handoff. No separate React/Tauri application, independent provider router, model manager, MCP server or fixed network port is introduced.
 - **Contract and gate:** the new canonical contract and JSON Schema declare exactly which features are experimental, prohibited and pending; `src/fa3_screenplay_gate.py` self-checks donors, contract, actual codec behavior, blocked handoff and GUI registration. The report explicitly says `REFERENCE_ONLY_NOT_CURRENT_HOST`.
 
+## Tests and CI
+
+Locally verified: **31 tests PASS** (`PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_screenplay*.py' -v`), plus Python syntax and Bash wrapper checks. The workflow `.github/workflows/fa3-screenplay-reference-gate.yml` runs the stdlib suite and donor/GUI reference gates on PR updates. These are reference tests, **not** external FDX/Office interoperability or FA3 current-host evidence.
+
 ## Developer commands
 
 From the repository root:
