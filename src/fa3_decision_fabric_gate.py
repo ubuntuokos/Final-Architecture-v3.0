@@ -31,6 +31,10 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/providers/FA3-PROVIDER-DECISION-RULES-001.json",
         "canonical/providers/FA3-PROVIDER-DECISION-LOCAL-001.json",
         "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json",
+        "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+        "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json",
+        "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json",
+        "canonical/third-party/FA3-SYSTEM-ONE-HARNESS-REUSE-001.json",
         "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json",
         "canonical/decisions/FA3-DEC-JEV-ADOPTION-RULE-2026-09-23.json",
         "canonical/decision-fabric-enforcement.json",
@@ -38,6 +42,8 @@ def gate(root: Path) -> dict[str, Any]:
         "src/fa3_context_selection.py",
         "src/fa3_external_project_radar.py",
         "src/fa3_jev_decision_provider.py",
+        "src/fa3_system_one_reflex.py",
+        "src/fa3_system_one_decision_provider.py",
         "src/fa3_decision_adapters.py",
         "src/fa3_local_decision_provider.py",
         "src/fa3_decision_trace.py",
@@ -67,6 +73,9 @@ def gate(root: Path) -> dict[str, Any]:
     contracts = load(root / "canonical/contracts/FA3-DECISION-FABRIC-CONTRACTS-001.json")
     enforcement = load(root / "canonical/decision-fabric-enforcement.json")
     jev = load(root / "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json")
+    system_one = load(root / "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json")
+    reflex = load(root / "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json")
+    system_one_decision = load(root / "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json")
     decision = load(root / "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json")
 
     if profile.get("architectural_authority") is not False or profile.get("authority_delta") != 0:
@@ -97,6 +106,12 @@ def gate(root: Path) -> dict[str, Any]:
         "mcp_authority": "FA3-AUTH-MCP-GATEWAY-001",
         "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
         "silent_local_to_cloud_fallback": "DENY",
+        "direct_system_one_provider_call": "DENY",
+        "system_one_direct_execution": "DENY",
+        "confidence_as_authorization": "DENY",
+        "free_text_reflex_action_or_parameter": "DENY",
+        "system_one_handoff_on_low_confidence": "REQUIRED",
+        "system_one_model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
     }
     for key, expected in required_rules.items():
         if rules.get(key) != expected:
@@ -107,6 +122,18 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("DECISION-008", "Jev pin/fallback drift"))
     if decision.get("new_architectural_authorities") != 0 or decision.get("capability_count_after") != 143:
         findings.append(finding("DECISION-009", "canonical decision baseline drift"))
+    if "BOUNDED_ACTION" not in profile.get("contracts", []) or "BOUNDED_ACTION" not in contracts.get("request", {}).get("contract_enum", []):
+        findings.append(finding("DECISION-011", "bounded action contract missing from Decision Fabric"))
+    if system_one.get("mandatory") is not False or system_one.get("direct_application_calls") != "DENY":
+        findings.append(finding("DECISION-012", "System One provider boundary drift"))
+    if system_one.get("physical_model_pin") is not False or system_one.get("physical_provider_pin") is not False:
+        findings.append(finding("DECISION-013", "System One provider/model pin drift"))
+    if system_one.get("direct_tool_execution") != "DENY" or system_one.get("confidence_may_authorize") is not False:
+        findings.append(finding("DECISION-014", "System One confidence/execution authority drift"))
+    if reflex.get("execution_performed_by_contract") is not False or reflex.get("confidence_is_authorization") is not False:
+        findings.append(finding("DECISION-015", "reflex contract authority drift"))
+    if system_one_decision.get("authority_delta") != 0 or system_one_decision.get("capability_count_after") != 143:
+        findings.append(finding("DECISION-016", "System One integration baseline drift"))
 
     # Direct TypeSafe network calls are allowed only inside the optional provider adapter
     # and immutable research snapshots. Applications must cross the Decision Fabric.
@@ -131,6 +158,8 @@ def gate(root: Path) -> dict[str, Any]:
                 continue
             if "api.typesafe.ai" in text or "TYPESAFE_API_KEY" in text:
                 findings.append(finding("DECISION-010", "direct application/provider Jev path detected", path=rel))
+            if "openrouter.ai/api/alpha/decisions" in text or "api.typesafe.ai/v1/systemone" in text:
+                findings.append(finding("DECISION-017", "direct System One network path detected", path=rel))
 
     return {
         "schema": "fa3.decision-fabric-gate-report.v1",
