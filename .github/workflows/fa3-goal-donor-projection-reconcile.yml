@@ -1,0 +1,49 @@
+name: FA3 Goal Donor Projection Reconcile
+
+# A one-branch maintenance runner. Untrusted/fork PR code never gets write credentials.
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/fa3-goal-donor-projection-reconcile.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  projection-reconcile:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == 'ubuntuokos/Final-Architecture-v3.0' &&
+      github.event.pull_request.head.ref == 'fa3/goal-driven-agent-donor-plan-20260928'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout immutable exact PR head with full history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Verify snapshot is clean
+        run: test -z "$(git status --porcelain)"
+      - name: Regenerate governed projection from committed snapshot
+        run: PYTHONPATH=src python3 scripts/fa3_reconcile_release_projection.py
+      - name: Fail closed if generator touched anything else
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          expected='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          if changed != [expected]:
+              raise SystemExit('Generator changed unexpected paths: '+repr(changed))
+          PY
+      - name: Commit projection using Git fast-forward only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "build(release): reconcile exact goal-donor snapshot projection"
+          git push origin HEAD:refs/heads/fa3/goal-driven-agent-donor-plan-20260928
+      - name: Report projection commit and tree
+        run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}
