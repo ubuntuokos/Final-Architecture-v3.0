@@ -149,7 +149,9 @@ def local_control_valid(request: dict[str, Any], *, expected_token: str, granted
         return False
     if request["protocol_version"] != 1 or not (isinstance(request["authorization_token"], str) and hmac.compare_digest(request["authorization_token"], expected_token)):
         return False
-    if not request["request_id"] or not request["caller_identity"] or not request["target"]:
+    if not all(isinstance(request[k], str) and bool(request[k]) for k in ("request_id", "caller_identity", "method", "target")):
+        return False
+    if not isinstance(request["caller_context"], dict) or not isinstance(request["parameters"], dict):
         return False
     if not isinstance(request["deadline_ms"], int) or request["deadline_ms"] <= 0:
         return False
@@ -263,6 +265,8 @@ def approved_change_binding_valid(read: dict[str, Any], proposal: dict[str, Any]
         return False
     if not isinstance(proposal.get("diff_sha256"), str) or len(proposal["diff_sha256"]) != 64:
         return False
+    if not isinstance(proposal.get("diff_text"), str) or hashlib.sha256(proposal["diff_text"].encode("utf-8")).hexdigest() != proposal["diff_sha256"]:
+        return False
     if not isinstance(approval.get("expires_at_epoch"), int) or approval["expires_at_epoch"] <= now_epoch:
         return False
     return (approval.get("decision") == "ALLOW" and approval.get("authorized") is True
@@ -341,7 +345,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("TERAX-EVID-001", "Terax auxiliary receipt boundary drift"))
     if decision.get("active_capability_count") != 175 or decision.get("authority_delta") != 0 or decision.get("capability_delta") != 0:
         findings.append(_finding("TERAX-EVID-002", "Reconciliation decision count drift"))
-        coexistence = coexistence_static_check(root)
+    coexistence = coexistence_static_check(root)
     findings.extend(coexistence["findings"])
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
