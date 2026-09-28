@@ -38,6 +38,7 @@ class AgentTask:
     content: str
     max_message_hops: int = 4
     risk_class: str = "LOW"
+    required_skill_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -343,8 +344,27 @@ class Coordinator:
         self.event("MESSAGE_CONSUMED", message_id=message_id, recipient=recipient)
         return "PROCESS"
 
-    def spawn_workers(self, tasks: list[AgentTask], adapter: ProviderAdapter) -> None:
+    def spawn_workers(self, tasks: list[AgentTask], adapter: ProviderAdapter, *,
+                      skill_preflight: Any | None = None) -> None:
         for task in tasks:
+            if task.required_skill_ids:
+                if skill_preflight is None:
+                    raise CoordinationDenied("task requires a verified Skill Fabric preflight")
+                receipts = skill_preflight(task)
+                if not isinstance(receipts, list) or len(receipts) != len(task.required_skill_ids):
+                    raise CoordinationDenied("missing or duplicate skill preflight receipts")
+                verified_ids = [r.get("snapshot_verification", {}).get("skill_id") for r in receipts
+                                if isinstance(r, dict) and r.get("snapshot_verification", {}).get("result") == "PASS"]
+                if (len(verified_ids) != len(receipts)
+                        or len(verified_ids) != len(set(verified_ids))
+                        or set(verified_ids) != set(task.required_skill_ids)
+                        or any(r.get("task_scope") != "developer" or
+                               r.get("snapshot_verification", {}).get("task_scope") != "developer"
+                               for r in receipts)):
+                    raise CoordinationDenied("skill preflight task or identity mismatch")
+                self.event("SKILL_PREFLIGHT_VERIFIED", task_id=task.task_id,
+                           agent_id=task.agent_id, skill_ids=sorted(verified_ids),
+                           content_sha256=[r["content_sha256"] for r in receipts])
             if task.provider_id != adapter.provider_id:
                 raise CoordinationDenied("task/provider adapter identity mismatch")
             workspace = self.workspaces[task.agent_id]
@@ -465,7 +485,8 @@ class Coordinator:
         self.event("CLEANUP_COMPLETE", **state)
         return state
 
-    def run(self, tasks: list[AgentTask], adapter: ProviderAdapter) -> dict[str, Any]:
+    def run(self, tasks: list[AgentTask], adapter: ProviderAdapter, *,
+            skill_preflight: Any | None = None) -> dict[str, Any]:
         if len(tasks) < 2:
             raise CoordinationDenied("multi-agent reference flow requires at least two workers")
         if len({t.agent_id for t in tasks}) != len(tasks):
@@ -506,7 +527,7 @@ class Coordinator:
                     positive["mailbox_first"] = first
                     positive["mailbox_replay"] = replay
 
-            self.spawn_workers(tasks, adapter)
+            self.spawn_workers(tasks, adapter, skill_preflight=skill_preflight)
             results = self.collect_workers(tasks)
             commit, author, patch_hashes = self.integrate(tasks, results)
             positive.update(
