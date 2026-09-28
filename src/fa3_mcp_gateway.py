@@ -49,7 +49,9 @@ class McpGateway:
         self,
         registry: dict[str, Any],
         policy_resolver: Callable[[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]], dict[str, Any]] | None = None,
+        receipt_observer: Callable[[dict[str, Any]], None] | None = None,
     ):
+        self.receipt_observer = receipt_observer
         self.registry = registry
         self.policy_resolver = policy_resolver
         self.adapters: dict[str, Adapter] = {}
@@ -64,8 +66,9 @@ class McpGateway:
         cls,
         path: Path,
         policy_resolver: Callable[[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]], dict[str, Any]] | None = None,
+        receipt_observer: Callable[[dict[str, Any]], None] | None = None,
     ) -> "McpGateway":
-        return cls(json.loads(path.read_text(encoding="utf-8")), policy_resolver=policy_resolver)
+        return cls(json.loads(path.read_text(encoding="utf-8")), policy_resolver=policy_resolver, receipt_observer=receipt_observer)
 
     def register_adapter(self, adapter: Adapter) -> None:
         self.adapters[adapter.adapter_id] = adapter
@@ -238,13 +241,13 @@ class McpGateway:
         session = request.get("session_id")
         capability_id = request.get("capability_id")
         if not all(_nonempty(value) for value in (actor, client, session)):
-            return self._deny(request, "UNKNOWN_IDENTITY", "Actor/client/session identity is required", started)
+            return self._observe(self._deny(request, "UNKNOWN_IDENTITY", "Actor/client/session identity is required", started))
         capability = self._capabilities.get(str(capability_id))
         if capability is None:
-            return self._deny(request, "UNKNOWN_CAPABILITY", "Capability is not registered", started)
+            return self._observe(self._deny(request, "UNKNOWN_CAPABILITY", "Capability is not registered", started))
         arguments = request.get("arguments")
         if not isinstance(arguments, dict):
-            return self._deny(request, "INVALID_SCHEMA", "Arguments must be an object", started)
+            return self._observe(self._deny(request, "INVALID_SCHEMA", "Arguments must be an object", started))
 
         try:
             self._validate_secret_refs(request)
@@ -278,9 +281,16 @@ class McpGateway:
                     raise
                 except Exception as exc:
                     raise GatewayDenied("AUDIT_WRITE_FAILED", f"Required retrieval audit failed: {type(exc).__name__}") from exc
-            return receipt
+            return self._observe(receipt)
         except GatewayDenied as exc:
-            return self._deny(request, exc.code, exc.message, started)
+            return self._observe(self._deny(request, exc.code, exc.message, started))
+
+    def _observe(self, receipt: dict[str, Any]) -> dict[str, Any]:
+        # Record only the FINAL outcome. Observer failure must never produce
+        # a successful response, but cannot undo prior provider side effects.
+        if self.receipt_observer is not None:
+            self.receipt_observer(receipt)
+        return receipt
 
     def _deny(self, request: dict[str, Any], code: str, message: str, started: float) -> dict[str, Any]:
         return self._receipt(request=request, status="denied", reason_code=code, started=started, message=message)
