@@ -14796,7 +14796,7 @@
         "kind": "GITHUB",
         "locator": "https://github.com/rawfilejson/awesome-osint-arsenal",
         "normalized_key": "github:rawfilejson/awesome-osint-arsenal",
-        "commit": "2c6475"
+        "commit": "2c6475a1d5b941cc598b3612419ef22e6d903ce8"
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -14807,27 +14807,48 @@
       "donor_modes": [
         "KNOWLEDGE_REFERENCE"
       ],
-      "capability_hints": [],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-051",
+        "CAP-053",
+        "CAP-054",
+        "CAP-103"
+      ],
       "domain_hints": [
+        "document-metadata",
+        "forensics",
+        "geo",
         "osint",
         "research",
-        "discovery"
+        "security"
       ],
       "problem_hints": [],
       "target_hints": [
+        "Documents",
+        "Forensics",
+        "Geo/World",
+        "OSINT",
+        "Photo",
         "Research",
-        "OSINT"
+        "Security",
+        "Video"
       ],
       "tags": [
         "catalog",
-        "tools",
-        "research"
+        "metadata-only",
+        "offline-import",
+        "provenance",
+        "research",
+        "tools"
       ],
       "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
+        "declared": "MIT",
+        "status": "VERIFIED_COLLECTION_LICENSE_ONLY",
+        "scope": "UPSTREAM_AGGREGATOR_ONLY_NOT_LISTED_DOWNSTREAM_TOOLS",
+        "upstream_path": "LICENSE",
+        "git_blob_sha1": "be664e4447bd1839e3030a2f171275e75bfe8922"
       },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "code_reuse_policy": "AGGREGATOR_METADATA_MIT_DOWNSTREAM_CODE_REUSE_REQUIRES_INDIVIDUAL_LICENSE_AND_ADMISSION",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -14839,7 +14860,10 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Large categorized tool catalog; each downstream tool still requires separate admission."
+        "Checked immutable upstream commit 2c6475a1d5b941cc598b3612419ef22e6d903ce8; pinned source metadata in research/external-project-radar/osint/awesome-osint-arsenal.",
+        "753 raw records, 752 unique tool IDs, 26 normalized categories, 264 missing direct URLs; social-searcher alias collision retains source lineage.",
+        "MIT license applies to the aggregator collection only; every downstream tool remains independently unverified and non-admitted.",
+        "Offline import is discovery metadata only; no network fetch, installation, credential use, provider admission, model selection, or execution."
       ]
     },
     {
