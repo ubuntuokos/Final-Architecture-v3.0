@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d041f23deb31799dc6270d0802d25c3a178b2f45",
-    "pre_projection_root_tree_sha": "b80fad445693862f5502172c13c3178af17ddf36",
-    "pre_projection_canonical_tree_sha": "6df591d5a9c907e3c55c343856240149b7cd2b4a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1320,
-    "total_post_baseline_commits": 1320,
-    "delta_file_count": 2415,
-    "delta_added_files": 2409,
+    "pre_projection_head_sha": "a415657b476ced567c247eee471092b07d7036f4",
+    "pre_projection_root_tree_sha": "09a3a1665483d03ffbaf8c19798d311948e20f1e",
+    "pre_projection_canonical_tree_sha": "426ce1df58c447960a107a7159c9c0b6f499294c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1338,
+    "total_post_baseline_commits": 1338,
+    "delta_file_count": 2416,
+    "delta_added_files": 2410,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1177,
+    "canonical_files_in_post_baseline_delta": 1178,
     "evidence_files_in_post_baseline_delta": 170,
     "source_files_in_post_baseline_delta": 326,
     "test_files_in_post_baseline_delta": 261,
@@ -519,6 +519,7 @@
       "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27.json",
+      "canonical/decisions/FA3-DEC-KHRONOS-REUSE-SOURCE-2026-09-28.json",
       "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
       "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json",
       "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
@@ -1003,7 +1004,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2405,
+  "manifest_entry_count": 2406,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1487,7 +1488,7 @@
     },
     {
       "path": ".github/workflows/fa3-reuse-discovery.yml",
-      "git_blob_sha": "2a6314929d9fe66f9fe3ddfb5d211b1f12a66ee3",
+      "git_blob_sha": "49f7eb5e081ad3ea404b8df29595ae8c52dfeee7",
       "baseline_delta_status": "added"
     },
     {
@@ -2997,7 +2998,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REUSE-DISCOVERY-001.json",
-      "git_blob_sha": "33ddd059a5b05cb813baf029e3bbe3f1d2a247b3",
+      "git_blob_sha": "3c19d14ea4ba15f0e3cf31a3f12c2f391b4cecec",
       "baseline_delta_status": "added"
     },
     {
@@ -3202,7 +3203,7 @@
     },
     {
       "path": "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
-      "git_blob_sha": "9fad0192d636654bcb285a62ca14bf5723221135",
+      "git_blob_sha": "d672771c4cd0009c81a88c7c20b3e53ac7bfa215",
       "baseline_delta_status": "added"
     },
     {
@@ -3372,7 +3373,7 @@
     },
     {
       "path": "canonical/FA3-REUSE-CATALOG-001.json",
-      "git_blob_sha": "e61db0b8fdaa7f33e520529e647b25da3e3ba0a2",
+      "git_blob_sha": "6750ece6560554ba87e3841af5ec81c89d98c4b6",
       "baseline_delta_status": "added"
     },
     {
@@ -4072,7 +4073,7 @@
     },
     {
       "path": "canonical/assessments/FA3-REUSE-DISCOVERY-REUSE-ASSESSMENT-001.json",
-      "git_blob_sha": "d43a48a87ab999d45b87bd1b0e8713d23c8197f4",
+      "git_blob_sha": "797cbb77d2d4b1232f41701398f049164d1f5016",
       "baseline_delta_status": "added"
     },
     {
@@ -4752,12 +4753,12 @@
     },
     {
       "path": "canonical/contracts/FA3-REUSE-ASSESSMENT-001.schema.json",
-      "git_blob_sha": "ad9d1659a3edac8e2c390ad30fe755197a77170c",
+      "git_blob_sha": "5e32ac5afe481333f121da9bf1fc91299e5c9dd0",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "6e62b034f378ec19ab9d5a0a45d65fbaab3ab43c",
+      "git_blob_sha": "dc7e8c1e393d54f40eee53e3deaa6ab9c91b5337",
       "baseline_delta_status": "added"
     },
     {
@@ -5376,6 +5377,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-KHRONOS-REUSE-SOURCE-2026-09-28.json",
+      "git_blob_sha": "716888d6480aef9fddd677784c3263729537049f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
       "git_blob_sha": "e9ab32ccb42d7f423b12d2851c88b862c5fc93bf",
       "baseline_delta_status": "added"
@@ -5822,7 +5828,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "cad69f6feede0cb07338913d7bb145d5df4fe5e4",
+      "git_blob_sha": "e01cfa42c9ee12437f6f77f2260329cdfd433b9d",
       "baseline_delta_status": "modified"
     },
     {
@@ -5957,7 +5963,7 @@
     },
     {
       "path": "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
-      "git_blob_sha": "b925707572446b2c1aadeeafddee4c4b4edc0d08",
+      "git_blob_sha": "6cf06bf10b806e828b170eaa49e71dcacdb6436c",
       "baseline_delta_status": "added"
     },
     {
@@ -6092,7 +6098,7 @@
     },
     {
       "path": "canonical/intents/FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001.json",
-      "git_blob_sha": "823f44e3898c67d5e2be84cba9406bb1d6f1f1e1",
+      "git_blob_sha": "64b44a0df48aa4de0652cc88f890a705f1a87e66",
       "baseline_delta_status": "added"
     },
     {
@@ -6662,7 +6668,7 @@
     },
     {
       "path": "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json",
-      "git_blob_sha": "f434549a64914c32518caf67ecc060ee0ae992de",
+      "git_blob_sha": "2fb0133d7f6b1ed640ca8b5386acb496d6165891",
       "baseline_delta_status": "added"
     },
     {
@@ -6802,7 +6808,7 @@
     },
     {
       "path": "canonical/profiles/FA3-REUSE-DISCOVERY-001.json",
-      "git_blob_sha": "168aede66f8a39a29cbd0e216832343364baa0aa",
+      "git_blob_sha": "f08fb40265eb4a7d140b0f0474bf6932db58f4f6",
       "baseline_delta_status": "added"
     },
     {
@@ -8077,7 +8083,7 @@
     },
     {
       "path": "canonical/reuse-discovery-enforcement.json",
-      "git_blob_sha": "78ea5f15c12ec9ca492af80f3841dc6a6b6dd67a",
+      "git_blob_sha": "bbaa47336d048e97f5fda5ea995147518ec26c23",
       "baseline_delta_status": "added"
     },
     {
@@ -8692,7 +8698,7 @@
     },
     {
       "path": "docs/decision-fabric.md",
-      "git_blob_sha": "9e67b8cc8cce38b1557fadcc5860056b50700568",
+      "git_blob_sha": "47345bcdccaaed4f48c287e9659bcc7956909f16",
       "baseline_delta_status": "added"
     },
     {
@@ -8707,7 +8713,7 @@
     },
     {
       "path": "docs/fa3-reuse-discovery.md",
-      "git_blob_sha": "8402cbf20fc7ce0424383084f424c0b43258259c",
+      "git_blob_sha": "7e1a8ccec4339be61bcaaffa7b29d841ba469358",
       "baseline_delta_status": "added"
     },
     {
@@ -11387,22 +11393,22 @@
     },
     {
       "path": "src/fa3_reuse_assessment.py",
-      "git_blob_sha": "649b56a3e1cc13b5522cd2ebbde485751b6c8fa2",
+      "git_blob_sha": "96a7bc19c5ecd7cde1fc717e42708afaf8f8d3d8",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_reuse_catalog.py",
-      "git_blob_sha": "b2a2800b3c509b4c1648533edfa42fc963d4218c",
+      "git_blob_sha": "07e14b4d55c16406489bdc15dd67833c29f071a6",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_reuse_gate.py",
-      "git_blob_sha": "0b60e5e94942488cb510b6521eda20d2d884a177",
+      "git_blob_sha": "dda254bb2d3d5a86d40eb591be32f1250a7f464d",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_reuse_resolver.py",
-      "git_blob_sha": "e63985f534eae06bdaf3a7cfa280474e30e65d2c",
+      "git_blob_sha": "936a951ecfa195ec35201e1819c13b3bcdcdf307",
       "baseline_delta_status": "added"
     },
     {
@@ -12732,7 +12738,7 @@
     },
     {
       "path": "tests/test_reuse_discovery_gate.py",
-      "git_blob_sha": "0d2a057181bed1ec729c8e3bf6a2a9160086dd8f",
+      "git_blob_sha": "ddb7df49a3a1c4d090de7bd8764a2bb6ab7ac7be",
       "baseline_delta_status": "added"
     },
     {
