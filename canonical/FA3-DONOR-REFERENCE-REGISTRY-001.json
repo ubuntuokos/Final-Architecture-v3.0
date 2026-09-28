@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 325,
+    "entry_count": 328,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -4802,6 +4802,76 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-DSEDITOR-AI-STORYBOARD-GENERATOR-001",
+      "name": "dseditor/AI-storyboard-generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dseditor/AI-storyboard-generator",
+        "normalized_key": "github:dseditor/ai-storyboard-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-three-storyboard-donor-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "UX_PATTERN",
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "independent-image-video-batch-selection",
+        "missing-only-video-generation",
+        "storyboard-panel-reordering",
+        "comfyui-workflow-node-mapping",
+        "zip-project-import-export-append",
+        "optional-closing-shot-video"
+      ],
+      "domain_hints": [
+        "storyboard",
+        "video",
+        "creative",
+        "workflow-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Storyboard",
+        "Scene/Shot Designer",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Asset Graph",
+        "Review"
+      ],
+      "tags": [
+        "selected-batch",
+        "missing-only",
+        "comfyui-workflow",
+        "project-zip",
+        "license-unverified",
+        "api-key-localstorage-risk"
+      ],
+      "license": {
+        "declared": "UNVERIFIED_README_CLAIMS_MIT_NO_LICENSE_FILE",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected commit 40ca3eaf723c8052f6e4761eaea7e03837aea6b4. README claims MIT but no LICENSE file found; no source copying until verified. Useful separate image/video selected batch, ZIP load/append, ComfyUI manifest node mapping. Upstream localStorage stores API keys and direct ComfyUI URL, prohibited in FA3; Secret Broker, central Model Router, UAF/MCP, HRB and current-host admission required.",
+        "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-EMOCA-001",
       "name": "EMOCA",
       "source": {
@@ -5790,6 +5860,70 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GAURAK495-AI-STORY-BOARD-001",
+      "name": "GaurAk495/ai-story-board",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GaurAk495/ai-story-board",
+        "normalized_key": "github:gaurak495/ai-story-board"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-three-storyboard-donor-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "UX_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "editable-storyboard-panel",
+        "per-shot-reshoot",
+        "character-scene-camera-prompt-link",
+        "story-to-scene-ui",
+        "zip-export-ux-reference"
+      ],
+      "domain_hints": [
+        "storyboard",
+        "screenplay",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Story/Screenplay Fabric",
+        "Storyboard",
+        "Scene/Shot Designer",
+        "Review"
+      ],
+      "tags": [
+        "per-shot-reshoot",
+        "panel-editor",
+        "character-consistency",
+        "license-missing",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "UNVERIFIED_NO_LICENSE_FILE",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected commit bcd1b8ab5253885fde262016cf86be73b2ac1db7. No root LICENSE found; README 'open-source/free' is not a verifiable grant: SOURCE COPYING BLOCKED. Per-shot editing and prompt-generation/reshoot UX reference only. Upstream code pins Gemini preview and Pollinations endpoint; no direct provider path in FA3.",
+        "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GAUSSIANAVATARS-001",
@@ -18800,6 +18934,76 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-YOGENDRA-YATNALKAR-STORYBOARD-AI-001",
+      "name": "yogendra-yatnalkar/storyboard-ai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/yogendra-yatnalkar/storyboard-ai",
+        "normalized_key": "github:yogendra-yatnalkar/storyboard-ai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-three-storyboard-donor-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "narrated-whiteboard-animation",
+        "mask-guided-contour-stroke-order",
+        "audio-paced-drawing",
+        "multilingual-narration-and-subtitles",
+        "research-to-scene-production"
+      ],
+      "domain_hints": [
+        "storyboard",
+        "animation",
+        "video",
+        "narration",
+        "education"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Storyboard",
+        "Scene/Shot Designer",
+        "Animation",
+        "Narration Studio",
+        "Subtitle Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "whiteboard",
+        "cpu-only-drawing",
+        "optional-sam3",
+        "narration-pacing",
+        "gpl",
+        "research-only"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected commit 152d06025747a9c27c7b0c8cf59102300ab27a4b. Selective workflow/algorithm reference: OpenCV adaptive-threshold+grid/nearest-neighbor contour traversal, optional object masks, script/narration/subtitle pacing. GPL-3.0 plus SAM3 model/weights/third-party asset rights restrict source copying pending review. Fixed Gemini/Veo/TTS and direct research/service calls cannot bypass central FA3 Model Router/MCP/UAF/HRB.",
+        "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-YOUMIND-OPENLAB-NANO-BANANA-PRO-PROMPTS-RECOMMEND-SKILL-001",
