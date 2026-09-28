@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 315,
+    "entry_count": 324,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1513,6 +1513,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AUBIO-VAMP-AUBIO-PLUGINS-001",
+      "name": "aubio/vamp-aubio-plugins",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/aubio/vamp-aubio-plugins",
+        "normalized_key": "github:aubio/vamp-aubio-plugins"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "vamp-beat-tracker-plugin",
+        "onset-pitch-feature-extraction"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "plugin-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "vamp",
+        "aubio",
+        "gpl",
+        "legacy-upstream",
+        "plugin-api"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README says GPLv3 or later; upstream last pushed 2017. Reference/compatibility only pending build, full license, dependency and distribution review."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AUDACITYMCP-001",
@@ -3597,6 +3655,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CPJKU-BEAT-THIS-001",
+      "name": "CPJKU/beat_this",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CPJKU/beat_this",
+        "normalized_key": "github:cpjku/beat_this"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "offline-beat-downbeat-inference",
+        "compact-neural-beat-inference",
+        "beat-tsv-export"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "neural",
+        "pytorch",
+        "offline",
+        "beats",
+        "downbeats",
+        "checkpoint-provenance"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README declares code and published model weights MIT, separate training corpora have different rights. Upstream defaults to first GPU and auto-downloads checkpoints: prohibited in FA3 absent HRB admission, explicit central Model Router approved model and pinned model artifact."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
       "name": "crynta/terax-ai",
       "source": {
@@ -3914,6 +4034,68 @@
       },
       "notes": [
         "Historical reference only; excluded as production provider."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-DANIGB-BEAT-THIS-RS-001",
+      "name": "danigb/beat-this-rs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/danigb/beat-this-rs",
+        "normalized_key": "github:danigb/beat-this-rs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "pure-rust-beat-downbeat-inference",
+        "optional-onnx-runtime-inference",
+        "json-beats-export"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "rust",
+        "rten",
+        "cpu-only",
+        "onnx",
+        "model-provenance",
+        "ai-generated-port"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Cargo.toml declares MIT while repository API reports NOASSERTION. Pure-Rust rten default; optional ONNX runtime must be separately admitted. Pin and verify model weights and independently compare predictions with CPJKU original."
       ]
     },
     {
@@ -5920,6 +6102,63 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-BEAT-TRACKING-TOPIC-001",
+      "name": "GitHub beat-tracking topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/beat-tracking",
+        "normalized_key": "github:topics/beat-tracking"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "beat-tracking-donor-discovery"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "discovery-index",
+        "unvetted",
+        "tempo",
+        "beat-tracking"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only; per-repository provenance, capabilities, dependency, rights and security must be checked. Not a code donor."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
       "name": "GL-Colour-Grading",
       "source": {
@@ -6158,6 +6397,65 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-GROUPMM-REAL-TIME-PLP-001",
+      "name": "groupmm/real_time_plp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/groupmm/real_time_plp",
+        "normalized_key": "github:groupmm/real_time_plp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "real-time-plp-pulse-tracking",
+        "controllable-beat-synchronous-effects"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "live"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Live/Broadcast",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "realtime",
+        "cpu-only",
+        "plp",
+        "beat-synchronous"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT research examples for controllable streaming pulse and effects; not a measured FA3 current-host latency claim. Validate on real hosts before adapter admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GSPLAT-001",
@@ -8860,6 +9158,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-MIR-AIDJ-ALL-IN-ONE-001",
+      "name": "mir-aidj/all-in-one",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mir-aidj/all-in-one",
+        "normalized_key": "github:mir-aidj/all-in-one"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "music-structure-segmentation",
+        "tempo-beat-downbeat",
+        "verse-chorus-intro-boundaries"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "music-segmentation",
+        "pytorch",
+        "natten",
+        "offline",
+        "linux-dependency-review"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT repository code; pretrained weights, dataset rights and Linux NATTEN/madmom/Python compatibility require separate review. Pattern for typed song-section interchange; no automatic default model selection."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MIROFISH-001",
       "name": "MiroFish",
       "source": {
@@ -8925,6 +9284,66 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MJHYDRI-BEATNET-001",
+      "name": "mjhydri/BeatNet",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mjhydri/BeatNet",
+        "normalized_key": "github:mjhydri/beatnet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "causal-beat-tracking",
+        "downbeat-tempo-meter-tracking",
+        "stream-realtime-online-offline"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "live"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "particle-filter",
+        "crnn",
+        "realtime",
+        "streaming",
+        "research-only-license-review"
+      ],
+      "license": {
+        "declared": "CC-BY-4.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "CC-BY-4.0 declared repository license is unusual for software; research and algorithm reference only until legal suitability and model/checkpoint rights assessed. No default source copying."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MONOGAUSSIANAVATAR-001",
@@ -9154,6 +9573,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MUSIC-AND-CULTURE-TECHNOLOGY-LAB-OMNIZART-001",
+      "name": "Music-and-Culture-Technology-Lab/omnizart",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Music-and-Culture-Technology-Lab/omnizart",
+        "normalized_key": "github:music-and-culture-technology-lab/omnizart"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "multitask-music-transcription",
+        "drum-onset-detection",
+        "beat-tracking",
+        "pitch-chord-vocal-transcription"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "midi"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "transcription",
+        "drums",
+        "vocal",
+        "chords",
+        "beat",
+        "mit"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT source with checkpoint/data/dependency rights separately assessed. Research/project bridge across beat detection, drum transcription, MIDI and Music Studio; not a replacement DAW."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-NATRON-001",
@@ -11678,6 +12159,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OLILARKIN-LIBROSA-CPP-001",
+      "name": "olilarkin/librosa.cpp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/olilarkin/librosa.cpp",
+        "normalized_key": "github:olilarkin/librosa.cpp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "native-cpp-onset-detection",
+        "cpu-tempo-beat-tracking",
+        "spectral-analysis",
+        "librosa-parity-harness"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "native-dsp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "c++17",
+        "cpu-only",
+        "isc",
+        "parity-tests",
+        "pocketfft"
+      ],
+      "license": {
+        "declared": "ISC",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "ISC C++ port of librosa, written with AI assistance per upstream. Re-run independent numerical parity; choose dependency backend only after licence review (FFTW may impose GPL obligations, pocketfft alternative)."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPEN-HIGGSFIELD-AI-001",
