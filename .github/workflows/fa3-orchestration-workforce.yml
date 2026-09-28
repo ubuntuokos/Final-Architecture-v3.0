@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'canonical/**ORCHESTRATION*'
+      - 'canonical/assessments/*.json'
+      - 'canonical/profiles/*.json'
+      - 'canonical/providers/*.json'
       - 'canonical/actions/orchestration.*.json'
       - 'src/fa3_orchestration_*.py'
       - 'tests/test_orchestration_workforce*.py'

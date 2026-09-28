@@ -9,7 +9,8 @@
     "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
   ],
   "subgate_ids": [
-    "FA3-PAGE-CACHE-PREFETCH-GATESET-001"
+    "FA3-PAGE-CACHE-PREFETCH-GATESET-001",
+    "FA3-SYSCTL-HOST-TUNING-GATESET-001"
   ],
   "provider_ids": [
     "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
@@ -17,7 +18,7 @@
     "FA3-PROVIDER-SCHED-EXT-001",
     "FA3-PROVIDER-PRELOAD-001"
   ],
-  "capability_count": 143,
+  "capability_count": 175,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
   "mandatory_rule_count": 61,
@@ -453,5 +454,8 @@
     }
   ],
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
-  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "required_child_gates": [
+    "FA3-GATE-SYSCTL-HOST-TUNING-001"
+  ]
 }

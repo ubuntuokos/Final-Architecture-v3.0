@@ -22,13 +22,15 @@
     "RANK",
     "MULTI_LABEL",
     "RELEVANCE",
-    "STOP_CONTINUE"
+    "STOP_CONTINUE",
+    "BOUNDED_ACTION"
   ],
   "provider_classes": [
     "DETERMINISTIC_RULES",
     "LOCAL_SEMANTIC",
     "JEV_OPTIONAL",
-    "TEST"
+    "TEST",
+    "SYSTEM_ONE_OPTIONAL"
   ],
   "candidate_set_source": "CALLING_FA3_AUTHORITY_ONLY",
   "candidate_set_expansion": "DENY",
@@ -85,5 +87,17 @@
     "provider_admission_authority": false,
     "provider_routing_authority": false,
     "credential_execution_authority": false
+  },
+  "system_one_reflex_binding": {
+    "contract": "FA3-SYSTEM-ONE-REFLEX-001",
+    "provider": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+    "bounded_action_contract": "BOUNDED_ACTION",
+    "candidate_source": "CALLING_FA3_AUTHORITY_ONLY",
+    "parameter_value_source": "CALLING_FA3_AUTHORITY_ONLY",
+    "confidence_is_authorization": false,
+    "execution_authority": false,
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "low_confidence_handoff": "SYSTEM_TWO_OR_HUMAN"
   }
 }

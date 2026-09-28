@@ -55,6 +55,18 @@
         "fa3-current-host"
       ],
       "projection_does_not_create_receipts": true
+    },
+    "gate_registry": {
+      "mode": "READ_ONLY",
+      "path": "canonical/FA3-GATE-REGISTRY-001.json",
+      "projection_does_not_own_states": true
+    },
+    "machine_status": {
+      "mode": "READ_ONLY_GENERATED_OUTPUT",
+      "path": "reports/governance-status-projection.json",
+      "producer": "src/fa3_governance_status.py::project",
+      "missing_source_semantics": "UNKNOWN_OR_PENDING",
+      "projection_does_not_own_states": true
     }
   },
   "orthogonal_axes": {
@@ -160,11 +172,16 @@
     "recommended_fields": [
       "Assurance",
       "Canonical",
+      "Repository Commit",
       "Current Host",
+      "Evidence Run",
+      "Evidence Expiry",
+      "Acceptance",
       "Production"
     ],
     "unknown_must_be_visible": true,
-    "never_render_unknown_as_pass": true
+    "never_render_unknown_as_pass": true,
+    "machine_source": "reports/governance-status-projection.json"
   },
   "capability_model_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SYSCTL-HOST-TUNING-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001",
+  "intent_id": "FA3-SYSCTL-HOST-TUNING-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SYSCTL-HOST-TUNING-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001"
+  ],
+  "project_status": "CANONICAL_SYSCTL_GOVERNANCE_MATERIALIZED_OBSERVE_ONLY_CURRENT_HOST_PATH",
+  "result": "PASS",
+  "selected_reuse": [
+    {"id": "FA3-HOST-RESOURCE-BROKER-001", "use": "EXISTING_RESOURCE_ADMISSION_AND_TUNING_POLICY_AUTHORITY"},
+    {"id": "FA3-HARDWARE-BASELINE-001", "use": "EXISTING_HARDWARE_SAFETY_ENVELOPE_AND_VENDOR_NEUTRALITY"},
+    {"id": "CAP-063", "use": "EXISTING_KERNEL_VM_IO_TUNING_CAPABILITY"},
+    {"id": "CAP-065", "use": "EXISTING_TUNING_CHANGE_CONTROL_CAPABILITY"},
+    {"id": "FA3-AUTH-SECURITY-GOV-001", "use": "EXISTING_SECURITY_POLICY_AUTHORITY_FOR_SECURITY_SENSITIVE_KEYS"},
+    {"id": "FA3-AUTH-OBS-EVIDENCE-001", "use": "EXISTING_EVIDENCE_AUTHORITY"}
+  ],
+  "rejected_candidates": [
+    {"id": "NEW_SYSCTL_AUTHORITY", "reason": "HRB_AND_SECURITY_AUTHORITIES_ALREADY_OWN_REQUIRED_DECISIONS"},
+    {"id": "GLOBAL_FA3_OPTIMAL_SYSCTL_PROFILE", "reason": "SYSCTL_VALUES_ARE_HOST_AND_WORKLOAD_DEPENDENT"},
+    {"id": "OVERWRITE_ETC_SYSCTL_CONF", "reason": "HOST_NON_INTERFERENCE_AND_COEXISTENCE"},
+    {"id": "AUTO_APPLY_UNKNOWN_KEYS", "reason": "UNKNOWN_EFFECT_FAILS_CLOSED"}
+  ],
+  "pattern_reuse": ["FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"],
+  "gaps": ["PRIVILEGED_MUTATION_EXECUTOR_NOT_ADMITTED_BY_STATIC_POLICY_ALONE"],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "existing_sysctl_files_preserved": true
+  },
+  "implementation_readiness": "READY_FOR_POLICY_AND_OBSERVATION_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

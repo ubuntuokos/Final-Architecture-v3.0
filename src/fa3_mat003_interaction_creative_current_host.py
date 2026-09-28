@@ -498,6 +498,7 @@ def cap013_computer_use_desktop_admission(
     report: dict[str, Any],
     session_evidence: dict[str, Any],
 ) -> dict[str, Any]:
+    """Admit a supported Qt6 desktop session without making KDE an authority."""
     capabilities = report.get("capabilities")
     if not isinstance(capabilities, dict):
         return {
@@ -512,18 +513,28 @@ def cap013_computer_use_desktop_admission(
         key: capabilities.get(key) == "PASS"
         for key in CAP013_SCOPED_REQUIRED_CAPABILITIES
     }
+    # CAP-013 computer use needs a brokered desktop integration boundary. The
+    # portal is the portable broker; a separately admitted adapter may replace
+    # it in a future provider-specific proof, but KDE/KWin is never global
+    # authority.
     required["xdg_desktop_portal"] = capabilities.get("xdg_desktop_portal") == "PASS"
 
     desktop = report.get("desktop") if isinstance(report.get("desktop"), dict) else {}
     session = report.get("session") if isinstance(report.get("session"), dict) else {}
+    integration = report.get("integration") if isinstance(report.get("integration"), dict) else {}
+    session_type = str(session.get("type") or "").lower()
     session_checks = {
-        "desktop_kde_plasma": desktop.get("desktop") == "KDE_PLASMA",
-        "session_wayland": session.get("type") == "wayland",
+        "supported_desktop": desktop.get("tier") in {1, 2, 3},
+        "supported_session": session_type in {"wayland", "x11"},
         "active_local_graphical_session": session_evidence.get(
             "active_local_graphical_session_proven"
         ) is True,
-        "wayland_socket": session_evidence.get("wayland_socket_proven") is True,
-        "kde_bus_identity": session_evidence.get("kde_bus_identity_proven") is True,
+        "wayland_socket_if_wayland": (
+            session_type != "wayland"
+            or session_evidence.get("wayland_socket_proven") is True
+        ),
+        "qt6_native_application_core": integration.get("application_core") == "QT6_QML_NATIVE",
+        "integration_not_authority": integration.get("architectural_authority") is False,
         "portal_bus_identity": session_evidence.get("portal_bus_identity_proven") is True,
     }
 
@@ -560,9 +571,10 @@ def cap013_computer_use_desktop_admission(
         "full_desktop_required_failures": full_required_failures,
         "secret_backend_status": capabilities.get("secret_backend"),
         "secret_backend_used_for_cap013_admission": False,
-        "scope_semantics": "CAP013_COMPUTER_USE_ONLY_NOT_FULL_DESKTOP_ADMISSION",
+        "integration_strategy": integration.get("strategy"),
+        "kde_native_enhancement": integration.get("kf6_enhancement") is True,
+        "scope_semantics": "CAP013_GENERIC_QT6_DESKTOP_COMPUTER_USE_NOT_FULL_DESKTOP_ADMISSION",
     }
-
 
 def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     for rel in (
@@ -589,7 +601,7 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
             "brokered_nonprivileged_intent_allowed": computer_use_intent_allowed(base),
         }
         if not all(cases.values()):
-            raise RuntimeError(f"KDE/Wayland Computer Use negative matrix failed: {cases}")
+            raise RuntimeError(f"Qt6 desktop Computer Use negative matrix failed: {cases}")
         return {"mode": mode, "status": "PASS", "cases": cases}
     if mode == "rollback":
         return {
@@ -643,10 +655,8 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     portal_present = "org.freedesktop.portal.Desktop" in proc.stdout
     kwin_present = "org.kde.KWin" in proc.stdout
     plasma_present = "org.kde.plasmashell" in proc.stdout
-    if not portal_present or not kwin_present:
-        raise RuntimeError(
-            f"KDE/Wayland session services incomplete portal={portal_present} kwin={kwin_present}"
-        )
+    if not portal_present:
+        raise RuntimeError("XDG Desktop Portal service is required for portable CAP-013 brokered computer use")
 
     introspect = cmd(
         [
@@ -666,6 +676,7 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
         "status": "PASS",
         "desktop": report.get("desktop"),
         "session": report.get("session"),
+        "integration": report.get("integration"),
         "authority_scope": authority_scope,
         "computer_use_desktop_scope": scoped_admission,
         "full_desktop_admission_result": report.get("result"),
@@ -678,8 +689,9 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
             and value == "PASS"
         },
         "portal_present": portal_present,
-        "kwin_present": kwin_present,
-        "plasmashell_present": plasma_present,
+        "kwin_present_optional_qt_enhancement": kwin_present,
+        "plasmashell_present_optional_qt_enhancement": plasma_present,
+        "kde_services_required_for_portable_cap013": False,
         "portal_introspection_pass": True,
         "session_discovery": session_context["evidence"],
         "private_kde_api_used": False,

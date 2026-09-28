@@ -1,16 +1,19 @@
 from pathlib import Path
 
-from src.fa3_runtime_hardening import (
+from fa3_release_baseline import module_active_capability_count
+
+from fa3_runtime_hardening import (
     agent_sandbox_valid,
     evaluate_hungarian_aqc,
     runtime_isolation_valid,
     shadow_execution_valid,
     zero_host_round_trip_valid,
 )
-from src.fa3_runtime_hardening_gate import gate
+from fa3_runtime_hardening_gate import gate
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def test_rootless_service_runtime_must_follow_hrb_projection():
@@ -140,6 +143,6 @@ def test_production_requires_current_host_pass_and_all_19_acceptance_criteria():
 def test_runtime_hardening_canonical_gate_passes():
     report = gate(ROOT)
     assert report["result"] == "PASS", report
-    assert report["capability_count"] == 143
+    assert report["capability_count"] == CAPABILITY_COUNT
     assert report["authority_delta"] == 0
     assert report["current_host_runtime_promotion_claim"] is False

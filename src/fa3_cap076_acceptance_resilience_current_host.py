@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_enforce import BLOCKED, OK, acceptance_check, promote, receipt_ok
+from fa3_evidence_validation import git_head
 
 VERDICT_SCHEMA = "fa3.capability-current-host-qualification-constituent-verdict.v1"
 CAPABILITY_ID = "CAP-076"
@@ -95,19 +96,20 @@ def _run_positive(root: Path, scope: Path) -> dict[str, Any]:
 def _run_negative(root: Path, scope: Path) -> dict[str, Any]:
     invalid_status = scope / "invalid-status-receipt.json"
     _write_json(invalid_status, {"status": "FAIL", "signed": True})
-    status_ok, status_reason = receipt_ok(invalid_status, signed=True)
+    source_commit = git_head(root)
+    status_ok, status_reason, _ = receipt_ok(root, invalid_status, source_commit)
     if status_ok:
         raise RuntimeError("FAIL receipt was accepted")
 
-    unsigned = scope / "unsigned-receipt.json"
-    _write_json(unsigned, {"status": "PASS", "signed": False})
-    signed_ok, signed_reason = receipt_ok(unsigned, signed=True)
+    unsigned = scope / "independent-review.json"
+    _write_json(unsigned, {"status": "PASS", "signed": True, "approved": True, "independent": True})
+    signed_ok, signed_reason, _ = receipt_ok(root, unsigned, source_commit)
     if signed_ok:
-        raise RuntimeError("unsigned receipt was accepted where signature is required")
+        raise RuntimeError("legacy boolean approval receipt was accepted where authenticated signature is required")
 
     unreadable = scope / "unreadable-receipt.json"
     unreadable.write_text("{not-json", encoding="utf-8")
-    readable_ok, readable_reason = receipt_ok(unreadable)
+    readable_ok, readable_reason, _ = receipt_ok(root, unreadable, source_commit)
     if readable_ok:
         raise RuntimeError("unreadable receipt was accepted")
 
@@ -140,7 +142,8 @@ def _run_rollback(root: Path, scope: Path) -> dict[str, Any]:
     ).encode("utf-8")
     receipt.write_bytes(original)
     pre_hash = _sha256_bytes(original)
-    pre_ok, pre_reason = receipt_ok(receipt, signed=True)
+    source_commit = git_head(root)
+    pre_ok, pre_reason, _ = receipt_ok(root, receipt, source_commit)
     if not pre_ok:
         raise RuntimeError(f"rollback baseline receipt invalid: {pre_reason}")
 
@@ -159,13 +162,13 @@ def _run_rollback(root: Path, scope: Path) -> dict[str, Any]:
     ).encode("utf-8")
     receipt.write_bytes(mutated)
     mutated_hash = _sha256(receipt)
-    fault_ok, fault_reason = receipt_ok(receipt, signed=True)
+    fault_ok, fault_reason, _ = receipt_ok(root, receipt, source_commit)
     if fault_ok:
         raise RuntimeError("fault-injected receipt remained accepted")
 
     receipt.write_bytes(original)
     post_hash = _sha256(receipt)
-    post_ok, post_reason = receipt_ok(receipt, signed=True)
+    post_ok, post_reason, _ = receipt_ok(root, receipt, source_commit)
     if not post_ok:
         raise RuntimeError(f"restored rollback receipt invalid: {post_reason}")
     if post_hash != pre_hash:

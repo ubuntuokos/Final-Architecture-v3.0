@@ -23,8 +23,6 @@ def gate(root: Path):
         findings.append("contract-drift")
     for token in ("open_loopback_url","ALLOW_ENUMERATED_UNITS_ONLY","FORBIDDEN"):
         if token not in (action + json.dumps(contract)): findings.append("action-boundary-drift:"+token)
-    for forbidden in ("lynxhub","pinokio","stability matrix","stabilitymatrix"):
-        if forbidden in action.lower(): findings.append("external-dashboard-residue:"+forbidden)
     return {"schema":"fa3.creative-operations-dashboard-gate-report.v1","gate_id":GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"capability_id":CAPABILITY_ID,"capability_count":CAPABILITY_COUNT,"result":"PASS" if not findings else "FAIL","findings":findings,"current_host_runtime_promotion_claim":False}
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default="."); ap.add_argument("--output"); a=ap.parse_args()

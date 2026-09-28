@@ -28,7 +28,6 @@ class Cap074ServiceCatalogCurrentHostTests(unittest.TestCase):
         shutil.copy(source, target)
 
         for rel in [
-            "deployment/lynxhub/systemd/user/lynxhub.service",
             "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in",
             "deployment/mcp-gateway/fa3-mcp-gateway.service",
             "deployment/presenton/presenton.container",

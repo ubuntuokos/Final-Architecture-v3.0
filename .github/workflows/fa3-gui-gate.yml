@@ -37,11 +37,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run GUI canonical regression gate
-        run: PYTHONPATH=. python src/fa3_gui_gate.py
+        run: PYTHONPATH=src python src/fa3_gui_gate.py
       - name: Run changed-GUI native quality gate
         run: PYTHONPATH=src python src/fa3_quality_gate.py --root . --scope gui --changed-from origin/main
       - name: Run GUI unit regression
-        run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_fa3_gui_gate -v
       - name: Run installer source-contract regression
         run: bash deployment/fa3-gui/install.sh --check-source-contract
 

@@ -36,4 +36,4 @@ jobs:
         if: github.ref_name != 'main'
         run: PYTHONPATH=src python src/fa3_distribution_adoption_gate.py --root . --base-ref origin/main
       - name: Run distribution tests
-        run: python -m unittest tests.test_distribution_compliance_gate tests.test_distribution_manifest tests.test_distribution_adoption_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_distribution_compliance_gate tests.test_distribution_manifest tests.test_distribution_adoption_gate -v

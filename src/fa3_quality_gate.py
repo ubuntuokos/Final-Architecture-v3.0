@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from fa3_release_baseline import module_active_capability_count
 from pathlib import Path
 from typing import Any
 
@@ -31,6 +32,7 @@ BIN_ENFORCE = "bin/fa3-enforce"
 CANONICAL_ENFORCER = "src/fa3_enforce.py"
 GATESET_ID = "FA3-QUALITY-ANTI-SLOP-GATESET-001"
 PROFILE_ID = "FA3-QUALITY-ANTI-SLOP-001"
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CONTRACT_ID = "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001"
 RULE_REGISTRY_ID = "FA3-QUALITY-RULE-REGISTRY-001"
 SKILLS = [
@@ -101,7 +103,7 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
         and profile.get("priority") == "P0" and profile.get("requirement") == "MUST"
         and profile.get("architectural_authority") is False
         and profile.get("new_capability") is False and profile.get("new_architectural_authority") is False
-        and profile.get("capability_count") == 143
+        and profile.get("capability_count") == CAPABILITY_COUNT
         and profile.get("design_boundary", {}).get("quality_filter_is_style_guide") is False
         and profile.get("design_boundary", {}).get("application_design_contract_remains_authoritative_for_visual_direction") is True
         and profile.get("activation", {}).get("decision_fabric_candidate_expansion") == "DENY"
@@ -115,7 +117,7 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     contract_ok = (
         contract.get("id") == CONTRACT_ID and contract.get("status") == "CANONICAL"
         and contract.get("new_capability") is False and contract.get("new_architectural_authority") is False
-        and contract.get("capability_count") == 143
+        and contract.get("capability_count") == CAPABILITY_COUNT
         and contract.get("concern_selection", {}).get("decision_fabric_candidate_expansion") == "DENY"
         and contract.get("rule_contract", {}).get("hard_gate_waiver_allowed") is False
         and contract.get("rule_contract", {}).get("purpose_gate_requires_justification") is True
@@ -159,7 +161,7 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
         and gate.get("rule_registry_id") == RULE_REGISTRY_ID
         and gate.get("fail_closed") is True and gate.get("static_enforcement") is True
         and gate.get("current_host_runtime_required") is False
-        and gate.get("capability_count_after") == 143
+        and gate.get("capability_count_after") == CAPABILITY_COUNT
     )
     checks.append(check("gate-record", gate_ok, "P0 static gate is canonical and does not claim current-host runtime"))
 

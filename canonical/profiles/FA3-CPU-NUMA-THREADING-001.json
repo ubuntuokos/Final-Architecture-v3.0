@@ -66,5 +66,14 @@
   "current_host_gate": "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001",
   "implementation_status": "CANONICAL_VENDOR_NEUTRAL_RUNTIME_AND_FAIL_CLOSED_CURRENT_HOST_GATE_MATERIALIZED_FRESH_E2E_PENDING",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "child_profiles": [
+    "FA3-OPENMP-RUNTIME-GOVERNANCE-001"
+  ],
+  "openmp_governance": {
+    "profile_id": "FA3-OPENMP-RUNTIME-GOVERNANCE-001",
+    "gate_id": "FA3-GATE-OPENMP-001",
+    "relationship": "MANDATORY_P0_CHILD",
+    "current_host_runtime_promotion_claim": false
+  }
 }

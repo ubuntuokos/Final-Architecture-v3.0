@@ -58,30 +58,36 @@
         "SCORE",
         "RANK",
         "BOOLEAN",
-        "RELEVANCE"
+        "RELEVANCE",
+        "BOUNDED_ACTION"
       ],
       "purposes": [
-        "typed decision capability exposure"
+        "typed decision capability exposure",
+        "bounded reflex action intent"
       ],
       "final_policy_owner": "FA3-AUTH-MCP-GATEWAY-001",
-      "may_execute_tools": false
+      "may_execute_tools": false,
+      "confidence_may_authorize": false
     },
     {
       "consumer": "FA3-UNIFIED-ACTION-FABRIC-001",
       "allowed_contracts": [
         "SELECT_ONE",
         "RANK",
-        "STOP_CONTINUE"
+        "STOP_CONTINUE",
+        "BOUNDED_ACTION"
       ],
       "purposes": [
         "tool selection",
         "skill selection",
         "specialist selection",
         "workflow branch",
-        "retry classification"
+        "retry classification",
+        "bounded reflex action intent"
       ],
       "final_policy_owner": "FA3-UNIFIED-ACTION-FABRIC-001",
-      "may_execute": false
+      "may_execute": false,
+      "authorization_after_decision_required": true
     },
     {
       "consumer": "FA3-SCS-001",
@@ -122,15 +128,18 @@
       "allowed_contracts": [
         "SELECT_ONE",
         "BOOLEAN",
-        "SCORE"
+        "SCORE",
+        "BOUNDED_ACTION"
       ],
       "purposes": [
         "bounded browser action",
         "completion",
-        "risk signal"
+        "risk signal",
+        "bounded browser reflex action"
       ],
       "final_policy_owner": "FA3-WEB-AI-001",
-      "execution_after_policy_check_only": true
+      "execution_after_policy_check_only": true,
+      "confidence_may_authorize": false
     },
     {
       "consumer": "FA3-STT-001",
@@ -280,7 +289,10 @@
     "provider may not admit provider",
     "provider may not obtain secret",
     "provider may not obtain HRB lease",
-    "provider may not become final policy authority"
+    "provider may not become final policy authority",
+    "System One provider may not execute a selected action",
+    "System One provider may not invent action or parameter values",
+    "provider confidence may not authorize execution"
   ],
   "capability_delta": 0,
   "authority_delta": 0

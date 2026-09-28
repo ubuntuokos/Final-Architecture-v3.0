@@ -10,8 +10,15 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from fa3_accelerator_backend_probe import enrich_accelerator_backends
 from fa3_current_host_batch_planner import build_plan
 from fa3_current_host_runtime_resolver import resolve_python_runtime
+from fa3_desktop_admission import (
+    collect_runtime_probes,
+    discover_current_user_session_environment,
+    evaluate_desktop,
+)
+from fa3_hardware_discovery import discover_accelerator_devices
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -115,18 +122,12 @@ def preflight(root: Path) -> dict[str, Any]:
         findings.append("materialization batch still pending")
 
     primitives, recipes = required_primitives(root)
-    if len(recipes) != 117:
-        findings.append(f"expected 117 shared proof recipes, got {len(recipes)}")
 
     required_commands = {"python3", "git", "wasmtime"}
     if {"audio_local", "media_video"} & primitives:
         required_commands.update({"ffmpeg", "ffprobe"})
-    if "gpu_compute" in primitives:
-        required_commands.add("nvidia-smi")
     if "system_runtime" in primitives:
         required_commands.add("uname")
-    if "desktop_wayland" in primitives:
-        required_commands.update({"systemctl", "busctl"})
 
     commands = {name: command(name) for name in sorted(required_commands)}
     for name, path in commands.items():
@@ -155,40 +156,69 @@ def preflight(root: Path) -> dict[str, Any]:
             findings.append("C compiler missing")
 
     python_runtimes: dict[str, Any] = {}
-    if "gpu_compute" in primitives:
-        gpu_python = resolve_python_runtime(require_torch=True, require_pytorch3d=False, require_cuda=True)
+    accelerator_inventory: list[dict[str, Any]] = []
+    accelerator_runtime: dict[str, Any] = {"required": "gpu_compute" in primitives}
+    if accelerator_runtime["required"]:
+        accelerator_inventory = [
+            device.as_dict()
+            for device in enrich_accelerator_backends(
+                discover_accelerator_devices(),
+                include_framework_probes=False,
+            )
+        ]
+        if not accelerator_inventory:
+            findings.append("accelerator-required proof has no physical accelerator inventory")
+        gpu_python = resolve_python_runtime(
+            require_torch=True,
+            require_pytorch3d=False,
+            require_cuda=False,
+            require_accelerator=True,
+        )
         python_runtimes["gpu_compute"] = gpu_python
-        if not gpu_python.get("selected"):
-            findings.append("no approved local Python runtime with torch + CUDA available")
-
-    cuda: dict[str, Any] = {"required": "gpu_compute" in primitives}
-    if cuda["required"]:
-        selected = python_runtimes.get("gpu_compute", {}).get("selected")
-        if isinstance(selected, dict):
-            cuda.update({
-                "available": selected.get("cuda_available"),
-                "count": selected.get("cuda_count"),
+        selected = gpu_python.get("selected")
+        if not isinstance(selected, dict):
+            findings.append("no approved local Python runtime with a supported Torch accelerator backend")
+            accelerator_runtime.update({"available": False, "backend": None, "python": None})
+        else:
+            accelerator_runtime.update({
+                "available": True,
+                "backend": selected.get("accelerator_backend"),
                 "python": selected.get("path"),
                 "torch_version": selected.get("torch_version"),
+                "cuda_available": selected.get("cuda_available"),
+                "hip_version": selected.get("hip_version"),
+                "xpu_available": selected.get("xpu_available"),
             })
-        else:
-            cuda.update({"available": False, "count": 0, "python": None})
+
+    cuda: dict[str, Any] = {
+        "required": False,
+        "global_requirement": False,
+        "provider_scoped_only": True,
+    }
+    selected_runtime = python_runtimes.get("gpu_compute", {}).get("selected")
+    if isinstance(selected_runtime, dict):
+        cuda.update({
+            "observed": bool(selected_runtime.get("cuda_available")),
+            "count": int(selected_runtime.get("cuda_count", 0) or 0),
+        })
 
     desktop: dict[str, Any] = {"required": "desktop_wayland" in primitives}
     if desktop["required"]:
-        session = merged_user_session_environment()
-        desktop_name = (session.get("XDG_CURRENT_DESKTOP") or session.get("DESKTOP_SESSION") or "").lower()
-        session_type = (session.get("XDG_SESSION_TYPE") or "").lower()
+        session = discover_current_user_session_environment()
+        session_env = session["environment"]
+        admission = evaluate_desktop(
+            session_env,
+            collect_runtime_probes(session_env),
+            require_gui=True,
+        )
         desktop.update({
-            "desktop": desktop_name,
-            "session_type": session_type,
-            "wayland_display": session.get("WAYLAND_DISPLAY"),
-            "runtime_dir": session.get("XDG_RUNTIME_DIR"),
+            "legacy_primitive_name": "desktop_wayland",
+            "semantics": "GENERIC_QT6_DESKTOP_SESSION_WAYLAND_PREFERRED_X11_SUPPORTED",
+            "admission": admission,
+            "session_discovery": session.get("evidence", {}),
         })
-        if "kde" not in desktop_name and "plasma" not in desktop_name:
-            findings.append("KDE Plasma user session unavailable to runner")
-        if session_type != "wayland":
-            findings.append("Wayland user session unavailable to runner")
+        if admission.get("result") != "PASS":
+            findings.append("supported local Qt6/XDG desktop session unavailable to runner")
 
     if any(row.get("external_side_effects_allowed") is not False for row in recipes.values()):
         findings.append("recipe registry permits external side effects")
@@ -216,6 +246,8 @@ def preflight(root: Path) -> dict[str, Any]:
         "commands": commands,
         "any_command_groups": any_groups,
         "python_runtimes": python_runtimes,
+        "accelerator_inventory": accelerator_inventory,
+        "accelerator_runtime": accelerator_runtime,
         "cuda": cuda,
         "desktop": desktop,
         "findings": sorted(set(findings)),

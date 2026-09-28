@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_current_host_capability_test_executor_audit import audit as audit_executors
+from fa3_evidence_validation import git_head
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 OBLIGATION_COUNT = CAPABILITY_COUNT * 3
@@ -153,6 +154,7 @@ def _sanitized_env(
     root: Path,
     entry: dict[str, Any],
     host_digest: str,
+    source_commit: str,
     artifact_scope: Path,
 ) -> dict[str, str]:
     keep = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR")
@@ -165,6 +167,7 @@ def _sanitized_env(
         "FA3_TEST_ID": str(entry["test_id"]),
         "FA3_HOST_FINGERPRINT_PATH": HOST_FINGERPRINT,
         "FA3_HOST_FINGERPRINT_SHA256": host_digest,
+        "FA3_SOURCE_COMMIT": source_commit,
         "FA3_TEST_ARTIFACT_DIR": str(artifact_scope),
         "FA3_TEST_ARTIFACT_REL_DIR": artifact_scope.relative_to(root).as_posix(),
         "FA3_REPOSITORY_ROOT": str(root),
@@ -177,6 +180,7 @@ def _execute_entry(
     root: Path,
     entry: dict[str, Any],
     host_digest: str,
+    source_commit: str,
 ) -> tuple[dict[str, Any] | None, list[str]]:
     command, command_error = _command_for_adapter(root, entry)
     if command_error or command is None:
@@ -199,7 +203,7 @@ def _execute_entry(
         proc = subprocess.run(
             command,
             cwd=root,
-            env=_sanitized_env(root, entry, host_digest, artifact_scope),
+            env=_sanitized_env(root, entry, host_digest, source_commit, artifact_scope),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -210,6 +214,8 @@ def _execute_entry(
     except subprocess.TimeoutExpired:
         return None, ["adapter timed out"]
     finished = datetime.now(timezone.utc)
+    if git_head(root) != source_commit:
+        return None, ["repository source commit changed during current-host test execution"]
     if proc.returncode != 0:
         return None, [f"adapter returncode {proc.returncode}"]
     try:
@@ -234,6 +240,7 @@ def _execute_entry(
         "synthetic": False,
         "ci_reference_only": False,
         "global_promotion_claim": False,
+        "source_commit": source_commit,
         "collected_at": finished.isoformat(),
         "expires_at": (finished + timedelta(seconds=ttl)).isoformat(),
         "host_fingerprint_path": HOST_FINGERPRINT,
@@ -285,6 +292,7 @@ def orchestrate(root: Path, *, execute: bool, subjects: set[str] | None = None) 
         entries = [entry for entry in entries if isinstance(entry, dict) and entry.get("subject_id") in subjects]
     host_path = root / HOST_FINGERPRINT
     host_digest: str | None = None
+    source_commit: str | None = None
     if execute and entries and not blocking:
         if platform.system() != "Linux":
             blocking.append({"code": "CHOR-002", "message": "Real current-host execution requires Linux"})
@@ -294,14 +302,17 @@ def orchestrate(root: Path, *, execute: bool, subjects: set[str] | None = None) 
             blocking.append({"code": "CHOR-004", "message": "Fresh current-host fingerprint missing"})
         else:
             host_digest = _sha256(host_path)
+        source_commit = git_head(root)
+        if source_commit is None:
+            blocking.append({"code": "CHOR-008", "message": "Exact repository source commit unavailable"})
 
     materialized: list[str] = []
     executed: list[dict[str, Any]] = []
     result_root = root / RESULT_ROOT
-    if execute and entries and not blocking and host_digest is not None:
+    if execute and entries and not blocking and host_digest is not None and source_commit is not None:
         for entry in entries:
             key = f"{entry.get('subject_id')}:{entry.get('test_kind')}"
-            result, findings = _execute_entry(root, entry, host_digest)
+            result, findings = _execute_entry(root, entry, host_digest, source_commit)
             if findings or result is None:
                 blocking.append({
                     "code": "CHOR-005",
@@ -347,6 +358,7 @@ def orchestrate(root: Path, *, execute: bool, subjects: set[str] | None = None) 
         "orchestrator_integrity": integrity,
         "status": status,
         "execution_requested": execute,
+        "source_commit": source_commit,
         "capability_count": CAPABILITY_COUNT,
         "required_test_obligation_count": OBLIGATION_COUNT,
         "registered_executor_count": coverage.get("registered_executor_count", 0),

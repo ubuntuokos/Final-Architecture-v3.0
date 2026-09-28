@@ -1,7 +1,10 @@
 import json
 from pathlib import Path
 
+from fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def load(rel):
@@ -16,7 +19,7 @@ def test_skill_fabric_is_provider_neutral_and_authority_preserving():
     assert p["provider_neutral"] is True
     assert p["new_capability"] is False
     assert p["new_architectural_authority"] is False
-    assert p["capability_count"] == 143
+    assert p["capability_count"] == CAPABILITY_COUNT
     assert all(v is False for v in p["authority_boundaries"].values())
 
 

@@ -1,13 +1,16 @@
 import tempfile,unittest
 from pathlib import Path
-from src import fa3_secret_broker_current_host_gate as g
+import fa3_secret_broker_current_host_gate as g
+from fa3_release_baseline import module_active_capability_count
+CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 class SecretBrokerCurrentHostTests(unittest.TestCase):
     def good(self):
         return {"schema":g.SCHEMA,"status":"PASS","real_execution":True,"synthetic":False,"luks2":True,"filesystem":"ext4",
                 "mount_options":["rw","nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker","bridge_source_commit":"a"*40,
                 "checks":{k:True for k in g.REQUIRED_CHECKS},
                 "secret_values_collected":False,"runtime_promotion_eligible":True,"global_promotion_claim":False,
-                "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143}
+                "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":CAPABILITY_COUNT}
     def test_good_receipt(self):self.assertEqual([],g.validate(self.good()))
     def test_missing_or_invalid_bridge_source_denied(self):
         x=self.good();x["bridge_source_commit"]="bad";self.assertTrue(g.validate(x))

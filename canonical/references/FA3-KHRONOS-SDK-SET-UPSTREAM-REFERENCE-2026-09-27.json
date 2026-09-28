@@ -1,0 +1,134 @@
+{
+  "schema": "fa3.upstream-reference-set.v1",
+  "id": "FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27",
+  "date": "2026-09-27",
+  "organization": "KhronosGroup",
+  "classification": "UPSTREAM_SDK_SOURCE_SET",
+  "authority": false,
+  "automatic_update": false,
+  "production_uses_floating_ref": false,
+  "release_bundle_status": "EXCLUDED",
+  "distribution_policy": "USER_LOCAL_MATERIALIZATION_ONLY_UNLESS_SEPARATE_LICENSE_REVIEW_ADMITS_REDISTRIBUTION",
+  "projects": [
+    {
+      "repo": "KhronosGroup/Vulkan-Headers",
+      "ref": "vulkan-sdk-1.4.357.0",
+      "commit": "e3b1eec08173d6b825cd3ac88c885a63b621504a",
+      "license_reported": "NOASSERTION",
+      "role": "VULKAN_API_HEADERS"
+    },
+    {
+      "repo": "KhronosGroup/Vulkan-Loader",
+      "ref": "vulkan-sdk-1.4.357.0",
+      "commit": "5f157b62e333c63260d05d81bf66faa216ab0fb8",
+      "license_reported": "NOASSERTION",
+      "role": "VULKAN_LOADER"
+    },
+    {
+      "repo": "KhronosGroup/Vulkan-ValidationLayers",
+      "ref": "vulkan-sdk-1.4.357.0",
+      "commit": "f4874eee15c78d7bdb2b7e60659d539f14741500",
+      "license_reported": "NOASSERTION",
+      "role": "VULKAN_VALIDATION"
+    },
+    {
+      "repo": "KhronosGroup/Vulkan-Profiles",
+      "ref": "vulkan-sdk-1.4.357.0",
+      "commit": "1f139a2ea3c475eed7e6699d67fc362203a69c41",
+      "license_reported": "NOASSERTION",
+      "role": "VULKAN_CAPABILITY_PROFILES"
+    },
+    {
+      "repo": "KhronosGroup/SPIRV-Tools",
+      "ref": "v2026.3",
+      "commit": "b707790a898e44038547df54580022fc1cf89c3d",
+      "license_reported": "Apache-2.0",
+      "role": "SPIRV_VALIDATE_OPTIMIZE"
+    },
+    {
+      "repo": "KhronosGroup/glslang",
+      "ref": "16.6.0",
+      "commit": "e1b562a8bed273a02f30b59b66a5d499793cede5",
+      "license_reported": "NOASSERTION",
+      "role": "GLSL_HLSL_TO_SPIRV"
+    },
+    {
+      "repo": "KhronosGroup/SPIRV-Cross",
+      "ref": "main@2026-09-22",
+      "commit": "aa217aeb6c9f0ace7a0ab233b28807edf45eb165",
+      "license_reported": "Apache-2.0",
+      "role": "SPIRV_CROSS_TRANSLATION_REFLECTION"
+    },
+    {
+      "repo": "KhronosGroup/KTX-Software",
+      "ref": "v4.4.2",
+      "commit": "4d6fc70eaf62ad0558e63e8d97eb9766118327a6",
+      "license_reported": "NOASSERTION",
+      "role": "KTX2_TEXTURE_PIPELINE"
+    },
+    {
+      "repo": "KhronosGroup/glTF-Validator",
+      "ref": "main@2025-12-30",
+      "commit": "434283be08a668a8fb4e437145630ddbf93b0686",
+      "license_reported": "Apache-2.0",
+      "role": "GLTF_VALIDATION"
+    },
+    {
+      "repo": "KhronosGroup/OpenXR-SDK",
+      "ref": "release-1.1.63",
+      "commit": "f2448a8797c85814aa892efc1ab8707900fbcc78",
+      "license_reported": "Apache-2.0",
+      "role": "XR_PROVIDER_SDK"
+    },
+    {
+      "repo": "KhronosGroup/OpenCL-Headers",
+      "ref": "v2026.05.29",
+      "commit": "6fe718c31a45fe25151362a72ef041c3a1047cbd",
+      "license_reported": "Apache-2.0",
+      "role": "OPENCL_HEADERS"
+    },
+    {
+      "repo": "KhronosGroup/OpenCL-ICD-Loader",
+      "ref": "v2026.05.29",
+      "commit": "b7bd2803acc779c03d96588e9ca9e9568a18698a",
+      "license_reported": "Apache-2.0",
+      "role": "OPENCL_LOADER"
+    },
+    {
+      "repo": "KhronosGroup/ANARI-SDK",
+      "ref": "v0.16.0",
+      "commit": "7534bd263d6ff97764eda93d0e1bd6bd2f108c32",
+      "license_reported": "Apache-2.0",
+      "role": "RENDER_PROVIDER_ABSTRACTION"
+    },
+    {
+      "repo": "KhronosGroup/OpenVX-sample-impl",
+      "ref": "openvx_1.3.2",
+      "commit": "031f44bdcd6648f0957c9e351f76c3a64a0bfc32",
+      "license_reported": "Apache-2.0",
+      "role": "VISION_GRAPH_SAMPLE_IMPLEMENTATION_PATTERN_SOURCE",
+      "production_provider": false
+    },
+    {
+      "repo": "KhronosGroup/NNEF-Tools",
+      "ref": "main@2026-06-22",
+      "commit": "765d27d9095e0c90301165f8933fb325b54ddd17",
+      "license_reported": "UNDECLARED_BY_GITHUB_API",
+      "role": "NNEF_IMPORT_EXPORT"
+    }
+  ],
+  "current_host_claim": false,
+  "production_runtime_admission_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false,
+    "classification_basis": "Pinned upstream SDK source metadata only; FA3 materializes source user-locally and does not redistribute this set."
+  },
+  "build_dependency_record_id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001",
+  "build_dependency_record_path": "canonical/third-party/FA3-KHRONOS-BUILD-DEPENDENCIES-001.json",
+  "build_stage_network_fetch": "FORBIDDEN_AFTER_EXPLICIT_MATERIALIZATION"
+}

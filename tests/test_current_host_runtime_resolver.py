@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from src import fa3_current_host_runtime_resolver as resolver
+import fa3_current_host_runtime_resolver as resolver
 
 
 class CurrentHostRuntimeResolverTests(unittest.TestCase):
@@ -37,6 +37,32 @@ class CurrentHostRuntimeResolverTests(unittest.TestCase):
                 require_torch=True, require_pytorch3d=True, require_cuda=False
             )
             self.assertEqual("/fake/cpu-python", p3d["selected"]["path"])
+
+    def test_python_resolver_accepts_vendor_neutral_accelerator_backend(self):
+        candidates = [Path("/fake/xpu-python")]
+        row = {
+            "path": "/fake/xpu-python",
+            "probe_status": "PASS",
+            "modules": {"torch": True, "pytorch3d": False},
+            "cuda_available": False,
+            "cuda_count": 0,
+            "xpu_available": True,
+            "xpu_count": 1,
+            "accelerator_available": True,
+            "accelerator_backend": "PYTORCH_XPU",
+            "torch_version": "test",
+        }
+        with mock.patch.object(resolver, "candidate_python_interpreters", return_value=candidates), \
+             mock.patch.object(resolver, "probe_python", return_value=row):
+            result = resolver.resolve_python_runtime(
+                require_torch=True,
+                require_pytorch3d=False,
+                require_cuda=False,
+                require_accelerator=True,
+            )
+        self.assertEqual("/fake/xpu-python", result["selected"]["path"])
+        self.assertEqual("PYTORCH_XPU", result["selected"]["accelerator_backend"])
+        self.assertTrue(result["requirements"]["accelerator"])
 
     def test_python_resolver_fails_closed_when_requirements_absent(self):
         row = {

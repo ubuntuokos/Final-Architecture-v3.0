@@ -7,6 +7,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 RECEIPT = "evidence/receipts/cpu-numa-threading-current-host.json"
 GATE_ID = "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001"
 EVIDENCE_LEVEL = "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS"
@@ -136,8 +140,29 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     ):
         fail("CPU-NUMA-HOST-011", "rollback/failure-injection evidence is absent or invalid")
 
+    openmp = receipt.get("openmp_evidence", {})
+    observation = openmp.get("observation", {})
+    observed_cpus = {int(value) for value in observation.get("observed_cpus", [])}
+    admitted_cpus = set(placement.get("effective_cpus", []))
     if not (
-        receipt.get("capability_count_after") == 143
+        openmp.get("schema") == "fa3.openmp-current-host-evidence.v1"
+        and openmp.get("status") == "PASS"
+        and openmp.get("evidence_level") == "CURRENT_HOST_OPENMP_RUNTIME_PASS"
+        and openmp.get("runtime", {}).get("status") == "SINGLE_RUNTIME"
+        and openmp.get("validation", {}).get("status") == "PASS"
+        and int(observation.get("worker_count", 0) or 0) >= 1
+        and int(observation.get("max_threads", 0) or 0) <= budget
+        and bool(observed_cpus)
+        and observed_cpus.issubset(admitted_cpus)
+        and openmp.get("capability_count_after") == CAPABILITY_COUNT
+        and openmp.get("new_capabilities") == 0
+        and openmp.get("new_architectural_authorities") == 0
+        and openmp.get("global_promotion_claim") is False
+    ):
+        fail("CPU-NUMA-HOST-013", "OpenMP physical runtime/affinity evidence is absent or invalid")
+
+    if not (
+        receipt.get("capability_count_after") == CAPABILITY_COUNT
         and receipt.get("new_capabilities") == 0
         and receipt.get("new_architectural_authorities") == 0
         and receipt.get("global_promotion_claim") is False

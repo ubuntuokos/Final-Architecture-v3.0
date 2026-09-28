@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_cpu_numa_threading_current_host_gate import gate, validate_receipt
+from fa3_cpu_numa_threading_current_host_gate import CAPABILITY_COUNT, gate, validate_receipt
 
 DIGEST = hashlib.sha256(b"fa3-current-host-fixture").hexdigest()
 
@@ -78,7 +78,23 @@ def fixture() -> dict:
             "pre_environment_sha256": DIGEST, "post_environment_sha256": DIGEST,
             "pre_cgroup_sha256": DIGEST, "post_cgroup_sha256": DIGEST,
         },
-        "capability_count_after": 143,
+        "openmp_evidence": {
+            "schema": "fa3.openmp-current-host-evidence.v1",
+            "status": "PASS",
+            "evidence_level": "CURRENT_HOST_OPENMP_RUNTIME_PASS",
+            "runtime": {"status": "SINGLE_RUNTIME", "families": ["GNU_LIBGOMP"]},
+            "observation": {
+                "max_threads": 16,
+                "worker_count": 16,
+                "observed_cpus": list(range(16)),
+            },
+            "validation": {"status": "PASS", "findings": []},
+            "capability_count_after": CAPABILITY_COUNT,
+            "new_capabilities": 0,
+            "new_architectural_authorities": 0,
+            "global_promotion_claim": False,
+        },
+        "capability_count_after": CAPABILITY_COUNT,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,
@@ -105,6 +121,11 @@ class CpuNumaCurrentHostGateTests(unittest.TestCase):
         receipt["rollback_evidence"] = {}
         codes = {item["code"] for item in validate_receipt(receipt)}
         self.assertTrue({"CPU-NUMA-HOST-010", "CPU-NUMA-HOST-011"} <= codes)
+
+    def test_openmp_current_host_evidence_is_mandatory(self):
+        receipt = fixture()
+        receipt["openmp_evidence"] = {}
+        self.assertTrue(any(item["code"] == "CPU-NUMA-HOST-013" for item in validate_receipt(receipt)))
 
     def test_missing_real_receipt_gate_fails_closed(self):
         with tempfile.TemporaryDirectory() as temp:

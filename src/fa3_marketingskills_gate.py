@@ -7,6 +7,8 @@ import posixpath
 import re
 from pathlib import Path
 
+from fa3_release_baseline import module_active_capability_count
+
 PROVIDER_ID = "FA3-PROVIDER-MARKETINGSKILLS-001"
 CONTRACT_ID = "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03"
@@ -279,7 +281,7 @@ def canonical_check(root):
         and provider.get("architectural_authority") is False
         and provider.get("new_capability") is False
         and provider.get("new_architectural_authority") is False
-        and provider.get("capability_count") == 143
+        and provider.get("capability_count") == module_active_capability_count(__file__)
         and provider.get("upstream", {}).get("immutable_commit") == UPSTREAM_PIN
         and provider.get("runtime_activation_status") == "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY"
         and provider.get("package_admission", {}).get("entire_upstream_repo_is_not_implicitly_admitted") is True
@@ -301,7 +303,7 @@ def canonical_check(root):
         and contract.get("provider_neutral") is True
         and contract.get("new_capability") is False
         and contract.get("new_architectural_authority") is False
-        and contract.get("capability_count") == 143
+        and contract.get("capability_count") == module_active_capability_count(__file__)
         and all(rule in contract.get("mandatory_rules", []) for rule in RULES)
         and contract.get("execution_safety", {}).get("executable_directives_inert_by_default") is True
         and contract.get("tool_governance", {}).get("central_mcp_gateway_required") is True
@@ -317,7 +319,7 @@ def canonical_check(root):
         and decision.get("upstream_pin") == UPSTREAM_PIN
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == 143
+        and decision.get("capability_count_after") == module_active_capability_count(__file__)
         and decision.get("current_host_runtime_claim") is False
     ):
         findings.append(finding("MSA-CANON-004", "MarketingSkills decision/capability/authority invariant drift"))

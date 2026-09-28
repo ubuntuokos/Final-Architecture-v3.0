@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.rejected-skill-change-ledger.v1",
+  "id": "FA3-REJECTED-SKILL-CHANGE-LEDGER-001",
+  "status": "CANONICAL",
+  "append_only": true,
+  "authority": false,
+  "capability_count": 175,
+  "purpose": "Record rejected Skill Fabric or skill-package changes so failed approaches are not silently retried without new evidence or explicit retry conditions.",
+  "required_fields": [
+    "date",
+    "affected_surface",
+    "attempted_change",
+    "rejection_reason",
+    "evidence_refs",
+    "gate_or_eval_result",
+    "rejected_pr_or_commit",
+    "retry_conditions"
+  ],
+  "rules": [
+    "ACCEPTED_CHANGES_MUST_NOT_BE_RECORDED_HERE",
+    "EXISTING_ENTRY_MUTATION_OR_DELETION_FORBIDDEN",
+    "NEW_ATTEMPT_AFTER_REJECTION_REQUIRES_RETRY_CONDITIONS_OR_NEW_EVIDENCE",
+    "LEDGER_ENTRY_DOES_NOT_CREATE_POLICY_OR_PROMOTION_AUTHORITY"
+  ],
+  "entries": [],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

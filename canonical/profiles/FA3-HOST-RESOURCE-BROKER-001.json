@@ -165,7 +165,8 @@
   "canonical_validation_surfaces": [
     "FA3-GATE-PAGE-CACHE-PREFETCH-001",
     "FA3-GATE-RUNTIME-HARDENING-001",
-    "FA3-GATE-HRB-LEASE-LIFECYCLE-001"
+    "FA3-GATE-HRB-LEASE-LIFECYCLE-001",
+    "FA3-GATE-SYSCTL-HOST-TUNING-001"
   ],
   "current_host_validation_surfaces": [
     "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001",
@@ -244,5 +245,16 @@
     "new_architectural_authority": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "mandatory_sysctl_governance_subprofile": {
+    "profile_id": "FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001",
+    "gate_id": "FA3-GATE-SYSCTL-HOST-TUNING-001",
+    "covered_capabilities": [
+      "CAP-063",
+      "CAP-065"
+    ],
+    "default_mode": "OBSERVE_ONLY",
+    "mutation": "EXPLICIT_ADMISSION_ONLY",
+    "current_host_runtime_promotion_claim": false
+  }
 }

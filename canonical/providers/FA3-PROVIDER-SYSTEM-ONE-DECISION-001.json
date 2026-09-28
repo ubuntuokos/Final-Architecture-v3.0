@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.provider.v1",
+  "id": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+  "profile": "FA3-DECISION-FABRIC-001",
+  "type": "SYSTEM_ONE_OPTIONAL",
+  "status": "OPTIONAL_RUNTIME_ADMISSION_PENDING",
+  "architectural_authority": false,
+  "mandatory": false,
+  "provider_neutral": true,
+  "external_service_required": false,
+  "explicit_enable_required": true,
+  "logical_route": "fa3-decision-system-one",
+  "protocol": "system-one-decision-v1",
+  "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "credential_source": "CENTRAL_SECRET_BROKER_PROJECTION_VIA_ADMITTED_ROUTER_TRANSPORT_ONLY",
+  "physical_provider_pin": false,
+  "physical_model_pin": false,
+  "silent_local_to_cloud_fallback": "DENY",
+  "direct_application_calls": "DENY",
+  "direct_external_model_call": "DENY",
+  "direct_tool_execution": "DENY",
+  "confidence_may_authorize": false,
+  "supported_contracts": [
+    "BOUNDED_ACTION"
+  ],
+  "parameter_kinds": [
+    "choices",
+    "candidates",
+    "flag",
+    "levels"
+  ],
+  "free_text_parameter_generation": "DENY",
+  "handoff_targets": [
+    "SYSTEM_TWO",
+    "HUMAN"
+  ],
+  "cpu_only_supported": true,
+  "activation_dependency": "MODEL_ROUTER_SYSTEM_ONE_NATIVE_CURRENT_HOST_ADMISSION_REQUIRED",
+  "committed_route_activation": false,
+  "router_transport_binding": "FA3_MODEL_ROUTER_SYSTEM_ONE_NATIVE_TRANSPORT_V1",
+  "litellm_data_plane_bypass": "DENY",
+  "distribution": {
+    "class": "FA3_NATIVE",
+    "release_bundle_status": "INCLUDED"
+  },
+  "live_provider_admitted": false
+}

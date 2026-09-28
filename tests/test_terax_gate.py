@@ -95,13 +95,13 @@ class TeraxGateTests(unittest.TestCase):
         self.assertEqual(t.unsupported_disposition("UNVERIFIED"), "DENY")
         self.assertEqual(t.unsupported_disposition("SUPPORTED"), "ALLOW")
 
-    def test_17_zero_cost_disabled(self):
+    def test_17_zero_cost_disabled_does_not_need_gpu_probe(self):
         z = {
             "resident_process_count":0, "worker_thread_count":0, "ram_resident_bytes":0,
-            "gpu_memory_bytes":0, "network_session_count":0, "accelerator_reservation_count":0,
-            "active_polling":False, "background_inference":False
+            "network_session_count":0, "active_polling":False, "background_inference":False
         }
         self.assertTrue(t.disabled_zero_cost(z))
+        self.assertFalse(t.disabled_zero_cost({**z, "resident_process_count":1}))
         self.assertFalse(t.disabled_zero_cost({**z, "gpu_memory_bytes":1}))
 
     def test_regression_matrix_17_of_17(self):
@@ -110,66 +110,141 @@ class TeraxGateTests(unittest.TestCase):
         self.assertEqual(r["passed"], 17)
         self.assertEqual(r["total"], 17)
 
-    def test_reference_pin(self):
+    def test_hardware_regression_matrix(self):
+        r = t.run_hardware_regressions()
+        self.assertEqual(r["result"], "PASS", r)
+        self.assertEqual(r["passed"], 6)
+        self.assertEqual(r["total"], 6)
+
+    def test_workload_driven_admission(self):
+        self.assertTrue(t.resource_admission_valid(
+            workload_execution_requested=False, requested_resource_classes=[],
+            hrb_authorization_present=False, accelerator_lease_present=False))
+        self.assertTrue(t.resource_admission_valid(
+            workload_execution_requested=True, requested_resource_classes=["CPU"],
+            hrb_authorization_present=True, accelerator_lease_present=False))
+        self.assertTrue(t.resource_admission_valid(
+            workload_execution_requested=True, requested_resource_classes=["CPU", "DISPLAY_RENDERER"],
+            hrb_authorization_present=True, accelerator_lease_present=False))
+        self.assertFalse(t.resource_admission_valid(
+            workload_execution_requested=True, requested_resource_classes=["CPU"],
+            hrb_authorization_present=False, accelerator_lease_present=False))
+        self.assertFalse(t.resource_admission_valid(
+            workload_execution_requested=True, requested_resource_classes=["ACCELERATOR"],
+            hrb_authorization_present=True, accelerator_lease_present=False))
+        self.assertTrue(t.resource_admission_valid(
+            workload_execution_requested=True, requested_resource_classes=["ACCELERATOR"],
+            hrb_authorization_present=True, accelerator_lease_present=True))
+
+    def test_reference_pin_and_hardware_binding(self):
         root = Path(__file__).resolve().parents[1]
         r = t.reference_check(root)
         self.assertEqual(r["result"], "PASS", r)
 
-    def test_current_host_receipt_pass_fixture(self):
+    def test_current_host_receipt_pass_without_gpu_telemetry_probe(self):
         import json
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             p = root / "evidence" / "receipts"
             p.mkdir(parents=True)
             receipt = {
-                "schema":"fa3.terax-current-host.v1",
+                "schema":"fa3.terax-current-host.v2",
                 "provider_id":t.PROVIDER_ID,
                 "host_scope":"CURRENT_HOST",
                 "provider_state":"DISABLED_REFERENCE_ONLY",
-                "status":"PASS",
+                "status":"OBSERVATIONAL_ONLY",
+                "physical_attestation":False,
                 "expires_at":"2099-01-01T00:00:00Z",
-                "gpu_telemetry":"AVAILABLE",
+                "workload_execution_requested":False,
+                "requested_resource_classes":[],
+                "accelerator_discovery_performed":False,
+                "accelerator_lease_required":False,
+                "gpu_telemetry":"NOT_APPLICABLE_NO_ACCELERATOR_RESOURCE_CLASS",
+                "provider_receipt_substitution_allowed":False,
+                "capability_promotion_claim":False,
+                "global_promotion_claim":False,
                 "metrics":{
                     "resident_process_count":0,
                     "worker_thread_count":0,
                     "ram_resident_bytes":0,
-                    "gpu_memory_bytes":0,
                     "network_session_count":0,
-                    "accelerator_reservation_count":0,
                     "active_polling":False,
                     "background_inference":False
                 }
             }
             (p / "terax-current-host.json").write_text(json.dumps(receipt))
-            self.assertEqual(t.current_host_check(root)["result"], "PASS")
+            self.assertEqual(t.current_host_check(root)["result"], "OBSERVATIONAL_ONLY")
 
-    def test_current_host_receipt_resource_leak_fails(self):
+    def test_current_host_receipt_resource_leak_fails_auxiliary_conformance(self):
         import json
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             p = root / "evidence" / "receipts"
             p.mkdir(parents=True)
             receipt = {
-                "schema":"fa3.terax-current-host.v1",
+                "schema":"fa3.terax-current-host.v2",
                 "provider_id":t.PROVIDER_ID,
                 "host_scope":"CURRENT_HOST",
                 "provider_state":"DISABLED_REFERENCE_ONLY",
-                "status":"PASS",
+                "status":"OBSERVATIONAL_ONLY",
+                "physical_attestation":False,
                 "expires_at":"2099-01-01T00:00:00Z",
-                "gpu_telemetry":"AVAILABLE",
+                "workload_execution_requested":False,
+                "requested_resource_classes":[],
+                "accelerator_discovery_performed":False,
+                "accelerator_lease_required":False,
+                "gpu_telemetry":"NOT_APPLICABLE_NO_ACCELERATOR_RESOURCE_CLASS",
+                "provider_receipt_substitution_allowed":False,
+                "capability_promotion_claim":False,
+                "global_promotion_claim":False,
                 "metrics":{
                     "resident_process_count":1,
                     "worker_thread_count":1,
                     "ram_resident_bytes":4096,
-                    "gpu_memory_bytes":0,
-                    "network_session_count":0,
-                    "accelerator_reservation_count":0,
-                    "active_polling":False,
+                    "network_session_count":-1,
+                    "active_polling":True,
                     "background_inference":False
                 }
             }
             (p / "terax-current-host.json").write_text(json.dumps(receipt))
             self.assertEqual(t.current_host_check(root)["result"], "FAIL")
+
+    def test_missing_current_host_receipt_is_optional_not_promotion_evidence(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.assertEqual(t.current_host_check(root)["result"], "NOT_PRESENT_OPTIONAL")
+
+
+    def test_coexistence_footprint_and_collision_rejections(self):
+        import json
+        root = Path(__file__).resolve().parents[1]
+        fp = json.loads((root / "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json").read_text())
+        self.assertTrue(t.validate_coexistence_footprint(fp))
+        self.assertEqual(t.coexistence_static_check(root)["result"], "PASS")
+        self.assertFalse(t.validate_coexistence_footprint({**fp, "coexistence": {**fp["coexistence"], "claims_default_port": True}}))
+        self.assertFalse(t.validate_coexistence_footprint({**fp, "coexistence": {**fp["coexistence"], "requires_upstream_uninstall": True}}))
+        self.assertFalse(t.validate_coexistence_footprint({**fp, "evidence": {**fp["evidence"], "current_host_status": "PASS"}}))
+
+    def test_exact_change_approval_binding_rejects_stale_and_modified_diff(self):
+        import hashlib
+        diff = "--- a/x\\n+++ b/x\\n@@ -1 +1 @@\\n-old\\n+new\\n"
+        digest = hashlib.sha256(diff.encode()).hexdigest()
+        read = dict(artifact_id="x", artifact_version="v1", workspace_id="w1", resolved_path="/w1/x")
+        proposal = {**read, "caller_identity": "agent-1", "diff_text": diff, "diff_sha256": digest}
+        approval = {**proposal, "expires_at_epoch": 200, "decision": "ALLOW",
+                    "authorized": True, "evidence_ref": "EVID-1"}
+        self.assertTrue(t.approved_change_binding_valid(read, proposal, approval, read, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, proposal, approval, {**read, "artifact_version": "v2"}, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, {**proposal, "diff_text": diff + "tampered"}, approval, read, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, proposal, {**approval, "workspace_id": "w2"}, read, now_epoch=100))
+        self.assertFalse(t.approved_change_binding_valid(read, proposal, {**approval, "expires_at_epoch": 10}, read, now_epoch=100))
+
+    def test_optional_collector_does_not_probe_nvidia_in_disabled_state(self):
+        root = Path(__file__).resolve().parents[1]
+        collector = (root / "evidence/collect-terax-current-host.py").read_text()
+        self.assertNotIn("nvidia-smi", collector)
+        self.assertIn('"accelerator_discovery_performed": False', collector)
+        self.assertIn('"physical_attestation": False', collector)
 
 
 if __name__ == "__main__":

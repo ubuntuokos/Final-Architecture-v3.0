@@ -46,6 +46,10 @@
     {
       "id": "FA3-AUTH-OBS-EVIDENCE-001",
       "use": "PROVENANCE_AND_EVIDENCE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "CENTRAL_MANDATORY_DONOR_CHAIN_AND_PATTERN_DISCOVERY"
     }
   ],
   "rejected_candidates": [
@@ -116,5 +120,33 @@
   "new_architectural_authorities": 0,
   "covered_ids": [
     "FA3-VIDEO-001"
+  ],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.anari"
+      ],
+      "matched_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx"
+      ],
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "REFERENCE_ONLY_DOWNSTREAM_ASSET_INTERCHANGE_NO_SDK_DEPENDENCY_NO_RUNTIME_ADMISSION"
+    }
   ]
 }

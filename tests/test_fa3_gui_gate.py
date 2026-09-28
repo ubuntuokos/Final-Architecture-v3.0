@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from src import fa3_gui_gate
+import fa3_gui_gate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -116,6 +116,10 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("NavButton is still coupled to pageIndex", installer)
         self.assertIn("--check-source-contract", installer)
         self.assertIn("CHECK_SOURCE_CONTRACT_ONLY", installer)
+        self.assertIn("bin/fa3-host-adaptation", installer)
+        self.assertIn("--initialize --json", installer)
+        self.assertIn("--check --json", installer)
+        self.assertIn("startup-host-drift.json", installer)
 
     def test_agent_native_decision_fabric_and_dead_signal_reconciliation(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")

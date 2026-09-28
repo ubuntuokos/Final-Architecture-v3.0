@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
 
-from src.fa3_current_host_batch_planner import build_plan
-from src.fa3_full_current_host_preflight import required_primitives
+from fa3_current_host_batch_planner import build_plan
+from fa3_full_current_host_preflight import required_primitives
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,7 +24,8 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
 
     def test_recipe_registry_is_explicit_and_nontrivial(self):
         primitives, recipes = required_primitives(ROOT)
-        self.assertEqual(149, len(recipes))
+        registry = json.loads((ROOT / "canonical/current-host-capability-proof-recipes.json").read_text(encoding="utf-8"))
+        self.assertEqual(registry["capability_count"], len(recipes))
         self.assertGreaterEqual(len(primitives), 12)
         excluded_primitive = "un" + "real_runtime"
         self.assertNotIn(excluded_primitive, primitives)

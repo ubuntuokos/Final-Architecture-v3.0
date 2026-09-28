@@ -23,10 +23,10 @@ def _candidate_roots() -> list[Path]:
     env = os.environ.get("FA3_MODEL_SECURITY_MODEL_ROOTS")
     if env:
         values.extend(Path(x).expanduser() for x in env.split(":") if x)
-    values.extend([
-        Path("/AI-modells/StabilityMatrix/Models"),
-        Path("/AI-modells/StabilityMatrix/Data/Models"),
-    ])
+    if os.environ.get("FA3_CANONICAL_MODEL_STORE"):
+        values.append(Path(os.environ["FA3_CANONICAL_MODEL_STORE"]).expanduser())
+    values.append(Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))) / "fa3/models")
+    values.append(Path.home() / ".local/share/fa3/models")
     out, seen = [], set()
     for p in values:
         q = p.expanduser().resolve()
@@ -70,9 +70,7 @@ def _target_model_class(target: Path) -> str:
     explicit = os.environ.get("FA3_MODEL_SECURITY_E2E_MODEL_CLASS")
     if explicit:
         return explicit.strip().upper()
-    if "StabilityMatrix" in str(target):
-        return "DIFFUSION"
-    raise RuntimeError("set FA3_MODEL_SECURITY_E2E_MODEL_CLASS for explicit/custom E2E targets; model class must never be guessed")
+    raise RuntimeError("set FA3_MODEL_SECURITY_E2E_MODEL_CLASS for E2E targets; model class must never be guessed from storage location")
 
 
 def _make_negative_pickle(home: Path) -> Path:
@@ -146,7 +144,7 @@ def main() -> int:
         "negative_pickle_regression": {"fixture_sha256": sha256_file(fixture), "fixture_executed": False, "blocked": negative_ok, "blocking_scanners": sorted(blocking), "scanner_results": negative_results},
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "capability_count_after": 143,
+        "capability_count_after": 175,
     }
     RECEIPT.parent.mkdir(parents=True, exist_ok=True)
     RECEIPT.write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

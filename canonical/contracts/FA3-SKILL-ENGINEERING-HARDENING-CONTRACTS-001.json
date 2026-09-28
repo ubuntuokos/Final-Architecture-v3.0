@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001",
+  "name": "Skill Fabric Engineering Discipline Hardening Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "upstream_pattern_reference": {
+    "repository": "addyosmani/agent-skills",
+    "previous_pin": "bcab6a1b8503100e8618c3b4e32cc78de43de769",
+    "audited_pin": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "delta_commits": 21,
+    "classification": "REFERENCE_ONLY",
+    "imported_runtime": false
+  },
+  "trigger_semantics": {
+    "explicit_positive_trigger_required": true,
+    "negated_trigger_does_not_establish_eligibility": true,
+    "malformed_host_yaml_fails_closed": true,
+    "trigger_metadata_is_not_authorization": true
+  },
+  "quality_floor": {
+    "weakening_fails_closed": true,
+    "tightening_is_not_a_violation": true,
+    "protected_moves": [
+      "MANDATORY_OR_REQUIRED_RULE_REMOVAL",
+      "FAIL_CLOSED_TO_FAIL_OPEN",
+      "P0_OR_MUST_DOWNGRADE",
+      "CAPABILITY_BASELINE_DECREASE",
+      "TEST_DELETION_OR_ASSERTION_REMOVAL_TO_GET_GREEN",
+      "CHECKER_SUPPRESSION_OR_DISABLEMENT",
+      "STUB_OR_EMPTY_ERROR_HANDLER_AS_COMPLETION",
+      "UNTRACKED_EXCEPTION_ADDITION",
+      "CURRENT_HOST_REQUIREMENT_WEAKENING",
+      "CPU_ONLY_OR_VENDOR_NEUTRALITY_REQUIREMENT_WEAKENING",
+      "AUTHORITY_BOUNDARY_WEAKENING"
+    ],
+    "exception_requires_explicit_tracked_decision": true,
+    "guard_is_policy_check_not_execution_authority": true
+  },
+  "rejected_change_ledger": {
+    "path": "canonical/skill-rejected-change-ledger.json",
+    "append_only": true,
+    "accepted_changes_forbidden_in_ledger": true,
+    "rejected_change_retry_requires_explicit_retry_conditions": true,
+    "ledger_is_not_decision_authority": true
+  },
+  "source_grounding": {
+    "implementation_affecting_claims_require_attributable_source": true,
+    "authoritative_primary_source_preferred": true,
+    "immutable_version_or_snapshot_required_when_available": true,
+    "claim_source_match_required": true,
+    "implementation_affecting_claim_requires_runtime_verification": true,
+    "source_is_not_admission_or_execution_authority": true
+  },
+  "adversarial_review": {
+    "fresh_context_required": true,
+    "original_conclusion_withheld_from_reviewer": true,
+    "reviewer_receives_artifact_and_contract": true,
+    "agent_federation_binding": "FA3-AGENT-FEDERATION-001",
+    "model_route": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_route": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_self_selection_forbidden": true,
+    "critical_unreconciled_finding_blocks_promotion": true,
+    "reviewer_is_not_promotion_authority": true
+  },
+  "artifact_binding": {
+    "registry": "canonical/skill-artifact-bindings.json",
+    "producer_consumer_path_schema_identity_binding_required": true,
+    "drift_fails_closed": true,
+    "path_change_requires_producer_consumer_registry_update_same_change": true,
+    "binding_registry_is_not_evidence_authority": true
+  },
+  "cross_authority_hardening": {
+    "destructive_path_operations": {
+      "symlink_resolution_required": true,
+      "allowed_root_check_required": true,
+      "minimum_path_depth_check_required": true,
+      "ownership_check_required": true,
+      "execution_routes_through_existing_authority": true
+    },
+    "distributed_rate_limiting": {
+      "multi_instance_shared_counter_store_required": true,
+      "atomic_update_semantics_required": true
+    },
+    "observability": {
+      "correlation_id_required_for_correlated_runs": true,
+      "entry_point_required_when_multiple_entry_paths_share_sink": true,
+      "evidence_authority_unchanged": "FA3-AUTH-OBS-EVIDENCE-001"
+    }
+  },
+  "mandatory_rules": [
+    "QUALITY_FLOOR_LOOSENING_FAILS_CLOSED",
+    "REJECTED_CHANGE_LEDGER_APPEND_ONLY",
+    "IMPLEMENTATION_AFFECTING_CLAIMS_REQUIRE_SOURCE_GROUNDING",
+    "ADVERSARIAL_REVIEW_FRESH_CONTEXT_AND_ROUTER_BOUND",
+    "CANONICAL_ARTIFACT_BINDING_DRIFT_FAILS_CLOSED",
+    "NEGATED_SKILL_TRIGGER_DOES_NOT_ESTABLISH_ELIGIBILITY",
+    "DESTRUCTIVE_PATH_ACTION_REQUIRES_RESOLVE_ALLOWLIST_DEPTH_OWNERSHIP_CHECKS",
+    "MULTI_INSTANCE_RATE_LIMIT_REQUIRES_SHARED_COUNTER_STORE",
+    "OBSERVABILITY_SHARED_SINK_REQUIRES_ENTRY_POINT_ATTRIBUTION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "external_repository_installation_required": false,
+    "external_runtime_required": false,
+    "upstream_files_modified": false,
+    "global_agent_configuration_mutation": false,
+    "namespaced_fa3_artifacts": true
+  },
+  "evidence_boundary": {
+    "static_ci_is_current_host_runtime_proof": false,
+    "current_host_runtime_claim": false
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

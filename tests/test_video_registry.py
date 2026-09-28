@@ -1,7 +1,7 @@
 import json
 import unittest
 from pathlib import Path
-from src.fa3_release_baseline import load_active_release_baseline
+from fa3_release_baseline import load_active_release_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 

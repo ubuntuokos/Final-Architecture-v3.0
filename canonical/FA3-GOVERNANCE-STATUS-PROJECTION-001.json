@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.governance-status-projection-contract.v1",
+  "id": "FA3-GOVERNANCE-STATUS-PROJECTION-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_count": 175,
+  "type": "READ_ONLY_DERIVED_PROJECTION",
+  "purpose": "Expose one machine-derived view of repository commit, capability baseline, mandatory-gate membership, evidence/current-host status, expiry, acceptance and promotion without acquiring any source authority.",
+  "authoritative_sources": {
+    "release_baseline": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+    "gate_registry": "canonical/FA3-GATE-REGISTRY-001.json",
+    "evidence_registry": "evidence/evidence-registry.json",
+    "acceptance_generated": "acceptance/acceptance-report.json",
+    "promotion_generated": "promotion/runtime-status.json"
+  },
+  "output": "reports/governance-status-projection.json",
+  "missing_source_semantics": {
+    "acceptance": "UNKNOWN_OR_PENDING",
+    "promotion": "UNKNOWN_OR_PENDING",
+    "evidence_artifact_binding": "ABSENT_OR_UNBOUND_VISIBLE_NOT_INFERRED"
+  },
+  "required_dimensions": [
+    "repository.head_commit",
+    "repository.release",
+    "repository.capability_count",
+    "gates.mandatory_reference_gate_count",
+    "evidence.record_count",
+    "evidence.status_counts",
+    "evidence.runtime_conformance_counts",
+    "evidence.promotion_state_counts",
+    "evidence.expired_subjects",
+    "evidence.expiring_within_7d_subjects",
+    "evidence.artifact_bindings",
+    "acceptance.state",
+    "promotion.state"
+  ],
+  "forbidden_inferences": [
+    "DOCUMENTATION_IMPLIES_RUNTIME_PASS",
+    "REFERENCE_CI_PASS_IMPLIES_CURRENT_HOST_PASS",
+    "CANONICAL_CLOSED_IMPLIES_PROMOTED",
+    "MISSING_ACCEPTANCE_IMPLIES_PASS",
+    "MISSING_PROMOTION_IMPLIES_PASS",
+    "STATUS_PROJECTION_MAY_PROMOTE"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  }
+}

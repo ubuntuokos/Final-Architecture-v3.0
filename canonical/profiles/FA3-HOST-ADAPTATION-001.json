@@ -1,0 +1,103 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HOST-ADAPTATION-001",
+  "name": "Host-Adaptive Installation, Startup Drift & Selective Materialization Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "COMPOSES_EXISTING_PROFILES",
+    "parents": [
+      "FA3-HARDWARE-BASELINE-001",
+      "FA3-DESKTOP-BASE-001"
+    ]
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": {
+    "discovery": "NON_AUTHORITY_CAPABILITY",
+    "resource_admission_placement_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "package_provider_admission": "EXISTING_DISTRIBUTION_AND_PROVIDER_ADMISSION_ONLY"
+  },
+  "lifecycle": {
+    "installation_full_discovery_required": true,
+    "installation_baseline": "IMMUTABLE_HISTORICAL_REFERENCE",
+    "accepted_host_profiles": "VERSIONED_EXTERNAL_ADMISSION_RESULT",
+    "startup_live_discovery_required": true,
+    "compare_against": "LATEST_ACCEPTED_PROFILE_ELSE_INSTALLATION_BASELINE",
+    "workload_admission_revalidation_required": true,
+    "discovery_may_mutate_host": false,
+    "drift_classifier_may_admit_provider": false
+  },
+  "drift_classes": [
+    "NO_DRIFT",
+    "OBSERVATIONAL_DRIFT",
+    "RUNTIME_REBIND",
+    "CONFIG_RECONCILE",
+    "COMPONENT_ADMISSION",
+    "SAFETY_BLOCK"
+  ],
+  "selective_materialization": {
+    "install_only_host_relevant_implementations": true,
+    "canonical_capability_model_independent_of_provider_materialization": true,
+    "missing_device_does_not_trigger_automatic_uninstall": true,
+    "startup_change_does_not_imply_automatic_update": true,
+    "component_change_requires_existing_admission_path": true,
+    "fixed_default_ports_forbidden": true
+  },
+  "accelerator_lifecycle": [
+    "DISCOVERED",
+    "ELIGIBLE",
+    "ASSIGNED_BY_HRB",
+    "ACTUALLY_USED"
+  ],
+  "accelerator_rules": {
+    "display_owner_is_not_compute_assignment": true,
+    "selected_device_is_not_execution_proof": true,
+    "silent_cpu_or_other_device_fallback_for_accelerator_required_workload": "FORBIDDEN",
+    "cpu_only_host": "VALID_BASELINE",
+    "vendor_specific_backend": "PROVIDER_SCOPED_NOT_GLOBAL"
+  },
+  "desktop_integration": {
+    "application_core": "QT6_QML_NATIVE",
+    "qt_desktop_native_integration": "FULL_STRENGTH_WHEN_AVAILABLE",
+    "kde_plasma": "QT6_NATIVE_KF6_ENHANCED",
+    "other_qt_desktop": "QT6_NATIVE_PLUS_XDG_INTEROP",
+    "non_qt_desktop": "QT6_PLUS_XDG_FREEDESKTOP_PORTAL_AS_NEEDED",
+    "wayland": "PREFERRED",
+    "x11": "SUPPORTED",
+    "lowest_common_denominator_restriction": false,
+    "native_enhancement_may_be_authority": false
+  },
+  "state_namespace": {
+    "root": "$XDG_STATE_HOME/fa3/host-adaptation",
+    "installation_profile": "installation-host-profile.json",
+    "accepted_profile": "accepted-host-profile.json",
+    "startup_report": "startup-host-drift.json"
+  },
+  "invariants": [
+    "DISCOVERY_DECISION_EXECUTION_AND_EVIDENCE_ARE_SEPARATE",
+    "INSTALLATION_BASELINE_IS_IMMUTABLE",
+    "STARTUP_REVALIDATION_REQUIRED",
+    "DRIFT_DOES_NOT_IMPLY_UPDATE",
+    "HRB_REMAINS_SOLE_RESOURCE_AUTHORITY",
+    "CPU_ONLY_REMAINS_VALID",
+    "ACCELERATOR_CARDINALITY_0_TO_N",
+    "DISPLAY_GPU_NOT_COMPUTE_AUTHORITY",
+    "ASSIGNED_ACCELERATOR_NOT_ACTUAL_EXECUTION_PROOF",
+    "MISSING_DEVICE_NOT_AUTOMATIC_UNINSTALL",
+    "QT6_NATIVE_DESKTOP_INTEGRATION_NOT_DOWNLEVELED",
+    "XDG_FREEDESKTOP_PRESERVES_NON_QT_INTEROPERABILITY",
+    "WAYLAND_PREFERRED_X11_SUPPORTED",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED",
+    "CURRENT_HOST_PASS_REQUIRES_PHYSICAL_EVIDENCE_OUTSIDE_THIS_DISCOVERY_LAYER"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

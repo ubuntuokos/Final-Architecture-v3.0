@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_cpu_thread_budget import AdmissionDenied, build_thread_plan, discover_live_topology
+from fa3_release_baseline import active_capability_count
 
 EVIDENCE_LEVEL = "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS"
 
@@ -153,7 +154,26 @@ def valid_external_evidence(performance: dict[str, Any], rollback: dict[str, Any
     )
 
 
-def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[str, Any]:
+def valid_openmp_evidence(openmp: dict[str, Any], allowed_cpus: list[int], thread_budget: int) -> bool:
+    observation = openmp.get("observation", {})
+    observed_cpus = {int(value) for value in observation.get("observed_cpus", [])}
+    return bool(
+        openmp.get("schema") == "fa3.openmp-current-host-evidence.v1"
+        and openmp.get("status") == "PASS"
+        and openmp.get("evidence_level") == "CURRENT_HOST_OPENMP_RUNTIME_PASS"
+        and openmp.get("runtime", {}).get("status") == "SINGLE_RUNTIME"
+        and openmp.get("validation", {}).get("status") == "PASS"
+        and int(observation.get("worker_count", 0) or 0) >= 1
+        and int(observation.get("max_threads", 0) or 0) <= thread_budget
+        and bool(observed_cpus)
+        and observed_cpus.issubset(set(allowed_cpus))
+        and openmp.get("new_capabilities") == 0
+        and openmp.get("new_architectural_authorities") == 0
+        and openmp.get("global_promotion_claim") is False
+    )
+
+
+def collect(performance_path: Path | None, rollback_path: Path | None, openmp_path: Path | None) -> dict[str, Any]:
     online = parse_cpu_list(Path("/sys/devices/system/cpu/online").read_text())
     global_entries = topology_entries(online)
     model_names = cpu_model_names()
@@ -216,6 +236,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
     }
     performance = loadj(performance_path) if performance_path and performance_path.is_file() else {}
     rollback = loadj(rollback_path) if rollback_path and rollback_path.is_file() else {}
+    openmp = loadj(openmp_path) if openmp_path and openmp_path.is_file() else {}
     external_ok = valid_external_evidence(performance, rollback, fingerprint)
     hardware_ok = (
         hardware["packages"] >= 1
@@ -233,7 +254,9 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         and bool(cgroup["effective_memory_nodes"])
         and placement["affinity_matches_effective_cpuset"]
     )
-    status = "PASS" if hardware_ok and placement_ok and all(negatives.values()) and external_ok else "FAIL"
+    openmp_ok = valid_openmp_evidence(openmp, live["allowed_cpus"], int(plan["thread_budget"]))
+    status = "PASS" if hardware_ok and placement_ok and all(negatives.values()) and external_ok and openmp_ok else "FAIL"
+    capability_count = active_capability_count(ROOT)
     return {
         "schema": "fa3.cpu-numa-threading-current-host-receipt.v1",
         "status": status,
@@ -250,7 +273,8 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         "negative_tests": negatives,
         "performance_evidence": performance,
         "rollback_evidence": rollback,
-        "capability_count_after": 143,
+        "openmp_evidence": openmp,
+        "capability_count_after": capability_count,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,
@@ -260,6 +284,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
                 "CGROUP_AFFINITY_OR_ACCELERATOR_LOCALITY_INCOMPLETE": placement_ok,
                 "NEGATIVE_TEST_FAILURE": all(negatives.values()),
                 "PERFORMANCE_OR_ROLLBACK_EVIDENCE_MISSING_OR_INVALID": external_ok,
+                "OPENMP_RUNTIME_OR_AFFINITY_EVIDENCE_MISSING_OR_INVALID": openmp_ok,
             }.items() if not ok
         ],
     }
@@ -271,12 +296,13 @@ def main() -> int:
     parser.add_argument("--receipt", default="evidence/receipts/cpu-numa-threading-current-host.json")
     parser.add_argument("--performance-evidence", required=True)
     parser.add_argument("--rollback-evidence", required=True)
+    parser.add_argument("--openmp-evidence", required=True)
     args = parser.parse_args()
     root = Path(args.root).resolve()
     receipt = Path(args.receipt)
     if not receipt.is_absolute():
         receipt = root / receipt
-    result = collect(Path(args.performance_evidence).resolve(), Path(args.rollback_evidence).resolve())
+    result = collect(Path(args.performance_evidence).resolve(), Path(args.rollback_evidence).resolve(), Path(args.openmp_evidence).resolve())
     writej(receipt, result)
     print(json.dumps(result, indent=2))
     return 0 if result["status"] == "PASS" else 2

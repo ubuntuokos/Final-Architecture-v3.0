@@ -73,7 +73,11 @@ def _f(code,msg,**extra): return {"code":code,"severity":"P0","message":msg,**ex
 
 def provider_not_authority(canonical_root=False,architectural_authority=False,owns_authority=False):
     return not canonical_root and not architectural_authority and not owns_authority
-def count_invariant(count=143,new_caps=0,new_auth=0): return count==143 and new_caps==0 and new_auth==0
+def count_invariant(count=None,new_caps=0,new_auth=0):
+    active = module_active_capability_count(__file__)
+    if count is None:
+        count = active
+    return count == active and new_caps == 0 and new_auth == 0
 def immutable_pins_valid(open_pin,helios_pin):
     return open_pin==OPEN_SORA_PIN and helios_pin==HELIOS_PIN and all(x not in {"main","master","latest","floating",""} for x in (open_pin,helios_pin))
 def lifecycle_valid(predecessor,successor,distinct): return predecessor==OPEN_SORA_ID and successor==HELIOS_ID and distinct
@@ -170,13 +174,13 @@ def reference_check(root:Path):
         except Exception as exc: fs.append(_f("VPLC-REF-002","invalid JSON",path=rel,error=str(exc)))
     if fs:return {"result":"FAIL","findings":fs}
     osp,hel,c,dec,ref,gate_rec,enf,adm,ev,pol,profile,venf=[d[x] for x in ("open_sora","helios","contract","decision","reference","gate_record","enforcement","admission","evidence","policy","profile","video_enforcement")]
-    if not(osp.get("id")==OPEN_SORA_ID and osp.get("canonical_root") is False and osp.get("architectural_authority") is False and osp.get("capability_projection")==CAPABILITIES and osp.get("capability_count")==143 and osp.get("upstream",{}).get("immutable_commit")==OPEN_SORA_PIN):
+    if not(osp.get("id")==OPEN_SORA_ID and osp.get("canonical_root") is False and osp.get("architectural_authority") is False and osp.get("capability_projection")==CAPABILITIES and osp.get("capability_count")==CAPABILITY_COUNT and osp.get("upstream",{}).get("immutable_commit")==OPEN_SORA_PIN):
         fs.append(_f("VPLC-REF-003","Open-Sora provider drift"))
-    if not(hel.get("id")==HELIOS_ID and hel.get("canonical_root") is False and hel.get("architectural_authority") is False and hel.get("capability_projection")==CAPABILITIES and hel.get("capability_count")==143 and hel.get("upstream",{}).get("immutable_commit")==HELIOS_PIN):
+    if not(hel.get("id")==HELIOS_ID and hel.get("canonical_root") is False and hel.get("architectural_authority") is False and hel.get("capability_projection")==CAPABILITIES and hel.get("capability_count")==CAPABILITY_COUNT and hel.get("upstream",{}).get("immutable_commit")==HELIOS_PIN):
         fs.append(_f("VPLC-REF-004","Helios provider drift"))
     if not(c.get("id")==CONTRACT_ID and c.get("status")=="CANONICAL" and c.get("provider_neutral") is True and c.get("rules",{}).get("cache_is_derived_not_canonical") is True):
         fs.append(_f("VPLC-REF-005","contract drift"))
-    if not(dec.get("id")==DECISION_ID and dec.get("mandatory_p0_rules")==P0_RULES and dec.get("new_capabilities")==0 and dec.get("new_architectural_authorities")==0 and dec.get("capability_count_after")==143):
+    if not(dec.get("id")==DECISION_ID and dec.get("mandatory_p0_rules")==P0_RULES and dec.get("new_capabilities")==0 and dec.get("new_architectural_authorities")==0 and dec.get("capability_count_after")==CAPABILITY_COUNT):
         fs.append(_f("VPLC-REF-006","decision drift"))
     if not(ref.get("id")==REFERENCE_ID and ref.get("open_sora_plan",{}).get("immutable_observed_commit")==OPEN_SORA_PIN and ref.get("helios",{}).get("immutable_observed_commit")==HELIOS_PIN and ref.get("promotion_evidence") is False):
         fs.append(_f("VPLC-REF-007","upstream reference drift"))
@@ -199,7 +203,7 @@ def reference_check(root:Path):
 def gate(root:Path):
     ref=reference_check(root);auth=scan_authority(root);reg=run_regressions()
     ok=ref["result"]==auth["result"]==reg["result"]=="PASS"
-    r={"schema":"fa3.video-provider-lifecycle-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"provider_ids":[OPEN_SORA_ID,HELIOS_ID],"capability_count":143,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":reg,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":"REFERENCE_AND_CANDIDATE_NOT_PROMOTED"}
+    r={"schema":"fa3.video-provider-lifecycle-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"profile_id":PROFILE_ID,"contract_id":CONTRACT_ID,"provider_ids":[OPEN_SORA_ID,HELIOS_ID],"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":reg,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":"REFERENCE_AND_CANDIDATE_NOT_PROMOTED"}
     _write(root/"reports/video-provider-lifecycle-gate-report.json",r)
     return r
 

@@ -4,7 +4,6 @@
   "conformance_id": "FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001",
   "profile_id": "FA3-MODEL-MANAGER-001",
   "provider_ids": [
-    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
     "FA3-PROVIDER-HF-MODEL-STORE-001",
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
     "FA3-PROVIDER-OLLAMA-MODEL-001"
@@ -14,10 +13,7 @@
   "network_access_forbidden": true,
   "model_store_mutation_forbidden": true,
   "absolute_path_disclosure_forbidden": true,
-  "minimum_available_nonempty_providers": 2,
-  "stability_matrix_nonempty_required": true,
-  "stability_matrix_representative_full_sha256_required": true,
-  "stability_matrix_before_after_manifest_equality_required": true,
+  "minimum_available_nonempty_providers": 1,
   "cross_provider_inventory_artifact_hash_required": true,
   "forbidden": [
     "NETWORK_MODEL_DOWNLOAD_OR_PULL",
@@ -33,5 +29,10 @@
   "current_host_runtime_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 175,
+  "canonical_store_id": "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE",
+  "canonical_store_nonempty_required": true,
+  "canonical_store_representative_full_sha256_required": true,
+  "canonical_store_before_after_manifest_equality_required": true,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

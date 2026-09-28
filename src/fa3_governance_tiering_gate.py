@@ -124,7 +124,11 @@ def gate(root: Path) -> dict[str, Any]:
             "GOVT-005",
             sources.get("canonical", {}).get("path") == PATHS["policy"]
             and sources.get("canonical", {}).get("release_projection_path") == PATHS["release"]
-            and sources.get("evidence", {}).get("path") == PATHS["registry"],
+            and sources.get("evidence", {}).get("path") == PATHS["registry"]
+            and sources.get("gate_registry", {}).get("path") == "canonical/FA3-GATE-REGISTRY-001.json"
+            and sources.get("machine_status", {}).get("path") == "reports/governance-status-projection.json"
+            and sources.get("machine_status", {}).get("producer") == "src/fa3_governance_status.py::project"
+            and sources.get("machine_status", {}).get("missing_source_semantics") == "UNKNOWN_OR_PENDING",
             "projection no longer reads the canonical/evidence authorities",
         ),
         (

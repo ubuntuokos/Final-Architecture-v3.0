@@ -718,13 +718,22 @@
       "capability_id": "CAP-083",
       "subject": "Open Standards Graphics/Compute/XR/3D",
       "activation": "GATE/JOB",
-      "primitive": "graphics_3d",
+      "primitive": "khronos_open_standards_sdk",
       "execution_scope": "CURRENT_HOST",
       "network_policy": "NONE",
       "external_side_effects_allowed": false,
       "human_approval_required": false,
       "global_promotion_claim": false,
-      "dependency_failure_semantics": "REJECTED_NOT_PASS"
+      "dependency_failure_semantics": "REJECTED_NOT_PASS",
+      "current_host_requirements": [
+        "EXACT_KHRONOS_SOURCE_PINS",
+        "EXACT_BUILD_DEPENDENCY_PINS",
+        "EXACT_HEAD_CORE_BUILD_RECEIPT",
+        "SHADER_COMPILE_VALIDATE_OPTIMIZE_REFLECT",
+        "KTX_CLI_EXECUTION",
+        "NAMESPACED_VULKAN_OPENXR_OPENCL_ANARI_INSTALL_ARTIFACTS",
+        "NO_GLOBAL_LOADER_OR_ICD_OVERRIDE"
+      ]
     },
     {
       "capability_id": "CAP-084",

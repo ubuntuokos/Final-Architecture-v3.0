@@ -42,6 +42,7 @@ class CurrentHostEvidenceAuditTests(unittest.TestCase):
             "current_host": True,
             "synthetic": False,
             "ci_reference_only": False,
+            "source_commit": "a" * 40,
             "host_fingerprint_path": "evidence/runtime/CAP-001/host-fingerprint.json",
             "host_fingerprint_sha256": hh,
             "collected_at": now.isoformat(),

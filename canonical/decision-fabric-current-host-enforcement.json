@@ -2,7 +2,12 @@
   "schema": "fa3.decision-fabric-current-host-enforcement.v1",
   "gate_id": "FA3-GATE-DECISION-FABRIC-CURRENT-HOST-001",
   "profile_id": "FA3-DECISION-FABRIC-001",
-  "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
   "positive_required": true,
   "negative_required": true,
   "rollback_required": true,
@@ -14,5 +19,9 @@
   "candidate_set_expansion": "DENY",
   "authority_delta": 0,
   "capability_delta": 0,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "system_one_reflex_boundary_required": true,
+  "system_one_mcp_compiler_boundary_required": true,
+  "external_system_one_e2e_required_for_fabric_pass": false,
+  "external_system_one_e2e_is_separate_provider_admission": true
 }

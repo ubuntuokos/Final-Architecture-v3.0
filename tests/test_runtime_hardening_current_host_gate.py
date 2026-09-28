@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_runtime_hardening_current_host import (
+from fa3_runtime_hardening_current_host import (
     repo_head,
     utcnow,
     validate_hu_aqc_receipt,
@@ -11,8 +11,8 @@ from src.fa3_runtime_hardening_current_host import (
     validate_runtime_sandbox_receipt,
     validate_shadow_receipt,
 )
-from src.fa3_runtime_hardening_current_host_gate import gate
-from src.fa3_resource_evidence_normalization_gate import _canonical_payload_hash
+from fa3_runtime_hardening_current_host_gate import gate
+from fa3_resource_evidence_normalization_gate import _canonical_payload_hash
 
 
 ROOT = Path(__file__).resolve().parents[1]

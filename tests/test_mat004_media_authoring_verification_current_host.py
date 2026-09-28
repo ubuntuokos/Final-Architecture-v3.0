@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_mat004_media_authoring_verification_current_host import (
+from fa3_mat004_media_authoring_verification_current_host import (
     CAPABILITIES,
     audio_job_allowed,
     document_record_allowed,

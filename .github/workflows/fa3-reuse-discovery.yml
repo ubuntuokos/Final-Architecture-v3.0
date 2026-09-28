@@ -5,6 +5,12 @@ on:
     branches: ["fa3/**", "feature/**", "feat/**", "fix/**"]
     paths:
       - "canonical/FA3-REUSE-CATALOG-001.json"
+      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+      - "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json"
+      - "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json"
+      - "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
+      - "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json"
+      - "canonical/decisions/FA3-DEC-KHRONOS-REUSE-SOURCE-2026-09-28.json"
       - "canonical/profiles/FA3-REUSE-DISCOVERY-001.json"
       - "canonical/contracts/FA3-APPLICATION-INTENT-001.schema.json"
       - "canonical/contracts/FA3-REUSABLE-PATTERN-001.schema.json"
@@ -18,6 +24,22 @@ on:
       - "canonical/intents/**"
       - "canonical/assessments/**"
       - "src/fa3_reuse_*.py"
+      - "src/fa3_donor_registry.py"
+      - "src/fa3_donor_chat_import.py"
+      - "src/fa3_donor_chat_inbox.py"
+      - "bin/fa3-donor-chat-inbox"
+      - "bin/fa3-donor-chat-watch-install"
+      - "tests/test_donor_chat_inbox.py"
+      - "tests/test_donor_chat_watch_install.py"
+      - "tests/test_donor_historical_partial_reuse.py"
+      - "docs/donor-historical-selective-review.md"
+      - "docs/donor-reference-registry.md"
+      - "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json"
+      - "bin/fa3-donor-chat-import"
+      - "tests/test_donor_chat_import.py"
+      - "docs/donor-chat-history-bridge.md"
+      - "bin/fa3-donor-capture"
+      - "AGENTS.md"
       - "bin/fa3-reuse-assess"
       - "tests/test_reuse_discovery_gate.py"
       - ".github/workflows/fa3-reuse-discovery.yml"
@@ -42,11 +64,23 @@ jobs:
         with:
           python-version: "3.12"
       - name: Syntax
-        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py
+        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py src/fa3_donor_registry.py src/fa3_donor_chat_import.py src/fa3_donor_chat_inbox.py
+      - name: Donor import wrapper and installer shell syntax
+        run: bash -n bin/fa3-donor-chat-import bin/fa3-donor-chat-inbox bin/fa3-donor-chat-watch-install
+      - name: Donor capture dry-run
+        run: ./bin/fa3-donor-capture --name "CI Donor Probe" --source "reference:ci-donor-probe" --tag ci --dry-run
+      - name: Donor chat export and approved-event ingestion regressions
+        run: PYTHONPATH=src python -m unittest tests.test_donor_chat_import -v
+      - name: Local opt-in donor inbox regressions
+        run: PYTHONPATH=src python -m unittest tests.test_donor_chat_inbox -v
+      - name: Opt-in systemd watcher installer regression
+        run: PYTHONPATH=src python -m unittest tests.test_donor_chat_watch_install -v
+      - name: Historical selective donor source and authority regressions
+        run: PYTHONPATH=src python -m unittest tests.test_donor_historical_partial_reuse -v
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
       - name: Full repository unit regression
-        run: PYTHONPATH=src python -m unittest discover -s tests -v
+        run: bash bin/fa3-test -v
       - name: Hardware audit remains vendor-neutral
         run: ./bin/fa3-enforce hardware-portability
       - name: Unified release projection
@@ -56,7 +90,7 @@ jobs:
       - name: Integration broker regression
         run: ./bin/fa3-enforce integration-broker
       - name: GUI canonical regression
-        run: PYTHONPATH=. python src/fa3_gui_gate.py
+        run: PYTHONPATH=src python src/fa3_gui_gate.py
       - name: Reuse discovery fail-closed gate
         run: ./bin/fa3-enforce reuse-discovery
       - name: Global static enforcement

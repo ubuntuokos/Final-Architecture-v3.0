@@ -15,7 +15,6 @@ REFERENCE_ID="FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01"
 EVIDENCE_PATH="evidence/reference/model-manager-v2-ci-2026-09-01.json"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROVIDER_IDS=[
-    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
     "FA3-PROVIDER-HF-MODEL-STORE-001",
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
     "FA3-PROVIDER-OLLAMA-MODEL-001",
@@ -166,11 +165,11 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("MODEL-MGR-V2-REF-011","Contract/model-record schema binding drift"))
     if not (reg.get("id")==REGISTRY_ID and reg.get("registry_authority")=="FA3-REGISTRY-001" and reg.get("architectural_authority") is False and reg.get("new_capability") is False and reg.get("new_architectural_authority") is False and reg.get("capability_count")==CAPABILITY_COUNT):
         findings.append(_finding("MODEL-MGR-V2-REF-012","Canonical model registry authority/capability drift"))
-    if not (hf.get("id")==PROVIDER_IDS[1] and hf.get("upstream_release")=="v1.29.0" and hf.get("upstream_release_commit")=="4237d95c603db491cb1070898c74c97e4d7c2582" and hf.get("architectural_authority") is False and hf.get("current_host_production_evidence")=="NOT_CLAIMED"):
+    if not (hf.get("id")==PROVIDER_IDS[0] and hf.get("upstream_release")=="v1.29.0" and hf.get("upstream_release_commit")=="4237d95c603db491cb1070898c74c97e4d7c2582" and hf.get("architectural_authority") is False and hf.get("current_host_production_evidence")=="NOT_CLAIMED"):
         findings.append(_finding("MODEL-MGR-V2-REF-013","Hugging Face provider pin/boundary drift"))
-    if not (lm.get("id")==PROVIDER_IDS[2] and lm.get("immutable_public_runtime_release_pin_available") is False and lm.get("architectural_authority") is False and lm.get("current_host_production_evidence")=="NOT_CLAIMED_BY_THIS_MATERIALIZATION" and _typed_provider_ops_valid(lm)):
+    if not (lm.get("id")==PROVIDER_IDS[1] and lm.get("immutable_public_runtime_release_pin_available") is False and lm.get("architectural_authority") is False and lm.get("current_host_production_evidence")=="NOT_CLAIMED_BY_THIS_MATERIALIZATION" and _typed_provider_ops_valid(lm)):
         findings.append(_finding("MODEL-MGR-V2-REF-014","LM Studio provider runtime-pin/boundary drift"))
-    if not (oll.get("id")==PROVIDER_IDS[3] and oll.get("upstream_release")=="v0.33.2" and oll.get("upstream_release_commit")=="f96e7aa0513b9973a0ccc71be414c2ecb9d65b1a" and oll.get("architectural_authority") is False and oll.get("current_host_production_evidence")=="NOT_CLAIMED"):
+    if not (oll.get("id")==PROVIDER_IDS[2] and oll.get("upstream_release")=="v0.33.2" and oll.get("upstream_release_commit")=="f96e7aa0513b9973a0ccc71be414c2ecb9d65b1a" and oll.get("architectural_authority") is False and oll.get("current_host_production_evidence")=="NOT_CLAIMED"):
         findings.append(_finding("MODEL-MGR-V2-REF-015","Ollama provider pin/boundary drift"))
     if not (d.get("id")==DECISION_ID and d.get("status")=="CANONICAL_CLOSED" and d.get("mandatory_rule_ids")==RULES and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("capability_count_after")==CAPABILITY_COUNT and d.get("current_host_runtime_promotion_claim") is False):
         findings.append(_finding("MODEL-MGR-V2-REF-016","Canonical v2 decision drift"))

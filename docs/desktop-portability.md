@@ -62,3 +62,21 @@ A Plasma referencia-profilban az `org.kde.secretservicecompat` név kizárólag 
 A portable PASS feltétele az aktiválási kísérlet után is ugyanaz: a kliensnek a szabványos `org.freedesktop.secrets` busznéven, a `/org/freedesktop/secrets` objektumon sikeresen kell introspektálnia az `org.freedesktop.Secret.Service` interfészt. Ha ez nem bizonyítható, a desktop admission fail-closed marad. A canonical FA3 Vault továbbra is külön, provider-semleges fallback lehet, ha saját admissionje PASS.
 
 A runtime bizonyítás a `busctl --user --xml-interface introspect` XML dokumentumát parszolja, és csak az objektumon deklarált pontos `org.freedesktop.Secret.Service` interfészt fogadja el. Az interfészre szűrt, emberi olvasásra szánt táblázatos `busctl introspect ... INTERFACE` kimenet nem identitás-bizonyíték, mert az csak tag-sorokat is tartalmazhat.
+
+
+## Qt6-native integration rule
+
+FA3 is a Qt6/QML-native application family. Desktop portability does not mean reducing Qt-based desktops to the lowest common denominator.
+
+The integration order is:
+
+1. FA3 Qt6/QML application core.
+2. Native Qt desktop integration when the detected desktop provides it.
+3. KF6-enhanced integration on KDE Plasma when it adds a real capability.
+4. XDG/freedesktop interoperability for portable and non-Qt desktop behavior.
+5. XDG Desktop Portal when the session or sandbox boundary requires it.
+6. A desktop-specific optional adapter only when the generic path is insufficient.
+
+KDE Plasma and other Qt desktops may therefore use full-strength native Qt integration. KDE/KF6-specific behavior remains behind FA3 interfaces and may not become architectural authority or a core dependency for non-KDE systems. KIO or other KDE-specific APIs remain forbidden as direct dependencies of the portable core, but may be used by a bounded enhancement adapter.
+
+Non-Qt desktops keep the same canonical FA3 capabilities through the Qt6 application core plus XDG/freedesktop/portal integration. Wayland remains preferred and X11 remains supported. Optional native enhancements may add quality or integration depth, but must never reduce support on another admitted desktop or require uninstalling or globally reconfiguring upstream software.

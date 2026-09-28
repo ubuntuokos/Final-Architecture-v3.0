@@ -100,6 +100,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     policy_path = root / policy_rel
     projection = loadj(projection_path)
     policy = loadj(policy_path)
+    donor_registry = loadj(root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
 
     gui_conformance = loadj(root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json")
     gui_runtime_pass = (
@@ -308,6 +309,53 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
         "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
+        "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+        "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
+        "donor_registry_entry_count": len(donor_registry.get("entries", [])),
+        "donor_capture_default_status": donor_registry.get("capture_policy", {}).get("default_status"),
+        "donor_potential_signal_capture_required": donor_registry.get("capture_policy", {}).get("potential_donor_signal_requires_capture") is True,
+        "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
+        "donor_future_application_matching": donor_registry.get("planning_policy", {}).get("future_applications_supported") is True,
+        "donor_registry_authority": False,
+        "donor_automatic_dependency": False,
+        "donor_automatic_code_import": False,
+        "donor_automatic_provider_admission": False,
+        "donor_automatic_model_selection": False,
+        "donor_automatic_activation": False,
+    }
+
+    projection["ai_engineering_reference_reconciliation"] = {
+        "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+        "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
+        "reference_commit": "968da0791b83917c9d8a5ba197ff190fa0b24093",
+        "reference_revalidated_at": "2026-09-27",
+        "reference_evidence": "evidence/reference/ai-engineering-upstream-revalidation-2026-09-27.json",
+        "decision_id": "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30",
+        "gate_id": "FA3-AIENG-GATESET-001",
+        "application_intent_id": "FA3-AI-ENGINEERING-REFERENCE-APPLICATION-INTENT-001",
+        "reuse_assessment_id": "FA3-AI-ENGINEERING-REFERENCE-REUSE-ASSESSMENT-001",
+        "pattern_bundle_id": "FA3-AI-ENGINEERING-DERIVED-PATTERNS-001",
+        "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
+        "reuse_catalog_id": "FA3-REUSE-CATALOG-001",
+        "classification": "REFERENCE_AND_PATTERN_SOURCE_ONLY",
+        "runtime_provider": False,
+        "automatic_fetch": False,
+        "automatic_install": False,
+        "automatic_activation": False,
+        "software_coexistence_required": True,
+        "hardware_audit": {
+            "vendor_neutral": True,
+            "cpu_only_viable": True,
+            "accelerator_cardinality": "0..N",
+            "global_accelerator_requirement": False,
+        },
+        "current_host_runtime_evidence_required": False,
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+        "reconciliation_status": "CANONICAL_REFERENCE_PATTERN_ABSORPTION_REUSE_DISCOVERABLE_RUNTIME_NOT_ADMITTED",
     }
 
     projection["quality_anti_slop_reconciliation"] = {
@@ -470,6 +518,27 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
         "reconciliation_status": "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING",
+    }
+
+    projection["khronos_open_standards_reconciliation"] = {
+        "profile_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "contract_id": "FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001",
+        "decision_id": "FA3-DEC-KHRONOS-OPEN-STANDARDS-2026-09-27",
+        "upstream_reference_id": "FA3-KHRONOS-SDK-SET-UPSTREAM-REFERENCE-2026-09-27",
+        "materialization_plan_id": "FA3-KHRONOS-SDK-MATERIALIZATION-001",
+        "integration_id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+        "adapter_registry_id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "gate_id": "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
+        "capability_bindings": ["CAP-083", "CAP-146", "CAP-147", "CAP-175"],
+        "source_distribution_class": "USER_LOCAL_EXTERNAL",
+        "release_bundle_status": "EXCLUDED",
+        "current_host_source_materialization_status": "PENDING_CURRENT_HOST",
+        "compiled_sdk_runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
     }
 
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)

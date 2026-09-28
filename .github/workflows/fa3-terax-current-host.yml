@@ -1,0 +1,102 @@
+name: FA3 Terax Current-Host Observation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_terax_gate.py'
+      - 'src/fa3_terax_host_observation.py'
+      - 'evidence/collect-terax-current-host.py'
+      - 'canonical/providers/FA3-PROVIDER-TERAX-001.json'
+      - 'canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json'
+      - 'tests/test_terax_host_observation.py'
+      - '.github/workflows/fa3-terax-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Operator opt-in: read-only observation on the actual FA3 workstation'
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-terax-current-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reference:
+    name: terax / reference and spoof-resistance
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Targeted fail-closed regressions
+        run: |
+          python3 -m py_compile src/fa3_terax_gate.py src/fa3_terax_host_observation.py evidence/collect-terax-current-host.py
+          PYTHONPATH=src python3 -m unittest tests.test_terax_gate tests.test_terax_host_observation -v
+      - name: Immutable Terax reference and P0 enforcement
+        run: |
+          ./bin/fa3-enforce --ci-only terax
+          python3 - <<'PY'
+          import json
+          obj=json.load(open("reports/terax-gate-report.json",encoding="utf-8"))
+          assert obj["result"] == "PASS",obj
+          assert obj["capability_count"] == 175,obj
+          assert obj["regressions"]["passed"] == 17,obj
+          assert obj["physical_current_host_pass_claim"] is False,obj
+          assert obj["provider_receipt_substitution_allowed"] is False,obj
+          PY
+
+  current-host:
+    name: terax / operator opt-in actual workstation
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: reference
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    env:
+      FA3_CURRENT_HOST_EXECUTION_CONTEXT: REAL_SELF_HOSTED_FA3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Workstation and HRB runner preflight
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          ./bin/fa3-current-host-runner-doctor
+      - name: Read-only optional disabled-provider observation
+        run: |
+          set -euo pipefail
+          python3 evidence/collect-terax-current-host.py --state disabled-reference
+      - name: Bind to actual runner and exact source checkout
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 src/fa3_terax_host_observation.py --root .
+          ./bin/fa3-enforce terax
+          python3 - <<'PY'
+          import json
+          obj=json.load(open("reports/terax-host-observation.json",encoding="utf-8"))
+          assert obj["result"] == "OBSERVATIONAL_ONLY",obj
+          assert obj["physical_current_host_pass_claim"] is False,obj
+          assert obj["coexistence_current_host_status"] == "PENDING_CURRENT_HOST",obj
+          PY
+      - name: Upload limited observational evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-terax-workstation-observation
+          if-no-files-found: warn
+          path: |
+            reports/terax-host-observation.json
+            reports/terax-gate-report.json
+            evidence/receipts/terax-current-host.json

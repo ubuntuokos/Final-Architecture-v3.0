@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.third-party-build-dependency-set.v1",
+  "id": "FA3-KHRONOS-BUILD-DEPENDENCIES-001",
+  "status": "CANONICAL_BUILD_ONLY",
+  "profile_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "role": "IMMUTABLE_BUILD_ONLY_DEPENDENCIES_NOT_RUNTIME_PROVIDERS_NOT_AUTHORITIES",
+  "distribution": {
+    "class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false
+  },
+  "network_policy": "FETCH_ONLY_DURING_EXPLICIT_MATERIALIZATION_FROM_PINNED_UPSTREAM",
+  "runtime_dependency": false,
+  "architectural_authority": false,
+  "projects": [
+    {
+      "repo": "KhronosGroup/SPIRV-Headers",
+      "ref": "29981f65241605e08b0ede4cfeb999fe3b723c6a",
+      "commit": "29981f65241605e08b0ede4cfeb999fe3b723c6a",
+      "license_reported": "NOASSERTION",
+      "required_by": [
+        "SPIRV-Tools",
+        "Vulkan-ValidationLayers"
+      ]
+    },
+    {
+      "repo": "KhronosGroup/Vulkan-Utility-Libraries",
+      "ref": "v1.4.357",
+      "commit": "c279fa4350059faac3d2365df0538977e7e5b097",
+      "license_reported": "NOASSERTION",
+      "required_by": [
+        "Vulkan-ValidationLayers",
+        "Vulkan-Profiles"
+      ]
+    },
+    {
+      "repo": "open-source-parsers/jsoncpp",
+      "ref": "1.9.6",
+      "commit": "89e2973c754a9c02a49974d839779b151e95afd6",
+      "license_reported": "NOASSERTION",
+      "required_by": [
+        "Vulkan-Profiles"
+      ]
+    },
+    {
+      "repo": "tristanpenman/valijson",
+      "ref": "v1.0.2",
+      "commit": "0b4771e273a065d437814baf426bcfcafec0f434",
+      "license_reported": "BSD-2-Clause",
+      "required_by": [
+        "Vulkan-Profiles"
+      ]
+    }
+  ],
+  "invariants": [
+    "BUILD_DEPENDENCY_DOES_NOT_BECOME_RUNTIME_PROVIDER",
+    "BUILD_DEPENDENCY_DOES_NOT_BECOME_ARCHITECTURAL_AUTHORITY",
+    "FLOATING_REF_FOR_PRODUCTION_MATERIALIZATION_FORBIDDEN",
+    "RELEASE_BUNDLE_INCLUSION_FORBIDDEN_WITHOUT_SEPARATE_DISTRIBUTION_ADMISSION",
+    "BUILD_STAGE_AUTOMATIC_UPDATE_DEPS_FETCH_FORBIDDEN",
+    "SYSTEM_PACKAGE_REPLACEMENT_FORBIDDEN"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175
+}

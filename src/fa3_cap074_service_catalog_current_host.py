@@ -9,6 +9,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 VERDICT_SCHEMA = "fa3.capability-current-host-qualification-constituent-verdict.v1"
 CAPABILITY_ID = "CAP-074"
 CATALOG_PATH = "canonical/FA3-CANONICAL-SERVICE-CATALOG-001.json"
@@ -75,7 +77,7 @@ def validate_catalog(root: Path, catalog: dict[str, Any]) -> list[str]:
         findings.append("catalog must remain provider-neutral")
     if catalog.get("new_capability") is not False or catalog.get("new_architectural_authority") is not False:
         findings.append("catalog cannot create capability or authority")
-    if catalog.get("capability_count") != 143:
+    if catalog.get("capability_count") != module_active_capability_count(__file__):
         findings.append("capability count drift")
 
     services = catalog.get("services")

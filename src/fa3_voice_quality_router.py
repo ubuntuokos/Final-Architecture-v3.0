@@ -5,10 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-try:
-    from fa3_decision_fabric import DecisionError
-except ModuleNotFoundError:  # package-style import used by some regression suites
-    from .fa3_decision_fabric import DecisionError
+from fa3_decision_fabric import DecisionError
 
 POLICY_PATH = Path("canonical/FA3-VOICE-QUALITY-ROUTING-001.json")
 

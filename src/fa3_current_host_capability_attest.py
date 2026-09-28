@@ -18,6 +18,7 @@ EVIDENCE_AUTHORITY = "FA3-AUTH-OBS-EVIDENCE-001"
 PRODUCER_ID = "FA3-CURRENT-HOST-CAPABILITY-ATTESTATION-PRODUCER-001"
 CAP_ID = re.compile(r"^CAP-\d{3}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -123,6 +124,9 @@ def validate_bundle(
         findings.append("CI/reference-only bundle cannot produce an attestation")
     if bundle.get("global_promotion_claim") is not False:
         findings.append("bundle must not claim global promotion")
+    source_commit = bundle.get("source_commit")
+    if not isinstance(source_commit, str) or not HEX40.fullmatch(source_commit):
+        findings.append("source_commit missing/invalid")
 
     collected = _parse_time(bundle.get("collected_at"))
     expires = _parse_time(bundle.get("expires_at"))
@@ -193,6 +197,7 @@ def validate_bundle(
         "ci_reference_only": False,
         "attestation_authority": EVIDENCE_AUTHORITY,
         "global_promotion_claim": False,
+        "source_commit": source_commit,
         "host_fingerprint_path": host_rel,
         "host_fingerprint_sha256": host_digest,
         "collected_at": bundle["collected_at"],

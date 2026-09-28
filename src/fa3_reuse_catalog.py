@@ -63,6 +63,13 @@ def _tokens(obj: dict[str, Any]) -> list[str]:
     return sorted(set(re.findall(r"[a-z0-9][a-z0-9_.:-]+", text.lower())))
 
 
+def _expanded_tokens(value: Any) -> list[str]:
+    text = " ".join(_flatten_strings(value)).lower()
+    whole = re.findall(r"[a-z0-9][a-z0-9_.:-]+", text)
+    pieces = re.findall(r"[a-z0-9]+", text)
+    return sorted(set(whole + pieces))
+
+
 def _capabilities(obj: dict[str, Any]) -> list[str]:
     values: list[str] = []
     for key in ("capability_projection", "capability_bindings", "capabilities"):
@@ -164,7 +171,56 @@ def build_catalog(root: Path) -> dict[str, Any]:
         obj = load_json(path)
         if not isinstance(obj, dict):
             continue
-        if source.endswith("mcp-capability-registry.json"):
+        if source.endswith("FA3-KHRONOS-ADAPTER-REGISTRY-001.json"):
+            roles = list(obj.get("reuse_discovery_binding", {}).get("roles", []))
+            for row in obj.get("adapters", []):
+                if not isinstance(row, dict) or not row.get("id"):
+                    continue
+                add({
+                    "candidate_id": str(row["id"]),
+                    "candidate_class": "OPEN_STANDARD_ADAPTER",
+                    "source_path": source,
+                    "status": obj.get("status", "CANONICAL"),
+                    "authority": False,
+                    "capabilities": ["CAP-083"],
+                    "tokens": _expanded_tokens({"source_family": "Khronos open standards", **row}),
+                    "distribution_class": None,
+                    "release_bundle_status": None,
+                    "license": None,
+                    "standard_family": "KHRONOS",
+                    "project": row.get("project"),
+                    "target": row.get("target"),
+                    "mode": row.get("mode"),
+                    "reuse_source_roles": roles,
+                    "automatic_selection": False,
+                })
+        elif source.endswith("FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"):
+            roles = list(obj.get("reuse_discovery_binding", {}).get("roles", []))
+            capability = obj.get("capability")
+            capabilities = [capability] if isinstance(capability, str) and capability else []
+            for row in obj.get("bindings", []):
+                if not isinstance(row, dict) or not row.get("layer"):
+                    continue
+                add({
+                    "candidate_id": "FA3-KHRONOS-BINDING:" + str(row["layer"]),
+                    "candidate_class": "OPEN_STANDARD_FABRIC_BINDING",
+                    "source_path": source,
+                    "status": "CANONICAL",
+                    "authority": False,
+                    "capabilities": capabilities,
+                    "tokens": _expanded_tokens({"source_family": "Khronos open standards", **row}),
+                    "distribution_class": None,
+                    "release_bundle_status": None,
+                    "license": None,
+                    "standard_family": "KHRONOS",
+                    "layer": row.get("layer"),
+                    "projects": list(row.get("projects", [])) if isinstance(row.get("projects"), list) else [],
+                    "mode": row.get("mode"),
+                    "reuse_source_roles": roles,
+                    "instruction_source": True,
+                    "automatic_selection": False,
+                })
+        elif source.endswith("mcp-capability-registry.json"):
             for row in obj.get("capabilities", []):
                 if not isinstance(row, dict) or not row.get("capability_id"):
                     continue
@@ -255,6 +311,59 @@ def build_catalog(root: Path) -> dict[str, Any]:
                     "automatic_activation": False,
                 })
 
+        elif source.endswith("FA3-DONOR-REFERENCE-REGISTRY-001.json"):
+            for row in obj.get("entries", []):
+                if not isinstance(row, dict) or not row.get("donor_id"):
+                    continue
+                status = str(row.get("status", "CANDIDATE"))
+                if status in {"REJECTED", "SUPERSEDED"} or row.get("discoverable_for_planning") is not True:
+                    continue
+                source_meta = row.get("source", {}) if isinstance(row.get("source"), dict) else {}
+                license_meta = row.get("license", {}) if isinstance(row.get("license"), dict) else {}
+                hints = list(row.get("capability_hints", [])) if isinstance(row.get("capability_hints"), list) else []
+                canonical_caps = [str(x) for x in hints if isinstance(x, str) and re.fullmatch(r"CAP-[0-9]+", x)]
+                add({
+                    "candidate_id": str(row["donor_id"]),
+                    "candidate_class": "DONOR_REFERENCE",
+                    "source_path": source,
+                    "status": status,
+                    "authority": False,
+                    "capabilities": sorted(set(canonical_caps)),
+                    "tokens": _expanded_tokens({
+                        "name": row.get("name"),
+                        "source": source_meta,
+                        "donor_modes": row.get("donor_modes", []),
+                        "capability_hints": hints,
+                        "domain_hints": row.get("domain_hints", []),
+                        "problem_hints": row.get("problem_hints", []),
+                        "target_hints": row.get("target_hints", []),
+                        "tags": row.get("tags", []),
+                        "notes": row.get("notes", []),
+                    }),
+                    "distribution_class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                    "license": license_meta.get("declared"),
+                    "donor_name": row.get("name"),
+                    "source_kind": source_meta.get("kind"),
+                    "source_locator": source_meta.get("locator"),
+                    "source_normalized_key": source_meta.get("normalized_key"),
+                    "donor_modes": list(row.get("donor_modes", [])) if isinstance(row.get("donor_modes"), list) else [],
+                    "capability_hints": hints,
+                    "domain_hints": list(row.get("domain_hints", [])) if isinstance(row.get("domain_hints"), list) else [],
+                    "problem_hints": list(row.get("problem_hints", [])) if isinstance(row.get("problem_hints"), list) else [],
+                    "target_hints": list(row.get("target_hints", [])) if isinstance(row.get("target_hints"), list) else [],
+                    "code_reuse_policy": row.get("code_reuse_policy"),
+                    "discoverable_for_planning": True,
+                    "automatic_selection": False,
+                    "automatic_fetch": False,
+                    "automatic_install": False,
+                    "automatic_activation": False,
+                    "automatic_dependency": False,
+                    "automatic_code_import": False,
+                    "automatic_provider_admission": False,
+                    "automatic_model_selection": False,
+                })
+
     entries.sort(key=lambda row: (row["candidate_class"], row["candidate_id"], row["source_path"]))
     return {
         "schema": "fa3.reuse-catalog.snapshot.v1",
@@ -263,6 +372,7 @@ def build_catalog(root: Path) -> dict[str, Any]:
         "derived": True,
         "rebuildable": True,
         "entry_count": len(entries),
+        "mandatory_source_reviews": list(policy.get("mandatory_source_reviews", [])),
         "entries": entries,
     }
 

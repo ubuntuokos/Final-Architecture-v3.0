@@ -140,9 +140,9 @@ def cap005(root:Path,scope:Path,mode:str)->dict[str,Any]:
         chosen=sorted(allowed)[0];base=(json.dumps({"provider_id":chosen,"backend":"canonical-local","local_only":True},sort_keys=True,separators=(",",":"))+"\n").encode();proof=exact_rollback(scope,"route.json",base,b'{"provider_id":"FA3-PROVIDER-UNKNOWN","backend":"external","local_only":false}\n');return {"mode":mode,"status":"PASS",**proof}
     n=shutil.which("nvidia-smi");g=cmd([n,"--query-gpu=name,uuid,memory.total","--format=csv,noheader"]) if n else None
     if not g or g.returncode or not g.stdout.strip():raise RuntimeError("GPU backend unavailable")
-    o=shutil.which("ollama");ls=cmd([o,"list"],20) if o else None;ll=shutil.which("llama-server");sm=any(p.exists() for p in [Path("/AI-modells/StabilityMatrix"),Path("/opt/AI-modells/StabilityMatrix"),Path.home()/"StabilityMatrix"])
+    o=shutil.which("ollama");ls=cmd([o,"list"],20) if o else None;ll=shutil.which("llama-server");canonical_store=any(p.exists() for p in [Path(os.environ.get("FA3_CANONICAL_MODEL_STORE","")) if os.environ.get("FA3_CANONICAL_MODEL_STORE") else Path.home()/".local/share/fa3/models",Path.home()/".local/share/fa3/models"])
     if not ((ls and ls.returncode==0) or ll or sm):raise RuntimeError("no local model/backend execution surface")
-    return {"mode":mode,"status":"PASS","provider_count":len(allowed),"accelerators":[x.strip() for x in g.stdout.splitlines() if x.strip()],"ollama_inventory":bool(ls and ls.returncode==0),"llama_server":bool(ll),"stability_matrix":sm}
+    return {"mode":mode,"status":"PASS","provider_count":len(allowed),"accelerators":[x.strip() for x in g.stdout.splitlines() if x.strip()],"ollama_inventory":bool(ls and ls.returncode==0),"llama_server":bool(ll),"canonical_model_store":canonical_store}
 
 HANDLERS={"CAP-001":cap001,"CAP-002":cap002,"CAP-003":cap003,"CAP-004":cap004,"CAP-005":cap005}
 def run_mode(root:Path,scope:Path,cap:str,mode:str)->dict[str,Any]:

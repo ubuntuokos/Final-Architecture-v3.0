@@ -11,11 +11,11 @@ from typing import Any
 
 from fa3_model_manager_provider_adapter import find_binary, safe_child_env, sha256_bytes, sha256_file, valid_revision
 
-STABILITY_MATRIX_PROVIDER_ID = "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001"
+CANONICAL_STORE_ID = "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE"
 HF_PROVIDER_ID = "FA3-PROVIDER-HF-MODEL-STORE-001"
 LM_STUDIO_PROVIDER_ID = "FA3-PROVIDER-LM-STUDIO-MODEL-001"
 OLLAMA_PROVIDER_ID = "FA3-PROVIDER-OLLAMA-MODEL-001"
-PROVIDER_IDS = [STABILITY_MATRIX_PROVIDER_ID, HF_PROVIDER_ID, LM_STUDIO_PROVIDER_ID, OLLAMA_PROVIDER_ID]
+PROVIDER_IDS = [HF_PROVIDER_ID, LM_STUDIO_PROVIDER_ID, OLLAMA_PROVIDER_ID]
 CONFORMANCE_ID = "FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001"
 GATE_ID = "FA3-GATE-MODEL-INVENTORY-CURRENT-HOST-001"
 EVIDENCE_LEVEL = "CURRENT_HOST_READ_ONLY_CROSS_PROVIDER_MODEL_INVENTORY_PASS"
@@ -54,23 +54,16 @@ def _find_key_ci(value: Any, wanted: str) -> Any:
     return None
 
 
-def stability_matrix_library_candidates() -> list[Path]:
+def canonical_store_candidates() -> list[Path]:
     out: list[Path] = []
-    for key in ("STABILITY_MATRIX_LIBRARY_DIR", "STABILITY_MATRIX_HOME", "STABILITY_MATRIX_DATA_DIR"):
+    for key in ("FA3_CANONICAL_MODEL_STORE", "FA3_MODEL_STORE"):
         if os.environ.get(key):
             out.append(Path(os.environ[key]))
-    out.extend([
-        Path("/AI-modells/StabilityMatrix"),
-        Path("/AI-models/StabilityMatrix"),
-        Path.home() / "StabilityMatrix",
-        Path.home() / ".local/share/StabilityMatrix",
-    ])
-    expanded: list[Path] = []
-    for base in out:
-        expanded.extend([base, base / "Data", base / "Library"])
+    xdg = Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share")))
+    out.extend([xdg / "fa3/models", Path.home() / ".local/share/fa3/models"])
     unique: list[Path] = []
     seen: set[str] = set()
-    for path in expanded:
+    for path in out:
         try:
             resolved = path.expanduser().resolve()
         except OSError:
@@ -82,45 +75,11 @@ def stability_matrix_library_candidates() -> list[Path]:
     return unique
 
 
-def detect_stability_matrix_library() -> tuple[Path, Path, dict[str, Any]]:
-    direct_models = os.environ.get("STABILITY_MATRIX_MODELS_DIR")
-    if direct_models:
-        models = Path(direct_models).expanduser().resolve()
-        if models.is_dir():
-            return models.parent, models, {"source": "STABILITY_MATRIX_MODELS_DIR", "settings_present": False, "override_used": True}
-
-    for library in stability_matrix_library_candidates():
-        settings_path = library / "settings.json"
-        settings: Any = None
-        if settings_path.is_file():
-            try:
-                settings = _json(settings_path)
-            except Exception:
-                settings = None
-        override = _find_key_ci(settings, "ModelDirectoryOverride") if settings is not None else None
-        if isinstance(override, str) and override.strip():
-            try:
-                candidate = Path(override).expanduser()
-                if not candidate.is_absolute():
-                    candidate = library / candidate
-                candidate = candidate.resolve()
-            except OSError:
-                candidate = Path("/__fa3_invalid_stability_matrix_override__")
-            if candidate.is_dir():
-                return library, candidate, {
-                    "source": "settings.json:ModelDirectoryOverride",
-                    "settings_present": True,
-                    "override_used": True,
-                }
-        models = library / "Models"
-        if models.is_dir():
-            return library, models.resolve(), {
-                "source": "LibraryDir/Models",
-                "settings_present": settings_path.is_file(),
-                "override_used": False,
-            }
-    raise RuntimeError("StabilityMatrix library/Models directory not found in approved current-host candidates")
-
+def detect_canonical_store() -> tuple[Path, dict[str, Any]]:
+    for path in canonical_store_candidates():
+        if path.is_dir():
+            return path, {"source": "FA3_CONFIG_OR_XDG_CANONICAL_STORE", "override_used": bool(os.environ.get("FA3_CANONICAL_MODEL_STORE") or os.environ.get("FA3_MODEL_STORE"))}
+    raise RuntimeError("FA3 canonical model artifact store directory not found in configured/XDG candidates")
 
 def _model_file(path: Path) -> bool:
     name = path.name.lower()
@@ -159,14 +118,14 @@ def scan_model_tree(models_root: Path) -> dict[str, Any]:
                 total_bytes += int(st.st_size)
                 symlink_files += int(is_link)
                 if len(rows) > MAX_RUNTIME_INVENTORY_ENTRIES:
-                    raise RuntimeError(f"StabilityMatrix inventory exceeds safe entry ceiling {MAX_RUNTIME_INVENTORY_ENTRIES}")
+                    raise RuntimeError(f"canonical model-store inventory exceeds safe entry ceiling {MAX_RUNTIME_INVENTORY_ENTRIES}")
             except Exception as exc:
                 errors.append(f"{path.name}:{type(exc).__name__}")
                 if len(errors) >= 20:
-                    raise RuntimeError("too many StabilityMatrix model scan errors: " + ",".join(errors))
+                    raise RuntimeError("too many canonical model-store scan errors: " + ",".join(errors))
     rows.sort(key=lambda x: (x["relative_path"], x["size_bytes"]))
     if not rows:
-        raise RuntimeError("StabilityMatrix Models directory contains no recognized local model artifacts")
+        raise RuntimeError("canonical model artifact store contains no recognized local model artifacts")
     representative_candidates = [r for r in rows if 0 < int(r["size_bytes"]) <= MAX_REPRESENTATIVE_HASH_BYTES]
     representative_row = min(representative_candidates or rows, key=lambda r: (int(r["size_bytes"]), r["relative_path"]))
     representative_path = root / representative_row["relative_path"]
@@ -187,14 +146,14 @@ def scan_model_tree(models_root: Path) -> dict[str, Any]:
     }
 
 
-def collect_stability_matrix_inventory() -> dict[str, Any]:
-    library, models, detection = detect_stability_matrix_library()
+def collect_canonical_store_inventory() -> dict[str, Any]:
+    models = detect_canonical_store()[0]
+    detection = detect_canonical_store()[1]
     scan = scan_model_tree(models)
     return {
-        "provider_id": STABILITY_MATRIX_PROVIDER_ID,
+        "store_id": CANONICAL_STORE_ID,
         "status": "PASS",
-        "evidence_level": "CURRENT_HOST_READ_ONLY_MODEL_STORE_SCAN_PASS",
-        "library_root_fingerprint": sha256_bytes(str(library).encode("utf-8")),
+        "evidence_level": "CURRENT_HOST_READ_ONLY_CANONICAL_MODEL_STORE_SCAN_PASS",
         "models_root_fingerprint": sha256_bytes(str(models).encode("utf-8")),
         "path_disclosure": "ABSOLUTE_PATHS_NOT_EMITTED",
         "detection": detection,
@@ -208,7 +167,6 @@ def collect_stability_matrix_inventory() -> dict[str, Any]:
         "network_access_performed": False,
         "model_store_mutation_performed": False,
     }
-
 
 def hf_cache_candidates() -> list[Path]:
     out: list[Path] = []
@@ -369,23 +327,31 @@ def collect_ollama_inventory() -> dict[str, Any]:
 
 
 def collect_cross_provider_inventory() -> dict[str, Any]:
-    stability = collect_stability_matrix_inventory()
+    canonical = collect_canonical_store_inventory()
     hf = collect_hf_inventory()
     lm = collect_lmstudio_inventory()
     ollama = collect_ollama_inventory()
-    providers = {x["provider_id"]: x for x in (stability, hf, lm, ollama)}
+    providers = {x["provider_id"]: x for x in (hf, lm, ollama)}
     available = [pid for pid, item in providers.items() if item.get("status") == "PASS" and int(item.get("entry_count", 0)) > 0]
-    total_entries = sum(int(item.get("entry_count", 0)) for item in providers.values())
+    total_entries = int(canonical.get("entry_count",0)) + sum(int(item.get("entry_count", 0)) for item in providers.values())
     snapshot_basis = {
-        pid: {
-            "status": item.get("status"),
-            "entry_count": item.get("entry_count", 0),
-            "inventory_manifest_sha256": item.get("inventory_manifest_sha256"),
-        }
-        for pid, item in sorted(providers.items())
+        "canonical_store": {
+            "status": canonical.get("status"),
+            "entry_count": canonical.get("entry_count",0),
+            "inventory_manifest_sha256": canonical.get("inventory_manifest_sha256"),
+        },
+        "providers": {
+            pid: {
+                "status": item.get("status"),
+                "entry_count": item.get("entry_count", 0),
+                "inventory_manifest_sha256": item.get("inventory_manifest_sha256"),
+            }
+            for pid, item in sorted(providers.items())
+        },
     }
     return {
-        "schema": "fa3.cross-provider-model-inventory.v1",
+        "schema": "fa3.cross-provider-model-inventory.v2",
+        "canonical_store": canonical,
         "providers": providers,
         "provider_ids": PROVIDER_IDS,
         "available_provider_ids": available,
@@ -398,13 +364,13 @@ def collect_cross_provider_inventory() -> dict[str, Any]:
         "canonical_admission_performed": False,
     }
 
-
 def regression_check() -> dict[str, Any]:
     cases: dict[str, bool] = {}
     cases["suffix_accept"] = _model_file(Path("x.safetensors")) and _model_file(Path("x.gguf"))
     cases["suffix_reject"] = not _model_file(Path("preview.png")) and not _model_file(Path("notes.txt"))
     cases["canonical_inventory_order_stable"] = canonical_json_sha256([{"b": 2, "a": 1}]) == canonical_json_sha256([{"a": 1, "b": 2}])
-    cases["provider_set_exact"] = PROVIDER_IDS == [STABILITY_MATRIX_PROVIDER_ID, HF_PROVIDER_ID, LM_STUDIO_PROVIDER_ID, OLLAMA_PROVIDER_ID]
+    cases["provider_set_exact"] = PROVIDER_IDS == [HF_PROVIDER_ID, LM_STUDIO_PROVIDER_ID, OLLAMA_PROVIDER_ID]
+    cases["canonical_store_is_separate_from_providers"] = CANONICAL_STORE_ID not in PROVIDER_IDS
     cases["immutable_revision_guard"] = valid_revision("a" * 40) and not valid_revision("latest")
     cases["evidence_level_read_only"] = "READ_ONLY" in EVIDENCE_LEVEL
     return {"schema": "fa3.model-inventory-current-host-adapter-regression.v1", "result": "PASS" if all(cases.values()) else "FAIL", "passed": sum(cases.values()), "total": len(cases), "cases": cases}

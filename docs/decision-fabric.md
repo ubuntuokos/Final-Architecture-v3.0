@@ -17,7 +17,7 @@ Every result records `authority=false` and `candidate_set_expanded=false`.
 
 ## Contracts
 
-`SELECT_ONE`, `BOOLEAN`, `SCORE`, `RANK`, `MULTI_LABEL`, `RELEVANCE`, `STOP_CONTINUE`.
+`SELECT_ONE`, `BOOLEAN`, `SCORE`, `RANK`, `MULTI_LABEL`, `RELEVANCE`, `STOP_CONTINUE`, `BOUNDED_ACTION`.
 
 The caller must provide the complete pre-authorized candidate set. A provider response that refers to a candidate outside that set is rejected fail-closed.
 
@@ -43,6 +43,17 @@ Runtime enablement requires all of:
 - runtime-selected `FA3_JEV_MODEL`.
 
 There is no silent local-to-cloud fallback.
+
+### System One reflex provider
+
+`FA3-PROVIDER-SYSTEM-ONE-DECISION-001` is the provider-neutral bounded reflex path. It accepts `BOUNDED_ACTION`, compiles only pre-authorized finite actions and parameters, and uses a runtime binding to the central Model Router. Confidence is evidence only: the result is an authorization-ready intent, never permission or execution.
+
+An optional native System One route is declared in the committed Model Router registry, but it remains **unbound without real physical current-host admission**. The new bridge uses the LiteLLM authenticated pass-through, explicit primary-model designation and independent native-provider and Router E2E evidence. CI success never activates an external provider. Applications cannot call OpenRouter/TypeSafe directly; only the separately admitted backend adapter may contact its explicitly chosen upstream. See `docs/system-one-native-router-admission.md`.
+
+The same contract is exposed to `FA3-WEB-AI-001` for bounded browser/UI reflexes and to the MCP Gateway through the finite MCP tool compiler. UHP remains an optional compatibility adapter, not an FA3 authority.
+
+See `docs/system-one-reflex-runtime.md`.
+
 
 ## Rollout
 
@@ -85,6 +96,8 @@ External code may be copied only after per-project license, provenance, security
 ### Reuse Discovery
 
 Every new FA3 application, provider, profile, derived implementation, GUI module, Agent Native component or material extension must first pass `FA3-REUSE-DISCOVERY-001`.
+
+As part of that deterministic pass, every new or materially modified ApplicationIntent must review `FA3-KHRONOS-OPEN-STANDARDS-001` through its canonical profile, adapter registry and integration map. The outcome is explicitly recorded as `MATCHED` or `REVIEWED_NO_MATCH`; review does not imply selection, authority, runtime admission or activation.
 
 The project records an `FA3-APPLICATION-INTENT-001` intent and a machine-readable `FA3-REUSE-ASSESSMENT-001`. Existing capabilities, contracts, providers, patterns, GUI projections and references are discovered before gap analysis. A new implementation is permitted only for a real documented gap or an explicitly bounded provider-local mechanism. Reuse Discovery cannot admit a provider, grant authority or promote runtime state.
 
@@ -132,3 +145,20 @@ FA3 Control Center surfaces:
 - Context Inspector
 
 These are inspection/projection surfaces. The GUI does not self-approve or directly execute a model/tool decision.
+
+
+## Donor & Reference Registry
+
+`FA3-DONOR-REFERENCE-REGISTRY-001` is the central non-authoritative donor/reference knowledge base federated into `FA3-REUSE-DISCOVERY-001`. It exists so planned and future applications do not need to rediscover donor research from earlier conversations, notes, or isolated project assessments.
+
+A source is captured as soon as FA3 research identifies it as potentially useful as a donor or reference. Tentative mention is sufficient for `CANDIDATE` capture; capture is deliberately weaker than analysis or admission. Repeated mentions merge into the same source-normalized record.
+
+Every new or materially modified application, capability, or module queries the donor registry before a new implementation is proposed. Matching uses capability, domain, problem, target, and tag hints. `REJECTED` and `SUPERSEDED` entries remain recorded to prevent repeated research but are excluded from planning candidates.
+
+Donor discovery never grants architectural authority and never performs dependency adoption, code import, fetch/install, provider admission, model selection, activation, or runtime promotion. Those actions remain behind the existing FA3 license/provenance, security, coexistence, provider, Model Router, HRB, and evidence gates.
+
+The capture helper is:
+
+`./bin/fa3-donor-capture --name "<name>" --source "<locator>" [--tag ...] [--capability ...] [--domain ...] [--problem ...] [--target ...] [--note ...]`
+
+The helper deduplicates by normalized source key or name and atomically merges subsequent observations.
