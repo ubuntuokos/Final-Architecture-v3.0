@@ -103,5 +103,30 @@
   "runtime_activation": "DISABLED_UNTIL_SEPARATE_ADMISSION",
   "current_host_evidence": "PENDING",
   "static_ci_is_current_host_proof": false,
-  "direct_model_and_tool_bypass": false
+  "direct_model_and_tool_bypass": false,
+  "secret_broker_bridge": {
+    "status": "SOURCE_MATERIALIZED_NOT_CURRENT_HOST_ADMITTED",
+    "module": "src/fa3_pr_watch_secret_runtime.py",
+    "provider": "EXISTING_FA3_SECRET_BROKER_ONLY",
+    "consumer_id": "FA3-PR-WATCH-001",
+    "secret_kind": "GENERIC_FA3_CREDENTIAL",
+    "transport": "UDS_SINGLE_SECRET_TO_ONE_SHOT_FD",
+    "dedicated_unix_identity": "fa3-pr-watch",
+    "policy": "deployment/pr-watch/policy.example.json",
+    "service": "deployment/pr-watch/fa3-pr-watch.service",
+    "lifecycle": "REQUIRES_AND_PART_OF_FA3_SECRETS_TARGET",
+    "no_cleartext_credential_in_argv_environment_files": true,
+    "automatic_deployment": false
+  },
+  "reference_e2e": {
+    "status": "SOURCE_MATERIALIZED_CI_REFERENCE_ONLY",
+    "command": "bin/fa3-pr-watch-e2e-fixture --fixture-only",
+    "existing_runtime": "FA3-DEVELOPER-AGENT-COORDINATION-REF-RUNTIME-001",
+    "existing_worktrees_and_single_integration_committer": true,
+    "independent_verifier": "src/fa3_pr_watch_reference_checker.py",
+    "only_generated_ephemeral_repo": true,
+    "authorized_external_pr_execution": false,
+    "canonical_gate_promotion": false,
+    "current_host_evidence": false
+  }
 }
