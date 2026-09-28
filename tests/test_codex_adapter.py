@@ -179,11 +179,11 @@ class CodexAdapterTests(unittest.TestCase):
             request.write_text(json.dumps({
                 "provider_id": adapter.PROVIDER_ID, "task_id": task_id,
                 "agent_id": "codex-no-edit", "workspace": str(repo),
-                "relative_path": "work/a.txt", "content": "expected mutation\\n",
+                "relative_path": "work/a.txt", "content": "expected mutation\n",
                 "timeout_seconds": 60, "codex_binary": str(base / "codex"),
                 "required_skill_ids": [],
             }), encoding="utf-8")
-            events = "\\n".join([
+            events = "\n".join([
                 json.dumps({"type": "thread.started", "thread_id": "fixture-1"}),
                 json.dumps({"type": "turn.started"}),
                 json.dumps({"type": "turn.completed", "usage": {
@@ -225,7 +225,7 @@ class CodexAdapterTests(unittest.TestCase):
             directory.mkdir(parents=True)
             task = AgentTask(
                 "CODEX-NO-EDIT", "codex-no-edit", adapter.PROVIDER_ID,
-                "work/a.txt", "expected mutation\\n",
+                "work/a.txt", "expected mutation\n",
             )
             (directory / "CODEX-NO-EDIT.json").write_text(json.dumps({
                 "status": "FAIL", "failure_code": "NO_DELEGATED_FILE_CHANGE",
