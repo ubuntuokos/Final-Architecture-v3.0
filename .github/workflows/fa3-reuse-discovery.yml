@@ -25,6 +25,11 @@ on:
       - "canonical/assessments/**"
       - "src/fa3_reuse_*.py"
       - "src/fa3_donor_registry.py"
+      - "src/fa3_donor_chat_import.py"
+      - "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json"
+      - "bin/fa3-donor-chat-import"
+      - "tests/test_donor_chat_import.py"
+      - "docs/donor-chat-history-bridge.md"
       - "bin/fa3-donor-capture"
       - "AGENTS.md"
       - "bin/fa3-reuse-assess"
@@ -51,9 +56,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Syntax
-        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py src/fa3_donor_registry.py
+        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py src/fa3_donor_registry.py src/fa3_donor_chat_import.py
       - name: Donor capture dry-run
         run: ./bin/fa3-donor-capture --name "CI Donor Probe" --source "reference:ci-donor-probe" --tag ci --dry-run
+      - name: Donor chat export and approved-event ingestion regressions
+        run: PYTHONPATH=src python -m unittest tests.test_donor_chat_import -v
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
       - name: Full repository unit regression
