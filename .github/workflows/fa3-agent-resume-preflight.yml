@@ -1,0 +1,22 @@
+name: FA3 Agent Resume Preflight
+on:
+  pull_request:
+    paths:
+      - "src/fa3_agent_resume_preflight.py"
+      - "tests/test_agent_resume_preflight.py"
+      - ".github/workflows/fa3-agent-resume-preflight.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_agent_resume_preflight.py"
+      - "tests/test_agent_resume_preflight.py"
+      - ".github/workflows/fa3-agent-resume-preflight.yml"
+permissions:
+  contents: read
+jobs:
+  resume-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m py_compile src/fa3_agent_resume_preflight.py tests/test_agent_resume_preflight.py
+      - run: PYTHONPATH=src python3 -m unittest discover -s tests -p "test_agent_resume_preflight.py" -v
