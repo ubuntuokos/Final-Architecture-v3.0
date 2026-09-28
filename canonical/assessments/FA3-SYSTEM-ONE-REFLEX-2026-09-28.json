@@ -2,10 +2,11 @@
   "schema": "fa3.decision-fabric-assessment.v1",
   "project_id": "FA3-SYSTEM-ONE-REFLEX-MATERIALIZATION-2026-09-28",
   "covered_ids": [
-    "FA3-PROVIDER-SYSTEM-ONE-DECISION-001"
+    "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+    "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"
   ],
   "assessment": "REQUIRED",
-  "rationale": "The optional provider materializes bounded System One reflex decisions inside the existing Decision Fabric. It selects only caller-authorized actions and finite parameter values, produces confidence evidence and handoff data, and never authorizes or executes the selected action.",
+  "rationale": "The optional provider materializes bounded System One reflex decisions inside the existing Decision Fabric. It selects only caller-authorized actions and finite parameter values, produces confidence evidence and handoff data, and never authorizes or executes the selected action. The native provider bridge is an opt-in, separately admitted protocol adapter behind the central LiteLLM data plane, never an application or execution authority.",
   "decision_points": [
     {
       "id": "bounded-reflex-action",
