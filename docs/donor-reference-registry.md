@@ -69,6 +69,10 @@ The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-202
 
 The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) inventories the official organization and records five individually checked repositories plus a discovery index as metadata-only donor candidates. It links OpenUSD/Hydra, OpenSubdiv and USD proposals to current or planned creative applications while preserving FA3-native projects, CPU-only viability, existing Khronos reuse, and all independent admission gates.
 
+## Scriptwriting GitHub donor curation
+
+The [scriptwriting source-specific curation](scriptwriting-github-donor-curation-2026-09-28.md) captures the GitHub topic discovery index and 12 independently identified screenplay/story-development donor candidates. It links professional editing, visual planning, production profiles, branching narrative, interchange, adaptation, table reads and pre-production annotation ideas to the existing FA3 Story/Screenplay and other creative applications. Metadata registration does not authorize code copying, runtime integration, model/provider selection or project-schema replacement.
+
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
