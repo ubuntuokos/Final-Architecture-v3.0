@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QVariantList>
+#include <QVariantMap>
 
 class Fa3RepositoryModel final : public QObject
 {
@@ -19,6 +20,7 @@ class Fa3RepositoryModel final : public QObject
     Q_PROPERTY(int cpuThreads READ cpuThreads CONSTANT)
     Q_PROPERTY(double memoryGiB READ memoryGiB CONSTANT)
     Q_PROPERTY(QVariantList records READ records NOTIFY recordsChanged)
+    Q_PROPERTY(QVariantMap skillFabricStatus READ skillFabricStatus NOTIFY statisticsChanged)
 
 public:
     explicit Fa3RepositoryModel(QObject *parent = nullptr);
@@ -36,6 +38,7 @@ public:
     int cpuThreads() const;
     double memoryGiB() const;
     QVariantList records() const { return m_records; }
+    QVariantMap skillFabricStatus() const;
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE QVariantList searchRecords(const QString &query) const;

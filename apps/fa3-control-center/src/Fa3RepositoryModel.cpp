@@ -75,6 +75,37 @@ QVariantMap Fa3RepositoryModel::recordFromJson(const QString &absolutePath, cons
     return out;
 }
 
+
+QVariantMap Fa3RepositoryModel::skillFabricStatus() const
+{
+    // Display projection only. A reference/static gate report is not
+    // current-host evidence, and an absent report is never a PASS.
+    QVariantMap out;
+    out.insert(QStringLiteral("result"), QStringLiteral("UNVERIFIED"));
+    out.insert(QStringLiteral("currentHostStatus"), QStringLiteral("NOT_VERIFIED"));
+    out.insert(QStringLiteral("evidenceClass"), QStringLiteral("STATIC_REFERENCE"));
+    out.insert(QStringLiteral("reportPath"), QStringLiteral("reports/skill-fabric-gate-report.json"));
+    const auto path = QDir(m_repoRoot).filePath(QStringLiteral("reports/skill-fabric-gate-report.json"));
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) return out;
+    QJsonParseError error;
+    const auto json = QJsonDocument::fromJson(file.readAll(), &error);
+    if (error.error != QJsonParseError::NoError || !json.isObject()) return out;
+    const auto record = json.object();
+    if (record.value(QStringLiteral("gate_id")).toString() != QStringLiteral("FA3-GATE-SKILL-FABRIC-001"))
+        return out;
+    const auto result = record.value(QStringLiteral("result")).toString();
+    if (result != QStringLiteral("PASS") && result != QStringLiteral("FAIL")) return out;
+    out.insert(QStringLiteral("result"), result);
+    out.insert(QStringLiteral("capabilityCount"), record.value(QStringLiteral("capability_count")).toInt(0));
+    const auto regressions = record.value(QStringLiteral("regressions")).toObject();
+    out.insert(QStringLiteral("regressionPassed"), regressions.value(QStringLiteral("passed")).toInt(0));
+    out.insert(QStringLiteral("regressionTotal"), regressions.value(QStringLiteral("total")).toInt(0));
+    // A static report's claim cannot promote physical evidence in the UI.
+    out.insert(QStringLiteral("currentHostStatus"), QStringLiteral("NOT_VERIFIED"));
+    return out;
+}
+
 void Fa3RepositoryModel::scanCanonical()
 {
     m_records.clear();
