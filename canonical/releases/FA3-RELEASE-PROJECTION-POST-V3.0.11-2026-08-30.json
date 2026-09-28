@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a065ae2fc5ce3d1ab70a5a1d26831b856894eb78",
-    "pre_projection_root_tree_sha": "79d04b85e5155a51335ac0da636f7cb182651309",
-    "pre_projection_canonical_tree_sha": "fdedc3c0858d29fcdeed865206b0892aa24d2999",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1502,
-    "total_post_baseline_commits": 1502,
-    "delta_file_count": 2464,
-    "delta_added_files": 2458,
+    "pre_projection_head_sha": "a4720c9734608f6945f788246aad7ea35bff5ecd",
+    "pre_projection_root_tree_sha": "c335b02c34f414d0394b05a867467d75b9cef1c3",
+    "pre_projection_canonical_tree_sha": "791ec5af2e73756b1b0658a491604e0e7ff3ac53",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1520,
+    "total_post_baseline_commits": 1520,
+    "delta_file_count": 2470,
+    "delta_added_files": 2464,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1191,
+    "canonical_files_in_post_baseline_delta": 1193,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 337,
-    "test_files_in_post_baseline_delta": 271,
-    "workflow_files_in_post_baseline_delta": 118,
+    "source_files_in_post_baseline_delta": 338,
+    "test_files_in_post_baseline_delta": 272,
+    "workflow_files_in_post_baseline_delta": 119,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -342,6 +342,7 @@
       "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DISPLAY-GPU-ADMISSION-001.json",
       "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
@@ -487,6 +488,7 @@
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DESKTOP-SECRET-BACKEND-ADAPTER-2026-09-19.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28.json",
       "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json",
@@ -1011,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2454,
+  "manifest_entry_count": 2460,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1186,6 +1188,11 @@
     {
       "path": ".github/workflows/fa3-dev-update-gate.yml",
       "git_blob_sha": "bac8e420d6b9bbdccac75c7db6dd0dfd976a3a56",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-display-gpu-admission.yml",
+      "git_blob_sha": "5d491b0588376ea7b0811fc16e327705fa8dbe95",
       "baseline_delta_status": "added"
     },
     {
@@ -1620,7 +1627,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "4e4c34c36a25dcadc1a0a22b678996b6592593a7",
+      "git_blob_sha": "e664f1c9f706317a57a4f66df68dab0124063f28",
       "baseline_delta_status": "added"
     },
     {
@@ -2820,7 +2827,7 @@
     },
     {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
-      "git_blob_sha": "c9dc8db2974af9b093def544beca98fb4247a758",
+      "git_blob_sha": "44554e58d73694eafe8e1c7d49a532d8327ace17",
       "baseline_delta_status": "added"
     },
     {
@@ -4489,6 +4496,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-DISPLAY-GPU-ADMISSION-001.json",
+      "git_blob_sha": "c60355c8cd696079035e49ed5415d0d829a309e2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json",
       "git_blob_sha": "f5c22f0c89e7288f824873af23371e82f8314e12",
       "baseline_delta_status": "added"
@@ -5261,6 +5273,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "git_blob_sha": "f91a5253c9325776c16000d08adb8f7d2ac06667",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28.json",
+      "git_blob_sha": "f024debd4998426365ece7bd1e63c882ce72e2a6",
       "baseline_delta_status": "added"
     },
     {
@@ -6710,7 +6727,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HW-MGPU-001.json",
-      "git_blob_sha": "76d10139531ab2cfa5f12cc3f884fa93f356b9bf",
+      "git_blob_sha": "34429d2a66c80332515b7e513d4237ce45905042",
       "baseline_delta_status": "added"
     },
     {
@@ -8814,6 +8831,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/display-gpu-ai-admission.md",
+      "git_blob_sha": "ef2b6b79bec151256df7d687eb4daacf62dcefa0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-chat-history-bridge.md",
       "git_blob_sha": "9867eea2881561607272760de67f858afcedad5c",
       "baseline_delta_status": "added"
@@ -10669,6 +10691,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_display_gpu_admission.py",
+      "git_blob_sha": "bca409818e5cb3cd22bea52c800d3e466bb3c42b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_distribution_adoption_gate.py",
       "git_blob_sha": "7b6898e5e99539170ef2132eb6368a7b8a426725",
       "baseline_delta_status": "added"
@@ -10830,7 +10857,7 @@
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
-      "git_blob_sha": "4c3c23d3a08824034b0b5d31d5dbea5bb02718f6",
+      "git_blob_sha": "9f97ca7ab68725e5ed9e8f7b5676d5c2585462aa",
       "baseline_delta_status": "added"
     },
     {
@@ -10845,7 +10872,7 @@
     },
     {
       "path": "src/fa3_hrb_composite_lease.py",
-      "git_blob_sha": "2c5b6318990bb16c343cf03386cfb0a762b28afb",
+      "git_blob_sha": "8aab2186ad4de8c94f728266e93ebecf1e178e20",
       "baseline_delta_status": "added"
     },
     {
@@ -10855,7 +10882,7 @@
     },
     {
       "path": "src/fa3_hrb_lease_lifecycle.py",
-      "git_blob_sha": "ac7780857206cb9027408c97713878ca39ba7500",
+      "git_blob_sha": "7347aaee569fd04f8f36acb98270ecb017ccdaad",
       "baseline_delta_status": "added"
     },
     {
@@ -12214,6 +12241,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_display_gpu_admission.py",
+      "git_blob_sha": "77bf89ecc162fe91efa5aa607b7f681c39c26ee9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_distribution_adoption_gate.py",
       "git_blob_sha": "b77988a838bf7b04a84af80d4b615e0bc7cc7f7b",
       "baseline_delta_status": "added"
@@ -12415,7 +12447,7 @@
     },
     {
       "path": "tests/test_hrb_lease_lifecycle.py",
-      "git_blob_sha": "7f1b03ddde2a8e3ca76c786a2d2e7a3a3f798d9b",
+      "git_blob_sha": "ccbdc953c047956f584b26703629d3a78c052992",
       "baseline_delta_status": "added"
     },
     {
