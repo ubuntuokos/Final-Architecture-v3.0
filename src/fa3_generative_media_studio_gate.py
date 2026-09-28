@@ -14,6 +14,8 @@ INTENT = "canonical/intents/FA3-GENERATIVE-MEDIA-STUDIO-APPLICATION-INTENT-001.j
 ASSESSMENT = "canonical/assessments/FA3-GENERATIVE-MEDIA-STUDIO-REUSE-ASSESSMENT-001.json"
 ENFORCEMENT = "canonical/generative-media-studio-enforcement.json"
 GATE_RECORD = "canonical/FA3-GATE-GENERATIVE-MEDIA-STUDIO-001.json"
+GATE_REGISTRY = "canonical/FA3-GATE-REGISTRY-001.json"
+POLICY = "canonical/enforcement-policy.json"
 QML = "apps/fa3-generative-media-studio/qml/Main.qml"
 BACKEND = "apps/fa3-generative-media-studio/src/StudioBackend.cpp"
 CMAKE = "apps/fa3-generative-media-studio/CMakeLists.txt"
@@ -36,7 +38,7 @@ def gate(root: Path) -> dict:
     findings: list[dict[str, str]] = []
     required = [
         PROFILE, CONTRACT, REQUEST_SCHEMA, DECISION, REFERENCE, INTENT, ASSESSMENT,
-        ENFORCEMENT, GATE_RECORD, QML, BACKEND, CMAKE, DESKTOP,
+        ENFORCEMENT, GATE_RECORD, GATE_REGISTRY, POLICY, QML, BACKEND, CMAKE, DESKTOP,
     ]
     for rel in required:
         if not (root / rel).is_file():
@@ -59,6 +61,8 @@ def gate(root: Path) -> dict:
     a = load(root, ASSESSMENT)
     e = load(root, ENFORCEMENT)
     gr = load(root, GATE_RECORD)
+    registry = load(root, GATE_REGISTRY)
+    policy = load(root, POLICY)
     qml = (root / QML).read_text(encoding="utf-8")
     backend = (root / BACKEND).read_text(encoding="utf-8")
     cmake = (root / CMAKE).read_text(encoding="utf-8")
@@ -94,6 +98,8 @@ def gate(root: Path) -> dict:
         (a.get("reuse_result", {}).get("existing_capability_reused") == "CAP-111" and a.get("reuse_result", {}).get("autom8ai_fork_treated_as_authority") is False, "GMS-028", "reuse boundary drift"),
         (e.get("gate_id") == GATESET_ID and e.get("fail_closed") is True, "GMS-029", "enforcement identity/fail-closed drift"),
         (gr.get("enforcement_id") == GATESET_ID and gr.get("fail_closed") is True and gr.get("static_pass_promotes_runtime") is False, "GMS-030", "gate record drift"),
+        (GATESET_ID in registry.get("mandatory_reference_gates", []) and registry.get("mandatory_reference_gates") == policy.get("mandatory_reference_gates"), "GMS-030A", "global gate registry/policy binding drift"),
+        (policy.get("generative_media_studio_profile_id") == PROFILE_ID and policy.get("generative_media_studio_contract_id") == CONTRACT_ID and policy.get("generative_media_studio_gate_id") == GATESET_ID and policy.get("generative_media_studio_current_host_runtime_promotion_claim") is False, "GMS-030B", "global enforcement policy Studio binding drift"),
         ("from: 6" in qml and "to: 20" in qml, "GMS-031", "6..20 second Studio control missing"),
         ("FA3 Model Router" in qml, "GMS-032", "Model Router projection missing"),
         ("PENDING_ADMISSION" in backend, "GMS-033", "request does not remain pending admission"),
