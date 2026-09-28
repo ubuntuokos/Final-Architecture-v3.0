@@ -386,7 +386,8 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
             "codex_returncode": proc.returncode,
             "stdout_sha256": sha256_bytes(stdout_bytes),
             "stderr_sha256": sha256_bytes(stderr_bytes),
-            "stderr_tail_redacted": proc.stderr[-1000:],
+            "raw_provider_output_recorded": False,
+            "failure_code": "CODEX_PROCESS_EXIT_NONZERO",
         }
         result_path.parent.mkdir(parents=True, exist_ok=True)
         result_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
@@ -395,10 +396,39 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
     if _git(workspace, "rev-parse", "HEAD") != expected_head:
         raise CodexAdapterDenied("Codex worker committed instead of returning an uncommitted diff")
     changed = [x for x in _git(workspace, "diff", "--name-only", "HEAD", "--").splitlines() if x]
-    if changed != [relative_path]:
-        raise CodexAdapterDenied(f"Codex changed paths outside delegated scope: {changed}")
-    if target.read_text(encoding="utf-8") != exact_content:
-        raise CodexAdapterDenied("Codex target content does not match exact delegated probe content")
+    target_matches = target.read_text(encoding="utf-8") == exact_content
+    if changed != [relative_path] or not target_matches:
+        # A successful Codex turn is not evidence of an executed mutation. Retain
+        # only bounded machine-readable diagnostics; stdout, stderr, prompt, skill
+        # text and final assistant messages are deliberately never copied.
+        failure_code = (
+            "NO_DELEGATED_FILE_CHANGE" if not changed
+            else "MUTATION_SCOPE_MISMATCH" if changed != [relative_path]
+            else "TARGET_CONTENT_MISMATCH"
+        )
+        result = {
+            "schema": "fa3.codex-adapter-worker-result.v1",
+            "task_id": task_id, "agent_id": agent_id,
+            "provider_id": PROVIDER_ID, "adapter_id": ADAPTER_ID,
+            "status": "FAIL", "failure_code": failure_code,
+            "codex_returncode": proc.returncode,
+            "changed_paths": changed, "target_matches_requested": target_matches,
+            "target_sha256": sha256_file(target),
+            "stdout_sha256": sha256_bytes(stdout_bytes),
+            "stderr_sha256": sha256_bytes(stderr_bytes),
+            "last_message_sha256": sha256_file(last_message) if last_message.is_file() else None,
+            "event_summary": summary,
+            "raw_provider_output_recorded": False,
+            "current_host_acceptance": False,
+        }
+        result_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        result_path.chmod(0o600)
+        if last_message.exists():
+            last_message.unlink()
+        raise CodexAdapterDenied(
+            f"Codex did not satisfy delegated mutation: {failure_code}; "
+            f"changed_path_count={len(changed)}"
+        )
     result = {
         "schema": "fa3.codex-adapter-worker-result.v1",
         "task_id": task_id,

@@ -83,6 +83,62 @@ def verify_installed_binary_against_archive(binary: Path, archive: Path) -> dict
         }
 
 
+def write_failed_probe_diagnostic(
+    root: Path, control: Path, tasks: list[AgentTask],
+) -> Path:
+    """Keep a minimal 0600 failure report when Coordinator removes its worktrees.
+
+    Never copy raw Codex JSONL, prompts, worker stderr, credentials, skill
+    contents or last-message text into this persisted diagnostic.
+    """
+    workers: list[dict] = []
+    for task in tasks:
+        path = control / "results" / f"{task.task_id}.json"
+        raw: dict = {}
+        if path.is_file():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    raw = data
+            except (OSError, ValueError):
+                pass
+        summary = raw.get("event_summary", {})
+        if not isinstance(summary, dict):
+            summary = {}
+        workers.append({
+            "task_id": task.task_id,
+            "agent_id": task.agent_id,
+            "status": raw.get("status", "NO_WORKER_RECEIPT"),
+            "failure_code": raw.get("failure_code", "WORKER_FAILURE_UNCLASSIFIED"),
+            "codex_returncode": raw.get("codex_returncode"),
+            "changed_path_count": len(raw.get("changed_paths", []))
+                if isinstance(raw.get("changed_paths"), list) else None,
+            "target_matches_requested": raw.get("target_matches_requested"),
+            "event_types": summary.get("event_types", []),
+            "item_types": summary.get("item_types", []),
+            "command_count": summary.get("command_count"),
+            "file_change_count": summary.get("file_change_count"),
+            "usage": summary.get("usage"),
+            "stdout_sha256": raw.get("stdout_sha256"),
+            "stderr_sha256": raw.get("stderr_sha256"),
+            "last_message_sha256": raw.get("last_message_sha256"),
+        })
+    report = {
+        "schema": "fa3.codex-current-host-failure-diagnostic.v1",
+        "result": "FAIL",
+        "scope": "CURRENT_HOST_FAILED_OBSERVATION_NOT_ACCEPTANCE",
+        "raw_provider_output_recorded": False,
+        "credential_material_captured": False,
+        "global_promotion_claim": False,
+        "workers": workers,
+    }
+    target = root / "reports/codex-current-host-failure-diagnostic.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    target.chmod(0o600)
+    return target
+
+
 def init_probe_repo(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
     subprocess.run(["git", "-C", str(path), "init", "-b", "main"], check=True, capture_output=True, text=True)
@@ -152,7 +208,12 @@ def main() -> int:
             ),
         ]
         coord = Coordinator(repo, control, max_message_hops=4)
-        result = coord.run(tasks, CodexAdapter(binary, timeout_seconds=args.timeout_seconds))
+        try:
+            result = coord.run(tasks, CodexAdapter(binary, timeout_seconds=args.timeout_seconds))
+        except Exception:
+            diagnostic = write_failed_probe_diagnostic(root, control, tasks)
+            print(f"FA3 CODEX FAILURE DIAGNOSTIC (not acceptance): {diagnostic}", file=sys.stderr)
+            raise
         worker_results = [
             json.loads((control / "results" / f"{task.task_id}.json").read_text(encoding="utf-8"))
             for task in tasks

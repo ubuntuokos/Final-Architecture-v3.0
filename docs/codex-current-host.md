@@ -46,6 +46,25 @@ reports/codex-current-host-gate-report.json
 
 The static CI adapter fixture never creates or substitutes this receipt.
 
+## Failed real-worker diagnostic
+
+A successful Codex JSONL `turn.completed` alone does not constitute a
+successful delegated edit. If a real worker returns without the required
+file change, the adapter fails closed with `NO_DELEGATED_FILE_CHANGE`.
+A strictly bounded, local, mode-0600 diagnostic survives the temporary
+worktree cleanup at:
+
+```text
+reports/codex-current-host-failure-diagnostic.json
+```
+
+The diagnostic includes only return codes, event/item categories, event
+counts, token counts and hashes; it excludes raw prompts, Codex output,
+final messages, skill text and credentials. It is **not** current-host
+evidence or a replacement for an authorized PASS receipt. Re-run the
+real probe and use the diagnostic categories to determine whether the
+provider attempted any tool calls before changing the execution profile.
+
 ## Execution profile
 
 The adapter uses `codex exec` with:

@@ -166,6 +166,86 @@ class CodexAdapterTests(unittest.TestCase):
             all(not worker["event_summary"]["forbidden_surface_observed"] for worker in report["workers"])
         )
 
+    def test_successful_codex_turn_without_actual_edit_fails_with_safe_receipt(self):
+        import subprocess
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-no-edit-") as td:
+            base = Path(td)
+            repo = base / "repo"
+            adapter._init_repo(repo)
+            task_id = "CODEX-NO-EDIT"
+            request = base / "request.json"
+            result = base / "result.json"
+            request.write_text(json.dumps({
+                "provider_id": adapter.PROVIDER_ID, "task_id": task_id,
+                "agent_id": "codex-no-edit", "workspace": str(repo),
+                "relative_path": "work/a.txt", "content": "expected mutation\\n",
+                "timeout_seconds": 60, "codex_binary": str(base / "codex"),
+                "required_skill_ids": [],
+            }), encoding="utf-8")
+            events = "\\n".join([
+                json.dumps({"type": "thread.started", "thread_id": "fixture-1"}),
+                json.dumps({"type": "turn.started"}),
+                json.dumps({"type": "turn.completed", "usage": {
+                    "input_tokens": 10, "output_tokens": 5,
+                }}),
+            ])
+            completed = subprocess.CompletedProcess(
+                args=["fixture"], returncode=0,
+                stdout=events, stderr="SENSITIVE_TEST_SENTINEL_DO_NOT_COPY",
+            )
+            with patch.object(adapter, "_run_capture", return_value=completed):
+                with self.assertRaisesRegex(
+                    adapter.CodexAdapterDenied, "NO_DELEGATED_FILE_CHANGE"
+                ):
+                    adapter.codex_worker_main(request, result)
+            receipt_text = result.read_text(encoding="utf-8")
+            receipt = json.loads(receipt_text)
+            self.assertEqual(receipt["status"], "FAIL")
+            self.assertEqual(receipt["failure_code"], "NO_DELEGATED_FILE_CHANGE")
+            self.assertEqual(receipt["codex_returncode"], 0)
+            self.assertEqual(receipt["changed_paths"], [])
+            self.assertEqual(receipt["event_summary"]["file_change_count"], 0)
+            self.assertFalse(receipt["raw_provider_output_recorded"])
+            self.assertFalse(receipt["current_host_acceptance"])
+            self.assertNotIn("SENSITIVE_TEST_SENTINEL", receipt_text)
+
+    def test_host_collector_preserves_only_safe_failure_fields(self):
+        import importlib.util
+        from fa3_developer_agent_coordination import AgentTask
+        source = ROOT / "evidence/collect-codex-current-host.py"
+        spec = importlib.util.spec_from_file_location("fa3_probe_diagnostic", source)
+        self.assertIsNotNone(spec)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-diagnostic-") as td:
+            root = Path(td)
+            control = root / "private-control"
+            directory = control / "results"
+            directory.mkdir(parents=True)
+            task = AgentTask(
+                "CODEX-NO-EDIT", "codex-no-edit", adapter.PROVIDER_ID,
+                "work/a.txt", "expected mutation\\n",
+            )
+            (directory / "CODEX-NO-EDIT.json").write_text(json.dumps({
+                "status": "FAIL", "failure_code": "NO_DELEGATED_FILE_CHANGE",
+                "changed_paths": [], "codex_returncode": 0,
+                "stderr_tail_redacted": "SENSITIVE_TEST_SENTINEL_DO_NOT_COPY",
+                "event_summary": {
+                    "event_types": ["thread.started", "turn.completed"],
+                    "item_types": [], "command_count": 0, "file_change_count": 0,
+                    "usage": {"input_tokens": 10, "output_tokens": 5},
+                },
+            }), encoding="utf-8")
+            destination = module.write_failed_probe_diagnostic(root, control, [task])
+            text = destination.read_text(encoding="utf-8")
+            data = json.loads(text)
+            self.assertEqual(data["result"], "FAIL")
+            self.assertFalse(data["global_promotion_claim"])
+            self.assertEqual(data["workers"][0]["failure_code"], "NO_DELEGATED_FILE_CHANGE")
+            self.assertEqual(data["workers"][0]["command_count"], 0)
+            self.assertNotIn("SENSITIVE_TEST_SENTINEL", text)
+
     def test_reference_gate_passes(self):
         report = gate.gate(ROOT)
         self.assertEqual(report["result"], "PASS", report)
