@@ -33,7 +33,7 @@ P3: Temporal workflow and Agent Workload runtime bridge with real CPU-only curre
 P4: authenticated canonical evidence/artifact/independent-verifier integration with protected checkers, exact revision checks and independent human signoff.
 P5: authorized bounded repair and compensation through UAF and existing policies, no permission enlargement.
 P6: existing Control Center/Agent Workspace GUI, real isolated Developer Agent pilot on disposable Git branch and positive/negative/rollback evidence in each approval mode.
-P7: attach the same goal contracts to Story/Screenplay, Prompt Creator, native FA3 Video Editor and QuickClip as appropriate, preserving .fa3video, .fa3clip, .kra, Ardour and all native project formats. Unreal remains excluded.
+P7: attach the same goal contracts to Story/Screenplay, Prompt Creator, native FA3 Video Editor and QuickClip as appropriate, preserving .fa3video, .fa3clip, .kra, Ardour and all native project formats. Excluded proprietary real-time engines remain out of scope.
 
 ## Command-line usage
 
