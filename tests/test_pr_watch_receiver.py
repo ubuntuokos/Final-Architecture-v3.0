@@ -33,8 +33,8 @@ class ReceiverTests(unittest.TestCase):
         self.worker = threading.Thread(target=self.httpd.serve_forever, daemon=True)
         self.worker.start()
         self.addCleanup(self.httpd.server_close)
-        self.addCleanup(self.httpd.shutdown)
         self.addCleanup(self.worker.join)
+        self.addCleanup(self.httpd.shutdown)
 
     def request(self, method, path, body=None, headers=None):
         conn = http.client.HTTPConnection("127.0.0.1", self.httpd.server_port, timeout=3)
