@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 251,
+    "entry_count": 265,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -996,6 +996,408 @@
       },
       "notes": [
         "Adapter candidate; own provider database not canonical."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-GAIA-001",
+      "name": "AMD GAIA",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/amd/gaia",
+        "normalized_key": "github:amd/gaia"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "local-first-agent",
+        "agent-tool-pattern",
+        "local-agent-ui"
+      ],
+      "domain_hints": [
+        "agents",
+        "ai",
+        "npu"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "FA3 GUI",
+        "Model Router"
+      ],
+      "tags": [
+        "amd",
+        "gaia",
+        "local-ai",
+        "ryzen-ai"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference AMD local-first agent workflows and human-facing integrations without introducing a second model router."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-GPUOPEN-LIBRARIES-SDKS-001",
+      "name": "AMD GPUOpen Libraries & SDKs",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/GPUOpen-LibrariesAndSDKs",
+        "normalized_key": "github:gpuopen-librariesandsdks"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-discovery",
+        "gpu-media-patterns"
+      ],
+      "domain_hints": [
+        "media",
+        "graphics",
+        "accelerators"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "FA3 Video Editor",
+        "3D Fabric"
+      ],
+      "tags": [
+        "amd",
+        "gpuopen",
+        "official-upstream",
+        "index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE_ORG_INDEX",
+        "status": "NOT_APPLICABLE"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "AMD GPUOpen libraries/SDKs index for media processing, portability and graphics reference patterns."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-MIGRAPHX-001",
+      "name": "AMD MIGraphX",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ROCm/AMDMIGraphX",
+        "normalized_key": "github:rocm/amdmigraphx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graph-inference",
+        "onnx-compiler",
+        "amd-inference-adapter"
+      ],
+      "domain_hints": [
+        "rocm",
+        "inference",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Model Router"
+      ],
+      "tags": [
+        "rocm",
+        "migraphx",
+        "graph-inference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "AMD graph inference engine reference; admission only under existing central Model Router and HRB governance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-OFFICIAL-GITHUB-001",
+      "name": "AMD official GitHub",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/amd",
+        "normalized_key": "github:amd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-discovery",
+        "vendor-neutral-integration"
+      ],
+      "domain_hints": [
+        "accelerators",
+        "ai",
+        "npu"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Hardware Audit",
+        "Model Manager"
+      ],
+      "tags": [
+        "amd",
+        "official-upstream",
+        "index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE_ORG_INDEX",
+        "status": "NOT_APPLICABLE"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official AMD upstream index for AI, Ryzen AI/NPU, agent patterns and training references."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-RYZENAI-SW-001",
+      "name": "AMD RyzenAI-SW",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/amd/RyzenAI-SW",
+        "normalized_key": "github:amd/ryzenai-sw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ryzen-npu-integration",
+        "npu-runtime-compatibility"
+      ],
+      "domain_hints": [
+        "npu",
+        "accelerators",
+        "inference"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Model Manager",
+        "Model Router"
+      ],
+      "tags": [
+        "amd",
+        "ryzen-ai",
+        "npu"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "REVIEW_REQUIRED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Ryzen AI software reference for discovered NPU capabilities; no global NPU requirement and no automatic provider admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-SKILLS-001",
+      "name": "AMD Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/amd/skills",
+        "normalized_key": "github:amd/skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "rocm-diagnostic-skill",
+        "federated-skill-catalog",
+        "skill-evaluation-pattern"
+      ],
+      "domain_hints": [
+        "agents",
+        "accelerators",
+        "rocm"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "Hardware Audit",
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "amd",
+        "skills",
+        "agent-skills",
+        "rocm"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official AMD agent skill catalog and federated skill lifecycle; reference-only until individual skill policy review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMD-XDNA-DRIVER-001",
+      "name": "AMD XDNA Driver",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/amd/xdna-driver",
+        "normalized_key": "github:amd/xdna-driver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "npu-device-discovery",
+        "xdna-device-interface"
+      ],
+      "domain_hints": [
+        "npu",
+        "hardware",
+        "drivers"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Host Resource Broker"
+      ],
+      "tags": [
+        "amd",
+        "xdna",
+        "npu",
+        "driver"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "REVIEW_REQUIRED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "AMD XDNA NPU driver interface and detection reference; never auto-install a kernel driver."
       ]
     },
     {
@@ -5742,6 +6144,124 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-AMF-001",
+      "name": "GPUOpen AMF",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF",
+        "normalized_key": "github:gpuopen-librariesandsdks/amf"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "amd-video-encode",
+        "amd-video-decode",
+        "media-hardware-interop"
+      ],
+      "domain_hints": [
+        "media",
+        "video",
+        "accelerators"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "gpuopen",
+        "amf",
+        "video",
+        "ffmpeg"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "REVIEW_REQUIRED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "AMD media encode/decode SDK reference for capability-gated FFmpeg/MLT provider integration; review component license and hardware availability."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "name": "GPUOpen Orochi",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GPUOpen-LibrariesAndSDKs/Orochi",
+        "normalized_key": "github:gpuopen-librariesandsdks/orochi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "hip-cuda-dynamic-loader",
+        "multi-vendor-runtime-selection"
+      ],
+      "domain_hints": [
+        "accelerators",
+        "portability",
+        "graphics"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "3D Fabric",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "gpuopen",
+        "orochi",
+        "hip",
+        "cuda",
+        "portability"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "HIP/CUDA dynamic API loading pattern for optional AMD/NVIDIA runtime portability, not an alternative HRB authority."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GSPLAT-001",
@@ -12212,6 +12732,311 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
+      "name": "ROCm Examples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ROCm/rocm-examples",
+        "normalized_key": "github:rocm/rocm-examples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "portable-hip-cuda-examples",
+        "cmake-accelerator-switch",
+        "gpu-smoke-test-pattern"
+      ],
+      "domain_hints": [
+        "rocm",
+        "cuda",
+        "tests",
+        "compute"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Model Manager",
+        "3D Fabric"
+      ],
+      "tags": [
+        "rocm",
+        "examples",
+        "hip",
+        "cuda",
+        "portability"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "HIP/CUDA-portable example and testing patterns; examples are not proof of FA3 current-host execution."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-LIBRARIES-001",
+      "name": "ROCm Libraries",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ROCm/rocm-libraries",
+        "normalized_key": "github:rocm/rocm-libraries"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "rocblas",
+        "hipblaslt",
+        "miopen",
+        "composablekernel",
+        "rocfft",
+        "rpp"
+      ],
+      "domain_hints": [
+        "rocm",
+        "inference",
+        "math",
+        "media"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "3D Fabric",
+        "FA3 Video Editor",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "rocm",
+        "libraries",
+        "math",
+        "kernels"
+      ],
+      "license": {
+        "declared": "MIXED_PER_COMPONENT",
+        "status": "REVIEW_REQUIRED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Current ROCm libraries super-repository; selective math, AI kernel and image-processing references only."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-OFFICIAL-GITHUB-001",
+      "name": "ROCm official GitHub",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/ROCm",
+        "normalized_key": "github:rocm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-discovery",
+        "rocm-version-matrix"
+      ],
+      "domain_hints": [
+        "accelerators",
+        "compute",
+        "rocm"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Hardware Audit",
+        "Model Manager"
+      ],
+      "tags": [
+        "rocm",
+        "official-upstream",
+        "index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE_ORG_INDEX",
+        "status": "NOT_APPLICABLE"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official ROCm upstream index; prefer current super-repositories to obsolete standalone locations."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-SYSTEMS-001",
+      "name": "ROCm Systems",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ROCm/rocm-systems",
+        "normalized_key": "github:rocm/rocm-systems"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "hip-runtime",
+        "amdsmi",
+        "rocminfo",
+        "rocprofiler-sdk",
+        "rocdecode",
+        "rocjpeg"
+      ],
+      "domain_hints": [
+        "rocm",
+        "hardware",
+        "profiling",
+        "media"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Host Resource Broker",
+        "Model Manager",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "rocm",
+        "systems",
+        "hip",
+        "smi",
+        "profiling"
+      ],
+      "license": {
+        "declared": "MIXED_PER_COMPONENT",
+        "status": "REVIEW_REQUIRED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Current ROCm systems super-repository; selective references for HIP, AMD SMI, rocminfo, profiling and media decoding."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-THEROCK-001",
+      "name": "ROCm TheRock",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ROCm/TheRock",
+        "normalized_key": "github:rocm/therock"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-request-amd-rocm-official-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "rocm-packaging",
+        "hip-build-system",
+        "runtime-component-selection"
+      ],
+      "domain_hints": [
+        "rocm",
+        "build",
+        "accelerators"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Hardware Audit",
+        "Build Fabric"
+      ],
+      "tags": [
+        "rocm",
+        "therock",
+        "hip",
+        "packaging"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "REVIEW_REQUIRED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Modern HIP/ROCm modular build and packaging reference; optional AMD backend, not an FA3 global prerequisite."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ROHITG00-AI-ENGINEERING-FROM-SCRATCH-001",
