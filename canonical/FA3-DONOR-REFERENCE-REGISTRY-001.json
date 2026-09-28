@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 333,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1052,6 +1052,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ANIMATION-COMPRESSION-LIBRARY-ACL-001",
+      "name": "Animation Compression Library (ACL)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nfrechette/acl",
+        "normalized_key": "github:nfrechette/acl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "skeletal animation compression and sampling"
+      ],
+      "domain_hints": [
+        "3d",
+        "animation",
+        "creative"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Character Studio",
+        "Creative Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "animation",
+        "primary"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ANNINHN-ECON-RESEARCH-SKILLS-001",
       "name": "anninhn/econ-research-skills",
       "source": {
@@ -1296,6 +1355,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ASSIMP-001",
+      "name": "Assimp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/assimp/assimp",
+        "normalized_key": "github:assimp/assimp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "legacy 3D model ingestion and mesh preprocessing"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adapter",
+        "adaptive-representation",
+        "interchange"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: ADAPTER; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AT-SPI-001",
@@ -2032,6 +2149,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-BASIS-UNIVERSAL-001",
+      "name": "Basis Universal",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/BinomialLLC/basis_universal",
+        "normalized_key": "github:binomialllc/basis_universal"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "GPU-portable texture transcoding and compression"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "texture"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "primary",
+        "texture"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BATCH-ANNOTATOR-001",
       "name": "batch-annotator",
       "source": {
@@ -2155,6 +2330,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-BGFX-SPARSE-VIRTUAL-TEXTURING-001",
+      "name": "bgfx Sparse Virtual Texturing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bkaradzic/bgfx/blob/master/examples/40-svt/svt.cpp",
+        "normalized_key": "github:bkaradzic/bgfx/blob/master/examples/40-svt/svt.cpp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "portable SVT renderer reference with CPU-only fallback"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "virtual texture"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "virtual-texture"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-BITWIG-STUDIO-001",
@@ -2281,6 +2514,64 @@
       },
       "notes": [
         "Lab/candidate; retain Bforartists primary, no independent scene authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-BLENDER-HAIR-CURVES-001",
+      "name": "Blender Hair Curves",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender",
+        "normalized_key": "github:blender/blender"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "native groom, strand-density and guide-curve workflows; use through Bforartists/Blender adapter"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "hair"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "Bforartists/Blender",
+        "Character Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "hair",
+        "primary_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY_REFERENCE; donor/reference only, not admitted implementation."
       ]
     },
     {
@@ -2714,6 +3005,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-BULLET-PHYSICS-001",
+      "name": "Bullet Physics",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bulletphysics/bullet3",
+        "normalized_key": "github:bulletphysics/bullet3"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "collision representation and simplified physics proxies"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "physics"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "optional",
+        "physics"
+      ],
+      "license": {
+        "declared": "Zlib",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BUZZPLAY-INFINITE-WORLD-001",
       "name": "BuzzPlay Infinite World",
       "source": {
@@ -2861,6 +3210,122 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CESIUM-3D-TILES-001",
+      "name": "Cesium 3D Tiles",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CesiumGS/3d-tiles",
+        "normalized_key": "github:cesiumgs/3d-tiles"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "HLOD trees, SSE refinement and implicit spatial tiling"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "scene"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "BIM Interchange",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "scene"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-CGAL-SURFACE-MESH-SIMPLIFICATION-001",
+      "name": "CGAL Surface Mesh Simplification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CGAL/cgal",
+        "normalized_key": "github:cgal/cgal"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "surface mesh simplification algorithm reference; package-specific licensing"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "geometry"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "geometry",
+        "license_caution"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: LICENSE_CAUTION; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CHROME-DEVTOOLS-PROTOCOL-001",
@@ -3012,6 +3477,65 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLUSTERLOD-H-001",
+      "name": "clusterlod.h",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zeux/meshoptimizer/blob/master/demo/clusterlod.h",
+        "normalized_key": "github:zeux/meshoptimizer/blob/master/demo/clusterlod.h"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "continuous hierarchical cluster LOD and screen-space error"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "geometry"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "FA3 Video Editor",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "geometry",
+        "primary"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-COLIBRI-001",
@@ -4167,6 +4691,64 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-DRACO-001",
+      "name": "Draco",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google/draco",
+        "normalized_key": "github:google/draco"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "alternative mesh and point-cloud compression"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "interchange",
+        "optional"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-DRAMATRON-001",
       "name": "Dramatron",
       "source": {
@@ -4282,6 +4864,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-EMBREE-001",
+      "name": "Embree",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RenderKit/embree",
+        "normalized_key": "github:renderkit/embree"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "visibility queries, occlusion and representation validation"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "support"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "VFX"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "optional",
+        "support"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-EMOCA-001",
@@ -5328,6 +5968,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-GBH-TOOL-001",
+      "name": "GBH Tool",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GixoXYZ/BlenderGBHTool",
+        "normalized_key": "github:gixoxyz/blendergbhtool"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "strand-to-card workflows and hair rigging reference"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "hair"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "Bforartists/Blender",
+        "Character Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "hair",
+        "license_caution"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: LICENSE_CAUTION; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GEGL-001",
       "name": "GEGL",
       "source": {
@@ -5627,6 +6325,354 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GLTF-EXT-MESHOPT-COMPRESSION-001",
+      "name": "glTF EXT_meshopt_compression",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/EXT_meshopt_compression",
+        "normalized_key": "github:khronosgroup/gltf/tree/main/extensions/2.0/vendor/ext_meshopt_compression"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "ratified meshopt glTF compression transport"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adapter",
+        "adaptive-representation",
+        "interchange"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: ADAPTER; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GLTF-KHR-MESHOPT-COMPRESSION-001",
+      "name": "glTF KHR_meshopt_compression",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_meshopt_compression",
+        "normalized_key": "github:khronosgroup/gltf/tree/main/extensions/2.0/khronos/khr_meshopt_compression"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "release-candidate glTF compression compatibility"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "interchange",
+        "reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GLTF-KHR-TEXTURE-BASISU-001",
+      "name": "glTF KHR_texture_basisu",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_texture_basisu",
+        "normalized_key": "github:khronosgroup/gltf/tree/main/extensions/2.0/khronos/khr_texture_basisu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "GPU texture transmission interoperability"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adapter",
+        "adaptive-representation",
+        "interchange"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: ADAPTER; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GLTF-MSFT-LOD-001",
+      "name": "glTF MSFT_lod",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/MSFT_lod",
+        "normalized_key": "github:khronosgroup/gltf/tree/main/extensions/2.0/vendor/msft_lod"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "node and material LOD import/export"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "interchange"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adapter",
+        "adaptive-representation",
+        "interchange"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: ADAPTER; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GLTFPACK-001",
+      "name": "gltfpack",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zeux/meshoptimizer/tree/master/gltf",
+        "normalized_key": "github:zeux/meshoptimizer/tree/master/gltf"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "glTF asset preprocessing and meshopt compression"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "geometry"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "geometry",
+        "optional"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GODOT-VISIBILITY-RANGES-HLOD-001",
+      "name": "Godot Visibility Ranges / HLOD",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://docs.godotengine.org/en/stable/tutorials/3d/visibility_ranges.html",
+        "normalized_key": "web:https://docs.godotengine.org/en/stable/tutorials/3d/visibility_ranges.html"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "distance-based HLOD and visibility architecture reference"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "scene"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "scene"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GOOGLE-ADK-001",
       "name": "Google ADK",
       "source": {
@@ -5744,6 +6790,64 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-GPUINSTANCE-001",
+      "name": "GPUInstance",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mkrebser/GPUInstance",
+        "normalized_key": "github:mkrebser/gpuinstance"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "skeleton LOD, crowd LOD and GPU instancing concepts without Unity runtime dependency"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "rig"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "Character Studio",
+        "Creative Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "rig"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GSPLAT-001",
       "name": "gsplat",
       "source": {
@@ -5842,6 +6946,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-HAIR-CARD-GENERATOR-001",
+      "name": "Hair Card Generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PurgatoryMP/Hair-Card-Generator",
+        "normalized_key": "github:purgatorymp/hair-card-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "card generation workflow reference; license verification required"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "hair"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "Bforartists/Blender",
+        "Character Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "hair",
+        "license_caution"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: LICENSE_CAUTION; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-HARDIKPANDYA-STOP-SLOP-001",
@@ -6300,6 +7462,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-IMP-001",
+      "name": "IMP",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MaxRoetzler/IMP",
+        "normalized_key": "github:maxroetzler/imp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "hemisphere/full-sphere billboard and impostor atlas baking"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "impostor"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Creative Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "impostor",
+        "reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-INFINITE-WORLD-001",
       "name": "Infinite-World",
       "source": {
@@ -6583,6 +7803,121 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-JOLT-PHYSICS-001",
+      "name": "Jolt Physics",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jrouwe/JoltPhysics",
+        "normalized_key": "github:jrouwe/joltphysics"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "alternative collision proxy and physics provider"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "physics"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "optional",
+        "physics"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-JPPARK-IMPOSTOR-001",
+      "name": "jppark impostor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jppark/impostor",
+        "normalized_key": "github:jppark/impostor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "dynamic view-dependent impostor reference; source verification pending"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "impostor"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "impostor",
+        "unverified_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: UNVERIFIED_REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-KAANKIZILTUG-LOGO-DESIGN-SKILL-001",
       "name": "kaankiziltug/logo-design-skill",
       "source": {
@@ -6848,6 +8183,64 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-KTX-SOFTWARE-001",
+      "name": "KTX-Software",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KhronosGroup/KTX-Software",
+        "normalized_key": "github:khronosgroup/ktx-software"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "KTX2 generation and texture transport"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "texture"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "primary",
+        "texture"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LENSFUN-001",
       "name": "Lensfun",
       "source": {
@@ -6897,6 +8290,63 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LIBIGL-001",
+      "name": "libigl",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/libigl/libigl",
+        "normalized_key": "github:libigl/libigl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "edge-collapse decimation and geometry-processing algorithms"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "geometry"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "geometry",
+        "optional"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LIBMYPAINT-001",
@@ -7072,6 +8522,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LIBVT-001",
+      "name": "LibVT",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/core-code/LibVT",
+        "normalized_key": "github:core-code/libvt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "virtual-texture pagetable, residency, cache and feedback patterns; modernize backend"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "virtual texture"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "virtual-texture"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LITTLECMS-001",
@@ -7488,6 +8996,65 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MATERIALX-001",
+      "name": "MaterialX",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/MaterialX",
+        "normalized_key": "github:academysoftwarefoundation/materialx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "shader graphs, baking and material representations"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "scene"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists/Blender",
+        "Creative Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "primary",
+        "scene"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MATRIX-3D-001",
@@ -8054,6 +9621,65 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MESHOPTIMIZER-001",
+      "name": "meshoptimizer",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zeux/meshoptimizer",
+        "normalized_key": "github:zeux/meshoptimizer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mesh simplification, meshlet generation, geometry optimization"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "geometry"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists/Blender",
+        "FA3 Adaptive Representation Fabric",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "geometry",
+        "primary"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MICA-001",
       "name": "MICA",
       "source": {
@@ -8558,6 +10184,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NANOVDB-001",
+      "name": "NanoVDB",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/openvdb/tree/master/nanovdb",
+        "normalized_key": "github:academysoftwarefoundation/openvdb/tree/master/nanovdb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "read-only CPU/GPU sparse-volume proxy"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "volume"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "VFX"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "primary",
+        "volume"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-NATRON-001",
@@ -10880,6 +12564,64 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-NVIDIA-VK-LOD-CLUSTERS-001",
+      "name": "NVIDIA vk_lod_clusters",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nvpro-samples/vk_lod_clusters",
+        "normalized_key": "github:nvpro-samples/vk_lod_clusters"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cluster residency, mesh shader and streaming reference; optional GPU-specific paths only"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "scene"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "scene"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-NVIDIA-WARP-001",
       "name": "NVIDIA warp",
       "source": {
@@ -11778,12 +13520,13 @@
       "donor_id": "FA3-DONOR-OPENIMAGEIO-001",
       "name": "OpenImageIO",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:OpenImageIO",
-        "normalized_key": "project:openimageio"
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/OpenImageIO",
+        "normalized_key": "github:academysoftwarefoundation/openimageio"
       },
       "status": "ANALYZED",
       "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28",
         "prior-fa3-research-backfill"
       ],
       "first_seen": "2026-09-27",
@@ -11792,26 +13535,38 @@
         "REFERENCE_IMPLEMENTATION",
         "ARCHITECTURE_PATTERN"
       ],
-      "capability_hints": [],
+      "capability_hints": [
+        "mipmaps, tiled image processing and texture baking inputs"
+      ],
       "domain_hints": [
+        "3d",
+        "creative",
         "image",
         "photo",
-        "creative"
+        "texture"
       ],
-      "problem_hints": [],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
       "target_hints": [
-        "Photo/Image Editor",
-        "Creative Studio"
+        "3D Fabric",
+        "Creative Studio",
+        "FA3 Adaptive Representation Fabric",
+        "Photo/Image Editor"
       ],
       "tags": [
-        "photo-editing",
-        "image-pipeline",
+        "LOD",
+        "adaptive-representation",
         "color",
-        "raw"
+        "image-pipeline",
+        "photo-editing",
+        "primary",
+        "raw",
+        "texture"
       ],
       "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
+        "declared": "Apache-2.0_WITH_THIRD_PARTY",
+        "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
@@ -11823,7 +13578,10 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENLIVE-001",
@@ -12065,6 +13823,64 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVDB-001",
+      "name": "OpenVDB",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/openvdb",
+        "normalized_key": "github:academysoftwarefoundation/openvdb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "master sparse volumes and volume hierarchy"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "volume"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "VFX"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "primary",
+        "volume"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENVIKING-001",
@@ -12347,6 +14163,65 @@
       },
       "notes": [
         "Candidate only; resource/license/security acceptance required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OZZ-ANIMATION-001",
+      "name": "ozz-animation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/guillaumeblanc/ozz-animation",
+        "normalized_key": "github:guillaumeblanc/ozz-animation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "animation optimizer, reduced runtime skeleton evaluation patterns"
+      ],
+      "domain_hints": [
+        "3d",
+        "animation",
+        "creative"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Character Studio",
+        "Creative Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "animation",
+        "optional"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: OPTIONAL; donor/reference only, not admitted implementation."
       ]
     },
     {
@@ -13464,6 +15339,122 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-POTREE-001",
+      "name": "Potree",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/potree/potree",
+        "normalized_key": "github:potree/potree"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "point cloud adaptive streaming and renderer reference"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "point cloud"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "BIM Interchange",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "point-cloud",
+        "reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-POTREECONVERTER-001",
+      "name": "PotreeConverter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/potree/PotreeConverter",
+        "normalized_key": "github:potree/potreeconverter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "out-of-core point cloud octree LOD generation"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "point cloud"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "BIM Interchange",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "point-cloud",
+        "primary_reference"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY_REFERENCE; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-PRAISONAI-001",
@@ -15581,6 +17572,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-STRANDS2CARDS-001",
+      "name": "Strands2Cards",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kenji-tojo/strns2cards",
+        "normalized_key": "github:kenji-tojo/strns2cards"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "hair strand clustering, texture and card fitting research"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "hair"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "Bforartists/Blender",
+        "Character Studio",
+        "FA3 Adaptive Representation Fabric"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "hair",
+        "license_caution"
+      ],
+      "license": {
+        "declared": "UNKNOWN_NO_LICENSE_CONFIRMED",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: LICENSE_CAUTION; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-STRETCHY-STUDIO-001",
       "name": "Stretchy Studio",
       "source": {
@@ -15809,6 +17858,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TERRAIN3D-001",
+      "name": "Terrain3D",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/TokisanGames/Terrain3D",
+        "normalized_key": "github:tokisangames/terrain3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "geometric clipmaps, foliage LOD and region streaming"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "terrain"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "primary_reference",
+        "terrain"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: PRIMARY_REFERENCE; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TESTZEUS-HERCULES-001",
@@ -16740,6 +18847,64 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIRTUAL-TEXTURES-PROTOTYPE-001",
+      "name": "virtual-textures prototype",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/shlomnissan/virtual-textures",
+        "normalized_key": "github:shlomnissan/virtual-textures"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adaptive-representation-donor-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "minimal page residency, atlas streaming and GPU feedback reference"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "virtual texture"
+      ],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric",
+        "Virtual Production Interchange"
+      ],
+      "tags": [
+        "LOD",
+        "adaptive-representation",
+        "reference",
+        "virtual-texture"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "last_seen": "2026-09-28",
+      "notes": [
+        "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-VKDT-001",
