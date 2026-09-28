@@ -20,5 +20,32 @@
     "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "registry": "FA3-REGISTRY-001"
   },
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "repository": "https://github.com/crynta/terax-ai",
+  "donor_registry_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
+  "donor_registry_path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "application_intent": "FA3-TERAX-APPLICATION-INTENT-2026-09-28",
+  "reuse_assessment": "FA3-TERAX-REUSE-ASSESSMENT-2026-09-28",
+  "current_host_status": "PENDING_CURRENT_HOST",
+  "runtime_activation": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "gpu_discovery_for_disabled_reference": false,
+    "hrb_admission_for_enabled_workload": true,
+    "accelerator_lease_only_if_workload_requests_accelerator": true,
+    "display_gpu_is_not_compute_admission": true,
+    "hardware_safety_envelope": "FA3-DEC-HARDWARE-SAFETY-2026-09-26"
+  },
+  "coexistence": {
+    "required": true,
+    "policy_id": "FA3-DEC-SOFTWARE-COEXISTENCE-2026-09-26",
+    "pending_pr": 410,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "fixed_default_port": false,
+    "physical_evidence": "PENDING_CURRENT_HOST"
+  }
 }
