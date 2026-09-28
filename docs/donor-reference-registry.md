@@ -73,6 +73,10 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 
 The [scriptwriting source-specific curation](scriptwriting-github-donor-curation-2026-09-28.md) captures the GitHub topic discovery index and 12 independently identified screenplay/story-development donor candidates. It links professional editing, visual planning, production profiles, branching narrative, interchange, adaptation, table reads and pre-production annotation ideas to the existing FA3 Story/Screenplay and other creative applications. Metadata registration does not authorize code copying, runtime integration, model/provider selection or project-schema replacement.
 
+## Script-breakdown GitHub donor curation
+
+The [script-breakdown source-specific curation](script-breakdown-github-donor-curation-2026-09-28.md) captures the GitHub topic index and six new, separately sourced donor candidates for the **existing** FA3 Story/Screenplay and preproduction ecosystem. OpenDraft is enriched in place, not duplicated. The review separates narrative beats, typed production breakdown, candidate shots, project-wide assets and derived scheduling; it requires bidirectional format gates, human approval, current-host evidence, vendor-neutral CPU-only operation and the existing FA3 workflow/model/resource authorities.
+
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
