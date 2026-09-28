@@ -16,6 +16,7 @@ FILES = {
     "distribution_registry": ROOT / "canonical/distribution-registry.json",
     "distribution_manifest": ROOT / "canonical/distribution-manifest.json",
     "planner": ROOT / "src/fa3_tiered_moe_plan.py",
+    "provider_adapter": ROOT / "src/fa3_strata_provider_adapter.py",
 }
 
 PIN = "b742ff998704638903461a2d7d6c1e03b8032509"
@@ -48,6 +49,10 @@ def check() -> None:
     assert provider["reuse_license"]["source_copy_into_fa3"] == "FORBIDDEN"
     assert provider["current_host_production_evidence"] == "NOT_CLAIMED"
     assert provider["global_promotion_claim"] is False
+    assert provider["current_host_probe"]["mode"] == "READ_ONLY_LOOPBACK_API_CONFORMANCE"
+    assert provider["current_host_probe"]["fixed_default_port"] is False
+    assert provider["current_host_probe"]["network_egress"] is False
+    assert provider["current_host_probe"]["static_or_probe_pass_promotes_runtime"] is False
     assert provider["distribution"]["class"] == "REFERENCE_ONLY"
     assert provider["distribution"]["release_bundle_status"] == "EXCLUDED"
     assert provider["product_bundle_allowed"] is False
@@ -88,6 +93,11 @@ def check() -> None:
     assert reg == [{"subject_id": "FA3-PROVIDER-STRATA-001", "class": "REFERENCE_ONLY", "release_bundle_status": "EXCLUDED"}]
     manifest = [x for x in distribution_manifest["excluded"] if x.get("subject_id") == "FA3-PROVIDER-STRATA-001"]
     assert manifest == reg
+
+    adapter_text = FILES["provider_adapter"].read_text(encoding="utf-8")
+    assert "NO_UPSTREAM_STRATA_SOURCE_COPIED" in adapter_text
+    assert "LOOPBACK_HOSTS" in adapter_text
+    assert "current_host_runtime_promotion_claim" in adapter_text
 
     planner_text = FILES["planner"].read_text(encoding="utf-8")
     assert "NO_UPSTREAM_STRATA_SOURCE_COPIED" in planner_text
