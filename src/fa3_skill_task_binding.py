@@ -64,10 +64,13 @@ def task_skill_preflight(task: Any, bindings: Mapping[str, SkillTaskBinding],
         row = bindings[skill_id]
         if row.registry_entry.get("skill_id") != skill_id:
             raise SkillTaskBindingDenied("skill identity mismatch")
+        if row.lease.get("task_id") is not None and row.lease["task_id"] != task.task_id:
+            raise SkillTaskBindingDenied("task-bound skill lease mismatch")
         try:
             receipt = verified_use_receipt(
                 row.root, row.package, row.registry_entry, row.admission,
                 row.selection, row.lease, row.intent,
+                task_id=task.task_id if row.lease.get("task_id") is not None else None,
             )
         except SkillSnapshotDenied as exc:
             raise SkillTaskBindingDenied("Skill Fabric denied task activation") from exc

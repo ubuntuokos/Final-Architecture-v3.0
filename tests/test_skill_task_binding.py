@@ -52,7 +52,7 @@ class AgentSkillBindingTests(unittest.TestCase):
         intent = {k: good_use_receipt()[k] for k in (
             "tool_intent", "model_intent", "resource_intent", "secret_intent")}
         self.row = SkillTaskBinding(self.root, package, registry, admission, selection,
-                                    task_activation_lease(verified), intent)
+                                    task_activation_lease(verified, task_id="TASK-1"), intent)
         self.task = AgentTask("TASK-1", "agent-1", "provider-1", "x.txt", "x",
                               required_skill_ids=("example",))
         self.lang = {
@@ -169,6 +169,42 @@ class AgentSkillBindingTests(unittest.TestCase):
         with self.assertRaises(SkillProjectionDenied):
             preflight.prepare_task(self._workers()[0])
         self.assertEqual(seen, ["language_admission", "package_admission", "task_selection"])
+
+    def test_lease_cannot_be_replayed_for_another_task(self):
+        preflight = self._reference_preflight()
+        wrong = AgentTask("TASK-OTHER", "agent-other", dac.FIXTURE_PROVIDER_ID,
+                          "work/a.txt", "x", required_skill_ids=("example",))
+        with self.assertRaises(SkillProjectionDenied):
+            preflight.prepare_task(wrong)
+        context = preflight.prepare_task(self._workers()[0])
+        self.assertEqual(context["skills"][0]["bound_task_id"], "TASK-1")
+        self.assertTrue(context["skills"][0]["activation_lease_id"].startswith("skill-lease:"))
+
+    def test_fixture_worker_rejects_expired_projected_lease(self):
+        from datetime import datetime, timedelta, timezone
+        preflight = self._reference_preflight()
+        context = preflight.prepare_task(self._workers()[0])
+        context["skills"][0]["lease_expires_at"] = (
+            datetime.now(timezone.utc) - timedelta(seconds=5)).isoformat()
+        workspace = self.root / "worker-workspace"
+        (workspace / "work").mkdir(parents=True)
+        target = workspace / "work/a.txt"
+        target.write_text("original", encoding="utf-8")
+        context_path = self.root / "expired-skill-context.json"
+        request_path = self.root / "expired-skill-request.json"
+        result_path = self.root / "expired-skill-result.json"
+        context_path.write_text(json.dumps(context), encoding="utf-8")
+        request_path.write_text(json.dumps({
+            "task_id": "TASK-1", "agent_id": "agent-1",
+            "provider_id": dac.FIXTURE_PROVIDER_ID,
+            "workspace": str(workspace), "relative_path": "work/a.txt",
+            "content": "should-not-run", "required_skill_ids": ["example"],
+            "skill_context_path": str(context_path),
+        }), encoding="utf-8")
+        with self.assertRaises(CoordinationDenied):
+            dac.worker_main(request_path, result_path)
+        self.assertEqual(target.read_text(), "original")
+        self.assertFalse(result_path.exists())
 
 
 if __name__ == "__main__":

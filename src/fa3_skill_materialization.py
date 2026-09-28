@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import stat
 from datetime import datetime, timedelta, timezone
 from pathlib import Path, PurePosixPath
@@ -154,7 +155,8 @@ def verify_admitted_snapshot(
 
 
 def task_activation_lease(verified: dict[str, Any], *, ttl_seconds: int = 300,
-                          now: datetime | None = None) -> dict[str, Any]:
+                          now: datetime | None = None,
+                          task_id: str | None = None) -> dict[str, Any]:
     """Create a short-lived context lease; never grant execution authority."""
     if verified.get("result") != "PASS" or verified.get("authority") is not False:
         raise SkillSnapshotDenied("verified snapshot required")
@@ -163,7 +165,7 @@ def task_activation_lease(verified: dict[str, Any], *, ttl_seconds: int = 300,
     timestamp = now or datetime.now(timezone.utc)
     if timestamp.tzinfo is None:
         raise SkillSnapshotDenied("timezone-aware timestamp required")
-    return {"schema": "fa3.skill-activation-lease.v1",
+    lease = {"schema": "fa3.skill-activation-lease.v1",
             "lease_id": "skill-lease:" + str(uuid4()),
             "task_scope": verified["task_scope"], "package_id": verified["package_id"],
             "skill_id": verified["skill_id"], "content_sha256": verified["content_sha256"],
@@ -172,17 +174,25 @@ def task_activation_lease(verified: dict[str, Any], *, ttl_seconds: int = 300,
             "admission_receipt_ref": verified["admission_receipt_ref"],
             "expires_at": (timestamp + timedelta(seconds=ttl_seconds)).isoformat(),
             "grants_execution_authority": False}
+    if task_id is not None:
+        if not isinstance(task_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}", task_id):
+            raise SkillSnapshotDenied("invalid bound task identifier")
+        lease["task_id"] = task_id
+    return lease
 
 
 def verified_use_receipt(
     root: Path, package: dict[str, Any], registry_entry: dict[str, Any],
     admission: dict[str, Any], selection: dict[str, Any], lease: dict[str, Any],
     intent: dict[str, Any], *, now: datetime | None = None,
+    task_id: str | None = None,
 ) -> dict[str, Any]:
     """Rehash actual bytes at each use, check lease, then apply existing use gate."""
     timestamp = now or datetime.now(timezone.utc)
     if timestamp.tzinfo is None:
         raise SkillSnapshotDenied("timezone-aware timestamp required")
+    if task_id is not None and lease.get("task_id") != task_id:
+        raise SkillSnapshotDenied("activation lease belongs to a different task")
     try:
         expiry = datetime.fromisoformat(lease["expires_at"])
     except (KeyError, ValueError, TypeError) as exc:
