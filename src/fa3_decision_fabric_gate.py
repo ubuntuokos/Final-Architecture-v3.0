@@ -141,7 +141,7 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("DECISION-019", "System One activation/data-plane boundary drift"))
     if reflex.get("execution_performed_by_contract") is not False or reflex.get("confidence_is_authorization") is not False:
         findings.append(finding("DECISION-015", "reflex contract authority drift"))
-    if system_one_decision.get("authority_delta") != 0 or system_one_decision.get("capability_count_after") != 143:
+    if system_one_decision.get("authority_delta") != 0 or system_one_decision.get("capability_count_after") != 175:
         findings.append(finding("DECISION-016", "System One integration baseline drift"))
     upstream = system_one_reuse.get("upstream", {})
     if (
