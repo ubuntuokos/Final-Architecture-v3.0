@@ -11,6 +11,10 @@ from pathlib import Path
 from typing import Any
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_skill_materialization import (
+    SkillSnapshotDenied, snapshot_digests, task_activation_lease,
+    verify_admitted_snapshot, verified_use_receipt,
+)
 
 from fa3_skill_fabric_gate import (
     gate as skill_gate,
@@ -143,6 +147,50 @@ def validate_skill_fabric(root: Path) -> list[str]:
     return findings
 
 
+
+def _real_snapshot_fixture(scope: Path) -> dict[str, Any]:
+    """Run physical file-read drills without claiming real provider/agent promotion."""
+    assets = scope / "physical-skill-snapshot"
+    item = assets / "skills/example/SKILL.md"
+    item.parent.mkdir(parents=True, exist_ok=True)
+    original = b"---\nname: example\n---\nTask-scoped CAP-080 physical file fixture.\n"
+    item.write_bytes(original)
+    observed = snapshot_digests(assets, ["skills/example/SKILL.md"])
+    p = good_package()
+    p["digests"]["content_sha256"] = observed["files"][0]["sha256"]
+    p["digests"]["manifest_sha256"] = observed["manifest_sha256"]
+    p["hash_attestation"]["sha256"] = observed["files"][0]["sha256"]
+    p["evaluation"]["bound_content_sha256"] = observed["files"][0]["sha256"]
+    registry = {"skill_id": "example", "package_id": p["package_id"],
+                "version": "1.0.0", "entrypoint": "skills/example/SKILL.md",
+                "admission_status": "ADMITTED",
+                "eligibility": {"task_classes": ["task.example"]}}
+    admission = {"receipt_ref": "skill-admit:cap080:fixture", "result": "PASS",
+                 "package_id": p["package_id"],
+                 "content_sha256": observed["files"][0]["sha256"],
+                 "manifest_sha256": observed["manifest_sha256"],
+                 "dependency_digest_sha256": p["dependencies"]["digest_sha256"]}
+    selection = {"receipt_ref": "skill-select:cap080:fixture",
+                 "package_id": p["package_id"], "skill_id": "example",
+                 "task_scope": "task.example", "eligible_skill_ids": ["example"]}
+    intent = {name: good_use_receipt()[name] for name in
+              ("tool_intent", "model_intent", "resource_intent", "secret_intent")}
+    verified = verify_admitted_snapshot(assets, p, registry, admission,
+                                       selection, "task.example")
+    lease = task_activation_lease(verified)
+    return {"root": assets, "file": item, "original_bytes": original,
+            "package": p, "registry": registry, "admission": admission,
+            "selection": selection, "intent": intent, "lease": lease,
+            "verified": verified}
+
+
+def _verify_fixture_use(fixture: dict[str, Any]) -> dict[str, Any]:
+    return verified_use_receipt(
+        fixture["root"], fixture["package"], fixture["registry"],
+        fixture["admission"], fixture["selection"], fixture["lease"],
+        fixture["intent"],
+    )
+
 def _run_positive(root: Path, scope: Path) -> dict[str, Any]:
     findings = validate_skill_fabric(root)
     if findings:
@@ -164,6 +212,10 @@ def _run_positive(root: Path, scope: Path) -> dict[str, Any]:
     if not skill_use_allowed(use):
         raise RuntimeError("known-valid skill use receipt was rejected")
 
+    fixture = _real_snapshot_fixture(scope)
+    physical_use = _verify_fixture_use(fixture)
+    if physical_use["snapshot_verification"]["result"] != "PASS":
+        raise RuntimeError("physical skill bytes were not verified at use")
     descriptor = scope / "verified-skill-package-positive.json"
     _write_json(descriptor, package)
     return {
@@ -177,6 +229,10 @@ def _run_positive(root: Path, scope: Path) -> dict[str, Any]:
         "positive_use_receipt_admitted": True,
         "descriptor_sha256": _sha256(descriptor),
         "reference_provider_runtime_claim": False,
+        "actual_file_bytes_verified": True,
+        "rehash_at_use_verified": True,
+        "physical_snapshot_sha256": _sha256(fixture["file"]),
+        "production_agent_consumer_verified": False,
     }
 
 
@@ -228,7 +284,18 @@ def _run_negative(root: Path, scope: Path) -> dict[str, Any]:
     if skill_use_allowed(expanded):
         raise RuntimeError("post-eligibility candidate expansion was admitted")
 
+    fixture = _real_snapshot_fixture(scope)
+    if _verify_fixture_use(fixture)["snapshot_verification"]["result"] != "PASS":
+        raise RuntimeError("negative drill baseline could not use physical bytes")
+    fixture["file"].write_bytes(b"tampered after approved activation")
+    try:
+        _verify_fixture_use(fixture)
+    except SkillSnapshotDenied:
+        physical_tamper_rejected = True
+    else:
+        raise RuntimeError("changed skill content was accepted at use")
     evidence = {
+        "physical_file_tamper_rejected": physical_tamper_rejected,
         "dependency_cycle_rejected": True,
         "path_traversal_rejected": True,
         "direct_credential_access_rejected": True,
@@ -270,7 +337,27 @@ def _run_rollback(root: Path, scope: Path) -> dict[str, Any]:
     if not package_admission_allowed(_load(descriptor)):
         raise RuntimeError("restored package not admitted")
 
+    fixture = _real_snapshot_fixture(scope)
+    original_file_digest = _sha256(fixture["file"])
+    _verify_fixture_use(fixture)
+    fixture["file"].write_bytes(b"rollback fault altered skill file")
+    try:
+        _verify_fixture_use(fixture)
+    except SkillSnapshotDenied:
+        snapshot_fault_rejected = True
+    else:
+        raise RuntimeError("modified physical skill bytes unexpectedly accepted")
+    fixture["file"].write_bytes(fixture["original_bytes"])
+    restored_file_digest = _sha256(fixture["file"])
+    if restored_file_digest != original_file_digest:
+        raise RuntimeError("physical skill bytes not restored")
+    _verify_fixture_use(fixture)
     return {
+        "physical_snapshot_fault_rejected": snapshot_fault_rejected,
+        "physical_snapshot_restored": True,
+        "physical_snapshot_before_sha256": original_file_digest,
+        "physical_snapshot_after_sha256": restored_file_digest,
+        "production_agent_consumer_verified": False,
         "mode": "rollback",
         "status": "PASS",
         "pre_sha256": pre_hash,
