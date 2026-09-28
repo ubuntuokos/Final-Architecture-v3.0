@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 310,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -1168,6 +1168,66 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-ANUGA-001",
+      "name": "ANUGA",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/anuga-community/anuga_core",
+        "normalized_key": "github:anuga-community/anuga_core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "flood-inundation",
+        "tsunami-simulation",
+        "shallow-water-equations"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ARDOUR-001",
@@ -2284,6 +2344,67 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-BLENDER-001",
+      "name": "Blender",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender",
+        "normalized_key": "github:blender/blender"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "fluid-smoke-fire-reference",
+        "procedural-particles",
+        "rigid-body-weather-effects"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "Bforartists",
+        "World & Environment Studio",
+        "VFX Studio"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BOADIJ-PI-HERDSMAN-001",
       "name": "boadij/pi-herdsman",
       "source": {
@@ -2959,6 +3080,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CITYJSON-SPECIFICATIONS-001",
+      "name": "CityJSON specifications",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cityjson/specs",
+        "normalized_key": "github:cityjson/specs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "city-model-interchange",
+        "buildings-streets-vegetation",
+        "geospatial-lod"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "3D Fabric",
+        "Realtime / Virtual Production Interchange"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "CC0-1.0 (specification; tools separately licensed)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLEARERVOICE-STUDIO-001",
@@ -4387,6 +4569,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ENERGYPLUS-001",
+      "name": "EnergyPlus",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NREL/EnergyPlus",
+        "normalized_key": "github:nrel/energyplus"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "building-thermal-response",
+        "building-energy-reference",
+        "indoor-environment"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ENFUSE-001",
@@ -7074,6 +7316,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-LISFLOOD-FP-BMI-001",
+      "name": "LISFLOOD-FP BMI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openearth/lisflood-fp-bmi",
+        "normalized_key": "github:openearth/lisflood-fp-bmi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "floodplain-simulation",
+        "flood-model-bmi-pattern",
+        "overland-flow"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "GPL-3.0 (this version)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LITTLECMS-001",
       "name": "LittleCMS",
       "source": {
@@ -8560,6 +8862,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-NASA-FIRMS-API-001",
+      "name": "NASA FIRMS API",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://firms.modaps.eosdis.nasa.gov/api/",
+        "normalized_key": "https://firms.modaps.eosdis.nasa.gov/api/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "satellite-thermal-anomalies",
+        "wildfire-scene-reference",
+        "hotspot-data"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "DATA_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-NATRON-001",
       "name": "Natron",
       "source": {
@@ -8659,6 +9020,126 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NIST-FIRE-DYNAMICS-SIMULATOR-001",
+      "name": "NIST Fire Dynamics Simulator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/firemodels/fds",
+        "normalized_key": "github:firemodels/fds"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "building-fire",
+        "smoke-and-heat-transport",
+        "interior-hazard-simulation"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "VFX Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Public Domain (NIST-developed code; review bundled components)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NOAA-NOMADS-GFS-001",
+      "name": "NOAA NOMADS GFS",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://nomads.ncep.noaa.gov/",
+        "normalized_key": "https://nomads.ncep.noaa.gov/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "forecast-grid-data",
+        "weather-reconstruction",
+        "grib-ingestion"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "DATA_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-NVIDIA-AUDIO-FLAMINGO-001",
@@ -11133,6 +11614,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OPEN-METEO-APIS-001",
+      "name": "Open-Meteo APIs",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://open-meteo.com/en/docs/",
+        "normalized_key": "https://open-meteo.com/en/docs/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "historical-weather",
+        "forecast-api",
+        "provider-adapter"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "COMMERCIAL_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPEN-PHOTO-AI-001",
       "name": "Open Photo AI",
       "source": {
@@ -11775,6 +12315,66 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-OPENFOAM-001",
+      "name": "OpenFOAM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenFOAM/OpenFOAM-dev",
+        "normalized_key": "github:openfoam/openfoam-dev"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "wind-cfd",
+        "fluid-flow",
+        "building-airflow-research"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENIMAGEIO-001",
       "name": "OpenImageIO",
       "source": {
@@ -12000,6 +12600,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OPENSEES-001",
+      "name": "OpenSees",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenSees/OpenSees",
+        "normalized_key": "github:opensees/opensees"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "structural-earthquake-response",
+        "building-wind-load",
+        "post-event-structural-reference"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENTOONZ-001",
       "name": "OpenToonz",
       "source": {
@@ -12065,6 +12725,67 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVDB-001",
+      "name": "OpenVDB",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/openvdb",
+        "normalized_key": "github:academysoftwarefoundation/openvdb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "sparse-volume",
+        "smoke-fire-fog",
+        "cpu-volume-interchange"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "VFX Studio",
+        "World & Environment Studio",
+        "3D Fabric"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENVIKING-001",
@@ -13001,6 +13722,7 @@
     {
       "status": "CANDIDATE",
       "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
         "pixar-github-org-curation-2026-09-28"
       ],
       "first_seen": "2026-09-28",
@@ -13030,13 +13752,14 @@
         "STANDARD_IMPLEMENTATION"
       ],
       "capability_hints": [
-        "usd-scene-composition",
-        "usd-layering",
-        "usd-asset-resolution",
-        "usd-time-sampled-animation",
         "hydra-render-delegates",
+        "layered-environment-scene-interchange",
         "storm-raster-preview",
-        "usd-schema-interchange"
+        "usd-asset-resolution",
+        "usd-layering",
+        "usd-scene-composition",
+        "usd-schema-interchange",
+        "usd-time-sampled-animation"
       ],
       "domain_hints": [
         "3d",
@@ -13049,21 +13772,23 @@
       "target_hints": [
         "3D Fabric",
         "Asset Graph",
-        "Creative Studio",
         "Bforartists/Blender integration",
+        "Creative Studio",
         "FA3 Video Editor",
-        "World Generator",
+        "Realtime / Virtual Production Interchange",
         "VFX/Gaffer",
-        "Realtime / Virtual Production Interchange"
+        "World & Environment Studio",
+        "World Generator"
       ],
       "tags": [
-        "pixar-github",
-        "openusd",
-        "usd",
+        "cross-scale-environment",
         "hydra",
-        "storm",
+        "openusd",
+        "pixar-github",
         "render-delegates",
-        "scene-interchange"
+        "scene-interchange",
+        "storm",
+        "usd"
       ],
       "license": {
         "declared": "Tomorrow Open Source Technology License 1.0",
@@ -16319,6 +17044,125 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-US-EPA-SWMM-001",
+      "name": "US EPA SWMM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/USEPA/Stormwater-Management-Model",
+        "normalized_key": "github:usepa/stormwater-management-model"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "stormwater-runoff",
+        "urban-drainage",
+        "rain-to-flood-cascade"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Public Domain (EPA solver)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-USGS-EARTHQUAKE-API-001",
+      "name": "USGS Earthquake API",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://earthquake.usgs.gov/fdsnws/event/1/",
+        "normalized_key": "https://earthquake.usgs.gov/fdsnws/event/1/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "historical-earthquake-events",
+        "geojson-seismic-ingestion",
+        "event-provenance"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "DATA_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-VANE-001",
