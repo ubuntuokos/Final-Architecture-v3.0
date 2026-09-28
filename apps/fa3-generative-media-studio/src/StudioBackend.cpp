@@ -107,6 +107,7 @@ bool StudioBackend::compileRequest(
         {QStringLiteral("request_id"), requestId},
         {QStringLiteral("created_at"), QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)},
         {QStringLiteral("application_id"), QStringLiteral("FA3-GENERATIVE-MEDIA-STUDIO-001")},
+        {QStringLiteral("uaf_action"), QStringLiteral("media.generate.execute")},
         {QStringLiteral("capability"), capability},
         {QStringLiteral("intent"), intent},
         {QStringLiteral("route"), QJsonObject{
