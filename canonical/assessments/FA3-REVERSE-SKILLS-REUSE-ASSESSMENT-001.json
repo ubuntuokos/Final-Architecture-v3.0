@@ -8,7 +8,8 @@
     "CAP-035",
     "CAP-080",
     "CAP-175",
-    "FA3-SKILL-FABRIC-001"
+    "FA3-SKILL-FABRIC-001",
+    "FA3-BINARY-ANALYSIS-001"
   ],
   "project_status": "CANONICAL_FOUNDATION_MATERIALIZED_RUNTIME_PROVIDERS_PENDING",
   "result": "PASS",
@@ -150,5 +151,26 @@
   "global_promotion_claim": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [
+        "OPEN_STANDARD_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "rationale": "Reviewed as required. The current foundation defines generic software/binary analysis contracts and does not require a Khronos runtime/interchange provider. Future SPIR-V, Vulkan, OpenCL, glTF, KTX, OpenXR or other Khronos-specific binary/profile analysis must resolve through the existing Khronos source family rather than duplicate it.",
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ]
 }
