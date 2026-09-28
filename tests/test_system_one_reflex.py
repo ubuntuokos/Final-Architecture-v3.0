@@ -10,6 +10,7 @@ from fa3_system_one_reflex import (
     SystemOneReflexRuntime,
     SystemOneSpecError,
     compile_system_one_step,
+    evaluate_system_one_answers,
 )
 
 
@@ -167,6 +168,95 @@ class SystemOneReflexTests(unittest.TestCase):
         )
         self.assertEqual(step["status"], "HANDOFF")
         self.assertEqual(step["handoff"]["reason"], "finish_not_confident")
+
+    @staticmethod
+    def _bounded_request(parameters=None):
+        return DecisionRequest.from_dict({
+            "contract": "BOUNDED_ACTION",
+            "purpose": "strict probability gate negative proof",
+            "candidates": [action("inspect", risk="read", parameters=parameters)],
+            "constraints": {},
+            "policy_context": {},
+            "evidence_refs": [],
+            "state": {"bounded": True},
+            "failure_policy": "NO_DECISION",
+            "rollout": "ACTIVE",
+            "final_policy_owner": "TEST",
+        })
+
+    @staticmethod
+    def _next_answer(compiled, selected=0.99):
+        return {
+            "type": "choice",
+            "choice": "inspect",
+            "probabilities": {
+                key: (selected if key == "inspect" else 0.0)
+                for key in compiled.questions["next_action"]["criteria"]
+            },
+            "confidence": selected,
+        }
+
+    def test_nonfinite_confidence_and_incomplete_distributions_fail_closed(self):
+        request = self._bounded_request()
+        compiled = compile_system_one_step(request)
+        for value in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(value=str(value)):
+                with self.assertRaises(SystemOneSpecError):
+                    evaluate_system_one_answers(
+                        request, compiled, {
+                            "next_action": self._next_answer(compiled, value),
+                        },
+                    )
+        with self.assertRaises(SystemOneSpecError):
+            evaluate_system_one_answers(
+                request, compiled, {
+                    "next_action": {
+                        "type": "choice",
+                        "choice": "inspect",
+                        "probabilities": {"inspect": 0.99},
+                        "confidence": 0.99,
+                    },
+                },
+            )
+
+    def test_missing_required_boolean_answer_cannot_gain_confidence(self):
+        request = self._bounded_request({"flag": {"kind": "flag"}})
+        compiled = compile_system_one_step(request)
+        with self.assertRaises(SystemOneSpecError):
+            evaluate_system_one_answers(
+                request, compiled, {"next_action": self._next_answer(compiled)},
+            )
+
+    def test_missing_optional_presence_judgment_cannot_silently_default(self):
+        request = self._bounded_request({
+            "record": {
+                "kind": "choices",
+                "choices": ["one", "two"],
+                "optional": True,
+                "default": "one",
+            },
+        })
+        compiled = compile_system_one_step(request)
+        with self.assertRaises(SystemOneSpecError):
+            evaluate_system_one_answers(
+                request, compiled, {"next_action": self._next_answer(compiled)},
+            )
+        accepted = evaluate_system_one_answers(
+            request, compiled, {
+                "next_action": self._next_answer(compiled),
+                "inspect__record__stated": {"type": "noul", "noul": 0.01},
+            },
+        )
+        self.assertEqual(accepted.status, "DECIDED")
+        self.assertEqual(accepted.value["parameters"], {"record": "one"})
+
+    def test_missing_model_router_receipt_authority_fails_closed(self):
+        provider = SystemOneDecisionProvider(
+            explicitly_enabled=True,
+            router_transport=lambda _: {"answers": {}, "_fa3_routing": {}},
+        )
+        with self.assertRaisesRegex(ValueError, "routing authority mismatch"):
+            provider.decide(self._bounded_request())
 
     def test_cpu_only_environment_has_no_accelerator_dependency(self):
         old = {k: os.environ.get(k) for k in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK")}
