@@ -4,11 +4,13 @@ on:
     paths:
       - 'src/fa3_display_gpu_admission.py'
       - 'src/fa3_hrb_composite_lease.py'
+      - 'src/fa3_hrb_lease_lifecycle.py'
       - 'src/fa3_hardware_portability_gate.py'
       - 'canonical/contracts/FA3-DISPLAY-GPU-ADMISSION-001.json'
       - 'canonical/decisions/FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28.json'
       - 'canonical/profiles/FA3-HW-MGPU-001.json'
       - 'tests/test_display_gpu_admission.py'
+      - 'tests/test_hrb_lease_lifecycle.py'
       - '.github/workflows/fa3-display-gpu-admission.yml'
   workflow_dispatch:
 jobs:
@@ -25,3 +27,5 @@ jobs:
         run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_resource_admission_policy.py' -v
       - name: Hardware portability regression
         run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_hardware_portability_gate.py' -v
+      - name: Existing and new HRB lease lifecycle regression
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_hrb_lease_lifecycle.py' -v
