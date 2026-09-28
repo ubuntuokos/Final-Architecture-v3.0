@@ -9,6 +9,7 @@
     "Applications must reach Strata only through FA3-AUTH-MODEL-ROUTER-001 and its governed data plane.",
     "All accelerator, CPU, NUMA memory and storage placement remains owned by FA3-AUTH-HOST-RESOURCE-BROKER-001 and existing storage governance.",
     "The reusable architectural result is FA3-TIERED-MOE-EXECUTION-CONTRACTS-001, which is provider and vendor neutral.",
+    "Tiered MoE placement is a non-authoritative child projection of a validated HRB admission receipt and broker-validated placement grant; it may never admit, reserve, lease, discover or expand resources.",
     "No original Strata source code may be copied while the pinned upstream snapshot lacks an explicit verified reuse license.",
     "The clean-room FA3 placement planner may implement the documented concepts independently.",
     "Runtime/current-host promotion remains pending physical execution evidence and immutable provider/runtime identity."
