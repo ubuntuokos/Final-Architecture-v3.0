@@ -40,5 +40,18 @@
     "held_out_validation_required": true,
     "security_reinspection_required": true,
     "new_skill_package_admission_required": true
+  },
+  "runtime_byte_verification": {
+    "exact_opened_bytes_match_admitted_digest": true,
+    "independently_verified_issuer_receipts_required": true,
+    "task_bound_activation_lease_required": true,
+    "single_entrypoint_until_full_manifest_verifier": true,
+    "no_remote_fetch_or_skill_execution": true,
+    "ephemeral_buffer_cleanup_required": true,
+    "runtime_source": "src/fa3_skill_activation.py",
+    "evidence_scope": "REFERENCE_RUNTIME_ONLY_NOT_CURRENT_HOST_PROMOTION",
+    "code_execution_authority": false,
+    "admission_authority": false,
+    "evidence_authority": false
   }
 }
