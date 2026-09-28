@@ -1,0 +1,82 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-OSINT-CASE-APPLICATION-INTENT-001",
+  "project_id": "FA3-OSINT-CASE-INTERCHANGE-001",
+  "project_type": "DERIVED_IMPLEMENTATION",
+  "goal": "Materialize typed case-bound investigation request, per-tool admission precheck and evidence payload projections for existing CAP-053/CAP-054 without self-authorizing any provider or live person lookup.",
+  "required_capabilities": [
+    "CAP-053",
+    "CAP-054"
+  ],
+  "optional_capabilities": [
+    "CAP-035",
+    "CAP-051",
+    "CAP-103"
+  ],
+  "problem_classes": [
+    "osint",
+    "case-bound",
+    "scope",
+    "purpose",
+    "privacy",
+    "evidence-provenance",
+    "provider-admission"
+  ],
+  "input_modalities": [
+    "JSON",
+    "BYTES"
+  ],
+  "output_modalities": [
+    "JSON",
+    "EVIDENCE_PAYLOAD_PROJECTION"
+  ],
+  "execution_classes": [
+    "CPU_ONLY"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "SECURITY_RECEIPT_CRYPTO_VERIFICATION_BY_EXISTING_AUTHORITY",
+    "APPROVED_DOWNSTREAM_PROVIDER_IMPLEMENTATION",
+    "NETWORK_EGRESS_AND_SECRETS_ADMISSION",
+    "REAL_CURRENT_HOST_EXECUTION_EVIDENCE",
+    "DOWNSTREAM_APP_UI_BINDINGS"
+  ],
+  "security_requirements": [
+    "CASE_BOUND_PURPOSE_AND_SCOPE",
+    "EXPLICIT_TARGET_ALLOWLIST",
+    "NO_PUBLIC_AGGREGATE_PERSON_LOOKUP",
+    "PERSON_LOOKUP_REQUIRES_INDEPENDENT_AUTHORIZATION_AND_HUMAN_APPROVAL",
+    "NO_EXECUTION_FROM_STATIC_PREFLIGHT",
+    "NO_AUTOMATIC_PROVIDER_ADMISSION",
+    "EVIDENCE_AUTHORITY_REQUIRED"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-EVIDENCE-ENVELOPE-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-osint-case",
+    "service_prefix": "fa3-osint-case",
+    "config_root": "$XDG_CONFIG_HOME/fa3/osint-case",
+    "cache_root": "$XDG_CACHE_HOME/fa3/osint-case",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/osint-case",
+    "socket_namespace": "fa3/osint-case",
+    "data_root": "$XDG_DATA_HOME/fa3/osint-case",
+    "desktop_prefix": "org.fa3.osint.case",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  }
+}
