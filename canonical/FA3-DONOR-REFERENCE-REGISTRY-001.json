@@ -6938,7 +6938,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Upstream Intel OSPRay beta GPU path uses oneAPI DPC++/SYCL; not portable proof for NVIDIA/AMD paths, not a mandatory FA3 compiler."
+        "Upstream Intel OSPRay beta GPU path uses oneAPI DPC++/SYCL; not portable proof for NVIDIA/AMD paths, not a mandatory FA3 compiler.",
+        "Intel DPC++/SYCL is OPTIONAL for the OSPRay upstream beta GPU path. Neither the Intel compiler nor GPU driver is a mandatory FA3 requirement."
       ]
     },
     {
@@ -7355,7 +7356,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "OSPRay Intel Xe GPU implementation (upstream beta) uses SYCL; SYCL spec is a standard reference, not automatically FA3 GPU support or an OSPRay dependency."
+        "OSPRay Intel Xe GPU implementation (upstream beta) uses SYCL; SYCL spec is a standard reference, not automatically FA3 GPU support or an OSPRay dependency.",
+        "SYCL is an OPTIONAL standard reference for the OSPRay upstream beta Intel Xe GPU path. Its use does not admit any GPU device into FA3."
       ]
     },
     {
