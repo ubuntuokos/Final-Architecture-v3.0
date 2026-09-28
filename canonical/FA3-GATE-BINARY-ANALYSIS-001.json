@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-BINARY-ANALYSIS-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-BINARY-ANALYSIS-GATESET-001",
+  "entrypoint": "src/fa3_binary_analysis_gate.py::gate",
+  "capability_binding": "CAP-080",
+  "covered_capabilities": [
+    "CAP-035",
+    "CAP-080",
+    "CAP-175"
+  ],
+  "fail_closed": true,
+  "static_pass_promotes_runtime": false,
+  "tests": [
+    "tests/test_binary_analysis_gate.py"
+  ],
+  "required_boundaries": [
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "CAP-175"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  }
+}

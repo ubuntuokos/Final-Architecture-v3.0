@@ -1,0 +1,38 @@
+name: FA3 Binary Analysis foundation gate
+on:
+  pull_request:
+    paths:
+      - 'canonical/**BINARY-ANALYSIS**'
+      - 'canonical/**REVERSE-SKILLS**'
+      - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_binary_analysis_gate.py'
+      - 'src/fa3_enforce.py'
+      - 'tests/test_binary_analysis_gate.py'
+      - '.github/workflows/fa3-binary-analysis.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**BINARY-ANALYSIS**'
+      - 'canonical/**REVERSE-SKILLS**'
+      - 'canonical/FA3-EXTERNAL-SKILL-RADAR-001.json'
+      - 'src/fa3_binary_analysis_gate.py'
+      - 'tests/test_binary_analysis_gate.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile src/fa3_binary_analysis_gate.py tests/test_binary_analysis_gate.py
+      - run: PYTHONPATH=src python src/fa3_binary_analysis_gate.py --root .
+      - run: python -m unittest tests.test_binary_analysis_gate -v
+      - run: ./bin/fa3-enforce skill-fabric
+      - run: ./bin/fa3-enforce reuse-discovery
