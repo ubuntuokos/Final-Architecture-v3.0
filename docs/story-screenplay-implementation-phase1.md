@@ -1,8 +1,8 @@
 # FA3 Story/Screenplay — native implementation, phase 1
 
-**PR:** [#520](https://github.com/ubuntuokos/Final-Architecture-v3.0/pull/520)  
-**Contract:** `canonical/contracts/FA3-STORY-SCREENPLAY-IMPLEMENTATION-CONTRACTS-001.json`  
-**Existing application:** `fa3.story-screenplay` (declared in `FA3-APPLICATION-DONOR-LINKS-001`, not a new separate donor editor)  
+**PR:** [#520](https://github.com/ubuntuokos/Final-Architecture-v3.0/pull/520)
+**Contract:** `canonical/contracts/FA3-STORY-SCREENPLAY-IMPLEMENTATION-CONTRACTS-001.json`
+**Existing application:** `fa3.story-screenplay` (declared in `FA3-APPLICATION-DONOR-LINKS-001`, not a new separate donor editor)
 **State:** deterministic source-code foundation and reference tests. Real current-host application execution, GUI physical testing, production admission and full original plan remain pending.
 
 ## Implemented and locally testable
