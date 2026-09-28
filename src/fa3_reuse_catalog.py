@@ -311,6 +311,59 @@ def build_catalog(root: Path) -> dict[str, Any]:
                     "automatic_activation": False,
                 })
 
+        elif source.endswith("FA3-DONOR-REFERENCE-REGISTRY-001.json"):
+            for row in obj.get("entries", []):
+                if not isinstance(row, dict) or not row.get("donor_id"):
+                    continue
+                status = str(row.get("status", "CANDIDATE"))
+                if status in {"REJECTED", "SUPERSEDED"} or row.get("discoverable_for_planning") is not True:
+                    continue
+                source_meta = row.get("source", {}) if isinstance(row.get("source"), dict) else {}
+                license_meta = row.get("license", {}) if isinstance(row.get("license"), dict) else {}
+                hints = list(row.get("capability_hints", [])) if isinstance(row.get("capability_hints"), list) else []
+                canonical_caps = [str(x) for x in hints if isinstance(x, str) and re.fullmatch(r"CAP-[0-9]+", x)]
+                add({
+                    "candidate_id": str(row["donor_id"]),
+                    "candidate_class": "DONOR_REFERENCE",
+                    "source_path": source,
+                    "status": status,
+                    "authority": False,
+                    "capabilities": sorted(set(canonical_caps)),
+                    "tokens": _expanded_tokens({
+                        "name": row.get("name"),
+                        "source": source_meta,
+                        "donor_modes": row.get("donor_modes", []),
+                        "capability_hints": hints,
+                        "domain_hints": row.get("domain_hints", []),
+                        "problem_hints": row.get("problem_hints", []),
+                        "target_hints": row.get("target_hints", []),
+                        "tags": row.get("tags", []),
+                        "notes": row.get("notes", []),
+                    }),
+                    "distribution_class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                    "license": license_meta.get("declared"),
+                    "donor_name": row.get("name"),
+                    "source_kind": source_meta.get("kind"),
+                    "source_locator": source_meta.get("locator"),
+                    "source_normalized_key": source_meta.get("normalized_key"),
+                    "donor_modes": list(row.get("donor_modes", [])) if isinstance(row.get("donor_modes"), list) else [],
+                    "capability_hints": hints,
+                    "domain_hints": list(row.get("domain_hints", [])) if isinstance(row.get("domain_hints"), list) else [],
+                    "problem_hints": list(row.get("problem_hints", [])) if isinstance(row.get("problem_hints"), list) else [],
+                    "target_hints": list(row.get("target_hints", [])) if isinstance(row.get("target_hints"), list) else [],
+                    "code_reuse_policy": row.get("code_reuse_policy"),
+                    "discoverable_for_planning": True,
+                    "automatic_selection": False,
+                    "automatic_fetch": False,
+                    "automatic_install": False,
+                    "automatic_activation": False,
+                    "automatic_dependency": False,
+                    "automatic_code_import": False,
+                    "automatic_provider_admission": False,
+                    "automatic_model_selection": False,
+                })
+
     entries.sort(key=lambda row: (row["candidate_class"], row["candidate_id"], row["source_path"]))
     return {
         "schema": "fa3.reuse-catalog.snapshot.v1",
