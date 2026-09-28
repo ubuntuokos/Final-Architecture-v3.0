@@ -1,0 +1,50 @@
+name: FA3 OSINT Arsenal Offline Catalog
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "research/external-project-radar/osint/awesome-osint-arsenal/**"
+      - "src/fa3_osint_arsenal_catalog.py"
+      - "bin/fa3-osint-arsenal-import"
+      - "tests/test_osint_arsenal_catalog.py"
+      - "canonical/intents/FA3-OSINT-ARSENAL-CATALOG-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-OSINT-ARSENAL-CATALOG-REUSE-ASSESSMENT-001.json"
+      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+      - ".github/workflows/fa3-osint-arsenal-catalog.yml"
+  push:
+    branches: [main, "fa3/**"]
+    paths:
+      - "research/external-project-radar/osint/awesome-osint-arsenal/**"
+      - "src/fa3_osint_arsenal_catalog.py"
+      - "bin/fa3-osint-arsenal-import"
+      - "tests/test_osint_arsenal_catalog.py"
+      - ".github/workflows/fa3-osint-arsenal-catalog.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python and shell syntax
+        run: |
+          python -m py_compile src/fa3_osint_arsenal_catalog.py tests/test_osint_arsenal_catalog.py
+          bash -n bin/fa3-osint-arsenal-import
+      - name: Pinned source and negative tests
+        run: PYTHONPATH=src python -m unittest tests.test_osint_arsenal_catalog -v
+      - name: Offline source integrity and schema gate
+        run: bash bin/fa3-osint-arsenal-import --check --summary
+      - name: Reuse Discovery assessment
+        run: |
+          bash bin/fa3-reuse-assess --intent canonical/intents/FA3-OSINT-ARSENAL-CATALOG-APPLICATION-INTENT-001.json
+          ./bin/fa3-enforce reuse-discovery
+      - name: Vendor-neutral CPU-only hardware gate
+        run: ./bin/fa3-enforce hardware-portability
