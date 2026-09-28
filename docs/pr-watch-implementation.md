@@ -83,6 +83,7 @@ Run source regression tests:
 \`\`\`sh
 PYTHONPATH=src python3 -m unittest discover -s tests -p test_pr_watch.py -v
 PYTHONPATH=src python3 -m unittest discover -s tests -p test_pr_watch_receiver.py -v
+PYTHONPATH=src python3 -m unittest discover -s tests -p test_pr_watch_goal_bridge.py -v
 PYTHONPATH=src python3 -m unittest discover -s tests -p test_work_management_gate.py -v
 PYTHONPATH=src python3 -m unittest discover -s tests -p test_goal_execution_foundation.py -v
 \`\`\`
