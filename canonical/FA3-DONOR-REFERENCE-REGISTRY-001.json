@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 251,
+    "entry_count": 259,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -5166,6 +5166,75 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-FRIDA-FRIDA-001",
+      "name": "Frida",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/frida/frida",
+        "normalized_key": "github:frida/frida"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "dynamic-instrumentation",
+        "runtime-tracing",
+        "function-hooking"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Skill Fabric",
+        "Security Lab",
+        "Android Analysis Profile",
+        "iOS Analysis Profile"
+      ],
+      "tags": [
+        "frida",
+        "dynamic-instrumentation",
+        "runtime-observation",
+        "provider-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "NOASSERTION",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Runtime instrumentation provider candidate, never an agent authority. Host/process/device operations and privileged attachment require separate MCP/UAF/security authorization and isolated runtime admission.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-G-MIC-001",
       "name": "G'MIC",
       "source": {
@@ -6047,6 +6116,75 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-HEXRAYSSA-IDA-SDK-001",
+      "name": "IDA SDK / IDALib",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HexRaysSA/ida-sdk",
+        "normalized_key": "github:hexrayssa/ida-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SDK_REFERENCE"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "ida-provider-adapter",
+        "binary-static-analysis",
+        "decompiler-export-normalization"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Skill Fabric",
+        "Security Lab"
+      ],
+      "tags": [
+        "ida-sdk",
+        "idalib",
+        "idapython",
+        "static-analysis",
+        "sdk-reference",
+        "provider-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "MIT",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Vendor-specific SDK/API reference for an optional IDA/IDALib provider. SDK repository license does not grant an IDA Pro/IDALib product license. Never require this backend globally.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-HTCONDOR-001",
@@ -8560,6 +8698,76 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-NATIONALSECURITYAGENCY-GHIDRA-001",
+      "name": "Ghidra",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NationalSecurityAgency/ghidra",
+        "normalized_key": "github:nationalsecurityagency/ghidra"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "binary-static-analysis",
+        "function-disassembly",
+        "decompilation",
+        "symbol-recovery",
+        "structure-recovery"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Skill Fabric",
+        "Security Lab"
+      ],
+      "tags": [
+        "ghidra",
+        "static-analysis",
+        "decompiler",
+        "headless",
+        "provider-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "Apache-2.0",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Open static-analysis backend candidate; maintain a provider-neutral Binary Analysis IR and separate headless execution admission.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-NATRON-001",
       "name": "Natron",
       "source": {
@@ -10377,6 +10585,73 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-PERFARE-IL2CPPDUMPER-001",
+      "name": "Il2CppDumper",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Perfare/Il2CppDumper",
+        "normalized_key": "github:perfare/il2cppdumper"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "il2cpp-metadata-mapping",
+        "unity-native-symbol-mapping",
+        "type-structure-recovery"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Unity/IL2CPP Analysis Profile",
+        "3D Fabric"
+      ],
+      "tags": [
+        "il2cpp",
+        "unity-metadata",
+        "binary-analysis",
+        "domain-profile-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "MIT",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "IL2CPP metadata and native mapping pattern/reference. Preserve source/runtime license review and test on synthetic or otherwise authorized input.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PGBACKREST-001",
       "name": "pgBackRest",
       "source": {
@@ -11552,6 +11827,73 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-RADAREORG-RADARE2-001",
+      "name": "radare2",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/radareorg/radare2",
+        "normalized_key": "github:radareorg/radare2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "binary-static-analysis",
+        "cross-provider-corroboration",
+        "function-disassembly"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Skill Fabric",
+        "Security Lab"
+      ],
+      "tags": [
+        "radare2",
+        "static-analysis",
+        "binary-analysis",
+        "provider-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "NOASSERTION",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Separate static-analysis project from Rizin; version/license/component-specific admission required.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-RADIUM-001",
       "name": "Radium",
       "source": {
@@ -12214,6 +12556,73 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-RIZINORG-RIZIN-001",
+      "name": "Rizin",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/rizinorg/rizin",
+        "normalized_key": "github:rizinorg/rizin"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "binary-static-analysis",
+        "cross-provider-corroboration",
+        "function-disassembly"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Skill Fabric",
+        "Security Lab"
+      ],
+      "tags": [
+        "rizin",
+        "static-analysis",
+        "binary-analysis",
+        "provider-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "LGPL-3.0",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Independent open static-analysis backend and corroboration candidate; do not assume interchangeable CLI/API with radare2.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ROHITG00-AI-ENGINEERING-FROM-SCRATCH-001",
       "name": "rohitg00/ai-engineering-from-scratch",
       "source": {
@@ -12423,6 +12832,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SAMBOYCODING-CPP2IL-001",
+      "name": "Cpp2IL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/SamboyCoding/Cpp2IL",
+        "normalized_key": "github:samboycoding/cpp2il"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "il2cpp-metadata-mapping",
+        "cross-tool-il2cpp-corroboration",
+        "managed-native-interchange"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Unity/IL2CPP Analysis Profile",
+        "3D Fabric"
+      ],
+      "tags": [
+        "il2cpp",
+        "unity-metadata",
+        "managed-native-interchange",
+        "domain-profile-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "MIT",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Independent IL2CPP reference for cross-validation against Il2CppDumper; normalize output into provider-neutral IR, not an FA3 Unity runtime dependency.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-SEED-VC-001",
@@ -13671,6 +14147,74 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-UNICORN-ENGINE-UNICORN-001",
+      "name": "Unicorn Engine",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/unicorn-engine/unicorn",
+        "normalized_key": "github:unicorn-engine/unicorn"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "binary-analysis-provider-and-domain-profile-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-080"
+      ],
+      "domain_hints": [
+        "binary-analysis",
+        "reverse-engineering",
+        "security"
+      ],
+      "problem_hints": [
+        "function-scoped-emulation",
+        "instruction-tracing",
+        "controlled-guest-memory",
+        "external-call-simulation"
+      ],
+      "target_hints": [
+        "Binary & Software Analysis Fabric",
+        "Skill Fabric",
+        "Security Lab"
+      ],
+      "tags": [
+        "unicorn",
+        "function-emulation",
+        "cpu-only",
+        "provider-candidate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "upstream_license_observation": {
+        "source": "GitHub repository metadata",
+        "github_api_spdx": "GPL-2.0",
+        "review_status": "NOT_VERIFIED_FOR_FA3_CODE_OR_BINARY_REDISTRIBUTION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "CPU-only function-emulation provider candidate; enforce instruction/wallclock/memory budgets and default-deny guest-to-host syscall/network/filesystem passthrough. GitHub's reported SPDX is observation, not redistribution clearance.",
+        "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-UNLA-001",
