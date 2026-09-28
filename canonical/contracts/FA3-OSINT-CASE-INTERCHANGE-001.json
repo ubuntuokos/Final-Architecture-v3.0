@@ -1,0 +1,90 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-OSINT-CASE-INTERCHANGE-001",
+  "name": "Non-authoritative case-bound OSINT request and observation projection",
+  "status": "REFERENCE_CONTRACT_PENDING_DOWNSTREAM_PROVIDER_ADMISSION",
+  "capability_bindings": [
+    "CAP-053",
+    "CAP-054"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": false,
+  "request": {
+    "schema": "fa3.osint-investigation-request.v1",
+    "required": [
+      "case_id",
+      "purpose",
+      "scope_class",
+      "target_scope",
+      "data_classes",
+      "expires_at",
+      "security_policy_receipt_ref"
+    ],
+    "scope_classes": [
+      "OWNED_ASSET",
+      "AUTHORIZED_SUBJECT",
+      "PUBLIC_AGGREGATE"
+    ],
+    "authorized_subject_extra_required": [
+      "authorization_reference",
+      "human_approval_reference"
+    ],
+    "owned_asset_extra_required": [
+      "ownership_reference"
+    ],
+    "structural_preflight_is_authorization": false
+  },
+  "observation": {
+    "schema": "fa3.osint-investigation-observation.v1",
+    "required": [
+      "case_id",
+      "scope_class",
+      "source_tool_id",
+      "source_url",
+      "collected_at",
+      "original_artifact_sha256",
+      "extracted_fields",
+      "uncertainty"
+    ],
+    "canonical_evidence_contract": "FA3-EVIDENCE-ENVELOPE-001",
+    "original_artifact_immutable": true,
+    "ai_inference_separate": true,
+    "observation_projection_is_evidence_receipt": false
+  },
+  "candidate_admission": {
+    "schema": "fa3.osint-candidate-admission-precheck.v1",
+    "review_required": [
+      "independent_license_verified",
+      "upstream_source_pinned",
+      "supply_chain_review_pass",
+      "privacy_and_terms_review_pass",
+      "host_coexistence_review_pass",
+      "network_egress_review_pass"
+    ],
+    "all_true_is_admission": false,
+    "external_security_authentication_required": true,
+    "restricted_category_separate_admission": true
+  },
+  "reference_provider": {
+    "name": "soxoj/maigret",
+    "upstream_commit": "b6642744988e7e6c2d21f75db60ec3093019ba25",
+    "license": "MIT_REPOSITORY_ONLY",
+    "status": "NON_EXECUTABLE_REFERENCE_PLAN_NO_INSTALL_OR_NETWORK",
+    "profile": "CAP-053"
+  },
+  "authority_boundaries": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  }
+}
