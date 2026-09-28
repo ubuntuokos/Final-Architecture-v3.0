@@ -12,6 +12,8 @@ on:
       - 'canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json'
       - 'canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json'
       - 'src/fa3_tiered_moe_plan.py'
+      - 'src/fa3_strata_provider_adapter.py'
+      - 'tests/test_strata_provider_adapter.py'
       - 'src/fa3_strata_tiered_moe_gate.py'
       - 'tests/test_strata_tiered_moe.py'
       - '.github/workflows/fa3-strata-tiered-moe.yml'
@@ -27,6 +29,8 @@ on:
       - 'canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json'
       - 'canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json'
       - 'src/fa3_tiered_moe_plan.py'
+      - 'src/fa3_strata_provider_adapter.py'
+      - 'tests/test_strata_provider_adapter.py'
       - 'src/fa3_strata_tiered_moe_gate.py'
       - 'tests/test_strata_tiered_moe.py'
       - '.github/workflows/fa3-strata-tiered-moe.yml'
@@ -47,3 +51,7 @@ jobs:
         run: python3 src/fa3_strata_tiered_moe_gate.py
       - name: Tiered MoE planner regression tests
         run: python3 -m unittest tests.test_strata_tiered_moe -v
+      - name: Strata provider adapter regression tests
+        run: python3 -m unittest tests.test_strata_provider_adapter -v
+      - name: Strata provider adapter self-test
+        run: python3 src/fa3_strata_provider_adapter.py --self-test
