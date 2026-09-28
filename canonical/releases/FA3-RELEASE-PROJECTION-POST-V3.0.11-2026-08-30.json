@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1a95a3fc2412e9841f2bd972602d175915aee9b0",
-    "pre_projection_root_tree_sha": "fe54e90b395ac4a55715d26219527951a08ded62",
-    "pre_projection_canonical_tree_sha": "db80f1b43e126db64bed6552de1f642f06ccb82c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1549,
-    "total_post_baseline_commits": 1549,
-    "delta_file_count": 2476,
-    "delta_added_files": 2470,
+    "pre_projection_head_sha": "03a6a73080dac1c5be1d2a7370577e6667dafa68",
+    "pre_projection_root_tree_sha": "73f5bef88ad688714f15debed259ebdb5a4d192c",
+    "pre_projection_canonical_tree_sha": "ff5b9daf27e101235ecb5eee6b92d06e035c3b88",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1570,
+    "total_post_baseline_commits": 1570,
+    "delta_file_count": 2485,
+    "delta_added_files": 2479,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1195,
+    "canonical_files_in_post_baseline_delta": 1198,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 338,
-    "test_files_in_post_baseline_delta": 273,
-    "workflow_files_in_post_baseline_delta": 120,
+    "source_files_in_post_baseline_delta": 340,
+    "test_files_in_post_baseline_delta": 274,
+    "workflow_files_in_post_baseline_delta": 121,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -80,6 +80,7 @@
       "canonical/providers/FA3-PROVIDER-DECISION-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-DECISION-RULES-001.json",
       "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
+      "canonical/providers/FA3-PROVIDER-DEJA-VU-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
@@ -1012,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2466,
+  "manifest_entry_count": 2475,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1022,6 +1023,11 @@
     {
       "path": ".github/workflows/AGENTS.md",
       "git_blob_sha": "40f643f01a90208da3c96fc668a0871cf54f1f11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/deja-vu-scoped-recall.yml",
+      "git_blob_sha": "38671689222e5910a486f18b9a7e77d5bea77ef5",
       "baseline_delta_status": "added"
     },
     {
@@ -1721,7 +1727,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/KnowledgePage.qml",
-      "git_blob_sha": "e220e157838f899cf97caf375c8a3fda22825e4e",
+      "git_blob_sha": "a24c9439823c489fedc9e98803d1e86f32f4ce26",
       "baseline_delta_status": "added"
     },
     {
@@ -2067,6 +2073,11 @@
     {
       "path": "bin/fa3-decision-current-host",
       "git_blob_sha": "0d13c0b5ce3a4814f6c792e2fa4859996e34a3d9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-deja-vu-gate",
+      "git_blob_sha": "8a7681fac6ff2ec246baf1914911f0361b927691",
       "baseline_delta_status": "added"
     },
     {
@@ -2626,7 +2637,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "4a95ea0c2a3f3a2a60e53630c354aec7905adcdd",
+      "git_blob_sha": "e0cde112f2afa206e1cf5f761d8e1bdf144564e3",
       "baseline_delta_status": "added"
     },
     {
@@ -3992,6 +4003,11 @@
     {
       "path": "canonical/assessments/FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "ecf8232924a4ff66051df682c2c24aaceb544e73",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-DEJA-VU-RECALL-2026-09-28.json",
+      "git_blob_sha": "b4d2f4fc79ff695b5d919581272e627353c3f641",
       "baseline_delta_status": "added"
     },
     {
@@ -5910,6 +5926,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deja-vu-recall-enforcement.json",
+      "git_blob_sha": "6372f49106b1dd4d3b5096af383fed65ab7dd2f0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/demucs-enforcement.json",
       "git_blob_sha": "15141596a26529193198f52297b50fd4674068c3",
       "baseline_delta_status": "added"
@@ -5926,12 +5947,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "27a2ce8a99d1775f67e69305717fa518ce7ca2e7",
+      "git_blob_sha": "5c944b16a97098e6b2b0c30ad2d74d8cf93fae94",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "1e9d7820ccbd357f0786a96c15f22b5b9b41ff29",
+      "git_blob_sha": "ef932522881d36857ec9dba561e5ea8c2b39629d",
       "baseline_delta_status": "added"
     },
     {
@@ -6311,7 +6332,7 @@
     },
     {
       "path": "canonical/mcp-capability-registry.json",
-      "git_blob_sha": "e56c23057f82889dc8c6ef1429f94d6dccb51464",
+      "git_blob_sha": "c7a69104e444998663305b2a273253d0f73edc3e",
       "baseline_delta_status": "added"
     },
     {
@@ -7162,6 +7183,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "git_blob_sha": "93a471dff63c2e04adf904a5ad24cf107530c9f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-DEJA-VU-001.json",
+      "git_blob_sha": "59f7c61d8f0fa551aeeeb8e09f5cb5834e3903dc",
       "baseline_delta_status": "added"
     },
     {
@@ -8837,6 +8863,11 @@
     {
       "path": "docs/decision-fabric.md",
       "git_blob_sha": "07822aa7cfdc3b167b9880b6c72de1b56b750062",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/deja-vu-scoped-session-recall.md",
+      "git_blob_sha": "1c30b1c49ab15935ed5f98f946e42370515cf6f0",
       "baseline_delta_status": "added"
     },
     {
@@ -10670,6 +10701,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_deja_vu_gate.py",
+      "git_blob_sha": "97e42c5e96d0c16a9cb55527b7e94a2c17ca95c6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_deja_vu_recall.py",
+      "git_blob_sha": "3e2b594fd76420eab932832ef799fb91900aae99",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_demucs_current_host_gate.py",
       "git_blob_sha": "d0e133118e6a663c0440a1103643be8eb1c4bcf1",
       "baseline_delta_status": "added"
@@ -12327,6 +12368,11 @@
     {
       "path": "tests/test_external_rt3d_engine_exclusion_gate.py",
       "git_blob_sha": "68ae710f6d9e4bda2204576db5a5ff5412c5e88a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_fa3_deja_vu_recall.py",
+      "git_blob_sha": "a1290cfc301730211bcbbfeeb2bdc9010bed4551",
       "baseline_delta_status": "added"
     },
     {
@@ -15054,7 +15100,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 306,
+    "donor_registry_entry_count": 307,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
