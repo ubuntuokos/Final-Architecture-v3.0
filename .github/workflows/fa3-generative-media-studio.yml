@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'apps/fa3-generative-media-studio/**'
+      - 'canonical/actions/media.generate.execute.json'
       - 'canonical/contracts/FA3-GENERATIVE-MEDIA-STUDIO-**'
       - 'canonical/profiles/FA3-GENERATIVE-MEDIA-STUDIO-001.json'
       - 'canonical/decisions/FA3-DEC-GENERATIVE-MEDIA-STUDIO-2026-09-28.json'
@@ -43,6 +44,8 @@ jobs:
         run: ./bin/fa3-enforce generative-media-studio
       - name: Gate Registry mirror
         run: ./bin/fa3-enforce gate-registry
+      - name: Global static enforcement
+        run: ./bin/fa3-enforce static
 
   qt6-build:
     runs-on: ubuntu-latest
