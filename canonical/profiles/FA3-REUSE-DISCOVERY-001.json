@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-REUSE-DISCOVERY-001",
   "name": "Capability, Contract, Pattern & Implementation Reuse Discovery Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -40,11 +40,13 @@
     "FA3-SKILL-REGISTRY-001",
     "FA3-EXTERNAL-SKILL-RADAR-001",
     "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
-    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
   ],
   "lifecycle": [
     "INTENT",
     "DISCOVER",
+    "DISCOVER_DONOR_REFERENCE_REGISTRY",
     "DISCOVER_OPEN_STANDARD_SOURCES",
     "DISCOVER_SKILLS_AND_EXTERNAL_SKILL_SOURCES",
     "FILTER",
@@ -108,6 +110,19 @@
       "INTERCHANGE_STANDARD_SOURCE",
       "DESIGN_PATTERN_INSTRUCTION_SOURCE"
     ],
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false
+  },
+  "donor_reference_binding": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "review_required_for_every_new_or_materially_modified_application_capability_or_module": true,
+    "potential_donor_signal_requires_capture": true,
+    "default_capture_state": "CANDIDATE",
+    "candidate_is_admission": false,
+    "candidate_is_dependency": false,
+    "code_import_requires_separate_license_security_and_admission_review": true,
+    "future_application_matching": true,
     "authority": false,
     "automatic_selection": false,
     "automatic_activation": false

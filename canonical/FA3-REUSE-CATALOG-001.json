@@ -23,7 +23,8 @@
     "canonical/skill-registry.json",
     "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json",
     "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
-    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
   ],
   "classes": [
     "CAPABILITY",
@@ -41,7 +42,8 @@
     "SKILL",
     "EXTERNAL_SKILL_SOURCE",
     "OPEN_STANDARD_ADAPTER",
-    "OPEN_STANDARD_FABRIC_BINDING"
+    "OPEN_STANDARD_FABRIC_BINDING",
+    "DONOR_REFERENCE"
   ],
   "deterministic_filters": [
     "EXACT_CAPABILITY_MATCH",
@@ -55,7 +57,10 @@
     "SKILL_ADMISSION_STATUS_FILTER",
     "EXTERNAL_SKILL_SOURCE_REFERENCE_ONLY_FILTER",
     "MANDATORY_SOURCE_FAMILY_REVIEW",
-    "OPEN_STANDARD_SOURCE_MATCH"
+    "OPEN_STANDARD_SOURCE_MATCH",
+    "DONOR_CAPABILITY_DOMAIN_TARGET_MATCH",
+    "DONOR_REJECTED_SUPERSEDED_EXCLUSION",
+    "DONOR_REFERENCE_NON_AUTHORITY_FILTER"
   ],
   "decision_fabric_post_filter_ranking_only": true,
   "candidate_set_expansion_by_semantic_provider": false,
@@ -93,5 +98,17 @@
       "authority": false,
       "automatic_selection": false
     }
-  ]
+  ],
+  "donor_registry_binding": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "query_required_before_new_implementation": true,
+    "candidate_capture_is_admission": false,
+    "rejected_or_superseded_not_discoverable": true,
+    "automatic_dependency": false,
+    "automatic_code_import": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "automatic_activation": false,
+    "authority": false
+  }
 }
