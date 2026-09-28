@@ -29,7 +29,7 @@ def verify_fixture(repo:Path,base:str,head:str,event_digest:str)->dict:
             changed=git("diff","--name-only",base,head).splitlines()
             if len(changed)!=len(EXPECTED) or set(changed)!=set(EXPECTED):
                 failures.append("PATH_SCOPE_DRIFT")
-            if git("show","-s","--format=%s",head)!="FA3 integrated agent changes":
+            if git("show","-s","--format=%s",head)!="FA3 reference multi-agent integration":
                 failures.append("UNTRUSTED_INTEGRATION_AUTHORSHIP")
             for path,expected in EXPECTED.items():
                 target=Path(repo)/path
