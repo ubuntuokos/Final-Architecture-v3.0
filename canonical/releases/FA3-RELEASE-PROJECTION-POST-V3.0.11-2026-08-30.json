@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c4671e1792fa771274a6defaa7a5c51567caada1",
-    "pre_projection_root_tree_sha": "35794dd45964800a0c2ef2431db1608fa3bcf24f",
-    "pre_projection_canonical_tree_sha": "03bce38735a5dd08c84140c6adaa960aa032a436",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1582,
-    "total_post_baseline_commits": 1582,
-    "delta_file_count": 2490,
-    "delta_added_files": 2484,
+    "pre_projection_head_sha": "78f9b4dc3cf2950ff26f66390d6aec43314795d6",
+    "pre_projection_root_tree_sha": "c4d17c0b5da87f54dae30f9631e03335d9b7ae39",
+    "pre_projection_canonical_tree_sha": "29e1c17e1e5ff31dde5b560a5315dd0faf3279c7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1593,
+    "total_post_baseline_commits": 1593,
+    "delta_file_count": 2494,
+    "delta_added_files": 2488,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -1013,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2480,
+  "manifest_entry_count": 2484,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1657,7 +1657,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9189f4cb09926a801d07ec4cec083e4fc2c05119",
+      "git_blob_sha": "549514fc996b83723f723074514a41a0067d6c1b",
       "baseline_delta_status": "added"
     },
     {
@@ -1693,6 +1693,11 @@
     {
       "path": "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
       "git_blob_sha": "66331e4340b5a88a2c2f89284f7cb71331a8e3b6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/CoachFloatingWindow.qml",
+      "git_blob_sha": "77f0bbb59551392599e11115fdd497d027bcf042",
       "baseline_delta_status": "added"
     },
     {
@@ -1752,7 +1757,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "cf71b67aec5a48dd8499da626eb2ecb6af017857",
+      "git_blob_sha": "372ce21f7132979c1b32b348e30a61ee532f0e25",
       "baseline_delta_status": "added"
     },
     {
@@ -1848,6 +1853,16 @@
     {
       "path": "apps/fa3-control-center/src/ChatFileService.h",
       "git_blob_sha": "6b12f86e69091df5aafe25dc213b83623c9a32a7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/CoachService.cpp",
+      "git_blob_sha": "f90cec8f881094930687ff148c5b9657e6550f9c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/CoachService.h",
+      "git_blob_sha": "1921503671de6d94db71bb771ad407cc971aec88",
       "baseline_delta_status": "added"
     },
     {
@@ -1952,7 +1967,12 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "cba75d12a5cc7a54db5687eef4e90d2cb98366dd",
+      "git_blob_sha": "6264179b3a26d555738c9087bd75477530c62407",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/tests/CoachServiceTest.cpp",
+      "git_blob_sha": "7e41e1aef2b9e3b3aa9086912226524d033e136a",
       "baseline_delta_status": "added"
     },
     {
