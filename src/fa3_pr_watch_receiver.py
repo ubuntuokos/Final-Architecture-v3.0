@@ -11,6 +11,7 @@ import argparse
 import ipaddress
 import json
 import os
+import re
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -48,10 +49,15 @@ def make_handler(secret: bytes, store: ProjectionStore):
         def do_POST(self):
             if self.path != "/github":
                 return self._respond(404, {"status": "NOT_FOUND"})
-            length = self.headers.get("Content-Length", "")
-            if (self.headers.get("Transfer-Encoding") or not length.isdigit()
-                    or int(length) < 1 or int(length) > MAX_PAYLOAD):
+            lengths = self.headers.get_all("Content-Length", [])
+            length = lengths[0] if len(lengths) == 1 else ""
+            if (self.headers.get("Transfer-Encoding") or len(length) > 7
+                    or not re.fullmatch(r"[0-9]{1,7}", length)
+                    or not 0 < int(length) <= MAX_PAYLOAD):
                 return self._respond(413, {"status": "DENIED", "code": "PAYLOAD_SIZE"})
+            required = ("X-Hub-Signature-256", "X-GitHub-Event", "X-GitHub-Delivery")
+            if any(len(self.headers.get_all(h, [])) != 1 for h in required):
+                return self._respond(403, {"status": "DENIED", "code": "HEADER_CARDINALITY"})
             try:
                 data = self.rfile.read(int(length))
                 event = normalize_webhook(

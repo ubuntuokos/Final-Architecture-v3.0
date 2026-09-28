@@ -3,6 +3,7 @@ import hashlib
 import hmac
 import http.client
 import json
+import socket
 import sys
 import tempfile
 import threading
@@ -77,6 +78,22 @@ class ReceiverTests(unittest.TestCase):
     def test_wrong_path_rejected(self):
         code, data = self.request("POST", "/admin", DATA)
         self.assertEqual(404, code)
+
+    def test_oversized_numeric_length_rejected_without_exception(self):
+        with socket.create_connection(("127.0.0.1", self.httpd.server_port), timeout=3) as sock:
+            data = (b"POST /github HTTP/1.1\r\nHost: localhost\r\nContent-Length: "
+                    + b"9" * 5000 + b"\r\n\r\n")
+            sock.sendall(data)
+            self.assertIn(b" 413 ", sock.recv(2048))
+        self.assertEqual(0, self.store.operator_projection()["count"])
+
+    def test_duplicate_content_length_denied(self):
+        with socket.create_connection(("127.0.0.1", self.httpd.server_port), timeout=3) as sock:
+            data = (b"POST /github HTTP/1.1\r\nHost: localhost\r\n"
+                    + b"Content-Length: 1\r\nContent-Length: 1\r\n\r\n")
+            sock.sendall(data)
+            self.assertIn(b" 413 ", sock.recv(2048))
+        self.assertEqual(0, self.store.operator_projection()["count"])
 
     def test_non_loopback_is_denied_without_socket_creation(self):
         self.assertEqual(2, main(["--bind", "0.0.0.0", "--secret-fd", "1"]))
