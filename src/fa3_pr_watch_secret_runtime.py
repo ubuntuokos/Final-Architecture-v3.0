@@ -70,6 +70,7 @@ def launch_receiver(
     secret: bytearray, *, bind: str = "127.0.0.1", port: int = 0,
     state_dir: Path | None = None,
     receiver_entrypoint: Path = RECEIVER_ENTRYPOINT,
+    operator_export_path: Path | None = None,
 ) -> subprocess.Popen:
     """Supply a preopened one-shot secret FD to the existing receiver process."""
     import ipaddress
@@ -90,6 +91,8 @@ def launch_receiver(
                    "--bind", bind, "--port", str(port)]
         if state_dir is not None:
             command += ["--state-dir", str(state_dir)]
+        if operator_export_path is not None:
+            command += ["--operator-export-path", str(operator_export_path)]
         # No inherited broker or GitHub credentials reach the receiver child.
         env = {k: v for k, v in os.environ.items()
                if not any(word in k.upper() for word in
@@ -116,11 +119,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--bind", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=0)
     parser.add_argument("--state-dir", type=Path)
+    parser.add_argument("--operator-export-path", type=Path)
     args = parser.parse_args(argv)
     proc = None
     try:
         value = obtain_single_secret(args.secret_ref, args.broker_socket)
-        proc = launch_receiver(value, bind=args.bind, port=args.port, state_dir=args.state_dir)
+        proc = launch_receiver(value, bind=args.bind, port=args.port, state_dir=args.state_dir,
+                               operator_export_path=args.operator_export_path)
         return proc.wait()
     except KeyboardInterrupt:
         return 130

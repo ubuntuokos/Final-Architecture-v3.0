@@ -24,6 +24,7 @@ signals:
     void changed();
 
 private:
+    bool m_sharedProjection = false;
     QString m_stateDir;
     QString m_stateFile;
     QVariantList m_items;

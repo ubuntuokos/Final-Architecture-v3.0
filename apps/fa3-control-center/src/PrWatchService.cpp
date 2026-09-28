@@ -18,8 +18,19 @@ PrWatchService::PrWatchService(QObject *parent) : QObject(parent)
         m_status = QStringLiteral("BLOCKED_STATE_ROOT_INVALID");
         return;
     }
-    m_stateDir = QDir(base).filePath(QStringLiteral("fa3/pr-watch"));
-    m_stateFile = QDir(m_stateDir).filePath(QStringLiteral("projection.json"));
+    const QString sharedPath = qEnvironmentVariable("FA3_PR_WATCH_PROJECTION_PATH");
+    m_sharedProjection = !sharedPath.isEmpty();
+    if (m_sharedProjection) {
+        if (!QDir::isAbsolutePath(sharedPath)) {
+            m_status = QStringLiteral("BLOCKED_OPERATOR_EXPORT_PATH");
+            return;
+        }
+        m_stateFile = sharedPath;
+        m_stateDir = QFileInfo(sharedPath).absolutePath();
+    } else {
+        m_stateDir = QDir(base).filePath(QStringLiteral("fa3/pr-watch"));
+        m_stateFile = QDir(m_stateDir).filePath(QStringLiteral("projection.json"));
+    }
     QObject::connect(&m_watcher, &QFileSystemWatcher::fileChanged,
                      this, [this](const QString &) { refresh(); });
     QObject::connect(&m_watcher, &QFileSystemWatcher::directoryChanged,
@@ -49,8 +60,11 @@ void PrWatchService::refresh()
         return;
     }
     if (file.isSymLink() || !file.isFile() ||
-        file.permissions() & (QFile::ReadGroup | QFile::WriteGroup | QFile::ExeGroup |
-                              QFile::ReadOther | QFile::WriteOther | QFile::ExeOther)) {
+        (m_sharedProjection
+         ? (file.permissions() & (QFile::WriteGroup | QFile::ExeGroup |
+                                  QFile::ReadOther | QFile::WriteOther | QFile::ExeOther))
+         : (file.permissions() & (QFile::ReadGroup | QFile::WriteGroup | QFile::ExeGroup |
+                                  QFile::ReadOther | QFile::WriteOther | QFile::ExeOther)))) {
         m_status = QStringLiteral("BLOCKED_UNSAFE_STATE_FILE");
         emit changed();
         return;
@@ -69,7 +83,11 @@ void PrWatchService::refresh()
         return;
     }
     const QJsonObject doc = data.object();
-    if (doc.value(QStringLiteral("schema")).toString() != QStringLiteral("fa3.pr-watch-projection.v1") ||
+    if (doc.value(QStringLiteral("schema")).toString() !=
+        (m_sharedProjection ? QStringLiteral("fa3.pr-watch-operator-export.v1")
+                            : QStringLiteral("fa3.pr-watch-projection.v1")) ||
+        (m_sharedProjection && (doc.value(QStringLiteral("operator_export")).toBool() != true
+                                || doc.value(QStringLiteral("redacted")).toBool() != true)) ||
         doc.value(QStringLiteral("status")).toString() != QStringLiteral("OBSERVATION_ONLY") ||
         doc.value(QStringLiteral("authority")).toBool(true) ||
         doc.value(QStringLiteral("execution_enabled")).toBool(true) ||
