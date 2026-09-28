@@ -291,6 +291,8 @@ def _param_value(answer: dict[str, Any], question: dict[str, Any]) -> tuple[Any,
     if qtype == "choice":
         return _choice(answer, question)
     if qtype == "noul":
+        if answer.get("type") != "noul":
+            raise SystemOneSpecError("noul answer has incorrect type")
         p = _probability(answer.get("noul"), label="noul answer")
         return p >= 0.5, max(p, 1.0 - p)
     if qtype == "score":

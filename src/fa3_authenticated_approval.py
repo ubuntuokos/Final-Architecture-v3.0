@@ -246,6 +246,7 @@ def verify_authenticated_receipt(
     expected_receipt_type: str,
     required_role: str,
     expected_source_commit: str,
+    required_grant_scope: str = "FA3_RELEASE_ACCEPTANCE",
     root_ca: Path = DEFAULT_ROOT_CA,
     security_public_key: Path = DEFAULT_SECURITY_APPROVAL_KEY,
     require_human: bool = False,
@@ -364,7 +365,7 @@ def verify_authenticated_receipt(
     types = grant.get("receipt_types")
     if not isinstance(types, list) or expected_receipt_type not in types:
         findings.append("authorization grant does not cover receipt type")
-    if grant.get("scope") != "FA3_RELEASE_ACCEPTANCE":
+    if grant.get("scope") != required_grant_scope:
         findings.append("authorization grant scope mismatch")
     grant_issued = parse_time(grant.get("issued_at"))
     grant_expires = parse_time(grant.get("expires_at"))

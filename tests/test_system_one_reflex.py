@@ -229,6 +229,17 @@ class SystemOneReflexTests(unittest.TestCase):
                 request, compiled, {"next_action": self._next_answer(compiled)},
             )
 
+
+    def test_boolean_parameter_rejects_wrong_wire_type(self):
+        request = self._bounded_request({"flag": {"kind": "flag"}})
+        compiled = compile_system_one_step(request)
+        with self.assertRaisesRegex(SystemOneSpecError, "incorrect type"):
+            evaluate_system_one_answers(
+                request, compiled,
+                {"next_action": self._next_answer(compiled),
+                 "inspect__flag": {"type": "choice", "noul": 0.99}},
+            )
+
     def test_missing_optional_presence_judgment_cannot_silently_default(self):
         request = self._bounded_request({
             "record": {

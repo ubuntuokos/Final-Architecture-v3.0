@@ -224,6 +224,7 @@ class NativeProviderBridgeTests(unittest.TestCase):
             )
             self.assertEqual(digest, sha(approval))
             self.assertEqual(seen[0]["required_role"], "PRIMARY_MODEL_DESIGNATOR")
+            self.assertEqual(seen[0]["required_grant_scope"], "FA3_MODEL_ROUTER_MODEL_DESIGNATION")
             self.assertEqual(seen[0]["expected_receipt_type"], "MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION")
             with self.assertRaisesRegex(NativeBridgeDenied, "authenticated"):
                 verify_designation_approval(

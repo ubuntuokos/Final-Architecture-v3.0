@@ -47,6 +47,7 @@ class NativeBridgeDenied(RuntimeError):
 
 DESIGNATION_RECEIPT_TYPE = "MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION"
 DESIGNATION_SIGNER_ROLE = "PRIMARY_MODEL_DESIGNATOR"
+DESIGNATION_APPROVAL_SCOPE = "FA3_MODEL_ROUTER_MODEL_DESIGNATION"
 
 
 def verify_designation_approval(
@@ -76,6 +77,7 @@ def verify_designation_approval(
     qualified = verifier(
         signed, expected_receipt_type=DESIGNATION_RECEIPT_TYPE,
         required_role=DESIGNATION_SIGNER_ROLE, expected_source_commit=expected_source_commit,
+        required_grant_scope=DESIGNATION_APPROVAL_SCOPE,
     )
     if not qualified.get("qualified"):
         raise NativeBridgeDenied("primary-model designation lacks authenticated PKI approval")
