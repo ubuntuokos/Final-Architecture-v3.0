@@ -96,3 +96,25 @@ Test the inbox locally without installing the service:
 PYTHONPATH=src python3 -m unittest tests.test_donor_chat_inbox -v
 bash bin/fa3-donor-chat-inbox
 ```
+
+
+### Repair existing units generated before the systemd path fix
+
+If `systemctl --user status fa3-donor-chat-import.service` reports
+`WorkingDirectory= path is not absolute` because the old installer wrote
+`WorkingDirectory="/absolute/path"`, remove those literal quote characters
+in **your own** installed service file, then reload and restart the path watcher:
+
+```bash
+unit="$HOME/.config/systemd/user/fa3-donor-chat-import.service"
+sed -i 's|^WorkingDirectory="\\(.*\\)"$|WorkingDirectory=\\1|' "$unit"
+systemctl --user daemon-reload
+systemctl --user reset-failed fa3-donor-chat-import.service fa3-donor-chat-import.path
+systemctl --user restart fa3-donor-chat-import.path
+systemctl --user status fa3-donor-chat-import.path --no-pager
+```
+
+The healthy path unit shows `active (waiting)`. The one-shot service can
+legitimately remain inactive until an export arrives. Do **not** use `sudo`
+with these user-level systemd units, and do not rerun the installer over
+existing user-unit files; it deliberately refuses to overwrite them.
