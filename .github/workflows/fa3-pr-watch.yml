@@ -4,6 +4,14 @@ on:
     branches: [main]
     paths:
       - "src/fa3_pr_watch.py"
+      - "src/fa3_pr_watch_secret_runtime.py"
+      - "src/fa3_pr_watch_reference_e2e.py"
+      - "src/fa3_pr_watch_reference_checker.py"
+      - "bin/fa3-pr-watch-secret-runtime"
+      - "bin/fa3-pr-watch-e2e-fixture"
+      - "tests/test_pr_watch_secret_runtime.py"
+      - "tests/test_pr_watch_reference_e2e.py"
+      - "deployment/pr-watch/**"
       - "src/fa3_pr_watch_receiver.py"
       - "bin/fa3-pr-watch-receiver"
       - "tests/test_pr_watch_receiver.py"
@@ -22,6 +30,14 @@ on:
     branches: [main]
     paths:
       - "src/fa3_pr_watch.py"
+      - "src/fa3_pr_watch_secret_runtime.py"
+      - "src/fa3_pr_watch_reference_e2e.py"
+      - "src/fa3_pr_watch_reference_checker.py"
+      - "bin/fa3-pr-watch-secret-runtime"
+      - "bin/fa3-pr-watch-e2e-fixture"
+      - "tests/test_pr_watch_secret_runtime.py"
+      - "tests/test_pr_watch_reference_e2e.py"
+      - "deployment/pr-watch/**"
       - "src/fa3_pr_watch_receiver.py"
       - "bin/fa3-pr-watch-receiver"
       - "tests/test_pr_watch_receiver.py"
@@ -52,7 +68,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Strict source syntax
-        run: python -m py_compile src/fa3_pr_watch.py src/fa3_pr_watch_receiver.py bin/fa3-pr-watch bin/fa3-pr-watch-receiver tests/test_pr_watch.py tests/test_pr_watch_receiver.py tests/test_pr_watch_goal_bridge.py
+        run: python -m py_compile src/fa3_pr_watch_secret_runtime.py src/fa3_pr_watch_reference_e2e.py src/fa3_pr_watch_reference_checker.py bin/fa3-pr-watch-secret-runtime bin/fa3-pr-watch-e2e-fixture tests/test_pr_watch_secret_runtime.py tests/test_pr_watch_reference_e2e.py src/fa3_pr_watch.py src/fa3_pr_watch_receiver.py bin/fa3-pr-watch bin/fa3-pr-watch-receiver tests/test_pr_watch.py tests/test_pr_watch_receiver.py tests/test_pr_watch_goal_bridge.py
       - name: Real signed-payload and negative regression suite
         env:
           PYTHONPATH: src
@@ -60,6 +76,19 @@ jobs:
           python -m unittest discover -s tests -p test_pr_watch.py -v
           python -m unittest discover -s tests -p test_pr_watch_receiver.py -v
           python -m unittest discover -s tests -p test_pr_watch_goal_bridge.py -v
+          python -m unittest discover -s tests -p test_pr_watch_secret_runtime.py -v
+          python -m unittest discover -s tests -p test_pr_watch_reference_e2e.py -v
+      - name: Real signed-event to isolated workers to independent fixture verifier
+        env:
+          PYTHONPATH: src
+        run: python bin/fa3-pr-watch-e2e-fixture --fixture-only --output reports/pr-watch-fixture-e2e.json
+      - name: Upload non-production reference flow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-pr-watch-reference-e2e
+          path: reports/pr-watch-fixture-e2e.json
+          if-no-files-found: warn
       - name: Existing work-management and goal-contract regressions
         env:
           PYTHONPATH: src
