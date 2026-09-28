@@ -32,7 +32,7 @@ def gate(root:Path)->dict:
  root=root.resolve()
  missing=[p for p in FILES.values() if not (root/p).is_file()]
  if missing:return {"schema":"fa3.binary-analysis-gate-report.v1","gate_id":GATESET_ID,"result":"FAIL","findings":[{"code":"BIN-AN-000","message":"required files missing","paths":missing}],"runtime_promotion_claim":False}
-intent,reuse,decision,upstream,contract,ir,profile,radar,grec,greg,policy,evidence,distreg=(load(root,k) for k in ("intent","reuse","decision","upstream","contract","ir","profile","radar","gate_record","gate_registry","policy","evidence","distribution_registry"))
+ intent,reuse,decision,upstream,contract,ir,profile,radar,grec,greg,policy,evidence,distreg=(load(root,k) for k in ("intent","reuse","decision","upstream","contract","ir","profile","radar","gate_record","gate_registry","policy","evidence","distribution_registry"))
  baseline=load_active_release_baseline(root)
  cap080=next((x for x in evidence.get("records",[]) if x.get("subject_id")=="CAP-080"),{})
  radar_entry=next((x for x in radar.get("sources",[]) if x.get("repository")=="P4nda0s/reverse-skills"),{})
