@@ -1,6 +1,7 @@
 #include "AppCatalogService.h"
 #include "ChatFileService.h"
 #include "DecisionFabricService.h"
+#include "SkillFabricService.h"
 #include "ExternalLlmCatalogModel.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
     AppCatalogService appCatalog;
     SessionVaultService sessionVault;
     DecisionFabricService decisionFabric;
+    SkillFabricService skillFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
 
     QQmlApplicationEngine engine;
@@ -70,6 +72,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
     engine.rootContext()->setContextProperty("fa3SessionVault", &sessionVault);
     engine.rootContext()->setContextProperty("fa3DecisionFabric", &decisionFabric);
+    engine.rootContext()->setContextProperty("fa3SkillFabric", &skillFabric);
     engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
