@@ -72,6 +72,12 @@ Shot planning, staging, cameras, actors, blocking, scene geometry and production
 
 Environment design covers natural, architectural, historical and fictional settings — from rooms, streets, forests and oceans to historical periods, fantasy worlds, science-fiction environments and mixed settings.
 
+**Executable World & Event Director MVP:** [source, instructions and current limitations](apps/fa3-world-event-director/README.md) · [detailed application plan](docs/world-event-director-application-plan-2026-09-28.md). The implemented local-first CPU reference calculates time-zone-aware seasonal and solar context; renders four linked interactive landscape, city, building-surroundings and interior previews; has editable weather, reversible screenplay events, project save/load, a narrative/event timeline and an explicitly authorized world-rule override. Fiction does not silently change Earth's north, Sun position or seasonal baseline.
+
+![Actual running FA3 World & Environment Studio desktop GUI: weather, four spatial scopes, dates and narrative timeline](docs/assets/readme/world-environment-studio-runtime.png)
+
+*Actual screenshot captured by executing the Tk desktop frontend under a Linux virtual display, not a generated concept image. Qt6/QML frontend source is included, but Qt runtime validation, real historical data feeds, physically validated simulators, native Bforartists/Video Editor handoff and current-host runtime admission remain separate tasks.*
+
 ### Character Studio
 
 Character development connects visual design with 3D-ready character data, rig/pose/motion concepts and production assets rather than ending at a static image.
