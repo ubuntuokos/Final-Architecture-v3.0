@@ -77,6 +77,10 @@ The [scriptwriting source-specific curation](scriptwriting-github-donor-curation
 
 The [script-breakdown source-specific curation](script-breakdown-github-donor-curation-2026-09-28.md) captures the GitHub topic index and seven separately sourced donor candidates (including the apparent original Jellyfish upstream found through provenance tracing) for the **existing** FA3 Story/Screenplay and preproduction ecosystem. OpenDraft is enriched in place, not duplicated. The review separates narrative beats, typed production breakdown, candidate shots, project-wide assets and derived scheduling; it requires bidirectional format gates, human approval, current-host evidence, vendor-neutral CPU-only operation and the existing FA3 workflow/model/resource authorities.
 
+## Native Story/Screenplay implementation — experimental phase 1
+
+[Implementation and test scope](story-screenplay-implementation-phase1.md) describes FA3-owned bounded Fountain/FDX bidirectional codecs, a canonical story document, local typed scene breakdown, candidate review, CLI, Qt/QML route and fail-closed handoff preview. It implements a reference-stage subset of the donor curation, **not** full format fidelity, Office codec admission, authenticated production actions or current-host promotion. All donors remain CANDIDATE.
+
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
