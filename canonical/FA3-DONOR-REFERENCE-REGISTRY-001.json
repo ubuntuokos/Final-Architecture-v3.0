@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 297,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -335,6 +335,83 @@
       "notes": [
         "Candidate only; route exclusively through central Model Router."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ACTIONS-RUNNER-IMAGES-001",
+      "name": "actions/runner-images",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/actions/runner-images",
+        "normalized_key": "github:actions/runner-images"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "IMAGE_BUILD_PATTERN",
+        "SOFTWARE_INVENTORY_PATTERN",
+        "CI_VALIDATION_PATTERN"
+      ],
+      "capability_hints": [
+        "reproducible CI runner image definitions",
+        "software inventory and version manifest generation",
+        "build image preflight and validation tests",
+        "image lifecycle and release change tracking"
+      ],
+      "domain_hints": [
+        "ci-cd",
+        "reproducible-builds",
+        "software-supply-chain",
+        "runner-images"
+      ],
+      "problem_hints": [
+        "unexpected hosted runner software drift",
+        "unverified environment provisioning",
+        "missing build tool inventory",
+        "non-repeatable CI baseline"
+      ],
+      "target_hints": [
+        "Release Fabric",
+        "Evidence Registry",
+        "Developer Agent",
+        "Hardware Audit",
+        "CI runner provisioning"
+      ],
+      "tags": [
+        "github-actions",
+        "azure-pipelines",
+        "packer",
+        "ubuntu",
+        "multi-architecture",
+        "software-manifest",
+        "validation",
+        "image-release-tracking"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Verified upstream actions/runner-images main at 7ef9dd0112f1827264dbca2dff8b13eb9f1a5534 (2026-09-28). Repo MIT declaration applies to repository source; included third-party package licenses must be independently assessed.",
+        "Selective reference only: Packer HCL image build definitions, Ubuntu PowerShell/Pester installation validation, software report generation, GA/deprecation practices. Upstream Azure image build is not an FA3 runtime or cloud dependency.",
+        "GitHub-hosted runner and Azure images do not substitute FA3 self-hosted current-host evidence. Do not infer FA3 host CUDA/ROCm/GPU or Kubuntu package baseline from cloud VM manifests. Pin labels and revisions when reproducibility is required."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-ADOBE-LIGHTROOM-001",
