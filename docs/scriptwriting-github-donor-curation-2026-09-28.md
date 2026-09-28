@@ -64,4 +64,4 @@ This curation and registry change is **metadata-only**. It is vendor-neutral, CP
 - **Then production handoff:** annotation breakdowns, storyboard/VE/QuickClip projections, table-read previews, novel adaptation with chapter-to-scene traceability.
 - **Independent gated reuse:** per-donor upstream commit pin, license/transitive-license review, tests, security/privacy, no redundant package installation, coexistence and current-host evidence.
 
-**Status:** inventory and candidate registration only. No external library was installed, no license approval or source-copy permission was inferred, and no FA3 screenwriting capability was presented as newly implemented.
+**Curation status:** donor inventory only, with no license or donor code reuse approval. A separate [FA3-native experimental phase-1 implementation](story-screenplay-implementation-phase1.md) is now on PR #520; do not confuse bounded reference features with production-format or current-host admission.
