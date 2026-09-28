@@ -36,6 +36,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         _check("boolean-fields-rejected", "BOOLEAN_SIGNED_APPROVED_INDEPENDENT_FIELDS_ARE_NOT_AUTHORITY_EVIDENCE" in rules, "boolean approval fields are not authority evidence"),
         _check("certificate-not-authorization", "CERTIFICATE_ISSUANCE_DOES_NOT_GRANT_APPROVAL_ROLE" in rules, "certificate issuance does not grant role"),
         _check("security-role-grant", "SECURITY_GOVERNANCE_SIGNED_ROLE_GRANT_REQUIRED" in rules, "signed Security Governance role grant required"),
+        _check("model-designation-scope", "MODEL_ROUTER_DESIGNATION_ROLE_GRANTS_REQUIRE_DISTINCT_SCOPE_AND_ROLE" in rules, "native model approval scope and role separate from release promotion"),
         _check("content-binding", "PAYLOAD_SHA256_MUST_MATCH_CANONICAL_PAYLOAD" in rules and "RECEIPT_SIGNATURE_MUST_VERIFY_OVER_CANONICAL_CONTENT" in rules, "payload digest and receipt signature bind content"),
         _check("source-binding", "SOURCE_COMMIT_MUST_MATCH_CURRENT_REPOSITORY_HEAD" in rules, "receipt is exact-source-bound"),
         _check("freshness", "RECEIPT_AND_ROLE_GRANT_MUST_BE_FRESH" in rules, "receipt and role grant freshness required"),

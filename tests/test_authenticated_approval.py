@@ -86,7 +86,8 @@ class AuthenticatedApprovalTests(unittest.TestCase):
         return base64.b64encode(sig_path.read_bytes()).decode("ascii")
 
     def _receipt(self, *, receipt_type="INDEPENDENT_REVIEW", role="INDEPENDENT_REVIEWER",
-                 identity_class="HUMAN", producer_identity="spiffe://fa3.test/producer"):
+                 identity_class="HUMAN", producer_identity="spiffe://fa3.test/producer",
+                 grant_scope="FA3_RELEASE_ACCEPTANCE"):
         now = datetime.now(timezone.utc)
         grant = {
             "schema": "fa3.authorization-role-grant.v1",
@@ -96,7 +97,7 @@ class AuthenticatedApprovalTests(unittest.TestCase):
             "certificate_sha256": self.cert_fp,
             "roles": [role],
             "receipt_types": [receipt_type],
-            "scope": "FA3_RELEASE_ACCEPTANCE",
+            "scope": grant_scope,
             "issued_at": (now - timedelta(minutes=1)).isoformat(),
             "expires_at": (now + timedelta(hours=1)).isoformat(),
         }
@@ -227,6 +228,52 @@ class AuthenticatedApprovalTests(unittest.TestCase):
         )
         self.assertFalse(result["qualified"])
         self.assertIn("human promotion requires HUMAN identity class", result["findings"])
+
+
+    def test_model_router_designation_has_real_distinct_pki_scope(self):
+        signed = self._receipt(
+            receipt_type="MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION",
+            role="PRIMARY_MODEL_DESIGNATOR",
+            grant_scope="FA3_MODEL_ROUTER_MODEL_DESIGNATION",
+        )
+        verified = self._verify(
+            signed, expected_receipt_type="MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION",
+            required_role="PRIMARY_MODEL_DESIGNATOR",
+            required_grant_scope="FA3_MODEL_ROUTER_MODEL_DESIGNATION",
+            require_independent=False,
+        )
+        self.assertTrue(verified["qualified"], verified)
+        wrong_scope = self._verify(
+            signed, expected_receipt_type="MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION",
+            required_role="PRIMARY_MODEL_DESIGNATOR", require_independent=False,
+        )
+        self.assertFalse(wrong_scope["qualified"])
+        self.assertIn("authorization grant scope mismatch", wrong_scope["findings"])
+        release_only = self._receipt()
+        not_designation = self._verify(
+            release_only, expected_receipt_type="MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION",
+            required_role="PRIMARY_MODEL_DESIGNATOR",
+            required_grant_scope="FA3_MODEL_ROUTER_MODEL_DESIGNATION",
+            require_independent=False,
+        )
+        self.assertFalse(not_designation["qualified"])
+
+    def test_canonical_role_grant_schema_separates_designation_and_release(self):
+        schema = json.loads(
+            (ROOT / "canonical/contracts/FA3-AUTHORIZATION-ROLE-GRANT-001.schema.json")
+            .read_text(encoding="utf-8")
+        )
+        self.assertIn("PRIMARY_MODEL_DESIGNATOR", schema["properties"]["roles"]["items"]["enum"])
+        self.assertIn("MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION", schema["properties"]["receipt_types"]["items"]["enum"])
+        self.assertIn("FA3_MODEL_ROUTER_MODEL_DESIGNATION", schema["properties"]["scope"]["enum"])
+        self.assertEqual(
+            schema["allOf"][0]["then"]["properties"]["roles"]["items"]["const"],
+            "PRIMARY_MODEL_DESIGNATOR",
+        )
+        self.assertEqual(
+            schema["allOf"][0]["then"]["properties"]["receipt_types"]["items"]["const"],
+            "MODEL_ROUTER_PRIMARY_MODEL_DESIGNATION",
+        )
 
     def test_promotion_receipt_consumption_is_single_use(self):
         receipt_dir = self.root / "evidence/receipts"
