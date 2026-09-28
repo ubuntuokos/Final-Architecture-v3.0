@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
+    "entry_count": 324,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Storyboard topic research (2026-09-28) added source-unique project candidates and discovery-topic indices; metadata only; no auto-admission."
   },
   "entries": [
     {
@@ -136,6 +136,128 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-62656456-AI-FILM-SKILLS-001",
+      "name": "Open Film Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/62656456/ai-film-skills",
+        "normalized_key": "github:62656456/ai-film-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "camera-and-blocking-plan",
+        "shot-design",
+        "playable-3d-whitebox-previs",
+        "production-review"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Director",
+        "Animation",
+        "Bforartists",
+        "Creative Studio"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-869413421-AI-MOIVE-STUDIO-001",
+      "name": "AICON AI Movie Studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/869413421/ai-moive-studio",
+        "normalized_key": "github:869413421/ai-moive-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "editable-infinite-production-canvas",
+        "natural-language-graph-authoring",
+        "text-image-video-node-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Director",
+        "Creative Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ABLETON-LIVE-001",
@@ -1168,6 +1290,70 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-ARCREEL-ARCREEL-001",
+      "name": "ArcReel",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ArcReel/ArcReel",
+        "normalized_key": "github:arcreel/arcreel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cross-shot-character-consistency",
+        "human-approval-checkpoints",
+        "asset-version-retry",
+        "cost-ledger",
+        "editable-export"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Asset Graph",
+        "Director",
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "copyleft-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ARDOUR-001",
@@ -4239,6 +4425,70 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-DRAMACLAW-DRAMACLAW-001",
+      "name": "DramaClaw",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dramaclaw/dramaclaw",
+        "normalized_key": "github:dramaclaw/dramaclaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "episode-oriented-shot-graph",
+        "asset-library",
+        "spatially-consistent-set-previs",
+        "director-agent-approval",
+        "node-to-series-promotion"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Director",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "source-available-only"
+      ],
+      "license": {
+        "declared": "Elastic-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-DRAMATRON-001",
       "name": "Dramatron",
       "source": {
@@ -6662,6 +6912,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-IXIEHAO-SHOTTESSERA-001",
+      "name": "ShotTessera",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ixiehao/ShotTessera",
+        "normalized_key": "github:ixiehao/shottessera"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "reverse-video-to-contact-sheet",
+        "shot-boundary-frame-selection",
+        "blur-and-duplicate-rejection",
+        "manual-frame-correction"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Review"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-JING-PROMPT-SKILLS-001",
       "name": "JING Prompt Skills",
       "source": {
@@ -7683,6 +7994,65 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-LYAHN-VIDBOARD-001",
+      "name": "VidBoard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LyAhn/VidBoard",
+        "normalized_key": "github:lyahn/vidboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "paired-first-last-frame-planning",
+        "reference-consistent-music-video-storyboard"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "QuickClip",
+        "Director"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MATCHERING-001",
@@ -8806,6 +9176,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NARCOOO-INKOS-001",
+      "name": "InkOS",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Narcooo/inkos",
+        "normalized_key": "github:narcooo/inkos"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "long-form-story-memory",
+        "character-and-plot-state",
+        "versioned-atomic-story-workspace",
+        "screenplay-storyboard-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Director",
+        "AI Mentor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "copyleft-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-NATRON-001",
@@ -16678,6 +17110,412 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-TOPIC-AI-STORYBOARD-001",
+      "name": "GitHub storyboard topic: ai-storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/ai-storyboard",
+        "normalized_key": "github:topics/ai-storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-001",
+      "name": "GitHub storyboard topic: storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard",
+        "normalized_key": "github:topics/storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-APPLICATION-001",
+      "name": "GitHub storyboard topic: storyboard-application",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard-application",
+        "normalized_key": "github:topics/storyboard-application"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-GENERATION-001",
+      "name": "GitHub storyboard topic: storyboard-generation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard-generation",
+        "normalized_key": "github:topics/storyboard-generation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-TOOLS-001",
+      "name": "GitHub storyboard topic: storyboard-tools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard-tools",
+        "normalized_key": "github:topics/storyboard-tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARDS-001",
+      "name": "GitHub storyboard topic: storyboards",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboards",
+        "normalized_key": "github:topics/storyboards"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-VIDEO-STORYBOARD-001",
+      "name": "GitHub storyboard topic: video-storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/video-storyboard",
+        "normalized_key": "github:topics/video-storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOXIPROXY-001",
       "name": "Toxiproxy",
       "source": {
@@ -17453,6 +18291,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-WAOOAI-WAOOWAOO-001",
+      "name": "waoowaoo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/waooAI/waoowaoo",
+        "normalized_key": "github:waooai/waoowaoo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "reference-image-role-management",
+        "first-and-last-frame-workflow",
+        "asset-variation-history",
+        "durable-workflow-reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Director",
+        "Asset Graph"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "source-available-only"
+      ],
+      "license": {
+        "declared": "Elastic-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-WBENCH-001",
       "name": "meituan-longcat/WBench",
       "source": {
@@ -17548,6 +18448,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-WONDERUNIT-STORYBOARDER-001",
+      "name": "Wonder Unit Storyboarder",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wonderunit/storyboarder",
+        "normalized_key": "github:wonderunit/storyboarder"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "fast-hand-drawn-storyboards",
+        "Fountain-screenplay-ingest",
+        "onion-skin",
+        "animatic-preview",
+        "shot-explorer"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Animation",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-XGEN-JING-001",
@@ -17810,6 +18772,126 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ZENSTORY-AI-DRAMA-SKILLS-001",
+      "name": "ZenStory Drama Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zenstory-ai/drama-skills",
+        "normalized_key": "github:zenstory-ai/drama-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "scene-to-shot-approval",
+        "cross-shot-continuity-locks",
+        "file-grounded-deliverables",
+        "prompt-review-gates"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Director",
+        "Creative Studio"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ZHIYUZI-STORYFORGE-001",
+      "name": "StoryForge",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zhiyuzi/StoryForge",
+        "normalized_key": "github:zhiyuzi/storyforge"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "synopsis-human-approval",
+        "role-separated-story-generation-review",
+        "convergence-review-loop"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Director"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ZING-0-5-001",
