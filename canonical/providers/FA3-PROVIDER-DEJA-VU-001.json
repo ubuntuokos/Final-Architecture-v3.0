@@ -73,5 +73,11 @@
     "wayland_preferred": true,
     "x11_supported": true,
     "kde_required": false
+  },
+  "distribution": {
+    "class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false,
+    "classification_basis": "FA3 ships only its native Python adapter and reference metadata. Upstream deja-vu is a user-local, separately pinned/audited Go binary; not included in an FA3 product bundle."
   }
 }
