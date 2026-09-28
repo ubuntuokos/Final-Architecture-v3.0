@@ -17,6 +17,7 @@ FILES = {
     "distribution_manifest": ROOT / "canonical/distribution-manifest.json",
     "planner": ROOT / "src/fa3_tiered_moe_plan.py",
     "provider_adapter": ROOT / "src/fa3_strata_provider_adapter.py",
+    "hrb_projection": ROOT / "src/fa3_tiered_moe_hrb_projection.py",
 }
 
 PIN = "b742ff998704638903461a2d7d6c1e03b8032509"
@@ -53,6 +54,8 @@ def check() -> None:
     assert provider["current_host_probe"]["fixed_default_port"] is False
     assert provider["current_host_probe"]["network_egress"] is False
     assert provider["current_host_probe"]["static_or_probe_pass_promotes_runtime"] is False
+    assert provider["hardware_execution_binding"]["hrb_child_projection"] == "src/fa3_tiered_moe_hrb_projection.py"
+    assert provider["hardware_execution_binding"]["planner_may_admit_or_expand_resources"] is False
     assert provider["distribution"]["class"] == "REFERENCE_ONLY"
     assert provider["distribution"]["release_bundle_status"] == "EXCLUDED"
     assert provider["product_bundle_allowed"] is False
@@ -68,6 +71,11 @@ def check() -> None:
     assert contracts["new_architectural_authorities"] == 0
     assert contracts["authorities"]["model_router"] == ROUTER
     assert contracts["authorities"]["host_resource_broker"] == HRB
+    assert contracts["hrb_child_projection"]["parent_authority"] == HRB
+    assert contracts["hrb_child_projection"]["placement_plan_is_authoritative"] is False
+    assert contracts["hrb_child_projection"]["may_admit_resources"] is False
+    assert contracts["hrb_child_projection"]["may_expand_resources"] is False
+    assert contracts["hrb_child_projection"]["global_fa3_accelerator_cardinality_remains"] == "0..N"
     inv = set(contracts["invariants"])
     assert "CPU_ONLY_EXECUTION_REMAINS_VALID_FOR_THE_GLOBAL_FA3_BASELINE" in inv
     assert "STORAGE_IS_NOT_SILENTLY_TREATED_AS_EXECUTABLE_EXPERT_MEMORY" in inv
@@ -98,6 +106,11 @@ def check() -> None:
     assert "NO_UPSTREAM_STRATA_SOURCE_COPIED" in adapter_text
     assert "LOOPBACK_HOSTS" in adapter_text
     assert "current_host_runtime_promotion_claim" in adapter_text
+
+    projection_text = FILES["hrb_projection"].read_text(encoding="utf-8")
+    assert "validate_receipt" in projection_text
+    assert "FA3-AUTH-HOST-RESOURCE-BROKER-001" in projection_text
+    assert "may_expand_resources" in projection_text
 
     planner_text = FILES["planner"].read_text(encoding="utf-8")
     assert "NO_UPSTREAM_STRATA_SOURCE_COPIED" in planner_text
