@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 174,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates."
+    "entry_count": 226,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
     {
@@ -242,6 +242,76 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ACESTEP-CPP-001",
+      "name": "acestep.cpp",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:acestep.cpp",
+        "normalized_key": "project:acestep.cpp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "ace-step-native-gguf-execution",
+        "music-runtime-interchange"
+      ],
+      "domain_hints": [
+        "audio",
+        "music"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Music Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "ace-step-native-gguf-execution",
+          "music-runtime-interchange"
+        ],
+        "intended_fa3_targets": [
+          "Music Studio",
+          "Model Manager"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v3.0.14-music",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Candidate only; route exclusively through central Model Router."
+      },
+      "notes": [
+        "Candidate only; route exclusively through central Model Router."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ADOBE-LIGHTROOM-001",
@@ -503,6 +573,73 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-AGENTBASE-001",
+      "name": "AgentBase",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AgentOrchestrator/AgentBase",
+        "normalized_key": "github:agentorchestrator/agentbase"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-worktree-isolation",
+        "visual-agent-mission-control"
+      ],
+      "domain_hints": [
+        "agents",
+        "collaboration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Developer Agent"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "visual-agent-mission-control",
+          "agent-worktree-isolation"
+        ],
+        "intended_fa3_targets": [
+          "Agent Collaboration Room",
+          "Developer Agent"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-AGENTICSEEK-001",
       "name": "agenticSeek",
       "source": {
@@ -550,6 +687,293 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSWARMS-001",
+      "name": "AgentSwarms",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AgentSwarms-fyi/agentswarms",
+        "normalized_key": "github:agentswarms-fyi/agentswarms"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "versioned-workflow-snapshot",
+        "visual-agent-workflow-canvas"
+      ],
+      "domain_hints": [
+        "agents",
+        "workflow"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Agent Runtime"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "visual-agent-workflow-canvas",
+          "versioned-workflow-snapshot"
+        ],
+        "intended_fa3_targets": [
+          "Agent Collaboration Room",
+          "Agent Runtime"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-TOOLKIT-MANAGER-001",
+      "name": "AI Toolkit Manager",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:AI Toolkit Manager",
+        "normalized_key": "project:ai toolkit manager"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "abi-import-verification",
+        "hardware-detect-doctor",
+        "isolated-torch-stack",
+        "reproducible-environment-recipe"
+      ],
+      "domain_hints": [
+        "packaging",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Training Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "hardware-detect-doctor",
+          "isolated-torch-stack",
+          "abi-import-verification",
+          "reproducible-environment-recipe"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "Training Fabric"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v2.0.20-training",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Source locator unverified; pattern only, not package-management authority."
+      },
+      "notes": [
+        "Source locator unverified; pattern only, not package-management authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-TOOLKIT-SPARK-WHEELS-001",
+      "name": "ai-toolkit-spark-wheels",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:ai-toolkit-spark-wheels",
+        "normalized_key": "project:ai-toolkit-spark-wheels"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "dependency-pin",
+        "patch-provenance",
+        "reproducible-wheel-recipe"
+      ],
+      "domain_hints": [
+        "packaging",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Build Fabric",
+        "Training Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "reproducible-wheel-recipe",
+          "patch-provenance",
+          "dependency-pin"
+        ],
+        "intended_fa3_targets": [
+          "Training Fabric",
+          "Build Fabric"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-training",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Architecture/build methodology only; architecture-specific artifacts conditional."
+      },
+      "notes": [
+        "Architecture/build methodology only; architecture-specific artifacts conditional."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ALICEVISION-MESHROOM-001",
+      "name": "AliceVision / Meshroom",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:AliceVision / Meshroom",
+        "normalized_key": "project:alicevision / meshroom"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "camera-solve",
+        "photogrammetry",
+        "sparse-to-dense-reconstruction"
+      ],
+      "domain_hints": [
+        "3d",
+        "reconstruction"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "World Generator"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "photogrammetry",
+          "sparse-to-dense-reconstruction",
+          "camera-solve"
+        ],
+        "intended_fa3_targets": [
+          "3D Fabric",
+          "World Generator",
+          "Bforartists"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Adapter candidate; own provider database not canonical."
+      },
+      "notes": [
+        "Adapter candidate; own provider database not canonical."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ANIL-MATCHA-OPEN-GENERATIVE-AI-001",
@@ -654,6 +1078,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ANTHROPIC-CYBERSECURITY-SKILLS-001",
+      "name": "Anthropic Cybersecurity Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+        "normalized_key": "github:mukul975/anthropic-cybersecurity-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "defensive-skill-taxonomy",
+        "threat-informed-workflow"
+      ],
+      "domain_hints": [
+        "security",
+        "skills"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Security Lab",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "defensive-skill-taxonomy",
+          "threat-informed-workflow"
+        ],
+        "intended_fa3_targets": [
+          "Security Lab",
+          "Skill Fabric"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-ARDOUR-001",
@@ -855,6 +1346,76 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-AUDIO-CPP-001",
+      "name": "audio.cpp",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:audio.cpp",
+        "normalized_key": "project:audio.cpp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gguf-audio-runtime-reference",
+        "native-audio-inference"
+      ],
+      "domain_hints": [
+        "audio",
+        "models"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Music Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "native-audio-inference",
+          "gguf-audio-runtime-reference"
+        ],
+        "intended_fa3_targets": [
+          "Music Studio",
+          "Model Manager"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v3.0.14-music",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Candidate only; central Model Router and HRB unchanged."
+      },
+      "notes": [
+        "Candidate only; central Model Router and HRB unchanged."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AUDIO-SEPARATOR-001",
       "name": "Audio Separator",
       "source": {
@@ -959,6 +1520,78 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTOCACHE-001",
+      "name": "AutoCache",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/montevive/autocache",
+        "normalized_key": "github:montevive/autocache"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cache-roi",
+        "context-breakpoint",
+        "layered-cache"
+      ],
+      "domain_hints": [
+        "cache",
+        "inference",
+        "performance"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "HRB",
+        "Inference Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "layered-cache",
+          "context-breakpoint",
+          "cache-roi"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "Inference Fabric",
+          "HRB"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-AUTOM8AI-FORK-COLLECTION-001",
@@ -1213,6 +1846,78 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-BATCH-ANNOTATOR-001",
+      "name": "batch-annotator",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:batch-annotator",
+        "normalized_key": "project:batch-annotator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "batch-control-map-generation",
+        "batch-depth-pose-segmentation",
+        "conditioning-artifact-lineage"
+      ],
+      "domain_hints": [
+        "dataset",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Dataset Fabric",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "batch-control-map-generation",
+          "batch-depth-pose-segmentation",
+          "conditioning-artifact-lineage"
+        ],
+        "intended_fa3_targets": [
+          "Dataset Fabric",
+          "Generative Media Studio"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v2.0.20-training",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Candidate/reference; not canonical dataset owner."
+      },
+      "notes": [
+        "Candidate/reference; not canonical dataset owner."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BESPOKE-SYNTH-001",
       "name": "Bespoke Synth",
       "source": {
@@ -1317,6 +2022,80 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-BLEND-AI-001",
+      "name": "blend-ai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HoldMyBeer-gg/blend-ai",
+        "normalized_key": "github:holdmybeer-gg/blend-ai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mesh-quality-analysis",
+        "structured-scene-inspection",
+        "visual-feedback-loop"
+      ],
+      "domain_hints": [
+        "3d",
+        "dcc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "World Generator"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "structured-scene-inspection",
+          "visual-feedback-loop",
+          "mesh-quality-analysis"
+        ],
+        "intended_fa3_targets": [
+          "Bforartists",
+          "3D Fabric",
+          "World Generator"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v2.0.20-training",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Lab/candidate; retain Bforartists primary, no independent scene authority."
+      },
+      "notes": [
+        "Lab/candidate; retain Bforartists primary, no independent scene authority."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-BOADIJ-PI-HERDSMAN-001",
@@ -1624,6 +2403,76 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-BRUTEFORCEAI-001",
+      "name": "BruteForceAI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MorDavid/BruteForceAI",
+        "normalized_key": "github:mordavid/bruteforceai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "authorized-web-security-analysis-pattern",
+        "scope-bounded-security-test"
+      ],
+      "domain_hints": [
+        "security",
+        "testing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Security Lab",
+        "Web Security Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "authorized-web-security-analysis-pattern",
+          "scope-bounded-security-test"
+        ],
+        "intended_fa3_targets": [
+          "Security Lab",
+          "Web Security Fabric"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Authorized defensive test scope only; no autonomous offensive deployment."
+      },
+      "notes": [
+        "Authorized defensive test scope only; no autonomous offensive deployment."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-BS-MELBAND-ROFORMER-001",
@@ -1979,6 +2828,78 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-COLMAP-001",
+      "name": "COLMAP",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:COLMAP",
+        "normalized_key": "project:colmap"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "camera-solve",
+        "multi-view-stereo",
+        "structure-from-motion"
+      ],
+      "domain_hints": [
+        "3d",
+        "reconstruction"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "structure-from-motion",
+          "multi-view-stereo",
+          "camera-solve"
+        ],
+        "intended_fa3_targets": [
+          "3D Fabric",
+          "World Generator"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Alternate candidate; own provider cache not canonical."
+      },
+      "notes": [
+        "Alternate candidate; own provider cache not canonical."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-COMFYUI-001",
       "name": "comfyui",
       "source": {
@@ -2026,6 +2947,142 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-COMFYUI-VIDEO2MOTIONCAPTURE-001",
+      "name": "ComfyUI-Video2MotionCapture",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AKASubaz/ComfyUI-Video2MotionCapture",
+        "normalized_key": "github:akasubaz/comfyui-video2motioncapture"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "motion-retarget",
+        "video-to-3d-motion-capture"
+      ],
+      "domain_hints": [
+        "motion",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Bforartists",
+        "Character Studio",
+        "Choreography"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "video-to-3d-motion-capture",
+          "motion-retarget"
+        ],
+        "intended_fa3_targets": [
+          "Choreography",
+          "Character Studio",
+          "Bforartists"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-CONTROLNET-001",
+      "name": "ControlNet",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lllyasviel/ControlNet",
+        "normalized_key": "github:lllyasviel/controlnet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "pose-depth-edge-control",
+        "structured-image-conditioning"
+      ],
+      "domain_hints": [
+        "generation",
+        "image"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "structured-image-conditioning",
+          "pose-depth-edge-control"
+        ],
+        "intended_fa3_targets": [
+          "Generative Media Studio",
+          "Character Studio"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-COOLIFY-001",
@@ -2186,6 +3243,76 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-DAGDA-001",
+      "name": "Dagda",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/eliasgranderubio/dagda",
+        "normalized_key": "github:eliasgranderubio/dagda"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "historical-container-security-comparison",
+        "vulnerability-correlation-pattern"
+      ],
+      "domain_hints": [
+        "containers",
+        "security"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Security Lab",
+        "Supply-Chain Verification"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "historical-container-security-comparison",
+          "vulnerability-correlation-pattern"
+        ],
+        "intended_fa3_targets": [
+          "Security Lab",
+          "Supply-Chain Verification"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Historical reference only; excluded as production provider."
+      },
+      "notes": [
+        "Historical reference only; excluded as production provider."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-DARKTABLE-001",
@@ -2503,6 +3630,75 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-DIRECTORSKILL-001",
+      "name": "DirectorSKILL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wuwangzhang1216/DirectorSKILL",
+        "normalized_key": "github:wuwangzhang1216/directorskill"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "director-planning-reasoning",
+        "shot-specification"
+      ],
+      "domain_hints": [
+        "film",
+        "skills"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Film Planning",
+        "Prompt Builder",
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "director-planning-reasoning",
+          "shot-specification"
+        ],
+        "intended_fa3_targets": [
+          "Film Planning",
+          "Prompt Builder",
+          "Story/Screenplay"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-DONKEY-001",
       "name": "Donkey",
       "source": {
@@ -2596,6 +3792,73 @@
       "rejection_reasons": [
         "ANTI_DETECT_AND_FINGERPRINT_SPOOFING_CONFLICT_WITH_FA3_TRUST_AND_AUDITABILITY"
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-DRAMATRON-001",
+      "name": "Dramatron",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google-deepmind/dramatron",
+        "normalized_key": "github:google-deepmind/dramatron"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "branching-story-reasoning",
+        "script-outline-development"
+      ],
+      "domain_hints": [
+        "story",
+        "writing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Prompt Builder",
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "script-outline-development",
+          "branching-story-reasoning"
+        ],
+        "intended_fa3_targets": [
+          "Story/Screenplay",
+          "Prompt Builder"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-DREAMX-WORLD-001",
@@ -2802,6 +4065,75 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-EZBLENDER-001",
+      "name": "EZBlender",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Aztech-Lab/EZ_Blender",
+        "normalized_key": "github:aztech-lab/ez_blender"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "3d-scene-director-pattern",
+        "scene-instruction-translation"
+      ],
+      "domain_hints": [
+        "3d",
+        "dcc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "World Generator"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "3d-scene-director-pattern",
+          "scene-instruction-translation"
+        ],
+        "intended_fa3_targets": [
+          "Bforartists",
+          "3D Fabric",
+          "World Generator"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-FACEANYTHING-001",
@@ -3392,6 +4724,75 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FREEMOCAP-001",
+      "name": "FreeMoCap",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/freemocap/freemocap",
+        "normalized_key": "github:freemocap/freemocap"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "camera-based-motion-capture",
+        "skeletal-recording"
+      ],
+      "domain_hints": [
+        "motion",
+        "performance"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Character Studio",
+        "Choreography"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "camera-based-motion-capture",
+          "skeletal-recording"
+        ],
+        "intended_fa3_targets": [
+          "Character Studio",
+          "Choreography",
+          "3D Fabric"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-G-MIC-001",
       "name": "G'MIC",
       "source": {
@@ -3655,6 +5056,204 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-GEOLOOK-001",
+      "name": "GeoLook",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/aigclink/geolook",
+        "normalized_key": "github:aigclink/geolook"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "geo-performance-evidence",
+        "search-discovery-feedback-loop"
+      ],
+      "domain_hints": [
+        "marketing",
+        "search"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Marketing",
+        "SEO/GEO & Discovery Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "search-discovery-feedback-loop",
+          "geo-performance-evidence"
+        ],
+        "intended_fa3_targets": [
+          "SEO/GEO & Discovery Fabric",
+          "Marketing"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-GIMPCOMFYUI-001",
+      "name": "GimpComfyUI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Charlweed/gimp_comfyui",
+        "normalized_key": "github:charlweed/gimp_comfyui"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "gimp-to-comfyui-workflow-bridge"
+      ],
+      "domain_hints": [
+        "image",
+        "integration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "gimp-to-comfyui-workflow-bridge"
+        ],
+        "intended_fa3_targets": [
+          "Photo/Image Editor",
+          "Creative Studio"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
+      "name": "GL-Colour-Grading",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:GL-Colour-Grading",
+        "normalized_key": "project:gl-colour-grading"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "color-grading-design-reference"
+      ],
+      "domain_hints": [
+        "color",
+        "image"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Color Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DIRECT_COPY_DENIED_PENDING_LICENSE_AND_CONFORMANCE",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "color-grading-design-reference"
+        ],
+        "intended_fa3_targets": [
+          "Color Fabric"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "License/release/conformance unresolved: direct code, shader, or pipeline copy DENY."
+      },
+      "notes": [
+        "License/release/conformance unresolved: direct code, shader, or pipeline copy DENY."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GOOGLE-ADK-001",
       "name": "Google ADK",
       "source": {
@@ -3803,6 +5402,142 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-HEARTMULA-STUDIO-001",
+      "name": "HeartMuLa Studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/fspecii/HeartMuLa-Studio",
+        "normalized_key": "github:fspecii/heartmula-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "music-job-queue-progress",
+        "reference-audio-ui"
+      ],
+      "domain_hints": [
+        "audio",
+        "music"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Music Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "reference-audio-ui",
+          "music-job-queue-progress"
+        ],
+        "intended_fa3_targets": [
+          "Music Studio",
+          "Creative Studio"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-HERDR-001",
+      "name": "Herdr",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/herdrdev/herdr",
+        "normalized_key": "github:herdrdev/herdr"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-runtime-state",
+        "durable-agent-session",
+        "session-resume"
+      ],
+      "domain_hints": [
+        "agents",
+        "durability"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Agent Runtime"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "durable-agent-session",
+          "session-resume",
+          "agent-runtime-state"
+        ],
+        "intended_fa3_targets": [
+          "Agent Runtime",
+          "Agent Collaboration Room"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-HUGIN-001",
@@ -4009,6 +5744,73 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-INKMCP-001",
+      "name": "Inkmcp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Shriinivas/inkmcp",
+        "normalized_key": "github:shriinivas/inkmcp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "inkscape-mcp-control",
+        "svg-command-bridge"
+      ],
+      "domain_hints": [
+        "integration",
+        "vector"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Vector Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "inkscape-mcp-control",
+          "svg-command-bridge"
+        ],
+        "intended_fa3_targets": [
+          "Vector Studio",
+          "MCP Gateway"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-INNGEST-001",
       "name": "inngest",
       "source": {
@@ -4056,6 +5858,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-IP-ADAPTER-001",
+      "name": "IP-Adapter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/tencent-ailab/IP-Adapter",
+        "normalized_key": "github:tencent-ailab/ip-adapter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "identity-style-guidance",
+        "reference-image-conditioning"
+      ],
+      "domain_hints": [
+        "generation",
+        "image"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "reference-image-conditioning",
+          "identity-style-guidance"
+        ],
+        "intended_fa3_targets": [
+          "Generative Media Studio",
+          "Character Studio"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-JING-PROMPT-SKILLS-001",
@@ -4278,6 +6147,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KRITA-AI-DIFFUSION-001",
+      "name": "Krita AI Diffusion",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Acly/krita-ai-diffusion",
+        "normalized_key": "github:acly/krita-ai-diffusion"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "krita-to-comfyui-bridge",
+        "layer-preserving-ai-edit"
+      ],
+      "domain_hints": [
+        "image",
+        "integration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Krita"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "krita-to-comfyui-bridge",
+          "layer-preserving-ai-edit"
+        ],
+        "intended_fa3_targets": [
+          "Krita",
+          "Creative Studio"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-LENSFUN-001",
@@ -4589,6 +6525,144 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-LLM-COUNCIL-001",
+      "name": "LLM Council",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/karpathy/llm-council",
+        "normalized_key": "github:karpathy/llm-council"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "blind-peer-review",
+        "bounded-synthesis",
+        "parallel-agent-answer"
+      ],
+      "domain_hints": [
+        "agents",
+        "verification"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Decision Fabric",
+        "Verification Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "parallel-agent-answer",
+          "blind-peer-review",
+          "bounded-synthesis"
+        ],
+        "intended_fa3_targets": [
+          "Decision Fabric",
+          "Verification Fabric",
+          "Agent Collaboration Room"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-LLM-REGISTRY-001",
+      "name": "llm-registry",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/yamanahlawat/llm-registry",
+        "normalized_key": "github:yamanahlawat/llm-registry"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "model-lifecycle-reference",
+        "model-registry-schema"
+      ],
+      "domain_hints": [
+        "models",
+        "registry"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Model Router"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "model-registry-schema",
+          "model-lifecycle-reference"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "Model Router"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-LMMS-001",
       "name": "LMMS",
       "source": {
@@ -4640,6 +6714,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LOBECHAT-LOBEHUB-001",
+      "name": "LobeChat / LobeHub",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lobehub/lobe-chat",
+        "normalized_key": "github:lobehub/lobe-chat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-catalog-pattern",
+        "workspace-management-pattern"
+      ],
+      "domain_hints": [
+        "agents",
+        "interface"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "FA3 GUI"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "agent-catalog-pattern",
+          "workspace-management-pattern"
+        ],
+        "intended_fa3_targets": [
+          "Agent Runtime",
+          "FA3 GUI"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-MATCHERING-001",
@@ -4904,6 +7045,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MENGTO-SKILLS-001",
+      "name": "MengTo Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MengTo/Skills",
+        "normalized_key": "github:mengto/skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "portable-folder-skill-format",
+        "skills-discovery"
+      ],
+      "domain_hints": [
+        "agents",
+        "skills"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Developer Agent",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "portable-folder-skill-format",
+          "skills-discovery"
+        ],
+        "intended_fa3_targets": [
+          "Skill Fabric",
+          "Developer Agent"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-MICA-001",
@@ -5221,6 +7429,75 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MOVIEAGENT-001",
+      "name": "MovieAgent",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/showlab/MovieAgent",
+        "normalized_key": "github:showlab/movieagent"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "filmmaking-multi-agent-coordination",
+        "shot-to-crew-handoff"
+      ],
+      "domain_hints": [
+        "agents",
+        "film"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Film Planning",
+        "Production Studio",
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "filmmaking-multi-agent-coordination",
+          "shot-to-crew-handoff"
+        ],
+        "intended_fa3_targets": [
+          "Story/Screenplay",
+          "Film Planning",
+          "Production Studio"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-MUSE-001",
@@ -5634,6 +7911,74 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OPEN-PHOTO-AI-001",
+      "name": "Open Photo AI",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:Open Photo AI",
+        "normalized_key": "project:open photo ai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ai-color-proposal",
+        "ai-photo-enhancement-ui"
+      ],
+      "domain_hints": [
+        "image",
+        "photo"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "ai-photo-enhancement-ui",
+          "ai-color-proposal"
+        ],
+        "intended_fa3_targets": [
+          "Photo/Image Editor"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Incubating LAB only; no production or automatic provider admission."
+      },
+      "notes": [
+        "Incubating LAB only; no production or automatic provider admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENCODE-001",
       "name": "opencode",
       "source": {
@@ -5879,6 +8224,76 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENDAW-HEADLESS-001",
+      "name": "openDAW/headless",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:openDAW/headless",
+        "normalized_key": "project:opendaw/headless"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "headless-editable-music-workflow",
+        "programmable-daw-project"
+      ],
+      "domain_hints": [
+        "audio",
+        "music"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "programmable-daw-project",
+          "headless-editable-music-workflow"
+        ],
+        "intended_fa3_targets": [
+          "Music Studio",
+          "Audio Fabric"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v3.0.14-music",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Reference only; no replacement of canonical editable project."
+      },
+      "notes": [
+        "Reference only; no replacement of canonical editable project."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENDIRECTOR-001",
@@ -6133,6 +8548,217 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENWHIP-001",
+      "name": "OpenWhip",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GitFrog1111/OpenWhip",
+        "normalized_key": "github:gitfrog1111/openwhip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "desktop-agent-interaction-pattern",
+        "gui-action-feedback"
+      ],
+      "domain_hints": [
+        "agents",
+        "desktop"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Runtime",
+        "Computer Use",
+        "FA3 GUI"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "desktop-agent-interaction-pattern",
+          "gui-action-feedback"
+        ],
+        "intended_fa3_targets": [
+          "Computer Use",
+          "Agent Runtime",
+          "FA3 GUI"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-OPTIMIZEDIMAGEENHANCE-001",
+      "name": "OptimizedImageEnhance",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:OptimizedImageEnhance",
+        "normalized_key": "project:optimizedimageenhance"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "dehaze-reference",
+        "retinex-reference",
+        "underwater-image-fusion"
+      ],
+      "domain_hints": [
+        "image",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Color Fabric",
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "retinex-reference",
+          "dehaze-reference",
+          "underwater-image-fusion"
+        ],
+        "intended_fa3_targets": [
+          "Photo/Image Editor",
+          "Color Fabric"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Archived legacy research; no production dependency."
+      },
+      "notes": [
+        "Archived legacy research; no production dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OSTRIS-AI-TOOLKIT-001",
+      "name": "Ostris AI Toolkit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ostris/ai-toolkit",
+        "normalized_key": "github:ostris/ai-toolkit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "lora-training-workflow",
+        "multimodal-training-provider-boundary"
+      ],
+      "domain_hints": [
+        "models",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Training Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "multimodal-training-provider-boundary",
+          "lora-training-workflow"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "Training Fabric"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v2.0.20-training",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Candidate only; resource/license/security acceptance required."
+      },
+      "notes": [
+        "Candidate only; resource/license/security acceptance required."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-P4NDA0S-REVERSE-SKILLS-001",
@@ -6510,6 +9136,75 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-PIXELLE-VIDEO-001",
+      "name": "Pixelle-Video",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ATH-MaaS/Pixelle-Video",
+        "normalized_key": "github:ath-maas/pixelle-video"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "media-capability-router-pattern",
+        "scene-task-pipeline"
+      ],
+      "domain_hints": [
+        "agents",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "media-capability-router-pattern",
+          "scene-task-pipeline"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "QuickClip",
+          "Creative Studio"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-PLAYWRIGHT-001",
       "name": "Playwright",
       "source": {
@@ -6555,6 +9250,77 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-PRAISONAI-001",
+      "name": "PraisonAI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MervinPraison/PraisonAI",
+        "normalized_key": "github:mervinpraison/praisonai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-handoff",
+        "declarative-multi-agent-workflow",
+        "self-review"
+      ],
+      "domain_hints": [
+        "agents",
+        "orchestration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Collaboration Room",
+        "Agent Runtime",
+        "Verification Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "agent-handoff",
+          "self-review",
+          "declarative-multi-agent-workflow"
+        ],
+        "intended_fa3_targets": [
+          "Agent Runtime",
+          "Agent Collaboration Room",
+          "Verification Fabric"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-PRESENTON-001",
@@ -6651,6 +9417,78 @@
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_SOURCE_AND_LICENSE_RESOLUTION",
       "notes": [
         "Prior FA3 conversation identified Prism ML as a possible donor; exact upstream identity must be resolved before reuse."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD80-RESHADE-SHADER-COLLECTION-001",
+      "name": "prod80 ReShade shader collection",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:prod80 ReShade shader collection",
+        "normalized_key": "project:prod80 reshade shader collection"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "color-balance-algorithm-pattern",
+        "shader-grading-ui-pattern"
+      ],
+      "domain_hints": [
+        "color",
+        "shader"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Color Fabric",
+        "FA3 Video Editor",
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "color-balance-algorithm-pattern",
+          "shader-grading-ui-pattern"
+        ],
+        "intended_fa3_targets": [
+          "Color Fabric",
+          "Photo/Image Editor",
+          "FA3 Video Editor"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Reference pattern only; no ReShade runtime or HLSL presets as production dependency."
+      },
+      "notes": [
+        "Reference pattern only; no ReShade runtime or HLSL presets as production dependency."
       ]
     },
     {
@@ -6798,6 +9636,76 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-PYTORCH3D-001",
+      "name": "PyTorch3D",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:PyTorch3D",
+        "normalized_key": "project:pytorch3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "3d-loss-components",
+        "differentiable-render-operators"
+      ],
+      "domain_hints": [
+        "3d",
+        "training"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Training Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "research_ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "differentiable-render-operators",
+          "3d-loss-components"
+        ],
+        "intended_fa3_targets": [
+          "3D Fabric",
+          "Training Fabric"
+        ],
+        "historical_source_class": "RESEARCH_REF",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/conditional only; not renderer or DCC authority."
+      },
+      "notes": [
+        "Research/conditional only; not renderer or DCC authority."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-QTRACTOR-001",
       "name": "Qtractor",
       "source": {
@@ -6849,6 +9757,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-QUARKDOWN-001",
+      "name": "Quarkdown",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/iamgio/quarkdown",
+        "normalized_key": "github:iamgio/quarkdown"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "documentation-as-code",
+        "multi-format-publication"
+      ],
+      "domain_hints": [
+        "documents",
+        "publishing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Document Fabric",
+        "Story/Docs"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "documentation-as-code",
+          "multi-format-publication"
+        ],
+        "intended_fa3_targets": [
+          "Story/Docs",
+          "Document Fabric"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-RADIUM-001",
@@ -7314,6 +10289,73 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-RHUBARB-LIP-SYNC-001",
+      "name": "Rhubarb Lip Sync",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/DanielSWolf/rhubarb-lip-sync",
+        "normalized_key": "github:danielswolf/rhubarb-lip-sync"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "2d-mouth-shape-synchronization",
+        "phoneme-timeline"
+      ],
+      "domain_hints": [
+        "animation",
+        "audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation Studio",
+        "Digital Actor"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "phoneme-timeline",
+          "2d-mouth-shape-synchronization"
+        ],
+        "intended_fa3_targets": [
+          "Animation Studio",
+          "Digital Actor"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-ROHITG00-AI-ENGINEERING-FROM-SCRATCH-001",
       "name": "rohitg00/ai-engineering-from-scratch",
       "source": {
@@ -7576,6 +10618,74 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SHINESTACKER-001",
+      "name": "ShineStacker",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:ShineStacker",
+        "normalized_key": "project:shinestacker"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "focus-stacking",
+        "raw-tiff16-batch-normalization"
+      ],
+      "domain_hints": [
+        "image",
+        "photo"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "focus-stacking",
+          "raw-tiff16-batch-normalization"
+        ],
+        "intended_fa3_targets": [
+          "Photo/Image Editor"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v2.0.20-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Specialist only; not general color/video authority."
+      },
+      "notes": [
+        "Specialist only; not general color/video authority."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-SKILLS-001",
@@ -7886,6 +10996,73 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-STRETCHY-STUDIO-001",
+      "name": "Stretchy Studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MangoLion/stretchystudio",
+        "normalized_key": "github:mangolion/stretchystudio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "2d-mesh-deformation",
+        "rigging-workflow"
+      ],
+      "domain_hints": [
+        "animation",
+        "rigging"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "2d-mesh-deformation",
+          "rigging-workflow"
+        ],
+        "intended_fa3_targets": [
+          "Animation Studio",
+          "Character Studio"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-SUPERCOLLIDER-001",
       "name": "SuperCollider",
       "source": {
@@ -8049,6 +11226,142 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-TESTZEUS-HERCULES-001",
+      "name": "TestZeus Hercules",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/test-zeus-ai/testzeus-hercules",
+        "normalized_key": "github:test-zeus-ai/testzeus-hercules"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agentic-ui-test-reference",
+        "evidence-backed-qa"
+      ],
+      "domain_hints": [
+        "automation",
+        "testing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Browser Action Runtime",
+        "Verification Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "agentic-ui-test-reference",
+          "evidence-backed-qa"
+        ],
+        "intended_fa3_targets": [
+          "Verification Fabric",
+          "Browser Action Runtime"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-THREE-JS-AWESOME-GRAPHICS-AGENT-SKILLS-001",
+      "name": "Three.js Awesome Graphics Agent Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/scottstts/Threejs-Awesome-Graphics-Agent-Skills",
+        "normalized_key": "github:scottstts/threejs-awesome-graphics-agent-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "graphics-skill-routing",
+        "visual-regression-validation"
+      ],
+      "domain_hints": [
+        "graphics",
+        "skills"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Creative Studio",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "graphics-skill-routing",
+          "visual-regression-validation"
+        ],
+        "intended_fa3_targets": [
+          "3D Fabric",
+          "Creative Studio",
+          "Skill Fabric"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-TINY-SKIA-001",
       "name": "tiny-skia",
       "source": {
@@ -8098,6 +11411,75 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOONFLOW-001",
+      "name": "Toonflow",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HBAI-Ltd/Toonflow-app",
+        "normalized_key": "github:hbai-ltd/toonflow-app"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "creative-continuity-registry",
+        "reference-first-media-generation"
+      ],
+      "domain_hints": [
+        "continuity",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Story/Screenplay",
+        "World Generator"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "creative-continuity-registry",
+          "reference-first-media-generation"
+        ],
+        "intended_fa3_targets": [
+          "Story/Screenplay",
+          "FA3 Video Editor",
+          "World Generator"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-TSUMUGI-001",
@@ -8151,6 +11533,140 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-UNCENSORED-LOCAL-STUDIO-001",
+      "name": "Uncensored Local Studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/techjarves/Uncensored-Local-Studio",
+        "normalized_key": "github:techjarves/uncensored-local-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "backend-capability-discovery",
+        "multimodal-runtime-pattern",
+        "runtime-lifecycle"
+      ],
+      "domain_hints": [
+        "inference",
+        "model-lifecycle"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Model Router"
+      ],
+      "tags": [
+        "historical-review",
+        "ref",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "backend-capability-discovery",
+          "runtime-lifecycle",
+          "multimodal-runtime-pattern"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "Model Router"
+        ],
+        "historical_source_class": "REF",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-UNLA-001",
+      "name": "Unla",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AmoyLab/Unla",
+        "normalized_key": "github:amoylab/unla"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-gateway-adapter",
+        "mcp-server-discovery"
+      ],
+      "domain_hints": [
+        "integration",
+        "mcp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "mcp-gateway-adapter",
+          "mcp-server-discovery"
+        ],
+        "intended_fa3_targets": [
+          "MCP Gateway"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-VANE-001",
@@ -8314,6 +11830,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-VEO-3-PROMPT-GENERATOR-001",
+      "name": "Veo 3 Prompt Generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/shijincai/veo3-prompt-generator",
+        "normalized_key": "github:shijincai/veo3-prompt-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "historical-architecture-artifact-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "camera-beat-prompting",
+        "video-prompt-structure"
+      ],
+      "domain_hints": [
+        "prompt",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Prompt Builder"
+      ],
+      "tags": [
+        "historical-review",
+        "selective_adapter",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "video-prompt-structure",
+          "camera-beat-prompting"
+        ],
+        "intended_fa3_targets": [
+          "Prompt Builder",
+          "FA3 Video Editor"
+        ],
+        "historical_source_class": "SELECTIVE_ADAPTER",
+        "source_group": "v1.1-programlist",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
     },
     {
       "donor_id": "FA3-DONOR-VHAP-001",
@@ -9091,5 +12674,23 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false
     }
-  ]
+  ],
+  "historical_partial_reuse_review": {
+    "reviewed_at": "2026-09-28",
+    "source_groups": [
+      "v1.1-programlist",
+      "v2.0.20-training",
+      "v2.0.20-research",
+      "v3.0.14-music"
+    ],
+    "scoped_textual_artifacts": 37,
+    "scoped_library_files": 48,
+    "excluded_library_project": "Optimalizálás",
+    "reviewed_rows": 52,
+    "created": 52,
+    "enriched": 0,
+    "scope": "Source-file backfill only; not a claim to have read every ChatGPT conversation.",
+    "automatic_install": false,
+    "code_copy": false
+  }
 }
