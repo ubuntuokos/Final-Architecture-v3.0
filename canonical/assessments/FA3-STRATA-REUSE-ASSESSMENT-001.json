@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-STRATA-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-STRATA-TIERED-MOE-2026-09-28",
+  "intent_id": "FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-STRATA-001",
+    "FA3-TIERED-MOE-EXECUTION-CONTRACTS-001"
+  ],
+  "result": "PASS_WITH_SOURCE_REUSE_BLOCKED",
+  "selected_reuse": [
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_CROSS_PROVIDER_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "CURRENT_HOST_AND_PROMOTION_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "CAP-175",
+      "use": "MANDATORY_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "source": "Niko1221/Strata@b742ff998704638903461a2d7d6c1e03b8032509",
+      "use": "REFERENCE_ONLY_FOR_TIERED_MOE_RESIDENCY_CPU_GPU_OVERLAP_KV_STREAMING_MTP_AND_STORAGE_AUXILIARY_PATTERNS"
+    }
+  ],
+  "source_reuse": {
+    "upstream_original_code_copied": false,
+    "reason": "NO_ROOT_REUSE_LICENSE_FILE_OR_GITHUB_LICENSE_METADATA_OBSERVED_AT_PINNED_SNAPSHOT",
+    "future_copy_condition": "EXPLICIT_COMPATIBLE_LICENSE_VERIFIED_PER_FILE_OR_REPOSITORY_AND_REUSE_AUDIT_UPDATED"
+  },
+  "hardware_audit": {
+    "global_vendor_neutral": true,
+    "global_cpu_only_viable": true,
+    "global_accelerator_cardinality": "0..N",
+    "strata_current_scope_is_provider_specific_nvidia_only": true,
+    "provider_specific_limit_does_not_change_global_baseline": true,
+    "hrb_bound": true
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION_RUNTIME_ADMISSION_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
