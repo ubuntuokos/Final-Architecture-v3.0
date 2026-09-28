@@ -150,6 +150,11 @@ def run_observation(
     config = load_trust_pin(trust_path)
     if _git_head(root) != config["source_commit"]:
         raise SkillHostDenied("running checkout differs from independently trusted release pin")
+    # Existing provider qualification must precede the additional skill test.
+    from fa3_codex_gate import validate_current_host_receipt
+    prior = validate_current_host_receipt(root)
+    if prior.get("result") != "PASS":
+        raise SkillHostDenied("existing real Codex current-host provider admission is missing or failed")
     bundle_path = Path(bundle_path)
     if (not bundle_path.is_absolute() or bundle_path.stat().st_mode & 0o077
             or bundle_path.is_symlink()):

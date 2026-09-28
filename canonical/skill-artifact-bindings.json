@@ -51,6 +51,36 @@
         }
       ],
       "authority_owner": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    {
+      "artifact_id": "FA3-ARTIFACT-SKILL-CODEX-CURRENT-HOST-OBSERVATION",
+      "schema_id": "fa3.skill-codex-current-host-observation.v1",
+      "producer": {
+        "component": "src/fa3_skill_codex_current_host.py",
+        "path": "reports/skill-codex-current-host-report.json"
+      },
+      "consumers": [
+        {
+          "component": "src/fa3_skill_host_gate.py",
+          "expected_path": "reports/skill-codex-current-host-report.json"
+        }
+      ],
+      "authority_owner": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    {
+      "artifact_id": "FA3-ARTIFACT-SKILL-CODEX-HOST-SIGNED-GATE",
+      "schema_id": "fa3.skill-codex-host-gate-report.v1",
+      "producer": {
+        "component": "src/fa3_skill_host_gate.py",
+        "path": "reports/skill-codex-host-gate-report.json"
+      },
+      "consumers": [
+        {
+          "component": "FA3-AUTH-OBS-EVIDENCE-001",
+          "expected_path": "reports/skill-codex-host-gate-report.json"
+        }
+      ],
+      "authority_owner": "FA3-AUTH-OBS-EVIDENCE-001"
     }
   ],
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
