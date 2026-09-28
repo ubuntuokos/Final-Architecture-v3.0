@@ -1,0 +1,37 @@
+name: FA3 Prompt Dispatch & Reception
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_prompt_dispatch*.py'
+      - 'tests/test_prompt_dispatch.py'
+      - 'canonical/assessments/FA3-PROMPT-DISPATCH-DONOR-CHECK-001.json'
+      - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
+      - 'canonical/mcp-capability-registry.json'
+      - '.github/workflows/fa3-prompt-dispatch.yml'
+  push:
+    branches: [fa3/prompt-dispatch-donor-reconciled-20260929]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-reference:
+    name: prompt-dispatch / donor-gate-and-unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_prompt_dispatch.py src/fa3_prompt_dispatch_gate.py
+      - name: Mandatory donor and hardware audit
+        run: PYTHONPATH=src python src/fa3_prompt_dispatch_gate.py --root .
+      - name: FA3 UAF/MCP and mesh unit tests
+        run: PYTHONPATH=src python -m unittest discover -s tests -p test_prompt_dispatch.py -v
