@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 316,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -4356,6 +4356,132 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-EDWARDATHOMSON-NOVELWRITER-001",
+      "name": "EdwardAThomson/NovelWriter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/EdwardAThomson/NovelWriter",
+        "normalized_key": "github:edwardathomson/novelwriter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "genre-planning",
+        "worldbuilding",
+        "character-arcs",
+        "multi-agent-review",
+        "chapter-quality"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "agents"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No repository license declaration observed on 2026-09-28; code copying blocked. Reuse only general agent/review ideas; replace independent model selectors with FA3 Model Router."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-EDWARDATHOMSON-STORYDAEMON-001",
+      "name": "EdwardAThomson/StoryDaemon",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/EdwardAThomson/StoryDaemon",
+        "normalized_key": "github:edwardathomson/storydaemon"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "emergent-narrative",
+        "character-memory",
+        "goal-hierarchy",
+        "checkpoint-recovery",
+        "point-of-view"
+      ],
+      "domain_hints": [
+        "writing",
+        "agents",
+        "story"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No repository license declaration observed on 2026-09-28; no source copy or runtime admission. Agent autonomy requires explicit FA3 human-approval boundary."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-EMOCA-001",
       "name": "EMOCA",
       "source": {
@@ -8579,6 +8705,66 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MODOOJUNKO-AWESOME-NOVEL-AGENT-001",
+      "name": "modoojunko/awesome-novel-agent",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modoojunko/awesome-novel-agent",
+        "normalized_key": "github:modoojunko/awesome-novel-agent"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SKILL_PATTERN",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "writing-skills",
+        "chapter-workflows",
+        "story-planning"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "skills"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Repository declares AGPLv3 while README also requests commercial authorization; investigate provenance and commercial terms before any code or skill adoption."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-MONOGAUSSIANAVATAR-001",
       "name": "MonoGaussianAvatar",
       "source": {
@@ -8848,6 +9034,68 @@
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NIGH-SHOW-ME-THE-STORY-001",
+      "name": "Nigh/show-me-the-story",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Nigh/show-me-the-story",
+        "normalized_key": "github:nigh/show-me-the-story"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "chapter-approval",
+        "fact-provenance",
+        "foreshadowing",
+        "targeted-revision",
+        "backup-restore"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "creative"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "MIT declared. Its native local web/API setup and stored API keys must not become FA3 runtime or secrets authority; consider pattern-level use first."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -11321,6 +11569,68 @@
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OLIVIERKES-MANUSKRIPT-001",
+      "name": "olivierkes/manuskript",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/olivierkes/manuskript",
+        "normalized_key": "github:olivierkes/manuskript"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "outliner",
+        "index-cards",
+        "worldbuilding",
+        "distraction-free-writing",
+        "document-import-export"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "creative"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GPLv3-or-later PyQt5 writing app; consult license review before any source reuse or linking."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -15454,6 +15764,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-SAGA-SOFT-NOVELWRITER-001",
+      "name": "saga-soft/novelWriter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/saga-soft/novelWriter",
+        "normalized_key": "github:saga-soft/novelwriter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "structured-chapters",
+        "scene-notes",
+        "cross-reference",
+        "human-readable-manuscript",
+        "manuscript-export"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "creative"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GPLv3 Qt6/PyQt6 novel editor; evaluate only selective patterns and format adapters. v26.2 document format is Markdown plus TOML; do not overwrite original projects."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-SAHIELBOSE-TIDELINE-001",
       "name": "sahielbose/Tideline",
       "source": {
@@ -16678,6 +17050,175 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-TOPIC-CREATIVE-WRITING-001",
+      "name": "GitHub topic: creative-writing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/creative-writing",
+        "normalized_key": "github:topics/creative-writing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "creative-writing-discovery"
+      ],
+      "domain_hints": [
+        "writing",
+        "discovery"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Discovery index only; not a source license or runtime-admission decision."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-NOVEL-GENERATOR-001",
+      "name": "GitHub topic: novel-generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/novel-generator",
+        "normalized_key": "github:topics/novel-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "long-form-generation-discovery"
+      ],
+      "domain_hints": [
+        "writing",
+        "discovery"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Discovery index only; not a source license or runtime-admission decision."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-NOVEL-WRITER-001",
+      "name": "GitHub topic: novel-writer",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/novel-writer",
+        "normalized_key": "github:topics/novel-writer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "novel-writing-discovery"
+      ],
+      "domain_hints": [
+        "writing",
+        "discovery"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Discovery index only; individual repositories must be captured and licensed independently."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-TOXIPROXY-001",
       "name": "Toxiproxy",
       "source": {
@@ -17590,6 +18131,69 @@
       },
       "code_reuse_policy": "REFERENCE_ONLY_UNTIL_LICENSE_AND_IMPLEMENTATION_ADMISSION",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-XIAOYANGY-NOVEL-STUDIO-001",
+      "name": "Xiaoyangy/novel-studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Xiaoyangy/novel-studio",
+        "normalized_key": "github:xiaoyangy/novel-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "story-causality",
+        "character-knowledge-boundary",
+        "chapter-contracts",
+        "content-hashes",
+        "recoverable-pipeline"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "agents"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Apache-2.0 declared; study state, evidence and recovery designs. Existing FA3 Temporal/Journal/HRB/Model Router retain authority."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
