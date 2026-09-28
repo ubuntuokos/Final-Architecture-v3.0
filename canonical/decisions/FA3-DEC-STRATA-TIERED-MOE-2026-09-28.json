@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STRATA-TIERED-MOE-2026-09-28",
+  "date": "2026-09-28",
+  "status": "ACCEPTED",
+  "title": "Materialize Strata as an optional provider reference and tiered MoE execution donor",
+  "decision": [
+    "FA3-PROVIDER-STRATA-001 is an optional disabled-by-default provider candidate, never an authority.",
+    "Applications must reach Strata only through FA3-AUTH-MODEL-ROUTER-001 and its governed data plane.",
+    "All accelerator, CPU, NUMA memory and storage placement remains owned by FA3-AUTH-HOST-RESOURCE-BROKER-001 and existing storage governance.",
+    "The reusable architectural result is FA3-TIERED-MOE-EXECUTION-CONTRACTS-001, which is provider and vendor neutral.",
+    "Tiered MoE placement is a non-authoritative child projection of a validated HRB admission receipt and broker-validated placement grant; it may never admit, reserve, lease, discover or expand resources.",
+    "No original Strata source code may be copied while the pinned upstream snapshot lacks an explicit verified reuse license.",
+    "The clean-room FA3 placement planner may implement the documented concepts independently.",
+    "Runtime/current-host promotion remains pending physical execution evidence and immutable provider/runtime identity."
+  ],
+  "upstream_pin": {
+    "repository": "Niko1221/Strata",
+    "commit": "b742ff998704638903461a2d7d6c1e03b8032509",
+    "release": "v0.1.12"
+  },
+  "hardware_audit": {
+    "result": "PASS_ARCHITECTURAL",
+    "global_vendor_neutral": true,
+    "cpu_only_baseline_preserved": true,
+    "accelerator_cardinality": "0..N",
+    "provider_specific_nvidia_constraint_is_not_global": true,
+    "current_host_physical_execution_claim": false
+  },
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_promotion": "PENDING_CURRENT_HOST_EVIDENCE"
+}
