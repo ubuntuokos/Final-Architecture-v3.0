@@ -13,12 +13,17 @@ Item {
     property color green: "#35e0a1"
     property color orange: "#f0b14a"
     property color magenta: "#b778ff"
+    signal navigateRequested(string routeId)
 
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 18
         spacing: 12
-        Label { text: "Decision Inspector"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
+        RowLayout {
+            Layout.fillWidth: true
+            Label { text: "Decision Inspector"; color: root.textPrimary; font.pixelSize: 22; font.bold: true; Layout.fillWidth: true }
+            Button { text: "Skill Fabric"; onClicked: root.navigateRequested("decision.skill-fabric") }
+        }
         Label { text: "Read-only append-only Decision Trace projection · MODEL JUDGMENT ≠ FA3 FINAL DECISION"; color: root.accent; font.pixelSize: 10; font.bold: true }
         Label {
             visible: fa3DecisionFabric.recentDecisions.length === 0
