@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ee8fdd2290adf4316e8dd729af7c075915b03745",
-    "pre_projection_root_tree_sha": "9386fc456de7d11be298fa8995dd7e34fc347c5a",
-    "pre_projection_canonical_tree_sha": "fd0190c51ddc188777dafec6a66398c98fd4964e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1316,
-    "total_post_baseline_commits": 1316,
-    "delta_file_count": 2402,
-    "delta_added_files": 2396,
+    "pre_projection_head_sha": "58fe4bf8ece6d8a40f0ef0dd5cb8ea9d52524892",
+    "pre_projection_root_tree_sha": "aee1b0a2c4b6aaf92c9b52d93fc93852e3578862",
+    "pre_projection_canonical_tree_sha": "19fe0c501c371606348f3d28a487c25505a5e916",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1318,
+    "total_post_baseline_commits": 1318,
+    "delta_file_count": 2403,
+    "delta_added_files": 2397,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -50,7 +50,7 @@
     "evidence_files_in_post_baseline_delta": 170,
     "source_files_in_post_baseline_delta": 325,
     "test_files_in_post_baseline_delta": 260,
-    "workflow_files_in_post_baseline_delta": 116,
+    "workflow_files_in_post_baseline_delta": 117,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -997,7 +997,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2392,
+  "manifest_entry_count": 2393,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1397,6 +1397,11 @@
     {
       "path": ".github/workflows/fa3-openmodeldb-provider-gate.yml",
       "git_blob_sha": "48c29d299e84bdf815289b71bd161fd68b74e938",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-ops-cancel-superseded-khronos.yml",
+      "git_blob_sha": "fb54330cf8a7105b393b7cbe679154af30a4a82b",
       "baseline_delta_status": "added"
     },
     {
