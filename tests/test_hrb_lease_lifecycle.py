@@ -136,7 +136,8 @@ def binding_seed(*, backend="SYSTEMD_CGROUPV2_SCOPE", accelerators=None):
     }
 
 
-def make_env():
+def make_env(*, hardware_inventory_provider=None, router_binding_verifier=None,
+             application_selection_verifier=None):
     clock = FakeClock()
     keyring = LeaseKeyring([LeaseKey("k1", b"A" * 32, HMAC_SCOPE)], "k1")
     ledger = LeaseLedger(
@@ -144,6 +145,9 @@ def make_env():
         boot_id_reader=clock.read_boot_id,
         monotonic_ns=clock.monotonic_ns,
         wall_utc=clock.wall_utc,
+        hardware_inventory_provider=hardware_inventory_provider,
+        router_binding_verifier=router_binding_verifier,
+        application_selection_verifier=application_selection_verifier,
     )
     return clock, keyring, ledger
 
@@ -344,7 +348,13 @@ class HrbLeaseLifecycleTests(unittest.TestCase):
 
     def test_shared_accelerator(self):
         shared = [{"stable_id": "GPU-TEST", "mode": "SHARED", "share_group_id": "share-a"}]
-        _, _, ledger = make_env()
+        inventory = {
+            "schema": "fa3.hrb-live-accelerator-inventory.v1",
+            "verified_by": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+            "topology_revalidated": True,
+            "devices": [{"stable_id": "GPU-TEST", "kind": "GPU", "present": True, "display_active": False}],
+        }
+        _, _, ledger = make_env(hardware_inventory_provider=lambda: inventory)
         lease = active_lease(ledger, seed=binding_seed(accelerators=shared))
         out = ledger.evict(
             lease["lease_id"], 1,
@@ -354,6 +364,95 @@ class HrbLeaseLifecycleTests(unittest.TestCase):
         )
         self.assertEqual(out["state"], "EVICTED")
         self.assertEqual(out["runtime_binding"]["accelerator_assignments"][0]["mode"], "SHARED")
+
+
+    def test_accelerator_lease_requires_trusted_inventory_callback(self):
+        _, _, ledger = make_env()
+        with self.assertRaisesRegex(LeaseBindingError, "trusted current HRB inventory"):
+            ledger.issue(binding_seed(accelerators=[{"stable_id": "GPU-TEST"}]), 10.0)
+
+    def test_solo_display_gpu_requires_verified_router_and_hrb_reserve(self):
+        inventory = {
+            "schema": "fa3.hrb-live-accelerator-inventory.v1",
+            "verified_by": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+            "topology_revalidated": True,
+            "devices": [{"stable_id": "display-uuid", "kind": "GPU",
+                         "present": True, "display_active": True}],
+            "display_reservations": {"display-uuid": True},
+        }
+        assignment = {
+            "stable_id": "display-uuid", "role": "DISPLAY",
+            "workload_binding": {
+                "application_id": "video", "task_id": "inference-1", "model_id": "selected-model",
+                "router_binding": {
+                    "authority_id": "FA3-AUTH-MODEL-ROUTER-001", "route_id": "video",
+                    "provider_id": "provider", "runtime_id": "runtime", "model_id": "selected-model",
+                },
+            },
+        }
+        _, _, denied = make_env(hardware_inventory_provider=lambda: inventory)
+        with self.assertRaisesRegex(LeaseBindingError, "display GPU admission denied"):
+            denied.issue(binding_seed(accelerators=[assignment]), 10.0)
+        _, _, allowed = make_env(
+            hardware_inventory_provider=lambda: inventory,
+            router_binding_verifier=lambda row: row.get("model_id") == "selected-model",
+        )
+        lease = active_lease(allowed, seed=binding_seed(accelerators=[assignment]))
+        allowed.assert_current_valid(lease["lease_id"], 1)
+        inventory["display_reservations"]["display-uuid"] = False
+        with self.assertRaisesRegex(LeaseBindingError, "display GPU admission denied"):
+            allowed.assert_current_valid(lease["lease_id"], 1)
+
+    def test_multi_device_needs_authenticated_app_selection_and_blocks_auto_use(self):
+        inventory = {
+            "schema": "fa3.hrb-live-accelerator-inventory.v1",
+            "verified_by": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+            "topology_revalidated": True,
+            "devices": [
+                {"stable_id": "display-uuid", "kind": "GPU", "display_active": True},
+                {"stable_id": "other-npu", "kind": "NPU", "present": True, "health": "OFFLINE"},
+            ],
+            "display_reservations": {"display-uuid": True},
+        }
+        app_selection = {
+            "source": "APPLICATION_USER_SELECTION", "approved": True,
+            "automatic": False, "allow_fallback": False, "intent_id": "intent-1",
+            "reason": "specific application task requires the display GPU",
+            "application_id": "video", "task_id": "inference-1",
+            "model_id": "selected-model", "accelerator_id": "display-uuid",
+        }
+        assignment = {
+            "stable_id": "display-uuid", "role": "DISPLAY",
+            "workload_binding": {
+                "application_id": "video", "task_id": "inference-1",
+                "model_id": "selected-model",
+                "router_binding": {
+                    "authority_id": "FA3-AUTH-MODEL-ROUTER-001",
+                    "route_id": "video", "provider_id": "provider",
+                    "runtime_id": "runtime", "model_id": "selected-model",
+                },
+            },
+            "application_selection": app_selection,
+        }
+        _, _, denied = make_env(
+            hardware_inventory_provider=lambda: inventory,
+            router_binding_verifier=lambda _: True,
+        )
+        with self.assertRaisesRegex(LeaseBindingError, "not been authenticated"):
+            denied.issue(binding_seed(accelerators=[assignment]), 10.0)
+        _, _, allowed = make_env(
+            hardware_inventory_provider=lambda: inventory,
+            router_binding_verifier=lambda _: True,
+            application_selection_verifier=lambda row: row.get("intent_id") == "intent-1",
+        )
+        lease = active_lease(allowed, seed=binding_seed(accelerators=[assignment]))
+        allowed.assert_current_valid(lease["lease_id"], 1)
+        assignment["application_selection"] = dict(app_selection, automatic=True)
+        with self.assertRaisesRegex(LeaseBindingError, "display GPU admission denied"):
+            allowed.issue(binding_seed(accelerators=[assignment]), 10.0)
+        inventory["topology_revalidated"] = False
+        with self.assertRaisesRegex(LeaseBindingError, "not revalidated"):
+            allowed.assert_current_valid(lease["lease_id"], 1)
 
     def test_unknown_backend_device(self):
         bad = binding_seed(backend="UNKNOWN")
