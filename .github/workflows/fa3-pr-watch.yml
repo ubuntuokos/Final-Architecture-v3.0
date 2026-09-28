@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - "src/fa3_pr_watch.py"
+      - "src/fa3_pr_watch_receiver.py"
+      - "bin/fa3-pr-watch-receiver"
+      - "tests/test_pr_watch_receiver.py"
       - "bin/fa3-pr-watch"
       - "tests/test_pr_watch.py"
       - "apps/fa3-control-center/src/PrWatchService.*"
@@ -18,6 +21,9 @@ on:
     branches: [main]
     paths:
       - "src/fa3_pr_watch.py"
+      - "src/fa3_pr_watch_receiver.py"
+      - "bin/fa3-pr-watch-receiver"
+      - "tests/test_pr_watch_receiver.py"
       - "bin/fa3-pr-watch"
       - "tests/test_pr_watch.py"
       - "apps/fa3-control-center/src/PrWatchService.*"
@@ -44,11 +50,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Strict source syntax
-        run: python -m py_compile src/fa3_pr_watch.py bin/fa3-pr-watch tests/test_pr_watch.py
+        run: python -m py_compile src/fa3_pr_watch.py src/fa3_pr_watch_receiver.py bin/fa3-pr-watch bin/fa3-pr-watch-receiver tests/test_pr_watch.py tests/test_pr_watch_receiver.py
       - name: Real signed-payload and negative regression suite
         env:
           PYTHONPATH: src
-        run: python -m unittest discover -s tests -p test_pr_watch.py -v
+        run: |
+          python -m unittest discover -s tests -p test_pr_watch.py -v
+          python -m unittest discover -s tests -p test_pr_watch_receiver.py -v
       - name: Existing work-management and goal-contract regressions
         env:
           PYTHONPATH: src
