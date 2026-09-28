@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 310,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -5631,6 +5631,190 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-ART-STYLE-TRANSFER-001",
+      "name": "GitHub topic: art-style-transfer",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/art-style-transfer",
+        "normalized_key": "github:topics/art-style-transfer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-supplied-chat-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "art-style-transfer-discovery",
+        "neural-style-transfer-reference",
+        "artistic-image-transformation",
+        "visual-style-consistency"
+      ],
+      "domain_hints": [
+        "image",
+        "creative",
+        "style-transfer"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "PhotoTux",
+        "Vector Graphics",
+        "Video Editor",
+        "Creative Studio",
+        "World Generator"
+      ],
+      "tags": [
+        "topic-discovery",
+        "art-style-transfer",
+        "neural-style",
+        "visual-consistency"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_INDIVIDUAL_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic discovery index, not a model license or runtime approval; assess each repository and checkpoint separately, including CPU-only viability and HRB/Model Router restrictions."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-DESIGN-INSPIRATION-001",
+      "name": "GitHub topic: design-inspiration",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/design-inspiration",
+        "normalized_key": "github:topics/design-inspiration"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-supplied-chat-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "design-inspiration-discovery",
+        "design-system-reference",
+        "ui-pattern-reference"
+      ],
+      "domain_hints": [
+        "visual-design",
+        "ui",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 GUI",
+        "Creative Studio",
+        "PhotoTux",
+        "Vector Graphics",
+        "Presentation"
+      ],
+      "tags": [
+        "topic-discovery",
+        "design-inspiration",
+        "typography",
+        "design-systems",
+        "visual-reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_INDIVIDUAL_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic repository discovery index; individual member repositories require their own donor record and license/provenance review. No bulk incorporation of topic contents."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-VISUAL-ASSETS-001",
+      "name": "GitHub topic: visual-assets",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/visual-assets",
+        "normalized_key": "github:topics/visual-assets"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-supplied-chat-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "visual-asset-discovery",
+        "visual-asset-cataloging",
+        "asset-quality-governance"
+      ],
+      "domain_hints": [
+        "visual-assets",
+        "asset-management",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "PhotoTux",
+        "Vector Graphics",
+        "Video Editor",
+        "Credits & Titles Composer",
+        "World Generator"
+      ],
+      "tags": [
+        "topic-discovery",
+        "visual-assets",
+        "icons",
+        "illustrations",
+        "asset-provenance"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_INDIVIDUAL_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic discovery index for image, icon and multimedia assets. Each candidate and each asset retains separate code/content license, rights and provenance requirements."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
@@ -17652,6 +17836,77 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-YEJY53-EDITABLE-DESIGN-001",
+      "name": "yejy53/Editable-Design",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/yejy53/Editable-Design",
+        "normalized_key": "github:yejy53/editable-design"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-supplied-chat-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "editable-fixed-canvas-artifacts",
+        "independent-live-typography",
+        "editable-html-visual-editor",
+        "html-to-editable-pptx",
+        "design-replay-evidence",
+        "paper-workflow-diagrams"
+      ],
+      "domain_hints": [
+        "visual-design",
+        "creative",
+        "presentation",
+        "document"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "PhotoTux",
+        "Vector Graphics",
+        "Presentation",
+        "Creative Studio",
+        "Credits & Titles Composer",
+        "FA3 GUI"
+      ],
+      "tags": [
+        "editable-design",
+        "design-replay",
+        "layered-editing",
+        "poster",
+        "infographic",
+        "html",
+        "pptx",
+        "visual-editor",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0 (original project code)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Selective reference for editable fixed-canvas posters, independently editable text/images, design replay, Paper Fig diagrams and HTML-to-PPTX. Original code declares Apache-2.0; third-party materials and external services have separate terms. No upstream agent/runtime installation or automatic admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-YOUMIND-OPENLAB-NANO-BANANA-PRO-PROMPTS-RECOMMEND-SKILL-001",
