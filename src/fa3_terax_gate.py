@@ -415,8 +415,8 @@ def current_host_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("TERAX-HOST-003","Auxiliary Terax receipt schema/provider mismatch"))
     if receipt.get("host_scope") != "CURRENT_HOST" or receipt.get("provider_state") != "DISABLED_REFERENCE_ONLY":
         findings.append(_finding("TERAX-HOST-004","Terax receipt is not explicit disabled-reference current-host evidence"))
-    if receipt.get("status") != "PASS":
-        findings.append(_finding("TERAX-HOST-005","Terax auxiliary current-host receipt is not PASS",status=receipt.get("status")))
+    if receipt.get("status") != "OBSERVATIONAL_ONLY" or receipt.get("physical_attestation") is not False:
+        findings.append(_finding("TERAX-HOST-005","Terax process-name snapshot may only claim OBSERVATIONAL_ONLY, never physical PASS",status=receipt.get("status")))
     if not disabled_zero_cost(receipt.get("metrics", {})):
         findings.append(_finding("TERAX-HOST-006","Disabled Terax provider consumed observed provider-owned runtime resources",metrics=receipt.get("metrics", {})))
     if receipt.get("workload_execution_requested") is not False or receipt.get("requested_resource_classes") != []:
@@ -433,7 +433,7 @@ def current_host_check(root: Path) -> dict[str, Any]:
             findings.append(_finding("TERAX-HOST-011","Terax auxiliary receipt expired or has no expiry"))
     except ValueError:
         findings.append(_finding("TERAX-HOST-012","Invalid Terax auxiliary receipt expiry"))
-    return {"result":("OBSERVATIONAL_ONLY" if not findings and receipt.get("physical_attestation") is not True else "PASS") if not findings else "FAIL","findings":findings,"receipt":receipt,"promotion_effect":"NONE","physical_current_host_claim":False}
+    return {"result":"OBSERVATIONAL_ONLY" if not findings else "FAIL","findings":findings,"receipt":receipt,"promotion_effect":"NONE","physical_current_host_claim":False}
 
 
 def gate(root: Path, *, require_current_host: bool = True) -> dict[str, Any]:
