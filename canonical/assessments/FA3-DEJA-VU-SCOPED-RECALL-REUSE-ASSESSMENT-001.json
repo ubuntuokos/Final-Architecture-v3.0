@@ -1,0 +1,143 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-DEJA-VU-SCOPED-RECALL-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-DEJA-VU-SCOPED-RECALL-001",
+  "intent_id": "FA3-DEJA-VU-SCOPED-RECALL-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-DEJA-VU-SCOPED-RECALL-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-DEJA-VU-001"
+  ],
+  "result": "PASS",
+  "assessment_scope": "DETERMINISTIC_STATIC_REUSE_DESIGN_ONLY_NO_RUNTIME_ADMISSION",
+  "selected_reuse": [
+    {
+      "id": "FA3-KNOWLEDGE-001",
+      "use": "REUSE_CANONICAL_AGENT_MEMORY_ASSETS_AND_LINEAGE_NO_NEW_MEMORY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+      "use": "EXISTING_SCOPED_PERMISSION_BEFORE_RETRIEVAL_AND_REVOCATION_REQUIREMENTS"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_MCP_CAPABILITY_AND_EXTERNAL_POLICY_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_PRE_RETRIEVAL_AUTHORIZATION_AND_TRUST_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_CPU_NUMA_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_AUDIT_AND_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-JOURNAL-001",
+      "use": "EXISTING_SOURCE_TRUTH_AND_REPLAY_LINEAGE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "MANDATORY_DONOR_DISCOVERY_AND_PROVENANCE"
+    },
+    {
+      "id": "FA3-DONOR-VSHULCZ-DEJA-VU-001",
+      "use": "PINNED_MIT_UPSTREAM_LOCAL_SESSION_JSON_V2_SEARCH_REFERENCE"
+    },
+    {
+      "id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+      "use": "EXISTING_OPTIONAL_NOT_ADMITTED_MEMORY_PATTERN_REFERENCE_NO_RUNTIME_BINDING"
+    },
+    {
+      "id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+      "use": "SEPARATE_EXISTING_DOCUMENT_RETRIEVAL_CANDIDATE_NOT_DUPLICATED_BY_SESSION_HISTORY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "DEJA_STANDALONE_MCP_OR_MEMORY_AUTHORITY",
+      "reason": "Would bypass central FA3 Knowledge/Memory, MCP and policy authorities."
+    },
+    {
+      "id": "DEJA_INSTALL_AUTO_SYNC_OR_GLOBAL_SCAN",
+      "reason": "Would modify unrelated agent configurations or search unapproved cross-project history."
+    },
+    {
+      "id": "DEJA_OPTIONAL_SEMANTIC_MODEL_DIRECT",
+      "reason": "Would bypass FA3 central Model Router and HRB; no semantic provider admitted."
+    }
+  ],
+  "pattern_reuse": [
+    "LOCAL_JSON_V2_COMMAND_SURFACE",
+    "INCREMENTAL_REBUILDABLE_PROJECT_INDEX",
+    "EXACT_SOURCE_SESSION_PROVENANCE",
+    "CAREFULLY_BOUNDED_REDACTED_SNIPPETS",
+    "PROJECT_SCOPED_CROSS_AGENT_RECALL"
+  ],
+  "existing_authority_bindings": {
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "memory_contract": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model": "FA3-AUTH-MODEL-ROUTER-001",
+    "journal": "FA3-JOURNAL-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "REAL_PINNED_BINARY_AND_ENCRYPTED_PARTITION_CURRENT_HOST_PENDING",
+    "APPROVED_TRANSCRIPT_STAGING_AND_TOMBSTONE_REBUILD_PENDING",
+    "P0_REAL_POLICY_NEGATIVE_ROLLBACK_AND_ZERO_RESIDENCY_PENDING",
+    "INTERACTIVE_GUI_BACKEND_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "automatic_display_gpu_use": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "scope": "STATIC_DESIGN_ONLY",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "physical_evidence": "PENDING_CURRENT_HOST"
+  },
+  "implementation_readiness": "STATIC_ADAPTER_TESTED_HOSTED_CI_REAL_CURRENT_HOST_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "assessment": "CLI session text retrieval via existing memory/MCP contracts does not require new graphics, media, 3D, or other Khronos SDK reuse; later creative native adapters require a fresh per-application Khronos review."
+    }
+  ],
+  "central_donor_registry_review": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_id": "FA3-DONOR-VSHULCZ-DEJA-VU-001",
+    "status": "CANDIDATE",
+    "deduplicated": true,
+    "automatic_activation": false,
+    "code_copy": false
+  }
+}
