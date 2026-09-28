@@ -4575,8 +4575,8 @@
       "name": "EnergyPlus",
       "source": {
         "kind": "GITHUB",
-        "locator": "https://github.com/NREL/EnergyPlus",
-        "normalized_key": "github:nrel/energyplus"
+        "locator": "https://github.com/NatLabRockies/EnergyPlus",
+        "normalized_key": "github:natlabrockies/energyplus"
       },
       "status": "CANDIDATE",
       "discovered_from": [
@@ -4612,8 +4612,8 @@
         "no-automatic-admission"
       ],
       "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
+        "declared": "EnergyPlus custom permissive license (attribution and name/trademark conditions)",
+        "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
       "discoverable_for_planning": true,
@@ -4627,7 +4627,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution.",
+        "GitHub NREL/EnergyPlus redirects to NatLabRockies/EnergyPlus; recorded canonical upstream."
       ]
     },
     {
