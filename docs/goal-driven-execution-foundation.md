@@ -35,6 +35,10 @@ P5: authorized bounded repair and compensation through UAF and existing policies
 P6: existing Control Center/Agent Workspace GUI, real isolated Developer Agent pilot on disposable Git branch and positive/negative/rollback evidence in each approval mode.
 P7: attach the same goal contracts to Story/Screenplay, Prompt Creator, native FA3 Video Editor and QuickClip as appropriate, preserving .fa3video, .fa3clip, .kra, Ardour and all native project formats. Unreal remains excluded.
 
+## Command-line usage
+
+The implemented bin/fa3-goal entrypoint provides validate, plan, assess and repair commands. Each command consumes versioned JSON from --goal and optional --steps/--preflight/--observations files; use --goal - for stdin. None of these commands performs effects or grants authorization; plan returns typed candidates, assess always requires independent canonical verification, and repair only proposes bounded next steps. Invalid input returns status REJECTED without echoing secrets or untrusted content.
+
 ## Tests and release rules
 
 Run: PYTHONPATH=src python3 -m unittest discover -s tests -p test_goal_execution_foundation.py -v
