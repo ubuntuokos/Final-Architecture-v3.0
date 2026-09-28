@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-DEJA-VU-SCOPED-RECALL-APPLICATION-INTENT-001",
+  "project_id": "FA3-DEJA-VU-SCOPED-RECALL-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Integrate a pinned deja-vu read-only local session search adapter within the existing FA3 Memory/Knowledge and Central MCP Gateway boundaries, without new architectural authority or an independently activated provider.",
+  "required_capabilities": [
+    "fa3.memory.retrieve"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "cross-agent-session-recall",
+    "project-scoped-history-search",
+    "debugging-provenance",
+    "compaction-context-recovery"
+  ],
+  "task_classes": [
+    "agent-runtime",
+    "developer-tools",
+    "knowledge",
+    "mcp",
+    "memory"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "APPROVED_LOCAL_CLAUDE_CODEX_TRANSCRIPTS",
+    "EXPLICIT_PROJECT_SCOPED_QUERY",
+    "EXTERNAL_FA3_POLICY_DECISION"
+  ],
+  "output_modalities": [
+    "DERIVED_NON_AUTHORITATIVE_RETRIEVAL_RESULT",
+    "OPAQUE_SOURCE_REFERENCE",
+    "REDACTED_BOUNDED_SNIPPET",
+    "AUDIT_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_LOCAL_READ",
+    "CENTRAL_MCP_MEDIATED"
+  ],
+  "data_classes": [
+    "PRIVATE_PROJECT_SESSION_HISTORY",
+    "SOURCE_LINEAGE",
+    "SCOPED_RETRIEVAL_TRACE"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "REAL_PINNED_UPSTREAM_BINARY_AND_PROVENANCE_CURRENT_HOST_PENDING",
+    "APPROVED_PRIVATE_TRANSCRIPT_STAGING_AND_REVOCATION_PENDING",
+    "REAL_SECURITY_NEGATIVE_ROLLBACK_E2E_CURRENT_HOST_PENDING",
+    "INTERACTIVE_GUI_RUNTIME_BACKEND_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "automatic_display_gpu_use": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-deja-recall",
+    "service_prefix": "EXISTING_FA3_CENTRAL_MCP_GATEWAY",
+    "config_root": "$XDG_CONFIG_HOME/fa3/deja-recall",
+    "cache_root": "$XDG_CACHE_HOME/fa3/deja-recall",
+    "data_root": "EXISTING_APPROVED_ENCRYPTED_PROJECT_PARTITIONS",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/deja-recall",
+    "socket_namespace": "EXISTING_CENTRAL_MCP_ONLY",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "AUTHORIZATION_BEFORE_SOURCE_RETRIEVAL",
+    "PRIVATE_PROJECT_INDEX_PARTITIONS",
+    "NO_GLOBAL_HISTORY_SCANNING",
+    "NO_DIRECT_AGENT_PROVIDER_BYPASS",
+    "NO_DIRECT_MODEL_OR_ACCELERATOR_SELECTION",
+    "STRICT_UPSTREAM_JSON_SCHEMA_2",
+    "SECRET_REDACTION_AND_BOUNDED_RESPONSE",
+    "JOURNAL_REMAINS_SOURCE_AUTHORITY",
+    "REAL_CURRENT_HOST_ADMISSION_REQUIRED"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-KNOWLEDGE-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-JOURNAL-001"
+  ],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}
