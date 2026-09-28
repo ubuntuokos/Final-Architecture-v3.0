@@ -151,6 +151,8 @@ def compile_system_one_step(request: DecisionRequest) -> CompiledSystemOneStep:
     feasible: list[str] = []
 
     for candidate in request.candidates:
+        if candidate.id in {FINISH, ESCALATE, NEXT_ACTION, GOAL_REACHED} or "__" in candidate.id:
+            raise SystemOneSpecError(f"action {candidate.id!r} uses a reserved identifier")
         metadata = candidate.metadata
         risk = str(metadata.get("risk", "write"))
         if risk not in RISKS:
@@ -286,6 +288,27 @@ def _param_value(answer: dict[str, Any], question: dict[str, Any]) -> tuple[Any,
     raise SystemOneSpecError(f"unsupported compiled question type: {qtype!r}")
 
 
+def _answer_distributions(answers: dict[str, Any]) -> dict[str, Any]:
+    projected: dict[str, Any] = {}
+    for key, answer in answers.items():
+        if not isinstance(answer, dict):
+            continue
+        atype = answer.get("type")
+        if atype in {"choice", "score"} and isinstance(answer.get("probabilities"), dict):
+            projected[key] = {
+                "type": atype,
+                "probabilities": {
+                    str(k): _number(v)
+                    for k, v in answer["probabilities"].items()
+                    if isinstance(v, (int, float)) and not isinstance(v, bool)
+                },
+                "confidence": _number(answer.get("confidence")),
+            }
+        elif atype == "noul":
+            projected[key] = {"type": "noul", "noul": _number(answer.get("noul"))}
+    return projected
+
+
 def _state_digest(state: Any) -> str:
     payload = json.dumps(
         state,
@@ -325,6 +348,7 @@ def evaluate_system_one_answers(
         "execution_performed": False,
         "authorization_granted": False,
         "confidence_is_authorization": False,
+        "answer_distributions": _answer_distributions(answers),
     }
 
     if action == ESCALATE:
@@ -474,6 +498,12 @@ class SystemOneReflexRuntime:
             runtime_status = "FINISH_READY"
         else:
             runtime_status = "HANDOFF"
+            if handoff is None:
+                handoff = {
+                    "reason": trace.get("error_class") or str(trace.get("status") or "no_decision").lower(),
+                    "decision_id": trace.get("decision_id"),
+                    "target_classes": ["SYSTEM_TWO", "HUMAN"],
+                }
 
         return {
             "schema": "fa3.system-one-reflex-step.v1",
