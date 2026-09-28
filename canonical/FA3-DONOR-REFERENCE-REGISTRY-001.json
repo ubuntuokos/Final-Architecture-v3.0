@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -17402,6 +17402,82 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-VSHULCZ-DEJA-VU-001",
+      "name": "deja-vu (vshulcz)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/vshulcz/deja-vu",
+        "normalized_key": "github:vshulcz/deja-vu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-research-2026-09-28",
+        "deja-vu-scoped-recall-implementation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-agent-session-recall",
+        "retroactive-session-indexing",
+        "compaction-handoff",
+        "command-and-decision-provenance"
+      ],
+      "domain_hints": [
+        "agent-memory",
+        "developer-tools",
+        "mcp",
+        "agent-orchestration"
+      ],
+      "problem_hints": [
+        "cross-agent-history-search",
+        "repeated-debugging",
+        "scoped-session-retrieval"
+      ],
+      "target_hints": [
+        "Agent Memory",
+        "SUB-Agents",
+        "Decision Fabric",
+        "MCP Gateway",
+        "Developer Tools",
+        "Knowledge Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "local-search",
+        "scoped-recall",
+        "go",
+        "json-v2",
+        "session-history",
+        "provenance",
+        "redaction"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "source_blob_sha": "b5f413c29438cbdbb1f90f37e9299ed8b5406672"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Pinned upstream 73ad34e5fdc2b0c245a0fb69b65a17f3cbb123c8; scoped read-only CLI adapter implemented, runtime blocked until current-host gates.",
+        "Per-project encrypted partitions and pre-retrieval external policy resolver mandatory; never promote global or cross-agent memory automatically.",
+        "CPU-only and hardware vendor-neutral; no model, embeddings or automatic display GPU use."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-WAN2-2-001",
