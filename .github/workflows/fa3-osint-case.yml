@@ -1,0 +1,43 @@
+name: FA3 OSINT Case & Admission Reference
+on:
+  pull_request:
+    branches: [main, "fa3/**"]
+    paths:
+      - "src/fa3_osint_case.py"
+      - "tests/test_osint_case.py"
+      - "canonical/contracts/FA3-OSINT-CASE-INTERCHANGE-001.json"
+      - "canonical/intents/FA3-OSINT-CASE-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-OSINT-CASE-REUSE-ASSESSMENT-001.json"
+      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+      - ".github/workflows/fa3-osint-case.yml"
+  push:
+    branches: ["fa3/**", main]
+    paths:
+      - "src/fa3_osint_case.py"
+      - "tests/test_osint_case.py"
+      - ".github/workflows/fa3-osint-case.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  case-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax
+        run: python -m py_compile src/fa3_osint_arsenal_catalog.py src/fa3_osint_case.py tests/test_osint_case.py
+      - name: Case scope, privacy and admission negative tests
+        run: PYTHONPATH=src python -m unittest tests.test_osint_case tests.test_osint_arsenal_catalog -v
+      - name: Reuse Discovery
+        run: |
+          bash bin/fa3-reuse-assess --intent canonical/intents/FA3-OSINT-CASE-APPLICATION-INTENT-001.json
+          ./bin/fa3-enforce reuse-discovery
+      - name: Hardware audit
+        run: ./bin/fa3-enforce hardware-portability
