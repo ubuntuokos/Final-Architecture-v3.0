@@ -79,7 +79,7 @@ void PrWatchService::refresh()
         return;
     }
     const QJsonObject objects = doc.value(QStringLiteral("items")).toObject();
-    for (auto it = objects.cbegin(); it != objects.cend(); ++it) {
+    for (auto it = objects.constBegin(); it != objects.constEnd(); ++it) {
         if (!it.value().isObject()) {
             m_status = QStringLiteral("BLOCKED_ITEM_INVALID");
             m_items.clear();
