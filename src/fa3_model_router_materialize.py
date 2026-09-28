@@ -109,6 +109,13 @@ def receipt_proves_provider(path: Path, provider_id: str, api_base: str) -> bool
     )
 
 
+def _native_process_matches(handoff: dict[str, Any]) -> bool:
+    from fa3_model_router_provider_discovery import process_start_ticks
+    pid = handoff.get("process_id")
+    ticks = handoff.get("process_start_ticks")
+    return isinstance(pid, int) and pid > 0 and isinstance(ticks, int) and ticks > 0 and process_start_ticks(pid) == ticks
+
+
 def auth_header(candidate: dict[str, Any]) -> dict[str, str]:
     env_name = str(candidate.get("api_key_env", "")).strip()
     if not env_name:
@@ -395,6 +402,10 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
                 and native_rec.get("secret_broker_admission_verified") is True
                 and native_rec.get("model_designation_sha256") == sha256_file(designation)
                 and native_rec.get("selected_model") in row["approved_models"]
+                and isinstance(native_rec.get("runtime_handoff"), dict)
+                and isinstance(native_rec["runtime_handoff"].get("process_id"), int)
+                and isinstance(native_rec["runtime_handoff"].get("process_start_ticks"), int)
+                and _native_process_matches(native_rec["runtime_handoff"])
             ):
                 raise MaterializationDenied("native System One current-host receipt lacks real upstream/security proof")
         copy = dict(row)
