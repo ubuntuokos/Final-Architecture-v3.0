@@ -478,7 +478,7 @@ def render_litellm(bindings: dict[str, dict[str, Any]]) -> str:
             "      methods: [\"POST\"]",
             "      timeout: 20",
             "      headers:",
-            "        Authorization: \"Bearer os.environ/FA3_SYSTEM_ONE_BRIDGE_TOKEN\"",
+            "        Authorization: \"bearer os.environ/FA3_SYSTEM_ONE_BRIDGE_TOKEN\"",
             "        content-type: \"application/json\"",
         ]
     lines.append("")
