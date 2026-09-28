@@ -64,3 +64,7 @@ Historical `REF`/`REQ` designations are not present-day admission approvals.
 ## NVIDIA GitHub donor curation
 
 The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-2026-09-28.md) records 39 individually checked NVIDIA repositories plus the organization-level discovery source. Entries remain non-authoritative; NVIDIA-specific paths do not replace the CPU-only and vendor-neutral hardware baseline.
+
+## Pixar OpenUSD scene-interchange donor
+
+The [scoped Pixar OpenUSD donor assessment](donor-openusd-2026-09-28.md) registers the official upstream `v26.08` tag as a non-authoritative candidate for 3D Fabric, Asset Graph, Bforartists, Character Studio, World Generator, FA3 Video Editor, virtual production, Render Fabric and VFX/Gaffer. License declaration is TOST-1.0; source copying and runtime adoption remain blocked pending separate review and admission. CPU-only and vendor-neutral discovery stays mandatory.
