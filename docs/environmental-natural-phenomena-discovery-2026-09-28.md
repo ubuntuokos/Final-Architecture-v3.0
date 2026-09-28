@@ -2,6 +2,8 @@
 
 **Status:** proposed, documentation and donor-candidate capture only. This document neither creates a canonical capability nor admits a runtime/provider or certifies an engineering model.
 
+**Application design:** [FA3 World & Event Director — application plan](world-event-director-application-plan-2026-09-28.md) is the independently launchable Qt6/QML story-first authoring surface for these shared environment and effects contracts. The screenplay controls narrative events; real-world orientation, historical time and astronomy remain independently anchored unless the author explicitly approves world-rule changes. World & Environment/VFX/shot/video/editorial authorities remain with existing FA3 components. This linked plan is proposed and unimplemented.
+
 ## Purpose and existing boundaries
 
 Provide one cross-application scenario and effects contract for weather, ordinary natural phenomena, environmental change and disasters across **wilderness, settlements, building exteriors and surroundings, and building interiors**. Extend the existing World & Environment Studio, VFX Studio, Weather & Geo real-time-data category, Story/Screenplay context and creative workflows. Do not start an independent rendering engine, model router, timeline, resource scheduler or competing scene authority.
