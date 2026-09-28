@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-GENERATIVE-MEDIA-STUDIO-APPLICATION-INTENT-001",
+  "project_id": "FA3-GENERATIVE-MEDIA-STUDIO-001",
+  "title": "Materialize the existing Generative Media Studio capability as an FA3-native Qt6/QML application",
+  "declared_new_capabilities": [],
+  "proposed_authority_roles": [],
+  "existing_capability_bindings": ["CAP-111","CAP-112","CAP-113","CAP-121","CAP-123","CAP-126"],
+  "required_existing_authorities": [
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "namespace_claims": {
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "modifies_external_application_configuration": false
+  },
+  "reuse_discovery": {
+    "source": "Autom8AI public GitHub catalog plus canonical original upstreams",
+    "donor_reference": "FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28",
+    "code_import_requested": false
+  }
+}
