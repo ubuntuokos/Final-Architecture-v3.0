@@ -416,7 +416,9 @@ def evaluate_system_one_answers(
         stated_key = compiled.stated_keys.get(action, {}).get(param_name)
         if stated_key is not None:
             stated_answer = answers.get(stated_key, {})
-            stated_probability = _probability(stated_answer.get("noul"), label=stated_key) if isinstance(stated_answer, dict) else _probability(None, label=stated_key)
+            if not isinstance(stated_answer, dict):
+                raise SystemOneSpecError(f"System One response missing presence judgment {stated_key}")
+            stated_probability = _probability(stated_answer.get("noul"), label=stated_key)
             judgments[stated_key] = max(stated_probability, 1.0 - stated_probability)
             if stated_probability < 0.5:
                 params[param_name] = params_spec[param_name].get("default")
