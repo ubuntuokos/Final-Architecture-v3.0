@@ -12,6 +12,8 @@ on:
       - 'canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json'
       - 'canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json'
       - 'src/fa3_tiered_moe_plan.py'
+      - 'src/fa3_tiered_moe_hrb_projection.py'
+      - 'tests/test_tiered_moe_hrb_projection.py'
       - 'src/fa3_strata_provider_adapter.py'
       - 'tests/test_strata_provider_adapter.py'
       - 'src/fa3_strata_tiered_moe_gate.py'
@@ -29,6 +31,8 @@ on:
       - 'canonical/assessments/FA3-STRATA-REUSE-ASSESSMENT-001.json'
       - 'canonical/decisions/FA3-DEC-STRATA-TIERED-MOE-2026-09-28.json'
       - 'src/fa3_tiered_moe_plan.py'
+      - 'src/fa3_tiered_moe_hrb_projection.py'
+      - 'tests/test_tiered_moe_hrb_projection.py'
       - 'src/fa3_strata_provider_adapter.py'
       - 'tests/test_strata_provider_adapter.py'
       - 'src/fa3_strata_tiered_moe_gate.py'
@@ -51,6 +55,8 @@ jobs:
         run: python3 src/fa3_strata_tiered_moe_gate.py
       - name: Tiered MoE planner regression tests
         run: python3 -m unittest tests.test_strata_tiered_moe -v
+      - name: HRB-bound tiered MoE projection tests
+        run: python3 -m unittest tests.test_tiered_moe_hrb_projection -v
       - name: Strata provider adapter regression tests
         run: python3 -m unittest tests.test_strata_provider_adapter -v
       - name: Strata provider adapter self-test
