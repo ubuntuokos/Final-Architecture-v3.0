@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 290,
+    "entry_count": 330,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -337,6 +337,617 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-ADOBE-ASSET-COMPUTE-XMP-001",
+      "name": "adobe/asset-compute-xmp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/asset-compute-xmp",
+        "normalized_key": "github:adobe/asset-compute-xmp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "XMP serialization in asset processing"
+      ],
+      "domain_hints": [
+        "asset-processing",
+        "metadata",
+        "xmp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Asset Graph",
+        "Creative Studio",
+        "Document Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "metadata"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Service-pattern donor, not automatic Adobe cloud dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-C2PA-JS-001",
+      "name": "adobe/c2pa-js",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/c2pa-js",
+        "normalized_key": "github:adobe/c2pa-js"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "C2PA client-side content provenance reference"
+      ],
+      "domain_hints": [
+        "c2pa",
+        "content-authenticity",
+        "provenance"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Asset Graph",
+        "Creative Studio",
+        "Security Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "provenance"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Legacy 2022 upstream activity; compare current independent C2PA implementations before any admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-DEEP-AUDIO-PRIOR-001",
+      "name": "adobe/Deep-Audio-Prior",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/Deep-Audio-Prior",
+        "normalized_key": "github:adobe/deep-audio-prior"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "training-free audio source separation research"
+      ],
+      "domain_hints": [
+        "audio",
+        "research",
+        "separation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "audio"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "License metadata NOASSERTION; research reference only until upstream file and weights reviewed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-FONTS-GITHUB-ORGANIZATION-001",
+      "name": "adobe-fonts GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-fonts",
+        "normalized_key": "github:adobe-fonts"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "metadata",
+        "engineering",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "adobe-github",
+        "adobe-curation-2026-09-28",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only: individual repositories require independent license, provenance, security, coexistence and hardware review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-FONTS-SOURCE-CODE-PRO-001",
+      "name": "adobe-fonts/source-code-pro",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-fonts/source-code-pro",
+        "normalized_key": "github:adobe-fonts/source-code-pro"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "monospace programming typography"
+      ],
+      "domain_hints": [
+        "code",
+        "font",
+        "typography"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Developer Agent",
+        "Document Fabric",
+        "FA3 GUI"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "type"
+      ],
+      "license": {
+        "declared": "OFL-1.1",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Font distribution license review and locale fallback still required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-FONTS-SOURCE-HAN-SANS-001",
+      "name": "adobe-fonts/source-han-sans",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-fonts/source-han-sans",
+        "normalized_key": "github:adobe-fonts/source-han-sans"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CJK sans-serif typography"
+      ],
+      "domain_hints": [
+        "cjk",
+        "font",
+        "i18n",
+        "typography"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Document Fabric",
+        "FA3 GUI",
+        "Subtitle Composer"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "type"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NOASSERTION GitHub license metadata; verify font-specific license and large-file packaging."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-FONTS-SOURCE-HAN-SERIF-001",
+      "name": "adobe-fonts/source-han-serif",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-fonts/source-han-serif",
+        "normalized_key": "github:adobe-fonts/source-han-serif"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CJK serif typography"
+      ],
+      "domain_hints": [
+        "cjk",
+        "font",
+        "i18n",
+        "typography"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Document Fabric",
+        "Subtitle Composer"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "type"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NOASSERTION GitHub license metadata; verify font-specific license and locale support."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-FONTS-SOURCE-SANS-001",
+      "name": "adobe-fonts/source-sans",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-fonts/source-sans",
+        "normalized_key": "github:adobe-fonts/source-sans"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "UI sans-serif typography"
+      ],
+      "domain_hints": [
+        "font",
+        "typography",
+        "ui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 GUI",
+        "QuickClip",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "type"
+      ],
+      "license": {
+        "declared": "OFL-1.1",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Font packaging, attribution, language coverage and distribution separately reviewed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-FONTS-SOURCE-SERIF-001",
+      "name": "adobe-fonts/source-serif",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-fonts/source-serif",
+        "normalized_key": "github:adobe-fonts/source-serif"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "editorial serif typography"
+      ],
+      "domain_hints": [
+        "font",
+        "subtitles",
+        "typography"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Document Fabric",
+        "Story Studio",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "type"
+      ],
+      "license": {
+        "declared": "OFL-1.1",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate for titles and documents; embedding/distribution must comply with OFL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-GITHUB-ORGANIZATION-001",
+      "name": "adobe GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe",
+        "normalized_key": "github:adobe"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "metadata",
+        "engineering",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "adobe-github",
+        "adobe-curation-2026-09-28",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only: individual repositories require independent license, provenance, security, coexistence and hardware review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-LEONARDO-001",
+      "name": "adobe/leonardo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/leonardo",
+        "normalized_key": "github:adobe/leonardo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "contrast-ratio-aware color generation"
+      ],
+      "domain_hints": [
+        "accessibility",
+        "color",
+        "design"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 GUI",
+        "Logo Designer"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "ui"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Color/contrast algorithm candidate; verify per-component inclusion before reuse."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ADOBE-LIGHTROOM-001",
       "name": "Adobe Lightroom",
       "source": {
@@ -386,6 +997,1628 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-PDFSERVICES-PYTHON-SDK-SAMPLES-001",
+      "name": "adobe/pdfservices-python-sdk-samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/pdfservices-python-sdk-samples",
+        "normalized_key": "github:adobe/pdfservices-python-sdk-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "PDF processing API samples"
+      ],
+      "domain_hints": [
+        "api",
+        "document",
+        "pdf"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Document Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "document"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Samples only; the MIT sample license does not confer rights to commercial Adobe PDF Services API or bypass service terms."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-REACT-SPECTRUM-001",
+      "name": "adobe/react-spectrum",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/react-spectrum",
+        "normalized_key": "github:adobe/react-spectrum"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "accessible adaptive React UI design"
+      ],
+      "domain_hints": [
+        "accessibility",
+        "i18n",
+        "ui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 GUI",
+        "QuickClip",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "ui"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "React-specific implementation; Qt6/QML must use independently adapted design and accessibility patterns."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-REACT-SPECTRUM-CHARTS-001",
+      "name": "adobe/react-spectrum-charts",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/react-spectrum-charts",
+        "normalized_key": "github:adobe/react-spectrum-charts"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "declarative accessible chart patterns"
+      ],
+      "domain_hints": [
+        "analytics",
+        "chart",
+        "ui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Analytics Fabric",
+        "Model Manager",
+        "Observability Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "ui"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "React design reference; native Qt charts remain independent."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-DIFFUSIONHANDLES-001",
+      "name": "adobe-research/DiffusionHandles",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/DiffusionHandles",
+        "normalized_key": "github:adobe-research/diffusionhandles"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "3D-aware image editing via diffusion handles"
+      ],
+      "domain_hints": [
+        "3d",
+        "diffusion",
+        "image-editing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Photo/Image Editor",
+        "VFX"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-image"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research-pattern reference only until license and model dependencies reviewed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-EDITVERSE-001",
+      "name": "adobe-research/EditVerse",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/EditVerse",
+        "normalized_key": "github:adobe-research/editverse"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "unified image and video editing research"
+      ],
+      "domain_hints": [
+        "diffusion",
+        "image-editing",
+        "video-editing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Fabric",
+        "Creative Studio",
+        "QuickClip",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-video"
+      ],
+      "license": {
+        "declared": "Adobe Research License",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_NONCOMMERCIAL_LICENSE",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Adobe Research License with component-specific Apache/MIT exceptions; noncommercial/research-only until reviewed; no direct model admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-ENTITYSEG-DATASET-001",
+      "name": "adobe-research/EntitySeg-Dataset",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/EntitySeg-Dataset",
+        "normalized_key": "github:adobe-research/entityseg-dataset"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "fine-grained entity segmentation dataset"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "dataset",
+        "segmentation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Krita Integration",
+        "Photo/Image Editor",
+        "Training Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-data"
+      ],
+      "license": {
+        "declared": "Adobe Research License",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_NONCOMMERCIAL_LICENSE",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dataset LICENSE.md permits noncommercial research only; no commercial dataset redistribution."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-FIGURE-EDITING-001",
+      "name": "adobe-research/figure-editing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/figure-editing",
+        "normalized_key": "github:adobe-research/figure-editing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "scientific figure editing research"
+      ],
+      "domain_hints": [
+        "document",
+        "figure-editing",
+        "graphics"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Document Fabric",
+        "Krita Integration"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-image"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate research workflow; validate actual capabilities and license before implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-GITHUB-ORGANIZATION-001",
+      "name": "adobe-research GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research",
+        "normalized_key": "github:adobe-research"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "metadata",
+        "engineering",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "adobe-github",
+        "adobe-curation-2026-09-28",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only: individual repositories require independent license, provenance, security, coexistence and hardware review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-OBJ-AND-MAT-SELECTION-001",
+      "name": "adobe-research/obj-and-mat-selection",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/obj-and-mat-selection",
+        "normalized_key": "github:adobe-research/obj-and-mat-selection"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "vision-language object and material selection"
+      ],
+      "domain_hints": [
+        "3d",
+        "material",
+        "selection"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "Bforartists Integration"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-3d"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "SIGGRAPH 2026 research candidate; runtime models, datasets and license independently reviewed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-PROCMATRL-001",
+      "name": "adobe-research/ProcMatRL",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/ProcMatRL",
+        "normalized_key": "github:adobe-research/procmatrl"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "reinforcement learning for procedural materials"
+      ],
+      "domain_hints": [
+        "3d",
+        "procedural-materials",
+        "reinforcement-learning"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists Integration",
+        "World Generator"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-3d"
+      ],
+      "license": {
+        "declared": "Adobe Research License",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_NONCOMMERCIAL_LICENSE",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README explicitly restricts codebase to noncommercial research; reference only for FA3 commercial code."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-SAM-INVERSION-001",
+      "name": "adobe-research/sam_inversion",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/sam_inversion",
+        "normalized_key": "github:adobe-research/sam_inversion"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "GAN inversion and spatially adaptive editing"
+      ],
+      "domain_hints": [
+        "gan",
+        "image-editing",
+        "latent"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Creative Studio",
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-image"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research code NOASSERTION; no automatic model import into Model Router."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-SUPERGAUSSIAN-001",
+      "name": "adobe-research/SuperGaussian",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/SuperGaussian",
+        "normalized_key": "github:adobe-research/supergaussian"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "3D Gaussian upsampling research"
+      ],
+      "domain_hints": [
+        "3d",
+        "gaussian-splatting",
+        "upsampling"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "VFX",
+        "World Generator"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-3d"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research reference; require separate license and accelerator/CPU feasibility audit."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-VIDEODOODLES-001",
+      "name": "adobe-research/VideoDoodles",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/VideoDoodles",
+        "normalized_key": "github:adobe-research/videodoodles"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "sketch-driven video editing research"
+      ],
+      "domain_hints": [
+        "animation",
+        "sketch",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation Studio",
+        "Creative Studio",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-video"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research donor; inspect artifact, license, datasets and weights before reuse."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-VIDEOSHAM-DATASET-001",
+      "name": "adobe-research/VideoSham-dataset",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/VideoSham-dataset",
+        "normalized_key": "github:adobe-research/videosham-dataset"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "video manipulation detection dataset"
+      ],
+      "domain_hints": [
+        "dataset",
+        "forensics",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Security Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-data"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dataset terms and redistribution rights unverified; metadata-only candidate."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-RESEARCH-ZS-VIDEO-EVAL-001",
+      "name": "adobe-research/zs-video-eval",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe-research/zs-video-eval",
+        "normalized_key": "github:adobe-research/zs-video-eval"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "zero-shot video model evaluation reference"
+      ],
+      "domain_hints": [
+        "ai",
+        "evaluation",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Model Manager",
+        "Video Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "research-eval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Metric/protocol reference; no automatic evaluation-model admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-SPECTRUM-CSS-001",
+      "name": "adobe/spectrum-css",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/spectrum-css",
+        "normalized_key": "github:adobe/spectrum-css"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Spectrum style tokens and visual consistency"
+      ],
+      "domain_hints": [
+        "design-system",
+        "theme",
+        "ui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 GUI",
+        "Model Manager"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "ui"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "CSS reference for UI tokens and contrast; no mandatory web runtime."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-SUBSTANCE-3D-CONNECTOR-001",
+      "name": "adobe/substance-3d-connector",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/substance-3d-connector",
+        "normalized_key": "github:adobe/substance-3d-connector"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cross-application 3D asset interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "asset-transfer",
+        "connector"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "3D Fabric",
+        "Asset Graph",
+        "Bforartists Integration",
+        "Creative Studio"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interchange"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use audited App↔App gateway and native-file preservation; do not require proprietary Substance runtime."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-TRUSTMARK-001",
+      "name": "adobe/trustmark",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/trustmark",
+        "normalized_key": "github:adobe/trustmark"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "image watermark embedding and detection"
+      ],
+      "domain_hints": [
+        "content-authenticity",
+        "provenance",
+        "watermark"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "AI Red Flag Detector",
+        "Asset Graph",
+        "Photo/Image Editor",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "provenance"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream README and LICENSE declare MIT; verify model weights and transitive components separately."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-XMP-DOCS-001",
+      "name": "adobe/xmp-docs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/xmp-docs",
+        "normalized_key": "github:adobe/xmp-docs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "XMP open metadata standard documentation"
+      ],
+      "domain_hints": [
+        "metadata",
+        "standards",
+        "xmp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Asset Graph",
+        "Creative Studio",
+        "Document Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "metadata"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Documentation and ISO 16684-1 references only; no assumed code license."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-XMP-TOOLKIT-RS-001",
+      "name": "adobe/xmp-toolkit-rs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/xmp-toolkit-rs",
+        "normalized_key": "github:adobe/xmp-toolkit-rs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Rust XMP toolkit bridge"
+      ],
+      "domain_hints": [
+        "metadata",
+        "rust",
+        "xmp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Asset Graph",
+        "Creative Studio",
+        "Document Fabric"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "metadata"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GitHub license metadata NOASSERTION; inspect repository and bundled SDK components first."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBE-XMP-TOOLKIT-SDK-001",
+      "name": "adobe/XMP-Toolkit-SDK",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adobe/XMP-Toolkit-SDK",
+        "normalized_key": "github:adobe/xmp-toolkit-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cross-format XMP metadata read/write"
+      ],
+      "domain_hints": [
+        "asset-provenance",
+        "metadata",
+        "xmp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Asset Graph",
+        "Document Fabric",
+        "Photo/Image Editor",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "metadata"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Check supported file formats and native-project round trips; do not replace FA3 asset authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-AFTER-EFFECTS-001",
+      "name": "AdobeDocs/after-effects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/after-effects",
+        "normalized_key": "github:adobedocs/after-effects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "After Effects extensibility documentation"
+      ],
+      "domain_hints": [
+        "after-effects",
+        "extension",
+        "vfx"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Gaffer",
+        "VFX",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Documentation patterns only; no After Effects runtime adoption."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-GITHUB-ORGANIZATION-001",
+      "name": "AdobeDocs GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs",
+        "normalized_key": "github:adobedocs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "metadata",
+        "engineering",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "adobe-github",
+        "adobe-curation-2026-09-28",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only: individual repositories require independent license, provenance, security, coexistence and hardware review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-ILLUSTRATOR-001",
+      "name": "AdobeDocs/illustrator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/illustrator",
+        "normalized_key": "github:adobedocs/illustrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Illustrator scripting and vector workflow documentation"
+      ],
+      "domain_hints": [
+        "design",
+        "illustrator",
+        "vector"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Krita Integration",
+        "Logo Designer"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Vector interchange/reference only; existing native FA3 design workflow remains primary."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-PHOTOSHOP-CPP-SDK-001",
+      "name": "AdobeDocs/photoshop-cpp-sdk",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/photoshop-cpp-sdk",
+        "normalized_key": "github:adobedocs/photoshop-cpp-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Photoshop C++ SDK interoperability surface"
+      ],
+      "domain_hints": [
+        "c++",
+        "photoshop",
+        "plugin"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Krita Integration",
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "NOASSERTION repository metadata; SDK and linked binaries require component-specific licensing."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-PREMIERE-PRO-001",
+      "name": "AdobeDocs/premiere-pro",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/premiere-pro",
+        "normalized_key": "github:adobedocs/premiere-pro"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Premiere Pro API and interchange documentation"
+      ],
+      "domain_hints": [
+        "premiere",
+        "timeline",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "QuickClip",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference for compatibility; never import a proprietary Premiere editor as the FA3 editor."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-UXP-AFTER-EFFECTS-001",
+      "name": "AdobeDocs/uxp-after-effects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/uxp-after-effects",
+        "normalized_key": "github:adobedocs/uxp-after-effects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "After Effects UXP integration reference"
+      ],
+      "domain_hints": [
+        "after-effects",
+        "interop",
+        "uxp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Gaffer",
+        "VFX",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Native FA3 project remains authoritative; Adobe proprietary runtime optional external application."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-UXP-PHOTOSHOP-PLUGIN-SAMPLES-001",
+      "name": "AdobeDocs/uxp-photoshop-plugin-samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/uxp-photoshop-plugin-samples",
+        "normalized_key": "github:adobedocs/uxp-photoshop-plugin-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Photoshop UXP extension and automation examples"
+      ],
+      "domain_hints": [
+        "photoshop",
+        "plugin",
+        "uxp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Krita Integration",
+        "Photo/Image Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Compatibility/export workflow reference; Photoshop runtime is proprietary and not an FA3 dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADOBEDOCS-UXP-PREMIERE-PRO-SAMPLES-001",
+      "name": "AdobeDocs/uxp-premiere-pro-samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AdobeDocs/uxp-premiere-pro-samples",
+        "normalized_key": "github:adobedocs/uxp-premiere-pro-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "adobe-github-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Premiere Pro UXP plugin sample workflows"
+      ],
+      "domain_hints": [
+        "premiere",
+        "timeline",
+        "uxp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "QuickClip",
+        "Video Editor"
+      ],
+      "tags": [
+        "adobe-curation-2026-09-28",
+        "adobe-github",
+        "interop"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use timeline/export and workflow patterns only; retain FA3 project.fa3video and OTIO gates."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AGENT-ROOM-ALKL-001",

@@ -64,3 +64,7 @@ Historical `REF`/`REQ` designations are not present-day admission approvals.
 ## NVIDIA GitHub donor curation
 
 The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-2026-09-28.md) records 39 individually checked NVIDIA repositories plus the organization-level discovery source. Entries remain non-authoritative; NVIDIA-specific paths do not replace the CPU-only and vendor-neutral hardware baseline.
+
+## Adobe GitHub donor curation
+
+The [selective Adobe upstream candidate index](adobe-github-donor-curation-2026-09-28.md) records 36 independently identified Adobe/AdobeDocs/Adobe Research/adobe-fonts repositories and 4 organization discovery indexes. It distinguishes permissive code and font licenses from research-restricted or unresolved licenses; no new Adobe runtime, source-code, model or font installation is implied.
