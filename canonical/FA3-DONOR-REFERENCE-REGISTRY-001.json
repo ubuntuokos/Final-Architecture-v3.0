@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2959,6 +2959,82 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLAUDE-CODE-ACTION-001",
+      "name": "Anthropic Claude Code Action",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/anthropics/claude-code-action",
+        "normalized_key": "github:anthropics/claude-code-action"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "GitHub event-driven agent activation",
+        "PR review and issue triage",
+        "structured evidence-producing automation",
+        "permission-scoped tool execution"
+      ],
+      "domain_hints": [
+        "agent",
+        "development",
+        "github",
+        "automation",
+        "security"
+      ],
+      "problem_hints": [
+        "unverified AI task completion",
+        "PR review orchestration",
+        "GitHub workflow auditability"
+      ],
+      "target_hints": [
+        "PR Watch",
+        "Agent Workload Runtime",
+        "Director / Workforce",
+        "Evidence Registry",
+        "Central MCP Gateway",
+        "UAF",
+        "Coach"
+      ],
+      "tags": [
+        "github-actions",
+        "code-review",
+        "agent-workflow",
+        "pr-triage",
+        "structured-output",
+        "security-review",
+        "progress-tracking"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only; do not introduce an independent FA3 agent, scheduler, model router, resource authority, or evidence gate.",
+        "Action is Claude-specific; any later external use must obtain explicit Model Router -> HRB -> provider/model admission. No fixed model route or silent fallback.",
+        "Security review must account for GHSA-8q5r-mmjf-575q (patched in 1.0.74), prompt injection, untrusted PR checkouts/MCP config, bot allowlists, least-privilege scoped tokens, and protection of runner secrets.",
+        "Metadata-only capture is CPU-only, vendor-neutral, and compatible with accelerator cardinality 0..N; any runtime integration requires separate Hardware Audit, license/provenance, coexistence, security, and current-host evidence gates."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLEARERVOICE-STUDIO-001",
