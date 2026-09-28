@@ -3,6 +3,9 @@ name: FA3 Strata tiered MoE static gate
 on:
   pull_request:
     paths:
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'canonical/assessments/FA3-STRATA-TIERED-MOE-DECISION-ASSESSMENT-2026-09-28.json'
       - 'canonical/intents/FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001.json'
       - 'canonical/providers/FA3-PROVIDER-STRATA-001.json'
       - 'canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json'
@@ -15,6 +18,9 @@ on:
   push:
     branches: [main]
     paths:
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'canonical/assessments/FA3-STRATA-TIERED-MOE-DECISION-ASSESSMENT-2026-09-28.json'
       - 'canonical/intents/FA3-STRATA-TIERED-MOE-APPLICATION-INTENT-001.json'
       - 'canonical/providers/FA3-PROVIDER-STRATA-001.json'
       - 'canonical/contracts/FA3-TIERED-MOE-EXECUTION-CONTRACTS-001.json'
