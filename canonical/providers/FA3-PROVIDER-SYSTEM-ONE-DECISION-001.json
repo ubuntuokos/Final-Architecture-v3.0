@@ -39,5 +39,9 @@
   "activation_dependency": "MODEL_ROUTER_SYSTEM_ONE_DATA_PLANE_ADMISSION_REQUIRED",
   "committed_route_activation": false,
   "router_transport_binding": "REQUIRED_AT_RUNTIME",
-  "litellm_data_plane_bypass": "DENY"
+  "litellm_data_plane_bypass": "DENY",
+  "distribution": {
+    "class": "FA3_NATIVE",
+    "release_bundle_status": "INCLUDED"
+  }
 }
