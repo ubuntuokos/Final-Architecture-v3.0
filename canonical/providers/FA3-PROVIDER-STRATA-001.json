@@ -65,7 +65,12 @@
     "numa_policy": "HRB_OWNED",
     "memory_pressure_policy": "HRB_OWNED_FAIL_CLOSED",
     "storage_policy": "HRB_AND_STORAGE_GOVERNANCE_OWNED",
-    "no_provider_global_hardware_assumption": true
+    "no_provider_global_hardware_assumption": true,
+    "hrb_child_projection": "src/fa3_tiered_moe_hrb_projection.py",
+    "placement_input": "VALIDATED_HRB_CURRENT_HOST_RECEIPT_PLUS_BROKER_VALIDATED_PLACEMENT_GRANT",
+    "planner_may_admit_or_expand_resources": false,
+    "current_hrb_receipt_accelerator_cardinality": "0..1",
+    "global_accelerator_cardinality_remains": "0..N"
   },
   "reuse_license": {
     "status": "UNRESOLVED_FOR_UPSTREAM_ORIGINAL_CODE",
