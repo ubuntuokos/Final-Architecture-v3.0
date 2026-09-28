@@ -139,5 +139,36 @@ class GoalSourcePreflightTests(unittest.TestCase):
         self.assertFalse(result["application_donor_index"]["automatic_selection"])
 
 
+    def test_committed_khronos_assessment_matches_live_reuse_discovery(self):
+        from fa3_reuse_assessment import assess_intent
+        assessment_path = (
+            "canonical/assessments/FA3-GOAL-EXECUTION-REUSE-ASSESSMENT-2026-09-28.json"
+        )
+        canonical, _ = _tracked_source(ROOT, assessment_path)
+        assessment = json.loads(canonical)
+        intent = json.loads(_tracked_source(ROOT, INTENT)[0])
+        actual = assess_intent(ROOT, intent)
+        self.assertEqual(assessment["result"], "PASS")
+        self.assertEqual(assessment["intent_id"], actual["intent_id"])
+        self.assertEqual(actual["result"], "PASS")
+        self.assertEqual(assessment["implementation_readiness"],
+                         actual["implementation_readiness"])
+        self.assertEqual(assessment["gaps"], actual["gaps"])
+        expected = {
+            row["source_family_id"]: row
+            for row in actual["mandatory_source_reviews"]
+        }
+        for review in assessment["mandatory_source_reviews"]:
+            matching = expected[review["source_family_id"]]
+            self.assertEqual(review["review_status"], matching["review_status"])
+            self.assertEqual(review["matched_candidate_ids"], matching["matched_candidate_ids"])
+            self.assertEqual(review["available_candidate_ids"], matching["available_candidate_ids"])
+            self.assertFalse(review["authority"])
+            self.assertFalse(review["automatic_selection"])
+            self.assertFalse(review["automatic_activation"])
+        self.assertFalse(assessment["current_host_runtime_promotion_claim"])
+        self.assertFalse(assessment["global_promotion_claim"])
+
+
 if __name__ == "__main__":
     unittest.main()
