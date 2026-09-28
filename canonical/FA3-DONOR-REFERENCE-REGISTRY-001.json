@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 296,
+    "entry_count": 298,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -2861,6 +2861,150 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-HUYEN-DMLS-BOOK-001",
+      "name": "Chip Huyen Designing Machine Learning Systems (2022 companion repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/chiphuyen/dmls-book",
+        "normalized_key": "github:chiphuyen/dmls-book"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-source-followup-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "KNOWLEDGE_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "mlops-component-checklist",
+        "model-deployment-and-monitoring-review",
+        "data-shift-and-drift-review",
+        "production-feedback-and-continual-learning-review",
+        "mlops-tool-landscape-discovery"
+      ],
+      "domain_hints": [
+        "mlops",
+        "models",
+        "evaluation",
+        "data",
+        "inference",
+        "monitoring"
+      ],
+      "problem_hints": [
+        "ml-system-lifecycle-gaps",
+        "model-deployment-monitoring-and-feedback-gaps"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Training Fabric",
+        "Inference Fabric",
+        "Data Pipeline",
+        "Evidence Registry",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "machine-learning-systems-design",
+        "chip-huyen",
+        "2022-book-companion",
+        "mlops",
+        "tool-discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Companion repository to the published 2022 book; chapter summaries, resources and MLOps tool index, no code examples. Upstream main HEAD observed b9d1d085d121ec582ae2a41807b8b446d62492df. Tool index is discovery-only and dated; independently verify every downstream source. No declared repo license found; no copying or bundling of copyrighted text or assets."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-HUYEN-MACHINE-LEARNING-SYSTEMS-DESIGN-001",
+      "name": "Chip Huyen Machine Learning Systems Design (2019 booklet)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/chiphuyen/machine-learning-systems-design",
+        "normalized_key": "github:chiphuyen/machine-learning-systems-design"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-user-link-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "KNOWLEDGE_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ml-system-design-checklist",
+        "data-pipeline-design-review",
+        "model-baseline-and-debugging-methodology",
+        "offline-to-online-evaluation-design",
+        "serving-feedback-loop-design"
+      ],
+      "domain_hints": [
+        "mlops",
+        "models",
+        "evaluation",
+        "data",
+        "inference"
+      ],
+      "problem_hints": [
+        "end-to-end-ml-lifecycle-review",
+        "missing-evaluation-or-monitoring-requirements"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Training Fabric",
+        "Inference Fabric",
+        "Data Pipeline",
+        "Evidence Registry"
+      ],
+      "tags": [
+        "machine-learning-systems-design",
+        "chip-huyen",
+        "2019-booklet",
+        "design-exercises",
+        "methodology"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Original 2019 booklet; four-stage iterative workflow, case studies and 27 design exercises. Upstream master HEAD observed 15780893ea0d7ebf2c6f577328e0c84897ee64be. Reference text/methodology only; old material requires current validation. No declared repo license found; do not copy book text, code or assets."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CHROME-DEVTOOLS-PROTOCOL-001",
