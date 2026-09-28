@@ -79,10 +79,85 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 297,
+    "entry_count": 301,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
+    {
+      "donor_id": "FA3-DONOR-3DCOAT-001",
+      "name": "3DCoat",
+      "source": {
+        "kind": "WEBSITE",
+        "locator": "https://3dcoat.com/",
+        "normalized_key": "https://3dcoat.com/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Voxel sculpting",
+        "Retopology",
+        "UV mapping",
+        "PBR texturing",
+        "Procedural node texturing",
+        "3D lattice generation",
+        "3DCoat Python and C++ extension API"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Optional external sculpt/retopo/texture workflows without making a commercial application a global FA3 dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph",
+        "World Generator",
+        "Character Studio"
+      ],
+      "tags": [
+        "3dcoat",
+        "voxel-sculpting",
+        "retopology",
+        "uv-unwrapping",
+        "pbr",
+        "procedural-texturing",
+        "parametric-hybrid-modeling",
+        "3d-lattice",
+        "external-dcc",
+        "linux"
+      ],
+      "license": {
+        "declared": "PROPRIETARY",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION",
+      "notes": [
+        "Proprietary commercial application: integration/workflow reference only. Preserve native .3b projects and FA3 native projects. 2026 Linux support is stated for Ubuntu 20.04+; Ubuntu 26.04 Wayland and X11 require local evidence. GPU node features optional; no global accelerator or AI-model authority."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
     {
       "donor_id": "FA3-DONOR-3DDFA-V2-001",
       "name": "3DDFA_V2",
@@ -997,6 +1072,71 @@
       "notes": [
         "Adapter candidate; own provider database not canonical."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ANDREWSHPAGIN-IO-COAT3D-001",
+      "name": "AndrewShpagin/io-coat3d",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AndrewShpagin/io-coat3d",
+        "normalized_key": "github:andrewshpagin/io-coat3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Blender and 3DCoat applink",
+        "Exchange folder protocol",
+        "Mesh and PBR texture round-trip"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Auditable Bforartists/Blender-to-3DCoat transfer with versioned file exchange, material fidelity and round-trip checks"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "3dcoat",
+        "blender-applink",
+        "fbx",
+        "exchange-folder",
+        "texture-roundtrip",
+        "python",
+        "gpl"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "3DCoat-shipped Blender 4.2/4.3 Applink per upstream README; GPL v2-or-later header in upstream __init__.py. Review GPL compatibility and third-party provenance before copying code. Observed upstream HEAD 15b51ab8d1bfe9937fb6ecf967581c9a239b12b3."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-ANIL-MATCHA-OPEN-GENERATIVE-AI-001",
@@ -2282,6 +2422,71 @@
       "notes": [
         "Lab/candidate; retain Bforartists primary, no independent scene authority."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-BLENDER-3DCOAT-APPLINK-001",
+      "name": "Blender 3DCoat Applink",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender-addons/tree/main/io_coat3D",
+        "normalized_key": "github:blender/blender-addons/tree/main/io_coat3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Blender 3DCoat file interchange",
+        "Mesh and texture import/export",
+        "Legacy Applink protocol comparison"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Independent compatibility baseline for 3DCoat data exchange and regression tests"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "blender",
+        "3dcoat",
+        "applink",
+        "exchange-folder",
+        "python",
+        "gpl",
+        "interoperability"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "Scoped to io_coat3D subtree of Blender's blender-addons repository, not the whole Blender source tree. File SPDX says GPL-2.0-or-later. Compare protocol and behavior to AndrewShpagin/io-coat3d; avoid double-bundling. Observed upstream repo HEAD b42d68627734cb18af0e6f41537063984313a284."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-BOADIJ-PI-HERDSMAN-001",
@@ -6959,6 +7164,74 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LIAMSMYTH-LKS-3DCTOOLS-001",
+      "name": "LiamSmyth/LKS_3DCTools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LiamSmyth/LKS_3DCTools",
+        "normalized_key": "github:liamsmyth/lks_3dctools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "UI_REFERENCE",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Configurable radial action menus",
+        "Scoped batch density and resampling",
+        "Instance-aware batch operations",
+        "Hotkey conflict discovery and resolution"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Repeatable scoped scene operations and recoverable GUI automation patterns"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "3dcoat",
+        "radial-menu",
+        "batch-operations",
+        "mesh-density",
+        "resampling",
+        "visibility",
+        "hotkey-conflicts",
+        "cmodules"
+      ],
+      "license": {
+        "declared": "UNSPECIFIED_README_PERMISSION",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "notes": [
+        "README permits free use, editing and branching but declares no standard code license. No top-level LICENSE file found in checked paths; block source copying until rights are clarified. Experimental operations and author-described crash workarounds are not production guarantees. Observed upstream HEAD 8b69798f9ead57068aa8e53e7d05f45a947439c1."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
