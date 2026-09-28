@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 518,
+    "entry_count": 516,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority."
   },
   "entries": [
@@ -5166,57 +5166,6 @@
       }
     },
     {
-      "donor_id": "FA3-DONOR-G-MIC-001",
-      "name": "G'MIC",
-      "source": {
-        "kind": "PROJECT",
-        "locator": "project:G'MIC",
-        "normalized_key": "project:g'mic"
-      },
-      "status": "ANALYZED",
-      "discovered_from": [
-        "prior-fa3-research-backfill"
-      ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
-      ],
-      "capability_hints": [],
-      "domain_hints": [
-        "image",
-        "photo",
-        "creative"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Photo/Image Editor",
-        "Creative Studio"
-      ],
-      "tags": [
-        "photo-editing",
-        "image-pipeline",
-        "color",
-        "raw"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false
-    },
-    {
       "donor_id": "FA3-DONOR-GARRYTAN-GSTACK-001",
       "name": "garrytan/gstack",
       "source": {
@@ -9811,7 +9760,11 @@
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
       },
       "notes": [
-        "Canonical GitHub source identity verified; retain earlier ACCEPTED_REFERENCE status and independent admission gates."
+        "Canonical GitHub source identity verified; retain earlier ACCEPTED_REFERENCE status and independent admission gates.",
+        "Consolidated former project:nvidia-model-optimizer project entry into canonical GitHub identity; its provenance, targets, classification and historical lookup key remain preserved."
+      ],
+      "legacy_source_keys": [
+        "project:nvidia-model-optimizer"
       ]
     },
     {
@@ -17871,90 +17824,6 @@
       ]
     },
     {
-      "donor_id": "FA3-DONOR-NVIDIA-MODEL-OPTIMIZER-001",
-      "name": "NVIDIA Model Optimizer",
-      "source": {
-        "kind": "PROJECT",
-        "locator": "project:NVIDIA-Model-Optimizer",
-        "normalized_key": "project:nvidia-model-optimizer"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "discovered_from": [
-        "historical-architecture-artifact-curation-2026-09-28",
-        "prior-fa3-research-backfill"
-      ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
-      ],
-      "capability_hints": [
-        "autoquantize",
-        "calibration",
-        "calibration-artifact",
-        "export",
-        "export-review",
-        "pruning",
-        "ptq",
-        "qat",
-        "quantization-workflow",
-        "sparsity",
-        "speculative-decoding"
-      ],
-      "domain_hints": [
-        "ai-runtime",
-        "model",
-        "models",
-        "optimization"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Model Manager"
-      ],
-      "tags": [
-        "historical-review",
-        "mixed-precision",
-        "pruning",
-        "ptq",
-        "qat",
-        "selective-reuse",
-        "sparsity",
-        "speculative-decoding"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "selection_scope": {
-        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
-        "full_upstream_application_adoption": false,
-        "selected_capabilities": [
-          "calibration-artifact",
-          "quantization-workflow",
-          "export-review"
-        ],
-        "intended_fa3_targets": [
-          "Model Manager"
-        ],
-        "historical_source_class": "EXISTING_DONOR_SELECTIVE_APPLICATION",
-        "source_group": "v1-v3-historical-artifacts",
-        "source_reviewed_at": "2026-09-28",
-        "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
-    },
-    {
       "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
       "name": "ROCm Examples",
       "source": {
@@ -25881,7 +25750,10 @@
       "source": {
         "kind": "GITHUB",
         "locator": "https://github.com/GreycLab/gmic",
-        "normalized_key": "github:greyclab/gmic"
+        "normalized_key": "github:greyclab/gmic",
+        "previous_locators": [
+          "project:G'MIC"
+        ]
       },
       "status": "ANALYZED",
       "discovered_from": [
@@ -25957,7 +25829,8 @@
         "head_sha": "0ae8bad5b32b0a1cc37f51746e28f66cb171218f"
       },
       "notes": [
-        "Former source-less project:G'MIC record normalized to verified GreycLab/gmic upstream in place. Existing ANALYZED state and 2026-09-27 historical research preserved; adoption still separately gated."
+        "Former source-less project:G'MIC record normalized to verified GreycLab/gmic upstream in place. Existing ANALYZED state and 2026-09-27 historical research preserved; adoption still separately gated.",
+        "Consolidated former project:g'mic project entry into canonical GitHub identity; its provenance, targets, classification and historical lookup key remain preserved."
       ]
     },
     {
