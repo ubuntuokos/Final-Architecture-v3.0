@@ -83,5 +83,24 @@
   "distribution": {
     "class": "REFERENCE_ONLY",
     "release_bundle_status": "EXCLUDED"
+  },
+  "current_host_probe": {
+    "adapter": "src/fa3_strata_provider_adapter.py",
+    "mode": "READ_ONLY_LOOPBACK_API_CONFORMANCE",
+    "base_url_source": "EXPLICIT_RUNTIME_CONFIGURATION_ONLY",
+    "fixed_default_port": false,
+    "required_endpoints": [
+      "GET /health",
+      "GET /v1/models"
+    ],
+    "start_runtime": false,
+    "install_runtime": false,
+    "mutate_runtime": false,
+    "network_egress": false,
+    "inference": false,
+    "immutable_runtime_identity_required_for_promotion": true,
+    "hrb_receipt_required_for_promotion": true,
+    "model_router_selection_receipt_required_for_promotion": true,
+    "static_or_probe_pass_promotes_runtime": false
   }
 }
