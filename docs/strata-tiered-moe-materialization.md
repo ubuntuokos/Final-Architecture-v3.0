@@ -14,7 +14,11 @@ The reusable architectural result is `FA3-TIERED-MOE-EXECUTION-CONTRACTS-001`. I
 - explicit KV accelerator residency and optional host spill;
 - persistent-storage placement for auxiliary indexes and cold artifacts.
 
-`src/fa3_tiered_moe_plan.py` is an independent FA3 implementation of this contract. It is intentionally provider neutral and preserves the global CPU-only baseline and accelerator cardinality 0..N.\n\n`src/fa3_strata_provider_adapter.py` is a separate clean-room current-host admission probe for an already-running Strata service. It requires an explicitly configured loopback URL (no fixed port), checks `/health` and `/v1/models`, never installs or starts Strata, performs no external network egress or model download, and cannot promote the provider by itself. A production admission still requires immutable runtime identity, HRB admission/placement evidence, and Model Router selection provenance.
+`src/fa3_tiered_moe_plan.py` is an independent FA3 implementation of this contract. It is intentionally provider neutral and preserves the global CPU-only baseline and accelerator cardinality 0..N.
+
+`src/fa3_tiered_moe_hrb_projection.py` is the execution-side bridge into the existing HRB boundary. It first validates the parent current-host resource-admission receipt, then accepts only a broker-validated placement grant bound to the same authorization, workload and host. The planner sees only those granted ceilings. The projection cannot admit, reserve, lease, discover or expand resources. The current HRB receipt model binds at most one accelerator lease per workload; that is a current projection limitation only, while the global FA3 baseline remains accelerator cardinality 0..N.
+
+`src/fa3_strata_provider_adapter.py` is a separate clean-room current-host admission probe for an already-running Strata service. It requires an explicitly configured loopback URL (no fixed port), checks `/health` and `/v1/models`, never installs or starts Strata, performs no external network egress or model download, and cannot promote the provider by itself. A production admission still requires immutable runtime identity, HRB admission/placement evidence, and Model Router selection provenance.
 
 ## Authority path
 
