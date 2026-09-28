@@ -31,7 +31,7 @@ _NEGATIVE = re.compile(
     r"(?i)\b(?:nem\s+(?:alkalmas\s+)?donor|not\s+(?:a\s+)?donor|"
     r"donornak\s+alkalmatlan|rejected\s+donor)\b"
 )
-_GITHUB = re.compile(r"https?://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)(?:\.git)?", re.I)
+_GITHUB = re.compile(r"(?<![\w@])(?:https?://)?(?:www\.)?github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)(?:\.git)?", re.I)
 _BARE = re.compile(r"(?<![/\w.])([A-Za-z0-9][A-Za-z0-9_.-]{1,38})/([A-Za-z0-9][A-Za-z0-9_.-]{1,79})(?![/\w.])")
 _NAMED = [
     re.compile(r"(?i)\bdonor(?:jelölt|\s+candidate)?\s*[:\-]\s*([^\n;,]{2,90})"),
