@@ -8,6 +8,7 @@ from fa3_release_baseline import load_active_release_baseline
 from fa3_skill_ecosystem_gate import evaluate as skill_ecosystem_gate
 from fa3_skill_fabric_v13 import activation_preview_allowed, context_budget_allowed, evaluate as skill_fabric_v13_gate, interface_allowed, provenance_attestation_allowed
 from fa3_skill_fabric_v14 import evaluate as skill_fabric_v14_gate
+from fa3_skill_activation import reference_regressions as skill_activation_reference_regressions
 PROFILE="canonical/profiles/FA3-SKILL-FABRIC-001.json"; CONTRACT="canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json"
 DISCOVERY_CONTRACT="canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
 MATERIALIZATION_CONTRACT="canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json"
@@ -175,11 +176,14 @@ def canonical_check(root: Path) -> list[str]:
     if ct.get("review_governance",{}).get("skipped_review_may_pass") is not False: findings.append("skipped review could pass")
     if d.get("discovery_semantics",{}).get("remote_fetch") is not False: findings.append("discovery remote fetch enabled")
     if not m.get("invariants"): findings.append("materialization contract missing")
+    ar=m.get("runtime_byte_verification",{})
+    for k in ("exact_opened_bytes_match_admitted_digest","independently_verified_issuer_receipts_required","task_bound_activation_lease_required","single_entrypoint_until_full_manifest_verifier","no_remote_fetch_or_skill_execution","ephemeral_buffer_cleanup_required"):
+        if ar.get(k) is not True: findings.append(f"skill activation invariant missing: {k}")
     return findings
 def gate(root: Path) -> dict[str,Any]:
-    root=Path(root).resolve();cap=load_active_release_baseline(root).capability_count;findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root);v14=skill_fabric_v14_gate(root)
-    result="PASS" if not findings and regressions["result"]=="PASS" and ecosystem["result"]=="PASS" and v13["result"]=="PASS" and v14["result"]=="PASS" else "FAIL"
-    report={"schema":"fa3.skill-fabric-gate-report.v1","gate_id":GATE_ID,"gateset_id":GATESET_ID,"result":result,"findings":findings,"regressions":regressions,"agent_skills_ecosystem":ecosystem,"skill_fabric_v13":v13,"skill_fabric_v14":v14,"provider_specific":False,"capability_count":cap,"current_host_runtime_claim":False}
+    root=Path(root).resolve();cap=load_active_release_baseline(root).capability_count;findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root);v14=skill_fabric_v14_gate(root);activation=skill_activation_reference_regressions()
+    result="PASS" if not findings and regressions["result"]=="PASS" and ecosystem["result"]=="PASS" and v13["result"]=="PASS" and v14["result"]=="PASS" and activation["result"]=="PASS" else "FAIL"
+    report={"schema":"fa3.skill-fabric-gate-report.v1","gate_id":GATE_ID,"gateset_id":GATESET_ID,"result":result,"findings":findings,"regressions":regressions,"agent_skills_ecosystem":ecosystem,"skill_fabric_v13":v13,"skill_fabric_v14":v14,"skill_activation":activation,"provider_specific":False,"capability_count":cap,"current_host_runtime_claim":False}
     out=root/"reports/skill-fabric-gate-report.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8");return report
 def main()->int:
     ap=argparse.ArgumentParser();ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));a=ap.parse_args();report=gate(Path(a.root));print(json.dumps(report,ensure_ascii=False,indent=2));return 0 if report["result"]=="PASS" else 2
