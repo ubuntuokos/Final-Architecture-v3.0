@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "create.story-screenplay": 39
     })
 
     function routeIndex(routeId) {
@@ -165,7 +166,7 @@ ApplicationWindow {
         {title: "3D / VFX", detail: "AI Studio 3D és VFX", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Audio", detail: "AI Studio audio", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Music", detail: "AI Studio zenei workflow", category: "FUNCTION", routeId: "create.ai-studio"},
-        {title: "Story / Screenplay", detail: "Történet és forgatókönyv", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Story / Screenplay", detail: "Natív jelenetszerkesztő és felbontás, helyi kísérleti formátumcsere", category: "FUNCTION", routeId: "create.story-screenplay"},
         {title: "Marketing", detail: "Marketing és publikációs workflow", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Weboldal", detail: "Webes publikáció", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Prezentáció", detail: "Prezentáció készítés és export", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -683,6 +684,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "CREATE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; routeId: "create.ai-studio" }
+                        NavButton { iconText: "SC"; label: "Story / Screenplay"; routeId: "create.story-screenplay" }
                         NavButton { iconText: "CC"; label: "Subtitle Studio"; routeId: "create.subtitle-studio" }
                         NavButton { iconText: "VO"; label: "Narration Studio"; routeId: "create.narration-studio" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
@@ -1727,6 +1729,15 @@ ApplicationWindow {
                     accent: window.magenta
                     green: window.green
                     orange: window.orange
+                }
+
+                StoryScreenplayPage {
+                    panel: window.panel
+                    raised: window.panelRaised
+                    border: window.border
+                    foreground: window.textPrimary
+                    muted: window.textMuted
+                    accent: window.accent
                 }
             }
 
