@@ -25,6 +25,67 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertIn("FA3-HARDWARE-BASELINE-001", ids)
         self.assertIn("fa3.document.retrieve", ids)
 
+    def test_catalog_federates_khronos_open_standard_sources(self):
+        rows = build_catalog(ROOT)["entries"]
+        by_id = {row["candidate_id"]: row for row in rows}
+        for adapter_id in (
+            "fa3.khronos.glslang",
+            "fa3.khronos.spirv-tools",
+            "fa3.khronos.spirv-cross",
+            "fa3.khronos.ktx",
+            "fa3.khronos.openxr",
+            "fa3.khronos.opencl",
+            "fa3.khronos.anari",
+            "fa3.khronos.openvx",
+            "fa3.khronos.nnef",
+        ):
+            self.assertIn(adapter_id, by_id)
+            self.assertEqual(by_id[adapter_id]["candidate_class"], "OPEN_STANDARD_ADAPTER")
+            self.assertFalse(by_id[adapter_id]["authority"])
+            self.assertFalse(by_id[adapter_id]["automatic_selection"])
+        self.assertIn("FA3-KHRONOS-BINDING:SHADER_FABRIC", by_id)
+        self.assertIn("FA3-KHRONOS-BINDING:ASSET_GRAPH", by_id)
+        self.assertIn("FA3-KHRONOS-BINDING:RENDER_FABRIC", by_id)
+        self.assertEqual(by_id["FA3-KHRONOS-BINDING:SHADER_FABRIC"]["candidate_class"], "OPEN_STANDARD_FABRIC_BINDING")
+
+    def test_shader_intent_surfaces_khronos_shader_stack(self):
+        intent = copy.deepcopy(self.intent)
+        intent["required_capabilities"] = []
+        intent["optional_capabilities"] = []
+        intent["problem_classes"] = ["shader", "spirv", "graphics"]
+        intent["execution_classes"] = ["cpu"]
+        intent["task_classes"] = ["shader", "compiler"]
+        intent["skill_triggers"] = []
+        intent["declared_gaps"] = []
+        resolution = resolve(ROOT, intent)
+        ids = {row["candidate_id"] for row in resolution["candidates"]}
+        self.assertIn("fa3.khronos.glslang", ids)
+        self.assertIn("fa3.khronos.spirv-tools", ids)
+        self.assertIn("fa3.khronos.spirv-cross", ids)
+        self.assertIn("FA3-KHRONOS-BINDING:SHADER_FABRIC", ids)
+
+    def test_every_intent_gets_mandatory_khronos_source_review(self):
+        resolution = resolve(ROOT, self.intent)
+        review = next(
+            row for row in resolution["mandatory_source_reviews"]
+            if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        )
+        self.assertIn(review["review_status"], {"MATCHED", "REVIEWED_NO_MATCH"})
+        self.assertTrue(review["available_candidate_ids"])
+        self.assertFalse(review["authority"])
+        self.assertFalse(review["automatic_selection"])
+        self.assertFalse(review["automatic_activation"])
+
+    def test_assessment_projects_mandatory_khronos_source_review(self):
+        result = assess_intent(ROOT, self.intent)
+        review = next(
+            row for row in result["mandatory_source_reviews"]
+            if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        )
+        self.assertIn(review["review_status"], {"MATCHED", "REVIEWED_NO_MATCH"})
+        self.assertFalse(review["authority"])
+        self.assertFalse(review["automatic_selection"])
+
     def test_golden_embedding_intent_reuses_document_retrieval(self):
         result = assess_intent(ROOT, self.intent)
         self.assertEqual(result["result"], "PASS")
