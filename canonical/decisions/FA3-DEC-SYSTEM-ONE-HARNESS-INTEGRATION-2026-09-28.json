@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28",
+  "date": "2026-09-28",
+  "title": "Integrate System One Harness patterns as a provider-neutral FA3 reflex runtime",
+  "status": "CANONICAL",
+  "decision": "Adopt finite typed action-space compilation, risk-class confidence gating, explicit finish/escalate outcomes and structured handoff inside the existing Decision Fabric. Do not adopt SystemOneHarness as an authority, model router, secret owner, resource broker or direct executor.",
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "bindings": {
+    "decision_profile": "FA3-DECISION-FABRIC-001",
+    "reflex_contract": "FA3-SYSTEM-ONE-REFLEX-001",
+    "system_one_provider": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "execution_plane": "EXISTING_CALLER_AUTHORITY"
+  },
+  "invariants": [
+    "confidence never grants permission",
+    "the model may choose only caller-authorized actions and finite parameter values",
+    "no direct OpenRouter or TypeSafe call is introduced",
+    "no physical model or provider is pinned",
+    "no silent local-to-cloud fallback is allowed",
+    "reflex runtime never performs tool execution itself",
+    "low-confidence and explicit escalation produce a typed handoff"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_supported": true,
+    "cuda_required": false,
+    "rocm_required": false,
+    "oneapi_required": false,
+    "npu_required": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "global_promotion_claim": false
+}
