@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
+    "entry_count": 307,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Registered Flova public workflow documentation as one additional reference-only, unadmitted donor candidate."
   },
   "entries": [
     {
@@ -17960,6 +17960,69 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-FLOVA-WORKFLOW-PATTERNS-001",
+      "name": "Flova public creative workflow documentation",
+      "source": {
+        "kind": "ARTICLE",
+        "locator": "https://flova.tv/en/docs/features/skills/",
+        "normalized_key": "article:https://flova.tv/en/docs/features/skills/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-project-workflow-flova-patterns-2026-09-26",
+        "mandatory-donor-backfill-2026-09-29"
+      ],
+      "first_seen": "2026-09-26",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "project-scoped-creative-context",
+        "task-scoped-skills",
+        "dependency-aware-scoped-revision",
+        "editorial-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "production",
+        "workflow"
+      ],
+      "problem_hints": [
+        "scoped-revision",
+        "production-context-reuse"
+      ],
+      "target_hints": [
+        "Creative Project Workflow",
+        "Story/Screenplay",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "flova",
+        "reference-only",
+        "no-runtime",
+        "no-code-import"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use only patterns from public documentation. Do not adopt Flova runtime, API, account, credentials, source code or bundled skills."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
