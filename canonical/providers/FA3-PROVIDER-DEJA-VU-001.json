@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-DEJA-VU-001",
+  "name": "vshulcz/deja-vu scoped local session recall",
+  "status": "REFERENCE_ADAPTER_IMPLEMENTED_RUNTIME_PENDING",
+  "provider_role": "OPTIONAL_READ_ONLY_SESSION_RETRIEVAL_PROVIDER",
+  "canonical_capability": "fa3.memory.retrieve",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "upstream": {
+    "repository": "https://github.com/vshulcz/deja-vu",
+    "immutable_commit": "73ad34e5fdc2b0c245a0fb69b65a17f3cbb123c8",
+    "license": "MIT",
+    "license_blob_sha": "b5f413c29438cbdbb1f90f37e9299ed8b5406672",
+    "go_module": "github.com/vshulcz/deja-vu",
+    "go_version": "1.25",
+    "cli_json_schema_version": 2
+  },
+  "implementation": {
+    "adapter": "src/fa3_deja_vu_recall.py",
+    "factory": "fa3_deja_vu_recall:factory",
+    "runtime_manifest_schema": "fa3.deja.scoped-runtime.v1",
+    "transport": "EXISTING_FA3_CENTRAL_MCP_GATEWAY_ONLY",
+    "supported_stores": [
+      "claude",
+      "codex"
+    ],
+    "index_is_rebuildable": true,
+    "read_only": true,
+    "auto_install": false,
+    "auto_update": false,
+    "auto_agent_wiring": false,
+    "auto_import": false,
+    "remote_sync": false,
+    "semantic_embedding": false,
+    "network_access": false
+  },
+  "authorities": {
+    "memory": "FA3-KNOWLEDGE-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "policy": "SECURITY_GOVERNANCE_POLICY_PLANE",
+    "journal": "FA3-JOURNAL-001",
+    "model": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "admission": {
+    "status": "PENDING_CURRENT_HOST",
+    "production_admitted": false,
+    "preconditions": [
+      "isolated_private_LUKS_partition_per_project_and_trusted_owner",
+      "only_allowlisted_harness_stores_mounted_in_partition",
+      "immutable_upstream_binary_SHA256_verified",
+      "external_FA3_policy_resolver_and_exact_project_scope",
+      "gateway_read_only_receipt_audit",
+      "source_tombstone_and_revocation_propagation",
+      "bounded_negative_E2E_on_current_host",
+      "rollback_cleanup_and_disabled_provider_zero_residency"
+    ],
+    "no_admission_from_ci_only": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "automatic_display_gpu_use": false,
+    "global_hardware_dependency": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "gui": {
+    "surface": "FA3 Memory and History",
+    "implementation": "CONTRACT_ONLY_RUNTIME_GUI_NOT_YET_MATERIALIZED",
+    "wayland_preferred": true,
+    "x11_supported": true,
+    "kde_required": false
+  }
+}
