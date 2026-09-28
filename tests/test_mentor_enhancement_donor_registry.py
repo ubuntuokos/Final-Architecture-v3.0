@@ -37,8 +37,8 @@ class MentorEnhancementDonorRegistryTests(unittest.TestCase):
         cls.by_key = {row["source"]["normalized_key"]: row for row in cls.rows}
 
     def test_exact_source_set_and_local_uniqueness(self):
-        keys = [row["source"]["normalized_key"] for row in cls.rows]
-        donor_ids = [row["donor_id"] for row in cls.rows]
+        keys = [row["source"]["normalized_key"] for row in self.rows]
+        donor_ids = [row["donor_id"] for row in self.rows]
         self.assertEqual(set(keys), EXPECTED_KEYS)
         self.assertEqual(len(keys), 15)
         self.assertEqual(len(keys), len(set(keys)))
