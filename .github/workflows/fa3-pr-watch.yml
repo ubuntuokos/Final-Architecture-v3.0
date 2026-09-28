@@ -1,0 +1,71 @@
+name: FA3 PR Watch Functional and Safety Gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/fa3_pr_watch.py"
+      - "bin/fa3-pr-watch"
+      - "tests/test_pr_watch.py"
+      - "apps/fa3-control-center/src/PrWatchService.*"
+      - "apps/fa3-control-center/qml/WorkManagementPage.qml"
+      - "apps/fa3-control-center/qml/Main.qml"
+      - "apps/fa3-control-center/src/main.cpp"
+      - "apps/fa3-control-center/CMakeLists.txt"
+      - "canonical/contracts/FA3-GITHUB-DEVELOPMENT-INTEGRATION-CONTRACTS-001.json"
+      - "docs/pr-watch-implementation.md"
+      - ".github/workflows/fa3-pr-watch.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/fa3_pr_watch.py"
+      - "bin/fa3-pr-watch"
+      - "tests/test_pr_watch.py"
+      - "apps/fa3-control-center/src/PrWatchService.*"
+      - "apps/fa3-control-center/qml/WorkManagementPage.qml"
+      - "apps/fa3-control-center/qml/Main.qml"
+      - "apps/fa3-control-center/src/main.cpp"
+      - "apps/fa3-control-center/CMakeLists.txt"
+      - "canonical/contracts/FA3-GITHUB-DEVELOPMENT-INTEGRATION-CONTRACTS-001.json"
+      - ".github/workflows/fa3-pr-watch.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pr-watch-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Strict source syntax
+        run: python -m py_compile src/fa3_pr_watch.py bin/fa3-pr-watch tests/test_pr_watch.py
+      - name: Real signed-payload and negative regression suite
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -p test_pr_watch.py -v
+      - name: Existing work-management and goal-contract regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_work_management_gate.py -v
+          python -m unittest discover -s tests -p test_goal_execution_foundation.py -v
+      - name: PR Watch boundaries and no runtime promotion
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c = json.loads(Path("canonical/contracts/FA3-GITHUB-DEVELOPMENT-INTEGRATION-CONTRACTS-001.json").read_text())
+          assert c["authority"] is False and c["new_capabilities"] == 0
+          assert c["runtime_activation"] == "DISABLED_UNTIL_SEPARATE_ADMISSION"
+          assert c["direct_model_and_tool_bypass"] is False
+          assert c["github_ingress"]["signed_hmac_sha256_required"] is True
+          assert c["evidence"]["self_certification_allowed"] is False
+          assert c["hardware_audit"]["cpu_only_viable"] is True
+          assert "PR Watch" in Path("apps/fa3-control-center/qml/WorkManagementPage.qml").read_text()
+          PY
