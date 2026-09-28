@@ -11,6 +11,7 @@ class DecisionFabricService final : public QObject
     Q_PROPERTY(QVariantList recentDecisions READ recentDecisions NOTIFY recentDecisionsChanged)
     Q_PROPERTY(QVariantList radarProjects READ radarProjects NOTIFY radarProjectsChanged)
     Q_PROPERTY(QVariantList contextItems READ contextItems NOTIFY contextItemsChanged)
+    Q_PROPERTY(QVariantMap goalReview READ goalReview NOTIFY goalReviewChanged)
     Q_PROPERTY(QString snapshotCommit READ snapshotCommit NOTIFY radarProjectsChanged)
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
 
@@ -21,6 +22,7 @@ public:
     QVariantList recentDecisions() const;
     QVariantList radarProjects() const;
     QVariantList contextItems() const;
+    QVariantMap goalReview() const;
     QString snapshotCommit() const;
     QString lastError() const;
 
@@ -33,20 +35,24 @@ signals:
     void recentDecisionsChanged();
     void radarProjectsChanged();
     void contextItemsChanged();
+    void goalReviewChanged();
     void lastErrorChanged();
 
 private:
     QString locateRepoRoot() const;
     QString tracePath() const;
     QString contextPath() const;
+    QString goalReviewPath() const;
     void loadTraces();
     void loadRadar();
     void loadContext();
+    void loadGoalReview();
 
     QString m_state = QStringLiteral("UNVERIFIED");
     QVariantList m_recentDecisions;
     QVariantList m_radarProjects;
     QVariantList m_contextItems;
+    QVariantMap m_goalReview;
     QString m_snapshotCommit = QStringLiteral("a27922ad457389775f4fe4eadcf688afc9d36d83");
     QString m_lastError;
 };

@@ -64,6 +64,51 @@ Item {
             }
         }
 
+        Rectangle {
+            Layout.fillWidth: true
+            implicitHeight: 88
+            radius: 8
+            color: root.panelRaised
+            border.color: root.orange
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 12
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Label {
+                        text: "GOAL EVIDENCE · CANONICAL GATE REQUIRED"
+                        color: root.orange
+                        font.pixelSize: 10
+                        font.bold: true
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: fa3DecisionFabric.goalReview.goal_id
+                              ? "Goal: " + fa3DecisionFabric.goalReview.goal_id
+                                  + " · " + fa3DecisionFabric.goalReview.status
+                              : "No checked goal-evidence projection available. No goal completion is claimed."
+                        color: root.textMuted
+                        font.pixelSize: 10
+                        wrapMode: Text.WordWrap
+                    }
+                    Label {
+                        text: fa3DecisionFabric.goalReview.criteria
+                              ? fa3DecisionFabric.goalReview.criteria.length
+                                  + " criterion references · read-only, not final verification"
+                              : "Evidence status: unavailable"
+                        color: root.textMuted
+                        font.pixelSize: 9
+                    }
+                }
+                Button {
+                    text: "Refresh review"
+                    onClicked: fa3DecisionFabric.refresh()
+                }
+            }
+        }
+
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
