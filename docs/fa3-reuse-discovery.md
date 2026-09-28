@@ -12,6 +12,16 @@ The reuse catalog is derived and rebuildable. Canonical records remain the sourc
 
 The resolver searches existing capabilities, profiles, contracts, providers, actions, GUI projections, reusable patterns and references. License/distribution, authority collision, coexistence and hardware rules filter the set first. Decision Fabric may only rank the already eligible set and may not add a candidate.
 
+## Mandatory Khronos open-standards source review
+
+Every new or materially modified FA3 ApplicationIntent must review the canonical Khronos Open Standards source family before implementation. Reuse Discovery evaluates the Khronos profile, adapter registry and integration map as three complementary sources:
+
+- runtime/provider solutions such as Vulkan, OpenXR, OpenCL and ANARI boundaries;
+- interchange standards and toolchains such as SPIR-V, glTF, KTX2 and NNEF;
+- design/pattern/instruction sources, including non-runtime patterns such as the OpenVX sample implementation.
+
+The review is mandatory; selection is not. Each assessment records either `MATCHED` or `REVIEWED_NO_MATCH`. Khronos candidates remain non-authoritative, are never automatically selected or activated, and cannot bypass HRB, security, distribution, evidence or normal FA3 admission.
+
 ## Reusable patterns
 
 Patterns are not capabilities. They capture architecture that can be applied in multiple domains without growing the 143-capability baseline. Pattern metadata preserves provenance and does not imply source-code reuse.
