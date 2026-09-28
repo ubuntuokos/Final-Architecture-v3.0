@@ -44,6 +44,7 @@ def gate(root: Path) -> dict[str, Any]:
         "src/fa3_jev_decision_provider.py",
         "src/fa3_system_one_reflex.py",
         "src/fa3_system_one_decision_provider.py",
+        "src/fa3_system_one_mcp_compiler.py",
         "src/fa3_decision_adapters.py",
         "src/fa3_local_decision_provider.py",
         "src/fa3_decision_trace.py",
@@ -76,6 +77,7 @@ def gate(root: Path) -> dict[str, Any]:
     system_one = load(root / "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json")
     reflex = load(root / "canonical/contracts/FA3-SYSTEM-ONE-REFLEX-001.json")
     system_one_decision = load(root / "canonical/decisions/FA3-DEC-SYSTEM-ONE-HARNESS-INTEGRATION-2026-09-28.json")
+    system_one_reuse = load(root / "canonical/third-party/FA3-SYSTEM-ONE-HARNESS-REUSE-001.json")
     decision = load(root / "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json")
 
     if profile.get("architectural_authority") is not False or profile.get("authority_delta") != 0:
@@ -91,7 +93,7 @@ def gate(root: Path) -> dict[str, Any]:
     for key in (
         "may_grant_permission", "may_expand_scope", "may_create_agent",
         "may_admit_model", "may_admit_provider", "may_obtain_secret",
-        "may_obtain_hrb_lease",
+        "may_obtain_hrb_lease", "may_authorize_execution", "may_execute_tool",
     ):
         if security.get(key) is not False:
             findings.append(finding("DECISION-005", "security boundary drift", field=key))
@@ -134,6 +136,15 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("DECISION-015", "reflex contract authority drift"))
     if system_one_decision.get("authority_delta") != 0 or system_one_decision.get("capability_count_after") != 143:
         findings.append(finding("DECISION-016", "System One integration baseline drift"))
+    upstream = system_one_reuse.get("upstream", {})
+    if (
+        upstream.get("repository") != "HarnessRouter/SystemOneHarness"
+        or upstream.get("commit") != "ab8e8f08b4a6268c0633a474423d556599ee06a4"
+        or upstream.get("license") != "Apache-2.0"
+        or system_one_reuse.get("disposition") != "PATTERN_SOURCE"
+        or system_one_reuse.get("code_copy") is not False
+    ):
+        findings.append(finding("DECISION-018", "System One upstream provenance drift"))
 
     # Direct TypeSafe network calls are allowed only inside the optional provider adapter
     # and immutable research snapshots. Applications must cross the Decision Fabric.
