@@ -20,6 +20,7 @@ QML = "apps/fa3-generative-media-studio/qml/Main.qml"
 BACKEND = "apps/fa3-generative-media-studio/src/StudioBackend.cpp"
 CMAKE = "apps/fa3-generative-media-studio/CMakeLists.txt"
 DESKTOP = "apps/fa3-generative-media-studio/packaging/org.fa3.GenerativeMediaStudio.desktop"
+ACTION = "canonical/actions/media.generate.execute.json"
 
 GATESET_ID = "FA3-GENERATIVE-MEDIA-STUDIO-GATESET-001"
 PROFILE_ID = "FA3-GENERATIVE-MEDIA-STUDIO-001"
@@ -38,7 +39,7 @@ def gate(root: Path) -> dict:
     findings: list[dict[str, str]] = []
     required = [
         PROFILE, CONTRACT, REQUEST_SCHEMA, DECISION, REFERENCE, INTENT, ASSESSMENT,
-        ENFORCEMENT, GATE_RECORD, GATE_REGISTRY, POLICY, QML, BACKEND, CMAKE, DESKTOP,
+        ENFORCEMENT, GATE_RECORD, GATE_REGISTRY, POLICY, ACTION, QML, BACKEND, CMAKE, DESKTOP,
     ]
     for rel in required:
         if not (root / rel).is_file():
@@ -63,6 +64,7 @@ def gate(root: Path) -> dict:
     gr = load(root, GATE_RECORD)
     registry = load(root, GATE_REGISTRY)
     policy = load(root, POLICY)
+    action = load(root, ACTION)
     qml = (root / QML).read_text(encoding="utf-8")
     backend = (root / BACKEND).read_text(encoding="utf-8")
     cmake = (root / CMAKE).read_text(encoding="utf-8")
@@ -100,9 +102,10 @@ def gate(root: Path) -> dict:
         (gr.get("enforcement_id") == GATESET_ID and gr.get("fail_closed") is True and gr.get("static_pass_promotes_runtime") is False, "GMS-030", "gate record drift"),
         (GATESET_ID in registry.get("mandatory_reference_gates", []) and registry.get("mandatory_reference_gates") == policy.get("mandatory_reference_gates"), "GMS-030A", "global gate registry/policy binding drift"),
         (policy.get("generative_media_studio_profile_id") == PROFILE_ID and policy.get("generative_media_studio_contract_id") == CONTRACT_ID and policy.get("generative_media_studio_gate_id") == GATESET_ID and policy.get("generative_media_studio_current_host_runtime_promotion_claim") is False, "GMS-030B", "global enforcement policy Studio binding drift"),
+        (action.get("id") == "media.generate.execute" and action.get("security", {}).get("authentication") == "required" and action.get("security", {}).get("authorization") == "required" and action.get("resources", {}).get("hrb_required") is True and action.get("resources", {}).get("accelerator", {}).get("cardinality") == "0..N" and action.get("evidence", {}).get("required") is True, "GMS-030C", "UAF action contract boundary drift"),
         ("from: 6" in qml and "to: 20" in qml, "GMS-031", "6..20 second Studio control missing"),
         ("FA3 Model Router" in qml, "GMS-032", "Model Router projection missing"),
-        ("PENDING_ADMISSION" in backend, "GMS-033", "request does not remain pending admission"),
+        ("PENDING_ADMISSION" in backend and "media.generate.execute" in backend, "GMS-033", "request UAF handoff/state binding missing"),
         ("physical_provider_pin" in backend and "physical_model_pin" in backend, "GMS-034", "pin-denial fields missing"),
         ("Qt6::Qml" in cmake and "Qt6::Quick" in cmake, "GMS-035", "Qt6/QML build contract missing"),
         ("org.fa3.GenerativeMediaStudio.desktop" in cmake and "Exec=fa3-generative-media-studio" in desktop, "GMS-036", "desktop launcher not materialized"),
