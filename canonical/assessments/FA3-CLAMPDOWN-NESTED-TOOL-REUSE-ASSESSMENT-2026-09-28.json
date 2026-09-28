@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CLAMPDOWN-NESTED-TOOL-REUSE-ASSESSMENT-2026-09-28",
+  "project_id": "FA3-AGENT-SANDBOX-001",
+  "intent_id": "FA3-CLAMPDOWN-NESTED-TOOL-APPLICATION-INTENT-2026-09-28",
+  "intent_path": "canonical/intents/FA3-CLAMPDOWN-NESTED-TOOL-APPLICATION-INTENT-2026-09-28.json",
+  "covered_ids": [
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-DONOR-CLAMPDOWN-001"
+  ],
+  "project_status": "FA3_NATIVE_STATIC_COMPILER_AND_NEGATIVE_REGRESSIONS_MATERIALIZED_CURRENT_HOST_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AGENT-SANDBOX-001",
+      "use": "EXISTING_MANDATORY_SANDBOX_PARENT"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_UAF_MEDIATED_WORKLOAD_COMPILER"
+    },
+    {
+      "id": "FA3-DONOR-CLAMPDOWN-001",
+      "use": "SECURITY_ARCHITECTURE_PATTERN_CLEAN_REIMPLEMENTATION_NO_SOURCE_COPY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_CPU_MEMORY_ACCELERATOR_RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "SOLE_TOOL_MEDIATION_BOUNDARY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "CLAMPDOWN_PRIVILEGED_SIDECAR",
+      "reason": "CAP_SYS_ADMIN_AND_NET_ADMIN_NOT_IMPORTED"
+    },
+    {
+      "id": "CLAMPDOWN_NESTED_DEFAULT_ALLOW_EGRESS",
+      "reason": "FA3_NETWORK_DEFAULT_DENY_AND_EXPLICIT_LEASE_ONLY"
+    },
+    {
+      "id": "RAW_GPL_3_SOURCE_IMPORT",
+      "reason": "CLEAN_ROOM_PATTERN_IMPLEMENTATION_AND_DISTRIBUTION_COMPATIBILITY"
+    },
+    {
+      "id": "UNTRUSTED_HARDENED_ROOTLESS_OCI_FALLBACK",
+      "reason": "EXISTING_GVISOR_WASMTIME_PREFERRED_SANDBOX_POLICY"
+    },
+    {
+      "id": "RUNTIME_PROMOTION_FROM_STATIC_TESTS",
+      "reason": "CURRENT_HOST_NEGATIVE_E2E_AND_SIGNED_ADMISSION_NOT_DONE"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "parent_sandbox": "FA3-AGENT-SANDBOX-001",
+    "workload": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "TRUSTED_EXECUTOR_REQUIRES_SIGNED_AND_SCOPE_VERIFIED_ADMISSION",
+    "CURRENT_HOST_GVISOR_PODMAN_SECCOMP_AND_NEGATIVE_E2E_PENDING"
+  ],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "agent_socket_exposure": false
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "source_copy_allowed": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
