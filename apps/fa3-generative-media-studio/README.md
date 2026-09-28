@@ -6,7 +6,7 @@ This is the native Qt6/QML materialization of the existing **CAP-111 Generative 
 
 The Studio compiles provider-neutral creative requests for image, video, lip-sync and character-animation workflows. It deliberately does **not** call a provider, pin a model, allocate an accelerator, inject credentials, or claim runtime success.
 
-The compiled request is written atomically below the Qt StateLocation projection:
+The compiled request is written atomically below the XDG state directory (`$XDG_STATE_HOME`, falling back to `~/.local/state`):
 
     fa3/generative-media-studio/requests/<request-id>.json
 
