@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import tempfile
+import zipfile
 from pathlib import Path
 
 from fa3_donor_chat_import import _conversations, ingest
@@ -74,7 +75,7 @@ def process_inbox(root: Path, home: Path = DEFAULT_HOME) -> dict:
                 continue
             try:
                 result = ingest(root, _conversations(file_path, {"user", "assistant"}), origin="chatgpt-export")
-            except (OSError, ValueError, UnicodeError, json.JSONDecodeError) as exc:
+            except (OSError, ValueError, UnicodeError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
                 outcome["blocked"] += 1
                 # Never log the raw file name, source path, conversation text, or account data.
                 raise ValueError("private donor inbox has a blocked or incomplete export") from exc
