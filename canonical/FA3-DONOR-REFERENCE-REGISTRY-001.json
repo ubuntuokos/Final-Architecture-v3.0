@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 306,
+    "entry_count": 307,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission."
   },
   "entries": [
@@ -5108,6 +5108,58 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-FLOVA-001",
+      "name": "Flova (creative workflow patterns)",
+      "source": {
+        "kind": "PROJECT",
+        "locator": "project:Flova",
+        "normalized_key": "project:flova"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Creative Project Workflow PR #405"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "creative",
+        "workflow",
+        "prompting"
+      ],
+      "problem_hints": [
+        "task-scoped-context",
+        "scoped-revision"
+      ],
+      "target_hints": [
+        "Prompt Builder",
+        "Creative Project Workflow",
+        "Production Studio"
+      ],
+      "tags": [
+        "reference-only",
+        "workflow"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
