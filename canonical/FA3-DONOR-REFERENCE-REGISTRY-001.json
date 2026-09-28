@@ -388,6 +388,62 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-AFTERWRITING-LABS-001",
+      "name": "afterwriting-labs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ifrost/afterwriting-labs",
+        "normalized_key": "github:ifrost/afterwriting-labs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Fountain PDF conversion, FDX import and screenplay location/dialogue/page statistics"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "fountain",
+        "fdx",
+        "pdf",
+        "statistics"
+      ],
+      "license": {
+        "declared": "MIT_README_DECLARED",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README declares MIT but GitHub metadata has no detected license. Verify actual licensed files before any copy.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AGENT-ROOM-ALKL-001",
       "name": "agent-room-alkl",
       "source": {
@@ -777,6 +833,63 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-NOVEL2SCRIPT-001",
+      "name": "ai-novel2script",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Axelxrd/ai-novel2script",
+        "normalized_key": "github:axelxrd/ai-novel2script"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Novel chapter-to-scene mapping, editable YAML schema, story bible and coverage reports"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Film Planning"
+      ],
+      "tags": [
+        "adaptation",
+        "story-bible",
+        "schema",
+        "provenance"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT declared. Upstream provider/model flag and automatic local fallback conflict with FA3 no-fixed-pin/no-silent-fallback: reimplement integration through central Router with explicit failure and consent.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AI-TOOLKIT-MANAGER-001",
@@ -5169,6 +5282,60 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FOUNTAIN-MODE-001",
+      "name": "Fountain Mode",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/rnkn/fountain-mode",
+        "normalized_key": "github:rnkn/fountain-mode"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Fountain 1.1 editor behavior, auto-complete, scene navigation, pagination and focus-compatible markup"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay"
+      ],
+      "tags": [
+        "fountain",
+        "editor-ux",
+        "pagination"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0; UX and Fountain conformance reference only pending license review.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-FREEMOCAP-001",
       "name": "FreeMoCap",
       "source": {
@@ -6176,6 +6343,63 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-HOW-TO-MAKE-SCRIPT-001",
+      "name": "How to Make Script",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/XucroYuri/how-to-make-script",
+        "normalized_key": "github:xucroyuri/how-to-make-script"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Intent/medium/stage/output workflow selection, reusable narrative evaluation rubrics and checked artifacts"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Coach",
+        "Creative Studio"
+      ],
+      "tags": [
+        "ai-review",
+        "rubrics",
+        "script-workflow",
+        "production-profile"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT declared. Use knowledge/rubric patterns only under existing central Model Router, HRB, Decision Fabric and human approval; never import another model authority.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-HTCONDOR-001",
@@ -8181,6 +8405,61 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MEANDER-001",
+      "name": "meander",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lichendust/meander",
+        "normalized_key": "github:lichendust/meander"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Portable production screenplay/manuscript transformation and command-line workflow ideas"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "fountain",
+        "production-script",
+        "cli"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0; verify current functionality and test fixtures before recommending code reuse.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MEDIAPIPE-FACE-LANDMARKER-001",
       "name": "MediaPipe Face Landmarker",
       "source": {
@@ -8806,6 +9085,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NARRATIVE-SOUNDSTAGE-001",
+      "name": "Narrative Soundstage",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/IdaAkiwumi/narrative-soundstage",
+        "normalized_key": "github:idaakiwumi/narrative-soundstage"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Character-assigned table reads, TTS rehearsal and synchronized prompter workflow"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Voice/Vocal",
+        "Performance",
+        "Creative Studio"
+      ],
+      "tags": [
+        "table-read",
+        "tts",
+        "casting",
+        "prompter"
+      ],
+      "license": {
+        "declared": "PROPRIETARY_BADGE_CONFLICT",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README proprietary badge links to MIT page and GitHub exposes no SPDX license; do not copy code. Any proposed TTS uses approved FA3 providers, consent and explicit resources.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-NATRON-001",
@@ -11940,6 +12277,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENDRAFT-001",
+      "name": "OpenDraft",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Proteus-Technologies-Private-Limited/OpenDraft",
+        "normalized_key": "github:proteus-technologies-private-limited/opendraft"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Screenplay editor, beat board, real-time co-writing, version history and screenplay interchange"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Film Planning"
+      ],
+      "tags": [
+        "fountain",
+        "fdx",
+        "collaboration",
+        "beat-board",
+        "revision"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT declaration from GitHub and README. Verify production-grade round-trip and security; FA3 retains native Qt/QML editor.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENEXR-001",
@@ -15559,6 +15954,229 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-SCENARLY-001",
+      "name": "Scenarly",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Lycoon/scenarly",
+        "normalized_key": "github:lycoon/scenarly"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Scene/page locking, The Shelve alternates, writing sessions, comments and dialogue metrics"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "production-revision",
+        "focus-mode",
+        "alternate-dialogue",
+        "stats"
+      ],
+      "license": {
+        "declared": "ALL_RIGHTS_RESERVED_OR_UNCLEAR",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README says source-available and All Rights Reserved; GitHub reports NOASSERTION. UI/workflow reference only; code copying blocked.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCREENPLAY-LATEX-001",
+      "name": "screenplay-latex",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/karthikv792/screenplay-latex",
+        "normalized_key": "github:karthikv792/screenplay-latex"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Pre-production tagged props/wardrobe/camera/light/VFX annotations, scene breakdowns and revision pages"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "Creative Studio"
+      ],
+      "tags": [
+        "production-annotations",
+        "scene-breakdown",
+        "formatting"
+      ],
+      "license": {
+        "declared": "MIT_README_DECLARED",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README declares MIT but GitHub SPDX not detected; exact licensed files and formatting correctness need review.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPTFLOW-001",
+      "name": "ScriptFlow",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/YoLin02/ScriptFlow",
+        "normalized_key": "github:yolin02/scriptflow"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Text-to-visual nodes, story card connections, script/media/timeline canvas and reusable templates"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Creative Studio"
+      ],
+      "tags": [
+        "visual-canvas",
+        "nonlinear-planning",
+        "media-links",
+        "markdown"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Apache 2.0 declared. Extract interoperability concepts rather than imposing React Flow, IndexedDB or a parallel project authority.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPTWRITING-GITHUB-TOPIC-001",
+      "name": "Scriptwriting GitHub topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/scriptwriting",
+        "normalized_key": "github:topics/scriptwriting"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Continuously discover separately verified scriptwriting repositories"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "discovery-index",
+        "screenwriting"
+      ],
+      "license": {
+        "declared": "N/A",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only. Individual repositories require separate source, license, provenance and fit reviews.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SEED-VC-001",
       "name": "Seed-VC",
       "source": {
@@ -16132,6 +16750,63 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-STORY-ARCHITECT-STARC-001",
+      "name": "Story Architect (STARC)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/story-apps/starc",
+        "normalized_key": "github:story-apps/starc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Qt screenplay/document UI, production profiles, character/location data, draft management and scene analytics"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Film Planning"
+      ],
+      "tags": [
+        "production-profiles",
+        "qt",
+        "story-bible",
+        "scene-breakdown"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0; community build mentions private/commercial submodules. Reference-only pending GPL/coexistence and component-level review; advertised import/export paths vary by format and direction.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-STRETCHY-STUDIO-001",
       "name": "Stretchy Studio",
       "source": {
@@ -16607,6 +17282,63 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOME-EDITOR-001",
+      "name": "Tome Editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Oleg-Avdeev/Tome-Edtior",
+        "normalized_key": "github:oleg-avdeev/tome-edtior"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Narrative tree editor, scene/dialogue/action/condition TSV structure and branching story visualization"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Interactive Narrative"
+      ],
+      "tags": [
+        "branching-narrative",
+        "story-graph",
+        "tsv",
+        "metadata"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0 and last pushed 2022; reference for narrative graph and data interchange, not a new canonical authority.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TOONFLOW-001",
