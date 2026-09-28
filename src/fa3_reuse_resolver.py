@@ -38,6 +38,7 @@ def _terms(values: list[str]) -> set[str]:
     out: set[str] = set()
     for value in values:
         out.update(x for x in re.split(r"[^a-z0-9_.:-]+", value.lower()) if x)
+        out.update(re.findall(r"[a-z0-9]+", value.lower()))
         out.add(_norm(value))
     return out
 
@@ -90,6 +91,10 @@ def _reuse_mode(entry: dict[str, Any]) -> str:
     status = str(entry.get("status", ""))
     if cls == "REUSABLE_PATTERN":
         return "PATTERN_REUSE"
+    if cls == "OPEN_STANDARD_ADAPTER":
+        return "OPEN_STANDARD_ADAPTER_REUSE"
+    if cls == "OPEN_STANDARD_FABRIC_BINDING":
+        return "OPEN_STANDARD_DESIGN_PATTERN_REUSE"
     if cls == "SKILL":
         if entry.get("admitted") is True and status == "ADMITTED" and entry.get("task_scoped") is True:
             return "ADMITTED_SKILL_REUSE"
@@ -186,6 +191,32 @@ def resolve(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         if cap in known_caps:
             duplicate_capabilities.append(cap)
 
+    mandatory_source_reviews = []
+    for source_family in catalog.get("mandatory_source_reviews", []):
+        if not isinstance(source_family, dict) or not source_family.get("source_family_id"):
+            continue
+        source_paths = set(source_family.get("sources", []))
+        available = [
+            row["candidate_id"]
+            for row in catalog["entries"]
+            if row.get("source_path") in source_paths
+        ]
+        matched = [
+            row["candidate_id"]
+            for row in candidates
+            if row.get("source_path") in source_paths
+        ]
+        mandatory_source_reviews.append({
+            "source_family_id": source_family["source_family_id"],
+            "review_status": "MATCHED" if matched else source_family.get("no_match_disposition", "REVIEWED_NO_MATCH"),
+            "available_candidate_ids": sorted(set(available)),
+            "matched_candidate_ids": sorted(set(matched)),
+            "roles": list(source_family.get("roles", [])),
+            "authority": False,
+            "automatic_selection": False,
+            "automatic_activation": False,
+        })
+
     payload = json.dumps(intent, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     return {
         "schema": "fa3.reuse-resolution.v1",
@@ -206,4 +237,5 @@ def resolve(root: Path, intent: dict[str, Any]) -> dict[str, Any]:
         "agent_native_output": "PROPOSAL_ONLY",
         "skill_activation_authority": False,
         "external_skill_source_install_authority": False,
+        "mandatory_source_reviews": mandatory_source_reviews,
     }
