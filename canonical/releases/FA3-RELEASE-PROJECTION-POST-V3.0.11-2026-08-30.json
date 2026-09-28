@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "aad3cd310596a0dbe0bbbe18fd016fbd18741b31",
-    "pre_projection_root_tree_sha": "f7b1c59998030e7e06053027c63de895491a2bd6",
-    "pre_projection_canonical_tree_sha": "133b7dfed626b2cb1ba355769bb0f413099de727",
-    "commits_ahead_of_v3_0_11_conformance_commit": 1569,
-    "total_post_baseline_commits": 1569,
-    "delta_file_count": 2483,
-    "delta_added_files": 2477,
+    "pre_projection_head_sha": "e65430572baace18e2c6b715543e504ede00d65b",
+    "pre_projection_root_tree_sha": "a3ca74a31d47466ff2eb879eff9033e78c2d00d0",
+    "pre_projection_canonical_tree_sha": "22d5046125c9e435af63ba234d57499d61297b8d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 1604,
+    "total_post_baseline_commits": 1604,
+    "delta_file_count": 2494,
+    "delta_added_files": 2488,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,8 +48,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1196,
     "evidence_files_in_post_baseline_delta": 170,
-    "source_files_in_post_baseline_delta": 339,
-    "test_files_in_post_baseline_delta": 274,
+    "source_files_in_post_baseline_delta": 341,
+    "test_files_in_post_baseline_delta": 277,
     "workflow_files_in_post_baseline_delta": 122,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1013,7 +1013,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2473,
+  "manifest_entry_count": 2484,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1252,7 +1252,7 @@
     },
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
-      "git_blob_sha": "7db05b104ae06814796293aa4201558400a86deb",
+      "git_blob_sha": "c0a24c12a3d92ddbec850f3ae76aa5719cf0a96e",
       "baseline_delta_status": "added"
     },
     {
@@ -1552,7 +1552,7 @@
     },
     {
       "path": ".github/workflows/fa3-skill-ecosystem.yml",
-      "git_blob_sha": "0d15ebdcd43ae0c6970f26d375948898f3923f96",
+      "git_blob_sha": "86a0fe92346bc43fb46558536d24e04007e181e3",
       "baseline_delta_status": "added"
     },
     {
@@ -1647,7 +1647,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9189f4cb09926a801d07ec4cec083e4fc2c05119",
+      "git_blob_sha": "81c3e40e3499e724afc06afa7bb93d0153557a73",
       "baseline_delta_status": "added"
     },
     {
@@ -1667,7 +1667,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/AgentActionCenterPage.qml",
-      "git_blob_sha": "2e6779a5397d2c438d103b89f1ed50ad79b1048c",
+      "git_blob_sha": "b0bda8ddabd18db64b750cb0a86d228ceb1fb625",
       "baseline_delta_status": "added"
     },
     {
@@ -1687,7 +1687,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/ContextInspectorPage.qml",
-      "git_blob_sha": "74d3921d30bbb713e416ace7648d2c3388adb42d",
+      "git_blob_sha": "031a155c92670d96241d2d34f9e5073e5b024001",
       "baseline_delta_status": "added"
     },
     {
@@ -1702,7 +1702,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/DecisionInspectorPage.qml",
-      "git_blob_sha": "52d923271ea606b2e0acb5c9354193adf7d10618",
+      "git_blob_sha": "283d8a1e386dd24b980e9f0e3d35ec54ad33c7ca",
       "baseline_delta_status": "added"
     },
     {
@@ -1737,12 +1737,12 @@
     },
     {
       "path": "apps/fa3-control-center/qml/LanguageControlPage.qml",
-      "git_blob_sha": "c470e63fec6e61c2aa7cec9300cbf4ffb9d41928",
+      "git_blob_sha": "4144a12194d513e6ff09902984918d1b8aa0294b",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "cf71b67aec5a48dd8499da626eb2ecb6af017857",
+      "git_blob_sha": "974bbc6a8c4b733b9a5f8b36ed58f4bfed04c8f6",
       "baseline_delta_status": "added"
     },
     {
@@ -1783,6 +1783,11 @@
     {
       "path": "apps/fa3-control-center/qml/SessionVaultPage.qml",
       "git_blob_sha": "5ad9fc6a1fba335bc487d63256ebeef63e0b25fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/SkillFabricInspectorPage.qml",
+      "git_blob_sha": "c155a8b156eb43d94db3aad94b1ee981e014a466",
       "baseline_delta_status": "added"
     },
     {
@@ -1931,6 +1936,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/SkillFabricService.cpp",
+      "git_blob_sha": "5312b8971d4aa475906d2ceae51ff21a4730566c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/SkillFabricService.h",
+      "git_blob_sha": "5feb24082cecaf62247cfa4656a59bd9b0596abd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/SystemDeviceModel.cpp",
       "git_blob_sha": "099a7ee7e24b6c5f1284819916d9770eab2d4466",
       "baseline_delta_status": "added"
@@ -1942,7 +1957,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "cba75d12a5cc7a54db5687eef4e90d2cb98366dd",
+      "git_blob_sha": "9549eebc9c57701c0b4fedcaa080b69961bb54de",
       "baseline_delta_status": "added"
     },
     {
@@ -2642,7 +2657,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "4a95ea0c2a3f3a2a60e53630c354aec7905adcdd",
+      "git_blob_sha": "588b28c27e005876be1689226e1fb4599dae7f5e",
       "baseline_delta_status": "added"
     },
     {
@@ -3212,7 +3227,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "c833af4ca4324912e53693710e0c941ce4bb291e",
+      "git_blob_sha": "07e55c3f0db358f2364d37be1fa3c8a49c80de7d",
       "baseline_delta_status": "added"
     },
     {
@@ -4917,7 +4932,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
-      "git_blob_sha": "998ca1474187b55d2da2dae8947fcdbb8ae3e0ea",
+      "git_blob_sha": "57ea1d28560e1664a1d23bf1259d1699a95dae32",
       "baseline_delta_status": "added"
     },
     {
@@ -8756,6 +8771,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-SKILL-ACTIVATION-TRACE-2026-09-28.md",
+      "git_blob_sha": "02af69e03fe14c46a34a5e09de365d78337349d1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-SKILL-FABRIC-AGENT-SKILLS-EXPANSION-2026-09-24.md",
       "git_blob_sha": "eb13335a04a5b89a92003ef28737c3386f24160d",
       "baseline_delta_status": "added"
@@ -8763,6 +8783,16 @@
     {
       "path": "docs/FA3-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25.md",
       "git_blob_sha": "dbaa523e3dfc2338146d1b5a14656a6aee1d147b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SKILL-INSPECTOR-GUI-2026-09-28.md",
+      "git_blob_sha": "49e5f1ef53490c522ce9e0d1b2e95b35167dbf4f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SKILL-TASK-BINDING-2026-09-28.md",
+      "git_blob_sha": "313f4ab52568971e3737300bbe26788933de2a19",
       "baseline_delta_status": "added"
     },
     {
@@ -10732,7 +10762,7 @@
     },
     {
       "path": "src/fa3_developer_agent_coordination.py",
-      "git_blob_sha": "9533a73b726d1744d28cf7eb040d671c53ff40e6",
+      "git_blob_sha": "df08696c4f722718fd1c68cc34560f21ea0105ee",
       "baseline_delta_status": "added"
     },
     {
@@ -11736,6 +11766,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_skill_activation.py",
+      "git_blob_sha": "1c15727543a22f2ae6d6da38d5e892dfd954f49b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_skill_discovery.py",
       "git_blob_sha": "5f03d8717ceffd37cd20f971b8470b49e2967b8b",
       "baseline_delta_status": "added"
@@ -11752,7 +11787,7 @@
     },
     {
       "path": "src/fa3_skill_fabric_gate.py",
-      "git_blob_sha": "e349a3f01f06c46258f609bed488bcd1bfd2a07c",
+      "git_blob_sha": "adc194d64920478aa6e9ef676d0fd5b2d5cb8ff0",
       "baseline_delta_status": "added"
     },
     {
@@ -11763,6 +11798,11 @@
     {
       "path": "src/fa3_skill_fabric_v14.py",
       "git_blob_sha": "d461a6a9999e87e7da4ef7ebbff849bb0eb3aa90",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_skill_task_binding.py",
+      "git_blob_sha": "59969f1ee1f90f34cb9654c7024f77be77b8b779",
       "baseline_delta_status": "added"
     },
     {
@@ -13121,6 +13161,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_skill_activation.py",
+      "git_blob_sha": "a5ee28a97565647522715393b7de4de3fc608d82",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_skill_discovery.py",
       "git_blob_sha": "e33309120c7bf92692665c890ee0857c645acd03",
       "baseline_delta_status": "added"
@@ -13136,6 +13181,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_skill_fabric_gui.py",
+      "git_blob_sha": "8eaa7589b7ddc54f98c80dcd8c1f2a578377ba6f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_skill_fabric_mengto_closure.py",
       "git_blob_sha": "676cc93a19262372a7d4095b463532231f2b0a78",
       "baseline_delta_status": "added"
@@ -13148,6 +13198,11 @@
     {
       "path": "tests/test_skill_fabric_v14.py",
       "git_blob_sha": "5fa28162dfc1b4110dc0cc65acf0373dbee761a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_skill_task_binding.py",
+      "git_blob_sha": "743f6c4b381c934cb63d9a1f3ed06abebefb07db",
       "baseline_delta_status": "added"
     },
     {
@@ -15090,7 +15145,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 306,
+    "donor_registry_entry_count": 307,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
