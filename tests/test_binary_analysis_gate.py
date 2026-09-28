@@ -7,7 +7,7 @@ MOD=importlib.util.module_from_spec(SPEC); assert SPEC.loader is not None; SPEC.
 def load(p): return json.loads((ROOT/p).read_text(encoding="utf-8"))
 class BinaryAnalysisGateTests(unittest.TestCase):
  def test_gate(self):
-  r=MOD.gate(ROOT); self.assertEqual(r["result"],"PASS"); self.assertFalse(r["runtime_promotion_claim"]); self.assertEqual(len(r["checks"]),19)
+  r=MOD.gate(ROOT); self.assertEqual(r["result"],"PASS"); self.assertFalse(r["runtime_promotion_claim"]); self.assertEqual(len(r["checks"]),20)
  def test_reference_only_pin(self):
   r=load("canonical/references/FA3-REVERSE-SKILLS-UPSTREAM-REFERENCE-2026-09-28.json"); self.assertEqual(r["observed_commit"],"a2baa31c58a3567977188414da68c8c842057152"); self.assertEqual(r["distribution_class"],"REFERENCE_ONLY"); self.assertFalse(r["runtime_dependency"])
  def test_license_fail_closed(self):
