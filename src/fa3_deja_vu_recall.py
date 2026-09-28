@@ -28,7 +28,7 @@ PROJECT_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 SECRET_PATTERNS = (
     re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----.*?-----END (?:RSA |EC |OPENSSH )?PRIVATE KEY-----", re.S),
     re.compile(r"\b(?:sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16})\b"),
-    re.compile(r"(?i)\b(?:api_key|access_token|secret|password)\s*[:=]\s*['\"]?[A-Za-z0-9+/_=-]{12,}"),
+    re.compile(r"(?i)\b(?:api_key|access_token|token|secret|password)\s*[:=]\s*['\"]?[A-Za-z0-9+/_=-]{12,}"),
 )
 
 
@@ -194,7 +194,7 @@ class DejaRecall:
             if harness not in allowed_roots or not isinstance(src_value, str):
                 continue
             source_path = Path(src_value)
-            if not source_path.is_absolute() or not _under(
+            if not source_path.is_absolute() or not source_path.is_file() or not _under(
                 source_path.resolve(), allowed_roots[harness]
             ):
                 continue
