@@ -1012,7 +1012,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2466,
+  "manifest_entry_count": 2476,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1448,6 +1448,10 @@
       "path": ".github/workflows/fa3-os-reconcile.yml",
       "git_blob_sha": "e7f915b8c52a6dedf02ebad4ae307b261ebc3863",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-osint-arsenal-catalog.yml",
+      "git_blob_sha": "339d2f4555c88ff9022a96dddfe962a5f5efa1cd"
     },
     {
       "path": ".github/workflows/fa3-pageindex-mcp-current-host.yml",
@@ -2325,6 +2329,10 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-osint-arsenal-import",
+      "git_blob_sha": "ef32ae45f466fae047a35685fb6e8f8b6bb8cb2e"
+    },
+    {
       "path": "bin/fa3-pageindex-mcp-bootstrap.sh",
       "git_blob_sha": "40d898f654d320c44df60606816f1f27ec0fc3ce",
       "baseline_delta_status": "added"
@@ -2626,8 +2634,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "4a95ea0c2a3f3a2a60e53630c354aec7905adcdd",
-      "baseline_delta_status": "added"
+      "git_blob_sha": "b1a3027f43df332c52bfbdd3e7c87b9ae32a2015"
     },
     {
       "path": "canonical/FA3-ENFORCEMENT-RESULT-001.json",
@@ -4103,6 +4110,10 @@
       "path": "canonical/assessments/FA3-ORCHESTRATION-WORKFORCE-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "6d6fb9d7ebc63e299cff082e39630ec3f02ac53b",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-OSINT-ARSENAL-CATALOG-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "9cd6c4f666049b9de19a431c198c659ed4f6d608"
     },
     {
       "path": "canonical/assessments/FA3-PROVIDER-CAPTION-NATIVE-DECISION-ASSESSMENT-2026-09-25.json",
@@ -6193,6 +6204,10 @@
       "path": "canonical/intents/FA3-OPENMP-RUNTIME-GOVERNANCE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "56fab9a7161e6125a8c427e855c4e0c2c79f4c0d",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-OSINT-ARSENAL-CATALOG-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "2b535edab4d7e0ad8532a5757b3dcbc01ae56572"
     },
     {
       "path": "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
@@ -8856,8 +8871,7 @@
     },
     {
       "path": "docs/donor-reference-registry.md",
-      "git_blob_sha": "245c9f1c50e069824e2635ffbb3b57a65d64a7da",
-      "baseline_delta_status": "added"
+      "git_blob_sha": "c01dbb82cc3e69a7c81fd5a90d5599e99091a834"
     },
     {
       "path": "docs/external-llm-catalog.md",
@@ -8948,6 +8962,10 @@
       "path": "docs/openyak-integration.md",
       "git_blob_sha": "300f6978cc8639efba4976406c752df61db06afa",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/osint-arsenal-catalog-integration.md",
+      "git_blob_sha": "dc73a42ee9d11a10404be8faffb6eb1b922ae705"
     },
     {
       "path": "docs/pageindex-mcp-current-host.md",
@@ -10148,6 +10166,18 @@
       "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/src/data/taxonomy.json",
       "git_blob_sha": "b7d5a43cac3f93820db37c4a1487cad20d8081ce",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/osint/awesome-osint-arsenal/pin.json",
+      "git_blob_sha": "45a4ffddf3bd7cfd9801a6eeed005fe93813b8a0"
+    },
+    {
+      "path": "research/external-project-radar/osint/awesome-osint-arsenal/upstream/LICENSE",
+      "git_blob_sha": "be664e4447bd1839e3030a2f171275e75bfe8922"
+    },
+    {
+      "path": "research/external-project-radar/osint/awesome-osint-arsenal/upstream/tools.json",
+      "git_blob_sha": "e6a76245dfd5e1e3a345531d32a36f2a543194cc"
     },
     {
       "path": "scripts/fa3-app-provisioner.py",
@@ -11478,6 +11508,10 @@
       "path": "src/fa3_os_runtime_gate.py",
       "git_blob_sha": "8997e3b444477a0f0969ec971d58b7f9b0340889",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_osint_arsenal_catalog.py",
+      "git_blob_sha": "4644251087e4c25d949d374d42cf3ce8d60f0f46"
     },
     {
       "path": "src/fa3_page_cache_prefetch_gate.py",
@@ -12928,6 +12962,10 @@
       "path": "tests/test_orchestration_workforce_provider_spi.py",
       "git_blob_sha": "98dfaba298925e3ef9c49a08c19a8061f0bf9d5b",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_osint_arsenal_catalog.py",
+      "git_blob_sha": "ae1f74a68c1fde0bf1c34077185c5907b4fa7b99"
     },
     {
       "path": "tests/test_page_cache_prefetch_gate.py",
