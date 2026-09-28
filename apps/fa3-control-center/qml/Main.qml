@@ -121,7 +121,13 @@ ApplicationWindow {
         webWorkspaceOpen = true
     }
 
+    function openCoach() {
+        askRole = "Coach"
+        coachFloating.showCoach()
+    }
+
     function openRoleChat(roleName) {
+        if (roleName === "Coach") { openCoach(); return }
         askRole = roleName
         chatWorkspaceMode = "ASSISTANT"
         mcpChatTarget = "AUTO"
@@ -691,6 +697,14 @@ ApplicationWindow {
                         Label { text: "AGENTS"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "⚙"; label: "Agent Action Center"; routeId: "agents.action-center" }
                         NavButton { iconText: "⌘"; label: "Agents & Workflows"; routeId: "agents.workflows" }
+                        ToolButton {
+                            Layout.fillWidth: true
+                            text: "◉  Coach • Lebegő segítő"
+                            onClicked: window.openCoach()
+                            Accessible.name: "Coach lebegő ablak megnyitása"
+                            ToolTip.text: "Szabadon áthelyezhető, kitűzhető Coach"
+                            ToolTip.visible: hovered
+                        }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MODELS & DATA"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
@@ -1751,6 +1765,16 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    Shortcut { sequence: "Ctrl+Shift+C"; onActivated: window.openCoach() }
+    CoachFloatingWindow {
+        id: coachFloating
+        service: fa3Coach
+        preferences: fa3Preferences
+        onMentorRequested: window.openRoleChat("Mentor")
+        onManagerRequested: window.navigate("home.work-management")
+        onEvidenceRequested: window.navigate("governance.evidence")
     }
 
     Dialog {
