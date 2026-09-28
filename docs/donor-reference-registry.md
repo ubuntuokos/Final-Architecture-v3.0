@@ -69,6 +69,10 @@ The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-202
 
 The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) inventories the official organization and records five individually checked repositories plus a discovery index as metadata-only donor candidates. It links OpenUSD/Hydra, OpenSubdiv and USD proposals to current or planned creative applications while preserving FA3-native projects, CPU-only viability, existing Khronos reuse, and all independent admission gates.
 
+## 3DCoat and Applink donor curation
+
+The [3DCoat selective donor study](3dcoat-donor-curation-2026-09-28.md) captures the proprietary 3DCoat application as an optional external-workflow reference, the 3DCoat-shipped and Blender Foundation Applink implementations, and LKS 3DCTools as four distinct non-authoritative candidates. It records license boundaries, Bforartists-first integration, interchange tests and the mandatory Hardware Audit; no source copy, product installation or production admission follows from capture.
+
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
