@@ -10,6 +10,9 @@ on:
       - 'src/fa3_decision*.py'
       - 'src/fa3_context_selection.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_system_one*.py'
+      - 'canonical/**SYSTEM-ONE**'
+      - 'tests/test_system_one_reflex.py'
       - 'bin/fa3-decision-current-host'
       - '.github/workflows/fa3-decision-fabric-current-host.yml'
   push:
@@ -21,6 +24,9 @@ on:
       - 'src/fa3_decision*.py'
       - 'src/fa3_context_selection.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_system_one*.py'
+      - 'canonical/**SYSTEM-ONE**'
+      - 'tests/test_system_one_reflex.py'
       - 'bin/fa3-decision-current-host'
       - '.github/workflows/fa3-decision-fabric-current-host.yml'
   workflow_dispatch:
