@@ -450,3 +450,160 @@ def https_exchange(endpoint: str, snapshots: list[dict[str, Any]], *,
     _require(isinstance(result, dict) and isinstance(result.get("snapshots"), list),
              "MESH_BUNDLE_INVALID")
     return result["snapshots"]
+
+
+MCP_RECEPTION_CAPABILITY = "fa3.prompt.dispatch"
+MCP_RECEPTION_PROVIDER = "FA3-PROMPT-RECEPTION-001"
+MCP_RECEPTION_ADAPTER = "fa3-prompt-reception"
+
+
+def sign_delivery(message: dict[str, Any], *, sender: MeshDirectory,
+                  now: int | None = None) -> dict[str, Any]:
+    """HMAC integrity binding: host, address, principal, action and artifact refs."""
+    now = int(time.time()) if now is None else int(now)
+    _require(message.get("schema") == SCHEMA and message.get("to", {}).get("host")
+             in sender.allowed_hosts, "MESSAGE_SCHEMA_INVALID")
+    data = {"sender_host": sender.host_id, "issued_epoch": now,
+            "message": message}
+    return {"data": data, "signature": _sign(data, sender.key_resolver(sender.host_id))}
+
+
+def verify_delivery(signed: dict[str, Any], *, directory: MeshDirectory,
+                    authenticated_peer_host: str | None = None,
+                    now: int | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
+    now = int(time.time()) if now is None else int(now)
+    _require(isinstance(signed, dict) and isinstance(signed.get("data"), dict),
+             "MESSAGE_SIGNATURE_INVALID")
+    data = signed["data"]
+    sender_host = data.get("sender_host")
+    _require(sender_host in directory.allowed_hosts
+             and (authenticated_peer_host is None or sender_host == authenticated_peer_host),
+             "MESSAGE_SENDER_NOT_ADMITTED")
+    _require(isinstance(data.get("issued_epoch"), int)
+             and abs(now - data["issued_epoch"]) <= MAX_CLOCK_SKEW,
+             "MESSAGE_EXPIRED")
+    sig = signed.get("signature")
+    _require(isinstance(sig, str)
+             and hmac.compare_digest(sig, _sign(data, directory.key_resolver(sender_host))),
+             "MESSAGE_SIGNATURE_INVALID")
+    message = data.get("message")
+    _require(isinstance(message, dict)
+             and message.get("schema") == SCHEMA
+             and message.get("to", {}).get("host") == directory.host_id,
+             "MESSAGE_WRONG_HOST")
+    return message, {"authenticated": True, "host_id": sender_host,
+                     "signature_verified": True}
+
+
+def admitted_mcp_adapter(hub: ReceptionHub):
+    """The only inbound action bridge: signed envelope -> Central MCP -> UAF."""
+    from fa3_mcp_gateway import Adapter
+
+    def handle(arguments: dict[str, Any]) -> dict[str, Any]:
+        signed = arguments.get("signed_envelope")
+        message, peer = verify_delivery(signed, directory=hub.directory)
+        return hub.receive(message, peer)
+
+    return Adapter(MCP_RECEPTION_ADAPTER, MCP_RECEPTION_PROVIDER, handle)
+
+
+def mcp_adapter_factory():
+    """Host-owned factory: FA3_PROMPT_RECEPTION_HUB_FACTORY=module:function.
+
+    The factory must instantiate real UAF dispatchers, Secret Broker key
+    resolvers and Security Governance principal validation for admitted apps.
+    """
+    import importlib
+    import os
+    raw = os.environ.get("FA3_PROMPT_RECEPTION_HUB_FACTORY", "").strip()
+    _require(raw.count(":") == 1, "RECEIVER_HOST_FACTORY_REQUIRED")
+    module, method = raw.split(":")
+    hub = getattr(importlib.import_module(module), method)()
+    _require(isinstance(hub, ReceptionHub), "RECEIVER_HOST_FACTORY_INVALID")
+    return admitted_mcp_adapter(hub)
+
+
+def _verify_mtls_context(context: ssl.SSLContext) -> None:
+    _require(isinstance(context, ssl.SSLContext)
+             and context.verify_mode == ssl.CERT_REQUIRED,
+             "MESH_MTLS_REQUIRED")
+
+
+def https_dispatch(endpoint: str, mcp_request: dict[str, Any], *,
+                   tls: ssl.SSLContext, timeout: float = 10.0) -> dict[str, Any]:
+    """Remote transport to host's Central MCP Gateway bridge; no direct UAF HTTP."""
+    _require(_valid_endpoint(endpoint) and tls.check_hostname, "MESH_ENDPOINT_INVALID")
+    _verify_mtls_context(tls)
+    payload = canonical(mcp_request)
+    _require(len(payload) < MAX_MESSAGE_BYTES, "MESSAGE_TOO_LARGE")
+    req = urllib.request.Request(endpoint.rstrip("/") + "/v1/dispatch", payload,
+                                 {"Content-Type": "application/json"}, method="POST")
+    with urllib.request.urlopen(req, context=tls, timeout=timeout) as response:
+        raw = response.read(MAX_MESSAGE_BYTES + 1)
+    _require(len(raw) <= MAX_MESSAGE_BYTES, "MESSAGE_TOO_LARGE")
+    result = json.loads(raw)
+    _require(isinstance(result, dict), "RECEPTION_RESULT_INVALID")
+    return result
+
+
+def create_mesh_http_server(bind: tuple[str, int], *, directory: MeshDirectory,
+                            gateway: Any, tls: ssl.SSLContext,
+                            certificate_host: Callable[[dict[str, Any]], str]):
+    """A host supplies a step-ca issued mTLS server context and cert mapping.
+
+    Every action enters the existing Central MCP Gateway. No default port and
+    no plaintext listener. Host-owned policy resolver is mandatory.
+    """
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    _verify_mtls_context(tls)
+    _require(callable(certificate_host) and gateway.policy_resolver is not None,
+             "MESH_POLICY_RESOLVER_REQUIRED")
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, fmt, *args):
+            pass
+
+        def do_POST(self):
+            try:
+                peer_cert = self.connection.getpeercert()
+                _require(bool(peer_cert), "MESH_CLIENT_CERT_REQUIRED")
+                peer_host = certificate_host(peer_cert)
+                _require(peer_host in directory.allowed_hosts, "MESH_PEER_NOT_ADMITTED")
+                length = int(self.headers.get("Content-Length", -1))
+                _require(0 <= length <= MAX_MESSAGE_BYTES
+                         and self.headers.get("Content-Type", "").split(";")[0]
+                         == "application/json", "MESSAGE_SCHEMA_INVALID")
+                body = json.loads(self.rfile.read(length))
+                _require(isinstance(body, dict), "MESSAGE_SCHEMA_INVALID")
+                if self.path == "/v1/mesh/sync":
+                    snapshots = body.get("snapshots")
+                    _require(isinstance(snapshots, list)
+                             and any(s.get("data", {}).get("host_id") == peer_host
+                                     for s in snapshots), "MESH_PEER_SNAPSHOT_REQUIRED")
+                    directory.exchange(snapshots)
+                    result = {"snapshots": directory.export()}
+                elif self.path == "/v1/dispatch":
+                    args = body.get("arguments", {})
+                    _require(isinstance(args, dict), "MESSAGE_SCHEMA_INVALID")
+                    verify_delivery(args.get("signed_envelope"), directory=directory,
+                                    authenticated_peer_host=peer_host)
+                    _require(body.get("capability_id") == MCP_RECEPTION_CAPABILITY,
+                             "MESH_CAPABILITY_DENIED")
+                    result = gateway.invoke(body, peer_context={
+                        "client_certificate": peer_cert, "authenticated_host": peer_host})
+                else:
+                    raise DispatchDenied("MESH_PATH_DENIED")
+                raw = canonical(result)
+                self.send_response(200)
+            except (DispatchDenied, ValueError, KeyError, TypeError):
+                raw = canonical({"error": "MESH_REQUEST_DENIED"})
+                self.send_response(403)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(raw)))
+            self.end_headers()
+            self.wfile.write(raw)
+
+    server = ThreadingHTTPServer(bind, Handler)
+    server.socket = tls.wrap_socket(server.socket, server_side=True)
+    return server
