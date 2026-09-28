@@ -1,0 +1,90 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SYSTEM-ONE-REFLEX-APPLICATION-INTENT-001",
+  "project_id": "FA3-SYSTEM-ONE-REFLEX-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Extend the existing FA3 Decision Fabric with a provider-neutral finite-action System One reflex path that produces authorization-ready intent or typed handoff without gaining routing, resource, secret, policy, or execution authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.select",
+    "fa3.decision.score"
+  ],
+  "problem_classes": [
+    "bounded-action-selection",
+    "low-latency-decision",
+    "confidence-gating",
+    "typed-handoff",
+    "mcp-action-compilation",
+    "browser-reflex-assistance"
+  ],
+  "input_modalities": [
+    "BOUNDED_STATE",
+    "FINITE_ACTION_CATALOGUE"
+  ],
+  "output_modalities": [
+    "AUTHORIZATION_READY_INTENT",
+    "SYSTEM_TWO_OR_HUMAN_HANDOFF"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT",
+    "MODEL_ROUTER_MEDIATED"
+  ],
+  "data_classes": [
+    "BOUNDED_DECISION_CONTEXT",
+    "DECISION_TRACE"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "LIVE_SYSTEM_ONE_MODEL_ROUTER_DATA_PLANE_ADMISSION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-system-one-reflex",
+    "service_prefix": "fa3-system-one-reflex",
+    "config_root": "$XDG_CONFIG_HOME/fa3/system-one-reflex",
+    "cache_root": "$XDG_CACHE_HOME/fa3/system-one-reflex",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/system-one-reflex",
+    "socket_namespace": "fa3/system-one-reflex",
+    "data_root": "$XDG_DATA_HOME/fa3/system-one-reflex",
+    "desktop_prefix": "org.fa3.system-one-reflex",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "CONFIDENCE_IS_NOT_AUTHORIZATION",
+    "FINITE_CALLER_AUTHORIZED_ACTION_SPACE_ONLY",
+    "NO_DIRECT_EXTERNAL_MODEL_CALL",
+    "NO_DIRECT_TOOL_EXECUTION",
+    "NO_PHYSICAL_PROVIDER_OR_MODEL_PIN",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-WEB-AI-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
+  ],
+  "task_classes": [
+    "architecture",
+    "decision",
+    "agent-runtime",
+    "mcp",
+    "browser"
+  ],
+  "skill_triggers": [],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}

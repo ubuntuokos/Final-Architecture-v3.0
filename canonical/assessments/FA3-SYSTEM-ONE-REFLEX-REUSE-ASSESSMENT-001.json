@@ -1,0 +1,129 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SYSTEM-ONE-REFLEX-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SYSTEM-ONE-REFLEX-001",
+  "intent_id": "FA3-SYSTEM-ONE-REFLEX-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SYSTEM-ONE-REFLEX-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-DECISION-FABRIC-001",
+    "FA3-PROVIDER-SYSTEM-ONE-DECISION-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "EXISTING_DECISION_CONTRACT_TRACE_AND_FAIL_CLOSED_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_MCP_CAPABILITY_AND_EXECUTION_POLICY_BOUNDARY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_ACTION_POLICY_AND_EXECUTION_HANDOFF"
+    },
+    {
+      "id": "FA3-WEB-AI-001",
+      "use": "EXISTING_BOUNDED_BROWSER_CONSUMER"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "UPSTREAM_PROVENANCE_AND_RELEASE_CLASSIFICATION"
+    },
+    {
+      "id": "FA3-SYSTEM-ONE-HARNESS-REUSE-001",
+      "use": "REFERENCE_ONLY_PATTERN_SOURCE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "CENTRAL_PRE_IMPLEMENTATION_DONOR_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "use": "ALREADY_ACCEPTED_REFERENCE_PATTERN_SOURCE_NO_CODE_COPY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SYSTEMONEHARNESS_DIRECT_OPENROUTER_TRANSPORT",
+      "reason": "Would bypass FA3-AUTH-MODEL-ROUTER-001 and central secret/runtime admission."
+    },
+    {
+      "id": "SYSTEMONEHARNESS_DIRECT_TYPESAFE_TRANSPORT",
+      "reason": "Would bypass FA3-AUTH-MODEL-ROUTER-001 and central secret/runtime admission."
+    },
+    {
+      "id": "UHP_AS_FA3_AUTHORITY",
+      "reason": "UHP may be an optional interoperability adapter only; it must not become an FA3 authority."
+    }
+  ],
+  "pattern_reuse": [
+    "FINITE_TYPED_ACTION_SPACE",
+    "WEAKEST_REQUIRED_JUDGMENT_CONFIDENCE_GATE",
+    "EXPLICIT_FINISH_AND_ESCALATE",
+    "STRUCTURED_LOW_CONFIDENCE_HANDOFF",
+    "UNSUPPORTED_ACTION_FORM_FAIL_CLOSED"
+  ],
+  "existing_authority_bindings": {
+    "decision_contract": "FA3-DECISION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "action_execution": "EXISTING_CALLER_POLICY_AUTHORITY",
+    "secrets": "FA3_SECRET_BROKER"
+  },
+  "gaps": [
+    "LIVE_SYSTEM_ONE_MODEL_ROUTER_DATA_PLANE_ADMISSION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "central_donor_registry_review": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+    "status": "ACCEPTED_REFERENCE",
+    "deduplicated": true,
+    "automatic_activation": false,
+    "code_copy": false
+  }
+}
