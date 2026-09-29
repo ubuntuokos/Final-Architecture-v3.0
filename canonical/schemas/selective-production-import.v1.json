@@ -72,10 +72,11 @@
     "requested_outputs": {
       "type": "array",
       "minItems": 1,
-      "maxItems": 17,
+      "maxItems": 256,
       "items": {
         "$ref": "#/$defs/output"
-      }
+      },
+      "description": "The UI has 17 family-scoped selector choices, but each choice may yield multiple app/range/language-specific delivery leaves (bounded to 256)."
     },
     "execution_authorized": {
       "const": false,
