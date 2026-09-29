@@ -34,7 +34,9 @@ on:
       - "tests/test_donor_historical_partial_reuse.py"
       - "tests/test_donor_intel_ecosystem.py"
       - "tests/test_donor_production_import_selective_content.py"
+      - "tests/test_donor_production_import_selective_quality_round2.py"
       - "docs/production-import-selective-donor-research-2026-09-29.md"
+      - "docs/production-import-selective-quality-curation-round2-2026-09-29.md"
       - "docs/donor-intel-github-ecosystem-2026-09-28.md"
       - "docs/donor-historical-selective-review.md"
       - "docs/donor-reference-registry.md"
@@ -85,6 +87,8 @@ jobs:
         run: PYTHONPATH=src python -m unittest tests.test_donor_intel_ecosystem -v
       - name: Selective production import donor and 17-selector plan regressions
         run: PYTHONPATH=src python -m unittest tests.test_donor_production_import_selective_content -v
+      - name: Selective production import round-2 quality and donor identity
+        run: PYTHONPATH=src python -m unittest tests.test_donor_production_import_selective_quality_round2 -v
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
       - name: Full repository unit regression
