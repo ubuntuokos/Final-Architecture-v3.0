@@ -158,17 +158,15 @@ class AgentSkillBindingTests(unittest.TestCase):
                             skill_preflight=preflight)
         self.assertFalse((self.root / "control/results/TASK-1.json").exists())
 
-    def test_authority_adapter_must_validate_all_claims(self):
+    def test_arbitrary_boolean_callback_never_qualifies_as_production_authority(self):
         preflight = self._reference_preflight()
         preflight.reference_only = False
-        seen = []
-        def verifier(kind, record, task_id):
-            seen.append(kind)
-            return kind != "task_selection"
-        preflight.authority_verifier = verifier
+        preflight.authority_verifier = lambda kind, record, task_id: True
         with self.assertRaises(SkillProjectionDenied):
             preflight.prepare_task(self._workers()[0])
-        self.assertEqual(seen, ["language_admission", "package_admission", "task_selection"])
+        with self.assertRaises(SkillProjectionDenied):
+            SkillTaskPreflight({"example": self.row}, self.lang, self.root,
+                               authority_verifier=lambda kind, record, task_id: True)
 
     def test_lease_cannot_be_replayed_for_another_task(self):
         preflight = self._reference_preflight()

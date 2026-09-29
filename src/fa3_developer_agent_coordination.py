@@ -749,7 +749,7 @@ def worker_main(request_path: Path, result_path: Path) -> int:
                 or context.get("task_scope") != "developer"
                 or context.get("grants_execution_authority") is not False
                 or context.get("evidence_scope") not in
-                   ("CI_REFERENCE_ONLY", "AUTHORITY_ADAPTER_REPORTED_NOT_CRYPTOGRAPHICALLY_VERIFIED")):
+                   ("CI_REFERENCE_ONLY", "PKI_AND_SECURITY_GOVERNANCE_SIGNED")):
             raise CoordinationDenied("fixture worker received invalid skill context")
         observed_leases: list[str] = []
         for row in context.get("skills", []):

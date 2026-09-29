@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 
 from fa3_skill_materialization import _read_regular_nofollow
+from fa3_skill_signed_authority import SignedSkillAuthorityVerifier
 from fa3_skill_task_binding import (
     SkillTaskBinding, SkillTaskBindingDenied, task_skill_preflight,
     validate_language_context,
@@ -35,8 +36,8 @@ class SkillTaskPreflight:
     ) -> None:
         if not isinstance(reference_only, bool):
             raise SkillProjectionDenied("invalid evidence mode")
-        if not reference_only and authority_verifier is None:
-            raise SkillProjectionDenied("existing-authority verifier required")
+        if not reference_only and type(authority_verifier) is not SignedSkillAuthorityVerifier:
+            raise SkillProjectionDenied("production requires signed Security Governance authority verifier")
         self.bindings = dict(bindings)
         self.language_context = language_context
         self.registry_root = Path(registry_root)
@@ -48,7 +49,13 @@ class SkillTaskPreflight:
         if not required or len(required) != len(set(required)) or set(required) != set(self.bindings):
             raise SkillProjectionDenied("explicit unique skill selection mismatch")
         try:
-            registry = json.loads(_read_regular_nofollow(self.registry_root, "canonical/skill-registry.json"))
+            registry_bytes = _read_regular_nofollow(self.registry_root, "canonical/skill-registry.json")
+            if not self.reference_only:
+                if type(self.authority_verifier) is not SignedSkillAuthorityVerifier:
+                    raise SkillProjectionDenied("production authority verifier must be cryptographic")
+                if not self.authority_verifier.verify_registry(registry_bytes):
+                    raise SkillProjectionDenied("installed registry differs from independently trusted release digest")
+            registry = json.loads(registry_bytes)
         except (ValueError, OSError, TypeError) as exc:
             raise SkillProjectionDenied("skill registry unavailable") from exc
         if registry.get("id") != "FA3-SKILL-REGISTRY-001" or not isinstance(registry.get("entries"), list):
@@ -107,6 +114,6 @@ class SkillTaskPreflight:
             "schema": "fa3.developer-task-skill-projection.v1",
             "task_id": task.task_id, "agent_id": task.agent_id,
             "task_scope": "developer", "languages": languages, "skills": skills,
-            "evidence_scope": "CI_REFERENCE_ONLY" if self.reference_only else "AUTHORITY_ADAPTER_REPORTED_NOT_CRYPTOGRAPHICALLY_VERIFIED",
+            "evidence_scope": "CI_REFERENCE_ONLY" if self.reference_only else "PKI_AND_SECURITY_GOVERNANCE_SIGNED",
             "grants_execution_authority": False, "remote_fetch": False,
         }

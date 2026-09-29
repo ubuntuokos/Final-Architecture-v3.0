@@ -215,6 +215,16 @@ def canonical_check(root: Path) -> list[str]:
     if d.get("discovery_semantics",{}).get("remote_fetch") is not False: findings.append("discovery remote fetch enabled")
     if not m.get("invariants"): findings.append("materialization contract missing")
     findings.extend(native_snapshot_findings(root))
+    try:
+        trust_contract = loadj(root / "canonical/contracts/FA3-SKILL-SIGNED-AUTHORITY-BINDING-001.json")
+        if (trust_contract.get("id") != "FA3-SKILL-SIGNED-AUTHORITY-BINDING-001"
+                or trust_contract.get("new_architectural_authority") is not False
+                or trust_contract.get("new_capability") is not False
+                or trust_contract.get("capability_count") != cap
+                or trust_contract.get("grant_scope") != "FA3_SKILL_RUNTIME"):
+            findings.append("signed Skill Fabric authority binding contract drift")
+    except (OSError, ValueError):
+        findings.append("signed Skill Fabric authority binding contract unavailable")
     return findings
 def gate(root: Path) -> dict[str,Any]:
     root=Path(root).resolve();cap=load_active_release_baseline(root).capability_count;findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root);v14=skill_fabric_v14_gate(root)

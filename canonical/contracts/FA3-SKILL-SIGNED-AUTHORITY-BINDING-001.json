@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-SIGNED-AUTHORITY-BINDING-001",
+  "status": "CANONICAL_CANDIDATE",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "existing_authorities": {
+    "identity": "FA3-TRUST-PKI-001",
+    "role_grants": "FA3-AUTH-SECURITY-GOV-001",
+    "language": "FA3-LANGUAGE-ADMISSION-001",
+    "selection": "FA3-SKILL-REGISTRY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "receipt_schema": "fa3.authenticated-approval-receipt.v2",
+  "grant_scope": "FA3_SKILL_RUNTIME",
+  "claim_schema": "fa3.skill-authority-binding.v1",
+  "runtime_verifier": "src/fa3_skill_signed_authority.py",
+  "roles": [
+    {
+      "kind": "package_admission",
+      "receipt_type": "SKILL_PACKAGE_ADMISSION",
+      "role": "SKILL_PACKAGE_ADMITTER"
+    },
+    {
+      "kind": "task_selection",
+      "receipt_type": "SKILL_TASK_SELECTION",
+      "role": "SKILL_TASK_SELECTOR"
+    },
+    {
+      "kind": "language_admission",
+      "receipt_type": "SKILL_LANGUAGE_ADMISSION",
+      "role": "SKILL_LANGUAGE_ADMITTER"
+    }
+  ],
+  "invariants": [
+    "RELEASE_ACCEPTANCE_GRANTS_NEVER_AUTHORIZE_SKILL_RUNTIME",
+    "SKILL_RUNTIME_GRANTS_NEVER_AUTHORIZE_RELEASE_ACCEPTANCE",
+    "CERTIFICATE_ISSUANCE_IS_NOT_SKILL_ADMISSION",
+    "REFERENCE_FIXTURE_IS_NOT_PRODUCTION_ISSUER",
+    "SHARED_REPLAY_STATE_REQUIRED_FOR_CROSS_HOST_USE",
+    "NO_NEW_EXECUTION_AUTHORITY",
+    "CPU_ONLY_REQUIRED"
+  ]
+}
