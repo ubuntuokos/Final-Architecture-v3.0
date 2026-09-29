@@ -96,3 +96,33 @@ The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestra
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## Reconciled donor research references (2026-09-29, candidate-only)
+
+The following imported upstream curation reports are historical/research references for the serialized donor repair #538. Their presence does not approve any donor or application plan.
+
+- [donors-office-3d-animation-2026-09-29.md](donors-office-3d-animation-2026-09-29.md)
+- [donor-oracle-ubuntu-kubuntu-2026-09-29.md](donor-oracle-ubuntu-kubuntu-2026-09-29.md)
+- [donor-opensuse-novel-writing-2026-09-29.md](donor-opensuse-novel-writing-2026-09-29.md)
+- [donor-hpc-mcp-microsoft-2026-09-29.md](donor-hpc-mcp-microsoft-2026-09-29.md)
+- [donor-multimedia-video-render-mcp-2026-09-29.md](donor-multimedia-video-render-mcp-2026-09-29.md)
+- [donor-openal-openmax-heif-2026-09-29.md](donor-openal-openmax-heif-2026-09-29.md)
+- [donor-nnstreamer-onnx-aom-a11y-2026-09-29.md](donor-nnstreamer-onnx-aom-a11y-2026-09-29.md)
+- [FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md](FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md)
+- [donor-ai-orchestrator-topic-2026-09-29.md](donor-ai-orchestrator-topic-2026-09-29.md)
+- [godotengine-github-donor-curation-2026-09-29.md](godotengine-github-donor-curation-2026-09-29.md)
+- [beadboard-agent-coordination-donor-review-2026-09-28.md](beadboard-agent-coordination-donor-review-2026-09-28.md)
+- [beat-tracking-donor-curation-2026-09-28.md](beat-tracking-donor-curation-2026-09-28.md)
+- [storygen-atelier-donor-review-2026-09-28.md](storygen-atelier-donor-review-2026-09-28.md)
+- [three-storyboard-donor-curation-2026-09-28.md](three-storyboard-donor-curation-2026-09-28.md)
+- [creative-writing-donor-curation-2026-09-28.md](creative-writing-donor-curation-2026-09-28.md)
+- [storyboard-donor-curation-2026-09-28.md](storyboard-donor-curation-2026-09-28.md)
+- [daw-music-generation-donor-curation-2026-09-28.md](daw-music-generation-donor-curation-2026-09-28.md)
+- [github-video-editor-and-clip-donor-curation-2026-09-28.md](github-video-editor-and-clip-donor-curation-2026-09-28.md)
+- [ai-video-editor-video-generation-donor-curation-2026-09-28.md](ai-video-editor-video-generation-donor-curation-2026-09-28.md)
+- [video-generator-donor-curation-2026-09-28.md](video-generator-donor-curation-2026-09-28.md)
+- [3dcoat-donor-curation-2026-09-28.md](3dcoat-donor-curation-2026-09-28.md)
+- [vision-complementary-donor-curation-2026-09-28.md](vision-complementary-donor-curation-2026-09-28.md)
+- [github-actions-runner-images-donor-curation-2026-09-28.md](github-actions-runner-images-donor-curation-2026-09-28.md)
+- [chip-huyen-ml-systems-donor-curation-2026-09-28.md](chip-huyen-ml-systems-donor-curation-2026-09-28.md)
+- [adaptive-representation-donor-curation-2026-09-28.md](adaptive-representation-donor-curation-2026-09-28.md)

@@ -99,7 +99,14 @@ class IntelEcosystemDonorTests(unittest.TestCase):
                 self.assertEqual(row["status"], "CANDIDATE")
                 self.assertTrue(row["discoverable_for_planning"])
                 self.assertTrue(row["target_hints"])
-                self.assertEqual(row["license"]["status"], "UNKNOWN")
+                if row["source"]["normalized_key"] == "github:openvinotoolkit/openvino":
+                    # #469 added an upstream repository-level Apache-2.0 declaration,
+                    # not a license audit, code-import permission or model license grant.
+                    self.assertEqual(row["license"]["declared"], "Apache-2.0")
+                    self.assertEqual(row["license"]["status"], "KNOWN_DECLARATION")
+                    self.assertIn("not a blanket", row["license"].get("note", ""))
+                else:
+                    self.assertEqual(row["license"]["status"], "UNKNOWN")
                 self.assertEqual(row["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
                 for field in ("authority", "automatic_selection", "automatic_fetch",
                               "automatic_install", "automatic_activation", "automatic_dependency",

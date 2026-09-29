@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import os
 import json
 from pathlib import Path
 from typing import Any
 
 from fa3_reuse_resolver import resolve
+from fa3_donor_readiness import gate as donor_readiness_gate
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -85,6 +87,10 @@ def main() -> int:
     intent_path = Path(args.intent)
     if not intent_path.is_absolute():
         intent_path = root / intent_path
+    readiness = donor_readiness_gate(root, "status", token=os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN", ""))
+    if readiness["result"] != "READY_FOR_SEPARATE_FA3_ADMISSION_GATES":
+        print(json.dumps(readiness,ensure_ascii=False,indent=2))
+        return 2
     result = assess_intent(root, load_json(intent_path))
     text = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:

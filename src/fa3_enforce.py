@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,csv,json,sys
+import argparse,csv,json,sys,os
 from pathlib import Path
 from fa3_release_baseline import load_active_release_baseline
+from fa3_donor_readiness import gate as donor_readiness_gate
 from fa3_evidence_validation import git_head, validate_capability_receipt
 from fa3_authenticated_approval import ApprovalVerificationError, PROMOTION_RECEIPT_FILENAMES, consume_promotion_receipts, ensure_promotion_receipts_unconsumed, requirement_for_filename, sha256_file, verify_receipt_file
 from fa3_authenticated_approval_gate import gate as authenticated_approval_gate
@@ -963,6 +964,13 @@ def main():
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
+            pr=os.getenv("FA3_APPROVAL_PR_NUMBER", "")
+            donor=donor_readiness_gate(root,"finalize",token=os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN", ""),
+                assessment=os.getenv("FA3_DONOR_REUSE_ASSESSMENT"),
+                plan=os.getenv("FA3_APPROVED_PLAN_PATH"),approval=os.getenv("FA3_PLAN_APPROVAL_RECORD"),
+                pr_number=int(pr) if pr.isdigit() else None)
+            if donor["result"] != "READY_FOR_SEPARATE_FA3_ADMISSION_GATES":
+                print(json.dumps({"result":"PROMOTION_BLOCKED","donor_readiness":donor},indent=2)); return BLOCKED
             x,rc=promote(root); print(json.dumps(x,indent=2)); return rc
         p=root/"promotion/runtime-status.json"
         print(p.read_text() if p.exists() else '{"actual_state":"UNKNOWN"}')

@@ -5,6 +5,7 @@ import copy
 import json
 import sys
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +34,18 @@ def case():
 
 
 class GoalSourcePreflightTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Unit-test source-bound goal semantics without live GitHub. The donor
+        # readiness module has separate fail-closed tests and live CI enforcement.
+        cls._donor_mock = patch("fa3_goal_preflight.donor_readiness_gate", return_value={
+            "result":"READY_FOR_SEPARATE_FA3_ADMISSION_GATES","findings":[]})
+        cls._donor_mock.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._donor_mock.stop()
+
     def test_design_preflight_queries_actual_reuse_donor_action_agent_and_hardware(self):
         goal, steps = case()
         receipt = design_preflight(ROOT, goal, INTENT, steps)

@@ -37,6 +37,31 @@
     "POTENTIAL_DONOR_SIGNAL_IS_CAPTURED_AS_CANDIDATE",
     "DONOR_REGISTRY_IS_CENTRAL_PLANNING_INPUT_NOT_ARCHITECTURAL_AUTHORITY",
     "DONOR_CANDIDATE_CAPTURE_IS_NOT_DEPENDENCY_CODE_IMPORT_PROVIDER_OR_MODEL_ADMISSION",
-    "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN"
-  ]
+    "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
+    "DONOR_MAINTENANCE_OR_PENDING_PR_BLOCKS_ALL_NEW_DESIGN_IMPLEMENTATION_AND_FINALIZATION",
+    "NO_FINALIZATION_WITHOUT_EXPLICIT_APPROVED_PLAN",
+    "MANDATORY_DONOR_SEARCH_OPTIONAL_ADOPTION",
+    "ADOPT_DONOR_ONLY_WITH_EXPLICIT_USER_APPROVAL_AND_NORMAL_ADMISSION"
+  ],
+  "serialization_policy": {
+    "priority": "P0_FAIL_CLOSED",
+    "preflight_before": [
+      "NEW_DESIGN",
+      "NEW_IMPLEMENTATION",
+      "FINALIZATION"
+    ],
+    "pending_or_corrupt_registry": "BLOCK_AND_EXPLAIN",
+    "registered_maintenance": "EXCLUSIVE",
+    "maintenance_validation_grants_planning": false,
+    "live_pr_inventory_required": true,
+    "offline_unknown_state": "BLOCK",
+    "reuse_assessment_exact_registry_hash_required": true,
+    "donor_adoption_optional": true,
+    "adoption_requires_explicit_user_approval": true,
+    "code_import_still_requires_all_normal_admission": true,
+    "finalization_requires_previously_approved_plan": true,
+    "explicit_exception_must_be_independently_recorded": true,
+    "required_gate": "src/fa3_donor_readiness.py",
+    "no_new_architectural_authority": true
+  }
 }

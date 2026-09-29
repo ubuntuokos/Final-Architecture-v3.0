@@ -103,15 +103,19 @@ class ProductionImportMigrationDonorCurationTests(unittest.TestCase):
                     self.assertIs(item[flag], False, (key, flag))
 
     def test_existing_openimageio_source_enriched_not_duplicated(self):
-        old = [e for e in self.entries
-               if e["source"]["normalized_key"] == "project:openimageio"]
-        self.assertEqual(len(old), 1)
+        # Serial donor reconciliation normalizes the upstream GitHub identity
+        # and retains the historical project locator as a lookup alias.
+        key = "github:academysoftwarefoundation/openimageio"
+        canonical = [e for e in self.entries
+                     if e["source"]["normalized_key"] == key]
+        self.assertEqual(len(canonical), 1)
+        self.assertEqual(canonical[0]["donor_id"], "FA3-DONOR-OPENIMAGEIO-001")
+        self.assertIn("project:openimageio", canonical[0]["legacy_source_keys"])
+        self.assertNotIn("project:openimageio", self.by_source)
         self.assertIn(
             "https://github.com/AcademySoftwareFoundation/OpenImageIO",
-            old[0]["upstream_repository_references"],
+            canonical[0]["upstream_repository_references"],
         )
-        self.assertNotIn("github:academysoftwarefoundation/openimageio",
-                         self.by_source)
 
     def test_other_prior_source_records_not_duplicated(self):
         for key in ("project:ayon", "project:openassetio",
