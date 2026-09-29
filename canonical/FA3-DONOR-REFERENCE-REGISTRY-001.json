@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 659,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place. S4 research 2026-09-29: two official Meta upstream repository references added as source-unique non-authoritative candidates; custom SAM license and gated weights remain research-only. S4 selective-import QC research 2026-09-29 added 3 source-unique audio QC/relink candidates, all CANDIDATE; earlier counts remain historical snapshots."
+    "entry_count": 664,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place. S4 research 2026-09-29: two official Meta upstream repository references added as source-unique non-authoritative candidates; custom SAM license and gated weights remain research-only. S4 selective-import QC research 2026-09-29 added 3 source-unique audio QC/relink candidates, all CANDIDATE; earlier counts remain historical snapshots. 2026-09-29 Production Import design addendum: five source-key-unique metadata-only references (Google Magika, Microsoft MarkItDown, BBC audiowaveform, EBUCorePlus, EBU-TT-D XSD), all candidate and no automatic admission; existing 659 records preserved."
   },
   "entries": [
     {
@@ -5732,6 +5732,74 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-BBC-AUDIOWAVEFORM-001",
+      "name": "BBC audiowaveform — waveform and range-selection UI reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bbc/audiowaveform",
+        "normalized_key": "github:bbc/audiowaveform"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import & Migration mandatory external donor research 2026-09-29",
+        "https://github.com/bbc/audiowaveform"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "waveform-preview",
+        "sample-anchored-range-review"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "non-destructive-external-production-intake",
+        "exact-format-and-content-selection",
+        "zero-parallel-authorities"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Production Import & Migration Fabric",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "audio",
+        "production-import"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "SOURCE_OBSERVED_REVIEW_PENDING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "sha": "9edb233cd84c5e3c0669a9ecb55dad56dac5f93f",
+        "archived": null,
+        "license_evidence": "OFFICIAL_GITHUB_SOURCE_INSPECTION"
+      },
+      "notes": [
+        "Pattern reference for locally generated waveform previews, visual selection, and source time anchoring; waveform data is not source audio and mono visualization must not silently discard channel distinctions.",
+        "Official GitHub README says development moved to codeberg.org/chrisn/audiowaveform. This pinned GitHub snapshot is historical; assess current upstream separately before any code reuse.",
+        "GPL-3.0-or-later observed in COPYING/CMake; code copying blocked pending full legal and third-party dependency review. No runtime admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BESPOKE-SYNTH-001",
       "name": "Bespoke Synth",
       "source": {
@@ -8698,6 +8766,147 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-EBU-EBU-TT-D-XSD-001",
+      "name": "EBU EBU-TT-D XML Schema — caption distribution validation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ebu/ebu-tt-d-xsd",
+        "normalized_key": "github:ebu/ebu-tt-d-xsd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import & Migration mandatory external donor research 2026-09-29",
+        "https://github.com/ebu/ebu-tt-d-xsd"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "caption-xml-validation",
+        "standalone-caption-source"
+      ],
+      "domain_hints": [
+        "caption",
+        "broadcast",
+        "production-import"
+      ],
+      "problem_hints": [
+        "non-destructive-external-production-intake",
+        "exact-format-and-content-selection",
+        "zero-parallel-authorities"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Live Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "caption",
+        "broadcast",
+        "production-import"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "SOURCE_OBSERVED_REVIEW_PENDING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "sha": "86d1404266fde99d38b9061f7fb34ac6c5f69faf",
+        "archived": null,
+        "license_evidence": "OFFICIAL_GITHUB_SOURCE_INSPECTION"
+      },
+      "notes": [
+        "Informative XML Schema for EBU Tech 3380 1.0 distribution format. This is a standalone-caption validation reference, not the already-registered EBU-TT Live toolkit or a normative spec.",
+        "Only selected known-safe XSDs and hardened XML parser are eligible for future implementation; block XXE, external entity resolution and silent AV fetch.",
+        "No source copy/runtime admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-EBU-EBUCOREPLUS-001",
+      "name": "EBUCorePlus media production semantic ontology reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ebu/ebucoreplus",
+        "normalized_key": "github:ebu/ebucoreplus"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import & Migration mandatory external donor research 2026-09-29",
+        "https://github.com/ebu/ebucoreplus"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "production-metadata-crosswalk",
+        "semantic-type-mapping"
+      ],
+      "domain_hints": [
+        "production-import",
+        "asset-graph",
+        "broadcast"
+      ],
+      "problem_hints": [
+        "non-destructive-external-production-intake",
+        "exact-format-and-content-selection",
+        "zero-parallel-authorities"
+      ],
+      "target_hints": [
+        "Director/Production Studio",
+        "Asset Graph",
+        "Production Import & Migration Fabric",
+        "Live Studio"
+      ],
+      "tags": [
+        "production-import",
+        "asset-graph",
+        "broadcast"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "SOURCE_OBSERVED_REVIEW_PENDING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "sha": "880d36abfd59b6c08a4794e9a5d4b93b0afda200",
+        "archived": null,
+        "license_evidence": "OFFICIAL_GITHUB_SOURCE_INSPECTION"
+      },
+      "notes": [
+        "Use entity and relationship taxonomy for external production/project/shot/asset metadata crosswalk only. Canonical FA3 CreativeProjectGraph and Asset Graph remain authoritative.",
+        "EBU's README notes EBUCorePlus is not backward compatible with old EBUCore/CCDM namespaces; mapping must be versioned, explicit and loss-reported.",
+        "No new ontology authority, source copying or runtime admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-EMOCA-001",
       "name": "EMOCA",
       "source": {
@@ -11549,6 +11758,76 @@
       "automatic_model_selection": false,
       "notes": [
         "OSPRay optional test suite uses GoogleTest; donor as test-pattern reference only."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-MAGIKA-001",
+      "name": "Google Magika local file-content classification reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google/magika",
+        "normalized_key": "github:google/magika"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import & Migration mandatory external donor research 2026-09-29",
+        "https://github.com/google/magika"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "offline-file-type-preflight",
+        "mismatch-detection"
+      ],
+      "domain_hints": [
+        "production-import",
+        "security",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "non-destructive-external-production-intake",
+        "exact-format-and-content-selection",
+        "zero-parallel-authorities"
+      ],
+      "target_hints": [
+        "Tools/File Conversion",
+        "Production Import & Migration Fabric",
+        "Security Governance"
+      ],
+      "tags": [
+        "production-import",
+        "security",
+        "file-conversion"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "SOURCE_OBSERVED_REVIEW_PENDING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "sha": "459be8aa5d3352b138c3808680aee2a7e7e8231e",
+        "archived": null,
+        "license_evidence": "OFFICIAL_GITHUB_SOURCE_INSPECTION"
+      },
+      "notes": [
+        "Portable CPU-friendly file-content type detection as an advisory signal before authoritative file.convert.inspect, not a file authorization or malicious-content verdict.",
+        "An unrecognized/mismatched format fails closed under existing Security Governance. Model bundle and dependencies need separate SBOM/license/HRB review.",
+        "No new inspector authority, model deployment or runtime admission."
       ]
     },
     {
@@ -20779,6 +21058,76 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-MARKITDOWN-001",
+      "name": "Microsoft MarkItDown one-way structured document preview",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/markitdown",
+        "normalized_key": "github:microsoft/markitdown"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import & Migration mandatory external donor research 2026-09-29",
+        "https://github.com/microsoft/markitdown"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "mixed-document-preview",
+        "structure-extraction"
+      ],
+      "domain_hints": [
+        "production-import",
+        "document",
+        "story"
+      ],
+      "problem_hints": [
+        "non-destructive-external-production-intake",
+        "exact-format-and-content-selection",
+        "zero-parallel-authorities"
+      ],
+      "target_hints": [
+        "Document Fabric",
+        "Story/Screenplay",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "production-import",
+        "document",
+        "story"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "SOURCE_OBSERVED_REVIEW_PENDING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "sha": "b8f79c57ebc0044be41323d89b2a45d3fda8460e",
+        "archived": null,
+        "license_evidence": "OFFICIAL_GITHUB_SOURCE_INSPECTION"
+      },
+      "notes": [
+        "Preview/reference only: PDF/Office/HTML/archive-to-Markdown is one-way and not an editable symmetric screenplay/office project migration.",
+        "Upstream warns conversion runs with process filesystem/network permissions. Restrict to explicit local stream, disable URL/LLM/OCR/network and external plugins by default; untrusted bundles must be sandboxed.",
+        "No Azure/LLM/cloud requirement; no automatic plugin/runtime admission; honor #195 Document Fabric and bidirectional-admission gate."
+      ]
     },
     {
       "discovered_from": [
