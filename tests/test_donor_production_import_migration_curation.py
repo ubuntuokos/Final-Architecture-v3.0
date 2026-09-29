@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 PLAN = ROOT / "docs/production-import-migration-plan-2026-09-29.md"
+CROSSWALK = ROOT / "docs/production-import-historical-conversion-reconciliation-2026-09-29.md"
 
 PRODUCTION_SOURCES = {
     "academysoftwarefoundation/opentimelineio",
@@ -80,7 +81,7 @@ class ProductionImportMigrationDonorCurationTests(unittest.TestCase):
 
     def test_concurrent_donor_history_retained_and_source_unique(self):
         self.assertEqual(len(CANDIDATE_KEYS), 38)
-        self.assertGreaterEqual(len(self.entries), 588)
+        self.assertGreaterEqual(len(self.entries), 591)
         self.assertEqual(len(self.by_source), len(self.entries))
         self.assertEqual(len({e["donor_id"] for e in self.entries}), len(self.entries))
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
@@ -120,6 +121,50 @@ class ProductionImportMigrationDonorCurationTests(unittest.TestCase):
                 "Production Import & Migration Fabric",
                 self.by_source[key]["target_hints"],
             )
+
+    def test_historical_converter_music_animation_enrichment(self):
+        # Source-key identity wins: no duplicate GitHub alias for project-level DAWproject.
+        for official_source in (
+            "github:musescore/musescore",
+            "github:mido/mido",
+            "github:gstreamer/gstreamer",
+        ):
+            with self.subTest(source=official_source):
+                item = self.by_source[official_source]
+                self.assertEqual(item["status"], "CANDIDATE")
+                self.assertEqual(
+                    item["code_reuse_policy"],
+                    "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+                )
+                self.assertIn("Production Import & Migration Fabric", item["target_hints"])
+                for flag in NON_AUTH_FLAGS:
+                    self.assertIs(item[flag], False, (official_source, flag))
+        self.assertIn(
+            "https://github.com/bitwig/dawproject",
+            self.by_source["project:dawproject"]["upstream_repository_references"],
+        )
+        self.assertNotIn("github:bitwig/dawproject", self.by_source)
+        self.assertIn(
+            "Production Import & Migration Fabric",
+            self.by_source["github:opentoonz/opentoonz"]["target_hints"],
+        )
+
+    def test_earlier_conversion_rules_survive_reconciliation(self):
+        crosswalk = CROSSWALK.read_text(encoding="utf-8")
+        for marker in (
+            "FA3-CONVERSION-FABRIC-001",
+            "FA3-FILE-CONVERSION-001",
+            "FA3-TOOLS-FABRIC-001",
+            "WASM", "native", "QUARANTINED",
+            "DAWproject", "MusicXML", "ABC", "MIDI",
+            "OpenToonz", "Xsheet", "SOMA",
+            "Create QuickClip Variant", "INSPECT",
+            "no new conversion authority",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker.lower(), crosswalk.lower())
+        self.assertIn("175", crosswalk)
+        self.assertIn("current-host", crosswalk)
 
     def test_planning_receipt_not_runtime_admission(self):
         plan = PLAN.read_text(encoding="utf-8")
