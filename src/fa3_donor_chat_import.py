@@ -27,6 +27,7 @@ _POSITIVE = re.compile(
     r"|\bpotential\s+donor\b|\bdonor\s+candidate\b|\breference\s+candidate\b"
     r"|\breuse\s+candidate\b|\bcould\s+be\s+a\s+donor\b|\breferenciajelölt\b)"
 )
+_OWNER_DIRECT = re.compile(r"(?i)\b(?:donornak|donor)\s*:")
 _NEGATIVE = re.compile(
     r"(?i)\b(?:nem\s+(?:alkalmas\s+)?donor|not\s+(?:a\s+)?donor|"
     r"donornak\s+alkalmatlan|rejected\s+donor)\b"
@@ -151,7 +152,7 @@ def _candidate_sources(text: str) -> tuple[list[tuple[str, str, str]], bool]:
     return [], False
 
 
-def _conversations(path: Path, roles: set[str]) -> Iterable[str]:
+def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, str]]:
     for conversation in read_export(path):
         mapping = conversation.get("mapping")
         if not isinstance(mapping, dict):
@@ -161,7 +162,8 @@ def _conversations(path: Path, roles: set[str]) -> Iterable[str]:
                 continue
             text = _message_text(node, roles)
             if text:
-                yield text
+                role = node.get("message", {}).get("author", {}).get("role")
+                yield {"text": text, "speaker_role": role} if include_roles else text
 
 
 def _events(path: str) -> Iterable[str | dict[str, Any]]:
@@ -177,7 +179,7 @@ def _events(path: str) -> Iterable[str | dict[str, Any]]:
             if row.get("potential_donor") is True and isinstance(row.get("name"), str) and isinstance(row.get("source"), str):
                 yield row
             elif isinstance(row.get("text"), str):
-                yield row["text"]
+                yield row
             else:
                 raise ValueError(f"event {index}: text or approved donor metadata required")
     finally:
@@ -214,13 +216,32 @@ def ingest(
             and isinstance(row["source"].get("normalized_key"), str)
         }
         seen_in_batch: set[str] = set()
+        finalized_in_batch: set[str] = set()
         for record in records:
             stats["records_scanned"] += 1
-            if isinstance(record, dict):
-                sources = [(record["name"].strip(), "GITHUB" if record["source"].lower().startswith("https://github.com/") else "PROJECT", record["source"].strip())]
+            direct_owner_link = False
+            if isinstance(record, dict) and isinstance(record.get("text"), str):
+                text = record["text"]
+                if not _POSITIVE.search(text):
+                    continue
+                sources, ambiguous = _candidate_sources(text)
+                # Explicit owner submissions are pre-reviewed for catalog inclusion.
+                # Tentative research or assistant mentions remain candidates.
+                direct_owner_link = bool(_OWNER_DIRECT.search(text)) and (
+                    (origin == "chatgpt-export" and record.get("speaker_role") == "user")
+                    or (origin == "approved-chat-event" and record.get("owner_submitted_link") is True)
+                )
+            elif isinstance(record, dict):
+                if record.get("potential_donor") is not True:
+                    raise ValueError("metadata event lacks explicit potential-donor signal")
+                sources = [(record["name"].strip(),
+                            "GITHUB" if record["source"].lower().startswith("https://github.com/")
+                            else "PROJECT", record["source"].strip())]
                 ambiguous = False
                 if not sources[0][0] or not sources[0][2]:
                     raise ValueError("approved event metadata must contain nonempty name and source")
+                direct_owner_link = (origin == "approved-chat-event"
+                                     and record.get("owner_submitted_link") is True)
             else:
                 if not _POSITIVE.search(record):
                     continue
@@ -240,12 +261,15 @@ def ingest(
                     # never publish its name into the public FA3 repository by default.
                     stats["unlinked_skipped"] += 1
                     continue
-                if key in seen_in_batch:
+                if key in seen_in_batch and not (direct_owner_link and key not in finalized_in_batch):
                     continue
                 seen_in_batch.add(key)
+                if direct_owner_link:
+                    finalized_in_batch.add(key)
                 result = capture_candidate(
                     stage_root, name=name, source_kind=kind, source_locator=locator,
-                    tags=["chat-history-import"], discovered_from=origin
+                    tags=["chat-history-import"], discovered_from=origin,
+                    owner_submitted_link=direct_owner_link,
                 )
                 stats["created" if result["created"] else "merged"] += 1
         if (stats["created"] or stats["merged"]) and not dry_run:
@@ -266,7 +290,7 @@ def main() -> int:
     roles = set(args.roles.split(","))
     if not roles or not roles.issubset({"user", "assistant"}):
         parser.error("--roles must select user and/or assistant")
-    records = _conversations(args.export, roles) if args.export else _events(args.events)
+    records = _conversations(args.export, roles, include_roles=True) if args.export else _events(args.events)
     try:
         result = ingest(
             args.root, records, origin="chatgpt-export" if args.export else "approved-chat-event",
