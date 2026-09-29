@@ -17,3 +17,7 @@ Per-source union statistics, alternate-name conflicts and resolved ID collisions
 ## Media intake #537
 
 The 58-source structured delta is now mirrored into canonical staging with status `RECONCILED_IN_REPAIR_BRANCH`, with the exact pending original preserved under `docs/donor-repair/intake-537-original.json`. 57 new source identities and one existing `rikorose/deepfilternet` were upserted, not adopted. PR #537 remains open until exact-head registry reconciliation lands; while it is open, project entry remains blocked.
+
+## Existing Intel regression reconciliation
+
+The merged #469 OpenVINO source observation declares Apache-2.0 at repository level. The Intel ecosystem regression now verifies **only this one source** as `KNOWN_DECLARATION`, while continuing to require `upstream_observation.license_audited == false`, source copying disabled and all other Intel entries at their original unknown-license status. This is not approval to copy code or import models.
