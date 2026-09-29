@@ -2100,11 +2100,13 @@
     "existing_governance_and_evidence_authorities_required": true,
     "no_new_authority": true,
     "exclusive_donor_intake": true,
-    "exclusive_intake_owner": "OLDEST_OPEN_DONOR_PR",
+    "exclusive_intake_owner": "OLDEST_OPEN_CANONICAL_REGISTRY_OR_INTAKE_DELTA_PR",
     "second_conversation_intake": "WAIT_REPORT_ACTIVE_PR",
     "planning_registry_source": "LATEST_VERIFIED_COMMITTED_MAIN_ONLY",
     "pending_donor_entries_visible_during_design": false,
-    "replan_after_new_donor_publication": "ONLY_ON_OWNER_REQUEST"
+    "replan_after_new_donor_publication": "ONLY_ON_OWNER_REQUEST",
+    "policy_only_prs_reserve_intake_slot": false,
+    "reference_only_prs_reserve_intake_slot": false
   },
   "donor_reference_capture_policy_authority": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
   "donor_reference_registry_embedded_auto_capture_flag": "HISTORICAL_SUPERSEDED_BY_OWNER_DECISION"
