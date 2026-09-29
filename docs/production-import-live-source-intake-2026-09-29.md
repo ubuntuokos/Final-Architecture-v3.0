@@ -1,0 +1,99 @@
+# FA3 Live Production Intake — real-time video, audio/podcast and caption-only selective import
+
+Date: 2026-09-29. Scope: **plan + verified upstream donor candidate capture** under [#528](https://github.com/ubuntuokos/Final-Architecture-v3.0/pull/528). Runtime implementation, UI build, transport/source admission, independently validated audio separation, legal recording authorization and physical current-host E2E **not yet delivered**. Capability baseline **175 fixed**; provider count dynamic; new architectural authorities **0**.
+
+Parents: [production migration](production-import-migration-plan-2026-09-29.md), [exact 17 selectors](production-import-selective-content-plan-2026-09-29.md), [concrete implementation workplan](production-import-selective-implementation-workplan-2026-09-29.md), [historical converter reconciliation](production-import-historical-conversion-reconciliation-2026-09-29.md), existing [Subtitle Studio contracts](../canonical/contracts/FA3-CAPTION-SUBTITLE-CONTRACTS-001.json) and [Creative Project Graph](../canonical/contracts/FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001.json).
+
+## A. User-visible functional contract: live is a source dimension, not an 18th output
+
+The existing exactly **17 independent, combinable output selections** (4 text, 6 audio, 7 video) do not change. Add orthogonal `source_mode = FILE | EXISTING_PROJECT | LIVE_VIDEO | LIVE_AUDIO | LIVE_CAPTIONS`, `delivery_mode = MONITOR_ONLY | SELECTIVE_CAPTURE | AUTHORIZED_RECORD_AND_DERIVE | CAPTION_ONLY`. Each output independently selects scope, destination application, language, format, provisional/final cue handling, durability and user quality threshold. Capture only what the operator selected; intermediate media decoding may be ephemeral when required.
+
+- **LIVE_VIDEO**: authorized live video contribution, relay, podcast video or local OBS feed. May select full video; silent picture or specific camera/scene/interval; original complete audio; original discrete dialogue/music/SFX stems where present; *estimated* admissible speech/vocal/instrumental/ambience when separately validated; source-provided subtitles or ASR-based original timed transcript, possibly user-selected 1..N translated versions. All are individual requested output artifacts.
+- **LIVE_AUDIO**: authorized radio/podcast webcast or broadcast audio, including Icecast-compatible endpoints and approved audio-only HLS. May capture original audio or time segments, transcript only, translation fan-out, original multitrack stems or separately validated experimental separation, noise-reduced speech; do not download unrelated artwork/videos or infer a podcast's prerecorded RSS enclosure is live. Keep episode/stream ID and source offset.
+- **LIVE_CAPTIONS (fully independent)**: connect directly to EBU-TT Live stream/WebSocket or independent, authorized segmented WebVTT/other supported timed-text feed, *without any requirement to supply video or audio*. Capture source-origin cue text + events with original language, partial/final revision IDs and source times; optionally translate to one or several languages, attach later to a user-selected existing production/shot or deliver directly to Subtitle Studio/Story/Live Studio. If caption data is embedded in HLS video or 608/708 inside the video, extracting it **requires receiving enough original video bytes to demux**; never falsely promise no network AV transfer in that case. Operator may require `NO_AV_FETCH` and then only true independent caption-only endpoints qualify; ephemeral demux never silently stores video/audio.
+- Podcast audio-only stream, live video podcast, broadcast TV and subtitle-only contribution are all eligible source categories; a platform page URL is not automatically an admitted raw transport endpoint and must not trigger scraping, access restriction/DRM bypass or unauthorized recording.
+- The four text/language choices also apply to a live caption source and any selected derived transcript; language identification may vary per cue in code-switching; one original cue identity underlies all translated output revisions.
+
+## B. Supported connection families — versioned, gated by actual source and legal rights
+
+| Family | Use | Boundary |
+|---|---|---|
+| Local authorized OBS/source/session | Audio/video ingest or authorized source-specific track export | Use existing Broadcast/Live Studio/OBS integration; no default scene or desktop capture, no new streamer. |
+| SRT, optionally RIST | Low-latency authorized contribution of video/audio | SRT candidate and official librist standard reference; existing network/security and FFmpeg/GStreamer where separately admitted, no fixed port/listener. |
+| HLS/LL-HLS | Internet audio/video podcasts, subtitle rendition playlists and live segment capture | RFC 8216 `EXT-X-MEDIA` separates AUDIO/VIDEO/SUBTITLES vs embedded CLOSED-CAPTIONS. Playlist discontinuities, DVR window and URL/segment authorization explicitly tracked. |
+| RTMP/RTSP, optional WebRTC | Source-owned broadcast and LAN streams | Authorize individual endpoint and credentials; use existing FFmpeg/GStreamer and optional approved transport adapters, no parallel global media relay. WebRTC is not equivalent to HLS caption feed. |
+| Icecast-style streaming | Audio-only live podcasts, internet radio, live voice | Metadata and permitted source URL only, prefer existing native audio ingest; no bundled GPL server. |
+| EBU-TT Live over authorized WebSocket | Native caption-only contribution | EBU Tech 3370 + 3370s1: sequence, partial/final cue, handoff, sequence continuity and original timing; no compulsory media. |
+| Independent WebVTT HLS rendition | Caption-only when external dedicated subtitle playlist is offered | Parse language/rendition, segment boundary, repeated cue IDs and duration; no assumption captions are accessible when embedded in video. |
+| Embedded CEA-608/708 | Video-associated captions | Demux only within separately authorized media fetch; libcaption covers limited subset only; unsupported 708 features fail closed. |
+
+Sources: https://tech.ebu.ch/publications/tech3370 , https://tech.ebu.ch/publications/tech3370s1 , https://datatracker.ietf.org/doc/rfc8216/ . SRT: https://github.com/Haivision/srt . No vendor-specific unapproved cloud processing.
+
+## C. Versioned child contract, existing owners
+
+Create **typed subordinate extension** `LiveProductionSource` to existing `ProductionSourceManifest`/`SelectiveImportRequest`, not new Source Registry, subtitle service, transcoder, media server, network gateway or evidence authority. Mandatory fields:
+
+- `source_mode`, `authorized_endpoint_ref`, `endpoint_scheme`, `source_owner`, `rights_receipt`, `approved_capture_scope`, `requested_outputs[]` (only existing 17 IDs), `source_app_and_version`, `source_track/rendition`, `source_language/BCP47`, `destination`, `source_data_class`, `recording_authorization`, `requested_egress`, `secret_broker_ref` where needed, `no_av_fetch`, `no_media_persist` and source retention policy.
+- `live_session_id` and immutable `source_session_revision`, `source_epoch`, `source_sequence/segment/part_id`, source presentation timestamp and rational timebase, optional UTC/program date time, discontinuity sequence, monotonic capture timestamp, timing precision and independently observed drift. Wall clock, capture time and source-media time are *not* interchangeable.
+- `caption_origin = ORIGINAL_FEED | EXTRACTED_ORIGINAL_EMBEDDED | ASR_ESTIMATE | TRANSLATED_DERIVATIVE`, `caption_cue_id`, `parent_cue_id`, `cue_revision`, `cue_status = PARTIAL | FINAL | CORRECTED | RETRACTED | GAP`, language per segment, original styling/speaker when available; translations are child revisions, never overwrite original authoritative cues.
+- `continuity_state`, `gap_intervals[]`, `reconnect_attempt_policy`, `bounded_buffer`, `max_lag`, `drop_policy`, `bounded_capture_duration/bytes`, `requested_vs_produced_outputs`, per-output `source_digest` where immutable segments exist and per-chunk digests, `commit_receipt` linked to existing canonical Evidence. Running stream has no stable whole-stream SHA until finalized.
+- Per-output semantic `EXACT_SOURCE_TRACK | SOURCE_CAPTION | ESTIMATED_ASR | ESTIMATED_STEM | TRANSLATED_DERIVATIVE | UNSUPPORTED`; runtime results may be `PROVISIONAL | VERIFIED_SEGMENT | GAP | EXPLICIT_PARTIAL | FAILED | CANCELLED`. Never label a stream, transcript or model-isolated ambience exact merely because transport succeeded.
+
+**Existing authority bindings**: Tools `file.convert.inspect/plan/execute` owns typed converter route; FA3 Broadcast/Live Studio and Subtitle Studio own ingest GUI and cue-domain actions; FFmpeg/GStreamer eligible adapters; Language Fabric/Bridge for translation; Whisper/STT for allowed original transcript derivation; existing Audio Source Separation/Demucs with matching actual stem ontology; Director/Workforce + **Temporal sole** durable orchestration; UAF/Central MCP Gateway for effects; HRB exclusive compute authority; Model Router exclusive admitted inference route (CPU-only mandatory, no silent fallback); FA3 Logistics existing segment/content transfer and dedup; Security Governance, Secret Broker, PKI, canonical Evidence/Journal/Asset Graph. Distinguish source application project and live delivery: the video stream is not a full editable OBS or DAW project.
+
+## D. Single live-session DAG: capture once, selectively publish
+
+1. **Preflight**: user chooses source type and exactly desired outputs (multiple allowed), language(s), duration/ranges or live-until-stop, source location, capture/rebroadcast rights, allowed network endpoints, ingress-only consent, data retention, buffer limits, latency profile and authorized machines. Validate scheme/host/IP/redirect/playlist segment allowlist, loopback/private-address policy, rate/bandwidth quotas and external platform rights. No auto network listener or desktop access.
+2. **Inspect**: discover available original renditions, channel/stem availability, supplied captions, source timecode and declared latency. Present each of 17 applicable selectors with `AVAILABLE_ORIGINAL | ESTIMATED_IF_ADMITTED | NEEDS_SEPARATE_CAPTION_FEED | UNSUPPORTED`; show user when receiving a multiplexed source would transfer AV despite caption-only output.
+3. **Connect and stage**: existing approved ingress demuxer receives only authorized source. For `LIVE_CAPTIONS` with independent feed, create *zero* audio/video workers. For embedded captions, record authorized ephemeral demux requirements. Use bounded capture ring for allowed stream input; segment-by-segment hash and existing Logistics retention; no second storage backend.
+4. **Content fan-out**: one source capture and segment decoder supports selected outputs; prioritize original discrete audio tracks/caption renditions before model separation or ASR. Source-language transcript `SOURCE_CAPTION` can be retained as lineage under existing retention policy; ASR `ESTIMATED_ASR` even if confidence is high. Translation fan-out per chosen BCP47 language; user-editable glossary/terms, live partial text provisional, superseding corrections targeted to dependent translations.
+5. **Timing & discontinuities**: original caption event and media PTS stored separately from receive timestamp; preserve HLS rendition/segment/discontinuity sequence and EBU-TT Live sequence/handover. Detect overlaps, missing/out-of-order or repeated chunks after reconnect, drift and speaker/code-switch unknowns. Idempotent event replay deduplicates by session+epoch+sequence+cue_revision+digest, not by text alone.
+6. **Review/QC and publish**: Live Studio can show a latency-aware rolling preview, Subtitle Studio receives only selected original/translated captions; Audio Fabric optional isolated audio; Video Editor only authorized captured portions; Story may take transcript-only. Per-output segment receipts include gaps, user changes, ASR/MT provisional statuses and meaningful audio-separation uncertainty. NO default outgoing stream or OBS scene mutation; optional user-authorized live playout is a separate UAF action.
+7. **Reconnect, stop, finalize**: bounded retry with jitter and approved origin; no silently switching stream/CDN or provider. Replay only segments in permitted origin DVR window. When unavailable, record true missing intervals instead of inventing frames or transcript, alert UI, preserve completed outputs and permit approved resumption. On stop, drain partial/late final cues subject to explicit bounded time; produce indexed segmented archive and per-output evidence. Reuse existing retention/redaction/deletion policy.
+
+## E. GUI: existing Director/Production Import workspace
+
+**Source tab**: `Fájl / Külső projekt / Élő videó / Élő audio-podcast / Csak élőfelirat`, URL or existing authorized OBS/LAN source, discovered tracks/renditions/caption languages, auth through Secret Broker; no credential in URL logs or clipboard. For `Csak élőfelirat`, source is direct EBU-TT Live WS or WebVTT subtitle playlist when possible; `Videó/hang hálózati letöltése tiltva` check if zero AV transfer is required.
+
+**Select tab**: same 17 existing checkboxes, filtering to source-relevant selections; orthogonal original/one/multi/original+translation text options apply to live caption and transcript. Track/language/range/segment/target app, exact versus estimated stem and caption origin are visible.
+
+**Live preview**: per-output status, source PTS and viewer timestamp, actual lag, gaps/reconnections, source/translation cue versions, word/speaker uncertainty, original vs estimated separation, source/channel availability, per-output destination, approved bandwidth/HRB resource use; approve/reject output independently. Operator actions: start/stop/pause capture when transport allows, save from now, choose bounded rolling buffer, adjust target languages, replay eligible segment, explicit partial-accept, detach source and finish.
+
+## F. Verified source-unique donor captures added to existing registry
+
+As of capture on 2026-09-29, ten *previously absent* normalized GitHub source keys were added **once** to `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json`, taking #528's last known 639 unique sources to **649**. All are `CANDIDATE`, non-authoritative; upstream license metadata is not source-copy/model-dependency approval.
+
+| Donor | Upstream metadata observed | Selective reference | Explicit boundary |
+|---|---|---|---|
+| https://github.com/Haivision/srt | MPL-2.0, active | Reliable low-latency authorized ingest | Transport only; no default network listeners. |
+| https://github.com/obsproject/obs-studio | GPL-2.0, active | Authorized OBS source/scene workflows | Pattern only without separate GPL/runtime admission. |
+| https://github.com/xiph/Icecast-Server | GPL-2.0, official mirror | Audio-only webcast/podcast ingest | No new required Icecast server; canonical upstream at gitlab.xiph.org. |
+| https://github.com/ebu/ebu-tt-live-toolkit | BSD-3-Clause, last observed source push 2023 | Original live caption message/sequence/handover | Old dependencies; modern compatible isolated validation needed. |
+| https://github.com/szatmary/libcaption | MIT, historical updates | Partial CEA-608/708 embedded caption decoder | Not full 708 codec or independent caption-only transport. |
+| https://github.com/pion/webrtc | MIT, active | WebRTC network interoperability design | No parallel peer discovery or direct unauthorized webcam capture. |
+| https://github.com/bluenviron/mediamtx | MIT, active | RTSP/RTMP/SRT/HLS/WebRTC reconnect and protocol mapping | No mandatory server/port/second router. |
+| https://github.com/video-dev/hls.js | GitHub SPDX unresolved | HLS audio/subtitle rendition selection interface | Browser playback ≠ server-side ingest; source license audit before reuse. |
+| https://github.com/streamlink/streamlink | BSD-2-Clause, active | Authorized public/service stream endpoint discovery research | No bypass of paywalls, georestrictions, DRM or source service terms. |
+| https://github.com/glut23/webvtt-py | MIT, source not recently updated | Segmented WebVTT timing/read-write | Treat maintenance and HLS partial/live cues as unverified. |
+
+Enriched **existing** FFmpeg, GStreamer and pysubs2 donor records in place, avoiding duplicates. Official libRIST source https://code.videolan.org/rist/librist is a transport research reference; register only after confirming source/license when proposing a concrete adapter. Existing source-time, source-separation, translation and quality donor studies remain binding.
+
+## G. Dependency-ordered delivery and fail-closed acceptance
+
+**L0 design and donor gate**: source-unique registry, link this child plan from parent and 17-selector docs, static regressions 175/649, source taxonomies, capability/Reuse Discovery mapping, rights/security/HRB/Software Coexistence profiles. This stage does not create a running receiver.
+
+**L1 isolated source inspectors**: local fixture of EBU-TT Live and segmented WebVTT (no AV), audio-only HLS/Icecast and local authorized HLS video; version-specific protocol and rights gate; negative SSRF, unknown URI/scheme, playlist redirects, credential leaks and unknown features. Existing FFmpeg/GStreamer selection where independently admitted.
+
+**L2 subtitle-only pilot first**: independent EBU-TT Live WS -> Subtitle Studio exact source cue mapping; original+two translations per user, provisional/correction/retraction/handover, deliberate disconnect/reconnect, two simultaneous providers and gaps, ZERO AV workers in caption-only feed; mock transport/local fixture static tests may precede real physical test, never count as physical admission.
+
+**L3 audio/podcast pilot**: authorized live audio -> timed ASR -> multi-lingual text with existing CPU-only model path, optional original track; segmentation vs separation disclaimers. Actual rights/compliance and real host HRB/Model Router proof.
+
+**L4 video pilot**: authorized live video HLS/OBS/SRT -> selected silent image/video, original audio, caption feed or ASR; optional independently admitted real-time separation only when buffer/latency and stem-schema gates pass. For embedded-only captions under `NO_AV_FETCH`, fail closed rather than downloading full video.
+
+**L5 LAN multi-host and optional playout**: existing Logistics/Director/Temporal source placement and idempotent reconnect; per-project machine topology and backpressure; separate explicit approval for any playout/OBS program action.
+
+**L6 integration gates**: exact-head Canonical/Promotion, Donor & Reference Registry + Reuse Discovery, release projection regenerate/reconcile, dependency tests, security/license/coexistence/hardware, real physical current-host with signed canonical Evidence, GUI, LAN/offline+reconnect, subtitle-only E2E, media-specific E2E, non-English and mixed-language fixtures, cancellation, loss/retention and provenance. Only the existing release authority grants production admission.
+
+**Negative tests**: true subtitle-only endpoint receives zero AV bytes; embedded subtitle route under `NO_AV_FETCH` BLOCKED; intermittent network preserves gaps without invented cues; duplicate/reordered partial captions dedup and revisions; translations never overwrite original; live podcast source is not inferred from archived RSS; unavailable source not silently replaced; legacy 708 controls not misrepresented; unapproved rebroadcast/recording impossible; no arbitrary URL/SSRF; no native project fidelity claim from live delivery chunks; no default listener/port conflict; CPU-only execution viable; physical PASS never inferred from mock/CI.
+
+Release note: the new stream dimension is a *plan amendment*, not proof of working capture. Historical evidence immutable, new donors candidate only, user owns permitted sources, device use and every outgoing derivative.
