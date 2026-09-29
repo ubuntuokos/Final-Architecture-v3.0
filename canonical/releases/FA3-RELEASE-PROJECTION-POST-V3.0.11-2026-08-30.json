@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "7c1b877ab838ea112cd06bad385f789981b9d993",
-    "pre_projection_root_tree_sha": "7ce2297c078059904e522ad507e5642d0c3d3d34",
-    "pre_projection_canonical_tree_sha": "d91c6735b75eae1d61edf9de5607c5cea53c0f3e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2083,
-    "total_post_baseline_commits": 2083,
-    "delta_file_count": 2532,
-    "delta_added_files": 2526,
+    "pre_projection_head_sha": "046af76690e7cf8863ea03de146c6641863abdb2",
+    "pre_projection_root_tree_sha": "d33806be9fb24fbdabe4c6abe6bc62c7123b0783",
+    "pre_projection_canonical_tree_sha": "8acadb2a726a3574c4663d6c3112ac01d7073bff",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2093,
+    "total_post_baseline_commits": 2093,
+    "delta_file_count": 2535,
+    "delta_added_files": 2529,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "canonical_files_in_post_baseline_delta": 1206,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 342,
-    "test_files_in_post_baseline_delta": 289,
+    "test_files_in_post_baseline_delta": 290,
     "workflow_files_in_post_baseline_delta": 125,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1017,7 +1017,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2522,
+  "manifest_entry_count": 2525,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1536,7 +1536,7 @@
     },
     {
       "path": ".github/workflows/fa3-reuse-discovery.yml",
-      "git_blob_sha": "4085af9f2be98caa85ba12a0dae977a6af64ecae",
+      "git_blob_sha": "0297eb4d419cddf5a52f25d5ecae349ad8017133",
       "baseline_delta_status": "added"
     },
     {
@@ -2661,7 +2661,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "0a77b32eba953676e04c8eb5c2286e953e6b7c8a",
+      "git_blob_sha": "810da6e367fc0c68697e68474ba7aee0f4f7c50e",
       "baseline_delta_status": "added"
     },
     {
@@ -9131,7 +9131,17 @@
     },
     {
       "path": "docs/production-import-migration-plan-2026-09-29.md",
-      "git_blob_sha": "23cc5671e9dc0c6b328f69c0a3217fb824699603",
+      "git_blob_sha": "b785fcef550b71fdf90fbf9d09ce16e80aeab7eb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/production-import-selective-content-plan-2026-09-29.md",
+      "git_blob_sha": "5f2849830346ec8b75565f8806b57b8900d778bf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/production-import-selective-donor-research-2026-09-29.md",
+      "git_blob_sha": "b0bb382bef274a2722659c59306d884f2d450efa",
       "baseline_delta_status": "added"
     },
     {
@@ -12570,6 +12580,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_production_import_selective_content.py",
+      "git_blob_sha": "6e03d3a2febb67d03bf530df8dd8e6ada5382ff4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_registry_identity_uniqueness.py",
       "git_blob_sha": "a18bf7eaa93d48dde1d86201989f2ee404c0d01e",
       "baseline_delta_status": "added"
@@ -15339,7 +15354,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 592,
+    "donor_registry_entry_count": 613,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
