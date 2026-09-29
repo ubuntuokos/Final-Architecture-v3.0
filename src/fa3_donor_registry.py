@@ -73,7 +73,8 @@ def capture_candidate(
     # Source identity wins. Equal display names with different source keys must
     # not silently merge unrelated GitHub repositories or research projects.
     match = next((row for row in entries if isinstance(row, dict)
-                  and row.get("source", {}).get("normalized_key") == key), None)
+                  and (row.get("source", {}).get("normalized_key") == key
+                       or key in row.get("legacy_source_keys", []))), None)
     created = match is None
     if match is None:
         base_id = f"FA3-DONOR-{_slug(name)}-001"
@@ -126,7 +127,7 @@ def capture_candidate(
     registry.setdefault("backfill", {})["entry_count"] = len(entries)
     if not dry_run:
         _atomic_write(path, registry)
-    return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": key, "dry_run": dry_run}
+    return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": match["source"]["normalized_key"], "dry_run": dry_run}
 
 _DONOR_SIGNAL = re.compile(r"(?i)(?:\bdonor(?:nak|ként|jelölt|ként\s+alkalmas)?\b|\breference\s+candidate\b|\breuse\s+candidate\b|\breferenciajelölt\b)")
 _GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?", re.I)
