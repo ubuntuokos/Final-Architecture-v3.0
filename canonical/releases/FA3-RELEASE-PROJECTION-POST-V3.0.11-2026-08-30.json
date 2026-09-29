@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8f05c095c2fb5834bbc37733c41720e6e89ec200",
-    "pre_projection_root_tree_sha": "b8350c0f31723e43aee25ca2ea544570ace0422a",
-    "pre_projection_canonical_tree_sha": "69d71055c5013bb45b6d848cd1cbdb2883e7a945",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2132,
-    "total_post_baseline_commits": 2132,
-    "delta_file_count": 2592,
-    "delta_added_files": 2586,
+    "pre_projection_head_sha": "3234ef6401125bc729d16867a0e2b7f8dff0de7b",
+    "pre_projection_root_tree_sha": "9b8f0d417593d7adc62f16ac90b8efe65d27b186",
+    "pre_projection_canonical_tree_sha": "080de1d81aabe1008c3c81e2737cba0dd6c9e562",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2136,
+    "total_post_baseline_commits": 2136,
+    "delta_file_count": 2595,
+    "delta_added_files": 2589,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1209,
+    "canonical_files_in_post_baseline_delta": 1210,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 343,
-    "test_files_in_post_baseline_delta": 299,
+    "test_files_in_post_baseline_delta": 300,
     "workflow_files_in_post_baseline_delta": 126,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1017,7 +1017,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2582,
+  "manifest_entry_count": 2585,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2671,7 +2671,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "a25e4005d312430764bf90e6be8f51d8894662f0",
+      "git_blob_sha": "8c8b4e6af00962219cbc3b13ff4ab41ee9ef93c9",
       "baseline_delta_status": "added"
     },
     {
@@ -6000,6 +6000,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-LEGACY-OPEN-PR-RECONCILIATION-2026-09-29.json",
+      "git_blob_sha": "de73168d3f0cf4834ad0604f689d95cb4b5bf1fd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-MEDIA-INTAKE-2026-09-29.json",
       "git_blob_sha": "8a5c8c2dd2f5429f9d11f2ffd35388bb2b346d17",
       "baseline_delta_status": "added"
@@ -9187,6 +9192,11 @@
     {
       "path": "docs/donor-repair/intake-537-original.json",
       "git_blob_sha": "a12ece7e7224f1fd3857c3ec8216e9738fa8f034",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-repair/legacy-open-pr-disposition-2026-09-29.md",
+      "git_blob_sha": "b764574bf9375f0dec1bb860428cc6831e92dcb0",
       "baseline_delta_status": "added"
     },
     {
@@ -12815,6 +12825,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_legacy_open_pr_reconciliation_20260929.py",
+      "git_blob_sha": "1355488bee8654e789c9824e4059f5177f5b23da",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_linux_maya_registry.py",
       "git_blob_sha": "daf32c56caa8183821b0514e5af870fc07a6bbd8",
       "baseline_delta_status": "added"
@@ -12856,7 +12871,7 @@
     },
     {
       "path": "tests/test_donor_registry_identity_uniqueness.py",
-      "git_blob_sha": "f478b1ba22e7395bc29b5f931764ee9e022f74f3",
+      "git_blob_sha": "ce6017eb3de55ee035d1bb4a997eed74b7a0b1b4",
       "baseline_delta_status": "added"
     },
     {
@@ -15639,7 +15654,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1172,
+    "donor_registry_entry_count": 1189,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
