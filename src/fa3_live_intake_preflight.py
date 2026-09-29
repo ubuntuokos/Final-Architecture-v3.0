@@ -119,8 +119,16 @@ def preflight(request: dict[str, Any]) -> dict[str, Any]:
         not isinstance(x, str) or not LANG.fullmatch(x) for x in langs
     ):
         raise LiveIntakePreflightError("target language tags invalid or duplicate")
-    if "ONE_TRANSLATION" in requested and len(langs) != 1:
-        raise LiveIntakePreflightError("one translation needs exactly one target locale")
+    single_locale = request.get("one_translation_language")
+    if single_locale is not None and (
+        not isinstance(single_locale, str) or not LANG.fullmatch(single_locale)
+    ):
+        raise LiveIntakePreflightError("dedicated one-translation language is invalid")
+    if "ONE_TRANSLATION" in requested:
+        if single_locale is None:
+            if "MULTI_TRANSLATION" in requested or len(langs) != 1:
+                raise LiveIntakePreflightError("one translation needs its own locale when combined with multi")
+            single_locale = langs[0]
     if "MULTI_TRANSLATION" in requested and len(langs) < 2:
         raise LiveIntakePreflightError("multi translation needs at least two target locales")
     if "ORIGINAL_PLUS_TRANSLATIONS" in requested and not langs:
@@ -134,6 +142,7 @@ def preflight(request: dict[str, Any]) -> dict[str, Any]:
         "delivery_mode": mode,
         "selected_outputs": list(requested),
         "target_languages": list(langs),
+        "one_translation_language": single_locale,
         "no_av_fetch_required": bool(request["no_av_fetch"]),
         "media_persistence_permitted": not request["no_media_persist"],
         "prospective_audio_workers_for_independent_captions": 0 if source == "LIVE_CAPTIONS" else None,
