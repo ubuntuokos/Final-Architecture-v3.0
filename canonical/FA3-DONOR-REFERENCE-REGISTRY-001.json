@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1164,
+    "entry_count": 1172,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -8914,6 +8914,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-BOARDKIT-ORCHESTRATOR-001",
+      "name": "BoardKit/orchestrator (multi-repo AI resource sync)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/boardkit/orchestrator",
+        "normalized_key": "github:boardkit/orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multi-repository",
+        "ai-agents",
+        "skill-discovery",
+        "documentation-sync"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Orchestrator",
+        "FA3 Skill Fabric",
+        "FA3 Reuse Discovery"
+      ],
+      "tags": [
+        "multi-repository",
+        "ai-agents",
+        "skill-discovery",
+        "documentation-sync",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/boardkit/orchestrator",
+        "Multi-repository shared agent resources and documentation patterns are research only; avoid symlink-based namespace collisions and direct vendor/agent authority.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BRAVOCW-SOCIAL-MEDIA-AUTOMATION-001",
       "name": "bravocw/Social-Media-Automation",
       "source": {
@@ -14589,6 +14649,63 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-FISHWOWATER-CAST-001",
+      "name": "FishWoWater/CAST (component-aligned 3D reconstruction)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/FishWoWater/CAST",
+        "normalized_key": "github:fishwowater/cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "3d-scene-reconstruction",
+        "single-image",
+        "component-alignment"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 3D Fabric",
+        "FA3 World / Location Generator"
+      ],
+      "tags": [
+        "3d-scene-reconstruction",
+        "single-image",
+        "component-alignment",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/FishWoWater/CAST",
+        "Unofficial work-in-progress CAST 3D scene reconstruction. Upstream README mentions serverless third-party AI APIs, which cannot become direct/automatic FA3 dependencies.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-FL-STUDIO-001",
@@ -25849,6 +25966,63 @@
       "last_seen": "2026-09-28",
       "notes": [
         "Proposed role: LICENSE_CAUTION; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HANNAMEYER-CAST-001",
+      "name": "HannaMeyer/CAST (spatio-temporal R models)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HannaMeyer/CAST",
+        "normalized_key": "github:hannameyer/cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "spatio-temporal-ml",
+        "geospatial",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Research / Knowledge Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "spatio-temporal-ml",
+        "geospatial",
+        "research",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/HannaMeyer/CAST",
+        "R caret-based spatial and spatio-temporal validation, feature selection and area-of-applicability reference; verify exact license before code reuse.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
       ]
     },
     {
@@ -65077,6 +65251,120 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-TOPICS-CHROMECAST-001",
+      "name": "Chromecast topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/chromecast",
+        "normalized_key": "github:topics/chromecast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "chromecast",
+        "streaming",
+        "casting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Live Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "chromecast",
+        "streaming",
+        "casting",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/chromecast?l=html&o=asc&s=forks",
+        "Topic discovery index, not a candidate blanket license or authorization for listed projects.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-CHROMECAST-RECEIVER-001",
+      "name": "Chromecast receiver topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/chromecast-receiver",
+        "normalized_key": "github:topics/chromecast-receiver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "chromecast",
+        "streaming",
+        "casting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Live Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "chromecast",
+        "streaming",
+        "casting",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/chromecast-receiver",
+        "Discovery index: individually review linked projects; no automatic source selection.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOPICS-FMP4-001",
       "name": "GitHub topic: fmp4",
       "source": {
@@ -65608,6 +65896,63 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-TOPICS-MYSQL-ORCHESTRATOR-001",
+      "name": "MySQL orchestrator topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/mysql-orchestrator",
+        "normalized_key": "github:topics/mysql-orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "mysql",
+        "database",
+        "orchestration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Data Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "mysql",
+        "database",
+        "orchestration",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/mysql-orchestrator",
+        "Discovery topic. Do not confuse external database operations with FA3 orchestration authority.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOPICS-MYSQL-PROJECT-001",
       "name": "GitHub topic: mysql-project",
       "source": {
@@ -65791,6 +66136,63 @@
         "observed_url": "https://github.com/topics/openmax-il?l=c%2B%2B",
         "observed_at": "2026-09-29"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-ORCHESTRATOR-001",
+      "name": "GitHub orchestrator topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/orchestrator",
+        "normalized_key": "github:topics/orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "orchestration",
+        "discovery"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Orchestrator",
+        "FA3 Application Fabric"
+      ],
+      "tags": [
+        "orchestration",
+        "discovery",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/orchestrator?l=powershell&o=desc&s=updated",
+        "User-supplied discovery URL: https://github.com/topics/orchestrator",
+        "PowerShell-filtered discovery query, preserved alongside unfiltered topic URL. External candidates require independent review.",
+        "Unfiltered variant; canonical topic source shared with the PowerShell-filtered URL.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TOPICS-RAW-CONVERTER-001",
@@ -69224,6 +69626,63 @@
       ],
       "notes": [
         "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-WANGLAB-BROAD-CAST-001",
+      "name": "wanglab-broad/CAST (spatial transcriptome alignment)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wanglab-broad/CAST",
+        "normalized_key": "github:wanglab-broad/cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "spatial-transcriptomics",
+        "alignment",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Research / Knowledge Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "spatial-transcriptomics",
+        "alignment",
+        "research",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/wanglab-broad/CAST",
+        "Python research package with CAST Mark, Stack and Projection. Documentation includes Conda/CUDA examples; FA3 must not import Conda/Mamba, hardware pins or mandatory cloud/vendor backends.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
       ]
     },
     {
