@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 539,
+    "entry_count": 540,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority."
   },
   "entries": [
@@ -33081,6 +33081,79 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-UNTRIVIAL-AI-AGENT-ORCHESTRATOR-001",
+      "name": "Untrivial-ai/agent-orchestrator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Untrivial-ai/agent-orchestrator",
+        "normalized_key": "github:untrivial-ai/agent-orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN",
+        "UI_PATTERN"
+      ],
+      "capability_hints": [
+        "parallel coding-agent task delegation",
+        "per-worker branch/worktree isolation",
+        "project-scoped planning and persistent context",
+        "PR/CI/review feedback loop",
+        "live worker Kanban and operator supervision",
+        "isolated per-worker browser preview"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development",
+        "project-coordination",
+        "developer-tooling"
+      ],
+      "problem_hints": [
+        "parallel agent task ownership and branch collision avoidance",
+        "operator-visible blocked tasks and approval handoff",
+        "PR and CI feedback routing to worker"
+      ],
+      "target_hints": [
+        "Developer Agent Coordination",
+        "Director/Workforce",
+        "Skill Fabric/Codex",
+        "Task Manager",
+        "Control Center"
+      ],
+      "tags": [
+        "agent-orchestration",
+        "coding-agents",
+        "git-worktree",
+        "kanban",
+        "CI",
+        "review-feedback",
+        "operator-supervision"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "Upstream README and top-level LICENSE reviewed 2026-09-29. Reference-only extraction of task/worktree isolation, project-level delegation, worker state visibility and PR/CI feedback patterns. Do not install AO, create a parallel daemon, bypass FA3 UAF/Central MCP/Director/HRB/Model Router authorities, or assume cloud-free upstream runtime. Reuse requires source provenance, transitive license/security review, Software Coexistence, Hardware Audit, relevant gates, and explicit admission."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
