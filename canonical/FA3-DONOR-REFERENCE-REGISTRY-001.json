@@ -5122,14 +5122,21 @@
       "source": {
         "kind": "GITHUB",
         "locator": "https://github.com/Anil-matcha/Open-Generative-AI",
-        "normalized_key": "github:anil-matcha/open-generative-ai"
+        "normalized_key": "github:anil-matcha/open-generative-ai",
+        "upstream_pin": {
+          "commit_sha": "9d939bc8f29ae39b778a2ce4146a9c1df12700f4",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-21",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "ARCHITECTURE_PATTERN",
         "REFERENCE_IMPLEMENTATION"
@@ -5151,7 +5158,8 @@
       "tags": [
         "generative-media",
         "selective-donor",
-        "upstream-review-required"
+        "upstream-review-required",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -5167,7 +5175,10 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Existing canonical source key retained."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ANIMATION-COMPRESSION-LIBRARY-ACL-001",
@@ -12617,16 +12628,26 @@
       "donor_id": "FA3-DONOR-DONKEY-001",
       "name": "Donkey",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Donkey",
-        "normalized_key": "project:donkey"
+        "kind": "GITHUB",
+        "locator": "https://github.com/DonkeyCut/Donkey",
+        "normalized_key": "github:donkeycut/donkey",
+        "previous_locators": [
+          "project:Donkey"
+        ],
+        "upstream_pin": {
+          "commit_sha": "f1238b4dadb21f2505433de0bac6c4b3c5746bfe",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -12644,7 +12665,8 @@
       ],
       "tags": [
         "autom8ai-backfill",
-        "candidate"
+        "candidate",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -12660,7 +12682,13 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "legacy_source_keys": [
+        "project:donkey"
+      ],
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-DONUTBROWSER-001",
@@ -26367,17 +26395,27 @@
       "donor_id": "FA3-DONOR-HYPERFRAMES-001",
       "name": "hyperframes",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:hyperframes",
-        "normalized_key": "project:hyperframes"
+        "kind": "GITHUB",
+        "locator": "https://github.com/heygen-com/hyperframes",
+        "normalized_key": "github:heygen-com/hyperframes",
+        "previous_locators": [
+          "project:hyperframes"
+        ],
+        "upstream_pin": {
+          "commit_sha": "b41ef425cc0700f6a5d8d29b23a812af2f2f2f06",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
         "historical-architecture-artifact-curation-2026-09-28",
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -26404,7 +26442,8 @@
         "autom8ai-backfill",
         "candidate",
         "historical-review",
-        "selective-reuse"
+        "selective-reuse",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -26437,7 +26476,13 @@
         "source_group": "v1-v3-historical-artifacts",
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
+      },
+      "legacy_source_keys": [
+        "project:hyperframes"
+      ],
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-HZXIE-AWESOME-3D-SCENE-GENERATION-001",
@@ -44738,17 +44783,27 @@
       "donor_id": "FA3-DONOR-OPENCUT-001",
       "name": "OpenCut",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:OpenCut",
-        "normalized_key": "project:opencut"
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenCut-app/OpenCut",
+        "normalized_key": "github:opencut-app/opencut",
+        "previous_locators": [
+          "project:OpenCut"
+        ],
+        "upstream_pin": {
+          "commit_sha": "e668010778568641babef2cc40be4703ae6916d6",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
         "historical-architecture-artifact-curation-2026-09-28",
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -44776,7 +44831,8 @@
         "autom8ai-backfill",
         "candidate",
         "historical-review",
-        "selective-reuse"
+        "selective-reuse",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -44809,7 +44865,13 @@
         "source_group": "v1-v3-historical-artifacts",
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
+      },
+      "legacy_source_keys": [
+        "project:opencut"
+      ],
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENCV-001",
@@ -49449,17 +49511,27 @@
       "donor_id": "FA3-DONOR-PRESENTON-001",
       "name": "presenton",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:presenton",
-        "normalized_key": "project:presenton"
+        "kind": "GITHUB",
+        "locator": "https://github.com/presenton/presenton",
+        "normalized_key": "github:presenton/presenton",
+        "previous_locators": [
+          "project:presenton"
+        ],
+        "upstream_pin": {
+          "commit_sha": "f9d3eba1a25712e25766b35a7af3b25f93ec1c01",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
         "historical-architecture-artifact-curation-2026-09-28",
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -49487,7 +49559,8 @@
         "autom8ai-backfill",
         "candidate",
         "historical-review",
-        "selective-reuse"
+        "selective-reuse",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -49520,7 +49593,13 @@
         "source_group": "v1-v3-historical-artifacts",
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
+      },
+      "legacy_source_keys": [
+        "project:presenton"
+      ],
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-PRESENTON-9CF51DD5-001",
@@ -65305,16 +65384,26 @@
       "donor_id": "FA3-DONOR-VIBE-001",
       "name": "vibe",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:vibe",
-        "normalized_key": "project:vibe"
+        "kind": "GITHUB",
+        "locator": "https://github.com/thewh1teagle/vibe",
+        "normalized_key": "github:thewh1teagle/vibe",
+        "previous_locators": [
+          "project:vibe"
+        ],
+        "upstream_pin": {
+          "commit_sha": "4d1db65fd07d7927d7b4ef3a3d949539010147dc",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -65332,7 +65421,8 @@
       ],
       "tags": [
         "autom8ai-backfill",
-        "candidate"
+        "candidate",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -65348,7 +65438,13 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "legacy_source_keys": [
+        "project:vibe"
+      ],
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-VIDEO-GENERATION-TOPIC-001",
@@ -66410,16 +66506,26 @@
       "donor_id": "FA3-DONOR-WAN2-2-001",
       "name": "Wan2.2",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:Wan2.2",
-        "normalized_key": "project:wan2.2"
+        "kind": "GITHUB",
+        "locator": "https://github.com/Wan-Video/Wan2.2",
+        "normalized_key": "github:wan-video/wan2.2",
+        "previous_locators": [
+          "project:Wan2.2"
+        ],
+        "upstream_pin": {
+          "commit_sha": "1ea34ff48f87168174e12956e200b1d908b1c5ff",
+          "verified_on": "2026-09-29",
+          "method": "GITHUB_REST_REPOSITORY_AND_COMMIT_LOOKUP",
+          "provenance": "historical-pr-435-reference-set@32d9ce1c8716704ca74f987ab4170aa63b2d18b9"
+        }
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "historical-pr-435-verified-upstream-identity"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -66437,7 +66543,8 @@
       ],
       "tags": [
         "autom8ai-backfill",
-        "candidate"
+        "candidate",
+        "pr-435-source-identity-reconciliation"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -66453,7 +66560,13 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "legacy_source_keys": [
+        "project:wan2.2"
+      ],
+      "notes": [
+        "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-WAOOAI-WAOOWAOO-001",
