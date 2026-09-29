@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 624,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged."
+    "entry_count": 633,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only."
   },
   "entries": [
     {
@@ -13089,6 +13089,616 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-AUDEERING-OPENSMILE-001",
+      "name": "openSMILE restricted acoustic-features reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/audeering/opensmile",
+        "normalized_key": "github:audeering/opensmile"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/audeering/opensmile"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "acoustic-qc",
+        "noncommercial",
+        "research"
+      ],
+      "domain_hints": [
+        "audio-analysis",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "acoustic-qc",
+        "noncommercial",
+        "research"
+      ],
+      "license": {
+        "declared": "AUDERING-RESEARCH-NONCOMMERCIAL",
+        "status": "UPSTREAM_LICENSE_FILE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "UPSTREAM_LICENSE_NONCOMMERCIAL"
+      },
+      "notes": [
+        "Official upstream license disallows commercial-product use without a paid license. Research reference only; independent unencumbered FA3 equivalent for any required feature, no code reuse.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-FACEBOOKRESEARCH-SONAR-001",
+      "name": "SONAR multilingual text and speech embedding reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/SONAR",
+        "normalized_key": "github:facebookresearch/sonar"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/facebookresearch/SONAR"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "embeddings",
+        "semantic-qc",
+        "research-only"
+      ],
+      "domain_hints": [
+        "multilingual-qc",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "embeddings",
+        "semantic-qc",
+        "research-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Upstream repo license metadata NOASSERTION; source and model weight rights must be independently reviewed. Similarity is advisory, not correctness proof or translation approval.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-FACEBOOKRESEARCH-STOPES-001",
+      "name": "Stopes multilingual segmentation and bitext research",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/stopes",
+        "normalized_key": "github:facebookresearch/stopes"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/facebookresearch/stopes"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "bitext",
+        "sentence-alignment",
+        "translation-qc"
+      ],
+      "domain_hints": [
+        "multilingual-text",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "bitext",
+        "sentence-alignment",
+        "translation-qc"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Research for sentence alignment and corpus preprocessing, not a target-language translator or validation authority; no unapproved remote manuscript transfer.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-INA-FOSS-INASPEECHSEGMENTER-001",
+      "name": "inaSpeechSegmenter speech/music/noise zones",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ina-foss/inaSpeechSegmenter",
+        "normalized_key": "github:ina-foss/inaspeechsegmenter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/ina-foss/inaSpeechSegmenter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speech",
+        "music",
+        "noise",
+        "timecode"
+      ],
+      "domain_hints": [
+        "audio-segmentation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speech",
+        "music",
+        "noise",
+        "timecode"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Candidate speech/music/noise intervals only: singing is tagged as music and speech over music as speech. Never claim vocal stems, environment-isolated SFX or infer gender.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-LIBROSA-LIBROSA-001",
+      "name": "librosa CPU audio features and onset detection",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/librosa/librosa",
+        "normalized_key": "github:librosa/librosa"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/librosa/librosa"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu",
+        "onset",
+        "tempo",
+        "timebase"
+      ],
+      "domain_hints": [
+        "audio-analysis",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "cpu",
+        "onset",
+        "tempo",
+        "timebase"
+      ],
+      "license": {
+        "declared": "ISC",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Analyze source-time-aligned signal features and activity proposals; not a separator. All dependencies and resampling mapping require review.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-MONTREALCORPUSTOOLS-MONTREAL-FORCED-ALIGNER-001",
+      "name": "Montreal Forced Aligner speech-to-text timing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner",
+        "normalized_key": "github:montrealcorpustools/montreal-forced-aligner"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "word-alignment",
+        "language",
+        "timing"
+      ],
+      "domain_hints": [
+        "word-alignment",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "word-alignment",
+        "language",
+        "timing"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Conda/Mamba installation is prohibited in FA3; reference-only until independently audited venv plus system package Kaldi/Pynini route and separately licensed acoustic model.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-MTG-ESSENTIA-001",
+      "name": "Essentia audio and music analysis",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MTG/essentia",
+        "normalized_key": "github:mtg/essentia"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/MTG/essentia"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "music-analysis",
+        "tempo",
+        "onset",
+        "spectral-qc"
+      ],
+      "domain_hints": [
+        "audio-analysis",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "music-analysis",
+        "tempo",
+        "onset",
+        "spectral-qc"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "AGPL reference/pattern only, not a bundled runtime. Music features are not isolated stems. Independent freely licensable native implementation preferred.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-SIGSEP-SIGSEP-MUS-EVAL-001",
+      "name": "museval source-separation evaluation patterns",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sigsep/sigsep-mus-eval",
+        "normalized_key": "github:sigsep/sigsep-mus-eval"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/sigsep/sigsep-mus-eval"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "source-separation-qc",
+        "ground-truth",
+        "ci"
+      ],
+      "domain_hints": [
+        "audio-qc",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "source-separation-qc",
+        "ground-truth",
+        "ci"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Use for isolated test fixtures with legally sourced reference stems; unreferenced mixed recordings cannot claim objectively measured leakage.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IMPORT-R2-WYATTBLUE-AUTO-EDITOR-001",
+      "name": "auto-editor audio-conditioned scene proposals",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/WyattBlue/auto-editor",
+        "normalized_key": "github:wyattblue/auto-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 Production Import selective QC round 2, 2026-09-29",
+        "https://github.com/WyattBlue/auto-editor"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "silence",
+        "scene-proposals",
+        "audio-conditioned-edits"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-content-segmentation",
+        "source-preserving-derivative-qc"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "silence",
+        "scene-proposals",
+        "audio-conditioned-edits"
+      ],
+      "license": {
+        "declared": "Unlicense",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Preview-only detection of edit candidates; quiet footage must never be cut automatically. Current editorial IR/OTIO and human approval remain authoritative.",
+        "Non-authoritative candidate. No auto-install, auto-fetch, direct model admission, new authority, source copy or physical current-host acceptance."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-INFINITE-WORLD-001",
@@ -27697,7 +28307,8 @@
       ],
       "target_hints": [
         "Audio Fabric",
-        "Production Import & Migration Fabric"
+        "Production Import & Migration Fabric",
+        "Sound Design"
       ],
       "tags": [
         "audio",
@@ -27726,7 +28337,8 @@
       },
       "notes": [
         "Audio-text embedding and operator-directed target event preview for ambience/SFX selection; not evidence of separation fidelity, model licenses independent.",
-        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance.",
+        "2026-09-29 follow-up: event-time localization proposal, not audio source separation; weight and dataset license separate."
       ]
     },
     {
