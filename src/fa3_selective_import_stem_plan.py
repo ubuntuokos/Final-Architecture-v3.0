@@ -68,9 +68,9 @@ def stem_plan_preview(
     if request["source_mode"] not in {"FILE", "EXTERNAL_PROJECT"}:
         raise ValueError("live inputs need the separately governed live inspector")
     mapping = inspect_binding(request, inventory, choices)
-    candidates = untrusted_model_candidates or []
+    candidates = [] if untrusted_model_candidates is None else untrusted_model_candidates
     _validate_candidates(candidates)
-    opt_ins = estimate_opt_in_leaf_indices or []
+    opt_ins = [] if estimate_opt_in_leaf_indices is None else estimate_opt_in_leaf_indices
     if (not isinstance(opt_ins, list) or len(opt_ins) > 256
             or any(type(i) is not int or i < 0 or i >= len(request["requested_outputs"])
                    for i in opt_ins)
