@@ -8,7 +8,7 @@ The registry centralizes external projects, repositories, algorithms, research, 
 
 ## Capture rule
 
-Any source described during FA3 work as potentially useful as a donor or reference is captured immediately as `CANDIDATE`, even when the target application is still only planned. The capture operation records the source once and merges later observations.
+Tentative research donor or reference findings are captured immediately as `CANDIDATE`, even when the target application is only planned. **A link explicitly submitted by the owner as `donornak:` or `donor:` has already been reviewed for catalog inclusion**. It is finalized immediately as `ACCEPTED_REFERENCE` without another registry approval. This only applies to direct owner-submitted links; assistant suggestions and unreviewed research remain candidates. Existing `REJECTED` and `SUPERSEDED` records require explicit conflict reconciliation and cannot be silently overwritten. The capture operation records the source once and merges later observations.
 
 ```bash
 ./bin/fa3-donor-capture \
@@ -24,7 +24,7 @@ Capture does **not** approve source copying, installation, provider admission, m
 
 ## Lifecycle
 
-`CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal positive path. `REJECTED` and `SUPERSEDED` are retained as research history and are excluded from derived planning candidates.
+`CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal research path. Direct, pre-reviewed owner-submitted links enter `ACCEPTED_REFERENCE` upon capture for catalog inclusion only. `REJECTED` and `SUPERSEDED` are retained as research history and are excluded from derived planning candidates.
 
 ## Planning
 
@@ -42,7 +42,7 @@ Every donor remains non-authoritative. Code or runtime reuse requires separate l
 
 A repository-aware FA3 planning/research agent MUST capture a tentative donor signal as soon as it is encountered. A bridge that receives a relevant conversation message can pass it to `./bin/fa3-donor-capture --mention "<message>"`. The parser recognizes explicit Hungarian/English donor cues, extracts one GitHub source or accepts `--name` for an unnamed project, and deliberately stores **only donor metadata**, not the original private conversation text. For multiple source URLs, call capture once for each source. Without a connected bridge, unrelated ChatGPT conversations are not automatically visible to this repository: a declaration in `AGENTS.md` cannot itself subscribe to external conversations.
 
-Identical display names from different source repositories are distinct records; repeat observations with the **same normalized source key** are merged. Newly captured references are always candidates regardless of earlier assessments until explicit normal admission.
+Identical display names from different source repositories are distinct records; repeat observations with the **same normalized source key** are merged. Tentative research sources remain candidates. Direct, pre-reviewed owner-submitted links are finalized at intake; all actual code, dependency and runtime adoption still requires separate approval and admission.
 
 ## Historical ChatGPT conversation bridge
 
@@ -126,3 +126,7 @@ The following imported upstream curation reports are historical/research referen
 - [github-actions-runner-images-donor-curation-2026-09-28.md](github-actions-runner-images-donor-curation-2026-09-28.md)
 - [chip-huyen-ml-systems-donor-curation-2026-09-28.md](chip-huyen-ml-systems-donor-curation-2026-09-28.md)
 - [adaptive-representation-donor-curation-2026-09-28.md](adaptive-representation-donor-curation-2026-09-28.md)
+
+## 2026-09-29 prospective-only donor intake
+
+Mandatory retrospective source extraction from previous PRs is abolished. PRs #24 #31 #52 #70 #71 #125 #180 #181 #245 #252 #392 #427 #434 #438 are explicit exact-head extraction exemptions and closed unmerged. Registry expansion, history-preserving removal and synchronization are serialized donor maintenance and cannot be blocked by application planning/development locks. The existing canonical registry and 175-capability baseline are preserved. `./bin/fa3-donor-capture --owner-submitted-link --source URL --name NAME` is the explicit operator intake path for an already-reviewed direct owner link; it sets reference-registration status, not application adoption.
