@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "07d8d7c1622ba4f1f327611b0b6b8bcffd8b08b0",
-    "pre_projection_root_tree_sha": "5bc91ee9367713d2d681146aaabd270fa0873694",
-    "pre_projection_canonical_tree_sha": "e35fc860fdf7fe709895b7cf93e36ddd5e62f2ec",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2229,
-    "total_post_baseline_commits": 2229,
-    "delta_file_count": 2600,
-    "delta_added_files": 2594,
+    "pre_projection_head_sha": "b84243c05cac4e0180ef5a444e569137a29ffb32",
+    "pre_projection_root_tree_sha": "ba6a583afac897efffe36c0467fd7282e801041a",
+    "pre_projection_canonical_tree_sha": "18ef5c36588422793f9e46290d6ea0134a4ae85c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2236,
+    "total_post_baseline_commits": 2236,
+    "delta_file_count": 2604,
+    "delta_added_files": 2598,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1212,
+    "canonical_files_in_post_baseline_delta": 1214,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 343,
-    "test_files_in_post_baseline_delta": 300,
+    "test_files_in_post_baseline_delta": 301,
     "workflow_files_in_post_baseline_delta": 126,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1017,7 +1017,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2590,
+  "manifest_entry_count": 2594,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4165,6 +4165,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-ORCHESTRATOR-DONOR-EXPANSION-REUSE-ASSESSMENT-2026-09-30.json",
+      "git_blob_sha": "438074af744b2dabaccf8e96d70069008b6cd2e6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-PROVIDER-CAPTION-NATIVE-DECISION-ASSESSMENT-2026-09-25.json",
       "git_blob_sha": "c9b23d782abb397a78fef268dc58526b0f39687d",
       "baseline_delta_status": "added"
@@ -6322,6 +6327,11 @@
     {
       "path": "canonical/intents/FA3-OPENMP-RUNTIME-GOVERNANCE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "56fab9a7161e6125a8c427e855c4e0c2c79f4c0d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-ORCHESTRATOR-DONOR-EXPANSION-APPLICATION-INTENT-2026-09-30.json",
+      "git_blob_sha": "43a3a1f9fc3b599017cc60e338b9841db3de94df",
       "baseline_delta_status": "added"
     },
     {
@@ -8870,8 +8880,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-ORCHESTRATOR-1216-DONOR-EXPANSION-2026-09-30.md",
+      "git_blob_sha": "92a3cba502ccc58b28e1b80f9a488db8b5afabdb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md",
-      "git_blob_sha": "3f3a79efb4f8017b8377ffcd9e219b9d9586ccdb",
+      "git_blob_sha": "a7e576a6ae7e395a90962c791d1553f104d9bd8f",
       "baseline_delta_status": "added"
     },
     {
@@ -13545,6 +13560,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_orchestrator_1216_donor_plan.py",
+      "git_blob_sha": "6875cb3733a25a3a518566ba36e14234b0e7a21f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_orchestrator_functional_donor_registry.py",
       "git_blob_sha": "60f11aeed87eb4f431af70c05afa2d53ef7c1f13",
       "baseline_delta_status": "added"
@@ -14167,7 +14187,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-09-29",
+  "last_reconciled_at": "2026-09-30",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
