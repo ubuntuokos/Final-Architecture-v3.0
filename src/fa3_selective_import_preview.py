@@ -142,6 +142,8 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("text/caption source cannot silently produce AV")
         if kind == "AUDIO" and family == "VIDEO":
             raise ValueError("audio source cannot silently produce video")
+        if kind == "VIDEO" and family == "AUDIO":
+            raise ValueError("video audio extraction uses the VIDEO-family selectors")
         if out["target_application"] not in TARGETS:
             raise ValueError("target FA3 application unknown")
         _range(out["source_range"])
