@@ -277,6 +277,49 @@ class CodexAdapterTests(unittest.TestCase):
             self.assertNotIn("SECRET_SENTINEL", safe)
             self.assertNotIn("SENSITIVE_STDERR_SENTINEL", safe)
 
+    def test_explicit_local_error_output_never_enters_receipt(self):
+        import io
+        import subprocess
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-private-diagnostic-") as td:
+            base = Path(td)
+            repo = base / "repo"
+            adapter._init_repo(repo)
+            request = base / "request.json"
+            result = base / "result.json"
+            sensitive = "PRIVATE_PROVIDER_DETAIL_NOT_FOR_UPLOAD"
+            events = "\n".join([
+                json.dumps({"type": "thread.started", "thread_id": "local-only"}),
+                json.dumps({"type": "item.completed", "item": {
+                    "type": "error", "message": sensitive,
+                }}),
+                json.dumps({"type": "item.completed", "item": {
+                    "type": "agent_message", "text": "could not write file",
+                }}),
+                json.dumps({"type": "turn.completed", "usage": {
+                    "input_tokens": 1, "output_tokens": 1,
+                }}),
+            ])
+            proc = subprocess.CompletedProcess(args=["fixture"], returncode=0, stdout=events, stderr="")
+            request.write_text(json.dumps({
+                "provider_id": adapter.PROVIDER_ID, "task_id": "PRIVATE-DETAIL",
+                "agent_id": "local-test", "workspace": str(repo),
+                "relative_path": "work/a.txt", "content": "changed\n",
+                "timeout_seconds": 60, "codex_binary": str(base / "codex"),
+                "required_skill_ids": [], "local_error_messages": True,
+            }), encoding="utf-8")
+            terminal = io.StringIO()
+            with patch.object(adapter, "_run_capture", return_value=proc):
+                with patch("sys.stderr", terminal):
+                    with self.assertRaisesRegex(adapter.CodexAdapterDenied, "PROVIDER_ITEM_ERROR"):
+                        adapter.codex_worker_main(request, result)
+            self.assertIn(sensitive, terminal.getvalue())
+            self.assertIn("could not write file", terminal.getvalue())
+            receipt = result.read_text(encoding="utf-8")
+            self.assertNotIn(sensitive, receipt)
+            self.assertNotIn("could not write file", receipt)
+            self.assertEqual(json.loads(receipt)["status"], "FAIL")
+
     def test_host_collector_preserves_only_safe_failure_fields(self):
         import importlib.util
         from fa3_developer_agent_coordination import AgentTask

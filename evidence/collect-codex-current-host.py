@@ -165,6 +165,10 @@ def main() -> int:
     ap.add_argument("--codex-binary", default=str(default_root / "bin/codex"))
     ap.add_argument("--archive", default=str(default_root / "source" / ARCHIVE_NAME))
     ap.add_argument("--timeout-seconds", type=int, default=600)
+    ap.add_argument(
+        "--local-error-messages", action="store_true",
+        help="Show bounded provider error and final-agent messages only on an interactive local terminal; never persist or upload them",
+    )
     args = ap.parse_args()
 
     root = Path(args.root).resolve()
@@ -184,6 +188,11 @@ def main() -> int:
         raise RuntimeError(f"pinned Codex archive is missing: {archive}")
     if not 60 <= args.timeout_seconds <= 1800:
         raise RuntimeError("timeout is outside canonical range")
+    if args.local_error_messages and (not sys.stderr.isatty() or os.environ.get("GITHUB_ACTIONS")):
+        raise RuntimeError(
+            "local error messages require a directly attached interactive terminal "
+            "outside GitHub Actions; do not redirect raw diagnostic output"
+        )
 
     started = now()
     supply = verify_installed_binary_against_archive(binary, archive)
@@ -211,7 +220,12 @@ def main() -> int:
         ]
         coord = Coordinator(repo, control, max_message_hops=4)
         try:
-            result = coord.run(tasks, CodexAdapter(binary, timeout_seconds=args.timeout_seconds))
+            result = coord.run(
+                tasks, CodexAdapter(
+                    binary, timeout_seconds=args.timeout_seconds,
+                    local_error_messages=args.local_error_messages,
+                ),
+            )
         except Exception:
             diagnostic = write_failed_probe_diagnostic(root, control, tasks)
             print(f"FA3 CODEX FAILURE DIAGNOSTIC (not acceptance): {diagnostic}", file=sys.stderr)

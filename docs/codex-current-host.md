@@ -70,6 +70,26 @@ evidence or a replacement for an authorized PASS receipt. Re-run the
 real probe and use the diagnostic categories to determine whether the
 provider attempted any tool calls before changing the execution profile.
 
+## Private local diagnostic for unclassified error items
+
+The pinned Codex 0.151.0 emits `item.type=error` for non-fatal warnings
+as well as other error messages. A generic `OTHER_PROVIDER_ERROR` category
+does not establish whether an error item caused the missing edit.
+
+For one real E2E repro on an interactive FA3 workstation, run:
+
+```bash
+bash bin/fa3-codex-current-host.sh --local-error-messages
+```
+
+This explicit opt-in displays up to three bounded original error messages
+and the last agent message **only in the local terminal on a failed worker**.
+They are not written to the evidence or failure diagnostic and the flag
+is denied in CI or when stderr is redirected. The operator must examine
+the text before sharing and redact any paths, usernames or secrets.
+This is a diagnostic, **not** proof or a substitute for the physical gate.
+Never enable it in GitHub-hosted workflows.
+
 ## Execution profile
 
 The adapter uses `codex exec` with:

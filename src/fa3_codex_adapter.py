@@ -346,6 +346,44 @@ def _git(repo: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
+def emit_local_provider_messages(jsonl: str, stream: Any, *, limit: int = 3) -> None:
+    """Private opt-in terminal-only diagnostic; no raw output is persisted.
+
+    Called only for failed real-host probes after the host collector verifies
+    direct terminal interaction. These messages may contain private details:
+    the operator must review them locally, not upload unredacted logs.
+    """
+    count = 0
+    last_agent_message = None
+    for line in jsonl.splitlines():
+        if count >= limit:
+            break
+        try:
+            event = json.loads(line)
+        except ValueError:
+            continue
+        if not isinstance(event, dict) or event.get("type") != "item.completed":
+            continue
+        item = event.get("item")
+        if not isinstance(item, dict):
+            continue
+        if item.get("type") == "agent_message" and isinstance(item.get("text"), str):
+            last_agent_message = item["text"][:700]
+        if item.get("type") == "error" and isinstance(item.get("message"), str):
+            print(
+                "PRIVATE LOCAL CODEX ERROR MESSAGE (review before sharing): "
+                + json.dumps(item["message"][:700], ensure_ascii=False),
+                file=stream,
+            )
+            count += 1
+    if last_agent_message:
+        print(
+            "PRIVATE LOCAL CODEX FINAL MESSAGE (review before sharing): "
+            + json.dumps(last_agent_message, ensure_ascii=False),
+            file=stream,
+        )
+
+
 def codex_worker_main(request_path: Path, result_path: Path) -> int:
     request = json.loads(request_path.read_text(encoding="utf-8"))
     if request.get("provider_id") != PROVIDER_ID:
@@ -460,6 +498,8 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
         result_path.chmod(0o600)
         if last_message.exists():
             last_message.unlink()
+        if request.get("local_error_messages") is True:
+            emit_local_provider_messages(proc.stdout, sys.stderr)
         raise CodexAdapterDenied(
             f"Codex did not satisfy delegated mutation: {failure_code}; "
             f"changed_path_count={len(changed)}"
@@ -510,10 +550,12 @@ class CodexAdapter(ProviderAdapter):
     supports_verified_skill_context = True
 
     def __init__(self, codex_binary: Path, *, timeout_seconds: int = 600,
-                 allow_ci_reference_skill_context: bool = False):
+                 allow_ci_reference_skill_context: bool = False,
+                 local_error_messages: bool = False):
         self.codex_binary = codex_binary.resolve()
         self.timeout_seconds = timeout_seconds
         self.allow_ci_reference_skill_context = allow_ci_reference_skill_context
+        self.local_error_messages = local_error_messages
 
     def spawn(
         self,
@@ -545,6 +587,7 @@ class CodexAdapter(ProviderAdapter):
             "required_skill_ids": list(task.required_skill_ids),
             "skill_context_path": str(skill_context_path) if skill_context_path else None,
             "allow_ci_reference_skill_context": self.allow_ci_reference_skill_context,
+            "local_error_messages": self.local_error_messages,
         }
         request_path.parent.mkdir(parents=True, exist_ok=True)
         request_path.write_text(json.dumps(request, indent=2) + "\n", encoding="utf-8")
