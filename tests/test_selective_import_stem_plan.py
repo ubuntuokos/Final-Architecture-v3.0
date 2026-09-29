@@ -133,6 +133,10 @@ class StemPlanPreviewTests(unittest.TestCase):
             with self.subTest(malformed=malformed), self.assertRaises(ValueError):
                 stem_plan_preview(q, inv, untrusted_model_candidates=malformed)
         with self.assertRaises(ValueError):
+            stem_plan_preview(q, inv, untrusted_model_candidates={})
+        with self.assertRaises(ValueError):
+            stem_plan_preview(q, inv, estimate_opt_in_leaf_indices={})
+        with self.assertRaises(ValueError):
             stem_plan_preview(q, inv, estimate_opt_in_leaf_indices=[0, 0])
         x = request(outputs=[output(selector="FULL_AUDIO_ONLY", target="Audio Fabric")])
         with self.assertRaises(ValueError):
