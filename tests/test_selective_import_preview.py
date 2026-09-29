@@ -181,6 +181,32 @@ class SelectiveImportS1PurePreviewTests(unittest.TestCase):
             leaves.append(leaf)
         self.assertEqual(preflight_preview(request(outputs=leaves))["request_count"], 18)
 
+    def test_untrusted_list_or_dict_field_values_fail_closed_with_value_error(self):
+        mutations = [
+            ("source_mode", ["FILE"]),
+            ("source_kind", {"bad": "VIDEO"}),
+            ("original_policy", ["PRESERVE_IMMUTABLE_SNAPSHOT"]),
+        ]
+        for field, malformed in mutations:
+            with self.subTest(field=field):
+                x = request()
+                x[field] = malformed
+                with self.assertRaises(ValueError):
+                    preflight_preview(x)
+        for field, malformed in (
+            ("family", ["VIDEO"]),
+            ("selector_id", {"bad": "TRANSCRIPT_ONLY"}),
+            ("target_application", ["Subtitle Studio"]),
+            ("translation_mode", ["ORIGINAL_LANGUAGE"]),
+            ("requested_stem_class", ["NONE"]),
+            ("delivery_class", ["DERIVED_ONLY"]),
+        ):
+            with self.subTest(field=field):
+                x = request()
+                x["requested_outputs"][0][field] = malformed
+                with self.assertRaises(ValueError):
+                    preflight_preview(x)
+
     def test_editable_project_request_never_implies_roundtrip_pass(self):
         leaf = output(selector="FULL_VIDEO", target="Video Editor")
         leaf["delivery_class"] = "COPY_EDITABLE_IF_ADMITTED"
