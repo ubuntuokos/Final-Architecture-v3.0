@@ -41,7 +41,7 @@ class LiveSourcePreflightTests(unittest.TestCase):
     def test_17_source_rows_share_only_one_selector_id(self):
         src = (ROOT / "docs/production-import-selective-content-plan-2026-09-29.md").read_text()
         rows = re.findall(
-            r"^\\|\\s*(TEXT|AUDIO|VIDEO)\\s*\\|\\s*`([A-Z_]+)`\\s*\\|",
+            r"^\|\s*(TEXT|AUDIO|VIDEO)\s*\|\s*`([A-Z_]+)`\s*\|",
             src, re.MULTILINE,
         )
         self.assertEqual(len(rows), 17)
