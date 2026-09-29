@@ -29,6 +29,9 @@ class Cap080VerifiedSkillSupplyChainCurrentHostTests(unittest.TestCase):
             self.assertTrue(result["positive_package_admitted"])
             self.assertTrue(result["positive_use_receipt_admitted"])
             self.assertFalse(result["reference_provider_runtime_claim"])
+            self.assertTrue(result["actual_file_bytes_verified"])
+            self.assertTrue(result["rehash_at_use_verified"])
+            self.assertFalse(result["production_agent_consumer_verified"])
 
     def test_negative_drill_rejects_supply_chain_boundary_bypasses(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as td:
@@ -43,6 +46,7 @@ class Cap080VerifiedSkillSupplyChainCurrentHostTests(unittest.TestCase):
             self.assertTrue(result["noncommercial_redistribution_rejected"])
             self.assertTrue(result["runtime_remote_fetch_rejected"])
             self.assertTrue(result["candidate_expansion_rejected"])
+            self.assertTrue(result["physical_file_tamper_rejected"])
 
     def test_rollback_restores_exact_admissible_descriptor(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as td:
@@ -53,6 +57,9 @@ class Cap080VerifiedSkillSupplyChainCurrentHostTests(unittest.TestCase):
             self.assertTrue(result["restored_package_admitted"])
             self.assertEqual(result["pre_sha256"], result["post_sha256"])
             self.assertNotEqual(result["pre_sha256"], result["mutated_sha256"])
+            self.assertTrue(result["physical_snapshot_fault_rejected"])
+            self.assertTrue(result["physical_snapshot_restored"])
+            self.assertEqual(result["physical_snapshot_before_sha256"], result["physical_snapshot_after_sha256"])
 
 
 if __name__ == "__main__":
