@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 592,
+    "entry_count": 606,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -204,6 +204,168 @@
         "Houdini Python/VEX/OpenCL tooling patterns; optional accelerator paths only.",
         "Do not infer tested interoperability, source reuse rights, or runtime availability."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-A11YANCE-ARIA-QUERY-001",
+      "name": "A11yance aria-query",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/A11yance/aria-query",
+        "normalized_key": "github:a11yance/aria-query"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "aria-semantics-lookup",
+        "accessibility-validation"
+      ],
+      "domain_hints": [
+        "accessibility",
+        "gui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "GUI Fabric",
+        "Control Center",
+        "Creative Studio"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "ARIA programmatic reference for accessibility checks; Qt-native accessibility remains FA3-owned."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-A11YANCE-AXOBJECT-QUERY-001",
+      "name": "A11yance axobject-query",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/A11yance/axobject-query",
+        "normalized_key": "github:a11yance/axobject-query"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "axobject-model-lookup",
+        "accessible-role-validation"
+      ],
+      "domain_hints": [
+        "accessibility",
+        "gui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "GUI Fabric",
+        "Control Center",
+        "Creative Studio"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "AXObject mapping reference; browser/React-specific behaviors are not copied into Qt surface as requirements."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-A11YANCE-ORG-001",
+      "name": "A11yance accessibility organization index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/A11yance",
+        "normalized_key": "github:a11yance"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "accessibility-implementation-discovery",
+        "aom-accessibility-discovery"
+      ],
+      "domain_hints": [
+        "accessibility",
+        "gui"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "GUI Fabric",
+        "Control Center",
+        "Creative Studio"
+      ],
+      "tags": [
+        "github-organization",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Here AOM means Accessibility Object Model, unrelated to Alliance for Open Media video codec; dynamic organization index."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-ABLETON-LIVE-001",
@@ -4175,6 +4337,173 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-AOMEDIACODEC-AVM-001",
+      "name": "Alliance for Open Media AVM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AOMediaCodec/avm",
+        "normalized_key": "github:aomediacodec/avm"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "av2-reference-software",
+        "emerging-codec-analysis"
+      ],
+      "domain_hints": [
+        "video",
+        "codec"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause-Clear",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Reference AV2 video model; experimental/new codec support requires independent compatibility, patent and licensing review."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AOMEDIACODEC-LIBAVIF-001",
+      "name": "Alliance for Open Media libavif",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AOMediaCodec/libavif",
+        "normalized_key": "github:aomediacodec/libavif"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "avif-encode-decode",
+        "codec-backend-abstraction"
+      ],
+      "domain_hints": [
+        "image",
+        "codec"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Photo / Image Studio",
+        "Production Import & Migration Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GitHub license API returned NOASSERTION; source, dependency and redistribution licensing must be checked before copy or packaging."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AOMEDIACODEC-ORG-001",
+      "name": "Alliance for Open Media organization index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/AOMediaCodec",
+        "normalized_key": "github:aomediacodec"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "aom-upstream-discovery",
+        "av1-av2-avif-iamf-standards"
+      ],
+      "domain_hints": [
+        "video",
+        "image",
+        "audio",
+        "codec"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Video Editor",
+        "Photo / Image Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "github-organization",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "The supplied https://github.com/orgs/AOMediaCodec/repositories is an alias/listing view of this same organization; record only once."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_aliases": [
+        "https://github.com/orgs/AOMediaCodec/repositories"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-APITRACE-APITRACE-001",
@@ -10297,6 +10626,112 @@
         "observed_at": "2026-09-29",
         "observed_url": "https://github.com/topics/ai-orchestration?l=shell"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-AOM-RUST-TOPIC-001",
+      "name": "GitHub aom Rust-filtered topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/aom?l=rust",
+        "normalized_key": "github:topics/aom?l=rust"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "aom-rust-upstream-discovery"
+      ],
+      "domain_hints": [
+        "codec",
+        "upstream-discovery"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "github-topic",
+        "language-filter",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic topic/language-filtered index, not a library or an admission list."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-AOM-SHELL-TOPIC-001",
+      "name": "GitHub aom Shell-filtered topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/aom?l=shell",
+        "normalized_key": "github:topics/aom?l=shell"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "aom-shell-upstream-discovery"
+      ],
+      "domain_hints": [
+        "codec",
+        "upstream-discovery"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "github-topic",
+        "language-filter",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic topic/language-filtered index. AOM tag can include unrelated projects; review each repository before proposing reuse."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "status": "CANDIDATE",
@@ -20035,6 +20470,60 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MOZILLA-AOM-001",
+      "name": "Mozilla AOM codec branch",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mozilla/aom",
+        "normalized_key": "github:mozilla/aom"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "av1-codec-reference",
+        "media-codec-compatibility"
+      ],
+      "domain_hints": [
+        "video",
+        "codec"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Legacy Mozilla branch: last upstream push observed 2019-04-01. Historical codec reference only; no automatic choice as maintained implementation."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-MUSE-001",
       "name": "MusE",
       "source": {
@@ -20319,6 +20808,171 @@
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NNSTREAMER-CORE-001",
+      "name": "NNStreamer core",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nnstreamer/nnstreamer",
+        "normalized_key": "github:nnstreamer/nnstreamer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "streaming-neural-inference",
+        "gstreamer-tensor-pipelines",
+        "tensor-mux-demux"
+      ],
+      "domain_hints": [
+        "multimodal",
+        "streaming",
+        "ai-runtime"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Capture & Inbox Fabric",
+        "Video Editor",
+        "Audio Fabric",
+        "Model Router"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "LGPL-2.1",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GStreamer tensor pipeline patterns only; model choice, placement and admission remain with central FA3 authorities."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NNSTREAMER-EDGE-001",
+      "name": "NNStreamer Edge",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nnstreamer/nnstreamer-edge",
+        "normalized_key": "github:nnstreamer/nnstreamer-edge"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "distributed-stream-source-patterns",
+        "remote-tensor-stream-ingest"
+      ],
+      "domain_hints": [
+        "streaming",
+        "network",
+        "multimodal"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Capture & Inbox Fabric",
+        "Application Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Remote streaming-node reference only. Network topology, addressing, security and scheduling remain FA3 canonical responsibilities."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NNSTREAMER-ORG-001",
+      "name": "NNStreamer organization index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/nnstreamer",
+        "normalized_key": "github:nnstreamer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "nnstreamer-upstream-discovery"
+      ],
+      "domain_hints": [
+        "multimodal",
+        "streaming"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Capture & Inbox Fabric",
+        "Audio Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "github-organization",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic organization index. Individual repositories require independent evaluation."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -23796,6 +24450,115 @@
       "notes": [
         "Optional design/source reference. CPU-only and vendor-neutral FA3 architecture remains mandatory; no runtime, device or model admission is implied."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ONNX-CORE-001",
+      "name": "ONNX open model format",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/onnx/onnx",
+        "normalized_key": "github:onnx/onnx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "STANDARD_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "onnx-model-graph-interchange",
+        "opset-versioning",
+        "model-validation"
+      ],
+      "domain_hints": [
+        "model-interoperability",
+        "inference"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Application Fabric"
+      ],
+      "tags": [
+        "upstream-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Interchange and validation reference; does not bypass canonical FA3 model admission or routing."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ONNX-ORG-001",
+      "name": "ONNX organization index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/onnx",
+        "normalized_key": "github:onnx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation:2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "onnx-ecosystem-discovery",
+        "model-interchange"
+      ],
+      "domain_hints": [
+        "model-interoperability",
+        "inference"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Application Fabric"
+      ],
+      "tags": [
+        "github-organization",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_SUPPLY_CHAIN_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic organization index, not a runtime provider or model registry."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-OPEA-PROJECT-GENAICOMPS-001",
