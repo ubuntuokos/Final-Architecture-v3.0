@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 307,
+    "entry_count": 308,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Registered Flova public workflow documentation as one additional reference-only, unadmitted donor candidate."
   },
   "entries": [
@@ -18023,6 +18023,76 @@
       "notes": [
         "Use only patterns from public documentation. Do not adopt Flova runtime, API, account, credentials, source code or bundled skills."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-AI-ORCHESTRATOR-001",
+      "name": "GitHub topic: ai-orchestrator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/ai-orchestrator",
+        "normalized_key": "github:topics/ai-orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-ai-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "multi-agent-orchestration-discovery",
+        "task-graph-coordination",
+        "agent-workload-scheduling",
+        "bounded-agent-execution"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "agent-workforce",
+        "workflow",
+        "discovery"
+      ],
+      "problem_hints": [
+        "reuse-existing-FA3-authorities",
+        "supervised-task-execution",
+        "cross-host-task-handoff",
+        "audit-and-recovery"
+      ],
+      "target_hints": [
+        "Agent Workforce",
+        "Agent Collaboration Room",
+        "Director",
+        "Task Manager",
+        "Skill Fabric",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "ai-orchestrator",
+        "multi-agent",
+        "discovery-only",
+        "topic-index",
+        "2026-09-29-donor-review"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GitHub topic discovery index, 57 listed public repositories observed 2026-09-29; count is mutable. This is not one licensed software project. Evaluate and capture individual repositories separately without auto-enrolling the whole topic.",
+        "No new scheduler, agent authority, credential store, resource broker, router, or runtime admission. Reuse canonical FA3 Agent Workforce/Director, Central MCP/UAF, Temporal, HRB, Model Router, PKI, Security Governance and Evidence authorities. Require per-repository license/provenance/security, Software Coexistence & Host Non-Interference, Hardware Audit, and current-host evidence before implementation."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     }
   ],
   "historical_partial_reuse_review": {
