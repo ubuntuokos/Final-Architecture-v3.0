@@ -118,6 +118,8 @@ def write_failed_probe_diagnostic(
             "item_types": summary.get("item_types", []),
             "command_count": summary.get("command_count"),
             "file_change_count": summary.get("file_change_count"),
+            "provider_item_error_observed": summary.get("provider_item_error_observed"),
+            "provider_error_categories": summary.get("provider_error_categories", []),
             "usage": summary.get("usage"),
             "stdout_sha256": raw.get("stdout_sha256"),
             "stderr_sha256": raw.get("stderr_sha256"),

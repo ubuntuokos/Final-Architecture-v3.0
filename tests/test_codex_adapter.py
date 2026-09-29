@@ -210,6 +210,73 @@ class CodexAdapterTests(unittest.TestCase):
             self.assertFalse(receipt["current_host_acceptance"])
             self.assertNotIn("SENSITIVE_TEST_SENTINEL", receipt_text)
 
+    def test_item_error_after_completed_turn_never_counts_as_valid_success(self):
+        # Real Codex may return exit 0 and turn.completed despite an error item.
+        sensitive = "Rate limit reached: secret=DO_NOT_PERSIST"
+        stream = "\n".join([
+            json.dumps({"type": "thread.started", "thread_id": "item-error"}),
+            json.dumps({"type": "turn.started"}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "error", "message": sensitive,
+            }}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "agent_message", "text": "no file write happened",
+            }}),
+            json.dumps({"type": "turn.completed", "usage": {
+                "input_tokens": 100, "output_tokens": 50,
+            }}),
+        ])
+        # Validate parser independently of the worker and never persist raw text.
+        summary = adapter.parse_codex_jsonl(stream)
+        self.assertTrue(summary["provider_item_error_observed"])
+        self.assertEqual(summary["provider_error_categories"], ["RATE_LIMIT"])
+        self.assertEqual(summary["file_change_count"], 0)
+        self.assertNotIn("DO_NOT_PERSIST", json.dumps(summary))
+
+    def test_real_item_error_generates_fail_closed_bounded_worker_receipt(self):
+        import subprocess
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-error-item-") as td:
+            base = Path(td)
+            repo = base / "repo"
+            adapter._init_repo(repo)
+            request = base / "request.json"
+            result = base / "result.json"
+            request.write_text(json.dumps({
+                "provider_id": adapter.PROVIDER_ID, "task_id": "ERROR-ITEM",
+                "agent_id": "error-item", "workspace": str(repo),
+                "relative_path": "work/a.txt", "content": "expected mutation\n",
+                "timeout_seconds": 60, "codex_binary": str(base / "codex"),
+                "required_skill_ids": [],
+            }), encoding="utf-8")
+            stream = "\n".join([
+                json.dumps({"type": "thread.started", "thread_id": "error-item"}),
+                json.dumps({"type": "turn.started"}),
+                json.dumps({"type": "item.completed", "item": {
+                    "type": "error", "message": "connection timed out SECRET_SENTINEL",
+                }}),
+                json.dumps({"type": "turn.completed", "usage": {
+                    "input_tokens": 2, "output_tokens": 3,
+                }}),
+            ])
+            mock = subprocess.CompletedProcess(
+                args=["fixture"], returncode=0, stdout=stream,
+                stderr="SENSITIVE_STDERR_SENTINEL",
+            )
+            with patch.object(adapter, "_run_capture", return_value=mock):
+                with self.assertRaisesRegex(adapter.CodexAdapterDenied, "PROVIDER_ITEM_ERROR"):
+                    adapter.codex_worker_main(request, result)
+            safe = result.read_text(encoding="utf-8")
+            receipt = json.loads(safe)
+            self.assertEqual(receipt["status"], "FAIL")
+            self.assertFalse(receipt["current_host_acceptance"])
+            self.assertEqual(receipt["failure_code"], "PROVIDER_ITEM_ERROR")
+            self.assertTrue(receipt["event_summary"]["provider_item_error_observed"])
+            self.assertEqual(receipt["event_summary"]["provider_error_categories"], ["TRANSPORT"])
+            self.assertFalse(receipt["required_mutation_observed"])
+            self.assertNotIn("SECRET_SENTINEL", safe)
+            self.assertNotIn("SENSITIVE_STDERR_SENTINEL", safe)
+
     def test_host_collector_preserves_only_safe_failure_fields(self):
         import importlib.util
         from fa3_developer_agent_coordination import AgentTask
@@ -244,6 +311,7 @@ class CodexAdapterTests(unittest.TestCase):
             self.assertFalse(data["global_promotion_claim"])
             self.assertEqual(data["workers"][0]["failure_code"], "NO_DELEGATED_FILE_CHANGE")
             self.assertEqual(data["workers"][0]["command_count"], 0)
+            self.assertEqual(data["workers"][0]["provider_error_categories"], [])
             self.assertNotIn("SENSITIVE_TEST_SENTINEL", text)
 
     def test_reference_gate_passes(self):

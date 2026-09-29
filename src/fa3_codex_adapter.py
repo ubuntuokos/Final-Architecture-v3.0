@@ -199,6 +199,31 @@ def validate_codex_command(command: list[str], workspace: Path) -> None:
         raise CodexAdapterDenied("Codex prompt must be delivered over stdin")
 
 
+_PROVIDER_ERROR_CLASSES = (
+    ("RATE_LIMIT", re.compile(r"rate[- ]?limit|too many requests|\\b429\\b", re.I)),
+    ("QUOTA_OR_BILLING", re.compile(r"quota|billing|insufficient credits", re.I)),
+    ("AUTHENTICATION", re.compile(r"unauthorized|authentication|login required|\\b401\\b", re.I)),
+    ("PERMISSION_OR_SANDBOX", re.compile(r"sandbox|permission denied|read[- ]only|not permitted|tool.{0,30}unavailable", re.I)),
+    ("MODEL_UNAVAILABLE", re.compile(r"model.{0,40}(unavailable|unsupported|not found)|unknown model", re.I)),
+    ("TRANSPORT", re.compile(r"timed? out|timeout|connection|network|stream disconnect|service unavailable|\\b503\\b", re.I)),
+)
+
+
+def _classify_provider_error(item: dict[str, Any]) -> str:
+    """Coarse diagnostic only: never persist provider messages or prompt text."""
+    raw = item.get("message")
+    if not isinstance(raw, str):
+        raw = item.get("error")
+        if isinstance(raw, dict):
+            raw = raw.get("message")
+    if not isinstance(raw, str):
+        return "OTHER_PROVIDER_ERROR"
+    for code, expression in _PROVIDER_ERROR_CLASSES:
+        if expression.search(raw[:4096]):
+            return code
+    return "OTHER_PROVIDER_ERROR"
+
+
 def parse_codex_jsonl(text: str) -> dict[str, Any]:
     event_types: list[str] = []
     item_types: list[str] = []
@@ -212,6 +237,7 @@ def parse_codex_jsonl(text: str) -> dict[str, Any]:
     }
     command_count = 0
     file_change_count = 0
+    provider_error_categories: set[str] = set()
     for lineno, line in enumerate(text.splitlines(), start=1):
         if not line.strip():
             continue
@@ -235,8 +261,12 @@ def parse_codex_jsonl(text: str) -> dict[str, Any]:
                     usage[key] += value
         if event_type in {"item.started", "item.updated", "item.completed"}:
             item = event.get("item") or {}
+            if not isinstance(item, dict):
+                raise CodexAdapterDenied("Codex emitted invalid item envelope")
             item_type = item.get("type")
             if isinstance(item_type, str):
+                if item_type == "error":
+                    provider_error_categories.add(_classify_provider_error(item))
                 item_types.append(item_type)
                 if item_type in FORBIDDEN_ITEM_TYPES:
                     raise CodexAdapterDenied(f"forbidden Codex tool surface observed: {item_type}")
@@ -255,6 +285,8 @@ def parse_codex_jsonl(text: str) -> dict[str, Any]:
         "item_types": sorted(set(item_types)),
         "command_count": command_count,
         "file_change_count": file_change_count,
+        "provider_item_error_observed": bool(provider_error_categories),
+        "provider_error_categories": sorted(provider_error_categories),
         "usage": usage,
         "forbidden_surface_observed": False,
     }
@@ -397,12 +429,14 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
         raise CodexAdapterDenied("Codex worker committed instead of returning an uncommitted diff")
     changed = [x for x in _git(workspace, "diff", "--name-only", "HEAD", "--").splitlines() if x]
     target_matches = target.read_text(encoding="utf-8") == exact_content
-    if changed != [relative_path] or not target_matches:
+    if (summary["provider_item_error_observed"]
+            or changed != [relative_path] or not target_matches):
         # A successful Codex turn is not evidence of an executed mutation. Retain
         # only bounded machine-readable diagnostics; stdout, stderr, prompt, skill
         # text and final assistant messages are deliberately never copied.
         failure_code = (
-            "NO_DELEGATED_FILE_CHANGE" if not changed
+            "PROVIDER_ITEM_ERROR" if summary["provider_item_error_observed"]
+            else "NO_DELEGATED_FILE_CHANGE" if not changed
             else "MUTATION_SCOPE_MISMATCH" if changed != [relative_path]
             else "TARGET_CONTENT_MISMATCH"
         )
@@ -413,6 +447,7 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
             "status": "FAIL", "failure_code": failure_code,
             "codex_returncode": proc.returncode,
             "changed_paths": changed, "target_matches_requested": target_matches,
+            "required_mutation_observed": changed == [relative_path] and target_matches,
             "target_sha256": sha256_file(target),
             "stdout_sha256": sha256_bytes(stdout_bytes),
             "stderr_sha256": sha256_bytes(stderr_bytes),

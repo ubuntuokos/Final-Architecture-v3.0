@@ -51,6 +51,11 @@ The static CI adapter fixture never creates or substitutes this receipt.
 A successful Codex JSONL `turn.completed` alone does not constitute a
 successful delegated edit. If a real worker returns without the required
 file change, the adapter fails closed with `NO_DELEGATED_FILE_CHANGE`.
+If the Codex JSONL includes an `item.type=error` even alongside an exit-0
+`turn.completed`, the result is instead `PROVIDER_ITEM_ERROR` and remains
+FAIL regardless of apparent mutation. The report records only coarse error
+categories (rate limit, authentication, transport, sandbox, model, quota or
+other), not the provider's raw error messages.
 A strictly bounded, local, mode-0600 diagnostic survives the temporary
 worktree cleanup at:
 
