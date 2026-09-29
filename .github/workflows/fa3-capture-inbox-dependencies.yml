@@ -1,0 +1,36 @@
+name: FA3 Capture Inbox Dependency Boundary
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
+      - 'canonical/FA3-CAPABILITY-MODEL-175-001.json'
+      - 'canonical/profiles/FA3-OS-POLICY-001.json'
+      - 'canonical/contracts/FA3-JOURNAL-CONTRACTS-001.json'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/intents/FA3-CAPTURE-INBOX-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-CAPTURE-INBOX-REUSE-ASSESSMENT-001.json'
+      - 'canonical/contracts/FA3-CAPTURE-INBOX-DEPENDENCY-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-CAPTURE-INBOX-DEPENDENCIES-2026-09-29.json'
+      - 'src/fa3_capture_inbox_dependency_gate.py'
+      - 'tests/test_capture_inbox_dependency_gate.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-dependency-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python syntax
+        run: python -m py_compile src/fa3_capture_inbox_dependency_gate.py tests/test_capture_inbox_dependency_gate.py
+      - name: Existing-authority boundary and pending evidence gate
+        run: PYTHONPATH=src python src/fa3_capture_inbox_dependency_gate.py --root .
+      - name: Fail-closed positive and negative regressions
+        run: PYTHONPATH=src python -m unittest tests.test_capture_inbox_dependency_gate -v
