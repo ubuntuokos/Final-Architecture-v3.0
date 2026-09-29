@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 965,
+    "entry_count": 992,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -167,6 +167,81 @@
         "Existing RainLib storyboard candidate and canonical FA3 creative graph take precedence. Preserve native story branches, production-specific screenplay profiles, independent AI notes, human approvals, native project files, MLT/FFmpeg editable Video Editor and QuickClip interchange.",
         "Hardware Audit: metadata-only registration, CPU-only feasible, vendor neutral, 0..N accelerators, no provider/runtime admission or current-host E2E. Full review: docs/storygen-atelier-donor-review-2026-09-28.md."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-3DCOAT-001",
+      "name": "3DCoat",
+      "source": {
+        "kind": "WEBSITE",
+        "locator": "https://3dcoat.com/",
+        "normalized_key": "https://3dcoat.com/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Voxel sculpting",
+        "Retopology",
+        "UV mapping",
+        "PBR texturing",
+        "Procedural node texturing",
+        "3D lattice generation",
+        "3DCoat Python and C++ extension API"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Optional external sculpt/retopo/texture workflows without making a commercial application a global FA3 dependency"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph",
+        "World Generator",
+        "Character Studio"
+      ],
+      "tags": [
+        "3dcoat",
+        "voxel-sculpting",
+        "retopology",
+        "uv-unwrapping",
+        "pbr",
+        "procedural-texturing",
+        "parametric-hybrid-modeling",
+        "3d-lattice",
+        "external-dcc",
+        "linux"
+      ],
+      "license": {
+        "declared": "PROPRIETARY",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION",
+      "notes": [
+        "Proprietary commercial application: integration/workflow reference only. Preserve native .3b projects and FA3 native projects. 2026 Linux support is stated for Ubuntu 20.04+; Ubuntu 26.04 Wayland and X11 require local evidence. GPU node features optional; no global accelerator or AI-model authority."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-3DDFA-V2-001",
@@ -4839,6 +4914,71 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ANDREWSHPAGIN-IO-COAT3D-001",
+      "name": "AndrewShpagin/io-coat3d",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AndrewShpagin/io-coat3d",
+        "normalized_key": "github:andrewshpagin/io-coat3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Blender and 3DCoat applink",
+        "Exchange folder protocol",
+        "Mesh and PBR texture round-trip"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Auditable Bforartists/Blender-to-3DCoat transfer with versioned file exchange, material fidelity and round-trip checks"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "3dcoat",
+        "blender-applink",
+        "fbx",
+        "exchange-folder",
+        "texture-roundtrip",
+        "python",
+        "gpl"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "3DCoat-shipped Blender 4.2/4.3 Applink per upstream README; GPL v2-or-later header in upstream __init__.py. Review GPL compatibility and third-party provenance before copying code. Observed upstream HEAD 15b51ab8d1bfe9937fb6ecf967581c9a239b12b3."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-ANIL-AI-YOUTUBE-SHORTS-001",
       "name": "AI YouTube Shorts Generator",
       "source": {
@@ -5000,6 +5140,79 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ANOMALIB-001",
+      "name": "Anomalib",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-edge-platform/anomalib",
+        "normalized_key": "github:open-edge-platform/anomalib"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "visual-anomaly-detection",
+        "anomaly-localization-and-benchmarking"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "visual-anomaly-detection",
+        "anomaly-localization-and-benchmarking"
+      ],
+      "target_hints": [
+        "Live/Broadcast",
+        "Natural Phenomena",
+        "Review"
+      ],
+      "tags": [
+        "anomalib",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "visual-anomaly-detection",
+          "anomaly-localization-and-benchmarking"
+        ],
+        "intended_fa3_targets": [
+          "Live/Broadcast",
+          "Natural Phenomena",
+          "Review"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Requires task-specific datasets, calibration, false-alert testing and human review. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-ANTHROPIC-CYBERSECURITY-SKILLS-001",
@@ -5408,6 +5621,75 @@
       "notes": [
         "MIT WebAudio/TypeScript reference for drum sequencing, piano roll, loop editing and local-first workflows; do not replace Qt-native GUI or established Ardour/LMMS native project preservation. Evaluate dependencies separately."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ARCHIVED-PYROVISION-001",
+      "name": "Archived PyroVision",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pyronear/pyro-vision",
+        "normalized_key": "github:pyronear/pyro-vision"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "legacy-wildfire-vision-training-reference",
+        "onnx-edge-inference-research"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "legacy-wildfire-vision-training-reference",
+        "onnx-edge-inference-research"
+      ],
+      "target_hints": [
+        "Natural Phenomena"
+      ],
+      "tags": [
+        "pyro-vision",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_UNTIL_LICENSE_AND_IMPLEMENTATION_ADMISSION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "legacy-wildfire-vision-training-reference",
+          "onnx-edge-inference-research"
+        ],
+        "intended_fa3_targets": [
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "ARCHIVED upstream (2024), historical reference only. Reuse no production code as maintained runtime; favor active PyroEngine. Explicit license and security admission required for any specific copied sample. No source fetch or runtime admission is implied."
+      }
     },
     {
       "donor_id": "FA3-DONOR-ARCHVIZ-TOPIC-001",
@@ -7656,6 +7938,71 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-BLENDER-3DCOAT-APPLINK-001",
+      "name": "Blender 3DCoat Applink",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blender/blender-addons/tree/main/io_coat3D",
+        "normalized_key": "github:blender/blender-addons/tree/main/io_coat3d"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Blender 3DCoat file interchange",
+        "Mesh and texture import/export",
+        "Legacy Applink protocol comparison"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Independent compatibility baseline for 3DCoat data exchange and regression tests"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "blender",
+        "3dcoat",
+        "applink",
+        "exchange-folder",
+        "python",
+        "gpl",
+        "interoperability"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "Scoped to io_coat3D subtree of Blender's blender-addons repository, not the whole Blender source tree. File SPDX says GPL-2.0-or-later. Compare protocol and behavior to AndrewShpagin/io-coat3d; avoid double-bundling. Observed upstream repo HEAD b42d68627734cb18af0e6f41537063984313a284."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "github-blender-donor-2026-09-28"
@@ -9663,6 +10010,77 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-COTRACKER3-001",
+      "name": "CoTracker3",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/co-tracker",
+        "normalized_key": "github:facebookresearch/co-tracker"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "dense-and-sparse-point-tracking",
+        "optical-flow-like-interchange"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "dense-and-sparse-point-tracking",
+        "optical-flow-like-interchange"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Character Studio"
+      ],
+      "tags": [
+        "co-tracker",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "CC-BY-NC majority; component-specific exceptions",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_NONCOMMERCIAL_LICENSE",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "dense-and-sparse-point-tracking",
+          "optical-flow-like-interchange"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 Character Studio"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. RESEARCH_ONLY_NONCOMMERCIAL: majority CC-BY-NC; prohibit code/model adoption for distributable/commercial FA3 pending component review. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-CPJKU-BEAT-THIS-001",
       "name": "CPJKU/beat_this",
       "source": {
@@ -10032,6 +10450,82 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-CVAT-COMMUNITY-001",
+      "name": "CVAT Community",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cvat-ai/cvat",
+        "normalized_key": "github:cvat-ai/cvat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "image-video-3d-annotation",
+        "ai-assisted-label-review",
+        "quality-assurance-workflows"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "image-video-3d-annotation",
+        "ai-assisted-label-review",
+        "quality-assurance-workflows"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Character Studio",
+        "Natural Phenomena"
+      ],
+      "tags": [
+        "cvat",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "MIT core",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "image-video-3d-annotation",
+          "ai-assisted-label-review",
+          "quality-assurance-workflows"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 Character Studio",
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Reference user workflows or optional standalone data-curation provider; separately licensed serverless assets/dependencies require independent review. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "discovered_from": [
         "prior-fa3-research-backfill"
       ],
@@ -10384,6 +10878,82 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-DATUMARO-001",
+      "name": "Datumaro",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-edge-platform/datumaro",
+        "normalized_key": "github:open-edge-platform/datumaro"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "dataset-conversion",
+        "annotation-merging",
+        "dataset-integrity-checks"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "dataset-conversion",
+        "annotation-merging",
+        "dataset-integrity-checks"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "FA3 Character Studio",
+        "Natural Phenomena"
+      ],
+      "tags": [
+        "datumaro",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "dataset-conversion",
+          "annotation-merging",
+          "dataset-integrity-checks"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "FA3 Character Studio",
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Dataset conversion and quality tools only; do not auto-import unlicensed datasets. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-DAWN-CUT-001",
       "name": "dawn-cut",
       "source": {
@@ -10614,6 +11184,77 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-DEPTH-ANYTHING-V2-001",
+      "name": "Depth Anything V2",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/DepthAnything/Depth-Anything-V2",
+        "normalized_key": "github:depthanything/depth-anything-v2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "single-image-depth-estimation",
+        "depth-assisted-reframe-and-compositing"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "single-image-depth-estimation",
+        "depth-assisted-reframe-and-compositing"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Character Studio"
+      ],
+      "tags": [
+        "depth-anything-v2",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Small Apache-2.0; Base/Large/Giant CC-BY-NC-4.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "single-image-depth-estimation",
+          "depth-assisted-reframe-and-compositing"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 Character Studio"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Use only explicitly licensed Small-model candidate for distributable features; larger variants research-only pending permission. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-DIFFRHYTHM-2-001",
@@ -12169,6 +12810,82 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FIFTYONE-001",
+      "name": "FiftyOne",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/voxel51/fiftyone",
+        "normalized_key": "github:voxel51/fiftyone"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "visual-dataset-exploration",
+        "model-error-analysis",
+        "active-sample-selection"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "visual-dataset-exploration",
+        "model-error-analysis",
+        "active-sample-selection"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Natural Phenomena",
+        "Review"
+      ],
+      "tags": [
+        "fiftyone",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "visual-dataset-exploration",
+          "model-error-analysis",
+          "active-sample-selection"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "Natural Phenomena",
+          "Review"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Keep dataset provenance and data permissions inside existing FA3 evidence/security boundaries. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-FIREALPACA-001",
       "name": "FireAlpaca",
       "source": {
@@ -12904,6 +13621,79 @@
         "source_group": "v1.1-programlist",
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-FRIGATE-NVR-001",
+      "name": "Frigate NVR",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/blakeblackshear/frigate",
+        "normalized_key": "github:blakeblackshear/frigate"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "multi-camera-event-review",
+        "retention-and-mask-zone-editor-patterns"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "multi-camera-event-review",
+        "retention-and-mask-zone-editor-patterns"
+      ],
+      "target_hints": [
+        "Live/Broadcast",
+        "Natural Phenomena",
+        "Review"
+      ],
+      "tags": [
+        "frigate",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "multi-camera-event-review",
+          "retention-and-mask-zone-editor-patterns"
+        ],
+        "intended_fa3_targets": [
+          "Live/Broadcast",
+          "Natural Phenomena",
+          "Review"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Selective UX/workflow reference; NVR is not a required FA3 runtime. Privacy and brand/trademark constraints apply. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
       }
     },
     {
@@ -19132,6 +19922,79 @@
         "Archived Mantra physically based shaders: material model reference only; not a required renderer.",
         "Archived upstream; historical reference only."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GROUNDING-DINO-001",
+      "name": "Grounding DINO",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/IDEA-Research/GroundingDINO",
+        "normalized_key": "github:idea-research/groundingdino"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "open-vocabulary-text-conditioned-object-detection",
+        "prompt-to-object-boxes"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "open-vocabulary-text-conditioned-object-detection",
+        "prompt-to-object-boxes"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Natural Phenomena"
+      ],
+      "tags": [
+        "groundingdino",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "open-vocabulary-text-conditioned-object-detection",
+          "prompt-to-object-boxes"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Published upstream CPU-only demo supported; model checkpoints and runtime constraints independently verify. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-GROUPMM-REAL-TIME-PLP-001",
@@ -26711,6 +27574,74 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-LIAMSMYTH-LKS-3DCTOOLS-001",
+      "name": "LiamSmyth/LKS_3DCTools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LiamSmyth/LKS_3DCTools",
+        "normalized_key": "github:liamsmyth/lks_3dctools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-3dcoat-donor-curation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "UI_REFERENCE",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Configurable radial action menus",
+        "Scoped batch density and resampling",
+        "Instance-aware batch operations",
+        "Hotkey conflict discovery and resolution"
+      ],
+      "domain_hints": [
+        "3d",
+        "creative",
+        "assets"
+      ],
+      "problem_hints": [
+        "Repeatable scoped scene operations and recoverable GUI automation patterns"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "3dcoat",
+        "radial-menu",
+        "batch-operations",
+        "mesh-density",
+        "resampling",
+        "visibility",
+        "hotkey-conflicts",
+        "cmodules"
+      ],
+      "license": {
+        "declared": "UNSPECIFIED_README_PERMISSION",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "notes": [
+        "README permits free use, editing and branching but declares no standard code license. No top-level LICENSE file found in checked paths; block source copying until rights are clarified. Experimental operations and author-described crash workarounds are not production guarantees. Observed upstream HEAD 8b69798f9ead57068aa8e53e7d05f45a947439c1."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-LIBMYPAINT-001",
       "name": "libmypaint",
       "source": {
@@ -27096,9 +28027,10 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
-        "https://github.com/bluenviron/mediamtx"
+        "https://github.com/bluenviron/mediamtx",
+        "2026-09-28-complementary-vision-donor-research"
       ],
-      "first_seen": "2026-09-29",
+      "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
@@ -27106,31 +28038,42 @@
       ],
       "capability_hints": [
         "LIVE_VIDEO",
-        "LIVE_AUDIO"
+        "LIVE_AUDIO",
+        "rtsp-srt-webrtc-rtmp-stream-input",
+        "live-stream-relay-and-recording"
       ],
       "domain_hints": [
         "live-production",
         "live-ingest",
-        "selective-import"
+        "selective-import",
+        "computer-vision",
+        "CAP-167"
       ],
       "problem_hints": [
         "authorized-live-stream-intake",
         "live-caption-translation",
-        "low-latency-and-resume"
+        "low-latency-and-resume",
+        "rtsp-srt-webrtc-rtmp-stream-input",
+        "live-stream-relay-and-recording"
       ],
       "target_hints": [
         "Production Import & Migration Fabric",
         "Broadcast",
         "Live Studio",
         "Audio Fabric",
-        "Music Studio"
+        "Music Studio",
+        "Live/Broadcast",
+        "Natural Phenomena"
       ],
       "tags": [
         "research",
         "non-authoritative",
         "live-selective-import",
         "live_video",
-        "live_audio"
+        "live_audio",
+        "mediamtx",
+        "vision",
+        "selective-reuse"
       ],
       "license": {
         "declared": "MIT",
@@ -27155,7 +28098,22 @@
       "notes": [
         "Protocol bridge/reconnect/segment lifecycle patterns for RTSP/RTMP/SRT/WebRTC/HLS and audio-only; DO NOT introduce second global server/router or listen ports by default.",
         "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
-      ]
+      ],
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "rtsp-srt-webrtc-rtmp-stream-input",
+          "live-stream-relay-and-recording"
+        ],
+        "intended_fa3_targets": [
+          "Live/Broadcast",
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Optional streaming transport provider, not model inference or camera permission authority. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-LIVE-INTAKE-EBU-EBU-TT-LIVE-TOOLKIT-001",
@@ -28234,6 +29192,79 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-LOGICRW-AWESOME-JEV-PROJECTS-001",
+      "name": "logicrw/awesome-jev-projects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/logicrw/awesome-jev-projects",
+        "normalized_key": "github:logicrw/awesome-jev-projects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-github-source-analysis-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "commit-pinned-upstream-evidence",
+        "incremental-ecosystem-discovery",
+        "source-reviewed-decision-pattern-index",
+        "catalog-snapshot-reconciliation"
+      ],
+      "domain_hints": [
+        "agents",
+        "decision-fabric",
+        "donor-discovery",
+        "jev",
+        "research"
+      ],
+      "problem_hints": [
+        "external-project-source-verification",
+        "registry-deduplication",
+        "upstream-discovery-coverage",
+        "review-vs-runtime-evidence-separation"
+      ],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "External Project Radar",
+        "Reuse Discovery",
+        "Decision Fabric"
+      ],
+      "tags": [
+        "catalog",
+        "decision-patterns",
+        "evidence",
+        "jev",
+        "open-source-radar",
+        "source-pinning"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Already referenced by canonical FA3-EXTERNAL-PROJECT-RADAR-001; existing 2026-09-23 upstream snapshot is not FA3 runtime certification.",
+        "Directory software is MIT; individual catalogued projects retain their separate licenses. Treat upstream code evidence as source review only.",
+        "Candidate record only: no new model routing authority, provider admission, runtime dependency, or hardware requirement."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-LS1INTUM-ARTEMIS-001",
@@ -29748,6 +30779,150 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-META-SAM-2-001",
+      "name": "Meta SAM 2",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/sam2",
+        "normalized_key": "github:facebookresearch/sam2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "promptable-video-segmentation",
+        "interactive-temporal-mask-refinement"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "promptable-video-segmentation",
+        "interactive-temporal-mask-refinement"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "FA3 Character Studio"
+      ],
+      "tags": [
+        "sam2",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "promptable-video-segmentation",
+          "interactive-temporal-mask-refinement"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "FA3 Character Studio"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. video-segmentation No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-META-SAM-3-3-1-001",
+      "name": "Meta SAM 3/3.1",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/sam3",
+        "normalized_key": "github:facebookresearch/sam3"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "text-and-visual-prompt-multi-object-segmentation",
+        "concept-based-video-tracking"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "text-and-visual-prompt-multi-object-segmentation",
+        "concept-based-video-tracking"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip"
+      ],
+      "tags": [
+        "sam3",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "SAM License (2025-11-19)",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "text-and-visual-prompt-multi-object-segmentation",
+          "concept-based-video-tracking"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. RESEARCH_ONLY: custom SAM license, gated model weights and CUDA-centric published runtime; no baseline CPU-only dependency. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-MGEAR-DEV-MGEAR-001",
       "name": "mGear Rigging Framework",
       "source": {
@@ -30485,30 +31660,45 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "hpc-mcp-microsoft-user-submission-2026-09-29"
+        "hpc-mcp-microsoft-user-submission-2026-09-29",
+        "2026-09-28-complementary-vision-donor-research"
       ],
-      "first_seen": "2026-09-29",
+      "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
       "donor_modes": [
-        "REFERENCE_IMPLEMENTATION"
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
       ],
       "capability_hints": [
         "cross-platform-inference",
-        "execution-provider-interfaces"
+        "execution-provider-interfaces",
+        "portable-inference-execution-provider-adapters",
+        "cpu-first-vision-inference"
       ],
       "domain_hints": [
         "ai",
-        "inference"
+        "inference",
+        "computer-vision",
+        "CAP-167"
       ],
-      "problem_hints": [],
+      "problem_hints": [
+        "portable-inference-execution-provider-adapters",
+        "cpu-first-vision-inference"
+      ],
       "target_hints": [
         "Model Router",
         "Inference Fabric",
-        "Hardware Audit"
+        "Hardware Audit",
+        "Model Manager",
+        "FA3 Video Editor",
+        "Live/Broadcast"
       ],
       "tags": [
         "upstream-verified-repository",
-        "metadata-only"
+        "metadata-only",
+        "onnxruntime",
+        "vision",
+        "selective-reuse"
       ],
       "license": {
         "declared": "MIT",
@@ -30532,6 +31722,22 @@
         "verified_at": "2026-09-29",
         "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
         "source_copy_allowed": false
+      },
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "portable-inference-execution-provider-adapters",
+          "cpu-first-vision-inference"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "FA3 Video Editor",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Compute backend only; do not introduce parallel model router or implicit hardware fallback. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
       }
     },
     {
@@ -30992,6 +32198,80 @@
       "notes": [
         "CC-BY-4.0 declared repository license is unusual for software; research and algorithm reference only until legal suitability and model/checkpoint rights assessed. No default source copying."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-MMDETECTION-001",
+      "name": "MMDetection",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-mmlab/mmdetection",
+        "normalized_key": "github:open-mmlab/mmdetection"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "modular-detector-training",
+        "model-zoo-reference",
+        "evaluation-pipelines"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "modular-detector-training",
+        "model-zoo-reference",
+        "evaluation-pipelines"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "mmdetection",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "modular-detector-training",
+          "model-zoo-reference",
+          "evaluation-pipelines"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "FA3 Video Editor"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Framework reference and training toolkit, not a new inference or model-routing authority; check project maintenance and dependency versions. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-MODOOJUNKO-AWESOME-NOVEL-AGENT-001",
@@ -39320,7 +40600,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "official-intel-github-ecosystem-review-2026-09-28"
+        "official-intel-github-ecosystem-review-2026-09-28",
+        "2026-09-28-complementary-vision-donor-research"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -39329,31 +40610,42 @@
         "ARCHITECTURE_PATTERN"
       ],
       "capability_hints": [
-        "portable-inference-backend-reference"
+        "portable-inference-backend-reference",
+        "intel-cpu-gpu-npu-inference-backends",
+        "vision-model-conversion"
       ],
       "domain_hints": [
         "ai",
         "inference",
-        "openvino"
+        "openvino",
+        "computer-vision",
+        "CAP-167"
       ],
       "problem_hints": [
-        "selective-non-authoritative-reuse"
+        "selective-non-authoritative-reuse",
+        "intel-cpu-gpu-npu-inference-backends",
+        "vision-model-conversion"
       ],
       "target_hints": [
         "Model Manager",
         "Model Router",
-        "Inference Fabric"
+        "Inference Fabric",
+        "FA3 Video Editor",
+        "Live/Broadcast"
       ],
       "tags": [
         "verified-upstream-repository",
         "ai",
         "inference",
         "openvino",
-        "live-upstream"
+        "live-upstream",
+        "vision",
+        "selective-reuse"
       ],
       "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
@@ -39375,7 +40667,23 @@
       },
       "notes": [
         "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
-      ]
+      ],
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "intel-cpu-gpu-npu-inference-backends",
+          "vision-model-conversion"
+        ],
+        "intended_fa3_targets": [
+          "Model Manager",
+          "FA3 Video Editor",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Optional Intel-specific backend behind vendor-neutral HRB; no global Intel requirement. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-OPENVINOTOOLKIT-OPENVINO-GENAI-001",
@@ -40273,6 +41581,79 @@
       "notes": [
         "README claims MIT but LICENSE/API provenance requires separate verification."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PADDLEOCR-001",
+      "name": "PaddleOCR",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PaddlePaddle/PaddleOCR",
+        "normalized_key": "github:paddlepaddle/paddleocr"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "multilingual-ocr",
+        "document-layout-and-table-recovery"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "multilingual-ocr",
+        "document-layout-and-table-recovery"
+      ],
+      "target_hints": [
+        "Documents",
+        "FA3 Video Editor",
+        "Review"
+      ],
+      "tags": [
+        "paddleocr",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "multilingual-ocr",
+          "document-layout-and-table-recovery"
+        ],
+        "intended_fa3_targets": [
+          "Documents",
+          "FA3 Video Editor",
+          "Review"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Model weights and optional PaddleX dependencies separately admitted; OCR result needs uncertainty and source provenance. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-PAGEINDEX-001",
@@ -47537,6 +48918,148 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-PYROENGINE-001",
+      "name": "PyroEngine",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pyronear/pyro-engine",
+        "normalized_key": "github:pyronear/pyro-engine"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "edge-camera-wildfire-visual-detection",
+        "camera-calibration-and-observation-adapters"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "edge-camera-wildfire-visual-detection",
+        "camera-calibration-and-observation-adapters"
+      ],
+      "target_hints": [
+        "Natural Phenomena",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "pyro-engine",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "edge-camera-wildfire-visual-detection",
+          "camera-calibration-and-observation-adapters"
+        ],
+        "intended_fa3_targets": [
+          "Natural Phenomena",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Separate advisory visual signal only, no life-safety certification; no camera secret in donor metadata. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-PYRONEAR-PYRO-API-001",
+      "name": "Pyronear Pyro API",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pyronear/pyro-api",
+        "normalized_key": "github:pyronear/pyro-api"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "wildfire-observation-sequence-grouping",
+        "camera-event-webhook-patterns"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "wildfire-observation-sequence-grouping",
+        "camera-event-webhook-patterns"
+      ],
+      "target_hints": [
+        "Natural Phenomena",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "pyro-api",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "wildfire-observation-sequence-grouping",
+          "camera-event-webhook-patterns"
+        ],
+        "intended_fa3_targets": [
+          "Natural Phenomena",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Reuse typed event grouping and human verification concepts; no standalone FA3 alert/event authority. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-PYTEST-TESTINFRA-001",
       "name": "pytest-testinfra",
       "source": {
@@ -48081,25 +49604,47 @@
       "donor_modes": [
         "KNOWLEDGE_REFERENCE"
       ],
-      "capability_hints": [],
+      "capability_hints": [
+        "CAP-035",
+        "CAP-051",
+        "CAP-053",
+        "CAP-054",
+        "CAP-103"
+      ],
       "domain_hints": [
         "osint",
         "research",
-        "discovery"
+        "discovery",
+        "document-metadata",
+        "forensics",
+        "geo",
+        "security"
       ],
       "problem_hints": [],
       "target_hints": [
         "Research",
-        "OSINT"
+        "OSINT",
+        "Documents",
+        "Forensics",
+        "Geo/World",
+        "Photo",
+        "Security",
+        "Video"
       ],
       "tags": [
         "catalog",
         "tools",
-        "research"
+        "research",
+        "metadata-only",
+        "offline-import",
+        "provenance"
       ],
       "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
+        "declared": "MIT",
+        "status": "VERIFIED_COLLECTION_LICENSE_ONLY",
+        "scope": "UPSTREAM_AGGREGATOR_ONLY_NOT_LISTED_DOWNSTREAM_TOOLS",
+        "upstream_path": "LICENSE",
+        "git_blob_sha1": "be664e4447bd1839e3030a2f171275e75bfe8922"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
@@ -48113,7 +49658,11 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Large categorized tool catalog; each downstream tool still requires separate admission."
+        "Large categorized tool catalog; each downstream tool still requires separate admission.",
+        "Checked immutable upstream commit 2c6475a1d5b941cc598b3612419ef22e6d903ce8; pinned source metadata in research/external-project-radar/osint/awesome-osint-arsenal.",
+        "753 raw records, 752 unique tool IDs, 26 normalized categories, 264 missing direct URLs; social-searcher alias collision retains source lineage.",
+        "MIT license applies to the aggregator collection only; every downstream tool remains independently unverified and non-admitted.",
+        "Offline import is discovery metadata only; no network fetch, installation, credential use, provider admission, model selection, or execution."
       ]
     },
     {
@@ -49027,6 +50576,79 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-RF-DETR-001",
+      "name": "RF-DETR",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/roboflow/rf-detr",
+        "normalized_key": "github:roboflow/rf-detr"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "detector-alternative-to-yolo",
+        "real-time-instance-segmentation"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "detector-alternative-to-yolo",
+        "real-time-instance-segmentation"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "rf-detr",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0 core; PML-1.0 Plus components",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "detector-alternative-to-yolo",
+          "real-time-instance-segmentation"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. REQUIRE_COMPONENT_SPECIFIC_LICENSE_REVIEW: core model variants Apache-2.0, Plus XL/2XL detection variants PML-1.0. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-RHUBARB-LIP-SYNC-001",
       "name": "Rhubarb Lip Sync",
       "source": {
@@ -49162,6 +50784,79 @@
         "Small reusable Houdini VEX/HDA parts; scoped reference.",
         "Do not infer tested interoperability, source reuse rights, or runtime availability."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ROBOFLOW-TRACKERS-001",
+      "name": "Roboflow Trackers",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/roboflow/trackers",
+        "normalized_key": "github:roboflow/trackers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "bytetrack-botsort-ocsort-replaceable-trackers",
+        "camera-motion-compensated-tracking"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "bytetrack-botsort-ocsort-replaceable-trackers",
+        "camera-motion-compensated-tracking"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "trackers",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "bytetrack-botsort-ocsort-replaceable-trackers",
+          "camera-motion-compensated-tracking"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. multi-object-tracking No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
@@ -49700,6 +51395,79 @@
         "Use as format/schema and independent test-design reference for an FA3-owned bidirectional FDX codec; never admit FDX import before validated export. No unreviewed AGPL code, assets, fixture reuse or external runtime installation.",
         "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-RT-DETR-001",
+      "name": "RT-DETR",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lyuwenyu/RT-DETR",
+        "normalized_key": "github:lyuwenyu/rt-detr"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "realtime-detection-transformer",
+        "alternative-paddle-pytorch-detector"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "realtime-detection-transformer",
+        "alternative-paddle-pytorch-detector"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "rt-detr",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "realtime-detection-transformer",
+          "alternative-paddle-pytorch-detector"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Optional replaceable detector candidate; avoid fixed PyTorch or Paddle runtime dependency. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-SAGA-SOFT-NOVELWRITER-001",
@@ -52462,6 +54230,69 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-SOXOJ-MAIGRET-001",
+      "name": "soxoj/maigret",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/soxoj/maigret",
+        "normalized_key": "github:soxoj/maigret",
+        "commit": "b6642744988e7e6c2d21f75db60ec3093019ba25"
+      },
+      "status": "ANALYZED",
+      "discovered_from": [
+        "osint-arsenal-independent-upstream-review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "CAP-053"
+      ],
+      "domain_hints": [
+        "osint",
+        "username-social"
+      ],
+      "problem_hints": [
+        "case-bound-authorized-username-investigation"
+      ],
+      "target_hints": [
+        "OSINT",
+        "Research"
+      ],
+      "tags": [
+        "maigret",
+        "reference-only",
+        "individual-license-verified",
+        "case-bound",
+        "provider-admission-pending"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "VERIFIED_UPSTREAM_LICENSE_FILE",
+        "scope": "MAIGRET_REPOSITORY_NOT_TRANSITIVE_DEPENDENCIES_OR_TARGET_SITES",
+        "upstream_path": "LICENSE",
+        "git_blob_sha1": "df0f2e5834bee985136efef18c6b2e038ba35e1a"
+      },
+      "code_reuse_policy": "INDIVIDUAL_LICENSE_VERIFIED_SECURITY_DEPENDENCIES_TOS_PRIVACY_AND_RUNTIME_ADMISSION_STILL_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Already named as Maigret primary reference in CAP-053; this record resolves the upstream repository identity and MIT source license.",
+        "Neither Maigret's transitive dependencies nor target sites' usage terms are verified by the MIT repository license.",
+        "Not installed, executable, admitted or authorized for a person-specific search by donor capture."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SPENCERMARX-ORC-001",
       "name": "spencermarx/orc",
       "source": {
@@ -53159,6 +54990,82 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SUPERVISION-001",
+      "name": "Supervision",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/roboflow/supervision",
+        "normalized_key": "github:roboflow/supervision"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "model-neutral-detections",
+        "spatial-zone-counting",
+        "annotator-patterns"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "model-neutral-detections",
+        "spatial-zone-counting",
+        "annotator-patterns"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "supervision",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "model-neutral-detections",
+          "spatial-zone-counting",
+          "annotator-patterns"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Live/Broadcast"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. vision-analytics No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
     },
     {
       "donor_id": "FA3-DONOR-SYNCTHING-001",
@@ -54855,6 +56762,80 @@
         "order": null,
         "observed_url": "https://github.com/topics/openmax-il?l=c%2B%2B",
         "observed_at": "2026-09-29"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-TORCHGEO-001",
+      "name": "TorchGeo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/torchgeo/torchgeo",
+        "normalized_key": "github:torchgeo/torchgeo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28-complementary-vision-donor-research"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "geospatial-dataset-samplers",
+        "multispectral-satellite-preprocessing",
+        "geospatial-change-detection-data-patterns"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "CAP-167"
+      ],
+      "problem_hints": [
+        "geospatial-dataset-samplers",
+        "multispectral-satellite-preprocessing",
+        "geospatial-change-detection-data-patterns"
+      ],
+      "target_hints": [
+        "Natural Phenomena",
+        "Model Manager"
+      ],
+      "tags": [
+        "torchgeo",
+        "vision",
+        "selective-reuse"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "note": "Repository-level declaration, not a blanket licence for all weights, datasets, optional extensions or third-party dependencies."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "geospatial-dataset-samplers",
+          "multispectral-satellite-preprocessing",
+          "geospatial-change-detection-data-patterns"
+        ],
+        "intended_fa3_targets": [
+          "Natural Phenomena",
+          "Model Manager"
+        ],
+        "source_group": "2026-09-28-complementary-vision-donor-research",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Research candidate only. Separate source imagery/dataset license and geographical provenance; app semantics remain FA3-owned. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
       }
     },
     {
@@ -58307,6 +60288,108 @@
         "Inspected commit 152d06025747a9c27c7b0c8cf59102300ab27a4b. Selective workflow/algorithm reference: OpenCV adaptive-threshold+grid/nearest-neighbor contour traversal, optional object masks, script/narration/subtitle pacing. GPL-3.0 plus SAM3 model/weights/third-party asset rights restrict source copying pending review. Fixed Gemini/Veo/TTS and direct research/service calls cannot bypass central FA3 Model Router/MCP/UAF/HRB.",
         "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-YOLO-PROJECTS-001",
+      "name": "Nawaf-Rayhan585/YOLO_Projects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Nawaf-Rayhan585/YOLO_Projects",
+        "normalized_key": "github:nawaf-rayhan585/yolo_projects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-link-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "video-object-detection",
+        "multi-object-tracking",
+        "pose-estimation",
+        "instance-segmentation",
+        "face-anonymization",
+        "event-overlays",
+        "document-ocr"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "video",
+        "creative",
+        "safety",
+        "document-processing",
+        "natural-phenomena"
+      ],
+      "problem_hints": [
+        "video-object-following",
+        "background-replacement",
+        "privacy-preserving-video-export",
+        "fire-smoke-event-review",
+        "document-perspective-correction"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Review",
+        "FA3 Character Studio",
+        "Natural Phenomena"
+      ],
+      "tags": [
+        "yolo",
+        "opencv",
+        "mediapipe",
+        "bytetrack",
+        "ocr",
+        "video-tracking",
+        "segmentation",
+        "anonymization",
+        "fire-smoke"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "note": "Upstream repository MIT applies to its own files; dependencies, models, weights and datasets require independent checks. Ultralytics dependency declares AGPL-3.0/Enterprise licensing."
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "instance-segmentation-foreground-masks-and-background-replacement",
+          "face-blur-and-pixelation-overlay-pattern",
+          "object-and-vehicle-tracking-with-stable-identifiers",
+          "crowd-heatmap-and-region-counting-visualization",
+          "document-edge-detection-perspective-warp-and-ocr",
+          "fire-smoke-and-fall-event-visual-review",
+          "hand-gesture-and-pose-interaction-prototypes",
+          "parking-occupancy-and-queue-wait-region-measurement"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Video Editor",
+          "FA3 QuickClip",
+          "Review",
+          "FA3 Character Studio",
+          "Natural Phenomena"
+        ],
+        "source_group": "2026-09-28-user-supplied-research",
+        "source_reviewed_at": "2026-09-28",
+        "source_revision": "5c2ed6764acf546da35db8d6146fa97e56f61b7c",
+        "notes": "19 independent demonstrations with per-project requirements, not a production-grade shared runtime. No trained weights or datasets committed and no repository CI/test suite found at reviewed revision. Preserve FA3-native editor, projects and all admission authorities. Existing centralized Model Router selects only authorized models; HRB owns compute placement; vendor-neutral 0..N accelerators and CPU-only supported. The display GPU remains display-first and cannot be automatically enlisted if another GPU/NPU exists. Ultralytics package AGPL-3.0/Enterprise dependency needs explicit legal/distribution review, distinct from upstream MIT. Safety/security outputs are advisory until calibrated and human-reviewed; do not auto-label people as suspicious, auto-enforce access decisions or claim reliable fire alarms. Camera and face data require privacy impact and retention review. No runtime source or model adoption is approved by this metadata record."
+      }
     },
     {
       "donor_id": "FA3-DONOR-YOUMIND-OPENLAB-NANO-BANANA-PRO-PROMPTS-RECOMMEND-SKILL-001",
