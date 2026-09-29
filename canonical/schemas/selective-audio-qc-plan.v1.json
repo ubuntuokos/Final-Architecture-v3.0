@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-audio-qc-plan.v1.json",
+  "title": "FA3 S4.2 audio QC planning checklist",
+  "description": "Metadata-only per-stem quality/evidence requirements; may not authenticate, execute, approve or publish; subordinate to FA3 File Conversion, Audio Source Separation and canonical Evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_ref",
+    "source_sha256",
+    "inspector_receipt_ref",
+    "status",
+    "output_count",
+    "outputs",
+    "publish_audio",
+    "execution_authorized",
+    "authority",
+    "capability_count",
+    "existing_evidence_authority",
+    "existing_audio_contract"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.selective-audio-qc-plan.v1"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inspector_receipt_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "status": {
+      "const": "QC_REVIEW_PLAN_ONLY"
+    },
+    "output_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256
+    },
+    "outputs": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "parent_leaf_index",
+          "family",
+          "selector_id",
+          "requested_stem_class",
+          "target_application",
+          "origin",
+          "original_stem_strategy_status",
+          "quality_readiness",
+          "source_stream_indices",
+          "original_timebases",
+          "required_independent_evidence_checks",
+          "advisory_measurement_methods",
+          "forbidden_inferences",
+          "independent_evidence_verified",
+          "human_quality_review_approved",
+          "quality_metrics_claimed_as_proof",
+          "publish_audio",
+          "execution_authorized"
+        ],
+        "properties": {
+          "parent_leaf_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "family": {
+            "enum": [
+              "AUDIO",
+              "VIDEO"
+            ]
+          },
+          "selector_id": {
+            "enum": [
+              "SPEECH_OR_SINGING_SEPARATE",
+              "INSTRUMENTAL_ONLY",
+              "AMBIENCE_AND_SFX",
+              "DENOISED_SPEECH",
+              "MUSIC_OR_INSTRUMENTAL_ONLY",
+              "AMBIENCE_AND_SFX_ONLY"
+            ]
+          },
+          "requested_stem_class": {
+            "enum": [
+              "SPEECH",
+              "SINGING",
+              "VOCALS",
+              "INSTRUMENTAL",
+              "MUSIC",
+              "AMBIENCE",
+              "SFX",
+              "AMBIENCE_AND_SFX",
+              "DENOISED_SPEECH"
+            ]
+          },
+          "target_application": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "origin": {
+            "enum": [
+              "NONE",
+              "CLAIMED_ORIGINAL_TRACK",
+              "PROPOSED_ESTIMATED_STEM",
+              "DENOISE_DERIVATIVE_ONLY"
+            ]
+          },
+          "original_stem_strategy_status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "quality_readiness": {
+            "enum": [
+              "PENDING_INDEPENDENT_ORIGINAL_SOURCE_EVIDENCE",
+              "PENDING_INDEPENDENT_ESTIMATED_STEM_ADMISSION",
+              "PENDING_INDEPENDENT_DENOISE_AND_QUALITY_EVIDENCE",
+              "PENDING_OPERATOR_SOURCE_STREAM_SELECTION",
+              "UNSUPPORTED_OR_BLOCKED_WITH_CURRENT_METADATA"
+            ]
+          },
+          "source_stream_indices": {
+            "type": "array",
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32767
+            }
+          },
+          "original_timebases": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "object"
+            }
+          },
+          "required_independent_evidence_checks": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9_]{3,120}$"
+            }
+          },
+          "advisory_measurement_methods": {
+            "type": "array",
+            "maxItems": 16,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9_]{3,120}$"
+            }
+          },
+          "forbidden_inferences": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9_]{3,120}$"
+            }
+          },
+          "independent_evidence_verified": {
+            "const": false
+          },
+          "human_quality_review_approved": {
+            "const": false
+          },
+          "quality_metrics_claimed_as_proof": {
+            "const": false
+          },
+          "publish_audio": {
+            "const": false
+          },
+          "execution_authorized": {
+            "const": false
+          }
+        }
+      }
+    },
+    "publish_audio": {
+      "const": false
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "authority": {
+      "const": false
+    },
+    "capability_count": {
+      "const": 175
+    },
+    "existing_evidence_authority": {
+      "const": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    "existing_audio_contract": {
+      "const": "FA3-AUDIO-SEPARATION-CONTRACTS-001"
+    }
+  },
+  "x-fa3-policy": {
+    "authority": false,
+    "new_capabilities": 0,
+    "capability_count": 175,
+    "current_host_runtime_promotion_claim": false,
+    "model_admission_claim": false,
+    "source_evidence_authentication_claim": false,
+    "automatic_source_install": false,
+    "mandatory_cpu_path": true,
+    "owner": "FA3-FILE-CONVERSION-001"
+  }
+}
