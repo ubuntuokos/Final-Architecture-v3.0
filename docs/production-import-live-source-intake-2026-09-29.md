@@ -115,3 +115,8 @@ Created a **versioned subordinate request schema** [`canonical/schemas/live-prod
 **Source evidence checked**: EBU Tech 3370 (live timed-text payloads) and 3370s1 (WebSocket carriage); RFC 8216 `EXT-X-MEDIA` requires a separate `URI` for `SUBTITLES` and forbids one for `CLOSED-CAPTIONS` because the latter are embedded in media renditions. See https://tech.ebu.ch/publications/tech3370 , https://tech.ebu.ch/publications/tech3370s1 and https://www.rfc-editor.org/rfc/rfc8216 .
 
 **Next L1–L2 admission boundary**: connect `preflight` to the **existing** file conversion inspector and Caption/Subtitle UAF import, implement a locally permissioned EBU-TT Live / independently inspected HLS subtitle reader using existing approved media/transports, preserve per-cue revisions/sequence continuity through reconnect, and collect signed physical current-host evidence proving no AV workers or AV network bytes in a real independent caption-only session. Perform separate exact-version rights, distro/venv, coexistence and upstream license checks before any donor source reuse. Do not make a second daemon/stream relay or shortcut the canonical release gates.
+
+
+## Explicit independent-caption guarantee (L1)
+
+For a verified independent EBU-TT Live or WebVTT subtitle source, `CAPTION_ONLY + NO_AV_FETCH` means **no audio/video retrieval, decoding, buffering, cache write, network bytes, preview worker, or hidden AV fallback**. A caption stream embedded inside HLS media is not independent and MUST fail closed when zero AV transfer is required. This is an input and transport condition, separate from the user-selected TEXT outputs. An AV source cannot be relabeled as a caption-only source to evade the policy.
