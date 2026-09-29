@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3cad2a10a072a1c74e40778eeccf4edf1dca096d",
-    "pre_projection_root_tree_sha": "701cb47821df0f3012a786d3a4ead87ccea62e4a",
-    "pre_projection_canonical_tree_sha": "8d95eef634a8eeea9637ba45105282611a5541f8",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2154,
-    "total_post_baseline_commits": 2154,
-    "delta_file_count": 2559,
-    "delta_added_files": 2553,
+    "pre_projection_head_sha": "5c038e1451c5a2e8dadeae4bae58456e1870fc3d",
+    "pre_projection_root_tree_sha": "53ed979194ba7eb330a1f80bdbfe9c5875b65272",
+    "pre_projection_canonical_tree_sha": "884cc5f4884fbb4cfca96c6b8f14a00943a9785d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2175,
+    "total_post_baseline_commits": 2175,
+    "delta_file_count": 2572,
+    "delta_added_files": 2566,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1210,
+    "canonical_files_in_post_baseline_delta": 1213,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 346,
-    "test_files_in_post_baseline_delta": 299,
+    "source_files_in_post_baseline_delta": 349,
+    "test_files_in_post_baseline_delta": 303,
     "workflow_files_in_post_baseline_delta": 125,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1017,7 +1017,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2549,
+  "manifest_entry_count": 2562,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2661,7 +2661,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "82c0d3a3d7c40949c25a1c2241e51a15e638b247",
+      "git_blob_sha": "977b0e33fce9c323e6df6d5153788a74ba5b48cc",
       "baseline_delta_status": "added"
     },
     {
@@ -8355,6 +8355,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/schemas/selective-audio-qc-plan.v1.json",
+      "git_blob_sha": "bf3b15c3144a07c26285da7d026b5052c7e20635",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/selective-audio-stem-plan.v1.json",
+      "git_blob_sha": "ee5aca875374c54294ee26826eda7f543f75cb25",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/selective-delivery-preview.v1.json",
+      "git_blob_sha": "f5194071e852717739b4d5a996958246087170ff",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/selective-language-fanout.v1.json",
       "git_blob_sha": "a07bae9c180dae8c43e06b0ec00873ad9bfad69b",
       "baseline_delta_status": "added"
@@ -9156,7 +9171,7 @@
     },
     {
       "path": "docs/production-import-migration-plan-2026-09-29.md",
-      "git_blob_sha": "bc00b7871875f22313824c75c660006c52551ed4",
+      "git_blob_sha": "4bb2b3cbdde3c0a0d025ce7aea1c440e5e078187",
       "baseline_delta_status": "added"
     },
     {
@@ -9170,13 +9185,28 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/production-import-s4-stem-strategy-2026-09-29.md",
+      "git_blob_sha": "c929e0c3292ced0f1c6705b93ac732fb9b8463ee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/production-import-s5-delivery-preview-2026-09-29.md",
+      "git_blob_sha": "ff091dcb1de3815902aac34d10f2a9dec9c1dd41",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/production-import-selective-audio-qc-round5-2026-09-29.md",
+      "git_blob_sha": "a6a1a3bb7d4a29a04e2b39ce476a0a68fcda704a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/production-import-selective-audiovisual-research-round4-2026-09-29.md",
       "git_blob_sha": "247d0bfce28968cd2686e19f718dcb2de006ab34",
       "baseline_delta_status": "added"
     },
     {
       "path": "docs/production-import-selective-content-plan-2026-09-29.md",
-      "git_blob_sha": "02fe9955dd3ac061bd1d736675c6660570364ad8",
+      "git_blob_sha": "c4b965ab08a975919a8c37e50701ac4ac503ab1c",
       "baseline_delta_status": "added"
     },
     {
@@ -9186,7 +9216,7 @@
     },
     {
       "path": "docs/production-import-selective-implementation-workplan-2026-09-29.md",
-      "git_blob_sha": "59f60a55a401b4690844ce9867e02c95ea23dfe8",
+      "git_blob_sha": "82e850a4c8b36d489848d9a771387b02c7b1ded3",
       "baseline_delta_status": "added"
     },
     {
@@ -11960,6 +11990,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_selective_import_audio_qc.py",
+      "git_blob_sha": "bad4da89e127dfd85d49bec2891c862f3d3a37a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_selective_import_delivery_preview.py",
+      "git_blob_sha": "9808a609225c86d3b74e45ed6521748975440167",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_selective_import_language_fanout.py",
       "git_blob_sha": "cc5130c71b98bc7bdc4b0baa506c3fa8cc4c06b9",
       "baseline_delta_status": "added"
@@ -11967,6 +12007,11 @@
     {
       "path": "src/fa3_selective_import_preview.py",
       "git_blob_sha": "9d7feb589f5ceb11d412e449618f07db2dee9dad",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_selective_import_stem_plan.py",
+      "git_blob_sha": "510866eb5155905b1ec09c6876f0b9e162091360",
       "baseline_delta_status": "added"
     },
     {
@@ -12667,6 +12712,11 @@
     {
       "path": "tests/test_donor_production_import_quality_extension.py",
       "git_blob_sha": "dedbe89a27fb534859ea09470dac7b459eb29829",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_production_import_s4.py",
+      "git_blob_sha": "5a20d60ce15e93339ce945dc52e31b7cbf895da5",
       "baseline_delta_status": "added"
     },
     {
@@ -13475,6 +13525,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_selective_import_audio_qc.py",
+      "git_blob_sha": "eff2f27fc07d1629163be2f5de4f9817b8e12bd1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_selective_import_delivery_preview.py",
+      "git_blob_sha": "60223d621cc480afe6ba3a179fff2c268d2d2ef7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_selective_import_language_fanout.py",
       "git_blob_sha": "46423d0ff574fbb0151d66107ee59b25ae047e9b",
       "baseline_delta_status": "added"
@@ -13482,6 +13542,11 @@
     {
       "path": "tests/test_selective_import_preview.py",
       "git_blob_sha": "21ba835c370ab5d2c37937a5f52fb0f06d796f4f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_selective_import_stem_plan.py",
+      "git_blob_sha": "1b35b8ce70fe5c565aeb6084df54ecfa01f157e9",
       "baseline_delta_status": "added"
     },
     {
@@ -15474,7 +15539,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 654,
+    "donor_registry_entry_count": 659,
     "donor_capture_default_status": "CANDIDATE",
     "donor_potential_signal_capture_required": true,
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
