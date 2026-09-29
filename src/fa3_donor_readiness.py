@@ -220,8 +220,27 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         result["pending_prs"]=pending_prs(getter)
         after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
-        if result["pending_prs"]:result["findings"].append("PENDING_DONOR_MAINTENANCE")
         if result["findings"]:return result
+        if phase=="intake":
+            # Oldest live donor PR owns the single cross-conversation intake
+            # slot. A second PR reports WAIT instead of processing in parallel.
+            # GitHub Actions concurrency serializes admission evaluations.
+            pending=result["pending_prs"]
+            if pending:
+                first=pending[0]
+                if pr_number is None or first["number"] != pr_number:
+                    result["findings"].append("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION")
+                    result["active_donor_pr"]=first["number"]
+                    return result
+            elif pr_number is not None:
+                result["findings"].append("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR")
+                return result
+            result["result"]="EXCLUSIVE_DONOR_INTAKE_READY"
+            result["active_donor_pr"]=pr_number
+            return result
+        # Pending intake is deliberately NOT a global planning lock:
+        # unmerged donor entries are absent from the published main snapshot.
+        # A design must use and hash the exact committed main registry only.
         # A locally coherent but stale branch must never authorize planning after
         # a newer canonical main registry is published. Fetch the blob identity
         # at the exact main SHA observed during the live pending-PR scan.
@@ -231,6 +250,8 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             raise ValueError("CANONICAL_MAIN_REGISTRY_BLOB_UNAVAILABLE")
         local=git_blob_sha((root / REGISTRY).read_bytes())
         result["main_registry_blob_sha"]=remote["sha"]
+        result["published_main_sha"]=after
+        result["registry_snapshot"]="PUBLISHED_MAIN_ONLY"
         if local != remote["sha"]:
             result["findings"].append("STALE_CANONICAL_DONOR_SNAPSHOT")
             return result
@@ -253,7 +274,7 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
-    p.add_argument("--phase",choices=("maintenance","status","entry","finalize"),default="status")
+    p.add_argument("--phase",choices=("maintenance","intake","status","entry","finalize"),default="status")
     p.add_argument("--assessment")
     p.add_argument("--plan")
     p.add_argument("--approval")
@@ -263,5 +284,6 @@ def main():
            a.assessment,a.plan,a.approval,a.pr)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
+                                 "EXCLUSIVE_DONOR_INTAKE_READY",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2
 if __name__=="__main__":raise SystemExit(main())
