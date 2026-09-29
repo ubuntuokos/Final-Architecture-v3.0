@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 588,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195."
+    "entry_count": 591,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission."
   },
   "entries": [
     {
@@ -7958,10 +7958,11 @@
       },
       "status": "ANALYZED",
       "discovered_from": [
+        "FA3 earlier conversion decisions reconciled 2026-09-29",
         "prior-fa3-research-backfill"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
         "ARCHITECTURE_PATTERN"
@@ -7974,15 +7975,19 @@
       ],
       "problem_hints": [],
       "target_hints": [
-        "Music Studio",
-        "Voice/Vocal",
         "Audio Fabric",
-        "Creative Studio"
+        "Creative Studio",
+        "Music Studio",
+        "Production Import & Migration Fabric",
+        "Voice/Vocal"
       ],
       "tags": [
-        "music",
         "audio",
+        "bidirectional-interchange",
         "daw",
+        "dawproject",
+        "music",
+        "song-graph",
         "voice"
       ],
       "license": {
@@ -7999,7 +8004,13 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "upstream_repository_references": [
+        "https://github.com/bitwig/dawproject"
+      ],
+      "notes": [
+        "Production migration planning reference: preserve original native project; independently verify bidirectional format semantics."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-DECA-001",
@@ -25142,10 +25153,11 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
+        "FA3 earlier conversion decisions reconciled 2026-09-29",
         "historical-architecture-artifact-curation-2026-09-28"
       ],
       "first_seen": "2026-09-28",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -25160,12 +25172,16 @@
       "problem_hints": [],
       "target_hints": [
         "Animation Studio",
-        "Creative Studio"
+        "Creative Studio",
+        "Production Import & Migration Fabric"
       ],
       "tags": [
+        "animation",
         "historical-review",
+        "scene-collect-assets",
+        "selective-reuse",
         "selective_adapter",
-        "selective-reuse"
+        "xsheet"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -25197,7 +25213,10 @@
         "source_group": "v1.1-programlist",
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
-      }
+      },
+      "notes": [
+        "Production migration planning reference: preserve original native project; independently verify bidirectional format semantics."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENVIKING-001",
@@ -28743,6 +28762,74 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-PRODIMPORT-GSTREAMER-GSTREAMER-001",
+      "name": "GStreamer Editing Services and multimedia interchange reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GStreamer/gstreamer",
+        "normalized_key": "github:gstreamer/gstreamer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 earlier conversion decisions reconciled 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "gstreamer",
+        "xges",
+        "media",
+        "editorial"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "bidirectional-interchange",
+        "semantic-fidelity"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "gstreamer",
+        "xges",
+        "media",
+        "editorial"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "GStreamer/ges project semantics and XGES related editorial interchange; no second media execution engine",
+        "No source copying or provider admission from donor capture."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PRODIMPORT-LIBRARYOFCONGRESS-BAGIT-PYTHON-001",
       "name": "Library of Congress BagIt Python",
       "source": {
@@ -29283,6 +29370,142 @@
       "notes": [
         "Optional DPX/RAW source preservation and reversible verification reference; exact byte-level reconstruction must be tested per format.",
         "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MIDO-MIDO-001",
+      "name": "Mido MIDI parsing and file interchange",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mido/mido",
+        "normalized_key": "github:mido/mido"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 earlier conversion decisions reconciled 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "midi",
+        "smf",
+        "event-timing",
+        "python"
+      ],
+      "domain_hints": [
+        "music",
+        "production-import"
+      ],
+      "problem_hints": [
+        "bidirectional-interchange",
+        "semantic-fidelity"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "midi",
+        "smf",
+        "event-timing",
+        "python"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Selective SMF/MIDI events and timing transformations; expressive MPE/MIDI2 and plug-in state must not be inferred from baseline MIDI",
+        "No source copying or provider admission from donor capture."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MUSESCORE-MUSESCORE-001",
+      "name": "MuseScore notation and MusicXML interchange reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/musescore/MuseScore",
+        "normalized_key": "github:musescore/musescore"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 earlier conversion decisions reconciled 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "musicxml",
+        "score",
+        "musescore",
+        "notation"
+      ],
+      "domain_hints": [
+        "music",
+        "production-import"
+      ],
+      "problem_hints": [
+        "bidirectional-interchange",
+        "semantic-fidelity"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "musicxml",
+        "score",
+        "musescore",
+        "notation"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "MusicXML score interchange/reference; score layout, articulations, playback and engraving not assumed roundtrip",
+        "No source copying or provider admission from donor capture."
       ]
     },
     {
