@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 992,
+    "entry_count": 1016,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -909,6 +909,83 @@
       "notes": [
         "Candidate only; route exclusively through central Model Router."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ACTIONS-RUNNER-IMAGES-001",
+      "name": "actions/runner-images",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/actions/runner-images",
+        "normalized_key": "github:actions/runner-images"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-2026-09-28",
+        "verified-upstream-github-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "IMAGE_BUILD_PATTERN",
+        "SOFTWARE_INVENTORY_PATTERN",
+        "CI_VALIDATION_PATTERN"
+      ],
+      "capability_hints": [
+        "reproducible CI runner image definitions",
+        "software inventory and version manifest generation",
+        "build image preflight and validation tests",
+        "image lifecycle and release change tracking"
+      ],
+      "domain_hints": [
+        "ci-cd",
+        "reproducible-builds",
+        "software-supply-chain",
+        "runner-images"
+      ],
+      "problem_hints": [
+        "unexpected hosted runner software drift",
+        "unverified environment provisioning",
+        "missing build tool inventory",
+        "non-repeatable CI baseline"
+      ],
+      "target_hints": [
+        "Release Fabric",
+        "Evidence Registry",
+        "Developer Agent",
+        "Hardware Audit",
+        "CI runner provisioning"
+      ],
+      "tags": [
+        "github-actions",
+        "azure-pipelines",
+        "packer",
+        "ubuntu",
+        "multi-architecture",
+        "software-manifest",
+        "validation",
+        "image-release-tracking"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Verified upstream actions/runner-images main at 7ef9dd0112f1827264dbca2dff8b13eb9f1a5534 (2026-09-28). Repo MIT declaration applies to repository source; included third-party package licenses must be independently assessed.",
+        "Selective reference only: Packer HCL image build definitions, Ubuntu PowerShell/Pester installation validation, software report generation, GA/deprecation practices. Upstream Azure image build is not an FA3 runtime or cloud dependency.",
+        "GitHub-hosted runner and Azure images do not substitute FA3 self-hosted current-host evidence. Do not infer FA3 host CUDA/ROCm/GPU or Kubuntu package baseline from cloud VM manifests. Pin labels and revisions when reproducibility is required."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-ADAMSTARK-BTRACK-001",
@@ -5282,6 +5359,66 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-ANUGA-001",
+      "name": "ANUGA",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/anuga-community/anuga_core",
+        "normalized_key": "github:anuga-community/anuga_core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "flood-inundation",
+        "tsunami-simulation",
+        "shallow-water-equations"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AOMEDIACODEC-AVM-001",
       "name": "Alliance for Open Media AVM",
       "source": {
@@ -6129,6 +6266,68 @@
         "checked_at": "2026-09-28",
         "source": "GitHub repository API"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-ASTRAL-001",
+      "name": "Astral",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sffjunkie/astral",
+        "normalized_key": "github:sffjunkie/astral"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "sunrise-sunset",
+        "twilight-calculation",
+        "sun-and-moon-position"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "Scene / Shot Designer",
+        "World & Environment Studio",
+        "World & Event Director"
+      ],
+      "tags": [
+        "daypart",
+        "solar",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional selective donor; validated historical context and CPU-only preview remain separate FA3 contracts."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ASWF-OPENCOLORIO-001",
@@ -8127,7 +8326,9 @@
     {
       "status": "CANDIDATE",
       "discovered_from": [
-        "github-blender-donor-2026-09-28"
+        "github-blender-donor-2026-09-28",
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
@@ -8151,7 +8352,8 @@
       },
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
       ],
       "capability_hints": [
         "3d-scene-graph",
@@ -8161,16 +8363,25 @@
         "geometry-nodes",
         "compositing",
         "asset-workflows",
-        "dcc-interchange"
+        "dcc-interchange",
+        "fluid-smoke-fire-reference",
+        "procedural-particles",
+        "rigid-body-weather-effects"
       ],
       "domain_hints": [
         "3d",
         "animation",
         "dcc",
         "vfx",
-        "creative"
+        "creative",
+        "environment",
+        "natural-phenomena",
+        "simulation"
       ],
-      "problem_hints": [],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
       "target_hints": [
         "Bforartists",
         "3D Fabric",
@@ -8180,7 +8391,10 @@
         "Creative Studio",
         "FA3 Video Editor",
         "Asset Graph",
-        "Production Import & Migration Fabric"
+        "Production Import & Migration Fabric",
+        "VFX Studio",
+        "World & Environment Studio",
+        "World & Event Director"
       ],
       "tags": [
         "blender",
@@ -8189,7 +8403,10 @@
         "geometry-nodes",
         "animation",
         "usd",
-        "gltf"
+        "gltf",
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
       ],
       "license": {
         "declared": "GPL-3.0",
@@ -8198,7 +8415,8 @@
       "notes": [
         "Official read-only GitHub mirror; authoritative development source is https://projects.blender.org/blender/blender . Blender as a whole GPL-3.0; files and bundled dependencies may have different compatible licenses. FA3 uses selective reference patterns; Bforartists remains primary DCC.",
         "2026 Blender GSoC VSE-OTIO import/export and metadata/roundtrip tests are research evidence only; verify exact Blender release/merge and external fixtures before interoperability admission. https://devtalk.blender.org/t/gsoc-2026-opentimelineio-support-in-vse/45205/16",
-        "OpenTimelineIO/VSE project import/export remains a 2026 upstream research signal; exact Blender release/version support, bidirectional editable project fidelity and source-timebase preservation require verified external-app fixtures; no automatic admission."
+        "OpenTimelineIO/VSE project import/export remains a 2026 upstream research signal; exact Blender release/version support, bidirectional editable project fidelity and source-timebase preservation require verified external-app fixtures; no automatic admission.",
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
       ]
     },
     {
@@ -8378,6 +8596,80 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-BRAVOCW-SOCIAL-MEDIA-AUTOMATION-001",
+      "name": "bravocw/Social-Media-Automation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bravocw/Social-Media-Automation",
+        "normalized_key": "github:bravocw/social-media-automation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 donor evaluation 2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "CAP-040 Social Media Integration & Intelligence",
+        "CAP-049 Workflow Automation",
+        "Android multi-device task dispatch",
+        "Activity logging and status reporting"
+      ],
+      "domain_hints": [
+        "android",
+        "marketing",
+        "social-media",
+        "task-orchestration"
+      ],
+      "problem_hints": [
+        "batch multi-device scheduling",
+        "per-device execution status",
+        "operator dashboard and xlsx reporting"
+      ],
+      "target_hints": [
+        "CAP-040 Social Media Integration & Intelligence",
+        "CAP-049 Workflow Automation",
+        "FA3 Marketing"
+      ],
+      "tags": [
+        "adb",
+        "android",
+        "batch",
+        "device-management",
+        "excel-reporting",
+        "human-approval-required",
+        "observability",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "ISC in package.json only",
+        "status": "UNVERIFIED_NO_ROOT_LICENSE_FILE"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream commit 3fa75959c64777b51e3c0a94b78bb8fd0dcddb28 inspected on 2026-09-28. Electron/Node.js desktop tool bundles Windows ADB binaries and Windows installer; no native Linux runtime claimed.",
+        "Potential reuse is limited to generic multi-device inventory, bounded batch dispatch, status dashboard, activity logs and Excel-reporting patterns. Prefer FA3-native implementations; no upstream code import.",
+        "Do not reuse Instagram auto-like/comment/follow mass-engagement behaviors, UI automation, randomized interaction delays, bundled binaries, or external license/update channels as production integrations. Upstream README says it uses no official Instagram API.",
+        "Code audit found shell command string construction with child_process.exec and shared relative UI XML filenames; shell argument validation, device isolation, privacy and concurrency need independent review before any adapter.",
+        "FA3 publication/launch requires explicit human approval; CAP-040 Social Gateway, CAP-049 workflow authority, existing identity/secrets and evidence remain authoritative.",
+        "Hardware Audit: metadata-only, CPU-only viable, vendor-neutral, GPU/NPU 0..N; no device probing, installation, model execution or current-host PASS claimed. Wayland preferred for new FA3 GUI adapters, X11 supported."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-BROWSER-HARNESS-001",
@@ -9072,6 +9364,150 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CHIP-HUYEN-DMLS-BOOK-001",
+      "name": "Chip Huyen Designing Machine Learning Systems (2022 companion repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/chiphuyen/dmls-book",
+        "normalized_key": "github:chiphuyen/dmls-book"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-source-followup-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "KNOWLEDGE_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "mlops-component-checklist",
+        "model-deployment-and-monitoring-review",
+        "data-shift-and-drift-review",
+        "production-feedback-and-continual-learning-review",
+        "mlops-tool-landscape-discovery"
+      ],
+      "domain_hints": [
+        "mlops",
+        "models",
+        "evaluation",
+        "data",
+        "inference",
+        "monitoring"
+      ],
+      "problem_hints": [
+        "ml-system-lifecycle-gaps",
+        "model-deployment-monitoring-and-feedback-gaps"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Training Fabric",
+        "Inference Fabric",
+        "Data Pipeline",
+        "Evidence Registry",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "machine-learning-systems-design",
+        "chip-huyen",
+        "2022-book-companion",
+        "mlops",
+        "tool-discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Companion repository to the published 2022 book; chapter summaries, resources and MLOps tool index, no code examples. Upstream main HEAD observed b9d1d085d121ec582ae2a41807b8b446d62492df. Tool index is discovery-only and dated; independently verify every downstream source. No declared repo license found; no copying or bundling of copyrighted text or assets."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-HUYEN-MACHINE-LEARNING-SYSTEMS-DESIGN-001",
+      "name": "Chip Huyen Machine Learning Systems Design (2019 booklet)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/chiphuyen/machine-learning-systems-design",
+        "normalized_key": "github:chiphuyen/machine-learning-systems-design"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-user-link-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "KNOWLEDGE_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ml-system-design-checklist",
+        "data-pipeline-design-review",
+        "model-baseline-and-debugging-methodology",
+        "offline-to-online-evaluation-design",
+        "serving-feedback-loop-design"
+      ],
+      "domain_hints": [
+        "mlops",
+        "models",
+        "evaluation",
+        "data",
+        "inference"
+      ],
+      "problem_hints": [
+        "end-to-end-ml-lifecycle-review",
+        "missing-evaluation-or-monitoring-requirements"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Model Router",
+        "Training Fabric",
+        "Inference Fabric",
+        "Data Pipeline",
+        "Evidence Registry"
+      ],
+      "tags": [
+        "machine-learning-systems-design",
+        "chip-huyen",
+        "2019-booklet",
+        "design-exercises",
+        "methodology"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Original 2019 booklet; four-stage iterative workflow, case studies and 27 design exercises. Upstream master HEAD observed 15780893ea0d7ebf2c6f577328e0c84897ee64be. Reference text/methodology only; old material requires current validation. No declared repo license found; do not copy book text, code or assets."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-CHROME-DEVTOOLS-PROTOCOL-001",
       "name": "Chrome DevTools Protocol",
       "source": {
@@ -9237,6 +9673,69 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CITYJSON-SPECIFICATIONS-001",
+      "name": "CityJSON specifications",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cityjson/specs",
+        "normalized_key": "github:cityjson/specs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "city-model-interchange",
+        "buildings-streets-vegetation",
+        "geospatial-lod"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Realtime / Virtual Production Interchange",
+        "World & Environment Studio",
+        "World & Event Director"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "CC0-1.0 (specification; tools separately licensed)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLAP-AUDIO-PLUGIN-API-001",
@@ -12082,6 +12581,67 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-ECLIPSE-SUMO-001",
+      "name": "Eclipse SUMO",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/eclipse-sumo/sumo",
+        "normalized_key": "github:eclipse-sumo/sumo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "historical-network-traffic-scenario",
+        "intermodal-vehicle-pedestrian-response",
+        "story-event-route-diversion"
+      ],
+      "domain_hints": [
+        "creative-production",
+        "worldbuilding",
+        "scene-planning"
+      ],
+      "problem_hints": [
+        "narrative-world-continuity",
+        "reusable-existing-runtime-interchange"
+      ],
+      "target_hints": [
+        "World & Event Director",
+        "World & Environment Studio",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "world-event-director",
+        "selective-donor-candidate",
+        "story-driven-worldbuilding"
+      ],
+      "license": {
+        "declared": "EPL-2.0 (repository license; dependencies and supplemental components separately reviewed)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional network/transport simulator; historic routes and traffic demand require independent time-valid sources; no false exact street traffic."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-EDWARDATHOMSON-NOVELWRITER-001",
       "name": "EdwardAThomson/NovelWriter",
       "source": {
@@ -12361,6 +12921,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ENERGYPLUS-001",
+      "name": "EnergyPlus",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/NatLabRockies/EnergyPlus",
+        "normalized_key": "github:natlabrockies/energyplus"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "building-thermal-response",
+        "building-energy-reference",
+        "indoor-environment"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "EnergyPlus custom permissive license (attribution and name/trademark conditions)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution.",
+        "GitHub NREL/EnergyPlus redirects to NatLabRockies/EnergyPlus; recorded canonical upstream."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ENFUSE-001",
@@ -27966,6 +28587,66 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-LISFLOOD-FP-BMI-001",
+      "name": "LISFLOOD-FP BMI",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openearth/lisflood-fp-bmi",
+        "normalized_key": "github:openearth/lisflood-fp-bmi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "floodplain-simulation",
+        "flood-model-bmi-pattern",
+        "overland-flow"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "GPL-3.0 (this version)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LITTLECMS-001",
       "name": "LittleCMS",
       "source": {
@@ -30779,6 +31460,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MESA-AGENT-BASED-MODELING-001",
+      "name": "Mesa agent-based modeling",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mesa/mesa",
+        "normalized_key": "github:mesa/mesa"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "agent-based-crowd-scenario",
+        "spatial-interaction-pattern",
+        "narrative-triggered-pedestrian-behavior"
+      ],
+      "domain_hints": [
+        "creative-production",
+        "worldbuilding",
+        "scene-planning"
+      ],
+      "problem_hints": [
+        "narrative-world-continuity",
+        "reusable-existing-runtime-interchange"
+      ],
+      "target_hints": [
+        "World & Event Director",
+        "World & Environment Studio",
+        "Scene / Shot Designer"
+      ],
+      "tags": [
+        "world-event-director",
+        "selective-donor-candidate",
+        "story-driven-worldbuilding"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Behavioral simulation reference, not documented historic street-crowd observations or validated life-safety emergency behavior."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-META-SAM-2-001",
       "name": "Meta SAM 2",
       "source": {
@@ -33165,6 +33907,83 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-MUSTAFAKENDIGUZEL-CLAUDE-CODE-UI-AGENTS-001",
+      "name": "mustafakendiguzel/claude-code-ui-agents",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mustafakendiguzel/claude-code-ui-agents",
+        "normalized_key": "github:mustafakendiguzel/claude-code-ui-agents"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SKILL_PATTERN",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "FA3 GUI Design System",
+        "FA3 Developer Agent",
+        "FA3 Prompt Builder"
+      ],
+      "domain_hints": [
+        "ui-ux",
+        "frontend-design",
+        "design-systems",
+        "accessibility",
+        "responsive-layout",
+        "micro-interactions"
+      ],
+      "problem_hints": [
+        "cross-application-ui-consistency",
+        "reusable-design-tokens",
+        "accessible-qt-interface-design",
+        "task-scoped-ui-design-prompts"
+      ],
+      "target_hints": [
+        "FA3 GUI",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Story / Screenplay Studio",
+        "Creative Studio",
+        "Developer Agent",
+        "Prompt Builder"
+      ],
+      "tags": [
+        "claude-code",
+        "ui-ux",
+        "prompt-templates",
+        "design-tokens",
+        "frontend",
+        "accessibility",
+        "qt-adaptation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "Upstream source observed at commit e224ca06d45fcbfdb05c581cc2257967a891ea79; repository README lists nine prompts across seven UI/UX and frontend categories; LICENSE declares MIT (copyright Mustafa Kendigüzel, 2025).",
+        "Reference patterns only. Original prompts hard-code model: sonnet and emphasize React/CSS/ARIA; adapt any accepted skill to FA3 Qt6/QML/KF6 and X11/Wayland, and route any model through the central Model Router and HRB with no fixed Claude provider, automatic selection, or silent fallback.",
+        "Metadata-only capture. No source copy, model/provider admission, auto-fetch, auto-install, runtime activation or current-host evidence is claimed. Full license, security, provenance, design-review and Hardware Audit gates required before implementation."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-MWASIFANWAR-3D-SCENE-GENERATOR-001",
       "name": "mwasifanwar/3D-Scene-Generator",
       "source": {
@@ -33405,6 +34224,65 @@
       "notes": [
         "README proprietary badge links to MIT page and GitHub exposes no SPDX license; do not copy code. Any proposed TTS uses approved FA3 providers, consent and explicit resources.",
         "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NASA-FIRMS-API-001",
+      "name": "NASA FIRMS API",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://firms.modaps.eosdis.nasa.gov/api/",
+        "normalized_key": "https://firms.modaps.eosdis.nasa.gov/api/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "satellite-thermal-anomalies",
+        "wildfire-scene-reference",
+        "hotspot-data"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "DATA_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
       ]
     },
     {
@@ -33755,6 +34633,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-NIST-FIRE-DYNAMICS-SIMULATOR-001",
+      "name": "NIST Fire Dynamics Simulator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/firemodels/fds",
+        "normalized_key": "github:firemodels/fds"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "building-fire",
+        "smoke-and-heat-transport",
+        "interior-hazard-simulation"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "VFX Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Public Domain (NIST-developed code; review bundled components)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-NNSTREAMER-CORE-001",
       "name": "NNStreamer core",
       "source": {
@@ -33967,6 +34906,65 @@
       "automatic_model_selection": false,
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NOAA-NOMADS-GFS-001",
+      "name": "NOAA NOMADS GFS",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://nomads.ncep.noaa.gov/",
+        "normalized_key": "https://nomads.ncep.noaa.gov/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "forecast-grid-data",
+        "weather-reconstruction",
+        "grib-ingestion"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "DATA_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
       ]
     },
     {
@@ -38388,6 +39386,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OPEN-METEO-APIS-001",
+      "name": "Open-Meteo APIs",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://open-meteo.com/en/docs/",
+        "normalized_key": "https://open-meteo.com/en/docs/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "historical-weather",
+        "forecast-api",
+        "provider-adapter"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "COMMERCIAL_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPEN-MPI-OMPI-001",
       "name": "Open MPI",
       "source": {
@@ -39463,6 +40520,66 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-OPENFOAM-001",
+      "name": "OpenFOAM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenFOAM/OpenFOAM-dev",
+        "normalized_key": "github:openfoam/openfoam-dev"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "wind-cfd",
+        "fluid-flow",
+        "building-airflow-research"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENHANDS-SOFTWARE-AGENT-SDK-001",
       "name": "OpenHands/software-agent-sdk",
       "source": {
@@ -39519,6 +40636,68 @@
       "automatic_model_selection": false,
       "notes": [
         "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENHISTORICALMAP-MAPLIBRE-DATE-PLUGIN-001",
+      "name": "OpenHistoricalMap MapLibre date plugin",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenHistoricalMap/maplibre-gl-dates",
+        "normalized_key": "github:openhistoricalmap/maplibre-gl-dates"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "date-filtered-historical-map-display",
+        "temporal-geospatial-layer-pattern"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Scene / Shot Designer",
+        "World & Environment Studio",
+        "World & Event Director"
+      ],
+      "tags": [
+        "historical-maps",
+        "date-filter",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "CC0-1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "The CC0 declaration covers this code repository; historical map and imagery datasets are independently licensed, dated and attributed."
       ]
     },
     {
@@ -40101,6 +41280,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OPENSEES-001",
+      "name": "OpenSees",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenSees/OpenSees",
+        "normalized_key": "github:opensees/opensees"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "structural-earthquake-response",
+        "building-wind-load",
+        "post-event-structural-reference"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENSHORTS-001",
       "name": "OpenShorts",
       "source": {
@@ -40319,6 +41558,69 @@
       },
       "notes": [
         "Production migration planning reference: preserve original native project; independently verify bidirectional format semantics."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENVDB-001",
+      "name": "OpenVDB",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/openvdb",
+        "normalized_key": "github:academysoftwarefoundation/openvdb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "sparse-volume",
+        "smoke-fire-fog",
+        "cpu-volume-interchange"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "VFX Studio",
+        "World & Environment Studio",
+        "World & Event Director"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
       ]
     },
     {
@@ -42455,7 +43757,9 @@
         "pixar-github-org-curation-2026-09-28",
         "user-explicit-github-donor-2026-09-28",
         "official-openusd-upstream-verification-2026-09-28",
-        "linux-maya-github-donor-curation-2026-09-28"
+        "linux-maya-github-donor-curation-2026-09-28",
+        "fa3-environmental-natural-phenomena-review-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -42500,7 +43804,8 @@
         "usd-asset-interchange",
         "usd-variant-and-payload-workflows",
         "hydra-render-delegation",
-        "usd-schema-extension"
+        "usd-schema-extension",
+        "layered-environment-scene-interchange"
       ],
       "domain_hints": [
         "3d",
@@ -42526,7 +43831,9 @@
         "Realtime / Virtual Production Interchange",
         "Bforartists",
         "Character Studio",
-        "Render Fabric"
+        "Render Fabric",
+        "World & Environment Studio",
+        "World & Event Director"
       ],
       "tags": [
         "pixar-github",
@@ -42547,7 +43854,8 @@
         "usdlux",
         "usdgeom",
         "arresolver",
-        "khronos-interoperability"
+        "khronos-interoperability",
+        "cross-scale-environment"
       ],
       "license": {
         "declared": "Tomorrow Open Source Technology License 1.0",
@@ -45094,38 +46402,54 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "FA3 external production migration research 2026-09-29",
-        "https://github.com/AcademySoftwareFoundation/OpenTimelineIO"
+        "https://github.com/AcademySoftwareFoundation/OpenTimelineIO",
+        "fa3-world-event-director-application-plan-2026-09-28"
       ],
-      "first_seen": "2026-09-29",
+      "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
+        "ARCHITECTURE_PATTERN",
+        "INTERCHANGE_REFERENCE"
       ],
       "capability_hints": [
         "otio",
         "editorial",
         "timecode",
-        "project-import"
+        "project-import",
+        "shot-cut-timing-interchange",
+        "editable-metadata-transit",
+        "editorial-timebase-reference"
       ],
       "domain_hints": [
         "editorial",
-        "production-import"
+        "production-import",
+        "creative-production",
+        "worldbuilding",
+        "scene-planning"
       ],
       "problem_hints": [
         "source-project-preservation",
-        "cross-application-migration"
+        "cross-application-migration",
+        "narrative-world-continuity",
+        "reusable-existing-runtime-interchange"
       ],
       "target_hints": [
         "Video Editor",
         "QuickClip",
-        "Production Import & Migration Fabric"
+        "Production Import & Migration Fabric",
+        "World & Event Director",
+        "FA3 Video Editor",
+        "Scene / Shot Designer"
       ],
       "tags": [
         "otio",
         "editorial",
         "timecode",
-        "project-import"
+        "project-import",
+        "world-event-director",
+        "selective-donor-candidate",
+        "story-driven-worldbuilding"
       ],
       "license": {
         "declared": "Apache-2.0",
@@ -45149,7 +46473,8 @@
       },
       "notes": [
         "Read and write OTIO cut structures with timecode and media references; external formats are lossy, original project remains source authority.",
-        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion.",
+        "Editorial interchange only; preserves FA3 Video Editor timeline authority and media reference ownership."
       ]
     },
     {
@@ -48856,6 +50181,69 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-PVLIB-PYTHON-001",
+      "name": "pvlib-python",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pvlib/pvlib-python",
+        "normalized_key": "github:pvlib/pvlib-python"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "solar-position",
+        "solar-irradiance",
+        "time-aware-solar-exposure"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Scene / Shot Designer",
+        "World & Environment Studio",
+        "World & Event Director"
+      ],
+      "tags": [
+        "solar-model",
+        "astronomy",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional selective donor; validated historical context and CPU-only preview remain separate FA3 contracts."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-PYDANTIC-PYDANTIC-AI-001",
@@ -55567,6 +56955,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-TIMEZONEFINDER-001",
+      "name": "timezonefinder",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jannikmi/timezonefinder",
+        "normalized_key": "github:jannikmi/timezonefinder"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-geo-temporal-fiction-2026-09-28",
+        "fa3-world-event-director-application-plan-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "coordinate-to-timezone-id",
+        "time-zone-lookup"
+      ],
+      "domain_hints": [
+        "environment",
+        "geo-temporal",
+        "historical-world-reconstruction"
+      ],
+      "problem_hints": [
+        "time-and-place-aware-scene-generation",
+        "historical-provenance-and-regional-season"
+      ],
+      "target_hints": [
+        "Weather & Geo Data Provider",
+        "World & Environment Studio",
+        "World & Event Director"
+      ],
+      "tags": [
+        "timezone",
+        "historical-time-rules-separate",
+        "historical-geo-temporal"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Contemporary coordinate-to-IANA timezone mapping; historical local offsets must use dated time-zone rules and historic place boundary validation."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TINY-SKIA-001",
       "name": "tiny-skia",
       "source": {
@@ -57888,6 +59337,125 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-US-EPA-SWMM-001",
+      "name": "US EPA SWMM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/USEPA/Stormwater-Management-Model",
+        "normalized_key": "github:usepa/stormwater-management-model"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "stormwater-runoff",
+        "urban-drainage",
+        "rain-to-flood-cascade"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "simulation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Scientific Simulation Adapter"
+      ],
+      "tags": [
+        "selective-adapter-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "Public Domain (EPA solver)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Candidate selective reuse only; verify independent licence, dependency, security and actual host execution."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-USGS-EARTHQUAKE-API-001",
+      "name": "USGS Earthquake API",
+      "source": {
+        "kind": "WEB",
+        "locator": "https://earthquake.usgs.gov/fdsnws/event/1/",
+        "normalized_key": "https://earthquake.usgs.gov/fdsnws/event/1/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-environmental-natural-phenomena-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "historical-earthquake-events",
+        "geojson-seismic-ingestion",
+        "event-provenance"
+      ],
+      "domain_hints": [
+        "environment",
+        "natural-phenomena",
+        "earth-observation"
+      ],
+      "problem_hints": [
+        "cross-scale-natural-phenomena",
+        "physical-effects-and-data-provenance"
+      ],
+      "target_hints": [
+        "World & Environment Studio",
+        "Weather & Geo Data Provider"
+      ],
+      "tags": [
+        "data-provider-candidate",
+        "environmental-fabric",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "DATA_TERMS_REVIEW_REQUIRED",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "DATA_TERMS_AND_PROVIDER_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-VALVESOFTWARE-PROTON-001",
