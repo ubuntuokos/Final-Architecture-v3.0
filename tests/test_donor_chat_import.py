@@ -148,6 +148,18 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertFalse(ambiguous)
         self.assertEqual(sources, [("example/one", "GITHUB", "https://github.com/example/one")])
 
+    def test_owner_donornak_without_colon_before_link(self):
+        sources, ambiguous = _candidate_sources(
+            "donornak https://github.com/example/no-colon", owner_direct=True)
+        self.assertFalse(ambiguous)
+        self.assertEqual(sources, [("example/no-colon", "GITHUB",
+                                    "https://github.com/example/no-colon")])
+        result = ingest(self.root, [self.user(
+            "donornak https://github.com/example/no-colon")],
+            origin="chatgpt-export")
+        self.assertEqual(result["created"], 1)
+        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
+
     def test_missing_marker_never_passes_candidate_sources(self):
         self.assertEqual(_candidate_sources("Donor: https://github.com/example/one", owner_direct=True)[0], [])
         self.assertEqual(_candidate_sources("donornak: https://github.com/example/one", owner_direct=False)[0], [])
