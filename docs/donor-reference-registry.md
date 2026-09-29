@@ -96,3 +96,7 @@ The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestra
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## OpenAL, OpenMAX, OpenMax and HEIF / HEIC donor curation (2026-09-29)
+
+[Source identities, individually inspected projects and FA3 admission boundaries](donor-openal-openmax-heif-2026-09-29.md). The 12 explicitly supplied profile/topic/repository URLs plus seven selectively inspected repositories are source-deduplicated as candidate-only metadata. The unrelated meanings of OpenMAX IL, OpenMax classification, OpenMax AI collaboration and MAX messaging remain distinct. Nokia HEIF License 2.1 non-commercial-use restrictions and archived Intel omxil_core status are explicit blockers to automatic code/runtime adoption.

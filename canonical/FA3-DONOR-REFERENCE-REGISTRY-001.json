@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 592,
+    "entry_count": 611,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -14966,6 +14966,64 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-INTEL-OMXIL-CORE-001",
+      "name": "intel/omxil_core (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/intel/omxil_core",
+        "normalized_key": "github:intel/omxil_core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/intel/omxil_core",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "openmax-il",
+        "media-interop"
+      ],
+      "domain_hints": [
+        "multimedia"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Capture & Inbox",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "multimedia",
+        "repo"
+      ],
+      "notes": [
+        "Archived Intel VA-API OpenMAX IL core; historical reference only",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_ROOT_LICENSE_FOUND_ARCHIVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-INTEL-PCM-001",
       "name": "intel/pcm",
       "source": {
@@ -16261,6 +16319,189 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KCAT-001",
+      "name": "kcat (GitHub upstream profile)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kcat",
+        "normalized_key": "github:kcat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/kcat",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "spatial-audio",
+        "openal",
+        "hrtf",
+        "sound-streaming"
+      ],
+      "domain_hints": [
+        "audio"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "World Generator",
+        "Video Editor"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "audio",
+        "profile"
+      ],
+      "notes": [
+        "OpenAL Soft and Alure upstream discovery",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KCAT-ALURE-001",
+      "name": "kcat/alure (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kcat/alure",
+        "normalized_key": "github:kcat/alure"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/kcat/alure",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "spatial-audio",
+        "openal",
+        "hrtf",
+        "sound-streaming"
+      ],
+      "domain_hints": [
+        "audio"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "World Generator",
+        "Video Editor"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "audio",
+        "repo"
+      ],
+      "notes": [
+        "OpenAL C++ loading, decoding, streaming/cache patterns; dependencies separately audited",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "Zlib",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KCAT-OPENAL-SOFT-001",
+      "name": "kcat/openal-soft (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kcat/openal-soft",
+        "normalized_key": "github:kcat/openal-soft"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/kcat/openal-soft",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "spatial-audio",
+        "openal",
+        "hrtf",
+        "sound-streaming"
+      ],
+      "domain_hints": [
+        "audio"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "World Generator",
+        "Video Editor"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "audio",
+        "repo"
+      ],
+      "notes": [
+        "OpenAL software 3D audio, HRTF and EFX; evaluate optional CPU-only adapter, central audio and coexistence governance",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "LGPL-2.0-or-later",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -20212,6 +20453,122 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-NIKITA-PETRASHEN-001",
+      "name": "nikita-petrashen (GitHub upstream profile)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nikita-petrashen",
+        "normalized_key": "github:nikita-petrashen"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/nikita-petrashen",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "open-set-classification",
+        "unknown-class-detection"
+      ],
+      "domain_hints": [
+        "ai"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Model Evaluation",
+        "Model Manager",
+        "AI Red Flag Detector"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "ai",
+        "profile"
+      ],
+      "notes": [
+        "Open-set classification reference profile",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NIKITA-PETRASHEN-OPENMAX-001",
+      "name": "nikita-petrashen/openmax (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nikita-petrashen/openmax",
+        "normalized_key": "github:nikita-petrashen/openmax"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/nikita-petrashen/openmax",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "open-set-classification",
+        "unknown-class-detection"
+      ],
+      "domain_hints": [
+        "ai"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Model Evaluation",
+        "Model Manager",
+        "AI Red Flag Detector"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "ai",
+        "repo"
+      ],
+      "notes": [
+        "Extreme-value-theory open-set classification unknown detection; root license not identified",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_ROOT_LICENSE_FOUND"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -20378,6 +20735,123 @@
       "notes": [
         "Claude Code plugin not adopted as an FA3 runtime dependency."
       ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NOKIATECH-001",
+      "name": "nokiatech (GitHub upstream profile)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nokiatech",
+        "normalized_key": "github:nokiatech"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/nokiatech",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "heif",
+        "heic",
+        "image-import-export"
+      ],
+      "domain_hints": [
+        "image"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "image",
+        "profile"
+      ],
+      "notes": [
+        "Nokia HEIF upstream reference discovery",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NOKIATECH-HEIF-001",
+      "name": "nokiatech/heif (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nokiatech/heif",
+        "normalized_key": "github:nokiatech/heif"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/nokiatech/heif",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "heif",
+        "heic",
+        "image-import-export"
+      ],
+      "domain_hints": [
+        "image"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric",
+        "Video Editor"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "image",
+        "repo"
+      ],
+      "notes": [
+        "HEIF ISOBMFF reader/writer. Nokia HEIF License 2.1 is restricted to defined noncommercial evaluation, testing and academic research; copying/redistribution to commercial FA3 blocked, codec patents not granted",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "Nokia-HEIF-License-2.1",
+        "status": "RESTRICTED_NONCOMMERCIAL_UPSTREAM_TEXT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -25037,6 +25511,354 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENMAX-SERVER-001",
+      "name": "openmax-server (GitHub upstream profile)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmax-server",
+        "normalized_key": "github:openmax-server"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/openmax-server",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "messenger-protocol",
+        "privacy-review"
+      ],
+      "domain_hints": [
+        "communications"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "AI Communications",
+        "Capture & Inbox",
+        "Agent Federation"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "communications",
+        "profile"
+      ],
+      "notes": [
+        "MAX messenger server/protocol discovery; unrelated to OpenMAX IL",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENMAX-SERVER-DOCS-001",
+      "name": "openmax-server/docs (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmax-server/docs",
+        "normalized_key": "github:openmax-server/docs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/openmax-server/docs",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "messenger-protocol",
+        "privacy-review"
+      ],
+      "domain_hints": [
+        "communications"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "AI Communications",
+        "Capture & Inbox",
+        "Agent Federation"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "communications",
+        "repo"
+      ],
+      "notes": [
+        "MAX/TamTam protocol documentation, documentation-only reference",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENMAX-SERVER-SERVER-001",
+      "name": "openmax-server/server (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmax-server/server",
+        "normalized_key": "github:openmax-server/server"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/openmax-server/server",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "messenger-protocol",
+        "privacy-review"
+      ],
+      "domain_hints": [
+        "communications"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "AI Communications",
+        "Capture & Inbox",
+        "Agent Federation"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "communications",
+        "repo"
+      ],
+      "notes": [
+        "MAX messenger server, not multimedia; privacy/security/source review needed",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENMAXAI-001",
+      "name": "openmaxai (GitHub upstream profile)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmaxai",
+        "normalized_key": "github:openmaxai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/openmaxai",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "agent-messaging",
+        "sync-reconciliation"
+      ],
+      "domain_hints": [
+        "agent"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Agent Federation",
+        "Skill Fabric/Codex"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "agent",
+        "profile"
+      ],
+      "notes": [
+        "AI team workspace ecosystem; not OpenMAX IL or OpenMax classifier",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENMAXAI-HXA-CONNECT-SDK-001",
+      "name": "openmaxai/hxa-connect-sdk (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmaxai/hxa-connect-sdk",
+        "normalized_key": "github:openmaxai/hxa-connect-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/openmaxai/hxa-connect-sdk",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-messaging",
+        "sync-reconciliation"
+      ],
+      "domain_hints": [
+        "agent"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Agent Federation",
+        "Agent Collaboration Room",
+        "Director/Workforce"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "agent",
+        "repo"
+      ],
+      "notes": [
+        "Agent-to-agent transport and threaded collaboration patterns; no competing coordination authority",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_CLAIM_UNREVIEWED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENMAXAI-OPENMAX-AGENT-SDK-001",
+      "name": "openmaxai/openmax-agent-sdk (upstream repository)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmaxai/openmax-agent-sdk",
+        "normalized_key": "github:openmaxai/openmax-agent-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/openmaxai/openmax-agent-sdk",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-messaging",
+        "sync-reconciliation"
+      ],
+      "domain_hints": [
+        "agent"
+      ],
+      "problem_hints": [
+        "selective-FA3-reuse-assessment"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Agent Federation",
+        "Skill Fabric/Codex"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "agent",
+        "repo"
+      ],
+      "notes": [
+        "Node.js WS heartbeat/reconnect, gap recovery and inbox dedup patterns; no second FA3 messaging authority",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_ROOT_LICENSE_FOUND"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-OPENRASTER-001",
@@ -34002,6 +34824,332 @@
         "source_group": "v1.1-programlist",
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-HEIC-CONVERTER-L-HTML-001",
+      "name": "topics/heic-converter?l=html (dynamic GitHub topic)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/heic-converter?l=html",
+        "normalized_key": "github:topics/heic-converter?l=html"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/heic-converter?l=html",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "heif",
+        "heic",
+        "image-import-export"
+      ],
+      "domain_hints": [
+        "image"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric",
+        "GUI Fabric"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "image",
+        "topic"
+      ],
+      "notes": [
+        "HTML converter UX discovery, not approved runtime",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "html",
+        "sort": null,
+        "order": null,
+        "observed_url": "https://github.com/topics/heic-converter?l=html",
+        "observed_at": "2026-09-29"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-HEIC-L-C-O-ASC-S-UPDATED-001",
+      "name": "topics/heic?l=c&o=asc&s=updated (dynamic GitHub topic)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/heic?l=c&o=asc&s=updated",
+        "normalized_key": "github:topics/heic?l=c&o=asc&s=updated"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/heic?l=c&o=asc&s=updated",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "heif",
+        "heic",
+        "image-import-export"
+      ],
+      "domain_hints": [
+        "image"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "image",
+        "topic"
+      ],
+      "notes": [
+        "C language HEIC source discovery",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "c",
+        "sort": "updated",
+        "order": "asc",
+        "observed_url": "https://github.com/topics/heic?l=c&o=asc&s=updated",
+        "observed_at": "2026-09-29"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-HEIC-L-GO-001",
+      "name": "topics/heic?l=go (dynamic GitHub topic)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/heic?l=go",
+        "normalized_key": "github:topics/heic?l=go"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/heic?l=go",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "heif",
+        "heic",
+        "image-import-export"
+      ],
+      "domain_hints": [
+        "image"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "image",
+        "topic"
+      ],
+      "notes": [
+        "Go language HEIC adapter discovery",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "go",
+        "sort": null,
+        "order": null,
+        "observed_url": "https://github.com/topics/heic?l=go",
+        "observed_at": "2026-09-29"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-OPENAL-L-HASKELL-O-ASC-S-UPDATED-001",
+      "name": "topics/openal?l=haskell&o=asc&s=updated (dynamic GitHub topic)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/openal?l=haskell&o=asc&s=updated",
+        "normalized_key": "github:topics/openal?l=haskell&o=asc&s=updated"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/openal?l=haskell&o=asc&s=updated",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "spatial-audio",
+        "openal",
+        "hrtf",
+        "sound-streaming"
+      ],
+      "domain_hints": [
+        "audio"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Application Fabric"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "audio",
+        "topic"
+      ],
+      "notes": [
+        "Haskell OpenAL bindings dynamic discovery",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "haskell",
+        "sort": "updated",
+        "order": "asc",
+        "observed_url": "https://github.com/topics/openal?l=haskell&o=asc&s=updated",
+        "observed_at": "2026-09-29"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-OPENMAX-IL-L-C-2B-2B-001",
+      "name": "topics/openmax-il?l=c%2B%2B (dynamic GitHub topic)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/openmax-il?l=c%2B%2B",
+        "normalized_key": "github:topics/openmax-il?l=c%2b%2b"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/openmax-il?l=c%2B%2B",
+        "user-supplied-donor-request-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "openmax-il",
+        "media-interop"
+      ],
+      "domain_hints": [
+        "multimedia"
+      ],
+      "problem_hints": [
+        "upstream-source-discovery"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Capture & Inbox"
+      ],
+      "tags": [
+        "donor-curation-2026-09-29",
+        "multimedia",
+        "topic"
+      ],
+      "notes": [
+        "OpenMAX IL C++ legacy adapter discovery",
+        "Metadata-only candidate. No code copy, installation, model/provider admission, runtime promotion or new authority. Individual license, provenance, security, Software Coexistence, Hardware Audit and current-host review required."
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "c++",
+        "sort": null,
+        "order": null,
+        "observed_url": "https://github.com/topics/openmax-il?l=c%2B%2B",
+        "observed_at": "2026-09-29"
       }
     },
     {
