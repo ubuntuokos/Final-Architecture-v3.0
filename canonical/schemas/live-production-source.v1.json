@@ -52,8 +52,8 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 256,
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:/-]*$",
-      "description": "Opaque preauthorized source identifier; raw URLs, userinfo and credentials prohibited"
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$",
+      "description": "Opaque already-authorized source reference, never a raw URL or embedded credential."
     },
     "rights_receipt_ref": {
       "type": "string",
@@ -152,6 +152,11 @@
     "source_timing_ref": {
       "type": "string",
       "maxLength": 256
+    },
+    "independence_inspection_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$",
+      "description": "Existing source inspector receipt proving caption endpoint independent of AV; not self-asserted metadata."
     }
   },
   "allOf": [
@@ -196,7 +201,10 @@
               ]
             }
           }
-        }
+        },
+        "required": [
+          "independence_inspection_ref"
+        ]
       }
     },
     {
