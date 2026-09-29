@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1061,
+    "entry_count": 1059,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -10160,6 +10160,83 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-CLAMPDOWN-001",
+      "name": "89luca89/clampdown",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/89luca89/clampdown",
+        "normalized_key": "github:89luca89/clampdown"
+      },
+      "status": "ANALYZED",
+      "discovered_from": [
+        "FA3 clampdown integration 2026-09-28",
+        "Clampdown donor PR #481"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "Landlock scoped filesystem isolation reference",
+        "OCI nested-container precreate and createRuntime security policy reference",
+        "Seccomp-notify supervisor architecture",
+        "Default-deny agent egress and credential-isolated proxy architecture",
+        "Fail-closed mediated nested tool launch compiler"
+      ],
+      "domain_hints": [
+        "security",
+        "agent-runtime",
+        "container-isolation"
+      ],
+      "problem_hints": [
+        "Untrusted AI coding agents escaping workspaces",
+        "Nested tool OCI policy bypass",
+        "Prompt-injection-driven credential or host exposure"
+      ],
+      "target_hints": [
+        "Agent Sandbox",
+        "Agent Workload Runtime",
+        "Central MCP Gateway",
+        "Secret Broker",
+        "Runtime Hardening",
+        "Evidence Fabric"
+      ],
+      "tags": [
+        "landlock",
+        "seccomp",
+        "nested-oci",
+        "gvisor",
+        "agent-sandbox",
+        "rootless-podman",
+        "default-deny",
+        "credential-isolation"
+      ],
+      "license": {
+        "declared": "GPL-3.0-only (README SPDX; source files require separate provenance review)",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_CLEAN_REIMPLEMENTATION",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected upstream main at 4ba28fda0c5e7df729c251d49e5736bfdb53f6f7.",
+        "FA3-native clean-room pattern implementation in src/fa3_nested_tool_guard.py; zero Clampdown source copied.",
+        "Retain existing mandatory Agent Sandbox and preferred gVisor/Wasmtime; no SYS_ADMIN/NET_ADMIN sidecar and no nested default-allow public egress.",
+        "Admission/current-host implementation and production promotion require separate runtime evidence; registry entry does not grant admission.",
+        "Hardware Audit: CPU-only; accelerator count 0..N; HRB exclusively allocates and projects devices."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-CLAP-AUDIO-PLUGIN-API-001",
       "name": "CLAP Audio Plugin API",
       "source": {
@@ -15013,57 +15090,6 @@
         "Consolidated former project:g'mic project entry into canonical GitHub identity; its provenance, targets, classification and historical lookup key remain preserved.",
         "Former source-less project:G'MIC record normalized to verified GreycLab/gmic upstream in place. Existing ANALYZED state and 2026-09-27 historical research preserved; adoption still separately gated."
       ]
-    },
-    {
-      "donor_id": "FA3-DONOR-G-MIC-F0EB6E48-001",
-      "name": "G'MIC",
-      "source": {
-        "kind": "PROJECT",
-        "locator": "project:G'MIC",
-        "normalized_key": "project:g'mic"
-      },
-      "status": "ANALYZED",
-      "discovered_from": [
-        "prior-fa3-research-backfill"
-      ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
-      ],
-      "capability_hints": [],
-      "domain_hints": [
-        "image",
-        "photo",
-        "creative"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Photo/Image Editor",
-        "Creative Studio"
-      ],
-      "tags": [
-        "photo-editing",
-        "image-pipeline",
-        "color",
-        "raw"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-GARRYTAN-GSTACK-001",
@@ -34215,7 +34241,8 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "fa3-external-skill-radar",
-        "fa3-skill-activation-audit-2026-09-28"
+        "fa3-skill-activation-audit-2026-09-28",
+        "FA3 Skill Fabric verified-materialization review"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
@@ -34228,21 +34255,27 @@
       ],
       "domain_hints": [
         "agent-skills",
-        "offline-evaluation"
+        "offline-evaluation",
+        "offline skill evaluation and improvement"
       ],
       "problem_hints": [
         "offline-skill-improvement",
         "held-out-validation",
-        "quality-floor"
+        "quality-floor",
+        "regression-based comparison of skill-improvement candidates"
       ],
       "target_hints": [
         "FA3 Skill Fabric",
-        "FA3 Developer Agent Coordinator"
+        "FA3 Developer Agent Coordinator",
+        "Skill Fabric offline evaluation"
       ],
       "tags": [
         "skill",
         "offline-improvement",
-        "no-auto-promotion"
+        "no-auto-promotion",
+        "offline",
+        "improvement",
+        "evaluation"
       ],
       "license": {
         "declared": "MIT",
@@ -38090,90 +38123,6 @@
       "legacy_source_keys": [
         "project:nvidia-model-optimizer"
       ]
-    },
-    {
-      "donor_id": "FA3-DONOR-NVIDIA-MODEL-OPTIMIZER-06ED7A36-001",
-      "name": "NVIDIA Model Optimizer",
-      "source": {
-        "kind": "PROJECT",
-        "locator": "project:NVIDIA-Model-Optimizer",
-        "normalized_key": "project:nvidia-model-optimizer"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "discovered_from": [
-        "historical-architecture-artifact-curation-2026-09-28",
-        "prior-fa3-research-backfill"
-      ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
-      ],
-      "capability_hints": [
-        "autoquantize",
-        "calibration",
-        "calibration-artifact",
-        "export",
-        "export-review",
-        "pruning",
-        "ptq",
-        "qat",
-        "quantization-workflow",
-        "sparsity",
-        "speculative-decoding"
-      ],
-      "domain_hints": [
-        "ai-runtime",
-        "model",
-        "models",
-        "optimization"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Model Manager"
-      ],
-      "tags": [
-        "historical-review",
-        "mixed-precision",
-        "pruning",
-        "ptq",
-        "qat",
-        "selective-reuse",
-        "sparsity",
-        "speculative-decoding"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "selection_scope": {
-        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
-        "full_upstream_application_adoption": false,
-        "selected_capabilities": [
-          "calibration-artifact",
-          "quantization-workflow",
-          "export-review"
-        ],
-        "intended_fa3_targets": [
-          "Model Manager"
-        ],
-        "historical_source_class": "EXISTING_DONOR_SELECTIVE_APPLICATION",
-        "source_group": "v1-v3-historical-artifacts",
-        "source_reviewed_at": "2026-09-28",
-        "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
     },
     {
       "donor_id": "FA3-DONOR-NVIDIA-NEMO-AGENT-TOOLKIT-001",
@@ -42637,14 +42586,15 @@
       "donor_id": "FA3-DONOR-OPENIMAGEIO-001",
       "name": "OpenImageIO",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:OpenImageIO",
-        "normalized_key": "project:openimageio"
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/OpenImageIO",
+        "normalized_key": "github:academysoftwarefoundation/openimageio"
       },
       "status": "ANALYZED",
       "discovered_from": [
         "FA3 converter-history and external production migration reconciliation 2026-09-29",
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "adaptive-representation-donor-curation-2026-09-28"
       ],
       "first_seen": "2026-09-27",
       "last_seen": "2026-09-29",
@@ -42652,24 +42602,36 @@
         "REFERENCE_IMPLEMENTATION",
         "ARCHITECTURE_PATTERN"
       ],
-      "capability_hints": [],
+      "capability_hints": [
+        "mipmaps, tiled image processing and texture baking inputs"
+      ],
       "domain_hints": [
         "image",
         "photo",
-        "creative"
+        "creative",
+        "3d",
+        "texture"
       ],
-      "problem_hints": [],
+      "problem_hints": [
+        "ADAPTIVE_REPRESENTATION"
+      ],
       "target_hints": [
         "Creative Studio",
         "Photo/Image Editor",
         "Photo/Image Studio",
-        "Production Import & Migration Fabric"
+        "Production Import & Migration Fabric",
+        "3D Fabric",
+        "FA3 Adaptive Representation Fabric"
       ],
       "tags": [
         "photo-editing",
         "image-pipeline",
         "color",
-        "raw"
+        "raw",
+        "LOD",
+        "adaptive-representation",
+        "primary",
+        "texture"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -42688,71 +42650,11 @@
       "automatic_model_selection": false,
       "upstream_repository_references": [
         "https://github.com/AcademySoftwareFoundation/OpenImageIO"
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-OPENIMAGEIO-5A5B7D17-001",
-      "name": "OpenImageIO",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/AcademySoftwareFoundation/OpenImageIO",
-        "normalized_key": "github:academysoftwarefoundation/openimageio"
-      },
-      "status": "ANALYZED",
-      "discovered_from": [
-        "adaptive-representation-donor-curation-2026-09-28",
-        "prior-fa3-research-backfill"
       ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "ARCHITECTURE_PATTERN"
+      "legacy_source_keys": [
+        "github:academysoftwarefoundation/openimageio",
+        "project:openimageio"
       ],
-      "capability_hints": [
-        "mipmaps, tiled image processing and texture baking inputs"
-      ],
-      "domain_hints": [
-        "3d",
-        "creative",
-        "image",
-        "photo",
-        "texture"
-      ],
-      "problem_hints": [
-        "ADAPTIVE_REPRESENTATION"
-      ],
-      "target_hints": [
-        "3D Fabric",
-        "Creative Studio",
-        "FA3 Adaptive Representation Fabric",
-        "Photo/Image Editor"
-      ],
-      "tags": [
-        "LOD",
-        "adaptive-representation",
-        "color",
-        "image-pipeline",
-        "photo-editing",
-        "primary",
-        "raw",
-        "texture"
-      ],
-      "license": {
-        "declared": "Apache-2.0_WITH_THIRD_PARTY",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
       "notes": [
         "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
       ]
