@@ -214,5 +214,14 @@ class DonorChatImportTests(unittest.TestCase):
             ], origin="approved-chat-event")
         self.assertEqual(self.path.read_bytes(), before)
 
+    def test_owner_direct_batch_over_research_link_limit(self):
+        links = " ".join("https://github.com/example/tool" + str(n) for n in range(20))
+        ingest(self.root, [
+            {"text": "donornak: " + links, "speaker_role": "user"}
+        ], origin="chatgpt-export")
+        self.assertEqual(len(self.entries()), 20)
+        self.assertTrue(all(row["status"] == "ACCEPTED_REFERENCE" for row in self.entries()))
+
+
 if __name__ == "__main__":
     unittest.main()
