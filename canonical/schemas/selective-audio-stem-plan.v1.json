@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-audio-stem-plan.v1.json",
+  "title": "FA3 S4 selective stem strategy preview",
+  "description": "Non-executable, source-aware strategy for requested audio-only derivatives; subordinate to existing selective request, file.convert.inspect and Audio Source Separation Fabric. Callers cannot approve model or license claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_ref",
+    "source_sha256",
+    "inspector_receipt_ref",
+    "state",
+    "stem_leaf_count",
+    "outputs",
+    "execution_authorized",
+    "authority",
+    "existing_owners"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.selective-audio-stem-plan.v1"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inspector_receipt_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "state": {
+      "const": "STEM_STRATEGY_PREVIEW_ONLY"
+    },
+    "stem_leaf_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256
+    },
+    "outputs": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "required": [
+          "parent_leaf_index",
+          "family",
+          "selector_id",
+          "requested_stem_class",
+          "source_stream_indices",
+          "original_timebases",
+          "status",
+          "origin",
+          "quality_review_required",
+          "publish_audio",
+          "execution_authorized",
+          "original_exactness_verified",
+          "model_license_verified",
+          "physical_host_verified"
+        ],
+        "properties": {
+          "parent_leaf_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "family": {
+            "enum": [
+              "AUDIO",
+              "VIDEO"
+            ]
+          },
+          "selector_id": {
+            "enum": [
+              "SPEECH_OR_SINGING_SEPARATE",
+              "INSTRUMENTAL_ONLY",
+              "AMBIENCE_AND_SFX",
+              "DENOISED_SPEECH",
+              "MUSIC_OR_INSTRUMENTAL_ONLY",
+              "AMBIENCE_AND_SFX_ONLY"
+            ]
+          },
+          "origin": {
+            "enum": [
+              "NONE",
+              "CLAIMED_ORIGINAL_TRACK",
+              "PROPOSED_ESTIMATED_STEM",
+              "DENOISE_DERIVATIVE_ONLY"
+            ]
+          },
+          "source_stream_indices": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "status": {
+            "enum": [
+              "BLOCKED_MISSING_AUDIO",
+              "PENDING_OPERATOR_STREAM_CHOICE",
+              "PENDING_SEPARATE_DENOISE_PROVIDER_AND_QUALITY_EVIDENCE",
+              "PENDING_INDEPENDENT_SOURCE_STEM_ATTESTATION_VERIFICATION",
+              "PENDING_INDEPENDENT_LICENSE_MODEL_HRB_AND_QUALITY_ADMISSION",
+              "ESTIMATE_REQUIRES_EXPLICIT_OPERATOR_OPT_IN",
+              "UNSUPPORTED_EXACT_STEM_WITH_AVAILABLE_PREVIEW_METADATA"
+            ]
+          },
+          "quality_review_required": {
+            "const": true
+          },
+          "publish_audio": {
+            "const": false
+          },
+          "execution_authorized": {
+            "const": false
+          },
+          "original_exactness_verified": {
+            "const": false
+          },
+          "model_license_verified": {
+            "const": false
+          },
+          "physical_host_verified": {
+            "const": false
+          }
+        }
+      }
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "authority": {
+      "const": false
+    },
+    "existing_owners": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-fa3-policy": {
+    "capability_count": 175,
+    "authority": false,
+    "execution_authorized": false,
+    "current_host_runtime_promotion_claim": false,
+    "new_architectural_authority": false,
+    "model_provider_admission": false,
+    "cpu_only_path_required": true,
+    "display_gpu_enrollment": "existing HRB only under explicit model-and-task approval when another accelerator exists",
+    "original_source_preserved": true,
+    "classifier_is_not_separator": true,
+    "denoiser_residual_is_not_ambience": true,
+    "model_candidate_metadata_untrusted": true,
+    "remote_media_egress": "deny_by_default",
+    "owner": "FA3-AUDIO-SEPARATION-CONTRACTS-001"
+  }
+}
