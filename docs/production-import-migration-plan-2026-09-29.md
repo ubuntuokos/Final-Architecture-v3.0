@@ -2,7 +2,7 @@
 
 Date: 2026-09-29  
 Status: PROPOSED PLAN + METADATA-ONLY DONOR CURATION; no project-import runtime or physical current-host PASS is claimed.  
-Registry baseline: #459 exact head `270d445011fe7f3150335656f768f709462187a1`, 550 source-unique donors; this dependent branch adds 38 source-unique candidate records (27 production-migration + 11 converter-history sources), resulting in **588**. Merge/reconcile by normalized source key after #459 updates or merges; never overwrite concurrent donor histories. Capability baseline remains **175**; provider count is dynamic.
+Registry baseline: #459 exact head `270d445011fe7f3150335656f768f709462187a1`, 550 source-unique donors; this dependent branch adds **41** source-unique candidate records (27 production-migration + 11 converter-history + 3 historic music/media crosswalk sources), resulting in **591**. Merge/reconcile by normalized source key after #459 updates or merges; never overwrite concurrent donor histories. Capability baseline remains **175**; provider count is dynamic.
 
 ## Objective and product boundary
 
@@ -48,6 +48,10 @@ Typed operations: `discover -> probe -> inspect -> immutable_stage -> construct_
 
 VERT-sh/VERT; VERT-sh/vertd; C4illin/ConvertX; jgm/pandoc; ImageMagick/ImageMagick; assimp/assimp; LibreOffice/core; FFmpeg/FFmpeg; libvips/libvips; tesseract-ocr/tesseract; kovidgoyal/calibre. Existing `project:openimageio` donor is enriched with its official upstream reference in place; the existing OpenAssetIO, AYON and C2PA donors are also enriched without changing their canonical source identity. Per-repo license fields reflect GitHub *metadata* only; actual redistribution, dependencies and transitive library licenses require independent review.
 
+## Historical conversation reconciliation — converter, music, animation, motion
+
+The [historical converter and cross-application decision crosswalk](production-import-historical-conversion-reconciliation-2026-09-29.md) is a required companion to this plan. It reconciles the earlier VERT offline WASM/native `FA3-CONVERSION-FABRIC-001` proposal with #195's existing UAF Tools and File Conversion profiles **without** a second authority; no mandatory local conversion daemon, runtime CDN, remote codec download or media upload. The existing DAWproject and OpenToonz canonical donor entries have been enriched in place; MuseScore, Mido and GStreamer are 3 additional source-unique CANDIDATE records. The required scope now also includes MusicXML/ABC/MIDI/DAWproject reversible *format-specific* mapping, editable Xsheet/animation projects, SOMA/pose/rig handoff, QuickClip reverse variant, and clear distinction between delivery-only, preview-only and symmetric editable import. A source's advertised extension support is not an FA3 admission receipt.
+
 ## Unified GUI (no new app shell)
 
 **Production Studio → Open / Import Production** with four modes: LINK_ONLY, COPY_EDITABLE, HYBRID and ARCHIVAL_COPY. Six tabs, sharing existing Qt6/QML Control Center:
@@ -68,7 +72,7 @@ Before any actual execution: preflight Reuse Discovery + Donor Registry, source 
 
 ## Dependency-ordered implementation and evidence gates
 
-- **P0 / research (this branch):** 38 source-key-unique donor records and existing donor enrichment, precise cross-app plan and metadata regression. Candidate only; no source copies or installs. Dependency: #459 merge or lossless exact-source-key reconciliation; retain 175 capabilities, dynamic providers and historical evidence.
+- **P0 / research (this branch):** 41 source-key-unique donor records and existing donor enrichment, precise cross-app plan and metadata regression. Candidate only; no source copies or installs. Dependency: #459 merge or lossless exact-source-key reconciliation; retain 175 capabilities, dynamic providers and historical evidence.
 - **P1 / contract:** reconcile #195’s generic conversion and old proposed VERT/WASM split into **one** shared conversion interface; map existing FA3 conversion/existing Story/3D/video authorities. Versioned plan/receipt/schema; deny unsupported format pairs and unproved same-format reversibility. Hard-negative schema and application-contract tests.
 - **P2 / offline discovery & preview:** CPU-only deterministic scanner, application identity/version probing, loss/compatibility matrix, immutable source staging, malicious-bundle rejection and editable-source preservation. Golden fixtures for FDX/Fountain/Office, OTIO/AAF/FCPXML/XGES, USD/glTF and BWF/MIDI; no activation from a research PR.
 - **P3 / first end-to-end:** Story/Screenplay (#413/#520 dependencies) -> Video Editor/QuickClip via same editorial and graph IR, plus document, image-sequence, geometry handoff; source-identity relink and independent bidirectional subset proof. Validate approved pair against genuine external application fixture.
@@ -77,4 +81,4 @@ Before any actual execution: preflight Reuse Discovery + Donor Registry, source 
 
 **Acceptance examples:** Final Draft production with branching + explicit Fountain/FDX retention; Avid bin detected INSPECT_ONLY until symmetric AVB verified; AAF editorial transfer retains source clips/timebase with explicit losses for unsupported transitions; Blender/Unreal project keeps its native files with USD references and texture relinks; an AYON/Kitsu shot mapping does not overwrite approvals; an IMF master validates as delivery package, not as an editable project; incomplete imported render jobs become blocked typed tasks, not silently scheduled.
 
-**Active boundary note:** #195, #413, #520 and donor parent #459 were open when inspected 2026-09-29. #523's updated optional Unreal policy already informs the parent branch; no Unreal current-host runtime acceptance follows from this plan. The earlier generic conversion profile in #195 still displays historical 143 and must be reconciled to 175 before canonical release projection; do not alter historical receipts retroactively. Current common current-host batch-orchestration issue across PRs must be checked using the exact resulting head, not assumed fixed globally.
+**Active boundary note:** #459 was merged on 2026-09-29 at exact head `270d445011fe7f3150335656f768f709462187a1`. #195, #413 and #520 were still OPEN when checked on 2026-09-29. This branch descends from the merged #459 head and must reconcile any later main changes by source key. #523's optional Unreal policy is retained; no Unreal current-host runtime acceptance follows from this plan. The earlier generic conversion profile in #195 still displays historical 143 and must be reconciled to 175 before canonical release projection; do not alter historical receipts retroactively. Current common current-host batch-orchestration issue across PRs must be checked using the exact resulting head, not assumed fixed globally.
