@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1172,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
+    "entry_count": 1189,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Legacy mixed-PR donor-only reconciliation 2026-09-29: 17 new verified source identities, 3 in-place project-to-GitHub rekeys retaining aliases, 7 in-place historical pin enrichments. Feature work remains on hold; no admission or capability change."
   },
   "entries": [
     {
@@ -3512,16 +3512,17 @@
       "donor_id": "FA3-DONOR-AGENT-ROOM-ALKL-001",
       "name": "agent-room-alkl",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:agent-room-alkl",
-        "normalized_key": "project:agent-room-alkl"
+        "kind": "GITHUB",
+        "locator": "https://github.com/agent-room-alkl/agent-room",
+        "normalized_key": "github:agent-room-alkl/agent-room"
       },
       "status": "ANALYZED",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "legacy-open-pr-2026-09-29/#427"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "ARCHITECTURE_PATTERN"
       ],
@@ -3554,22 +3555,30 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "legacy_source_keys": [
+        "project:agent-room-alkl"
+      ],
+      "notes": [
+        "Original source locator before verified GitHub canonicalization: project:agent-room-alkl",
+        "2026-09-29 donor-only historical reconciliation from PR #427 @ e6119ce6c8aecd2359c89bf7ee23d7e75a5ee9fa; observed upstream pin 080b13d2bf927a1ee3e66981dece0d2eee698d37; Reference-only structured artifacts/turn discipline. No runtime/code admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AGENT-ROOM-MSITARZEWSKI-001",
       "name": "agent-room-msitarzewski",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:agent-room-msitarzewski",
-        "normalized_key": "project:agent-room-msitarzewski"
+        "kind": "GITHUB",
+        "locator": "https://github.com/msitarzewski/agent-room",
+        "normalized_key": "github:msitarzewski/agent-room"
       },
       "status": "ANALYZED",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "legacy-open-pr-2026-09-29/#427"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "ARCHITECTURE_PATTERN"
       ],
@@ -3602,7 +3611,14 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "legacy_source_keys": [
+        "project:agent-room-msitarzewski"
+      ],
+      "notes": [
+        "Original source locator before verified GitHub canonicalization: project:agent-room-msitarzewski",
+        "2026-09-29 donor-only historical reconciliation from PR #427 @ e6119ce6c8aecd2359c89bf7ee23d7e75a5ee9fa; observed upstream pin c48e8036159c2bf0a03473a3352457a2ef2c3e7e; Reference-only human control and approval patterns. No runtime/code admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AGENT-SKILLS-001",
@@ -6466,10 +6482,11 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "linux-maya-github-donor-curation-2026-09-28"
+        "linux-maya-github-donor-curation-2026-09-28",
+        "legacy-open-pr-2026-09-29/#52"
       ],
       "first_seen": "2026-09-28",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
         "STANDARD_IMPLEMENTATION"
@@ -6515,7 +6532,8 @@
       "automatic_model_selection": false,
       "notes": [
         "Cross-DCC color-management reference; does not require Maya. Independently validate config/ABI compatibility before any runtime adoption.",
-        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required."
+        "Reference metadata only; no implicit installation, provider/model admission or source copying; full license/provenance/security/coexistence audit required.",
+        "2026-09-29 donor-only historical reconciliation from PR #52 @ fdc39a619b24d0491ae1ff928d476fe14f143320; observed upstream pin c52966a6677723d5bd2dbef0ccec3fed9cbc3790; Legacy color-management boundary reference. No runtime/code admission."
       ]
     },
     {
@@ -33267,6 +33285,822 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-LEGACY-ACADEMYSOFTWAREFOUNDATION-OPENFX-001",
+      "name": "AcademySoftwareFoundation/openfx",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/openfx",
+        "normalized_key": "github:academysoftwarefoundation/openfx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#125"
+      ],
+      "first_seen": "2026-09-11",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #125 exact head 85d592c74bd10923bcc86eef1453e412b63e1d84. Historical upstream pin PENDING_VERIFICATION. Official GitHub source identity verified; original PR cites OpenFX 1.5.1 documentation, without immutable repo pin. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-BACKSTAGE-BACKSTAGE-001",
+      "name": "backstage/backstage",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/backstage/backstage",
+        "normalized_key": "github:backstage/backstage"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#392"
+      ],
+      "first_seen": "2026-09-25",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #392 exact head 70b0e4cde4412b3c5c26f8435158690869829cbb. Historical upstream pin PENDING_VERIFICATION. Canonical entity references and directional relations architecture pattern only; no pinned commit or runtime dependency. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-BFORARTISTS-BFORARTISTS-001",
+      "name": "Bforartists/Bforartists",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Bforartists/Bforartists",
+        "normalized_key": "github:bforartists/bforartists"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#52"
+      ],
+      "first_seen": "2026-09-02",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #52 exact head fdc39a619b24d0491ae1ff928d476fe14f143320. Historical upstream pin 0a1ca45552dba1006ae0fb5c4dd36657622a4e66. Human DCC frontend reference; version v5.2.0 observed by legacy PR. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-CRISTIANOLIVERA1-OPENHERO-001",
+      "name": "CristianOlivera1/openhero",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CristianOlivera1/openhero",
+        "normalized_key": "github:cristianolivera1/openhero"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#71"
+      ],
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #71 exact head b61fbfbfed7939e788cfbcfc52fbb50c51303c34. Historical upstream pin d599548dd09fce4aff66e076c4ab87d73e1e8a3d. Historical code-license declaration does not cover media-asset rights; no upstream runtime admission. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-DAGSTER-IO-DAGSTER-001",
+      "name": "dagster-io/dagster",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dagster-io/dagster",
+        "normalized_key": "github:dagster-io/dagster"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#392"
+      ],
+      "first_seen": "2026-09-25",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #392 exact head 70b0e4cde4412b3c5c26f8435158690869829cbb. Historical upstream pin PENDING_VERIFICATION. Dependency and data-lineage architecture pattern only; no pinned commit or runtime dependency. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-FACEBOOKRESEARCH-AUDIOCRAFT-001",
+      "name": "facebookresearch/audiocraft",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/audiocraft",
+        "normalized_key": "github:facebookresearch/audiocraft"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#52"
+      ],
+      "first_seen": "2026-09-02",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval",
+        "noncommercial-production-deny"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #52 exact head fdc39a619b24d0491ae1ff928d476fe14f143320. Historical upstream pin 896ec7c47f5e5d1e5aa1e4b260c4405328bf009d. Negative released-weight reference: code MIT declaration is not CC-BY-NC-4.0 weights authorization. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-KDE-KDENLIVE-001",
+      "name": "KDE/kdenlive",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/KDE/kdenlive",
+        "normalized_key": "github:kde/kdenlive"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#125"
+      ],
+      "first_seen": "2026-09-11",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #125 exact head 85d592c74bd10923bcc86eef1453e412b63e1d84. Historical upstream pin PENDING_VERIFICATION. Official GitHub source identity verified; original PR cites Kdenlive Apply LUT documentation, without immutable repo pin. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-KESTRA-IO-KESTRA-001",
+      "name": "kestra-io/kestra",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kestra-io/kestra",
+        "normalized_key": "github:kestra-io/kestra"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#392"
+      ],
+      "first_seen": "2026-09-25",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #392 exact head 70b0e4cde4412b3c5c26f8435158690869829cbb. Historical upstream pin PENDING_VERIFICATION. Typed dependency and sequencing pattern only; no pinned commit or runtime dependency. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-OPEN-TELEMETRY-OPENTELEMETRY-SPECIFICATION-001",
+      "name": "open-telemetry/opentelemetry-specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-telemetry/opentelemetry-specification",
+        "normalized_key": "github:open-telemetry/opentelemetry-specification"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#392"
+      ],
+      "first_seen": "2026-09-25",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #392 exact head 70b0e4cde4412b3c5c26f8435158690869829cbb. Historical upstream pin PENDING_VERIFICATION. OpenTelemetry correlation/causation standard reference; no runtime dependency or pinned commit. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-PIXLCORE-XYOPS-001",
+      "name": "pixlcore/xyops",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pixlcore/xyops",
+        "normalized_key": "github:pixlcore/xyops"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#70"
+      ],
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #70 exact head 31fdd4d2ee90ca386cf7d0dedc2c3b125f613360. Historical upstream pin 6c42aaf022f8f59458915af95fb9ca21dd8f96f5. Operational workflow and incident-management pattern only; no runtime authority. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-PIXLCORE-XYSAT-001",
+      "name": "pixlcore/xysat",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pixlcore/xysat",
+        "normalized_key": "github:pixlcore/xysat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#70"
+      ],
+      "first_seen": "2026-09-04",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #70 exact head 31fdd4d2ee90ca386cf7d0dedc2c3b125f613360. Historical upstream pin c4d29cd16e880da648010c06ae021479a2c0aebd. Remote job and metrics pattern only; no remote executor admission. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-PREFECTHQ-PREFECT-001",
+      "name": "PrefectHQ/prefect",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PrefectHQ/prefect",
+        "normalized_key": "github:prefecthq/prefect"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#392"
+      ],
+      "first_seen": "2026-09-25",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #392 exact head 70b0e4cde4412b3c5c26f8435158690869829cbb. Historical upstream pin PENDING_VERIFICATION. Events/absence signals architecture pattern only; no pinned commit or runtime dependency. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-RUDRABHA-WAV2LIP-001",
+      "name": "Rudrabha/Wav2Lip",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Rudrabha/Wav2Lip",
+        "normalized_key": "github:rudrabha/wav2lip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#52"
+      ],
+      "first_seen": "2026-09-02",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval",
+        "noncommercial-production-deny"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #52 exact head fdc39a619b24d0491ae1ff928d476fe14f143320. Historical upstream pin bac9a81e63ecc153202353372e5724b83d9e6322. Negative production reference: historical branch records noncommercial and research/personal restrictions. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-SIGNIFICANT-GRAVITAS-AUTOGPT-001",
+      "name": "Significant-Gravitas/AutoGPT",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Significant-Gravitas/AutoGPT",
+        "normalized_key": "github:significant-gravitas/autogpt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#24"
+      ],
+      "first_seen": "2026-08-30",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #24 exact head d7bc56979023ca9de88b940cfbb188d9fbb99f4c. Historical upstream pin f49bcca95ed327396d8ebdd0bdf7810de482ac1a. Pinned AutoGPT platform beta 0.7.3; legacy runtime proposal requires independent license, security and current-host admission. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-SWIVID-F5-TTS-001",
+      "name": "SWivid/F5-TTS",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/SWivid/F5-TTS",
+        "normalized_key": "github:swivid/f5-tts"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#52"
+      ],
+      "first_seen": "2026-09-02",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval",
+        "noncommercial-production-deny"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #52 exact head fdc39a619b24d0491ae1ff928d476fe14f143320. Historical upstream pin 9c614e9657089213efc6a7421b30630be138a3f5. Negative pretrained-weight reference: historical branch records noncommercial pretrained weights. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-TEMPORALIO-TEMPORAL-001",
+      "name": "temporalio/temporal",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/temporalio/temporal",
+        "normalized_key": "github:temporalio/temporal"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#392"
+      ],
+      "first_seen": "2026-09-25",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #392 exact head 70b0e4cde4412b3c5c26f8435158690869829cbb. Historical upstream pin PENDING_VERIFICATION. Durable history/idempotent replay architecture pattern only; no pinned commit or runtime dependency. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LEGACY-VAPOURSYNTH-VAPOURSYNTH-001",
+      "name": "vapoursynth/vapoursynth",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/vapoursynth/vapoursynth",
+        "normalized_key": "github:vapoursynth/vapoursynth"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "legacy-open-pr-2026-09-29/#245"
+      ],
+      "first_seen": "2026-09-19",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "legacy-pr-source-reconciliation"
+      ],
+      "problem_hints": [],
+      "target_hints": [],
+      "tags": [
+        "metadata-only",
+        "feature-work-held",
+        "requires-independent-reuse-approval"
+      ],
+      "license": {
+        "declared": "LGPL-2.1",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Source from legacy PR #245 exact head 8d63c3a04884563d8b56e7951bffbe7681506895. Historical upstream pin 732845793a1caf5838d4f7b94f6ce668a19c908e. Historical R80 GPU-frame boundary and Vulkan reference; CUDA sample not accepted as physical current-host proof. No automatic code import, installation, activation, runtime admission or current-host PASS."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-LENSFUN-001",
       "name": "Lensfun",
       "source": {
@@ -40529,10 +41363,11 @@
       },
       "status": "ANALYZED",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "legacy-open-pr-2026-09-29/#434"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "ARCHITECTURE_PATTERN"
       ],
@@ -40567,7 +41402,10 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "notes": [
+        "2026-09-29 donor-only historical reconciliation from PR #434 @ 4062b5ed7cd59bb17bf09fabc4e3238a79a4290f; observed upstream pin b742ff998704638903461a2d7d6c1e03b8032509; Pinned legacy Strata upstream lacked verified code reuse license; source copy forbidden. No runtime/code admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-NIST-FIRE-DYNAMICS-SIMULATOR-001",
@@ -46509,17 +47347,18 @@
       "donor_id": "FA3-DONOR-OPENEXR-001",
       "name": "OpenEXR",
       "source": {
-        "kind": "PROJECT",
-        "locator": "project:OpenEXR",
-        "normalized_key": "project:openexr"
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/openexr",
+        "normalized_key": "github:academysoftwarefoundation/openexr"
       },
       "status": "ANALYZED",
       "discovered_from": [
         "historical-architecture-artifact-curation-2026-09-28",
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "legacy-open-pr-2026-09-29/#52"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
         "ARCHITECTURE_PATTERN"
@@ -46584,7 +47423,14 @@
         "source_group": "v1-v3-historical-artifacts",
         "source_reviewed_at": "2026-09-28",
         "notes": "Scope only identifies reusable features and planning patterns; existing approved provider/runtime roles remain governed separately; no source code copying implied."
-      }
+      },
+      "legacy_source_keys": [
+        "project:openexr"
+      ],
+      "notes": [
+        "Original source locator before verified GitHub canonicalization: project:OpenEXR",
+        "2026-09-29 donor-only historical reconciliation from PR #52 @ fdc39a619b24d0491ae1ff928d476fe14f143320; observed upstream pin e71cdd5d30a146dcb56c5e4c576d9e9d3c45f4fb; Reference for canonical HDR intermediate file format; source project identity normalized. No runtime/code admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENFOAM-001",
@@ -47692,7 +48538,8 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "FA3 earlier conversion decisions reconciled 2026-09-29",
-        "historical-architecture-artifact-curation-2026-09-28"
+        "historical-architecture-artifact-curation-2026-09-28",
+        "legacy-open-pr-2026-09-29/#52"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
@@ -47753,7 +48600,8 @@
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       },
       "notes": [
-        "Production migration planning reference: preserve original native project; independently verify bidirectional format semantics."
+        "Production migration planning reference: preserve original native project; independently verify bidirectional format semantics.",
+        "2026-09-29 donor-only historical reconciliation from PR #52 @ fdc39a619b24d0491ae1ff928d476fe14f143320; observed upstream pin 065cc1404ba43019b22a2577d529134c3e01931b; Legacy animation source; third-party components require independent license review. No runtime/code admission."
       ]
     },
     {
@@ -49097,10 +49945,11 @@
       },
       "status": "ANALYZED",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "legacy-open-pr-2026-09-29/#438"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "KNOWLEDGE_REFERENCE",
         "PATTERN_SOURCE"
@@ -49149,7 +49998,8 @@
         "rev-ios-dump"
       ],
       "notes": [
-        "README claims MIT but LICENSE/API provenance requires separate verification."
+        "README claims MIT but LICENSE/API provenance requires separate verification.",
+        "2026-09-29 donor-only historical reconciliation from PR #438 @ da51f27ca8f0c967e7c1e6d791da4fb12b4f768c; observed upstream pin a2baa31c58a3567977188414da68c8c842057152; Legacy bundled executable blocked; README MIT claim not sufficient for redistribution. No runtime/code admission."
       ]
     },
     {
@@ -52983,7 +53833,8 @@
       "discovered_from": [
         "FA3 external production migration research 2026-09-29",
         "https://github.com/AcademySoftwareFoundation/OpenTimelineIO",
-        "fa3-world-event-director-application-plan-2026-09-28"
+        "fa3-world-event-director-application-plan-2026-09-28",
+        "legacy-open-pr-2026-09-29/#52"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
@@ -53054,7 +53905,8 @@
       "notes": [
         "Read and write OTIO cut structures with timecode and media references; external formats are lossy, original project remains source authority.",
         "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion.",
-        "Editorial interchange only; preserves FA3 Video Editor timeline authority and media reference ownership."
+        "Editorial interchange only; preserves FA3 Video Editor timeline authority and media reference ownership.",
+        "2026-09-29 donor-only historical reconciliation from PR #52 @ fdc39a619b24d0491ae1ff928d476fe14f143320; observed upstream pin 44236713c1db295a6ffc66189ae98dbdfd0cb9c4; Legacy canonical timeline IR reference. No runtime/code admission."
       ]
     },
     {
@@ -63090,10 +63942,11 @@
       },
       "status": "ANALYZED",
       "discovered_from": [
-        "prior-fa3-research-backfill"
+        "prior-fa3-research-backfill",
+        "legacy-open-pr-2026-09-29/#427"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "ARCHITECTURE_PATTERN"
       ],
@@ -63126,7 +63979,10 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "notes": [
+        "2026-09-29 donor-only historical reconciliation from PR #427 @ e6119ce6c8aecd2359c89bf7ee23d7e75a5ee9fa; observed upstream pin ae600ecb4790a4fdc526020fd6946e8f57e2b1b4; Room and unread-cursor pattern only; do not admit runtime. No runtime/code admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-STRANDS2CARDS-001",
@@ -64439,7 +65295,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "user-donor-submission-2026-09-29"
+        "user-donor-submission-2026-09-29",
+        "legacy-open-pr-2026-09-29/#52"
       ],
       "first_seen": "2026-09-29",
       "last_seen": "2026-09-29",
@@ -64476,7 +65333,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
+        "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required.",
+        "2026-09-29 donor-only historical reconciliation from PR #52 @ fdc39a619b24d0491ae1ff928d476fe14f143320; observed upstream pin 0a89dec45a0192b824e3cf4daf96c239440c5ed8; Legacy animation source; test data and third-party model rights separate from code license. No runtime/code admission."
       ]
     },
     {
