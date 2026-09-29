@@ -4,7 +4,7 @@
 
 ### A local-first Linux platform for creative production, AI-assisted workflows, media, automation and advanced computing.
 
-**Photo · Video · Story · Vector · 3D · VFX · Animation · Audio · Production · AI**
+**Photo · Video · Story · Mind Map · Vector · 3D · VFX · Animation · Audio · Production · AI**
 
 <br>
 
@@ -60,6 +60,18 @@ The document model is intended to support feature films, television, episodic pr
 <p align="center">
   <img src="docs/assets/readme/story-screenplay-studio.svg" alt="FA3 Story and Screenplay Studio design preview" width="100%">
   <br><sub>FA3 Story / Screenplay Studio — interface design preview</sub>
+</p>
+
+
+## Mind Map Studio
+
+**FA3 Mind Map Studio** is a planned, AI-assisted visual mind-mapping and knowledge-graph editor for organizing ideas, research, stories, characters, locations and production tasks. Its editable map views are designed to connect with FA3 Story/Screenplay, Knowledge Fabric, Character Studio, World & Environment Studio, Shot Designer and Task Manager without replacing those applications' authoritative project data.
+
+The proposed local-first Qt6/QML workspace combines a project tree, interactive map and graph canvas, node inspector and human-reviewed AI suggestions. A native `.fa3mind` project format and portable export paths are planned; model and resource use remain under the central Model Router and Host Resource Broker (HRB).
+
+<p align="center">
+  <img src="docs/assets/readme/mind-map-studio-concept.svg" alt="FA3 Mind Map Studio GUI design concept with a central node graph, Story, Knowledge, Character, World, Task, Shot and Presentation branches, a project tree, property inspector and AI suggestion panel" width="100%">
+  <br><sub>FA3 Mind Map Studio — GUI design concept; planned application, not an implemented or current-host-verified runtime</sub>
 </p>
 
 # Pre-production & world building
