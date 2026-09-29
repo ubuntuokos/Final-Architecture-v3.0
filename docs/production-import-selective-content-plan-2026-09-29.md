@@ -1,8 +1,8 @@
 # FA3 Production Import — user-selected content and multilingual derivative plan
 
-Date: 2026-09-29  
-Status: **PROPOSED PLANNING EXTENSION**, not runtime implementation or current-host admission.  
-Parent: [Production Import & Migration Fabric plan](production-import-migration-plan-2026-09-29.md).  
+Date: 2026-09-29
+Status: **PROPOSED PLANNING EXTENSION**, not runtime implementation or current-host admission.
+Parent: [Production Import & Migration Fabric plan](production-import-migration-plan-2026-09-29.md).
 Capability baseline: **175 fixed**; provider count dynamic; new architectural authorities: **0**.
 
 ## User requirement: 17 composable selections
