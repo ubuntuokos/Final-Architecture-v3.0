@@ -407,19 +407,26 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_registry.get("new_capability") is False
         and donor_registry.get("new_architectural_authority") is False
         and donor_registry.get("capability_count") == capability_count
-        and donor_capture_policy.get("potential_donor_signal_requires_capture") is True
+        # Historical registry capture metadata is superseded by the exact
+        # canonical owner decision. It is NOT permission to auto-register links.
+        and donor_decision.get("capture_rule") == "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY"
+        and "AUTOMATIC_POTENTIAL_DONOR_CANDIDATE_CAPTURE" in donor_decision.get("policy_supersedes", [])
         and donor_capture_policy.get("default_status") == "CANDIDATE"
         and donor_capture_policy.get("conversation_capture_is_admission") is False
         and donor_planning_policy.get("query_required_for_every_new_or_materially_modified_application_capability_or_module") is True
         and donor_planning_policy.get("query_before_new_implementation") is True
         and donor_planning_policy.get("future_applications_supported") is True
         and donor_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
-        and donor_binding.get("potential_donor_signal_requires_capture") is True
+        and donor_binding.get("potential_donor_signal_requires_capture") is False
+        and donor_binding.get("owner_marker_required") == "donornak"
+        and donor_binding.get("published_main_registry_only") is True
         and donor_binding.get("authority") is False
         and donor_catalog_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
         and donor_catalog_binding.get("query_required_before_new_implementation") is True
         and donor_catalog_binding.get("authority") is False
-        and donor_contract.get("potential_signal_capture_required") is True
+        and donor_contract.get("potential_signal_capture_required") is False
+        and donor_contract.get("owner_marker_required") == "donornak"
+        and donor_contract.get("unmarked_links_analysis_only") is True
         and donor_contract.get("authority") is False
         and donor_contract.get("admission_authority") is False
         and donor_hardware.get("vendor_neutral") is True
