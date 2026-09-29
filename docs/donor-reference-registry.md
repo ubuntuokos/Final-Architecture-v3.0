@@ -8,7 +8,7 @@ The registry centralizes external projects, repositories, algorithms, research, 
 
 ## Capture rule (owner decision, 2026-09-29)
 
-Only a LINK explicitly preceded by the user's `donornak:` marker may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
+Only a LINK explicitly preceded by the user's `donornak` marker (with or without a colon) may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
 
 A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires a separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
 
