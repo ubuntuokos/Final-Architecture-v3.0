@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 307,
+    "entry_count": 312,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Registered Flova public workflow documentation as one additional reference-only, unadmitted donor candidate."
   },
   "entries": [
@@ -1761,6 +1761,61 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-Automerge-001",
+      "name": "Automerge",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/automerge/automerge",
+        "normalized_key": "github:automerge/automerge"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "capture-inbox-dependency-reconciliation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "offline-structured-record-merge",
+        "concurrent-edits"
+      ],
+      "domain_hints": [
+        "offline-first",
+        "conflict-handling"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Capture Core",
+        "Local Inbox",
+        "Story Studio"
+      ],
+      "tags": [
+        "capture-inbox",
+        "reference-only",
+        "source-copy-blocked"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only for CRDT patterns; never auto-resolve semantic, ownership or human-approved content conflicts."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AUTOSKILLS-DERIVED-PATTERNS-001",
       "name": "AutoSkills-derived patterns",
       "source": {
@@ -2762,6 +2817,61 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-C2PA-RS-001",
+      "name": "C2PA-RS",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/contentauth/c2pa-rs",
+        "normalized_key": "github:contentauth/c2pa-rs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "capture-inbox-dependency-reconciliation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "signed-media-provenance",
+        "content-authenticity"
+      ],
+      "domain_hints": [
+        "provenance",
+        "capture"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Capture Core",
+        "Photo / Image Studio",
+        "Story Studio"
+      ],
+      "tags": [
+        "capture-inbox",
+        "reference-only",
+        "source-copy-blocked"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Pattern/reference only for C2PA provenance; do not introduce independent trust or signing authority."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CAL-DIY-001",
@@ -5120,6 +5230,69 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FLOVA-WORKFLOW-PATTERNS-001",
+      "name": "Flova public creative workflow documentation",
+      "source": {
+        "kind": "ARTICLE",
+        "locator": "https://flova.tv/en/docs/features/skills/",
+        "normalized_key": "article:https://flova.tv/en/docs/features/skills/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-project-workflow-flova-patterns-2026-09-26",
+        "mandatory-donor-backfill-2026-09-29"
+      ],
+      "first_seen": "2026-09-26",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "project-scoped-creative-context",
+        "task-scoped-skills",
+        "dependency-aware-scoped-revision",
+        "editorial-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "production",
+        "workflow"
+      ],
+      "problem_hints": [
+        "scoped-revision",
+        "production-context-reuse"
+      ],
+      "target_hints": [
+        "Creative Project Workflow",
+        "Story/Screenplay",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "flova",
+        "reference-only",
+        "no-runtime",
+        "no-code-import"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use only patterns from public documentation. Do not adopt Flova runtime, API, account, credentials, source code or bundled skills."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-FOOOCUS-001",
       "name": "Fooocus",
       "source": {
@@ -6712,6 +6885,61 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-Joplin-001",
+      "name": "Joplin",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/laurent22/joplin",
+        "normalized_key": "github:laurent22/joplin"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "capture-inbox-dependency-reconciliation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "offline-notes",
+        "attachment-search",
+        "tagging"
+      ],
+      "domain_hints": [
+        "inbox",
+        "offline-first"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Local Inbox",
+        "Capture & Inbox Fabric"
+      ],
+      "tags": [
+        "capture-inbox",
+        "reference-only",
+        "source-copy-blocked"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only for offline note, attachment and search UX; Joplin database and sync authority excluded."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-KAANKIZILTUG-LOGO-DESIGN-SKILL-001",
       "name": "kaankiziltug/logo-design-skill",
       "source": {
@@ -7683,6 +7911,61 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-Markor-001",
+      "name": "Markor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gsantner/markor",
+        "normalized_key": "github:gsantner/markor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "capture-inbox-dependency-reconciliation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "quick-note",
+        "share-intent",
+        "autosave"
+      ],
+      "domain_hints": [
+        "mobile",
+        "capture"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Capture Core",
+        "Android Capture Adapter"
+      ],
+      "tags": [
+        "capture-inbox",
+        "reference-only",
+        "source-copy-blocked"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only for on-device quick note and explicit share intent; no direct app runtime dependency."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MATCHERING-001",
@@ -16252,6 +16535,60 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-Syncthing-001",
+      "name": "Syncthing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/syncthing/syncthing",
+        "normalized_key": "github:syncthing/syncthing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "capture-inbox-dependency-reconciliation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "peer-discovery-patterns",
+        "resumable-transfer-patterns"
+      ],
+      "domain_hints": [
+        "local-network",
+        "synchronization"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "CAP-150",
+        "Capture & Inbox Fabric"
+      ],
+      "tags": [
+        "capture-inbox",
+        "reference-only",
+        "source-copy-blocked"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only; do not install Syncthing or create a parallel Capture synchronization authority."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
       "name": "HarnessRouter/SystemOneHarness",
       "source": {
@@ -17960,69 +18297,6 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-FLOVA-WORKFLOW-PATTERNS-001",
-      "name": "Flova public creative workflow documentation",
-      "source": {
-        "kind": "ARTICLE",
-        "locator": "https://flova.tv/en/docs/features/skills/",
-        "normalized_key": "article:https://flova.tv/en/docs/features/skills/"
-      },
-      "status": "CANDIDATE",
-      "discovered_from": [
-        "creative-project-workflow-flova-patterns-2026-09-26",
-        "mandatory-donor-backfill-2026-09-29"
-      ],
-      "first_seen": "2026-09-26",
-      "last_seen": "2026-09-29",
-      "donor_modes": [
-        "ARCHITECTURE_PATTERN"
-      ],
-      "capability_hints": [
-        "project-scoped-creative-context",
-        "task-scoped-skills",
-        "dependency-aware-scoped-revision",
-        "editorial-handoff"
-      ],
-      "domain_hints": [
-        "creative",
-        "production",
-        "workflow"
-      ],
-      "problem_hints": [
-        "scoped-revision",
-        "production-context-reuse"
-      ],
-      "target_hints": [
-        "Creative Project Workflow",
-        "Story/Screenplay",
-        "FA3 Video Editor"
-      ],
-      "tags": [
-        "flova",
-        "reference-only",
-        "no-runtime",
-        "no-code-import"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Use only patterns from public documentation. Do not adopt Flova runtime, API, account, credentials, source code or bundled skills."
-      ]
     }
   ],
   "historical_partial_reuse_review": {
