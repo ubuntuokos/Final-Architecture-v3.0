@@ -51,6 +51,14 @@ jobs:
                     'tests/test_donor_readiness.py','src/fa3_goal_preflight.py',
                     'tests/test_goal_preflight.py','tests/test_reuse_discovery_gate.py','src/fa3_enforce.py',
                     'src/fa3_reuse_assessment.py',
+                    # Exact donor-governance reuse/profile/projection surfaces.
+                    # Only this known file set is admitted: arbitrary reuse
+                    # source and application changes still classify as mixed.
+                    'canonical/profiles/FA3-REUSE-DISCOVERY-001.json',
+                    'canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json',
+                    'canonical/reuse-discovery-enforcement.json',
+                    'src/fa3_reuse_gate.py',
+                    'scripts/fa3_reconcile_release_projection.py',
                     '.github/workflows/fa3-donor-serialization.yml',
                     '.github/workflows/fa3-permanent-enforcement.yml')
           curated_docs = ["docs/donors-office-3d-animation-2026-09-29.md","docs/donor-oracle-ubuntu-kubuntu-2026-09-29.md","docs/donor-opensuse-novel-writing-2026-09-29.md","docs/donor-hpc-mcp-microsoft-2026-09-29.md","docs/donor-multimedia-video-render-mcp-2026-09-29.md","docs/donor-openal-openmax-heif-2026-09-29.md","docs/donor-nnstreamer-onnx-aom-a11y-2026-09-29.md","docs/FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md","docs/donor-ai-orchestrator-topic-2026-09-29.md","docs/godotengine-github-donor-curation-2026-09-29.md","docs/beadboard-agent-coordination-donor-review-2026-09-28.md","docs/beat-tracking-donor-curation-2026-09-28.md","docs/storygen-atelier-donor-review-2026-09-28.md","docs/three-storyboard-donor-curation-2026-09-28.md","docs/creative-writing-donor-curation-2026-09-28.md","docs/storyboard-donor-curation-2026-09-28.md","docs/daw-music-generation-donor-curation-2026-09-28.md","docs/github-video-editor-and-clip-donor-curation-2026-09-28.md","docs/ai-video-editor-video-generation-donor-curation-2026-09-28.md","docs/video-generator-donor-curation-2026-09-28.md","docs/3dcoat-donor-curation-2026-09-28.md","docs/vision-complementary-donor-curation-2026-09-28.md","docs/github-actions-runner-images-donor-curation-2026-09-28.md","docs/chip-huyen-ml-systems-donor-curation-2026-09-28.md","docs/adaptive-representation-donor-curation-2026-09-28.md"]
