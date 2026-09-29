@@ -78,7 +78,7 @@ def process_inbox(root: Path, home: Path = DEFAULT_HOME) -> dict:
                 outcome["previously_seen"] += 1
                 continue
             try:
-                result = ingest(root, _conversations(file_path, {"user", "assistant"}), origin="chatgpt-export")
+                result = ingest(root, _conversations(file_path, {"user", "assistant"}, include_roles=True), origin="chatgpt-export")
             except (OSError, ValueError, UnicodeError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
                 outcome["blocked"] += 1
                 # Never log the raw file name, source path, conversation text, or account data.
