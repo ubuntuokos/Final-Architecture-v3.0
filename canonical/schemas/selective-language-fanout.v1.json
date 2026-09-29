@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-language-fanout.v1.json",
+  "title": "FA3 S3 language output fan-out preview, subordinate to ProductionImportPlan",
+  "description": "Plans explicitly requested original/0/1/N translations for document and audio/video transcription. Cannot authorize execution or attest source content.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_ref",
+    "source_sha256",
+    "inspection_receipt_ref",
+    "state",
+    "languages_count",
+    "skipped_non_text_leaves",
+    "duplicate_destination_candidates",
+    "branches",
+    "execution_authorized",
+    "authority",
+    "existing_owners"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.selective-language-fanout.v1"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inspection_receipt_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "state": {
+      "const": "LANGUAGE_FANOUT_PREVIEW_ONLY"
+    },
+    "languages_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1024
+    },
+    "skipped_non_text_leaves": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256
+    },
+    "duplicate_destination_candidates": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "branches": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "branch_ref",
+          "parent_leaf_index",
+          "family",
+          "selector_id",
+          "target_application",
+          "variant",
+          "source_locale",
+          "target_locale",
+          "original_stream_indices",
+          "original_timebases",
+          "source_range",
+          "source_step",
+          "steps",
+          "status",
+          "source_per_segment_language_review_required",
+          "publish_audio",
+          "publish_video",
+          "execution_authorized",
+          "verified"
+        ],
+        "properties": {
+          "branch_ref": {
+            "type": "string"
+          },
+          "parent_leaf_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "family": {
+            "enum": [
+              "TEXT",
+              "AUDIO",
+              "VIDEO"
+            ]
+          },
+          "selector_id": {
+            "type": "string"
+          },
+          "target_application": {
+            "type": "string"
+          },
+          "variant": {
+            "enum": [
+              "ORIGINAL",
+              "TRANSLATION"
+            ]
+          },
+          "source_locale": {
+            "type": "string"
+          },
+          "target_locale": {
+            "type": "string"
+          },
+          "original_stream_indices": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "original_timebases": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "source_range": {
+            "type": "object"
+          },
+          "source_step": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "enum": [
+              "BLOCKED_SOURCE_STREAM_SELECTION_OR_AVAILABILITY",
+              "PENDING_PER_SEGMENT_SOURCE_LANGUAGE_IDENTIFICATION",
+              "PENDING_INSPECTION_STT_TIMING_AND_LANGUAGE_QC",
+              "PENDING_DUPLICATE_DESTINATION_REVIEW"
+            ]
+          },
+          "source_per_segment_language_review_required": {
+            "const": true
+          },
+          "publish_audio": {
+            "const": false
+          },
+          "publish_video": {
+            "const": false
+          },
+          "execution_authorized": {
+            "const": false
+          },
+          "verified": {
+            "const": false
+          }
+        }
+      }
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "authority": {
+      "const": false
+    },
+    "existing_owners": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-fa3-policy": {
+    "status": "S3_PREVIEW_ONLY",
+    "authority": false,
+    "capability_count": 175,
+    "new_architectural_authority": false,
+    "execution_authorized": false,
+    "existing_owners": [
+      "FA3-FILE-CONVERSION-001",
+      "FA3-LANGUAGE-FABRIC-001",
+      "FA3-CAPTION-SUBTITLE-CONTRACTS-001"
+    ]
+  }
+}
