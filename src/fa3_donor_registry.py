@@ -150,7 +150,7 @@ def capture_candidate(
         _atomic_write(path, registry)
     return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": match["source"]["normalized_key"], "dry_run": dry_run}
 
-_DONOR_SIGNAL = re.compile(r"(?i)\bdonornak\s*:")
+_DONOR_SIGNAL = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
 _GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?", re.I)
 
 def parse_donor_mention(text: str, *, name: str | None = None, source: str | None = None) -> tuple[str, str, str]:
