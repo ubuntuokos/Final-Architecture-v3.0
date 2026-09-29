@@ -153,9 +153,17 @@ def capture_candidate(
 _DONOR_SIGNAL = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
 _GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?", re.I)
 
+def _explicit_owner_marker(text: str):
+    for match in _DONOR_SIGNAL.finditer(text):
+        prefix = text[max(0, match.start() - 40):match.start()]
+        if not re.search(r"(?i)\\b(?:nem|not)\\s+$", prefix):
+            return match
+    return None
+
+
 def parse_donor_mention(text: str, *, name: str | None = None, source: str | None = None) -> tuple[str, str, str]:
     """Require explicit DONORNAK before a single link; never mine unrelated links."""
-    marker = _DONOR_SIGNAL.search(text)
+    marker = _explicit_owner_marker(text)
     if marker is None:
         raise ValueError("DONORNAK_MARKER_REQUIRED")
     after = text[marker.end():]
