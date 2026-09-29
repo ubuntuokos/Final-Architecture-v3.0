@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 577,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place."
+    "entry_count": 588,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195."
   },
   "entries": [
     {
@@ -24911,10 +24911,11 @@
       },
       "status": "ANALYZED",
       "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
         "prior-fa3-research-backfill"
       ],
       "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
         "ARCHITECTURE_PATTERN"
@@ -24927,8 +24928,10 @@
       ],
       "problem_hints": [],
       "target_hints": [
+        "Creative Studio",
         "Photo/Image Editor",
-        "Creative Studio"
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric"
       ],
       "tags": [
         "photo-editing",
@@ -24950,7 +24953,10 @@
       "automatic_dependency": false,
       "automatic_code_import": false,
       "automatic_provider_admission": false,
-      "automatic_model_selection": false
+      "automatic_model_selection": false,
+      "upstream_repository_references": [
+        "https://github.com/AcademySoftwareFoundation/OpenImageIO"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENLIVE-001",
@@ -27997,6 +28003,743 @@
       "notes": [
         "Optional read-only source-side connector for Kitsu project entities; no Kitsu backend dependency in FA3.",
         "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-ASSIMP-ASSIMP-001",
+      "name": "Assimp 3D exchange reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/assimp/assimp",
+        "normalized_key": "github:assimp/assimp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/assimp/assimp"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_3d_converter_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "Coordinate transforms, materials/animation/mesh conversion diagnostics; integrate existing FA3-3D-GEOM-001 and GRRE, never silently discard topology/UV/skin.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-C4ILLIN-CONVERTX-001",
+      "name": "ConvertX long-tail converter reference (PR #195 quarantine)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/C4illin/ConvertX",
+        "normalized_key": "github:c4illin/convertx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/C4illin/ConvertX"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "existing_provider_pr_quarantined"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "FA3-PROVIDER-CONVERTX-001 remains P2/QUARANTINED in unmerged PR #195, upstream web flow unversioned machine API; no production execution or package inclusion.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-FFMPEG-FFMPEG-001",
+      "name": "FFmpeg media conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/FFmpeg/FFmpeg",
+        "normalized_key": "github:ffmpeg/ffmpeg"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/FFmpeg/FFmpeg"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_media_converter_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "Use existing Video/Audio Fabric FFmpeg adapter for media essence/proxies and sidecar timecode; cannot turn flattened output into editable source project.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-IMAGEMAGICK-IMAGEMAGICK-001",
+      "name": "ImageMagick image conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ImageMagick/ImageMagick",
+        "normalized_key": "github:imagemagick/imagemagick"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/ImageMagick/ImageMagick"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_image_converter_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "Native image conversion reference for approved pairs; isolate image coders/delegates and enforce decompression-bomb and resource caps.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-JGM-PANDOC-001",
+      "name": "Pandoc document conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jgm/pandoc",
+        "normalized_key": "github:jgm/pandoc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/jgm/pandoc"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_document_converter_reference"
+      ],
+      "license": {
+        "declared": "GPL-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Use specialist Document Fabric routing with format-pair proof; Markdown/ODF/DOCX/HTML conversions require independent round-trip test for admitted subsets.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-KOVIDGOYAL-CALIBRE-001",
+      "name": "calibre e-book format conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kovidgoyal/calibre",
+        "normalized_key": "github:kovidgoyal/calibre"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/kovidgoyal/calibre"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_document_converter_reference"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Book/e-book import/export research for Story manuscript handoff; run per-format symmetric and semantic retention gates.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-LIBREOFFICE-CORE-001",
+      "name": "LibreOffice UNO document and office conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LibreOffice/core",
+        "normalized_key": "github:libreoffice/core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/LibreOffice/core"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_document_converter_reference"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Read-only GitHub mirror of official core; reuse existing Document Fabric and UNO, keep symmetric Office-family imports/exports and macro-disabled isolated conversion.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-LIBVIPS-LIBVIPS-001",
+      "name": "libvips low-memory image conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/libvips/libvips",
+        "normalized_key": "github:libvips/libvips"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/libvips/libvips"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "specialized_image_converter_reference"
+      ],
+      "license": {
+        "declared": "LGPL-2.1",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Streaming image conversion and image pyramids/preview generation for production DIT; no arbitrary plugin/codec autoload.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-TESSERACT-OCR-TESSERACT-001",
+      "name": "Tesseract OCR digitization reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/tesseract-ocr/tesseract",
+        "normalized_key": "github:tesseract-ocr/tesseract"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/tesseract-ocr/tesseract"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "digitalization_reference_only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Scanning paper scripts and production paperwork via existing Capture/Digitalization Tools; OCR does not count as same-format editable roundtrip.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-VERT-SH-VERT-001",
+      "name": "VERT local-WASM conversion UX and browser execution",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/VERT-sh/VERT",
+        "normalized_key": "github:vert-sh/vert"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/VERT-sh/VERT"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "conversion_ux_reference_only"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "VERT web-ui and local WASM conversion patterns; default hosted video processing is remote, prohibited for private project ingestion.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CONVERTER-VERT-SH-VERTD-001",
+      "name": "VERT self-hosted video-conversion service reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/VERT-sh/vertd",
+        "normalized_key": "github:vert-sh/vertd"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "https://github.com/VERT-sh/vertd"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversion",
+        "interchange",
+        "migration"
+      ],
+      "domain_hints": [
+        "production-import",
+        "file-conversion"
+      ],
+      "problem_hints": [
+        "safe-format-conversion",
+        "source-project-preservation"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Tools/Conversion",
+        "FA3 File Conversion"
+      ],
+      "tags": [
+        "converter",
+        "prior-history-reconciliation",
+        "reference_only"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Local video conversion service as selective isolation/cancellation/progress reference; no new FA3 daemon or mandatory HTTP endpoint.",
+        "Metadata-only research; no runtime admission, automatic install, new authority, direct network upload, or physical current-host PASS."
       ]
     },
     {
