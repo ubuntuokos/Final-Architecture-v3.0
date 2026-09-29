@@ -97,6 +97,20 @@ def github_get(url,token):
                  "X-GitHub-Api-Version":"2022-11-28","User-Agent":"fa3-donor-readiness"})
     with urllib.request.urlopen(req,timeout=20) as r: return json.load(r)
 
+def is_donor_intake_pr(pr,files):
+    """Claim the exclusive intake slot only for actual canonical donor mutation.
+
+    Policy-only PRs, donor documentation, research and reference sets remain
+    visible to maintenance reporting but cannot reserve the intake slot.
+    """
+    for f in files:
+        name=f.get("filename") if isinstance(f,dict) else None
+        if not isinstance(name,str):
+            raise ValueError("UNREADABLE_PR_FILE")
+        if (name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-")):
+            return True
+    return False
+
 def is_donor_pr(pr,files):
     title=str(pr.get("title","")).lower()
     if "donor" in title: return True
@@ -130,7 +144,8 @@ def pending_prs(get,repo=REPO):
                 continue
             if is_donor_pr(pr,files):
                 found.append({"number":n,"title":pr.get("title"),
-                              "head_sha":pr.get("head",{}).get("sha")})
+                              "head_sha":pr.get("head",{}).get("sha"),
+                              "intake":is_donor_intake_pr(pr,files)})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
@@ -218,14 +233,16 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         getter=get if get is not None else lambda p:github_get(p,token)
         before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         result["pending_prs"]=pending_prs(getter)
+        result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
         after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
         if phase=="intake":
-            # Oldest live donor PR owns the single cross-conversation intake
-            # slot. A second PR reports WAIT instead of processing in parallel.
+            # Only an actual canonical registry or intake-delta mutation
+            # owns the cross-conversation slot. A governance-only donor PR
+            # must not block the first genuine intake.
             # GitHub Actions concurrency serializes admission evaluations.
-            pending=result["pending_prs"]
+            pending=result["pending_intake_prs"]
             if pending:
                 first=pending[0]
                 if pr_number is None or first["number"] != pr_number:
