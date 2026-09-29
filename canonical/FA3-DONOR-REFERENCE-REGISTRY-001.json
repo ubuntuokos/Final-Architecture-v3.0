@@ -79,10 +79,95 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 855,
+    "entry_count": 899,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
+    {
+      "donor_id": "FA3-DONOR-0XSLINE-STORYGEN-ATELIER-001",
+      "name": "0xsline/StoryGen-Atelier",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/0xsline/StoryGen-Atelier",
+        "normalized_key": "github:0xsline/storygen-atelier"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-storygen-atelier-reference-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "storyboard-to-keyframe-motion-plan",
+        "adjacent-shot-interpolation-planning",
+        "closing-shot-generation-pattern",
+        "generated-clip-assembly-handoff",
+        "storyboard-gallery-and-activity-ux"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboard",
+        "screenplay",
+        "animation",
+        "video",
+        "preproduction",
+        "asset-provenance"
+      ],
+      "problem_hints": [
+        "storyboard-to-video-continuity",
+        "transition-planning",
+        "shot-pair-movement-instructions",
+        "generation-job-coordination",
+        "generated-media-provenance"
+      ],
+      "target_hints": [
+        "Story/Screenplay Fabric",
+        "Storyboard",
+        "Scene/Shot Designer",
+        "Director/Workforce",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Asset Graph",
+        "Review"
+      ],
+      "tags": [
+        "interpolation-chain",
+        "adjacent-shot-window",
+        "visual-continuity",
+        "closing-shot",
+        "story-branch-handoff",
+        "qt-native-adaptation",
+        "ffmpeg-reference",
+        "no-fixed-provider",
+        "apache-2.0-declaration"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Selective upstream at inspected commit 033e0c6ea2e54be23209cbaf29875b401e8a2010 (2026-09-17). Reuse pairwise storyboard-frame to transition-plan workflow and generated-clip asset handoff as architectural references only, not the full upstream application.",
+        "Root LICENSE declares Apache-2.0 but backend/package.json declares ISC; reconcile exact file provenance, dependency, assets and vendor API terms before any code reuse.",
+        "Upstream direct Gemini/Vertex/MiniMax calls, automatic MiniMax activation from key presence, hard-coded provider/models, generic fallback prompt, 2-12 shot limit and 4/6/8 second durations violate or restrict FA3 assumptions. FA3 must use central Model Router/UAF/MCP/HRB with no silent fallback, no direct cloud application bypass and no unauthorized display GPU.",
+        "Existing RainLib storyboard candidate and canonical FA3 creative graph take precedence. Preserve native story branches, production-specific screenplay profiles, independent AI notes, human approvals, native project files, MLT/FFmpeg editable Video Editor and QuickClip interchange.",
+        "Hardware Audit: metadata-only registration, CPU-only feasible, vendor neutral, 0..N accelerators, no provider/runtime admission or current-host E2E. Full review: docs/storygen-atelier-donor-review-2026-09-28.md."
+      ]
+    },
     {
       "donor_id": "FA3-DONOR-3DDFA-V2-001",
       "name": "3DDFA_V2",
@@ -564,6 +649,67 @@
       },
       "notes": [
         "Candidate only; route exclusively through central Model Router."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ADAMSTARK-BTRACK-001",
+      "name": "adamstark/BTrack",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adamstark/BTrack",
+        "normalized_key": "github:adamstark/btrack"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "real-time-beat-tracking",
+        "beat-synchronous-events"
+      ],
+      "domain_hints": [
+        "music",
+        "audio",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Music Studio"
+      ],
+      "tags": [
+        "gplv3",
+        "cpp",
+        "python",
+        "vamp",
+        "realtime",
+        "cpu-only"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Real-time causal C++ beat tracker; GPLv3 or later plus third-party FFT/sample-rate dependencies. Reference-only until separate license, distribution, latency, correctness and CPU-only current-host review."
       ]
     },
     {
@@ -2971,6 +3117,62 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-AFTERWRITING-LABS-001",
+      "name": "afterwriting-labs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ifrost/afterwriting-labs",
+        "normalized_key": "github:ifrost/afterwriting-labs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Fountain PDF conversion, FDX import and screenplay location/dialogue/page statistics"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "fountain",
+        "fdx",
+        "pdf",
+        "statistics"
+      ],
+      "license": {
+        "declared": "MIT_README_DECLARED",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README declares MIT but GitHub metadata has no detected license. Verify actual licensed files before any copy.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AGENT-ROOM-ALKL-001",
       "name": "agent-room-alkl",
       "source": {
@@ -3360,6 +3562,63 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-NOVEL2SCRIPT-001",
+      "name": "ai-novel2script",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Axelxrd/ai-novel2script",
+        "normalized_key": "github:axelxrd/ai-novel2script"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Novel chapter-to-scene mapping, editable YAML schema, story bible and coverage reports"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Film Planning"
+      ],
+      "tags": [
+        "adaptation",
+        "story-bible",
+        "schema",
+        "provenance"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT declared. Upstream provider/model flag and automatic local fallback conflict with FA3 no-fixed-pin/no-silent-fallback: reimplement integration through central Router with explicit failure and consent.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AI-TOOLKIT-MANAGER-001",
@@ -4668,6 +4927,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-APPSYOGI-COM-COMPOSEYOGI-001",
+      "name": "AppsYogi-com/ComposeYogi",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AppsYogi-com/ComposeYogi",
+        "normalized_key": "github:appsyogi-com/composeyogi"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "step-sequencer",
+        "piano-roll",
+        "multitrack-midi-audio",
+        "local-first-music-workflow"
+      ],
+      "domain_hints": [
+        "music",
+        "audio",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "QuickClip"
+      ],
+      "tags": [
+        "mit",
+        "web-audio",
+        "midi",
+        "drum-patterns",
+        "qt-pattern-port"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT WebAudio/TypeScript reference for drum sequencing, piano roll, loop editing and local-first workflows; do not replace Qt-native GUI or established Ardour/LMMS native project preservation. Evaluate dependencies separately."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ARCHVIZ-TOPIC-001",
       "name": "GitHub architectural visualization topic",
       "source": {
@@ -5138,6 +5458,64 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AUBIO-VAMP-AUBIO-PLUGINS-001",
+      "name": "aubio/vamp-aubio-plugins",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/aubio/vamp-aubio-plugins",
+        "normalized_key": "github:aubio/vamp-aubio-plugins"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "vamp-beat-tracker-plugin",
+        "onset-pitch-feature-extraction"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "plugin-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "vamp",
+        "aubio",
+        "gpl",
+        "legacy-upstream",
+        "plugin-api"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README says GPLv3 or later; upstream last pushed 2017. Reference/compatibility only pending build, full license, dependency and distribution review."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-AUDACITYMCP-001",
@@ -6438,6 +6816,63 @@
       },
       "notes": [
         "Candidate/reference; not canonical dataset owner."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-BEAT-BOARDS-BEATMAP-PARSER-001",
+      "name": "beat-boards/beatmap-parser",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/beat-boards/beatmap-parser",
+        "normalized_key": "github:beat-boards/beatmap-parser"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "beat-saber-beatmap-parsing",
+        "optional-beatsaver-beatmap-import"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "rhythm",
+        "game-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Rhythm Interchange",
+        "Music Studio"
+      ],
+      "tags": [
+        "rust",
+        "beat-saber",
+        "optional-format-adapter",
+        "source-specific"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Rust Beat Saber beatmap parser, not a general musical beat detector. Last repository push observed 2019; optional interchange only, independent dependency/security checks."
       ]
     },
     {
@@ -7904,6 +8339,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-COCO-PREPRODUCTION-001",
+      "name": "Coco Preproduction",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gujiapeng1991-droid/coco-preproduction",
+        "normalized_key": "github:gujiapeng1991-droid/coco-preproduction"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Scene schedule sheet and scene summary/grouping",
+        "Character bibles and relationship graph layout",
+        "Per-scene cast/props/VFX report projections"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Film Planning",
+        "Character Studio",
+        "Creative Studio"
+      ],
+      "tags": [
+        "shooting-breakdown",
+        "xlsx",
+        "character-bible",
+        "relationship-graph",
+        "scene-summary"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Production sheet and character graph reference; its heuristic weighted page estimates cannot replace true per-scene pagination or FDX embedded lengths; no auto package installs, no unreviewed office codec changes.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-COLIBRI-001",
       "name": "Colibrì",
       "source": {
@@ -8306,6 +8803,68 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CPJKU-BEAT-THIS-001",
+      "name": "CPJKU/beat_this",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CPJKU/beat_this",
+        "normalized_key": "github:cpjku/beat_this"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "offline-beat-downbeat-inference",
+        "compact-neural-beat-inference",
+        "beat-tsv-export"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "neural",
+        "pytorch",
+        "offline",
+        "beats",
+        "downbeats",
+        "checkpoint-provenance"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README declares code and published model weights MIT, separate training corpora have different rights. Upstream defaults to first GPU and auto-downloads checkpoints: prohibited in FA3 absent HRB admission, explicit central Model Router approved model and pinned model artifact."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
@@ -8829,6 +9388,68 @@
         "Use existing Temporal lifecycle, Objective Coordination graph and FA3 artifact provenance; no Dagger execution engine, OCI requirement, parallel cache or second authority.",
         "Nondeterministic AI generation is reusable only with the original artifact, exact model/config/version and validated evidence; task-level cache hit is never evidence promotion.",
         "Reference-only until all mandatory donor, Security, Hardware Audit, Software Coexistence and exact-head gates."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-DANIGB-BEAT-THIS-RS-001",
+      "name": "danigb/beat-this-rs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/danigb/beat-this-rs",
+        "normalized_key": "github:danigb/beat-this-rs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "pure-rust-beat-downbeat-inference",
+        "optional-onnx-runtime-inference",
+        "json-beats-export"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "rust",
+        "rten",
+        "cpu-only",
+        "onnx",
+        "model-provenance",
+        "ai-generated-port"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Cargo.toml declares MIT while repository API reports NOASSERTION. Pure-Rust rten default; optional ONNX runtime must be separately admitted. Pin and verify model weights and independently compare predictions with CPJKU original."
       ]
     },
     {
@@ -9765,6 +10386,76 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-DSEDITOR-AI-STORYBOARD-GENERATOR-001",
+      "name": "dseditor/AI-storyboard-generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dseditor/AI-storyboard-generator",
+        "normalized_key": "github:dseditor/ai-storyboard-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-three-storyboard-donor-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "UX_PATTERN",
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "independent-image-video-batch-selection",
+        "missing-only-video-generation",
+        "storyboard-panel-reordering",
+        "comfyui-workflow-node-mapping",
+        "zip-project-import-export-append",
+        "optional-closing-shot-video"
+      ],
+      "domain_hints": [
+        "storyboard",
+        "video",
+        "creative",
+        "workflow-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Storyboard",
+        "Scene/Shot Designer",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Asset Graph",
+        "Review"
+      ],
+      "tags": [
+        "selected-batch",
+        "missing-only",
+        "comfyui-workflow",
+        "project-zip",
+        "license-unverified",
+        "api-key-localstorage-risk"
+      ],
+      "license": {
+        "declared": "UNVERIFIED_README_CLAIMS_MIT_NO_LICENSE_FILE",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected commit 40ca3eaf723c8052f6e4761eaea7e03837aea6b4. README claims MIT but no LICENSE file found; no source copying until verified. Useful separate image/video selected batch, ZIP load/append, ComfyUI manifest node mapping. Upstream localStorage stores API keys and direct ComfyUI URL, prohibited in FA3; Secret Broker, central Model Router, UAF/MCP, HRB and current-host admission required.",
+        "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-EFERU-MOTIONGENERATOR-001",
@@ -10796,6 +11487,125 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FORGET-C-JELLYFISH-001",
+      "name": "Jellyfish (original upstream: Forget-C)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Forget-C/Jellyfish",
+        "normalized_key": "github:forget-c/jellyfish"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-origin-trace-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Upstream AI short-drama shot/asset readiness, confirmed dialogue/prop/costume candidates and cross-shot identity data flows",
+        "Multi-stage script-to-storyboard/shot and verified handoff reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "production-breakdown",
+        "short-drama"
+      ],
+      "problem_hints": [
+        "Typed asset and shot confirmation before media generation"
+      ],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Character Studio"
+      ],
+      "tags": [
+        "source-upstream",
+        "script-breakdown",
+        "shot-readiness",
+        "asset-consistency",
+        "short-drama"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream main a9678194ddf2d9be3ccbe78d4287d87d5089e123; README has matching title, images, feature narrative and original CI links also present in meo9805/Jellyfish mirror-like source; no assumption of code identity without diff audit.",
+        "Source-of-provenance candidate; the meo9805/Jellyfish record is a separate topic discovery and is not automatic justification for installing both. Use existing FA3 Model Router, HRB, Temporal, canonical project state and native files.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-FOUNTAIN-MODE-001",
+      "name": "Fountain Mode",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/rnkn/fountain-mode",
+        "normalized_key": "github:rnkn/fountain-mode"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Fountain 1.1 editor behavior, auto-complete, scene navigation, pagination and focus-compatible markup"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay"
+      ],
+      "tags": [
+        "fountain",
+        "editor-ux",
+        "pagination"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0; UX and Fountain conformance reference only pending license review.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-FREE-VIDEO-GEN-TOPIC-001",
       "name": "GitHub free-video-generator topic",
       "source": {
@@ -11122,6 +11932,70 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GAURAK495-AI-STORY-BOARD-001",
+      "name": "GaurAk495/ai-story-board",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GaurAk495/ai-story-board",
+        "normalized_key": "github:gaurak495/ai-story-board"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-three-storyboard-donor-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "UX_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "editable-storyboard-panel",
+        "per-shot-reshoot",
+        "character-scene-camera-prompt-link",
+        "story-to-scene-ui",
+        "zip-export-ux-reference"
+      ],
+      "domain_hints": [
+        "storyboard",
+        "screenplay",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Story/Screenplay Fabric",
+        "Storyboard",
+        "Scene/Shot Designer",
+        "Review"
+      ],
+      "tags": [
+        "per-shot-reshoot",
+        "panel-editor",
+        "character-consistency",
+        "license-missing",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "UNVERIFIED_NO_LICENSE_FILE",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected commit bcd1b8ab5253885fde262016cf86be73b2ac1db7. No root LICENSE found; README 'open-source/free' is not a verifiable grant: SOURCE COPYING BLOCKED. Per-shot editing and prompt-generation/reshoot UX reference only. Upstream code pins Gemini preview and Pollinations endpoint; no direct provider path in FA3.",
+        "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GAUSSIANAVATARS-001",
@@ -11640,6 +12514,171 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-BEAT-DETECTION-TOPIC-001",
+      "name": "GitHub beat-detection topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/beat-detection",
+        "normalized_key": "github:topics/beat-detection"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "discover-beat-tracking-donors"
+      ],
+      "domain_hints": [
+        "music",
+        "audio",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "discovery-index",
+        "beat-tracking",
+        "algorithm-comparison"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only; not a code dependency or algorithm validation. Individual implementations require benchmark, latency, license, security and current-host audit."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-BEAT-MAKER-TOPIC-001",
+      "name": "GitHub beat-maker topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/beat-maker",
+        "normalized_key": "github:topics/beat-maker"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "discover-beat-sequencer-donors"
+      ],
+      "domain_hints": [
+        "music",
+        "audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "discovery-index",
+        "unvetted-results",
+        "supply-chain-screening"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery feed only. Individual repositories require separate authenticity, maintenance, rights and supply-chain screening; avoid unverified premium-download repositories."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-BEAT-TRACKING-TOPIC-001",
+      "name": "GitHub beat-tracking topic",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/beat-tracking",
+        "normalized_key": "github:topics/beat-tracking"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "beat-tracking-donor-discovery"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "discovery-index",
+        "unvetted",
+        "tempo",
+        "beat-tracking"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only; per-repository provenance, capabilities, dependency, rights and security must be checked. Not a code donor."
+      ]
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -11944,6 +12983,60 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-SCRIPT-BREAKDOWN-TOPIC-001",
+      "name": "GitHub script-breakdown topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/script-breakdown",
+        "normalized_key": "github:topics/script-breakdown"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Discover script and production breakdown donors"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "discovery-index",
+        "script-breakdown"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery only: source-specific license, provenance and feature review required before admission.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GITHUB-TOPIC-2D-ANIMATION-001",
@@ -16583,6 +17676,65 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GROUPMM-REAL-TIME-PLP-001",
+      "name": "groupmm/real_time_plp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/groupmm/real_time_plp",
+        "normalized_key": "github:groupmm/real_time_plp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "real-time-plp-pulse-tracking",
+        "controllable-beat-synchronous-effects"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "live"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Live/Broadcast",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "realtime",
+        "cpu-only",
+        "plp",
+        "beat-synchronous"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT research examples for controllable streaming pulse and effects; not a measured FA3 current-host latency claim. Validate on real hosts before adapter admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GSPLAT-001",
       "name": "gsplat",
       "source": {
@@ -17732,6 +18884,63 @@
       "automatic_model_selection": false,
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HOW-TO-MAKE-SCRIPT-001",
+      "name": "How to Make Script",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/XucroYuri/how-to-make-script",
+        "normalized_key": "github:xucroyuri/how-to-make-script"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Intent/medium/stage/output workflow selection, reusable narrative evaluation rubrics and checked artifacts"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Coach",
+        "Creative Studio"
+      ],
+      "tags": [
+        "ai-review",
+        "rubrics",
+        "script-workflow",
+        "production-profile"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT declared. Use knowledge/rubric patterns only under existing central Model Router, HRB, Decision Fabric and human approval; never import another model authority.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
       ]
     },
     {
@@ -21583,6 +22792,70 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-JELLYFISH-SHORT-DRAMA-STUDIO-001",
+      "name": "Jellyfish short-drama studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/meo9805/Jellyfish",
+        "normalized_key": "github:meo9805/jellyfish"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Script/chapter-to-shot preparation and confirmed asset/dialogue candidates",
+        "Per-shot readiness before generation and status-aware task handoff",
+        "Reused character/scene/prop/costume entity references"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "short-drama",
+        "shot-readiness",
+        "asset-consistency",
+        "production-handoff",
+        "async-jobs"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md",
+        "README screenshot/CI links and title point to original https://github.com/Forget-C/Jellyfish; investigate provenance and code differences before reusing mirror. Original also recorded as separate source-specific candidate.",
+        "Selective reference only: upstream model/provider manager, async task center and project authority duplicate existing FA3 Model Router, HRB, Temporal and canonical project. Do not import these or hard-code source's MySQL/Redis/RustFS/default ports."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-JING-PROMPT-SKILLS-001",
       "name": "JING Prompt Skills",
       "source": {
@@ -21746,6 +23019,86 @@
       "automatic_model_selection": false,
       "notes": [
         "Reference only for offline note, attachment and search UX; Joplin database and sync authority excluded."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-JORDANHINDO-BEADBOARD-001",
+      "name": "jordanhindo/beadboard (BeadBoard)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jordanhindo/beadboard",
+        "normalized_key": "github:jordanhindo/beadboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-fa3-beadboard-reference-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "acknowledged-agent-handoff",
+        "task-linked-inter-agent-mail",
+        "liveness-aware-work-reservations",
+        "dag-task-observability",
+        "evidence-required-task-closure",
+        "agent-pool-visualization"
+      ],
+      "domain_hints": [
+        "agents",
+        "developer-agent",
+        "orchestration",
+        "coordination",
+        "observability"
+      ],
+      "problem_hints": [
+        "partial-task-completion",
+        "unacknowledged-agent-handoffs",
+        "stale-agent-ownership",
+        "concurrent-worker-collisions",
+        "missing-verification-evidence"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Developer Agent",
+        "Agent Collaboration Room",
+        "Verification Fabric",
+        "Goal-to-Acceptance"
+      ],
+      "tags": [
+        "beads",
+        "dolt",
+        "handoff-ack",
+        "liveness",
+        "ttl-reservations",
+        "work-graph",
+        "mit",
+        "reference-only-runtime"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official GitHub repository API resolves zenchantlive/beadboard to jordanhindo/beadboard; use the user's canonical jordanhindo locator and do not create alias duplicate.",
+        "Reuse selective coordination/GUI and evidence-gate patterns; FA3 already has canonical AgentMessage, WorkspaceLease, CoordinationEvent, ExecutionEvidence and Temporal global lifecycle. BeadBoard must not become a second authority, scheduler, model router or MCP tool gateway.",
+        "Upstream README warns embedded bb-pi is under construction, including reported silent runtime errors and rapid-session races. Do not admit the embedded runtime based on repository documentation.",
+        "Licensing declared MIT in inspected repository LICENSE; transitive Beads/Dolt/Pi/UI dependency, supply-chain and redistribution assessment still required before any code transfer. This registry capture is metadata only, not current-host runtime evidence.",
+        "Hardware audit: metadata only, vendor-neutral, CPU-only feasible, 0..N accelerators; runtime resource placement stays HRB, model selection stays central Model Router, tools enter via UAF/Central MCP Gateway, agent communication remains FA3-AI-COMMS-001 audited."
       ]
     },
     {
@@ -25113,6 +26466,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-LMPARPPEI-BEAT-001",
+      "name": "lmparppei/Beat",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lmparppei/Beat",
+        "normalized_key": "github:lmparppei/beat"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "fountain-screenplay-roundtrip",
+        "fdx-import-export",
+        "scene-management",
+        "revision-tracking",
+        "writer-statistics"
+      ],
+      "domain_hints": [
+        "creative",
+        "screenplay",
+        "story"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Professional Screenplay Fabric",
+        "Story/Docs",
+        "Storyboard"
+      ],
+      "tags": [
+        "fountain",
+        "fdx",
+        "distraction-free-editor",
+        "macos-ios-reference"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Apple-platform screenplay editor; GPL-3.0-or-later declaration in LICENSE.md. UX and file roundtrip reference, not direct macOS/iOS source incorporation into cross-desktop Qt6 FA3."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LOBECHAT-LOBEHUB-001",
       "name": "LobeChat / LobeHub",
       "source": {
@@ -26217,6 +27631,61 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Do not equate with semantic or KV cache; explicit quality gate."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MEANDER-001",
+      "name": "meander",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lichendust/meander",
+        "normalized_key": "github:lichendust/meander"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Portable production screenplay/manuscript transformation and command-line workflow ideas"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "fountain",
+        "production-script",
+        "cli"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0; verify current functionality and test fixtures before recommending code reuse.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MEDIAPIPE-FACE-LANDMARKER-001",
@@ -27461,6 +28930,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-MIR-AIDJ-ALL-IN-ONE-001",
+      "name": "mir-aidj/all-in-one",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mir-aidj/all-in-one",
+        "normalized_key": "github:mir-aidj/all-in-one"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "music-structure-segmentation",
+        "tempo-beat-downbeat",
+        "verse-chorus-intro-boundaries"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "music-segmentation",
+        "pytorch",
+        "natten",
+        "offline",
+        "linux-dependency-review"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT repository code; pretrained weights, dataset rights and Linux NATTEN/madmom/Python compatibility require separate review. Pattern for typed song-section interchange; no automatic default model selection."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MIROFISH-001",
       "name": "MiroFish",
       "source": {
@@ -27526,6 +29056,66 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MJHYDRI-BEATNET-001",
+      "name": "mjhydri/BeatNet",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mjhydri/BeatNet",
+        "normalized_key": "github:mjhydri/beatnet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "causal-beat-tracking",
+        "downbeat-tempo-meter-tracking",
+        "stream-realtime-online-offline"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "live"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Live/Broadcast"
+      ],
+      "tags": [
+        "particle-filter",
+        "crnn",
+        "realtime",
+        "streaming",
+        "research-only-license-review"
+      ],
+      "license": {
+        "declared": "CC-BY-4.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "CC-BY-4.0 declared repository license is unusual for software; research and algorithm reference only until legal suitability and model/checkpoint rights assessed. No default source copying."
+      ]
     },
     {
       "status": "CANDIDATE",
@@ -28237,6 +29827,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-MUSIC-AND-CULTURE-TECHNOLOGY-LAB-OMNIZART-001",
+      "name": "Music-and-Culture-Technology-Lab/omnizart",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Music-and-Culture-Technology-Lab/omnizart",
+        "normalized_key": "github:music-and-culture-technology-lab/omnizart"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "multitask-music-transcription",
+        "drum-onset-detection",
+        "beat-tracking",
+        "pitch-chord-vocal-transcription"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "midi"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "transcription",
+        "drums",
+        "vocal",
+        "chords",
+        "beat",
+        "mit"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "MIT source with checkpoint/data/dependency rights separately assessed. Research/project bridge across beat detection, drum transcription, MIDI and Music Studio; not a replacement DAW."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MWASIFANWAR-3D-SCENE-GENERATOR-001",
       "name": "mwasifanwar/3D-Scene-Generator",
       "source": {
@@ -28357,6 +30009,64 @@
       "notes": [
         "Experimental VBD/AVBD physics reference; upstream warns that self and external collision handling is buggy. OpenCL is optional and no CPU-only host capability may depend on it.",
         "Do not infer tested interoperability, source reuse rights, or runtime availability."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NARRATIVE-SOUNDSTAGE-001",
+      "name": "Narrative Soundstage",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/IdaAkiwumi/narrative-soundstage",
+        "normalized_key": "github:idaakiwumi/narrative-soundstage"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Character-assigned table reads, TTS rehearsal and synchronized prompter workflow"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Voice/Vocal",
+        "Performance",
+        "Creative Studio"
+      ],
+      "tags": [
+        "table-read",
+        "tts",
+        "casting",
+        "prompter"
+      ],
+      "license": {
+        "declared": "PROPRIETARY_BADGE_CONFLICT",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README proprietary badge links to MIT page and GitHub exposes no SPDX license; do not copy code. Any proposed TTS uses approved FA3 providers, consent and explicit resources.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
       ]
     },
     {
@@ -31768,6 +33478,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OLILARKIN-LIBROSA-CPP-001",
+      "name": "olilarkin/librosa.cpp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/olilarkin/librosa.cpp",
+        "normalized_key": "github:olilarkin/librosa.cpp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-beat-tracking-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "native-cpp-onset-detection",
+        "cpu-tempo-beat-tracking",
+        "spectral-analysis",
+        "librosa-parity-harness"
+      ],
+      "domain_hints": [
+        "audio",
+        "music",
+        "native-dsp"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "c++17",
+        "cpu-only",
+        "isc",
+        "parity-tests",
+        "pocketfft"
+      ],
+      "license": {
+        "declared": "ISC",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "ISC C++ port of librosa, written with AI assistance per upstream. Re-run independent numerical parity; choose dependency backend only after licence review (FFTW may impose GPL obligations, pocketfft alternative)."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ONEAPI-SRC-DPCPP-REFERENCE-001",
       "name": "oneapi-src/DPCPP_Reference",
       "source": {
@@ -33822,6 +35594,72 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENDRAFT-001",
+      "name": "OpenDraft",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Proteus-Technologies-Private-Limited/OpenDraft",
+        "normalized_key": "github:proteus-technologies-private-limited/opendraft"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-script-breakdown-followup-2026-09-28",
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Screenplay editor, beat board, real-time co-writing, version history and screenplay interchange",
+        "Verified docs declare bidirectional .fdx, .fountain, .fadein/.osf and .docx support; production tags, project version diff, beat cards, character profiles and offline backups"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "Film Planning"
+      ],
+      "tags": [
+        "beat-board",
+        "collaboration",
+        "document-interchange",
+        "fdx",
+        "fountain",
+        "production-tags",
+        "revision",
+        "semantic-diff"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "At upstream main 17c51799d23d8c7a9ba3eae70ac872927122f3c7 docs/FEATURES.md explicitly lists FDX/Fountain/Fade In/OSF/DOCX import/export, PDF export only, production tags, version diff and full-project backups. Preserve FA3 native project authority and independently test codec fidelity/collaboration security.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md",
+        "MIT declaration from GitHub and README. Verify production-grade round-trip and security; FA3 retains native Qt/QML editor."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENEXR-001",
@@ -42364,9 +44202,10 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "FA3 STARc Story Architect conversation 2026-09-22 reconciled 2026-09-29",
-        "https://github.com/story-apps/starc"
+        "https://github.com/story-apps/starc",
+        "github-topic-scriptwriting-2026-09-28"
       ],
-      "first_seen": "2026-09-29",
+      "first_seen": "2026-09-28",
       "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION",
@@ -42377,13 +44216,16 @@
         "screenplay",
         "fountain",
         "fdx",
-        "format-import-export"
+        "format-import-export",
+        "Qt screenplay/document UI, production profiles, character/location data, draft management and scene analytics"
       ],
       "domain_hints": [
         "story",
         "screenplay",
         "document-interchange",
-        "production-import"
+        "production-import",
+        "creative",
+        "scriptwriting"
       ],
       "problem_hints": [
         "cross-application-migration",
@@ -42392,7 +44234,10 @@
       "target_hints": [
         "Story/Screenplay",
         "Document Fabric",
-        "Production Import & Migration Fabric"
+        "Production Import & Migration Fabric",
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Film Planning"
       ],
       "tags": [
         "screenplay",
@@ -42401,7 +44246,11 @@
         "fdx",
         "office-import",
         "project-preservation",
-        "reference-only"
+        "reference-only",
+        "production-profiles",
+        "qt",
+        "story-bible",
+        "scene-breakdown"
       ],
       "license": {
         "declared": "GPL-3.0",
@@ -42425,7 +44274,9 @@
       },
       "notes": [
         "Qt/C++ screenwriting semantics, reports, character/location planning and selective import of external screenplay/document formats; exact supported feature/direction must be verified per version.",
-        "Reference only: FA3 Story IR and Document Fabric's on-demand IPC remain authoritative; no STARc runtime or GPL code automatically bundled."
+        "Reference only: FA3 Story IR and Document Fabric's on-demand IPC remain authoritative; no STARc runtime or GPL code automatically bundled.",
+        "GPL-3.0; community build mentions private/commercial submodules. Reference-only pending GPL/coexistence and component-level review; advertised import/export paths vary by format and direction.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
       ]
     },
     {
@@ -43423,6 +45274,61 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-R3MOT-GRID-GROOVE-001",
+      "name": "r3mot/grid-groove",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/r3mot/grid-groove",
+        "normalized_key": "github:r3mot/grid-groove"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "step-sequencer",
+        "sample-track-organization"
+      ],
+      "domain_hints": [
+        "audio",
+        "music"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Music Studio"
+      ],
+      "tags": [
+        "web-audio",
+        "tonejs",
+        "drum-samples",
+        "small-reference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Small browser step-sequencer reference; repository README declares MIT. Samples and third-party dependencies require independent rights audit; reference UI pattern, not separate production DAW."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-RADIUM-001",
       "name": "Radium",
       "source": {
@@ -43522,6 +45428,68 @@
       "automatic_model_selection": false,
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-RAINLIB-AI-STORYBOARD-001",
+      "name": "RainLib/AI-Storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/RainLib/AI-Storyboard",
+        "normalized_key": "github:rainlib/ai-storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "narrative-beat-breakdown",
+        "progressive-storyboard",
+        "motion-prompt-handoff",
+        "director-review-loop"
+      ],
+      "domain_hints": [
+        "creative",
+        "story",
+        "storyboard",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Story/Screenplay Fabric",
+        "Storyboard",
+        "Director/Workforce",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storybeat",
+        "producer-director-agents",
+        "human-approval",
+        "branch-aware-adaptation"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only pending GPL compatibility and provenance review. Adapt workflow to variable panel counts, production-aware screenplay profiles, narrative branches, UAF/Director and central Model Router; no fixed Claude, proprietary model or 9/4-panel requirement."
       ]
     },
     {
@@ -45145,6 +47113,75 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-RSDOIEL-FDX-001",
+      "name": "rsdoiel/fdx",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/rsdoiel/fdx",
+        "normalized_key": "github:rsdoiel/fdx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-scriptwriting-followup-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Typed Final Draft FDX XML document structure and parsing/serialization patterns",
+        "Fountain-like FDX-to-text and Fountain-to-FDX CLI conversion reference",
+        "FDX regression-fixture and round-trip acceptance test design"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "document-interchange"
+      ],
+      "problem_hints": [
+        "FDX/Fountain semantic loss and format round-trip verification",
+        "Preserve scene numbers, title page, revisions, script notes, cast and style spans through canonical exchange"
+      ],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 canonical document/interchange layer",
+        "Creative Studio",
+        "Film Planning"
+      ],
+      "tags": [
+        "fdx",
+        "final-draft",
+        "fountain",
+        "bidirectional-codec-reference",
+        "xml",
+        "go",
+        "copyleft",
+        "license-conflict"
+      ],
+      "license": {
+        "declared": "AGPL-3.0 (repository LICENSE and GitHub); BSD-2-Clause in some Go file headers",
+        "status": "KNOWN_DECLARATION_WITH_RESTRICTIONS"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream revision e2ee6728c511d03922692bffaaef5b23da639889 (2025-08-09); README flags inactive maintenance. Both fdx2txt and txt2fdx are present, but TODO explicitly leaves embedded styling/FDX interoperability and layout incomplete; do not claim lossless round-trip.",
+        "Use as format/schema and independent test-design reference for an FA3-owned bidirectional FDX codec; never admit FDX import before validated export. No unreviewed AGPL code, assets, fixture reuse or external runtime installation.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SAHIELBOSE-TIDELINE-001",
       "name": "sahielbose/Tideline",
       "source": {
@@ -45298,6 +47335,532 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SCENARLY-001",
+      "name": "Scenarly",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Lycoon/scenarly",
+        "normalized_key": "github:lycoon/scenarly"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Scene/page locking, The Shelve alternates, writing sessions, comments and dialogue metrics"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "production-revision",
+        "focus-mode",
+        "alternate-dialogue",
+        "stats"
+      ],
+      "license": {
+        "declared": "ALL_RIGHTS_RESERVED_OR_UNCLEAR",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README says source-available and All Rights Reserved; GitHub reports NOASSERTION. UI/workflow reference only; code copying blocked.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCREENPLAY-LATEX-001",
+      "name": "screenplay-latex",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/karthikv792/screenplay-latex",
+        "normalized_key": "github:karthikv792/screenplay-latex"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Pre-production tagged props/wardrobe/camera/light/VFX annotations, scene breakdowns and revision pages"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "Creative Studio"
+      ],
+      "tags": [
+        "production-annotations",
+        "scene-breakdown",
+        "formatting"
+      ],
+      "license": {
+        "declared": "MIT_README_DECLARED",
+        "status": "UNVERIFIED_FOR_SOURCE_COPY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README declares MIT but GitHub SPDX not detected; exact licensed files and formatting correctness need review.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCREENPLAY-TOOLS-WILDWINTER-001",
+      "name": "Screenplay Tools (wildwinter)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wildwinter/screenplay-tools",
+        "normalized_key": "github:wildwinter/screenplay-tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Format-neutral Script/Element representation across C++, Python, JS and C#",
+        "Bidirectional Fountain and FDX parsing/writing and cross-language fixtures"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 canonical document/interchange layer",
+        "FA3 Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "screenplay-interchange",
+        "fountain",
+        "fdx",
+        "cpp",
+        "python",
+        "javascript",
+        "csharp"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "At upstream main d0fc871f02a8bdaa66a107bf6005081a0974ef2f, C++ FDX parser drops non-element metadata, maps Shot to heading and suppresses parse errors in catch(...); writer skips unknown types, notes, revisions, title page and style spans. Never claim lossless FDX round-trip without independent coverage.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCREENWEAVER-SCREENWRITING-COMPARISON-HUB-001",
+      "name": "ScreenWeaver screenwriting comparison hub",
+      "source": {
+        "kind": "URL",
+        "locator": "https://www.screenweaver.ai/blog/topics/screenwriting-software",
+        "normalized_key": "https://www.screenweaver.ai/blog/topics/screenwriting-software"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-beat-storyboard-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "screenwriting-tool-feature-comparison",
+        "screenplay-to-storyboard-workflow-reference"
+      ],
+      "domain_hints": [
+        "story",
+        "screenplay",
+        "creative"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Professional Screenplay Fabric",
+        "Storyboard"
+      ],
+      "tags": [
+        "vendor-authored-comparison",
+        "research-only",
+        "verify-claims"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Vendor-operated comparison hub; original submitted /blog/screenwriting-software-comparisons-hub was not accessible at review, accessible topic hub used. Claims are marketing material pending independent verification. No code reuse."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPT-BREAKDOWN-WORKFLOW-FEICAICLUB-001",
+      "name": "Script Breakdown Workflow (feicaiclub)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/feicaiclub/script-breakdown-dsh",
+        "normalized_key": "github:feicaiclub/script-breakdown-dsh"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Production-type-aware staged director breakdown, shot list, asset anchors and shot prompts",
+        "Approval checkpoints, metadata-only run log and explicit stale downstream artifacts"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Storyboarding",
+        "Creative Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "production-profiles",
+        "human-gates",
+        "shot-to-asset-consistency",
+        "stage-invalidation"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "DeepSeek Harness-specific preset; use only review, data-flow and shot/asset consistency reference. Do not install harness, add model authority, hard-code DeepSeek or Jimeng, or allow AI-authored prompts to bypass human approval.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPT-STRUCTURAL-BREAKDOWN-SKILL-001",
+      "name": "Script Structural Breakdown Skill",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zhangzhangco/script-structural-breakdown-skill",
+        "normalized_key": "github:zhangzhangco/script-structural-breakdown-skill"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Structured script unitization, rhythm curve, evidence-backed beat segmentation and beat completion",
+        "Partial resume, per-stage and per-beat retry with source-integrity checks"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Film Planning",
+        "Storyboarding",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "beat-segmentation",
+        "rhythm-curve",
+        "resumable",
+        "schema-validation",
+        "continuity"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Adopt specific schema/validation concepts only, no separate skills framework, model or orchestrator. AI proposals remain human-reviewed and source anchored.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPTBREAK-WASSERMAN-PRODUCTIONS-001",
+      "name": "ScriptBreak (Wasserman Productions)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wassermanproductions/scriptbreak",
+        "normalized_key": "github:wassermanproductions/scriptbreak"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-script-breakdown-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Scene and element extraction, per-scene shot list and timeline, casting/locations/prop bibles",
+        "Draft scheduling stripboard and Day Out of Days report",
+        "Scoped breakdown APIs and handoff projections"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting",
+        "production-breakdown"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Film Planning",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Creative Studio"
+      ],
+      "tags": [
+        "scene-breakdown",
+        "production-tags",
+        "shot-list",
+        "schedule",
+        "cast",
+        "day-out-of-days",
+        "mcp"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "At upstream master ed9efb86125b713ce430b7337f27392adec071a9; candidate for deterministic breakdown and review UX, not the .scriptbreak project authority or separate MCP server. Upstream README contradicts itself on PDF import (feature list versus format matrix): independently verify. Do not import self-executing prompt packs, generated provider-specific prompts or undisclosed cloud egress.",
+        "Curation: docs/script-breakdown-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPTFLOW-001",
+      "name": "ScriptFlow",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/YoLin02/ScriptFlow",
+        "normalized_key": "github:yolin02/scriptflow"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Text-to-visual nodes, story card connections, script/media/timeline canvas and reusable templates"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "FA3 Video Editor",
+        "FA3 QuickClip",
+        "Creative Studio"
+      ],
+      "tags": [
+        "visual-canvas",
+        "nonlinear-planning",
+        "media-links",
+        "markdown"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Apache 2.0 declared. Extract interoperability concepts rather than imposing React Flow, IndexedDB or a parallel project authority.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SCRIPTWRITING-GITHUB-TOPIC-001",
+      "name": "Scriptwriting GitHub topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/scriptwriting",
+        "normalized_key": "github:topics/scriptwriting"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Continuously discover separately verified scriptwriting repositories"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "discovery-index",
+        "screenwriting"
+      ],
+      "license": {
+        "declared": "N/A",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Discovery index only. Individual repositories require separate source, license, provenance and fit reviews.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-SEED-VC-001",
@@ -48556,6 +51119,63 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-TOME-EDITOR-001",
+      "name": "Tome Editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Oleg-Avdeev/Tome-Edtior",
+        "normalized_key": "github:oleg-avdeev/tome-edtior"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-scriptwriting-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "Narrative tree editor, scene/dialogue/action/condition TSV structure and branching story visualization"
+      ],
+      "domain_hints": [
+        "creative",
+        "scriptwriting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Story/Screenplay",
+        "Creative Studio",
+        "Interactive Narrative"
+      ],
+      "tags": [
+        "branching-narrative",
+        "story-graph",
+        "tsv",
+        "metadata"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GPL-3.0 and last pushed 2022; reference for narrative graph and data interchange, not a new canonical authority.",
+        "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOONFLOW-001",
       "name": "Toonflow",
       "source": {
@@ -51730,6 +54350,76 @@
       "automatic_model_selection": false,
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-YOGENDRA-YATNALKAR-STORYBOARD-AI-001",
+      "name": "yogendra-yatnalkar/storyboard-ai",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/yogendra-yatnalkar/storyboard-ai",
+        "normalized_key": "github:yogendra-yatnalkar/storyboard-ai"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-three-storyboard-donor-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "narrated-whiteboard-animation",
+        "mask-guided-contour-stroke-order",
+        "audio-paced-drawing",
+        "multilingual-narration-and-subtitles",
+        "research-to-scene-production"
+      ],
+      "domain_hints": [
+        "storyboard",
+        "animation",
+        "video",
+        "narration",
+        "education"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Storyboard",
+        "Scene/Shot Designer",
+        "Animation",
+        "Narration Studio",
+        "Subtitle Studio",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "whiteboard",
+        "cpu-only-drawing",
+        "optional-sam3",
+        "narration-pacing",
+        "gpl",
+        "research-only"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Inspected commit 152d06025747a9c27c7b0c8cf59102300ab27a4b. Selective workflow/algorithm reference: OpenCV adaptive-threshold+grid/nearest-neighbor contour traversal, optional object masks, script/narration/subtitle pacing. GPL-3.0 plus SAM3 model/weights/third-party asset rights restrict source copying pending review. Fixed Gemini/Veo/TTS and direct research/service calls cannot bypass central FA3 Model Router/MCP/UAF/HRB.",
+        "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
       ]
     },
     {
