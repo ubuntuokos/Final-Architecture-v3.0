@@ -76,3 +76,10 @@ The [2026-09-29 selective-content research annex](production-import-selective-do
 ## Follow-up quality/translation research (same 17 selectors)
 
 The [11-source translation/audio quality extension](production-import-selective-quality-extension-2026-09-29.md) adds offline local-MT and review patterns, distinct original-versus-estimated audio semantics, an operator QC model, source/revision-aware derivative cache rules and exact-head physical admission requirements. It adds **no new selector, capability ID or runtime authority**. The preceding 613 count is the historical pre-extension snapshot; the #528 proposal branch now has 624 source-unique donor records. License/weight gate and user-approved source preservation remain mandatory.
+
+
+## Follow-up audio-language quality and segment controls (2026-09-29)
+
+The [second-round segmentation / forced-alignment / QC research and candidate registry capture](production-import-selective-quality-curation-round2-2026-09-29.md) extends this plan, **without changing any of the exact 17 selector labels or IDs**. It adds human-editable interval previews for speech/music/noise and candidate events, evidence-typed original-versus-estimated track badges, optional corrected-text-to-original-audio word alignment, and independent per-output quality decisions. Detection/classification cannot be sold as source separation; word alignment of already-corrected text does not prove that the original transcription or translation is correct. Version, selected language, BCP-47 target, source samples/PTS and original IDs remain attached to each output. Existing Audio/Subtitle/Language/HRB/Model Router and canonical Evidence remain authoritative.
+
+The follow-up registry research added **nine** previously absent source-unique records and enriched the already-existing CLAP donor on draft #528 (624 → **633** at this documented snapshot), with all nine CANDIDATE and no automatic dependencies or current-host PASS. Earlier historical 613 snapshots remain historical rather than rewritten evidence.
