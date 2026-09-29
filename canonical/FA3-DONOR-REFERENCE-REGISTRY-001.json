@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 592,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
+    "entry_count": 616,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. HPC/MCP/Microsoft scoped donor curation 2026-09-29: 24 unique non-authoritative sources including organization/topic indexes; no runtime admission."
   },
   "entries": [
     {
@@ -5420,6 +5420,63 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-AWESOME-MCP-SERVERS-001",
+      "name": "Awesome MCP Servers",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/punkpeye/awesome-mcp-servers",
+        "normalized_key": "github:punkpeye/awesome-mcp-servers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-community-catalog"
+      ],
+      "domain_hints": [
+        "mcp",
+        "discovery"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Community-curated discovery catalog, not blanket endorsement of linked projects or license clearance."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-AWESOME-SEEDANCE-2-PROMPTS-001",
       "name": "awesome-seedance-2-prompts",
       "source": {
@@ -8293,6 +8350,65 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-DISTRIBUTED-COPY-001",
+      "name": "Distributed Copy",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc/dcp",
+        "normalized_key": "github:hpc/dcp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "distributed-copy",
+        "balanced-work-distribution"
+      ],
+      "domain_hints": [
+        "hpc",
+        "storage",
+        "orchestration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Host Federation"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Historical 2019 source; algorithm and architecture study only pending freshness and provenance review."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
       "name": "DXVK",
       "source": {
@@ -8453,6 +8569,64 @@
       "rejection_reasons": [
         "ANTI_DETECT_AND_FINGERPRINT_SPOOFING_CONFLICT_WITH_FA3_TRUST_AND_AUDITABILITY"
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-DORA-HPC-AI-TRAINING-PLATFORM-001",
+      "name": "Dora HPC/AI training platform",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/alice-viola/dora",
+        "normalized_key": "github:alice-viola/dora"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "training-test-workflow",
+        "cluster-job-management"
+      ],
+      "domain_hints": [
+        "hpc",
+        "ai-orchestration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Orchestrator",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Observed through JavaScript-filtered hpc-systems topic; 2021 source, research patterns only, not runtime admission."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-DRAMATRON-001",
@@ -10366,6 +10540,69 @@
         "excluded_unrelated": [
           "luruizhe953-netizen/android-houdini-injection"
         ]
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-HPC-SYSTEMS-TOPIC-JAVASCRIPT-FILTER-001",
+      "name": "GitHub HPC systems topic (JavaScript filter)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/hpc-systems",
+        "normalized_key": "github:topics/hpc-systems"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/hpc-systems?l=javascript&o=asc&s=updated"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "hpc-systems-discovery",
+        "javascript-filter"
+      ],
+      "domain_hints": [
+        "hpc",
+        "cluster-computing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic topic index, JavaScript filter; the observed alice-viola/dora repository is separately captured."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      },
+      "discovery_filter": {
+        "language": "JavaScript",
+        "observed_count": 1,
+        "observed_at": "2026-09-29",
+        "observed_url": "https://github.com/topics/hpc-systems?l=javascript&o=asc&s=updated"
       }
     },
     {
@@ -12838,6 +13075,174 @@
         "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
         "Original disposition: REFERENCE_DESIGN_INPUT_CODE_REUSE_CONDITIONAL."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HPC-GITHUB-ORGANIZATION-001",
+      "name": "HPC GitHub organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc",
+        "normalized_key": "github:hpc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/hpc"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "upstream-hpc-source-discovery"
+      ],
+      "domain_hints": [
+        "hpc",
+        "distributed-systems"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository-discovery index; individually assess projects, never bulk-admit an organization."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-HPC-SOCIAL-GITHUB-ORGANIZATION-001",
+      "name": "HPC Social GitHub organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc-social",
+        "normalized_key": "github:hpc-social"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/hpc-social"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "hpc-community-research"
+      ],
+      "domain_hints": [
+        "hpc",
+        "research-community"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Community, events and experience reports; not an HPC runtime or scientific validation authority."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-HPC-UK-GITHUB-ORGANIZATION-001",
+      "name": "HPC UK GitHub organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc-uk",
+        "normalized_key": "github:hpc-uk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/hpc-uk"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "hpc-build-and-benchmark-discovery"
+      ],
+      "domain_hints": [
+        "hpc",
+        "linux-build"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Community and institutional discovery only; review specific build instructions before use."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-HTCONDOR-001",
@@ -15424,6 +15829,65 @@
       "notes": [
         "Optional and independently reviewed reference only; hardware or ecosystem specificity never becomes a global FA3 requirement."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IOR-AND-MDTEST-001",
+      "name": "IOR and mdtest",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc/ior",
+        "normalized_key": "github:hpc/ior"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "storage-io-benchmark",
+        "metadata-performance-testing"
+      ],
+      "domain_hints": [
+        "hpc",
+        "storage"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Storage Fabric",
+        "Benchmark Fabric"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use workload and measurement methodology as a reference; no automatic disk stress or unsafe tuning."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-IP-ADAPTER-001",
@@ -18634,6 +19098,180 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MCP-INSPECTOR-001",
+      "name": "MCP Inspector",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modelcontextprotocol/inspector",
+        "normalized_key": "github:modelcontextprotocol/inspector"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-server-debugging",
+        "mcp-protocol-testing"
+      ],
+      "domain_hints": [
+        "mcp",
+        "testing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Evidence/Gate"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Visual protocol conformance tooling reference; review exposed services and security boundaries."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-MCP-PROXY-001",
+      "name": "MCP proxy",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/punkpeye/mcp-proxy",
+        "normalized_key": "github:punkpeye/mcp-proxy"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-stdio-to-http-bridge",
+        "mcp-transport-interchange"
+      ],
+      "domain_hints": [
+        "mcp",
+        "network"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Software Coexistence"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Study stdio/HTTP/SSE bridge patterns; avoid creating parallel FA3 MCP gateway or bypassing security."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-MCP-SPECIFICATION-AND-DOCUMENTATION-001",
+      "name": "MCP specification and documentation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modelcontextprotocol/modelcontextprotocol",
+        "normalized_key": "github:modelcontextprotocol/modelcontextprotocol"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-protocol-compatibility",
+        "version-negotiation"
+      ],
+      "domain_hints": [
+        "mcp",
+        "open-standards"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Standards reference, not an FA3 architectural authority; verify revision and compatibility during implementation."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-MEANCACHE-001",
       "name": "MeanCache",
       "source": {
@@ -19451,6 +20089,121 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-MICROSOFT-GITHUB-ORGANIZATION-001",
+      "name": "Microsoft GitHub organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft",
+        "normalized_key": "github:microsoft"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/microsoft"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "microsoft-upstream-source-discovery"
+      ],
+      "domain_hints": [
+        "ai",
+        "engineering",
+        "interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Large multi-project discovery index; existing DirectX and MCP Gateway donor records are not duplicated."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-MARKITDOWN-001",
+      "name": "Microsoft MarkItDown",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/markitdown",
+        "normalized_key": "github:microsoft/markitdown"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "file-to-markdown-conversion",
+        "document-ingestion"
+      ],
+      "domain_hints": [
+        "documents",
+        "import"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference for document conversion, provenance and round-trip feasibility; FA3 import must have an export path for admitted formats."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
       "discovered_from": [
         "prior-fa3-research-backfill"
       ],
@@ -19507,6 +20260,124 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-ONNX-RUNTIME-001",
+      "name": "Microsoft ONNX Runtime",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/onnxruntime",
+        "normalized_key": "github:microsoft/onnxruntime"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cross-platform-inference",
+        "execution-provider-interfaces"
+      ],
+      "domain_hints": [
+        "ai",
+        "inference"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Model Router",
+        "Inference Fabric",
+        "Hardware Audit"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Backend interoperability candidate only; CPU-only baseline, HRB placement and model admission are unchanged."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-PLAYWRIGHT-001",
+      "name": "Microsoft Playwright",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/playwright",
+        "normalized_key": "github:microsoft/playwright"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "multi-browser-ui-testing",
+        "web-automation"
+      ],
+      "domain_hints": [
+        "testing",
+        "browser"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Browser Skill",
+        "Evidence/Gate",
+        "FA3 GUI"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Test and automation reference; no default remote browser access, ungoverned credential flow or second testing authority."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-MICROSOFTDOCS-CPP-DOCS-001",
@@ -20032,6 +20903,66 @@
         "source_group": "v1.1-programlist",
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-MPI-PARALLEL-FILE-UTILITIES-001",
+      "name": "MPI parallel file utilities",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc/mpifileutils",
+        "normalized_key": "github:hpc/mpifileutils"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "distributed-file-copy",
+        "parallel-file-traversal"
+      ],
+      "domain_hints": [
+        "hpc",
+        "storage",
+        "network"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Storage Fabric",
+        "Host Federation"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Study MPI-based movement and traversal; preserve provenance and destination conflict handling."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
       }
     },
     {
@@ -22825,6 +23756,236 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OFFICIAL-MCP-PYTHON-SDK-001",
+      "name": "Official MCP Python SDK",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modelcontextprotocol/python-sdk",
+        "normalized_key": "github:modelcontextprotocol/python-sdk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-python-client",
+        "mcp-python-server"
+      ],
+      "domain_hints": [
+        "mcp",
+        "agent-integration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference for Python interoperability; no second gateway or automatic package import."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-OFFICIAL-MCP-SERVER-EXAMPLES-001",
+      "name": "Official MCP server examples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modelcontextprotocol/servers",
+        "normalized_key": "github:modelcontextprotocol/servers"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-server-reference-implementations"
+      ],
+      "domain_hints": [
+        "mcp",
+        "agent-integration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Skill Fabric"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Examples for adapter design only; never activate unvetted servers or tools automatically."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-OFFICIAL-MCP-SERVER-REGISTRY-001",
+      "name": "Official MCP server registry",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modelcontextprotocol/registry",
+        "normalized_key": "github:modelcontextprotocol/registry"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mcp-server-discovery",
+        "mcp-registry-schema"
+      ],
+      "domain_hints": [
+        "mcp",
+        "registry"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Interoperability schema reference only; do not replace canonical FA3 Donor Registry or enable unreviewed server installation."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-OFFICIAL-MODEL-CONTEXT-PROTOCOL-GITHUB-ORGANIZATION-001",
+      "name": "Official Model Context Protocol GitHub organization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modelcontextprotocol",
+        "normalized_key": "github:modelcontextprotocol"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/modelcontextprotocol"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "mcp-upstream-standards-discovery"
+      ],
+      "domain_hints": [
+        "mcp",
+        "agent-integration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Skill Fabric",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official MCP discovery index; no second gateway, registry authority or arbitrary server installation."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-OH-MY-CLAUDECODE-001",
@@ -26280,6 +27441,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-PAVILION-HPC-TEST-FRAMEWORK-001",
+      "name": "Pavilion HPC test framework",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc/pavilion2",
+        "normalized_key": "github:hpc/pavilion2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "hpc-test-matrix",
+        "benchmark-runner",
+        "test-result-analysis"
+      ],
+      "domain_hints": [
+        "hpc",
+        "testing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Evidence/Gate",
+        "Host Federation"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOASSERTION",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Study test orchestration without bypassing exact-head current-host evidence or HRB."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-PGBACKREST-001",
@@ -30558,6 +31779,63 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-PUNKPEYE-GITHUB-PROFILE-001",
+      "name": "punkpeye GitHub profile",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/punkpeye",
+        "normalized_key": "github:punkpeye"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/punkpeye"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "mcp-community-source-discovery"
+      ],
+      "domain_hints": [
+        "mcp",
+        "agent-integration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "MCP Gateway",
+        "Skill Fabric",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Community project/profile discovery index, not an official MCP standard or upstream trust authority."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "NOT_APPLICABLE",
+        "source_copy_allowed": false
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-PUPPETEER-001",
       "name": "Puppeteer",
       "source": {
@@ -34512,6 +35790,121 @@
         "Archived triangulation node wraps Mapbox Earcut; separately review original upstream dependencies before copying.",
         "Archived upstream; historical reference only."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UK-HPC-BUILD-INSTRUCTIONS-001",
+      "name": "UK HPC build instructions",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc-uk/build-instructions",
+        "normalized_key": "github:hpc-uk/build-instructions"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "linux-build-matrix",
+        "portable-build-recipe"
+      ],
+      "domain_hints": [
+        "hpc",
+        "linux-packaging"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Installer",
+        "Software Coexistence"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Build and configuration patterns only; no blind host configuration, global package mutation or donor dependency."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-UK-HPC-MPI-PERFORMANCE-STUDIES-001",
+      "name": "UK HPC MPI performance studies",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hpc-uk/mpi-performance",
+        "normalized_key": "github:hpc-uk/mpi-performance"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "hpc-mcp-microsoft-user-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "mpi-performance-comparison"
+      ],
+      "domain_hints": [
+        "hpc",
+        "performance"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Hardware Audit",
+        "Benchmark Fabric"
+      ],
+      "tags": [
+        "upstream-verified-repository",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Historical 2019 study; methods are not present-day hardware measurements."
+      ],
+      "upstream_observation": {
+        "verified_at": "2026-09-29",
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY",
+        "source_copy_allowed": false
+      }
     },
     {
       "donor_id": "FA3-DONOR-UNCENSORED-LOCAL-STUDIO-001",
