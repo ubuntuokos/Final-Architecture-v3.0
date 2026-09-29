@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 592,
+    "entry_count": 605,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -16905,6 +16905,230 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-KUBUNTU-PYTHON-GITHUB-TOPIC-001",
+      "name": "GitHub Kubuntu topic (Python language filter)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/kubuntu",
+        "normalized_key": "github:topics/kubuntu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-donor-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "python-kubuntu-discovery"
+      ],
+      "domain_hints": [
+        "linux",
+        "desktop",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Installer",
+        "Test Fabric",
+        "GUI"
+      ],
+      "tags": [
+        "dynamic-topic-index",
+        "python-language-filter",
+        "kubuntu"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic filtered search index at https://github.com/topics/kubuntu?l=python; individual results require subsequent source verification."
+      ],
+      "discovery_filter": {
+        "language": "Python",
+        "observed_url": "https://github.com/topics/kubuntu?l=python",
+        "observed_count": null,
+        "observed_at": "2026-09-29"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-KUBUNTU-TEAM-GITHUB-ORGANIZATION-001",
+      "name": "Kubuntu Team GitHub organization",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/kubuntu-team",
+        "normalized_key": "github:kubuntu-team"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-donor-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "desktop-testing",
+        "localization",
+        "documentation"
+      ],
+      "domain_hints": [
+        "linux",
+        "kde"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Test Fabric",
+        "Documentation",
+        "GUI"
+      ],
+      "tags": [
+        "kubuntu",
+        "organization-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "KDE and Kubuntu patterns cannot become KDE-exclusive or distribution-exclusive FA3 requirements."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-KUBUNTU-TEAM-KUBUNTU-MANUAL-001",
+      "name": "kubuntu-team/kubuntu-manual — user documentation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kubuntu-team/kubuntu-manual",
+        "normalized_key": "github:kubuntu-team/kubuntu-manual"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "multilingual-documentation",
+        "sphinx-workflow"
+      ],
+      "domain_hints": [
+        "documentation",
+        "linux"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Documentation",
+        "Installer"
+      ],
+      "tags": [
+        "kubuntu",
+        "sphinx",
+        "i18n"
+      ],
+      "license": {
+        "declared": "CC-BY-SA-4.0 (README)",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README describes Sphinx localization and declares CC-BY-SA-4.0; documentation workflow inspiration, no KDE-only UI lock-in."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-KUBUNTU-TEAM-KUBUQA-001",
+      "name": "kubuntu-team/KubuQA — Kubuntu ISO test utility",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kubuntu-team/KubuQA",
+        "normalized_key": "github:kubuntu-team/kubuqa"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "vm-assisted-iso-testing",
+        "installer-qa-ux"
+      ],
+      "domain_hints": [
+        "linux",
+        "testing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Test Fabric",
+        "Installer"
+      ],
+      "tags": [
+        "kubuntu",
+        "testing",
+        "vm"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Bash/kdialog/VirtualBox script with optional privileged dependency install; reference test workflow only, never execute or auto-install as FA3."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001",
       "name": "langchain-ai/langgraph",
       "source": {
@@ -25932,6 +26156,330 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-ORACLE-DEVREL-GITHUB-ORGANIZATION-001",
+      "name": "Oracle Developer Relations GitHub organization",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/oracle-devrel",
+        "normalized_key": "github:oracle-devrel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-donor-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "technology-reference-labs",
+        "infrastructure-automation"
+      ],
+      "domain_hints": [
+        "research",
+        "linux",
+        "infrastructure"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Installer",
+        "Test Fabric",
+        "Knowledge Fabric"
+      ],
+      "tags": [
+        "oracle-devrel",
+        "organization-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Developer-relations examples and labs, not a single reusable licensed codebase."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ORACLE-DEVREL-LINUX-VIRT-LABS-001",
+      "name": "oracle-devrel/linux-virt-labs — Linux and virtualization labs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oracle-devrel/linux-virt-labs",
+        "normalized_key": "github:oracle-devrel/linux-virt-labs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "virtualization-test-workflow",
+        "provisioning-patterns"
+      ],
+      "domain_hints": [
+        "linux",
+        "virtualization",
+        "test"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Test Fabric",
+        "Installer"
+      ],
+      "tags": [
+        "linux-lab",
+        "virtualization",
+        "oci-optional"
+      ],
+      "license": {
+        "declared": "UPL-1.0 (README)",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Oracle Linux/OCI-oriented Ansible lab scripts under README-declared UPL-1.0; patterns only. No OCI, Ansible or cloud dependence may be imposed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ORACLE-DEVREL-TECHNOLOGY-ENGINEERING-001",
+      "name": "oracle-devrel/technology-engineering — engineering examples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oracle-devrel/technology-engineering",
+        "normalized_key": "github:oracle-devrel/technology-engineering"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "infrastructure-examples",
+        "architecture-reference"
+      ],
+      "domain_hints": [
+        "infrastructure",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Installer",
+        "Knowledge Fabric"
+      ],
+      "tags": [
+        "oracle-devrel",
+        "reference-collection"
+      ],
+      "license": {
+        "declared": "UNKNOWN_PER_ASSET",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Broad multi-asset technical collection; no blanket license or code admission; scope and license must be assessed per subproject."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ORACLE-GITHUB-ORGANIZATION-001",
+      "name": "Oracle official GitHub organization",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/oracle",
+        "normalized_key": "github:oracle"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-donor-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "java-runtime",
+        "code-search",
+        "linux-observability"
+      ],
+      "domain_hints": [
+        "development",
+        "infrastructure"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Knowledge Fabric",
+        "Development Fabric",
+        "Installer"
+      ],
+      "tags": [
+        "oracle",
+        "organization-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official organization discovery source; every concrete repository requires its own provenance and license review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ORACLE-GRAAL-001",
+      "name": "oracle/graal — GraalVM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oracle/graal",
+        "normalized_key": "github:oracle/graal"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "native-compilation",
+        "polyglot-runtime-reference"
+      ],
+      "domain_hints": [
+        "development",
+        "runtime"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Development Fabric",
+        "Build Fabric"
+      ],
+      "tags": [
+        "graalvm",
+        "optional-build-reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official source describes GraalVM AOT binaries and Graal compiler. Optional build research only; no Java or GraalVM installation requirement."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ORACLE-OPENGROK-001",
+      "name": "oracle/opengrok — OpenGrok",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oracle/opengrok",
+        "normalized_key": "github:oracle/opengrok"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "source-indexing",
+        "cross-reference-search"
+      ],
+      "domain_hints": [
+        "knowledge",
+        "development"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Knowledge Fabric",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "source-code-search",
+        "cross-reference"
+      ],
+      "license": {
+        "declared": "CDDL-1.0 (README badge)",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README identifies Java source search and cross-reference engine; CDDL-1.0 license badge. Reference patterns only; no new indexing authority."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ORZIZ-ODAI-001",
       "name": "orziz/odai",
       "source": {
@@ -34511,6 +35059,169 @@
       "notes": [
         "Archived triangulation node wraps Mapbox Earcut; separately review original upstream dependencies before copying.",
         "Archived upstream; historical reference only."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UBUNTU-APP-CENTER-001",
+      "name": "ubuntu/app-center — App Center",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ubuntu/app-center",
+        "normalized_key": "github:ubuntu/app-center"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "app-catalog-ux",
+        "installer-workflow"
+      ],
+      "domain_hints": [
+        "linux",
+        "desktop",
+        "application-catalog"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Application Fabric",
+        "Installer",
+        "GUI"
+      ],
+      "tags": [
+        "app-catalog",
+        "ubuntu",
+        "ui-pattern"
+      ],
+      "license": {
+        "declared": "GPL-3.0 (README badge)",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Official Ubuntu App Center UX/workflow reference; Flutter implementation does not replace FA3 Qt6 UI. README badges GPL-3.0."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UBUNTU-GITHUB-ORGANIZATION-001",
+      "name": "Ubuntu GitHub organization",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/ubuntu",
+        "normalized_key": "github:ubuntu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-donor-submission-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "application-catalog-ux",
+        "developer-provisioning"
+      ],
+      "domain_hints": [
+        "linux",
+        "desktop"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Application Fabric",
+        "Installer"
+      ],
+      "tags": [
+        "ubuntu",
+        "organization-index"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Ubuntu-specific implementations are references only; generic Linux support is mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UBUNTU-UBUNTU-MAKE-001",
+      "name": "ubuntu/ubuntu-make — developer provisioning",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ubuntu/ubuntu-make",
+        "normalized_key": "github:ubuntu/ubuntu-make"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "curated-from-user-organization-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "developer-tool-provisioning",
+        "package-management-workflow"
+      ],
+      "domain_hints": [
+        "linux",
+        "development"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Installer",
+        "Development Fabric"
+      ],
+      "tags": [
+        "developer-setup",
+        "ubuntu",
+        "workflow-pattern"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "PENDING_EXACT_FILE_AND_REVISION_AUDIT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "README describes apt-integrated developer setup; do not adopt Snap/PPA/classic privilege assumptions or auto-install upstream software."
       ]
     },
     {
