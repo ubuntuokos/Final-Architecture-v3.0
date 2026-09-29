@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
   workflow_call:
+concurrency:
+  group: fa3-donor-intake-global
+  cancel-in-progress: false
 permissions:
   contents: read
   pull-requests: read
@@ -64,7 +67,7 @@ jobs:
                       or p.startswith('tests/test_donor_') or p.startswith('tests/test_donors_'))
           donor=is_donor_pr({'title':os.environ.get('PR_TITLE','')},
                             [{'filename':name} for name in names])
-          phase='maintenance' if base and donor and all(allowed(n) for n in names) else 'status'
+          phase='intake' if base and donor and all(allowed(n) for n in names) else 'status'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('phase='+phase+'\n')
           print('Donor mode:',phase,'changed files:',len(names))
           PY
@@ -72,10 +75,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DONOR_PHASE: ${{ steps.classify.outputs.phase }}
+          DONOR_PR: ${{ github.event.pull_request.number }}
         run: |
           mkdir -p reports
           set -o pipefail
-          PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase "$DONOR_PHASE" | tee reports/donor-readiness-gate-report.json
+          if [ "$DONOR_PHASE" = intake ]; then
+            PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase intake --pr "$DONOR_PR" | tee reports/donor-readiness-gate-report.json
+          else
+            PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase status | tee reports/donor-readiness-gate-report.json
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
