@@ -1,15 +1,15 @@
 # FA3-MENTOR-ENHANCEMENT-001 — Mentor v0.3 Capability Reinforcement Plan
 
-**Architecture:** FINAL ARCHITECTURE v3.0  
-**Parent profile:** `FA3-MENTOR-001`  
-**Target implementation:** `FA3 Mentor v0.3.0`  
-**Plan status:** `FINAL PLAN / IMPLEMENTATION PENDING`  
-**Priority:** `P0 / MUST`  
-**Capability impact:** `0`; global baseline remains fixed at **175**  
-**Authority impact:** `0`; no new authority  
-**Runtime status:** `PENDING_CURRENT_HOST / PROMOTION_BLOCKED`  
-**Registry target:** `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json`  
-**Registry delta:** `FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001.json`  
+**Architecture:** FINAL ARCHITECTURE v3.0
+**Parent profile:** `FA3-MENTOR-001`
+**Target implementation:** `FA3 Mentor v0.3.0`
+**Plan status:** `FINAL PLAN / IMPLEMENTATION PENDING`
+**Priority:** `P0 / MUST`
+**Capability impact:** `0`; global baseline remains fixed at **175**
+**Authority impact:** `0`; no new authority
+**Runtime status:** `PENDING_CURRENT_HOST / PROMOTION_BLOCKED`
+**Registry target:** `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json`
+**Registry delta:** `FA3-DONOR-MENTOR-ENHANCEMENT-DELTA-001.json`
 **Date:** `2026-09-28`
 
 ## 1. Decision
