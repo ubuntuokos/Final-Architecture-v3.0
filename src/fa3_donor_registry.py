@@ -35,7 +35,44 @@ def _merge_strings(existing: Any, incoming: list[str]) -> list[str]:
     base = [str(x) for x in existing] if isinstance(existing, list) else []
     return sorted(set(base + [x for x in incoming if x]))
 
+def refresh_donor_count(registry: dict[str, Any]) -> int:
+    """Recalculate the canonical count after an authorized donor mutation.
+
+    The count is derived, never incremented by a hard-coded delta. Refuse to
+    mask malformed entries, duplicate identities or changes to the fixed
+    capability baseline. The readiness gate separately detects unreviewed
+    edits or stale counts; it must not repair evidence on read.
+    """
+    if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
+        raise ValueError("unexpected donor registry id")
+    if "capability_count" in registry and registry["capability_count"] != 175:
+        raise ValueError("CAPABILITY_BASELINE_NOT_175")
+    entries = registry.get("entries")
+    if not isinstance(entries, list):
+        raise ValueError("donor entries must be a list")
+    ids, keys = set(), set()
+    for index, entry in enumerate(entries):
+        if not isinstance(entry, dict) or not isinstance(entry.get("source"), dict):
+            raise ValueError(f"MALFORMED_DONOR_ENTRY:{index}")
+        donor_id, key = entry.get("donor_id"), entry["source"].get("normalized_key")
+        if not isinstance(donor_id, str) or not donor_id or donor_id in ids:
+            raise ValueError(f"DUPLICATE_OR_INVALID_DONOR_ID:{index}")
+        if not isinstance(key, str) or not key or key in keys:
+            raise ValueError(f"DUPLICATE_OR_INVALID_SOURCE_KEY:{index}")
+        ids.add(donor_id)
+        keys.add(key)
+    backfill = registry.setdefault("backfill", {})
+    if not isinstance(backfill, dict):
+        raise ValueError("invalid donor backfill metadata")
+    backfill["entry_count"] = len(entries)
+    return len(entries)
+
+
 def _atomic_write(path: Path, value: dict[str, Any]) -> None:
+    # Single write boundary for direct capture, staged batch import and
+    # maintenance reconciliation: count and data go into one atomic replace.
+    if path.name == Path(REGISTRY_REL).name:
+        refresh_donor_count(value)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(prefix=".donor-registry-", suffix=".json", dir=str(path.parent))
     try:
@@ -77,7 +114,11 @@ def capture_candidate(
         raise ValueError("owner pre-reviewed registration requires a submitted source link")
     key = _normalized_key(source_kind, source_locator)
     today = seen_date or dt.date.today().isoformat()
-    entries = registry.setdefault("entries", [])
+    entries = registry.get("entries")
+    if not isinstance(entries, list) or not isinstance(registry.get("backfill"), dict):
+        raise ValueError("INVALID_EXISTING_DONOR_REGISTRY")
+    if registry["backfill"].get("entry_count") != len(entries):
+        raise ValueError("BACKFILL_COUNT_DRIFT_BEFORE_MUTATION")
     # Source identity wins. Equal display names with different source keys must
     # not silently merge unrelated GitHub repositories or research projects.
     match = next((row for row in entries if isinstance(row, dict)
@@ -145,7 +186,7 @@ def capture_candidate(
     if match.get("status") not in ALLOWED_STATES:
         raise ValueError("invalid donor state")
     entries.sort(key=lambda row: str(row.get("donor_id", "")))
-    registry.setdefault("backfill", {})["entry_count"] = len(entries)
+    refresh_donor_count(registry)
     if not dry_run:
         _atomic_write(path, registry)
     return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": match["source"]["normalized_key"], "dry_run": dry_run}
@@ -196,11 +237,25 @@ def main() -> int:
     p.add_argument("--discovered-from", default="conversation")
     p.add_argument("--date", dest="seen_date")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--refresh-count", action="store_true",
+                   help="Explicit maintenance-only reconciliation after reviewed external JSON edits")
     p.add_argument("--owner-submitted-link", action="store_true",
                    help="Owner explicitly marked this link as donornak before submission")
     p.add_argument("--owner-donor-marker", choices=["donornak"],
                    help="Operator attests the owner wrote donornak before this link")
     args = p.parse_args()
+    if args.refresh_count:
+        path = Path(args.root).resolve() / REGISTRY_REL
+        registry = _load(path)
+        previous = registry.get("backfill", {}).get("entry_count")
+        updated = refresh_donor_count(registry)
+        if updated != previous and not args.dry_run:
+            _atomic_write(path, registry)
+        print(json.dumps({"result": "DONOR_COUNT_REFRESH",
+                          "previous_count": previous, "entry_count": updated,
+                          "changed": updated != previous and not args.dry_run,
+                          "dry_run": args.dry_run}, ensure_ascii=False))
+        return 0
     # A dry run on an unmarked link is permitted analysis, never candidate
     # registration. Production writes still require owner marker attestation.
     if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak"):
