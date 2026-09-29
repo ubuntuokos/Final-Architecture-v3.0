@@ -67,7 +67,7 @@ class LiveIntakePlanAndDonorTests(unittest.TestCase):
 
     def test_stable_seventeen_selectors_unmodified(self):
         rows = re.findall(
-            r"^\\|\\s*(TEXT|AUDIO|VIDEO)\\s*\\|\\s*\`([A-Z_]+)\`\\s*\\|\\s*([^|]+)\\|",
+            r"^\|\s*(TEXT|AUDIO|VIDEO)\s*\|\s*`([A-Z_]+)`\s*\|\s*([^|]+)\|",
             self.selector, re.MULTILINE
         )
         self.assertEqual(len(rows), 17)
