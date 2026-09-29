@@ -21,6 +21,7 @@ DONOR_FILES = {REGISTRY, "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
                "src/fa3_donor_chat_inbox.py", "src/fa3_donor_readiness.py",
                "src/fa3_application_donor_index.py",
                ".github/workflows/fa3-donor-serialization.yml",
+               '.github/workflows/fa3-permanent-enforcement.yml',
                ".github/workflows/fa3-application-donor-inventory.yml",
                "tests/test_application_donor_index.py"}
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
