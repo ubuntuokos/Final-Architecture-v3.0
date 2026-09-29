@@ -88,11 +88,20 @@ def _message_text(node: dict[str, Any], roles: set[str]) -> str | None:
     return text if isinstance(text, str) and len(text) <= MAX_MESSAGE_CHARS else None
 
 
+def _explicit_owner_marker(text: str):
+    """Exclude negative 'nem/not donornak' references from intake."""
+    for match in _OWNER_DIRECT.finditer(text):
+        prefix = text[max(0, match.start() - 40):match.start()]
+        if not re.search(r"(?i)\\b(?:nem|not)\\s+$", prefix):
+            return match
+    return None
+
+
 def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
     """Only links AFTER an authenticated owner's literal 'donornak:' qualify."""
     if not owner_direct:
         return [], False
-    marker = _OWNER_DIRECT.search(text)
+    marker = _explicit_owner_marker(text)
     if marker is None:
         return [], False
     after = text[marker.end():]
@@ -188,7 +197,7 @@ def ingest(
                     and record.get("speaker_role") == "user"
                     and record.get("owner_submitted_link") is True)
             )
-            marked = source_is_owner and bool(_OWNER_DIRECT.search(record["text"]))
+            marked = source_is_owner and bool(_explicit_owner_marker(record["text"]))
             sources, ambiguous = _candidate_sources(record["text"], owner_direct=marked)
         elif record.get("potential_donor") is True:
             # Structured events must attest BOTH the owner identity and the
