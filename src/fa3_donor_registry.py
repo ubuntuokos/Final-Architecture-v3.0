@@ -156,7 +156,7 @@ _GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?
 def _explicit_owner_marker(text: str):
     for match in _DONOR_SIGNAL.finditer(text):
         prefix = text[max(0, match.start() - 40):match.start()]
-        if not re.search(r"(?i)\\b(?:nem|not)\\s+$", prefix):
+        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
             return match
     return None
 
