@@ -169,6 +169,18 @@ class SelectiveImportS1PurePreviewTests(unittest.TestCase):
         ])
         self.assertEqual(preflight_preview(x)["request_count"], 2)
 
+    def test_many_ranges_from_same_selector_do_not_create_an_18th_choice(self):
+        leaves = []
+        for n in range(18):
+            leaf = output(selector="FRAMES_OR_SCENES", target="Photo/Image Studio")
+            leaf["source_range"] = {
+                "kind": "VIDEO_PTS", "tick_start": n * 100,
+                "tick_end": (n + 1) * 100,
+                "timebase_num": 1, "timebase_den": 25,
+            }
+            leaves.append(leaf)
+        self.assertEqual(preflight_preview(request(outputs=leaves))["request_count"], 18)
+
     def test_editable_project_request_never_implies_roundtrip_pass(self):
         leaf = output(selector="FULL_VIDEO", target="Video Editor")
         leaf["delivery_class"] = "COPY_EDITABLE_IF_ADMITTED"
