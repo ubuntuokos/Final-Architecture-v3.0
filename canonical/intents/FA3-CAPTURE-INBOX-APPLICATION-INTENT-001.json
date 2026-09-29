@@ -1,0 +1,104 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CAPTURE-INBOX-APPLICATION-INTENT-001",
+  "project_id": "FA3-CAPTURE-INBOX-001",
+  "project_type": "APPLICATION",
+  "goal": "Materialize one offline-first, cloud-free Capture Core and Local Inbox with provenance-preserving media capture and governed FA3 application handoff; reuse every existing privacy, data, registry, security, action, resource and sync authority.",
+  "required_capabilities": [
+    "CAP-146",
+    "CAP-147",
+    "CAP-150",
+    "CAP-152",
+    "CAP-175"
+  ],
+  "optional_capabilities": [
+    "CAP-070",
+    "CAP-170"
+  ],
+  "problem_classes": [
+    "AD_HOC_MULTIMODAL_CAPTURE",
+    "OFFLINE_LOCAL_INBOX",
+    "POLICY_FILTERED_APP_HANDOFF",
+    "LAN_ARTIFACT_EXCHANGE"
+  ],
+  "input_modalities": [
+    "USER_INITIATED_TEXT",
+    "USER_INITIATED_AUDIO",
+    "USER_INITIATED_PHOTO",
+    "USER_INITIATED_VIDEO",
+    "EXPLICIT_SHARE_INTENT"
+  ],
+  "output_modalities": [
+    "LOCAL_CAPTURE_RECORD",
+    "PROVENANCE_REFERENCED_MEDIA",
+    "TYPED_HANDOFF_PROPOSAL",
+    "CAP150_ARTIFACT_TRANSFER_REQUEST"
+  ],
+  "execution_classes": [
+    "OFFLINE_LOCAL_CPU",
+    "OPTIONAL_LAN_GOVERNED_TRANSFER"
+  ],
+  "data_classes": [
+    "PRIVATE_NOTES",
+    "SENSITIVE_POTENTIAL_MEDIA",
+    "SOURCE_ASSET_REFERENCES",
+    "DERIVED_AI_NOTES"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CAP150_PHYSICAL_CROSS_HOST_E2E",
+    "CAP152_PHYSICAL_HANDOFF_E2E",
+    "CAP175_GLOBAL_COEXISTENCE_CURRENT_HOST",
+    "CONSUMER_SPECIFIC_AUTHORIZED_UAF_RECEIVERS"
+  ],
+  "security_requirements": [
+    "FA3-OS-POLICY-001_BEFORE_PERSISTENCE",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-SECRET-BROKER-001_OPAQUE_SECRETREF_ONLY",
+    "NO_BACKGROUND_MEDIA_CAPTURE",
+    "NO_CLOUD_EGRESS",
+    "PROJECT_AND_RECIPIENT_SCOPED_CONSENT",
+    "SELECTIVE_ERASURE_OF_PAYLOAD_AND_DERIVATIVES"
+  ],
+  "integration_requirements": [
+    "FA3-REGISTRY-001",
+    "FA3-JOURNAL-001",
+    "FA3-OS-POLICY-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "CAP-150",
+    "CAP-152",
+    "CAP-175"
+  ],
+  "gui_requirements": [
+    "USER_INITIATED_CAPTURE_ONLY",
+    "LOCAL_INBOX",
+    "PER_RECIPIENT_HANDOFF_REVIEW",
+    "SYNC_CONSENT_STATUS_AND_CONFLICT_QUEUE"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-capture-inbox",
+    "config_root": "$XDG_CONFIG_HOME/fa3/capture-inbox",
+    "cache_root": "$XDG_CACHE_HOME/fa3/capture-inbox",
+    "data_root": "$XDG_DATA_HOME/fa3/capture-inbox",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/capture-inbox",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "systemd_unit_prefix": "fa3-capture-inbox-"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_non_bypassable": true,
+    "display_gpu_auto_enlistment": false
+  }
+}
