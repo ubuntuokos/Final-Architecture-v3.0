@@ -39,8 +39,7 @@ Never commit the export, event stream or private workspace files.
 
 **Privacy**: source-less names from otherwise private chats are skipped by default unless
 already in the donor registry. Explicit `--allow-unlinked-names` permits publishing these
-names as public candidate metadata. Review before using this flag. Plain GitHub repository
-links from explicitly donor-marked messages are admitted as public reference candidates.
+names as public candidate metadata. Review before using this flag. Tentative source links are captured as public reference candidates. **Only links directly submitted by the owner as `donornak:` / `donor:`** (user-role messages in deliberately supplied exports or trusted local events explicitly carrying `owner_submitted_link: true`) receive immediate `ACCEPTED_REFERENCE` catalog status. Assistant proposals and unreviewed research remain `CANDIDATE`. This does not authorize source copying, installation, license bypass, application adoption or runtime promotion.
 Ambiguous oversize/multi-link mentions are counted and skipped rather than guessed.
 Malformed exports fail without partially changing the canonical registry.
 
