@@ -100,5 +100,61 @@ class S2Tests(unittest.TestCase):
         q=request(mode="LIVE_VIDEO")
         with self.assertRaises(ValueError):inspect_binding(q,inventory())
 
+    def test_text_from_audio_without_subtitle_uses_audio_as_asr_source(self):
+        q = request(kind="AUDIO", outputs=[
+            output("TEXT", "ONE_TRANSLATION", "Story/Screenplay",
+                   translation="ONE_TRANSLATION", langs=["hu"])])
+        x = inventory()
+        x["streams"] = [x["streams"][1]]
+        leaf = inspect_binding(q, x)["outputs"][0]
+        self.assertEqual(leaf["original_stream_indices"], [1])
+        self.assertTrue(leaf["internal_audio_dependency_only"])
+        self.assertFalse(leaf["publish_audio"])
+        self.assertFalse(leaf["publish_video"])
+        self.assertEqual(leaf["status"], "PENDING_STT_OR_SUBTITLE_LANGUAGE_AND_TIMING")
+
+    def test_text_from_video_both_audio_and_subtitles_requires_explicit_choice(self):
+        q = request(outputs=[
+            output("TEXT", "ORIGINAL_LANGUAGE", "Subtitle Studio")])
+        pending = inspect_binding(q, inventory())["outputs"][0]
+        self.assertEqual(pending["status"], "PENDING_EXPLICIT_SOURCE_STREAM_SELECTION")
+        from_audio = inspect_binding(q, inventory(), [
+            {"leaf_index": 0, "stream_indices": [1]}])["outputs"][0]
+        self.assertEqual(from_audio["original_stream_indices"], [1])
+        self.assertTrue(from_audio["internal_audio_dependency_only"])
+        from_captions = inspect_binding(q, inventory(), [
+            {"leaf_index": 0, "stream_indices": [2]}])["outputs"][0]
+        self.assertEqual(from_captions["original_stream_indices"], [2])
+        self.assertFalse(from_captions["internal_audio_dependency_only"])
+        self.assertFalse(from_captions["publish_audio"])
+
+    def test_video_text_without_subtitles_can_transcribe_audio(self):
+        q = request(outputs=[output("TEXT", "ORIGINAL_LANGUAGE", "Subtitle Studio")])
+        x = inventory()
+        x["streams"] = x["streams"][:2]
+        self.assertEqual(inspect_binding(q, x)["outputs"][0]["original_stream_indices"], [1])
+
+    def test_full_video_explicit_multitrack_and_silent_video_not_publish_audio(self):
+        q = request(outputs=[output(selector="FULL_VIDEO", target="Video Editor")])
+        chosen = inspect_binding(q, inventory(), [
+            {"leaf_index": 0, "stream_indices": [0, 1]}])["outputs"][0]
+        self.assertEqual(chosen["original_stream_indices"], [0, 1])
+        self.assertTrue(chosen["publish_audio"])
+        x = inventory()
+        x["streams"] = [x["streams"][0]]
+        silent = inspect_binding(q, x)["outputs"][0]
+        self.assertTrue(silent["publish_video"])
+        self.assertFalse(silent["publish_audio"])
+        with self.assertRaises(ValueError):
+            inspect_binding(q, inventory(), [
+                {"leaf_index": 0, "stream_indices": [1]}])
+
+    def test_signed_negative_origin_pts_is_not_rejected(self):
+        q = request()
+        x = inventory()
+        x["streams"][1]["start_pts"] = -1024
+        leaf = inspect_binding(q, x)["outputs"][0]
+        self.assertEqual(leaf["original_timebases"][0]["start_pts"], -1024)
+
 if __name__=="__main__":
     unittest.main()

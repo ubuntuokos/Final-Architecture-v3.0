@@ -71,8 +71,7 @@
             "minimum": 1
           },
           "start_pts": {
-            "type": "integer",
-            "minimum": 0
+            "type": "integer"
           },
           "duration_ts": {
             "type": "integer",
@@ -124,5 +123,6 @@
     "execution_authorized": false,
     "existing_owner": "file.convert.inspect",
     "receipt_verification_separate": true
-  }
+  },
+  "description": "Metadata-only inventory under existing file.convert.inspect; signed source start PTS may be negative (real-world edit lists)."
 }

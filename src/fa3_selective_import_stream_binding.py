@@ -60,7 +60,7 @@ def inspect_binding(request: dict, inventory: dict, choices: list[dict] | None =
             raise ValueError("invalid, duplicated or unknown original stream index")
         if (not valid_int(s.get("time_base_num"), 1) or
             not valid_int(s.get("time_base_den"), 1) or
-            not valid_int(s.get("start_pts")) or
+            type(s.get("start_pts")) is not int or
             ("duration_ts" in s and not valid_int(s["duration_ts"], 1))):
             raise ValueError("invalid original rational PTS/timebase")
         if kind == "audio" and (not valid_int(s.get("sample_rate"), 1) or
@@ -106,23 +106,35 @@ def inspect_binding(request: dict, inventory: dict, choices: list[dict] | None =
             ("AUDIO", "FULL_AUDIO"), ("VIDEO", "FULL_VIDEO"),
             ("VIDEO", "FULL_AUDIO_ONLY")}
         if family == "TEXT":
-            kind = "subtitle" if request["source_kind"] != "TEXT" else None
+            # A derived text output may come from original timed text or ASR.
+            # AUDIO sources need their audio stream; VIDEO with both audio and
+            # subtitles requires an explicit choice rather than silent bias.
+            kind = (None if request["source_kind"] == "TEXT"
+                    else "audio" if request["source_kind"] == "AUDIO"
+                    else "audio_or_subtitle")
         elif (family, selector) in AUDIO_LEAVES:
             kind = "audio"
         else:
             kind = "video"
+        allowed_types = ({"audio", "subtitle"} if kind == "audio_or_subtitle"
+                         else {kind} if kind is not None else set())
         available = [s for _, s in sorted(streams.items())
-                     if s["codec_type"] == kind] if kind else []
+                     if s["codec_type"] in allowed_types]
         operator = selections.get(n)
         if kind is None:
             if operator is not None:
                 raise ValueError("document text cannot bind a media stream")
             chosen = []
         elif operator is not None:
-            if any(streams[i]["codec_type"] != kind for i in operator):
+            if any(streams[i]["codec_type"] not in allowed_types
+                   and (family, selector) != ("VIDEO", "FULL_VIDEO")
+                   for i in operator):
                 raise ValueError("operator selected wrong stream kind")
             chosen = [streams[i] for i in operator]
-            if not full and len(chosen) != 1:
+            if (family, selector) == ("VIDEO", "FULL_VIDEO"):
+                if not any(s["codec_type"] == "video" for s in chosen):
+                    raise ValueError("full-video selection requires a video stream")
+            elif not full and len(chosen) != 1:
                 raise ValueError("single source stream required for this output")
         elif (family, selector) == ("VIDEO", "FULL_VIDEO"):
             chosen = [s for _, s in sorted(streams.items())]
@@ -159,9 +171,12 @@ def inspect_binding(request: dict, inventory: dict, choices: list[dict] | None =
                 "start_pts": s["start_pts"], "duration_ts": s.get("duration_ts")}
                 for s in chosen],
             "target_languages": list(out["target_languages"]),
-            "internal_audio_dependency_only": is_transcript,
+            "internal_audio_dependency_only": is_transcript or (
+                family == "TEXT" and any(s["codec_type"] == "audio"
+                                         for s in chosen)),
             "publish_audio": family != "TEXT" and not is_transcript and (
-                kind == "audio" or selector == "FULL_VIDEO"),
+                kind == "audio" or (selector == "FULL_VIDEO" and
+                any(s["codec_type"] == "audio" for s in chosen))),
             "publish_video": family != "TEXT" and kind == "video",
             "status": status, "execution_authorized": False,
             "original_exactness_verified": False,
