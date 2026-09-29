@@ -14,6 +14,32 @@ With a verified committed main snapshot, use --phase entry --assessment canonica
 
 Limit: live PR checks detect known GitHub work but do not constitute an atomic distributed lease against unregistered off-GitHub mutations. Release-wide orchestration and a required branch-protection check still must consume this gate. Pending donor PRs do not block design/finalization on the published exact main registry. A second intake remains BLOCKED. Unmerged sources must never enter an assessment; new publication never automatically re-runs prior work.
 
+## Automatic donor count refresh and validation
+
+Every authorized capture and staged batch import writes through
+`fa3_donor_registry._atomic_write`, which calls `refresh_donor_count`
+before the atomic registry replacement. Counts are derived from the
+actual source-unique entry set after each operation, not from hard-coded
+expected totals or an incremented counter. An incoming registry with
+an already stale count is refused by normal intake; malformed/duplicate
+IDs or source keys and any altered capability baseline are never
+silently corrected.
+
+After an explicitly reviewed **external JSON maintenance edit** (such
+as a GitHub donor-batch commit, removal, or historical reconciliation),
+run `PYTHONPATH=src python3 src/fa3_donor_registry.py --refresh-count`
+on the working branch before committing its registry change. Use
+`--dry-run` to preview; it never writes. This dedicated maintenance
+operation does **not** approve donor adoption or bypass serialized
+publication. The read-only readiness gate still detects stale counts
+and fails closed; it must never update evidence implicitly.
+
+The mandatory donor-serialization workflow runs count-refresh
+regression tests alongside readiness tests. A donor batch that omits
+the refreshed count fails CI before publication; manual count
+editing is neither required nor an accepted substitute for using
+the shared writer or reconciliation command.
+
 ## 2026-09-29 hidden donor-reference detection hardening
 
 Audit of the complete post-reconciliation open-PR file inventory uncovered #435: its PR title was generic and its central-registry file did not change, but it created a separate `canonical/references/*DONOR*` reference set. The original #435 PR was closed without merge; issue #540 preserves its exact head and holds the non-donor application changes, and the original Git history remains available. The canonical preflight and CI maintenance classifier now recognize donor reference-set files, donor intake deltas, donor research and application/donor index changes as pending maintenance, even when the PR title is generic. They still do not treat ordinary Reuse Assessments as registry mutation. A reference catalog is not a second donor authority, and its candidate pins are not automatic code import or provider admission.
