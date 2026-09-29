@@ -21,6 +21,19 @@ _SHA = re.compile(r"^[0-9a-f]{64}$")
 _FORMAT = re.compile(r"^[A-Za-z][A-Za-z0-9.+/\-]{0,119}$")
 _VERSION = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.+\-]{0,63}$")
 _CONTENT = {"TEXT", "AUDIO", "VIDEO", "AUDIO_VIDEO"}
+# Exact S5 intent classes. No external claim can reclassify a TEXT-only,
+# AUDIO-only or silent-picture request into a different published payload.
+_ALLOWED_PUBLICATION = {
+    **{("TEXT", s): {"TEXT"} for s in ALL["TEXT"]},
+    **{("AUDIO", s): ({"TEXT"} if s == "TRANSCRIPT_ONLY" else {"AUDIO"})
+       for s in ALL["AUDIO"]},
+    **{("VIDEO", s): (
+        {"AUDIO_VIDEO", "VIDEO"} if s == "FULL_VIDEO" else
+        {"TEXT"} if s == "TRANSCRIPT_ONLY" else
+        {"AUDIO"} if s in {"FULL_AUDIO_ONLY", "MUSIC_OR_INSTRUMENTAL_ONLY",
+                            "AMBIENCE_AND_SFX_ONLY"} else {"VIDEO"}
+    ) for s in ALL["VIDEO"]},
+}
 _REQUIRED_GATES = (
     "EXISTING_APPLICATION_REGISTRY_AND_RECEIVER_VERSION",
     "EXISTING_MACHINE_ROLE_AND_HOST_IDENTITY",
@@ -165,6 +178,8 @@ def receiver_handoff_preview(
                 or leaf.get("editable_project_verified") is not False:
             raise ValueError("S5 deliverable contains forged execution or evidence claims")
         content = _publication(leaf.get("requested_publication"))
+        if content not in _ALLOWED_PUBLICATION[(family, selector)]:
+            raise ValueError("S5 publication intent contradicts the exact canonical selector")
         if (family == "TEXT" or selector == "TRANSCRIPT_ONLY") and content != "TEXT":
             raise ValueError("text/transcript-only leaf cannot request AV output")
         if family == "AUDIO" and content != "AUDIO" and selector != "TRANSCRIPT_ONLY":
