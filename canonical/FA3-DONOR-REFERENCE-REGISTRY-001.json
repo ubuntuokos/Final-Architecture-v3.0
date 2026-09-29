@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 633,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only."
+    "entry_count": 639,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment."
   },
   "entries": [
     {
@@ -28786,6 +28786,427 @@
       "notes": [
         "Document-level translation evaluation and explainable error spans; no certified accuracy, model checkpoints separately licensed; optional evaluation only.",
         "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-SELECTIVE-ROUND3-CISNLP-SIMALIGN-001",
+      "name": "SimAlign multilingual word alignment",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cisnlp/simalign",
+        "normalized_key": "github:cisnlp/simalign"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/cisnlp/simalign",
+        "FA3 production import selective follow-up research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "multilingual",
+        "alignment",
+        "script-translation",
+        "word-boundaries"
+      ],
+      "domain_hints": [
+        "translation",
+        "text-alignment",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-content-preservation",
+        "selective-import-quality"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Subtitle Studio",
+        "Story/Screenplay",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "multilingual",
+        "alignment",
+        "script-translation",
+        "word-boundaries"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Optional advisory source-to-translated word alignment for subtitle script review; transformer model and weights require independent rights/resource/current-host admission; never assert semantic translation correctness.",
+        "Candidate metadata only; no runtime or model/weights admission, direct code import, automatic download, production quality PASS or new authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-SELECTIVE-ROUND3-MARL-JAMS-001",
+      "name": "JAMS music and event annotation specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/marl/jams",
+        "normalized_key": "github:marl/jams"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/marl/jams",
+        "FA3 production import selective follow-up research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "jams",
+        "segment-annotation",
+        "music-events",
+        "provenance"
+      ],
+      "domain_hints": [
+        "music",
+        "audio-annotation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-content-preservation",
+        "selective-import-quality"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "jams",
+        "segment-annotation",
+        "music-events",
+        "provenance"
+      ],
+      "license": {
+        "declared": "ISC",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Versioned time-aligned music/event annotations to carry selected musical ranges and evaluation provenance; annotations do not isolate instruments or singing.",
+        "Candidate metadata only; no runtime or model/weights admission, direct code import, automatic download, production quality PASS or new authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-SELECTIVE-ROUND3-PYAV-ORG-PYAV-001",
+      "name": "PyAV FFmpeg demux and rational timebase bindings",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PyAV-Org/PyAV",
+        "normalized_key": "github:pyav-org/pyav"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/PyAV-Org/PyAV",
+        "FA3 production import selective follow-up research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "demux",
+        "rational-timebase",
+        "vfr",
+        "pts"
+      ],
+      "domain_hints": [
+        "video",
+        "audio",
+        "media-timing",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-content-preservation",
+        "selective-import-quality"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "demux",
+        "rational-timebase",
+        "vfr",
+        "pts"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Frame/sample-aware decoding and demuxing reference; FFmpeg stays the admitted media pipeline authority; do not reimplement a second decoding service.",
+        "Candidate metadata only; no runtime or model/weights admission, direct code import, automatic download, production quality PASS or new authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-SELECTIVE-ROUND3-PYTHON-BABEL-BABEL-001",
+      "name": "Babel locale metadata and formatting",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/python-babel/babel",
+        "normalized_key": "github:python-babel/babel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/python-babel/babel",
+        "FA3 production import selective follow-up research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "locale",
+        "cldr",
+        "language-tags",
+        "formatting"
+      ],
+      "domain_hints": [
+        "language",
+        "localization",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-content-preservation",
+        "selective-import-quality"
+      ],
+      "target_hints": [
+        "Document Fabric",
+        "Language Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "locale",
+        "cldr",
+        "language-tags",
+        "formatting"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "CLDR-backed locale parsing, display labels and formatting reference; must validate exact BCP-47 language tags and script/region separately, not perform translation.",
+        "Candidate metadata only; no runtime or model/weights admission, direct code import, automatic download, production quality PASS or new authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-SELECTIVE-ROUND3-SMACKE-FFSUBSYNC-001",
+      "name": "ffsubsync subtitle timing reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/smacke/ffsubsync",
+        "normalized_key": "github:smacke/ffsubsync"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/smacke/ffsubsync",
+        "FA3 production import selective follow-up research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "subtitle-alignment",
+        "sample-accurate-timing"
+      ],
+      "domain_hints": [
+        "subtitle",
+        "temporal-alignment",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-content-preservation",
+        "selective-import-quality"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "subtitle-alignment",
+        "sample-accurate-timing"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Align existing subtitle text to an audio/video timeline using audio-correlation reference patterns; alignment never certifies transcription or translation correctness.",
+        "Candidate metadata only; no runtime or model/weights admission, direct code import, automatic download, production quality PASS or new authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-SELECTIVE-ROUND3-TRANSLATE-TRANSLATE-001",
+      "name": "Translate Toolkit localization and interchange",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/translate/translate",
+        "normalized_key": "github:translate/translate"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/translate/translate",
+        "FA3 production import selective follow-up research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "xliff",
+        "po",
+        "translation-memory",
+        "terminology"
+      ],
+      "domain_hints": [
+        "document",
+        "localization",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-content-preservation",
+        "selective-import-quality"
+      ],
+      "target_hints": [
+        "Document Fabric",
+        "Language Fabric",
+        "Story/Screenplay",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "xliff",
+        "po",
+        "translation-memory",
+        "terminology"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Localization exchange and PO/XLIFF conversion reference for professional review and roundtrip; GPL source/reference only pending independent package/distribution review; not another translation authority.",
+        "Candidate metadata only; no runtime or model/weights admission, direct code import, automatic download, production quality PASS or new authority."
       ]
     },
     {
