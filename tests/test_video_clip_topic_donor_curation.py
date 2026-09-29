@@ -104,7 +104,8 @@ class VideoClipDonorCurationTests(unittest.TestCase):
         self.assertEqual(hardware["accelerator_cardinality"], "0..N")
         self.assertFalse(self.registry["new_capability"])
         self.assertFalse(self.registry["new_architectural_authority"])
-        self.assertIn("project:opencut", self.by_key)
+        self.assertIn("github:opencut-app/opencut", self.by_key)
+        self.assertIn("project:opencut", self.by_key["github:opencut-app/opencut"]["legacy_source_keys"])
 
 
 if __name__ == "__main__":

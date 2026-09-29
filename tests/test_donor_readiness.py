@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_donor_readiness import inspect_registry,pending_prs,gate,REGISTRY,git_blob_sha
+from fa3_donor_readiness import inspect_registry,pending_prs,gate,is_donor_pr,REGISTRY,git_blob_sha
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -36,9 +36,63 @@ class Tests(unittest.TestCase):
             r=gate(root,"maintenance")
             self.assertEqual(r["result"],"MAINTENANCE_INTEGRITY_PASS")
             self.assertFalse(r["planning_allowed"])
+    def test_maintenance_exempt_from_application_preflights_and_live_pr_scan(self):
+        t,root,_=fixture()
+        with t:
+            def forbidden_live_scan(_):
+                self.fail("maintenance must not require application preflight or live PR scan")
+            x=gate(root,"maintenance",get=forbidden_live_scan,
+                   assessment=None,plan=None,approval=None,pr_number=None)
+            self.assertEqual(x["result"],"MAINTENANCE_INTEGRITY_PASS")
+            self.assertEqual(x["pending_prs"],None)
+            self.assertFalse(x["planning_allowed"])
+            self.assertFalse(x["execution_allowed"])
+            self.assertFalse(x["finalization_allowed"])
+
     def test_no_live_proof_fails_closed(self):
         t,root,p=fixture()
         with t:self.assertEqual(gate(root,"status")["result"],"BLOCKED")
+    def test_hidden_donor_reference_or_delta_edit_blocks(self):
+        paths = [
+            "canonical/references/FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28.json",
+            "canonical/deltas/FA3-DONOR-MEDIA-INTAKE-2026-09-29.json",
+            "docs/donor-new-upstream-2026-09-29.md",
+            "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+            "src/fa3_application_donor_index.py",
+            ".github/workflows/fa3-permanent-enforcement.yml",
+        ]
+        for path in paths:
+            with self.subTest(path=path):
+                self.assertTrue(is_donor_pr({"title": "Generic media feature"},
+                                            [{"filename": path}]))
+        self.assertFalse(is_donor_pr(
+            {"title": "Generic media feature"},
+            [{"filename": "canonical/assessments/FA3-MEDIA-REUSE-ASSESSMENT-001.json"}]))
+        self.assertTrue(is_donor_pr({"title": "Donor source review"}, []))
+
+    def test_expansion_removal_and_sync_all_count_as_donor_maintenance(self):
+        operations = [
+            ("expansion", REGISTRY, "added"),
+            ("removal", REGISTRY, "removed"),
+            ("sync", "canonical/FA3-APPLICATION-DONOR-LINKS-001.json", "modified"),
+            ("sync-source-key", "canonical/deltas/FA3-DONOR-MEDIA-INTAKE-2026-09-29.json", "modified"),
+            ("sync-history", "docs/donor-repair/RECONCILIATION.md", "modified"),
+        ]
+        for operation, path, status in operations:
+            with self.subTest(operation=operation, path=path):
+                self.assertTrue(is_donor_pr({"title": "Generic metadata update"},
+                                            [{"filename": path, "status": status}]))
+
+    def test_hidden_reference_in_live_scan(self):
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number": 435, "title": "Generic Media Studio",
+                         "head": {"sha": "a" * 40}}]
+            if "/pulls/435/files?" in url:
+                return [{"filename": "canonical/references/FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28.json"}]
+            raise AssertionError(url)
+        self.assertEqual([r["number"] for r in pending_prs(get)], [435])
+
     def test_hidden_registry_edit_is_found(self):
         def get(s):
             if "pulls?state=open" in s:return [{"number":8,"title":"New editor",

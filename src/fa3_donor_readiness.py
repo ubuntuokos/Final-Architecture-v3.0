@@ -15,10 +15,18 @@ FLAGS = ("authority","automatic_selection","automatic_fetch","automatic_install"
          "automatic_activation","automatic_dependency","automatic_code_import",
          "automatic_provider_admission","automatic_model_selection")
 STATES = {"CANDIDATE","ANALYZED","ACCEPTED_REFERENCE","REJECTED","SUPERSEDED"}
-DONOR_FILES = {REGISTRY,"src/fa3_donor_registry.py","src/fa3_donor_chat_import.py",
-               "src/fa3_donor_chat_inbox.py","src/fa3_donor_readiness.py",
-               ".github/workflows/fa3-donor-serialization.yml"}
-DONOR_PREFIXES = ("docs/donor-repair/","bin/fa3-donor-","tests/test_donor_")
+DONOR_FILES = {REGISTRY, "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+               "docs/donor-reference-registry.md",
+               "src/fa3_donor_registry.py", "src/fa3_donor_chat_import.py",
+               "src/fa3_donor_chat_inbox.py", "src/fa3_donor_readiness.py",
+               "src/fa3_application_donor_index.py",
+               ".github/workflows/fa3-donor-serialization.yml",
+               '.github/workflows/fa3-permanent-enforcement.yml',
+               ".github/workflows/fa3-application-donor-inventory.yml",
+               "tests/test_application_donor_index.py"}
+DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
+                  "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
+                  "canonical/deltas/FA3-DONOR-")
 
 def inspect_registry(root):
     raw = (root / REGISTRY).read_bytes()
@@ -76,7 +84,9 @@ def is_donor_pr(pr,files):
     for f in files:
         name=f.get("filename")
         if not isinstance(name,str): raise ValueError("UNREADABLE_PR_FILE")
-        if name in DONOR_FILES or any(name.startswith(p) for p in DONOR_PREFIXES):
+        if (name in DONOR_FILES or any(name.startswith(p) for p in DONOR_PREFIXES)
+                or (name.startswith("canonical/references/")
+                    and "DONOR" in name.upper())):
             return True
     return False
 
