@@ -143,6 +143,11 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertNotIn("example/not", saved)
         self.assertNotIn("example/assistant", saved)
 
+    def test_explicit_owner_marker_parser_positive(self):
+        sources, ambiguous = _candidate_sources("donornak: https://github.com/example/one", owner_direct=True)
+        self.assertFalse(ambiguous)
+        self.assertEqual(sources, [("example/one", "GITHUB", "https://github.com/example/one")])
+
     def test_missing_marker_never_passes_candidate_sources(self):
         self.assertEqual(_candidate_sources("Donor: https://github.com/example/one", owner_direct=True)[0], [])
         self.assertEqual(_candidate_sources("donornak: https://github.com/example/one", owner_direct=False)[0], [])
