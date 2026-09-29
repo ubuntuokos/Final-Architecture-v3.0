@@ -23,6 +23,8 @@ UPSTREAM_TAG = "rust-v0.151.0"
 UPSTREAM_COMMIT = "78c290807ce710180111df227df3b7a4fe845452"
 ARCHIVE_NAME = "codex-x86_64-unknown-linux-musl.tar.gz"
 ARCHIVE_SHA256 = "605b4b183f22c645f5def63a5b7191767407fb66a6feaec4eaf10b5b7e0058f6"
+CODE_MODE_HOST_ARCHIVE_NAME = "codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz"
+CODE_MODE_HOST_ARCHIVE_SHA256 = "332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894"
 
 FORBIDDEN_FLAGS = {
     "--approve-for-me",
@@ -42,7 +44,8 @@ CONFIG_OVERRIDES = (
     "features.remote_plugin=false",
     "features.plugin_hooks=false",
     "features.memories=false",
-    "features.memory_tool=false",
+    # The 0.151.0 Code Mode file-edit tool requires its pinned companion.
+    "features.code_mode_host=true",
 )
 FORBIDDEN_ITEM_TYPES = {"mcp_tool_call", "collab_tool_call", "web_search"}
 FATAL_EVENT_TYPES = {"turn.failed", "error"}
@@ -199,6 +202,31 @@ def validate_codex_command(command: list[str], workspace: Path) -> None:
         raise CodexAdapterDenied("Codex prompt must be delivered over stdin")
 
 
+_PROVIDER_ERROR_CLASSES = (
+    ("RATE_LIMIT", re.compile(r"rate[- ]?limit|too many requests|\\b429\\b", re.I)),
+    ("QUOTA_OR_BILLING", re.compile(r"quota|billing|insufficient credits", re.I)),
+    ("AUTHENTICATION", re.compile(r"unauthorized|authentication|login required|\\b401\\b", re.I)),
+    ("PERMISSION_OR_SANDBOX", re.compile(r"sandbox|permission denied|read[- ]only|not permitted|tool.{0,30}unavailable", re.I)),
+    ("MODEL_UNAVAILABLE", re.compile(r"model.{0,40}(unavailable|unsupported|not found)|unknown model", re.I)),
+    ("TRANSPORT", re.compile(r"timed? out|timeout|connection|network|stream disconnect|service unavailable|\\b503\\b", re.I)),
+)
+
+
+def _classify_provider_error(item: dict[str, Any]) -> str:
+    """Coarse diagnostic only: never persist provider messages or prompt text."""
+    raw = item.get("message")
+    if not isinstance(raw, str):
+        raw = item.get("error")
+        if isinstance(raw, dict):
+            raw = raw.get("message")
+    if not isinstance(raw, str):
+        return "OTHER_PROVIDER_ERROR"
+    for code, expression in _PROVIDER_ERROR_CLASSES:
+        if expression.search(raw[:4096]):
+            return code
+    return "OTHER_PROVIDER_ERROR"
+
+
 def parse_codex_jsonl(text: str) -> dict[str, Any]:
     event_types: list[str] = []
     item_types: list[str] = []
@@ -212,6 +240,7 @@ def parse_codex_jsonl(text: str) -> dict[str, Any]:
     }
     command_count = 0
     file_change_count = 0
+    provider_error_categories: set[str] = set()
     for lineno, line in enumerate(text.splitlines(), start=1):
         if not line.strip():
             continue
@@ -235,8 +264,12 @@ def parse_codex_jsonl(text: str) -> dict[str, Any]:
                     usage[key] += value
         if event_type in {"item.started", "item.updated", "item.completed"}:
             item = event.get("item") or {}
+            if not isinstance(item, dict):
+                raise CodexAdapterDenied("Codex emitted invalid item envelope")
             item_type = item.get("type")
             if isinstance(item_type, str):
+                if item_type == "error":
+                    provider_error_categories.add(_classify_provider_error(item))
                 item_types.append(item_type)
                 if item_type in FORBIDDEN_ITEM_TYPES:
                     raise CodexAdapterDenied(f"forbidden Codex tool surface observed: {item_type}")
@@ -255,6 +288,8 @@ def parse_codex_jsonl(text: str) -> dict[str, Any]:
         "item_types": sorted(set(item_types)),
         "command_count": command_count,
         "file_change_count": file_change_count,
+        "provider_item_error_observed": bool(provider_error_categories),
+        "provider_error_categories": sorted(provider_error_categories),
         "usage": usage,
         "forbidden_surface_observed": False,
     }
@@ -312,6 +347,44 @@ def _git(repo: Path, *args: str) -> str:
     if proc.returncode != 0:
         raise CodexAdapterDenied(f"git {' '.join(args)} failed: {proc.stderr.strip()}")
     return proc.stdout.strip()
+
+
+def emit_local_provider_messages(jsonl: str, stream: Any, *, limit: int = 3) -> None:
+    """Private opt-in terminal-only diagnostic; no raw output is persisted.
+
+    Called only for failed real-host probes after the host collector verifies
+    direct terminal interaction. These messages may contain private details:
+    the operator must review them locally, not upload unredacted logs.
+    """
+    count = 0
+    last_agent_message = None
+    for line in jsonl.splitlines():
+        if count >= limit:
+            break
+        try:
+            event = json.loads(line)
+        except ValueError:
+            continue
+        if not isinstance(event, dict) or event.get("type") != "item.completed":
+            continue
+        item = event.get("item")
+        if not isinstance(item, dict):
+            continue
+        if item.get("type") == "agent_message" and isinstance(item.get("text"), str):
+            last_agent_message = item["text"][:700]
+        if item.get("type") == "error" and isinstance(item.get("message"), str):
+            print(
+                "PRIVATE LOCAL CODEX ERROR MESSAGE (review before sharing): "
+                + json.dumps(item["message"][:700], ensure_ascii=False),
+                file=stream,
+            )
+            count += 1
+    if last_agent_message:
+        print(
+            "PRIVATE LOCAL CODEX FINAL MESSAGE (review before sharing): "
+            + json.dumps(last_agent_message, ensure_ascii=False),
+            file=stream,
+        )
 
 
 def codex_worker_main(request_path: Path, result_path: Path) -> int:
@@ -386,7 +459,8 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
             "codex_returncode": proc.returncode,
             "stdout_sha256": sha256_bytes(stdout_bytes),
             "stderr_sha256": sha256_bytes(stderr_bytes),
-            "stderr_tail_redacted": proc.stderr[-1000:],
+            "raw_provider_output_recorded": False,
+            "failure_code": "CODEX_PROCESS_EXIT_NONZERO",
         }
         result_path.parent.mkdir(parents=True, exist_ok=True)
         result_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
@@ -395,10 +469,44 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
     if _git(workspace, "rev-parse", "HEAD") != expected_head:
         raise CodexAdapterDenied("Codex worker committed instead of returning an uncommitted diff")
     changed = [x for x in _git(workspace, "diff", "--name-only", "HEAD", "--").splitlines() if x]
-    if changed != [relative_path]:
-        raise CodexAdapterDenied(f"Codex changed paths outside delegated scope: {changed}")
-    if target.read_text(encoding="utf-8") != exact_content:
-        raise CodexAdapterDenied("Codex target content does not match exact delegated probe content")
+    target_matches = target.read_text(encoding="utf-8") == exact_content
+    if (summary["provider_item_error_observed"]
+            or changed != [relative_path] or not target_matches):
+        # A successful Codex turn is not evidence of an executed mutation. Retain
+        # only bounded machine-readable diagnostics; stdout, stderr, prompt, skill
+        # text and final assistant messages are deliberately never copied.
+        failure_code = (
+            "PROVIDER_ITEM_ERROR" if summary["provider_item_error_observed"]
+            else "NO_DELEGATED_FILE_CHANGE" if not changed
+            else "MUTATION_SCOPE_MISMATCH" if changed != [relative_path]
+            else "TARGET_CONTENT_MISMATCH"
+        )
+        result = {
+            "schema": "fa3.codex-adapter-worker-result.v1",
+            "task_id": task_id, "agent_id": agent_id,
+            "provider_id": PROVIDER_ID, "adapter_id": ADAPTER_ID,
+            "status": "FAIL", "failure_code": failure_code,
+            "codex_returncode": proc.returncode,
+            "changed_paths": changed, "target_matches_requested": target_matches,
+            "required_mutation_observed": changed == [relative_path] and target_matches,
+            "target_sha256": sha256_file(target),
+            "stdout_sha256": sha256_bytes(stdout_bytes),
+            "stderr_sha256": sha256_bytes(stderr_bytes),
+            "last_message_sha256": sha256_file(last_message) if last_message.is_file() else None,
+            "event_summary": summary,
+            "raw_provider_output_recorded": False,
+            "current_host_acceptance": False,
+        }
+        result_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        result_path.chmod(0o600)
+        if last_message.exists():
+            last_message.unlink()
+        if request.get("local_error_messages") is True:
+            emit_local_provider_messages(proc.stdout, sys.stderr)
+        raise CodexAdapterDenied(
+            f"Codex did not satisfy delegated mutation: {failure_code}; "
+            f"changed_path_count={len(changed)}"
+        )
     result = {
         "schema": "fa3.codex-adapter-worker-result.v1",
         "task_id": task_id,
@@ -428,6 +536,7 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
             "nested_multi_agent": False,
             "plugins": False,
             "login_shell": False,
+            "code_mode_host": True,
             "auto_review": False,
             "dangerous_bypass": False,
             "secret_env_passthrough": False,
@@ -445,10 +554,12 @@ class CodexAdapter(ProviderAdapter):
     supports_verified_skill_context = True
 
     def __init__(self, codex_binary: Path, *, timeout_seconds: int = 600,
-                 allow_ci_reference_skill_context: bool = False):
+                 allow_ci_reference_skill_context: bool = False,
+                 local_error_messages: bool = False):
         self.codex_binary = codex_binary.resolve()
         self.timeout_seconds = timeout_seconds
         self.allow_ci_reference_skill_context = allow_ci_reference_skill_context
+        self.local_error_messages = local_error_messages
 
     def spawn(
         self,
@@ -480,6 +591,7 @@ class CodexAdapter(ProviderAdapter):
             "required_skill_ids": list(task.required_skill_ids),
             "skill_context_path": str(skill_context_path) if skill_context_path else None,
             "allow_ci_reference_skill_context": self.allow_ci_reference_skill_context,
+            "local_error_messages": self.local_error_messages,
         }
         request_path.parent.mkdir(parents=True, exist_ok=True)
         request_path.write_text(json.dumps(request, indent=2) + "\n", encoding="utf-8")

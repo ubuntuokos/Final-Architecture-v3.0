@@ -18,6 +18,24 @@ The bootstrap downloads the pinned Linux x86_64 release archive, verifies SHA-25
 `605b4b183f22c645f5def63a5b7191767407fb66a6feaec4eaf10b5b7e0058f6`,
 installs the binary under `~/.local/lib/fa3/codex/0.151.0/bin/codex`, and retains the archive for later binary reproducibility evidence.
 
+The upstream Code Mode host is a **separate** Linux x86_64 release archive,
+`codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz`, SHA-256
+`332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894`.
+It must be installed beside the pinned `codex` binary; both archives and both
+installed binaries are verified before any real current-host worker can start.
+The main bootstrap now installs both. For an existing CLI installation, install
+only the missing companion without redownloading Codex:
+
+```bash
+bash bin/fa3-codex-code-mode-host-bootstrap.sh
+```
+
+The adapter explicitly enables `features.code_mode_host=true` but continues
+to deny network/web search, MCP, plugins, nested workers, unsafe bypass flags
+and secret-environment passthrough. The deprecated `features.memory_tool`
+override is removed in favor of the existing `features.memories=false` rule.
+
+
 ## Authentication
 
 FA3 Codex v0.1 admits only an existing ChatGPT login:
@@ -45,6 +63,50 @@ reports/codex-current-host-gate-report.json
 ```
 
 The static CI adapter fixture never creates or substitutes this receipt.
+
+## Failed real-worker diagnostic
+
+A successful Codex JSONL `turn.completed` alone does not constitute a
+successful delegated edit. If a real worker returns without the required
+file change, the adapter fails closed with `NO_DELEGATED_FILE_CHANGE`.
+If the Codex JSONL includes an `item.type=error` even alongside an exit-0
+`turn.completed`, the result is instead `PROVIDER_ITEM_ERROR` and remains
+FAIL regardless of apparent mutation. The report records only coarse error
+categories (rate limit, authentication, transport, sandbox, model, quota or
+other), not the provider's raw error messages.
+A strictly bounded, local, mode-0600 diagnostic survives the temporary
+worktree cleanup at:
+
+```text
+reports/codex-current-host-failure-diagnostic.json
+```
+
+The diagnostic includes only return codes, event/item categories, event
+counts, token counts and hashes; it excludes raw prompts, Codex output,
+final messages, skill text and credentials. It is **not** current-host
+evidence or a replacement for an authorized PASS receipt. Re-run the
+real probe and use the diagnostic categories to determine whether the
+provider attempted any tool calls before changing the execution profile.
+
+## Private local diagnostic for unclassified error items
+
+The pinned Codex 0.151.0 emits `item.type=error` for non-fatal warnings
+as well as other error messages. A generic `OTHER_PROVIDER_ERROR` category
+does not establish whether an error item caused the missing edit.
+
+For one real E2E repro on an interactive FA3 workstation, run:
+
+```bash
+bash bin/fa3-codex-current-host.sh --local-error-messages
+```
+
+This explicit opt-in displays up to three bounded original error messages
+and the last agent message **only in the local terminal on a failed worker**.
+They are not written to the evidence or failure diagnostic and the flag
+is denied in CI or when stderr is redirected. The operator must examine
+the text before sharing and redact any paths, usernames or secrets.
+This is a diagnostic, **not** proof or a substitute for the physical gate.
+Never enable it in GitHub-hosted workflows.
 
 ## Execution profile
 

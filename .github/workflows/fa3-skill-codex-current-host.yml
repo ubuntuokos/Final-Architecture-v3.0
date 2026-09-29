@@ -1,0 +1,100 @@
+name: FA3 Skill Fabric Codex Real Current-Host Observation
+
+on:
+  workflow_dispatch:
+    inputs:
+      signed_bundle_path:
+        description: 'Absolute path to private Security Governance-signed task bundle'
+        type: string
+        required: true
+      trust_config:
+        description: 'Root-managed, independently approved source and registry pin'
+        type: string
+        required: false
+        default: '/etc/fa3/trust/skill-runtime.json'
+      codex_binary:
+        description: 'Optional existing pinned Codex executable path'
+        type: string
+        required: false
+        default: ''
+      codex_archive:
+        description: 'Optional existing pinned Codex archive path'
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  signed-skill-current-host:
+    name: signed skill / real pinned Codex
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    env:
+      FA3_CURRENT_HOST: '1'
+      FA3_EXECUTION_SCOPE: CURRENT_HOST
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enforce real nonroot Linux host prerequisite
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test "$(uname -s)" = Linux
+          command -v git
+          command -v openssl
+          command -v tar
+      - name: Create and verify real Codex provider receipt in this checkout
+        shell: bash
+        env:
+          CODEX_BINARY: ${{ inputs.codex_binary }}
+          CODEX_ARCHIVE: ${{ inputs.codex_archive }}
+        run: |
+          set -euo pipefail
+          args=()
+          if [ -n "$CODEX_BINARY" ]; then args+=(--codex-binary "$CODEX_BINARY"); fi
+          if [ -n "$CODEX_ARCHIVE" ]; then args+=(--archive "$CODEX_ARCHIVE"); fi
+          # actions/checkout starts clean: the previous host's untracked
+          # provider receipt is not available here. Collect physical proof
+          # with the existing provider before evaluating the dependent skill.
+          bash bin/fa3-codex-current-host.sh "${args[@]}"
+      - name: Execute real signed skill consumer observation
+        shell: bash
+        env:
+          SIGNED_BUNDLE: ${{ inputs.signed_bundle_path }}
+          ROOT_MANAGED_TRUST: ${{ inputs.trust_config }}
+          CODEX_BINARY: ${{ inputs.codex_binary }}
+          CODEX_ARCHIVE: ${{ inputs.codex_archive }}
+        run: |
+          set -euo pipefail
+          test -n "$SIGNED_BUNDLE"
+          args=(--root . --trust-config "$ROOT_MANAGED_TRUST" --bundle "$SIGNED_BUNDLE")
+          if [ -n "$CODEX_BINARY" ]; then args+=(--codex-binary "$CODEX_BINARY"); fi
+          if [ -n "$CODEX_ARCHIVE" ]; then args+=(--archive "$CODEX_ARCHIVE"); fi
+          PYTHONPATH=src python src/fa3_skill_codex_current_host.py "${args[@]}"
+      - name: Verify separate signed Evidence authority receipt if already present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f evidence/receipts/skill-codex-current-host.json ]; then
+            PYTHONPATH=src python src/fa3_skill_host_gate.py --root .
+          else
+            echo 'OBSERVED_PASS remains unsigned; existing FA3 Evidence authority must sign the exact observation artifact.'
+            echo 'Do not treat this workflow as CAP-080 or global promotion.'
+          fi
+      - name: Upload raw observation and signed-gate report if available
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-skill-codex-current-host-observation
+          path: |
+            reports/skill-codex-current-host-report.json
+            reports/skill-codex-host-gate-report.json
+          if-no-files-found: warn

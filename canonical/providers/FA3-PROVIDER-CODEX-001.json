@@ -34,7 +34,11 @@
     "linux_x86_64_artifact": "codex-x86_64-unknown-linux-musl.tar.gz",
     "artifact_sha256": "605b4b183f22c645f5def63a5b7191767407fb66a6feaec4eaf10b5b7e0058f6",
     "sigstore_bundle": "codex-x86_64-unknown-linux-musl.sigstore",
-    "sigstore_bundle_sha256": "b7c563e8d528439b533e4688b8458acb214917ca6c3f1d868fdb8d5d42500c47"
+    "sigstore_bundle_sha256": "b7c563e8d528439b533e4688b8458acb214917ca6c3f1d868fdb8d5d42500c47",
+    "code_mode_host_linux_x86_64_artifact": "codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz",
+    "code_mode_host_artifact_sha256": "332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894",
+    "code_mode_host_sigstore_bundle": "codex-code-mode-host-x86_64-unknown-linux-musl.sigstore",
+    "code_mode_host_sigstore_bundle_sha256": "42576107ad4ce6f78457b83dbd053ee33f72f00be2ad4a1a4dac7fbcf080a3de"
   },
   "production_execution_profile": {
     "entrypoint": "codex exec",
@@ -52,7 +56,8 @@
     "dangerous_bypass": "FORBIDDEN",
     "auto_review": "FORBIDDEN_V0_1",
     "direct_main_commit": "FORBIDDEN",
-    "integration_committer": "FA3_INTEGRATION_ONLY"
+    "integration_committer": "FA3_INTEGRATION_ONLY",
+    "code_mode_host": "REQUIRED_PINNED_COMPANION"
   },
   "auth_boundary": {
     "v0_1_required_mode": "CHATGPT_LOGIN",

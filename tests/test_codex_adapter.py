@@ -15,6 +15,51 @@ from fa3_release_baseline import module_active_capability_count
 
 
 class CodexAdapterTests(unittest.TestCase):
+    def test_pinned_code_mode_companion_supply_chain_fails_closed(self):
+        import hashlib
+        import importlib.util
+        import io
+        import tarfile
+        from unittest.mock import patch
+
+        expected = "332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894"
+        self.assertEqual(adapter.CODE_MODE_HOST_ARCHIVE_SHA256, expected)
+        script = (ROOT / "bin/fa3-codex-code-mode-host-bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn(expected, script)
+        self.assertIn("sha256sum --check --status", script)
+        self.assertIn("codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz", script)
+        parent = (ROOT / "bin/fa3-codex-bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("fa3-codex-code-mode-host-bootstrap.sh", parent)
+
+        spec = importlib.util.spec_from_file_location(
+            "fa3_companion_supply", ROOT / "evidence/collect-codex-current-host.py"
+        )
+        self.assertIsNotNone(spec)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory(prefix="fa3-companion-pin-fixture-") as td:
+            base = Path(td)
+            payload = b"test-only-host-payload"
+            archive = base / adapter.CODE_MODE_HOST_ARCHIVE_NAME
+            with tarfile.open(archive, "w:gz") as tf:
+                info = tarfile.TarInfo("codex-code-mode-host-x86_64-unknown-linux-musl")
+                info.size = len(payload)
+                tf.addfile(info, io.BytesIO(payload))
+            binary = base / "codex-code-mode-host"
+            binary.write_bytes(payload)
+            binary.chmod(0o755)
+            digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+            with patch.object(module, "CODE_MODE_HOST_ARCHIVE_SHA256", digest):
+                check = module.verify_code_mode_host_against_archive(binary, archive)
+                self.assertEqual(check["archive_integrity"], "PASS")
+                self.assertTrue(check["installed_binary_matches_pinned_archive"])
+                binary.write_bytes(b"wrong bytes")
+                with self.assertRaisesRegex(RuntimeError, "does not reproduce"):
+                    module.verify_code_mode_host_against_archive(binary, archive)
+                binary.unlink()
+                with self.assertRaisesRegex(RuntimeError, "missing or not executable"):
+                    module.verify_code_mode_host_against_archive(binary, archive)
+
     def test_provider_is_non_authoritative_and_pinned(self):
         provider = json.loads(
             (ROOT / "canonical/providers/FA3-PROVIDER-CODEX-001.json").read_text(encoding="utf-8")
@@ -61,6 +106,8 @@ class CodexAdapterTests(unittest.TestCase):
         self.assertIn("mcp_servers={}", joined)
         self.assertIn("features.multi_agent=false", joined)
         self.assertIn("features.multi_agent_v2=false", joined)
+        self.assertIn("features.code_mode_host=true", joined)
+        self.assertNotIn("features.memory_tool=false", joined)
 
     def test_secret_environment_is_not_passed(self):
         env = adapter.safe_codex_environment(
@@ -165,6 +212,197 @@ class CodexAdapterTests(unittest.TestCase):
         self.assertTrue(
             all(not worker["event_summary"]["forbidden_surface_observed"] for worker in report["workers"])
         )
+
+    def test_successful_codex_turn_without_actual_edit_fails_with_safe_receipt(self):
+        import subprocess
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-no-edit-") as td:
+            base = Path(td)
+            repo = base / "repo"
+            adapter._init_repo(repo)
+            task_id = "CODEX-NO-EDIT"
+            request = base / "request.json"
+            result = base / "result.json"
+            request.write_text(json.dumps({
+                "provider_id": adapter.PROVIDER_ID, "task_id": task_id,
+                "agent_id": "codex-no-edit", "workspace": str(repo),
+                "relative_path": "work/a.txt", "content": "expected mutation\n",
+                "timeout_seconds": 60, "codex_binary": str(base / "codex"),
+                "required_skill_ids": [],
+            }), encoding="utf-8")
+            events = "\n".join([
+                json.dumps({"type": "thread.started", "thread_id": "fixture-1"}),
+                json.dumps({"type": "turn.started"}),
+                json.dumps({"type": "turn.completed", "usage": {
+                    "input_tokens": 10, "output_tokens": 5,
+                }}),
+            ])
+            completed = subprocess.CompletedProcess(
+                args=["fixture"], returncode=0,
+                stdout=events, stderr="SENSITIVE_TEST_SENTINEL_DO_NOT_COPY",
+            )
+            with patch.object(adapter, "_run_capture", return_value=completed):
+                with self.assertRaisesRegex(
+                    adapter.CodexAdapterDenied, "NO_DELEGATED_FILE_CHANGE"
+                ):
+                    adapter.codex_worker_main(request, result)
+            receipt_text = result.read_text(encoding="utf-8")
+            receipt = json.loads(receipt_text)
+            self.assertEqual(receipt["status"], "FAIL")
+            self.assertEqual(receipt["failure_code"], "NO_DELEGATED_FILE_CHANGE")
+            self.assertEqual(receipt["codex_returncode"], 0)
+            self.assertEqual(receipt["changed_paths"], [])
+            self.assertEqual(receipt["event_summary"]["file_change_count"], 0)
+            self.assertFalse(receipt["raw_provider_output_recorded"])
+            self.assertFalse(receipt["current_host_acceptance"])
+            self.assertNotIn("SENSITIVE_TEST_SENTINEL", receipt_text)
+
+    def test_item_error_after_completed_turn_never_counts_as_valid_success(self):
+        # Real Codex may return exit 0 and turn.completed despite an error item.
+        sensitive = "Rate limit reached: secret=DO_NOT_PERSIST"
+        stream = "\n".join([
+            json.dumps({"type": "thread.started", "thread_id": "item-error"}),
+            json.dumps({"type": "turn.started"}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "error", "message": sensitive,
+            }}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "agent_message", "text": "no file write happened",
+            }}),
+            json.dumps({"type": "turn.completed", "usage": {
+                "input_tokens": 100, "output_tokens": 50,
+            }}),
+        ])
+        # Validate parser independently of the worker and never persist raw text.
+        summary = adapter.parse_codex_jsonl(stream)
+        self.assertTrue(summary["provider_item_error_observed"])
+        self.assertEqual(summary["provider_error_categories"], ["RATE_LIMIT"])
+        self.assertEqual(summary["file_change_count"], 0)
+        self.assertNotIn("DO_NOT_PERSIST", json.dumps(summary))
+
+    def test_real_item_error_generates_fail_closed_bounded_worker_receipt(self):
+        import subprocess
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-error-item-") as td:
+            base = Path(td)
+            repo = base / "repo"
+            adapter._init_repo(repo)
+            request = base / "request.json"
+            result = base / "result.json"
+            request.write_text(json.dumps({
+                "provider_id": adapter.PROVIDER_ID, "task_id": "ERROR-ITEM",
+                "agent_id": "error-item", "workspace": str(repo),
+                "relative_path": "work/a.txt", "content": "expected mutation\n",
+                "timeout_seconds": 60, "codex_binary": str(base / "codex"),
+                "required_skill_ids": [],
+            }), encoding="utf-8")
+            stream = "\n".join([
+                json.dumps({"type": "thread.started", "thread_id": "error-item"}),
+                json.dumps({"type": "turn.started"}),
+                json.dumps({"type": "item.completed", "item": {
+                    "type": "error", "message": "connection timed out SECRET_SENTINEL",
+                }}),
+                json.dumps({"type": "turn.completed", "usage": {
+                    "input_tokens": 2, "output_tokens": 3,
+                }}),
+            ])
+            mock = subprocess.CompletedProcess(
+                args=["fixture"], returncode=0, stdout=stream,
+                stderr="SENSITIVE_STDERR_SENTINEL",
+            )
+            with patch.object(adapter, "_run_capture", return_value=mock):
+                with self.assertRaisesRegex(adapter.CodexAdapterDenied, "PROVIDER_ITEM_ERROR"):
+                    adapter.codex_worker_main(request, result)
+            safe = result.read_text(encoding="utf-8")
+            receipt = json.loads(safe)
+            self.assertEqual(receipt["status"], "FAIL")
+            self.assertFalse(receipt["current_host_acceptance"])
+            self.assertEqual(receipt["failure_code"], "PROVIDER_ITEM_ERROR")
+            self.assertTrue(receipt["event_summary"]["provider_item_error_observed"])
+            self.assertEqual(receipt["event_summary"]["provider_error_categories"], ["TRANSPORT"])
+            self.assertFalse(receipt["required_mutation_observed"])
+            self.assertNotIn("SECRET_SENTINEL", safe)
+            self.assertNotIn("SENSITIVE_STDERR_SENTINEL", safe)
+
+    def test_explicit_local_error_output_never_enters_receipt(self):
+        import io
+        import subprocess
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-private-diagnostic-") as td:
+            base = Path(td)
+            repo = base / "repo"
+            adapter._init_repo(repo)
+            request = base / "request.json"
+            result = base / "result.json"
+            sensitive = "PRIVATE_PROVIDER_DETAIL_NOT_FOR_UPLOAD"
+            events = "\n".join([
+                json.dumps({"type": "thread.started", "thread_id": "local-only"}),
+                json.dumps({"type": "item.completed", "item": {
+                    "type": "error", "message": sensitive,
+                }}),
+                json.dumps({"type": "item.completed", "item": {
+                    "type": "agent_message", "text": "could not write file",
+                }}),
+                json.dumps({"type": "turn.completed", "usage": {
+                    "input_tokens": 1, "output_tokens": 1,
+                }}),
+            ])
+            proc = subprocess.CompletedProcess(args=["fixture"], returncode=0, stdout=events, stderr="")
+            request.write_text(json.dumps({
+                "provider_id": adapter.PROVIDER_ID, "task_id": "PRIVATE-DETAIL",
+                "agent_id": "local-test", "workspace": str(repo),
+                "relative_path": "work/a.txt", "content": "changed\n",
+                "timeout_seconds": 60, "codex_binary": str(base / "codex"),
+                "required_skill_ids": [], "local_error_messages": True,
+            }), encoding="utf-8")
+            terminal = io.StringIO()
+            with patch.object(adapter, "_run_capture", return_value=proc):
+                with patch("sys.stderr", terminal):
+                    with self.assertRaisesRegex(adapter.CodexAdapterDenied, "PROVIDER_ITEM_ERROR"):
+                        adapter.codex_worker_main(request, result)
+            self.assertIn(sensitive, terminal.getvalue())
+            self.assertIn("could not write file", terminal.getvalue())
+            receipt = result.read_text(encoding="utf-8")
+            self.assertNotIn(sensitive, receipt)
+            self.assertNotIn("could not write file", receipt)
+            self.assertEqual(json.loads(receipt)["status"], "FAIL")
+
+    def test_host_collector_preserves_only_safe_failure_fields(self):
+        import importlib.util
+        from fa3_developer_agent_coordination import AgentTask
+        source = ROOT / "evidence/collect-codex-current-host.py"
+        spec = importlib.util.spec_from_file_location("fa3_probe_diagnostic", source)
+        self.assertIsNotNone(spec)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory(prefix="fa3-codex-diagnostic-") as td:
+            root = Path(td)
+            control = root / "private-control"
+            directory = control / "results"
+            directory.mkdir(parents=True)
+            task = AgentTask(
+                "CODEX-NO-EDIT", "codex-no-edit", adapter.PROVIDER_ID,
+                "work/a.txt", "expected mutation\n",
+            )
+            (directory / "CODEX-NO-EDIT.json").write_text(json.dumps({
+                "status": "FAIL", "failure_code": "NO_DELEGATED_FILE_CHANGE",
+                "changed_paths": [], "codex_returncode": 0,
+                "stderr_tail_redacted": "SENSITIVE_TEST_SENTINEL_DO_NOT_COPY",
+                "event_summary": {
+                    "event_types": ["thread.started", "turn.completed"],
+                    "item_types": [], "command_count": 0, "file_change_count": 0,
+                    "usage": {"input_tokens": 10, "output_tokens": 5},
+                },
+            }), encoding="utf-8")
+            destination = module.write_failed_probe_diagnostic(root, control, [task])
+            text = destination.read_text(encoding="utf-8")
+            data = json.loads(text)
+            self.assertEqual(data["result"], "FAIL")
+            self.assertFalse(data["global_promotion_claim"])
+            self.assertEqual(data["workers"][0]["failure_code"], "NO_DELEGATED_FILE_CHANGE")
+            self.assertEqual(data["workers"][0]["command_count"], 0)
+            self.assertEqual(data["workers"][0]["provider_error_categories"], [])
+            self.assertNotIn("SENSITIVE_TEST_SENTINEL", text)
 
     def test_reference_gate_passes(self):
         report = gate.gate(ROOT)

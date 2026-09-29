@@ -21,6 +21,8 @@ from fa3_codex_adapter import (
     ADAPTER_ID,
     ARCHIVE_NAME,
     ARCHIVE_SHA256,
+    CODE_MODE_HOST_ARCHIVE_NAME,
+    CODE_MODE_HOST_ARCHIVE_SHA256,
     CODEX_VERSION,
     PROVIDER_ID,
     CodexAdapter,
@@ -83,6 +85,98 @@ def verify_installed_binary_against_archive(binary: Path, archive: Path) -> dict
         }
 
 
+def verify_code_mode_host_against_archive(host_binary: Path, archive: Path) -> dict:
+    """Compare the exact installed companion with its independently pinned release."""
+    if not host_binary.is_file() or not os.access(host_binary, os.X_OK):
+        raise RuntimeError(
+            "pinned Codex Code Mode companion missing or not executable: " + str(host_binary)
+        )
+    if not archive.is_file() or sha256_file(archive) != CODE_MODE_HOST_ARCHIVE_SHA256:
+        raise RuntimeError("pinned Codex Code Mode companion archive missing or wrong SHA256")
+    with tempfile.TemporaryDirectory(prefix="fa3-code-mode-reextract-") as td:
+        files = _safe_extract(archive, Path(td))
+        candidates = [
+            p for p in files if p.name in {
+                "codex-code-mode-host", "codex-code-mode-host-x86_64-unknown-linux-musl"
+            }
+        ]
+        installed_hash = sha256_file(host_binary)
+        matching = [p for p in candidates if sha256_file(p) == installed_hash]
+        if len(matching) != 1:
+            raise RuntimeError(
+                "installed Codex Code Mode companion does not reproduce from pinned archive"
+            )
+        return {
+            "archive": str(archive.resolve()),
+            "archive_sha256": CODE_MODE_HOST_ARCHIVE_SHA256,
+            "archive_integrity": "PASS",
+            "installed_binary": str(host_binary.resolve()),
+            "installed_binary_sha256": installed_hash,
+            "reextracted_binary_sha256": installed_hash,
+            "installed_binary_matches_pinned_archive": True,
+            "matched_archive_member": matching[0].name,
+            "activation_flag": "features.code_mode_host=true",
+        }
+
+
+def write_failed_probe_diagnostic(
+    root: Path, control: Path, tasks: list[AgentTask],
+) -> Path:
+    """Keep a minimal 0600 failure report when Coordinator removes its worktrees.
+
+    Never copy raw Codex JSONL, prompts, worker stderr, credentials, skill
+    contents or last-message text into this persisted diagnostic.
+    """
+    workers: list[dict] = []
+    for task in tasks:
+        path = control / "results" / f"{task.task_id}.json"
+        raw: dict = {}
+        if path.is_file():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    raw = data
+            except (OSError, ValueError):
+                pass
+        summary = raw.get("event_summary", {})
+        if not isinstance(summary, dict):
+            summary = {}
+        workers.append({
+            "task_id": task.task_id,
+            "agent_id": task.agent_id,
+            "status": raw.get("status", "NO_WORKER_RECEIPT"),
+            "failure_code": raw.get("failure_code", "WORKER_FAILURE_UNCLASSIFIED"),
+            "codex_returncode": raw.get("codex_returncode"),
+            "changed_path_count": len(raw.get("changed_paths", []))
+                if isinstance(raw.get("changed_paths"), list) else None,
+            "target_matches_requested": raw.get("target_matches_requested"),
+            "event_types": summary.get("event_types", []),
+            "item_types": summary.get("item_types", []),
+            "command_count": summary.get("command_count"),
+            "file_change_count": summary.get("file_change_count"),
+            "provider_item_error_observed": summary.get("provider_item_error_observed"),
+            "provider_error_categories": summary.get("provider_error_categories", []),
+            "usage": summary.get("usage"),
+            "stdout_sha256": raw.get("stdout_sha256"),
+            "stderr_sha256": raw.get("stderr_sha256"),
+            "last_message_sha256": raw.get("last_message_sha256"),
+        })
+    report = {
+        "schema": "fa3.codex-current-host-failure-diagnostic.v1",
+        "result": "FAIL",
+        "scope": "CURRENT_HOST_FAILED_OBSERVATION_NOT_ACCEPTANCE",
+        "raw_provider_output_recorded": False,
+        "credential_material_captured": False,
+        "global_promotion_claim": False,
+        "workers": workers,
+    }
+    target = root / "reports/codex-current-host-failure-diagnostic.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    target.chmod(0o600)
+    return target
+
+
 def init_probe_repo(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
     subprocess.run(["git", "-C", str(path), "init", "-b", "main"], check=True, capture_output=True, text=True)
@@ -107,6 +201,10 @@ def main() -> int:
     ap.add_argument("--codex-binary", default=str(default_root / "bin/codex"))
     ap.add_argument("--archive", default=str(default_root / "source" / ARCHIVE_NAME))
     ap.add_argument("--timeout-seconds", type=int, default=600)
+    ap.add_argument(
+        "--local-error-messages", action="store_true",
+        help="Show bounded provider error and final-agent messages only on an interactive local terminal; never persist or upload them",
+    )
     args = ap.parse_args()
 
     root = Path(args.root).resolve()
@@ -126,9 +224,19 @@ def main() -> int:
         raise RuntimeError(f"pinned Codex archive is missing: {archive}")
     if not 60 <= args.timeout_seconds <= 1800:
         raise RuntimeError("timeout is outside canonical range")
+    if args.local_error_messages and (not sys.stderr.isatty() or os.environ.get("GITHUB_ACTIONS")):
+        raise RuntimeError(
+            "local error messages require a directly attached interactive terminal "
+            "outside GitHub Actions; do not redirect raw diagnostic output"
+        )
 
     started = now()
     supply = verify_installed_binary_against_archive(binary, archive)
+    # A successful CLI preflight alone is insufficient for file-edit capability.
+    supply["code_mode_host"] = verify_code_mode_host_against_archive(
+        binary.with_name("codex-code-mode-host"),
+        archive.with_name(CODE_MODE_HOST_ARCHIVE_NAME),
+    )
     preflight = codex_preflight(binary)
     with tempfile.TemporaryDirectory(prefix="fa3-codex-current-host-") as td:
         base = Path(td)
@@ -152,7 +260,17 @@ def main() -> int:
             ),
         ]
         coord = Coordinator(repo, control, max_message_hops=4)
-        result = coord.run(tasks, CodexAdapter(binary, timeout_seconds=args.timeout_seconds))
+        try:
+            result = coord.run(
+                tasks, CodexAdapter(
+                    binary, timeout_seconds=args.timeout_seconds,
+                    local_error_messages=args.local_error_messages,
+                ),
+            )
+        except Exception:
+            diagnostic = write_failed_probe_diagnostic(root, control, tasks)
+            print(f"FA3 CODEX FAILURE DIAGNOSTIC (not acceptance): {diagnostic}", file=sys.stderr)
+            raise
         worker_results = [
             json.loads((control / "results" / f"{task.task_id}.json").read_text(encoding="utf-8"))
             for task in tasks
