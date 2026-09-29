@@ -72,3 +72,7 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## Godot Engine GitHub donor curation
+
+The [Godot organization and selectively checked upstream projects](godotengine-github-donor-curation-2026-09-29.md) are recorded as seven non-authoritative candidate sources for RT3D/3D, creative workflow and application-catalog reuse. Repository-specific license, asset and runtime gates remain independent; this does not install or promote Godot.
