@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 953,
+    "entry_count": 965,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -3748,6 +3748,68 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-AGNES-VIDEO-GENERATOR-001",
+      "name": "Agnes Video Generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lcy362/agnes-video-generator",
+        "normalized_key": "github:lcy362/agnes-video-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "multi-scene-video-production",
+        "checkpoint-resume",
+        "scene-chaining",
+        "long-text-segmentation",
+        "task-progress"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Film Planning",
+        "Story/Screenplay",
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "checkpoint",
+        "multi-scene",
+        "tts",
+        "subtitles",
+        "workflow"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reuse checkpoint persistence and scene-transition workflow ideas; upstream automatic Agnes fallback is incompatible with FA3 no-silent-fallback rule and must not be imported as is."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AI-NOVEL2SCRIPT-001",
       "name": "ai-novel2script",
       "source": {
@@ -3802,6 +3864,64 @@
       "notes": [
         "MIT declared. Upstream provider/model flag and automatic local fallback conflict with FA3 no-fixed-pin/no-silent-fallback: reimplement integration through central Router with explicit failure and consent.",
         "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-SHORT-VIDEO-ENGINE-CHENWR727-001",
+      "name": "AI Short Video Engine (chenwr727)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/chenwr727/AI-Short-Video-Engine",
+        "normalized_key": "github:chenwr727/ai-short-video-engine"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "article-to-short-video",
+        "automated-content-to-video",
+        "narrated-video-pipeline"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "QuickClip",
+        "Story/Screenplay",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "fastapi",
+        "ffmpeg",
+        "article-to-video",
+        "tts"
+      ],
+      "license": {
+        "declared": "MIT (README claim only)",
+        "status": "README_ONLY_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream README describes FastAPI, Streamlit, FFmpeg and API-dependent TTS/LLM. No top-level LICENSE file was identified during initial inspection; source copying blocked pending review."
       ]
     },
     {
@@ -8829,6 +8949,82 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CLAUDE-CODE-ACTION-001",
+      "name": "Anthropic Claude Code Action",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/anthropics/claude-code-action",
+        "normalized_key": "github:anthropics/claude-code-action"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "GitHub event-driven agent activation",
+        "PR review and issue triage",
+        "structured evidence-producing automation",
+        "permission-scoped tool execution"
+      ],
+      "domain_hints": [
+        "agent",
+        "development",
+        "github",
+        "automation",
+        "security"
+      ],
+      "problem_hints": [
+        "unverified AI task completion",
+        "PR review orchestration",
+        "GitHub workflow auditability"
+      ],
+      "target_hints": [
+        "PR Watch",
+        "Agent Workload Runtime",
+        "Director / Workforce",
+        "Evidence Registry",
+        "Central MCP Gateway",
+        "UAF",
+        "Coach"
+      ],
+      "tags": [
+        "github-actions",
+        "code-review",
+        "agent-workflow",
+        "pr-triage",
+        "structured-output",
+        "security-review",
+        "progress-tracking"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only; do not introduce an independent FA3 agent, scheduler, model router, resource authority, or evidence gate.",
+        "Action is Claude-specific; any later external use must obtain explicit Model Router -> HRB -> provider/model admission. No fixed model route or silent fallback.",
+        "Security review must account for GHSA-8q5r-mmjf-575q (patched in 1.0.74), prompt injection, untrusted PR checkouts/MCP config, bot allowlists, least-privilege scoped tokens, and protection of runner secrets.",
+        "Metadata-only capture is CPU-only, vendor-neutral, and compatible with accelerator cardinality 0..N; any runtime integration requires separate Hardware Audit, license/provenance, coexistence, security, and current-host evidence gates."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-CLEARERVOICE-STUDIO-001",
       "name": "ClearerVoice-Studio",
       "source": {
@@ -9290,6 +9486,65 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-CONSISID-001",
+      "name": "ConsisID",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PKU-YuanGroup/ConsisID",
+        "normalized_key": "github:pku-yuangroup/consisid"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "identity-consistent-text-to-video",
+        "reference-conditioned-character-generation",
+        "video-identity-evaluation"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Digital Actor",
+        "Performance",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "identity",
+        "video-generation",
+        "research",
+        "diffusers"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference identity handling needs consent and provenance review. Original README indicates approximately 44 GB VRAM for its unoptimized example and reduced needs with offloading; no host-admission claim."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CONTROLNET-001",
@@ -17166,6 +17421,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-VIDEO-GENERATOR-TOPIC-INDEX-001",
+      "name": "GitHub video-generator topic index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/video-generator",
+        "normalized_key": "github:topics/video-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "upstream-discovery",
+        "video-project-curation"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "Creative Studio"
+      ],
+      "tags": [
+        "topic-index",
+        "video-generator",
+        "discovery"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE"
+      },
+      "code_reuse_policy": "NO_CODE_INDEX_ONLY",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "GitHub discovery index, not an importable software codebase. Curated subset evaluated 2026-09-28; the topic list may change."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GITHUB-VISUAL-EDITING-TOPIC-001",
       "name": "GitHub visual-editing topic",
       "source": {
@@ -19802,6 +20112,68 @@
         "observed_at": "2026-09-29",
         "observed_url": "https://github.com/topics/heif?l=objective-c"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-HELIOS-001",
+      "name": "Helios",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PKU-YuanGroup/Helios",
+        "normalized_key": "github:pku-yuangroup/helios"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "long-video-generation",
+        "text-to-video",
+        "image-to-video",
+        "video-to-video",
+        "group-offload",
+        "context-parallelism"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Generative Media Studio",
+        "FA3 Video Editor",
+        "Creative Studio",
+        "Video Fabric"
+      ],
+      "tags": [
+        "research",
+        "generative-video",
+        "runtime-adapter"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "The repository reports H100 results; do not translate them into RTX 3090 performance without a current-host Hardware Audit.",
+        "Already linked to prior FA3 Helios/Open-Sora work. Research candidate only; model admission is independently governed."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-HERDR-001",
@@ -30222,6 +30594,62 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MICROSOFT-SKILLOPT-001",
+      "name": "microsoft/SkillOpt",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/SkillOpt",
+        "normalized_key": "github:microsoft/skillopt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-external-skill-radar",
+        "fa3-skill-activation-audit-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "FA3-SKILL-FABRIC-001"
+      ],
+      "domain_hints": [
+        "agent-skills",
+        "offline-evaluation"
+      ],
+      "problem_hints": [
+        "offline-skill-improvement",
+        "held-out-validation",
+        "quality-floor"
+      ],
+      "target_hints": [
+        "FA3 Skill Fabric",
+        "FA3 Developer Agent Coordinator"
+      ],
+      "tags": [
+        "skill",
+        "offline-improvement",
+        "no-auto-promotion"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "RADAR_DECLARATION_REVALIDATION_REQUIRED"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-MICROSOFTDOCS-CPP-DOCS-001",
       "name": "Microsoft C++ / MSVC documentation",
       "source": {
@@ -35294,6 +35722,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OMNITRANSFER-001",
+      "name": "OmniTransfer",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/PangzeCheung/OmniTransfer",
+        "normalized_key": "github:pangzecheung/omnitransfer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "reference-driven-motion-transfer",
+        "video-style-transfer",
+        "camera-motion-transfer",
+        "identity-transfer"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "VFX/Gaffer",
+        "Character Studio",
+        "Choreography",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "research",
+        "motion-transfer",
+        "style-transfer",
+        "camera"
+      ],
+      "license": {
+        "declared": "Apache-2.0 (repository LICENSE)",
+        "status": "CONFLICTING_UPSTREAM_SCOPE"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_PENDING_RIGHTS_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository README describes the work as academic and non-commercial, while LICENSE is Apache-2.0. The inspected repository root contains README, LICENSE, and assets but no implementation code. Research/reference only pending explicit rights clarification."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ONEAPI-SRC-DPCPP-REFERENCE-001",
       "name": "oneapi-src/DPCPP_Reference",
       "source": {
@@ -37486,6 +37973,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENDIRECTOR-SEME-ORG-001",
+      "name": "OpenDirector (seme-org)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/seme-org/open-director",
+        "normalized_key": "github:seme-org/open-director"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "multi-agent-film-planning",
+        "storyboard-workflow",
+        "character-and-location-planning",
+        "batch-short-video"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Director/Workforce",
+        "Film Planning",
+        "Story/Screenplay",
+        "QuickClip"
+      ],
+      "tags": [
+        "agents",
+        "langgraph",
+        "film",
+        "storyboard",
+        "batch-video"
+      ],
+      "license": {
+        "declared": "LGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Distinct exact GitHub source from older project:opendirector archival reference. Nine-agent workflow may inform FA3 existing graph; do not replace FA3 Director/Workforce or Temporal authority. LGPL linking/distribution review before copying."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENDRAFT-001",
@@ -51458,6 +52006,66 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-SHORT-VIDEO-MAKER-GYORIDAVID-001",
+      "name": "Short Video Maker (gyoridavid)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gyoridavid/short-video-maker",
+        "normalized_key": "github:gyoridavid/short-video-maker"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "video-generator-topic-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "mcp-and-rest-video-assembly",
+        "tts-and-caption-sync",
+        "short-form-render-pipeline"
+      ],
+      "domain_hints": [
+        "creative",
+        "video"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor",
+        "Central MCP Gateway"
+      ],
+      "tags": [
+        "mcp",
+        "rest",
+        "short-video",
+        "remotion",
+        "tts",
+        "subtitles"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Composition, not from-scratch generative video. Upstream uses Kokoro TTS, Whisper, Pexels and Remotion; FA3 must preserve central Model Router and native project files."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SKILLCOCO-001",
       "name": "SkillCoco",
       "source": {
@@ -56576,6 +57184,82 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-VSHULCZ-DEJA-VU-001",
+      "name": "deja-vu (vshulcz)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/vshulcz/deja-vu",
+        "normalized_key": "github:vshulcz/deja-vu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-research-2026-09-28",
+        "deja-vu-scoped-recall-implementation"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-agent-session-recall",
+        "retroactive-session-indexing",
+        "compaction-handoff",
+        "command-and-decision-provenance"
+      ],
+      "domain_hints": [
+        "agent-memory",
+        "developer-tools",
+        "mcp",
+        "agent-orchestration"
+      ],
+      "problem_hints": [
+        "cross-agent-history-search",
+        "repeated-debugging",
+        "scoped-session-retrieval"
+      ],
+      "target_hints": [
+        "Agent Memory",
+        "SUB-Agents",
+        "Decision Fabric",
+        "MCP Gateway",
+        "Developer Tools",
+        "Knowledge Fabric",
+        "Model Manager"
+      ],
+      "tags": [
+        "local-search",
+        "scoped-recall",
+        "go",
+        "json-v2",
+        "session-history",
+        "provenance",
+        "redaction"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION",
+        "source_blob_sha": "b5f413c29438cbdbb1f90f37e9299ed8b5406672"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Pinned upstream 73ad34e5fdc2b0c245a0fb69b65a17f3cbb123c8; scoped read-only CLI adapter implemented, runtime blocked until current-host gates.",
+        "Per-project encrypted partitions and pre-retrieval external policy resolver mandatory; never promote global or cross-agent memory automatically.",
+        "CPU-only and hardware vendor-neutral; no model, embeddings or automatic display GPU use."
+      ]
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -57396,6 +58080,113 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-YILS-LIN-SHORT-VIDEO-FACTORY-001",
+      "name": "YILS-LIN/short-video-factory",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/YILS-LIN/short-video-factory",
+        "normalized_key": "github:yils-lin/short-video-factory"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-28 FA3 GitHub donor review"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "prompt-to-script short-video production",
+        "script-to-speech-to-subtitle synchronization",
+        "automated media segment selection and mixed cuts",
+        "batch short-video composition",
+        "subtitle frame rendering and FFmpeg overlay",
+        "cancellable rendering with progress reporting"
+      ],
+      "domain_hints": [
+        "creative",
+        "short-video",
+        "video",
+        "audio",
+        "marketing",
+        "automation"
+      ],
+      "problem_hints": [
+        "repeatable short-form production",
+        "duration alignment between script speech footage and captions",
+        "batch rendering from reusable presets"
+      ],
+      "target_hints": [
+        "FA3 QuickClip",
+        "FA3 Video Editor",
+        "FA3 Story/Screenplay",
+        "FA3 Subtitle Composer",
+        "FA3 Voice/Vocal",
+        "FA3 Marketing",
+        "FA3 Creative Studio"
+      ],
+      "tags": [
+        "quickclip",
+        "short-video",
+        "batch-video",
+        "script-generation",
+        "tts",
+        "captions",
+        "ffmpeg",
+        "pixi",
+        "agpl-3.0",
+        "selective-reuse",
+        "telemetry-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "automated short-video workflow",
+          "duration-aware randomized segment selection",
+          "speech and subtitle alignment",
+          "batch presets and repeatable production",
+          "progress/cancellation and temporary-artifact cleanup",
+          "cross-language caption layout patterns"
+        ],
+        "intended_fa3_targets": [
+          "FA3 QuickClip",
+          "FA3 Video Editor",
+          "FA3 Story/Screenplay",
+          "FA3 Subtitle Composer",
+          "FA3 Voice/Vocal",
+          "FA3 Marketing"
+        ],
+        "source_group": "direct-upstream-review",
+        "source_reviewed_at": "2026-09-28",
+        "notes": "Reference-only pending independent license/security/privacy assessment; AGPL-3.0 source copying or component incorporation needs distribution-compliance review. Keep native FA3 .fa3clip and .fa3video projects and central Router/HRB authority; CPU-only and X11/Wayland compatible. No complete Electron app adoption.",
+        "implementation_plan": "docs/FA3-QUICKCLIP-SHORT-VIDEO-FACTORY-IMPLEMENTATION-2026-09-28.md"
+      },
+      "notes": [
+        "Upstream v1.2.2 uses Electron/Vue/TypeScript, FFmpeg, EdgeTTS and Pixi; reviewed upstream commit f2aa5958b9a949b339e04d8aee9754223f07a18f (2026-09-28).",
+        "Upstream changelog v1.2.1 reports anonymous main-process event telemetry; do not assume offline-only/privacy compliance without independent inspection.",
+        "Registry capture alone is neither source import nor runtime/provider/model admission.",
+        "Detailed FA3-native QuickClip gap matrix, phased implementation and gate plan: docs/FA3-QUICKCLIP-SHORT-VIDEO-FACTORY-IMPLEMENTATION-2026-09-28.md"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-YIZHOUZHAO-GENMOTION-001",
