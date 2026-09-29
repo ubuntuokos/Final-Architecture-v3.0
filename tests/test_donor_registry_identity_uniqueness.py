@@ -60,7 +60,8 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
         by_id = {row["donor_id"]: row for row in self.entries}
         canonical = {row["source"]["normalized_key"] for row in self.entries}
         aliases = [key for row in self.entries for key in row.get("legacy_source_keys", [])]
-        self.assertEqual(len(self.entries), 1116)
+        # Preserve the original #435 pinned donors while allowing serial donor expansion.
+        self.assertGreaterEqual(len(self.entries), 1116)
         self.assertEqual(len(aliases), 9)
         self.assertEqual(len(aliases), len(set(aliases)))
         self.assertFalse(canonical.intersection(aliases))

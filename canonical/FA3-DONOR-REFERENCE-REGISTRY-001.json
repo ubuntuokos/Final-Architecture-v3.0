@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1116,
+    "entry_count": 1172,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -4386,6 +4386,61 @@
         "FA3 Model Router and Host Resource Broker remain the only model-routing and resource-admission authorities.",
         "CPU-only viability and 0..N accelerator neutrality remain mandatory.",
         "Original disposition: EVALUATION_REFERENCE_CODE_REUSE_CONDITIONAL."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ALEXBRAINMAN-ODBC-001",
+      "name": "GitHub: alexbrainman/odbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/alexbrainman/odbc",
+        "normalized_key": "github:alexbrainman/odbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/alexbrainman/odbc",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
       ]
     },
     {
@@ -8859,6 +8914,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-BOARDKIT-ORCHESTRATOR-001",
+      "name": "BoardKit/orchestrator (multi-repo AI resource sync)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/boardkit/orchestrator",
+        "normalized_key": "github:boardkit/orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multi-repository",
+        "ai-agents",
+        "skill-discovery",
+        "documentation-sync"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Orchestrator",
+        "FA3 Skill Fabric",
+        "FA3 Reuse Discovery"
+      ],
+      "tags": [
+        "multi-repository",
+        "ai-agents",
+        "skill-discovery",
+        "documentation-sync",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/boardkit/orchestrator",
+        "Multi-repository shared agent resources and documentation patterns are research only; avoid symlink-based namespace collisions and direct vendor/agent authority.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-BRAVOCW-SOCIAL-MEDIA-AUTOMATION-001",
       "name": "bravocw/Social-Media-Automation",
       "source": {
@@ -9581,6 +9696,62 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-CAST-PROJECTS-001",
+      "name": "GitHub organization: cast-projects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cast-projects",
+        "normalized_key": "github:cast-projects"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/CAST-projects",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-CAUSAL-FORCING-001",
       "name": "Causal Forcing/++",
       "source": {
@@ -9629,6 +9800,116 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CDRPRO-MACROS-CDR-TOOLS-001",
+      "name": "GitHub: cdrpro-macros/cdr-tools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cdrpro-macros/cdr-tools",
+        "normalized_key": "github:cdrpro-macros/cdr-tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/cdrpro-macros/cdr-tools",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-CERNCDAIC-DOCONVERTER-001",
+      "name": "GitHub: cerncdaic/doconverter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cerncdaic/doconverter",
+        "normalized_key": "github:cerncdaic/doconverter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/CERNCDAIC/doconverter",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CESIUM-3D-TILES-001",
@@ -12149,6 +12430,116 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-DBCLI-ODBC-CLI-001",
+      "name": "GitHub: dbcli/odbc-cli",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dbcli/odbc-cli",
+        "normalized_key": "github:dbcli/odbc-cli"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/dbcli/odbc-cli",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-DBEAVER-DBEAVER-001",
+      "name": "GitHub: dbeaver/dbeaver",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dbeaver/dbeaver",
+        "normalized_key": "github:dbeaver/dbeaver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/dbeaver/dbeaver/wiki/ODBC-JDBC-Driver",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-DECA-001",
       "name": "DECA",
       "source": {
@@ -13681,6 +14072,62 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-EYEVINN-MP4FF-001",
+      "name": "GitHub: eyevinn/mp4ff",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/eyevinn/mp4ff",
+        "normalized_key": "github:eyevinn/mp4ff"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/Eyevinn/mp4ff",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-EZBLENDER-001",
       "name": "EZBlender",
       "source": {
@@ -14202,6 +14649,63 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-FISHWOWATER-CAST-001",
+      "name": "FishWoWater/CAST (component-aligned 3D reconstruction)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/FishWoWater/CAST",
+        "normalized_key": "github:fishwowater/cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "3d-scene-reconstruction",
+        "single-image",
+        "component-alignment"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 3D Fabric",
+        "FA3 World / Location Generator"
+      ],
+      "tags": [
+        "3d-scene-reconstruction",
+        "single-image",
+        "component-alignment",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/FishWoWater/CAST",
+        "Unofficial work-in-progress CAST 3D scene reconstruction. Upstream README mentions serverless third-party AI APIs, which cannot become direct/automatic FA3 dependencies.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-FL-STUDIO-001",
@@ -15514,6 +16018,61 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GENIO-7C7FC52FCB8BE5D486AA-001",
+      "name": "GitHub Gist: genio/7c7fc52fcb8be5d486aa",
+      "source": {
+        "kind": "GIST",
+        "locator": "https://gist.github.com/genio/7c7fc52fcb8be5d486aa",
+        "normalized_key": "gist:genio/7c7fc52fcb8be5d486aa"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "gist_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://gist.github.com/genio/7c7fc52fcb8be5d486aa",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-GEOLOOK-001",
@@ -22566,6 +23125,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GIZMODATA-001",
+      "name": "GitHub organization: gizmodata",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gizmodata",
+        "normalized_key": "github:gizmodata"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/gizmodata",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
       "name": "GL-Colour-Grading",
       "source": {
@@ -24388,6 +25002,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GRAPHITEEDITOR-GRAPHITE-001",
+      "name": "GitHub: graphiteeditor/graphite",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/graphiteeditor/graphite",
+        "normalized_key": "github:graphiteeditor/graphite"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/GraphiteEditor/Graphite",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-GRIDSOUND-001",
       "name": "GridSound",
       "source": {
@@ -25297,6 +25966,63 @@
       "last_seen": "2026-09-28",
       "notes": [
         "Proposed role: LICENSE_CAUTION; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HANNAMEYER-CAST-001",
+      "name": "HannaMeyer/CAST (spatio-temporal R models)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HannaMeyer/CAST",
+        "normalized_key": "github:hannameyer/cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "spatio-temporal-ml",
+        "geospatial",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Research / Knowledge Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "spatio-temporal-ml",
+        "geospatial",
+        "research",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/HannaMeyer/CAST",
+        "R caret-based spatial and spatio-temporal validation, feature selection and area-of-applicability reference; verify exact license before code reuse.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
       ]
     },
     {
@@ -31611,6 +32337,61 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-KILTUM-CDR2SVG-001",
+      "name": "GitHub: kiltum/cdr2svg",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kiltum/cdr2svg",
+        "normalized_key": "github:kiltum/cdr2svg"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/kiltum/cdr2svg",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-KITWARE-CMAKE-001",
       "name": "CMake",
       "source": {
@@ -32944,6 +33725,61 @@
       "last_seen": "2026-09-28",
       "notes": [
         "Proposed role: REFERENCE; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LICH-CORALS-001",
+      "name": "GitHub organization: lich-corals",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lich-corals",
+        "normalized_key": "github:lich-corals"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/Lich-Corals",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
       ]
     },
     {
@@ -34669,6 +35505,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-LURCHER-UNIXODBC-001",
+      "name": "GitHub: lurcher/unixodbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lurcher/unixodbc",
+        "normalized_key": "github:lurcher/unixodbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/lurcher/unixODBC",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LYAHN-VIDBOARD-001",
       "name": "VidBoard",
       "source": {
@@ -34845,6 +35736,61 @@
         "checked_at": "2026-09-28",
         "source": "GitHub repository API"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MARIADB-001",
+      "name": "GitHub organization: mariadb",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mariadb",
+        "normalized_key": "github:mariadb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/mariadb",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MARKOR-001",
@@ -36970,6 +37916,61 @@
       "code_reuse_policy": "LICENSE_SECURITY_AND_ADMISSION_REQUIRED"
     },
     {
+      "donor_id": "FA3-DONOR-MICROSOFT-ODBC-SPECIFICATION-001",
+      "name": "GitHub: microsoft/odbc-specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/odbc-specification",
+        "normalized_key": "github:microsoft/odbc-specification"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/microsoft/odbc-specification",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MICROSOFT-ONNX-RUNTIME-001",
       "name": "Microsoft ONNX Runtime",
       "source": {
@@ -37180,6 +38181,61 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-SQL-SERVER-SAMPLES-001",
+      "name": "GitHub: microsoft/sql-server-samples",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/sql-server-samples",
+        "normalized_key": "github:microsoft/sql-server-samples"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/microsoft/sql-server-samples/blob/master/samples/tutorials/c/linux/README.md",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MICROSOFTDOCS-CPP-DOCS-001",
@@ -38087,6 +39143,7 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "2026-09-29-user-donor-submission",
+        "conversation-donor-odbc-sql-vector-media-2026-09-29",
         "https://github.com/topics/mp4-files?l=c%23&o=asc&s=forks"
       ],
       "first_seen": "2026-09-29",
@@ -38118,7 +39175,8 @@
       "discoverable_for_planning": true,
       "notes": [
         "Dynamic C# file-handling projects, no C# host dependency.",
-        "Metadata-only discovery; license, provenance, security, Software Coexistence, Hardware Audit, independent evidence, provider/model and runtime admission remain separately gated."
+        "Metadata-only discovery; license, provenance, security, Software Coexistence, Hardware Audit, independent evidence, provider/model and runtime admission remain separately gated.",
+        "User-supplied discovery URL: https://github.com/topics/mp4-files?l=go&o=asc&s=forks"
       ],
       "authority": false,
       "automatic_selection": false,
@@ -38149,6 +39207,7 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "2026-09-29-user-donor-submission",
+        "conversation-donor-odbc-sql-vector-media-2026-09-29",
         "https://github.com/topics/mp4"
       ],
       "first_seen": "2026-09-29",
@@ -38180,7 +39239,8 @@
       "discoverable_for_planning": true,
       "notes": [
         "Dynamic MP4 demux/remux, editing and metadata discovery.",
-        "Metadata-only discovery; license, provenance, security, Software Coexistence, Hardware Audit, independent evidence, provider/model and runtime admission remain separately gated."
+        "Metadata-only discovery; license, provenance, security, Software Coexistence, Hardware Audit, independent evidence, provider/model and runtime admission remain separately gated.",
+        "User-supplied discovery URL: https://github.com/topics/mp4?l=python"
       ],
       "authority": false,
       "automatic_selection": false,
@@ -38261,6 +39321,61 @@
         "observed_at": "2026-09-29",
         "observed_url": "https://github.com/topics/mp4-video?l=php"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MPDS-IO-PYLIBCDR-001",
+      "name": "GitHub: mpds-io/pylibcdr",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mpds-io/pylibcdr",
+        "normalized_key": "github:mpds-io/pylibcdr"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/mpds-io/pylibcdr",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MPI-PARALLEL-FILE-UTILITIES-001",
@@ -38618,6 +39733,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-MYSQL-001",
+      "name": "GitHub organization: mysql",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mysql",
+        "normalized_key": "github:mysql"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/mysql",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -38746,6 +39916,61 @@
       "last_seen": "2026-09-28",
       "notes": [
         "Proposed role: PRIMARY; donor/reference only, not admitted implementation."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NAQVIS-CRYSTAL-ODBC-001",
+      "name": "GitHub: naqvis/crystal-odbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/naqvis/crystal-odbc",
+        "normalized_key": "github:naqvis/crystal-odbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/naqvis/crystal-odbc",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
       ]
     },
     {
@@ -42303,6 +43528,61 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OCEANBASE-OB-CONNECTOR-ODBC-001",
+      "name": "GitHub: oceanbase/ob-connector-odbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/oceanbase/ob-connector-odbc",
+        "normalized_key": "github:oceanbase/ob-connector-odbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/oceanbase/ob-connector-odbc",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ODYSSEUS-001",
       "name": "odysseus",
       "source": {
@@ -45564,6 +46844,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-OPENLINK-IODBC-001",
+      "name": "GitHub: openlink/iodbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openlink/iodbc",
+        "normalized_key": "github:openlink/iodbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/openlink/iODBC",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENLIVE-001",
       "name": "OpenLive",
       "source": {
@@ -46030,6 +47365,61 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENSEARCH-PROJECT-SQL-ODBC-001",
+      "name": "GitHub: opensearch-project/sql-odbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/opensearch-project/sql-odbc",
+        "normalized_key": "github:opensearch-project/sql-odbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/opensearch-project/sql-odbc",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENSEEFACE-001",
@@ -48337,6 +49727,61 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-PGVECTOR-PGVECTOR-001",
+      "name": "GitHub: pgvector/pgvector",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pgvector/pgvector",
+        "normalized_key": "github:pgvector/pgvector"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/pgvector/pgvector",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PHOTOSHOPAPI-001",
       "name": "PhotoshopAPI",
       "source": {
@@ -49318,6 +50763,61 @@
       "automatic_model_selection": false,
       "notes": [
         "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-POSTGRES-POSTGRES-001",
+      "name": "GitHub: postgres/postgres",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/postgres/postgres",
+        "normalized_key": "github:postgres/postgres"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/postgres/postgres",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
       ]
     },
     {
@@ -55799,6 +57299,61 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-R-DBI-ODBC-001",
+      "name": "GitHub: r-dbi/odbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/r-dbi/odbc",
+        "normalized_key": "github:r-dbi/odbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/r-dbi/odbc",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-R3MOT-GRID-GROOVE-001",
       "name": "r3mot/grid-groove",
       "source": {
@@ -60529,6 +62084,171 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-SINGINGBUSH-ODBC-001",
+      "name": "GitHub: singingbush/odbc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/singingbush/odbc",
+        "normalized_key": "github:singingbush/odbc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/SingingBush/odbc",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SK1-PROJECT-001",
+      "name": "GitHub organization: sk1-project",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sk1-project",
+        "normalized_key": "github:sk1-project"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/sk1-project",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SK1-PROJECT-SK1-WX-001",
+      "name": "GitHub: sk1-project/sk1-wx",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sk1-project/sk1-wx",
+        "normalized_key": "github:sk1-project/sk1-wx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/sk1-project/sk1-wx",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SKILLCOCO-001",
       "name": "SkillCoco",
       "source": {
@@ -61692,6 +63412,116 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-STXH-CDR2PDFVIEWER-001",
+      "name": "GitHub: stxh/cdr2pdfviewer",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/stxh/cdr2pdfviewer",
+        "normalized_key": "github:stxh/cdr2pdfviewer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/stxh/cdr2pdfviewer",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-STYLUSLABS-NANOVGXC-001",
+      "name": "GitHub: styluslabs/nanovgxc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/styluslabs/nanovgxc",
+        "normalized_key": "github:styluslabs/nanovgxc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/styluslabs/nanovgXC",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-SUPERCOLLIDER-001",
       "name": "SuperCollider",
       "source": {
@@ -62240,6 +64070,61 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-THESAKIBALHASAN-IMAGE-CONVERT-001",
+      "name": "GitHub: thesakibalhasan/image-convert",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/thesakibalhasan/image-convert",
+        "normalized_key": "github:thesakibalhasan/image-convert"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "repository_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/thesakibalhasan/image-convert",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -62376,6 +64261,61 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-TIBCOSOFTWARE-001",
+      "name": "GitHub organization: tibcosoftware",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/tibcosoftware",
+        "normalized_key": "github:tibcosoftware"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "organization_reference"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/TIBCOSoftware",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TIMEZONEFINDER-001",
@@ -63311,6 +65251,231 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-TOPICS-CHROMECAST-001",
+      "name": "Chromecast topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/chromecast",
+        "normalized_key": "github:topics/chromecast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "chromecast",
+        "streaming",
+        "casting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Live Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "chromecast",
+        "streaming",
+        "casting",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/chromecast?l=html&o=asc&s=forks",
+        "Topic discovery index, not a candidate blanket license or authorization for listed projects.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-CHROMECAST-RECEIVER-001",
+      "name": "Chromecast receiver topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/chromecast-receiver",
+        "normalized_key": "github:topics/chromecast-receiver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "chromecast",
+        "streaming",
+        "casting"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Live Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "chromecast",
+        "streaming",
+        "casting",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/chromecast-receiver",
+        "Discovery index: individually review linked projects; no automatic source selection.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-FMP4-001",
+      "name": "GitHub topic: fmp4",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/fmp4",
+        "normalized_key": "github:topics/fmp4"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/fmp4",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-GRAPHIC-EDITOR-001",
+      "name": "GitHub topic: graphic-editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/graphic-editor",
+        "normalized_key": "github:topics/graphic-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/graphic-editor",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOPICS-HEIC-CONVERTER-L-HTML-001",
       "name": "topics/heic-converter?l=html (dynamic GitHub topic)",
       "source": {
@@ -63507,6 +65672,342 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-TOPICS-INKSCAPE-001",
+      "name": "GitHub topic: inkscape",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/inkscape",
+        "normalized_key": "github:topics/inkscape"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/inkscape?l=shell&o=desc&s=stars",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-MP3-001",
+      "name": "GitHub topic: mp3",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/mp3",
+        "normalized_key": "github:topics/mp3"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/mp3",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-MP3-DOWNLOADER-001",
+      "name": "GitHub topic: mp3-downloader",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/mp3-downloader",
+        "normalized_key": "github:topics/mp3-downloader"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/mp3-downloader?o=desc&s=updated%2F1000",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-MP3-FILES-001",
+      "name": "GitHub topic: mp3-files",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/mp3-files",
+        "normalized_key": "github:topics/mp3-files"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/mp3-files?l=c%23",
+        "User-supplied discovery URL: https://github.com/topics/mp3-files?l=php&o=desc&s=updated",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-MYSQL-ORCHESTRATOR-001",
+      "name": "MySQL orchestrator topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/mysql-orchestrator",
+        "normalized_key": "github:topics/mysql-orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "mysql",
+        "database",
+        "orchestration"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Data Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "mysql",
+        "database",
+        "orchestration",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/mysql-orchestrator",
+        "Discovery topic. Do not confuse external database operations with FA3 orchestration authority.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-MYSQL-PROJECT-001",
+      "name": "GitHub topic: mysql-project",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/mysql-project",
+        "normalized_key": "github:topics/mysql-project"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/mysql-project?l=python",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOPICS-OPENAL-L-HASKELL-O-ASC-S-UPDATED-001",
       "name": "topics/openal?l=haskell&o=asc&s=updated (dynamic GitHub topic)",
       "source": {
@@ -63635,6 +66136,565 @@
         "observed_url": "https://github.com/topics/openmax-il?l=c%2B%2B",
         "observed_at": "2026-09-29"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-ORCHESTRATOR-001",
+      "name": "GitHub orchestrator topic",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/orchestrator",
+        "normalized_key": "github:topics/orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "orchestration",
+        "discovery"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Orchestrator",
+        "FA3 Application Fabric"
+      ],
+      "tags": [
+        "orchestration",
+        "discovery",
+        "topic_discovery",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/orchestrator?l=powershell&o=desc&s=updated",
+        "User-supplied discovery URL: https://github.com/topics/orchestrator",
+        "PowerShell-filtered discovery query, preserved alongside unfiltered topic URL. External candidates require independent review.",
+        "Unfiltered variant; canonical topic source shared with the PowerShell-filtered URL.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-RAW-CONVERTER-001",
+      "name": "GitHub topic: raw-converter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/raw-converter",
+        "normalized_key": "github:topics/raw-converter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/raw-converter",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-SCREEN-CAST-001",
+      "name": "GitHub topic: screen-cast",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/screen-cast",
+        "normalized_key": "github:topics/screen-cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/screen-cast",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-SQL-001",
+      "name": "GitHub topic: sql",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/sql",
+        "normalized_key": "github:topics/sql"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/sql",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-SQL-DATABASE-001",
+      "name": "GitHub topic: sql-database",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/sql-database",
+        "normalized_key": "github:topics/sql-database"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/sql-database?l=tsql&o=desc",
+        "User-supplied discovery URL: https://github.com/topics/sql-database",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-SQL-PROJECT-001",
+      "name": "GitHub topic: sql-project",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/sql-project",
+        "normalized_key": "github:topics/sql-project"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "database",
+        "sql",
+        "odbc"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Production Import & Migration Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "odbc",
+        "sql",
+        "database",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/sql-project",
+        "User-supplied discovery URL: https://github.com/topics/sql-project?o=desc&s=updated",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-VECTOR-001",
+      "name": "GitHub topic: vector",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/vector",
+        "normalized_key": "github:topics/vector"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/vector?l=c%2B%2B",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-VECTOR-GRAPHICS-001",
+      "name": "GitHub topic: vector-graphics",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/vector-graphics",
+        "normalized_key": "github:topics/vector-graphics"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/vector-graphics?o=asc&s=stars",
+        "User-supplied discovery URL: https://github.com/topics/vector-graphics?l=rust&o=asc&s=forks",
+        "User-supplied discovery URL: https://github.com/topics/vector-graphics?l=python&o=asc&s=forks",
+        "User-supplied discovery URL: https://github.com/topics/vector-graphics?l=html&o=asc&s=stars",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-VECTOR-IMAGES-001",
+      "name": "GitHub topic: vector-images",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/vector-images",
+        "normalized_key": "github:topics/vector-images"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "vector-graphics",
+        "graphic-editor",
+        "format-interchange"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Vector Graphics Fabric",
+        "Photo / Image Studio",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vector-graphics",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/vector-images",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPICS-VIDEO-REPAIR-001",
+      "name": "GitHub topic: video-repair",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/video-repair",
+        "normalized_key": "github:topics/video-repair"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-odbc-sql-vector-media-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "multimedia",
+        "media-conversion",
+        "video-audio"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Video Editor",
+        "FA3 Audio Fabric",
+        "FA3 Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media",
+        "codec",
+        "conversion",
+        "reference-only",
+        "topic_discovery"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/topics/video-repair",
+        "Reference-only candidate. Upstream repository identity and license/provenance require independent review before any source reuse. No runtime/current-host or implementation admission."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-TORCHGEO-001",
@@ -66566,6 +69626,63 @@
       ],
       "notes": [
         "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-WANGLAB-BROAD-CAST-001",
+      "name": "wanglab-broad/CAST (spatial transcriptome alignment)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wanglab-broad/CAST",
+        "normalized_key": "github:wanglab-broad/cast"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-donor-cast-chromecast-orchestrator-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "spatial-transcriptomics",
+        "alignment",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3 Research / Knowledge Fabric",
+        "FA3 Data Fabric"
+      ],
+      "tags": [
+        "spatial-transcriptomics",
+        "alignment",
+        "research",
+        "repository_reference",
+        "metadata-only",
+        "no-automatic-admission"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "User-supplied discovery URL: https://github.com/wanglab-broad/CAST",
+        "Python research package with CAST Mark, Stack and Projection. Documentation includes Conda/CUDA examples; FA3 must not import Conda/Mamba, hardware pins or mandatory cloud/vendor backends.",
+        "Metadata-only registration. Upstream identity checked for named repositories; exact license, source provenance, security, host coexistence, Hardware Audit and admission require separate review. No implementation or physical current-host PASS."
       ]
     },
     {
