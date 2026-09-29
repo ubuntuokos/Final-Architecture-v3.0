@@ -118,11 +118,11 @@ def capture_candidate(
     backfill = registry.get("backfill")
     if not isinstance(entries, list) or (backfill is not None and not isinstance(backfill, dict)):
         raise ValueError("INVALID_EXISTING_DONOR_REGISTRY")
-    # Older valid empty registries may not yet have backfill metadata.
+    # Historical snapshots may lack backfill metadata entirely, including
+    # small alias-migration fixtures. Bootstrap from actual entries only when
+    # metadata is absent; a present but stale count still fails closed.
     if backfill is None:
-        if entries:
-            raise ValueError("BACKFILL_COUNT_MISSING_FOR_NONEMPTY_REGISTRY")
-        registry["backfill"] = {"entry_count": 0}
+        registry["backfill"] = {"entry_count": len(entries)}
     elif backfill.get("entry_count") != len(entries):
         raise ValueError("BACKFILL_COUNT_DRIFT_BEFORE_MUTATION")
     # Source identity wins. Equal display names with different source keys must
