@@ -36,6 +36,19 @@ class Tests(unittest.TestCase):
             r=gate(root,"maintenance")
             self.assertEqual(r["result"],"MAINTENANCE_INTEGRITY_PASS")
             self.assertFalse(r["planning_allowed"])
+    def test_maintenance_exempt_from_application_preflights_and_live_pr_scan(self):
+        t,root,_=fixture()
+        with t:
+            def forbidden_live_scan(_):
+                self.fail("maintenance must not require application preflight or live PR scan")
+            x=gate(root,"maintenance",get=forbidden_live_scan,
+                   assessment=None,plan=None,approval=None,pr_number=None)
+            self.assertEqual(x["result"],"MAINTENANCE_INTEGRITY_PASS")
+            self.assertEqual(x["pending_prs"],None)
+            self.assertFalse(x["planning_allowed"])
+            self.assertFalse(x["execution_allowed"])
+            self.assertFalse(x["finalization_allowed"])
+
     def test_no_live_proof_fails_closed(self):
         t,root,p=fixture()
         with t:self.assertEqual(gate(root,"status")["result"],"BLOCKED")
