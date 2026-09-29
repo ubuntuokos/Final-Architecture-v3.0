@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "93ca63f0fe4f1177d4a8b7eb3c5b037ae3e08406",
-    "pre_projection_root_tree_sha": "31c17e97d450337f8f2933fd9082082346545c27",
-    "pre_projection_canonical_tree_sha": "0908c6a64625f5ef423fe953067646e2ba1df62e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2188,
-    "total_post_baseline_commits": 2188,
+    "pre_projection_head_sha": "6e0a5b2d7e64f9d13b8e8778f19f821f2938cff1",
+    "pre_projection_root_tree_sha": "ee3224ef5d3456d18b5d9282541a5c732600943f",
+    "pre_projection_canonical_tree_sha": "fbb8a368be825fe9c85e3c3889f9ed5789d475a4",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2199,
+    "total_post_baseline_commits": 2199,
     "delta_file_count": 2593,
     "delta_added_files": 2587,
     "delta_modified_files": 6,
@@ -1206,7 +1206,7 @@
     },
     {
       "path": ".github/workflows/fa3-donor-serialization.yml",
-      "git_blob_sha": "1cf6f2da938dc84346e35a5099e9741c680a11ba",
+      "git_blob_sha": "aacbd73efbf52bd6164b64ebd8bd24cb9967494c",
       "baseline_delta_status": "added"
     },
     {
@@ -4911,7 +4911,7 @@
     },
     {
       "path": "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "246c3abc0c7172123a169ee3ebfedad4fedec9e7",
+      "git_blob_sha": "39ac928d8a9cae42e4f92711afea5da5f7b1ebf1",
       "baseline_delta_status": "added"
     },
     {
@@ -5366,7 +5366,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json",
-      "git_blob_sha": "6e83a8cdce7ed03d7a3cef715291f951fc1a9cd3",
+      "git_blob_sha": "7f3041f4ae43bd004b6ae01f3838db8f6eb0b73a",
       "baseline_delta_status": "added"
     },
     {
@@ -6041,7 +6041,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "de9d2eef35118041c7c14b0c86e800f7936bc86b",
+      "git_blob_sha": "d6029413022104f100844dc77016a0956d68abf3",
       "baseline_delta_status": "modified"
     },
     {
@@ -7041,7 +7041,7 @@
     },
     {
       "path": "canonical/profiles/FA3-REUSE-DISCOVERY-001.json",
-      "git_blob_sha": "1c4ad8f475a99a3323b4a11842d00d23e8f8a886",
+      "git_blob_sha": "45aee5ec9d875525af353889c4edaef679294681",
       "baseline_delta_status": "added"
     },
     {
@@ -8326,7 +8326,7 @@
     },
     {
       "path": "canonical/reuse-discovery-enforcement.json",
-      "git_blob_sha": "135a77f9f8b025232969f815179d1663767882f5",
+      "git_blob_sha": "3fdddaa88886363847bbf2a0f46d90012f942f78",
       "baseline_delta_status": "added"
     },
     {
@@ -10591,7 +10591,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "c8d0c6640ad8a7451a43c62fd8cb51d4e7c988fd",
+      "git_blob_sha": "24a52282ce6f7bce0e485ba755443189150aaf88",
       "baseline_delta_status": "added"
     },
     {
@@ -12091,7 +12091,7 @@
     },
     {
       "path": "src/fa3_reuse_gate.py",
-      "git_blob_sha": "4cec333688a176785393b04eb28eace6b43276ce",
+      "git_blob_sha": "621df4d7288969c84f51d4870bb5ea77618ce653",
       "baseline_delta_status": "added"
     },
     {
@@ -13616,7 +13616,7 @@
     },
     {
       "path": "tests/test_reuse_discovery_gate.py",
-      "git_blob_sha": "33b92dfaf39374576e2b52c24727217c49214392",
+      "git_blob_sha": "d5e5d2e269e86e9e9e9195c16334ea0d5a80d6f8",
       "baseline_delta_status": "added"
     },
     {
@@ -15645,8 +15645,11 @@
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
     "donor_registry_entry_count": 1172,
-    "donor_capture_default_status": "CANDIDATE",
-    "donor_potential_signal_capture_required": true,
+    "donor_capture_default_status": "NO_CAPTURE_ANALYSIS_ONLY",
+    "donor_owner_marked_capture_status": "ACCEPTED_REFERENCE",
+    "donor_owner_marker_required": "donornak",
+    "donor_potential_signal_capture_required": false,
+    "donor_capture_effective_policy_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
     "donor_future_application_matching": true,
     "donor_registry_authority": false,
