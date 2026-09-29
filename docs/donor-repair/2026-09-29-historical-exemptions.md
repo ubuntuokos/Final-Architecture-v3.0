@@ -1,0 +1,5 @@
+# Donor maintenance: prospective-only extraction and historical exceptions
+
+Owner decision (2026-09-29): no retrospective extraction is required solely to enlarge the donor registry. Historical PRs #24, #31, #52, #70, #71, #125, #180, #181, #245, #252, #392, #427, #434, and #438 were closed without merging and are exempt from historical donor extraction. This is not a deletion of existing donor records, a retroactive donor admission, or an exemption for new donor-maintenance work.
+
+The donor-readiness scanner excludes only those numbered PRs at their recorded historical head SHAs. Reopened PRs with new commits, new donor references, registry additions, removals and synchronization remain subject to the normal fail-closed checks. Donor maintenance is not blocked by application planning, implementation, or promotion gates. Planning, execution, and finalization remain separately gated until the current donor registry is integral and actual pending donor maintenance is resolved. Capability baseline remains 175.
