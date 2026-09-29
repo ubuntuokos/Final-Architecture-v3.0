@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 592,
+    "entry_count": 597,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -10369,6 +10369,127 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-LIGHT-NOVELS-TOPIC-001",
+      "name": "GitHub light-novels topic (dynamic discovery index)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/light-novels",
+        "normalized_key": "github:topics/light-novels"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-donors-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "illustrated-chapter-format-discovery",
+        "offline-reading-and-publication-workflow-discovery"
+      ],
+      "domain_hints": [
+        "illustrated-fiction",
+        "ebook",
+        "chapter-publishing"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "FA3-native-integration"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Book/Screenplay Conversion",
+        "Photo/Image Studio"
+      ],
+      "tags": [
+        "light-novels",
+        "topic-index",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Topic combines readers, downloaders and publishing tools; only independently reviewed editing, illustration metadata and legitimate offline export patterns may be considered.",
+        "No copyrighted text collection or distribution assumptions; no automatic adoption of reader or scraper runtimes."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-NOVEL-GENERATION-TOPIC-001",
+      "name": "GitHub novel-generation topic (dynamic discovery index)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/novel-generation",
+        "normalized_key": "github:topics/novel-generation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-donors-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "guided-narrative-generation-discovery",
+        "chapter-planning",
+        "revision-and-continuity-patterns"
+      ],
+      "domain_hints": [
+        "novel-writing",
+        "creative-ai",
+        "story-planning"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "FA3-native-integration"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Prompt Generator",
+        "Creative Studio"
+      ],
+      "tags": [
+        "novel-generation",
+        "topic-index",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic collection; no blanket model, provider, agent, dependency or repository admission. FA3 Model Router remains sole model authority, and human-controlled story branching must be preserved."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-GITHUB-VISUAL-EDITING-TOPIC-001",
       "name": "GitHub visual-editing topic",
       "source": {
@@ -10425,6 +10546,66 @@
       "notes": [
         "Dynamic index; about 36 repositories observed on 2026-09-29. All require individual audit."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-WEBNOVEL-TOPIC-001",
+      "name": "GitHub webnovel topic (dynamic discovery index)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/webnovel",
+        "normalized_key": "github:topics/webnovel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-donors-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "long-form-web-fiction-discovery",
+        "chapter-continuity-and-serial-publishing-references"
+      ],
+      "domain_hints": [
+        "novel-writing",
+        "serial-fiction",
+        "publishing"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "FA3-native-integration"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Book/Screenplay Conversion"
+      ],
+      "tags": [
+        "webnovel",
+        "topic-index",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic GitHub topic, not a single project. Candidate repositories need individual normalized identities and independent provenance, license, security, coexistence and admission review.",
+        "Prioritize continuity and chapter/episode linking patterns; do not inherit automatic online scraping, cloud-only providers or unlicensed text-corpus use."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-GL-COLOUR-GRADING-001",
@@ -25144,6 +25325,72 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-OPENSUSE-GITHUB-ORG-001",
+      "name": "openSUSE GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/openSUSE",
+        "normalized_key": "github:opensuse"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-donors-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Linux-packaging-reference-discovery",
+        "host-audit-reference-discovery",
+        "reproducible-package-build-reference-discovery"
+      ],
+      "domain_hints": [
+        "linux",
+        "packaging",
+        "host-discovery",
+        "system-integration"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "FA3-native-integration"
+      ],
+      "target_hints": [
+        "FA3 Installer",
+        "Application Fabric",
+        "Hardware Audit",
+        "Software Coexistence & Host Non-Interference",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "opensuse",
+        "linux",
+        "packaging",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Organization index only; no blanket addition or admission of its repositories. Individually evaluate openSUSE/snapper, openSUSE/open-build-service, openSUSE/libsolv, openSUSE/zypper and openSUSE/hwinfo for selective reference patterns if needed.",
+        "Any installer/package integration must preserve distribution-generic Linux, CPU-only host baseline, Hardware Safety Envelope and Software Coexistence gates. Never make openSUSE the required host distribution."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-OPENTOONZ-001",
       "name": "OpenToonz",
       "source": {
@@ -33207,6 +33454,71 @@
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-STEVEN-TEY-NOVEL-001",
+      "name": "steven-tey/novel (Notion-style WYSIWYG editor)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/steven-tey/novel",
+        "normalized_key": "github:steven-tey/novel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-github-donors-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "UI_WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "structured-rich-text-authoring",
+        "contextual-AI-autocompletion",
+        "editor-command-and-block-workflow"
+      ],
+      "domain_hints": [
+        "creative-writing",
+        "rich-text",
+        "human-in-the-loop-authoring"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "FA3-native-integration"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Book/Screenplay Conversion"
+      ],
+      "tags": [
+        "novel",
+        "wysiwyg",
+        "tiptap",
+        "Apache-2.0",
+        "react-reference-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Repository README and LICENSE checked 2026-09-29. Novel is React/Tiptap/Next.js-based, with OpenAI/Vercel in the demonstrated application; select portable editing UX and explicit AI suggestion patterns only.",
+        "No React/Next.js, Vercel, cloud account, provider, API key or vendor SDK becomes an FA3 dependency. Adapt any desired pattern into existing FA3-native Qt6 Story/Screenplay UI, with existing Model Router, Secret Broker and human approval.",
+        "Apache-2.0 is upstream top-level declaration, not full transitive license clearance. No code copying before per-file/license, dependencies, provenance, security, coexistence and distribution review."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
