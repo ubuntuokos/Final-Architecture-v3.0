@@ -115,9 +115,15 @@ def capture_candidate(
     key = _normalized_key(source_kind, source_locator)
     today = seen_date or dt.date.today().isoformat()
     entries = registry.get("entries")
-    if not isinstance(entries, list) or not isinstance(registry.get("backfill"), dict):
+    backfill = registry.get("backfill")
+    if not isinstance(entries, list) or (backfill is not None and not isinstance(backfill, dict)):
         raise ValueError("INVALID_EXISTING_DONOR_REGISTRY")
-    if registry["backfill"].get("entry_count") != len(entries):
+    # Older valid empty registries may not yet have backfill metadata.
+    if backfill is None:
+        if entries:
+            raise ValueError("BACKFILL_COUNT_MISSING_FOR_NONEMPTY_REGISTRY")
+        registry["backfill"] = {"entry_count": 0}
+    elif backfill.get("entry_count") != len(entries):
         raise ValueError("BACKFILL_COUNT_DRIFT_BEFORE_MUTATION")
     # Source identity wins. Equal display names with different source keys must
     # not silently merge unrelated GitHub repositories or research projects.
