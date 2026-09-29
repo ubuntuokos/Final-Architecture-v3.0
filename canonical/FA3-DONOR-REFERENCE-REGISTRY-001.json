@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 659,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place. S4 research 2026-09-29: two official Meta upstream repository references added as source-unique non-authoritative candidates; custom SAM license and gated weights remain research-only. S4 selective-import QC research 2026-09-29 added 3 source-unique audio QC/relink candidates, all CANDIDATE; earlier counts remain historical snapshots."
+    "entry_count": 667,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place. S4 research 2026-09-29: two official Meta upstream repository references added as source-unique non-authoritative candidates; custom SAM license and gated weights remain research-only. S4 selective-import QC research 2026-09-29 added 3 source-unique audio QC/relink candidates, all CANDIDATE; earlier counts remain historical snapshots. 2026-09-29 additional targeted production-import GitHub research: 8 new normalized-source-key-unique, metadata-only candidates: archival video QC, archived BBC vs maintained EBU MXF, historical waveform UI, ADM rendering and profile toolbox, isolated NMOS tests and VMAF; no runtime admission or capability/authority changes."
   },
   "entries": [
     {
@@ -28803,6 +28803,512 @@
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_SOURCE_AND_LICENSE_RESOLUTION",
       "notes": [
         "Prior FA3 conversation identified Prism ML as a possible donor; exact upstream identity must be resolved before reuse."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-AMWA-TV-NMOS-TESTING-001",
+      "name": "AMWA NMOS isolated-lab conformance reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AMWA-TV/nmos-testing",
+        "normalized_key": "github:amwa-tv/nmos-testing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/AMWA-TV/nmos-testing",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "nmos-is04-discovery-tests",
+        "nmos-is05-connection-tests",
+        "nmos-is09-isolated-validation"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Live Studio",
+        "Broadcast Fabric"
+      ],
+      "tags": [
+        "nmos-is04-discovery-tests",
+        "nmos-is05-connection-tests",
+        "nmos-is09-isolated-validation"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference-only test patterns. Upstream README warns some IS-04/IS-09 tests emit mock mDNS; run only on isolated lab segments with explicit admission, never on a production LAN.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-BAVC-QCTOOLS-001",
+      "name": "BAVC QCTools preservation video QC",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bavc/qctools",
+        "normalized_key": "github:bavc/qctools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/bavc/qctools",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "video-preservation-qc",
+        "anomaly-review",
+        "ffprobe-xml-reports"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Video Fabric",
+        "Media QC"
+      ],
+      "tags": [
+        "video-preservation-qc",
+        "anomaly-review",
+        "ffprobe-xml-reports"
+      ],
+      "license": {
+        "declared": "GPL-3.0 deliverable / BSD-3-Clause GUI and FFmpeg filter (README)",
+        "status": "UPSTREAM_README_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference only: inspect pre-ingest anomalies. Mixed component licenses require independent source and transitive review; no mandatory GUI or duplicate QC authority.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-BBC-AUDIOWAVEFORM-001",
+      "name": "BBC audiowaveform historical peak visualization reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bbc/audiowaveform",
+        "normalized_key": "github:bbc/audiowaveform"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/bbc/audiowaveform",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "waveform-peak-pyramid",
+        "audio-range-gui",
+        "audio-peaks-data"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Audio Fabric",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "waveform-peak-pyramid",
+        "audio-range-gui",
+        "audio-peaks-data"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Historical GitHub mirror; README states ongoing development moved to https://codeberg.org/chrisn/audiowaveform. Downmixed peaks are UI derivatives only, never original multichannel audio. GPL distribution review required.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-BBC-BMX-001",
+      "name": "BBC bmx historical archived MXF reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bbc/bmx",
+        "normalized_key": "github:bbc/bmx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/bbc/bmx",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "mxf-essence-extraction",
+        "mxf-transwrap",
+        "broadcast-timecode"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Video Fabric",
+        "Live Studio"
+      ],
+      "tags": [
+        "mxf-essence-extraction",
+        "mxf-transwrap",
+        "broadcast-timecode"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Archived historical source, not preferred execution fork. README directs ongoing work to https://github.com/ebu/bmx. Keep separate upstream provenance for version-specific comparison.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-EBU-BMX-001",
+      "name": "EBU maintained bmx MXF reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ebu/bmx",
+        "normalized_key": "github:ebu/bmx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/ebu/bmx",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "mxf-essence-extraction",
+        "mxf-transwrap",
+        "broadcast-asset-preservation"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Video Fabric",
+        "Live Studio"
+      ],
+      "tags": [
+        "mxf-essence-extraction",
+        "mxf-transwrap",
+        "broadcast-asset-preservation"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Current EBU fork is preferred reference over archived BBC origin; profile-specific MXF input/output, audio/channel mapping and timecode still need fixture and current-host checks.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-EBU-EBU-ADM-RENDERER-001",
+      "name": "EBU ADM Renderer / EAR spatial audio reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ebu/ebu_adm_renderer",
+        "normalized_key": "github:ebu/ebu_adm_renderer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/ebu/ebu_adm_renderer",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "adm-object-audio",
+        "itu-bs2127-rendering",
+        "spatial-audio-mapping"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Audio Fabric",
+        "Live Studio"
+      ],
+      "tags": [
+        "adm-object-audio",
+        "itu-bs2127-rendering",
+        "spatial-audio-mapping"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause-Clear",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Python implementation for ADM render interpretation. ITU-R BS.2127 takes precedence over historical EBU Tech 3388; a rendered mix does not recreate an editable object-based source.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-EBU-EBU-ADM-TOOLBOX-001",
+      "name": "EBU ADM Toolbox profile validation/conversion reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ebu/ebu-adm-toolbox",
+        "normalized_key": "github:ebu/ebu-adm-toolbox"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/ebu/ebu-adm-toolbox",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "adm-profile-conversion",
+        "adm-validation",
+        "adm-loudness",
+        "object-audio-fixups"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Audio Fabric",
+        "Live Studio"
+      ],
+      "tags": [
+        "adm-profile-conversion",
+        "adm-validation",
+        "adm-loudness",
+        "object-audio-fixups"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Current EBU C++20 toolbox contains configurable processing graphs; adopt only admitted profile-specific patterns under existing Audio/Conversion/QC owners, preserving original ADM and detailed loss records.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-IMPORT-EXTRA-NETFLIX-VMAF-001",
+      "name": "Netflix VMAF perceptual picture quality reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Netflix/vmaf",
+        "normalized_key": "github:netflix/vmaf"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/Netflix/vmaf",
+        "FA3 Production Import additional GitHub upstream research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "vmaf-libvmaf",
+        "reference-video-qc",
+        "transcode-perceptual-quality"
+      ],
+      "domain_hints": [
+        "production-import",
+        "creative-interchange"
+      ],
+      "problem_hints": [
+        "source-preservation",
+        "selective-output-quality",
+        "version-scoped-cross-application-import"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Video Fabric",
+        "Media QC"
+      ],
+      "tags": [
+        "vmaf-libvmaf",
+        "reference-video-qc",
+        "transcode-perceptual-quality"
+      ],
+      "license": {
+        "declared": "BSD+Patent (upstream README declaration; GitHub metadata NOASSERTION)",
+        "status": "UPSTREAM_README_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Extend already present FA3 FFmpeg/libvmaf QC instead of deploying a second quality engine; VMAF is not archival fixity, timecode, color/HDR or timeline semantic equivalence.",
+        "Metadata-only CANDIDATE. No code copying, worker installation, provider admission, model selection, port allocation, physical PASS or new architectural authority."
       ]
     },
     {
