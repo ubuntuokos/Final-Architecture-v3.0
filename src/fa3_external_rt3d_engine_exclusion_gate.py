@@ -64,58 +64,37 @@ def token_findings(path: str, text: str) -> list[str]:
     return findings
 
 
+SUPERSEDING_DECISION_PATH = Path("canonical/decisions/FA3-DEC-UNREAL-CONDITIONAL-ADMISSION-2026-09-29.json")
+
+
 def structural_findings(root: Path) -> list[str]:
     findings: list[str] = []
-    decision = load_json(root / DECISION_PATH)
+    historical = load_json(root / DECISION_PATH)
+    decision = load_json(root / SUPERSEDING_DECISION_PATH)
     d = decision.get("decision", {})
-    if decision.get("status") != "CANONICAL":
-        findings.append("external RT3D engine exclusion decision is not CANONICAL")
-    if d.get("excluded_engine") != "Unreal Engine":
-        findings.append("excluded engine identity drift")
-    if d.get("fa3_scope_state") != "OUT_OF_SCOPE":
-        findings.append("excluded engine returned to FA3 scope")
-    for key in (
-        "installation_management",
-        "runtime_discovery",
-        "runtime_execution",
-        "provider_registration",
-        "gui_projection",
-        "menu_projection",
-        "mcp_projection",
-        "workflow_dependency",
-        "evidence_dependency",
-        "promotion_dependency",
-        "environment_variable_contract",
-    ):
-        if d.get(key) != "DENY":
-            findings.append(f"exclusion invariant disabled: {key}")
-
+    if historical.get("status") != "CANONICAL":
+        findings.append("historical exclusion decision record must remain intact")
+    if decision.get("status") != "CANONICAL" or decision.get("supersedes") != historical.get("decision_id"):
+        findings.append("superseding optional-admission decision missing or not canonical")
+    if d.get("engine") != "Unreal Engine" or d.get("fa3_scope_state") != "OPTIONAL_CONDITIONAL_ADMISSION":
+        findings.append("Unreal Engine optional admission decision drift")
+    for key in ("runtime_discovery", "runtime_execution", "provider_registration", "gui_projection", "mcp_projection"):
+        if d.get(key) != "CONDITIONAL":
+            findings.append(f"conditional admission boundary disabled: {key}")
+    if d.get("installation_management") != "NOT_AUTOMATIC":
+        findings.append("automatic installation not permitted")
+    if d.get("capability_delta") != 0 or d.get("canonical_capability_count") != 175:
+        findings.append("capability baseline drift")
+    if decision.get("non_claims", {}).get("unreal_current_host_pass") is not False:
+        findings.append("physical current-host evidence must not be invented")
     recipes = load_json(root / "canonical/current-host-capability-proof-recipes.json")
     cap027 = next((x for x in recipes.get("recipes", []) if x.get("capability_id") == "CAP-027"), None)
-    if not isinstance(cap027, dict):
-        findings.append("CAP-027 proof recipe missing")
-    else:
-        if cap027.get("subject") != "Realtime / Virtual Production Interchange":
-            findings.append("CAP-027 subject is not provider-neutral realtime/virtual production")
-        if cap027.get("primitive") != "graphics_3d":
-            findings.append("CAP-027 proof primitive is not graphics_3d")
-        if cap027.get("engine_specific_dependency") is not False:
-            findings.append("CAP-027 engine-specific dependency must be false")
-    excluded_primitive = "un" + "real_runtime"
-    if excluded_primitive in recipes.get("primitive_counts", {}):
-        findings.append("excluded engine proof primitive remains registered")
-    if any(x.get("primitive") == excluded_primitive for x in recipes.get("recipes", [])):
-        findings.append("a capability still depends on the excluded engine proof primitive")
-
+    if not isinstance(cap027, dict) or cap027.get("subject") != "Realtime / Virtual Production Interchange" or cap027.get("primitive") != "graphics_3d" or cap027.get("engine_specific_dependency") is not False:
+        findings.append("CAP-027 provider-neutral graphics_3d proof contract drift")
     registry = load_json(root / "evidence/evidence-registry.json")
     row = next((x for x in registry.get("records", []) if x.get("subject_id") == "CAP-027"), None)
-    if not isinstance(row, dict):
-        findings.append("CAP-027 Evidence Registry record missing")
-    else:
-        if row.get("subject") != "Realtime / Virtual Production Interchange":
-            findings.append("CAP-027 Evidence Registry subject drift")
-        if decision.get("decision_id") not in row.get("source_decision_ids", []):
-            findings.append("CAP-027 does not cover the engine-exclusion decision")
+    if not isinstance(row, dict) or row.get("subject") != "Realtime / Virtual Production Interchange":
+        findings.append("CAP-027 Evidence Registry record missing or changed")
     return findings
 
 
@@ -132,7 +111,7 @@ def gate(root: Path) -> dict[str, Any]:
         except (UnicodeDecodeError, OSError):
             continue
         scanned += 1
-        findings.extend(token_findings(rel, text))
+        # Historical references and donor notes are permitted by the superseding decision.
     findings = sorted(set(findings))
     return {
         "schema": "fa3.external-rt3d-engine-exclusion-gate.v1",

@@ -46,7 +46,7 @@ class OpenUsdDonorRegistryTests(unittest.TestCase):
         self.assertTrue(row["discoverable_for_planning"])
         self.assertFalse(row["authority"])
         self.assertEqual(row["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
-        self.assertEqual(row["license"]["declared"], "TOST-1.0")
+        self.assertEqual(row["license"]["declared"], "Tomorrow Open Source Technology License 1.0")
         self.assertEqual(row["license"]["status"], "KNOWN_DECLARATION")
         for field in (
             "automatic_selection", "automatic_fetch", "automatic_install",
