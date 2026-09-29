@@ -272,9 +272,11 @@ class ReuseDiscoveryTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text(json.dumps({"id":"FA3-DONOR-REFERENCE-REGISTRY-001", "entries":[]}), encoding="utf-8")
             first = capture_candidate(root, name="Example", source_kind="GITHUB",
-                source_locator="https://github.com/alice/example", seen_date="2026-09-28")
+                source_locator="https://github.com/alice/example", seen_date="2026-09-28",
+                explicit_donor_marker=True, owner_submitted_link=True)
             second = capture_candidate(root, name="Example", source_kind="GITHUB",
-                source_locator="https://github.com/bob/example", seen_date="2026-09-28")
+                source_locator="https://github.com/bob/example", seen_date="2026-09-28",
+                explicit_donor_marker=True, owner_submitted_link=True)
             repeat = capture_candidate(root, name="Example", source_kind="GITHUB",
                 source_locator="https://github.com/alice/example", seen_date="2026-09-28")
             self.assertTrue(first["created"])
@@ -284,12 +286,12 @@ class ReuseDiscoveryTests(unittest.TestCase):
 
     def test_conversation_mention_extracts_only_source_metadata(self):
         from fa3_donor_registry import parse_donor_mention
-        name, kind, url = parse_donor_mention("Ez donornak alkalmas lehet: https://github.com/example/source")
+        name, kind, url = parse_donor_mention("Donornak: https://github.com/example/source")
         self.assertEqual((name,kind,url), ("example/source","GITHUB","https://github.com/example/source"))
         with self.assertRaises(ValueError):
             parse_donor_mention("Look at https://github.com/example/source")
         with self.assertRaises(ValueError):
-            parse_donor_mention("donor https://github.com/a/one https://github.com/b/two")
+            parse_donor_mention("donornak: https://github.com/a/one https://github.com/b/two")
 
 
 if __name__ == "__main__":
