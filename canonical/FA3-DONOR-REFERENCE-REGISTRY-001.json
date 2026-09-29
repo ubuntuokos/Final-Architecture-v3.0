@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 613,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged."
+    "entry_count": 624,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged."
   },
   "entries": [
     {
@@ -27473,6 +27473,707 @@
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_SOURCE_AND_LICENSE_RESOLUTION",
       "notes": [
         "Prior FA3 conversation identified Prism ML as a possible donor; exact upstream identity must be resolved before reuse."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-BROWSERMT-BERGAMOT-TRANSLATOR-001",
+      "name": "Bergamot local C++ and browser MT",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/browsermt/bergamot-translator",
+        "normalized_key": "github:browsermt/bergamot-translator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/browsermt/bergamot-translator"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "offline-translation"
+      ],
+      "domain_hints": [
+        "language",
+        "translation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Text language variants",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "offline-mt",
+        "consumer-device"
+      ],
+      "license": {
+        "declared": "MPL-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Local/on-device translation, streamed segments and package-loader pattern; reference only pending separate MPL/dependency and model review.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-DEEZER-SPLEETER-001",
+      "name": "Spleeter stem separation compatibility",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/deezer/spleeter",
+        "normalized_key": "github:deezer/spleeter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/deezer/spleeter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Historical two/four/five musical stem schemas and per-stem confidence comparisons; compatibility/reference only, no auto TensorFlow install.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-FACEBOOKRESEARCH-SEAMLESS-COMMUNICATION-001",
+      "name": "Seamless speech-text translation research",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/seamless_communication",
+        "normalized_key": "github:facebookresearch/seamless_communication"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/facebookresearch/seamless_communication"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "noncommercial-reference",
+        "speech-translation"
+      ],
+      "license": {
+        "declared": "CC-BY-NC-4.0",
+        "status": "UPSTREAM_LICENSE_FILE_NONCOMMERCIAL"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "OFFICIAL_UPSTREAM_LICENSE_FILE"
+      },
+      "notes": [
+        "Noncommercial upstream reference only: licensing is incompatible with default commercial/runtime dependency; no source copy or weights admission.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-LAION-AI-CLAP-001",
+      "name": "CLAP text/audio semantic retrieval reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LAION-AI/CLAP",
+        "normalized_key": "github:laion-ai/clap"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/LAION-AI/CLAP"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "CC0-1.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Audio-text embedding and operator-directed target event preview for ambience/SFX selection; not evidence of separation fidelity, model licenses independent.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-MARIAN-NMT-MARIAN-001",
+      "name": "Marian offline neural translation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/marian-nmt/marian",
+        "normalized_key": "github:marian-nmt/marian"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/marian-nmt/marian"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "offline-translation"
+      ],
+      "domain_hints": [
+        "language",
+        "translation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Text language variants",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "offline-mt",
+        "cpu-decoder"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_LICENSE_FILE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "OFFICIAL_UPSTREAM_LICENSE_FILE"
+      },
+      "notes": [
+        "Offline C++ NMT CPU inference reference; upstream has been quiet since 2023; use existing Language Fabric rather than another router.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-QIUQIANGKONG-AUDIOSET-TAGGING-CNN-001",
+      "name": "AudioSet tagging CNN acoustic event classification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/qiuqiangkong/audioset_tagging_cnn",
+        "normalized_key": "github:qiuqiangkong/audioset_tagging_cnn"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/qiuqiangkong/audioset_tagging_cnn"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Acoustic event candidate labels (speech/music/ambience); event detection is not reliable source isolation, weights/dataset rights separate.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-RIKOROSE-DEEPFILTERNET-001",
+      "name": "DeepFilterNet speech enhancement",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Rikorose/DeepFilterNet",
+        "normalized_key": "github:rikorose/deepfilternet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/Rikorose/DeepFilterNet"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "Apache-2.0 OR MIT",
+        "status": "UPSTREAM_LICENSE_FILE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "OFFICIAL_UPSTREAM_LICENSE_FILE"
+      },
+      "notes": [
+        "CPU-capable denoise reference, not an ambience/SFX extractor; rust/Python backend and all trained weights separately validated.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-SIGSEP-OPEN-UNMIX-PYTORCH-001",
+      "name": "Open-Unmix PyTorch musical stem research",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sigsep/open-unmix-pytorch",
+        "normalized_key": "github:sigsep/open-unmix-pytorch"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/sigsep/open-unmix-pytorch"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Independent music/vocal stem-estimation reference and QA fixtures; model assets/licensing separately assessed.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-SONIC-VISUALISER-SONIC-VISUALISER-001",
+      "name": "Sonic Visualiser QA annotation patterns",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sonic-visualiser/sonic-visualiser",
+        "normalized_key": "github:sonic-visualiser/sonic-visualiser"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/sonic-visualiser/sonic-visualiser"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "operator-audio-qc"
+      ],
+      "domain_hints": [
+        "audio",
+        "operator-qc",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "GPL-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Operator waveform/spectrogram inspection, region annotation and artifact review UX; patterns only, no GPL runtime/source bundled.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-SPEECHBRAIN-SPEECHBRAIN-001",
+      "name": "SpeechBrain source separation and enhancement patterns",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/speechbrain/speechbrain",
+        "normalized_key": "github:speechbrain/speechbrain"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/speechbrain/speechbrain"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Speech separation/enhancement and reproducible recipes for overlap handling; large training dependency avoided by selective reference.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PROD-QUALITY-UNBABEL-COMET-001",
+      "name": "COMET machine translation quality assessment",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Unbabel/COMET",
+        "normalized_key": "github:unbabel/comet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "2026-09-29 follow-up selective production import research",
+        "https://github.com/Unbabel/COMET"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "QUALITY_REFERENCE"
+      ],
+      "capability_hints": [
+        "audio-quality-control"
+      ],
+      "domain_hints": [
+        "language",
+        "translation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "selective-import-quality",
+        "original-versus-derived-provenance"
+      ],
+      "target_hints": [
+        "Text language variants",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "audio",
+        "qc",
+        "selective-import"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Document-level translation evaluation and explainable error spans; no certified accuracy, model checkpoints separately licensed; optional evaluation only.",
+        "Non-authoritative registry candidate only; no source copy, mandatory runtime, model admission, silent fallback, automatic network download or current-host acceptance."
       ]
     },
     {
