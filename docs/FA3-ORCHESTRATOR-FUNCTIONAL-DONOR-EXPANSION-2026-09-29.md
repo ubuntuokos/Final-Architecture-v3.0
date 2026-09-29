@@ -1,5 +1,8 @@
 # FA3 Orchestrator — selective functional donor expansion and implementation plan
 
+> **ARCHIVAL F1–F10 plan.** The current, exact published-registry 1216-source F1–F18 design and current PR/status reconciliation are in [FA3-ORCHESTRATOR-1216-DONOR-EXPANSION-2026-09-30.md](FA3-ORCHESTRATOR-1216-DONOR-EXPANSION-2026-09-30.md). Historic counts and #459/#392/#427 claims below describe the 2026-09-29 research snapshot; they MUST NOT be used as current-state evidence. This file remains the detailed F1–F10 design reference.
+
+
 **Date:** 2026-09-29<br>
 **Status:** IMPLEMENTATION PLAN / DONOR METADATA CAPTURE; runtime adoption and physical current-host qualification NOT CLAIMED.<br>
 **Starting point:** Donor Registry consolidation PR #459 (550 unique entries before this branch); this branch adds exactly two new source-unique candidates, `dagger/dagger` and `skypilot-org/skypilot`, for **552** entries on the stack. This is **not** the merged main registry count.<br>

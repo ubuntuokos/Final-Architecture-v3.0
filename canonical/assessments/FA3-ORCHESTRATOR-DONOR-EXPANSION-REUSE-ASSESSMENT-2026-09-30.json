@@ -1,0 +1,297 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-ORCHESTRATOR-DONOR-EXPANSION-REUSE-ASSESSMENT-2026-09-30",
+  "project_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "intent_id": "FA3-ORCHESTRATOR-DONOR-EXPANSION-APPLICATION-INTENT-2026-09-30",
+  "intent_path": "canonical/intents/FA3-ORCHESTRATOR-DONOR-EXPANSION-APPLICATION-INTENT-2026-09-30.json",
+  "covered_ids": [
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "CAP-004",
+    "CAP-007",
+    "CAP-028",
+    "CAP-070",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "result": "PASS",
+  "assessment_scope": "MANUAL_EXACT_PUBLISHED_MAIN_DESIGN_SOURCE_MATCH_ONLY_NOT_EXECUTED_REUSE_GATE",
+  "assessment_provenance": {
+    "type": "SOURCE_BOUND_MANUAL_DESIGN_REVIEW",
+    "source_main_sha": "653b1d0ba10fe8f584e66d0e3b7c054f8ec3ef71",
+    "donor_registry_blob_sha": "56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+    "published_count": 1216,
+    "unique_keys_verified": 1216,
+    "review_date": "2026-09-30",
+    "donor_serialization_ci_on_source_main": "SUCCESS",
+    "application_donor_inventory_ci_on_source_main": "SUCCESS",
+    "release_projection_ci_on_source_main": "SUCCESS",
+    "reuse_discovery_executable_receipt": "PENDING_SEPARATE_EXACT_HEAD_CI",
+    "physical_current_host": "NOT_CLAIMED"
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "use": "EXISTING_NON_AUTHORIZING_DIRECTOR_AND_ELIGIBILITY"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_TASK_LOCAL_RUNNER_AND_RUNTIME_BUDGETS"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_TYPED_EFFECT_BOUNDARY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "CANONICAL_SOURCE_BOUND_DONOR_DISCOVERY"
+    },
+    {
+      "id": "FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001",
+      "use": "EXISTING_SCOPED_HUMAN_ASSISTANCE_BROWSER_CONTRACTS"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "EXISTING_PHASE_ELIGIBILITY_AND_EXACT_BYTE_SNAPSHOT"
+    },
+    {
+      "id": "FA3-REPRODUCIBILITY-FABRIC-001",
+      "use": "EXISTING_TEST_ENTRYPOINT_AND_SOURCE_SNAPSHOT_DISCIPLINE"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "id": "FA3-DONOR-PYDANTIC-PYDANTIC-AI-001",
+      "role": "F11_TYPED_DEFERRED_TO_EXISTING_UAF_AND_TEMPORAL",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-CUE-001",
+      "role": "F11_CONSTRAINT_VALIDATION_REFERENCE_ONLY",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-AGENTSWARMS-001",
+      "role": "F12_VERSIONED_VISUAL_DRAFT",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-SKYPILOT-ORG-SKYPILOT-001",
+      "role": "F12_EXISTING_HRB_APPROVED_HOST_ALTERNATIVES",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-PIXAR-CHOOK-001",
+      "role": "F13_SIGNED_EVENT_TRIGGER_REFERENCE",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-DAGGER-DAGGER-001",
+      "role": "F13_DEPENDENCY_INPUT_CHANGE_INVALIDATION",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-GARRYTAN-GSTACK-001",
+      "role": "F13_FINGERPRINT_APPROVAL_FREEZE",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-VECTORIZE-IO-HINDSIGHT-001",
+      "role": "F14_SOURCE_BOUNDED_RECALL",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-CYTOSTACK-OPENWOLF-001",
+      "role": "F14_CONTEXT_HANDOFF_NO_AGPL_SOURCE_COPY",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-LLM-COUNCIL-001",
+      "role": "F15_BLIND_INDEPENDENT_ADVISORY",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "role": "F15_BOUNDED_NO_AUTHORITY_DECISION_ADVICE",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-BROWSER-USE-BROWSER-USE-PI-001",
+      "role": "F16_EXISTING_BROWSER_SESSION_CONSENT",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-MOVIEAGENT-001",
+      "role": "F17_PRODUCTION_SHOT_CREW_HANDOFF",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-ZENSTORY-AI-DRAMA-SKILLS-001",
+      "role": "F17_SCENE_CONTINUITY_LOCK",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-PRODIMPORT-ACADEMYSOFTWAREFOUNDATION-OPENCUE-001",
+      "role": "F17_RENDER_JOB_REFERENCE_ONLY",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-JOHNVOUROS-SKILLMAXXING-001",
+      "role": "F18_PHASE_BOUND_SKILL_TESTS",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-NVIDIA-SKILLSPECTOR-001",
+      "role": "F18_SKILL_SECURITY_SCAN",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-MICROSOFT-MCP-GATEWAY-001",
+      "role": "F18_EXISTING_CENTRAL_MCP_ROUTE",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-MCP-SPEC-001",
+      "role": "F18_MCP_PROTOCOL_REFERENCE_ONLY",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    },
+    {
+      "id": "FA3-DONOR-MCP-INSPECTOR-001",
+      "role": "F18_NEGATIVE_PROTOCOL_CI_FIXTURES",
+      "source": "PUBLISHED_REGISTRY_56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+      "status": "NON_AUTHORITATIVE_PATTERN_ONLY",
+      "automatic_install": false,
+      "automatic_activation": false
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "UPSTREAM_PARALLEL_ORCHESTRATOR",
+      "reason": "TEMPORAL_AND_DIRECTOR_ALREADY_OWN_THOSE_SCOPES"
+    },
+    {
+      "id": "UPSTREAM_RUNTIME_PROVIDER_AUTO_ADMISSION",
+      "reason": "CANDIDATE_OR_ACCEPTED_REFERENCE_IS_NOT_RUNTIME_ADMISSION"
+    },
+    {
+      "id": "PARALLEL_EVENT_MCP_MEMORY_OR_EVIDENCE_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_ARE_EXCLUSIVE"
+    },
+    {
+      "id": "DIRECT_AGPL_UNKNOWN_TOST_CODE_IMPORT",
+      "reason": "SEPARATE_EXPLICIT_OWNER_LICENSE_AND_TRANSITIVE_REVIEW_REQUIRED"
+    },
+    {
+      "id": "AUTOMATIC_PAID_CLOUD_OR_REMOTE_RENDER_CAPACITY",
+      "reason": "OWNER_AND_HRB_ONLY_EXPLICIT_ADMISSION"
+    }
+  ],
+  "existing_authority_bindings": {
+    "durable_lifecycle": "EXISTING_TEMPORAL_ONLY",
+    "planning": "FA3-ORCHESTRATION-DIRECTOR-001_NON_AUTHORIZING",
+    "unified_actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "knowledge": "EXISTING_FA3_KNOWLEDGE_MEMORY_FABRIC_ONLY",
+    "browser": "FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001"
+  },
+  "gaps": [
+    "OBJECTIVE_COORDINATION_392_CLOSED_UNMERGED",
+    "AGENT_COLLABORATION_427_CLOSED_UNMERGED",
+    "GOAL_INDEPENDENT_CANONICAL_GATE_BINDING_PENDING",
+    "RUNTIME_SKILL_511_CURRENT_HOST_PENDING",
+    "RETROACTIVE_COEXISTENCE_410_PENDING",
+    "FULL_TWO_DISTINCT_HOST_CAP070_E2E_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "display_gpu_auto_recruitment": false,
+    "unsafe_hardware_tuning": false,
+    "current_host_proof": "PENDING"
+  },
+  "coexistence": {
+    "required": true,
+    "retroactive_enforcement_status": "PENDING_PR_410",
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "host_hardware_mutation": false,
+    "default_port_hijack": false,
+    "new_daemon_or_namespace_claim": false,
+    "plan_only": true
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "no_code_import": true,
+  "no_runtime_admission": true,
+  "capability_count_after": 175,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "approval_required_before_implementation": true,
+  "owner_approved_final_plan_receipt": "PENDING",
+  "source_plan": "docs/FA3-ORCHESTRATOR-1216-DONOR-EXPANSION-2026-09-30.md"
+}

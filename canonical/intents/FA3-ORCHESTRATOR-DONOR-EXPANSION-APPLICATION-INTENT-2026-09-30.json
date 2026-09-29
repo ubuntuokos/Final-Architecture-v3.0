@@ -1,0 +1,116 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-ORCHESTRATOR-DONOR-EXPANSION-APPLICATION-INTENT-2026-09-30",
+  "project_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "project_type": "EXISTING_PROFILE_DESIGN_EXTENSION_NO_RUNTIME_ADMISSION",
+  "goal": "Update the published FA3 Orchestration Workforce plan using only the exact-main 1216-entry donor registry, preserving all existing authorities and explicit human design/release approvals.",
+  "required_capabilities": [
+    "CAP-004",
+    "CAP-007",
+    "CAP-028",
+    "CAP-070"
+  ],
+  "optional_capabilities": [
+    "CAP-019",
+    "CAP-029",
+    "CAP-084",
+    "CAP-085",
+    "CAP-086"
+  ],
+  "problem_classes": [
+    "typed-deferred-approval",
+    "versioned-what-if-workflow",
+    "signed-change-trigger",
+    "project-knowledge-provenance",
+    "independent-review",
+    "approved-browser-session",
+    "production-shot-render-handoff",
+    "phase-aware-skills",
+    "mcp-compatibility",
+    "multi-host-fail-closed"
+  ],
+  "task_classes": [
+    "DESIGN_ONLY",
+    "EXACT_PUBLISHED_DONOR_REUSE_ASSESSMENT",
+    "NON_AUTHORITATIVE_CROSS_APPLICATION_PROJECTIONS",
+    "PHYSICAL_CURRENT_HOST_ADMISSION_PENDING"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_175_BASELINE",
+    "PUBLISHED_MAIN_1216_DONOR_REGISTRY",
+    "VERSIONED_PROJECT_GOALS",
+    "EXISTING_ORCHESTRATION_AND_APPLICATION_CONTRACTS"
+  ],
+  "output_modalities": [
+    "VERSIONED_DESIGN_PLAN_F1_F18",
+    "SOURCE_BOUND_REUSE_ASSESSMENT",
+    "GATED_IMPLEMENTATION_SEQUENCE",
+    "NEGATIVE_TEST_MATRIX_T01_T30"
+  ],
+  "execution_classes": [
+    "NO_RUNTIME_ACTIONS_FROM_DESIGN",
+    "CPU_ONLY_PORTABLE_WITH_OPTIONAL_EXPLICITLY_ADMITTED_ACCELERATORS"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "OBJECTIVE_COORDINATION_392_CLOSED_UNMERGED",
+    "AGENT_COLLABORATION_427_CLOSED_UNMERGED",
+    "GOAL_INDEPENDENT_CANONICAL_GATE_BINDING_PENDING",
+    "RUNTIME_SKILL_511_CURRENT_HOST_PENDING",
+    "RETROACTIVE_COEXISTENCE_410_PENDING",
+    "FULL_TWO_DISTINCT_HOST_CAP070_E2E_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "display_gpu_auto_extra_use": false,
+    "hardware_mutation": false,
+    "runtime_host_observation_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-orchestration",
+    "service_prefix": "fa3.orchestration",
+    "config_root": "$XDG_CONFIG_HOME/fa3/orchestration",
+    "cache_root": "$XDG_CACHE_HOME/fa3/orchestration",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/orchestration",
+    "socket_namespace": "fa3/orchestration",
+    "data_root": "$XDG_DATA_HOME/fa3/orchestration",
+    "desktop_prefix": "org.fa3.orchestration",
+    "existing_namespace_reference_only": true,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001",
+    "FA3-SKILL-FABRIC-001"
+  ],
+  "source_snapshot": {
+    "published_main_sha": "653b1d0ba10fe8f584e66d0e3b7c054f8ec3ef71",
+    "donor_registry_blob_sha": "56d0d69096f1b4b8a504d3c838bc2feb88c95a5e",
+    "registry_entry_count": 1216,
+    "registry_unique_normalized_keys": 1216,
+    "checked_at": "2026-09-30",
+    "pending_donor_prs_excluded": true
+  },
+  "source_plan": "docs/FA3-ORCHESTRATOR-1216-DONOR-EXPANSION-2026-09-30.md",
+  "runtime_promotion_claim": false,
+  "capability_count": 175
+}
