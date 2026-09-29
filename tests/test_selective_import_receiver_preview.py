@@ -154,6 +154,26 @@ class ReceiverHandoffTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             receiver_handoff_preview(p, inv, [ch])
 
+    def test_mismatched_selector_publication_intent_is_rejected(self):
+        p = s5_one("VIDEO_WITHOUT_AUDIO", "Video Editor")
+        leaf = p["deliverables"][0]
+        inv, choice = claim(leaf), place(leaf)
+        changed = copy.deepcopy(p)
+        changed["deliverables"][0]["requested_publication"] = {
+            "text": False, "audio": True, "video": True,
+        }
+        with self.assertRaises(ValueError):
+            receiver_handoff_preview(changed, inv, [choice])
+        p = s5_one("TRANSCRIPT_ONLY", "Subtitle Studio")
+        leaf = p["deliverables"][0]
+        changed = copy.deepcopy(p)
+        changed["deliverables"][0]["requested_publication"] = {
+            "text": False, "audio": True, "video": False,
+        }
+        with self.assertRaises(ValueError):
+            receiver_handoff_preview(changed, claim(leaf, "text/vtt"),
+                                     [place(leaf, "text/vtt")])
+
     def test_multilingual_and_media_have_independent_target_hosts(self):
         q = request(outputs=[
             output(selector="VIDEO_WITHOUT_AUDIO", target="Video Editor"),
