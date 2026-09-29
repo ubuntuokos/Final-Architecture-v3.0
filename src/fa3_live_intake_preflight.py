@@ -61,6 +61,8 @@ def preflight(request: dict[str, Any]) -> dict[str, Any]:
     source = request.get("source_mode")
     protocol = request.get("source_protocol")
     mode = request.get("delivery_mode")
+    if not all(isinstance(v, str) for v in (source, protocol, mode)):
+        raise LiveIntakePreflightError("source mode, protocol and delivery mode must be strings")
     if source not in PROTOCOLS or protocol not in PROTOCOLS[source]:
         raise LiveIntakePreflightError("source protocol not admitted for selected live source")
     if mode not in MODES:
