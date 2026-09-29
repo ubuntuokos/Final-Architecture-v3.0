@@ -278,7 +278,8 @@ class ReuseDiscoveryTests(unittest.TestCase):
                 source_locator="https://github.com/bob/example", seen_date="2026-09-28",
                 explicit_donor_marker=True, owner_submitted_link=True)
             repeat = capture_candidate(root, name="Example", source_kind="GITHUB",
-                source_locator="https://github.com/alice/example", seen_date="2026-09-28")
+                source_locator="https://github.com/alice/example", seen_date="2026-09-28",
+                explicit_donor_marker=True, owner_submitted_link=True)
             self.assertTrue(first["created"])
             self.assertTrue(second["created"])
             self.assertFalse(repeat["created"])
