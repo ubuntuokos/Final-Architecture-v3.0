@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 592,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
+    "entry_count": 613,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged."
   },
   "entries": [
     {
@@ -28169,6 +28169,7 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "FA3 selective multilingual production import research 2026-09-29",
         "https://github.com/FFmpeg/FFmpeg"
       ],
       "first_seen": "2026-09-29",
@@ -28191,13 +28192,19 @@
         "source-project-preservation"
       ],
       "target_hints": [
+        "Audio Fabric",
+        "FA3 File Conversion",
         "Production Import & Migration Fabric",
-        "Tools/Conversion",
-        "FA3 File Conversion"
+        "Subtitle Studio",
+        "Tools/Conversion"
       ],
       "tags": [
+        "audio-only",
         "converter",
+        "frame-extraction",
+        "picture-only",
         "prior-history-reconciliation",
+        "selective-import-demux",
         "specialized_media_converter_reference"
       ],
       "license": {
@@ -32582,6 +32589,1443 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-ADEFOSSEZ-DEMUCS-001",
+      "name": "Demucs original contributor implementation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/adefossez/demucs",
+        "normalized_key": "github:adefossez/demucs"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "demucs",
+        "four-stem",
+        "source-separation",
+        "existing-provider"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "demucs",
+        "four-stem",
+        "source-separation",
+        "existing-provider"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Existing Demucs optional provider source identity; current model four-stem is NOT speech-versus-singing or clean ambience isolation.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-ARGOSOPENTECH-ARGOS-TRANSLATE-001",
+      "name": "Argos Translate offline language translation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/argosopentech/argos-translate",
+        "normalized_key": "github:argosopentech/argos-translate"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "translation",
+        "offline",
+        "language-pairs",
+        "model-package"
+      ],
+      "domain_hints": [
+        "text",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Language Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "translation",
+        "offline",
+        "language-pairs",
+        "model-package"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Offline one/multi-language text derivatives; language-pair model package admission and quality tests are separate.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-ASTEROID-TEAM-ASTEROID-001",
+      "name": "Asteroid speech separation research toolkit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/asteroid-team/asteroid",
+        "normalized_key": "github:asteroid-team/asteroid"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speaker-separation",
+        "audio-research",
+        "pytorch"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speaker-separation",
+        "audio-research",
+        "pytorch"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Multi-speaker separation and training patterns; disentangling speaker count or speech from song needs task-specific models and QC.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-AUDIO-AGI-AUDIOSEP-001",
+      "name": "AudioSep language-guided sound separation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Audio-AGI/AudioSep",
+        "normalized_key": "github:audio-agi/audiosep"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "text-guided-audio",
+        "ambience",
+        "sfx",
+        "experimental"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Sound Design",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "text-guided-audio",
+        "ambience",
+        "sfx",
+        "experimental"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Research-only language-queried extraction of audible event categories; clean ambience/SFX from arbitrary mixes is NOT guaranteed; weights/datasets separate.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-BREAKTHROUGH-PYSCENEDETECT-001",
+      "name": "PySceneDetect scene boundaries and frame extraction",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/breakthrough/PySceneDetect",
+        "normalized_key": "github:breakthrough/pyscenedetect"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "scene-detection",
+        "shot-boundaries",
+        "frame-extraction"
+      ],
+      "domain_hints": [
+        "video",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Shot Designer",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "scene-detection",
+        "shot-boundaries",
+        "frame-extraction"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Offline scene cut detection and frame/scene extraction; never assert detector boundaries equal edit decision list/shot authority.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-FACEBOOKRESEARCH-DENOISER-001",
+      "name": "Facebook speech denoiser historical reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/denoiser",
+        "normalized_key": "github:facebookresearch/denoiser"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speech-enhancement",
+        "archived",
+        "reference-only"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speech-enhancement",
+        "archived",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": true,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Archived historic causal speech-enhancement baseline, design reference only; no auto-download or runtime dependency.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-FACEBOOKRESEARCH-SVOICE-001",
+      "name": "SVoice unknown-speaker-count separation research",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/svoice",
+        "normalized_key": "github:facebookresearch/svoice"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speaker-separation",
+        "archived",
+        "reference-only"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speaker-separation",
+        "archived",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": true,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Archived multi-talker separation research only; do not infer speech/solo singing or voice ownership; no new runtime dependency.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-GGML-ORG-WHISPER-CPP-001",
+      "name": "whisper.cpp portable local STT",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ggml-org/whisper.cpp",
+        "normalized_key": "github:ggml-org/whisper.cpp"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu",
+        "speech-to-text",
+        "ggml",
+        "offline"
+      ],
+      "domain_hints": [
+        "speech",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "cpu",
+        "speech-to-text",
+        "ggml",
+        "offline"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "CPU-capable GGML speech-to-text reference; route provider through existing Model Router/HRB, no silent fallback.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-LIBRETRANSLATE-LIBRETRANSLATE-001",
+      "name": "LibreTranslate API pattern and offline translation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LibreTranslate/LibreTranslate",
+        "normalized_key": "github:libretranslate/libretranslate"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "translation",
+        "local-api",
+        "agpl",
+        "reference-only"
+      ],
+      "domain_hints": [
+        "text",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "translation",
+        "local-api",
+        "agpl",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Optional self-hosted translation API reference only; no mandatory server, cloud upload or duplicate translation authority.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-M-BAIN-WHISPERX-001",
+      "name": "WhisperX timestamps and diarization",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/m-bain/whisperX",
+        "normalized_key": "github:m-bain/whisperx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "whisper",
+        "word-timecodes",
+        "diarization",
+        "alignment"
+      ],
+      "domain_hints": [
+        "speech",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Language Fabric",
+        "Story/Screenplay",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "whisper",
+        "word-timecodes",
+        "diarization",
+        "alignment"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Word-level alignment, VAD and diarization research; pyannote and alignment models separately gated, no automatic speaker identity.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-MICROSOFT-DNS-CHALLENGE-001",
+      "name": "Microsoft Deep Noise Suppression evaluation corpus",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/microsoft/DNS-Challenge",
+        "normalized_key": "github:microsoft/dns-challenge"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "denoising",
+        "benchmark",
+        "research-dataset",
+        "reference-only"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "denoising",
+        "benchmark",
+        "research-dataset",
+        "reference-only"
+      ],
+      "license": {
+        "declared": "CC-BY-4.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Reference-only DNS evaluation/training methodology; corpus/model/document component licenses and dataset consent independently assessed.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-NOMADKARAOKE-PYTHON-AUDIO-SEPARATOR-001",
+      "name": "Audio Separator multi-model stem separation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nomadkaraoke/python-audio-separator",
+        "normalized_key": "github:nomadkaraoke/python-audio-separator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "instrumental",
+        "vocals",
+        "mdx",
+        "roformer",
+        "stem-separation"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "instrumental",
+        "vocals",
+        "mdx",
+        "roformer",
+        "stem-separation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "MDX/VR/RoFormer audio stem adapter patterns for vocals/instrumental; downloaded pretrained weights each require license and safety admission.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-OPENAI-WHISPER-001",
+      "name": "Whisper original STT implementation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openai/whisper",
+        "normalized_key": "github:openai/whisper"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speech-to-text",
+        "multilingual",
+        "reference"
+      ],
+      "domain_hints": [
+        "speech",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speech-to-text",
+        "multilingual",
+        "reference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Compare native model support for transcription, multilingual and translation modes; output transcript may require separate Language Fabric for requested targets.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-OPENNMT-CTRANSLATE2-001",
+      "name": "CTranslate2 local Transformer inference runtime",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenNMT/CTranslate2",
+        "normalized_key": "github:opennmt/ctranslate2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cpu",
+        "translation-inference",
+        "speech-inference"
+      ],
+      "domain_hints": [
+        "text",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Model Router",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "cpu",
+        "translation-inference",
+        "speech-inference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Provider/adapter research for local CPU translation and speech; HRB and Model Router remain exclusive runtime authorities.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-OPENNMT-OPENNMT-PY-001",
+      "name": "OpenNMT-py multilingual translation reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenNMT/OpenNMT-py",
+        "normalized_key": "github:opennmt/opennmt-py"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "neural-translation",
+        "language-model",
+        "terminology"
+      ],
+      "domain_hints": [
+        "text",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Story/Screenplay",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "neural-translation",
+        "language-model",
+        "terminology"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Selective neural MT training/tokenization/terminology research; model and corpus licensing independently required.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-PYANNOTE-PYANNOTE-AUDIO-001",
+      "name": "pyannote-audio diarization building blocks",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pyannote/pyannote-audio",
+        "normalized_key": "github:pyannote/pyannote-audio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speaker-diarization",
+        "overlap",
+        "vad",
+        "model-gated"
+      ],
+      "domain_hints": [
+        "speech",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speaker-diarization",
+        "overlap",
+        "vad",
+        "model-gated"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Speech activity/overlap/speaker clustering patterns; model card and HF agreement/weight rights separately gated.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-SNAKERS4-SILERO-VAD-001",
+      "name": "Silero VAD speech activity detection",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/snakers4/silero-vad",
+        "normalized_key": "github:snakers4/silero-vad"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "vad",
+        "speech-segmentation",
+        "cpu"
+      ],
+      "domain_hints": [
+        "speech",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "vad",
+        "speech-segmentation",
+        "cpu"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "CPU-oriented speech segmentation reference before ASR; verify VAD misses and false positives on overlapping/noisy speech.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-SYSTRAN-FASTER-WHISPER-001",
+      "name": "faster-whisper CTranslate2 STT implementation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/SYSTRAN/faster-whisper",
+        "normalized_key": "github:systran/faster-whisper"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "speech-to-text",
+        "batching",
+        "local-inference"
+      ],
+      "domain_hints": [
+        "speech",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Language Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "speech-to-text",
+        "batching",
+        "local-inference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Local batched STT reference; no mandatory GPU and no independent STT authority; verify speed/accuracy on actual host.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-TKARABELA-PYSUBS2-001",
+      "name": "pysubs2 timed subtitle interchange",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/tkarabela/pysubs2",
+        "normalized_key": "github:tkarabela/pysubs2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "subtitle",
+        "srt",
+        "ass",
+        "webvtt",
+        "ttml"
+      ],
+      "domain_hints": [
+        "text",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Subtitle Studio",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "subtitle",
+        "srt",
+        "ass",
+        "webvtt",
+        "ttml"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "SRT/ASS/WebVTT/TTML import/export pattern; unsupported styling/timebase conversion must get explicit loss receipt.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-XIPH-RNNOISE-001",
+      "name": "RNNoise CPU speech denoising",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/xiph/rnnoise",
+        "normalized_key": "github:xiph/rnnoise"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "denoise",
+        "cpu",
+        "speech-enhancement",
+        "offline"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Subtitle Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "denoise",
+        "cpu",
+        "speech-enhancement",
+        "offline"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Offline-capable real-time speech denoising; upstream build auto-downloads model assets, forbidden unless pinned and separately admitted.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SELECTIVE-IMPORT-ZFTURBO-MUSIC-SOURCE-SEPARATION-TRAINING-001",
+      "name": "Music Source Separation Training recipes",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ZFTurbo/Music-Source-Separation-Training",
+        "normalized_key": "github:zfturbo/music-source-separation-training"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 selective multilingual production import research 2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "music-stems",
+        "training",
+        "model-selection"
+      ],
+      "domain_hints": [
+        "audio",
+        "selective-production-import"
+      ],
+      "problem_hints": [
+        "multi-derivative-fanout",
+        "source-original-preservation",
+        "quality-gated-import"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "music-stems",
+        "training",
+        "model-selection"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY; dependency/model rights not reviewed"
+      },
+      "notes": [
+        "Stem-ontology extensibility and training recipe reference; no automatic third-party checkpoint/model weight adoption.",
+        "Candidate only: no model checkpoint admission, auto-fetch, automatic provider installation, runtime activation, external content upload or current-host PASS."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-SHINESTACKER-001",
