@@ -371,11 +371,7 @@
         "properties": {
           "requested_outputs": {
             "contains": {
-              "enum": [
-                "ONE_TRANSLATION",
-                "MULTI_TRANSLATION",
-                "ORIGINAL_PLUS_TRANSLATIONS"
-              ]
+              "const": "ONE_TRANSLATION"
             }
           }
         }
@@ -424,6 +420,27 @@
         "properties": {
           "target_languages": {
             "minItems": 2
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requested_outputs": {
+            "contains": {
+              "const": "ORIGINAL_PLUS_TRANSLATIONS"
+            }
+          }
+        },
+        "required": [
+          "requested_outputs"
+        ]
+      },
+      "then": {
+        "properties": {
+          "target_languages": {
+            "minItems": 1
           }
         }
       }
