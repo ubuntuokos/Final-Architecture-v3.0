@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 649,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place."
+    "entry_count": 654,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place."
   },
   "entries": [
     {
@@ -6039,7 +6039,7 @@
         "github-blender-donor-2026-09-28"
       ],
       "first_seen": "2026-09-28",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -6081,14 +6081,15 @@
       ],
       "problem_hints": [],
       "target_hints": [
-        "Bforartists",
         "3D Fabric",
+        "Asset Graph",
+        "Bforartists",
         "Character Studio",
-        "VFX/Gaffer",
-        "World Generator",
         "Creative Studio",
         "FA3 Video Editor",
-        "Asset Graph"
+        "Production Import & Migration Fabric",
+        "VFX/Gaffer",
+        "World Generator"
       ],
       "tags": [
         "blender",
@@ -6104,7 +6105,8 @@
         "status": "KNOWN_DECLARATION"
       },
       "notes": [
-        "Official read-only GitHub mirror; authoritative development source is https://projects.blender.org/blender/blender . Blender as a whole GPL-3.0; files and bundled dependencies may have different compatible licenses. FA3 uses selective reference patterns; Bforartists remains primary DCC."
+        "Official read-only GitHub mirror; authoritative development source is https://projects.blender.org/blender/blender . Blender as a whole GPL-3.0; files and bundled dependencies may have different compatible licenses. FA3 uses selective reference patterns; Bforartists remains primary DCC.",
+        "2026 Blender GSoC VSE-OTIO import/export and metadata/roundtrip tests are research evidence only; verify exact Blender release/merge and external fixtures before interoperability admission. https://devtalk.blender.org/t/gsoc-2026-opentimelineio-support-in-vse/45205/16"
       ]
     },
     {
@@ -31294,6 +31296,146 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-PRODIMPORT-HKCHENGREX-AV-BENCHMARK-001",
+      "name": "av-benchmark audio/video quality evaluation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/hkchengrex/av-benchmark",
+        "normalized_key": "github:hkchengrex/av-benchmark"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production import selective research 2026-09-29",
+        "https://github.com/hkchengrex/av-benchmark"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "quality",
+        "audio-video-sync",
+        "desync",
+        "comparison"
+      ],
+      "domain_hints": [
+        "production-import",
+        "multimodal"
+      ],
+      "problem_hints": [
+        "semantic-content-selection",
+        "quality-and-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Video Editor",
+        "Quality Gates",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "quality",
+        "audio-video-sync",
+        "desync",
+        "comparison"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Reference evaluation for audio-text and audio-video generation metrics including DeSync. Metrics only with independently approved fixtures and data rights; cannot prove pure stems or perfect quality on unpaired user source.",
+        "Non-authoritative candidate. Never bundle unverified model weights, mandate accelerator, use remote API without consent, or claim current-host admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-KAHOZUE-TRADUKO-001",
+      "name": "traduko multimodal translation workflow reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Kahozue/traduko",
+        "normalized_key": "github:kahozue/traduko"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production import selective research 2026-09-29",
+        "https://github.com/Kahozue/traduko"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "multilingual",
+        "subtitle",
+        "manual-review",
+        "stage-resume"
+      ],
+      "domain_hints": [
+        "production-import",
+        "multimodal"
+      ],
+      "problem_hints": [
+        "semantic-content-selection",
+        "quality-and-provenance"
+      ],
+      "target_hints": [
+        "Language Fabric",
+        "Subtitle Studio",
+        "Story/Screenplay",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "multilingual",
+        "subtitle",
+        "manual-review",
+        "stage-resume"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Selective GUI/workflow reference for toggleable video/audio/document transcription/translation/proofreading stages, human approval and artifact-preserving resumes. Do not install upstream app, independent LLM provider API, server, cloud export or new translation/scheduler authority.",
+        "Non-authoritative candidate. Never bundle unverified model weights, mandate accelerator, use remote API without consent, or claim current-host admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PRODIMPORT-LIBRARYOFCONGRESS-BAGIT-PYTHON-001",
       "name": "Library of Congress BagIt Python",
       "source": {
@@ -31359,6 +31501,75 @@
       "notes": [
         "BagIt manifest and fixity packaging patterns for offline/LAN handoff; metadata reference only until license verified.",
         "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-LUCIDRAINS-BS-ROFORMER-001",
+      "name": "lucidrains Band-Split RoFormer architecture",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lucidrains/BS-RoFormer",
+        "normalized_key": "github:lucidrains/bs-roformer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production import selective research 2026-09-29",
+        "https://github.com/lucidrains/BS-RoFormer"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "research",
+        "music",
+        "stem-ontology",
+        "architecture"
+      ],
+      "domain_hints": [
+        "production-import",
+        "multimodal"
+      ],
+      "problem_hints": [
+        "semantic-content-selection",
+        "quality-and-provenance"
+      ],
+      "target_hints": [
+        "Audio Separation Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "research",
+        "music",
+        "stem-ontology",
+        "architecture"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Research architecture supports stereo and multistem models; weights and training corpus separate, no generic speech/singing/SFX isolation guarantee or admitted provider status.",
+        "Non-authoritative candidate. Never bundle unverified model weights, mandate accelerator, use remote API without consent, or claim current-host admission."
       ]
     },
     {
@@ -32318,6 +32529,76 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENMIRLAB-BS-ROFORMER-INFER-001",
+      "name": "openmirlab BS-RoFormer-Infer music stem reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/openmirlab/bs-roformer-infer",
+        "normalized_key": "github:openmirlab/bs-roformer-infer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production import selective research 2026-09-29",
+        "https://github.com/openmirlab/bs-roformer-infer"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "music",
+        "six-stem",
+        "instrumental",
+        "cpu-reference"
+      ],
+      "domain_hints": [
+        "production-import",
+        "multimodal"
+      ],
+      "problem_hints": [
+        "semantic-content-selection",
+        "quality-and-provenance"
+      ],
+      "target_hints": [
+        "Audio Separation Fabric",
+        "Music Studio",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "music",
+        "six-stem",
+        "instrumental",
+        "cpu-reference"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Inference-only 6-stem model registry (vocals/drums/bass/guitar/piano/other) with CPU option. Disable upstream automatic checkpoint downloads and ~/.cache defaults; only FA3 Model Manager pre-acquired approved weight hashes, existing Model Router+HRB task-specific route; upstream MIT source does not license checkpoints.",
+        "Non-authoritative candidate. Never bundle unverified model weights, mandate accelerator, use remote API without consent, or claim current-host admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-PRODIMPORT-OPENTIMELINEIO-OTIO-AAF-ADAPTER-001",
       "name": "OpenTimelineIO AAF adapter",
       "source": {
@@ -32582,6 +32863,78 @@
       "notes": [
         "GStreamer Editing Services XML timeline interchange with supported effects/transitions; verify read/write version matrix.",
         "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-SONY-MMAUDIOSEP-001",
+      "name": "Sony MMAudioSep audiovisual/text queried source separation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/sony/mmaudiosep",
+        "normalized_key": "github:sony/mmaudiosep"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production import selective research 2026-09-29",
+        "https://github.com/sony/mmaudiosep"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "video-queried",
+        "text-queried",
+        "ambience",
+        "sfx",
+        "research"
+      ],
+      "domain_hints": [
+        "production-import",
+        "multimodal"
+      ],
+      "problem_hints": [
+        "semantic-content-selection",
+        "quality-and-provenance"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Sound Design",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "video-queried",
+        "text-queried",
+        "ambience",
+        "sfx",
+        "research"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "ICASSP 2026 experimental video/text-conditioned sound separation. Upstream documentation says pretrained models not yet available, estimated 10GB GPU inference and optional conda setup (FA3 prohibits Conda/Mamba). No default runtime, CPU/current-host claims or automatic model fetch; independently audit dataset/weights and model-specific source-class purity.",
+        "Non-authoritative candidate. Never bundle unverified model weights, mandate accelerator, use remote API without consent, or claim current-host admission."
       ]
     },
     {
