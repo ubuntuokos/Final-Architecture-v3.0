@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 550,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority."
+    "entry_count": 577,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place."
   },
   "entries": [
     {
@@ -5478,10 +5478,11 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
         "historical-architecture-artifact-curation-2026-09-28"
       ],
       "first_seen": "2026-09-28",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "REFERENCE_IMPLEMENTATION"
       ],
@@ -5496,6 +5497,7 @@
       "problem_hints": [],
       "target_hints": [
         "Asset Graph",
+        "Production Import & Migration Fabric",
         "Production Studio"
       ],
       "tags": [
@@ -5519,7 +5521,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Conditional candidate; FA3 canonical Asset Registry remains source of truth."
+        "Conditional candidate; FA3 canonical Asset Registry remains source of truth.",
+        "Migration planning reference only; preserve existing source identity and governance."
       ],
       "selection_scope": {
         "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
@@ -5536,7 +5539,10 @@
         "source_group": "v2.0.20-capability",
         "source_reviewed_at": "2026-09-28",
         "notes": "Conditional candidate; FA3 canonical Asset Registry remains source of truth."
-      }
+      },
+      "upstream_repository_references": [
+        "https://github.com/ynput/ayon-core"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-BABL-001",
@@ -6712,6 +6718,7 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
         "capture-inbox-dependency-reconciliation-2026-09-29"
       ],
       "first_seen": "2026-09-29",
@@ -6731,6 +6738,7 @@
       "target_hints": [
         "Capture Core",
         "Photo / Image Studio",
+        "Production Import & Migration Fabric",
         "Story Studio"
       ],
       "tags": [
@@ -6754,7 +6762,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Pattern/reference only for C2PA provenance; do not introduce independent trust or signing authority."
+        "Pattern/reference only for C2PA provenance; do not introduce independent trust or signing authority.",
+        "Migration planning reference only; preserve existing source identity and governance."
       ]
     },
     {
@@ -24263,10 +24272,11 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
         "historical-architecture-artifact-curation-2026-09-28"
       ],
       "first_seen": "2026-09-28",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-09-29",
       "donor_modes": [
         "ARCHITECTURE_PATTERN"
       ],
@@ -24282,6 +24292,7 @@
       "target_hints": [
         "3D Fabric",
         "Asset Graph",
+        "Production Import & Migration Fabric",
         "Production Studio"
       ],
       "tags": [
@@ -24305,7 +24316,8 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "Reference interface, not replacement asset store."
+        "Reference interface, not replacement asset store.",
+        "Migration planning reference only; preserve existing source identity and governance."
       ],
       "selection_scope": {
         "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
@@ -24323,7 +24335,10 @@
         "source_group": "v2.0.20-capability",
         "source_reviewed_at": "2026-09-28",
         "notes": "Reference interface, not replacement asset store."
-      }
+      },
+      "upstream_repository_references": [
+        "https://github.com/OpenAssetIO/OpenAssetIO"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENCODE-001",
@@ -27505,6 +27520,1843 @@
       },
       "notes": [
         "Reference pattern only; no ReShade runtime or HLSL presets as production dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-ACADEMYSOFTWAREFOUNDATION-OPENCUE-001",
+      "name": "OpenCue render job migration reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/OpenCue",
+        "normalized_key": "github:academysoftwarefoundation/opencue"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/AcademySoftwareFoundation/OpenCue"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "render-job",
+        "queue",
+        "distributed-render"
+      ],
+      "domain_hints": [
+        "render",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "Workforce",
+        "Render Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "render-job",
+        "queue",
+        "distributed-render"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Selective render-job/task dependency metadata and resource-tag mapping only; existing Temporal and HRB remain sole FA3 authorities.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-ACADEMYSOFTWAREFOUNDATION-OPENTIMELINEIO-001",
+      "name": "OpenTimelineIO editorial interchange core",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/OpenTimelineIO",
+        "normalized_key": "github:academysoftwarefoundation/opentimelineio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/AcademySoftwareFoundation/OpenTimelineIO"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "otio",
+        "editorial",
+        "timecode",
+        "project-import"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "otio",
+        "editorial",
+        "timecode",
+        "project-import"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Read and write OTIO cut structures with timecode and media references; external formats are lossy, original project remains source authority.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-ACADEMYSOFTWAREFOUNDATION-XSTUDIO-001",
+      "name": "xSTUDIO review and conform reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AcademySoftwareFoundation/xstudio",
+        "normalized_key": "github:academysoftwarefoundation/xstudio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/AcademySoftwareFoundation/xstudio"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "review",
+        "playlists",
+        "conform"
+      ],
+      "domain_hints": [
+        "review",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "review",
+        "playlists",
+        "conform"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Reference for review playlists, media comparison, annotation and pipeline integration; avoid second FA3 review authority.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CASPARCG-SERVER-001",
+      "name": "CasparCG broadcast playout reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/CasparCG/server",
+        "normalized_key": "github:casparcg/server"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/CasparCG/server"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "broadcast",
+        "playout",
+        "rundown"
+      ],
+      "domain_hints": [
+        "broadcast",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Credits Composer",
+        "Live Studio",
+        "Broadcast",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "broadcast",
+        "playout",
+        "rundown"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Reference for scene/source and rundown migration; optional external connector only; no mandatory GPU or bundled GPL runtime.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CGWIRE-GAZU-001",
+      "name": "Gazu Python Kitsu API client",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cgwire/gazu",
+        "normalized_key": "github:cgwire/gazu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/cgwire/gazu"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "kitsu",
+        "gazu",
+        "api-client"
+      ],
+      "domain_hints": [
+        "production-tracking",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "kitsu",
+        "gazu",
+        "api-client"
+      ],
+      "license": {
+        "declared": "LGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Kitsu export pagination and API client reference; no implicit live sync, explicit user credential authorization required.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CGWIRE-KITSU-001",
+      "name": "Kitsu production management frontend",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cgwire/kitsu",
+        "normalized_key": "github:cgwire/kitsu"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/cgwire/kitsu"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "kitsu",
+        "review",
+        "production-tracking"
+      ],
+      "domain_hints": [
+        "production-tracking",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "Story/Screenplay",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "kitsu",
+        "review",
+        "production-tracking"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Import shot/asset/task/review metadata from explicit authorized export; reference-only patterns; AGPL distribution and service review.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-CGWIRE-ZOU-001",
+      "name": "Zou Kitsu production API",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/cgwire/zou",
+        "normalized_key": "github:cgwire/zou"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/cgwire/zou"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "kitsu",
+        "zou",
+        "api",
+        "production-tracking"
+      ],
+      "domain_hints": [
+        "production-tracking",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "Story/Screenplay",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "kitsu",
+        "zou",
+        "api",
+        "production-tracking"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Optional read-only source-side connector for Kitsu project entities; no Kitsu backend dependency in FA3.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-LIBRARYOFCONGRESS-BAGIT-PYTHON-001",
+      "name": "Library of Congress BagIt Python",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LibraryOfCongress/bagit-python",
+        "normalized_key": "github:libraryofcongress/bagit-python"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/LibraryOfCongress/bagit-python"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "bagit",
+        "manifest",
+        "fixity",
+        "migration"
+      ],
+      "domain_hints": [
+        "preservation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "bagit",
+        "manifest",
+        "fixity",
+        "migration"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "BagIt manifest and fixity packaging patterns for offline/LAN handoff; metadata reference only until license verified.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MARKREIDVFX-OTIO-AVB-ADAPTER-001",
+      "name": "OpenTimelineIO Avid Bin adapter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/markreidvfx/otio-avb-adapter",
+        "normalized_key": "github:markreidvfx/otio-avb-adapter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/markreidvfx/otio-avb-adapter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "avid",
+        "avb",
+        "otio",
+        "preview-only"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "avid",
+        "avb",
+        "otio",
+        "preview-only"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Read-only AVB-to-OTIO subset; PREVIEW_ONLY until independent same-format export exists per FA3 symmetric-codec rule.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MARKREIDVFX-PYAAF2-001",
+      "name": "pyaaf2 AAF object API",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/markreidvfx/pyaaf2",
+        "normalized_key": "github:markreidvfx/pyaaf2"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/markreidvfx/pyaaf2"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "aaf",
+        "python",
+        "asset-inspection"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "aaf",
+        "python",
+        "asset-inspection"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Pure-Python AAF object-level read/write and embedded-media inspection; adapter/version fixture and security gate required.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MARKREIDVFX-PYAVB-001",
+      "name": "pyavb Avid Bin structure library",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/markreidvfx/pyavb",
+        "normalized_key": "github:markreidvfx/pyavb"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/markreidvfx/pyavb"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "avid",
+        "avb",
+        "bin"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "avid",
+        "avb",
+        "bin"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Avid bin object read/write reference; native app interoperability must be independently verified.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MEDIAAREA-BWFMETAEDIT-001",
+      "name": "BWF MetaEdit broadcast audio metadata",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MediaArea/BWFMetaEdit",
+        "normalized_key": "github:mediaarea/bwfmetaedit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/MediaArea/BWFMetaEdit"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "bwf",
+        "wav",
+        "metadata",
+        "broadcast"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Broadcast",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "bwf",
+        "wav",
+        "metadata",
+        "broadcast"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "BWF bext/INFO metadata import-export, checksum and technical report reference; licensing requires source-level audit.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MEDIAAREA-MEDIACONCH-SOURCECODE-001",
+      "name": "MediaConch source conformance reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MediaArea/MediaConch_SourceCode",
+        "normalized_key": "github:mediaarea/mediaconch_sourcecode"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/MediaArea/MediaConch_SourceCode"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conformance",
+        "preservation",
+        "qc"
+      ],
+      "domain_hints": [
+        "media",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "conformance",
+        "preservation",
+        "qc"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Preservation-level Matroska/FFV1/LPCM policy and implementation check reference; separate licensing for bundled components.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MEDIAAREA-MEDIAINFOLIB-001",
+      "name": "MediaInfoLib technical media metadata",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MediaArea/MediaInfoLib",
+        "normalized_key": "github:mediaarea/mediainfolib"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/MediaArea/MediaInfoLib"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "media-probe",
+        "codec",
+        "metadata"
+      ],
+      "domain_hints": [
+        "media",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Audio Fabric",
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "media-probe",
+        "codec",
+        "metadata"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Read-only media stream inventory (codec, duration, channels, frame rate); validate at scale without transcoding.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-MEDIAAREA-RAWCOOKED-001",
+      "name": "RAWcooked reversible camera media preservation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MediaArea/RAWcooked",
+        "normalized_key": "github:mediaarea/rawcooked"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/MediaArea/RAWcooked"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "raw",
+        "dpx",
+        "ffv1",
+        "preservation"
+      ],
+      "domain_hints": [
+        "preservation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Photo/Image Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "raw",
+        "dpx",
+        "ffv1",
+        "preservation"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Optional DPX/RAW source preservation and reversible verification reference; exact byte-level reconstruction must be tested per format.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-NETFLIX-PHOTON-001",
+      "name": "Netflix Photon IMF validation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Netflix/photon",
+        "normalized_key": "github:netflix/photon"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/Netflix/photon"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "imf",
+        "mxf",
+        "delivery",
+        "validation"
+      ],
+      "domain_hints": [
+        "delivery",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Broadcast",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "imf",
+        "mxf",
+        "delivery",
+        "validation"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "IMF package structure and conformance checking for imported delivery assets; validator is not a full creative project importer.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OCFL-SPEC-001",
+      "name": "Oxford Common File Layout specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OCFL/spec",
+        "normalized_key": "github:ocfl/spec"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OCFL/spec"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "ocfl",
+        "versioning",
+        "preservation",
+        "standard"
+      ],
+      "domain_hints": [
+        "preservation",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "ocfl",
+        "versioning",
+        "preservation",
+        "standard"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "Versioned object inventory and immutable fixity preservation design reference; does not replace FA3 storage architecture.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENASSETIO-OPENASSETIO-MEDIACREATION-001",
+      "name": "OpenAssetIO MediaCreation traits",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenAssetIO/OpenAssetIO-MediaCreation",
+        "normalized_key": "github:openassetio/openassetio-mediacreation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenAssetIO/OpenAssetIO-MediaCreation"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "openassetio",
+        "trait",
+        "asset-version",
+        "beta"
+      ],
+      "domain_hints": [
+        "asset",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "VFX",
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "openassetio",
+        "trait",
+        "asset-version",
+        "beta"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Beta image/3D/version/proxy relationship trait patterns; retain FA3 canonical asset schema authority.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENASSETIO-USDOPENASSETIORESOLVER-001",
+      "name": "OpenUSD OpenAssetIO resolver prototype",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenAssetIO/usdOpenAssetIOResolver",
+        "normalized_key": "github:openassetio/usdopenassetioresolver"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenAssetIO/usdOpenAssetIOResolver"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "usd",
+        "openassetio",
+        "resolver",
+        "prototype"
+      ],
+      "domain_hints": [
+        "asset",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "usd",
+        "openassetio",
+        "resolver",
+        "prototype"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Proof-of-concept only for USD entity-reference relink while keeping path fallback; not production dependency.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENJOBDESCRIPTION-OPENJD-SPECIFICATIONS-001",
+      "name": "Open Job Description specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenJobDescription/openjd-specifications",
+        "normalized_key": "github:openjobdescription/openjd-specifications"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenJobDescription/openjd-specifications"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "batch-job",
+        "render-job",
+        "open-standard"
+      ],
+      "domain_hints": [
+        "render",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "Workforce",
+        "Render Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "batch-job",
+        "render-job",
+        "open-standard"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "Portable batch/render job description research; map to existing typed tasks; no new scheduler or job executor.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENTIMELINEIO-OTIO-AAF-ADAPTER-001",
+      "name": "OpenTimelineIO AAF adapter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenTimelineIO/otio-aaf-adapter",
+        "normalized_key": "github:opentimelineio/otio-aaf-adapter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenTimelineIO/otio-aaf-adapter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "aaf",
+        "roundtrip",
+        "editorial"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Audio Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "aaf",
+        "roundtrip",
+        "editorial"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "AAF bidirectional subset; no effects or speed write-back; require format-version fixture and loss receipt.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENTIMELINEIO-OTIO-FCP-ADAPTER-001",
+      "name": "OpenTimelineIO FCP7 XML adapter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenTimelineIO/otio-fcp-adapter",
+        "normalized_key": "github:opentimelineio/otio-fcp-adapter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenTimelineIO/otio-fcp-adapter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "fcp7xml",
+        "editorial",
+        "roundtrip"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "fcp7xml",
+        "editorial",
+        "roundtrip"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Read/write FCP7 XML editorial subset; preserve unknown metadata in immutable source and report unsupported effects.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENTIMELINEIO-OTIO-FCPX-XML-ADAPTER-001",
+      "name": "OpenTimelineIO FCPX XML adapter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenTimelineIO/otio-fcpx-xml-adapter",
+        "normalized_key": "github:opentimelineio/otio-fcpx-xml-adapter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenTimelineIO/otio-fcpx-xml-adapter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "fcpxml",
+        "editorial",
+        "roundtrip"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "fcpxml",
+        "editorial",
+        "roundtrip"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Bidirectional FCPX XML structural subset; no transition or effects fidelity; roundtrip gate mandatory.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-OPENTIMELINEIO-OTIO-XGES-ADAPTER-001",
+      "name": "OpenTimelineIO XGES adapter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/OpenTimelineIO/otio-xges-adapter",
+        "normalized_key": "github:opentimelineio/otio-xges-adapter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/OpenTimelineIO/otio-xges-adapter"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "xges",
+        "gstreamer",
+        "editorial"
+      ],
+      "domain_hints": [
+        "editorial",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Video Editor",
+        "QuickClip",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "xges",
+        "gstreamer",
+        "editorial"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "GStreamer Editing Services XML timeline interchange with supported effects/transitions; verify read/write version matrix.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-YNPUT-AYON-BACKEND-001",
+      "name": "AYON backend API",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ynput/ayon-backend",
+        "normalized_key": "github:ynput/ayon-backend"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/ynput/ayon-backend"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "ayon",
+        "api",
+        "production-tracking"
+      ],
+      "domain_hints": [
+        "pipeline",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "3D Fabric",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "ayon",
+        "api",
+        "production-tracking"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "notes": [
+        "Explicitly authorized read-only production entity and version export via AYON API; no new central FA3 database or secret storage.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-YNPUT-AYON-CORE-001",
+      "name": "AYON Core addon",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ynput/ayon-core",
+        "normalized_key": "github:ynput/ayon-core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/ynput/ayon-core"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "ayon",
+        "publishing",
+        "loader",
+        "pipeline"
+      ],
+      "domain_hints": [
+        "pipeline",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "Director",
+        "3D Fabric",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "ayon",
+        "publishing",
+        "loader",
+        "pipeline"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Selective launcher, publish and loader metadata, cross-DCC lineage; separate AYON umbrella donor exists.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODIMPORT-YNPUT-AYON-OPENASSETIO-MANAGER-PLUGIN-001",
+      "name": "AYON OpenAssetIO manager plugin",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ynput/ayon-openassetio-manager-plugin",
+        "normalized_key": "github:ynput/ayon-openassetio-manager-plugin"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 external production migration research 2026-09-29",
+        "https://github.com/ynput/ayon-openassetio-manager-plugin"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "openassetio",
+        "ayon",
+        "asset-identity"
+      ],
+      "domain_hints": [
+        "asset",
+        "production-import"
+      ],
+      "problem_hints": [
+        "source-project-preservation",
+        "cross-application-migration"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "VFX",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "openassetio",
+        "ayon",
+        "asset-identity"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Work-in-progress AYON-to-OpenAssetIO reference translation; credentials only through FA3 Secret Broker, not upstream env examples.",
+        "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
       ]
     },
     {
