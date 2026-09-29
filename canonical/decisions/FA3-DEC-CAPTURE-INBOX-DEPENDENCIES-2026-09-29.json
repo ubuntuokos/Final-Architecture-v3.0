@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CAPTURE-INBOX-DEPENDENCIES-2026-09-29",
+  "date": "2026-09-29",
+  "status": "CANONICAL_SCOPE_DECISION_PENDING_RUNTIME_ADMISSION",
+  "title": "Capture & Inbox reuse-only prerequisite and admission boundaries",
+  "decision": "REUSE_EXISTING_PRIVACY_JOURNAL_DURABLE_UAF_MCP_CAP150_CAP152_CAP175_AUTHORITIES_NO_PARALLEL_INFRASTRUCTURE",
+  "intent_id": "FA3-CAPTURE-INBOX-APPLICATION-INTENT-001",
+  "reuse_assessment_id": "FA3-CAPTURE-INBOX-REUSE-ASSESSMENT-001",
+  "contracts_id": "FA3-CAPTURE-INBOX-DEPENDENCY-CONTRACTS-001",
+  "scope": [
+    "CAPTURE_CORE",
+    "LOCAL_INBOX",
+    "MULTIMODAL_USER_INITIATED_CAPTURE",
+    "PROVENANCE",
+    "TYPED_APP_HANDOFF",
+    "EXPLICIT_LAN_SYNC"
+  ],
+  "capability_count_after": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "cloud_dependency": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_non_bypassable": true,
+    "display_gpu_auto_enlistment": false
+  },
+  "blocked_by": [
+    {
+      "pr": 410,
+      "dependency": "GLOBAL_COEXISTENCE_POLICY_AND_FOOTPRINT_SCHEMAS_ON_MAIN"
+    },
+    {
+      "pr": 459,
+      "dependency": "LOSSLESS_DONOR_REGISTRY_RECONCILIATION"
+    },
+    {
+      "pr": 520,
+      "dependency": "STORY_RECEIVER_ADMISSION_NOT_YET_MERGED"
+    },
+    "CAP150_CURRENT_HOST_TWO_DISTINCT_HOST_E2E",
+    "CAP152_CURRENT_HOST_HANDOFF_AND_AUTHORIZATION_E2E"
+  ],
+  "cross_pr_scope": "DO_NOT_MERGE_OVERWRITE_OR_AUTOPROMOTE_PENDING_PR_RECORDS",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
