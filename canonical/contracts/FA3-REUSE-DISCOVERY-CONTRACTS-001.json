@@ -178,8 +178,8 @@
         "REJECTED",
         "SUPERSEDED"
       ],
-      "default_capture_state": "CANDIDATE",
-      "potential_signal_capture_required": true,
+      "default_capture_state": "NO_CAPTURE_ANALYSIS_ONLY",
+      "potential_signal_capture_required": false,
       "rejected_and_superseded_retained_but_not_selected": true,
       "authority": false,
       "admission_authority": false,
@@ -188,7 +188,13 @@
       "provider_admission_authority": false,
       "model_selection_authority": false,
       "automatic_selection": false,
-      "automatic_activation": false
+      "automatic_activation": false,
+      "owner_marker_required": "donornak",
+      "owner_role_required": true,
+      "owner_marked_link_capture_state": "ACCEPTED_REFERENCE",
+      "unmarked_links_analysis_only": true,
+      "pending_donor_prs_excluded_from_planning": true,
+      "published_main_registry_only": true
     }
   },
   "invariants": [
