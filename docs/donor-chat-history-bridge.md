@@ -8,7 +8,7 @@ the existing Donor & Reference Registry, not a new capability or architectural a
 1. User-supplied ChatGPT exports (ZIP, `conversations.json`, numbered JSON). Only authenticated user-role messages containing a explicit `donornak` label (with or without `:`) BEFORE each link may create entries. Generic donor hints, research links and assistant messages are analysis only.
 2. Owner-authorized local JSONL events. A full-text event must have `{"text":"donornak: https://github.com/example/tool","speaker_role":"user","owner_submitted_link":true}`. A structured event must include `{"potential_donor":true,"name":"example/tool","source":"https://github.com/example/tool","speaker_role":"user","owner_submitted_link":true,"owner_donor_marker":"donornak"}`. A potential-donor flag alone does not enroll a link.
 
-This importer is NOT subscribed to ChatGPT and cannot automatically monitor conversations, request exports or fetch account data. It never publishes a registry commit. The existing GitHub intake gate must be used before publishing the resultant changes; only one conversation may perform intake while another has an active donor PR.
+This importer is NOT subscribed to ChatGPT and cannot automatically monitor conversations, request exports or fetch account data. It never publishes a registry commit. The existing GitHub intake gate must be used before publishing the resultant changes; only one conversation may perform actual canonical donor intake while another is changing the registry or a canonical donor-intake delta. Policy-only and reference-only PRs do not claim the intake slot.
 
 ## Local operator commands
 
