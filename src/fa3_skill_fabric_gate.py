@@ -165,6 +165,45 @@ def run_regressions() -> dict[str,Any]:
       not skill_use_allowed(_mut(u,lambda x:x["secret_intent"].update(via_secret_broker=False)))]
     cases=[{"case_id":f"SKF-{i:03d}","status":"PASS" if ok else "FAIL"} for i,ok in enumerate(checks,1)]
     return {"result":"PASS" if all(checks) else "FAIL","total":len(cases),"passed":sum(c["status"]=="PASS" for c in cases),"case_ids_exact":[c["case_id"] for c in cases]==[f"SKF-{i:03d}" for i in range(1,len(cases)+1)],"cases":cases}
+def native_snapshot_findings(root: Path) -> list[str]:
+    """Require actual native SKILL.md bytes to match canonical registry pins."""
+    from fa3_skill_materialization import snapshot_digests, SkillSnapshotDenied
+    findings = []
+    try:
+        registry = loadj(root / "canonical/skill-registry.json")
+    except (OSError, ValueError):
+        return ["canonical native skill registry unavailable"]
+    if registry.get("id") != "FA3-SKILL-REGISTRY-001" or not isinstance(registry.get("entries"), list):
+        return ["canonical native skill registry malformed"]
+    for row in registry["entries"]:
+        if not isinstance(row, dict):
+            findings.append("invalid native skill registry row")
+            continue
+        if row.get("distribution_class") != "FA3_NATIVE" or row.get("admission_status") != "ADMITTED":
+            continue
+        skill_id = str(row.get("skill_id", ""))
+        snapshot = row.get("snapshot", {})
+        path = row.get("entrypoint", "")
+        if (not isinstance(snapshot, dict)
+                or snapshot.get("source_path") != path
+                or snapshot.get("digest_scheme") != "fa3.skill-snapshot-manifest.v1"
+                or snapshot.get("asset_count") != 1
+                or not SHA40.fullmatch(str(snapshot.get("source_commit", "")))
+                or not SHA256.fullmatch(str(snapshot.get("content_sha256", "")))
+                or not SHA256.fullmatch(str(snapshot.get("manifest_sha256", "")))):
+            findings.append(f"native skill snapshot metadata missing: {skill_id}")
+            continue
+        try:
+            observed = snapshot_digests(root, [path])
+        except (OSError, SkillSnapshotDenied):
+            findings.append(f"native skill asset missing or unsafe: {skill_id}")
+            continue
+        if (observed["files"][0]["sha256"] != snapshot["content_sha256"]
+                or observed["manifest_sha256"] != snapshot["manifest_sha256"]):
+            findings.append(f"native skill content drift: {skill_id}")
+    return findings
+
+
 def canonical_check(root: Path) -> list[str]:
     findings=[];cap=load_active_release_baseline(root).capability_count;p=loadj(root/PROFILE);ct=loadj(root/CONTRACT);d=loadj(root/DISCOVERY_CONTRACT);m=loadj(root/MATERIALIZATION_CONTRACT)
     if not (p.get("id")=="FA3-SKILL-FABRIC-001" and p.get("provider_neutral") is True and p.get("capability_count")==cap and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append("skill fabric governance drift")
@@ -175,6 +214,7 @@ def canonical_check(root: Path) -> list[str]:
     if ct.get("review_governance",{}).get("skipped_review_may_pass") is not False: findings.append("skipped review could pass")
     if d.get("discovery_semantics",{}).get("remote_fetch") is not False: findings.append("discovery remote fetch enabled")
     if not m.get("invariants"): findings.append("materialization contract missing")
+    findings.extend(native_snapshot_findings(root))
     return findings
 def gate(root: Path) -> dict[str,Any]:
     root=Path(root).resolve();cap=load_active_release_baseline(root).capability_count;findings=canonical_check(root);regressions=run_regressions();ecosystem=skill_ecosystem_gate(root);v13=skill_fabric_v13_gate(root);v14=skill_fabric_v14_gate(root)
