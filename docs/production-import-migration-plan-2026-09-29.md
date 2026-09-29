@@ -1,7 +1,7 @@
 # FA3 Production Import & Migration Fabric — consolidated implementation plan
 
-Date: 2026-09-29  
-Status: PROPOSED PLAN + METADATA-ONLY DONOR CURATION; no project-import runtime or physical current-host PASS is claimed.  
+Date: 2026-09-29
+Status: PROPOSED PLAN + METADATA-ONLY DONOR CURATION; no project-import runtime or physical current-host PASS is claimed.
 Registry baseline: #459 exact head `270d445011fe7f3150335656f768f709462187a1`, 550 source-unique donors; this dependent branch adds **41** source-unique candidate records (27 production-migration + 11 converter-history + 3 historic music/media crosswalk sources), resulting in **591**. Merge/reconcile by normalized source key after #459 updates or merges; never overwrite concurrent donor histories. Capability baseline remains **175**; provider count is dynamic.
 
 ## Objective and product boundary
