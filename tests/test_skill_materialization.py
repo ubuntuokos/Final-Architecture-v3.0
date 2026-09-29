@@ -128,6 +128,18 @@ class MaterializationTests(unittest.TestCase):
         with self.assertRaises(SkillSnapshotDenied):
             snapshot_digests(self.root, ["skills/example/SKILL.md"] * 2)
 
+    def test_instance_bound_activation_denies_wrong_task(self):
+        now = datetime.now(timezone.utc)
+        lease = task_activation_lease(self.verified(), task_id="TASK-A", now=now)
+        self.assertEqual(lease["task_id"], "TASK-A")
+        verified_use_receipt(self.root, self.package, self.registry, self.admission,
+                             self.selection, lease, self.intent, task_id="TASK-A", now=now)
+        with self.assertRaises(SkillSnapshotDenied):
+            verified_use_receipt(self.root, self.package, self.registry, self.admission,
+                                 self.selection, lease, self.intent, task_id="TASK-B", now=now)
+        with self.assertRaises(SkillSnapshotDenied):
+            task_activation_lease(self.verified(), task_id="../other", now=now)
+
 
 if __name__ == "__main__":
     unittest.main()

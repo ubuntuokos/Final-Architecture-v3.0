@@ -54,6 +54,8 @@ class SkillTaskPreflight:
         if registry.get("id") != "FA3-SKILL-REGISTRY-001" or not isinstance(registry.get("entries"), list):
             raise SkillProjectionDenied("invalid canonical skill registry")
         for skill_id in required:
+            if self.bindings[skill_id].lease.get("task_id") != task.task_id:
+                raise SkillProjectionDenied("activation lease not bound to this task ID")
             matches = [row for row in registry["entries"] if isinstance(row, dict)
                        and row.get("skill_id") == skill_id]
             if len(matches) != 1 or matches[0] != self.bindings[skill_id].registry_entry:
@@ -97,11 +99,14 @@ class SkillTaskPreflight:
                 "manifest_sha256": receipt["snapshot_verification"]["manifest_sha256"],
                 "selection_receipt_ref": receipt["selection_receipt_ref"],
                 "admission_receipt_ref": receipt["admission_receipt_ref"],
+                "activation_lease_id": self.bindings[skill_id].lease["lease_id"],
+                "lease_expires_at": self.bindings[skill_id].lease["expires_at"],
+                "bound_task_id": self.bindings[skill_id].lease["task_id"],
             })
         return {
             "schema": "fa3.developer-task-skill-projection.v1",
             "task_id": task.task_id, "agent_id": task.agent_id,
             "task_scope": "developer", "languages": languages, "skills": skills,
-            "evidence_scope": "CI_REFERENCE_ONLY" if self.reference_only else "EXISTING_AUTHORITY_ADAPTER_VERIFIED",
+            "evidence_scope": "CI_REFERENCE_ONLY" if self.reference_only else "AUTHORITY_ADAPTER_REPORTED_NOT_CRYPTOGRAPHICALLY_VERIFIED",
             "grants_execution_authority": False, "remote_fetch": False,
         }

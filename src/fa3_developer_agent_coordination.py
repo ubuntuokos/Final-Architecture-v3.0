@@ -264,6 +264,7 @@ class Coordinator:
         self.processes: dict[str, subprocess.Popen[str]] = {}
         self.skill_context_files: dict[str, Path] = {}
         self.skill_context_digests: dict[str, str] = {}
+        self.used_skill_leases: set[str] = set()
 
     @staticmethod
     def git(repo: Path, *args: str, input_text: str | None = None) -> str:
@@ -385,6 +386,12 @@ class Coordinator:
                         or [row["skill_id"] for row in context.get("skills", [])]
                            != list(task.required_skill_ids)):
                     raise CoordinationDenied("verified skill projection does not match task")
+                lease_ids = [row.get("activation_lease_id") for row in context["skills"]]
+                if (not all(isinstance(value, str) and value.startswith("skill-lease:") for value in lease_ids)
+                        or len(lease_ids) != len(set(lease_ids))
+                        or any(value in self.used_skill_leases for value in lease_ids)):
+                    raise CoordinationDenied("duplicate or previously consumed skill activation lease")
+                self.used_skill_leases.update(lease_ids)
                 context_dir = self.control_root / "ephemeral-skill-context"
                 context_dir.mkdir(parents=True, exist_ok=True)
                 context_path = context_dir / f"{task.task_id}.json"
@@ -742,15 +749,30 @@ def worker_main(request_path: Path, result_path: Path) -> int:
                 or context.get("task_scope") != "developer"
                 or context.get("grants_execution_authority") is not False
                 or context.get("evidence_scope") not in
-                   ("CI_REFERENCE_ONLY", "EXISTING_AUTHORITY_ADAPTER_VERIFIED")):
+                   ("CI_REFERENCE_ONLY", "AUTHORITY_ADAPTER_REPORTED_NOT_CRYPTOGRAPHICALLY_VERIFIED")):
             raise CoordinationDenied("fixture worker received invalid skill context")
+        observed_leases: list[str] = []
         for row in context.get("skills", []):
+            if row.get("bound_task_id") != request["task_id"]:
+                raise CoordinationDenied("worker skill lease is bound to another task")
+            lease_id = row.get("activation_lease_id")
+            if not isinstance(lease_id, str) or not lease_id.startswith("skill-lease:"):
+                raise CoordinationDenied("worker skill activation lease ID missing")
+            observed_leases.append(lease_id)
+            try:
+                expiry = datetime.fromisoformat(row["lease_expires_at"])
+            except (KeyError, ValueError, TypeError) as exc:
+                raise CoordinationDenied("worker skill lease expiration invalid") from exc
+            if expiry.tzinfo is None or datetime.now(timezone.utc) >= expiry:
+                raise CoordinationDenied("worker skill activation lease expired")
             instructions = row.get("instructions")
             if not isinstance(instructions, str) or not instructions:
                 raise CoordinationDenied("fixture worker missing skill instructions")
             if _sha256_bytes(instructions.encode("utf-8")) != row.get("content_sha256"):
                 raise CoordinationDenied("fixture worker received tampered skill bytes")
             verified_ids.append(row.get("skill_id"))
+        if len(observed_leases) != len(set(observed_leases)):
+            raise CoordinationDenied("worker received replayed skill activation lease")
         if verified_ids != required or len(set(verified_ids)) != len(verified_ids):
             raise CoordinationDenied("fixture worker did not receive every required skill")
     elif context_path:
