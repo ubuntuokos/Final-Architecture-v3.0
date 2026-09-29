@@ -33,3 +33,14 @@ Retained the **25 independent source-specific curation documents** and **six don
 ## Preserved-source test reconciliation after 25-document import
 
 GitHub CI on exact earlier head `b79aca4d031aeaa6bd6540b170a8f6fbb232b309` found two incomplete upstream 3DCoat revision pins in the original #478 payload; no commit SHA was invented. Both remain `PENDING_VERIFICATION`, code import disabled and original independent source-copy policy preserved (GPL known declaration versus license review pending). A shared video discovery topic legitimately retains both DISCOVERY_INDEX and KNOWLEDGE_REFERENCE modes, with index-only/no-import and all automatic-admission denials preserved. Three intentional GitHub Markdown hard line breaks in the original #526 document are normalized to `<br>` in the working projection (original blob SHA `c6c9bece6d3ba92d9c226ca1a6bc2ac1251aad59` is retained in upstream history).
+
+## Preserved donor research from held mixed PRs
+
+The original source-only research files from #520 (scriptwriting and script-breakdown) and #528 (production import additional-source curation and selective research) are retained without bringing either PR's application code, proposed implementation contracts or GUI into this maintenance PR. These documents are **historical, non-authoritative donor research**, not an approved plan, selected upstream runtime or admission. Any implementation sections in #528 remain unapproved proposals until a separate human-approved plan and the normal FA3 preflights.
+
+| Original PR | Original source Git blob | Research document |
+|---|---|---|
+| #520 | `499023990209cf62829754ecb980700f5fdb2303` | `docs/script-breakdown-github-donor-curation-2026-09-28.md` |
+| #520 | `b522079eb4010e9ee688931d4025ce5100b58e90` | `docs/scriptwriting-github-donor-curation-2026-09-28.md` |
+| #528 | `3d336ec2717169539bc42067597867ffefba4b25` | `docs/production-import-additional-github-donors-2026-09-29.md` |
+| #528 | `7fa2006583529e1fa7c59b8ffeabae479887200f` | `docs/production-import-selective-donor-research-2026-09-29.md` |
