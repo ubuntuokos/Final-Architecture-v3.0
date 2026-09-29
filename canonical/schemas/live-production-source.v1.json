@@ -107,7 +107,8 @@
         ]
       },
       "uniqueItems": true,
-      "maxItems": 17
+      "maxItems": 16,
+      "description": "17 displayed choices (4 text, 6 audio, 7 video), 16 unique values because TRANSCRIPT_ONLY is shared by audio and video; (source_mode, selector) disambiguates."
     },
     "source_language": {
       "type": "string",
@@ -277,7 +278,8 @@
                 "FULL_AUDIO_ONLY",
                 "MUSIC_OR_INSTRUMENTAL_ONLY",
                 "AMBIENCE_AND_SFX_ONLY",
-                "FRAMES_OR_SCENES"
+                "FRAMES_OR_SCENES",
+                "TRANSCRIPT_ONLY"
               ]
             }
           }
@@ -339,9 +341,13 @@
                 "ORIGINAL_LANGUAGE",
                 "ONE_TRANSLATION",
                 "MULTI_TRANSLATION",
-                "ORIGINAL_PLUS_TRANSLATIONS"
+                "ORIGINAL_PLUS_TRANSLATIONS",
+                "TRANSCRIPT_ONLY"
               ]
             }
+          },
+          "no_media_persist": {
+            "const": true
           }
         }
       }
@@ -382,6 +388,9 @@
     "new_architectural_authority": false,
     "capability_baseline": 175,
     "provider_count": "dynamic",
-    "no_current_host_claim": true
+    "no_current_host_claim": true,
+    "displayed_selection_count": 17,
+    "unique_selector_id_count": 16,
+    "duplicate_selector_id": "TRANSCRIPT_ONLY"
   }
 }
