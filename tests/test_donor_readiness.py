@@ -59,6 +59,7 @@ class Tests(unittest.TestCase):
             "docs/donor-new-upstream-2026-09-29.md",
             "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
             "src/fa3_application_donor_index.py",
+            ".github/workflows/fa3-permanent-enforcement.yml",
         ]
         for path in paths:
             with self.subTest(path=path):
