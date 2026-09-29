@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-MM3D-OPENMMLAB-Z3DR-2026-09-29",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "1296f7a5eaaa8cf291f072bde8b0961ca2663671",
+  "source_count": 5,
+  "unique_source_key_count": 4,
+  "matched_existing_parent": [],
+  "expected_new_source_count": 4,
+  "requirements": [
+    "Preserve all five owner-marked original URLs, including the Maverick project homepage as an alias and Misfit legacy website as its own historic source",
+    "Only explicit owner-marked links become ACCEPTED_REFERENCE after published intake; organization pages do not admit repositories listed within them",
+    "Preserve the two pre-existing OpenMMLab subproject records, IDs and statuses unchanged",
+    "No source copying, application implementation, provider/model admission or current-host claim"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "source_license_status": "MIXED_KNOWN_DECLARATION_AND_UNVERIFIED",
+  "sources": [
+    {
+      "normalized_source_key": "github:clover-moe/mm3d",
+      "urls": [
+        "https://github.com/clover-moe/mm3d",
+        "https://clover.moe/mm3d"
+      ],
+      "domain": "3D_MODEL_EDITOR_ANIMATION",
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "http://www.misfitcode.com/misfitmodel3d/",
+      "urls": [
+        "http://www.misfitcode.com/misfitmodel3d/"
+      ],
+      "domain": "LEGACY_3D_MODEL_EDITOR",
+      "kind": "WEBSITE"
+    },
+    {
+      "normalized_source_key": "github:open-mmlab",
+      "urls": [
+        "https://github.com/open-mmlab"
+      ],
+      "domain": "COMPUTER_VISION_AI",
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:z3dr",
+      "urls": [
+        "https://github.com/Z3DR"
+      ],
+      "domain": "GAME_MODDING_RESEARCH",
+      "kind": "GITHUB_ORGANIZATION"
+    }
+  ],
+  "new_ids": [
+    {
+      "id": "FA3-DONOR-CLOVER-MOE-MM3D-001",
+      "key": "github:clover-moe/mm3d"
+    },
+    {
+      "id": "FA3-DONOR-MISFIT-MODEL-3D-LEGACY-001",
+      "key": "http://www.misfitcode.com/misfitmodel3d/"
+    },
+    {
+      "id": "FA3-DONOR-OPEN-MMLAB-ORG-001",
+      "key": "github:open-mmlab"
+    },
+    {
+      "id": "FA3-DONOR-Z3DR-ORG-001",
+      "key": "github:z3dr"
+    }
+  ]
+}

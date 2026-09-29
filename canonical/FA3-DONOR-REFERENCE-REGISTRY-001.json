@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1211,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated."
+    "entry_count": 1215,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained."
   },
   "entries": [
     {
@@ -10839,6 +10839,83 @@
         "checked_at": "2026-09-28",
         "source": "GitHub repository API"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-CLOVER-MOE-MM3D-001",
+      "name": "Maverick Model 3D (clover-moe/mm3d)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/clover-moe/mm3d",
+        "normalized_key": "github:clover-moe/mm3d",
+        "discovery_urls": [
+          "https://github.com/clover-moe/mm3d",
+          "https://clover.moe/mm3d"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-29-mm3d-openmmlab-z3dr"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "skeletal-animation-reference",
+        "vertex-frame-animation-reference",
+        "legacy-3d-model-interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "character-animation",
+        "model-editor",
+        "game-asset-compatibility"
+      ],
+      "problem_hints": [
+        "skeletal-and-frame-animation",
+        "legacy-format-interchange"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Character/Animation Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "mm3d",
+        "qt5-upstream",
+        "opengl-upstream"
+      ],
+      "license": {
+        "declared": "GPL-2.0-or-later",
+        "status": "KNOWN_DECLARATION",
+        "note": "Upstream homepage declares GPLv2+; independent file/dependency/license, security and coexistence review required before any code reuse."
+      },
+      "notes": [
+        "Original user URLs: GitHub repository and official clover.moe/mm3d homepage; one normalized project identity, both links preserved.",
+        "Qt5/OpenGL upstream is research only; FA3 native Qt6/QML, Bforartists as primary DCC, HRB, Hardware Safety and Software Coexistence remain unchanged.",
+        "Upstream IQE and SMD formats have write-only support; no bidirectional FA3 import/export capability is inferred.",
+        "No source copying, installation, dependency, model/provider admission, current-host PASS or application plan approved."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLUSTERLOD-H-001",
@@ -40477,6 +40554,75 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-MISFIT-MODEL-3D-LEGACY-001",
+      "name": "Misfit Model 3D (legacy predecessor)",
+      "source": {
+        "kind": "WEBSITE",
+        "locator": "http://www.misfitcode.com/misfitmodel3d/",
+        "normalized_key": "http://www.misfitcode.com/misfitmodel3d/",
+        "discovery_urls": [
+          "http://www.misfitcode.com/misfitmodel3d/"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-29-mm3d-openmmlab-z3dr"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "legacy-model-editor-history",
+        "animation-data-compatibility"
+      ],
+      "domain_hints": [
+        "3d",
+        "legacy-model-formats",
+        "game-assets"
+      ],
+      "problem_hints": [
+        "historical-mm3d-compatibility"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "legacy-upstream",
+        "source-availability-unverified"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "notes": [
+        "Direct legacy website returned a 502 during 2026-09-29 research; exact site content, license and maintenance state remain unverified.",
+        "Maverick Model 3D README and official homepage identify Misfit Model 3D as its predecessor, developed by Kevin Worcester from 2004 to 2009.",
+        "Keep legacy Misfit and maintained Maverick source identities distinct. No code transfer or runtime admission."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MJHYDRI-BEATNET-001",
       "name": "mjhydri/BeatNet",
       "source": {
@@ -47637,6 +47783,78 @@
       "automatic_model_selection": false,
       "notes": [
         "Source data is optional, explicitly admitted, time-stamped and provenance-marked; no emergency alert or safety certification is implied."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-OPEN-MMLAB-ORG-001",
+      "name": "OpenMMLab GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/open-mmlab",
+        "normalized_key": "github:open-mmlab",
+        "discovery_urls": [
+          "https://github.com/open-mmlab"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-29-mm3d-openmmlab-z3dr"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "computer-vision-upstream-discovery",
+        "model-training-toolkit-discovery"
+      ],
+      "domain_hints": [
+        "computer-vision",
+        "ai",
+        "machine-learning",
+        "model-training"
+      ],
+      "problem_hints": [
+        "selective-vision-research"
+      ],
+      "target_hints": [
+        "Model Manager",
+        "Vision Fabric",
+        "Video Editor",
+        "Dataset Workspace"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "notes": [
+        "Organization-level discovery only; neither automatic registration nor blanket admission of listed repositories.",
+        "Amphion and MMDetection are already separately recorded as upstream candidates; preserve their historical identities and statuses.",
+        "Any individual repository or weights require independent provenance, licensing, reuse, Model Router, HRB, hardware and coexistence review."
       ]
     },
     {
@@ -73337,6 +73555,73 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-Z3DR-ORG-001",
+      "name": "Z3DR GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/Z3DR",
+        "normalized_key": "github:z3dr",
+        "discovery_urls": [
+          "https://github.com/Z3DR"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-29-mm3d-openmmlab-z3dr"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "game-randomizer-reference-discovery"
+      ],
+      "domain_hints": [
+        "game-modding",
+        "mod-tools",
+        "research"
+      ],
+      "problem_hints": [
+        "reference-discovery-only"
+      ],
+      "target_hints": [
+        "Application Fabric (research only)"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "game-randomizer",
+        "not-maverick-mm3d"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "notes": [
+        "The public Z3DR repositories MM3D_Randomizer and mm3dr concern Majora's Mask 3D randomizer patches, not Maverick/Misfit 3D model editing.",
+        "Organization-index registration does not add its repositories, copy game assets, approve a game-modding application or confer architectural authority."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-ZENSTORY-AI-DRAMA-SKILLS-001",

@@ -25,8 +25,8 @@ jobs:
           python-version: '3.12'
       - name: Syntax and donor integrity regressions
         run: |
-          python3 -m py_compile src/fa3_donor_readiness.py
-          PYTHONPATH=src python3 -m unittest tests.test_donor_readiness -v
+          python3 -m py_compile src/fa3_donor_readiness.py src/fa3_donor_registry.py
+          PYTHONPATH=src python3 -m unittest tests.test_donor_readiness tests.test_donor_count_refresh -v
       - name: Classify metadata-only donor maintenance versus normal PR
         id: classify
         env:
