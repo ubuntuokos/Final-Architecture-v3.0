@@ -23,6 +23,8 @@ UPSTREAM_TAG = "rust-v0.151.0"
 UPSTREAM_COMMIT = "78c290807ce710180111df227df3b7a4fe845452"
 ARCHIVE_NAME = "codex-x86_64-unknown-linux-musl.tar.gz"
 ARCHIVE_SHA256 = "605b4b183f22c645f5def63a5b7191767407fb66a6feaec4eaf10b5b7e0058f6"
+CODE_MODE_HOST_ARCHIVE_NAME = "codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz"
+CODE_MODE_HOST_ARCHIVE_SHA256 = "332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894"
 
 FORBIDDEN_FLAGS = {
     "--approve-for-me",
@@ -42,7 +44,8 @@ CONFIG_OVERRIDES = (
     "features.remote_plugin=false",
     "features.plugin_hooks=false",
     "features.memories=false",
-    "features.memory_tool=false",
+    # The 0.151.0 Code Mode file-edit tool requires its pinned companion.
+    "features.code_mode_host=true",
 )
 FORBIDDEN_ITEM_TYPES = {"mcp_tool_call", "collab_tool_call", "web_search"}
 FATAL_EVENT_TYPES = {"turn.failed", "error"}
@@ -533,6 +536,7 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
             "nested_multi_agent": False,
             "plugins": False,
             "login_shell": False,
+            "code_mode_host": True,
             "auto_review": False,
             "dangerous_bypass": False,
             "secret_env_passthrough": False,

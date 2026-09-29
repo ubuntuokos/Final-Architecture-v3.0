@@ -21,6 +21,8 @@ from fa3_codex_adapter import (
     ADAPTER_ID,
     ARCHIVE_NAME,
     ARCHIVE_SHA256,
+    CODE_MODE_HOST_ARCHIVE_NAME,
+    CODE_MODE_HOST_ARCHIVE_SHA256,
     CODEX_VERSION,
     PROVIDER_ID,
     CodexAdapter,
@@ -80,6 +82,40 @@ def verify_installed_binary_against_archive(binary: Path, archive: Path) -> dict
             "reextracted_binary_sha256": installed_hash,
             "installed_binary_matches_pinned_archive": True,
             "matched_archive_member": matching[0].name,
+        }
+
+
+def verify_code_mode_host_against_archive(host_binary: Path, archive: Path) -> dict:
+    """Compare the exact installed companion with its independently pinned release."""
+    if not host_binary.is_file() or not os.access(host_binary, os.X_OK):
+        raise RuntimeError(
+            "pinned Codex Code Mode companion missing or not executable: " + str(host_binary)
+        )
+    if not archive.is_file() or sha256_file(archive) != CODE_MODE_HOST_ARCHIVE_SHA256:
+        raise RuntimeError("pinned Codex Code Mode companion archive missing or wrong SHA256")
+    with tempfile.TemporaryDirectory(prefix="fa3-code-mode-reextract-") as td:
+        files = _safe_extract(archive, Path(td))
+        candidates = [
+            p for p in files if p.name in {
+                "codex-code-mode-host", "codex-code-mode-host-x86_64-unknown-linux-musl"
+            }
+        ]
+        installed_hash = sha256_file(host_binary)
+        matching = [p for p in candidates if sha256_file(p) == installed_hash]
+        if len(matching) != 1:
+            raise RuntimeError(
+                "installed Codex Code Mode companion does not reproduce from pinned archive"
+            )
+        return {
+            "archive": str(archive.resolve()),
+            "archive_sha256": CODE_MODE_HOST_ARCHIVE_SHA256,
+            "archive_integrity": "PASS",
+            "installed_binary": str(host_binary.resolve()),
+            "installed_binary_sha256": installed_hash,
+            "reextracted_binary_sha256": installed_hash,
+            "installed_binary_matches_pinned_archive": True,
+            "matched_archive_member": matching[0].name,
+            "activation_flag": "features.code_mode_host=true",
         }
 
 
@@ -196,6 +232,11 @@ def main() -> int:
 
     started = now()
     supply = verify_installed_binary_against_archive(binary, archive)
+    # A successful CLI preflight alone is insufficient for file-edit capability.
+    supply["code_mode_host"] = verify_code_mode_host_against_archive(
+        binary.with_name("codex-code-mode-host"),
+        archive.with_name(CODE_MODE_HOST_ARCHIVE_NAME),
+    )
     preflight = codex_preflight(binary)
     with tempfile.TemporaryDirectory(prefix="fa3-codex-current-host-") as td:
         base = Path(td)

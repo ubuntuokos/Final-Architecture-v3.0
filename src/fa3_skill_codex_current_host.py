@@ -23,7 +23,8 @@ from pathlib import Path
 from typing import Any
 
 from fa3_codex_adapter import (
-    ADAPTER_ID, ARCHIVE_NAME, ARCHIVE_SHA256, CODEX_VERSION,
+    ADAPTER_ID, ARCHIVE_NAME, ARCHIVE_SHA256,
+    CODE_MODE_HOST_ARCHIVE_NAME, CODE_MODE_HOST_ARCHIVE_SHA256, CODEX_VERSION,
     PROVIDER_ID, CodexAdapter, _init_repo, codex_preflight,
 )
 from fa3_developer_agent_coordination import AgentTask, Coordinator
@@ -69,6 +70,7 @@ def load_trust_pin(path: Path, *, strict: bool = True) -> dict[str, Any]:
             or not SHA256.fullmatch(str(config.get("registry_sha256", "")))
             or config.get("approved_provider_id") != PROVIDER_ID
             or config.get("codex_archive_sha256") != ARCHIVE_SHA256
+            or config.get("codex_code_mode_host_archive_sha256") != CODE_MODE_HOST_ARCHIVE_SHA256
             or config.get("trust_profile") != "FA3-TRUST-PKI-001"
             or config.get("security_authority") != "FA3-AUTH-SECURITY-GOV-001"):
         raise SkillHostDenied("host trust pin identity and provider pin mismatch")
@@ -130,7 +132,12 @@ def _verify_installed_codex(root: Path, binary: Path, archive: Path) -> dict[str
         raise SkillHostDenied("existing Codex supply-chain collector unavailable")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.verify_installed_binary_against_archive(binary, archive)
+    supply = module.verify_installed_binary_against_archive(binary, archive)
+    supply["code_mode_host"] = module.verify_code_mode_host_against_archive(
+        binary.with_name("codex-code-mode-host"),
+        archive.with_name(CODE_MODE_HOST_ARCHIVE_NAME),
+    )
+    return supply
 
 
 def run_observation(
@@ -206,6 +213,9 @@ def run_observation(
             "provider_id": PROVIDER_ID, "adapter_id": ADAPTER_ID,
             "provider_binary_sha256": supply["installed_binary_sha256"],
             "provider_archive_sha256": supply["archive_sha256"],
+            "provider_code_mode_host_archive_sha256": supply["code_mode_host"]["archive_sha256"],
+            "provider_code_mode_host_binary_sha256": supply["code_mode_host"]["installed_binary_sha256"],
+            "provider_code_mode_host_enabled": True,
             "provider_runtime_version": runtime["version"],
             "registry_sha256": config["registry_sha256"],
             "skill_content_sha256": binding.package["digests"]["content_sha256"],

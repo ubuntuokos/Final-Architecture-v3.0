@@ -15,6 +15,51 @@ from fa3_release_baseline import module_active_capability_count
 
 
 class CodexAdapterTests(unittest.TestCase):
+    def test_pinned_code_mode_companion_supply_chain_fails_closed(self):
+        import hashlib
+        import importlib.util
+        import io
+        import tarfile
+        from unittest.mock import patch
+
+        expected = "332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894"
+        self.assertEqual(adapter.CODE_MODE_HOST_ARCHIVE_SHA256, expected)
+        script = (ROOT / "bin/fa3-codex-code-mode-host-bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn(expected, script)
+        self.assertIn("sha256sum --check --status", script)
+        self.assertIn("codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz", script)
+        parent = (ROOT / "bin/fa3-codex-bootstrap.sh").read_text(encoding="utf-8")
+        self.assertIn("fa3-codex-code-mode-host-bootstrap.sh", parent)
+
+        spec = importlib.util.spec_from_file_location(
+            "fa3_companion_supply", ROOT / "evidence/collect-codex-current-host.py"
+        )
+        self.assertIsNotNone(spec)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory(prefix="fa3-companion-pin-fixture-") as td:
+            base = Path(td)
+            payload = b"test-only-host-payload"
+            archive = base / adapter.CODE_MODE_HOST_ARCHIVE_NAME
+            with tarfile.open(archive, "w:gz") as tf:
+                info = tarfile.TarInfo("codex-code-mode-host-x86_64-unknown-linux-musl")
+                info.size = len(payload)
+                tf.addfile(info, io.BytesIO(payload))
+            binary = base / "codex-code-mode-host"
+            binary.write_bytes(payload)
+            binary.chmod(0o755)
+            digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+            with patch.object(module, "CODE_MODE_HOST_ARCHIVE_SHA256", digest):
+                check = module.verify_code_mode_host_against_archive(binary, archive)
+                self.assertEqual(check["archive_integrity"], "PASS")
+                self.assertTrue(check["installed_binary_matches_pinned_archive"])
+                binary.write_bytes(b"wrong bytes")
+                with self.assertRaisesRegex(RuntimeError, "does not reproduce"):
+                    module.verify_code_mode_host_against_archive(binary, archive)
+                binary.unlink()
+                with self.assertRaisesRegex(RuntimeError, "missing or not executable"):
+                    module.verify_code_mode_host_against_archive(binary, archive)
+
     def test_provider_is_non_authoritative_and_pinned(self):
         provider = json.loads(
             (ROOT / "canonical/providers/FA3-PROVIDER-CODEX-001.json").read_text(encoding="utf-8")
@@ -61,6 +106,8 @@ class CodexAdapterTests(unittest.TestCase):
         self.assertIn("mcp_servers={}", joined)
         self.assertIn("features.multi_agent=false", joined)
         self.assertIn("features.multi_agent_v2=false", joined)
+        self.assertIn("features.code_mode_host=true", joined)
+        self.assertNotIn("features.memory_tool=false", joined)
 
     def test_secret_environment_is_not_passed(self):
         env = adapter.safe_codex_environment(

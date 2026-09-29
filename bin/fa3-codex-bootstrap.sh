@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+umask 077
 
 VERSION="0.151.0"
 TAG="rust-v0.151.0"
@@ -28,9 +29,16 @@ command -v tar >/dev/null
 mkdir -p "$SOURCE" "$BIN"
 ARCHIVE_PATH="$SOURCE/$ARCHIVE"
 
-curl --fail --location --proto '=https' --tlsv1.2 --output "$ARCHIVE_PATH.tmp" "$URL"
-printf '%s  %s\n' "$ARCHIVE_SHA256" "$ARCHIVE_PATH.tmp" | sha256sum --check --status
-mv -f "$ARCHIVE_PATH.tmp" "$ARCHIVE_PATH"
+if [ -f "$ARCHIVE_PATH" ]; then
+  printf '%s  %s\n' "$ARCHIVE_SHA256" "$ARCHIVE_PATH" | sha256sum --check --status || {
+    echo "Cached Codex archive differs from pinned SHA256." >&2
+    exit 2
+  }
+else
+  curl --fail --location --proto '=https' --tlsv1.2 --output "$ARCHIVE_PATH.tmp" "$URL"
+  printf '%s  %s\n' "$ARCHIVE_SHA256" "$ARCHIVE_PATH.tmp" | sha256sum --check --status
+  mv -f "$ARCHIVE_PATH.tmp" "$ARCHIVE_PATH"
+fi
 
 mkdir "$TMP/extract"
 tar -xzf "$ARCHIVE_PATH" -C "$TMP/extract"
@@ -50,6 +58,10 @@ case "$ACTUAL" in
   *) echo "Unexpected Codex version after install: $ACTUAL" >&2; exit 2 ;;
 esac
 
+# The Code Mode companion is a separate upstream release artifact.
+FA3_CODEX_ROOT="$ROOT" bash "$(dirname "$0")/fa3-codex-code-mode-host-bootstrap.sh"
+HOST_BINARY_SHA256="$(sha256sum "$BIN/codex-code-mode-host" | awk '{print $1}')"
+HOST_ARCHIVE_SHA256="332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894"
 BINARY_SHA256="$(sha256sum "$BIN/codex" | awk '{print $1}')"
 cat > "$ROOT/bootstrap-receipt.json" <<EOF
 {
@@ -61,6 +73,8 @@ cat > "$ROOT/bootstrap-receipt.json" <<EOF
   "archive_sha256": "$ARCHIVE_SHA256",
   "installed_binary": "$BIN/codex",
   "installed_binary_sha256": "$BINARY_SHA256",
+  "code_mode_host_archive_sha256": "$HOST_ARCHIVE_SHA256",
+  "code_mode_host_binary_sha256": "$HOST_BINARY_SHA256",
   "status": "PASS"
 }
 EOF

@@ -10,10 +10,13 @@ host credentials or CI-equivalent production evidence.
    source commit on the FA3 workstation. The machine-wide, root-managed
    /etc/fa3/trust/skill-runtime.json must independently pin that exact commit,
    the SHA-256 of installed canonical/skill-registry.json, and the existing
-   pinned Codex provider/archive. The running unprivileged service must not
+   pinned Codex provider/archive. It must also pin
+   codex_code_mode_host_archive_sha256 to the independent, verified value
+   332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894. The running unprivileged service must not
    be able to edit its trusted pin, root CA or Security Governance public key.
 2. The existing pinned Codex 0.151.0 Linux x86_64 archive and installed
-   executable must agree byte-for-byte, and existing Codex current-host
+   executable, and its separately distributed, pinned Code Mode companion
+   and binary, must each agree byte-for-byte. Existing Codex current-host
    evidence/receipts/codex-current-host.json must PASS the existing gate.
    The pre-existing ChatGPT login is accessed only through the normal
    Codex provider preflight. Nothing silently switches models or providers.

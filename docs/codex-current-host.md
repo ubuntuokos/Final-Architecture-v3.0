@@ -18,6 +18,24 @@ The bootstrap downloads the pinned Linux x86_64 release archive, verifies SHA-25
 `605b4b183f22c645f5def63a5b7191767407fb66a6feaec4eaf10b5b7e0058f6`,
 installs the binary under `~/.local/lib/fa3/codex/0.151.0/bin/codex`, and retains the archive for later binary reproducibility evidence.
 
+The upstream Code Mode host is a **separate** Linux x86_64 release archive,
+`codex-code-mode-host-x86_64-unknown-linux-musl.tar.gz`, SHA-256
+`332da68215f070321cb52ebe792ecce8dfd614d02ea5541309d0a5df01e14894`.
+It must be installed beside the pinned `codex` binary; both archives and both
+installed binaries are verified before any real current-host worker can start.
+The main bootstrap now installs both. For an existing CLI installation, install
+only the missing companion without redownloading Codex:
+
+```bash
+bash bin/fa3-codex-code-mode-host-bootstrap.sh
+```
+
+The adapter explicitly enables `features.code_mode_host=true` but continues
+to deny network/web search, MCP, plugins, nested workers, unsafe bypass flags
+and secret-environment passthrough. The deprecated `features.memory_tool`
+override is removed in favor of the existing `features.memories=false` rule.
+
+
 ## Authentication
 
 FA3 Codex v0.1 admits only an existing ChatGPT login:

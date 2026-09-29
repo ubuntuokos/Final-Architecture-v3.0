@@ -10,6 +10,7 @@ from typing import Any
 from fa3_codex_adapter import (
     ADAPTER_ID,
     ARCHIVE_SHA256,
+    CODE_MODE_HOST_ARCHIVE_SHA256,
     CODEX_VERSION,
     CONFIG_OVERRIDES,
     FORBIDDEN_FLAGS,
@@ -106,6 +107,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         and provider.get("runtime_activation_status") == "NOT_ADMITTED_PENDING_CURRENT_HOST"
         and pin.get("version") == CODEX_VERSION
         and pin.get("artifact_sha256") == ARCHIVE_SHA256
+        and pin.get("code_mode_host_artifact_sha256") == CODE_MODE_HOST_ARCHIVE_SHA256
+        and profile.get("code_mode_host") == "REQUIRED_PINNED_COMPANION"
         and profile.get("sandbox") == "workspace-write"
         and profile.get("approval_policy") == "NEVER_HEADLESS"
         and profile.get("dangerous_bypass") == "FORBIDDEN"
@@ -305,6 +308,10 @@ def validate_current_host_receipt(root: Path) -> dict[str, Any]:
         supply.get("archive_sha256") == ARCHIVE_SHA256
         and supply.get("archive_integrity") == "PASS"
         and supply.get("installed_binary_matches_pinned_archive") is True
+        and supply.get("code_mode_host", {}).get("archive_sha256") == CODE_MODE_HOST_ARCHIVE_SHA256
+        and supply.get("code_mode_host", {}).get("archive_integrity") == "PASS"
+        and supply.get("code_mode_host", {}).get("installed_binary_matches_pinned_archive") is True
+        and supply.get("code_mode_host", {}).get("activation_flag") == "features.code_mode_host=true"
         and runtime.get("version") == CODEX_VERSION
     ):
         findings.append(finding("CODEX-HOST-003", "Codex current-host supply-chain/runtime identity mismatch"))
@@ -326,6 +333,7 @@ def validate_current_host_receipt(root: Path) -> dict[str, Any]:
         "nested_multi_agent": False,
         "plugins": False,
         "login_shell": False,
+        "code_mode_host": True,
         "auto_review": False,
         "dangerous_bypass": False,
         "secret_env_passthrough": False,

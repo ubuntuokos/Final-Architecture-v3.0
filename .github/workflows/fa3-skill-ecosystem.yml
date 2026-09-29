@@ -120,6 +120,8 @@ jobs:
         run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_v13.py src/fa3_skill_fabric_v14.py src/fa3_skill_fabric_gate.py src/fa3_skill_materialization.py src/fa3_skill_task_binding.py src/fa3_skill_task_projection.py src/fa3_skill_signed_authority.py src/fa3_authenticated_approval.py src/fa3_skill_worker_context.py src/fa3_codex_adapter.py src/fa3_codex_skill_reference.py src/fa3_skill_codex_current_host.py src/fa3_skill_host_gate.py src/fa3_developer_agent_coordination.py
       - name: Unit tests
         run: PYTHONPATH=src python -m unittest tests.test_skill_ecosystem tests.test_skill_fabric_gate tests.test_skill_discovery tests.test_skill_materialization tests.test_skill_task_binding tests.test_skill_signed_authority tests.test_codex_adapter tests.test_codex_skill_reference tests.test_skill_codex_current_host tests.test_developer_agent_coordination tests.test_cap080_verified_skill_supply_chain_current_host tests.test_skill_fabric_v13 tests.test_skill_fabric_v14 -v
+      - name: Pinned Codex bootstrap shell syntax
+        run: bash -n bin/fa3-codex-bootstrap.sh bin/fa3-codex-code-mode-host-bootstrap.sh
       - name: Agent Skills ecosystem gate
         run: PYTHONPATH=src python src/fa3_skill_ecosystem_gate.py --root .
       - name: Parent Skill Fabric gate

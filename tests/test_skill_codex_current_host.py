@@ -17,7 +17,9 @@ from fa3_authenticated_approval import (
     SECURITY_AUTHORITY, TRUST_PROFILE, _signed_receipt_content,
     canonical_bytes, sha256_bytes,
 )
-from fa3_codex_adapter import ADAPTER_ID, ARCHIVE_SHA256, CODEX_VERSION, PROVIDER_ID
+from fa3_codex_adapter import (
+    ADAPTER_ID, ARCHIVE_SHA256, CODE_MODE_HOST_ARCHIVE_SHA256, CODEX_VERSION, PROVIDER_ID,
+)
 from fa3_skill_codex_current_host import (
     BUNDLE_SCHEMA, REPORT, SCHEMA, TRUST_SCHEMA, SkillHostDenied,
     check_bundle, load_trust_pin, run_observation,
@@ -37,6 +39,7 @@ class SkillHostStaticTests(unittest.TestCase):
             "schema": TRUST_SCHEMA, "source_commit": "c" * 40,
             "registry_sha256": "a" * 64, "approved_provider_id": PROVIDER_ID,
             "codex_archive_sha256": ARCHIVE_SHA256,
+            "codex_code_mode_host_archive_sha256": CODE_MODE_HOST_ARCHIVE_SHA256,
             "trust_profile": "FA3-TRUST-PKI-001",
             "security_authority": "FA3-AUTH-SECURITY-GOV-001",
         }
@@ -46,6 +49,11 @@ class SkillHostStaticTests(unittest.TestCase):
         self.assertEqual(load_trust_pin(self.pin_path, strict=False), self.pin)
         altered = dict(self.pin, codex_archive_sha256="0" * 64)
         self.pin_path.write_text(json.dumps(altered), encoding="utf-8")
+        with self.assertRaises(SkillHostDenied):
+            load_trust_pin(self.pin_path, strict=False)
+        missing = dict(self.pin)
+        missing.pop("codex_code_mode_host_archive_sha256")
+        self.pin_path.write_text(json.dumps(missing), encoding="utf-8")
         with self.assertRaises(SkillHostDenied):
             load_trust_pin(self.pin_path, strict=False)
 
