@@ -92,7 +92,7 @@ def _explicit_owner_marker(text: str):
     """Exclude negative 'nem/not donornak' references from intake."""
     for match in _OWNER_DIRECT.finditer(text):
         prefix = text[max(0, match.start() - 40):match.start()]
-        if not re.search(r"(?i)\\b(?:nem|not)\\s+$", prefix):
+        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
             return match
     return None
 
