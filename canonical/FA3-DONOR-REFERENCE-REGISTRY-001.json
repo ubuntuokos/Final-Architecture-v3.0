@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 550,
+    "entry_count": 552,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority."
   },
   "entries": [
@@ -33763,6 +33763,183 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-orchestrator-functional-donor-research-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "code_reuse_policy": "FULL_LICENSE_SECURITY_PROVENANCE_COEXISTENCE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-DAGGER-DAGGER-001",
+      "name": "Dagger",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dagger/dagger",
+        "normalized_key": "github:dagger/dagger"
+      },
+      "capability_hints": [
+        "input-keyed-incremental-execution",
+        "content-addressed-artifact-cache",
+        "dependency-scoped-rebuild",
+        "open-telemetry-operation-traces"
+      ],
+      "domain_hints": [
+        "orchestration",
+        "artifact-lineage",
+        "developer-agent",
+        "creative-production"
+      ],
+      "problem_hints": [
+        "unnecessary-reruns",
+        "dependency-graph-invalidation",
+        "artifact-cache-provenance"
+      ],
+      "target_hints": [
+        "Orchestration Workforce",
+        "Objective Coordination",
+        "Derived Artifact Lineage",
+        "Developer Agent",
+        "Creative Project Workflow"
+      ],
+      "tags": [
+        "functional-orchestrator-expansion-2026-09-29",
+        "incremental-build",
+        "reference-only",
+        "no-parallel-workflow-authority"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION_FULL_TRANSITIVE_REVIEW_PENDING"
+      },
+      "source_snapshot": {
+        "commit": "fdb30c1d1b03b6ff22e90b30f9997c7e0b63e6e0",
+        "observed_at": "2026-09-29"
+      },
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "input-hash-task-reuse",
+          "affected-subgraph-recompute",
+          "typed-cached-artifact-links",
+          "operation-trace-correlation"
+        ],
+        "intended_fa3_targets": [
+          "Objective Coordination",
+          "Derived Artifact Lineage",
+          "Developer Agent",
+          "Creative Project Workflow"
+        ]
+      },
+      "notes": [
+        "Use existing Temporal lifecycle, Objective Coordination graph and FA3 artifact provenance; no Dagger execution engine, OCI requirement, parallel cache or second authority.",
+        "Nondeterministic AI generation is reusable only with the original artifact, exact model/config/version and validated evidence; task-level cache hit is never evidence promotion.",
+        "Reference-only until all mandatory donor, Security, Hardware Audit, Software Coexistence and exact-head gates."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-orchestrator-functional-donor-research-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "code_reuse_policy": "FULL_LICENSE_SECURITY_PROVENANCE_COEXISTENCE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_id": "FA3-DONOR-SKYPILOT-ORG-SKYPILOT-001",
+      "name": "SkyPilot",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/skypilot-org/skypilot",
+        "normalized_key": "github:skypilot-org/skypilot"
+      },
+      "capability_hints": [
+        "multi-host-data-locality-advisory",
+        "transfer-cost-and-time-estimate",
+        "compute-versus-transfer-tradeoff",
+        "host-availability-bottleneck-simulation"
+      ],
+      "domain_hints": [
+        "orchestration",
+        "multi-host",
+        "resources",
+        "artifact-transfer"
+      ],
+      "problem_hints": [
+        "unnecessary-large-artifact-transfer",
+        "cross-host-placement-cost",
+        "network-bottlenecks"
+      ],
+      "target_hints": [
+        "Orchestration Director",
+        "CAP-070 Agent Federation",
+        "HRB",
+        "Artifact Fabric",
+        "Priority Manager"
+      ],
+      "tags": [
+        "functional-orchestrator-expansion-2026-09-29",
+        "data-locality",
+        "reference-only",
+        "no-parallel-resource-authority"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION_FULL_TRANSITIVE_REVIEW_PENDING"
+      },
+      "source_snapshot": {
+        "commit": "2df7061d22d6799339736659ca007bdd6ab49625",
+        "observed_at": "2026-09-29"
+      },
+      "selection_scope": {
+        "mode": "SELECTIVE_CAPABILITIES_AND_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "selected_capabilities": [
+          "data-locality-placement-advice",
+          "bounded-transfer-time-estimation",
+          "approved-target-alternative-analysis"
+        ],
+        "intended_fa3_targets": [
+          "Orchestration Director",
+          "HRB",
+          "Artifact Fabric",
+          "CAP-070 Agent Federation"
+        ]
+      },
+      "notes": [
+        "Scheduling and transfer-cost concepts only, with FA3 HRB as sole admission/placement authority and existing Artifact Fabric as transfer owner.",
+        "CPU-only, 0..N accelerators, display-GPU opt-in invariant mandatory. No automatic cloud provisioning, credit use, model substitution or external SkyPilot control plane.",
+        "Metrics must be observed or labeled estimates; no physical runtime promotion without distinct real-host E2E."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
