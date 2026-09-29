@@ -217,6 +217,12 @@ class ReceiverHandoffTests(unittest.TestCase):
         self.assertEqual(s["x-fa3-policy"]["capability_count"], 175)
         self.assertFalse(s["x-fa3-policy"]["current_host_runtime_promotion_claim"])
         self.assertFalse(s["properties"]["execution_authorized"]["const"])
+        claims = json.loads((ROOT / "canonical/schemas/selective-receiver-capability-claims.v1.json")
+                            .read_text(encoding="utf-8"))
+        self.assertEqual(claims["x-fa3-policy"]["capability_count"], 175)
+        self.assertFalse(claims["x-fa3-policy"]["authority"])
+        self.assertFalse(claims["x-fa3-policy"]["verified_receiver_claim"])
+        self.assertEqual(claims["properties"]["receivers"]["maxItems"], 256)
         inp = json.loads((ROOT / "canonical/schemas/selective-production-import.v1.json")
                          .read_text(encoding="utf-8"))
         selectors = {rule["if"]["properties"]["family"]["const"]:
