@@ -61,7 +61,7 @@ def inspect_registry(root):
 
 def git_blob_sha(raw):
     """GitHub's contents API exposes the blob SHA even for files above 1 MiB."""
-    return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
 
 def github_get(url,token):
     if not token: raise RuntimeError("GITHUB_TOKEN_REQUIRED")
