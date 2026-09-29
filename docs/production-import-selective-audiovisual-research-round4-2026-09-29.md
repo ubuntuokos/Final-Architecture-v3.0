@@ -36,6 +36,8 @@ Do not add an 18th selector or a second data owner. The same three source-family
 
 **R4-C: deterministic CPU-first pilot:** source-provided discrete track extraction, silent video frames, authorized full audio export and original timed text / approved multi-language translation via already admitted FA3 components. Test multi-output fan-out and **zero unsolicited deliveries**, exact source hashing, multichannel layouts, VFR/drop-frame, pause/cancel/resume, human partial acceptance and original unchanged.
 
+Music Studio receives only requested and quality-approved original or estimated instrument/music stems with immutable source lineage.
+
 **R4-D: specialist admission:** optional BS-RoFormer plugin **only after** checkpoint/license/source-version audit, sandbox, offline acquisition through existing Model Manager and separate CPU/current-host or approved accelerator proof. MMAudioSep stays disabled/unavailable until prerequisites exist; no fake pass. Research BS-RoFormer architecture separately without silently adding its training stack. Denoising remains separate from ambience/SFX extraction.
 
 **R4-E: quality and editability gates:** independently measured comparisons where reference stems exist (e.g., existing museval) plus operator review for mixed-source content, source/target transcript review, disjoint AV timing checks and actual same-format *editable-project* reopen only where supported. No flat WAV/MP4/SRT is evidence of native-project roundtrip.
