@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 307,
+    "entry_count": 314,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Registered Flova public workflow documentation as one additional reference-only, unadmitted donor candidate."
   },
   "entries": [
@@ -5120,6 +5120,69 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FLOVA-WORKFLOW-PATTERNS-001",
+      "name": "Flova public creative workflow documentation",
+      "source": {
+        "kind": "ARTICLE",
+        "locator": "https://flova.tv/en/docs/features/skills/",
+        "normalized_key": "article:https://flova.tv/en/docs/features/skills/"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-project-workflow-flova-patterns-2026-09-26",
+        "mandatory-donor-backfill-2026-09-29"
+      ],
+      "first_seen": "2026-09-26",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "project-scoped-creative-context",
+        "task-scoped-skills",
+        "dependency-aware-scoped-revision",
+        "editorial-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "production",
+        "workflow"
+      ],
+      "problem_hints": [
+        "scoped-revision",
+        "production-context-reuse"
+      ],
+      "target_hints": [
+        "Creative Project Workflow",
+        "Story/Screenplay",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "flova",
+        "reference-only",
+        "no-runtime",
+        "no-code-import"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Use only patterns from public documentation. Do not adopt Flova runtime, API, account, credentials, source code or bundled skills."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-FOOOCUS-001",
       "name": "Fooocus",
       "source": {
@@ -5753,6 +5816,433 @@
       "automatic_model_selection": false,
       "notes": [
         "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-ASSET-LIBRARY-001",
+      "name": "godotengine/godot-asset-library",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine/godot-asset-library",
+        "normalized_key": "github:godotengine/godot-asset-library"
+      },
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "asset-discovery-api",
+        "asset-catalog-ui",
+        "repository-metadata-patterns"
+      ],
+      "domain_hints": [
+        "creative",
+        "application-catalog",
+        "assets"
+      ],
+      "target_hints": [
+        "Application Fabric",
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "godotengine-github",
+        "asset-catalog",
+        "api",
+        "maintenance-mode"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "notes": [
+        "Upstream README states the legacy asset-library implementation is in maintenance mode and planned for deprecation. Reference only for catalog/API patterns, not an FA3 runtime/backend dependency. Asset licenses remain independent."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-DEMO-PROJECTS-001",
+      "name": "godotengine/godot-demo-projects",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine/godot-demo-projects",
+        "normalized_key": "github:godotengine/godot-demo-projects"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "realtime-scene-examples",
+        "2d-3d-workflows",
+        "animation-interaction-examples"
+      ],
+      "domain_hints": [
+        "rt3d",
+        "2d",
+        "3d",
+        "creative"
+      ],
+      "target_hints": [
+        "RT3D",
+        "World Generator",
+        "Character Studio",
+        "3D Fabric"
+      ],
+      "tags": [
+        "godotengine-github",
+        "examples",
+        "rt3d",
+        "animation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "MIT repository-level license observed; each demo's bundled media/assets and any third-party dependencies require independent review before copying or distribution. No automatic demo import."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-DOCS-001",
+      "name": "godotengine/godot-docs",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine/godot-docs",
+        "normalized_key": "github:godotengine/godot-docs"
+      },
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "engine-editor-documentation",
+        "realtime-3d-reference",
+        "extension-guidance"
+      ],
+      "domain_hints": [
+        "rt3d",
+        "2d",
+        "3d",
+        "documentation"
+      ],
+      "target_hints": [
+        "RT3D",
+        "3D Fabric",
+        "Application Fabric"
+      ],
+      "tags": [
+        "godotengine-github",
+        "docs",
+        "tutorials"
+      ],
+      "license": {
+        "declared": "CC-BY-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Repository LICENSE.txt declares Creative Commons Attribution 3.0 Unported. Preserve attribution and separately check embedded examples and third-party assets before reproduction."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-FBX2GLTF-001",
+      "name": "godotengine/FBX2glTF",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine/FBX2glTF",
+        "normalized_key": "github:godotengine/fbx2gltf"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "fbx-to-gltf-asset-conversion",
+        "3d-interchange"
+      ],
+      "domain_hints": [
+        "3d",
+        "interop",
+        "creative"
+      ],
+      "target_hints": [
+        "3D Fabric",
+        "World Generator",
+        "Character Studio"
+      ],
+      "tags": [
+        "godotengine-github",
+        "fbx",
+        "gltf",
+        "asset-conversion"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Top-level LICENSE is BSD-style 3-clause. Review transitive dependencies, FBX SDK/legal conditions, provenance and import/export symmetry before any FA3 adoption; prefer existing Khronos interchange and FA3-native pipeline."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-GITHUB-ORGANIZATION-001",
+      "name": "Godot Engine GitHub organization (discovery index)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine",
+        "normalized_key": "github:godotengine"
+      },
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-repository-discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "2d",
+        "3d",
+        "rt3d",
+        "editor",
+        "interoperability"
+      ],
+      "target_hints": [
+        "Donor & Reference Registry",
+        "Reuse Discovery"
+      ],
+      "tags": [
+        "godotengine-github",
+        "upstream-discovery-index"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NOT_APPLICABLE_TO_ORGANIZATION_INDEX"
+      },
+      "notes": [
+        "Organization discovery index only; selective repository records are independent. No blanket source/license, engine installation, renderer selection, or runtime admission."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-GODOT-001",
+      "name": "godotengine/godot",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine/godot",
+        "normalized_key": "github:godotengine/godot"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "real-time-2d-3d-scene-graph",
+        "scene-editor",
+        "animation",
+        "physics",
+        "cross-platform-rendering"
+      ],
+      "domain_hints": [
+        "rt3d",
+        "2d",
+        "3d",
+        "creative",
+        "rendering"
+      ],
+      "target_hints": [
+        "RT3D",
+        "3D Fabric",
+        "World Generator",
+        "Character Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "godotengine-github",
+        "scene-graph",
+        "editor",
+        "animation",
+        "physics",
+        "rendering"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Godot core engine and editor are design/code donor candidates only. Third-party bundled components and assets need separate license and provenance review. FA3-native project files, Qt6 GUI strategy, Khronos Fabric, existing renderer governance and software coexistence remain authoritative; no mandatory Godot runtime or GUI replacement."
+      ]
+    },
+    {
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "godotengine-github-org-curation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "problem_hints": [],
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "source_reviewed_at": "2026-09-29",
+      "donor_id": "FA3-DONOR-GODOTENGINE-GODOT-CPP-001",
+      "name": "godotengine/godot-cpp",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/godotengine/godot-cpp",
+        "normalized_key": "github:godotengine/godot-cpp"
+      },
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "gdextension-cpp-bindings",
+        "native-plugin-abi",
+        "extension-lifecycle"
+      ],
+      "domain_hints": [
+        "rt3d",
+        "3d",
+        "interop",
+        "sdk"
+      ],
+      "target_hints": [
+        "RT3D",
+        "3D Fabric",
+        "Application Fabric"
+      ],
+      "tags": [
+        "godotengine-github",
+        "cxx",
+        "gdextension",
+        "extension-architecture"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "notes": [
+        "Study C++ extension boundary and lifecycle as optional interoperability patterns; no mandatory dependency on Godot headers/runtime."
       ]
     },
     {
@@ -17960,69 +18450,6 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-FLOVA-WORKFLOW-PATTERNS-001",
-      "name": "Flova public creative workflow documentation",
-      "source": {
-        "kind": "ARTICLE",
-        "locator": "https://flova.tv/en/docs/features/skills/",
-        "normalized_key": "article:https://flova.tv/en/docs/features/skills/"
-      },
-      "status": "CANDIDATE",
-      "discovered_from": [
-        "creative-project-workflow-flova-patterns-2026-09-26",
-        "mandatory-donor-backfill-2026-09-29"
-      ],
-      "first_seen": "2026-09-26",
-      "last_seen": "2026-09-29",
-      "donor_modes": [
-        "ARCHITECTURE_PATTERN"
-      ],
-      "capability_hints": [
-        "project-scoped-creative-context",
-        "task-scoped-skills",
-        "dependency-aware-scoped-revision",
-        "editorial-handoff"
-      ],
-      "domain_hints": [
-        "creative",
-        "production",
-        "workflow"
-      ],
-      "problem_hints": [
-        "scoped-revision",
-        "production-context-reuse"
-      ],
-      "target_hints": [
-        "Creative Project Workflow",
-        "Story/Screenplay",
-        "FA3 Video Editor"
-      ],
-      "tags": [
-        "flova",
-        "reference-only",
-        "no-runtime",
-        "no-code-import"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Use only patterns from public documentation. Do not adopt Flova runtime, API, account, credentials, source code or bundled skills."
-      ]
     }
   ],
   "historical_partial_reuse_review": {
