@@ -1,0 +1,63 @@
+name: FA3 Donor Serialization
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  donor-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and donor integrity regressions
+        run: |
+          python3 -m py_compile src/fa3_donor_readiness.py
+          PYTHONPATH=src python3 -m unittest tests.test_donor_readiness -v
+      - name: Classify metadata-only donor maintenance versus normal PR
+        id: classify
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          python3 - <<'PY'
+          import os,subprocess
+          base=os.environ.get('BASE_SHA','')
+          names=(subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines() if base else [])
+          metadata=('canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json',
+                    'canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json',
+                    'canonical/enforcement-policy.json','AGENTS.md',
+                    'src/fa3_donor_readiness.py','bin/fa3-donor-readiness',
+                    'tests/test_donor_readiness.py','src/fa3_goal_preflight.py',
+                    'tests/test_goal_preflight.py','src/fa3_enforce.py',
+                    'src/fa3_reuse_assessment.py',
+.github/workflows/fa3-donor-serialization.yml')
+          def allowed(p): return p in metadata or p.startswith('docs/donor-repair/')
+          donor=any('DONOR-REFERENCE-REGISTRY' in n or n.startswith('docs/donor-repair/') for n in names)
+          phase='maintenance' if base and donor and all(allowed(n) for n in names) else 'status'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('phase='+phase+'\n')
+          print('Donor mode:',phase,'changed files:',len(names))
+          PY
+      - name: Mandatory fail-closed donor readiness
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DONOR_PHASE: ${{ steps.classify.outputs.phase }}
+        run: |
+          mkdir -p reports
+          set -o pipefail
+          PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase "$DONOR_PHASE" | tee reports/donor-readiness-gate-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-donor-readiness
+          path: reports/donor-readiness-gate-report.json
+          if-no-files-found: ignore

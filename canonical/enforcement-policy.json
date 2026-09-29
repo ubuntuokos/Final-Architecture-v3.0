@@ -2081,5 +2081,23 @@
   "audacity_mcp_current_host_runtime_promotion_claim": false,
   "donor_reference_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
   "donor_reference_capture_policy": "POTENTIAL_SIGNAL_CAPTURE_AS_CANDIDATE_NON_AUTHORITATIVE",
-  "donor_reference_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN"
+  "donor_reference_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
+  "donor_registry_serialization": {
+    "p0": true,
+    "deny_when_registry_corrupt": true,
+    "deny_when_maintenance_or_open_donor_pr": true,
+    "live_github_pr_file_inventory_required": true,
+    "deny_when_unverifiable": true,
+    "required_at": [
+      "DESIGN_START",
+      "IMPLEMENTATION_START",
+      "FINALIZATION"
+    ],
+    "mandatory_registry_query": true,
+    "donor_adoption_optional": true,
+    "individual_adoption_explicit_user_approval_required": true,
+    "finalization_approved_plan_required": true,
+    "existing_governance_and_evidence_authorities_required": true,
+    "no_new_authority": true
+  }
 }

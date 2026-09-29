@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import os
 import json
 import subprocess
 from pathlib import Path
@@ -13,6 +14,7 @@ from fa3_agent_workload import validate_task
 from fa3_application_donor_index import build_index
 from fa3_goal_execution import GoalContractError, compile_plan, digest, validate_goal
 from fa3_reuse_assessment import assess_intent
+from fa3_donor_readiness import gate as donor_readiness_gate
 from fa3_uaf import ActionRegistry, UafError
 
 SCHEMA = "fa3.goal-source-preflight.v1"
@@ -166,6 +168,9 @@ def design_preflight(root: Path | str, goal_value: dict[str, Any], intent_path: 
     must revalidate current scope and collect real authority attestations.
     """
     root = Path(root).resolve()
+    readiness = donor_readiness_gate(root, "status", token=os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN", ""))
+    if readiness["result"] != "READY_FOR_SEPARATE_FA3_ADMISSION_GATES":
+        raise GoalPreflightError("P0 donor readiness blocks goal design: " + ",".join(readiness["findings"]))
     goal = validate_goal(goal_value)
     rel = _intent_rel(intent_path)
     snapshot_sha = _git(root, "rev-parse", "HEAD").decode().strip()
