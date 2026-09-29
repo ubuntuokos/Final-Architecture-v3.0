@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 540,
+    "entry_count": 550,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority."
   },
   "entries": [
@@ -3295,6 +3295,66 @@
       "notes": [
         "Architecture/build methodology only; architecture-specific artifacts conditional."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AIRC-AI-AIRC-ORCHESTRATION-001",
+      "name": "AiRC-ai/AiRC-Orchestration",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AiRC-ai/AiRC-Orchestration",
+        "normalized_key": "github:airc-ai/airc-orchestration"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "desktop project continuity",
+        "explicit approval modes",
+        "session-centric UI"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Control Center",
+        "Director/Workforce",
+        "Agent Collaboration Room"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "PROPRIETARY",
+        "status": "UPSTREAM_README_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Proprietary design/UI reference only; no binaries, code copying or paid dependency."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-AITUTOR-EVALKIT-001",
@@ -8556,6 +8616,65 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-DRYVIST-AI-ASSISTANT-INSTRUCTIONS-001",
+      "name": "dryvist/ai-assistant-instructions",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dryvist/ai-assistant-instructions",
+        "normalized_key": "github:dryvist/ai-assistant-instructions"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "multi-assistant single-source instructions and instruction CI"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Skill Fabric/Codex",
+        "Developer Agent",
+        "Security Governance"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Projected instructions must be subordinate to existing FA3 canonical policy."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-EMOCA-001",
       "name": "EMOCA",
       "source": {
@@ -10094,6 +10213,69 @@
         "source_group": "v1.1-programlist",
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-AI-ORCHESTRATION-TOPIC-001",
+      "name": "GitHub ai-orchestration topic (Shell filter)",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/ai-orchestration",
+        "normalized_key": "github:topics/ai-orchestration"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "dynamic-ai-orchestration-source-discovery"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Skill Fabric/Codex",
+        "Task Manager",
+        "Agent Collaboration Room"
+      ],
+      "tags": [
+        "dynamic-topic-index",
+        "shell-language-filter"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FULL_ADMISSION",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Dynamic discovery index, 43 public repositories observed in Shell filter; not an application or approved source."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "Shell",
+        "observed_count": 43,
+        "observed_at": "2026-09-29",
+        "observed_url": "https://github.com/topics/ai-orchestration?l=shell"
       }
     },
     {
@@ -15467,6 +15649,67 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-JOHNVOUROS-SKILLMAXXING-001",
+      "name": "johnvouros/skillmaxxing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/johnvouros/skillmaxxing",
+        "normalized_key": "github:johnvouros/skillmaxxing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "phase-aware task modes",
+        "negative/transition evaluations",
+        "deterministic skill validation"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Skill Fabric/Codex",
+        "Developer Agent",
+        "Verification Fabric"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No replacement of FA3 canonical instructions or skills authority."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-JOPLIN-001",
       "name": "Joplin",
       "source": {
@@ -15828,6 +16071,67 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-JVOGAN-SYMPHONY-CLAUDE-LANE-001",
+      "name": "jvogan/symphony-claude-lane",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jvogan/symphony-claude-lane",
+        "normalized_key": "github:jvogan/symphony-claude-lane"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "long-horizon worker continuity",
+        "attachable worker monitoring",
+        "handoff validation"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Task Manager",
+        "Skill Fabric/Codex"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Do not adopt Linear as a second FA3 authority or subscription dependencies."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-KAANKIZILTUG-LOGO-DESIGN-SKILL-001",
       "name": "kaankiziltug/logo-design-skill",
       "source": {
@@ -15938,6 +16242,65 @@
       },
       "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-KELLVEMBARBOSA-TEAM-ORCHESTRATOR-001",
+      "name": "kellvembarbosa/team-orchestrator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kellvembarbosa/team-orchestrator",
+        "normalized_key": "github:kellvembarbosa/team-orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "single team definition with runtime-specific CLI projections"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Skill Fabric/Codex",
+        "Director/Workforce",
+        "Agent Collaboration Room"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Use existing FA3 skill governance; do not pin models implicitly."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -19947,6 +20310,65 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-NOAHRASHETA-DIRECTOR-001",
+      "name": "noahrasheta/director",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/noahrasheta/director",
+        "normalized_key": "github:noahrasheta/director"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "blueprint/build/inspect and goal-backward outcome verification"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Developer Agent",
+        "Verification Fabric"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Claude Code plugin not adopted as an FA3 runtime dependency."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-NVIDIA-AUDIO-FLAMINGO-001",
       "name": "NVIDIA audio-flamingo",
       "source": {
@@ -22221,6 +22643,67 @@
       "notes": [
         "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-NYLDN-CLAUDE-OCTOPUS-001",
+      "name": "nyldn/claude-octopus",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/nyldn/claude-octopus",
+        "normalized_key": "github:nyldn/claude-octopus"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "multi-model disagreement review",
+        "explicit escalation"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Decision Fabric",
+        "Verification Fabric",
+        "Skill Fabric/Codex"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No implicit provider admission or multi-model auto-routing."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-OBSIDIAN-SKILLS-001",
@@ -28898,6 +29381,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-ROROGOGOGO-CLAUDE-CRACKS-THE-WHIP-001",
+      "name": "Rorogogogo/claude-cracks-the-whip",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Rorogogogo/claude-cracks-the-whip",
+        "normalized_key": "github:rorogogogo/claude-cracks-the-whip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "cross-CLI specialist delegation and worker dispatch"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Skill Fabric/Codex"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_GITHUB_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Vendor-specific hierarchy must not override FA3 routing and central authorities."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-ROSEGARDEN-001",
       "name": "Rosegarden",
       "source": {
@@ -29424,6 +29965,64 @@
       },
       "code_reuse_policy": "REFERENCE_OR_SEPARATE_PROCESS_ONLY_SUBJECT_TO_LICENSE_REVIEW",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-SPENCERMARX-ORC-001",
+      "name": "spencermarx/orc",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/spencermarx/orc",
+        "normalized_key": "github:spencermarx/orc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "https://github.com/topics/ai-orchestration?l=shell"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "minimal local agent-CLI workflow and lightweight dispatch"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development"
+      ],
+      "problem_hints": [
+        "controlled-agent-coordination",
+        "evidence-based-verification"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Developer Agent"
+      ],
+      "tags": [
+        "ai-orchestration",
+        "shell-topic",
+        "selective-reference",
+        "audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No GitHub license declaration; copying blocked."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -31113,6 +31712,79 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-UNTRIVIAL-AI-AGENT-ORCHESTRATOR-001",
+      "name": "Untrivial-ai/agent-orchestrator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Untrivial-ai/agent-orchestrator",
+        "normalized_key": "github:untrivial-ai/agent-orchestrator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "conversation-2026-09-29"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN",
+        "UI_PATTERN"
+      ],
+      "capability_hints": [
+        "parallel coding-agent task delegation",
+        "per-worker branch/worktree isolation",
+        "project-scoped planning and persistent context",
+        "PR/CI/review feedback loop",
+        "live worker Kanban and operator supervision",
+        "isolated per-worker browser preview"
+      ],
+      "domain_hints": [
+        "agent-orchestration",
+        "software-development",
+        "project-coordination",
+        "developer-tooling"
+      ],
+      "problem_hints": [
+        "parallel agent task ownership and branch collision avoidance",
+        "operator-visible blocked tasks and approval handoff",
+        "PR and CI feedback routing to worker"
+      ],
+      "target_hints": [
+        "Developer Agent Coordination",
+        "Director/Workforce",
+        "Skill Fabric/Codex",
+        "Task Manager",
+        "Control Center"
+      ],
+      "tags": [
+        "agent-orchestration",
+        "coding-agents",
+        "git-worktree",
+        "kanban",
+        "CI",
+        "review-feedback",
+        "operator-supervision"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "notes": [
+        "Upstream README and top-level LICENSE reviewed 2026-09-29. Reference-only extraction of task/worktree isolation, project-level delegation, worker state visibility and PR/CI feedback patterns. Do not install AO, create a parallel daemon, bypass FA3 UAF/Central MCP/Director/HRB/Model Router authorities, or assume cloud-free upstream runtime. Reuse requires source provenance, transitive license/security review, Software Coexistence, Hardware Audit, relevant gates, and explicit admission."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-VALVESOFTWARE-PROTON-001",
@@ -33081,79 +33753,6 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-UNTRIVIAL-AI-AGENT-ORCHESTRATOR-001",
-      "name": "Untrivial-ai/agent-orchestrator",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/Untrivial-ai/agent-orchestrator",
-        "normalized_key": "github:untrivial-ai/agent-orchestrator"
-      },
-      "status": "CANDIDATE",
-      "discovered_from": [
-        "conversation-2026-09-29"
-      ],
-      "first_seen": "2026-09-29",
-      "last_seen": "2026-09-29",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "WORKFLOW_PATTERN",
-        "UI_PATTERN"
-      ],
-      "capability_hints": [
-        "parallel coding-agent task delegation",
-        "per-worker branch/worktree isolation",
-        "project-scoped planning and persistent context",
-        "PR/CI/review feedback loop",
-        "live worker Kanban and operator supervision",
-        "isolated per-worker browser preview"
-      ],
-      "domain_hints": [
-        "agent-orchestration",
-        "software-development",
-        "project-coordination",
-        "developer-tooling"
-      ],
-      "problem_hints": [
-        "parallel agent task ownership and branch collision avoidance",
-        "operator-visible blocked tasks and approval handoff",
-        "PR and CI feedback routing to worker"
-      ],
-      "target_hints": [
-        "Developer Agent Coordination",
-        "Director/Workforce",
-        "Skill Fabric/Codex",
-        "Task Manager",
-        "Control Center"
-      ],
-      "tags": [
-        "agent-orchestration",
-        "coding-agents",
-        "git-worktree",
-        "kanban",
-        "CI",
-        "review-feedback",
-        "operator-supervision"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
-      "notes": [
-        "Upstream README and top-level LICENSE reviewed 2026-09-29. Reference-only extraction of task/worktree isolation, project-level delegation, worker state visibility and PR/CI feedback patterns. Do not install AO, create a parallel daemon, bypass FA3 UAF/Central MCP/Director/HRB/Model Router authorities, or assume cloud-free upstream runtime. Reuse requires source provenance, transitive license/security review, Software Coexistence, Hardware Audit, relevant gates, and explicit admission."
-      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,

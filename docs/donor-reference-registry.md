@@ -88,3 +88,7 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 ## OSPRay donor curation
 
 [Curated source and admission-boundary notes](donor-ospray-renderkit-ecosystem-2026-09-28.md). Donor references are candidate-only; runtime/provider admission and hardware safety remain separately gated.
+
+## Shell-filtered AI orchestration donor discovery (2026-09-29)
+
+The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestration?l=shell) is a dynamic discovery index, not an application, provider or approved dependency. Nine distinct upstream repositories are recorded as candidate-only references. See [AI-orchestration Shell donor curation](donor-ai-orchestration-shell-2026-09-29.md). License, provenance, security, Software Coexistence, Hardware Audit, Reuse Discovery and current-host gates remain separate.
