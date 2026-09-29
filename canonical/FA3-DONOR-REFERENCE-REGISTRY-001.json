@@ -79,7 +79,7 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 899,
+    "entry_count": 953,
     "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission."
   },
   "entries": [
@@ -221,6 +221,190 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-6174-RECUT-001",
+      "name": "Recut (6174)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/6174/recut",
+        "normalized_key": "github:6174/recut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "persistent creative world canvas",
+        "reusable characters-scenes-styles",
+        "agent-accessible editable projects"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "reusing narrative world and media assets across videos"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Story/Screenplay",
+        "Asset Graph",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "adc8b2583c872d78539ef87f8b179e9fde877113",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-62656456-AI-FILM-SKILLS-001",
+      "name": "Open Film Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/62656456/ai-film-skills",
+        "normalized_key": "github:62656456/ai-film-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "camera-and-blocking-plan",
+        "shot-design",
+        "playable-3d-whitebox-previs",
+        "production-review"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Director",
+        "Animation",
+        "Bforartists",
+        "Creative Studio"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-869413421-AI-MOIVE-STUDIO-001",
+      "name": "AICON AI Movie Studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/869413421/ai-moive-studio",
+        "normalized_key": "github:869413421/ai-moive-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "editable-infinite-production-canvas",
+        "natural-language-graph-authoring",
+        "text-image-video-node-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Director",
+        "Creative Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
     },
     {
       "status": "CANDIDATE",
@@ -4476,6 +4660,124 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-AMPHION-001",
+      "name": "Amphion",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-mmlab/Amphion",
+        "normalized_key": "github:open-mmlab/amphion"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "speech",
+        "research"
+      ],
+      "problem_hints": [
+        "singing voice synthesis",
+        "vocoder evaluation",
+        "text/audio generation research"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Voice/Vocal",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT code license observed; specific model weights and training datasets may have separate rights. Existing FA3 MusicGeneration contracts, Model Router and HRB remain exclusive execution path."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ANIL-AI-YOUTUBE-SHORTS-001",
+      "name": "AI YouTube Shorts Generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Anil-matcha/AI-Youtube-Shorts-Generator",
+        "normalized_key": "github:anil-matcha/ai-youtube-shorts-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "transcript-led highlight selection",
+        "automatic vertical cropping"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "long videos to short editable clips"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "de07f3a94a9ef0c4c55376cfa118141de62a3d43",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-ANIL-MATCHA-OPEN-GENERATIVE-AI-001",
       "name": "Anil-matcha/Open-Generative-AI",
       "source": {
@@ -5050,6 +5352,70 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-ARCREEL-ARCREEL-001",
+      "name": "ArcReel",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ArcReel/ArcReel",
+        "normalized_key": "github:arcreel/arcreel"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "cross-shot-character-consistency",
+        "human-approval-checkpoints",
+        "asset-version-retry",
+        "cost-ledger",
+        "editable-export"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Asset Graph",
+        "Director",
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "copyleft-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-ARDOUR-001",
       "name": "Ardour",
       "source": {
@@ -5301,6 +5667,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ARTBYJAZI-AUTOCLIP-001",
+      "name": "AutoClip (artbyjazi)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/artbyjazi/autoclip",
+        "normalized_key": "github:artbyjazi/autoclip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "speaker-tracked vertical framing",
+        "subtitle-burn pipeline",
+        "local-first clipping"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "offline speaker-aware short clips"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "5d0eac36fa615b79dd2104083bf273a96f8d68bb",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-ASWF-OPENCOLORIO-001",
@@ -8017,6 +8443,66 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CAROCUT-001",
+      "name": "CaroCut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bilibili/carocut",
+        "normalized_key": "github:bilibili/carocut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "orchestrator-planner-builder-reviewer separation",
+        "durable incremental multi-agent video workflow"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "auditable multi-agent production pipeline"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Story/Screenplay",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "UNVERIFIED_README_MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "2f8dc102012036a20b1645c2183e680b3e4a8fd4",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-CAUSAL-FORCING-001",
       "name": "Causal Forcing/++",
       "source": {
@@ -8286,6 +8772,63 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-CLAP-AUDIO-PLUGIN-API-001",
+      "name": "CLAP Audio Plugin API",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/free-audio/clap",
+        "normalized_key": "github:free-audio/clap"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "plugin",
+        "standard"
+      ],
+      "problem_hints": [
+        "stable host-plugin ABI",
+        "plugin capability negotiation",
+        "synth/effect interoperability"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT license observed. Standard/API donor only; plugin hosting requires isolation, scanner hardening, reproducible discovery and explicit admission."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-CLEARERVOICE-STUDIO-001",
       "name": "ClearerVoice-Studio",
       "source": {
@@ -8337,6 +8880,66 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CLIPTALK-001",
+      "name": "ClipTalk",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/GML-MMGroup/ClipTalk",
+        "normalized_key": "github:gml-mmgroup/cliptalk"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "conversational video-editing intent interface",
+        "agent-skill reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "natural-language editorial intent translation"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Central MCP Gateway"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "c2870c289a8471f142fc90fd9dbe576c7be5250d",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-COCO-PREPRODUCTION-001",
@@ -9526,6 +10129,67 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-DAWN-CUT-001",
+      "name": "dawn-cut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/kwakseongjae/dawn-cut",
+        "normalized_key": "github:kwakseongjae/dawn-cut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "deterministic edit-decision list",
+        "word-level subtitle review",
+        "text-guided silence trimming"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "reproducible text-based local editing"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "7de68fce41505d8092ec227806b8d4bea4127675",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-DAWPROJECT-001",
       "name": "DAWproject",
       "source": {
@@ -10148,6 +10812,70 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-DRAMACLAW-DRAMACLAW-001",
+      "name": "DramaClaw",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/dramaclaw/dramaclaw",
+        "normalized_key": "github:dramaclaw/dramaclaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "episode-oriented-shot-graph",
+        "asset-library",
+        "spatially-consistent-set-previs",
+        "director-agent-approval",
+        "node-to-series-promotion"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Director",
+        "Bforartists",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "source-available-only"
+      ],
+      "license": {
+        "declared": "Elastic-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-DRAMATRON-001",
       "name": "Dramatron",
       "source": {
@@ -10456,6 +11184,132 @@
         "Inspected commit 40ca3eaf723c8052f6e4761eaea7e03837aea6b4. README claims MIT but no LICENSE file found; no source copying until verified. Useful separate image/video selected batch, ZIP load/append, ComfyUI manifest node mapping. Upstream localStorage stores API keys and direct ComfyUI URL, prohibited in FA3; Secret Broker, central Model Router, UAF/MCP, HRB and current-host admission required.",
         "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-EDWARDATHOMSON-NOVELWRITER-001",
+      "name": "EdwardAThomson/NovelWriter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/EdwardAThomson/NovelWriter",
+        "normalized_key": "github:edwardathomson/novelwriter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "genre-planning",
+        "worldbuilding",
+        "character-arcs",
+        "multi-agent-review",
+        "chapter-quality"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "agents"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No repository license declaration observed on 2026-09-28; code copying blocked. Reuse only general agent/review ideas; replace independent model selectors with FA3 Model Router."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-EDWARDATHOMSON-STORYDAEMON-001",
+      "name": "EdwardAThomson/StoryDaemon",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/EdwardAThomson/StoryDaemon",
+        "normalized_key": "github:edwardathomson/storydaemon"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "emergent-narrative",
+        "character-memory",
+        "goal-hierarchy",
+        "checkpoint-recovery",
+        "point-of-view"
+      ],
+      "domain_hints": [
+        "writing",
+        "agents",
+        "story"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "No repository license declaration observed on 2026-09-28; no source copy or runtime admission. Agent autonomy requires explicit FA3 human-approval boundary."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-EFERU-MOTIONGENERATOR-001",
@@ -11485,6 +12339,67 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-FORGE-FILM-001",
+      "name": "Forge Film",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/F-R-L/forge-film",
+        "normalized_key": "github:f-r-l/forge-film"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "scene dependency DAG",
+        "critical-path candidate scheduling",
+        "cross-scene continuity reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "parallel scene generation with dependencies"
+      ],
+      "target_hints": [
+        "Director/Workforce",
+        "Story/Screenplay",
+        "Generative Media Studio"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "f67f0a003aee58b3afe1b4f48b39ba8db5ed30f0",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-FORGET-C-JELLYFISH-001",
@@ -13780,6 +14695,61 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-CLIP-GENERATOR-001",
+      "name": "GitHub ai-clip-generator discovery topic",
+      "source": {
+        "kind": "DISCOVERY_INDEX",
+        "locator": "https://github.com/topics/ai-clip-generator",
+        "normalized_key": "github:topics/ai-clip-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "periodic source discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "new open-source video donor discovery"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "INDEX_NOT_CODE"
+      },
+      "code_reuse_policy": "INDEX_ONLY_NO_CODE_IMPORT",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-DOCUMENT-001",
       "name": "topics/ai-document",
       "source": {
@@ -14077,6 +15047,73 @@
       "automatic_model_selection": false,
       "notes": [
         "Source locator is a dynamic topic or profile index, not approval of any repository it lists."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-VIDEO-EDITOR-001",
+      "name": "GitHub ai-video-editor discovery topic",
+      "source": {
+        "kind": "DISCOVERY_INDEX",
+        "locator": "https://github.com/topics/ai-video-editor",
+        "normalized_key": "github:topics/ai-video-editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28",
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "periodic source discovery",
+        "video-editor-donor-discovery",
+        "ai-editing-pattern-review"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing",
+        "research"
+      ],
+      "problem_hints": [
+        "new open-source video donor discovery"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "FA3 Video Editor",
+        "QuickClip",
+        "Director/Workforce",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "discovery-only",
+        "metadata-only",
+        "dynamic-github-topic",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "INDEX_NOT_CODE"
+      },
+      "code_reuse_policy": "INDEX_ONLY_NO_CODE_IMPORT",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic topic discovery snapshot reviewed 2026-09-28; individual projects require their own source-unique donor record, exact upstream revision and legal/security/architecture assessment. Listing does not grant permission to bulk-import or adopt a dependency."
       ]
     },
     {
@@ -15674,6 +16711,61 @@
       "notes": [
         "Source locator is a dynamic topic or profile index, not approval of any repository it lists."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-OPEN-SOURCE-VIDEO-001",
+      "name": "GitHub open-source-video discovery topic",
+      "source": {
+        "kind": "DISCOVERY_INDEX",
+        "locator": "https://github.com/topics/open-source-video",
+        "normalized_key": "github:topics/open-source-video"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "DISCOVERY_INDEX"
+      ],
+      "capability_hints": [
+        "periodic source discovery"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "new open-source video donor discovery"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry",
+        "Reuse Discovery",
+        "FA3 Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "INDEX_NOT_CODE"
+      },
+      "code_reuse_policy": "INDEX_ONLY_NO_CODE_IMPORT",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-GITHUB-TOPIC-POSTER-GENERATOR-001",
@@ -17608,6 +18700,62 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GRIDSOUND-001",
+      "name": "GridSound",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/gridsound/daw",
+        "normalized_key": "github:gridsound/daw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "browser-daw"
+      ],
+      "problem_hints": [
+        "browser-based synthesizer UI",
+        "drum sequencing and Web Audio patterns"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "AGPL-3.0 license observed and README describes application as half open-source; research/UI reference only pending component-by-component provenance and licence review."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -18885,6 +20033,67 @@
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HOTCLIP-001",
+      "name": "HotClip",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/xixihhhh/hotclip",
+        "normalized_key": "github:xixihhhh/hotclip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "livestream replay clip extraction",
+        "searchable transcript correction",
+        "short-form reframing"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "long live recordings to reviewable clips"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "Subtitle Studio",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "62aef3919fdd7d8a974f80a9b721e0177eb408c2",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-HOW-TO-MAKE-SCRIPT-001",
@@ -22723,6 +23932,67 @@
       "automatic_model_selection": false,
       "notes": [
         "OSPRay CPU implementation uses ISPC >=1.23.0; x86 SSE4.1 and ARM NEON platform minima still apply to OSPRay runtime."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-IXIEHAO-SHOTTESSERA-001",
+      "name": "ShotTessera",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ixiehao/ShotTessera",
+        "normalized_key": "github:ixiehao/shottessera"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "reverse-video-to-contact-sheet",
+        "shot-boundary-frame-selection",
+        "blur-and-duplicate-rejection",
+        "manual-frame-correction"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Review"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
       ]
     },
     {
@@ -26856,6 +28126,184 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-LYAHN-VIDBOARD-001",
+      "name": "VidBoard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/LyAhn/VidBoard",
+        "normalized_key": "github:lyahn/vidboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "paired-first-last-frame-planning",
+        "reference-consistent-music-video-storyboard"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "QuickClip",
+        "Director"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-MAGDA-001",
+      "name": "MAGDA",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Conceptual-Machines/magda-core",
+        "normalized_key": "github:conceptual-machines/magda-core"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "agentic-editing"
+      ],
+      "problem_hints": [
+        "hybrid audio/MIDI tracks",
+        "typed AI-driven DAW editing",
+        "transport-scoped remote API"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Voice/Vocal"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "GPL-3.0 license observed; early v0 software. Use remote API/DSL concepts only until full licensing, security and compatibility audit. Do not reuse embedded provider routing or bearer-token storage; FA3 Gateway/Model Router/HRB remain authoritative."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MAKEMYCLIP-EDITOR-001",
+      "name": "MakeMyClip Editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/MakeMyClip/editor",
+        "normalized_key": "github:makemyclip/editor"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "structured agent editing tool catalog",
+        "versioned session log",
+        "non-destructive edits and snapshots"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "deterministic agent-to-timeline changes"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Central MCP Gateway",
+        "QuickClip"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "867333981a5bfa4fead1b12f5c96f9cdc34fb68b",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-MARKOR-001",
       "name": "Markor",
       "source": {
@@ -29118,6 +30566,126 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-MODOOJUNKO-AWESOME-NOVEL-AGENT-001",
+      "name": "modoojunko/awesome-novel-agent",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/modoojunko/awesome-novel-agent",
+        "normalized_key": "github:modoojunko/awesome-novel-agent"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "SKILL_PATTERN",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "writing-skills",
+        "chapter-workflows",
+        "story-planning"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "skills"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Repository declares AGPLv3 while README also requests commercial authorization; investigate provenance and commercial terms before any code or skill adoption."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MONET-AI-EDITOR-001",
+      "name": "Monet AI Editor",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Monet-AI-Editor/Monet",
+        "normalized_key": "github:monet-ai-editor/monet"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "agent-driven video and image workflow",
+        "semantic-media-search reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "cross-media editing agent UX"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "Creative Studio",
+        "Asset Graph"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "74fcb1646a2329dfa35acfe7b3726491544fca18",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
+    },
+    {
       "status": "CANDIDATE",
       "discovered_from": [
         "https://github.com/topics/houdini?l=c&o=desc&s="
@@ -30012,6 +31580,68 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-NARCOOO-INKOS-001",
+      "name": "InkOS",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Narcooo/inkos",
+        "normalized_key": "github:narcooo/inkos"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "long-form-story-memory",
+        "character-and-plot-state",
+        "versioned-atomic-story-workspace",
+        "screenplay-storyboard-handoff"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Director",
+        "AI Mentor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "copyleft-review"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-NARRATIVE-SOUNDSTAGE-001",
       "name": "Narrative Soundstage",
       "source": {
@@ -30110,6 +31740,68 @@
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-NIGH-SHOW-ME-THE-STORY-001",
+      "name": "Nigh/show-me-the-story",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Nigh/show-me-the-story",
+        "normalized_key": "github:nigh/show-me-the-story"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "chapter-approval",
+        "fact-provenance",
+        "foreshadowing",
+        "targeted-revision",
+        "backup-restore"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "creative"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "MIT declared. Its native local web/API setup and stored API keys must not become FA3 runtime or secrets authority; consider pattern-level use first."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -33540,6 +35232,68 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-OLIVIERKES-MANUSKRIPT-001",
+      "name": "olivierkes/manuskript",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/olivierkes/manuskript",
+        "normalized_key": "github:olivierkes/manuskript"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "outliner",
+        "index-cards",
+        "worldbuilding",
+        "distraction-free-writing",
+        "document-import-export"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "creative"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "GPL-3.0-or-later",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GPLv3-or-later PyQt5 writing app; consult license review before any source reuse or linking."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-ONEAPI-SRC-DPCPP-REFERENCE-001",
       "name": "oneapi-src/DPCPP_Reference",
       "source": {
@@ -35175,6 +36929,87 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-OPENCHATCUT-001",
+      "name": "OpenChatCut",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/0xsline/OpenChatCut",
+        "normalized_key": "github:0xsline/openchatcut"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28",
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "proposal-based editable timeline mutations",
+        "transcript-linked editing",
+        "agent edit session review",
+        "agent-editable-timeline",
+        "reversible-editor-commands",
+        "human-reviewed-edit-proposals",
+        "mcp-editor-tools",
+        "transcript-driven-editing",
+        "native-project-preservation"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing",
+        "editing"
+      ],
+      "problem_hints": [
+        "auditable agent-assisted editing"
+      ],
+      "target_hints": [
+        "FA3 Video Editor",
+        "QuickClip",
+        "Central MCP Gateway",
+        "Director/Workforce"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned",
+        "agentic-editing",
+        "mcp",
+        "editable-timeline",
+        "agpl-3.0",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "AGPL-3.0",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "bb2a4f7e1bb587aa55f3816583ec180d58eb1432",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      },
+      "notes": [
+        "Upstream bb2a4f7e1bb587aa55f3816583ec180d58eb1432. AGPL-3.0 source code is NOT approved for FA3 copying or linking. Study independently and design native FA3 Qt6/QML Command Bus proposals; do not replace project.fa3video, MLT/FFmpeg, UAF or Central MCP Gateway. Any actual upstream source reuse needs independent legal/distribution review."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPENCODE-001",
       "name": "opencode",
       "source": {
@@ -35461,6 +37296,63 @@
         "image-pipeline",
         "color",
         "raw"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENDAW-001",
+      "name": "openDAW",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/andremichelle/openDAW",
+        "normalized_key": "github:andremichelle/opendaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "browser-daw"
+      ],
+      "problem_hints": [
+        "browser-first DAW composition workflow",
+        "privacy-conscious UI",
+        "headless music session patterns"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "AGPL-3.0-or-later license observed. Research/reference only; do not embed source without distribution/network copyleft review. Keep distinct from previously recorded openDAW/headless project candidate."
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -36379,6 +38271,86 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENSHORTS-001",
+      "name": "OpenShorts",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mutonby/openshorts",
+        "normalized_key": "github:mutonby/openshorts"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28",
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "multispeaker dynamic reframing",
+        "highlight extraction",
+        "subtitles and dubbing",
+        "highlight-selection",
+        "speaker-aware-smart-reframe",
+        "split-speaker-layout",
+        "word-level-subtitles",
+        "clip-export",
+        "mcp-job-interface"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing",
+        "short-form"
+      ],
+      "problem_hints": [
+        "long-form to short-form repurposing"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor",
+        "Subtitle Studio",
+        "Voice/Vocal",
+        "Director/Workforce"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned",
+        "short-video",
+        "diarization",
+        "face-tracking",
+        "smart-reframe",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "29c54fa04c42621310f768adf40c81a1f3436bf2",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      },
+      "notes": [
+        "Upstream 29c54fa04c42621310f768adf40c81a1f3436bf2. Assess per-file third-party NOTICE, ML model licenses, privacy/consent, publishing endpoints and external APIs separately. Do not inherit autonomous publishing or directly configured model/provider access; CPU-only fallback and HRB are required."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-OPENSUSE-GITHUB-ORG-001",
@@ -47182,6 +49154,68 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-SAGA-SOFT-NOVELWRITER-001",
+      "name": "saga-soft/novelWriter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/saga-soft/novelWriter",
+        "normalized_key": "github:saga-soft/novelwriter"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "structured-chapters",
+        "scene-notes",
+        "cross-reference",
+        "human-readable-manuscript",
+        "manuscript-export"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "creative"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "GPLv3 Qt6/PyQt6 novel editor; evaluate only selective patterns and format adapters. v26.2 document format is Markdown plus TOML; do not overwrite original projects."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-SAHIELBOSE-TIDELINE-001",
       "name": "sahielbose/Tideline",
       "source": {
@@ -51315,6 +53349,581 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-TOPIC-AI-STORYBOARD-001",
+      "name": "GitHub storyboard topic: ai-storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/ai-storyboard",
+        "normalized_key": "github:topics/ai-storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-CREATIVE-WRITING-001",
+      "name": "GitHub topic: creative-writing",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/creative-writing",
+        "normalized_key": "github:topics/creative-writing"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "creative-writing-discovery"
+      ],
+      "domain_hints": [
+        "writing",
+        "discovery"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Discovery index only; not a source license or runtime-admission decision."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-NOVEL-GENERATOR-001",
+      "name": "GitHub topic: novel-generator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/novel-generator",
+        "normalized_key": "github:topics/novel-generator"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "long-form-generation-discovery"
+      ],
+      "domain_hints": [
+        "writing",
+        "discovery"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Discovery index only; not a source license or runtime-admission decision."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-NOVEL-WRITER-001",
+      "name": "GitHub topic: novel-writer",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/novel-writer",
+        "normalized_key": "github:topics/novel-writer"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "user-shared-creative-writing-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "novel-writing-discovery"
+      ],
+      "domain_hints": [
+        "writing",
+        "discovery"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review",
+        "discovery-only"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Discovery index only; individual repositories must be captured and licensed independently."
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-001",
+      "name": "GitHub storyboard topic: storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard",
+        "normalized_key": "github:topics/storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-APPLICATION-001",
+      "name": "GitHub storyboard topic: storyboard-application",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard-application",
+        "normalized_key": "github:topics/storyboard-application"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-GENERATION-001",
+      "name": "GitHub storyboard topic: storyboard-generation",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard-generation",
+        "normalized_key": "github:topics/storyboard-generation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARD-TOOLS-001",
+      "name": "GitHub storyboard topic: storyboard-tools",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboard-tools",
+        "normalized_key": "github:topics/storyboard-tools"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-STORYBOARDS-001",
+      "name": "GitHub storyboard topic: storyboards",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/storyboards",
+        "normalized_key": "github:topics/storyboards"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TOPIC-VIDEO-STORYBOARD-001",
+      "name": "GitHub storyboard topic: video-storyboard",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/topics/video-storyboard",
+        "normalized_key": "github:topics/video-storyboard"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "upstream-project-discovery"
+      ],
+      "domain_hints": [
+        "upstream-discovery",
+        "storyboarding"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "topic-page",
+        "mixed-relevance",
+        "curation-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-TOPICS-HEIC-CONVERTER-L-HTML-001",
       "name": "topics/heic-converter?l=html (dynamic GitHub topic)",
       "source": {
@@ -51706,6 +54315,63 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Planning reference only; separate license/security/compatibility gate required."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-TRACKTION-ENGINE-001",
+      "name": "Tracktion Engine",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Tracktion/tracktion_engine",
+        "normalized_key": "github:tracktion/tracktion_engine"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "engine"
+      ],
+      "problem_hints": [
+        "sequencer architecture",
+        "offline render and audio engine patterns",
+        "automation/session design"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "GPL-3.0-or-later/commercial dual licensing observed; JUCE has a separate licence. Architecture/reference only pending full commercial distribution review; do not add as FA3 runtime dependency."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-TRYSKILLY-SKILLY-001",
@@ -53054,6 +55720,64 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-VIDEO-GENERATION-TOPIC-001",
+      "name": "GitHub video-generation topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/video-generation",
+        "normalized_key": "github:topics/video-generation"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "KNOWLEDGE_REFERENCE"
+      ],
+      "capability_hints": [
+        "generative-video-donor-discovery",
+        "multi-shot-production-pattern-review"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "research"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio",
+        "Generative Media Studio",
+        "Director/Workforce",
+        "FA3 Video Editor",
+        "Donor & Reference Registry"
+      ],
+      "tags": [
+        "dynamic-github-topic",
+        "discovery-only",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Dynamic topic discovery snapshot reviewed 2026-09-28; related legacy donor records Wan2.2/LivePortrait and canonical Pixelle-Video must be source-reconciled rather than duplicated. Generation model admission remains strictly separate from donor discovery."
+      ]
+    },
+    {
       "discovered_from": [
         "prior-fa3-research-backfill"
       ],
@@ -53116,6 +55840,73 @@
         "status": "KNOWN_DECLARATION"
       },
       "code_reuse_policy": "LICENSE_COMPONENT_CLASSIFICATION_REQUIRED"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIMAX-001",
+      "name": "ViMax",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/HKUDS/ViMax",
+        "normalized_key": "github:hkuds/vimax"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "fa3-ai-video-editor-and-video-generation-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "WORKFLOW_PATTERN",
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "idea-to-video",
+        "script-to-video",
+        "novel-to-video",
+        "storyboard-generation",
+        "shot-continuity",
+        "persistent-agent-session",
+        "render-checkpoints"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "agents"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Director/Workforce",
+        "Story/Screenplay",
+        "Creative Studio",
+        "FA3 Video Editor",
+        "Character Studio"
+      ],
+      "tags": [
+        "agentic-video",
+        "multi-shot",
+        "character-consistency",
+        "production-graph",
+        "2026-09-28-video-curation"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream b596ca7793c7ec6346ddcc408a9ed1bc97998152. Treat Idea2Video/Script2Video/Novel2Video, shot-planning and session/checkpoint patterns as selective references. Its provider YAML/API and CUDA-specific package index MUST NOT bypass FA3 central Model Router, HRB, secret boundary or vendor-neutral CPU-only baseline."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-VISUAL-ANGELOLIBERO-TWEAKR-001",
@@ -53900,6 +56691,127 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-WAOOAI-WAOOWAOO-001",
+      "name": "waoowaoo",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/waooAI/waoowaoo",
+        "normalized_key": "github:waooai/waoowaoo"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "reference-image-role-management",
+        "first-and-last-frame-workflow",
+        "asset-variation-history",
+        "durable-workflow-reference"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Creative Studio",
+        "Director",
+        "Asset Graph"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required",
+        "source-available-only"
+      ],
+      "license": {
+        "declared": "Elastic-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-WAVEFORM-PLAYLIST-001",
+      "name": "Waveform Playlist",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/naomiaro/waveform-playlist",
+        "normalized_key": "github:naomiaro/waveform-playlist"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "media",
+        "waveform"
+      ],
+      "problem_hints": [
+        "multitrack waveform editing",
+        "time-synced annotations",
+        "clip fades/trim and export"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Voice/Vocal",
+        "Video Editor",
+        "QuickClip"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT license observed. React/Tone.js implementation may be selectively adapted, not used to replace FA3 Qt6/QML GUI or native project formats."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-WBENCH-001",
       "name": "meituan-longcat/WBench",
       "source": {
@@ -54022,6 +56934,64 @@
         "Particle format IO abstraction with C++ API and Python bindings; audit each format's bidirectional support before any FA3 admission.",
         "Do not infer tested interoperability, source reuse rights, or runtime availability."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-WEBDAW-001",
+      "name": "WebDAW",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ai-music/webdaw",
+        "normalized_key": "github:ai-music/webdaw"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-daw-music-generation-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [],
+      "domain_hints": [
+        "audio",
+        "music",
+        "browser-daw"
+      ],
+      "problem_hints": [
+        "browser-side audio/MIDI project model",
+        "portable composition UI",
+        "Web Audio/Web MIDI interchange"
+      ],
+      "target_hints": [
+        "Music Studio",
+        "Audio Fabric",
+        "Creative Studio"
+      ],
+      "tags": [
+        "github",
+        "audio",
+        "music",
+        "2026-09-28-reviewed"
+      ],
+      "notes": [
+        "MIT license observed. Repository's latest main commit observed 2024-02-02; Web Audio Modules 2.0 is a documented intention, not verified complete integration. Review code health and third-party assets before reuse."
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-WEBDRIVER-BIDI-001",
@@ -54199,6 +57169,68 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-WONDERUNIT-STORYBOARDER-001",
+      "name": "Wonder Unit Storyboarder",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/wonderunit/storyboarder",
+        "normalized_key": "github:wonderunit/storyboarder"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "fast-hand-drawn-storyboards",
+        "Fountain-screenplay-ingest",
+        "onion-skin",
+        "animatic-preview",
+        "shot-explorer"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Animation",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-XGEN-JING-001",
       "name": "XGEN-Labs/XGEN-JING",
       "source": {
@@ -54239,6 +57271,69 @@
       },
       "code_reuse_policy": "REFERENCE_ONLY_UNTIL_LICENSE_AND_IMPLEMENTATION_ADMISSION",
       "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-XIAOYANGY-NOVEL-STUDIO-001",
+      "name": "Xiaoyangy/novel-studio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Xiaoyangy/novel-studio",
+        "normalized_key": "github:xiaoyangy/novel-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "creative-writing-topic-review-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "story-causality",
+        "character-knowledge-boundary",
+        "chapter-contracts",
+        "content-hashes",
+        "recoverable-pipeline"
+      ],
+      "domain_hints": [
+        "writing",
+        "story",
+        "agents"
+      ],
+      "problem_hints": [
+        "selective-reuse",
+        "original-project-preservation"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Creative Studio",
+        "Character Studio"
+      ],
+      "tags": [
+        "creative-writing",
+        "story",
+        "2026-09-28-donor-review"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "LICENSE_AND_ADMISSION_REQUIRED",
+      "discoverable_for_planning": true,
+      "notes": [
+        "Apache-2.0 declared; study state, evidence and recovery designs. Existing FA3 Temporal/Journal/HRB/Model Router retain authority."
+      ],
       "authority": false,
       "automatic_selection": false,
       "automatic_fetch": false,
@@ -54579,6 +57674,185 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ZENSTORY-AI-DRAMA-SKILLS-001",
+      "name": "ZenStory Drama Skills",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zenstory-ai/drama-skills",
+        "normalized_key": "github:zenstory-ai/drama-skills"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "scene-to-shot-approval",
+        "cross-shot-continuity-locks",
+        "file-grounded-deliverables",
+        "prompt-review-gates"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Director",
+        "Creative Studio"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ZHIYUZI-STORYFORGE-001",
+      "name": "StoryForge",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zhiyuzi/StoryForge",
+        "normalized_key": "github:zhiyuzi/storyforge"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-storyboard-topics-research-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "synopsis-human-approval",
+        "role-separated-story-generation-review",
+        "convergence-review-loop"
+      ],
+      "domain_hints": [
+        "creative",
+        "storyboarding",
+        "film-production"
+      ],
+      "problem_hints": [
+        "script-to-storyboard-traceability",
+        "editable-shot-production"
+      ],
+      "target_hints": [
+        "Story/Screenplay",
+        "Director"
+      ],
+      "tags": [
+        "storyboard",
+        "selective-reuse",
+        "upstream-audit-required"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Registry admission only. Verify upstream commit, license/NOTICE, provenance, security, export boundaries and FA3 hardware/model contracts before any code or runtime use."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ZHOUXIAOKA-AUTOCLIP-001",
+      "name": "AutoClip (zhouxiaoka)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zhouxiaoka/autoclip",
+        "normalized_key": "github:zhouxiaoka/autoclip"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "github-topic-video-editor-clip-curation-2026-09-28"
+      ],
+      "first_seen": "2026-09-28",
+      "last_seen": "2026-09-28",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "highlight detection",
+        "clip candidate generation"
+      ],
+      "domain_hints": [
+        "creative",
+        "video",
+        "video-editing"
+      ],
+      "problem_hints": [
+        "highlight discovery from existing footage"
+      ],
+      "target_hints": [
+        "QuickClip",
+        "FA3 Video Editor"
+      ],
+      "tags": [
+        "video-clip-topic-curation-2026-09-28",
+        "metadata-only",
+        "source-snapshot-pinned"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UNVERIFIED_UPSTREAM_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "commit_sha": "609e3fb31c4db3621712d7443fa33be8df94fbb0",
+        "checked_at": "2026-09-28",
+        "source": "GitHub repository API"
+      }
     },
     {
       "donor_id": "FA3-DONOR-ZING-0-5-001",
