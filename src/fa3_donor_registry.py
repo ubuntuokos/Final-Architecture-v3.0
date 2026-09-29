@@ -162,6 +162,8 @@ def parse_donor_mention(text: str, *, name: str | None = None, source: str | Non
     found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(after)))
     if len(found) > 1 and not source:
         raise ValueError("multiple marked source URLs: capture each separately")
+    if source and source not in after:
+        raise ValueError("supplied source must occur AFTER the explicit donornak marker")
     locator = source or (found[0] if found else None)
     if not locator or not locator.lower().startswith(("https://", "http://")):
         raise ValueError("an explicitly marked donor link is required")
@@ -192,6 +194,8 @@ def main() -> int:
                    help="Operator attests the owner wrote donornak before this link")
     args = p.parse_args()
     if args.mention:
+        if not args.owner_submitted_link or args.owner_donor_marker != "donornak":
+            p.error("mention intake requires trusted owner role and explicit donornak attestation")
         name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
     else:
         if args.owner_donor_marker != "donornak":
