@@ -1,0 +1,166 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-GGUF-COMFY-CODEC-2026-09-30",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "5bea571f5e79f2e42f6a4d4445656556529c534a",
+  "source_count": 12,
+  "unique_source_key_count": 12,
+  "matched_existing_parent": [],
+  "expected_new_source_count": 12,
+  "previous_registry_count": 1221,
+  "expected_registry_count": 1233,
+  "requirements": [
+    "Preserve all twelve exact owner-marked URLs; repeated submission is one batch, not multiple donor intakes",
+    "GGUF base and filtered Go topic URLs are distinct discovery viewpoints; no child repositories automatically admitted",
+    "GitHub organization/profile/topic indexes are discovery only; do not recursively register listed repositories",
+    "Comfy-Org/desktop is archived and superseded; preserve owner-supplied original URL as a historical reference without admitting its unmarked replacement",
+    "Metadata-only ACCEPTED_REFERENCE only after successful exact-head gates and merge; fixed capability 175 and no new authority",
+    "No automatic model/provider selection, code copy, install, download, runtime activation or current-host claim"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "sources": [
+    {
+      "normalized_source_key": "github:topics/gguf",
+      "urls": [
+        "https://github.com/topics/gguf"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/gguf-models",
+      "urls": [
+        "https://github.com/topics/gguf-models"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:city96/comfyui-gguf",
+      "urls": [
+        "https://github.com/city96/ComfyUI-GGUF"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:ibm/gguf",
+      "urls": [
+        "https://github.com/IBM/gguf"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:huggingface",
+      "urls": [
+        "https://github.com/huggingface"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:calcuis",
+      "urls": [
+        "https://github.com/calcuis"
+      ],
+      "kind": "GITHUB_PROFILE"
+    },
+    {
+      "normalized_source_key": "github:topics/gguf?l=go&o=asc&s=stars",
+      "urls": [
+        "https://github.com/topics/gguf?l=go&o=asc&s=stars"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:mitjafelicijan",
+      "urls": [
+        "https://github.com/mitjafelicijan"
+      ],
+      "kind": "GITHUB_PROFILE"
+    },
+    {
+      "normalized_source_key": "github:comfy-org",
+      "urls": [
+        "https://github.com/orgs/Comfy-Org/repositories"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:comfy-org/desktop",
+      "urls": [
+        "https://github.com/Comfy-Org/desktop"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:topics/codec-evaluation",
+      "urls": [
+        "https://github.com/topics/codec-evaluation"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/quicktime?l=swift",
+      "urls": [
+        "https://github.com/topics/quicktime?l=swift"
+      ],
+      "kind": "GITHUB_TOPIC"
+    }
+  ],
+  "new_ids": [
+    {
+      "id": "FA3-DONOR-GGUF-TOPIC-001",
+      "key": "github:topics/gguf"
+    },
+    {
+      "id": "FA3-DONOR-GGUF-MODELS-TOPIC-001",
+      "key": "github:topics/gguf-models"
+    },
+    {
+      "id": "FA3-DONOR-CITY96-COMFYUI-GGUF-001",
+      "key": "github:city96/comfyui-gguf"
+    },
+    {
+      "id": "FA3-DONOR-IBM-GGUF-001",
+      "key": "github:ibm/gguf"
+    },
+    {
+      "id": "FA3-DONOR-HUGGINGFACE-ORG-001",
+      "key": "github:huggingface"
+    },
+    {
+      "id": "FA3-DONOR-CALCUIS-PROFILE-001",
+      "key": "github:calcuis"
+    },
+    {
+      "id": "FA3-DONOR-GGUF-GO-TOPIC-001",
+      "key": "github:topics/gguf?l=go&o=asc&s=stars"
+    },
+    {
+      "id": "FA3-DONOR-MITJAFELICIJAN-PROFILE-001",
+      "key": "github:mitjafelicijan"
+    },
+    {
+      "id": "FA3-DONOR-COMFY-ORG-001",
+      "key": "github:comfy-org"
+    },
+    {
+      "id": "FA3-DONOR-COMFY-ORG-DESKTOP-ARCHIVED-001",
+      "key": "github:comfy-org/desktop"
+    },
+    {
+      "id": "FA3-DONOR-CODEC-EVALUATION-TOPIC-001",
+      "key": "github:topics/codec-evaluation"
+    },
+    {
+      "id": "FA3-DONOR-QUICKTIME-SWIFT-TOPIC-001",
+      "key": "github:topics/quicktime?l=swift"
+    }
+  ]
+}
