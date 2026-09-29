@@ -193,6 +193,13 @@ def main() -> int:
     p.add_argument("--owner-donor-marker", choices=["donornak"],
                    help="Operator attests the owner wrote donornak before this link")
     args = p.parse_args()
+    # A dry run on an unmarked link is permitted analysis, never candidate
+    # registration. Production writes still require owner marker attestation.
+    if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak"):
+        print(json.dumps({"result": "ANALYSIS_ONLY_UNMARKED_LINK",
+                          "created": False, "registry_mutated": False,
+                          "dry_run": True}, ensure_ascii=False))
+        return 0
     if args.mention:
         if not args.owner_submitted_link or args.owner_donor_marker != "donornak":
             p.error("mention intake requires trusted owner role and explicit donornak attestation")
