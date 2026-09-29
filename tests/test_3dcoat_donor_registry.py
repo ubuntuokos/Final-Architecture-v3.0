@@ -33,13 +33,26 @@ class Coat3DDonorRegistryTests(unittest.TestCase):
                 self.assertEqual(row["status"], "CANDIDATE")
                 self.assertTrue(row["discoverable_for_planning"])
                 self.assertIn("3D Fabric", row["target_hints"])
-                self.assertRegex(row["observed_commit"], r"^[0-9a-f]{40}$")
+                # No immutable upstream revision is present in PR #478's
+                # actual registry bytes. Never synthesize an observed commit.
+                self.assertNotIn("observed_commit", row)
+                self.assertEqual(row["source_pin_status"], "PENDING_VERIFICATION")
+                self.assertIs(row["automatic_code_import"], False)
         self.assertTrue(DOC.is_file())
 
     def test_license_review_blocks_source_copy(self):
+        self.assertEqual(
+            self.by_key["github:andrewshpagin/io-coat3d"]["code_reuse_policy"],
+            "LICENSE_AND_ADMISSION_REQUIRED",
+        )
+        self.assertEqual(
+            self.by_key["github:liamsmyth/lks_3dctools"]["code_reuse_policy"],
+            "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+        )
         for key in EXPECTED:
             row = self.by_key[key]
-            self.assertEqual(row["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
+            self.assertEqual(row["source_pin_status"], "PENDING_VERIFICATION")
+            self.assertIs(row["automatic_code_import"], False)
         self.assertIn("GPL-2.0-or-later", self.by_key["github:andrewshpagin/io-coat3d"]["license"]["declared"])
         self.assertEqual(
             self.by_key["github:liamsmyth/lks_3dctools"]["license"]["status"],

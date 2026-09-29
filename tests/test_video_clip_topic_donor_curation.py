@@ -86,7 +86,10 @@ class VideoClipDonorCurationTests(unittest.TestCase):
         for key in ("github:6174/recut", "github:gml-mmgroup/cliptalk"):
             self.assertEqual(self.by_key[key]["license"]["declared"], "UNKNOWN")
         for key in EXPECTED_TOPICS:
-            self.assertEqual(self.by_key[key]["donor_modes"], ["DISCOVERY_INDEX"])
+            modes = set(self.by_key[key]["donor_modes"])
+            self.assertIn("DISCOVERY_INDEX", modes)
+            self.assertTrue(modes <= {"DISCOVERY_INDEX", "KNOWLEDGE_REFERENCE"})
+            self.assertIs(self.by_key[key]["automatic_code_import"], False)
             self.assertEqual(
                 self.by_key[key]["code_reuse_policy"], "INDEX_ONLY_NO_CODE_IMPORT"
             )

@@ -1,8 +1,8 @@
 # FA3 Orchestrator — selective functional donor expansion and implementation plan
 
-**Date:** 2026-09-29  
-**Status:** IMPLEMENTATION PLAN / DONOR METADATA CAPTURE; runtime adoption and physical current-host qualification NOT CLAIMED.  
-**Starting point:** Donor Registry consolidation PR #459 (550 unique entries before this branch); this branch adds exactly two new source-unique candidates, `dagger/dagger` and `skypilot-org/skypilot`, for **552** entries on the stack. This is **not** the merged main registry count.  
+**Date:** 2026-09-29<br>
+**Status:** IMPLEMENTATION PLAN / DONOR METADATA CAPTURE; runtime adoption and physical current-host qualification NOT CLAIMED.<br>
+**Starting point:** Donor Registry consolidation PR #459 (550 unique entries before this branch); this branch adds exactly two new source-unique candidates, `dagger/dagger` and `skypilot-org/skypilot`, for **552** entries on the stack. This is **not** the merged main registry count.<br>
 **Active baseline:** 175 capability IDs; provider count dynamic; authority delta = 0. Historical 143 references remain historical, not the active release baseline.
 
 ## 1. Functional outcome
