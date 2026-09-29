@@ -154,6 +154,25 @@ class ReceiverHandoffTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             receiver_handoff_preview(p, inv, [ch])
 
+    def test_intent_fingerprint_changes_when_locale_or_source_range_changes(self):
+        p = s5_one("TRANSCRIPT_ONLY", "Subtitle Studio")
+        leaf = p["deliverables"][0]
+        inv, selected = claim(leaf, "text/vtt"), [place(leaf, "text/vtt")]
+        original = receiver_handoff_preview(p, inv, selected)
+        translated = copy.deepcopy(p)
+        translated["deliverables"][0]["target_locale"] = "hu"
+        changed = receiver_handoff_preview(translated, inv, selected)
+        self.assertNotEqual(original["deliverables"][0]["idempotency_intent_key"],
+                            changed["deliverables"][0]["idempotency_intent_key"])
+        range_changed = copy.deepcopy(p)
+        range_changed["deliverables"][0]["source_range"] = {
+            "kind": "VIDEO_PTS", "tick_start": 0, "tick_end": 100,
+            "timebase_num": 1, "timebase_den": 25,
+        }
+        changed = receiver_handoff_preview(range_changed, inv, selected)
+        self.assertNotEqual(original["deliverables"][0]["idempotency_intent_key"],
+                            changed["deliverables"][0]["idempotency_intent_key"])
+
     def test_mismatched_selector_publication_intent_is_rejected(self):
         p = s5_one("VIDEO_WITHOUT_AUDIO", "Video Editor")
         leaf = p["deliverables"][0]
