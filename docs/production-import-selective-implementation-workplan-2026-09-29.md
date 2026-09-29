@@ -75,3 +75,7 @@ Selective invalidation: changing source samples invalidates only intersecting le
 ## 7. Reconciliation and non-claims
 
 Current PR #528 is a design/metadata proposal. #459 merged the 550-donor baseline; the #528 branch had 633 before this specific six-source follow-up. Before merging, reconcile the then-current main by normalized source key without losing any concurrent donors, run Donor & Reference Registry, Reuse Discovery, Canonical Promotion, release projection/regeneration and regression gates at the *final exact PR head*. Keep all older evidence immutable; never rewrite it to produce a green gate. S0–S7 real execution and output quality tests remain separately required. No provider installation, pretrained checkpoint use, application GUI implementation or physical runtime admission is authorized by donor registration.
+
+## Live source and caption-only intake addendum (2026-09-29)
+
+Implement the source-orthogonal live video, audio/podcast and **independent caption-only** intake plan with [L0–L6 dependency/negative gates](production-import-live-source-intake-2026-09-29.md). Sequence independent EBU-TT Live/WebVTT caption-only proof before heavier audio and video, preserve the unchanged 17 existing output selectors and immutable original cue lineage, and retain all existing HRB, Model Router, UAF, Temporal, Logistics, Security and Evidence authorities. The linked research brings ten new source-unique candidates; no current-host/live source promotion is implied.
