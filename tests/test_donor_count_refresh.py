@@ -98,6 +98,15 @@ class CountRefreshTests(unittest.TestCase):
             _atomic_write(self.path, bad)
         self.assertEqual(self.path.read_bytes(), previous)
 
+    def test_legacy_empty_registry_bootstraps_count_without_losing_records(self):
+        self.path.write_text(json.dumps({
+            "id": "FA3-DONOR-REFERENCE-REGISTRY-001", "entries": [],
+        }), encoding="utf-8")
+        self.add("one")
+        result = self.current()
+        self.assertEqual(result["backfill"]["entry_count"], 1)
+        self.assertEqual(len(result["entries"]), 1)
+
     def test_bad_capability_baseline_cannot_be_recounted(self):
         bad = self.current()
         bad["capability_count"] = 174
