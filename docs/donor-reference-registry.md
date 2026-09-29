@@ -96,3 +96,7 @@ The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestra
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## Multimedia/video/rendering/MCP donor curation (2026-09-29)
+
+[23 metadata-only GitHub donor candidates across HEIF, AV1, MP4, generation, visual rendering, deployment and MCP](donor-multimedia-video-render-mcp-2026-09-29.md). Eleven dynamic topic filters, four organizations, the GitHub MCP Registry catalog, three supplied repositories, and four separately verified repositories are source-unique but not admitted dependencies. Reconcile concurrent donor PRs before merging; preserve 175 capabilities and existing host, model and MCP authorities.
