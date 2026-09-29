@@ -2,7 +2,7 @@
 
 Date: 2026-09-29
 Status: PROPOSED PLAN + METADATA-ONLY DONOR CURATION; no project-import runtime or physical current-host PASS is claimed.
-Registry baseline: #459 exact head `270d445011fe7f3150335656f768f709462187a1`, 550 source-unique donors; this dependent branch adds **41** source-unique candidate records (27 production-migration + 11 converter-history + 3 historic music/media crosswalk sources), resulting in **591**. Merge/reconcile by normalized source key after #459 updates or merges; never overwrite concurrent donor histories. Capability baseline remains **175**; provider count is dynamic.
+Registry baseline: #459 exact head `270d445011fe7f3150335656f768f709462187a1`, 550 source-unique donors; this dependent branch adds **42** source-unique candidate records (27 production-migration + 11 converter-history + 3 historic music/media crosswalk sources + 1 verified STARc source), resulting in **592**. Merge/reconcile by normalized source key after #459 updates or merges; never overwrite concurrent donor histories. Capability baseline remains **175**; provider count is dynamic.
 
 ## Objective and product boundary
 
@@ -50,7 +50,7 @@ VERT-sh/VERT; VERT-sh/vertd; C4illin/ConvertX; jgm/pandoc; ImageMagick/ImageMagi
 
 ## Historical conversation reconciliation — converter, music, animation, motion
 
-The [historical converter and cross-application decision crosswalk](production-import-historical-conversion-reconciliation-2026-09-29.md) is a required companion to this plan. It reconciles the earlier VERT offline WASM/native `FA3-CONVERSION-FABRIC-001` proposal with #195's existing UAF Tools and File Conversion profiles **without** a second authority; no mandatory local conversion daemon, runtime CDN, remote codec download or media upload. The existing DAWproject and OpenToonz canonical donor entries have been enriched in place; MuseScore, Mido and GStreamer are 3 additional source-unique CANDIDATE records. The required scope now also includes MusicXML/ABC/MIDI/DAWproject reversible *format-specific* mapping, editable Xsheet/animation projects, SOMA/pose/rig handoff, QuickClip reverse variant, and clear distinction between delivery-only, preview-only and symmetric editable import. A source's advertised extension support is not an FA3 admission receipt.
+The [historical converter and cross-application decision crosswalk](production-import-historical-conversion-reconciliation-2026-09-29.md) is a required companion to this plan. It reconciles the earlier VERT offline WASM/native `FA3-CONVERSION-FABRIC-001` proposal with #195's existing UAF Tools and File Conversion profiles **without** a second authority; no mandatory local conversion daemon, runtime CDN, remote codec download or media upload. The existing DAWproject and OpenToonz canonical donor entries have been enriched in place; MuseScore, Mido, GStreamer and official Story Architect STARc are 4 additional source-unique CANDIDATE records. STARc remains reference-only, not an FA3 document conversion authority or bundled GPL runtime. The required scope now also includes MusicXML/ABC/MIDI/DAWproject reversible *format-specific* mapping, editable Xsheet/animation projects, SOMA/pose/rig handoff, QuickClip reverse variant, and clear distinction between delivery-only, preview-only and symmetric editable import. A source's advertised extension support is not an FA3 admission receipt.
 
 ## Unified GUI (no new app shell)
 
@@ -72,7 +72,7 @@ Before any actual execution: preflight Reuse Discovery + Donor Registry, source 
 
 ## Dependency-ordered implementation and evidence gates
 
-- **P0 / research (this branch):** 41 source-key-unique donor records and existing donor enrichment, precise cross-app plan and metadata regression. Candidate only; no source copies or installs. Dependency: #459 merge or lossless exact-source-key reconciliation; retain 175 capabilities, dynamic providers and historical evidence.
+- **P0 / research (this branch):** 42 source-key-unique donor records and existing donor enrichment, precise cross-app plan and metadata regression. Candidate only; no source copies or installs. Dependency: #459 merge or lossless exact-source-key reconciliation; retain 175 capabilities, dynamic providers and historical evidence.
 - **P1 / contract:** reconcile #195’s generic conversion and old proposed VERT/WASM split into **one** shared conversion interface; map existing FA3 conversion/existing Story/3D/video authorities. Versioned plan/receipt/schema; deny unsupported format pairs and unproved same-format reversibility. Hard-negative schema and application-contract tests.
 - **P2 / offline discovery & preview:** CPU-only deterministic scanner, application identity/version probing, loss/compatibility matrix, immutable source staging, malicious-bundle rejection and editable-source preservation. Golden fixtures for FDX/Fountain/Office, OTIO/AAF/FCPXML/XGES, USD/glTF and BWF/MIDI; no activation from a research PR.
 - **P3 / first end-to-end:** Story/Screenplay (#413/#520 dependencies) -> Video Editor/QuickClip via same editorial and graph IR, plus document, image-sequence, geometry handoff; source-identity relink and independent bidirectional subset proof. Validate approved pair against genuine external application fixture.

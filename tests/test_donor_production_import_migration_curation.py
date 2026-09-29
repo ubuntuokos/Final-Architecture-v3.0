@@ -81,7 +81,7 @@ class ProductionImportMigrationDonorCurationTests(unittest.TestCase):
 
     def test_concurrent_donor_history_retained_and_source_unique(self):
         self.assertEqual(len(CANDIDATE_KEYS), 38)
-        self.assertGreaterEqual(len(self.entries), 591)
+        self.assertGreaterEqual(len(self.entries), 592)
         self.assertEqual(len(self.by_source), len(self.entries))
         self.assertEqual(len({e["donor_id"] for e in self.entries}), len(self.entries))
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
@@ -128,6 +128,7 @@ class ProductionImportMigrationDonorCurationTests(unittest.TestCase):
             "github:musescore/musescore",
             "github:mido/mido",
             "github:gstreamer/gstreamer",
+            "github:story-apps/starc",
         ):
             with self.subTest(source=official_source):
                 item = self.by_source[official_source]
@@ -152,7 +153,7 @@ class ProductionImportMigrationDonorCurationTests(unittest.TestCase):
     def test_earlier_conversion_rules_survive_reconciliation(self):
         crosswalk = CROSSWALK.read_text(encoding="utf-8")
         for marker in (
-            "FA3-CONVERSION-FABRIC-001",
+            "FA3-CONVERSION-FABRIC-001", "STARc",
             "FA3-FILE-CONVERSION-001",
             "FA3-TOOLS-FABRIC-001",
             "WASM", "native", "QUARANTINED",
