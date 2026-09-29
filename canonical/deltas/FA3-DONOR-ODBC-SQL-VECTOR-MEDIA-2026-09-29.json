@@ -1,0 +1,448 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-ODBC-SQL-VECTOR-MEDIA-2026-09-29",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_FOR_SERIAL_UPSERT",
+  "mode": "APPEND_ONLY_NON_AUTHORITATIVE_INTAKE",
+  "stacked_after_pr": 542,
+  "parent_commit": "edbe598cc3933fbcdd1c2ba643497e77685276c4",
+  "source_count": 56,
+  "unique_source_key_count": 50,
+  "matched_existing_parent": [
+    {
+      "key": "github:topics/mp4-files",
+      "id": "FA3-DONOR-MP4-FILES-CS-TOPIC-001",
+      "status": "CANDIDATE"
+    },
+    {
+      "key": "github:topics/mp4",
+      "id": "FA3-DONOR-MP4-TOPIC-001",
+      "status": "CANDIDATE"
+    }
+  ],
+  "expected_new_source_count": 48,
+  "requirements": [
+    "Preserve existing donor metadata, maturity and history",
+    "Upsert by normalized source identity and retain all original discovery URLs",
+    "All new records CANDIDATE and fail-closed",
+    "No code reuse/installation/provider admission or automatic activation",
+    "Remain stacked on active donor maintenance PR until exact-head serialized integration"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "source_license_status": "UNREVIEWED",
+  "sources": [
+    {
+      "normalized_source_key": "github:lurcher/unixodbc",
+      "urls": [
+        "https://github.com/lurcher/unixODBC"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:openlink/iodbc",
+      "urls": [
+        "https://github.com/openlink/iODBC"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:microsoft/sql-server-samples",
+      "urls": [
+        "https://github.com/microsoft/sql-server-samples/blob/master/samples/tutorials/c/linux/README.md"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:tibcosoftware",
+      "urls": [
+        "https://github.com/TIBCOSoftware"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:dbeaver/dbeaver",
+      "urls": [
+        "https://github.com/dbeaver/dbeaver/wiki/ODBC-JDBC-Driver"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:singingbush/odbc",
+      "urls": [
+        "https://github.com/SingingBush/odbc"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:dbcli/odbc-cli",
+      "urls": [
+        "https://github.com/dbcli/odbc-cli"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "gist:genio/7c7fc52fcb8be5d486aa",
+      "urls": [
+        "https://gist.github.com/genio/7c7fc52fcb8be5d486aa"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "GIST_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:gizmodata",
+      "urls": [
+        "https://github.com/gizmodata"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:naqvis/crystal-odbc",
+      "urls": [
+        "https://github.com/naqvis/crystal-odbc"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:r-dbi/odbc",
+      "urls": [
+        "https://github.com/r-dbi/odbc"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:opensearch-project/sql-odbc",
+      "urls": [
+        "https://github.com/opensearch-project/sql-odbc"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:microsoft/odbc-specification",
+      "urls": [
+        "https://github.com/microsoft/odbc-specification"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:oceanbase/ob-connector-odbc",
+      "urls": [
+        "https://github.com/oceanbase/ob-connector-odbc"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:alexbrainman/odbc",
+      "urls": [
+        "https://github.com/alexbrainman/odbc"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:postgres/postgres",
+      "urls": [
+        "https://github.com/postgres/postgres"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:pgvector/pgvector",
+      "urls": [
+        "https://github.com/pgvector/pgvector"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:mariadb",
+      "urls": [
+        "https://github.com/mariadb"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:mysql",
+      "urls": [
+        "https://github.com/mysql"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/mysql-project",
+      "urls": [
+        "https://github.com/topics/mysql-project?l=python"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/sql",
+      "urls": [
+        "https://github.com/topics/sql"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/sql-project",
+      "urls": [
+        "https://github.com/topics/sql-project",
+        "https://github.com/topics/sql-project?o=desc&s=updated"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/sql-database",
+      "urls": [
+        "https://github.com/topics/sql-database?l=tsql&o=desc",
+        "https://github.com/topics/sql-database"
+      ],
+      "domain": "ODBC_SQL",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/vector-graphics",
+      "urls": [
+        "https://github.com/topics/vector-graphics?o=asc&s=stars",
+        "https://github.com/topics/vector-graphics?l=rust&o=asc&s=forks",
+        "https://github.com/topics/vector-graphics?l=python&o=asc&s=forks",
+        "https://github.com/topics/vector-graphics?l=html&o=asc&s=stars"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/vector-images",
+      "urls": [
+        "https://github.com/topics/vector-images"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:styluslabs/nanovgxc",
+      "urls": [
+        "https://github.com/styluslabs/nanovgXC"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/inkscape",
+      "urls": [
+        "https://github.com/topics/inkscape?l=shell&o=desc&s=stars"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:sk1-project/sk1-wx",
+      "urls": [
+        "https://github.com/sk1-project/sk1-wx"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/vector",
+      "urls": [
+        "https://github.com/topics/vector?l=c%2B%2B"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:graphiteeditor/graphite",
+      "urls": [
+        "https://github.com/GraphiteEditor/Graphite"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/graphic-editor",
+      "urls": [
+        "https://github.com/topics/graphic-editor"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:kiltum/cdr2svg",
+      "urls": [
+        "https://github.com/kiltum/cdr2svg"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:cdrpro-macros/cdr-tools",
+      "urls": [
+        "https://github.com/cdrpro-macros/cdr-tools"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:mpds-io/pylibcdr",
+      "urls": [
+        "https://github.com/mpds-io/pylibcdr"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:lich-corals",
+      "urls": [
+        "https://github.com/Lich-Corals"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:cerncdaic/doconverter",
+      "urls": [
+        "https://github.com/CERNCDAIC/doconverter"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:thesakibalhasan/image-convert",
+      "urls": [
+        "https://github.com/thesakibalhasan/image-convert"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:sk1-project",
+      "urls": [
+        "https://github.com/sk1-project"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:stxh/cdr2pdfviewer",
+      "urls": [
+        "https://github.com/stxh/cdr2pdfviewer"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/raw-converter",
+      "urls": [
+        "https://github.com/topics/raw-converter"
+      ],
+      "domain": "VECTOR_GRAPHICS",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:eyevinn/mp4ff",
+      "urls": [
+        "https://github.com/Eyevinn/mp4ff"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "REPOSITORY_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/fmp4",
+      "urls": [
+        "https://github.com/topics/fmp4"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/mp4-files",
+      "urls": [
+        "https://github.com/topics/mp4-files?l=go&o=asc&s=forks"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/video-repair",
+      "urls": [
+        "https://github.com/topics/video-repair"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/mp4",
+      "urls": [
+        "https://github.com/topics/mp4?l=python"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/mp3",
+      "urls": [
+        "https://github.com/topics/mp3"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/mp3-downloader",
+      "urls": [
+        "https://github.com/topics/mp3-downloader?o=desc&s=updated%2F1000"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:topics/mp3-files",
+      "urls": [
+        "https://github.com/topics/mp3-files?l=c%23",
+        "https://github.com/topics/mp3-files?l=php&o=desc&s=updated"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    },
+    {
+      "normalized_source_key": "github:cast-projects",
+      "urls": [
+        "https://github.com/CAST-projects"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "ORGANIZATION_REFERENCE"
+    },
+    {
+      "normalized_source_key": "github:topics/screen-cast",
+      "urls": [
+        "https://github.com/topics/screen-cast"
+      ],
+      "domain": "MEDIA_CONVERSION",
+      "kind": "TOPIC_DISCOVERY"
+    }
+  ]
+}
