@@ -1,0 +1,152 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CAPTURE-INBOX-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-CAPTURE-INBOX-001",
+  "intent_id": "FA3-CAPTURE-INBOX-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CAPTURE-INBOX-APPLICATION-INTENT-001.json",
+  "project_status": "DEPENDENCY_RECONCILIATION_PENDING_RUNTIME_AND_GLOBAL_COEXISTENCE",
+  "result": "PASS",
+  "result_scope": "REUSE_AND_AUTHORITY_MAPPING_ONLY_NO_IMPLEMENTATION_ADMISSION",
+  "selected_reuse": [
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "CANONICAL_METADATA_IDENTITY_AND_STATUS_ONLY"
+    },
+    {
+      "id": "FA3-JOURNAL-001",
+      "use": "SINGLE_CAPTURE_EVENT_AND_AUDIT_LEDGER"
+    },
+    {
+      "id": "FA3-OS-POLICY-001",
+      "use": "PRE_PERSISTENCE_PRIVACY_DENY_BY_DEFAULT_AND_SELECTIVE_ERASURE"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_APPLICATIONINTENT_AND_DONOR_REUSE_ADMISSION"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "NONAUTHORITATIVE_SOURCE_NORMALIZED_REFERENCE_DISCOVERY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_RECIPIENT_ACTION_EXECUTION"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_TOOL_GATEWAY_FOR_RECIPIENT_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SINGLE_POLICY_AND_CONSENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "EXISTING_SECRET_REFERENCE_AND_HOST_TRUST_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_AND_PLACEMENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "OPTIONAL_AI_ROUTE_ONLY_NO_IMPLICIT_PROCESSING"
+    },
+    {
+      "id": "CAP-150",
+      "use": "ADMITTED_INSTANCE_TO_INSTANCE_CONTENT_ADDRESSED_TRANSFER_ONLY_PENDING_PHYSICAL_EVIDENCE"
+    },
+    {
+      "id": "CAP-152",
+      "use": "TYPED_WORKSPACE_AND_ARTIFACT_HANDOFF_PENDING_PHYSICAL_EVIDENCE"
+    },
+    {
+      "id": "CAP-175",
+      "use": "NAMESPACED_HOST_NON_INTERFERENCE_PENDING_PR_410_RECONCILIATION"
+    }
+  ],
+  "external_donor_sources": [
+    {
+      "id": "FA3-DONOR-C2PA-RS-001",
+      "use": "SIGNED_MEDIA_PROVENANCE_REFERENCE_ONLY"
+    },
+    {
+      "id": "FA3-DONOR-AUTOMERGE-001",
+      "use": "OFFLINE_CRDT_DATA_MERGE_PATTERN_ONLY"
+    },
+    {
+      "id": "FA3-DONOR-SYNCTHING-001",
+      "use": "P2P_PEER_DISCOVERY_AND_RESUMABLE_TRANSFER_PATTERN_ONLY_NOT_RUNTIME"
+    },
+    {
+      "id": "FA3-DONOR-JOPLIN-001",
+      "use": "OFFLINE_NOTES_AND_ATTACHMENT_UX_ONLY"
+    },
+    {
+      "id": "FA3-DONOR-MARKOR-001",
+      "use": "MOBILE_QUICK_CAPTURE_AND_EXPLICIT_SHARE_INTENT_UX_ONLY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "CAPTURE_SYNC_DAEMON",
+      "reason": "CAP150_REMAINS_SINGLE_TRANSFER_MECHANISM"
+    },
+    {
+      "id": "CAPTURE_POLICY_AUTHORITY",
+      "reason": "FA3_OS_POLICY_AND_SECURITY_GOVERNANCE_ARE_EXCLUSIVE"
+    },
+    {
+      "id": "CAPTURE_EVENT_DATABASE_AS_LEDGER",
+      "reason": "FA3_JOURNAL_REMAINS_CANONICAL_EVENT_LEDGER"
+    },
+    {
+      "id": "AUTOMERGE_AS_SEMANTIC_CONFLICT_AUTHORITY",
+      "reason": "HUMAN_APPROVAL_AND_EXISTING_PROJECT_OWNER_REMAIN_AUTHORITATIVE"
+    },
+    {
+      "id": "SYNCTHING_AS_MANDATORY_RUNTIME",
+      "reason": "REFERENCE_ONLY_NO_SECOND_SYNC_STACK"
+    },
+    {
+      "id": "SILENT_PROMPT_OR_PROVIDER_FALLBACK",
+      "reason": "UNCONNECTED_CONSUMER_OR_UNAVAILABLE_PROVIDER_FAILS_CLOSED"
+    }
+  ],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "NO_MANDATORY_KHRONOS_SDK_FOR_CAPTURE_CORE;REVIEW_MEDIA_SPECIFIC_CONSUMER_ADAPTERS_SEPARATELY"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_non_bypassable": true,
+    "display_gpu_auto_enlistment": false
+  },
+  "coexistence": {
+    "result": "PENDING_GLOBAL_PR_410_AND_PHYSICAL_CURRENT_HOST",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "PENDING_INFRASTRUCTURE_NO_PRODUCTION_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
