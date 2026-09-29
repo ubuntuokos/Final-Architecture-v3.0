@@ -115,6 +115,21 @@ class LiveSourcePreflightTests(unittest.TestCase):
                 with self.assertRaises(LiveIntakePreflightError):
                     preflight(req)
 
+    def test_all_four_text_choices_can_coexist_with_separate_language_scopes(self):
+        req = caption_request()
+        req["requested_outputs"] = [
+            "ORIGINAL_LANGUAGE", "ONE_TRANSLATION",
+            "MULTI_TRANSLATION", "ORIGINAL_PLUS_TRANSLATIONS",
+        ]
+        req["one_translation_language"] = "fr-FR"
+        req["target_languages"] = ["hu-HU", "de-DE"]
+        p = preflight(req)
+        self.assertEqual(p["one_translation_language"], "fr-FR")
+        self.assertEqual(p["target_languages"], ["hu-HU", "de-DE"])
+        del req["one_translation_language"]
+        with self.assertRaises(LiveIntakePreflightError):
+            preflight(req)
+
     def test_partial_source_original_plus_translation_requires_target(self):
         req = caption_request()
         req.update(requested_outputs=["ORIGINAL_PLUS_TRANSLATIONS"], target_languages=["fr-FR"])
