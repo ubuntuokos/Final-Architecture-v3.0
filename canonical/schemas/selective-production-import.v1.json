@@ -15,7 +15,8 @@
     "source_language",
     "original_policy",
     "requested_outputs",
-    "execution_authorized"
+    "execution_authorized",
+    "preview_only"
   ],
   "properties": {
     "schema": {
@@ -180,6 +181,116 @@
         "properties": {
           "source_kind": {
             "const": "LIVE_CAPTIONS"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "TEXT"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requested_outputs": {
+            "items": {
+              "properties": {
+                "family": {
+                  "enum": [
+                    "TEXT"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "LIVE_CAPTIONS"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requested_outputs": {
+            "items": {
+              "properties": {
+                "family": {
+                  "enum": [
+                    "TEXT"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "AUDIO"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requested_outputs": {
+            "items": {
+              "properties": {
+                "family": {
+                  "enum": [
+                    "AUDIO",
+                    "TEXT"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "VIDEO"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requested_outputs": {
+            "items": {
+              "properties": {
+                "family": {
+                  "enum": [
+                    "VIDEO",
+                    "TEXT"
+                  ]
+                }
+              }
+            }
           }
         }
       }
