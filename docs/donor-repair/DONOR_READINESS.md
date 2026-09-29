@@ -1,0 +1,14 @@
+# FA3 donor readiness: mandatory serialization and approval
+
+The canonical Donor & Reference Registry remains the only donor catalog and grants no execution authority.
+
+* Maintenance mode validates exact local registry identity, cardinality, source keys, aliases, statuses and all deny-by-default flags. It never authorizes planning.
+* Status mode additionally lists every live open GitHub PR and every PR's changed files. Unreadable or truncated GitHub evidence, a moving main SHA or any donor-editing PR blocks the start of all planning, implementation and finalization.
+* Entry mode also requires a committed Reuse Assessment bound to the exact donor registry SHA256, including either REVIEWED_MATCH or REVIEWED_NO_MATCH. Donor adoption is optional; each explicitly selected donor requires a user-approved canonical decision. This gate never authorizes code copying, installation, provider or model admission.
+* Finalize mode additionally requires an exact-HEAD committed approved plan bound by SHA256 to a canonical human-approved decision and explicit repository-owner APPROVED review of the current head; existing Security Governance, evidence and promotion gates are still mandatory.
+
+CLI: PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase maintenance
+
+After source reconciliation and closure of all donor maintenance PRs, use --phase entry --assessment canonical/assessments/<assessment>.json with GITHUB_TOKEN from the existing Secret Broker or GitHub Actions environment. No tokens in chat, logs or committed files.
+
+Limit: live PR checks detect known GitHub work but do not constitute an atomic distributed lease against unregistered off-GitHub mutations. Release-wide orchestration and a required branch-protection check still must consume this gate. While donor PRs remain pending, global readiness is BLOCKED.
