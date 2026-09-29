@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-receiver-capability-claims.v1.json",
+  "title": "FA3 S6 untrusted receiver inventory claim, not application registration or admission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "inventory_claim_ref",
+    "receivers"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.receiver-capability-claims.v1"
+    },
+    "inventory_claim_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "receivers": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "application",
+          "host_ref",
+          "machine_role_ref",
+          "app_version",
+          "receiver_claim_ref",
+          "advertised_formats"
+        ],
+        "properties": {
+          "application": {
+            "enum": [
+              "Story/Screenplay",
+              "Subtitle Studio",
+              "Audio Fabric",
+              "Music Studio",
+              "Sound Design",
+              "Video Editor",
+              "QuickClip",
+              "Photo/Image Studio",
+              "Shot Designer",
+              "Director",
+              "Live Studio",
+              "FA3 Archive"
+            ]
+          },
+          "host_ref": {
+            "type": "string",
+            "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+          },
+          "machine_role_ref": {
+            "type": "string",
+            "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+          },
+          "app_version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.+\\-]{0,63}$"
+          },
+          "receiver_claim_ref": {
+            "type": "string",
+            "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+          },
+          "advertised_formats": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "family",
+                "selector_id",
+                "delivery_class",
+                "content_kind",
+                "format_id",
+                "format_version",
+                "editable_roundtrip_claim"
+              ],
+              "properties": {
+                "family": {
+                  "type": "string",
+                  "enum": [
+                    "TEXT",
+                    "AUDIO",
+                    "VIDEO"
+                  ]
+                },
+                "selector_id": {
+                  "type": "string"
+                },
+                "delivery_class": {
+                  "enum": [
+                    "DERIVED_ONLY",
+                    "COPY_EDITABLE_IF_ADMITTED",
+                    "HYBRID_LINK",
+                    "ARCHIVAL_COPY",
+                    "LINK_ONLY"
+                  ]
+                },
+                "content_kind": {
+                  "enum": [
+                    "TEXT",
+                    "AUDIO",
+                    "VIDEO",
+                    "AUDIO_VIDEO"
+                  ]
+                },
+                "format_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9.+/\\-]{0,119}$"
+                },
+                "format_version": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.+\\-]{0,63}$"
+                },
+                "editable_roundtrip_claim": {
+                  "type": "boolean"
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "family": {
+                        "const": "TEXT"
+                      }
+                    },
+                    "required": [
+                      "family"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "selector_id": {
+                        "enum": [
+                          "ORIGINAL_LANGUAGE",
+                          "ONE_TRANSLATION",
+                          "MULTI_TRANSLATION",
+                          "ORIGINAL_PLUS_TRANSLATIONS"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "family": {
+                        "const": "AUDIO"
+                      }
+                    },
+                    "required": [
+                      "family"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "selector_id": {
+                        "enum": [
+                          "FULL_AUDIO",
+                          "TRANSCRIPT_ONLY",
+                          "SPEECH_OR_SINGING_SEPARATE",
+                          "INSTRUMENTAL_ONLY",
+                          "AMBIENCE_AND_SFX",
+                          "DENOISED_SPEECH"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "family": {
+                        "const": "VIDEO"
+                      }
+                    },
+                    "required": [
+                      "family"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "selector_id": {
+                        "enum": [
+                          "FULL_VIDEO",
+                          "VIDEO_WITHOUT_AUDIO",
+                          "FULL_AUDIO_ONLY",
+                          "TRANSCRIPT_ONLY",
+                          "MUSIC_OR_INSTRUMENTAL_ONLY",
+                          "AMBIENCE_AND_SFX_ONLY",
+                          "FRAMES_OR_SCENES"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-fa3-policy": {
+    "status": "S6_UNTRUSTED_CLAIMS_PREVIEW_ONLY",
+    "authority": false,
+    "capability_count": 175,
+    "new_capabilities": 0,
+    "verified_receiver_claim": false,
+    "current_host_runtime_promotion_claim": false,
+    "automatic_host_placement": false,
+    "application_registry_owner": "EXISTING_FA3_APPLICATION_CATALOG",
+    "host_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "execution_owner": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  }
+}
