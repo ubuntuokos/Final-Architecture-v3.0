@@ -69,6 +69,19 @@ class Tests(unittest.TestCase):
             [{"filename": "canonical/assessments/FA3-MEDIA-REUSE-ASSESSMENT-001.json"}]))
         self.assertTrue(is_donor_pr({"title": "Donor source review"}, []))
 
+    def test_expansion_removal_and_sync_all_count_as_donor_maintenance(self):
+        operations = [
+            ("expansion", REGISTRY, "added"),
+            ("removal", REGISTRY, "removed"),
+            ("sync", "canonical/FA3-APPLICATION-DONOR-LINKS-001.json", "modified"),
+            ("sync-source-key", "canonical/deltas/FA3-DONOR-MEDIA-INTAKE-2026-09-29.json", "modified"),
+            ("sync-history", "docs/donor-repair/RECONCILIATION.md", "modified"),
+        ]
+        for operation, path, status in operations:
+            with self.subTest(operation=operation, path=path):
+                self.assertTrue(is_donor_pr({"title": "Generic metadata update"},
+                                            [{"filename": path, "status": status}]))
+
     def test_hidden_reference_in_live_scan(self):
         def get(url):
             if "pulls?state=open" in url:

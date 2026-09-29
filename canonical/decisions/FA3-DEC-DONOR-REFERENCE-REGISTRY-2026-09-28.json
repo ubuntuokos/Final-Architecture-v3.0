@@ -42,7 +42,10 @@
     "NO_FINALIZATION_WITHOUT_EXPLICIT_APPROVED_PLAN",
     "MANDATORY_DONOR_SEARCH_OPTIONAL_ADOPTION",
     "ADOPT_DONOR_ONLY_WITH_EXPLICIT_USER_APPROVAL_AND_NORMAL_ADMISSION",
-    "DONOR_MAINTENANCE_EXEMPT_FROM_PLANNING_AND_DEVELOPMENT_LOCKS"
+    "DONOR_MAINTENANCE_EXEMPT_FROM_PLANNING_AND_DEVELOPMENT_LOCKS",
+    "DONOR_EXPANSION_IS_MAINTENANCE",
+    "DONOR_REMOVAL_WITH_HISTORY_PRESERVATION_IS_MAINTENANCE",
+    "RECORDED_DONOR_DATA_SYNCHRONIZATION_IS_MAINTENANCE"
   ],
   "serialization_policy": {
     "priority": "P0_FAIL_CLOSED",
@@ -75,7 +78,16 @@
       "permits_repair_when_registry_corrupt": true,
       "maintains_donor_integrity_and_existing_security_checks": true,
       "never_grants_application_planning_implementation_or_finalization": true,
-      "no_new_registry_or_authority": true
+      "no_new_registry_or_authority": true,
+      "maintenance_operations": [
+        "DONOR_SOURCE_EXPANSION",
+        "DONOR_SOURCE_REMOVAL",
+        "RECORDED_DONOR_DATA_SYNCHRONIZATION",
+        "REGISTRY_REPAIR",
+        "DONOR_PROTECTIVE_INFRASTRUCTURE_REPAIR"
+      ],
+      "removal_preserves_historical_provenance": true,
+      "synchronization_scope": "CANONICAL_DONOR_ENTRIES_ALIASES_INTAKE_PROVENANCE_APPLICATION_DONOR_INDEX_AND_DONOR_DERIVED_RELEASE_PROJECTION"
     }
   }
 }
