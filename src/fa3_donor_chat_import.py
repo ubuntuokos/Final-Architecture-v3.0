@@ -26,7 +26,7 @@ MAX_EXPORT_BYTES = 512 * 1024 * 1024
 MAX_MESSAGE_CHARS = 20000
 MAX_URLS_PER_MESSAGE = 128
 # Only a user-authored DONORNAK label preceding the URL authorizes intake.
-_OWNER_DIRECT = re.compile(r"(?i)\bdonornak\s*:")
+_OWNER_DIRECT = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
 _LINK = re.compile(r'https?://[^\s<>\[\]()"]+', re.I)
 
 _EXPORT_NAME = re.compile(r"conversations(?:[_-]?\d+)?\.json", re.I)
