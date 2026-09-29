@@ -1,8 +1,8 @@
 # Owner-explicit donor intake: AI text, detection, mind maps, rendering and shaders
 
-**Date:** 2026-09-29  
-**Status:** Reference metadata staging; no upstream code, licensing or runtime admission.  
-**Serialization:** This is a single donor-intake PR based on policy PR #547; #547 changes rules but contains no donor registry intake. Do not start a concurrent intake PR until this one completes.  
+**Date:** 2026-09-29
+**Status:** Reference metadata staging; no upstream code, licensing or runtime admission.
+**Serialization:** This is a single donor-intake PR based on policy PR #547; #547 changes rules but contains no donor registry intake. Do not start a concurrent intake PR until this one completes.
 **Capability baseline:** 175 (unchanged). Provider count dynamic.
 
 The owner explicitly marked 50 GitHub URLs `donornak:`. Source-normalization removes only topic-page query variants, yielding 39 unique source identities: 39 new, 0 preexisting on the parent snapshot. All originally submitted URL variants are preserved in the canonical delta and each corresponding registry record. Neither topic discovery nor owner submission admits repositories listed on topic pages. All entries are `ACCEPTED_REFERENCE` for reference registration only; code reuse, licensing, upstream identity, dependencies, external providers, models and runtime require separate reviewed approval and evidence. Detection accuracy and suitability are not presumed.
