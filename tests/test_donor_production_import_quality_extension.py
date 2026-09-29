@@ -83,10 +83,11 @@ class ProductionImportQualityResearchTests(unittest.TestCase):
                 self.assertIn(key, self.by_key)
 
     def test_17_existing_hungarian_labels_remain_source_of_truth(self):
-        rows = re.findall(
-            r"^\\|\\s*(TEXT|AUDIO|VIDEO)\\s*\\|\\s*`([A-Z_]+)`\\s*\\|\\s*([^|]+)\\|",
-            self.plan, re.MULTILINE,
-        )
+        rows = []
+        for line in self.plan.splitlines():
+            cells = [part.strip() for part in line.split("|")]
+            if len(cells) >= 5 and cells[1] in ("TEXT", "AUDIO", "VIDEO"):
+                rows.append((cells[1], cells[2].strip("`"), cells[3]))
         # Avoid a competing selector enum in the quality annex.
         self.assertEqual(len(rows), 17)
         self.assertEqual(
