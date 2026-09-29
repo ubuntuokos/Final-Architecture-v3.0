@@ -96,3 +96,7 @@ The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestra
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+
+## Oracle, Ubuntu and Kubuntu GitHub donor curation (2026-09-29)
+
+[Organization and Python-filtered discovery sources plus eight individually verified repositories](donor-oracle-ubuntu-kubuntu-2026-09-29.md) are registered as source-unique, non-authoritative candidates. Source-level license and provenance, hardware safety, generic Linux coexistence, and exact-head execution gates remain independent.
