@@ -87,10 +87,11 @@ def language_fanout_preview(
             if source_step is None or mapping["status"] in BLOCKED_STREAM_STATUSES:
                 status = "BLOCKED_SOURCE_STREAM_SELECTION_OR_AVAILABILITY"
                 stages: list[str] = []
-            elif variant == "TRANSLATION" and request["source_language"] == "auto":
+            elif request["source_language"] == "auto":
                 status = "PENDING_PER_SEGMENT_SOURCE_LANGUAGE_IDENTIFICATION"
-                stages = [source_step, "LANGUAGE_FABRIC_IDENTIFY_SOURCE_LOCALE",
-                          "LANGUAGE_FABRIC_TRANSLATE_AND_GLOSSARY_REVIEW"]
+                stages = [source_step, "LANGUAGE_FABRIC_IDENTIFY_SOURCE_LOCALE"]
+                if variant == "TRANSLATION":
+                    stages.append("LANGUAGE_FABRIC_TRANSLATE_AND_GLOSSARY_REVIEW")
             else:
                 status = "PENDING_INSPECTION_STT_TIMING_AND_LANGUAGE_QC"
                 stages = [source_step]

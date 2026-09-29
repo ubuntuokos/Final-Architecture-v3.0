@@ -72,6 +72,27 @@ class S3LanguageFanoutPreviewTests(unittest.TestCase):
                          "DOCUMENT_FABRIC_SOURCE_TEXT_INSPECT")
         self.assertEqual(p["branches"][0]["original_stream_indices"], [])
 
+    def test_text_document_without_media_streams_is_valid(self):
+        r = request(kind="TEXT", outputs=[
+            output("TEXT", "ORIGINAL_LANGUAGE", "Story/Screenplay")])
+        i = inventory()
+        i["streams"] = []
+        p = language_fanout_preview(r, i)
+        self.assertEqual(p["languages_count"], 1)
+        self.assertEqual(p["branches"][0]["original_stream_indices"], [])
+
+    def test_unknown_original_language_is_not_published_as_literal_auto(self):
+        r = request(kind="TEXT", outputs=[
+            output("TEXT", "ORIGINAL_LANGUAGE", "Story/Screenplay")])
+        r["source_language"] = "auto"
+        i = inventory()
+        i["streams"] = []
+        p = language_fanout_preview(r, i)
+        self.assertEqual(p["branches"][0]["status"],
+                         "PENDING_PER_SEGMENT_SOURCE_LANGUAGE_IDENTIFICATION")
+        self.assertIn("LANGUAGE_FABRIC_IDENTIFY_SOURCE_LOCALE",
+                      p["branches"][0]["steps"])
+
     def test_auto_source_locale_blocks_translation_until_detection(self):
         r = request(outputs=[
             output(selector="TRANSCRIPT_ONLY", translation="ONE_TRANSLATION",

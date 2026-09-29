@@ -149,6 +149,16 @@ class S2Tests(unittest.TestCase):
             inspect_binding(q, inventory(), [
                 {"leaf_index": 0, "stream_indices": [1]}])
 
+    def test_text_document_can_have_zero_media_streams(self):
+        q = request(kind="TEXT", outputs=[
+            output("TEXT", "ORIGINAL_LANGUAGE", "Story/Screenplay")])
+        x = inventory()
+        x["streams"] = []
+        self.assertEqual(inspect_binding(q, x)["outputs"][0]["original_stream_indices"], [])
+        q["source_kind"] = "VIDEO"
+        with self.assertRaises(ValueError):
+            inspect_binding(q, x)
+
     def test_signed_negative_origin_pts_is_not_rejected(self):
         q = request()
         x = inventory()

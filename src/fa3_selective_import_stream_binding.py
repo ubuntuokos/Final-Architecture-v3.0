@@ -45,8 +45,9 @@ def inspect_binding(request: dict, inventory: dict, choices: list[dict] | None =
         not REF.fullmatch(inventory["inspector_receipt_ref"])):
         raise ValueError("invalid source identity, digest or opaque inspection receipt")
     rows = inventory["streams"]
-    if not isinstance(rows, list) or not 1 <= len(rows) <= 64:
-        raise ValueError("expected bounded original stream inventory")
+    if (not isinstance(rows, list) or len(rows) > 64 or
+        (not rows and request["source_kind"] != "TEXT")):
+        raise ValueError("expected bounded streams, or zero for a text document")
     streams = {}
     for s in rows:
         if not isinstance(s, dict) or set(s) - {

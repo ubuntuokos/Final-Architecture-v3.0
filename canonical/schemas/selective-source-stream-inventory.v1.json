@@ -37,7 +37,7 @@
     },
     "streams": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "maxItems": 64,
       "items": {
         "type": "object",
@@ -114,7 +114,8 @@
             "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
           }
         }
-      }
+      },
+      "description": "Empty streams are accepted only for source_kind=TEXT by the metadata-only S2 preflight; audio/video missing streams fail closed."
     }
   },
   "x-fa3-policy": {
