@@ -93,7 +93,21 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertGreaterEqual(len(entries), 160)
         self.assertEqual(registry["backfill"]["entry_count"], len(entries))
         self.assertFalse(registry["authority"])
+        # Legacy embedded flag is historical only: owner decision supersedes it.
         self.assertTrue(registry["capture_policy"]["potential_donor_signal_requires_capture"])
+        decision = json.loads((ROOT / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json").read_text(encoding="utf-8"))
+        profile = json.loads((ROOT / "canonical/profiles/FA3-REUSE-DISCOVERY-001.json").read_text(encoding="utf-8"))
+        contract = json.loads((ROOT / "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        enforcement = json.loads((ROOT / "canonical/enforcement-policy.json").read_text(encoding="utf-8"))
+        self.assertEqual(decision["capture_rule"], "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY")
+        self.assertFalse(profile["donor_reference_binding"]["potential_donor_signal_requires_capture"])
+        self.assertTrue(profile["donor_reference_binding"]["published_main_registry_only"])
+        self.assertEqual(profile["donor_reference_binding"]["owner_marker_required"], "donornak")
+        self.assertFalse(contract["contracts"]["DonorReferenceProjection"]["potential_signal_capture_required"])
+        self.assertTrue(contract["contracts"]["DonorReferenceProjection"]["unmarked_links_analysis_only"])
+        self.assertFalse(enforcement["donor_registry_serialization"]["deny_when_maintenance_or_open_donor_pr"])
+        self.assertEqual(enforcement["donor_registry_serialization"]["planning_registry_source"],
+                         "LATEST_VERIFIED_COMMITTED_MAIN_ONLY")
         self.assertTrue(registry["planning_policy"]["query_required_for_every_new_or_materially_modified_application_capability_or_module"])
         for donor_id in (
             "FA3-DONOR-AGENT0AI-AGENT-ZERO-001",
