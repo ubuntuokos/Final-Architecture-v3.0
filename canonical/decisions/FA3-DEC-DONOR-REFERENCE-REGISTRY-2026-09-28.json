@@ -98,9 +98,12 @@
     "pending_donor_pr_blocks_planning": false,
     "published_main_registry_required": true,
     "one_donor_intake_conversation_at_a_time": true,
-    "intake_lock": "OLDEST_OPEN_DONOR_PR_WITH_GLOBAL_GITHUB_ACTIONS_CONCURRENCY",
+    "intake_lock": "OLDEST_OPEN_CANONICAL_REGISTRY_OR_INTAKE_DELTA_PR_WITH_GLOBAL_GITHUB_ACTIONS_CONCURRENCY",
     "unmerged_donor_records_visible_for_design": false,
-    "replan_after_new_donors_only_by_owner_request": true
+    "replan_after_new_donors_only_by_owner_request": true,
+    "policy_only_prs_reserve_intake_slot": false,
+    "reference_only_prs_reserve_intake_slot": false,
+    "intake_slot_claim_requires_real_canonical_donor_mutation": true
   },
   "historical_extraction_exempt_prs": [
     24,
