@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-delivery-preview.v1.json",
+  "title": "FA3 S5 selective delivery composition — preview only",
+  "description": "Pure S1/S2/S3/S4/S4.2 composition. No admission, runtime, app delivery or verified evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "production_ref",
+    "source_ref",
+    "source_sha256",
+    "inspector_receipt_ref",
+    "state",
+    "requested_output_count",
+    "planned_deliverable_count",
+    "language_branch_count",
+    "audio_qc_leaf_count",
+    "shared_source_binding_groups",
+    "duplicate_language_destinations",
+    "deliverables",
+    "publish_text",
+    "publish_audio",
+    "publish_video",
+    "execution_authorized",
+    "authority",
+    "capability_count",
+    "existing_owners"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.selective-delivery-preview.v1"
+    },
+    "production_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inspector_receipt_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "state": {
+      "const": "SELECTIVE_DELIVERY_PREVIEW_ONLY"
+    },
+    "requested_output_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 256
+    },
+    "planned_deliverable_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1024
+    },
+    "language_branch_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1024
+    },
+    "audio_qc_leaf_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256
+    },
+    "shared_source_binding_groups": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 256
+    },
+    "duplicate_language_destinations": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deliverable_ref",
+          "parent_leaf_index",
+          "family",
+          "selector_id",
+          "target_application",
+          "delivery_class",
+          "source_range",
+          "source_stream_indices",
+          "source_timebases",
+          "source_binding_group",
+          "variant",
+          "target_locale",
+          "source_locale",
+          "planned_steps",
+          "status",
+          "required_independent_checks",
+          "requested_publication",
+          "publish_text",
+          "publish_audio",
+          "publish_video",
+          "editable_project_verified",
+          "independent_evidence_verified",
+          "execution_authorized"
+        ],
+        "properties": {
+          "deliverable_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parent_leaf_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "family": {
+            "enum": [
+              "TEXT",
+              "AUDIO",
+              "VIDEO"
+            ]
+          },
+          "selector_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_application": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delivery_class": {
+            "enum": [
+              "DERIVED_ONLY",
+              "COPY_EDITABLE_IF_ADMITTED",
+              "HYBRID_LINK",
+              "ARCHIVAL_COPY",
+              "LINK_ONLY"
+            ]
+          },
+          "source_range": {
+            "type": "object"
+          },
+          "source_stream_indices": {
+            "type": "array",
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "source_timebases": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "object"
+            }
+          },
+          "source_binding_group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "variant": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_locale": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_locale": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "planned_steps": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_independent_checks": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string"
+            }
+          },
+          "requested_publication": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "audio",
+              "video"
+            ],
+            "properties": {
+              "text": {
+                "type": "boolean"
+              },
+              "audio": {
+                "type": "boolean"
+              },
+              "video": {
+                "type": "boolean"
+              }
+            }
+          },
+          "publish_text": {
+            "const": false
+          },
+          "publish_audio": {
+            "const": false
+          },
+          "publish_video": {
+            "const": false
+          },
+          "editable_project_verified": {
+            "const": false
+          },
+          "independent_evidence_verified": {
+            "const": false
+          },
+          "execution_authorized": {
+            "const": false
+          }
+        }
+      }
+    },
+    "publish_text": {
+      "const": false
+    },
+    "publish_audio": {
+      "const": false
+    },
+    "publish_video": {
+      "const": false
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "authority": {
+      "const": false
+    },
+    "capability_count": {
+      "const": 175
+    },
+    "existing_owners": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-fa3-policy": {
+    "status": "S5_PREVIEW_ONLY",
+    "authority": false,
+    "new_capabilities": 0,
+    "capability_count": 175,
+    "current_host_runtime_promotion_claim": false,
+    "automatic_provider_admission": false,
+    "automatic_code_import": false,
+    "automatic_install": false,
+    "execution_authorized": false,
+    "owner": "FA3-FILE-CONVERSION-001",
+    "source_selector_contract": "canonical/schemas/selective-production-import.v1.json",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  }
+}
