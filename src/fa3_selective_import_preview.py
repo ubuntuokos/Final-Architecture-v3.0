@@ -128,8 +128,8 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
     if request["original_policy"] not in ORIGINAL_POLICIES:
         raise ValueError("unknown original retention policy")
     outputs = request["requested_outputs"]
-    if not isinstance(outputs, list) or not (1 <= len(outputs) <= 17):
-        raise ValueError("1..17 selected output requests required")
+    if not isinstance(outputs, list) or not (1 <= len(outputs) <= 256):
+        raise ValueError("1..256 output leaves drawn from the 17 selectable choices required")
     seen = set()
     plan = []
     for index, out in enumerate(outputs):
