@@ -25,3 +25,7 @@ The merged #469 OpenVINO source observation declares Apache-2.0 at repository le
 ## OpenImageIO historical alias regression
 
 The original Production Import test asserted `project:openimageio` as the primary key, which conflicts with the lossless canonicalization to the verified `github:academysoftwarefoundation/openimageio`. The test now requires one canonical donor ID, retains `project:openimageio` as a legacy lookup alias, preserves the exact upstream URL, and forbids the historical key as a second donor. No adoption status was promoted.
+
+## Original source-specific donor research and regression retention
+
+Retained the **25 independent source-specific curation documents** and **six donor-only regression tests** from the already reconciled source PR branches, using the original exact Git blob SHA for every file. They remain historical research/provenance and test input, not automatically approved application plans or admitted upstream code. Mixed application/code PRs (#528, #524, #520, #507, #498, #497, #487, #484, #483, #461, #445) remain separately blocked; their runtime, GUI, contract and other non-registry changes are **not** silently included here. Source-specific tests must pass against the single canonical 1116-entry union before any source PR is superseded.

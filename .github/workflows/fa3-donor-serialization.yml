@@ -41,7 +41,15 @@ jobs:
                     'tests/test_goal_preflight.py','src/fa3_enforce.py',
                     'src/fa3_reuse_assessment.py',
                     '.github/workflows/fa3-donor-serialization.yml')
-          def allowed(p): return p in metadata or p.startswith('docs/donor-repair/') or p.startswith('canonical/deltas/FA3-DONOR-') or p.startswith('tests/test_donor_')
+          curated_docs = ["docs/donors-office-3d-animation-2026-09-29.md","docs/donor-oracle-ubuntu-kubuntu-2026-09-29.md","docs/donor-opensuse-novel-writing-2026-09-29.md","docs/donor-hpc-mcp-microsoft-2026-09-29.md","docs/donor-multimedia-video-render-mcp-2026-09-29.md","docs/donor-openal-openmax-heif-2026-09-29.md","docs/donor-nnstreamer-onnx-aom-a11y-2026-09-29.md","docs/FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md","docs/donor-ai-orchestrator-topic-2026-09-29.md","docs/godotengine-github-donor-curation-2026-09-29.md","docs/beadboard-agent-coordination-donor-review-2026-09-28.md","docs/beat-tracking-donor-curation-2026-09-28.md","docs/storygen-atelier-donor-review-2026-09-28.md","docs/three-storyboard-donor-curation-2026-09-28.md","docs/creative-writing-donor-curation-2026-09-28.md","docs/storyboard-donor-curation-2026-09-28.md","docs/daw-music-generation-donor-curation-2026-09-28.md","docs/github-video-editor-and-clip-donor-curation-2026-09-28.md","docs/ai-video-editor-video-generation-donor-curation-2026-09-28.md","docs/video-generator-donor-curation-2026-09-28.md","docs/3dcoat-donor-curation-2026-09-28.md","docs/vision-complementary-donor-curation-2026-09-28.md","docs/github-actions-runner-images-donor-curation-2026-09-28.md","docs/chip-huyen-ml-systems-donor-curation-2026-09-28.md","docs/adaptive-representation-donor-curation-2026-09-28.md"]
+          allowed_tests = ["tests/test_donors_office_3d_animation.py","tests/test_donor_oracle_ubuntu_kubuntu.py","tests/test_orchestrator_functional_donor_registry.py","tests/test_video_clip_topic_donor_curation.py","tests/test_3dcoat_donor_registry.py","tests/test_binary_analysis_donor_candidates.py"]
+          def allowed(p):
+              return (p in metadata or p in curated_docs or p in allowed_tests
+                      or p in ('docs/donor-reference-registry.md',
+                               'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
+                      or p.startswith('docs/donor-repair/')
+                      or p.startswith('canonical/deltas/FA3-DONOR-')
+                      or p.startswith('tests/test_donor_'))
           donor=any('DONOR-REFERENCE-REGISTRY' in n or n.startswith('docs/donor-repair/') for n in names)
           phase='maintenance' if base and donor and all(allowed(n) for n in names) else 'status'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('phase='+phase+'\n')
