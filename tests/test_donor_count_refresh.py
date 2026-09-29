@@ -107,6 +107,16 @@ class CountRefreshTests(unittest.TestCase):
         self.assertEqual(result["backfill"]["entry_count"], 1)
         self.assertEqual(len(result["entries"]), 1)
 
+    def test_historical_nonempty_registry_without_count_bootstraps(self):
+        self.add("one")
+        old = self.current()
+        del old["backfill"]
+        self.path.write_text(json.dumps(old), encoding="utf-8")
+        self.add("two")
+        new = self.current()
+        self.assertEqual(new["backfill"]["entry_count"], 2)
+        self.assertEqual(len(new["entries"]), 2)
+
     def test_bad_capability_baseline_cannot_be_recounted(self):
         bad = self.current()
         bad["capability_count"] = 174
