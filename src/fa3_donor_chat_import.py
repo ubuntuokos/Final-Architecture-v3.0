@@ -98,13 +98,15 @@ def _message_text(node: dict[str, Any], roles: set[str]) -> str | None:
     return text if isinstance(text, str) and len(text) <= MAX_MESSAGE_CHARS else None
 
 
-def _candidate_sources(text: str) -> tuple[list[tuple[str, str, str]], bool]:
+def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
     """Return (name, kind, locator), and an ambiguity flag."""
     matches = list(_POSITIVE.finditer(text))
     if not matches or (_NEGATIVE.search(text) and len(matches) == 1):
         return [], False
     # Avoid harvesting every unrelated link from long quoted articles or code.
-    spans = [(0, len(text))] if len(text) <= 1400 else [
+    # A deliberate owner-submitted batch may contain many vetted links.
+    # Keep strict snippet/volume limits for unreviewed research mentions.
+    spans = [(0, len(text))] if owner_direct or len(text) <= 1400 else [
         (max(0, match.start() - 320), min(len(text), match.end() + 640))
         for match in matches
     ]
@@ -114,7 +116,7 @@ def _candidate_sources(text: str) -> tuple[list[tuple[str, str, str]], bool]:
         for match in _GITHUB.finditer(segment):
             owner, name = match.group(1), match.group(2).removesuffix(".git")
             github.add((owner, name.rstrip(".")))
-    if len(github) > MAX_URLS_PER_MESSAGE:
+    if len(github) > (128 if owner_direct else MAX_URLS_PER_MESSAGE):
         return [], True
     if github:
         sources = [
@@ -134,7 +136,7 @@ def _candidate_sources(text: str) -> tuple[list[tuple[str, str, str]], bool]:
             if project.lower().endswith((".py", ".md", ".json", ".yml", ".yaml", ".txt", ".sh")):
                 continue
             bare.add((owner, project))
-    if len(bare) > MAX_URLS_PER_MESSAGE:
+    if len(bare) > (128 if owner_direct else MAX_URLS_PER_MESSAGE):
         return [], True
     if bare:
         return [
@@ -224,13 +226,13 @@ def ingest(
                 text = record["text"]
                 if not _POSITIVE.search(text):
                     continue
-                sources, ambiguous = _candidate_sources(text)
-                # Explicit owner submissions are pre-reviewed for catalog inclusion.
-                # Tentative research or assistant mentions remain candidates.
+                # Explicit owner submissions have been pre-reviewed for registry
+                # inclusion and may contain a deliberate multi-link batch.
                 direct_owner_link = bool(_OWNER_DIRECT.search(text)) and (
                     (origin == "chatgpt-export" and record.get("speaker_role") == "user")
                     or (origin == "approved-chat-event" and record.get("owner_submitted_link") is True)
                 )
+                sources, ambiguous = _candidate_sources(text, owner_direct=direct_owner_link)
             elif isinstance(record, dict):
                 if record.get("potential_donor") is not True:
                     raise ValueError("metadata event lacks explicit potential-donor signal")
