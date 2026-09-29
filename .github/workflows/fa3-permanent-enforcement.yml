@@ -9,17 +9,35 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: fa3-permanent-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
+  donor-serialization:
+    name: donor-serialization / P0 preflight
+    uses: ./.github/workflows/fa3-donor-serialization.yml
+    permissions:
+      contents: read
+      pull-requests: read
+
   canonical-regression:
     name: canonical-regression / P0
+    needs: donor-serialization
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Enforce the required donor readiness dependency
+        env:
+          DONOR_PREFLIGHT_RESULT: ${{ needs.donor-serialization.result }}
+        run: |
+          if [ "$DONOR_PREFLIGHT_RESULT" != "success" ]; then
+            echo "::error::Donor registry maintenance, integrity or live GitHub proof blocks canonical admission."
+            exit 2
+          fi
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
