@@ -21,3 +21,7 @@ The 58-source structured delta is now mirrored into canonical staging with statu
 ## Existing Intel regression reconciliation
 
 The merged #469 OpenVINO source observation declares Apache-2.0 at repository level. The Intel ecosystem regression now verifies **only this one source** as `KNOWN_DECLARATION`, while continuing to require `upstream_observation.license_audited == false`, source copying disabled and all other Intel entries at their original unknown-license status. This is not approval to copy code or import models.
+
+## OpenImageIO historical alias regression
+
+The original Production Import test asserted `project:openimageio` as the primary key, which conflicts with the lossless canonicalization to the verified `github:academysoftwarefoundation/openimageio`. The test now requires one canonical donor ID, retains `project:openimageio` as a legacy lookup alias, preserves the exact upstream URL, and forbids the historical key as a second donor. No adoption status was promoted.
