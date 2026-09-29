@@ -112,7 +112,7 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
         if field in request:
             _ref(request[field], field)
     mode, kind = request["source_mode"], request["source_kind"]
-    if mode not in SOURCE_MODES or kind not in SOURCE_MODES[mode]:
+    if not isinstance(mode, str) or not isinstance(kind, str) or mode not in SOURCE_MODES or kind not in SOURCE_MODES[mode]:
         raise ValueError("incompatible source kind and source mode")
     sha, live = request.get("source_sha256"), request.get("live_source_plan_ref")
     if mode in {"FILE", "EXTERNAL_PROJECT"}:
@@ -125,7 +125,7 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
     language = request["source_language"]
     if not isinstance(language, str) or (language != "auto" and not _LANG.fullmatch(language)):
         raise ValueError("invalid source language")
-    if request["original_policy"] not in ORIGINAL_POLICIES:
+    if not isinstance(request["original_policy"], str) or request["original_policy"] not in ORIGINAL_POLICIES:
         raise ValueError("unknown original retention policy")
     outputs = request["requested_outputs"]
     if not isinstance(outputs, list) or not (1 <= len(outputs) <= 256):
@@ -136,7 +136,7 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(out, dict) or OUTPUT_REQUIRED - out.keys() or out.keys() - OUTPUT_ALLOWED:
             raise ValueError(f"output[{index}]: missing/unknown properties")
         family, selector = out["family"], out["selector_id"]
-        if family not in ALL or selector not in ALL[family]:
+        if not isinstance(family, str) or not isinstance(selector, str) or family not in ALL or selector not in ALL[family]:
             raise ValueError(f"output[{index}]: invalid family-scoped selector")
         if kind == "TEXT" and family != "TEXT" or kind == "LIVE_CAPTIONS" and family != "TEXT":
             raise ValueError("text/caption source cannot silently produce AV")
@@ -144,7 +144,7 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("audio source cannot silently produce video")
         if kind == "VIDEO" and family == "AUDIO":
             raise ValueError("video audio extraction uses the VIDEO-family selectors")
-        if out["target_application"] not in TARGETS:
+        if not isinstance(out["target_application"], str) or out["target_application"] not in TARGETS:
             raise ValueError("target FA3 application unknown")
         _range(out["source_range"])
         key = (family, selector, out["target_application"], json.dumps(out["source_range"], sort_keys=True))
@@ -154,7 +154,7 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
         langs, translation_mode = out["target_languages"], out["translation_mode"]
         if not isinstance(langs, list) or len(langs) > 64 or any(not isinstance(l, str) or not _LANG.fullmatch(l) for l in langs) or len({l.lower() for l in langs}) != len(langs):
             raise ValueError("invalid or duplicate BCP-47 target language")
-        if translation_mode not in TEXT:
+        if not isinstance(translation_mode, str) or translation_mode not in TEXT:
             raise ValueError("invalid translation mode")
         if family == "TEXT" and selector != translation_mode:
             raise ValueError("TEXT selector must match translation mode")
@@ -170,9 +170,9 @@ def preflight_preview(request: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("ORIGINAL_PLUS_TRANSLATIONS requires target languages")
         stem = out["requested_stem_class"]
         accepted_stems = STEM.get((family, selector), {"NONE"})
-        if stem not in accepted_stems:
+        if not isinstance(stem, str) or stem not in accepted_stems:
             raise ValueError("requested stem incompatible with exact selector; no class conflation")
-        if out["delivery_class"] not in DELIVERY_TYPES:
+        if not isinstance(out["delivery_class"], str) or out["delivery_class"] not in DELIVERY_TYPES:
             raise ValueError("unsupported delivery mode")
         if "quality_review_required" in out and type(out["quality_review_required"]) is not bool:
             raise ValueError("quality review must be boolean")
