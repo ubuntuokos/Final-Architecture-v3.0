@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 656,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place. S4 research 2026-09-29: two official Meta upstream repository references added as source-unique non-authoritative candidates; custom SAM license and gated weights remain research-only."
+    "entry_count": 659,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place. Additional source-unique selective-content donor research on 2026-09-29: 5 audiovisual/music/translation/QC candidates; existing Blender VSE OTIO reference enriched in place. S4 research 2026-09-29: two official Meta upstream repository references added as source-unique non-authoritative candidates; custom SAM license and gated weights remain research-only. S4 selective-import QC research 2026-09-29 added 3 source-unique audio QC/relink candidates, all CANDIDATE; earlier counts remain historical snapshots."
   },
   "entries": [
     {
@@ -33356,6 +33356,217 @@
       "notes": [
         "Work-in-progress AYON-to-OpenAssetIO reference translation; credentials only through FA3 Secret Broker, not upstream env examples.",
         "Research candidate only: no install, source copy, current-host PASS, runtime activation, source-data upload, second authority, or release promotion."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODUCTION-IMPORT-QC-ACOUSTID-CHROMAPRINT-001",
+      "name": "Chromaprint — bounded source-audio fingerprint relink reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/acoustid/chromaprint",
+        "normalized_key": "github:acoustid/chromaprint"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production selective import S4 quality assurance 2026-09-29",
+        "https://github.com/acoustid/chromaprint"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "fingerprint",
+        "relink",
+        "audio-identity",
+        "audio-qc"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import",
+        "quality-assurance"
+      ],
+      "problem_hints": [
+        "selective-audio-stem-qc",
+        "source-asset-identity"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Logistics",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "fingerprint",
+        "relink",
+        "audio-identity",
+        "audio-qc"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "PENDING_SOURCE_LICENSE_REVIEW"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_METADATA_AMBIGUOUS"
+      },
+      "notes": [
+        "Audio fingerprint can propose matching source files during migration, but cannot authenticate a stem, substitute for SHA-256 fixity, assert copyright ownership or reconstruct timing; potential false positives need explicit operator confirmation.",
+        "Donor research only, no model/runtime/provider/GUI admission, no independent evidence assertion or source copy."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODUCTION-IMPORT-QC-BASTIBE-PYTHON-SOUNDFILE-001",
+      "name": "python-soundfile — audio file sample/frame QC reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bastibe/python-soundfile",
+        "normalized_key": "github:bastibe/python-soundfile"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production selective import S4 quality assurance 2026-09-29",
+        "https://github.com/bastibe/python-soundfile"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "libsndfile",
+        "sample-frames",
+        "audio-qc",
+        "cpu"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import",
+        "quality-assurance"
+      ],
+      "problem_hints": [
+        "selective-audio-stem-qc",
+        "source-asset-identity"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "libsndfile",
+        "sample-frames",
+        "audio-qc",
+        "cpu"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Offline sample-count/channel/multiformat reading and QA reference; libsndfile transitive distribution/license security and supported format review required. Do not create a second decoder authority behind FFmpeg.",
+        "Donor research only, no model/runtime/provider/GUI admission, no independent evidence assertion or source copy."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PRODUCTION-IMPORT-QC-JIIXYJ-LIBEBUR128-001",
+      "name": "libebur128 — EBU R128 loudness and peak QC reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/jiixyj/libebur128",
+        "normalized_key": "github:jiixyj/libebur128"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 production selective import S4 quality assurance 2026-09-29",
+        "https://github.com/jiixyj/libebur128"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "loudness",
+        "true-peak",
+        "ebu-r128",
+        "audio-qc"
+      ],
+      "domain_hints": [
+        "audio",
+        "production-import",
+        "quality-assurance"
+      ],
+      "problem_hints": [
+        "selective-audio-stem-qc",
+        "source-asset-identity"
+      ],
+      "target_hints": [
+        "Audio Fabric",
+        "Music Studio",
+        "Broadcast",
+        "Production Import & Migration Fabric"
+      ],
+      "tags": [
+        "loudness",
+        "true-peak",
+        "ebu-r128",
+        "audio-qc"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "CPU-first sample-accurate EBU R128 integrated loudness, loudness range and true-peak QC reference; measurements do not prove separation or stem identity; audio roundtrip fidelity tested independently.",
+        "Donor research only, no model/runtime/provider/GUI admission, no independent evidence assertion or source copy."
       ]
     },
     {
