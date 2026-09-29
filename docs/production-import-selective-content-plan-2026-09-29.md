@@ -1,0 +1,70 @@
+# FA3 Production Import — user-selected content and multilingual derivative plan
+
+Date: 2026-09-29  
+Status: **PROPOSED PLANNING EXTENSION**, not runtime implementation or current-host admission.  
+Parent: [Production Import & Migration Fabric plan](production-import-migration-plan-2026-09-29.md).  
+Capability baseline: **175 fixed**; provider count dynamic; new architectural authorities: **0**.
+
+## User requirement: 17 composable selections
+
+A source can produce **multiple requested outputs within one scoped plan**. The three source-family menus below are the baseline GUI labels. A choice does not promise that a third-party mixed recording can be separated perfectly or that a file is an editable project.
+
+| Source | Stable output selector | Required GUI label (Hungarian) | Meaning |
+|---|---|---|---|
+| TEXT | `ORIGINAL_LANGUAGE` | Eredeti nyelven | Preserve original document/selected source passage and exact available language metadata. |
+| TEXT | `ONE_TRANSLATION` | Egy kiválasztott nyelven | Produce one user-selected target-language derivative. |
+| TEXT | `MULTI_TRANSLATION` | Több nyelvre lefordítva | Produce one derivative per explicitly chosen target language. |
+| TEXT | `ORIGINAL_PLUS_TRANSLATIONS` | Eredeti és fordított változatok együtt | Retain source and individually versioned target-language derivatives in the same lineage bundle. |
+| AUDIO | `FULL_AUDIO` | Teljes hang | Copy/link the original audio or authorized selected time range, no destructive stem mixing. |
+| AUDIO | `TRANSCRIPT_ONLY` | Csak szöveges átirat | Deliver timestamped transcript, not the audio payload; original remains retained or referenced according to archive policy. |
+| AUDIO | `SPEECH_OR_SINGING_SEPARATE` | Beszéd vagy ének külön | Request a named vocal subset; speaker and singer identity/take boundaries only when verified. |
+| AUDIO | `INSTRUMENTAL_ONLY` | Csak zene, ének nélkül | Prefer original instrumental stem; otherwise generate estimated vocal-removed derivative and flag residual bleed. |
+| AUDIO | `AMBIENCE_AND_SFX` | Környezeti hangok és hangeffektusok | Prefer original discrete SFX/ambience tracks; estimated separation from mixed audio is capability/quality gated. |
+| AUDIO | `DENOISED_SPEECH` | Zajcsökkentett beszéd | Preserve untouched original; export processed speech with measured artifacts, processing lineage and user review. |
+| VIDEO | `FULL_VIDEO` | Teljes videó | Preserve original timeline/project when editable import is admitted; flattened full video is delivery-only. |
+| VIDEO | `VIDEO_WITHOUT_AUDIO` | Csak kép, hang nélkül | Export picture-only sequence or supported picture track retaining source timebase. |
+| VIDEO | `FULL_AUDIO_ONLY` | Csak teljes hang | Extract linked full audio without picture; preserve channels, timecode offset and timebase metadata. |
+| VIDEO | `TRANSCRIPT_ONLY` | Csak beszédátirat | Extract audio as ephemeral input for authorized STT and return only transcript derivative. |
+| VIDEO | `MUSIC_OR_INSTRUMENTAL_ONLY` | Csak zene vagy instrumentális rész | Prefer available source music tracks; otherwise estimate and disclose contamination and missing vocals. |
+| VIDEO | `AMBIENCE_AND_SFX_ONLY` | Csak környezeti hangok és effektek | Prefer original effects channels/stems; mixed-source isolation may be unsupported or experimental. |
+| VIDEO | `FRAMES_OR_SCENES` | Képkockák vagy kiválasztott jelenetek | User-selected frames, scene/timecode intervals or editor-aligned clips, with still-image/sequence/project distinctions. |
+
+Menus are multi-select, not radio groups. Each selected output has its own output type, target FA3 application, language settings where applicable, source range, destination and quality/admission receipt. Source-only and derivative-only delivery are explicitly distinct from transferring the entire editable project.
+
+## Additional controls shared by selections
+
+- **Language overlay**: `source_language` explicit or approved-detection with confidence, `target_languages[]` explicit locale/BCP-47 identifiers, original+translated side-by-side option, versioned production-specific terminology, protected proper names and speaker labels; optional human review and per-language target application. For AUDIO/VIDEO `TRANSCRIPT_ONLY`, the same four TEXT language selections apply *after* transcription. Preserve original transcript even when only a translated delivery is requested, as authoritative/provenance data under existing retention policy; expose only requested outputs to destination apps.
+- **Source range**: whole source, selected episodes/scenes, shots, frame/timecode ranges, page/paragraph ranges, named tracks/channels, and explicitly authorized speaker segments when identity is reliably known. Keep original rational timebase/sampling information, language/segment alignment and scene/shot IDs.
+- **Stem specificity**: `speech`, `singing`, `instrumental`, `music`, `ambience`, `sfx`, `noise` are **different classes**. The user's “környezeti hangok és hangeffektusok” means desired ambience/SFX, not arbitrary unwanted noise. A denoiser's removed noise is not proof that source ambience/SFX were cleanly isolated. A model advertising vocals/instrumental cannot claim guaranteed speech-versus-singing or SFX-versus-music separation.
+- **Output scope**: `LINK_ONLY`, `DERIVED_ONLY`, `COPY_EDITABLE` where proven, `HYBRID`, `ARCHIVAL_COPY`. A transcript, translation, vocal-reduced mix or extracted still is a **derived asset** linked to the original. It is never a round-tripped, full native editable source project.
+- **Routing**: target Story/Screenplay, Subtitle Studio, Music Studio, Audio Fabric, Video Editor/QuickClip, Photo/Image Studio, Sound Design, Director or user-selected archive. Publish only explicit requested derivatives, no hidden default media import or cloud upload.
+
+## Processing DAG — shared work, multiple outputs
+
+1. Existing Tools `file.convert.inspect` discovers type, source app/version, channels, editable tracks, languages, media offsets, scene structure, protected source, rights and data classification; external scripts, macros and paths remain inert.
+2. Build a typed **SelectiveImportRequest** child of the existing `ProductionImportPlan`: immutable `source_ref` + digest, `source_kind`, selected output IDs, named `target_languages`, source ranges, quality requirements, target applications, privacy/egress approvals, `original_retention_policy`, `output_policy`, `requested_execution_mode` and existing project/approval refs.
+3. Compile an explicit DAG with deduplicated decode, audio extraction and STT nodes, source-channel inspection, optional admitted separation/denoising, segment/word timing alignment, translation fan-out per target language, media/frame/scene projection and per-output QC. A video-to-transcript request extracts audio internally without publishing that intermediate audio. Separate music/SFX requests must share appropriate demuxing but cannot silently infer an absent target stem.
+4. Route through existing authorities only: Document Interchange and Story for text; Language Fabric / Language Bridge for translation and terminology; existing Whisper/STT for transcription; existing Audio Source Separation Fabric / Demucs for **admitted** stem schemas; Audio/Video/Photo/Fabric for processing; Subtitle Studio's canonical timed text model; existing Tools `file.convert.*`, UAF, Central MCP Gateway, Model Router, HRB, Temporal, Security Governance, Logistics, Asset Graph and Evidence.
+5. Preview each output **independently**. Display `EXACT` for literal source track extraction only when verified; `ESTIMATED` for transcription/translation/model-separated audio; `LOSS_DECLARED`, `INSPECT_ONLY`, `UNSUPPORTED` or `BLOCKED` when relevant. Do not infer that a clean instrumental, singer-specific stem or isolated ambience exists merely because a mixed recording is readable.
+6. Execute a user-approved bounded plan; persist immutable source snapshot or approved read-only link, per-output hashes, source offsets/scene IDs, language and glossary revision, provider/model identities when used, leases, quality confidence, provenance and optional review corrections. Downstream approval gates prevent a failed/contaminated output from being silently marked complete.
+7. Existing Director maps produced assets to requested FA3 application inboxes and dependency graph; original media and unrelated source project edits remain unaffected. Re-execution invalidates only derived nodes affected by changed source segments, separation model, vocabulary or translated language.
+
+## Existing authority and implementation reality
+
+- `canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json` specifies `StemOntologyDescriptor`, `StemSeparationRequest`, `StemContaminationEvidence` and provider-neutral results. Current Demucs allowlist's admitted four-stem `htdemucs` classes are **drums/bass/other/vocals**, and its six-stem guitar/piano paths are experimental. Therefore **speech-versus-singing**, **pure SFX/ambience** and **clean isolated music from arbitrary mixtures** must start `UNSUPPORTED`/experimental unless another independently admitted stem schema or genuine source tracks substantiate them; no invented physical PASS.
+- `canonical/contracts/FA3-CAPTION-SUBTITLE-CONTRACTS-001.json` already keeps original caption text when translated and offers `caption.translate`; use its timed text, revisions and editable caption track rather than a new transcript authority. Its historical 143 count is not a proposal to change current global **175** or rewrite old evidence.
+- `canonical/profiles/FA3-LANGUAGE-FABRIC-001.json` and `canonical/FA3-LANGUAGE-BRIDGE-001.json` already require original-language authority, translated derivative lineage, local-first policy, semantic validation, protected tokens, no external translation for SECRET material, and no silent model/provider fallback.
+- Existing Whisper and Demucs profiles still require actual current-host and per-model performance/quality evidence for new selective-import combinations. An archived or externally supplied transcript is not the same as independently verified new STT execution.
+
+## GUI in the existing Production Studio, not a new app shell
+
+**Production Studio → Open / Import Production → Select Content**, with three source-aware panels (Szöveg / Hang / Videó). Display exactly the 17 Hungarian checkbox labels from the table, plus optional shared controls for selected languages (single or chips/multi-select), scene ranges, stem source/quality (original / estimated / unavailable), destination apps, preview, loss/admission, original preservation and consent/approval. Include a single **“Import all selected”** action only when every requested output has a proven or explicitly approved quality/loss mode; otherwise offer **“Import supported subset”** with a human-reviewed skipped-output receipt, never silent drops.
+
+**Example**: One 42-minute French-language documentary video yields (a) muted selected shots for Video Editor, (b) original French timed dialogue and explicitly requested Hungarian and English versions for Story/Subtitle Studio, (c) source music without vocals for Music Studio only if a clean source stem exists or the user explicitly accepts a documented estimated derivative, and (d) scene-bound ambience/SFX if supplied as original stems or independently validated by an admitted separator. All outputs retain exact shared source lineage/timecode and independent quality reports.
+
+## Security, governance and acceptance
+
+- **No network assumption**: offline-first/local processing, explicit opt-in for remote/billable translation/STT/separation; private source rights and data classification gate prior to any provider selection. Models chosen only through FA3 Model Router; CPU-only route remains mandatory and optional acceleration is task/model-scoped via HRB. Designated display GPU cannot be enrolled implicitly when another GPU or NPU exists.
+- **No unauthorized extra data**: intermediate decodes and extracted audio are bounded and cleaned under retention policy; user-requested transcript-only import must not send unrequested media into Story/Subtitle Studio. Preserve source originals and provenance independently of selected delivered outputs.
+- **No invented guarantees**: no exact stem separation, word-level accuracy, perfect translation, authorizing original project writeback, derived-asset symmetry or source-app roundtrip without independent evidence. Mixed singing/speech, vocal bleed, multilingual/code-switch speech, overlapping speakers, high-noise ambience, 5.1/ADM/object audio, variable frame rate and subtitle timing drift must have negative/quality fixtures.
+- **Verification**: test all 17 selectors, combined fan-out, one/multi/parallel source+translations, no output of unrequested media, range/timebase alignment, duplicates in generated names, rollback/restart, unchanged source digests, data-class rejection, unavailable stem fail-closed, and exact-head canonical/reuse/projection gates. Do not claim physical current-host PASS or software release from proposal documents.
