@@ -69,6 +69,30 @@ The [selective NVIDIA upstream reference index](nvidia-github-donor-curation-202
 
 The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) inventories the official organization and records five individually checked repositories plus a discovery index as metadata-only donor candidates. It links OpenUSD/Hydra, OpenSubdiv and USD proposals to current or planned creative applications while preserving FA3-native projects, CPU-only viability, existing Khronos reuse, and all independent admission gates.
 
+## Intel and oneAPI GitHub donor curation
+
+[Curated source and admission-boundary notes](donor-intel-github-ecosystem-2026-09-28.md). Donor references are candidate-only; runtime/provider admission and hardware safety remain separately gated.
+
+## Pixar OpenUSD donor curation
+
+[Curated source and admission-boundary notes](donor-openusd-2026-09-28.md). Donor references are candidate-only; runtime/provider admission and hardware safety remain separately gated.
+
+## Adobe donor curation
+
+[Curated source and admission-boundary notes](adobe-github-donor-curation-2026-09-28.md). Donor references are candidate-only; runtime/provider admission and hardware safety remain separately gated.
+
+## AMD ROCm donor curation
+
+[Curated source and admission-boundary notes](donor-amd-rocm-curation.md). Donor references are candidate-only; runtime/provider admission and hardware safety remain separately gated.
+
+## OSPRay donor curation
+
+[Curated source and admission-boundary notes](donor-ospray-renderkit-ecosystem-2026-09-28.md). Donor references are candidate-only; runtime/provider admission and hardware safety remain separately gated.
+
+## Shell-filtered AI orchestration donor discovery (2026-09-29)
+
+The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestration?l=shell) is a dynamic discovery index, not an application, provider or approved dependency. Nine distinct upstream repositories are recorded as candidate-only references. See [AI-orchestration Shell donor curation](donor-ai-orchestration-shell-2026-09-29.md). License, provenance, security, Software Coexistence, Hardware Audit, Reuse Discovery and current-host gates remain separate.
+
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
