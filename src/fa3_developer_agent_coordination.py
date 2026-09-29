@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -197,6 +198,7 @@ def provider_authority_assignment_allowed(*, provider_id: str, authority_owner: 
 
 class BuiltinDeterministicAdapter:
     provider_id = FIXTURE_PROVIDER_ID
+    supports_verified_skill_context = True
 
     def __init__(self, module_path: Path | None = None):
         self.module_path = (module_path or Path(__file__)).resolve()
@@ -208,6 +210,7 @@ class BuiltinDeterministicAdapter:
         workspace: Path,
         request_path: Path,
         result_path: Path,
+        skill_context_path: Path | None = None,
     ) -> subprocess.Popen[str]:
         _json_write(
             request_path,
@@ -219,6 +222,8 @@ class BuiltinDeterministicAdapter:
                 "workspace": str(workspace.resolve()),
                 "relative_path": task.relative_path,
                 "content": task.content,
+                "required_skill_ids": list(task.required_skill_ids),
+                "skill_context_path": str(skill_context_path) if skill_context_path else None,
             },
         )
         return subprocess.Popen(
@@ -239,6 +244,13 @@ class BuiltinDeterministicAdapter:
         )
 
 
+    def spawn_with_skill_context(self, *, task: AgentTask, workspace: Path,
+                                 request_path: Path, result_path: Path,
+                                 skill_context_path: Path) -> subprocess.Popen[str]:
+        return self.spawn(task=task, workspace=workspace, request_path=request_path,
+                          result_path=result_path, skill_context_path=skill_context_path)
+
+
 class Coordinator:
     def __init__(self, repo: Path, control_root: Path, *, max_message_hops: int = 4):
         self.repo = repo.resolve()
@@ -250,6 +262,8 @@ class Coordinator:
         self.workspaces: dict[str, Path] = {}
         self.leases: dict[str, WorkspaceLease] = {}
         self.processes: dict[str, subprocess.Popen[str]] = {}
+        self.skill_context_files: dict[str, Path] = {}
+        self.skill_context_digests: dict[str, str] = {}
 
     @staticmethod
     def git(repo: Path, *args: str, input_text: str | None = None) -> str:
@@ -346,33 +360,58 @@ class Coordinator:
 
     def spawn_workers(self, tasks: list[AgentTask], adapter: ProviderAdapter, *,
                       skill_preflight: Any | None = None) -> None:
+        from fa3_skill_task_projection import SkillTaskPreflight, SkillProjectionDenied
+
         for task in tasks:
-            if task.required_skill_ids:
-                if skill_preflight is None:
-                    raise CoordinationDenied("task requires a verified Skill Fabric preflight")
-                receipts = skill_preflight(task)
-                if not isinstance(receipts, list) or len(receipts) != len(task.required_skill_ids):
-                    raise CoordinationDenied("missing or duplicate skill preflight receipts")
-                verified_ids = [r.get("snapshot_verification", {}).get("skill_id") for r in receipts
-                                if isinstance(r, dict) and r.get("snapshot_verification", {}).get("result") == "PASS"]
-                if (len(verified_ids) != len(receipts)
-                        or len(verified_ids) != len(set(verified_ids))
-                        or set(verified_ids) != set(task.required_skill_ids)
-                        or any(r.get("task_scope") != "developer" or
-                               r.get("snapshot_verification", {}).get("task_scope") != "developer"
-                               for r in receipts)):
-                    raise CoordinationDenied("skill preflight task or identity mismatch")
-                self.event("SKILL_PREFLIGHT_VERIFIED", task_id=task.task_id,
-                           agent_id=task.agent_id, skill_ids=sorted(verified_ids),
-                           content_sha256=[r["content_sha256"] for r in receipts])
             if task.provider_id != adapter.provider_id:
                 raise CoordinationDenied("task/provider adapter identity mismatch")
+            if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}", task.task_id):
+                raise CoordinationDenied("unsafe task identifier")
             workspace = self.workspaces[task.agent_id]
             req = self.control_root / "requests" / f"{task.task_id}.json"
             result = self.control_root / "results" / f"{task.task_id}.json"
-            proc = adapter.spawn(task=task, workspace=workspace, request_path=req, result_path=result)
+
+            if task.required_skill_ids:
+                if type(skill_preflight) is not SkillTaskPreflight:
+                    raise CoordinationDenied("a concrete SkillTaskPreflight is required")
+                if (getattr(adapter, "supports_verified_skill_context", False) is not True
+                        or not callable(getattr(adapter, "spawn_with_skill_context", None))):
+                    raise CoordinationDenied("adapter cannot consume verified skill context")
+                try:
+                    context = skill_preflight.prepare_task(task)
+                except SkillProjectionDenied as exc:
+                    raise CoordinationDenied("skill preflight denied: " + str(exc)) from exc
+                if (context.get("task_id") != task.task_id or context.get("agent_id") != task.agent_id
+                        or [row["skill_id"] for row in context.get("skills", [])]
+                           != list(task.required_skill_ids)):
+                    raise CoordinationDenied("verified skill projection does not match task")
+                context_dir = self.control_root / "ephemeral-skill-context"
+                context_dir.mkdir(parents=True, exist_ok=True)
+                context_path = context_dir / f"{task.task_id}.json"
+                payload = (json.dumps(context, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
+                flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+                try:
+                    fd = os.open(context_path, flags, 0o600)
+                    with os.fdopen(fd, "wb") as handle:
+                        handle.write(payload)
+                except OSError as exc:
+                    raise CoordinationDenied("could not stage private verified skill context") from exc
+                self.skill_context_files[task.task_id] = context_path
+                self.skill_context_digests[task.task_id] = _sha256_bytes(payload)
+                self.event("SKILL_CONTEXT_STAGED", task_id=task.task_id,
+                           agent_id=task.agent_id,
+                           skill_ids=[row["skill_id"] for row in context["skills"]],
+                           content_sha256=[row["content_sha256"] for row in context["skills"]],
+                           evidence_scope=context["evidence_scope"])
+                proc = adapter.spawn_with_skill_context(
+                    task=task, workspace=workspace, request_path=req,
+                    result_path=result, skill_context_path=context_path)
+            else:
+                proc = adapter.spawn(task=task, workspace=workspace,
+                                     request_path=req, result_path=result)
             self.processes[task.agent_id] = proc
-            self.event("WORKER_SPAWNED", task_id=task.task_id, agent_id=task.agent_id, provider_id=task.provider_id)
+            self.event("WORKER_SPAWNED", task_id=task.task_id,
+                       agent_id=task.agent_id, provider_id=task.provider_id)
 
     def collect_workers(self, tasks: list[AgentTask]) -> list[AgentResult]:
         results: list[AgentResult] = []
@@ -387,6 +426,10 @@ class Coordinator:
             raw = json.loads(result_path.read_text(encoding="utf-8"))
             if raw.get("status") != "PASS" or raw.get("task_id") != task.task_id:
                 raise CoordinationDenied("worker result invalid")
+            expected_context = self.skill_context_digests.get(task.task_id)
+            if expected_context is not None and (raw.get("skill_context_sha256") != expected_context
+                    or raw.get("verified_skill_ids") != list(task.required_skill_ids)):
+                raise CoordinationDenied("worker did not verify its staged skill context")
             if self.git(self.workspaces[task.agent_id], "rev-parse", "HEAD").strip() != self.base_commit:
                 raise CoordinationDenied("worker committed instead of returning a diff")
             changed = tuple(
@@ -461,6 +504,10 @@ class Coordinator:
                 except subprocess.TimeoutExpired:
                     proc.kill()
                     proc.wait(timeout=5)
+        for path in list(self.skill_context_files.values()):
+            path.unlink(missing_ok=True)
+        self.skill_context_files.clear()
+        self.skill_context_digests.clear()
         for workspace in list(self.workspaces.values()):
             try:
                 self.git(self.repo, "worktree", "remove", "--force", str(workspace))
@@ -679,23 +726,48 @@ def run_reference_e2e() -> dict[str, Any]:
 def worker_main(request_path: Path, result_path: Path) -> int:
     request = json.loads(request_path.read_text(encoding="utf-8"))
     workspace = Path(request["workspace"]).resolve()
+    required = request.get("required_skill_ids", [])
+    context_path = request.get("skill_context_path")
+    verified_ids: list[str] = []
+    context_digest = None
+    if required:
+        if not isinstance(required, list) or not context_path:
+            raise CoordinationDenied("fixture worker missing required skill context")
+        raw_context = Path(context_path).read_bytes()
+        context_digest = _sha256_bytes(raw_context)
+        context = json.loads(raw_context)
+        if (context.get("schema") != "fa3.developer-task-skill-projection.v1"
+                or context.get("task_id") != request["task_id"]
+                or context.get("agent_id") != request["agent_id"]
+                or context.get("task_scope") != "developer"
+                or context.get("grants_execution_authority") is not False
+                or context.get("evidence_scope") not in
+                   ("CI_REFERENCE_ONLY", "EXISTING_AUTHORITY_ADAPTER_VERIFIED")):
+            raise CoordinationDenied("fixture worker received invalid skill context")
+        for row in context.get("skills", []):
+            instructions = row.get("instructions")
+            if not isinstance(instructions, str) or not instructions:
+                raise CoordinationDenied("fixture worker missing skill instructions")
+            if _sha256_bytes(instructions.encode("utf-8")) != row.get("content_sha256"):
+                raise CoordinationDenied("fixture worker received tampered skill bytes")
+            verified_ids.append(row.get("skill_id"))
+        if verified_ids != required or len(set(verified_ids)) != len(verified_ids):
+            raise CoordinationDenied("fixture worker did not receive every required skill")
+    elif context_path:
+        raise CoordinationDenied("undeclared worker skill context")
     target = _resolve_within(workspace, str(request["relative_path"]))
     if not target.exists():
         raise CoordinationDenied("fixture worker only modifies pre-existing files")
     target.write_text(str(request["content"]), encoding="utf-8")
-    _json_write(
-        result_path,
-        {
-            "schema": "fa3.developer-agent-fixture-result.v1",
-            "task_id": request["task_id"],
-            "agent_id": request["agent_id"],
-            "provider_id": request["provider_id"],
-            "status": "PASS",
-            "target_sha256": _sha256_file(target),
-        },
-    )
+    _json_write(result_path, {
+        "schema": "fa3.developer-agent-fixture-result.v1",
+        "task_id": request["task_id"], "agent_id": request["agent_id"],
+        "provider_id": request["provider_id"], "status": "PASS",
+        "target_sha256": _sha256_file(target),
+        "verified_skill_ids": verified_ids,
+        "skill_context_sha256": context_digest,
+    })
     return 0
-
 
 def main() -> int:
     ap = argparse.ArgumentParser()
