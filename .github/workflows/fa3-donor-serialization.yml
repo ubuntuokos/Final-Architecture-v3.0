@@ -30,7 +30,9 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           python3 - <<'PY'
-          import os,subprocess
+          import os,subprocess,sys
+          sys.path.insert(0,'src')
+          from fa3_donor_readiness import is_donor_pr
           base=os.environ.get('BASE_SHA','')
           names=(subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines() if base else [])
           metadata=('canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json',
@@ -49,9 +51,12 @@ jobs:
                       or p in ('docs/donor-reference-registry.md',
                                'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
                       or p.startswith('docs/donor-repair/')
+                      or p.startswith('docs/donor-') or p.startswith('docs/donors-')
                       or p.startswith('canonical/deltas/FA3-DONOR-')
-                      or p.startswith('tests/test_donor_'))
-          donor=any('DONOR-REFERENCE-REGISTRY' in n or n.startswith('docs/donor-repair/') for n in names)
+                      or (p.startswith('canonical/references/') and 'DONOR' in p.upper())
+                      or p.startswith('tests/test_donor_') or p.startswith('tests/test_donors_'))
+          donor=is_donor_pr({'title':os.environ.get('PR_TITLE','')},
+                            [{'filename':name} for name in names])
           phase='maintenance' if base and donor and all(allowed(n) for n in names) else 'status'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('phase='+phase+'\n')
           print('Donor mode:',phase,'changed files:',len(names))

@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_donor_readiness import inspect_registry,pending_prs,gate,REGISTRY,git_blob_sha
+from fa3_donor_readiness import inspect_registry,pending_prs,gate,is_donor_pr,REGISTRY,git_blob_sha
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -39,6 +39,33 @@ class Tests(unittest.TestCase):
     def test_no_live_proof_fails_closed(self):
         t,root,p=fixture()
         with t:self.assertEqual(gate(root,"status")["result"],"BLOCKED")
+    def test_hidden_donor_reference_or_delta_edit_blocks(self):
+        paths = [
+            "canonical/references/FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28.json",
+            "canonical/deltas/FA3-DONOR-MEDIA-INTAKE-2026-09-29.json",
+            "docs/donor-new-upstream-2026-09-29.md",
+            "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+            "src/fa3_application_donor_index.py",
+        ]
+        for path in paths:
+            with self.subTest(path=path):
+                self.assertTrue(is_donor_pr({"title": "Generic media feature"},
+                                            [{"filename": path}]))
+        self.assertFalse(is_donor_pr(
+            {"title": "Generic media feature"},
+            [{"filename": "canonical/assessments/FA3-MEDIA-REUSE-ASSESSMENT-001.json"}]))
+        self.assertTrue(is_donor_pr({"title": "Donor source review"}, []))
+
+    def test_hidden_reference_in_live_scan(self):
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number": 435, "title": "Generic Media Studio",
+                         "head": {"sha": "a" * 40}}]
+            if "/pulls/435/files?" in url:
+                return [{"filename": "canonical/references/FA3-AUTOM8AI-DONOR-REFERENCE-2026-09-28.json"}]
+            raise AssertionError(url)
+        self.assertEqual([r["number"] for r in pending_prs(get)], [435])
+
     def test_hidden_registry_edit_is_found(self):
         def get(s):
             if "pulls?state=open" in s:return [{"number":8,"title":"New editor",

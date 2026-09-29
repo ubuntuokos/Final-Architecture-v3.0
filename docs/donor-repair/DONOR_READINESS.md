@@ -12,3 +12,7 @@ CLI: PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase maintenance
 After source reconciliation and closure of all donor maintenance PRs, use --phase entry --assessment canonical/assessments/<assessment>.json with GITHUB_TOKEN from the existing Secret Broker or GitHub Actions environment. No tokens in chat, logs or committed files.
 
 Limit: live PR checks detect known GitHub work but do not constitute an atomic distributed lease against unregistered off-GitHub mutations. Release-wide orchestration and a required branch-protection check still must consume this gate. While donor PRs remain pending, global readiness is BLOCKED.
+
+## 2026-09-29 hidden donor-reference detection hardening
+
+Audit of the complete post-reconciliation open-PR file inventory uncovered #435: its PR title was generic and its central-registry file did not change, but it created a separate `canonical/references/*DONOR*` reference set. The original branch remains archived in recovery #540; it was not merged. The canonical preflight and CI maintenance classifier now recognize donor reference-set files, donor intake deltas, donor research and application/donor index changes as pending maintenance, even when the PR title is generic. They still do not treat ordinary Reuse Assessments as registry mutation. A reference catalog is not a second donor authority, and its candidate pins are not automatic code import or provider admission.
