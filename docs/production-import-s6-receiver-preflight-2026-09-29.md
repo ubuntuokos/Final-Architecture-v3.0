@@ -28,6 +28,7 @@ New **subordinate planning schema**, not a new discovery authority: `fa3.receive
 Files:
 - `src/fa3_selective_import_receiver_preview.py`: pure stdlib, no external effects.
 - `canonical/schemas/selective-receiver-handoff-preview.v1.json`: no-execution S6 result contract.
+- `canonical/schemas/selective-receiver-capability-claims.v1.json`: bounded **untrusted input** inventory claim contract, NOT an independently authenticated application registry.
 - `tests/test_selective_import_receiver_preview.py`: synthetic app/host/format/round-trip/stem/privacy/locale negative and positive assertions.
 
 ## 3. Authority boundary and the next **real** bridge
