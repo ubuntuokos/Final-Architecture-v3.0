@@ -72,3 +72,7 @@ Menus are multi-select, not radio groups. Each selected output has its own outpu
 ## Source-verified donor research and implementation work packages
 
 The [2026-09-29 selective-content research annex](production-import-selective-donor-research-2026-09-29.md) records **21 additional** source-unique non-authoritative donor candidates, official repository source/licensing metadata, exact existing-owner mappings, seven-stage implementation dependencies, output-specific acceptance criteria and release gates. It augments, rather than overrides, the **17 exact selectable options** and cross-cutting text language modes in this parent document. The 592-record migration baseline increases to **613** only on this design branch until PR #528 is merged. No automatic runtime, provider, model or weight admission or physical current-host PASS is implied.
+
+## Follow-up quality/translation research (same 17 selectors)
+
+The [11-source translation/audio quality extension](production-import-selective-quality-extension-2026-09-29.md) adds offline local-MT and review patterns, distinct original-versus-estimated audio semantics, an operator QC model, source/revision-aware derivative cache rules and exact-head physical admission requirements. It adds **no new selector, capability ID or runtime authority**. The preceding 613 count is the historical pre-extension snapshot; the #528 proposal branch now has 624 source-unique donor records. License/weight gate and user-approved source preservation remain mandatory.
