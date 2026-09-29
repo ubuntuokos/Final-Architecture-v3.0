@@ -160,6 +160,18 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(result["created"], 1)
         self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
 
+    def test_negated_owner_marker_is_not_an_intake_instruction(self):
+        before = self.path.read_bytes()
+        result = ingest(self.root, [self.user(
+            "nem donornak: https://github.com/example/never-register"),
+            self.user("not donornak https://github.com/example/also-not")],
+            origin="chatgpt-export")
+        self.assertEqual(result["created"], 0)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(
+            _candidate_sources("nem donornak: https://github.com/example/no",
+                               owner_direct=True)[0], [])
+
     def test_missing_marker_never_passes_candidate_sources(self):
         self.assertEqual(_candidate_sources("Donor: https://github.com/example/one", owner_direct=True)[0], [])
         self.assertEqual(_candidate_sources("donornak: https://github.com/example/one", owner_direct=False)[0], [])
