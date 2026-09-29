@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_donor_readiness import inspect_registry,pending_prs,gate,REGISTRY
+from fa3_donor_readiness import inspect_registry,pending_prs,gate,REGISTRY,git_blob_sha
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -61,10 +61,32 @@ class Tests(unittest.TestCase):
         with t:
             def get(s):
                 if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "/contents/"+REGISTRY in s:return {"sha":git_blob_sha(p.read_bytes())}
                 return []
             x=gate(root,"status",get=get)
             self.assertEqual(x["result"],"READY_FOR_SEPARATE_FA3_ADMISSION_GATES")
             self.assertFalse(x["planning_allowed"])
             self.assertFalse(x["finalization_allowed"])
             self.assertIn("DONOR_ASSESSMENT_REQUIRED",gate(root,"entry",get=get)["findings"])
+    def test_stale_main_snapshot_blocks_even_with_no_pending_prs(self):
+        t,root,p=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "/contents/"+REGISTRY in s:return {"sha":"b"*40}
+                return []
+            x=gate(root,"entry",get=get)
+            self.assertEqual(x["result"],"BLOCKED")
+            self.assertIn("STALE_CANONICAL_DONOR_SNAPSHOT",x["findings"])
+            self.assertFalse(x["planning_allowed"])
+    def test_missing_main_blob_fails_closed(self):
+        t,root,p=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "/contents/"+REGISTRY in s:return {}
+                return []
+            x=gate(root,"status",get=get)
+            self.assertEqual(x["result"],"BLOCKED")
+            self.assertTrue(any("PROOF_UNAVAILABLE:" in f for f in x["findings"]))
 if __name__=="__main__":unittest.main()

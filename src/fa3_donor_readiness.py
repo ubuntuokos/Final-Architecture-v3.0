@@ -59,6 +59,10 @@ def inspect_registry(root):
     return {"registry":reg,"sha256":hashlib.sha256(raw).hexdigest(),
             "count":len(rows),"findings":sorted(set(problems))}
 
+def git_blob_sha(raw):
+    """GitHub's contents API exposes the blob SHA even for files above 1 MiB."""
+    return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw).hexdigest()
+
 def github_get(url,token):
     if not token: raise RuntimeError("GITHUB_TOKEN_REQUIRED")
     req=urllib.request.Request("https://api.github.com"+url,
@@ -186,6 +190,18 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["pending_prs"]:result["findings"].append("PENDING_DONOR_MAINTENANCE")
         if result["findings"]:return result
+        # A locally coherent but stale branch must never authorize planning after
+        # a newer canonical main registry is published. Fetch the blob identity
+        # at the exact main SHA observed during the live pending-PR scan.
+        remote=getter(f"/repos/{REPO}/contents/{REGISTRY}?ref={after}")
+        if (not isinstance(remote,dict) or not isinstance(remote.get("sha"),str)
+                or len(remote["sha"]) != 40):
+            raise ValueError("CANONICAL_MAIN_REGISTRY_BLOB_UNAVAILABLE")
+        local=git_blob_sha((root / REGISTRY).read_bytes())
+        result["main_registry_blob_sha"]=remote["sha"]
+        if local != remote["sha"]:
+            result["findings"].append("STALE_CANONICAL_DONOR_SNAPSHOT")
+            return result
         if phase in ("entry","finalize"):
             result["findings"].extend(assessment_findings(
                 root,assessment,inspect["sha256"],inspect["registry"]))
