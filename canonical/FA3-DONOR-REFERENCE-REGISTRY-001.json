@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 639,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment."
+    "entry_count": 649,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. 2026-09-29 selective text/audio/video import research: 21 source-unique new GitHub donor candidates; existing FFmpeg donor enriched in place; existing Demucs provider authority unchanged. Production import quality research 2026-09-29 captured 11 source-unique candidates, keeping historical references unchanged. 2026-09-29 second-round selective import: 9 source-unique alignment/QC donor candidates plus existing CLAP candidate enrichment, research only. Selective production import follow-up on 2026-09-29 captured six independently verified source-unique research candidates for subtitle sync, precise media timing, localization interchange, musical annotations, locale metadata and cross-language alignment. Live selective intake research 2026-09-29 added 10 source-unique candidates; enriched existing FFmpeg/GStreamer/pysubs2 in place."
   },
   "entries": [
     {
@@ -18181,6 +18181,723 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-BLUENVIRON-MEDIAMTX-001",
+      "name": "MediaMTX live protocol interop reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bluenviron/mediamtx",
+        "normalized_key": "github:bluenviron/mediamtx"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/bluenviron/mediamtx"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_video",
+        "live_audio"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Protocol bridge/reconnect/segment lifecycle patterns for RTSP/RTMP/SRT/WebRTC/HLS and audio-only; DO NOT introduce second global server/router or listen ports by default.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-EBU-EBU-TT-LIVE-TOOLKIT-001",
+      "name": "EBU-TT Live interoperability toolkit",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ebu/ebu-tt-live-toolkit",
+        "normalized_key": "github:ebu/ebu-tt-live-toolkit"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/ebu/ebu-tt-live-toolkit"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_CAPTIONS"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_captions"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "EBU Tech 3370 live subtitle event/frame structure and handover. Old Python/version compatibility requires independent validation; no implicit server dependency.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-GLUT23-WEBVTT-PY-001",
+      "name": "webvtt-py timed caption segment reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/glut23/webvtt-py",
+        "normalized_key": "github:glut23/webvtt-py"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/glut23/webvtt-py"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_CAPTIONS"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_captions"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Read/write segmented WebVTT and HLS subtitle segment patterns; separately evaluate extended live partial-cue revisions and stale-maintenance risk.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-HAIVISION-SRT-001",
+      "name": "Haivision SRT secure reliable live transport",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Haivision/srt",
+        "normalized_key": "github:haivision/srt"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/Haivision/srt"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_video",
+        "live_audio"
+      ],
+      "license": {
+        "declared": "MPL-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Low-latency resilient approved SRT source receive; a transport is not an editor project nor a caption provider; no default listener port.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-OBSPROJECT-OBS-STUDIO-001",
+      "name": "OBS Studio capture and browser/source workflows",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/obsproject/obs-studio",
+        "normalized_key": "github:obsproject/obs-studio"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/obsproject/obs-studio"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO",
+        "LIVE_CAPTIONS"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Subtitle Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_video",
+        "live_audio",
+        "live_captions"
+      ],
+      "license": {
+        "declared": "GPL-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Reference for OBS scene/source ingestion and approved OBS WebSocket coordination where available; no bundled GPL runtime, no implicit scene capture or stream rebroadcast.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-PION-WEBRTC-001",
+      "name": "Pion WebRTC transport reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/pion/webrtc",
+        "normalized_key": "github:pion/webrtc"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/pion/webrtc"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_video",
+        "live_audio"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Authorized opt-in WebRTC endpoint integration research; existing FA3 network/UAF/security ownership, no second WebRTC network authority or default external peer discovery.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-STREAMLINK-STREAMLINK-001",
+      "name": "Streamlink authorized source resolver reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/streamlink/streamlink",
+        "normalized_key": "github:streamlink/streamlink"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/streamlink/streamlink"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_video",
+        "live_audio"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Only user-authorized site/source discovery research; no DRM/geo/ToS circumvention or default platform scraping and no service/cloud upload.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-SZATMARY-LIBCAPTION-001",
+      "name": "libcaption limited CEA-608/708 decoder",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/szatmary/libcaption",
+        "normalized_key": "github:szatmary/libcaption"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/szatmary/libcaption"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_CAPTIONS",
+        "LIVE_VIDEO"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Subtitle Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_captions",
+        "live_video"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Broadcast embedded caption subset decoding reference; 708 is limited to 608 compatibility carriage, never claim full native CEA-708 coverage.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-VIDEO-DEV-HLS-JS-001",
+      "name": "hls.js browser HLS playback reference",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/video-dev/hls.js",
+        "normalized_key": "github:video-dev/hls.js"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/video-dev/hls.js"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO",
+        "LIVE_CAPTIONS"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Subtitle Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_video",
+        "live_audio",
+        "live_captions"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "PENDING_EXACT_VERSION_SOURCE_REVIEW"
+      },
+      "notes": [
+        "Browser HLS rendition/subtitle selection UI reference only; browser player not equivalent to server-side capture; license upstream text needs separate source audit.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LIVE-INTAKE-XIPH-ICECAST-SERVER-001",
+      "name": "Icecast-Server official mirror for live podcast and internet radio",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/xiph/Icecast-Server",
+        "normalized_key": "github:xiph/icecast-server"
+      },
+      "status": "CANDIDATE",
+      "discovered_from": [
+        "FA3 live broadcast, podcast and live-caption intake research 2026-09-29",
+        "https://github.com/xiph/Icecast-Server"
+      ],
+      "first_seen": "2026-09-29",
+      "last_seen": "2026-09-29",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "LIVE_AUDIO"
+      ],
+      "domain_hints": [
+        "live-production",
+        "live-ingest",
+        "selective-import"
+      ],
+      "problem_hints": [
+        "authorized-live-stream-intake",
+        "live-caption-translation",
+        "low-latency-and-resume"
+      ],
+      "target_hints": [
+        "Production Import & Migration Fabric",
+        "Broadcast",
+        "Live Studio",
+        "Audio Fabric",
+        "Music Studio"
+      ],
+      "tags": [
+        "research",
+        "non-authoritative",
+        "live-selective-import",
+        "live_audio"
+      ],
+      "license": {
+        "declared": "GPL-2.0",
+        "status": "UPSTREAM_GITHUB_METADATA_ONLY"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "upstream_snapshot": {
+        "observed_at": "2026-09-29",
+        "archived": false,
+        "license_evidence": "GITHUB_REPOSITORY_METADATA_ONLY"
+      },
+      "notes": [
+        "Reference for authorized audio-only live podcast/radio endpoints and stream metadata; mirror upstream is gitlab.xiph.org/xiph/icecast-server; avoid bundling server or opening a new daemon.",
+        "Research candidate only; independent license and current-host proof required. No new scheduler/router/server, automatic install, live recording without authorization, stream rebroadcast or new network listener."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-LIVEPORTRAIT-001",
       "name": "LivePortrait",
       "source": {
@@ -29903,6 +30620,7 @@
       "status": "CANDIDATE",
       "discovered_from": [
         "FA3 converter-history and external production migration reconciliation 2026-09-29",
+        "FA3 live selective intake research 2026-09-29",
         "FA3 selective multilingual production import research 2026-09-29",
         "https://github.com/FFmpeg/FFmpeg"
       ],
@@ -29928,6 +30646,7 @@
       "target_hints": [
         "Audio Fabric",
         "FA3 File Conversion",
+        "Live Studio",
         "Production Import & Migration Fabric",
         "Subtitle Studio",
         "Tools/Conversion"
@@ -29936,6 +30655,7 @@
         "audio-only",
         "converter",
         "frame-extraction",
+        "live-selective-import-reference",
         "picture-only",
         "prior-history-reconciliation",
         "selective-import-demux",
@@ -30512,7 +31232,8 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
-        "FA3 earlier conversion decisions reconciled 2026-09-29"
+        "FA3 earlier conversion decisions reconciled 2026-09-29",
+        "FA3 live selective intake research 2026-09-29"
       ],
       "first_seen": "2026-09-29",
       "last_seen": "2026-09-29",
@@ -30535,15 +31256,17 @@
         "semantic-fidelity"
       ],
       "target_hints": [
-        "Video Editor",
+        "Live Studio",
+        "Production Import & Migration Fabric",
         "QuickClip",
-        "Production Import & Migration Fabric"
+        "Video Editor"
       ],
       "tags": [
+        "editorial",
         "gstreamer",
-        "xges",
+        "live-selective-import-reference",
         "media",
-        "editorial"
+        "xges"
       ],
       "license": {
         "declared": "UNKNOWN",
@@ -35564,6 +36287,7 @@
       },
       "status": "CANDIDATE",
       "discovered_from": [
+        "FA3 live selective intake research 2026-09-29",
         "FA3 selective multilingual production import research 2026-09-29"
       ],
       "first_seen": "2026-09-29",
@@ -35589,16 +36313,18 @@
         "quality-gated-import"
       ],
       "target_hints": [
+        "Live Studio",
+        "Production Import & Migration Fabric",
         "Subtitle Studio",
-        "Video Editor",
-        "Production Import & Migration Fabric"
+        "Video Editor"
       ],
       "tags": [
-        "subtitle",
-        "srt",
         "ass",
-        "webvtt",
-        "ttml"
+        "live-selective-import-reference",
+        "srt",
+        "subtitle",
+        "ttml",
+        "webvtt"
       ],
       "license": {
         "declared": "MIT",
