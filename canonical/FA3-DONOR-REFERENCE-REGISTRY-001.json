@@ -26671,11 +26671,18 @@
     {
       "status": "CANDIDATE",
       "discovered_from": [
-        "pixar-github-org-curation-2026-09-28"
+        "pixar-github-org-curation-2026-09-28",
+        "user-explicit-github-donor-2026-09-28",
+        "official-openusd-upstream-verification-2026-09-28"
       ],
       "first_seen": "2026-09-28",
       "last_seen": "2026-09-28",
-      "problem_hints": [],
+      "problem_hints": [
+        "non-destructive-scene-composition",
+        "cross-application-3d-interchange",
+        "asset-provenance-and-versioned-references",
+        "shot-scene-data-exchange"
+      ],
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
       "discoverable_for_planning": true,
       "authority": false,
@@ -26706,7 +26713,12 @@
         "usd-time-sampled-animation",
         "hydra-render-delegates",
         "storm-raster-preview",
-        "usd-schema-interchange"
+        "usd-schema-interchange",
+        "layered-scene-description",
+        "usd-asset-interchange",
+        "usd-variant-and-payload-workflows",
+        "hydra-render-delegation",
+        "usd-schema-extension"
       ],
       "domain_hints": [
         "3d",
@@ -26714,7 +26726,12 @@
         "animation",
         "rendering",
         "asset-management",
-        "khronos"
+        "khronos",
+        "scene",
+        "dcc",
+        "asset-graph",
+        "virtual-production",
+        "vfx"
       ],
       "target_hints": [
         "3D Fabric",
@@ -26724,7 +26741,10 @@
         "FA3 Video Editor",
         "World Generator",
         "VFX/Gaffer",
-        "Realtime / Virtual Production Interchange"
+        "Realtime / Virtual Production Interchange",
+        "Bforartists",
+        "Character Studio",
+        "Render Fabric"
       ],
       "tags": [
         "pixar-github",
@@ -26733,15 +26753,32 @@
         "hydra",
         "storm",
         "render-delegates",
-        "scene-interchange"
+        "scene-interchange",
+        "pixar",
+        "scenegraph",
+        "asset-composition",
+        "usda",
+        "usdc",
+        "usdz",
+        "usdskel",
+        "usdshade",
+        "usdlux",
+        "usdgeom",
+        "arresolver",
+        "khronos-interoperability"
       ],
       "license": {
-        "declared": "Tomorrow Open Source Technology License 1.0",
+        "declared": "TOST-1.0",
         "status": "KNOWN_DECLARATION"
       },
       "notes": [
         "Hydra and Storm are components within this OpenUSD source, not independent Pixar GitHub donor repositories.",
-        "Plan selective interoperability and schema/render-adapter reuse; preserve FA3 native .fa3video and 3D-ready scene models, do not replace existing Khronos integration."
+        "Plan selective interoperability and schema/render-adapter reuse; preserve FA3 native .fa3video and 3D-ready scene models, do not replace existing Khronos integration.",
+        "Verified official upstream tag v26.08 resolves to commit ee47c679abde5b467a7b6a41f3b2285564a4222e (tag verified 2026-09-28). Upstream license text declares Tomorrow Open Source Technology License 1.0; bundled third-party notices require independent review before code redistribution.",
+        "Reference-only donor for future FA3 scene/shot/asset interchange. Do not replace native .blend/.kra/.kdenlive or FA3 .fa3video project formats. No automatic USD plugin loading, ArResolver network/FS access, Hydra backend admission, or hardware/vendor requirement.",
+        "Metadata-only capture; CPU-only, 0..N accelerators, Wayland/X11-agnostic; HRB remains resource authority, Model Router remains sole model-routing authority; no Unreal Engine target.",
+        "Signed upstream v26.08 tag ee47c679abde5b467a7b6a41f3b2285564a4222e is a separately verified research snapshot; observed_commit remains the later organization-curation source observation. No code reuse without license and third-party redistribution review.",
+        "Unreal Engine is an optional conditional future FA3 integration under decision FA3-DEC-UNREAL-CONDITIONAL-ADMISSION-2026-09-29 (PR #523); never automatic and only after independent license, Hardware Audit, Software Coexistence, exact-head and physical current-host/GUI/MCP/E2E admission. Historical exclusion evidence stays unchanged."
       ],
       "source_reviewed_at": "2026-09-28",
       "observed_commit": "2a9a571d0f9957bad5c4a59ba859ebb8df518c51"

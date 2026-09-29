@@ -18,7 +18,8 @@
     "FA3-VIDEO-CONTRACTS-001",
     "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
     "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
-    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+    "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001"
   ],
   "dependencies": [
     "FA3-CONTRACT-001",
@@ -128,5 +129,17 @@
     "derived_cache_is_canonical_state": false,
     "runtime_promotion_requires_real_current_host_e2e": true
   },
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "creative_project_workflow": {
+    "contract_id": "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+    "skill_id": "fa3-creative-project-workflow",
+    "reference_implementation": "src/fa3_creative_project_workflow.py",
+    "gate_id": "FA3-CREATIVE-PROJECT-WORKFLOW-GATESET-001",
+    "project_state_schema": "fa3.creative-project-state.v1",
+    "scoped_revision": "EXPLICIT_DEPENDENCY_INVALIDATION_PLAN_PRESERVE_UNAFFECTED",
+    "project_context": "TASK_SCOPED_PROVENANCED_DOCUMENTS",
+    "editorial_projection": "OTIO_OR_FA3_VIDEO_EDITOR_COMMAND_BUS_ONLY",
+    "external_pattern_source": "FLOVA_PUBLIC_DOCUMENTATION_REFERENCE_ONLY",
+    "runtime_promotion_claim": false
+  }
 }

@@ -92,3 +92,7 @@ The [Pixar upstream reference index](pixar-github-donor-curation-2026-09-28.md) 
 ## Shell-filtered AI orchestration donor discovery (2026-09-29)
 
 The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestration?l=shell) is a dynamic discovery index, not an application, provider or approved dependency. Nine distinct upstream repositories are recorded as candidate-only references. See [AI-orchestration Shell donor curation](donor-ai-orchestration-shell-2026-09-29.md). License, provenance, security, Software Coexistence, Hardware Audit, Reuse Discovery and current-host gates remain separate.
+
+## Automatic applications and cross-application reuse
+
+The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.

@@ -64,7 +64,10 @@ class OpenUsdDonorRegistryTests(unittest.TestCase):
             self.assertIn(target, row["target_hints"])
         self.assertIn("usd-scene-composition", row["capability_hints"])
         self.assertIn("hydra-render-delegation", row["capability_hints"])
-        self.assertTrue(any("No Unreal Engine" in note for note in row["notes"]))
+        self.assertFalse(any("No Unreal Engine target" in note for note in row["notes"]))
+        self.assertTrue(any("OPTIONAL" in note.upper() and "PR #523" in note for note in row["notes"]))
+        self.assertIn("usd-asset-interchange", row["capability_hints"])
+        self.assertIn("Character Studio", row["target_hints"])
         policy = self.registry["hardware_audit"]
         self.assertTrue(policy["vendor_neutral"])
         self.assertTrue(policy["cpu_only_viable"])
