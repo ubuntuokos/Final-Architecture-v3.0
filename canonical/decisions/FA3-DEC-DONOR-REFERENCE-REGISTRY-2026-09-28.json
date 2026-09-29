@@ -9,7 +9,7 @@
   "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
   "reuse_catalog_id": "FA3-REUSE-CATALOG-001",
   "gate_id": "FA3-REUSE-DISCOVERY-GATESET-001",
-  "capture_rule": "ANY_SOURCE_IDENTIFIED_AS_POTENTIALLY_USEFUL_AS_A_DONOR_IS_CAPTURED_OR_MERGED_AS_CANDIDATE",
+  "capture_rule": "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY",
   "planning_rule": "QUERY_DONOR_REGISTRY_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_IMPLEMENTATION",
   "backfill_rule": "RETROSPECTIVE_DONOR_EXTRACTION_FROM_OLD_PRS_IS_OPTIONAL_NOT_MANDATORY",
   "new_capabilities": 0,
@@ -34,11 +34,9 @@
     "hardware_parameter_mutation": false
   },
   "invariants": [
-    "POTENTIAL_DONOR_SIGNAL_IS_CAPTURED_AS_CANDIDATE",
     "DONOR_REGISTRY_IS_CENTRAL_PLANNING_INPUT_NOT_ARCHITECTURAL_AUTHORITY",
     "DONOR_CANDIDATE_CAPTURE_IS_NOT_DEPENDENCY_CODE_IMPORT_PROVIDER_OR_MODEL_ADMISSION",
     "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
-    "DONOR_MAINTENANCE_OR_PENDING_PR_BLOCKS_ALL_NEW_DESIGN_IMPLEMENTATION_AND_FINALIZATION",
     "NO_FINALIZATION_WITHOUT_EXPLICIT_APPROVED_PLAN",
     "MANDATORY_DONOR_SEARCH_OPTIONAL_ADOPTION",
     "ADOPT_DONOR_ONLY_WITH_EXPLICIT_USER_APPROVAL_AND_NORMAL_ADMISSION",
@@ -47,7 +45,12 @@
     "DONOR_REMOVAL_WITH_HISTORY_PRESERVATION_IS_MAINTENANCE",
     "RECORDED_DONOR_DATA_SYNCHRONIZATION_IS_MAINTENANCE",
     "NO_MANDATORY_RETROSPECTIVE_PR_DONOR_EXTRACTION",
-    "DIRECT_OWNER_SUBMITTED_DONOR_LINK_FINAL_REFERENCE_REGISTRATION_NO_SECOND_APPROVAL"
+    "UNMARKED_LINKS_AND_RESEARCH_HINTS_ARE_ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+    "STRICT_OWNER_DONORNAK_MARKER_MUST_PRECEDE_REGISTERED_LINK",
+    "ONLY_ONE_ACTIVE_DONOR_INTAKE_CONVERSATION_OLDEST_OPEN_PR_OWNS_SLOT",
+    "PENDING_DONOR_CHANGES_EXCLUDED_FROM_VERIFIED_PUBLISHED_MAIN_PLANNING_SNAPSHOT",
+    "PENDING_DONOR_MAINTENANCE_DOES_NOT_BLOCK_PLANNING_OR_FINALIZATION_ON_PUBLISHED_SNAPSHOT",
+    "FINALIZATION_STILL_REQUIRES_EXPLICIT_APPROVED_PLAN_AND_EXACT_HEAD"
   ],
   "serialization_policy": {
     "priority": "P0_FAIL_CLOSED",
@@ -56,7 +59,7 @@
       "NEW_IMPLEMENTATION",
       "FINALIZATION"
     ],
-    "pending_or_corrupt_registry": "BLOCK_AND_EXPLAIN",
+    "pending_or_corrupt_registry": "PENDING_PR_IGNORED_FOR_PUBLISHED_MAIN_DESIGN_CORRUPT_OR_STALE_MAIN_BLOCKS",
     "registered_maintenance": "EXCLUSIVE",
     "maintenance_validation_grants_planning": false,
     "live_pr_inventory_required": true,
@@ -91,7 +94,16 @@
       "removal_preserves_historical_provenance": true,
       "synchronization_scope": "CANONICAL_DONOR_ENTRIES_ALIASES_INTAKE_PROVENANCE_APPLICATION_DONOR_INDEX_AND_DONOR_DERIVED_RELEASE_PROJECTION"
     },
-    "owner_direct_submitted_link_requires_second_registry_approval": false
+    "owner_direct_submitted_link_requires_second_registry_approval": false,
+    "pending_donor_pr_blocks_planning": false,
+    "published_main_registry_required": true,
+    "one_donor_intake_conversation_at_a_time": true,
+    "intake_lock": "OLDEST_OPEN_CANONICAL_REGISTRY_OR_INTAKE_DELTA_PR_WITH_GLOBAL_GITHUB_ACTIONS_CONCURRENCY",
+    "unmerged_donor_records_visible_for_design": false,
+    "replan_after_new_donors_only_by_owner_request": true,
+    "policy_only_prs_reserve_intake_slot": false,
+    "reference_only_prs_reserve_intake_slot": false,
+    "intake_slot_claim_requires_real_canonical_donor_mutation": true
   },
   "historical_extraction_exempt_prs": [
     24,
@@ -109,6 +121,15 @@
     434,
     438
   ],
-  "owner_direct_link_registration": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK_FINALIZES_AS_ACCEPTED_REFERENCE_WITHOUT_SECOND_REGISTRY_APPROVAL",
-  "owner_direct_link_scope": "REGISTRY_REFERENCE_ONLY_SEPARATE_ADOPTION_AND_ADMISSION"
+  "owner_direct_link_registration": "AUTHENTICATED_OWNER_DONORNAK_BEFORE_LINK_FINALIZES_ACCEPTED_REFERENCE_NO_SECOND_APPROVAL",
+  "owner_direct_link_scope": "REGISTRY_REFERENCE_ONLY_SEPARATE_ADOPTION_AND_ADMISSION",
+  "owner_unmarked_link_policy": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+  "policy_supersedes": [
+    "AUTOMATIC_POTENTIAL_DONOR_CANDIDATE_CAPTURE",
+    "GLOBAL_DONOR_PENDING_PR_DESIGN_AND_FINALIZATION_LOCK"
+  ],
+  "legacy_embedded_registry_capture_flag": "HISTORICAL_SUPERSEDED_NO_AUTO_CAPTURE",
+  "effective_capture_authority": "EXPLICIT_OWNER_DONORNAK_MARKER_ONLY",
+  "unmarked_links_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+  "pending_registry_publication": "INVISIBLE_UNTIL_VERIFIED_MERGE_TO_MAIN"
 }

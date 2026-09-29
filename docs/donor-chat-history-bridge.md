@@ -5,20 +5,10 @@ the existing Donor & Reference Registry, not a new capability or architectural a
 
 ## Supported input paths
 
-1. **Historic backfill**: import a user-requested local ChatGPT data export ZIP,
-   `conversations.json`, or numbered `conversations_N.json` files. ZIP members
-   other than the conversation JSON files are ignored and never extracted.
-2. **Future event ingestion**: an approved, user-controlled local bridge may stream
-   JSONL events to standard input. A metadata event has the form
-   `{"potential_donor":true,"name":"example/tool","source":"https://github.com/example/tool"}`.
-   A text event has the form `{"text":"Lehet donor: https://github.com/example/tool"}`.
-   Only an explicitly marked potential donor is admitted; repeated sources merge.
+1. User-supplied ChatGPT exports (ZIP, `conversations.json`, numbered JSON). Only authenticated user-role messages containing a explicit `donornak` label (with or without `:`) BEFORE each link may create entries. Generic donor hints, research links and assistant messages are analysis only.
+2. Owner-authorized local JSONL events. A full-text event must have `{"text":"donornak: https://github.com/example/tool","speaker_role":"user","owner_submitted_link":true}`. A structured event must include `{"potential_donor":true,"name":"example/tool","source":"https://github.com/example/tool","speaker_role":"user","owner_submitted_link":true,"owner_donor_marker":"donornak"}`. A potential-donor flag alone does not enroll a link.
 
-The importer is **not connected to the ChatGPT account** and cannot subscribe to
-conversations, request exports, or collect new messages on its own. Event ingestion
-becomes automatic only when an explicitly authorized external bridge actually delivers
-an event. An export backfill requires a new export when later conversations should be
-included. Repository agent instructions alone cannot access other ChatGPT conversations.
+This importer is NOT subscribed to ChatGPT and cannot automatically monitor conversations, request exports or fetch account data. It never publishes a registry commit. The existing GitHub intake gate must be used before publishing the resultant changes; only one conversation may perform actual canonical donor intake while another is changing the registry or a canonical donor-intake delta. Policy-only and reference-only PRs do not claim the intake slot.
 
 ## Local operator commands
 
@@ -37,16 +27,9 @@ Only source metadata, tags and generic import provenance enter the public reposi
 not raw messages, conversation titles, account identifiers, attachments, or export files.
 Never commit the export, event stream or private workspace files.
 
-**Privacy**: source-less names from otherwise private chats are skipped by default unless
-already in the donor registry. Explicit `--allow-unlinked-names` permits publishing these
-names as public candidate metadata. Review before using this flag. Tentative source links are captured as public reference candidates. **Only links directly submitted by the owner as `donornak:` / `donor:`** (user-role messages in deliberately supplied exports or trusted local events explicitly carrying `owner_submitted_link: true`) receive immediate `ACCEPTED_REFERENCE` catalog status. Assistant proposals and unreviewed research remain `CANDIDATE`. This does not authorize source copying, installation, license bypass, application adoption or runtime promotion.
-Ambiguous oversize/multi-link mentions are counted and skipped rather than guessed.
-Malformed exports fail without partially changing the canonical registry.
+**Privacy:** Unmarked links and assistant suggestions are never inserted or queued. Any source-less name is analysis only. Only explicit authenticated `donornak:` owner-marked links are immediately eligible for reference registration. Import stores source metadata, generic provenance, never raw chats, titles, private token strings or attachments. Malformed input or a rejected-source conflict fails without partial registry writes.
 
-Import does not establish license, ownership, safety, download permission, or runtime
-admission. A subsequent planning query sees active imported donor candidates via the
-existing Reuse Discovery federation. Promotion and deployment retain their independent
-security, provenance, hardware and admission gates.
+**Serialization and visibility:** Local concurrent imports against the same checkout return `DONOR_INTAKE_ALREADY_ACTIVE_WAIT_FOR_COMPLETION`; cross-conversation/cross-host GitHub publication requires the exclusive live donor-intake gate. Planning always uses the exact published main registry, never a pending import or unmerged donor PR. License, adoption and runtime gates remain separate.
 
 ## Hardware Audit
 

@@ -90,7 +90,8 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
             path.write_text(json.dumps({"id": "FA3-DONOR-REFERENCE-REGISTRY-001",
                                         "entries": [row]}, ensure_ascii=False))
             result = capture_candidate(root, name="OpenCut", source_kind="PROJECT",
-                                       source_locator="project:OpenCut", seen_date="2026-09-29")
+                                       source_locator="project:OpenCut", seen_date="2026-09-29",
+                                       explicit_donor_marker=True)
             after = json.loads(path.read_text())
             self.assertFalse(result["created"])
             self.assertEqual(result["normalized_key"], "github:opencut-app/opencut")

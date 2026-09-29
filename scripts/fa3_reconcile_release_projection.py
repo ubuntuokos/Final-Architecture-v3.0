@@ -101,6 +101,9 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     projection = loadj(projection_path)
     policy = loadj(policy_path)
     donor_registry = loadj(root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
+    donor_decision = loadj(root / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json")
+    if donor_decision.get("capture_rule") != "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY":
+        raise ValueError("owner-marked donor capture decision is not canonical")
 
     gui_conformance = loadj(root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json")
     gui_runtime_pass = (
@@ -312,8 +315,11 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
         "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
         "donor_registry_entry_count": len(donor_registry.get("entries", [])),
-        "donor_capture_default_status": donor_registry.get("capture_policy", {}).get("default_status"),
-        "donor_potential_signal_capture_required": donor_registry.get("capture_policy", {}).get("potential_donor_signal_requires_capture") is True,
+        "donor_capture_default_status": "NO_CAPTURE_ANALYSIS_ONLY",
+        "donor_owner_marked_capture_status": "ACCEPTED_REFERENCE",
+        "donor_owner_marker_required": "donornak",
+        "donor_potential_signal_capture_required": False,
+        "donor_capture_effective_policy_id": donor_decision["id"],
         "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
         "donor_future_application_matching": donor_registry.get("planning_policy", {}).get("future_applications_supported") is True,
         "donor_registry_authority": False,

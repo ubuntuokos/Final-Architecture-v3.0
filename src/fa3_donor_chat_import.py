@@ -7,6 +7,9 @@ ChatGPT, scrape an account, upload conversation text or install donor software.
 from __future__ import annotations
 
 import argparse
+import fcntl
+import hashlib
+import os
 import json
 import re
 import shutil
@@ -21,24 +24,11 @@ from fa3_donor_registry import REGISTRY_REL, _atomic_write, _load, _normalized_k
 MAX_JSON_BYTES = 256 * 1024 * 1024
 MAX_EXPORT_BYTES = 512 * 1024 * 1024
 MAX_MESSAGE_CHARS = 20000
-MAX_URLS_PER_MESSAGE = 16
-_POSITIVE = re.compile(
-    r"(?i)(?:\bdonornak\b|\bdonorként\b|\bdonorjelölt\b|\bdonor\s*:"
-    r"|\bpotential\s+donor\b|\bdonor\s+candidate\b|\breference\s+candidate\b"
-    r"|\breuse\s+candidate\b|\bcould\s+be\s+a\s+donor\b|\breferenciajelölt\b)"
-)
-_OWNER_DIRECT = re.compile(r"(?i)\b(?:donornak|donor)\s*:")
-_NEGATIVE = re.compile(
-    r"(?i)\b(?:nem\s+(?:alkalmas\s+)?donor|not\s+(?:a\s+)?donor|"
-    r"donornak\s+alkalmatlan|rejected\s+donor)\b"
-)
-_GITHUB = re.compile(r"(?<![\w@])(?:https?://)?(?:www\.)?github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)(?:\.git)?", re.I)
-_BARE = re.compile(r"(?<![/\w.])([A-Za-z0-9][A-Za-z0-9_.-]{1,38})/([A-Za-z0-9][A-Za-z0-9_.-]{1,79})(?![/\w.])")
-_NAMED = [
-    re.compile(r"(?i)\bdonor(?:jelölt|\s+candidate)?\s*[:\-]\s*([^\n;,]{2,90})"),
-    re.compile(r"(?i)\bdonornak\s+alkalmas\s+lehet\s*[:\-]\s*([^\n;,]{2,90})"),
-    re.compile(r"(?i)\bpotential\s+donor\s*[:\-]\s*([^\n;,]{2,90})"),
-]
+MAX_URLS_PER_MESSAGE = 128
+# Only a user-authored DONORNAK label preceding the URL authorizes intake.
+_OWNER_DIRECT = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
+_LINK = re.compile(r'https?://[^\s<>\[\]()"]+', re.I)
+
 _EXPORT_NAME = re.compile(r"conversations(?:[_-]?\d+)?\.json", re.I)
 _SELF_REPO = "github:ubuntuokos/final-architecture-v3.0"
 
@@ -98,61 +88,42 @@ def _message_text(node: dict[str, Any], roles: set[str]) -> str | None:
     return text if isinstance(text, str) and len(text) <= MAX_MESSAGE_CHARS else None
 
 
-def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
-    """Return (name, kind, locator), and an ambiguity flag."""
-    matches = list(_POSITIVE.finditer(text))
-    if not matches or (_NEGATIVE.search(text) and len(matches) == 1):
-        return [], False
-    # Avoid harvesting every unrelated link from long quoted articles or code.
-    # A deliberate owner-submitted batch may contain many vetted links.
-    # Keep strict snippet/volume limits for unreviewed research mentions.
-    spans = [(0, len(text))] if owner_direct or len(text) <= 1400 else [
-        (max(0, match.start() - 320), min(len(text), match.end() + 640))
-        for match in matches
-    ]
-    segments = [text[start:end] for start, end in spans]
-    github = set()
-    for segment in segments:
-        for match in _GITHUB.finditer(segment):
-            owner, name = match.group(1), match.group(2).removesuffix(".git")
-            github.add((owner, name.rstrip(".")))
-    if len(github) > (128 if owner_direct else MAX_URLS_PER_MESSAGE):
-        return [], True
-    if github:
-        sources = [
-            (f"{owner}/{project}", "GITHUB", f"https://github.com/{owner}/{project}")
-            for owner, project in sorted(github, key=lambda row: (row[0].lower(), row[1].lower()))
-            if owner.lower() != "ubuntuokos" or project.lower() != "final-architecture-v3.0"
-        ]
-        return sources, False
-    # A bare owner/repository token is useful when discussing GitHub donors
-    # without a URL; refuse obvious file names and internal paths.
-    bare = set()
-    for segment in segments:
-        for match in _BARE.finditer(segment):
-            owner, project = match.groups()
-            if owner.lower() in {"src", "docs", "tests", "canonical", "bin", "home", "usr"}:
-                continue
-            if project.lower().endswith((".py", ".md", ".json", ".yml", ".yaml", ".txt", ".sh")):
-                continue
-            bare.add((owner, project))
-    if len(bare) > (128 if owner_direct else MAX_URLS_PER_MESSAGE):
-        return [], True
-    if bare:
-        return [
-            (f"{owner}/{project}", "GITHUB", f"https://github.com/{owner}/{project}")
-            for owner, project in sorted(bare, key=lambda row: (row[0].lower(), row[1].lower()))
-            if f"github:{owner}/{project}".lower() != _SELF_REPO
-        ], False
-    for segment in segments:
-        for pattern in _NAMED:
-            found = pattern.search(segment)
-            if found:
-                name = found.group(1).strip(" .:-\t")
-                if 2 <= len(name) <= 90 and not re.search(r"https?://|[\\/]|[<>@]", name, re.I):
-                    return [(name, "PROJECT", "project:" + name)], False
-    return [], False
+def _explicit_owner_marker(text: str):
+    """Exclude negative 'nem/not donornak' references from intake."""
+    for match in _OWNER_DIRECT.finditer(text):
+        prefix = text[max(0, match.start() - 40):match.start()]
+        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
+            return match
+    return None
 
+
+def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
+    """Only links AFTER an authenticated owner's literal 'donornak:' qualify."""
+    if not owner_direct:
+        return [], False
+    marker = _explicit_owner_marker(text)
+    if marker is None:
+        return [], False
+    after = text[marker.end():]
+    urls = set()
+    for found in _LINK.findall(after):
+        locator = found.rstrip(".,;:!?}\\\\")
+        if not locator:
+            continue
+        urls.add(locator)
+    if len(urls) > MAX_URLS_PER_MESSAGE:
+        return [], True
+    sources = []
+    for url in sorted(urls, key=str.lower):
+        if re.match(r"https?://(?:www\.)?github\.com/", url, re.I):
+            path = re.sub(r"^https?://(?:www\.)?github\.com/", "", url, flags=re.I)
+            kind, name = "GITHUB", path.rstrip("/")
+            if path.lower().split("?")[0].strip("/") == "ubuntuokos/Final-Architecture-v3.0".lower():
+                continue
+        else:
+            kind, name = "REFERENCE", url
+        sources.append((name, kind, url))
+    return sources, False
 
 def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, str]]:
     for conversation in read_export(path):
@@ -197,87 +168,107 @@ def ingest(
     allow_unlinked_names: bool = False,
     dry_run: bool = False,
 ) -> dict[str, Any]:
-    target = root.resolve() / REGISTRY_REL
-    original = _load(target)
-    if original.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
-        raise ValueError("unexpected canonical donor registry")
+    """Analysis is non-mutating; only verified owner-marked links enter the registry.
+
+    This local nonblocking lease prevents two imports into the same checkout.
+    Cross-host publication also requires the live GitHub donor-intake PR gate.
+    """
+    root = root.resolve()
+    target = root / REGISTRY_REL
     stats = {
         "records_scanned": 0, "signal_records": 0, "created": 0, "merged": 0,
         "unlinked_skipped": 0, "ambiguous_skipped": 0, "excluded_self": 0,
-        "dry_run": dry_run, "origin": origin,
+        "analysis_only": 0, "dry_run": dry_run, "origin": origin,
     }
-    with tempfile.TemporaryDirectory(prefix="fa3-donor-chat-") as directory:
-        stage_root = Path(directory)
-        stage = stage_root / REGISTRY_REL
-        stage.parent.mkdir(parents=True)
-        shutil.copyfile(target, stage)
-        known = {
-            row["source"]["normalized_key"]
-            for row in original.get("entries", [])
-            if isinstance(row, dict) and isinstance(row.get("source"), dict)
-            and isinstance(row["source"].get("normalized_key"), str)
-        }
-        seen_in_batch: set[str] = set()
-        finalized_in_batch: set[str] = set()
-        for record in records:
-            stats["records_scanned"] += 1
-            direct_owner_link = False
-            if isinstance(record, dict) and isinstance(record.get("text"), str):
-                text = record["text"]
-                if not _POSITIVE.search(text):
-                    continue
-                # Explicit owner submissions have been pre-reviewed for registry
-                # inclusion and may contain a deliberate multi-link batch.
-                direct_owner_link = bool(_OWNER_DIRECT.search(text)) and (
-                    (origin == "chatgpt-export" and record.get("speaker_role") == "user")
-                    or (origin == "approved-chat-event" and record.get("owner_submitted_link") is True)
-                )
-                sources, ambiguous = _candidate_sources(text, owner_direct=direct_owner_link)
-            elif isinstance(record, dict):
-                if record.get("potential_donor") is not True:
-                    raise ValueError("metadata event lacks explicit potential-donor signal")
-                sources = [(record["name"].strip(),
-                            "GITHUB" if record["source"].lower().startswith("https://github.com/")
-                            else "PROJECT", record["source"].strip())]
-                ambiguous = False
-                if not sources[0][0] or not sources[0][2]:
-                    raise ValueError("approved event metadata must contain nonempty name and source")
-                direct_owner_link = (origin == "approved-chat-event"
-                                     and record.get("owner_submitted_link") is True)
+    approved = []
+    for record in records:
+        stats["records_scanned"] += 1
+        if isinstance(record, str):
+            # Raw strings have no trustworthy speaker attribution.
+            stats["analysis_only"] += 1
+            continue
+        if not isinstance(record, dict):
+            raise ValueError("conversation event must be text or an object")
+        marked = False
+        if isinstance(record.get("text"), str):
+            source_is_owner = (
+                (origin == "chatgpt-export" and record.get("speaker_role") == "user")
+                or (origin == "approved-chat-event"
+                    and record.get("speaker_role") == "user"
+                    and record.get("owner_submitted_link") is True)
+            )
+            marked = source_is_owner and bool(_explicit_owner_marker(record["text"]))
+            sources, ambiguous = _candidate_sources(record["text"], owner_direct=marked)
+        elif record.get("potential_donor") is True:
+            # Structured events must attest BOTH the owner identity and the
+            # explicit preceding marker. A generic candidate flag cannot enroll.
+            marked = (origin == "approved-chat-event"
+                      and record.get("speaker_role") == "user"
+                      and record.get("owner_submitted_link") is True
+                      and record.get("owner_donor_marker") == "donornak")
+            if marked and isinstance(record.get("source"), str) and re.match(
+                    r"^https?://", record["source"].strip(), re.I):
+                locator = record["source"].strip()
+                name = record.get("name") or locator
+                kind = "GITHUB" if re.match(r"^https?://(?:www\.)?github\.com/", locator, re.I) else "REFERENCE"
+                sources, ambiguous = [(name, kind, locator)], False
             else:
-                if not _POSITIVE.search(record):
-                    continue
-                sources, ambiguous = _candidate_sources(record)
-            if ambiguous:
-                stats["ambiguous_skipped"] += 1
-                continue
-            if sources:
-                stats["signal_records"] += 1
-            for name, kind, locator in sources:
+                sources, ambiguous = [], False
+        else:
+            raise ValueError("event lacks text or potential_donor metadata")
+        if not marked:
+            stats["analysis_only"] += 1
+            continue
+        if ambiguous:
+            stats["ambiguous_skipped"] += 1
+            continue
+        if sources:
+            stats["signal_records"] += 1
+            approved.extend(sources)
+        else:
+            stats["analysis_only"] += 1
+    if not approved:
+        return stats
+
+    # Filesystem lock serializes imports within the same host/checkouts using
+    # the same repository path. GitHub PR preflight serializes across hosts.
+    lock_name = "fa3-donor-" + hashlib.sha256(str(root).encode()).hexdigest()[:20] + ".lock"
+    lock_path = Path(tempfile.gettempdir()) / lock_name
+    descriptor = os.open(lock_path, os.O_CREAT | os.O_RDWR, 0o600)
+    try:
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise ValueError("DONOR_INTAKE_ALREADY_ACTIVE_WAIT_FOR_COMPLETION") from exc
+        original = _load(target)
+        if original.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
+            raise ValueError("unexpected canonical donor registry")
+        with tempfile.TemporaryDirectory(prefix="fa3-donor-chat-") as directory:
+            stage_root = Path(directory)
+            stage = stage_root / REGISTRY_REL
+            stage.parent.mkdir(parents=True)
+            shutil.copyfile(target, stage)
+            seen = set()
+            for name, kind, locator in approved:
                 key = _normalized_key(kind, locator)
                 if key == _SELF_REPO:
                     stats["excluded_self"] += 1
                     continue
-                if kind == "PROJECT" and not allow_unlinked_names and key not in known:
-                    # A personal conversation may mention a private project:
-                    # never publish its name into the public FA3 repository by default.
-                    stats["unlinked_skipped"] += 1
+                if key in seen:
                     continue
-                if key in seen_in_batch and not (direct_owner_link and key not in finalized_in_batch):
-                    continue
-                seen_in_batch.add(key)
-                if direct_owner_link:
-                    finalized_in_batch.add(key)
+                seen.add(key)
                 result = capture_candidate(
                     stage_root, name=name, source_kind=kind, source_locator=locator,
-                    tags=["chat-history-import"], discovered_from=origin,
-                    owner_submitted_link=direct_owner_link,
+                    tags=["explicit-owner-donornak"], discovered_from=origin,
+                    owner_submitted_link=True, explicit_donor_marker=True,
                 )
                 stats["created" if result["created"] else "merged"] += 1
-        if (stats["created"] or stats["merged"]) and not dry_run:
-            _atomic_write(target, _load(stage))
+            if (stats["created"] or stats["merged"]) and not dry_run:
+                _atomic_write(target, _load(stage))
+    finally:
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+        os.close(descriptor)
     return stats
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Import donor metadata from a local ChatGPT export or approved local event stream.")

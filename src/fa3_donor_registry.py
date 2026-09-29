@@ -63,7 +63,12 @@ def capture_candidate(
     seen_date: str | None = None,
     dry_run: bool = False,
     owner_submitted_link: bool = False,
+    explicit_donor_marker: bool = False,
 ) -> dict[str, Any]:
+    if not explicit_donor_marker:
+        raise ValueError("DONORNAK_MARKER_REQUIRED: analysis only until explicit owner instruction")
+    if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
+        raise ValueError("owner donor registration requires a link")
     path = root.resolve() / REGISTRY_REL
     registry = _load(path)
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
@@ -79,6 +84,8 @@ def capture_candidate(
                   and (row.get("source", {}).get("normalized_key") == key
                        or key in row.get("legacy_source_keys", []))), None)
     created = match is None
+    if match is None and not (owner_submitted_link and source_locator.lower().startswith(("https://", "http://"))):
+        raise ValueError("NEW_DONOR_REQUIRES_EXPLICIT_OWNER_MARKED_LINK")
     if match is None:
         base_id = f"FA3-DONOR-{_slug(name)}-001"
         used = {str(row.get("donor_id")) for row in entries if isinstance(row, dict)}
@@ -143,24 +150,34 @@ def capture_candidate(
         _atomic_write(path, registry)
     return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": match["source"]["normalized_key"], "dry_run": dry_run}
 
-_DONOR_SIGNAL = re.compile(r"(?i)(?:\bdonor(?:nak|ként|jelölt|ként\s+alkalmas)?\b|\breference\s+candidate\b|\breuse\s+candidate\b|\breferenciajelölt\b)")
+_DONOR_SIGNAL = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
 _GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?", re.I)
 
+def _explicit_owner_marker(text: str):
+    for match in _DONOR_SIGNAL.finditer(text):
+        prefix = text[max(0, match.start() - 40):match.start()]
+        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
+            return match
+    return None
+
+
 def parse_donor_mention(text: str, *, name: str | None = None, source: str | None = None) -> tuple[str, str, str]:
-    """Extract public donor metadata only. Never persist raw conversation text."""
-    if not _DONOR_SIGNAL.search(text):
-        raise ValueError("no explicit potential-donor signal in conversation mention")
-    found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(text)))
+    """Require explicit DONORNAK before a single link; never mine unrelated links."""
+    marker = _explicit_owner_marker(text)
+    if marker is None:
+        raise ValueError("DONORNAK_MARKER_REQUIRED")
+    after = text[marker.end():]
+    found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(after)))
     if len(found) > 1 and not source:
-        raise ValueError("multiple source URLs: capture each candidate separately")
+        raise ValueError("multiple marked source URLs: capture each separately")
+    if source and source not in after:
+        raise ValueError("supplied source must occur AFTER the explicit donornak marker")
     locator = source or (found[0] if found else None)
-    if not locator and not name:
-        raise ValueError("source or explicit name required for source-less donor")
-    if not locator:
-        locator = "project:" + name.strip()
+    if not locator or not locator.lower().startswith(("https://", "http://")):
+        raise ValueError("an explicitly marked donor link is required")
     if not name:
         name = "/".join(locator.split("/")[3:5]) if locator.startswith("https://github.com/") else locator
-    kind = "GITHUB" if locator.startswith("https://github.com/") else "PROJECT"
+    kind = "GITHUB" if locator.startswith("https://github.com/") else "REFERENCE"
     return name.strip(), kind, locator
 
 def main() -> int:
@@ -180,11 +197,26 @@ def main() -> int:
     p.add_argument("--date", dest="seen_date")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--owner-submitted-link", action="store_true",
-                   help="Owner pre-reviewed this link for immediate reference registration")
+                   help="Owner explicitly marked this link as donornak before submission")
+    p.add_argument("--owner-donor-marker", choices=["donornak"],
+                   help="Operator attests the owner wrote donornak before this link")
     args = p.parse_args()
+    # A dry run on an unmarked link is permitted analysis, never candidate
+    # registration. Production writes still require owner marker attestation.
+    if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak"):
+        print(json.dumps({"result": "ANALYSIS_ONLY_UNMARKED_LINK",
+                          "created": False, "registry_mutated": False,
+                          "dry_run": True}, ensure_ascii=False))
+        return 0
     if args.mention:
+        if not args.owner_submitted_link or args.owner_donor_marker != "donornak":
+            p.error("mention intake requires trusted owner role and explicit donornak attestation")
         name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
     else:
+        if args.owner_donor_marker != "donornak":
+            p.error("only an explicitly owner-marked donornak link may be registered")
+        if not args.owner_submitted_link:
+            p.error("--owner-submitted-link required for new direct donor intake")
         if not args.name:
             p.error("--name is required unless --mention identifies a GitHub project")
         name, kind, locator = args.name, args.source_kind, args.source_locator or ("project:" + args.name)
@@ -195,6 +227,7 @@ def main() -> int:
         note=args.note, discovered_from=args.discovered_from,
         seen_date=args.seen_date, dry_run=args.dry_run,
         owner_submitted_link=args.owner_submitted_link,
+        explicit_donor_marker=bool(args.mention or args.owner_donor_marker == "donornak"),
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

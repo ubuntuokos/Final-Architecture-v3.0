@@ -97,6 +97,20 @@ def github_get(url,token):
                  "X-GitHub-Api-Version":"2022-11-28","User-Agent":"fa3-donor-readiness"})
     with urllib.request.urlopen(req,timeout=20) as r: return json.load(r)
 
+def is_donor_intake_pr(pr,files):
+    """Claim the exclusive intake slot only for actual canonical donor mutation.
+
+    Policy-only PRs, donor documentation, research and reference sets remain
+    visible to maintenance reporting but cannot reserve the intake slot.
+    """
+    for f in files:
+        name=f.get("filename") if isinstance(f,dict) else None
+        if not isinstance(name,str):
+            raise ValueError("UNREADABLE_PR_FILE")
+        if (name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-")):
+            return True
+    return False
+
 def is_donor_pr(pr,files):
     title=str(pr.get("title","")).lower()
     if "donor" in title: return True
@@ -130,7 +144,8 @@ def pending_prs(get,repo=REPO):
                 continue
             if is_donor_pr(pr,files):
                 found.append({"number":n,"title":pr.get("title"),
-                              "head_sha":pr.get("head",{}).get("sha")})
+                              "head_sha":pr.get("head",{}).get("sha"),
+                              "intake":is_donor_intake_pr(pr,files)})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
@@ -218,10 +233,31 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         getter=get if get is not None else lambda p:github_get(p,token)
         before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         result["pending_prs"]=pending_prs(getter)
+        result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
         after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
-        if result["pending_prs"]:result["findings"].append("PENDING_DONOR_MAINTENANCE")
         if result["findings"]:return result
+        if phase=="intake":
+            # Only an actual canonical registry or intake-delta mutation
+            # owns the cross-conversation slot. A governance-only donor PR
+            # must not block the first genuine intake.
+            # GitHub Actions concurrency serializes admission evaluations.
+            pending=result["pending_intake_prs"]
+            if pending:
+                first=pending[0]
+                if pr_number is None or first["number"] != pr_number:
+                    result["findings"].append("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION")
+                    result["active_donor_pr"]=first["number"]
+                    return result
+            elif pr_number is not None:
+                result["findings"].append("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR")
+                return result
+            result["result"]="EXCLUSIVE_DONOR_INTAKE_READY"
+            result["active_donor_pr"]=pr_number
+            return result
+        # Pending intake is deliberately NOT a global planning lock:
+        # unmerged donor entries are absent from the published main snapshot.
+        # A design must use and hash the exact committed main registry only.
         # A locally coherent but stale branch must never authorize planning after
         # a newer canonical main registry is published. Fetch the blob identity
         # at the exact main SHA observed during the live pending-PR scan.
@@ -231,6 +267,8 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             raise ValueError("CANONICAL_MAIN_REGISTRY_BLOB_UNAVAILABLE")
         local=git_blob_sha((root / REGISTRY).read_bytes())
         result["main_registry_blob_sha"]=remote["sha"]
+        result["published_main_sha"]=after
+        result["registry_snapshot"]="PUBLISHED_MAIN_ONLY"
         if local != remote["sha"]:
             result["findings"].append("STALE_CANONICAL_DONOR_SNAPSHOT")
             return result
@@ -253,7 +291,7 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
-    p.add_argument("--phase",choices=("maintenance","status","entry","finalize"),default="status")
+    p.add_argument("--phase",choices=("maintenance","intake","status","entry","finalize"),default="status")
     p.add_argument("--assessment")
     p.add_argument("--plan")
     p.add_argument("--approval")
@@ -263,5 +301,6 @@ def main():
            a.assessment,a.plan,a.approval,a.pr)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
+                                 "EXCLUSIVE_DONOR_INTAKE_READY",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2
 if __name__=="__main__":raise SystemExit(main())

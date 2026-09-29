@@ -93,7 +93,21 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertGreaterEqual(len(entries), 160)
         self.assertEqual(registry["backfill"]["entry_count"], len(entries))
         self.assertFalse(registry["authority"])
+        # Legacy embedded flag is historical only: owner decision supersedes it.
         self.assertTrue(registry["capture_policy"]["potential_donor_signal_requires_capture"])
+        decision = json.loads((ROOT / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json").read_text(encoding="utf-8"))
+        profile = json.loads((ROOT / "canonical/profiles/FA3-REUSE-DISCOVERY-001.json").read_text(encoding="utf-8"))
+        contract = json.loads((ROOT / "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        enforcement = json.loads((ROOT / "canonical/enforcement-policy.json").read_text(encoding="utf-8"))
+        self.assertEqual(decision["capture_rule"], "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY")
+        self.assertFalse(profile["donor_reference_binding"]["potential_donor_signal_requires_capture"])
+        self.assertTrue(profile["donor_reference_binding"]["published_main_registry_only"])
+        self.assertEqual(profile["donor_reference_binding"]["owner_marker_required"], "donornak")
+        self.assertFalse(contract["contracts"]["DonorReferenceProjection"]["potential_signal_capture_required"])
+        self.assertTrue(contract["contracts"]["DonorReferenceProjection"]["unmarked_links_analysis_only"])
+        self.assertFalse(enforcement["donor_registry_serialization"]["deny_when_maintenance_or_open_donor_pr"])
+        self.assertEqual(enforcement["donor_registry_serialization"]["planning_registry_source"],
+                         "LATEST_VERIFIED_COMMITTED_MAIN_ONLY")
         self.assertTrue(registry["planning_policy"]["query_required_for_every_new_or_materially_modified_application_capability_or_module"])
         for donor_id in (
             "FA3-DONOR-AGENT0AI-AGENT-ZERO-001",
@@ -272,11 +286,14 @@ class ReuseDiscoveryTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text(json.dumps({"id":"FA3-DONOR-REFERENCE-REGISTRY-001", "entries":[]}), encoding="utf-8")
             first = capture_candidate(root, name="Example", source_kind="GITHUB",
-                source_locator="https://github.com/alice/example", seen_date="2026-09-28")
+                source_locator="https://github.com/alice/example", seen_date="2026-09-28",
+                explicit_donor_marker=True, owner_submitted_link=True)
             second = capture_candidate(root, name="Example", source_kind="GITHUB",
-                source_locator="https://github.com/bob/example", seen_date="2026-09-28")
+                source_locator="https://github.com/bob/example", seen_date="2026-09-28",
+                explicit_donor_marker=True, owner_submitted_link=True)
             repeat = capture_candidate(root, name="Example", source_kind="GITHUB",
-                source_locator="https://github.com/alice/example", seen_date="2026-09-28")
+                source_locator="https://github.com/alice/example", seen_date="2026-09-28",
+                explicit_donor_marker=True, owner_submitted_link=True)
             self.assertTrue(first["created"])
             self.assertTrue(second["created"])
             self.assertFalse(repeat["created"])
@@ -284,12 +301,12 @@ class ReuseDiscoveryTests(unittest.TestCase):
 
     def test_conversation_mention_extracts_only_source_metadata(self):
         from fa3_donor_registry import parse_donor_mention
-        name, kind, url = parse_donor_mention("Ez donornak alkalmas lehet: https://github.com/example/source")
+        name, kind, url = parse_donor_mention("Donornak: https://github.com/example/source")
         self.assertEqual((name,kind,url), ("example/source","GITHUB","https://github.com/example/source"))
         with self.assertRaises(ValueError):
             parse_donor_mention("Look at https://github.com/example/source")
         with self.assertRaises(ValueError):
-            parse_donor_mention("donor https://github.com/a/one https://github.com/b/two")
+            parse_donor_mention("donornak: https://github.com/a/one https://github.com/b/two")
 
 
 if __name__ == "__main__":

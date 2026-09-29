@@ -6,21 +6,18 @@ The canonical donor note store is `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.js
 
 The registry centralizes external projects, repositories, algorithms, research, UI/workflow patterns, SDKs, standards implementations, datasets, models, libraries, and other references that may strengthen an FA3 application now or later. It is a planning input to `FA3-REUSE-DISCOVERY-001`, not an architectural authority.
 
-## Capture rule
+## Capture rule (owner decision, 2026-09-29)
 
-Tentative research donor or reference findings are captured immediately as `CANDIDATE`, even when the target application is only planned. **A link explicitly submitted by the owner as `donornak:` or `donor:` has already been reviewed for catalog inclusion**. It is finalized immediately as `ACCEPTED_REFERENCE` without another registry approval. This only applies to direct owner-submitted links; assistant suggestions and unreviewed research remain candidates. Existing `REJECTED` and `SUPERSEDED` records require explicit conflict reconciliation and cannot be silently overwritten. The capture operation records the source once and merges later observations.
+Only a LINK explicitly preceded by the user's `donornak` marker (with or without a colon) may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
+
+A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires a separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
 
 ```bash
-./bin/fa3-donor-capture \
-  --name "Example Project" \
-  --source "https://github.com/example/project" \
-  --domain creative \
-  --target "World Generator" \
-  --tag workflow \
-  --note "Potential donor identified during research."
+./bin/fa3-donor-capture --owner-submitted-link --owner-donor-marker donornak \\
+  --name "Example Project" --source "https://github.com/example/project"
 ```
 
-Capture does **not** approve source copying, installation, provider admission, model routing, runtime use, or architectural authority.
+This command requires a real prior user marker; the flag is an operator attestation, not a way to infer donor status from an unmarked message. Only one donor intake conversation is allowed at a time; GitHub publication must pass the exclusive live intake gate.
 
 ## Lifecycle
 
@@ -40,9 +37,9 @@ Every donor remains non-authoritative. Code or runtime reuse requires separate l
 
 ## Conversation-adapter contract
 
-A repository-aware FA3 planning/research agent MUST capture a tentative donor signal as soon as it is encountered. A bridge that receives a relevant conversation message can pass it to `./bin/fa3-donor-capture --mention "<message>"`. The parser recognizes explicit Hungarian/English donor cues, extracts one GitHub source or accepts `--name` for an unnamed project, and deliberately stores **only donor metadata**, not the original private conversation text. For multiple source URLs, call capture once for each source. Without a connected bridge, unrelated ChatGPT conversations are not automatically visible to this repository: a declaration in `AGENTS.md` cannot itself subscribe to external conversations.
+The ChatGPT export importer requires the actual `user` message role and an explicit `donornak` label, with or without a colon, before any imported link. Approved local events need both explicit owner-marker attestation and owner role. Raw strings, assistant suggestions and general research signals can be analyzed but cannot mutate the registry. No automatic ChatGPT subscription is provided. Only metadata from authenticated marked links may be imported; no private conversation text is persisted. Same-host imports use a nonblocking lock. GitHub donor PR intake uses the oldest open PR actually changing the canonical registry or canonical donor-intake delta, plus a globally serialized Actions check; policy, research and reference-only PRs do not reserve the slot. A later competing conversation must stop and report the active PR rather than create competing donor changes.
 
-Identical display names from different source repositories are distinct records; repeat observations with the **same normalized source key** are merged. Tentative research sources remain candidates. Direct, pre-reviewed owner-submitted links are finalized at intake; all actual code, dependency and runtime adoption still requires separate approval and admission.
+Planning, verification and finalization during maintenance use ONLY the last exact, verified, published main snapshot. Pending PR donor entries are invisible. A new published donor batch does not automatically restart an earlier approved workflow.
 
 ## Historical ChatGPT conversation bridge
 
@@ -50,8 +47,7 @@ Use [FA3 ChatGPT donor-history bridge](donor-chat-history-bridge.md) for
 privacy-bounded import of user-provided history exports and approved local
 conversation-event streams. The event API is ready for an authorized external
 source; neither the registry nor agent instructions can independently subscribe
-to all ChatGPT conversations. Import remains a non-authoritative candidate
-capture path.
+to all ChatGPT conversations. Import remains non-authoritative and owner-marker-only; unmarked references are analysis only.
 
 ## Historical selective reuse review
 

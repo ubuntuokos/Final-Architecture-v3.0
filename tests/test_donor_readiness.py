@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_donor_readiness import inspect_registry,pending_prs,gate,is_donor_pr,REGISTRY,git_blob_sha
+from fa3_donor_readiness import inspect_registry,pending_prs,gate,is_donor_pr,is_donor_intake_pr,REGISTRY,git_blob_sha
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -70,6 +70,68 @@ class Tests(unittest.TestCase):
             [{"filename": "canonical/assessments/FA3-MEDIA-REUSE-ASSESSMENT-001.json"}]))
         self.assertTrue(is_donor_pr({"title": "Donor source review"}, []))
 
+    def test_governance_and_reference_only_prs_do_not_claim_intake(self):
+        governance = [{"filename":"src/fa3_donor_readiness.py"},
+                      {"filename":"docs/donor-repair/DONOR_READINESS.md"},
+                      {"filename":".github/workflows/fa3-donor-serialization.yml"}]
+        reference_only = [{"filename":"canonical/references/FA3-OLD-DONOR-REFERENCE.json"}]
+        self.assertTrue(is_donor_pr({"title":"Donor governance correction"},governance))
+        self.assertFalse(is_donor_intake_pr({"title":"Donor governance correction"},governance))
+        self.assertTrue(is_donor_pr({"title":"Generic feature"},reference_only))
+        self.assertFalse(is_donor_intake_pr({"title":"Generic feature"},reference_only))
+        self.assertTrue(is_donor_intake_pr({"title":"Generic feature"},[{"filename":REGISTRY}]))
+        self.assertTrue(is_donor_intake_pr({"title":"Generic feature"},
+            [{"filename":"canonical/deltas/FA3-DONOR-NEW-SOURCES.json"}]))
+        with self.assertRaises(ValueError):
+            is_donor_intake_pr({"title":"Unknown"},[{"filename":None}])
+
+    def test_governance_pr_does_not_block_new_intake_or_steal_slot(self):
+        t,root,_=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:
+                    return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:
+                    return [
+                        {"number":547,"title":"Donor governance correction",
+                         "head":{"sha":"b"*40}},
+                        {"number":548,"title":"Donor: owner-marked links",
+                         "head":{"sha":"c"*40}},
+                    ]
+                if "/pulls/547/files?" in s:
+                    return [{"filename":"src/fa3_donor_readiness.py"},
+                            {"filename":"docs/donor-repair/DONOR_READINESS.md"}]
+                if "/pulls/548/files?" in s:
+                    return [{"filename":REGISTRY}]
+                raise AssertionError(s)
+            allowed=gate(root,"intake",get=get,pr_number=548)
+            self.assertEqual(allowed["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            self.assertEqual(allowed["active_donor_pr"],548)
+            self.assertEqual([p["number"] for p in allowed["pending_intake_prs"]],[548])
+            self.assertEqual([p["number"] for p in allowed["pending_prs"]],[547,548])
+            blocked=gate(root,"intake",get=get,pr_number=547)
+            self.assertEqual(blocked["result"],"BLOCKED")
+            self.assertEqual(blocked["active_donor_pr"],548)
+
+    def test_policy_only_open_pr_allows_initial_unclaimed_intake(self):
+        t,root,_=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:
+                    return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:
+                    return [{"number":547,"title":"Donor: policy only",
+                             "head":{"sha":"b"*40}}]
+                if "/pulls/547/files?" in s:
+                    return [{"filename":"src/fa3_donor_readiness.py"}]
+                raise AssertionError(s)
+            ready=gate(root,"intake",get=get)
+            self.assertEqual(ready["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            self.assertIsNone(ready["active_donor_pr"])
+            self.assertEqual(ready["pending_intake_prs"],[])
+            denied=gate(root,"intake",get=get,pr_number=547)
+            self.assertIn("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR",denied["findings"])
+
     def test_expansion_removal_and_sync_all_count_as_donor_maintenance(self):
         operations = [
             ("expansion", REGISTRY, "added"),
@@ -113,7 +175,7 @@ class Tests(unittest.TestCase):
             if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
             raise AssertionError(s)
         self.assertEqual([p["number"] for p in pending_prs(get)],[8])
-    def test_pending_edit_denies_planning(self):
+    def test_pending_edit_allows_published_main_for_planning_preflight(self):
         t,root,p=fixture()
         with t:
             def get(s):
@@ -121,8 +183,51 @@ class Tests(unittest.TestCase):
                 if "pulls?state=open" in s:return [{"number":8,"title":"New editor",
                                                      "head":{"sha":"a"*40}}]
                 if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
+                if "/contents/"+REGISTRY in s:return {"sha":git_blob_sha(p.read_bytes())}
+                return []
             x=gate(root,"status",get=get)
-            self.assertIn("PENDING_DONOR_MAINTENANCE",x["findings"])
+            self.assertEqual(x["result"],"READY_FOR_SEPARATE_FA3_ADMISSION_GATES")
+            self.assertEqual(x["registry_snapshot"],"PUBLISHED_MAIN_ONLY")
+            self.assertEqual(x["pending_prs"][0]["number"],8)
+            self.assertNotIn("PENDING_DONOR_MAINTENANCE",x["findings"])
+            self.assertFalse(x["planning_allowed"])
+
+    def test_second_conversation_intake_waits_for_oldest_donor_pr(self):
+        t,root,p=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:return [
+                    {"number":8,"title":"donor intake from conversation A",
+                     "head":{"sha":"a"*40}},
+                    {"number":9,"title":"donor intake from conversation B",
+                     "head":{"sha":"b"*40}}]
+                if "/pulls/" in s and "/files?" in s:return [{"filename":REGISTRY}]
+                raise AssertionError(s)
+            first=gate(root,"intake",get=get,pr_number=8)
+            self.assertEqual(first["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            second=gate(root,"intake",get=get,pr_number=9)
+            self.assertEqual(second["result"],"BLOCKED")
+            self.assertEqual(second["active_donor_pr"],8)
+            self.assertIn("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION",
+                          second["findings"])
+            unclaimed=gate(root,"intake",get=get)
+            self.assertEqual(unclaimed["result"],"BLOCKED")
+
+    def test_intake_without_live_inventory_is_fail_closed(self):
+        t,root,p=fixture()
+        with t:
+            self.assertEqual(gate(root,"intake",pr_number=10)["result"],"BLOCKED")
+
+    def test_intake_pr_must_be_open_and_classified_donor(self):
+        t,root,p=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                return []
+            x=gate(root,"intake",get=get,pr_number=10)
+            self.assertIn("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR",x["findings"])
+
     def test_zero_pending_does_not_allow_adoption_or_promotion(self):
         t,root,p=fixture()
         with t:

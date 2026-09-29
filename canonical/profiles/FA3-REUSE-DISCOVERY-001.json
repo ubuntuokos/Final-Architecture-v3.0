@@ -117,14 +117,20 @@
   "donor_reference_binding": {
     "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "review_required_for_every_new_or_materially_modified_application_capability_or_module": true,
-    "potential_donor_signal_requires_capture": true,
-    "default_capture_state": "CANDIDATE",
+    "potential_donor_signal_requires_capture": false,
+    "default_capture_state": "NO_CAPTURE_ANALYSIS_ONLY",
     "candidate_is_admission": false,
     "candidate_is_dependency": false,
     "code_import_requires_separate_license_security_and_admission_review": true,
     "future_application_matching": true,
     "authority": false,
     "automatic_selection": false,
-    "automatic_activation": false
+    "automatic_activation": false,
+    "owner_marker_required": "donornak",
+    "owner_role_required": true,
+    "owner_marked_link_capture_state": "ACCEPTED_REFERENCE",
+    "pending_donor_prs_excluded_from_planning": true,
+    "published_main_registry_only": true,
+    "legacy_registry_embedded_capture_policy_superseded_by": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28"
   }
 }

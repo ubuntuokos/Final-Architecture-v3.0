@@ -38,7 +38,7 @@ class PrivateDonorInboxTests(unittest.TestCase):
             "mapping":{
                 "u":{"message":{
                     "author":{"role":"user"},
-                    "content":{"parts":["Donor: https://github.com/example/inbox"]}
+                    "content":{"parts":["donornak: https://github.com/example/inbox"]}
                 }}
             }
         }]
@@ -60,7 +60,7 @@ class PrivateDonorInboxTests(unittest.TestCase):
     def test_new_export_reuses_same_donor_identity(self):
         inbox = self.home / "inbox"
         rows = lambda url: [{"mapping":{"u":{"message":{
-            "author":{"role":"user"}, "content":{"parts":[f"potential donor: {url}"]}
+            "author":{"role":"user"}, "content":{"parts":[f"donornak: {url}"]}
         }}}}]
         (inbox / "conversations.json").write_text(json.dumps(rows("https://github.com/example/shared")), encoding="utf-8")
         first = process_inbox(self.root, self.home)

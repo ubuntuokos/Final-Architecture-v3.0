@@ -178,8 +178,8 @@
         "REJECTED",
         "SUPERSEDED"
       ],
-      "default_capture_state": "CANDIDATE",
-      "potential_signal_capture_required": true,
+      "default_capture_state": "NO_CAPTURE_ANALYSIS_ONLY",
+      "potential_signal_capture_required": false,
       "rejected_and_superseded_retained_but_not_selected": true,
       "authority": false,
       "admission_authority": false,
@@ -188,7 +188,13 @@
       "provider_admission_authority": false,
       "model_selection_authority": false,
       "automatic_selection": false,
-      "automatic_activation": false
+      "automatic_activation": false,
+      "owner_marker_required": "donornak",
+      "owner_role_required": true,
+      "owner_marked_link_capture_state": "ACCEPTED_REFERENCE",
+      "unmarked_links_analysis_only": true,
+      "pending_donor_prs_excluded_from_planning": true,
+      "published_main_registry_only": true
     }
   },
   "invariants": [
@@ -206,7 +212,7 @@
     "EXTERNAL_SKILL_RADAR_IS_REFERENCE_ONLY_NOT_INSTALLATION_OR_ADMISSION",
     "KHRONOS_OPEN_STANDARDS_SOURCE_REVIEW_REQUIRED_BEFORE_NEW_APPLICATION_IMPLEMENTATION",
     "KHRONOS_REUSE_SELECTION_IS_MATCH_ONLY_NON_AUTHORITATIVE",
-    "POTENTIAL_DONOR_SIGNAL_IS_CAPTURED_AS_CANDIDATE",
+    "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_ENTER_DONOR_REGISTRY",
     "DONOR_REGISTRY_IS_CENTRAL_PLANNING_INPUT_NOT_ARCHITECTURAL_AUTHORITY",
     "DONOR_CANDIDATE_CAPTURE_IS_NOT_DEPENDENCY_CODE_IMPORT_PROVIDER_OR_MODEL_ADMISSION",
     "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN"

@@ -1,5 +1,5 @@
+"""Explicit owner 'donornak' link only: fail-closed donor intake regressions."""
 from __future__ import annotations
-
 import json
 import sys
 import tempfile
@@ -9,10 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-
 from fa3_donor_chat_import import _candidate_sources, _conversations, ingest, read_export
-from fa3_donor_registry import REGISTRY_REL
-
+from fa3_donor_registry import REGISTRY_REL, capture_candidate
 
 class DonorChatImportTests(unittest.TestCase):
     def setUp(self):
@@ -23,205 +21,167 @@ class DonorChatImportTests(unittest.TestCase):
         self.path.parent.mkdir(parents=True)
         self.path.write_text(json.dumps({
             "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-            "entries": [], "backfill": {"entry_count": 0},
+            "entries": [], "backfill": {"entry_count": 0}
         }), encoding="utf-8")
 
     def entries(self):
         return json.loads(self.path.read_text(encoding="utf-8"))["entries"]
 
-    def test_hungarian_and_english_link_mentions_merge_without_raw_text(self):
-        records = [
-            "Lehet donor: https://github.com/example/CreativeKit private-email@example.org token=SECRET123",
-            "This could be a donor https://github.com/example/CreativeKit",
-            "Unrelated https://github.com/other/not-a-donor",
-        ]
-        report = ingest(self.root, records, origin="chatgpt-export")
-        self.assertEqual((report["created"], report["merged"]), (1, 0))
-        self.assertEqual(len(self.entries()), 1)
-        entry = self.entries()[0]
-        self.assertEqual(entry["status"], "CANDIDATE")
-        self.assertEqual(entry["source"]["normalized_key"], "github:example/creativekit")
-        self.assertFalse(entry["automatic_code_import"])
-        persisted = self.path.read_text(encoding="utf-8")
-        self.assertNotIn("SECRET123", persisted)
-        self.assertNotIn("private-email@example.org", persisted)
+    def user(self, text):
+        return {"speaker_role": "user", "text": text}
 
-    def test_same_name_different_sources_are_distinct(self):
-        report = ingest(self.root, [
-            "Donor: https://github.com/alice/tool",
-            "Donor: https://github.com/bob/tool",
-        ], origin="chatgpt-export")
-        self.assertEqual(report["created"], 2)
-        self.assertEqual(len(self.entries()), 2)
-
-    def test_project_name_requires_explicit_opt_in_for_new_public_entry(self):
-        mention = "donor: Private Project Name"
-        result = ingest(self.root, [mention], origin="chatgpt-export")
-        self.assertEqual(result["unlinked_skipped"], 1)
-        self.assertEqual(self.entries(), [])
-        result = ingest(self.root, [mention], origin="chatgpt-export", allow_unlinked_names=True)
-        self.assertEqual(result["created"], 1)
-        self.assertEqual(self.entries()[0]["source"]["normalized_key"], "project:private project name")
-
-    def test_dry_run_and_reimport_do_not_duplicate(self):
-        mention = ["donornak alkalmas lehet: https://github.com/example/test"]
-        dry = ingest(self.root, mention, origin="chatgpt-export", dry_run=True)
-        self.assertEqual(dry["created"], 1)
-        self.assertEqual(self.entries(), [])
-        actual = ingest(self.root, mention, origin="chatgpt-export")
-        repeat = ingest(self.root, mention, origin="chatgpt-export")
-        self.assertEqual(actual["created"], 1)
-        self.assertEqual(repeat["created"], 0)
-        self.assertEqual(repeat["merged"], 1)
-        self.assertEqual(len(self.entries()), 1)
-
-    def test_multi_url_mentions_capture_each_public_source(self):
-        result = ingest(self.root, [
-            "Potential donor: https://github.com/example/one and https://github.com/example/two"
-        ], origin="chatgpt-export")
-        self.assertEqual(result["created"], 2)
-
-    def test_rejections_and_non_signals_do_not_create_candidates(self):
-        result = ingest(self.root, [
-            "Look at https://github.com/example/ordinary",
-            "not a donor https://github.com/example/rejected",
-            "donornak alkalmatlan: https://github.com/example/bad",
-            "donor: https://github.com/ubuntuokos/Final-Architecture-v3.0"
-        ], origin="chatgpt-export")
-        self.assertEqual(result["created"], 0)
-        self.assertEqual(self.entries(), [])
-
-    def test_export_zip_and_numbered_json_without_extraction(self):
-        conversation = [{
-            "title": "sensitive title - must not be persisted",
-            "mapping": {
-                "u1": {"message": {
-                    "author": {"role": "user"},
-                    "content": {"parts": ["Potential donor: https://github.com/example/fromuser"]},
-                }},
-                "a1": {"message": {
-                    "author": {"role": "assistant"},
-                    "content": {"parts": ["donornak alkalmas: https://github.com/example/fromassistant"]},
-                }},
-                "t1": {"message": {
-                    "author": {"role": "tool"},
-                    "content": {"parts": ["donor: https://github.com/example/fromtool"]},
-                }},
-            },
-        }]
-        archive = self.root / "chatgpt-export.zip"
-        with zipfile.ZipFile(archive, "w") as zf:
-            zf.writestr("export/conversations.json", json.dumps(conversation))
-            zf.writestr("export/conversations_2.json", json.dumps(conversation))
-            zf.writestr("export/other-sensitive-file.json", '{"private":true}')
-        self.assertEqual(len(list(read_export(archive))), 2)
-        report = ingest(self.root, _conversations(archive, {"user", "assistant"}), origin="chatgpt-export")
-        self.assertEqual(report["created"], 2)
-        self.assertEqual(len(self.entries()), 2)
-        saved = self.path.read_text(encoding="utf-8")
-        self.assertNotIn("sensitive title", saved)
-        self.assertNotIn("fromtool", saved)
-        self.assertNotIn("other-sensitive-file", saved)
-
-    def test_bare_github_domain_is_normalized_as_repository(self):
-        result = ingest(self.root, [
-            "donorként alkalmas lehet: github.com/example/domain-only"
-        ], origin="chatgpt-export")
-        self.assertEqual(result["created"], 1)
-        self.assertEqual(self.entries()[0]["source"]["normalized_key"], "github:example/domain-only")
-
-    def test_bare_repo_and_explicit_adapter_event(self):
-        report = ingest(self.root, [
-            "This could be a donor p4nda0s/reverse-skills",
-            {"potential_donor": True, "name": "Another", "source": "https://github.com/example/another"}
-        ], origin="approved-chat-event")
-        self.assertEqual(report["created"], 2)
-        self.assertEqual({e["source"]["normalized_key"] for e in self.entries()}, {
-            "github:p4nda0s/reverse-skills", "github:example/another"
-        })
-
-    def test_malformed_export_never_mutates_registry(self):
+    def test_unmarked_links_are_analysis_only_even_with_potential_signals(self):
         before = self.path.read_bytes()
-        broken = self.root / "conversations.json"
-        broken.write_text('{"not":"conversation array"}', encoding="utf-8")
-        with self.assertRaises(ValueError):
-            ingest(self.root, _conversations(broken, {"user"}), origin="chatgpt-export")
-        self.assertEqual(self.path.read_bytes(), before)
-
-    def test_canonical_bridge_boundary_contract(self):
-        contract = json.loads((ROOT / "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json").read_text(encoding="utf-8"))
-        self.assertFalse(contract["architectural_authority"])
-        self.assertFalse(contract["automatic_code_import"])
-        self.assertFalse(contract["automatic_dependency"])
-        self.assertFalse(contract["unattended_chatgpt_account_access"])
-        self.assertEqual(contract["accepted_inputs"], ["CHATGPT_EXPORT_ZIP", "CONVERSATIONS_JSON", "APPROVED_LOCAL_EVENT_JSONL"])
-        self.assertTrue(contract["raw_conversation_persistence_forbidden"])
-
-
-    def test_owner_direct_link_finalizes_at_capture(self):
-        ingest(self.root, [
-            {"text": "Donornak: https://github.com/example/owner-approved",
-             "speaker_role": "user"}
+        report = ingest(self.root, [
+            self.user("Maybe donor: https://github.com/example/one"),
+            self.user("Donor: https://github.com/example/two"),
+            self.user("donorként alkalmas lehet https://github.com/example/three"),
+            self.user("https://github.com/example/four"),
+            {"speaker_role": "assistant", "text": "donornak: https://github.com/example/five"},
+            "donornak: https://github.com/example/unknown-speaker",
+            {"potential_donor": True, "source": "https://github.com/example/six",
+             "name": "six", "owner_submitted_link": True},
         ], origin="chatgpt-export")
+        self.assertEqual((report["created"], report["merged"]), (0, 0))
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertGreaterEqual(report["analysis_only"], 7)
+
+    def test_marker_must_precede_the_link_and_only_user_role_counts(self):
+        report = ingest(self.root, [
+            self.user("https://github.com/example/before donornak: https://github.com/example/after"),
+            {"speaker_role": "assistant", "text": "donornak: https://github.com/example/assistant"}
+        ], origin="chatgpt-export")
+        self.assertEqual(report["created"], 1)
+        self.assertEqual(self.entries()[0]["source"]["normalized_key"], "github:example/after")
         self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
-        self.assertEqual(self.entries()[0]["submission_review"]["scope"], "REFERENCE_REGISTRATION_ONLY")
         self.assertFalse(self.entries()[0]["automatic_code_import"])
         self.assertFalse(self.entries()[0]["automatic_provider_admission"])
 
-    def test_assistant_proposal_remains_candidate(self):
-        ingest(self.root, [
-            {"text": "Donornak: https://github.com/example/research",
-             "speaker_role": "assistant"}
-        ], origin="chatgpt-export")
-        self.assertEqual(self.entries()[0]["status"], "CANDIDATE")
-
-    def test_explicit_approved_event_direct_registration(self):
-        ingest(self.root, [
-            {"potential_donor": True, "name": "approved",
-             "source": "https://github.com/example/approved",
-             "owner_submitted_link": True}
-        ], origin="approved-chat-event")
-        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
-
-    def test_unreviewed_metadata_stays_candidate(self):
-        ingest(self.root, [
-            {"potential_donor": True, "name": "unreviewed",
-             "source": "https://github.com/example/unreviewed"}
-        ], origin="approved-chat-event")
-        self.assertEqual(self.entries()[0]["status"], "CANDIDATE")
-
-    def test_direct_followup_upgrades_same_source_without_duplicates(self):
-        ingest(self.root, [
-            {"text": "Potential donor: https://github.com/example/one", "speaker_role": "user"},
-            {"text": "Donornak: https://github.com/example/one", "speaker_role": "user"}
-        ], origin="chatgpt-export")
-        self.assertEqual(len(self.entries()), 1)
-        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
-
-    def test_direct_owner_cannot_silently_override_historical_rejection(self):
-        from fa3_donor_registry import capture_candidate
-        capture_candidate(self.root, name="protected", source_kind="GITHUB",
-                          source_locator="https://github.com/example/protected")
-        registry = json.loads(self.path.read_text(encoding="utf-8"))
-        registry["entries"][0]["status"] = "REJECTED"
-        self.path.write_text(json.dumps(registry), encoding="utf-8")
-        before = self.path.read_bytes()
-        with self.assertRaises(ValueError):
-            ingest(self.root, [
-                {"potential_donor": True, "name": "protected",
-                 "source": "https://github.com/example/protected",
-                 "owner_submitted_link": True}
-            ], origin="approved-chat-event")
-        self.assertEqual(self.path.read_bytes(), before)
-
-    def test_owner_direct_batch_over_research_link_limit(self):
+    def test_marked_owner_batches_and_organization_topic_links(self):
         links = " ".join("https://github.com/example/tool" + str(n) for n in range(20))
-        ingest(self.root, [
-            {"text": "donornak: " + links, "speaker_role": "user"}
-        ], origin="chatgpt-export")
-        self.assertEqual(len(self.entries()), 20)
+        report = ingest(self.root, [self.user(
+            "donornak: https://github.com/oracle https://github.com/topics/video?l=python " + links
+        )], origin="chatgpt-export")
+        self.assertEqual(report["created"], 22)
+        self.assertEqual(len(self.entries()), 22)
         self.assertTrue(all(row["status"] == "ACCEPTED_REFERENCE" for row in self.entries()))
 
+    def test_metadata_event_requires_owner_marker_and_explicit_owner_role(self):
+        records = [
+            {"potential_donor": True, "name": "one", "source": "https://github.com/example/one",
+             "speaker_role": "user", "owner_submitted_link": True},
+            {"potential_donor": True, "name": "two", "source": "https://github.com/example/two",
+             "owner_donor_marker": "donornak", "owner_submitted_link": True},
+            {"potential_donor": True, "name": "three", "source": "https://github.com/example/three",
+             "owner_donor_marker": "donornak", "owner_submitted_link": True, "speaker_role": "user"},
+            {"speaker_role": "user", "text": "donornak: https://github.com/example/four",
+             "owner_submitted_link": True}
+        ]
+        report = ingest(self.root, records, origin="approved-chat-event")
+        self.assertEqual(report["created"], 2)
+        self.assertEqual({row["source"]["normalized_key"] for row in self.entries()},
+                         {"github:example/three", "github:example/four"})
+
+    def test_untrusted_event_claim_cannot_enroll(self):
+        report = ingest(self.root, [
+            {"speaker_role": "user", "text": "donornak: https://github.com/example/forged"}
+        ], origin="approved-chat-event")
+        self.assertEqual(report["created"], 0)
+        self.assertEqual(self.entries(), [])
+
+    def test_direct_reimport_idempotent_preserves_owner_pre_review(self):
+        records = [self.user("donornak: https://github.com/example/one")]
+        dry = ingest(self.root, records, origin="chatgpt-export", dry_run=True)
+        self.assertEqual(dry["created"], 1)
+        self.assertEqual(self.entries(), [])
+        first = ingest(self.root, records, origin="chatgpt-export")
+        second = ingest(self.root, records, origin="chatgpt-export")
+        self.assertEqual((first["created"], second["merged"]), (1, 1))
+        self.assertEqual(len(self.entries()), 1)
+        self.assertFalse(self.entries()[0]["submission_review"]["second_registry_approval_required"])
+
+    def test_preserve_existing_rejected_entry_without_partial_write(self):
+        capture_candidate(self.root, name="denied", source_kind="GITHUB",
+                          source_locator="https://github.com/example/denied",
+                          explicit_donor_marker=True, owner_submitted_link=True)
+        data=json.loads(self.path.read_text(encoding="utf-8"))
+        data["entries"][0]["status"]="REJECTED"
+        self.path.write_text(json.dumps(data), encoding="utf-8")
+        before=self.path.read_bytes()
+        with self.assertRaises(ValueError):
+            ingest(self.root, [self.user("donornak: https://github.com/example/new https://github.com/example/denied")],
+                   origin="chatgpt-export")
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_unmarked_intake_never_modifies_an_existing_entry(self):
+        ingest(self.root, [self.user("donornak: https://github.com/example/one")],
+               origin="chatgpt-export")
+        before=self.path.read_bytes()
+        ingest(self.root, [self.user("candidate https://github.com/example/one")],
+               origin="chatgpt-export")
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_private_export_only_owner_marked_text_registration(self):
+        conversation=[{"title":"PRIVATE SECRET","mapping":{
+            "u1":{"message":{"author":{"role":"user"},
+                             "content":{"parts":["Candidate https://github.com/example/not"]}}},
+            "u2":{"message":{"author":{"role":"user"},
+                             "content":{"parts":["donornak: https://github.com/example/yes SECRET123"]}}},
+            "a1":{"message":{"author":{"role":"assistant"},
+                             "content":{"parts":["donornak: https://github.com/example/assistant"]}}}}}]
+        archive=self.root/"export.zip"
+        with zipfile.ZipFile(archive, "w") as zf:
+            zf.writestr("conversations.json", json.dumps(conversation))
+            zf.writestr("other-secret.txt","PRIVATE")
+        self.assertEqual(len(list(read_export(archive))), 1)
+        report=ingest(self.root, _conversations(archive, {"user","assistant"}, include_roles=True),
+                      origin="chatgpt-export")
+        self.assertEqual(report["created"], 1)
+        saved=self.path.read_text(encoding="utf-8")
+        self.assertNotIn("SECRET123", saved)
+        self.assertNotIn("PRIVATE", saved)
+        self.assertNotIn("example/not", saved)
+        self.assertNotIn("example/assistant", saved)
+
+    def test_explicit_owner_marker_parser_positive(self):
+        sources, ambiguous = _candidate_sources("donornak: https://github.com/example/one", owner_direct=True)
+        self.assertFalse(ambiguous)
+        self.assertEqual(sources, [("example/one", "GITHUB", "https://github.com/example/one")])
+
+    def test_owner_donornak_without_colon_before_link(self):
+        sources, ambiguous = _candidate_sources(
+            "donornak https://github.com/example/no-colon", owner_direct=True)
+        self.assertFalse(ambiguous)
+        self.assertEqual(sources, [("example/no-colon", "GITHUB",
+                                    "https://github.com/example/no-colon")])
+        result = ingest(self.root, [self.user(
+            "donornak https://github.com/example/no-colon")],
+            origin="chatgpt-export")
+        self.assertEqual(result["created"], 1)
+        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
+
+    def test_negated_owner_marker_is_not_an_intake_instruction(self):
+        before = self.path.read_bytes()
+        result = ingest(self.root, [self.user(
+            "nem donornak: https://github.com/example/never-register"),
+            self.user("not donornak https://github.com/example/also-not")],
+            origin="chatgpt-export")
+        self.assertEqual(result["created"], 0)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(
+            _candidate_sources("nem donornak: https://github.com/example/no",
+                               owner_direct=True)[0], [])
+
+    def test_missing_marker_never_passes_candidate_sources(self):
+        self.assertEqual(_candidate_sources("Donor: https://github.com/example/one", owner_direct=True)[0], [])
+        self.assertEqual(_candidate_sources("donornak: https://github.com/example/one", owner_direct=False)[0], [])
+
+    def test_canonical_bridge_boundary_contract(self):
+        contract=json.loads((ROOT/"canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json").read_text())
+        self.assertTrue(contract["explicit_owner_donornak_before_link_required"])
+        self.assertEqual(contract["unmarked_link_disposition"], "ANALYSIS_ONLY_NO_REGISTRY_MUTATION")
+        self.assertFalse(contract["automatic_code_import"])
+        self.assertFalse(contract["unattended_chatgpt_account_access"])
 
 if __name__ == "__main__":
     unittest.main()
