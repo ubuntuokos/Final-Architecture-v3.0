@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/live-production-source.v1.json",
+  "title": "FA3 Live Production Source selective planning request (proposal)",
+  "description": "Subordinate preflight-only request in existing ProductionImportPlan; NOT a live receiver, network/recording authorization, runtime admission or new authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_mode",
+    "source_protocol",
+    "authorized_endpoint_ref",
+    "rights_receipt_ref",
+    "approved_capture_scope_ref",
+    "delivery_mode",
+    "no_av_fetch",
+    "no_media_persist",
+    "requested_outputs",
+    "source_language",
+    "target_languages",
+    "buffer_max_bytes",
+    "max_duration_seconds",
+    "destination_application"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.live-production-source.v1"
+    },
+    "source_mode": {
+      "enum": [
+        "LIVE_VIDEO",
+        "LIVE_AUDIO",
+        "LIVE_CAPTIONS"
+      ]
+    },
+    "source_protocol": {
+      "enum": [
+        "EBU_TT_LIVE_WS",
+        "HLS_SUBTITLES",
+        "HLS_EMBEDDED_CC",
+        "HLS_VIDEO",
+        "HLS_AUDIO",
+        "SRT",
+        "RTMP",
+        "RTSP",
+        "WEBRTC",
+        "ICECAST",
+        "OBS_LOCAL"
+      ]
+    },
+    "authorized_endpoint_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:/-]*$",
+      "description": "Opaque preauthorized source identifier; raw URLs, userinfo and credentials prohibited"
+    },
+    "rights_receipt_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "approved_capture_scope_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "recording_authorization_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "delivery_mode": {
+      "enum": [
+        "MONITOR_ONLY",
+        "SELECTIVE_CAPTURE",
+        "AUTHORIZED_RECORD_AND_DERIVE",
+        "CAPTION_ONLY"
+      ]
+    },
+    "no_av_fetch": {
+      "type": "boolean"
+    },
+    "no_media_persist": {
+      "type": "boolean"
+    },
+    "requested_outputs": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "ORIGINAL_LANGUAGE",
+          "ONE_TRANSLATION",
+          "MULTI_TRANSLATION",
+          "ORIGINAL_PLUS_TRANSLATIONS",
+          "FULL_AUDIO",
+          "TRANSCRIPT_ONLY",
+          "SPEECH_OR_SINGING_SEPARATE",
+          "INSTRUMENTAL_ONLY",
+          "AMBIENCE_AND_SFX",
+          "DENOISED_SPEECH",
+          "FULL_VIDEO",
+          "VIDEO_WITHOUT_AUDIO",
+          "FULL_AUDIO_ONLY",
+          "MUSIC_OR_INSTRUMENTAL_ONLY",
+          "AMBIENCE_AND_SFX_ONLY",
+          "FRAMES_OR_SCENES"
+        ]
+      },
+      "uniqueItems": true,
+      "maxItems": 17
+    },
+    "source_language": {
+      "type": "string",
+      "pattern": "^(auto|[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)$"
+    },
+    "target_languages": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+      }
+    },
+    "buffer_max_bytes": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 1073741824
+    },
+    "max_duration_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 86400
+    },
+    "destination_application": {
+      "enum": [
+        "Subtitle Studio",
+        "Story/Screenplay",
+        "Live Studio",
+        "Audio Fabric",
+        "Music Studio",
+        "Video Editor",
+        "QuickClip",
+        "FA3 Archive"
+      ]
+    },
+    "source_epoch_ref": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "source_timing_ref": {
+      "type": "string",
+      "maxLength": 256
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source_mode": {
+            "const": "LIVE_CAPTIONS"
+          }
+        },
+        "required": [
+          "source_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_protocol": {
+            "enum": [
+              "EBU_TT_LIVE_WS",
+              "HLS_SUBTITLES"
+            ]
+          },
+          "delivery_mode": {
+            "enum": [
+              "CAPTION_ONLY",
+              "MONITOR_ONLY"
+            ]
+          },
+          "no_av_fetch": {
+            "const": true
+          },
+          "no_media_persist": {
+            "const": true
+          },
+          "requested_outputs": {
+            "items": {
+              "enum": [
+                "ORIGINAL_LANGUAGE",
+                "ONE_TRANSLATION",
+                "MULTI_TRANSLATION",
+                "ORIGINAL_PLUS_TRANSLATIONS"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_mode": {
+            "const": "LIVE_AUDIO"
+          }
+        },
+        "required": [
+          "source_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_protocol": {
+            "enum": [
+              "HLS_AUDIO",
+              "SRT",
+              "RTMP",
+              "RTSP",
+              "WEBRTC",
+              "ICECAST",
+              "OBS_LOCAL"
+            ]
+          },
+          "requested_outputs": {
+            "items": {
+              "enum": [
+                "ORIGINAL_LANGUAGE",
+                "ONE_TRANSLATION",
+                "MULTI_TRANSLATION",
+                "ORIGINAL_PLUS_TRANSLATIONS",
+                "FULL_AUDIO",
+                "TRANSCRIPT_ONLY",
+                "SPEECH_OR_SINGING_SEPARATE",
+                "INSTRUMENTAL_ONLY",
+                "AMBIENCE_AND_SFX",
+                "DENOISED_SPEECH"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_mode": {
+            "const": "LIVE_VIDEO"
+          }
+        },
+        "required": [
+          "source_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_protocol": {
+            "enum": [
+              "HLS_EMBEDDED_CC",
+              "HLS_VIDEO",
+              "SRT",
+              "RTMP",
+              "RTSP",
+              "WEBRTC",
+              "OBS_LOCAL"
+            ]
+          },
+          "requested_outputs": {
+            "items": {
+              "enum": [
+                "ORIGINAL_LANGUAGE",
+                "ONE_TRANSLATION",
+                "MULTI_TRANSLATION",
+                "ORIGINAL_PLUS_TRANSLATIONS",
+                "FULL_VIDEO",
+                "VIDEO_WITHOUT_AUDIO",
+                "FULL_AUDIO_ONLY",
+                "MUSIC_OR_INSTRUMENTAL_ONLY",
+                "AMBIENCE_AND_SFX_ONLY",
+                "FRAMES_OR_SCENES"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "delivery_mode": {
+            "const": "AUTHORIZED_RECORD_AND_DERIVE"
+          }
+        },
+        "required": [
+          "delivery_mode"
+        ]
+      },
+      "then": {
+        "required": [
+          "recording_authorization_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "no_av_fetch": {
+            "const": true
+          }
+        },
+        "required": [
+          "no_av_fetch"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_mode": {
+            "const": "LIVE_CAPTIONS"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "delivery_mode": {
+            "const": "CAPTION_ONLY"
+          }
+        },
+        "required": [
+          "delivery_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requested_outputs": {
+            "items": {
+              "enum": [
+                "ORIGINAL_LANGUAGE",
+                "ONE_TRANSLATION",
+                "MULTI_TRANSLATION",
+                "ORIGINAL_PLUS_TRANSLATIONS"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requested_outputs": {
+            "contains": {
+              "enum": [
+                "ONE_TRANSLATION",
+                "MULTI_TRANSLATION",
+                "ORIGINAL_PLUS_TRANSLATIONS"
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_languages": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "x-fa3-policy": {
+    "status": "PROPOSED_NOT_ADMITTED",
+    "parent": "ProductionImportPlan",
+    "references": [
+      "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+      "FA3-CAPTION-SUBTITLE-CONTRACTS-001",
+      "FA3-FILE-CONVERSION-001",
+      "FA3-UNIFIED-ACTION-FABRIC-001"
+    ],
+    "authority": false,
+    "new_architectural_authority": false,
+    "capability_baseline": 175,
+    "provider_count": "dynamic",
+    "no_current_host_claim": true
+  }
+}
