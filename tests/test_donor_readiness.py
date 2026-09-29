@@ -113,7 +113,7 @@ class Tests(unittest.TestCase):
             if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
             raise AssertionError(s)
         self.assertEqual([p["number"] for p in pending_prs(get)],[8])
-    def test_pending_edit_denies_planning(self):
+    def test_pending_edit_allows_published_main_for_planning_preflight(self):
         t,root,p=fixture()
         with t:
             def get(s):
@@ -121,8 +121,51 @@ class Tests(unittest.TestCase):
                 if "pulls?state=open" in s:return [{"number":8,"title":"New editor",
                                                      "head":{"sha":"a"*40}}]
                 if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
+                if "/contents/"+REGISTRY in s:return {"sha":git_blob_sha(p.read_bytes())}
+                return []
             x=gate(root,"status",get=get)
-            self.assertIn("PENDING_DONOR_MAINTENANCE",x["findings"])
+            self.assertEqual(x["result"],"READY_FOR_SEPARATE_FA3_ADMISSION_GATES")
+            self.assertEqual(x["registry_snapshot"],"PUBLISHED_MAIN_ONLY")
+            self.assertEqual(x["pending_prs"][0]["number"],8)
+            self.assertNotIn("PENDING_DONOR_MAINTENANCE",x["findings"])
+            self.assertFalse(x["planning_allowed"])
+
+    def test_second_conversation_intake_waits_for_oldest_donor_pr(self):
+        t,root,p=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:return [
+                    {"number":8,"title":"donor intake from conversation A",
+                     "head":{"sha":"a"*40}},
+                    {"number":9,"title":"donor intake from conversation B",
+                     "head":{"sha":"b"*40}}]
+                if "/pulls/" in s and "/files?" in s:return [{"filename":REGISTRY}]
+                raise AssertionError(s)
+            first=gate(root,"intake",get=get,pr_number=8)
+            self.assertEqual(first["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            second=gate(root,"intake",get=get,pr_number=9)
+            self.assertEqual(second["result"],"BLOCKED")
+            self.assertEqual(second["active_donor_pr"],8)
+            self.assertIn("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION",
+                          second["findings"])
+            unclaimed=gate(root,"intake",get=get)
+            self.assertEqual(unclaimed["result"],"BLOCKED")
+
+    def test_intake_without_live_inventory_is_fail_closed(self):
+        t,root,p=fixture()
+        with t:
+            self.assertEqual(gate(root,"intake",pr_number=10)["result"],"BLOCKED")
+
+    def test_intake_pr_must_be_open_and_classified_donor(self):
+        t,root,p=fixture()
+        with t:
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                return []
+            x=gate(root,"intake",get=get,pr_number=10)
+            self.assertIn("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR",x["findings"])
+
     def test_zero_pending_does_not_allow_adoption_or_promotion(self):
         t,root,p=fixture()
         with t:
