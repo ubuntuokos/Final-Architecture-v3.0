@@ -24,3 +24,7 @@ Each requested source-family/selector/range/destination generates one or more ty
 6. **Release:** run S1–S5 synthetic regressions and donor/source-key uniqueness, reconcile latest main and adopted release projection, then exact-head Canonical/Reuse/static checks. Independently require **real current-host** signed GUI/API/source-to-target/E2E and no host interference before promotion. Never label a passing planning test as physical runtime evidence.
 
 New S5 files: `canonical/schemas/selective-delivery-preview.v1.json`, `src/fa3_selective_import_delivery_preview.py`, `tests/test_selective_import_delivery_preview.py`. No new donor was needed for this *internal composition* slice; the prior source-unique donor registry research remains the mandatory reference, with all candidates non-authoritative. Fixed baseline **175**, provider count dynamic.
+
+## S6 receiver preflight extension (same #528)
+
+The [S6 exact application/host/format receiver-handshake preview](production-import-s6-receiver-preflight-2026-09-29.md) and its bounded pure Python/schema/synthetic regressions extend **this** S5 manifest without altering the original 17 selectors. Every downstream receiver claim, host identity, format/version and chosen destination remains unverified; no output is published and no UAF effect is authorized. Real execution is still blocked on #195 authenticated per-stream inspection and existing UAF/application inbox + Security/Evidence/Logistics/Temporal/HRB handoff admission, with independent signed physical current-host E2E and exact editable format roundtrip.
