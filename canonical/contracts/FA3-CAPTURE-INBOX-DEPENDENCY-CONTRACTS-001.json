@@ -1,0 +1,159 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-CAPTURE-INBOX-DEPENDENCY-CONTRACTS-001",
+  "name": "FA3 Capture & Inbox dependency, privacy, custody, application handoff and LAN adapter boundaries",
+  "status": "DESIGN_BOUNDARY_ONLY_PENDING_ADMISSION",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-146",
+    "CAP-147",
+    "CAP-150",
+    "CAP-152",
+    "CAP-170",
+    "CAP-175"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "privacy_capture": "FA3-OS-POLICY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "secret_handling": "FA3-SECRET-BROKER-001",
+    "event_history": "FA3-JOURNAL-001",
+    "durable_artifacts": "EXISTING_FA3_DURABLE_ARTIFACT_AND_PROJECT_GRAPH_ONLY",
+    "application_actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "scheduling": "EXISTING_FA3_TEMPORAL_ONLY",
+    "placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "ai_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "transfer": "CAP-150",
+    "workspace_handoff": "CAP-152",
+    "coexistence": "CAP-175",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "capture": {
+    "offline_first": true,
+    "cloud_dependency": false,
+    "cloud_egress_default": "DENY",
+    "capture_initiation": "EXPLICIT_USER_ACTION_ONLY",
+    "ambient_screen_clipboard_keylogging_default": "DENY",
+    "microphone_camera_photo_video": "PER_CAPTURE_USER_AUTHORIZATION_WITH_DEVICE_SCOPE",
+    "credentials_and_secret_paths": "NEVER_CAPTURE",
+    "privacy_gate": "FA3-OS-POLICY-001_BEFORE_DURABLE_PERSISTENCE",
+    "sensitivity_classification_before_handoff": true,
+    "redaction_before_persistence": true,
+    "no_automatic_ai_content_upload": true
+  },
+  "data_custody": {
+    "local_inbox": "USER_SCOPED_PROJECTION_NOT_SECOND_EVENT_LEDGER",
+    "original_media": "IMMUTABLE_ORIGIN_REFERENCED_IN_EXISTING_ARTIFACT_FABRIC",
+    "derived_transcript_translation_summary": "SEPARATE_VERSIONED_NONAUTHORITATIVE_DERIVATIVES",
+    "linkage": [
+      "source_artifact_id",
+      "content_sha256",
+      "origin_actor",
+      "capture_time",
+      "source_class",
+      "derivation_refs",
+      "sensitivity_label",
+      "access_policy_ref"
+    ],
+    "journal": "APPEND_ONLY_MINIMIZED_METADATA_AND_EVENT_REFERENCES",
+    "integrity": "SHA256_CONTENT_ADDRESS_PLUS_EXISTING_ADMITTED_TRUST_SIGNER_WHEN_REQUIRED",
+    "secret_values_in_events_or_artifacts": false,
+    "selective_erasure": "ERASE_PAYLOAD_INDEX_SUMMARIES_EMBEDDINGS_CACHES_AND_UNAUTHORIZED_REMOTE_REPLICAS_APPEND_NONSENSITIVE_TOMBSTONE",
+    "audit_continuity": "MINIMIZED_APPEND_ONLY_EVENT_REFERENCES_NOT_ERASED_SENSITIVE_PAYLOAD"
+  },
+  "handoff": {
+    "local_route": "CAP-152_TYPED_WORKSPACE_BUNDLE_VIA_EXISTING_UAF_ACTION_AND_CENTRAL_MCP_WHERE_APPLICABLE",
+    "first_consumers": [
+      "FA3-IDEATION-ADVISORY-001",
+      "FA3_STORY_SCREENPLAY_ADMITTED_CONSUMER_ONLY"
+    ],
+    "future_consumers": [
+      "WORLD_LOCATION_GENERATOR",
+      "SHOT_DESIGNER",
+      "MUSIC_STUDIO",
+      "AUDIO_FABRIC",
+      "PHOTO_IMAGE_STUDIO",
+      "RESEARCH_KNOWLEDGE"
+    ],
+    "required_envelope": [
+      "capture_record_id",
+      "source_artifact_refs",
+      "payload_digest_refs",
+      "origin_provenance",
+      "project_id",
+      "recipient_application_id",
+      "recipient_action_id",
+      "purpose",
+      "consent_and_policy_ref",
+      "schema_version",
+      "idempotency_key",
+      "expiration",
+      "acknowledgement_ref"
+    ],
+    "recipient_identity": "EXACT_ADMITTED_FA3_APPLICATION_AND_ACTION_REGISTRY_MATCH",
+    "permission": "PER_RECIPIENT_PER_PROJECT_EXPLICIT_RELEASE_AND_SECURITY_GOVERNANCE",
+    "action_dispatch": "EXISTING_FA3_UNIFIED_ACTION_FABRIC_ONLY",
+    "inaccessible_or_unconnected_recipient": "PENDING_OR_REJECTED_NO_FAKE_ACK",
+    "acknowledgement": "SIGNED_OR_POLICY_ATTESTED_EXISTING_EVIDENCE_CHAIN",
+    "source_of_truth": "ORIGINAL_CAPTURE_REMAINS_LINKED_UNLESS_POLICY_AUTHORIZED_TRANSFER_OR_ERASURE"
+  },
+  "lan_sync": {
+    "implementation": "CAP150_ADAPTER_ONLY_NO_SEPARATE_CAPTURE_SYNC",
+    "transport": "EXISTING_CAP150_ADMITTED_PEER_AND_TRUST_STACK_ONLY",
+    "scope": "EXPLICIT_USER_APPROVED_LOCAL_LAN_PEERS",
+    "cloud_relay": false,
+    "content_addressed": true,
+    "replay_and_integrity_checks": true,
+    "offline_queue": "LOCAL_DURABLE_STATE_UNDER_EXISTING_PROJECT_AND_JOURNAL_AUTHORITIES",
+    "resume": "ONLY_AFTER_ADMITTED_CAP150_CHECKPOINT_AND_REVALIDATION",
+    "structured_edit_conflicts": "PRESERVE_CONCURRENT_VERSIONS_NO_SILENT_OVERWRITE",
+    "semantic_or_approved_conflicts": "HUMAN_REVIEW_OR_EXISTING_PROJECT_APPROVAL",
+    "replication_acl": "PRETRANSFER_AND_ON_RECEIPT_RECHECK_WITH_EXISTING_SECURITY_GOVERNANCE",
+    "erasure": "AUTHORIZED_REPLICA_TOMBSTONE_AND_DERIVATIVE_PURGE_WITH_ACK_OR_PENDING_DISCLOSURE",
+    "current_status": "BLOCKED_PENDING_CAP150_PHYSICAL_TWO_HOST_E2E"
+  },
+  "coexistence": {
+    "global_policy_pr": 410,
+    "policy_status": "PENDING_MAIN_MERGE_AND_REBASE",
+    "footprint_admission": "PENDING_AFTER_PR410_SCHEMA_LANDS_ON_MAIN",
+    "host_paths": "EXPLICIT_XDG_FA3_CAPTURE_INBOX_NAMESPACES_ONLY",
+    "default_ports": [],
+    "global_env_mutations": [],
+    "upstream_app_uninstall": false,
+    "upstream_config_mutation": false,
+    "independent_upstream_runtime_must_survive_install_uninstall": true,
+    "physical_proof_required": [
+      "INSTALL",
+      "START",
+      "CONCURRENT_RUN",
+      "PORT_SERVICE_PATH_PROCESS_INSPECTION",
+      "REBOOT_WHERE_APPLICABLE",
+      "UNINSTALL_VERIFY_UPSTREAM"
+    ]
+  },
+  "admission": {
+    "baseline": 175,
+    "authority_delta": 0,
+    "donor_registry": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "required_gate_chain": [
+      "REUSE_DISCOVERY",
+      "DONOR_AND_LICENSE_PROVENANCE",
+      "SECURITY_PRIVACY_PREPERSISTENCE",
+      "CAP175_GLOBAL_COEXISTENCE",
+      "HARDWARE_AUDIT",
+      "CAP152_HANDOFF",
+      "CAP150_TWO_HOST_E2E",
+      "CURRENT_HOST_EVIDENCE",
+      "RELEASE_EXACT_HEAD_RECONCILE"
+    ],
+    "static_boundary_pass_does_not_promote_runtime": true,
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false
+  }
+}
