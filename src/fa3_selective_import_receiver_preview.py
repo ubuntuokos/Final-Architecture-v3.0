@@ -227,6 +227,10 @@ def receiver_handoff_preview(
             raise ValueError("S5 independent evidence checklist missing")
         fingerprint = {
             "source_sha256": s5["source_sha256"], "deliverable_ref": name,
+            "source_range": leaf["source_range"], "stream_indices": leaf["source_stream_indices"],
+            "source_timebases": leaf["source_timebases"], "variant": leaf["variant"],
+            "target_locale": leaf["target_locale"], "delivery_class": delivery_class,
+            "requested_publication": leaf["requested_publication"],
             "target_application": app, "target_host_ref": target_host,
             "format_id": chosen["format_id"] if chosen else None,
             "format_version": chosen["format_version"] if chosen else None,
