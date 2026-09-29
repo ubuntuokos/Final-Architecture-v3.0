@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-receiver-handoff-preview.v1.json",
+  "title": "FA3 S6 bounded exact app/host/format handoff claim preview (non-effectful)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "state",
+    "production_ref",
+    "source_ref",
+    "source_sha256",
+    "inspector_receipt_ref",
+    "receiver_inventory_claim_ref",
+    "deliverable_count",
+    "pending_receiver_count",
+    "blocked_or_unplaced_count",
+    "deliverables",
+    "execution_authorized",
+    "publish_text",
+    "publish_audio",
+    "publish_video",
+    "authority",
+    "capability_count",
+    "existing_owners"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.selective-receiver-handoff-preview.v1"
+    },
+    "state": {
+      "const": "RECEIVER_HANDOFF_PREVIEW_ONLY"
+    },
+    "production_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inspector_receipt_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "receiver_inventory_claim_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "deliverable_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1024
+    },
+    "pending_receiver_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1024
+    },
+    "blocked_or_unplaced_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1024
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deliverable_ref",
+          "parent_leaf_index",
+          "family",
+          "selector_id",
+          "target_application",
+          "source_sha256",
+          "source_stream_indices",
+          "source_timebases",
+          "source_range",
+          "source_binding_group",
+          "target_locale",
+          "variant",
+          "requested_publication",
+          "target_host_ref",
+          "machine_role_claim_ref",
+          "receiver_claim_ref",
+          "app_version_claim",
+          "format_id",
+          "format_version",
+          "idempotency_intent_key",
+          "status",
+          "required_independent_checks",
+          "publish_text",
+          "publish_audio",
+          "publish_video",
+          "execution_authorized",
+          "receiver_verified",
+          "format_verified",
+          "editable_project_verified"
+        ],
+        "properties": {
+          "deliverable_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parent_leaf_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "family": {
+            "enum": [
+              "TEXT",
+              "AUDIO",
+              "VIDEO"
+            ]
+          },
+          "selector_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_application": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_stream_indices": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "source_timebases": {
+            "type": "array",
+            "maxItems": 64,
+            "items": {
+              "type": "object"
+            }
+          },
+          "source_range": {
+            "type": "object"
+          },
+          "source_binding_group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_locale": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "variant": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requested_publication": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "audio",
+              "video"
+            ],
+            "properties": {
+              "text": {
+                "type": "boolean"
+              },
+              "audio": {
+                "type": "boolean"
+              },
+              "video": {
+                "type": "boolean"
+              }
+            }
+          },
+          "target_host_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "machine_role_claim_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receiver_claim_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "app_version_claim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.+\\-]{0,63}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "format_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9.+/\\-]{0,119}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "format_version": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.+\\-]{0,63}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "idempotency_intent_key": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_independent_checks": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 48,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "publish_text": {
+            "const": false
+          },
+          "publish_audio": {
+            "const": false
+          },
+          "publish_video": {
+            "const": false
+          },
+          "execution_authorized": {
+            "const": false
+          },
+          "receiver_verified": {
+            "const": false
+          },
+          "format_verified": {
+            "const": false
+          },
+          "editable_project_verified": {
+            "const": false
+          }
+        }
+      }
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "publish_text": {
+      "const": false
+    },
+    "publish_audio": {
+      "const": false
+    },
+    "publish_video": {
+      "const": false
+    },
+    "authority": {
+      "const": false
+    },
+    "capability_count": {
+      "const": 175
+    },
+    "existing_owners": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "x-fa3-policy": {
+    "status": "S6_PREVIEW_ONLY",
+    "authority": false,
+    "new_capabilities": 0,
+    "capability_count": 175,
+    "execution_authorized": false,
+    "current_host_runtime_promotion_claim": false,
+    "automatic_provider_admission": false,
+    "automatic_code_import": false,
+    "owner": "FA3-FILE-CONVERSION-001",
+    "cross_app_owner": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "source_composition": "canonical/schemas/selective-delivery-preview.v1.json"
+  }
+}
