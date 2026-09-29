@@ -119,3 +119,7 @@ The proposed separate `FA3-CONVERSION-FABRIC-001` from the 2026-09-19 historical
 ## 6. Immediate status and non-claims
 
 Registry capture and plan curation are documentation/metadata work. No new model/provider automatically becomes available; no physical current-host runtime, QT build, source-application reopen, mixed SFX/music separation, or bidirectional source-project compatibility is claimed. Report the exact PR head and gate outcomes **after** publishing this plan and running available checks; use `PENDING` for any gate not independently run. No historical evidence is overwritten.
+
+## 7. Follow-up translation and audio QC donor annex (2026-09-29)
+
+The [subsequent 11-source quality-research extension](production-import-selective-quality-extension-2026-09-29.md) covers Marian/Bergamot local translation, COMET optional human-reviewed quality analysis, DeepFilterNet speech denoising, Spleeter/Open-Unmix musical separation alternatives, AudioSet-tagging/CLAP *classification only*, SpeechBrain overlap processing, noncommercial Seamless reference-only patterns, and Sonic Visualiser operator review UX. These are source-key-unique CANDIDATE records; this section updates the branch's donor total from the prior **613** snapshot to **624** without modifying the older 21-source study or inferring production admission. The addendum requires independent rights/model-weight/HRB/current-host gates and preserves all 17 original selectors.
