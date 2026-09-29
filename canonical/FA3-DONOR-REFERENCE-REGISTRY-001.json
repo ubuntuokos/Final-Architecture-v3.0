@@ -79,8 +79,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1216,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained. Owner-marked AlternativeTo Octane Render 4-page discovery-list intake: 4 original URLs as 1 canonical metadata-only index; no automatically admitted child applications."
+    "entry_count": 1221,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained. Owner-marked AlternativeTo Octane Render 4-page discovery-list intake: 4 original URLs as 1 canonical metadata-only index; no automatically admitted child applications. Owner-marked GitHub Actions runner and Actions/Temporal organization indexes 2026-09-30: 5 exact owner URLs as 5 distinct new metadata-only references; no automatically admitted child repositories."
   },
   "entries": [
     {
@@ -909,6 +909,144 @@
       "notes": [
         "Candidate only; route exclusively through central Model Router."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ACTIONS-ORG-001",
+      "name": "GitHub Actions organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/actions",
+        "normalized_key": "github:actions",
+        "discovery_urls": [
+          "https://github.com/actions"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-actions-temporal-orgs"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "GitHub Actions ecosystem discovery"
+      ],
+      "domain_hints": [
+        "ci-cd",
+        "runner",
+        "software-supply-chain"
+      ],
+      "problem_hints": [
+        "selective CI source discovery"
+      ],
+      "target_hints": [
+        "Release Fabric",
+        "Developer Agent",
+        "Evidence Registry"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "github-organization",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization index only; listed repositories are not automatically registered or admitted.",
+        "Existing actions/runner-images is a separate pre-existing candidate."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ACTIONS-RUNNER-001",
+      "name": "actions/runner",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/actions/runner",
+        "normalized_key": "github:actions/runner"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-actions-temporal-orgs"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "CI_RUNNER_PATTERN"
+      ],
+      "capability_hints": [
+        "self-hosted GitHub Actions job execution",
+        "runner lifecycle and update handling",
+        "job isolation and CI evidence patterns"
+      ],
+      "domain_hints": [
+        "ci-cd",
+        "self-hosted-runner",
+        "developer-tooling"
+      ],
+      "problem_hints": [
+        "trusted CI execution",
+        "host coexistence and runner isolation"
+      ],
+      "target_hints": [
+        "Release Fabric",
+        "Developer Agent",
+        "Evidence Registry",
+        "CI runner provisioning"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "github-actions",
+        "self-hosted",
+        "runner",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Specific repository only; existing actions/runner-images stays a distinct candidate.",
+        "Does not designate an FA3 host runner or authorize installation. No replacement for Temporal durable workflow authority."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-ACTIONS-RUNNER-IMAGES-001",
@@ -66571,6 +66709,214 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TEMPORAL-COMMUNITY-ORG-001",
+      "name": "Temporal Community organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/temporal-community",
+        "normalized_key": "github:temporal-community",
+        "discovery_urls": [
+          "https://github.com/temporal-community"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-actions-temporal-orgs"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "community samples and experimental workflow discovery",
+        "AI-agent workflow pattern discovery"
+      ],
+      "domain_hints": [
+        "orchestration",
+        "agent-workflows",
+        "community-examples"
+      ],
+      "problem_hints": [
+        "selective community workflow review"
+      ],
+      "target_hints": [
+        "Existing Temporal lifecycle",
+        "Orchestration Workforce",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "github-organization",
+        "discovery-only",
+        "community",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization index only; experimental and community projects require individual maintenance and provenance review.",
+        "Upstream organization notes repositories have no guaranteed support or maintenance. No listed repository is automatically registered."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TEMPORAL-SA-ORG-001",
+      "name": "Temporal SA organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/temporal-sa",
+        "normalized_key": "github:temporal-sa",
+        "discovery_urls": [
+          "https://github.com/temporal-sa"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-actions-temporal-orgs"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Temporal demonstration and design-pattern source discovery"
+      ],
+      "domain_hints": [
+        "orchestration",
+        "workflow-patterns",
+        "reference-examples"
+      ],
+      "problem_hints": [
+        "selective workflow demonstration review"
+      ],
+      "target_hints": [
+        "Existing Temporal lifecycle",
+        "Orchestration Workforce",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "github-organization",
+        "discovery-only",
+        "metadata-only"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization index only; individual repositories, examples, and sandbox dependencies require separate security and license review.",
+        "No automatic project registration, hosted runner dependency or new orchestration authority."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TEMPORALIO-ORG-001",
+      "name": "Temporalio organization (discovery index)",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/temporalio",
+        "normalized_key": "github:temporalio",
+        "discovery_urls": [
+          "https://github.com/temporalio"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-actions-temporal-orgs"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "durable orchestration ecosystem discovery",
+        "workflow and SDK source discovery"
+      ],
+      "domain_hints": [
+        "orchestration",
+        "durable-workflows",
+        "agents"
+      ],
+      "problem_hints": [
+        "selective Temporal source discovery"
+      ],
+      "target_hints": [
+        "Existing Temporal lifecycle",
+        "Orchestration Workforce",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "github-organization",
+        "discovery-only",
+        "metadata-only",
+        "existing-temporal-authority"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization index only; listed repositories are not automatically registered or admitted.",
+        "Existing temporalio/sdk-python remains a distinct candidate; this is not a new scheduler or lifecycle authority."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
