@@ -96,3 +96,6 @@ The [GitHub AI-orchestration Shell topic](https://github.com/topics/ai-orchestra
 ## Automatic applications and cross-application reuse
 
 The extension described in [Application/donor inventory](application-donor-inventory.md) dynamically indexes every curated AI Studio application, keeps all GUI surfaces distinctly classified, and records separately declared planned internal and reference applications. `bin/fa3-app-donor-index` shows incoming/outgoing proposed reuse relationships and exact-match targeted impact when the donor registry changes. Registration never implies candidate promotion, code import, runtime admission or deployment.
+## openSUSE and novel-writing references (2026-09-29)
+
+Five source-unique candidate entries: openSUSE organization discovery, steven-tey/novel, webnovel, novel-generation and light-novels topic discovery indexes. See [selective reference mapping and admission boundaries](donor-opensuse-novel-writing-2026-09-29.md). Source copying, bulk topic admission and runtime claims remain blocked.
