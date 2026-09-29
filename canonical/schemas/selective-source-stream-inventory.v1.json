@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/selective-source-stream-inventory.v1.json",
+  "title": "Subordinate FA3 file.convert.inspect inventory preview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_ref",
+    "source_sha256",
+    "inspector_receipt_ref",
+    "inspector_authority",
+    "inspector_status",
+    "streams"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.selective-source-stream-inventory.v1"
+    },
+    "source_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inspector_receipt_ref": {
+      "type": "string",
+      "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+    },
+    "inspector_authority": {
+      "const": "file.convert.inspect"
+    },
+    "inspector_status": {
+      "const": "INSPECTED_ONLY"
+    },
+    "streams": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "codec_type",
+          "time_base_num",
+          "time_base_den",
+          "start_pts"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 32767
+          },
+          "codec_type": {
+            "enum": [
+              "audio",
+              "video",
+              "subtitle"
+            ]
+          },
+          "time_base_num": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "time_base_den": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "start_pts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "duration_ts": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sample_rate": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "channels": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "channel_layout": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "role": {
+            "enum": [
+              "UNKNOWN",
+              "SPEECH",
+              "SINGING",
+              "VOCALS",
+              "INSTRUMENTAL",
+              "MUSIC",
+              "AMBIENCE",
+              "SFX",
+              "AMBIENCE_AND_SFX"
+            ]
+          },
+          "source_stem_attestation_ref": {
+            "type": "string",
+            "pattern": "^ref:[A-Za-z0-9][A-Za-z0-9_.-]{0,247}$"
+          }
+        }
+      }
+    }
+  },
+  "x-fa3-policy": {
+    "authority": false,
+    "capability_count": 175,
+    "execution_authorized": false,
+    "existing_owner": "file.convert.inspect",
+    "receipt_verification_separate": true
+  }
+}
