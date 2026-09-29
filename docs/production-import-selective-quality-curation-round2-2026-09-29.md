@@ -1,6 +1,6 @@
 # FA3 selective import — research round 2: segmentation, alignment and per-output QC
 
-Research date: **2026-09-29**. Scope: extend draft PR #528 on the **existing** donor registry; all ten new sources are non-authoritative `CANDIDATE` references. Parent documents: [exact 17-selector contract](production-import-selective-content-plan-2026-09-29.md), [selective donor research](production-import-selective-donor-research-2026-09-29.md), [migration plan](production-import-migration-plan-2026-09-29.md), and [historical conversion reconciliation](production-import-historical-conversion-reconciliation-2026-09-29.md). **175 capabilities remain fixed, provider count dynamic, zero new authorities; no runtime, license or model admission.**
+Research date: **2026-09-29**. Scope: extend draft PR #528 on the **existing** donor registry; nine new sources and one existing CLAP source enriched in place are non-authoritative `CANDIDATE` references. Parent documents: [exact 17-selector contract](production-import-selective-content-plan-2026-09-29.md), [selective donor research](production-import-selective-donor-research-2026-09-29.md), [migration plan](production-import-migration-plan-2026-09-29.md), and [historical conversion reconciliation](production-import-historical-conversion-reconciliation-2026-09-29.md). **175 capabilities remain fixed, provider count dynamic, zero new authorities; no runtime, license or model admission.**
 
 ## 1. The new gap: "selected content" is three different problems
 
@@ -12,7 +12,7 @@ Research date: **2026-09-29**. Scope: extend draft PR #528 on the **existing** d
 
 Use rational source audio sample/sample-rate and video PTS/timebase plus source track/channel identity; preserve original drop-frame/VFR information. Segment candidates store `source_start`, `source_end`, `proposed_kind`, `classifier_ref`, `confidence_when_calibrated`, `human_review`; all metadata are attached to the existing CreativeProjectGraph / Subtitle Studio / Asset Graph. No second segment or translation authority. Speech, singing, music, ambience, SFX and *undesired noise* are **separate ontology types**, and may overlap. No exclusive classifier is allowed to claim that singing has been isolated merely because it was tagged as music.
 
-## 2. Ten additional verified GitHub donor candidates, no duplicate source keys
+## 2. Ten verified GitHub sources: nine new candidates, existing CLAP enriched in place
 
 All sources below were checked against their **own public upstream GitHub repositories** on 2026-09-29 and compared to PR #528's current source-key registry. GitHub license metadata is a source-level research signal, **not** permission to copy source, bundle models, use proprietary datasets, or admit a provider. Links resolve to upstream repos; see license caveats.
 
@@ -53,7 +53,7 @@ Existing donors **reused without new records**: `facebookresearch/seamless_commu
 
 ## 4. Build order and gates
 
-- **R2-P0 (this PR):** capture exactly ten source-unique candidates; unchanged 175 baseline, **no provider admission**, registry deduplication and independent static regression; update parent plan links. Existing #459 reconciliation already merged; no second donor registry.
+- **R2-P0 (this PR):** capture nine new source-unique candidates and enrich the already-present CLAP candidate; unchanged 175 baseline, **no provider admission**, registry deduplication and independent static regression; update parent plan links. Existing #459 reconciliation already merged; no second donor registry.
 - **R2-P1:** extend subordinate schema (not a new authority) with `SegmentCandidate`, `SelectiveOutputQC`, optional `LanguageAlignmentRef`, `TrackOriginClass` and `EstimateAcceptance`. Validators reject class conflation, omitted outputs, missing weights license and unsupported upstream pairing.
 - **R2-P2:** deterministic CPU-only scanner/segmentation preview and human-adjustable ranges in existing Control Center; compare source originals and verified FFmpeg/OTIO timebase tests. No implicit new Python venv requirements outside FA3's existing governed isolated workers.
 - **R2-P3:** actual language/STT/quality and optional audio separator adapters *only after* underlying #195, Audio/Subtitle/Language governance and real source-fixture tests. Missing runtime = `BLOCKED` or `REFERENCE_ONLY`, not a fabricated PASS.
