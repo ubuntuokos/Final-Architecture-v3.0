@@ -62,11 +62,14 @@ def capture_candidate(
     discovered_from: str = "conversation",
     seen_date: str | None = None,
     dry_run: bool = False,
+    owner_submitted_link: bool = False,
 ) -> dict[str, Any]:
     path = root.resolve() / REGISTRY_REL
     registry = _load(path)
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
         raise ValueError("unexpected donor registry id")
+    if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
+        raise ValueError("owner pre-reviewed registration requires a submitted source link")
     key = _normalized_key(source_kind, source_locator)
     today = seen_date or dt.date.today().isoformat()
     entries = registry.setdefault("entries", [])
@@ -88,7 +91,7 @@ def capture_candidate(
             "donor_id": donor_id,
             "name": name,
             "source": {"kind": source_kind.upper(), "locator": source_locator, "normalized_key": key},
-            "status": "CANDIDATE",
+            "status": "ACCEPTED_REFERENCE" if owner_submitted_link else "CANDIDATE",
             "discovered_from": [discovered_from],
             "first_seen": today,
             "last_seen": today,
@@ -112,6 +115,17 @@ def capture_candidate(
             "automatic_model_selection": False,
         }
         entries.append(match)
+    # Direct owner-submitted donor links are pre-reviewed for registry inclusion.
+    # A historical rejection/supersession cannot be silently overwritten.
+    if owner_submitted_link:
+        if match.get("status") in ("REJECTED", "SUPERSEDED"):
+            raise ValueError("historically rejected or superseded source needs explicit conflict reconciliation")
+        match["status"] = "ACCEPTED_REFERENCE"
+        match["submission_review"] = {
+            "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+            "scope": "REFERENCE_REGISTRATION_ONLY",
+            "second_registry_approval_required": False,
+        }
     match["last_seen"] = today
     match["discovered_from"] = _merge_strings(match.get("discovered_from"), [discovered_from])
     match["tags"] = _merge_strings(match.get("tags"), tags or [])
@@ -165,6 +179,8 @@ def main() -> int:
     p.add_argument("--discovered-from", default="conversation")
     p.add_argument("--date", dest="seen_date")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--owner-submitted-link", action="store_true",
+                   help="Owner pre-reviewed this link for immediate reference registration")
     args = p.parse_args()
     if args.mention:
         name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
@@ -178,6 +194,7 @@ def main() -> int:
         domains=args.domain, targets=args.target, problems=args.problem,
         note=args.note, discovered_from=args.discovered_from,
         seen_date=args.seen_date, dry_run=args.dry_run,
+        owner_submitted_link=args.owner_submitted_link,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

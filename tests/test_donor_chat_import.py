@@ -158,5 +158,70 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertTrue(contract["raw_conversation_persistence_forbidden"])
 
 
+    def test_owner_direct_link_finalizes_at_capture(self):
+        ingest(self.root, [
+            {"text": "Donornak: https://github.com/example/owner-approved",
+             "speaker_role": "user"}
+        ], origin="chatgpt-export")
+        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(self.entries()[0]["submission_review"]["scope"], "REFERENCE_REGISTRATION_ONLY")
+        self.assertFalse(self.entries()[0]["automatic_code_import"])
+        self.assertFalse(self.entries()[0]["automatic_provider_admission"])
+
+    def test_assistant_proposal_remains_candidate(self):
+        ingest(self.root, [
+            {"text": "Donornak: https://github.com/example/research",
+             "speaker_role": "assistant"}
+        ], origin="chatgpt-export")
+        self.assertEqual(self.entries()[0]["status"], "CANDIDATE")
+
+    def test_explicit_approved_event_direct_registration(self):
+        ingest(self.root, [
+            {"potential_donor": True, "name": "approved",
+             "source": "https://github.com/example/approved",
+             "owner_submitted_link": True}
+        ], origin="approved-chat-event")
+        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
+
+    def test_unreviewed_metadata_stays_candidate(self):
+        ingest(self.root, [
+            {"potential_donor": True, "name": "unreviewed",
+             "source": "https://github.com/example/unreviewed"}
+        ], origin="approved-chat-event")
+        self.assertEqual(self.entries()[0]["status"], "CANDIDATE")
+
+    def test_direct_followup_upgrades_same_source_without_duplicates(self):
+        ingest(self.root, [
+            {"text": "Potential donor: https://github.com/example/one", "speaker_role": "user"},
+            {"text": "Donornak: https://github.com/example/one", "speaker_role": "user"}
+        ], origin="chatgpt-export")
+        self.assertEqual(len(self.entries()), 1)
+        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
+
+    def test_direct_owner_cannot_silently_override_historical_rejection(self):
+        from fa3_donor_registry import capture_candidate
+        capture_candidate(self.root, name="protected", source_kind="GITHUB",
+                          source_locator="https://github.com/example/protected")
+        registry = json.loads(self.path.read_text(encoding="utf-8"))
+        registry["entries"][0]["status"] = "REJECTED"
+        self.path.write_text(json.dumps(registry), encoding="utf-8")
+        before = self.path.read_bytes()
+        with self.assertRaises(ValueError):
+            ingest(self.root, [
+                {"potential_donor": True, "name": "protected",
+                 "source": "https://github.com/example/protected",
+                 "owner_submitted_link": True}
+            ], origin="approved-chat-event")
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_owner_direct_batch_over_research_link_limit(self):
+        links = " ".join("https://github.com/example/tool" + str(n) for n in range(20))
+        ingest(self.root, [
+            {"text": "donornak: " + links, "speaker_role": "user"}
+        ], origin="chatgpt-export")
+        self.assertEqual(len(self.entries()), 20)
+        self.assertTrue(all(row["status"] == "ACCEPTED_REFERENCE" for row in self.entries()))
+
+
 if __name__ == "__main__":
     unittest.main()

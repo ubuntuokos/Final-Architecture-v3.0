@@ -83,6 +83,19 @@ class Tests(unittest.TestCase):
                 self.assertTrue(is_donor_pr({"title": "Generic metadata update"},
                                             [{"filename": path, "status": status}]))
 
+    def test_explicit_historical_heads_exempt_without_weakening_new_work(self):
+        from fa3_donor_readiness import EXEMPT_HISTORICAL_HEADS
+        head=EXEMPT_HISTORICAL_HEADS[24]
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":24,"title":"Historical donor PR","head":{"sha":head}},
+                        {"number":31,"title":"Historical donor PR changed","head":{"sha":"f"*40}},
+                        {"number":999,"title":"New donor PR","head":{"sha":"a"*40}}]
+            if "/pulls/" in url and "/files?" in url:
+                return [{"filename":REGISTRY}]
+            raise AssertionError(url)
+        self.assertEqual([x["number"] for x in pending_prs(get)],[31,999])
+
     def test_hidden_reference_in_live_scan(self):
         def get(url):
             if "pulls?state=open" in url:

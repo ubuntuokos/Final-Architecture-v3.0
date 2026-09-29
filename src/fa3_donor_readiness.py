@@ -24,6 +24,25 @@ DONOR_FILES = {REGISTRY, "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
                '.github/workflows/fa3-permanent-enforcement.yml',
                ".github/workflows/fa3-application-donor-inventory.yml",
                "tests/test_application_donor_index.py"}
+EXEMPT_HISTORICAL_PRS = frozenset({24, 31, 52, 70, 71, 125, 180, 181, 245, 252, 392, 427, 434, 438})
+# Explicit owner decision: these closed historical PRs require no retrospective donor extraction.
+# Exemption is limited to the specified immutable PR heads; new changes are not exempt.
+EXEMPT_HISTORICAL_HEADS = {
+    24: "d7bc56979023ca9de88b940cfbb188d9fbb99f4c",
+    31: "4f84fe805f0a78bac8b92f2ac3a35801b2cf3e32",
+    52: "fdc39a619b24d0491ae1ff928d476fe14f143320",
+    70: "31fdd4d2ee90ca386cf7d0dedc2c3b125f613360",
+    71: "b61fbfbfed7939e788cfbcfc52fbb50c51303c34",
+    125: "85d592c74bd10923bcc86eef1453e412b63e1d84",
+    180: "3fa35c7b904f6a00ee44fd06ddb5a69da3721b81",
+    181: "3fa35c7b904f6a00ee44fd06ddb5a69da3721b81",
+    245: "8d63c3a04884563d8b56e7951bffbe7681506895",
+    252: "f76f1c1d379dcdd230d0771561be29599f504fda",
+    392: "70b0e4cde4412b3c5c26f8435158690869829cbb",
+    427: "e6119ce6c8aecd2359c89bf7ee23d7e75a5ee9fa",
+    434: "4062b5ed7cd59bb17bf09fabc4e3238a79a4290f",
+    438: "da51f27ca8f0c967e7c1e6d791da4fb12b4f768c",
+}
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
                   "canonical/deltas/FA3-DONOR-")
@@ -106,6 +125,9 @@ def pending_prs(get,repo=REPO):
                 files.extend(part)
                 if len(part)<100: break
             else: raise ValueError("TOO_MANY_PR_FILES:"+str(n))
+            if (n in EXEMPT_HISTORICAL_PRS and
+                    pr.get("head",{}).get("sha")==EXEMPT_HISTORICAL_HEADS[n]):
+                continue
             if is_donor_pr(pr,files):
                 found.append({"number":n,"title":pr.get("title"),
                               "head_sha":pr.get("head",{}).get("sha")})
