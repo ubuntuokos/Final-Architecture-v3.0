@@ -40,8 +40,8 @@ jobs:
                     'tests/test_donor_readiness.py','src/fa3_goal_preflight.py',
                     'tests/test_goal_preflight.py','src/fa3_enforce.py',
                     'src/fa3_reuse_assessment.py',
-.github/workflows/fa3-donor-serialization.yml')
-          def allowed(p): return p in metadata or p.startswith('docs/donor-repair/')
+                    '.github/workflows/fa3-donor-serialization.yml')
+          def allowed(p): return p in metadata or p.startswith('docs/donor-repair/') or p.startswith('canonical/deltas/FA3-DONOR-') or p.startswith('tests/test_donor_')
           donor=any('DONOR-REFERENCE-REGISTRY' in n or n.startswith('docs/donor-repair/') for n in names)
           phase='maintenance' if base and donor and all(allowed(n) for n in names) else 'status'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('phase='+phase+'\n')
