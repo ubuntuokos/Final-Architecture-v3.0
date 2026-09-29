@@ -26,8 +26,8 @@ MAX_EXPORT_BYTES = 512 * 1024 * 1024
 MAX_MESSAGE_CHARS = 20000
 MAX_URLS_PER_MESSAGE = 128
 # Only a user-authored DONORNAK label preceding the URL authorizes intake.
-_OWNER_DIRECT = re.compile(r"(?i)\\bdonornak\\s*:")
-_LINK = re.compile(r"https?://[^\\s<>\\[\\]()\\\"]+", re.I)
+_OWNER_DIRECT = re.compile(r"(?i)\bdonornak\s*:")
+_LINK = re.compile(r'https?://[^\s<>\[\]()"]+', re.I)
 
 _EXPORT_NAME = re.compile(r"conversations(?:[_-]?\d+)?\.json", re.I)
 _SELF_REPO = "github:ubuntuokos/final-architecture-v3.0"
@@ -106,8 +106,8 @@ def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[t
         return [], True
     sources = []
     for url in sorted(urls, key=str.lower):
-        if re.match(r"https?://(?:www\\.)?github\\.com/", url, re.I):
-            path = re.sub(r"^https?://(?:www\\.)?github\\.com/", "", url, flags=re.I)
+        if re.match(r"https?://(?:www\.)?github\.com/", url, re.I):
+            path = re.sub(r"^https?://(?:www\.)?github\.com/", "", url, flags=re.I)
             kind, name = "GITHUB", path.rstrip("/")
             if path.lower().split("?")[0].strip("/") == "ubuntuokos/Final-Architecture-v3.0".lower():
                 continue
@@ -201,7 +201,7 @@ def ingest(
                     r"^https?://", record["source"].strip(), re.I):
                 locator = record["source"].strip()
                 name = record.get("name") or locator
-                kind = "GITHUB" if re.match(r"^https?://(?:www\\.)?github\\.com/", locator, re.I) else "REFERENCE"
+                kind = "GITHUB" if re.match(r"^https?://(?:www\.)?github\.com/", locator, re.I) else "REFERENCE"
                 sources, ambiguous = [(name, kind, locator)], False
             else:
                 sources, ambiguous = [], False
