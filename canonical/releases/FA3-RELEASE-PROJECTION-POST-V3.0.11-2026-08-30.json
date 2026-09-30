@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "68abff61f1bf2363970ae8b5570df61a5c8d9258",
-    "pre_projection_root_tree_sha": "621acb9cb029e001ae112ca22a63acbe33f2c36c",
-    "pre_projection_canonical_tree_sha": "edca5f48bb4b357f26ce7e572f418d4fbf3f43f5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2235,
-    "total_post_baseline_commits": 2235,
-    "delta_file_count": 2606,
-    "delta_added_files": 2600,
+    "pre_projection_head_sha": "2c04d729dfda2c487642e18bb29d8c5d0fd97f39",
+    "pre_projection_root_tree_sha": "335ef7a4cc4b4610f584efa3967584a35624e6d9",
+    "pre_projection_canonical_tree_sha": "79a73ac6a791f043145d186428d9d955bf4be55b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2239,
+    "total_post_baseline_commits": 2239,
+    "delta_file_count": 2622,
+    "delta_added_files": 2616,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1214,
+    "canonical_files_in_post_baseline_delta": 1224,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 343,
-    "test_files_in_post_baseline_delta": 302,
-    "workflow_files_in_post_baseline_delta": 126,
+    "source_files_in_post_baseline_delta": 346,
+    "test_files_in_post_baseline_delta": 303,
+    "workflow_files_in_post_baseline_delta": 127,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -275,6 +275,7 @@
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-SECRET-BROKER-001.json",
       "canonical/profiles/FA3-SESSION-VAULT-001.json",
+      "canonical/profiles/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SKILL-FABRIC-001.json",
       "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
@@ -415,6 +416,7 @@
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json",
@@ -589,6 +591,7 @@
       "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
+      "canonical/decisions/FA3-DEC-SHARED-PLUGIN-EXTENSION-AI-ACCESS-2026-09-30.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
@@ -1017,7 +1020,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2596,
+  "manifest_entry_count": 2612,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1567,6 +1570,11 @@
     {
       "path": ".github/workflows/fa3-session-vault-reference-gate.yml",
       "git_blob_sha": "71fee0668b124e4994afd835c532e77ae366daaa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-shared-plugin-extension.yml",
+      "git_blob_sha": "838df63b48882c114ccb1393fd60f002d00f8f98",
       "baseline_delta_status": "added"
     },
     {
@@ -3505,6 +3513,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-SHARED-PLUGIN-EXTENSION-CURRENT-HOST-CONFORMANCE-001.json",
+      "git_blob_sha": "8ef1e899a1b801704de9814a39951ad44fadc465",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-SOMA-X-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "31a6e6cdcbace20be8177e7bf18f1c42f8e6b8b0",
       "baseline_delta_status": "added"
@@ -4197,6 +4210,16 @@
     {
       "path": "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "dd69f1699c002c973c508b3fe2223fc468af124b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-DECISION-ASSESSMENT-2026-09-30.json",
+      "git_blob_sha": "2cf844676b99b8d450786ab5cea620f946f4464e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "dedcbe5b40048f401861f9d633ab6e37f88ad792",
       "baseline_delta_status": "added"
     },
     {
@@ -4932,6 +4955,11 @@
     {
       "path": "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
       "git_blob_sha": "51f9ce60085e21256b390f896e98074227026670",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001.json",
+      "git_blob_sha": "1889f62a2812b4e9fe4994aa73ed3224d4fe931e",
       "baseline_delta_status": "added"
     },
     {
@@ -5860,6 +5888,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SHARED-PLUGIN-EXTENSION-AI-ACCESS-2026-09-30.json",
+      "git_blob_sha": "922c6ddf2baefa937da8c65231c2f8b04209e756",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "git_blob_sha": "af9060f50a6becf045d8311bd02510e7fb2a9b2e",
       "baseline_delta_status": "added"
@@ -6352,6 +6385,11 @@
     {
       "path": "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
       "git_blob_sha": "6939ae44d5982d87312a6f4b047592f7a8b622e6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "5849f5cc9b006626725cbf62f9d07f70c3bcebba",
       "baseline_delta_status": "added"
     },
     {
@@ -7087,6 +7125,11 @@
     {
       "path": "canonical/profiles/FA3-SESSION-VAULT-001.json",
       "git_blob_sha": "a6f7bf46e815d3f2a2f9e650f587684f0b671805",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001.json",
+      "git_blob_sha": "0fcd34ee97d19ea88640272a72fc9c0608e52532",
       "baseline_delta_status": "added"
     },
     {
@@ -8440,6 +8483,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/shared-plugin-extension-enforcement.json",
+      "git_blob_sha": "b0bd6640895baf81f0e7b1b5c7d5980096efed2e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/shared-plugin-extension-migration-inventory.json",
+      "git_blob_sha": "f5223d45143cbfce766f22a1e5620ae096276860",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/shared-plugin-extension-registry.json",
+      "git_blob_sha": "c8f59fe4c04cb2917f8fa44e5b483f75efae7673",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/sillytavern-kde-enforcement.json",
       "git_blob_sha": "54c61be72ff2be411e0847bf63387967b50a8488",
       "baseline_delta_status": "added"
@@ -9532,6 +9590,11 @@
     {
       "path": "docs/security/FA3-TRUST-PKI-001.md",
       "git_blob_sha": "57655bca6e5f058cfcdffe15ee9157ffb06e1076",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/shared-plugin-extension-fabric.md",
+      "git_blob_sha": "3b31ffe82966fe254ccf7fbe2f8016ace5974dab",
       "baseline_delta_status": "added"
     },
     {
@@ -12205,6 +12268,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_shared_plugin_extension_current_host_gate.py",
+      "git_blob_sha": "08baa7db8ed4e3e603d177633009bff9d196af38",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_shared_plugin_extension_fabric.py",
+      "git_blob_sha": "89b3a7eb69be3ab3d0e87d423c90124b0fabd00e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_shared_plugin_extension_gate.py",
+      "git_blob_sha": "1e7ba0f049b1f9ce13fbcc3a2367425564084bb0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_silero_vad_provider.py",
       "git_blob_sha": "b2aaf5b706547c2c4b0fed9f5dfa4058f8eab742",
       "baseline_delta_status": "added"
@@ -13727,6 +13805,11 @@
     {
       "path": "tests/test_session_vault_current_host.py",
       "git_blob_sha": "e64e7932319e8e7e6a58cb2ed69c2938dd3bb855",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_shared_plugin_extension_fabric.py",
+      "git_blob_sha": "5ba0ea795760f69b3e25620f290bb90556c3e320",
       "baseline_delta_status": "added"
     },
     {
