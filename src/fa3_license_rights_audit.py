@@ -10,6 +10,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from fa3_license_rights import evaluate_descriptor
+
 AUDIT_ID = "FA3-LICENSE-RIGHTS-AUDIT-001"
 SCHEMA = "fa3.license-rights-audit-inventory.v1"
 
@@ -160,6 +162,39 @@ def build_inventory(root: Path) -> dict[str, Any]:
         if row.get("release_bundle_status") == "EXCLUDED"
     }
 
+    descriptor_registry_path = root / "canonical/license-rights-descriptor-registry.json"
+    descriptor_registry = loadj(descriptor_registry_path) if descriptor_registry_path.is_file() else {"entries": []}
+    rights_policy_path = root / "canonical/license-rights-policy.json"
+    rights_policy = loadj(rights_policy_path) if rights_policy_path.is_file() else {"id": "FA3-LICENSE-RIGHTS-POLICY-001"}
+    descriptor_rows = {
+        str(row.get("subject_id")): row
+        for row in descriptor_registry.get("entries", [])
+        if isinstance(row, dict) and row.get("subject_id")
+    }
+    cleared_release_ids: set[str] = set()
+    descriptor_results: dict[str, dict[str, Any]] = {}
+    for subject_id in sorted(included_ids):
+        row = descriptor_rows.get(subject_id, {})
+        descriptor_rel = row.get("descriptor")
+        if not isinstance(descriptor_rel, str) or not descriptor_rel:
+            continue
+        descriptor_path = root / descriptor_rel
+        if not descriptor_path.is_file():
+            continue
+        descriptor = loadj(descriptor_path)
+        decision = evaluate_descriptor(descriptor, rights_policy)
+        descriptor_results[subject_id] = {
+            "descriptor": descriptor_rel,
+            "result": decision.get("result"),
+            "admitted_for_release": decision.get("admitted_for_release"),
+            "disposition": decision.get("disposition"),
+            "findings": decision.get("findings", []),
+        }
+        if decision.get("result") == "PASS" and decision.get("admitted_for_release") is True:
+            cleared_release_ids.add(subject_id)
+
+    unresolved_release_ids = included_ids - cleared_release_ids
+
     subjects: list[dict[str, Any]] = []
     queue: list[dict[str, Any]] = []
     category_counts: Counter[str] = Counter()
@@ -207,7 +242,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
             })
 
     # Distribution subjects are rights subjects even if their IDs do not map 1:1 to filenames.
-    for subject_id in sorted(included_ids):
+    for subject_id in sorted(unresolved_release_ids):
         queue.append({
             "subject_id": subject_id,
             "category": "RELEASE_INCLUDED_SUBJECT",
@@ -237,7 +272,8 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "subjects_scanned": len(subjects),
         "work_queue_items": len(queue),
         "release_included_subjects": len(included_ids),
-        "unique_release_blockers": len(included_ids),
+        "rights_descriptor_cleared_release_subjects": len(cleared_release_ids),
+        "unique_release_blockers": len(unresolved_release_ids),
         "excluded_external_or_reference_subjects": len(excluded_ids),
         "spdx_file_tagged": spdx_tagged,
         "reuse_annotated": reuse_tagged,
@@ -253,6 +289,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "summary": summary,
         "work_queue": queue,
         "subjects": subjects,
+        "release_descriptor_results": descriptor_results,
         "invariants": {
             "automatic_inventory_is_not_legal_clearance": True,
             "third_party_relicense_forbidden": True,
