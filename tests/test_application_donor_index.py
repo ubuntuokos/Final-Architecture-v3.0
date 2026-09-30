@@ -68,6 +68,10 @@ class ApplicationDonorIndexTests(unittest.TestCase):
         self.assertIn("project.fa3video", quickclip["integration_boundary"])
         self.assertTrue(all(e["human_approval_required"] and not e["automatic_activation"]
                             for e in report["cross_application_links"]))
+        self.assertTrue(all(a["fa3_compliance"]["applies_without_declared_dependency"]
+                            for a in report["applications"]))
+        self.assertTrue(all(a["fa3_compliance"]["capability_non_regression_on_donor_change"]
+                            for a in report["applications"]))
 
     def test_new_donor_targets_only_matching_application(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -93,7 +97,7 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             self.assertEqual(changed["affected_applications"], ["fa3.quickclip"])
             self.assertFalse(changed["automatic_adoption"])
 
-    def test_timestamp_only_change_does_not_reopen_review(self):
+    def test_timestamp_only_change_is_still_processed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             fixture(root)
@@ -101,7 +105,42 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             new = copy.deepcopy(old)
             new["entries"][0]["last_seen"] = "2099-01-01"
             (root / SOURCES[2]).write_text(json.dumps(new))
-            self.assertEqual(build_index(root, previous=old)["reevaluation"], [])
+            changes = build_index(root, previous=old)["reevaluation"]
+            self.assertEqual(len(changes), 1)
+            self.assertEqual(changes[0]["changed_fields"], ["last_seen"])
+            self.assertEqual(changes[0]["change"], "UPDATED")
+            self.assertIn(changes[0]["disposition"], {
+                "MANDATORY_APPLICATION_RECONCILIATION",
+                "MANDATORY_DONOR_RECONCILIATION",
+            })
+
+    def test_explicit_donor_usage_extends_reverse_impact(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            old = json.loads((root / SOURCES[2]).read_text())
+            donor = old["entries"][0]
+            links_path = root / SOURCES[3]
+            links = json.loads(links_path.read_text())
+            links["donor_usage_records"] = [{
+                "id": "FA3-USAGE-TEST-001",
+                "application_id": "fa3.quickclip",
+                "donor_id": donor["donor_id"],
+                "usage_kind": "CAPABILITY_PATTERN",
+                "status": "ACTIVE",
+            }]
+            links_path.write_text(json.dumps(links))
+            new = copy.deepcopy(old)
+            new["entries"][0]["notes"] = ["changed donor note"]
+            (root / SOURCES[2]).write_text(json.dumps(new))
+            result = build_index(root, previous=old)
+            change = result["reevaluation"][0]
+            self.assertIn("fa3.quickclip", change["explicitly_used_by"])
+            self.assertIn("fa3.quickclip", change["affected_applications"])
+            app = next(a for a in result["applications"]
+                       if a["application_id"] == "fa3.quickclip")
+            self.assertEqual(app["declared_donor_usage"][0]["usage_id"],
+                             "FA3-USAGE-TEST-001")
 
     def test_fail_closed_auto_admission_and_bad_cross_app_edge(self):
         with tempfile.TemporaryDirectory() as tmp:
