@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b3b8eaf2e555428b3124ef592fba045389b4e009",
-    "pre_projection_root_tree_sha": "3e7a66603e1bb8e690c1d9e29ec8a05f4299003e",
-    "pre_projection_canonical_tree_sha": "84fc298e258e0ef31c147b891685953cd2a84f98",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2299,
-    "total_post_baseline_commits": 2299,
-    "delta_file_count": 2635,
-    "delta_added_files": 2629,
+    "pre_projection_head_sha": "6ad94035dd515675ca6975d7414574d40bbbd46a",
+    "pre_projection_root_tree_sha": "e2ee65ce698525b366e63790492042ee380412e2",
+    "pre_projection_canonical_tree_sha": "1cf8636874613ebc65372d5ae6fe841249b80805",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2316,
+    "total_post_baseline_commits": 2316,
+    "delta_file_count": 2641,
+    "delta_added_files": 2635,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1228,
+    "canonical_files_in_post_baseline_delta": 1231,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 346,
-    "test_files_in_post_baseline_delta": 304,
+    "source_files_in_post_baseline_delta": 347,
+    "test_files_in_post_baseline_delta": 305,
     "workflow_files_in_post_baseline_delta": 127,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1020,7 +1020,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2625,
+  "manifest_entry_count": 2631,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1379,7 +1379,7 @@
     },
     {
       "path": ".github/workflows/fa3-license-rights.yml",
-      "git_blob_sha": "37a51d278820b33c2bbf37ff91296c65fccaf71f",
+      "git_blob_sha": "1316e00504159636df0b9b0662608d520f21f0ad",
       "baseline_delta_status": "added"
     },
     {
@@ -1614,7 +1614,7 @@
     },
     {
       "path": ".github/workflows/fa3-supply-runtime-hardening.yml",
-      "git_blob_sha": "2a00cd2a10fc10df57da40efaff68f2d268f97c7",
+      "git_blob_sha": "94a8f52d9825d6a49e38b93e963e3fd90e87380c",
       "baseline_delta_status": "added"
     },
     {
@@ -1699,7 +1699,7 @@
     },
     {
       "path": "REUSE.toml",
-      "git_blob_sha": "66e134282bfc1c8ec1111acda6656cfb462126b3",
+      "git_blob_sha": "305843220e35c49e50965b36e52c00f7f8949d1f",
       "baseline_delta_status": "added"
     },
     {
@@ -3000,6 +3000,11 @@
     {
       "path": "canonical/FA3-GATE-LICENSE-RIGHTS-001.json",
       "git_blob_sha": "cee26bba85c05e7f46f0fdc9521240c74b4b397b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-LICENSE-RIGHTS-AUDIT-001.json",
+      "git_blob_sha": "354ca710555807fd5c049ac7273094ee3d3b9693",
       "baseline_delta_status": "added"
     },
     {
@@ -6503,8 +6508,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/license-rights-audit-plan.json",
+      "git_blob_sha": "6734ebb69c29d97fa4a706b4086275f956f57c9d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/license-rights-audit-status.json",
-      "git_blob_sha": "30ff36174e1021ab73baccea66671fda75cb903c",
+      "git_blob_sha": "eb13c52586b029735e1b4dcfd02fad4213db5bc1",
       "baseline_delta_status": "added"
     },
     {
@@ -8483,6 +8493,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/schemas/license-rights-audit-inventory.v1.json",
+      "git_blob_sha": "f15376aef058513db7f857a86380fd285ffce721",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/license-rights-descriptor.v1.json",
       "git_blob_sha": "db7dfd896ec56fb3960ca73e33990b7e28626e23",
       "baseline_delta_status": "added"
@@ -9440,6 +9455,11 @@
     {
       "path": "docs/license-rights-management.md",
       "git_blob_sha": "3dc31bd281b396f0ace69bb2b4888eb706525236",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/license-rights-retroactive-audit.md",
+      "git_blob_sha": "30d5591082a1160bf511c767849ad37de28c7dc9",
       "baseline_delta_status": "added"
     },
     {
@@ -11723,8 +11743,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_license_rights_audit.py",
+      "git_blob_sha": "7e7b4a07258ac85d0898a3fe77c09ad604e321a6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_license_rights_gate.py",
-      "git_blob_sha": "baa3fd52ee120a5b46ddbddd80cb97e54d4ca0f0",
+      "git_blob_sha": "79a3b110008dc3f55c86ecb592eb71f66e8e26b5",
       "baseline_delta_status": "added"
     },
     {
@@ -12414,7 +12439,7 @@
     },
     {
       "path": "src/fa3_supply_runtime_hardening_gate.py",
-      "git_blob_sha": "5f2aa0f035b86311642e28ed3fadae7ac1e9a85c",
+      "git_blob_sha": "cd4c92d82bc1538d9c0ea033ab745d926cdbd300",
       "baseline_delta_status": "added"
     },
     {
@@ -13419,7 +13444,12 @@
     },
     {
       "path": "tests/test_license_rights.py",
-      "git_blob_sha": "680634e58bd85b3663029d4da1add074c0cffe02",
+      "git_blob_sha": "ab2a27aeca6fe73ba1cbf58fdfe55555e0ab93d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_license_rights_audit.py",
+      "git_blob_sha": "e1e8c4190fdfc1bbef2de024db753489a5498536",
       "baseline_delta_status": "added"
     },
     {
