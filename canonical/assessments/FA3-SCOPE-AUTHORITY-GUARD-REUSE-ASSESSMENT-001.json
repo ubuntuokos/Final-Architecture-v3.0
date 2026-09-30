@@ -5,7 +5,8 @@
   "intent_id": "FA3-SCOPE-AUTHORITY-GUARD-APPLICATION-INTENT-001",
   "intent_path": "canonical/intents/FA3-SCOPE-AUTHORITY-GUARD-APPLICATION-INTENT-001.json",
   "covered_ids": [
-    "FA3-ORCHESTRATION-WORKFORCE-001"
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-SCOPE-AUTHORITY-GUARD-001"
   ],
   "result": "PASS",
   "selected_reuse": [
@@ -108,5 +109,22 @@
   "global_promotion_claim": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "NO_MATCH_SCOPE_AND_AUTHORITY_GUARD_IS_CONTROL_PLANE_ENFORCEMENT_WITH_NO_GRAPHICS_COMPUTE_OR_INTERCHANGE_SDK_DEPENDENCY"
+    }
+  ]
 }
