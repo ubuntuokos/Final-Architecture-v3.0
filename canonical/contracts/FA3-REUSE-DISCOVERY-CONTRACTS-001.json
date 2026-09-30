@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-REUSE-DISCOVERY-CONTRACTS-001",
-  "version": "1.3.0",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "new_capability": false,
@@ -195,6 +195,57 @@
       "unmarked_links_analysis_only": true,
       "pending_donor_prs_excluded_from_planning": true,
       "published_main_registry_only": true
+    },
+    "DonorCapabilityConsumerUsage": {
+      "required": [
+        "id",
+        "donor_id",
+        "donor_capability_key",
+        "usage_kind",
+        "status",
+        "fa3_binding_refs",
+        "consumers",
+        "current_host_impact"
+      ],
+      "source_of_truth": "FA3-APPLICATION-DONOR-LINKS-001::donor_usage_records",
+      "authority": false,
+      "runtime_promotion": false,
+      "manual_capability_ids_forbidden": true,
+      "capability_id_derivation": "CANONICAL_PROFILE_OR_CONTRACT_CAPABILITY_BINDINGS_ONLY",
+      "unresolved_binding_state": "UNRESOLVED_CAPABILITY_BINDING",
+      "allowed_consumer_kinds": [
+        "APPLICATION",
+        "SHARED_MODULE",
+        "PROFILE",
+        "AUTHORITY",
+        "GUI_SURFACE",
+        "TEST_HARNESS",
+        "CURRENT_HOST_PATH"
+      ],
+      "reverse_views": [
+        "DONOR_TO_CAPABILITY_TO_CONSUMER",
+        "CAPABILITY_TO_DONORS_AND_CONSUMERS",
+        "CONSUMER_TO_CAPABILITIES_AND_DONORS"
+      ],
+      "reverse_views_are_derived": true,
+      "current_host_impact_is_declaration_not_authority": true
+    },
+    "CapabilityUsageGraphProjection": {
+      "required": [
+        "edges",
+        "views",
+        "update_impact",
+        "validation"
+      ],
+      "derived": true,
+      "authority": false,
+      "new_capability": false,
+      "new_architectural_authority": false,
+      "capability_count": 175,
+      "source_of_truth": "DonorCapabilityConsumerUsage",
+      "automatic_adoption": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     }
   },
   "invariants": [
@@ -215,7 +266,12 @@
     "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_ENTER_DONOR_REGISTRY",
     "DONOR_REGISTRY_IS_CENTRAL_PLANNING_INPUT_NOT_ARCHITECTURAL_AUTHORITY",
     "DONOR_CANDIDATE_CAPTURE_IS_NOT_DEPENDENCY_CODE_IMPORT_PROVIDER_OR_MODEL_ADMISSION",
-    "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN"
+    "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
+    "DONOR_CAPABILITY_CONSUMER_GRAPH_IS_DERIVED_NOT_AUTHORITY",
+    "CAPABILITY_IDS_MUST_BE_DERIVED_FROM_CANONICAL_BINDINGS",
+    "MANUAL_CAPABILITY_ID_INFERENCE_FOR_DONOR_USAGE_IS_FORBIDDEN",
+    "USED_BY_AND_USES_VIEWS_ARE_DERIVED_FROM_ONE_USAGE_EDGE_SOURCE",
+    "CURRENT_HOST_IMPACT_DECLARATION_CANNOT_CREATE_CURRENT_HOST_PASS"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"

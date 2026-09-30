@@ -39,6 +39,8 @@ See [FA3 Tutorial → Shared Capability → Application Manual plan](FA3-TUTORIA
 
 Before a new or materially modified FA3 application, capability, or module is implemented, Reuse Discovery queries the registry and the rest of the canonical reuse sources. Matching is deterministic from capability/domain/problem/target/tag metadata. The Decision Fabric may rank already eligible candidates but cannot expand the candidate set.
 
+Actual donor use is recorded in the application/donor declaration as a single Donor ↔ Capability ↔ Consumer usage edge. The capability map is derived from those edges and never becomes a second donor registry. Capability IDs are resolved only from canonical profile/contract `capability_bindings`; manual CAP-ID inference is forbidden. Reverse `used_by` / `uses` views and donor-update impact reports are generated projections.
+
 ## Hardware Audit
 
 The registry and its capture/query path are metadata-only, vendor-neutral, CPU-only viable, require zero accelerators, accept accelerator cardinality `0..N`, and do not mutate hardware policy. Runtime resource authority remains `FA3-AUTH-HOST-RESOURCE-BROKER-001`.

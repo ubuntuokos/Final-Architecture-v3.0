@@ -1,5 +1,5 @@
 {
-  "schema": "fa3.application-donor-links.v1",
+  "schema": "fa3.application-donor-links.v2",
   "id": "FA3-APPLICATION-DONOR-LINKS-001",
   "status": "CANONICAL_LINK_DECLARATIONS",
   "authority": false,
@@ -9,7 +9,10 @@
   "canonical_inputs": [
     "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+    "canonical/FA3-CAPABILITY-MODEL-175-001.json",
+    "canonical/profiles/*.json",
+    "canonical/contracts/*.json"
   ],
   "policy": {
     "auto_register_all_curated_applications": true,
@@ -32,7 +35,23 @@
     "retrospective_shared_impact_required": true,
     "affected_application_manual_update_required": true,
     "structural_change_current_host_alignment_required": true,
-    "capability_loss_during_shared_migration_forbidden": true
+    "capability_loss_during_shared_migration_forbidden": true,
+    "all_applications_in_scope_even_without_declared_dependency": true,
+    "declared_and_implicit_dependencies_must_be_reconciled": true,
+    "every_donor_change_must_be_processed": true,
+    "donor_change_requires_application_impact_lookup": true,
+    "donor_usage_reverse_traceability_required": true,
+    "donor_usage_record_required_before_adoption": true,
+    "donor_change_capability_non_regression": true,
+    "capability_loss_only_for_verified_fa3_risk": true,
+    "current_host_alignment_required_for_structural_or_runtime_change": true,
+    "capability_usage_single_edge_source_of_truth": true,
+    "capability_binding_canonical_only": true,
+    "manual_capability_id_inference_forbidden": true,
+    "derived_used_by_and_uses_views_only": true,
+    "unresolved_capability_binding_must_not_be_promoted": true,
+    "typed_consumer_edges_required_for_new_usage": true,
+    "current_host_impact_classification_required_for_new_usage": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -228,5 +247,84 @@
       "human_approval_required": true
     }
   ],
-  "shared_capabilities": []
+  "shared_capabilities": [],
+  "governance_decisions": [
+    "canonical/decisions/FA3-DEC-CAPABILITY-USAGE-GRAPH-2026-09-30.json"
+  ],
+  "donor_usage_records": [],
+  "donor_usage_contract": {
+    "schema": "fa3.donor-capability-consumer-usage.v2",
+    "required_for_actual_donor_use": true,
+    "primary_edge_source": "donor_usage_records",
+    "legacy_application_id_supported": true,
+    "donor_key": "donor_id",
+    "donor_capability_key": "donor_capability_key",
+    "canonical_binding_refs_field": "fa3_binding_refs",
+    "manual_capability_ids_field": "FORBIDDEN",
+    "derived_capability_id_source": "CANONICAL_PROFILE_OR_CONTRACT_CAPABILITY_BINDINGS_ONLY",
+    "unresolved_binding_state": "UNRESOLVED_CAPABILITY_BINDING",
+    "consumer_field": "consumers",
+    "allowed_consumer_kinds": [
+      "APPLICATION",
+      "SHARED_MODULE",
+      "PROFILE",
+      "AUTHORITY",
+      "GUI_SURFACE",
+      "TEST_HARNESS",
+      "CURRENT_HOST_PATH"
+    ],
+    "allowed_relationships": [
+      "DIRECT",
+      "INDIRECT_SHARED",
+      "OPTIONAL",
+      "GUI_PROJECTION",
+      "TEST_ONLY",
+      "ENFORCEMENT_OWNER"
+    ],
+    "allowed_usage_kinds": [
+      "CAPABILITY_PATTERN",
+      "ALGORITHM_PATTERN",
+      "WORKFLOW_PATTERN",
+      "ARCHITECTURE_PATTERN",
+      "UI_UX_PATTERN",
+      "CODE_REUSE",
+      "RUNTIME_DEPENDENCY",
+      "REFERENCE_BINDING"
+    ],
+    "allowed_status": [
+      "ACTIVE",
+      "PINNED_STABLE",
+      "REPLACEMENT_PENDING",
+      "REMOVED"
+    ],
+    "allowed_current_host_impact": [
+      "NO_RUNTIME_IMPACT",
+      "STRUCTURAL_REASSESSMENT_REQUIRED",
+      "RUNTIME_REQUALIFICATION_REQUIRED"
+    ],
+    "reverse_views": [
+      "DONOR_TO_CAPABILITY_TO_CONSUMER",
+      "CAPABILITY_TO_DONORS_AND_CONSUMERS",
+      "CONSUMER_TO_CAPABILITIES_AND_DONORS"
+    ],
+    "reverse_views_are_derived": true,
+    "untracked_donor_use_forbidden": true,
+    "automatic_adoption": false,
+    "automatic_capability_creation": false,
+    "automatic_authority_creation": false
+  },
+  "capability_map_projection": {
+    "schema": "fa3.capability-usage-graph.v1",
+    "derived": true,
+    "authority": false,
+    "runtime_promotion": false,
+    "source_of_truth": "donor_usage_records",
+    "generator": "src/fa3_capability_usage_graph.py",
+    "cli": "bin/fa3-capability-map",
+    "impact_resolver": "DONOR_DIFF_TO_CAPABILITY_AND_CONSUMER_IMPACT",
+    "current_host_enforcement_external": true,
+    "capability_count": 175,
+    "new_capability": false,
+    "new_architectural_authority": false
+  }
 }
