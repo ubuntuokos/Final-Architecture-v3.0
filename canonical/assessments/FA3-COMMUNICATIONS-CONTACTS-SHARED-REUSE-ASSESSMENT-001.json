@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "intent_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+    "FA3-COMMUNICATIONS-CONTACTS-SHARED-CONTRACTS-001"
+  ],
+  "result": "PASS",
+  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "donor_registry_sha256": "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd",
+  "donor_registry_git_blob_sha": "7e900cac93936d2f319e132def4c172b2a415d4d",
+  "donor_registry_entry_count": 1233,
+  "donor_review": "REVIEWED_NO_MATCH",
+  "adopted_donors": [],
+  "selected_reuse": [
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_AUTHORIZATION_AND_SECURITY_POLICY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_ADMISSION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_AI_MODEL_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_AUDIT_AND_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AI-COMMS-001",
+      "use": "EXISTING_HUMAN_AUDITABLE_AI_COMMUNICATION_POLICY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "UNREGISTERED_GROUPWARE_RESEARCH_CANDIDATES",
+      "reason": "NOT_PRESENT_IN_PUBLISHED_MAIN_DONOR_REGISTRY; ANALYSIS_ONLY; NO_CODE_OR_DEPENDENCY_ADOPTION"
+    },
+    {
+      "id": "NEW_COMMUNICATION_SECURITY_AUTHORITY",
+      "reason": "REUSE_EXISTING_SECURITY_GOVERNANCE"
+    },
+    {
+      "id": "DIRECT_AI_PROVIDER_COUPLING",
+      "reason": "CENTRAL_MODEL_ROUTER_AND_PROVIDER_ADMISSION_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "CONTEXT_PERMISSION_INTERSECTION",
+    "SHARED_BACKEND_MULTIPLE_SURFACES"
+  ],
+  "existing_authority_bindings": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRET_BROKER_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "ai_communication_policy": "FA3-AI-COMMS-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_PROTOCOL_SECRET_NOTIFICATION_ATTACHMENT_AND_AI_PATH_EVIDENCE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "new_authority_required": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

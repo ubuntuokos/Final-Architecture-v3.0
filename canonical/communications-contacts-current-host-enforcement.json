@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.communications-contacts-current-host-enforcement.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-CURRENT-HOST-ENFORCEMENT-001",
+  "gate_id": "FA3-GATE-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001",
+  "fail_closed": true,
+  "physical_host_required": true,
+  "simulated_evidence_accepted": false,
+  "required_checks": [
+    "secret_broker",
+    "tls_stack",
+    "certificate_validation",
+    "network_stack",
+    "notification_integration",
+    "safe_attachment_pipeline",
+    "software_coexistence",
+    "hardware_safety",
+    "audit_evidence",
+    "protocol_adapter_capability"
+  ],
+  "ai_conditional_checks": [
+    "ai_policy_gate",
+    "model_router",
+    "provider_admission",
+    "hrb",
+    "tool_permission",
+    "prompt_injection_gate",
+    "context_isolation"
+  ],
+  "protocols": [
+    "SMTP",
+    "IMAP",
+    "JMAP",
+    "CardDAV",
+    "CalDAV",
+    "OAuth2",
+    "OIDC"
+  ],
+  "runtime_promotion_claim": false,
+  "static_materialization_is_not_runtime_pass": true
+}

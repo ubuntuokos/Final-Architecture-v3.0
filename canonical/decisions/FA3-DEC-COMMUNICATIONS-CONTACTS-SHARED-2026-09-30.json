@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-COMMUNICATIONS-CONTACTS-SHARED-2026-09-30",
+  "title": "FA3 Communications & Contacts Shared final design and implementation baseline",
+  "status": "OWNER_APPROVED_IMPLEMENTATION_BASELINE",
+  "date": "2026-09-30",
+  "profile_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "contract_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-CONTRACTS-001",
+  "application_id": "fa3.communications-hub",
+  "gate_id": "FA3-COMMUNICATIONS-CONTACTS-GATESET-001",
+  "current_host_gate_id": "FA3-GATE-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001",
+  "capability_count_after": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "owner_approval": "EXPLICIT",
+  "merge_requires_exact_head_owner_approval": true,
+  "runtime_promotion_requires_physical_current_host_evidence": true,
+  "donor_adoption": [],
+  "decisions": [
+    "FULL_STANDALONE_COMMUNICATIONS_HUB",
+    "CONTEXT_LIMITED_EMBEDDED_SHARED_SURFACE",
+    "ONE_SHARED_BACKEND",
+    "FAIL_CLOSED_ALL_APPLICABLE_SECURITY_GATES",
+    "AI_OPTIONAL_FINE_GRAINED_AND_NON_BYPASSING",
+    "RETROACTIVE_SHARED_CONSUMER_RECONCILIATION",
+    "CURRENT_HOST_ALIGNMENT_MANDATORY"
+  ]
+}

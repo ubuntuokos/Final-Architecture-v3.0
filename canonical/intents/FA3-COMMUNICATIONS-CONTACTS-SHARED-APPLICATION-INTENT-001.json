@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001",
+  "project_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "title": "Materialize shared Communications Hub plus context-limited embedded Mail & Contacts surfaces",
+  "status": "OWNER_APPROVED_IMPLEMENTATION",
+  "scope": [
+    "FA3_NATIVE_CORE",
+    "FULL_STANDALONE_HUB",
+    "EMBEDDED_CONTEXT_LIMITED_SURFACE",
+    "SECURITY_GATE_CHAIN",
+    "OPTIONAL_AI_SECURITY",
+    "CURRENT_HOST_ALIGNMENT",
+    "RETROACTIVE_CONSUMER_BINDING"
+  ],
+  "non_goals": [
+    "NEW_IDENTITY_AUTHORITY",
+    "NEW_AUTHORIZATION_AUTHORITY",
+    "NEW_SECRET_AUTHORITY",
+    "NEW_MODEL_ROUTER",
+    "NEW_RESOURCE_AUTHORITY",
+    "AUTOMATIC_EXTERNAL_DONOR_ADOPTION",
+    "RUNTIME_PROMOTION_WITHOUT_PHYSICAL_EVIDENCE"
+  ],
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "approval_basis": "OWNER_EXPLICIT_APPROVAL_IN_CONVERSATION_2026-09-30",
+  "donor_registry_snapshot": {
+    "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "git_blob_sha": "7e900cac93936d2f319e132def4c172b2a415d4d",
+    "sha256": "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd",
+    "entry_count": 1233
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false
+  },
+  "coexistence": {
+    "required": true,
+    "upstream_uninstall_required": false,
+    "fixed_port_required": false,
+    "global_mail_client_takeover": false,
+    "provider_runtime_must_be_replaceable": true
+  }
+}
