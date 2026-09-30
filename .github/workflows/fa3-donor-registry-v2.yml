@@ -35,3 +35,4 @@ jobs:
           tmp="$(mktemp -d)"
           ./bin/fa3-registry-v2 shadow-migrate --output "$tmp/shadow" --handling-limit-bytes 1048576
           ./bin/fa3-registry-v2 verify-shadow --shadow "$tmp/shadow"
+          ./bin/fa3-registry-v2 project-legacy --shadow "$tmp/shadow" --output "$tmp/legacy-projection.json"
