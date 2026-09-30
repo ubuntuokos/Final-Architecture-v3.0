@@ -175,28 +175,50 @@ def evaluate_layer_task(root: Path | str, *, task_id: str, target_layer: str,
                         canonical_capability_ids: list[str], record_event: bool = True) -> dict[str, Any]:
     def emit(decision: dict[str, Any]) -> dict[str, Any]:
         return record_monitor_decision(decision, event_kind="LAYER_INGRESS") if record_event else decision
+
     try:
         required = set(_strings(canonical_capability_ids, "canonical_capability_ids"))
     except ScopeGuardError as exc:
-        return emit(_decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", str(exc))
+        return emit(_decision(
+            {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+            "DENY", str(exc),
+        ))
     if not required:
-        return emit(_decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "CANONICAL_CAPABILITY_IDS_REQUIRED"))\n    reg = load_layer_registry(root)
+        return emit(_decision(
+            {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+            "DENY", "CANONICAL_CAPABILITY_IDS_REQUIRED",
+        ))
+
+    reg = load_layer_registry(root)
     target = _layer_contract(reg, target_layer)
     if target is None:
-        return emit(_decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_LAYER"))\n    all_known = set()
+        return emit(_decision(
+            {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+            "DENY", "UNKNOWN_LAYER",
+        ))
+
+    all_known = set()
     for layer in reg["layers"]:
         all_known.update(_strings(layer.get("allowed_capabilities", []), "allowed_capabilities"))
     unknown = sorted(required - all_known)
     if unknown:
-        decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_CANONICAL_CAPABILITY")
+        decision = _decision(
+            {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+            "DENY", "UNKNOWN_CANONICAL_CAPABILITY",
+        )
         decision["unknown_capabilities"] = unknown
         return emit(decision)
+
     allowed = set(_strings(target.get("allowed_capabilities", []), "allowed_capabilities"))
     if required.issubset(allowed):
-        decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "ALLOW", "LAYER_CONTRACT_MATCH")
+        decision = _decision(
+            {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+            "ALLOW", "LAYER_CONTRACT_MATCH",
+        )
         decision["layer_key"] = target_layer
         decision["canonical_capability_ids"] = sorted(required)
         return emit(decision)
+
     exact_targets = []
     per_capability: dict[str, list[str]] = {}
     for layer in reg["layers"]:
@@ -206,13 +228,23 @@ def evaluate_layer_task(root: Path | str, *, task_id: str, target_layer: str,
         for cap in required:
             if cap in layer_caps:
                 per_capability.setdefault(cap, []).append(layer["layer_key"])
+
     if exact_targets:
-        decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DELEGATE", "WRONG_LAYER")
+        decision = _decision(
+            {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+            "DELEGATE", "WRONG_LAYER",
+        )
         decision["recommended_layers"] = sorted(exact_targets)
         decision["canonical_capability_ids"] = sorted(required)
         return emit(decision)
-    decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "SPLIT", "CROSS_LAYER_TASK")
-    decision["capability_layer_candidates"] = {key: sorted(value) for key, value in sorted(per_capability.items())}
+
+    decision = _decision(
+        {"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"},
+        "SPLIT", "CROSS_LAYER_TASK",
+    )
+    decision["capability_layer_candidates"] = {
+        key: sorted(value) for key, value in sorted(per_capability.items())
+    }
     decision["canonical_capability_ids"] = sorted(required)
     return emit(decision)
 
