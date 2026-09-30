@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.scope-authority-guard-enforcement.v1",
+  "id": "FA3-SCOPE-AUTHORITY-GUARD-ENFORCEMENT-001",
+  "gate_id": "FA3-SCOPE-AUTHORITY-GUARD-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 175,
+  "authority_delta": 0,
+  "rules": {
+    "unknown_actor": "DENY",
+    "unknown_intent": "DENY",
+    "forbidden_intent": "DENY",
+    "side_effect_without_permission": "DENY",
+    "delegation_target_outside_contract": "DENY",
+    "delegation_authority_expansion": "DENY",
+    "parent_scope_expansion": "DENY",
+    "replan_scope_expansion": "DENY",
+    "retry_scope_expansion": "DENY",
+    "recovery_scope_expansion": "DENY",
+    "fallback_scope_expansion": "DENY",
+    "self_verification": "DENY"
+  },
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
