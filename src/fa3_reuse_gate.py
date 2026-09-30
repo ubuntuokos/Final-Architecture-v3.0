@@ -786,6 +786,18 @@ def gate(root: Path) -> dict[str, Any]:
         and rec.get("capability_count_after") == capability_count
         and rec.get("new_capabilities") == 0
         and rec.get("new_architectural_authorities") == 0
+        and rec.get("donor_rejection_audit_id") == "FA3-DONOR-REJECTION-AUDIT-001"
+        and rec.get("donor_lifecycle_decision_id") == "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30"
+        and rec.get("application_donor_links_id") == "FA3-APPLICATION-DONOR-LINKS-001"
+        and rec.get("donor_every_change_processed") is True
+        and rec.get("donor_usage_reverse_traceability") is True
+        and rec.get("donor_monthly_capability_refresh_days") == 31
+        and rec.get("donor_security_change_propagation") is True
+        and rec.get("donor_unsafe_active_registry_forbidden") is True
+        and rec.get("application_scope_independent_of_declared_dependency") is True
+        and rec.get("application_capability_non_regression_on_donor_change") is True
+        and rec.get("application_capability_loss_only_for_verified_fa3_risk") is True
+        and rec.get("application_current_host_alignment_when_affected") is True
         and rec.get("global_promotion_claim") is False
     ):
         findings.append(finding("REUSE-017", "unified release projection reuse-discovery reconciliation missing or stale"))
