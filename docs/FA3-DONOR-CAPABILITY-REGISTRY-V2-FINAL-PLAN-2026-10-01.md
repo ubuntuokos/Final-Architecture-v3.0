@@ -1,9 +1,9 @@
 # FA3 Donor & Capability Registry v2 — final plan
 
-**Date:** 2026-10-01  
-**Status:** OWNER APPROVED / MATERIALIZED SHADOW ARCHITECTURE  
-**Capability baseline:** 175, unchanged  
-**Authority delta:** 0  
+**Date:** 2026-10-01
+**Status:** OWNER APPROVED / MATERIALIZED SHADOW ARCHITECTURE
+**Capability baseline:** 175, unchanged
+**Authority delta:** 0
 **Canonical donor cutover:** not performed by this change
 
 ## Goal
@@ -88,16 +88,16 @@ Unknown categorization remains cross-domain/REVIEW_REQUIRED rather than being gu
 
 ## Cutover sequence
 
-M0 inventory and benchmark.  
-M1 schemas/resolver/volume manager.  
-M2 shadow migration.  
-M3 migration-time source refresh with receipts.  
-M4 usage/capability equivalence verification.  
-M5 legacy compatibility projection.  
-M6 reader cutover.  
-M7 writer cutover.  
-M8 Current Host structural alignment and full gates.  
-M9 atomic canonical manifest switch.  
+M0 inventory and benchmark.
+M1 schemas/resolver/volume manager.
+M2 shadow migration.
+M3 migration-time source refresh with receipts.
+M4 usage/capability equivalence verification.
+M5 legacy compatibility projection.
+M6 reader cutover.
+M7 writer cutover.
+M8 Current Host structural alignment and full gates.
+M9 atomic canonical manifest switch.
 M10 immutable legacy snapshot and rollback path.
 
 This materialization implements M1–M2 and verification foundations without competing with the active serialized donor intake.
