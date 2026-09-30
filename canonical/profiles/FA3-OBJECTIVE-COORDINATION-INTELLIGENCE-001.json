@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.objective-coordination-intelligence-profile.v1",
+  "id": "FA3-OBJECTIVE-COORDINATION-INTELLIGENCE-001",
+  "status": "CANDIDATE_MATERIALIZED",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "role": "ZERO_AUTHORITY_COORDINATION_INTELLIGENCE",
+  "functions": [
+    "OBJECTIVE_GRAPH",
+    "DEPENDENCY_GRAPH",
+    "BLOCKER_GRAPH",
+    "HANDOFF_GRAPH",
+    "ARTIFACT_GRAPH",
+    "EVIDENCE_GRAPH",
+    "APPROVAL_GRAPH",
+    "RESOURCE_CONSTRAINT_GRAPH",
+    "CAUSALITY_PROGRESS_GRAPH",
+    "READINESS",
+    "IMPACT_ANALYSIS",
+    "CRITICAL_PATH",
+    "MOVABLE_FORWARD",
+    "REPLAY_RECONCILIATION"
+  ],
+  "boundaries": {
+    "execution": "CONDUCTOR_ORCHESTRATOR_EXISTING_AUTHORITIES",
+    "side_effect": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001"
+  },
+  "hardware": {
+    "vendor_neutral": true,
+    "cpu_only_required": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false,
+    "hrb_bypass": false
+  },
+  "current_host_status": "PENDING_PHYSICAL_CURRENT_HOST_EVIDENCE"
+}
