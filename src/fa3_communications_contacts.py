@@ -56,6 +56,13 @@ EMBEDDED_FORBIDDEN = frozenset({
 
 MUTATING_SEND_OPERATIONS = frozenset({"email.send", "email.reply", "email.forward"})
 
+AI_ONLY_SECURITY_GATES = frozenset({
+    "AI_PERMISSION",
+    "AI_CONTEXT_ISOLATION",
+    "PROMPT_INJECTION_TOOL_USE",
+    "MODEL_ROUTER_PROVIDER_ADMISSION",
+})
+
 AI_OPERATIONS = frozenset({
     "AI.Mail.Summarize",
     "AI.Mail.DraftReply",
@@ -108,9 +115,17 @@ def permission_intersection(
     return Decision(True, "PERMISSION_INTERSECTION_PASS")
 
 
-def gate_chain_decision(gate_results: Mapping[str, str]) -> Decision:
-    """Every applicable communications security gate is fail-closed."""
+def gate_chain_decision(
+    gate_results: Mapping[str, str], *, ai_operation: bool = False
+) -> Decision:
+    """Every applicable communications security gate is fail-closed.
+
+    AI-only gates are determined by this policy core, not by caller-supplied
+    NOT_APPLICABLE values. This preserves a real non-AI path when AI is off.
+    """
     for gate in SECURITY_GATE_CHAIN:
+        if gate in AI_ONLY_SECURITY_GATES and not ai_operation:
+            continue
         state = gate_results.get(gate)
         if state != "PASS":
             return Decision(False, "SECURITY_GATE_DENY", f"{gate}:{state or 'MISSING'}")
@@ -167,7 +182,10 @@ def authorize(request: Mapping[str, Any]) -> Decision:
     if request.get("direct_provider_execution") is True:
         return Decision(False, "DIRECT_PROVIDER_BYPASS_FORBIDDEN")
 
-    gate_result = gate_chain_decision(request.get("gate_results") or {})
+    gate_result = gate_chain_decision(
+        request.get("gate_results") or {},
+        ai_operation=request.get("ai_operation") is not None,
+    )
     if not gate_result.allowed:
         return gate_result
 
