@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "68abff61f1bf2363970ae8b5570df61a5c8d9258",
-    "pre_projection_root_tree_sha": "621acb9cb029e001ae112ca22a63acbe33f2c36c",
-    "pre_projection_canonical_tree_sha": "edca5f48bb4b357f26ce7e572f418d4fbf3f43f5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2235,
-    "total_post_baseline_commits": 2235,
-    "delta_file_count": 2606,
-    "delta_added_files": 2600,
+    "pre_projection_head_sha": "63863b140d7d26ec42b2b8c08e11c88d8846a36f",
+    "pre_projection_root_tree_sha": "f5a5f4761fb976e22d7d881515a1f8b6b316d615",
+    "pre_projection_canonical_tree_sha": "74495d2a2f627d64abc923ab48d57d6774440d72",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2238,
+    "total_post_baseline_commits": 2238,
+    "delta_file_count": 2607,
+    "delta_added_files": 2601,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -50,7 +50,7 @@
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 343,
     "test_files_in_post_baseline_delta": 302,
-    "workflow_files_in_post_baseline_delta": 126,
+    "workflow_files_in_post_baseline_delta": 127,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -1017,7 +1017,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2596,
+  "manifest_entry_count": 2597,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1452,6 +1452,11 @@
     {
       "path": ".github/workflows/fa3-neural-rendering-reference.yml",
       "git_blob_sha": "00193591643436b87fa1b577ce76510b3c96af27",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-objective-coordination.yml",
+      "git_blob_sha": "611d844661bb29b1345bd8e497b84968fc50fc1c",
       "baseline_delta_status": "added"
     },
     {
