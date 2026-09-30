@@ -12,7 +12,7 @@
   "physical_current_host_pass_claim": false,
   "historical_evidence_reused": false,
   "this_materialization": {
-    "derived_metadata_graph_only": true,
+    "derived_metadata_graph_only": false,
     "new_runtime_service": false,
     "new_daemon": false,
     "new_port": false,
@@ -28,7 +28,8 @@
     "current_host_probe_change": false,
     "current_host_manifest_change": false,
     "host_requalification_required_now": false,
-    "reason": "The materialization adds a static/CI dependency graph and impact classifier only. It does not alter any admitted runtime path, provider execution path, host resource policy, secret projection, service, port, socket, package or Current Host probe."
+    "reason": "The materialization adds a static/CI donor-capability-consumer dependency graph, impact classifier, and an owner-approved provider/model/gateway assurance architecture plan only. It does not alter any admitted runtime path, provider execution path, host resource policy, secret projection, service, port, socket, package or Current Host probe.",
+    "derived_metadata_graph_and_architecture_plan_only": true
   },
   "future_edge_rule": {
     "usage_edge_current_host_classification_required": true,
