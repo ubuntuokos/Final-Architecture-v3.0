@@ -110,12 +110,19 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "donor_change_capability_non_regression": True,
         "capability_loss_only_for_verified_fa3_risk": True,
         "current_host_alignment_required_for_structural_or_runtime_change": True,
-        **REQUIRED_TUTORIAL_SHARED_POLICY,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
             errors.append({"code": "MANDATORY_APPLICATION_DONOR_POLICY_MISSING",
                            "detail": key})
+    policy = declaration.get("policy", {})
+    missing_tutorial_policy = [
+        key for key, expected in REQUIRED_TUTORIAL_SHARED_POLICY.items()
+        if policy.get(key) is not expected
+    ]
+    if missing_tutorial_policy:
+        errors.append({"code": "TUTORIAL_SHARED_POLICY_INVALID",
+                       "detail": ",".join(sorted(missing_tutorial_policy))})
     donors = registry.get("entries", [])
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001" or registry.get("backfill", {}).get("entry_count") != len(donors):
         errors.append({"code": "DONOR_REGISTRY_DRIFT", "detail": DONOR})
