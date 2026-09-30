@@ -25,7 +25,8 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
     def test_recipe_registry_is_explicit_and_nontrivial(self):
         primitives, recipes = required_primitives(ROOT)
         registry = json.loads((ROOT / "canonical/current-host-capability-proof-recipes.json").read_text(encoding="utf-8"))
-        self.assertEqual(175, registry["capability_count"])
+        self.assertEqual(149, registry["capability_count"])
+        self.assertEqual(175, registry["active_capability_count"])
         self.assertEqual(registry["shared_recipe_count"], len(recipes))
         self.assertEqual(149, registry["shared_recipe_count"])
         self.assertEqual(26, registry["dedicated_capability_count"])
