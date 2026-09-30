@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-PROVIDER-MODEL-GATEWAY-ASSURANCE-20260930",
+  "date": "2026-09-30",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/profiles/FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001.json",
+    "canonical/contracts/FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-PROVIDER-MODEL-GATEWAY-ASSURANCE-2026-09-30.json",
+    "canonical/intents/FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-APPLICATION-INTENT-001.json",
+    "canonical/assessments/FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-REUSE-ASSESSMENT-001.json",
+    "canonical/assessments/FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-DECISION-ASSESSMENT-2026-09-30.json",
+    "src/fa3_provider_model_gateway_assurance_gate.py",
+    ".github/workflows/fa3-provider-model-gateway-assurance.yml"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_status": "UNCHANGED_BY_STATIC_COMPOSITION",
+  "global_promotion_claim": false,
+  "rationale": "This materialization adds static composition contracts, governance assessments and validation only. It does not change provider adapters, network routes, secret projection, MCP execution, resource placement, installed services or current-host runtime behavior. Any later runtime implementation requires separate exact-head Current Host reconciliation and physical evidence."
+}
