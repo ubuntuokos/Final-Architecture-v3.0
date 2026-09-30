@@ -61,3 +61,15 @@ For any application added to the curated AI Studio catalog, derive its record th
 ## Donor Registry owner decisions (2026-09-29)
 
 Mandatory historical PR donor extraction is abolished. The fourteen historical exact-head exemptions (#24 #31 #52 #70 #71 #125 #180 #181 #245 #252 #392 #427 #434 #438) remain closed unmerged. The explicit `donornak` owner marker (with or without a colon) must precede each intake link (one marker may introduce a clearly grouped multi-link batch). Without it the only permitted action on a submitted link is analysis until the owner directs otherwise. No second donor intake conversation can start during an active intake. Other FA3 work uses only the finalized published registry; unmerged candidates are invisible, and completed work is not automatically re-run after their publication.
+
+## FA3 tutorial-reference and shared-function rule (2026-09-30)
+
+Owner-authorized tutorial material is a governed donor/reference input. A tutorial file supplied/downloaded by the owner, or downloaded as part of an explicitly owner-approved tutorial-ingest task, may be registered in the existing Donor & Reference Registry as `TUTORIAL_REFERENCE` without a separate per-link `donornak` marker. This is a narrow file/task-class exception: a standalone unmarked remote URL remains analysis-only. Any recorded source URL is provenance, not independent intake authority.
+
+For every tutorial-derived feature, first match the feature against the existing 175-capability model and application inventory. If the function already exists, preserve the implementation and adapt the tutorial into the relevant FA3 application manual using the real FA3 UI, terminology and workflow. Do not copy an upstream UI workflow as if it were FA3 behavior.
+
+If the function does not exist, stop at necessity and placement assessment until there is an explicitly approved implementation plan. Reuse Discovery against the verified published-main donor registry is mandatory before donor adoption.
+
+If a function is useful to more than one FA3 application, the functional core must be placed in one shared FA3 layer/service/contract and consumed through application-specific adapters. Duplicate functional cores are not the default solution. Shared-function impact analysis must cover planned, in-progress and already materialized applications and must preserve existing verified capabilities during migration.
+
+Every consuming application receives its own manual projection based on its actual UI/workflow. A function may be documented as generally available only after implementation and required verification. Structural runtime changes also require matching current-host alignment; static documentation never creates current-host PASS.
