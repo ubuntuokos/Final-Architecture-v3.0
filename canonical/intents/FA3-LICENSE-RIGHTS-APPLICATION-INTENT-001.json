@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001",
+  "project_id": "FA3-LICENSE-RIGHTS-001",
+  "project_type": "PROFILE",
+  "goal": "Extend the existing FA3 Software Supply Chain / Security Governance boundary with deterministic, fail-closed license and rights management for FA3-original and third-party code, models, datasets, assets, fonts, SDKs, codecs, providers, services, templates and output-use rights without creating a parallel authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "license-compliance",
+    "rights-provenance",
+    "redistribution-compliance",
+    "commercial-entitlement",
+    "third-party-attribution",
+    "release-governance"
+  ],
+  "input_modalities": [
+    "SPDX_EXPRESSIONS",
+    "LICENSE_SCANNER_EVIDENCE",
+    "SBOM",
+    "RIGHTS_METADATA",
+    "ENTITLEMENT_REFERENCES",
+    "PROVENANCE"
+  ],
+  "output_modalities": [
+    "LICENSE_RIGHTS_DESCRIPTOR",
+    "RIGHTS_DECISION_RECEIPT",
+    "RELEASE_LICENSE_COMPLIANCE_RECEIPT",
+    "THIRD_PARTY_NOTICE"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT",
+    "STORAGE_IO"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "RETROACTIVE_REPOSITORY_RIGHTS_AUDIT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "UNKNOWN_REQUIRED_RIGHTS_FACT_FAILS_CLOSED",
+    "THIRD_PARTY_RELICENSE_FORBIDDEN",
+    "RAW_LICENSE_KEYS_FORBIDDEN_IN_CANONICAL_OR_EVIDENCE",
+    "RELEASE_REQUIRES_RIGHTS_COMPLIANCE_RECEIPT",
+    "HISTORICAL_EVIDENCE_APPEND_ONLY"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-SCS-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-SECRET-BROKER-001"
+  ],
+  "task_classes": [
+    "governance",
+    "security",
+    "release"
+  ],
+  "skill_triggers": []
+}
