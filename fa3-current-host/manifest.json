@@ -263,7 +263,11 @@
     "apps/fa3-communications-hub/qml/Main.qml",
     "apps/fa3-communications-hub/qml/CommunicationsSharedSurface.qml",
     "apps/fa3-communications-hub/packaging/org.fa3.CommunicationsHub.desktop",
-    "tests/test_communications_hub_ui.py"
+    "tests/test_communications_hub_ui.py",
+    "evidence/collect-communications-contacts-current-host.py",
+    "canonical/schemas/communications-contacts-current-host-receipt.v1.json",
+    "tests/test_communications_current_host_collector.py",
+    "deployment/fa3-gui/install.sh"
   ],
   "registered_current_host_surfaces": [
     {
@@ -515,12 +519,13 @@
     },
     {
       "name": "communications-contacts-shared",
-      "collector": null,
+      "collector": "evidence/collect-communications-contacts-current-host.py",
       "gate": "communications-contacts",
       "activation": "STATIC_POLICY_MATERIALIZED_PHYSICAL_PROVIDER_E2E_PENDING",
       "hardware_profile": "FA3-HARDWARE-BASELINE-001",
-      "collection_status": "PENDING_CURRENT_HOST",
-      "production_admitted": false
+      "collection_status": "COLLECTOR_MATERIALIZED_PHYSICAL_PROVIDER_E2E_PENDING",
+      "production_admitted": false,
+      "receipt_schema": "canonical/schemas/communications-contacts-current-host-receipt.v1.json"
     }
   ],
   "global_gate_sequence": [
