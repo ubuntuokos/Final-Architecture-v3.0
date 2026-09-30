@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from fa3_release_baseline import module_active_capability_count
-from fa3_shared_capability_fabric import capability_id_valid
+from fa3_shared_capability_fabric import capability_id_valid, internal_application_ids, universal_surface_consumers
 
 GATESET_ID = "FA3-SHARED-CAPABILITY-FABRIC-GATESET-001"
 
@@ -25,6 +25,7 @@ def gate(root: Path) -> dict:
         "email_action": root / "canonical/actions/email.send.json",
         "ui_component_profile": root / "canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json",
         "ui_component_contract": root / "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
+        "application_links": root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
     }
     findings: list[str] = []
     for name, path in required.items():
@@ -49,6 +50,8 @@ def gate(root: Path) -> dict:
     keys=[item.get("key") for item in slices]
     caps=[cap for item in slices for cap in item.get("capability_ids", [])]
     email=next((item for item in slices if item.get("key")=="email.management"), {})
+    internal_apps=internal_application_ids(root)
+    email_consumers=universal_surface_consumers(root, "email.send")
 
     checks=[
         (baseline==175, "capability-baseline"),
@@ -61,6 +64,7 @@ def gate(root: Path) -> dict:
         (bindings.get("scope")=="ALL_FA3_APPLICATIONS" and bindings.get("application_local_duplicate_service_forbidden_when_shared_equivalent_verified") is True, "all-app-bindings"),
         (any(item.get("operation")=="email.send" and item.get("all_fa3_applications") is True for item in bindings.get("universal_surfaces", [])), "email-send-all-apps-binding"),
         (email.get("all_applications_send_surface") is True and "email.send" in email.get("universal_operations", []), "email-slice-universal-send"),
+        (len(internal_apps)>0 and set(email_consumers)==set(internal_apps), "email-all-registered-internal-apps"),
         (email_action.get("schema")=="fa3.uaf.action-contract.v1" and email_action.get("id")=="email.send" and email_action.get("semantics",{}).get("mutating") is True and email_action.get("security",{}).get("authorization")=="required" and email_action.get("provider",{}).get("direct_surface_provider_bypass") is False, "email-action-contract"),
         ("email.send" in ui_profile.get("shared_action_projection",{}).get("universal_actions",[]) and ui_profile.get("shared_action_projection",{}).get("direct_qml_execution") is False and "ALL_FA3_APPLICATIONS" in ui_profile.get("consumer_surfaces",[]), "email-ui-component-projection"),
         ("email.send" in ui_contract.get("shared_action_surface",{}).get("universal_actions",[]) and ui_contract.get("shared_action_surface",{}).get("direct_network_or_provider_execution") is False, "email-ui-component-contract"),
