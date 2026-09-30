@@ -20,6 +20,9 @@ def gate(root: Path) -> dict:
         "current_host": root / "canonical/FA3-PLUGIN-EXTENSION-CURRENT-HOST-001.json",
         "gate": root / "canonical/FA3-GATE-PLUGIN-EXTENSION-MANAGEMENT-001.json",
         "decision": root / "canonical/decisions/FA3-DEC-PLUGIN-EXTENSION-MANAGEMENT-2026-09-30.json",
+        "intent": root / "canonical/intents/FA3-PLUGIN-EXTENSION-MANAGEMENT-APPLICATION-INTENT-001.json",
+        "reuse": root / "canonical/assessments/FA3-PLUGIN-EXTENSION-MANAGEMENT-REUSE-ASSESSMENT-001.json",
+        "decision_assessment": root / "canonical/assessments/FA3-PLUGIN-EXTENSION-MANAGEMENT-DECISION-ASSESSMENT-2026-09-30.json",
         "qml": root / "apps/fa3-control-center/qml/PluginExtensionManagerPage.qml",
         "main_qml": root / "apps/fa3-control-center/qml/Main.qml",
         "launcher": root / "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop",
@@ -33,6 +36,7 @@ def gate(root: Path) -> dict:
 
     p=_load(required["profile"]); c=_load(required["contracts"]); b=_load(required["bindings"])
     ch=_load(required["current_host"]); g=_load(required["gate"])
+    intent=_load(required["intent"]); reuse=_load(required["reuse"]); decision_assessment=_load(required["decision_assessment"])
     count=module_active_capability_count(__file__)
     checks=[
         (count==175,"capability-baseline"),
@@ -42,6 +46,10 @@ def gate(root: Path) -> dict:
         (b.get("standalone_entry",{}).get("target_application_must_be_running") is False,"standalone-target-app"),
         (ch.get("production_admitted") is False and ch.get("current_host_runtime_promotion_claim") is False,"current-host-pending"),
         (g.get("fail_closed") is True and g.get("capability_count_after")==175,"gate-boundary"),
+        (intent.get("schema")=="fa3.application-intent.v1" and intent.get("project_id")=="FA3-PLUGIN-EXTENSION-MANAGEMENT-001" and intent.get("declared_new_capabilities")==[] and intent.get("proposed_authority_roles")==[],"reuse-intent-boundary"),
+        (reuse.get("schema")=="fa3.reuse-assessment.v1" and reuse.get("project_id")=="FA3-PLUGIN-EXTENSION-MANAGEMENT-001" and reuse.get("result")=="PASS" and reuse.get("new_capabilities")==0 and reuse.get("new_architectural_authorities")==0,"reuse-assessment-boundary"),
+        (any(isinstance(x,dict) and x.get("source_family_id")=="FA3-KHRONOS-OPEN-STANDARDS-001" and x.get("review_status") in {"MATCHED","REVIEWED_NO_MATCH"} and x.get("authority") is False and x.get("automatic_selection") is False for x in reuse.get("mandatory_source_reviews",[])),"khronos-source-review"),
+        (decision_assessment.get("schema")=="fa3.decision-fabric-assessment.v1" and "FA3-PLUGIN-EXTENSION-MANAGEMENT-001" in decision_assessment.get("covered_ids",[]) and decision_assessment.get("assessment")=="NOT_APPLICABLE","decision-adoption-boundary"),
     ]
     findings.extend(name for ok,name in checks if not ok)
     main=required["main_qml"].read_text(encoding="utf-8")
