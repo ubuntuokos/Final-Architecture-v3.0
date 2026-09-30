@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LICENSE-RIGHTS-001",
+  "name": "License & Rights Management",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-SCS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "FA3-LICENSE-RIGHTS-CONTRACTS-001"
+  ],
+  "authority": {
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secret_resolution": "FA3-SECRET-BROKER-001"
+  },
+  "invariants": [
+    "FA3_ORIGINAL_DEFAULT_LICENSE_APACHE_2_0_UNLESS_EXPLICITLY_OVERRIDDEN",
+    "THIRD_PARTY_WORKS_NEVER_RELICENSED_BY_FA3_POLICY",
+    "CODE_MODEL_DATASET_ASSET_SERVICE_AND_OUTPUT_RIGHTS_ARE_DISTINCT",
+    "UNKNOWN_REQUIRED_RIGHTS_FACT_FAILS_CLOSED",
+    "DONOR_REGISTRATION_NEVER_IMPLIES_CODE_REUSE_OR_RUNTIME_ADMISSION",
+    "LICENSE_COMPATIBILITY_IS_POLICY_DERIVED_NOT_OPERATOR_ASSERTED",
+    "RAW_LICENSE_KEYS_AND_TOKENS_FORBIDDEN_IN_CANONICAL_AND_EVIDENCE",
+    "RELEASE_REQUIRES_LICENSE_RIGHTS_COMPLIANCE_RECEIPT_PASS",
+    "HISTORICAL_EVIDENCE_IS_APPEND_ONLY"
+  ],
+  "policy_id": "FA3-LICENSE-RIGHTS-POLICY-001",
+  "automated_code_policy_id": "FA3-SCS-LICENSE-POLICY-001",
+  "executable_gate": "FA3-GATE-LICENSE-RIGHTS-001",
+  "implementation_status": "CANONICAL_AUTHORITY_MATERIALIZED_RETROACTIVE_AUDIT_PENDING",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
