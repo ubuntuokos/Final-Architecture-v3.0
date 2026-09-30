@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_license_rights import evaluate_descriptor, evaluate_release_receipt
+from fa3_license_rights_retro_audit import run_audit
 from fa3_release_baseline import module_active_capability_count
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
@@ -103,6 +104,8 @@ def gate(root: Path) -> dict[str, Any]:
         "descriptor_schema": "canonical/schemas/license-rights-descriptor.v1.json",
         "release_schema": "canonical/schemas/release-license-compliance-receipt.v1.json",
         "automated_code_policy": "canonical/supply-chain-license-policy.json",
+        "retro_inventory": "canonical/license-rights-retro-audit-inventory.json",
+        "jev_rights_descriptor": "canonical/descriptors/FA3-RIGHTS-THIRD-PARTY-RADAR-SNAPSHOT-001.json",
     }
     data: dict[str, dict[str, Any]] = {}
     for key, rel in paths.items():
@@ -111,7 +114,7 @@ def gate(root: Path) -> dict[str, Any]:
         except Exception as exc:
             findings.append(finding("LR-000", "required license-rights materialization unreadable", path=rel, error=repr(exc)))
 
-    for rel in ("LICENSE", "NOTICE", "TRADEMARKS.md", "COMMERCIAL-LICENSING.md", "REUSE.toml", "LICENSES/Apache-2.0.txt"):
+    for rel in ("LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "TRADEMARKS.md", "COMMERCIAL-LICENSING.md", "REUSE.toml", "LICENSES/Apache-2.0.txt", "LICENSES/third-party/logicrw-awesome-jev-projects-MIT.txt"):
         if not (root / rel).is_file():
             findings.append(finding("LR-001", "required repository licensing file missing", path=rel))
 
@@ -157,6 +160,15 @@ def gate(root: Path) -> dict[str, Any]:
         if data["automated_code_policy"].get("id") != "FA3-SCS-LICENSE-POLICY-001":
             findings.append(finding("LR-040", "automated code-license policy binding drift"))
 
+        retro_inventory = data["retro_inventory"]
+        if retro_inventory.get("id") != "FA3-LICENSE-RIGHTS-RETRO-AUDIT-INVENTORY-001":
+            findings.append(finding("LR-041", "retroactive audit inventory identity drift"))
+        if retro_inventory.get("capability_count") != CAPABILITY_COUNT:
+            findings.append(finding("LR-042", "retroactive audit inventory capability reconciliation drift"))
+        jev_descriptor_result = evaluate_descriptor(data["jev_rights_descriptor"], policy)
+        if jev_descriptor_result.get("result") != "PASS" or jev_descriptor_result.get("admitted_for_release") is not True:
+            findings.append(finding("LR-043", "pinned Jev snapshot rights descriptor is not admissible"))
+
         if gate_record.get("gateset_id") != "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" or gate_record.get("fail_closed") is not True:
             findings.append(finding("LR-050", "license-rights subgate binding drift"))
 
@@ -184,6 +196,10 @@ def gate(root: Path) -> dict[str, Any]:
         else:
             findings.append(finding("LR-062", "unknown rights audit state"))
 
+    retro_control = run_audit(root) if not findings else {"control_result": "FAIL", "repository_audit_complete": False, "remaining_review_classes": []}
+    if retro_control.get("control_result") != "PASS":
+        findings.append(finding("LR-080", "retroactive license-rights audit control failed", details=retro_control.get("findings", [])))
+
     reg = regressions(data.get("policy", {})) if "policy" in data else {"result": "FAIL", "cases": []}
     if reg["result"] != "PASS":
         findings.append(finding("LR-070", "license-rights fail-closed regression matrix failed"))
@@ -201,6 +217,7 @@ def gate(root: Path) -> dict[str, Any]:
         "new_architectural_authorities": 0,
         "release_eligible": data.get("audit", {}).get("release_eligible", False),
         "retroactive_audit_status": data.get("audit", {}).get("status", "UNREADABLE"),
+        "retroactive_audit_control": retro_control,
     }
     out = root / "reports/license-rights-gate-report.json"
     out.parent.mkdir(parents=True, exist_ok=True)

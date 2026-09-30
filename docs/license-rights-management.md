@@ -80,3 +80,13 @@ The current historical repository audit is deliberately recorded as
 `PENDING_RETROACTIVE_AUDIT`. Therefore the new authority can be statically
 materialized while release eligibility remains **false** until the audit is
 completed. Historical evidence must not be overwritten during reconciliation.
+
+## Retroactive audit progress
+
+The executable historical audit is documented in
+[`docs/license-rights-retro-audit.md`](license-rights-retro-audit.md). The
+pinned Jev radar snapshot is now covered by exact MIT evidence and file-level
+third-party notice metadata. This resolves that copied-upstream class only; it
+does not convert the repository-wide audit to PASS. First-party origin,
+documentation SVG origin, complete REUSE coverage, and release SPDX/CycloneDX
+SBOM evidence remain mandatory before release eligibility can become true.
