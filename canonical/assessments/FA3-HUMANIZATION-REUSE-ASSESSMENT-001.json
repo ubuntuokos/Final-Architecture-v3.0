@@ -87,5 +87,23 @@
     "upstream_uninstall_required": false,
     "global_mutation": false,
     "default_port_hijack": false
-  }
+  },
+  "covered_ids": [
+    "FA3-HUMANIZATION-FABRIC-001",
+    "CAP-125"
+  ],
+  "project_status": "SHARED_HUMANIZATION_FABRIC_STATIC_MATERIALIZED_RUNTIME_PENDING",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Humanization, prose analysis and shared text settings do not require a Khronos graphics/compute SDK integration. Any future accelerator-specific text runtime remains separately admitted through existing Model Router, HRB and Khronos/reuse review boundaries."
+    }
+  ],
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
 }
