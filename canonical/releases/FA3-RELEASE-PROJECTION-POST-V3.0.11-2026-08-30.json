@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b3b8eaf2e555428b3124ef592fba045389b4e009",
-    "pre_projection_root_tree_sha": "3e7a66603e1bb8e690c1d9e29ec8a05f4299003e",
-    "pre_projection_canonical_tree_sha": "84fc298e258e0ef31c147b891685953cd2a84f98",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2299,
-    "total_post_baseline_commits": 2299,
-    "delta_file_count": 2635,
-    "delta_added_files": 2629,
+    "pre_projection_head_sha": "12e6661f9da55a32ad8496d61133b6138af286bd",
+    "pre_projection_root_tree_sha": "d79756c1705c4d8b7d21a3235d55d92339c64fac",
+    "pre_projection_canonical_tree_sha": "79206e81402f68dfa7612219d4cdb3944cfe1a23",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2302,
+    "total_post_baseline_commits": 2302,
+    "delta_file_count": 2644,
+    "delta_added_files": 2638,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1228,
+    "canonical_files_in_post_baseline_delta": 1236,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 346,
     "test_files_in_post_baseline_delta": 304,
@@ -232,6 +232,7 @@
       "canonical/profiles/FA3-HU-AQC-001.json",
       "canonical/profiles/FA3-HUMAN-KNOWLEDGE-WORKSPACE-001.json",
       "canonical/profiles/FA3-HUMAN-MOTION-001.json",
+      "canonical/profiles/FA3-HUMANIZATION-FABRIC-001.json",
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
       "canonical/profiles/FA3-HYBRID-EDITORIAL-001.json",
@@ -364,6 +365,7 @@
       "canonical/contracts/FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001.json",
       "canonical/contracts/FA3-HUMAN-MOTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-HUMANIZATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
       "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
@@ -513,6 +515,7 @@
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
+      "canonical/decisions/FA3-DEC-HUMANIZATION-SHARED-FABRIC-2026-09-30.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
@@ -1020,7 +1023,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2625,
+  "manifest_entry_count": 2634,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3313,6 +3316,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-HUMANIZER-CURRENT-HOST-001.json",
+      "git_blob_sha": "fa658f9f2ca63e9a7b4f73a4c21a20c53305e751",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-HUMANIZER-UI-BINDINGS-001.json",
+      "git_blob_sha": "71be1872ee277a8d1dcd67b438653fff55c13a74",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-IDEATION-ADVISORY-CONFORMANCE-MATRIX-001.json",
       "git_blob_sha": "17c16a28feb7c3121bea4e33bec3d5612ec005c9",
       "baseline_delta_status": "added"
@@ -4168,6 +4181,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-HUMANIZATION-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "1efb585fb87ffca2204c3744e1d875bb0eacc06e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-JEV-DECISION-FABRIC-2026-09-23.json",
       "git_blob_sha": "6ec684d154412c8381afb1e5248904085d030e93",
       "baseline_delta_status": "added"
@@ -4740,6 +4758,11 @@
     {
       "path": "canonical/contracts/FA3-HUMAN-MOTION-CONTRACTS-001.json",
       "git_blob_sha": "e74c4f1dea367378b5d19ff71e198d4996c19133",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HUMANIZATION-CONTRACTS-001.json",
+      "git_blob_sha": "4fc6fd6be3da9bb420a1b209453102e6b36f4434",
       "baseline_delta_status": "added"
     },
     {
@@ -5543,6 +5566,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-HUMANIZATION-SHARED-FABRIC-2026-09-30.json",
+      "git_blob_sha": "43643f84297db5b5a3c7bd19e9bd10b22a8a4715",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "git_blob_sha": "520fa90bf5476748ae830d80ac2b48fdccc34907",
       "baseline_delta_status": "added"
@@ -6238,6 +6266,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/humanizer-enforcement.json",
+      "git_blob_sha": "40a7e17e24acd44b13ca199e1edcb86bc2414b04",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/hybrid-editorial-enforcement.json",
       "git_blob_sha": "bc733829b5bd8cb90a2939febf05ac403e08ed99",
       "baseline_delta_status": "added"
@@ -6380,6 +6413,11 @@
     {
       "path": "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
       "git_blob_sha": "9b1e1a970212b622343738b8c852f85866929873",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-HUMANIZATION-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "f90d15c5676ca0d871f9902276a3b99c3013bae0",
       "baseline_delta_status": "added"
     },
     {
@@ -6965,6 +7003,11 @@
     {
       "path": "canonical/profiles/FA3-HUMAN-MOTION-001.json",
       "git_blob_sha": "68d90c937573347b30ed4cf0eaf30b71defdbdb1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-HUMANIZATION-FABRIC-001.json",
+      "git_blob_sha": "ce478fdd5f53b7f8383844cbec1873d930da7b01",
       "baseline_delta_status": "added"
     },
     {
@@ -8960,6 +9003,11 @@
     {
       "path": "docs/FA3-GUI-RECONCILIATION-2026-09-23.md",
       "git_blob_sha": "c45fb36dbdae466369d877de68ac6f3ebe79a7f8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-HUMANIZER-SHARED-SETTINGS-PLAN-2026-09-30.md",
+      "git_blob_sha": "4b0e96d3e9b733e81f23ad65a1c93121aea295e0",
       "baseline_delta_status": "added"
     },
     {
