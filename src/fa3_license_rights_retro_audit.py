@@ -48,7 +48,7 @@ def run_audit(root: Path) -> dict[str, Any]:
     status = loadj(root / "canonical/license-rights-audit-status.json")
     inventory = loadj(root / "canonical/license-rights-retro-audit-inventory.json")
     distribution = loadj(root / "canonical/distribution-manifest.json")
-    descriptor = loadj(root / "canonical/descriptors/FA3-RIGHTS-JEV-RADAR-SNAPSHOT-001.json")
+    descriptor = loadj(root / "canonical/descriptors/FA3-RIGHTS-THIRD-PARTY-RADAR-SNAPSHOT-001.json")
 
     findings: list[dict[str, Any]] = []
     files = tracked_files(root)
