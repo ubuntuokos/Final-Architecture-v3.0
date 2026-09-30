@@ -100,6 +100,9 @@ def gate(root: Path) -> dict[str, Any]:
         "application_intent": "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json",
         "reuse_assessment": "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json",
         "gate": "canonical/FA3-GATE-LICENSE-RIGHTS-001.json",
+        "audit_plan": "canonical/license-rights-audit-plan.json",
+        "audit_gate": "canonical/FA3-GATE-LICENSE-RIGHTS-AUDIT-001.json",
+        "audit_inventory_schema": "canonical/schemas/license-rights-audit-inventory.v1.json",
         "descriptor_schema": "canonical/schemas/license-rights-descriptor.v1.json",
         "release_schema": "canonical/schemas/release-license-compliance-receipt.v1.json",
         "automated_code_policy": "canonical/supply-chain-license-policy.json",
@@ -175,14 +178,21 @@ def gate(root: Path) -> dict[str, Any]:
 
         # Pending historical audit is an acceptable materialization state only while
         # release eligibility remains fail-closed.
-        if audit.get("status") == "PENDING_RETROACTIVE_AUDIT":
+        if audit.get("status") in {"PENDING_RETROACTIVE_AUDIT", "IN_PROGRESS_RETROACTIVE_AUDIT"}:
             if audit.get("release_eligible") is not False or audit.get("global_runtime_promotion_claim") is not False:
-                findings.append(finding("LR-060", "pending retroactive audit must block release/promotion"))
+                findings.append(finding("LR-060", "unfinished retroactive audit must block release/promotion"))
         elif audit.get("status") == "PASS":
             if audit.get("release_eligible") is not True:
                 findings.append(finding("LR-061", "completed rights audit does not enable release eligibility"))
         else:
             findings.append(finding("LR-062", "unknown rights audit state"))
+
+        if data["audit_plan"].get("id") != "FA3-LICENSE-RIGHTS-AUDIT-PLAN-001":
+            findings.append(finding("LR-063", "retroactive audit plan binding drift"))
+        if data["audit_gate"].get("id") != "FA3-GATE-LICENSE-RIGHTS-AUDIT-001" or data["audit_gate"].get("fail_closed") is not True:
+            findings.append(finding("LR-064", "retroactive audit subgate binding drift"))
+        if data["audit_inventory_schema"].get("$id") != "fa3.license-rights-audit-inventory.v1":
+            findings.append(finding("LR-065", "retroactive audit inventory schema drift"))
 
     reg = regressions(data.get("policy", {})) if "policy" in data else {"result": "FAIL", "cases": []}
     if reg["result"] != "PASS":
