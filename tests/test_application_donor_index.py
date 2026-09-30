@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+from datetime import date
 import sys
 import tempfile
 import unittest
@@ -9,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from fa3_application_donor_index import build_index
+from fa3_application_donor_index import build_index, capability_refresh_status
 
 SOURCES = (
     "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
@@ -141,6 +142,28 @@ class ApplicationDonorIndexTests(unittest.TestCase):
                        if a["application_id"] == "fa3.quickclip")
             self.assertEqual(app["declared_donor_usage"][0]["usage_id"],
                              "FA3-USAGE-TEST-001")
+
+    def test_monthly_capability_refresh_uses_policy_start_then_review_timestamp(self):
+        registry = {
+            "planning_policy": {
+                "monthly_capability_refresh_days": 31,
+                "monthly_capability_refresh_policy_effective_date": "2026-09-30",
+            },
+            "entries": [{
+                "donor_id": "FA3-DONOR-X-001",
+                "status": "ACCEPTED_REFERENCE",
+                "source": {"normalized_key": "github:example/x"},
+            }],
+        }
+        initial = capability_refresh_status(registry, today=date(2026, 10, 30))
+        self.assertEqual(initial["due_count"], 0)
+        due = capability_refresh_status(registry, today=date(2026, 10, 31))
+        self.assertEqual(due["due_count"], 1)
+        self.assertEqual(due["due"][0]["review_clock_source"],
+                         "policy_effective_date_initial_grace")
+        registry["entries"][0]["capability_reviewed_at"] = "2026-10-20"
+        refreshed = capability_refresh_status(registry, today=date(2026, 11, 19))
+        self.assertEqual(refreshed["due_count"], 0)
 
     def test_fail_closed_auto_admission_and_bad_cross_app_edge(self):
         with tempfile.TemporaryDirectory() as tmp:
