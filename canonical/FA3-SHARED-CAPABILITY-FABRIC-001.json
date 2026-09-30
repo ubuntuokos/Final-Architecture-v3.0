@@ -4,7 +4,7 @@
   "status": "CANONICAL",
   "date": "2026-09-30",
   "capability_baseline": 175,
-  "slice_count": 45,
+  "slice_count": 46,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "authority": false,
@@ -40,7 +40,8 @@
     "EMAIL_SEND_MUTATION_REQUIRES_EXPLICIT_AUTHORITY_AND_PROVIDER_ADMISSION",
     "EMAIL_SEND_SURFACE_AVAILABLE_IN_ALL_FA3_APPLICATIONS",
     "EMAIL_FULL_MANAGEMENT_REMAINS_CONTEXT_FILTERED",
-    "EMAIL_HIDDEN_BACKGROUND_SEND_FORBIDDEN"
+    "EMAIL_HIDDEN_BACKGROUND_SEND_FORBIDDEN",
+    "CONTACT_MANAGEMENT_FULL_HUB_AND_EMBEDDED_CONTEXT_FILTERED"
   ],
   "fabrics": [
     {
@@ -617,6 +618,39 @@
       ],
       "all_applications_send_surface": true,
       "full_management_context_filtered": true
+    },
+    {
+      "id": "SCF-046",
+      "key": "contacts.management",
+      "name_hu": "Kontaktkezelés",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-049",
+        "CAP-106",
+        "CAP-109"
+      ],
+      "activation_class": "GENERAL",
+      "operations": [
+        "contact.lookup",
+        "contact.create",
+        "contact.update",
+        "contact.group.manage",
+        "organization.lookup",
+        "organization.manage",
+        "communication.link-context",
+        "communication.history"
+      ],
+      "universal_operations": [],
+      "contextual_operations": [
+        "contact.lookup",
+        "contact.create",
+        "contact.update",
+        "communication.link-context",
+        "communication.history"
+      ],
+      "standalone_full_management": true,
+      "embedded_context_filtered": true,
+      "global_address_book_in_embedded": false
     }
   ],
   "application_surface_policy": {
@@ -627,6 +661,9 @@
     "email_full_management_context_filtered": true,
     "application_may_attach_current_context_artifacts": true,
     "sending_requires_explicit_user_or_authorized_workflow_intent": true,
-    "hidden_background_send_forbidden": true
+    "hidden_background_send_forbidden": true,
+    "contacts_management_full_hub": true,
+    "contacts_management_embedded_context_filtered": true,
+    "embedded_global_address_book_forbidden": true
   }
 }
