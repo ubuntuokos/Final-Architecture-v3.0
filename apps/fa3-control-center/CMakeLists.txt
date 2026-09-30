@@ -33,6 +33,8 @@ qt_add_executable(fa3-control-center
     src/PreferenceStore.h
     src/SessionVaultService.cpp
     src/SessionVaultService.h
+    src/ScopeAuthorityGuardService.cpp
+    src/ScopeAuthorityGuardService.h
     src/SystemDeviceModel.cpp
     src/SystemDeviceModel.h
 )
@@ -64,6 +66,7 @@ set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS K
 set_source_files_properties(qml/TrustCertificatesPage.qml PROPERTIES QT_RESOURCE_ALIAS TrustCertificatesPage.qml)
 set_source_files_properties(qml/SessionVaultPage.qml PROPERTIES QT_RESOURCE_ALIAS SessionVaultPage.qml)
 set_source_files_properties(qml/DecisionFabricPage.qml PROPERTIES QT_RESOURCE_ALIAS DecisionFabricPage.qml)
+set_source_files_properties(qml/ScopeAuthorityGuardPage.qml PROPERTIES QT_RESOURCE_ALIAS ScopeAuthorityGuardPage.qml)
 set_source_files_properties(qml/DecisionInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS DecisionInspectorPage.qml)
 set_source_files_properties(qml/ProjectRadarPage.qml PROPERTIES QT_RESOURCE_ALIAS ProjectRadarPage.qml)
 set_source_files_properties(qml/ContextInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS ContextInspectorPage.qml)
@@ -102,6 +105,7 @@ qt_add_qml_module(fa3-control-center
         qml/TrustCertificatesPage.qml
         qml/SessionVaultPage.qml
         qml/DecisionFabricPage.qml
+        qml/ScopeAuthorityGuardPage.qml
         qml/DecisionInspectorPage.qml
         qml/ProjectRadarPage.qml
         qml/ContextInspectorPage.qml
