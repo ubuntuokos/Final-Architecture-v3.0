@@ -34,6 +34,10 @@ def gate(root: Path) -> dict:
         "plan": root / "docs/FA3-COMMUNICATIONS-CONTACTS-SHARED-PLAN-2026-09-30.md",
         "shared": root / "canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json",
         "email_action": root / "canonical/actions/email.send.json",
+        "ui_bindings": root / "canonical/FA3-COMMUNICATIONS-CONTACTS-UI-BINDINGS-001.json",
+        "hub_qml": root / "apps/fa3-communications-hub/qml/Main.qml",
+        "shared_surface_qml": root / "apps/fa3-communications-hub/qml/CommunicationsSharedSurface.qml",
+        "hub_cmake": root / "apps/fa3-communications-hub/CMakeLists.txt",
     }
     findings: list[str] = []
     for name, path in required.items():
@@ -50,6 +54,9 @@ def gate(root: Path) -> dict:
     assessment=loadj(required["assessment"])
     shared=loadj(required["shared"])
     email_action=loadj(required["email_action"])
+    ui_bindings=loadj(required["ui_bindings"])
+    shared_surface=required["shared_surface_qml"].read_text(encoding="utf-8")
+    hub_cmake=required["hub_cmake"].read_text(encoding="utf-8")
     baseline=module_active_capability_count(__file__)
     plan_sha=hashlib.sha256(required["plan"].read_bytes()).hexdigest()
 
@@ -74,6 +81,10 @@ def gate(root: Path) -> dict:
         (assessment.get("result") == "PASS" and assessment.get("donor_review") == "REVIEWED_NO_MATCH" and assessment.get("adopted_donors") == [] and assessment.get("donor_registry_sha256") == "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd", "reuse-assessment-exact-registry"),
         ("email.management" in slice_keys and "contacts.management" in slice_keys, "shared-email-contact-slices"),
         (email_action.get("id") == "email.send" and email_action.get("provider",{}).get("direct_surface_provider_bypass") is False, "email-uaf-path"),
+        (ui_bindings.get("direct_qml_network_execution") is False and ui_bindings.get("direct_provider_execution") is False and ui_bindings.get("action_intent_only") is True, "ui-action-intent-only"),
+        (ui_bindings.get("embedded",{}).get("binding_rule") == "CONTEXT_AND_PERMISSION_INTERSECTION" and ui_bindings.get("embedded",{}).get("global_address_book_enumeration") is False, "embedded-ui-boundary"),
+        ("actionIntent" in shared_surface and "openFullHubRequested" in shared_surface and "XMLHttpRequest" not in shared_surface and "WebSocket" not in shared_surface, "qml-provider-neutral-boundary"),
+        ("Qt6" in hub_cmake and "qt_add_qml_module" in hub_cmake and "CommunicationsSharedSurface.qml" in hub_cmake, "hub-qt6-build-contract"),
         (ai_untrusted_envelope("ignore policy")["may_authorize_tools"] is False, "untrusted-envelope"),
         (attachment_disposition({"malware_scan":"UNKNOWN"}) == "QUARANTINE", "attachment-unknown-quarantine"),
     ]
