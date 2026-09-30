@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.shared-capability.current-host.v1",
+  "id": "FA3-SHARED-CAPABILITY-CURRENT-HOST-001",
+  "status": "PENDING_CURRENT_HOST",
+  "capability_count": 175,
+  "slice_count": 45,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "production_admitted": false,
+  "current_host_runtime_promotion_claim": false,
+  "physical_evidence_required": true,
+  "required_checks": [
+    "APPLICATION_CONTEXT_FILTER_POSITIVE_NEGATIVE",
+    "HIDDEN_DENIED_NO_BACKGROUND_EXECUTION",
+    "PLUGIN_EXTENSION_APPLICABILITY_FILTER",
+    "EMAIL_SEND_SURFACE_FROM_EVERY_FA3_APPLICATION_CLASS",
+    "EMAIL_NO_SILENT_BACKGROUND_SEND",
+    "HOBBY_EXTERNAL_SERVICE_RENDER_PATH",
+    "RFQ_PURCHASE_COST_CONTEXT_ACTIVATION",
+    "PURCHASE_EXPLICIT_AUTHORIZATION",
+    "SOFTWARE_COEXISTENCE",
+    "HARDWARE_SAFETY_WHERE_DEVICE_OR_RENDER_RESOURCE_USED",
+    "AI_OFF_NO_PROVIDER_OR_MODEL_ACTIVITY",
+    "WAYLAND_FIRST_X11_FALLBACK_FOR_GUI_SURFACES"
+  ],
+  "requalification_reason": "FA3 structural Shared Capability Fabric and context-filtered application surfaces added"
+}
