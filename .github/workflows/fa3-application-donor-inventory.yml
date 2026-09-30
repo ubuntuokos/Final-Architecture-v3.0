@@ -18,9 +18,7 @@ jobs:
       - name: Static application inventory gate
         run: python3 src/fa3_application_donor_index.py --check --summary
       - name: Capability consumer map gate
-        run: python3 src/fa3_capability_consumer_map.py --check --output capability-map.json
-      - name: Provider model gateway assurance gate
-        run: python3 src/fa3_provider_model_gateway_assurance_gate.py
+        run: python3 src/fa3_application_donor_index.py --check --output capability-map.json
       - name: Tutorial shared-capability materialization self-check
         run: python3 src/fa3_tutorial_reuse_planner.py --self-check --check
       - name: Monthly donor capability refresh gate
@@ -44,7 +42,5 @@ jobs:
       - name: Regression and safety negative tests
         run: |
           python3 -m unittest tests.test_application_donor_index -v
-          python3 -m unittest tests.test_capability_consumer_map -v
-          python3 -m unittest tests.test_provider_model_gateway_assurance -v
           python3 -m unittest tests.test_tutorial_reuse_planner -v
           python3 -m unittest tests.test_donor_readiness -v

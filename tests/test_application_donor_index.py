@@ -221,6 +221,69 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             self.assertIn("TUTORIAL_SHARED_POLICY_INVALID", findings)
 
 
+
+    def test_capability_consumer_reverse_views(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            profile_rel = "canonical/profiles/FA3-EXTERNAL-LLM-CATALOG-001.json"
+            profile_dst = root / profile_rel
+            profile_dst.parent.mkdir(parents=True, exist_ok=True)
+            profile_dst.write_bytes((ROOT / profile_rel).read_bytes())
+            links_path = root / SOURCES[3]
+            links = json.loads(links_path.read_text())
+            donor = json.loads((root / SOURCES[2]).read_text())["entries"][0]
+            links["donor_usage_records"] = [{
+                "id": "FA3-USAGE-CAPMAP-TEST-001",
+                "application_id": "fa3.quickclip",
+                "donor_id": donor["donor_id"],
+                "donor_capability_key": "provider-discovery",
+                "usage_kind": "CAPABILITY_PATTERN",
+                "status": "ACTIVE",
+                "fa3_bindings": {
+                    "profile_ids": ["FA3-EXTERNAL-LLM-CATALOG-001"],
+                    "contract_ids": [],
+                    "authority_ids": ["FA3-AUTH-MODEL-ROUTER-001"],
+                    "shared_module_ids": [],
+                },
+                "consumers": [{
+                    "kind": "SHARED_MODULE",
+                    "id": "FA3-EXTERNAL-LLM-CATALOG-001",
+                    "relationship": "DIRECT",
+                }],
+                "current_host_impact": {"classification": "NO_RUNTIME_IMPACT"},
+            }]
+            links_path.write_text(json.dumps(links))
+            result = build_index(root)
+            self.assertEqual(result["validation"]["result"], "PASS", result["validation"]["findings"])
+            edge = result["capability_consumer_map"]["edges"][0]
+            self.assertEqual(edge["fa3_bindings"]["capability_ids"], ["CAP-005", "CAP-140"])
+            self.assertIn(edge["id"], result["capability_consumer_map"]["views"]["by_capability"]["CAP-140"])
+            self.assertIn(
+                edge["id"],
+                result["capability_consumer_map"]["views"]["by_consumer"]["APPLICATION:fa3.quickclip"],
+            )
+
+    def test_manual_capability_binding_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            links_path = root / SOURCES[3]
+            links = json.loads(links_path.read_text())
+            donor = json.loads((root / SOURCES[2]).read_text())["entries"][0]
+            links["donor_usage_records"] = [{
+                "id": "FA3-USAGE-CAPMAP-BAD-001",
+                "application_id": "fa3.quickclip",
+                "donor_id": donor["donor_id"],
+                "usage_kind": "CAPABILITY_PATTERN",
+                "status": "ACTIVE",
+                "fa3_bindings": {"capability_ids": ["CAP-140"]},
+            }]
+            links_path.write_text(json.dumps(links))
+            findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
+            self.assertIn("MANUAL_CAPABILITY_BINDING_FORBIDDEN", findings)
+            self.assertIn("UNRESOLVED_CAPABILITY_BINDING", findings)
+
     def test_fail_closed_auto_admission_and_bad_cross_app_edge(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
