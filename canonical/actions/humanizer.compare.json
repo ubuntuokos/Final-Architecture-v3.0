@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "humanizer.compare",
+  "version": "1.0.0",
+  "description": "Compare original and candidate text for protected-content preservation.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "original",
+      "candidate"
+    ],
+    "properties": {
+      "original": {
+        "type": "string"
+      },
+      "candidate": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "comparison"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "comparison": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "none",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    }
+  },
+  "provider": {
+    "selection": "none-deterministic-local"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  }
+}

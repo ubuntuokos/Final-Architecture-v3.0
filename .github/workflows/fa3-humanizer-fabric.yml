@@ -1,0 +1,37 @@
+name: FA3 Humanizer Fabric
+
+on:
+  pull_request:
+    paths:
+      - "apps/shared/humanizer/**"
+      - "apps/fa3-humanizer/**"
+      - "canonical/**HUMANIZ**"
+      - "canonical/humanizer-enforcement.json"
+      - "docs/FA3-HUMANIZER-**"
+      - "src/fa3_humanizer_gate.py"
+      - "tests/test_humanizer_fabric.py"
+      - ".github/workflows/fa3-humanizer-fabric.yml"
+  workflow_dispatch:
+
+jobs:
+  static-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Humanizer static gate
+        run: PYTHONPATH=src python3 src/fa3_humanizer_gate.py --root .
+      - name: Humanizer tests
+        run: python3 -m unittest tests.test_humanizer_fabric
+
+  qt-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Qt6 build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build qt6-base-dev qt6-declarative-dev
+      - name: Configure
+        run: cmake -S apps/fa3-humanizer -B build/fa3-humanizer -GNinja
+      - name: Build
+        run: cmake --build build/fa3-humanizer
