@@ -97,6 +97,8 @@ def gate(root: Path) -> dict[str, Any]:
         "contracts": "canonical/contracts/FA3-LICENSE-RIGHTS-CONTRACTS-001.json",
         "decision": "canonical/decisions/FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30.json",
         "decision_assessment": "canonical/assessments/FA3-LICENSE-RIGHTS-DECISION-ASSESSMENT-2026-09-30.json",
+        "application_intent": "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json",
+        "reuse_assessment": "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json",
         "gate": "canonical/FA3-GATE-LICENSE-RIGHTS-001.json",
         "descriptor_schema": "canonical/schemas/license-rights-descriptor.v1.json",
         "release_schema": "canonical/schemas/release-license-compliance-receipt.v1.json",
@@ -163,6 +165,13 @@ def gate(root: Path) -> dict[str, Any]:
             findings.append(finding("LR-051", "Decision Fabric applicability assessment binding missing"))
         if assessment.get("assessment") != "NOT_APPLICABLE":
             findings.append(finding("LR-052", "license/right admission must not be delegated to Decision Fabric"))
+
+        intent = data["application_intent"]
+        reuse = data["reuse_assessment"]
+        if intent.get("schema") != "fa3.application-intent.v1" or intent.get("project_id") != "FA3-LICENSE-RIGHTS-001":
+            findings.append(finding("LR-053", "License & Rights ApplicationIntent binding drift"))
+        if reuse.get("schema") != "fa3.reuse-assessment.v1" or reuse.get("result") != "PASS" or "FA3-LICENSE-RIGHTS-001" not in reuse.get("covered_ids", []):
+            findings.append(finding("LR-054", "License & Rights reuse assessment missing or not PASS"))
 
         # Pending historical audit is an acceptable materialization state only while
         # release eligibility remains fail-closed.
