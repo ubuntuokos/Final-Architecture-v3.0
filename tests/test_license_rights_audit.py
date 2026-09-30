@@ -92,6 +92,7 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             inv = build_inventory(root)
             self.assertEqual(0, inv["summary"]["unique_release_blockers"])
             self.assertEqual(1, inv["summary"]["rights_descriptor_cleared_release_subjects"])
+            self.assertFalse(any(x.get("severity") == "BLOCKING" for x in inv["work_queue"]))
 
     def test_non_code_rights_domains_are_separate(self):
         with tempfile.TemporaryDirectory() as td:
