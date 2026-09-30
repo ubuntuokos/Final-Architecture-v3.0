@@ -17,19 +17,20 @@
   "registry_policy": {
     "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "new_parallel_registry_forbidden": true,
-    "tutorial_reference_class": "TUTORIAL_REFERENCE",
+    "tutorial_reference_class": "TUTORIAL_REFERENCE_AFTER_NORMAL_DONOR_INTAKE",
     "unmarked_remote_link_rule_unchanged": "ANALYSIS_ONLY_UNTIL_OWNER_AUTHORIZES_DONOR_INTAKE",
     "owner_marked_donornak_link_rule_unchanged": true,
     "registry_entry_does_not_authorize_copying": true,
     "registry_entry_does_not_authorize_installation": true,
     "registry_entry_does_not_authorize_runtime": true,
-    "owner_authorized_tutorial_ingest": "MAY_REGISTER_TUTORIAL_REFERENCE_WITHOUT_PER_LINK_DONORNAK",
+    "owner_authorized_tutorial_ingest": "PROCESS_ONLY_AFTER_PUBLISHED_DONOR_REGISTRATION",
     "tutorial_ingest_scope": [
-      "OWNER_SUPPLIED_DOWNLOADED_TUTORIAL_FILE",
-      "FILE_DOWNLOADED_AS_PART_OF_EXPLICIT_OWNER_APPROVED_TUTORIAL_INGEST_TASK"
+      "PUBLISHED_FA3_DONOR_REFERENCE_REGISTRY_ENTRY_ONLY"
     ],
     "provenance_url_is_not_standalone_intake_authority": true,
-    "standalone_unmarked_remote_link_rule": "ANALYSIS_ONLY"
+    "standalone_unmarked_remote_link_rule": "ANALYSIS_ONLY",
+    "tutorial_intake_bypass": false,
+    "tutorial_registry_entry_requires_normal_owner_marked_intake": true
   },
   "processing_pipeline": [
     "PROVENANCE_AND_LICENSE_CLASSIFICATION",
