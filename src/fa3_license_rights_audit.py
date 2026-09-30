@@ -242,7 +242,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
             })
 
     # Distribution subjects are rights subjects even if their IDs do not map 1:1 to filenames.
-    for subject_id in sorted(included_ids):
+    for subject_id in sorted(unresolved_release_ids):
         queue.append({
             "subject_id": subject_id,
             "category": "RELEASE_INCLUDED_SUBJECT",
