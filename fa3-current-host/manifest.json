@@ -230,7 +230,17 @@
     "tests/test_step_ca_session_vault_ceremony.py",
     "tests/test_sysctl_governance.py",
     "tools/fa3_approval_tool.py",
-    "tools/fa3_python_namespace_audit.py"
+    "tools/fa3_python_namespace_audit.py",
+    "canonical/contracts/FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
+    "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
+    "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30.json",
+    "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
+    "src/fa3_orchestration_governance.py",
+    "src/fa3_orchestration_workforce.py",
+    "src/fa3_orchestration_workforce_gate.py",
+    "tests/test_orchestration_governance.py",
+    "tests/test_orchestration_workforce.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -456,6 +466,14 @@
       "mutation_performed": false,
       "persistent_mutation_performed": false,
       "global_promotion_claim": false
+    },
+    {
+      "name": "orchestration-governance-alignment",
+      "collector": null,
+      "gate": "orchestration-workforce",
+      "activation": "STRUCTURAL_ALIGNMENT_STATIC_AND_UNIT_VALIDATION_ONLY",
+      "collection_status": "STATIC_MATERIALIZED_PHYSICAL_RUNTIME_REQUALIFICATION_PENDING",
+      "global_promotion_claim": false
     }
   ],
   "global_gate_sequence": [
@@ -477,5 +495,15 @@
     "global_promotion_claim": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "orchestration_governance_alignment": {
+    "contract_id": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+    "capability_count": 175,
+    "structural_change": true,
+    "static_materialization": true,
+    "physical_runtime_requalification_required": true,
+    "current_host_promotion_claim": false,
+    "temporal_remains_sole_global_durable_lifecycle_authority": true,
+    "monitor_projection_authority": false
+  }
 }
