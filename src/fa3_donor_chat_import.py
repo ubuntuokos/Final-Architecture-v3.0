@@ -19,7 +19,8 @@ import zipfile
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
-from fa3_donor_registry import REGISTRY_REL, _atomic_write, _load, _normalized_key, capture_candidate
+from fa3_donor_registry import (REGISTRY_REL, REJECTION_AUDIT_REL, _atomic_write,
+                                _load, _normalized_key, capture_candidate)
 
 MAX_JSON_BYTES = 256 * 1024 * 1024
 MAX_EXPORT_BYTES = 512 * 1024 * 1024
@@ -248,6 +249,12 @@ def ingest(
             stage = stage_root / REGISTRY_REL
             stage.parent.mkdir(parents=True)
             shutil.copyfile(target, stage)
+            audit_source = root / REJECTION_AUDIT_REL
+            if not audit_source.is_file():
+                raise ValueError("REJECTION_AUDIT_MISSING")
+            audit_stage = stage_root / REJECTION_AUDIT_REL
+            audit_stage.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(audit_source, audit_stage)
             seen = set()
             for name, kind, locator in approved:
                 key = _normalized_key(kind, locator)
