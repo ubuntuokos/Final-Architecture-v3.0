@@ -24,6 +24,9 @@ PATHS = {
     "current_host": "canonical/FA3-SHARED-PLUGIN-EXTENSION-CURRENT-HOST-CONFORMANCE-001.json",
     "decision": "canonical/decisions/FA3-DEC-SHARED-PLUGIN-EXTENSION-AI-ACCESS-2026-09-30.json",
     "enforcement": "canonical/shared-plugin-extension-enforcement.json",
+    "intent": "canonical/intents/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001.json",
+    "reuse_assessment": "canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-REUSE-ASSESSMENT-001.json",
+    "decision_assessment": "canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-DECISION-ASSESSMENT-2026-09-30.json",
 }
 GATE_ID = "FA3-GATE-SHARED-PLUGIN-EXTENSION-001"
 
@@ -57,6 +60,9 @@ def gate(root: Path) -> dict[str, Any]:
     current_host = loadj(root / PATHS["current_host"])
     decision = loadj(root / PATHS["decision"])
     enforcement = loadj(root / PATHS["enforcement"])
+    intent = loadj(root / PATHS["intent"])
+    reuse_assessment = loadj(root / PATHS["reuse_assessment"])
+    decision_assessment = loadj(root / PATHS["decision_assessment"])
     cap_count = active_capability_count(root)
 
     checks: list[tuple[str, bool, str]] = [
@@ -80,6 +86,11 @@ def gate(root: Path) -> dict[str, Any]:
         ("SPE-018", current_host.get("status") == "PENDING_CURRENT_HOST" and current_host.get("production_promotion") is False and current_host.get("physical_proof_required") is True, "current-host state overclaims proof"),
         ("SPE-019", decision.get("approved_architecture") == "SHARED_PLUGIN_EXTENSION_FABRIC_WITH_SCOPED_AI_TOGGLES", "decision record mismatch"),
         ("SPE-020", enforcement.get("fail_closed") is True and enforcement.get("capability_count") == 175, "enforcement baseline drift"),
+        ("SPE-020A", intent.get("schema") == "fa3.application-intent.v1" and intent.get("project_id") == profile.get("id") and "FA3-REUSE-DISCOVERY-001" in intent.get("integration_requirements", []), "ApplicationIntent adoption/reuse binding missing"),
+        ("SPE-020B", reuse_assessment.get("schema") == "fa3.reuse-assessment.v1" and reuse_assessment.get("result") == "PASS" and profile.get("id") in reuse_assessment.get("covered_ids", []) and reuse_assessment.get("intent_path") == PATHS["intent"], "Reuse Assessment adoption coverage missing"),
+        ("SPE-020C", any(isinstance(row, dict) and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001" and row.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"} and row.get("authority") is False and row.get("automatic_selection") is False for row in reuse_assessment.get("mandatory_source_reviews", [])), "mandatory Khronos source-family review missing"),
+        ("SPE-020D", decision_assessment.get("schema") == "fa3.decision-fabric-assessment.v1" and decision_assessment.get("assessment") == "NOT_APPLICABLE" and profile.get("id") in decision_assessment.get("covered_ids", []) and decision_assessment.get("project_radar_checked") is True, "Decision Fabric applicability assessment missing"),
+        ("SPE-020E", all(decision_assessment.get("security_boundary", {}).get(field) is False for field in ("may_grant_permission", "may_expand_candidate_set", "may_create_agent", "may_admit_model", "may_admit_provider")), "Decision Fabric security boundary weakened"),
     ]
 
     sample = {
