@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-SCP-CONTRACTS-001",
+  "profile_id": "FA3-SCP-FABRIC-001",
+  "authority": false,
+  "contracts": {
+    "communication_request": {
+      "required": [
+        "authenticated_source",
+        "authenticated_destination",
+        "trusted_host",
+        "valid_layer",
+        "valid_scope",
+        "valid_capability",
+        "valid_security_state",
+        "destination_allowed"
+      ],
+      "default_on_missing": "DENY"
+    },
+    "external_egress": {
+      "additional_required": [
+        "external_permission"
+      ],
+      "ai_additional_required": [
+        "ai_enabled",
+        "provider_admitted",
+        "model_route_approved"
+      ],
+      "secret_values_in_payload_forbidden": true
+    },
+    "shared_settings": {
+      "single_shared_component_required": true,
+      "embedded_context_fields": [
+        "application_id",
+        "project_id",
+        "user_id",
+        "role",
+        "module_id",
+        "capability_id"
+      ],
+      "standalone_admin_projection": true,
+      "direct_privileged_mutation": false,
+      "draft_changeset_only": true
+    },
+    "runtime_discovery": {
+      "available_does_not_mean_admitted": true,
+      "allowed_states": [
+        "UNAVAILABLE",
+        "DISCOVERED_NOT_ADMITTED",
+        "ADMITTED_BY_SEPARATE_EVIDENCE"
+      ],
+      "silent_fallback": false
+    },
+    "high_bandwidth_session": {
+      "preauthorization_required": true,
+      "short_lived": true,
+      "source_destination_bound": true,
+      "resource_bound": true,
+      "audited": true
+    }
+  }
+}

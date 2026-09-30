@@ -1,0 +1,32 @@
+name: FA3 SCP Fabric
+
+on:
+  pull_request:
+    paths:
+      - "apps/shared/scp/**"
+      - "apps/fa3-scp-manager/**"
+      - "canonical/**SCP**"
+      - "canonical/scp-enforcement.json"
+      - "docs/FA3-SCP-FABRIC-FINAL-PLAN-2026-09-30.md"
+      - "src/fa3_scp_gate.py"
+      - "tests/test_scp_fabric.py"
+      - ".github/workflows/fa3-scp-fabric.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/shared/scp/**"
+      - "apps/fa3-scp-manager/**"
+      - "canonical/**SCP**"
+      - "canonical/scp-enforcement.json"
+      - "src/fa3_scp_gate.py"
+      - "tests/test_scp_fabric.py"
+
+jobs:
+  static-scp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SCP canonical/static gate
+        run: PYTHONPATH=src python3 src/fa3_scp_gate.py
+      - name: SCP regressions
+        run: python3 -m unittest discover -s tests -p 'test_scp_fabric.py' -v

@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SCP-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SCP-FABRIC-001",
+  "intent_id": "FA3-SCP-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SCP-FABRIC-APPLICATION-INTENT-001.json",
+  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "donor_registry_sha256": "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd",
+  "donor_registry_main_sha": "6d9512df4bd449b0e3d7098d6d32a7393e7bb2fc",
+  "donor_registry_blob_sha": "7e900cac93936d2f319e132def4c172b2a415d4d",
+  "donor_count": 1233,
+  "donor_review": "REVIEWED_NO_MATCH",
+  "adopted_donors": [],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "EXISTING_CREDENTIAL_CUSTODY_BOUNDARY"
+    },
+    {
+      "id": "FA3-PROVIDER-STEP-CA-001",
+      "use": "EXISTING_TRUST_PKI_RUNTIME_PROVIDER_WHEN_ADMITTED"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_SECURITY_AUTHORITY",
+      "reason": "SCP_MUST_ENFORCE_EXISTING_AUTHORITY_DECISIONS_NOT_CREATE_PARALLEL_GOVERNANCE"
+    },
+    {
+      "id": "PER_APPLICATION_PROXY_SETTINGS_IMPLEMENTATION",
+      "reason": "OWNER_REQUIRES_ONE_SHARED_PANEL_AND_BACKEND"
+    },
+    {
+      "id": "FAIL_OPEN_PROXY",
+      "reason": "FA3_SECURITY_BASELINE_IS_FAIL_CLOSED"
+    }
+  ],
+  "pattern_reuse": [
+    "DEFAULT_DENY",
+    "FAIL_CLOSED",
+    "DRAFT_ONLY_GUI_MUTATION",
+    "CURRENT_HOST_EVIDENCE_SEPARATE"
+  ],
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N"
+  },
+  "coexistence": {
+    "result": "PASS_DESIGN_ONLY",
+    "upstream_uninstall_required": false
+  }
+}

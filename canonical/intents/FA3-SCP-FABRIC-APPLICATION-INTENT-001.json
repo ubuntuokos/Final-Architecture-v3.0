@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SCP-FABRIC-APPLICATION-INTENT-001",
+  "status": "OWNER_APPROVED",
+  "title": "Secure Communication & Proxy Fabric",
+  "target": "FA3_SHARED_INFRASTRUCTURE_AND_SCP_MANAGER",
+  "problem": "FA3 components require governed inter-app, multi-host, ingress and egress communication without network reachability becoming authority.",
+  "required_outcomes": [
+    "DEFAULT_DENY",
+    "FAIL_CLOSED",
+    "SHARED_SETTINGS_SURFACE",
+    "STANDALONE_MANAGER",
+    "DRAFT_ONLY_MUTATION",
+    "CURRENT_HOST_ALIGNMENT",
+    "RETROACTIVE_APPLICATION_REVIEW"
+  ],
+  "excluded_outcomes": [
+    "NEW_SECURITY_AUTHORITY",
+    "DIRECT_PROVIDER_SELECTION_AUTHORITY",
+    "HRB_REPLACEMENT",
+    "SILENT_FALLBACK",
+    "FAKE_RUNTIME_PROMOTION"
+  ],
+  "capability_delta": 0,
+  "authority": false
+}

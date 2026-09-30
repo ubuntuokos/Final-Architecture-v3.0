@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.scp-application-bindings.v1",
+  "id": "FA3-SCP-APPLICATION-BINDINGS-001",
+  "authority": false,
+  "profile_id": "FA3-SCP-FABRIC-001",
+  "standalone_manager": {
+    "application_id": "fa3.scp-manager",
+    "shared_panel": true
+  },
+  "global_rule": {
+    "all_existing_planned_apps_review_required": true,
+    "local_proxy_settings_duplication_forbidden": true,
+    "context_limited_embedding_required": true,
+    "capability_loss_allowed": false,
+    "current_host_alignment_for_structural_change": true
+  },
+  "traffic_classes": [
+    "LOCAL_IPC",
+    "INTERNAL_HOST",
+    "INTERNAL_MULTI_HOST",
+    "EXTERNAL_EGRESS",
+    "EXTERNAL_INGRESS",
+    "HIGH_BANDWIDTH_DATA",
+    "FORBIDDEN"
+  ]
+}

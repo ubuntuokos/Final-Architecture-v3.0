@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.current-host-obligation.v1",
+  "id": "FA3-SCP-CURRENT-HOST-001",
+  "profile_id": "FA3-SCP-FABRIC-001",
+  "status": "PENDING_PHYSICAL_RUNTIME_EVIDENCE",
+  "authority": false,
+  "historical_evidence_not_sufficient": true,
+  "required_proofs": [
+    "SCP_LOCAL_AGENT_PASS",
+    "INTER_APP_PROXY_PASS",
+    "WORKLOAD_IDENTITY_PASS",
+    "MTLS_PASS_WHEN_APPLICABLE",
+    "LAYER_SCOPE_DENY_PASS",
+    "DIRECT_EGRESS_BLOCK_PASS",
+    "AUTHORIZED_EGRESS_PASS",
+    "SECRET_NON_DISCLOSURE_PASS",
+    "SIGNED_POLICY_TAMPER_DENY_PASS",
+    "CONTROL_PLANE_FAILURE_PASS",
+    "SOFTWARE_COEXISTENCE_PASS",
+    "HARDWARE_SAFETY_PASS"
+  ],
+  "simulated_pass_forbidden": true,
+  "runtime_promotion_claim": false
+}
