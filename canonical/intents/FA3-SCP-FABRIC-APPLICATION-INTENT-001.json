@@ -22,5 +22,31 @@
     "FAKE_RUNTIME_PROMOTION"
   ],
   "capability_delta": 0,
-  "authority": false
+  "authority": false,
+  "project_id": "FA3-SCP-FABRIC-001",
+  "project_type": "SHARED_SECURITY_COMMUNICATION_INFRASTRUCTURE",
+  "integration_requirements": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "declared_new_capabilities": [],
+  "proposed_authority_roles": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "config_root": "$XDG_CONFIG_HOME/fa3/scp",
+    "state_root": "$XDG_STATE_HOME/fa3/scp",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/scp",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  }
 }
