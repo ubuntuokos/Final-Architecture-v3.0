@@ -10,7 +10,7 @@ The registry centralizes external projects, repositories, algorithms, research, 
 
 Only a LINK explicitly preceded by the user's `donornak` marker (with or without a colon) may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
 
-A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires a separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
+A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A `SUPERSEDED` entry requires separate reconciliation. A rejected or security-untrusted source is removed from the active registry and preserved in `FA3-DONOR-REJECTION-AUDIT-001`; it may return only after documented `VERIFIED_SAFE` evidence and FA3 impact review. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
 
 ```bash
 ./bin/fa3-donor-capture --owner-submitted-link --owner-donor-marker donornak \\
@@ -21,11 +21,13 @@ This command requires a real prior user marker; the flag is an operator attestat
 
 ## Lifecycle
 
-`CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal research path. Direct, pre-reviewed owner-submitted links enter `ACCEPTED_REFERENCE` upon capture for catalog inclusion only. `REJECTED` and `SUPERSEDED` are retained as research history and are excluded from derived planning candidates.
+`CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal active-registry research path. Direct, pre-reviewed owner-submitted links enter `ACCEPTED_REFERENCE` upon capture for catalog inclusion only. `SUPERSEDED` may remain as inactive history in the active registry. `REJECTED` is not a valid active-registry state: rejected or unsafe donor history is moved to `canonical/FA3-DONOR-REJECTION-AUDIT-001.json`. Re-entry requires documented verified-safe security evidence and cannot silently restore the previously rejected artifact.
 
 ## Planning
 
 Before a new or materially modified FA3 application, capability, or module is implemented, Reuse Discovery queries the registry and the rest of the canonical reuse sources. Matching is deterministic from capability/domain/problem/target/tag metadata. The Decision Fabric may rank already eligible candidates but cannot expand the candidate set.
+
+Every donor-record change is processed. The application/donor index maintains reverse donor -> application traceability and reconciles every affected application, including applications that are not formally declared dependencies. Donor capability lists must be refreshed at least every 31 days. Security-relevant donor changes are propagated immediately and do not wait for the monthly cycle. A used donor whose development stops must have its last verified stable version locked before replacement; the affected capability must then be preserved by FA3-native rematerialization or a verified functionally equivalent donor. Donor changes must not reduce an application's verified capability set unless retaining the capability has documented, auditable evidence of risk to an FA3 component.
 
 ## Hardware Audit
 
