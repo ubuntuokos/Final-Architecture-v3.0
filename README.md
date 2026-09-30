@@ -245,6 +245,16 @@ For deeper technical material, start with:
 
 ---
 
+# License & rights
+
+FA3-original work in this repository is licensed under **Apache-2.0** unless a file or component explicitly states otherwise. Third-party software, models, datasets, assets, fonts, SDKs, codecs and services retain their own terms and are **not relicensed by FA3**.
+
+FA3 treats licensing as a P0 release-safety property. The canonical **License & Rights Authority** keeps code, model, dataset, asset, service and generated-output rights separate; unknown required rights facts fail closed. The historical repository is currently subject to a retroactive rights audit, so release eligibility remains blocked until that audit reaches PASS.
+
+See [`LICENSE`](LICENSE), [`NOTICE`](NOTICE), [`TRADEMARKS.md`](TRADEMARKS.md), [`COMMERCIAL-LICENSING.md`](COMMERCIAL-LICENSING.md), and [`docs/license-rights-management.md`](docs/license-rights-management.md).
+
+---
+
 <div align="center">
 
 ## FA3
