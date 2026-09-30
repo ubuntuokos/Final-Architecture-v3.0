@@ -63,6 +63,8 @@ jobs:
         run: python -m py_compile src/fa3_gui_current_host.py src/fa3_gui_current_host_gate.py evidence/collect-gui-current-host.py
       - name: Plugin and extension management syntax check
         run: python -m py_compile src/fa3_plugin_extension_manager.py src/fa3_plugin_extension_gate.py
+      - name: Shared capability fabric syntax check
+        run: python -m py_compile src/fa3_shared_capability_fabric.py src/fa3_shared_capability_gate.py
       - name: Authenticated approval trust-boundary gate
         run: ./bin/fa3-enforce authenticated-approval
       - name: Primary hardware audit gate
@@ -225,6 +227,8 @@ jobs:
         run: ./bin/fa3-enforce audacity-mcp
       - name: FA3 Plugin and Extension Management mandatory gate
         run: ./bin/fa3-enforce plugin-extension-management
+      - name: FA3 Shared Capability Fabric mandatory gate
+        run: ./bin/fa3-enforce shared-capability-fabric
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Upload static report
