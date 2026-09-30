@@ -2,6 +2,8 @@
 from __future__ import annotations
 import fnmatch
 import json
+import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -136,32 +138,65 @@ def _decision(envelope: Any, result: str, reason: str) -> dict[str, Any]:
         "authority_expansion": False,
     }
 
+def monitor_event_path() -> Path:
+    configured = os.environ.get("FA3_SCOPE_GUARD_EVENT_LOG", "").strip()
+    if configured and configured != "AUTO":
+        return Path(configured).expanduser()
+    state_home = os.environ.get("XDG_STATE_HOME", "").strip()
+    base = Path(state_home).expanduser() if state_home else Path.home() / ".local" / "state"
+    return base / "fa3" / "scope-authority-guard" / "decisions.jsonl"
+
+def record_monitor_decision(decision: dict[str, Any], *, event_kind: str) -> dict[str, Any]:
+    row = {
+        "schema": "fa3.scope-authority-guard-event.v1",
+        "event_id": f"{int(time.time_ns())}-{os.getpid()}",
+        "epoch_ns": time.time_ns(),
+        "event_kind": event_kind,
+        "task_id": decision.get("task_id"),
+        "actor_id": decision.get("actor_id"),
+        "target_actor": decision.get("target_actor"),
+        "intent": decision.get("intent"),
+        "result": decision.get("result"),
+        "reason": decision.get("reason"),
+        "execution_authority": False,
+        "authority_expansion": False,
+    }
+    path = monitor_event_path()
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        with os.fdopen(fd, "a", encoding="utf-8") as stream:
+            stream.write(json.dumps(row, sort_keys=True, ensure_ascii=False, separators=(",", ":")) + "\n")
+    except OSError:
+        return {**decision, "monitor_event_recorded": False}
+    return {**decision, "monitor_event_recorded": True, "monitor_event_id": row["event_id"]}
+
 def evaluate_layer_task(root: Path | str, *, task_id: str, target_layer: str,
-                        canonical_capability_ids: list[str]) -> dict[str, Any]:
+                        canonical_capability_ids: list[str], record_event: bool = True) -> dict[str, Any]:
+    def emit(decision: dict[str, Any]) -> dict[str, Any]:
+        return record_monitor_decision(decision, event_kind="LAYER_INGRESS") if record_event else decision
     try:
         required = set(_strings(canonical_capability_ids, "canonical_capability_ids"))
     except ScopeGuardError as exc:
-        return _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", str(exc))
+        return emit(_decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", str(exc))
     if not required:
-        return _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "CANONICAL_CAPABILITY_IDS_REQUIRED")
-    reg = load_layer_registry(root)
+        return emit(_decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "CANONICAL_CAPABILITY_IDS_REQUIRED"))\n    reg = load_layer_registry(root)
     target = _layer_contract(reg, target_layer)
     if target is None:
-        return _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_LAYER")
-    all_known = set()
+        return emit(_decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_LAYER"))\n    all_known = set()
     for layer in reg["layers"]:
         all_known.update(_strings(layer.get("allowed_capabilities", []), "allowed_capabilities"))
     unknown = sorted(required - all_known)
     if unknown:
         decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_CANONICAL_CAPABILITY")
         decision["unknown_capabilities"] = unknown
-        return decision
+        return emit(decision)
     allowed = set(_strings(target.get("allowed_capabilities", []), "allowed_capabilities"))
     if required.issubset(allowed):
         decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "ALLOW", "LAYER_CONTRACT_MATCH")
         decision["layer_key"] = target_layer
         decision["canonical_capability_ids"] = sorted(required)
-        return decision
+        return emit(decision)
     exact_targets = []
     per_capability: dict[str, list[str]] = {}
     for layer in reg["layers"]:
@@ -175,11 +210,11 @@ def evaluate_layer_task(root: Path | str, *, task_id: str, target_layer: str,
         decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DELEGATE", "WRONG_LAYER")
         decision["recommended_layers"] = sorted(exact_targets)
         decision["canonical_capability_ids"] = sorted(required)
-        return decision
+        return emit(decision)
     decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "SPLIT", "CROSS_LAYER_TASK")
     decision["capability_layer_candidates"] = {key: sorted(value) for key, value in sorted(per_capability.items())}
     decision["canonical_capability_ids"] = sorted(required)
-    return decision
+    return emit(decision)
 
 def require_layer_permitted(root: Path | str, *, task_id: str, target_layer: str,
                             canonical_capability_ids: list[str]) -> dict[str, Any]:
