@@ -25,6 +25,11 @@ The canonical registry is `canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json`; it 
 
 ## Email from every FA3 application
 
+### UI Component Fabric projection
+
+The universal send entry is projected through `FA3-UI-COMPONENT-FABRIC-001`. Every FA3 application receives the same shared action surface and emits the typed `email.send` UAF intent. The UI component cannot send directly, access secrets, or bypass authorization/provider admission.
+
+
 Every FA3 application exposes the same shared **Email küldése** / `email.send` surface. The application may project its current context into the composer, including a document, render, export, report, project reference or task reference where the underlying capability allows it.
 
 This does **not** turn every application into a full mail client. Full mailbox/thread/read/reply surfaces remain context filtered. Sending is a mutation: it requires an explicit user or authorized workflow intent, admitted provider/connector path and normal policy checks. Silent background send is forbidden.
