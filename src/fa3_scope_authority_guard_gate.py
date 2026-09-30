@@ -5,9 +5,9 @@ import json
 from pathlib import Path
 from typing import Any
 from fa3_scope_authority_guard import evaluate, guard_transition, make_envelope
+from fa3_release_baseline import load_active_release_baseline
 
 GATE_ID="FA3-SCOPE-AUTHORITY-GUARD-GATESET-001"
-CAPABILITY_COUNT=175
 PATHS={
  "profile":"canonical/profiles/FA3-SCOPE-AUTHORITY-GUARD-001.json",
  "contract":"canonical/contracts/FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001.json",
@@ -45,15 +45,15 @@ def regressions(root:Path)->list[dict[str,Any]]:
     return cases
 
 def gate(root:Path)->dict[str,Any]:
-    root=root.resolve(); findings=[]; data={}
+    root=root.resolve(); capability_count=load_active_release_baseline(root).capability_count; findings=[]; data={}
     for key,rel in PATHS.items():
         try:data[key]=loadj(root/rel)
         except Exception as exc:findings.append(finding("SAGF-000",f"unreadable {rel}: {exc!r}"))
     if not findings:
         p,c,r,i,a,g,e,pol,greg=(data[k] for k in ("profile","contract","registry","intent","assessment","gate","enforcement","policy","gate_registry"))
-        if not (p.get("id")=="FA3-SCOPE-AUTHORITY-GUARD-001" and p.get("capability_count")==CAPABILITY_COUNT and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append(finding("SAGF-001","profile baseline/authority drift"))
-        if not (c.get("id")=="FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001" and c.get("fail_closed") is True and c.get("capability_count")==CAPABILITY_COUNT and c.get("new_architectural_authority") is False): findings.append(finding("SAGF-002","contract drift"))
-        if not (r.get("default_policy")=="DENY" and r.get("capability_count")==CAPABILITY_COUNT and r.get("new_architectural_authorities")==0): findings.append(finding("SAGF-003","registry is not fail-closed/non-authoritative"))
+        if not (p.get("id")=="FA3-SCOPE-AUTHORITY-GUARD-001" and p.get("capability_count")==capability_count and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append(finding("SAGF-001","profile baseline/authority drift"))
+        if not (c.get("id")=="FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001" and c.get("fail_closed") is True and c.get("capability_count")==capability_count and c.get("new_architectural_authority") is False): findings.append(finding("SAGF-002","contract drift"))
+        if not (r.get("default_policy")=="DENY" and r.get("capability_count")==capability_count and r.get("new_architectural_authorities")==0): findings.append(finding("SAGF-003","registry is not fail-closed/non-authoritative"))
         director=next((x for x in r.get("actors",[]) if x.get("actor_id")=="FA3-ORCHESTRATION-DIRECTOR-001"),{})
         if not (director.get("may_execute_side_effects") is False and director.get("may_expand_scope") is False and director.get("may_self_verify") is False and "model.route" in director.get("forbidden_intents",[])): findings.append(finding("SAGF-004","director scope contract weakened"))
         if not (i.get("declared_new_capabilities")==[] and i.get("proposed_authority_roles")==[]): findings.append(finding("SAGF-005","intent attempts capability/authority expansion"))
@@ -65,7 +65,7 @@ def gate(root:Path)->dict[str,Any]:
         if pol.get("scope_authority_guard_gate_id")!=GATE_ID or pol.get("scope_authority_guard_registry_id")!="FA3-AUTHORITY-CONTRACT-REGISTRY-001": findings.append(finding("SAGF-011","policy identity binding missing"))
     rows=regressions(root) if not findings else []
     if any(x["result"]!="PASS" for x in rows):findings.append(finding("SAGF-012","executable regressions failed"))
-    report={"schema":"fa3.scope-authority-guard-gate-report.v1","gate_id":GATE_ID,"capability_count":CAPABILITY_COUNT,"authority_delta":0,"result":"PASS" if not findings else "FAIL","findings":findings,"regression_count":len(rows),"regressions":rows,"current_host_runtime_promotion_claim":False,"global_promotion_claim":False}
+    report={"schema":"fa3.scope-authority-guard-gate-report.v1","gate_id":GATE_ID,"capability_count":capability_count,"authority_delta":0,"result":"PASS" if not findings else "FAIL","findings":findings,"regression_count":len(rows),"regressions":rows,"current_host_runtime_promotion_claim":False,"global_promotion_claim":False}
     out=root/"reports/scope-authority-guard-gate-report.json";out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     return report
 
