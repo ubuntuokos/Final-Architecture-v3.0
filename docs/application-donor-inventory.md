@@ -45,6 +45,20 @@ tasks. Repeated sightings or timestamp-only changes do not cause new reviews.
 Unmatched donors stay in the existing registry and remain available to
 Reuse Discovery for planning.
 
+## Tutorial-derived functions and shared-capability impact
+
+The application inventory is also the retrospective impact surface for tutorial-derived functions.
+
+- If a registered tutorial describes an existing single-application function, preserve the implementation and adapt the tutorial to that application's real FA3 UI/workflow manual.
+- If the function is missing, record a real gap and complete the necessity/placement decision before implementation.
+- If two or more FA3 applications can use the same functional core, place that core once in the appropriate shared FA3 layer/component and expose it through stable contracts. Consumer applications retain only UI/workflow adapters and context-specific behavior unless an explicit reviewed exception justifies duplication.
+- Impact discovery must include planned, in-progress and materialized applications. A new shared layer is never future-only.
+- Migration from application-local implementations must preserve verified behavior, native project/data compatibility and capability coverage. If direct replacement cannot yet be proven safe, keep a compatibility adapter and leave migration pending rather than reducing capability.
+- Every affected application's manual receives its own UI-specific projection. Shared technical documentation does not replace per-application user documentation.
+- A structural/runtime shared-layer change also triggers Current Host alignment and requires the normal physical evidence before runtime promotion.
+
+The declaration manifest exposes a `shared_capabilities` collection. Every concrete shared capability must name one owner layer and at least two known consumer applications, require retrospective review and manual updates, forbid capability loss, and remain non-authoritative until separately admitted.
+
 ## Mandatory planning and audit
 
 Before any new or materially modified FA3 application, capability or module,
