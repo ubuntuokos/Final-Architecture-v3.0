@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
+  "application_or_module": "FA3 Orchestration Workforce / shared governance core",
+  "intent": "Strengthen existing orchestration with objective ancestry, boundary-based decomposition, typed dependencies, monotonic delegation scope, execution claims, version-bound approvals, budget/liveness and monitoring projections.",
+  "existing_capability_bindings": [
+    "CAP-004",
+    "CAP-007",
+    "CAP-009",
+    "CAP-010",
+    "CAP-011",
+    "CAP-019",
+    "CAP-029",
+    "CAP-084",
+    "CAP-085",
+    "CAP-086"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "reuse_required": true,
+  "shared_function": true,
+  "retroactive_consumers": "ALL_ORCHESTRATION_PROFILES_AND_AFFECTED_FA3_APPLICATIONS",
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "new_global_port": false,
+    "new_global_service_name": false,
+    "upstream_uninstall_required": false
+  },
+  "runtime_promotion_claim": false
+}
