@@ -240,7 +240,11 @@
     "src/fa3_orchestration_workforce.py",
     "src/fa3_orchestration_workforce_gate.py",
     "tests/test_orchestration_governance.py",
-    "tests/test_orchestration_workforce.py"
+    "tests/test_orchestration_workforce.py",
+    "apps/fa3-control-center/qml/OrchestrationMonitorPage.qml",
+    "apps/fa3-control-center/src/OrchestrationMonitorService.cpp",
+    "apps/fa3-control-center/src/OrchestrationMonitorService.h",
+    "tests/test_orchestration_monitor_surface.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -504,6 +508,8 @@
     "physical_runtime_requalification_required": true,
     "current_host_promotion_claim": false,
     "temporal_remains_sole_global_durable_lifecycle_authority": true,
-    "monitor_projection_authority": false
+    "monitor_projection_authority": false,
+    "monitor_surface": "agents.orchestration-monitor",
+    "monitor_runtime_evidence_required": true
   }
 }
