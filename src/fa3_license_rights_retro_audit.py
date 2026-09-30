@@ -10,7 +10,7 @@ from typing import Any
 from fa3_license_rights import evaluate_descriptor
 
 JEV_PREFIX = "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/"
-EXPECTED_JEV_LOCAL_FILES = {
+EXPECTED_JEV_UPSTREAM_FILES = {
     JEV_PREFIX + "README.md",
     JEV_PREFIX + "VERIFICATION.md",
     JEV_PREFIX + "manifest.json",
@@ -58,9 +58,9 @@ def run_audit(root: Path) -> dict[str, Any]:
     if descriptor_result["result"] != "PASS" or descriptor_result["admitted_for_release"] is not True:
         findings.append({"code": "RETRO-001", "message": "Jev snapshot rights descriptor is not release-admissible"})
 
-    missing_snapshot = sorted(EXPECTED_JEV_LOCAL_FILES - file_set)
+    missing_snapshot = sorted(EXPECTED_JEV_UPSTREAM_FILES - file_set)
     extra_snapshot = sorted(
-        x for x in file_set if x.startswith(JEV_PREFIX) and x not in EXPECTED_JEV_LOCAL_FILES
+        x for x in file_set if x.startswith(JEV_PREFIX) and x not in EXPECTED_JEV_UPSTREAM_FILES and x != JEV_PREFIX + "manifest.json"
     )
     if missing_snapshot:
         findings.append({"code": "RETRO-002", "message": "Pinned Jev snapshot file missing", "paths": missing_snapshot})
@@ -113,7 +113,7 @@ def run_audit(root: Path) -> dict[str, Any]:
         "tracked_file_count_current": len(files),
         "anchored_snapshot_commit": inventory.get("snapshot_commit"),
         "anchored_snapshot_tree": inventory.get("snapshot_tree"),
-        "physically_vendored_upstream_file_count": len([x for x in files if x.startswith(JEV_PREFIX)]),
+        "physically_vendored_upstream_file_count": len([x for x in files if x in EXPECTED_JEV_UPSTREAM_FILES]),
         "model_binary_count": len(model_files),
         "font_count": len(font_files),
         "media_asset_count": len(media_files),
