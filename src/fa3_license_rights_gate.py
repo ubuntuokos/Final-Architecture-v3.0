@@ -7,8 +7,9 @@ from pathlib import Path
 from typing import Any
 
 from fa3_license_rights import evaluate_descriptor, evaluate_release_receipt
+from fa3_release_baseline import module_active_capability_count
 
-CAPABILITY_COUNT = 175
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def loadj(path: Path) -> dict[str, Any]:
@@ -95,6 +96,7 @@ def gate(root: Path) -> dict[str, Any]:
         "profile": "canonical/profiles/FA3-LICENSE-RIGHTS-001.json",
         "contracts": "canonical/contracts/FA3-LICENSE-RIGHTS-CONTRACTS-001.json",
         "decision": "canonical/decisions/FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30.json",
+        "decision_assessment": "canonical/assessments/FA3-LICENSE-RIGHTS-DECISION-ASSESSMENT-2026-09-30.json",
         "gate": "canonical/FA3-GATE-LICENSE-RIGHTS-001.json",
         "descriptor_schema": "canonical/schemas/license-rights-descriptor.v1.json",
         "release_schema": "canonical/schemas/release-license-compliance-receipt.v1.json",
@@ -155,6 +157,12 @@ def gate(root: Path) -> dict[str, Any]:
 
         if gate_record.get("gateset_id") != "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" or gate_record.get("fail_closed") is not True:
             findings.append(finding("LR-050", "license-rights subgate binding drift"))
+
+        assessment = data["decision_assessment"]
+        if assessment.get("schema") != "fa3.decision-fabric-assessment.v1" or "FA3-LICENSE-RIGHTS-001" not in assessment.get("covered_ids", []):
+            findings.append(finding("LR-051", "Decision Fabric applicability assessment binding missing"))
+        if assessment.get("assessment") != "NOT_APPLICABLE":
+            findings.append(finding("LR-052", "license/right admission must not be delegated to Decision Fabric"))
 
         # Pending historical audit is an acceptable materialization state only while
         # release eligibility remains fail-closed.
