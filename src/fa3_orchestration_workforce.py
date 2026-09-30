@@ -4,6 +4,7 @@ import argparse,json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from fa3_orchestration_governance import build_monitor_projection, build_task_governance, validate_dependency_graph
 REGISTRY_REL=Path("canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json")
 ADMISSION_SCHEMA="fa3.orchestration-provider-current-host-admission.v1"
 EXISTING_RUNTIME_AUTHORITY_STATES={"EXISTING_CANONICAL_AUTHORITY"}
@@ -75,7 +76,7 @@ def route_task(root,task,*,runtime_execution=None,admission_receipts=None,decisi
         rs=_reasons(s,task,runtime,receipts)
         (rejected.append(Rejection(s["id"],tuple(rs))) if rs else accepted.append(s))
     common={"schema":"fa3.orchestration-route-decision.v1","task_id":task["task_id"],"runtime_execution":runtime,"horizontal_gates":reg.get("horizontal_authorities",[]),"horizontal_fabrics":reg.get("horizontal_fabrics",[]),"resource_boundary":{"hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","accelerator_conflict":"FA3-ACCEL-GUARD-001","requirements":task.get("resource_requirements",{})},"authorized_ai_participants":list(task.get("authorized_ai_participants",[]))}
-    if not accepted:return {**common,"status":"HUMAN_ESCALATION","reason":"NO_ELIGIBLE_SPECIALIST_AFTER_HARD_FILTERS","rejected":[r.as_dict() for r in rejected]}
+    governed_task=dict(task);governed_task["runtime_execution"]=runtime;common["governance_projection"]=build_task_governance(governed_task)\n    if not accepted:return {**common,"status":"HUMAN_ESCALATION","reason":"NO_ELIGIBLE_SPECIALIST_AFTER_HARD_FILTERS","rejected":[r.as_dict() for r in rejected]}
     ranked=sorted(accepted,key=lambda s:(-_score(s,task)[0],_score(s,task)[1])); top=_score(ranked[0],task)[0]; ties=[s for s in ranked if _score(s,task)[0]==top]
     if len(ties)>1 and task.get("require_unambiguous",False): return {**common,"status":"HUMAN_ESCALATION","reason":"AMBIGUOUS_TOP_SPECIALIST","top_candidates":[{"specialist_id":s["id"],"provider":s["provider"],"score":top} for s in ties],"rejected":[r.as_dict() for r in rejected]}
     winner,trace=_advisory(ranked,decision_advisory)
@@ -84,12 +85,12 @@ def compile_cross_domain_plan(root,request,*,runtime_execution=None):
     tasks=request.get("tasks"); receipts=request.get("runtime_admission_receipts",{}); advisories=request.get("decision_advisories",{})
     if not isinstance(tasks,list) or not tasks: raise WorkforceContractError("cross-domain request requires tasks")
     if not isinstance(receipts,dict) or not isinstance(advisories,dict): raise WorkforceContractError("receipt/advisory maps must be objects")
-    seen=set(); decisions=[]
+    seen=set(); decisions=[];all_edges=[]
     for t in tasks:
         _require_task_shape(t)
         if t["task_id"] in seen: raise WorkforceContractError("duplicate task_id")
-        seen.add(t["task_id"]); decisions.append(route_task(root,t,runtime_execution=runtime_execution,admission_receipts=receipts,decision_advisory=advisories.get(t["task_id"])))
-    return {"schema":"fa3.cross-domain-work-plan.v2","goal":request.get("goal",""),"status":"READY" if all(d["status"]=="ROUTED" for d in decisions) else "HUMAN_REQUIRED","director":"FA3-ORCHESTRATION-DIRECTOR-001","provider_neutral":True,"execution_fabric":"FA3-UNIFIED-ACTION-FABRIC-001","decision_fabric":"FA3-DECISION-FABRIC-001_OPTIONAL_ADVISORY","ai_communication_policy":"FA3-AI-COMMS-001","hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","decisions":decisions}
+        seen.add(t["task_id"]);all_edges.extend(t.get("dependency_edges",[]));decisions.append(route_task(root,t,runtime_execution=runtime_execution,admission_receipts=receipts,decision_advisory=advisories.get(t["task_id"])))
+    validated_edges=validate_dependency_graph(list(seen),all_edges);monitor=build_monitor_projection(decisions)\n    return {"schema":"fa3.cross-domain-work-plan.v2","goal":request.get("goal",""),"status":"READY" if all(d["status"]=="ROUTED" for d in decisions) else "HUMAN_REQUIRED","director":"FA3-ORCHESTRATION-DIRECTOR-001","provider_neutral":True,"execution_fabric":"FA3-UNIFIED-ACTION-FABRIC-001","decision_fabric":"FA3-DECISION-FABRIC-001_OPTIONAL_ADVISORY","ai_communication_policy":"FA3-AI-COMMS-001","hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","governance_contract":"FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001","dependency_edges":validated_edges,"monitor_projection":monitor,"decisions":decisions}
 def _main():
     p=argparse.ArgumentParser();p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));p.add_argument("--request",required=True);p.add_argument("--runtime",action="store_true");a=p.parse_args()
     plan=compile_cross_domain_plan(Path(a.root).resolve(),_load_json(Path(a.request)),runtime_execution=a.runtime);print(json.dumps(plan,ensure_ascii=False,indent=2));return 0 if plan["status"]=="READY" else 2
