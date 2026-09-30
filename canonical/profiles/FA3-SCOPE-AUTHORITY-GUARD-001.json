@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SCOPE-AUTHORITY-GUARD-001",
+  "name": "FA3 Scope & Authority Guard Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "domain_root": false,
+  "relationship": "CROSS_CUTTING_ENFORCEMENT_PROFILE",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_projection": [
+    "CAP-004",
+    "CAP-007",
+    "CAP-009",
+    "CAP-010",
+    "CAP-011"
+  ],
+  "registry": "FA3-AUTHORITY-CONTRACT-REGISTRY-001",
+  "authority_role": "NONE_ENFORCEMENT_ONLY",
+  "execution_authority": false,
+  "invariants": [
+    "TECHNICAL_CAPABILITY_DOES_NOT_IMPLY_AUTHORITY",
+    "UNKNOWN_ACTOR_OR_INTENT_FAILS_CLOSED",
+    "ORCHESTRATOR_COORDINATES_ONLY_WITHIN_DECLARED_SCOPE",
+    "PROVIDER_OR_CONDUCTOR_CANNOT_EXPAND_ITS_OWN_SCOPE",
+    "DELEGATION_CANNOT_CREATE_AUTHORITY",
+    "REPLAN_RETRY_RECOVERY_AND_FALLBACK_CANNOT_EXPAND_SCOPE",
+    "CROSS_DOMAIN_WORK_MUST_SPLIT_OR_DELEGATE_TO_EXISTING_AUTHORITY",
+    "SIDE_EFFECTS_REQUIRE_EXISTING_UAF_SECURITY_AND_DOMAIN_AUTHORITIES",
+    "WORKER_OR_ORCHESTRATOR_CANNOT_SELF_VERIFY",
+    "GUARD_HAS_NO_RESOURCE_MODEL_SECURITY_EVIDENCE_OR_SCHEDULER_AUTHORITY",
+    "EVERY_CANONICAL_LAYER_HAS_A_FAIL_CLOSED_LAYER_GUARD"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "contracts": [
+    "FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001"
+  ],
+  "authority_registry": "FA3-AUTHORITY-CONTRACT-REGISTRY-001",
+  "layer_registry": "FA3-LAYER-CONTRACT-REGISTRY-001",
+  "layer_count": 12,
+  "monitor_surface": "governance.scope-authority-guard",
+  "monitor_mode": "READ_ONLY_WITH_DRAFT_OPERATOR_INTENTS"
+}

@@ -10,6 +10,7 @@
 #include "PreferenceStore.h"
 #include "SystemDeviceModel.h"
 #include "SessionVaultService.h"
+#include "ScopeAuthorityGuardService.h"
 
 #include <QColor>
 #include <QGuiApplication>
@@ -55,6 +56,7 @@ int main(int argc, char *argv[])
     McpGatewayService mcpGateway;
     AppCatalogService appCatalog;
     SessionVaultService sessionVault;
+    ScopeAuthorityGuardService scopeGuard;
     DecisionFabricService decisionFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
 
@@ -69,6 +71,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3McpGateway", &mcpGateway);
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
     engine.rootContext()->setContextProperty("fa3SessionVault", &sessionVault);
+    engine.rootContext()->setContextProperty("fa3ScopeGuard", &scopeGuard);
     engine.rootContext()->setContextProperty("fa3DecisionFabric", &decisionFabric);
     engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));

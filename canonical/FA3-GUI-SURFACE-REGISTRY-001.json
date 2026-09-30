@@ -308,6 +308,28 @@
       "projection": "ARCHITECTURE"
     },
     {
+      "route_id": "governance.scope-authority-guard",
+      "title": "Scope & Authority Guard",
+      "group": "GOVERNANCE",
+      "projection": "SCOPE_AUTHORITY_GUARD_MONITOR",
+      "profile_id": "FA3-SCOPE-AUTHORITY-GUARD-001",
+      "authority_registry_id": "FA3-AUTHORITY-CONTRACT-REGISTRY-001",
+      "layer_registry_id": "FA3-LAYER-CONTRACT-REGISTRY-001",
+      "mode": "READ_ONLY_MONITOR_WITH_DRAFT_OPERATOR_INTENTS",
+      "operator_actions": [
+        "ESCALATE",
+        "PAUSE",
+        "CANCEL",
+        "REPLAN",
+        "REASSIGN"
+      ],
+      "direct_runtime_execution": false,
+      "direct_scope_override": false,
+      "direct_authority_mutation": false,
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
       "route_id": "governance.journal",
       "title": "Napló / Journal",
       "group": "GOVERNANCE",

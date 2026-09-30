@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SCOPE-AUTHORITY-GUARD-APPLICATION-INTENT-001",
+  "project_id": "FA3-SCOPE-AUTHORITY-GUARD-001",
+  "project_type": "CROSS_CUTTING_PROFILE_OVERLAY",
+  "goal": "Enforce fail-closed task, delegation and behavior scope boundaries for FA3 orchestrators, workforce specialists, conductors/providers, layers and execution boundaries without creating a new architectural authority.",
+  "required_capabilities": [
+    "CAP-004",
+    "CAP-007",
+    "CAP-009",
+    "CAP-010",
+    "CAP-011"
+  ],
+  "optional_capabilities": [
+    "CAP-019",
+    "CAP-029",
+    "CAP-084",
+    "CAP-085",
+    "CAP-086"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "integration_requirements": [
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-scope-authority-guard",
+    "config_root": "$XDG_CONFIG_HOME/fa3/scope-authority-guard",
+    "cache_root": "$XDG_CACHE_HOME/fa3/scope-authority-guard",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/scope-authority-guard",
+    "data_root": "$XDG_DATA_HOME/fa3/scope-authority-guard",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required_for_parameter_mutation": true
+  }
+}

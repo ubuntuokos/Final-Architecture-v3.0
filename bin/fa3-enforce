@@ -78,6 +78,11 @@ if [[ "${1:-}" == "uaf" ]]; then
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_uaf_gate.py" --root "$ROOT" "$@"
 fi
 
+if [[ "${1:-}" == "scope-authority-guard" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_scope_authority_guard_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "orchestration-workforce" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_orchestration_workforce_gate.py" --root "$ROOT" "$@"

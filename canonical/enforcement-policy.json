@@ -108,7 +108,8 @@
     "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
     "FA3-AUDACITY-MCP-GATESET-001",
     "FA3-GATE-REGISTRY-GATESET-001",
-    "FA3-GOVERNANCE-STATUS-GATESET-001"
+    "FA3-GOVERNANCE-STATUS-GATESET-001",
+    "FA3-SCOPE-AUTHORITY-GUARD-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -2109,5 +2110,28 @@
     "reference_only_prs_reserve_intake_slot": false
   },
   "donor_reference_capture_policy_authority": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-  "donor_reference_registry_embedded_auto_capture_flag": "HISTORICAL_SUPERSEDED_BY_OWNER_DECISION"
+  "donor_reference_registry_embedded_auto_capture_flag": "HISTORICAL_SUPERSEDED_BY_OWNER_DECISION",
+  "scope_authority_guard_profile_id": "FA3-SCOPE-AUTHORITY-GUARD-001",
+  "scope_authority_guard_contract_id": "FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001",
+  "scope_authority_guard_registry_id": "FA3-AUTHORITY-CONTRACT-REGISTRY-001",
+  "scope_authority_guard_gate_id": "FA3-SCOPE-AUTHORITY-GUARD-GATESET-001",
+  "scope_authority_guard_enforcement_id": "FA3-SCOPE-AUTHORITY-GUARD-ENFORCEMENT-001",
+  "scope_authority_guard_mandatory_p0_rules": [
+    "TECHNICAL_CAPABILITY_DOES_NOT_IMPLY_AUTHORITY",
+    "UNKNOWN_ACTOR_OR_INTENT_FAILS_CLOSED",
+    "ORCHESTRATOR_COORDINATES_ONLY_WITHIN_DECLARED_SCOPE",
+    "PROVIDER_OR_CONDUCTOR_CANNOT_EXPAND_ITS_OWN_SCOPE",
+    "DELEGATION_CANNOT_CREATE_AUTHORITY",
+    "REPLAN_RETRY_RECOVERY_AND_FALLBACK_CANNOT_EXPAND_SCOPE",
+    "CROSS_DOMAIN_WORK_MUST_SPLIT_OR_DELEGATE_TO_EXISTING_AUTHORITY",
+    "SIDE_EFFECTS_REQUIRE_EXISTING_UAF_SECURITY_AND_DOMAIN_AUTHORITIES",
+    "WORKER_OR_ORCHESTRATOR_CANNOT_SELF_VERIFY",
+    "GUARD_HAS_NO_RESOURCE_MODEL_SECURITY_EVIDENCE_OR_SCHEDULER_AUTHORITY",
+    "EVERY_CANONICAL_LAYER_HAS_A_FAIL_CLOSED_LAYER_GUARD"
+  ],
+  "scope_authority_guard_current_host_runtime_promotion_claim": false,
+  "scope_authority_guard_layer_registry_id": "FA3-LAYER-CONTRACT-REGISTRY-001",
+  "scope_authority_guard_layer_count": 12,
+  "scope_authority_guard_gui_route": "governance.scope-authority-guard",
+  "scope_authority_guard_monitor_direct_authority_mutation": false
 }

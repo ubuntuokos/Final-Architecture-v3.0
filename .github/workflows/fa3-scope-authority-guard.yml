@@ -1,0 +1,34 @@
+name: FA3 Scope Authority Guard
+
+on:
+  pull_request:
+    paths:
+      - "canonical/FA3-AUTHORITY-CONTRACT-REGISTRY-001.json"
+      - "canonical/FA3-GATE-SCOPE-AUTHORITY-GUARD-001.json"
+      - "canonical/scope-authority-guard-enforcement.json"
+      - "canonical/contracts/FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001.json"
+      - "canonical/profiles/FA3-SCOPE-AUTHORITY-GUARD-001.json"
+      - "canonical/intents/FA3-SCOPE-AUTHORITY-GUARD-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-SCOPE-AUTHORITY-GUARD-REUSE-ASSESSMENT-001.json"
+      - "src/fa3_scope_authority_guard.py"
+      - "src/fa3_scope_authority_guard_gate.py"
+      - "src/fa3_orchestration_workforce.py"
+      - "src/fa3_orchestration_provider_spi.py"
+      - "tests/test_scope_authority_guard.py"
+      - "bin/fa3-enforce"
+      - "canonical/enforcement-policy.json"
+      - "canonical/FA3-GATE-REGISTRY-001.json"
+      - ".github/workflows/fa3-scope-authority-guard.yml"
+  workflow_dispatch:
+
+jobs:
+  scope-authority-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax
+        run: python -m py_compile src/fa3_scope_authority_guard.py src/fa3_scope_authority_guard_gate.py src/fa3_orchestration_workforce.py src/fa3_orchestration_provider_spi.py tests/test_scope_authority_guard.py
+      - name: Unit regressions
+        run: PYTHONPATH=src python -m unittest tests.test_scope_authority_guard -v
+      - name: Canonical gate
+        run: ./bin/fa3-enforce scope-authority-guard

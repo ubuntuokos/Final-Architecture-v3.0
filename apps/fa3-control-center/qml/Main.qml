@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "governance.scope-authority-guard": 39
     })
 
     function routeIndex(routeId) {
@@ -179,6 +180,7 @@ ApplicationWindow {
         {title: "Tolmács", detail: "Nyelvi híd ember, FA3 és AI modellek között", category: "FUNCTION", routeId: "global.language"},
         {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", routeId: "models.manager"},
         {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", routeId: "governance.architecture"},
+        {title: "Scope & Authority Guard", detail: "Testőr: layer, orchestrator és delegation scope monitor", category: "FUNCTION", routeId: "governance.scope-authority-guard"},
         {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", routeId: "system.resources"},
         {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", routeId: "governance.security"},
         {title: "Observability", detail: "Metrics, traces és provenance", category: "FUNCTION", routeId: "governance.observability"},
@@ -723,6 +725,7 @@ ApplicationWindow {
                         NavButton { iconText: "✓"; label: "Evidence"; routeId: "governance.evidence" }
                         NavButton { iconText: "⌁"; label: "Observability"; routeId: "governance.observability" }
                         NavButton { iconText: "◇"; label: "Architecture"; routeId: "governance.architecture" }
+                        NavButton { iconText: "⬡"; label: "Scope & Authority Guard"; routeId: "governance.scope-authority-guard" }
                         NavButton { iconText: "≡"; label: "Napló / Journal"; routeId: "governance.journal" }
 
                         Item { Layout.preferredHeight: 8 }
@@ -1727,6 +1730,25 @@ ApplicationWindow {
                     accent: window.magenta
                     green: window.green
                     orange: window.orange
+                }
+
+                ScopeAuthorityGuardPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onOperatorActionRequested: function(eventId, action) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "SCOPE_AUTHORITY_GUARD",
+                            "guardian.operator." + action.toLowerCase(),
+                            eventId,
+                            "GUI DRAFT only; no authority or scope expansion. Security/UAF and the canonical owner remain authoritative.")
+                    }
                 }
             }
 
