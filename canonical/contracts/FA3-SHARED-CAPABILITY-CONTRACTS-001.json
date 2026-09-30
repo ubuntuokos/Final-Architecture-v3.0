@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.shared-capability.contracts.v1",
+  "id": "FA3-SHARED-CAPABILITY-CONTRACTS-001",
+  "fabric_id": "FA3-SHARED-CAPABILITY-FABRIC-001",
+  "status": "CANONICAL",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "activation_contract": {
+    "states": [
+      "ACTIVE",
+      "VISIBLE_DISABLED",
+      "HIDDEN",
+      "DENIED",
+      "UNAVAILABLE"
+    ],
+    "evaluation_order": [
+      "APPLICATION_RELEVANCE",
+      "PROJECT_RELEVANCE",
+      "OBJECT_CONTEXT",
+      "WORKFLOW_CONTEXT",
+      "ROLE",
+      "AUTHORITY",
+      "POLICY",
+      "AI_POLICY",
+      "NETWORK_POLICY",
+      "HARDWARE_POLICY",
+      "RUNTIME_AVAILABILITY",
+      "EXPLICIT_APPROVAL_WHERE_REQUIRED"
+    ],
+    "hidden_background_execution_forbidden": true,
+    "denied_background_execution_forbidden": true
+  },
+  "email_contract": {
+    "send_surface_scope": "ALL_FA3_APPLICATIONS",
+    "common_action": "email.send",
+    "common_compose_surface": true,
+    "context_attachment_projection": true,
+    "full_mailbox_management_context_filtered": true,
+    "send_requires_explicit_user_or_authorized_workflow_intent": true,
+    "silent_send_forbidden": true,
+    "provider_direct_authority": false
+  },
+  "hobby_external_service_contract": {
+    "hobby_is_not_external_service_denial": true,
+    "external_render_farm_allowed_when_admitted": true,
+    "rfq_and_purchase_surfaces_context_activatable": true,
+    "cost_surfaces_context_activatable": true,
+    "silent_purchase_or_cost_commitment_forbidden": true
+  },
+  "plugin_extension_contract": {
+    "embedded_view_context_filtered": true,
+    "not_applicable_hidden": true,
+    "applicable_installable_visible": true,
+    "temporarily_unavailable_visible_with_reason_allowed": true,
+    "full_catalog_control_center_only": true,
+    "package_installation_does_not_imply_consumer_enablement": true
+  },
+  "authority_contract": {
+    "shared_fabric_authority": "NONE",
+    "layer_guard_required": true,
+    "orchestrator_conductor_scope_must_be_preserved": true,
+    "delegation_must_not_expand_authority": true,
+    "uaf_or_existing_authority_required_for_mutation": true
+  },
+  "current_host_contract": {
+    "structural_change_requires_alignment": true,
+    "physical_runtime_evidence_required_for_promotion": true,
+    "document_only_promotion_forbidden": true
+  }
+}
