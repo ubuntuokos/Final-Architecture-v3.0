@@ -24,3 +24,14 @@ The implementation is FA3-native. The groupware products discussed during design
 ## Embedded consumer contract
 
 Every affected FA3 application may host `CommunicationsSurface`, but must provide a non-empty context ID and a narrowed permission set. Administrative/global operations are unavailable through the embedded surface. The standalone Hub can expose broader functionality only through the same security and authorization backend.
+
+
+## Retroactive application bindings
+
+`FA3-COMMUNICATIONS-CONTACTS-APPLICATION-BINDINGS-001` covers every canonical INTERNAL_APPLICATION. The Hub is FULL; all other internal applications are CONTEXT_LIMITED and receive only a maximum operation envelope. Runtime permission remains the intersection of user, role, application, context and data permissions. Planned application bindings do not claim those applications are already materialized.
+
+The gate compares the internal application inventory with this binding registry. Adding a new internal application without an explicit Communications binding therefore fails closed. Meeting Manager, Task/Priority Manager and Deadline/Milestone Log are declared as future shared-module classes that must receive CONTEXT_LIMITED bindings when they become canonical materialized modules.
+
+## Current Host projection
+
+The Current Host manifest now registers the Communications/Contacts surface and required repository paths. No collector is claimed yet because real account/protocol/Secret Broker/attachment evidence must come from the physical host. The registered state remains physical protocol E2E pending.
