@@ -93,5 +93,12 @@
   ],
   "shared_function": true,
   "retroactive_consumers": "ALL_ORCHESTRATION_PROFILES_AND_AFFECTED_FA3_APPLICATIONS",
-  "runtime_promotion_claim": false
+  "runtime_promotion_claim": false,
+  "gui_requirements": [
+    "CONTROL_CENTER_ORCHESTRATION_MONITOR",
+    "READ_ONLY_RUNTIME_PROJECTION",
+    "DRAFT_ONLY_RECONFIGURATION_REQUESTS",
+    "VISIBLE_STALE_OR_MISSING_TELEMETRY_STATE",
+    "NO_DIRECT_TEMPORAL_HRB_MODEL_ROUTER_OR_PROVIDER_MUTATION"
+  ]
 }
