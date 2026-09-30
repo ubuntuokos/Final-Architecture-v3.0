@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.license-rights-audit-plan.v1",
+  "id": "FA3-LICENSE-RIGHTS-AUDIT-PLAN-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "profile": "FA3-LICENSE-RIGHTS-001",
+  "policy": "FA3-LICENSE-RIGHTS-POLICY-001",
+  "status": "CANONICAL_IN_PROGRESS",
+  "priority": "P0",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "principle": "DISCOVERY_AND_CLASSIFICATION_ARE_NOT_LEGAL_CLEARANCE",
+  "phases": [
+    {
+      "id": "LR-AUDIT-PHASE-1",
+      "name": "Repository inventory and ownership/license tagging coverage",
+      "closure": "ALL_TRACKED_RELEASE_SURFACE_SUBJECTS_CLASSIFIED"
+    },
+    {
+      "id": "LR-AUDIT-PHASE-2",
+      "name": "Third-party source, dependency, donor and provider rights verification",
+      "closure": "ALL_THIRD_PARTY_SUBJECTS_HAVE_EVIDENCE_BACKED_RIGHTS_DISPOSITION"
+    },
+    {
+      "id": "LR-AUDIT-PHASE-3",
+      "name": "Model, dataset, font, media, SDK, codec and output-rights verification",
+      "closure": "ALL_NON_CODE_RIGHTS_DOMAINS_HAVE_SEPARATE_EVIDENCE"
+    },
+    {
+      "id": "LR-AUDIT-PHASE-4",
+      "name": "Obligation materialization",
+      "closure": "ATTRIBUTION_SOURCE_OFFER_NOTICE_AND_ENTITLEMENT_OBLIGATIONS_RESOLVED"
+    },
+    {
+      "id": "LR-AUDIT-PHASE-5",
+      "name": "Release evidence",
+      "closure": "SPDX_CYCLONEDX_NOTICE_AND_RELEASE_LICENSE_COMPLIANCE_RECEIPT_PASS"
+    }
+  ],
+  "priority_order": [
+    "RELEASE_INCLUDED_SUBJECTS",
+    "VENDORED_OR_COPIED_THIRD_PARTY_SOURCE",
+    "RUNTIME_DEPENDENCIES_AND_PROVIDERS",
+    "MODELS_DATASETS_FONTS_MEDIA_SDKS_CODECS",
+    "DONOR_DERIVED_OR_REFERENCE_MATERIAL",
+    "FA3_ORIGINAL_FILE_LEVEL_TAGGING"
+  ],
+  "automated_evidence_is_not_sufficient_for": [
+    "copyright_ownership",
+    "license_compatibility_legal_opinion",
+    "trademark_permission",
+    "patent_clearance",
+    "model_training_data_rights",
+    "generated_output_rights",
+    "contract_or_service_terms_interpretation"
+  ],
+  "closure_requires": [
+    "ZERO_BLOCKING_UNKNOWN_REQUIRED_RIGHTS_FACTS",
+    "ZERO_UNRESOLVED_LICENSE_CONFLICTS",
+    "ZERO_RELEASE_INCLUDED_SUBJECTS_WITHOUT_RIGHTS_DESCRIPTOR",
+    "ALL_REQUIRED_ATTRIBUTIONS_AND_NOTICES_MATERIALIZED",
+    "ALL_REQUIRED_SOURCE_OFFERS_MATERIALIZED",
+    "ALL_REQUIRED_ENTITLEMENTS_REFERENCED",
+    "SPDX_AND_CYCLONEDX_RELEASE_SBOMS_GENERATED",
+    "RELEASE_LICENSE_COMPLIANCE_RECEIPT_PASS"
+  ]
+}
