@@ -38,6 +38,8 @@ def gate(root: Path) -> dict:
         "hub_qml": root / "apps/fa3-communications-hub/qml/Main.qml",
         "shared_surface_qml": root / "apps/fa3-communications-hub/qml/CommunicationsSharedSurface.qml",
         "hub_cmake": root / "apps/fa3-communications-hub/CMakeLists.txt",
+        "current_host_collector": root / "evidence/collect-communications-contacts-current-host.py",
+        "current_host_schema": root / "canonical/schemas/communications-contacts-current-host-receipt.v1.json",
     }
     findings: list[str] = []
     for name, path in required.items():
@@ -76,6 +78,7 @@ def gate(root: Path) -> dict:
         (profile.get("security",{}).get("credentials_authority") == "FA3-SECRET-BROKER-001", "secret-broker-only"),
         (profile.get("security",{}).get("model_route_authority") == "FA3-AUTH-MODEL-ROUTER-001", "model-router-only"),
         (current_host.get("status") == "PENDING_CURRENT_HOST" and current_host.get("production_admitted") is False and current_host.get("current_host_runtime_promotion_claim") is False, "current-host-pending"),
+        (current_host.get("collector") == "evidence/collect-communications-contacts-current-host.py" and current_host.get("provider_e2e_receipt_required") is True and current_host.get("synthetic_or_historical_evidence_accepted") is False, "current-host-collector-boundary"),
         (gate_record.get("fail_closed") is True and gate_record.get("capability_count_after") == 175, "gate-record"),
         (decision.get("status") == "APPROVED" and decision.get("explicit_user_approval") is True and decision.get("approved_plan_sha256") == plan_sha, "approved-plan-hash"),
         (assessment.get("result") == "PASS" and assessment.get("donor_review") == "REVIEWED_NO_MATCH" and assessment.get("adopted_donors") == [] and assessment.get("donor_registry_sha256") == "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd", "reuse-assessment-exact-registry"),
