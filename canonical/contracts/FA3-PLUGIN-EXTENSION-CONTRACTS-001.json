@@ -1,0 +1,110 @@
+{
+  "schema": "fa3.plugin-extension.contracts.v1",
+  "id": "FA3-PLUGIN-EXTENSION-CONTRACTS-001",
+  "profile_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-001",
+  "provider_neutral": true,
+  "fail_closed": true,
+  "execution_classes": [
+    "CONTENT_ONLY",
+    "WASM_SANDBOXED",
+    "PROCESS_ISOLATED",
+    "VENV_ISOLATED",
+    "IN_PROCESS_TRUSTED",
+    "HOST_NATIVE",
+    "MCP_PROVIDER",
+    "EXTERNAL_BRIDGE"
+  ],
+  "trust_states": [
+    "UNKNOWN",
+    "INSPECTED",
+    "ADMISSION_PENDING",
+    "ADMITTED",
+    "BLOCKED_LICENSE",
+    "BLOCKED_SECURITY",
+    "REVOKED",
+    "QUARANTINED"
+  ],
+  "installation_states": [
+    "NOT_INSTALLED",
+    "STAGED",
+    "INSTALLED",
+    "PARTIAL",
+    "BROKEN",
+    "ROLLBACK_REQUIRED"
+  ],
+  "activation_states": [
+    "DISABLED",
+    "ENABLED",
+    "ACTIVE",
+    "SUSPENDED",
+    "FAULTED"
+  ],
+  "evidence_states": [
+    "NONE",
+    "PENDING_CURRENT_HOST",
+    "CURRENT_HOST_PASS",
+    "STALE",
+    "REQUALIFICATION_REQUIRED"
+  ],
+  "effective_execution_requirements": [
+    "ADMITTED",
+    "INSTALLED",
+    "ENABLED",
+    "COMPATIBLE",
+    "PERMISSION_ALLOWED",
+    "LAYER_ALLOWED",
+    "COEXISTENCE_PASS",
+    "RESOURCE_ADMITTED",
+    "REQUIRED_EVIDENCE_VALID",
+    "HOST_BINDING_VALID"
+  ],
+  "ai_execution_requirements": [
+    "AI_POLICY_ALLOWED",
+    "MODEL_ROUTER_ALLOWED",
+    "REQUESTED_PROVIDER_ALLOWED"
+  ],
+  "permission_domains": [
+    "FILESYSTEM",
+    "NETWORK",
+    "PROCESS",
+    "IPC",
+    "DEVICE",
+    "CLIPBOARD",
+    "SECRET",
+    "MODEL",
+    "MCP",
+    "WORKFLOW",
+    "UI",
+    "BACKGROUND",
+    "EXTERNAL_HOST"
+  ],
+  "lifecycle_plan": [
+    "RESOLVE",
+    "IMPACT",
+    "APPROVE",
+    "STAGE",
+    "VERIFY",
+    "COMMIT"
+  ],
+  "update_policy": {
+    "silent_update": false,
+    "permission_growth_requires_approval": true,
+    "abi_break_auto_activation": false,
+    "rollback_required": true
+  },
+  "shared_package_model": {
+    "single_package_identity": true,
+    "per_consumer_enablement": true,
+    "side_by_side_versioning_when_abi_requires": true
+  },
+  "uninstall_policy": {
+    "hidden_daemon_forbidden": true,
+    "hidden_service_forbidden": true,
+    "hidden_port_forbidden": true,
+    "hidden_hook_forbidden": true,
+    "hidden_autostart_forbidden": true
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
