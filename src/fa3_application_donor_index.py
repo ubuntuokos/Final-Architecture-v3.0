@@ -43,7 +43,9 @@ def changed_fields(old: dict[str, Any] | None, new: dict[str, Any] | None) -> li
 
 def capability_refresh_status(registry: dict[str, Any], today: date | None = None) -> dict[str, Any]:
     today = today or date.today()
-    period_days = 31
+    policy = registry.get("planning_policy", {})
+    period_days = int(policy.get("monthly_capability_refresh_days", 31))
+    effective = policy.get("monthly_capability_refresh_policy_effective_date")
     due: list[dict[str, Any]] = []
     active = 0
     for donor in registry.get("entries", []):
@@ -53,8 +55,8 @@ def capability_refresh_status(registry: dict[str, Any], today: date | None = Non
         stamp = donor.get("capability_reviewed_at")
         clock_source = "capability_reviewed_at"
         if not stamp:
-            stamp = donor.get("first_seen")
-            clock_source = "first_seen_initial_grace"
+            stamp = effective
+            clock_source = "policy_effective_date_initial_grace"
         try:
             reviewed = date.fromisoformat(str(stamp))
             age_days = (today - reviewed).days
