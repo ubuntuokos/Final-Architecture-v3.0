@@ -28,6 +28,8 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/intents/FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001.json",
         "canonical/assessments/FA3-COMMUNICATIONS-CONTACTS-SHARED-REUSE-ASSESSMENT-001.json",
         "canonical/decisions/FA3-DEC-COMMUNICATIONS-CONTACTS-SHARED-2026-09-30.json",
+        "canonical/communications-contacts-enforcement.json",
+        "canonical/FA3-GATE-COMMUNICATIONS-CONTACTS-001.json",
         "canonical/communications-contacts-current-host-enforcement.json",
         "canonical/FA3-GATE-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001.json",
         "src/fa3_communications_contacts.py",
@@ -44,7 +46,10 @@ def gate(root: Path) -> dict[str, Any]:
         return {"schema":"fa3.communications-contacts-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":fs}
 
     p = loadj(root / required[0]); c = loadj(root / required[1]); a = loadj(root / required[3])
-    ch = loadj(root / required[5]); gr = loadj(root / "canonical/FA3-GATE-REGISTRY-001.json")
+    enf = loadj(root / "canonical/communications-contacts-enforcement.json")
+    sgr = loadj(root / "canonical/FA3-GATE-COMMUNICATIONS-CONTACTS-001.json")
+    ch = loadj(root / "canonical/communications-contacts-current-host-enforcement.json")
+    gr = loadj(root / "canonical/FA3-GATE-REGISTRY-001.json")
     pol = loadj(root / "canonical/enforcement-policy.json"); apps = loadj(root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
 
     if p.get("id") != PROFILE_ID or p.get("capability_count") != CAPABILITY_COUNT or p.get("new_capability") is not False or p.get("new_architectural_authority") is not False:
@@ -60,8 +65,12 @@ def gate(root: Path) -> dict[str, Any]:
         fs.append(finding("CCS-006", "untrusted message AI authority boundary weakened"))
     if a.get("result") != "PASS" or a.get("donor_review") != "REVIEWED_NO_MATCH" or a.get("donor_registry_sha256") != "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd" or a.get("adopted_donors") != []:
         fs.append(finding("CCS-007", "reuse assessment is not bound to published main registry/no-match result"))
+    if enf.get("gate_id") != GATE_ID or enf.get("fail_closed") is not True or enf.get("p0_invariants") != P0_RULES or enf.get("mandatory_rule_count") != len(P0_RULES):
+        fs.append(finding("CCS-008", "static enforcement invariant drift"))
+    if sgr.get("gateset_id") != GATE_ID or sgr.get("fail_closed") is not True or sgr.get("current_host_runtime_promotion_claim") is not False:
+        fs.append(finding("CCS-008A", "static gate record boundary drift"))
     if ch.get("gate_id") != CURRENT_HOST_GATE_ID or ch.get("fail_closed") is not True or ch.get("simulated_evidence_accepted") is not False or ch.get("runtime_promotion_claim") is not False:
-        fs.append(finding("CCS-008", "current-host evidence boundary drift"))
+        fs.append(finding("CCS-008B", "current-host evidence boundary drift"))
     if GATE_ID not in gr.get("mandatory_reference_gates", []) or gr.get("mandatory_reference_gates") != pol.get("mandatory_reference_gates"):
         fs.append(finding("CCS-009", "global gate registry/enforcement mirror missing or drifted"))
     if pol.get("communications_contacts_mandatory_p0_rules") != P0_RULES:

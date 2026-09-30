@@ -20,14 +20,17 @@ PERMISSIONS = {
     "mail.read": "mail.read", "mail.compose": "mail.compose", "mail.send": "mail.send",
     "mail.forward": "mail.forward", "mail.assign": "mail.assign", "mail.note": "mail.note",
     "contact.read": "contacts.read", "contact.write": "contacts.write",
-    "contact.export": "contacts.export", "ai.mail.summarize": "ai.mail.summarize",
+    "contact.export": "contacts.export", "contacts.export_all": "contacts.export_all",
+    "mail.read_all": "mail.read_all", "mail.delete": "mail.delete",
+    "mailbox.admin": "mailbox.admin", "permissions.admin": "permissions.admin",
+    "ai.mail.summarize": "ai.mail.summarize",
     "ai.mail.draft_reply": "ai.mail.draft_reply",
     "ai.contact.deduplicate": "ai.contact.deduplicate",
 }
 EMBEDDED_FORBIDDEN = {"mailbox.admin", "permissions.admin", "contacts.export_all", "mail.read_all"}
 AI_OPERATIONS = {x for x in PERMISSIONS if x.startswith("ai.")}
-EGRESS_OPERATIONS = {"mail.send", "mail.forward", "contact.export"}
-HIGH_RISK = {"mail.send", "contact.export", "mailbox.admin", "permissions.admin"}
+EGRESS_OPERATIONS = {"mail.send", "mail.forward", "contact.export", "contacts.export_all"}
+HIGH_RISK = {"mail.send", "mail.delete", "contact.export", "contacts.export_all", "mailbox.admin", "permissions.admin"}
 
 @dataclass(frozen=True)
 class Decision:

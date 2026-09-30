@@ -45,5 +45,83 @@
     "fixed_port_required": false,
     "global_mail_client_takeover": false,
     "provider_runtime_must_be_replaceable": true
-  }
+  },
+  "project_type": "APPLICATION",
+  "goal": "Provide one FA3-native shared Communications & Contacts backend with a full standalone Hub and context-limited embedded surfaces, protected by all applicable fail-closed FA3 security gates including optional AI gates.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "email",
+    "contacts",
+    "shared-inbox",
+    "group-collaboration",
+    "context-limited-embedded-ui",
+    "communications-security"
+  ],
+  "task_classes": [
+    "mail-and-contact-collaboration",
+    "shared-inbox",
+    "context-communication"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "EMAIL_MESSAGE",
+    "CONTACT_RECORD",
+    "ATTACHMENT",
+    "CANONICAL_CONTEXT"
+  ],
+  "output_modalities": [
+    "MESSAGE_DRAFT",
+    "MESSAGE_SEND_INTENT",
+    "CONTACT_PROJECTION",
+    "COMMUNICATION_TIMELINE"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR_FOR_EXPLICIT_AI_ONLY"
+  ],
+  "data_classes": [
+    "PERSONAL_DATA",
+    "COMMUNICATION_CONTENT",
+    "CONTACT_DATA",
+    "ATTACHMENT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_CURRENT_HOST_PROTOCOL_SECRET_NOTIFICATION_ATTACHMENT_AND_AI_PATH_EVIDENCE"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-communications-hub",
+    "service_prefix": "fa3-communications",
+    "config_root": "$XDG_CONFIG_HOME/fa3/communications",
+    "cache_root": "$XDG_CACHE_HOME/fa3/communications",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/communications",
+    "socket_namespace": "fa3/communications",
+    "data_root": "$XDG_DATA_HOME/fa3/communications",
+    "desktop_prefix": "org.fa3.CommunicationsHub",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AI-COMMS-001",
+    "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-AI-COMMS-001"
+  ],
+  "gui_requirements": [
+    "FULL_STANDALONE_HUB",
+    "CONTEXT_LIMITED_EMBEDDED_SHARED_SURFACE"
+  ]
 }

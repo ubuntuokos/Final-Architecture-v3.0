@@ -12,6 +12,9 @@ qt_add_executable(fa3-communications-hub
     src/main.cpp
 )
 
+set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(qml/CommunicationsSurface.qml PROPERTIES QT_RESOURCE_ALIAS CommunicationsSurface.qml)
+
 qt_add_qml_module(fa3-communications-hub
     URI FA3.CommunicationsHub
     VERSION 1.0

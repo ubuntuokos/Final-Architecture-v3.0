@@ -6,5 +6,10 @@
   "receipt_path": "evidence/receipts/communications-contacts-current-host.json",
   "physical_evidence_required": true,
   "simulated_evidence_accepted": false,
-  "runtime_promotion_claim": false
+  "runtime_promotion_claim": false,
+  "priority": "P0",
+  "requirement": "MUST",
+  "fail_closed": true,
+  "executable": "./bin/fa3-enforce communications-contacts-current-host",
+  "hosted_ci_reference_mode": "MATERIALIZATION_AND_NEGATIVE_REGRESSION_ONLY"
 }

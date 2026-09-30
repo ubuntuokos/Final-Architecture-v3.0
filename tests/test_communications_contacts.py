@@ -34,6 +34,11 @@ class CommunicationsContactsTests(unittest.TestCase):
     def test_fail_closed_missing_gate(self):
         self.assertFalse(authorize(self.base(security_gates={})).allowed)
 
+    def test_full_admin_requires_specific_permission(self):
+        self.assertFalse(authorize(self.base(operation="mailbox.admin")).allowed)
+        p = set(self.permissions()) | {"mailbox.admin"}
+        self.assertTrue(authorize(self.base(operation="mailbox.admin", user_permissions=p, role_permissions=p, application_permissions=p, context_permissions=p, data_permissions=p)).allowed)
+
     def test_ai_off_means_no_ai(self):
         self.assertFalse(authorize(self.base(operation="ai.mail.summarize", external_message=True, ai_policy={})).allowed)
 
