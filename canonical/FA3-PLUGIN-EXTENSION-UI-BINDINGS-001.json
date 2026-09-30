@@ -50,5 +50,19 @@
   "parent_fabric_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
   "parent_registry_id": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
   "binding_projection_source": "PARENT_SHARED_FABRIC_DYNAMIC_CAPABILITY_AND_HOST_CONTRACT_MATCH",
-  "ai_policy_source": "PARENT_SHARED_FABRIC_FIVE_LEVEL_POLICY"
+  "ai_policy_source": "PARENT_SHARED_FABRIC_FIVE_LEVEL_POLICY",
+  "applicability_filter": {
+    "resolver": "FA3_PLUGIN_EXTENSION_APPLICABILITY_RESOLVER",
+    "application_context_required": true,
+    "capability_match_required": true,
+    "project_and_object_context_applied": true,
+    "runtime_dependency_policy_applied": true,
+    "permission_layer_ai_hardware_policy_applied": true,
+    "normal_view_not_applicable_hidden": true,
+    "applicable_available_active_or_installable_visible": true,
+    "temporarily_unavailable_may_be_visible_with_reason": true,
+    "policy_denied_admin_diagnostic_only": true,
+    "same_resolver_for_shared_packages": true,
+    "global_control_center_may_show_full_admitted_catalog": true
+  }
 }
