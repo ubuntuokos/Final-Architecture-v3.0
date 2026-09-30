@@ -1,0 +1,71 @@
+name: FA3 License Rights Retro Audit
+
+on:
+  pull_request:
+    paths:
+      - "LICENSE"
+      - "LICENSES/**"
+      - "NOTICE"
+      - "THIRD_PARTY_NOTICES.md"
+      - "REUSE.toml"
+      - "canonical/license-rights-*.json"
+      - "canonical/descriptors/FA3-RIGHTS-*.json"
+      - "canonical/distribution-registry.json"
+      - "canonical/distribution-manifest.json"
+      - "research/external-project-radar/jev/upstream/**"
+      - "src/fa3_license_rights.py"
+      - "src/fa3_license_rights_gate.py"
+      - "src/fa3_license_rights_retro_audit.py"
+      - "tests/test_license_rights*.py"
+      - "docs/license-rights*.md"
+      - ".github/workflows/fa3-license-rights*.yml"
+  push:
+    branches: [main]
+    paths:
+      - "LICENSE"
+      - "LICENSES/**"
+      - "NOTICE"
+      - "THIRD_PARTY_NOTICES.md"
+      - "REUSE.toml"
+      - "canonical/license-rights-*.json"
+      - "canonical/descriptors/FA3-RIGHTS-*.json"
+      - "canonical/distribution-registry.json"
+      - "canonical/distribution-manifest.json"
+      - "research/external-project-radar/jev/upstream/**"
+      - "src/fa3_license_rights.py"
+      - "src/fa3_license_rights_gate.py"
+      - "src/fa3_license_rights_retro_audit.py"
+      - "tests/test_license_rights*.py"
+      - "docs/license-rights*.md"
+      - ".github/workflows/fa3-license-rights*.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retro-audit-control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax
+        run: python -m py_compile src/fa3_license_rights.py src/fa3_license_rights_retro_audit.py tests/test_license_rights_retro_audit.py
+      - name: Retro audit control tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_license_rights_retro_audit
+      - name: Emit fail-closed retro audit report
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_license_rights_retro_audit.py --root .
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-license-rights-retro-audit
+          path: reports/license-rights-retro-audit-report.json
+          if-no-files-found: error
