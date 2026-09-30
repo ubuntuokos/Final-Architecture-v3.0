@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 REGISTRY_PATH = "canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json"
-CAP_RE = re.compile(r"^CAP-(\\d{3})$")
+CAP_RE = re.compile(r"^CAP-(\d{3})$")
 STATES = {"ACTIVE", "VISIBLE_DISABLED", "HIDDEN", "DENIED", "UNAVAILABLE"}
 
 @dataclass(frozen=True)
