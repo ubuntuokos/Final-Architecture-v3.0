@@ -15,6 +15,19 @@ AUTO = ("automatic_selection", "automatic_fetch", "automatic_install",
         "automatic_activation", "automatic_dependency", "automatic_code_import",
         "automatic_provider_admission", "automatic_model_selection")
 
+REQUIRED_TUTORIAL_SHARED_POLICY = {
+    "tutorial_reference_processing_required": True,
+    "tutorial_existing_function_manual_adaptation_required": True,
+    "tutorial_missing_function_need_assessment_required": True,
+    "manual_publish_requires_verified_implementation": True,
+    "multi_application_feature_shared_layer_required": True,
+    "shared_capability_local_duplication_forbidden_without_justification": True,
+    "retrospective_shared_impact_required": True,
+    "affected_application_manual_update_required": True,
+    "structural_change_current_host_alignment_required": True,
+    "capability_loss_during_shared_migration_forbidden": True,
+}
+
 
 def load(path: Path) -> dict[str, Any]:
     row = json.loads(path.read_text(encoding="utf-8"))
@@ -40,6 +53,16 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
     errors: list[dict[str, str]] = []
     if declaration.get("id") != "FA3-APPLICATION-DONOR-LINKS-001" or declaration.get("authority") is not False:
         errors.append({"code": "LINK_POLICY_INVALID", "detail": LINKS})
+    policy = declaration.get("policy", {})
+    missing_policy = [
+        key for key, expected in REQUIRED_TUTORIAL_SHARED_POLICY.items()
+        if policy.get(key) is not expected
+    ]
+    if missing_policy:
+        errors.append({
+            "code": "TUTORIAL_SHARED_POLICY_INVALID",
+            "detail": ",".join(sorted(missing_policy)),
+        })
     donors = registry.get("entries", [])
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001" or registry.get("backfill", {}).get("entry_count") != len(donors):
         errors.append({"code": "DONOR_REGISTRY_DRIFT", "detail": DONOR})
@@ -110,6 +133,43 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         app["automatic_activation"] = False
         app["automatic_code_import"] = False
 
+    shared_capabilities = []
+    seen_shared: set[str] = set()
+    for item in declaration.get("shared_capabilities", []):
+        sid = str(item.get("id", ""))
+        consumers = sorted(set(str(x) for x in item.get("consumer_applications", []) if x))
+        valid = (
+            bool(sid)
+            and sid not in seen_shared
+            and bool(item.get("owner_layer"))
+            and len(consumers) >= 2
+            and all(app_id in applications for app_id in consumers)
+            and item.get("authority") is False
+            and item.get("local_ui_adapter_only") is True
+            and item.get("retrospective_review_required") is True
+            and item.get("manual_update_required") is True
+            and item.get("capability_loss_allowed") is False
+            and item.get("current_host_alignment_required_for_structural_change") is True
+        )
+        if not valid:
+            errors.append({
+                "code": "INVALID_SHARED_CAPABILITY",
+                "detail": sid or "<missing-id>",
+            })
+        seen_shared.add(sid)
+        shared_capabilities.append({
+            "id": sid,
+            "owner_layer": item.get("owner_layer"),
+            "consumer_applications": consumers,
+            "status": item.get("status", "PROPOSED"),
+            "authority": False,
+            "retrospective_review_required": True,
+            "manual_update_required": True,
+            "local_ui_adapter_only": True,
+            "capability_loss_allowed": False,
+            "current_host_alignment_required_for_structural_change": True,
+        })
+
     edges = []
     seen_edges: set[str] = set()
     for edge in declaration.get("relationships", []):
@@ -170,10 +230,21 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                    "gui_surfaces_not_apps": len(gui_surfaces),
                    "donor_records": len(donors),
                    "proposed_cross_app_links": len(edges),
+                   "shared_capabilities": len(shared_capabilities),
                    "changed_donor_sources": len(reevaluation)},
         "applications": [applications[k] for k in sorted(applications)],
         "gui_surfaces": sorted(gui_surfaces, key=lambda x: x["surface_id"]),
         "cross_application_links": sorted(edges, key=lambda x: x["id"]),
+        "shared_capabilities": sorted(shared_capabilities, key=lambda x: x["id"]),
+        "tutorial_shared_policy": {
+            "registered_tutorial_only": True,
+            "existing_function_routes_to_fa3_native_manual": True,
+            "missing_function_requires_need_assessment": True,
+            "multi_application_function_routes_to_shared_layer": True,
+            "retrospective_application_impact_required": True,
+            "manual_publish_requires_verified_implementation": True,
+            "structural_change_requires_current_host_alignment": True,
+        },
         "reevaluation": reevaluation,
         "validation": {"result": "PASS" if not errors else "FAIL", "findings": errors},
     }
