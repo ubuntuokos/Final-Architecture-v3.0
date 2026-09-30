@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$(cd "$(dirname "\${BASH_SOURCE[0]}")/.." && pwd)"
-exec env PYTHONPATH="$ROOT\${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_registry_v2.py" --root "$ROOT" "$@"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYTHONPATH="${PYTHONPATH:-}"
+exec env PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_registry_v2.py" --root "$ROOT" "$@"
