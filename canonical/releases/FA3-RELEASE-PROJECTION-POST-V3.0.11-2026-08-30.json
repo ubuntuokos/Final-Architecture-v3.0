@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "68abff61f1bf2363970ae8b5570df61a5c8d9258",
-    "pre_projection_root_tree_sha": "621acb9cb029e001ae112ca22a63acbe33f2c36c",
-    "pre_projection_canonical_tree_sha": "edca5f48bb4b357f26ce7e572f418d4fbf3f43f5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2235,
-    "total_post_baseline_commits": 2235,
-    "delta_file_count": 2606,
-    "delta_added_files": 2600,
+    "pre_projection_head_sha": "708d8bbd72b2d12dab6750f12b8398f7ec939bb7",
+    "pre_projection_root_tree_sha": "940a7738431b82b008edbb8e7eb44d328f086a07",
+    "pre_projection_canonical_tree_sha": "1e999e0f60c5a9a750dd5e29724b33d8daa8ef38",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2263,
+    "total_post_baseline_commits": 2263,
+    "delta_file_count": 2619,
+    "delta_added_files": 2613,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1214,
+    "canonical_files_in_post_baseline_delta": 1221,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 343,
-    "test_files_in_post_baseline_delta": 302,
+    "source_files_in_post_baseline_delta": 345,
+    "test_files_in_post_baseline_delta": 303,
     "workflow_files_in_post_baseline_delta": 126,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -265,6 +265,7 @@
       "canonical/profiles/FA3-OS-001.json",
       "canonical/profiles/FA3-OS-POLICY-001.json",
       "canonical/profiles/FA3-OS-RUNTIME-001.json",
+      "canonical/profiles/FA3-PLUGIN-EXTENSION-MANAGEMENT-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
       "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
@@ -405,6 +406,8 @@
       "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-OS-EVENT-001.schema.json",
       "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
+      "canonical/contracts/FA3-PLUGIN-EXTENSION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-PLUGIN-EXTENSION-MANIFEST-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-PROVIDER-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-QUALITY-ANTI-SLOP-CONTRACTS-001.json",
@@ -574,6 +577,7 @@
       "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
       "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-PLUGIN-EXTENSION-MANAGEMENT-2026-09-30.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
@@ -890,6 +894,7 @@
     "FA3-REPRODUCIBILITY-GATESET-001",
     "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
     "FA3-AUDACITY-MCP-GATESET-001",
+    "FA3-PLUGIN-EXTENSION-MANAGEMENT-GATESET-001",
     "FA3-GATE-REGISTRY-GATESET-001",
     "FA3-GOVERNANCE-STATUS-GATESET-001"
   ],
@@ -1017,7 +1022,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2596,
+  "manifest_entry_count": 2609,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1496,7 +1501,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "2ea00ff2883c34516576caf77e94db7067e18eb3",
+      "git_blob_sha": "8d82cf7d8bb9e5ca155a9121dd83d7de6c4a41ea",
       "baseline_delta_status": "added"
     },
     {
@@ -1671,17 +1676,22 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9189f4cb09926a801d07ec4cec083e4fc2c05119",
+      "git_blob_sha": "3cd6953b7b799f2ae65a6d22b556608a4642632b",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/README.md",
-      "git_blob_sha": "97b28487bc0d7dbe702a656e1a464924f8369070",
+      "git_blob_sha": "5931e87054960a31c2292a20fae767c46e933535",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
       "git_blob_sha": "a315787ec19fd68105bac6145e4805b3931c16c1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop",
+      "git_blob_sha": "8874a38c7b0d7d13d62cf87b2c4b1a7bc1ac7686",
       "baseline_delta_status": "added"
     },
     {
@@ -1766,7 +1776,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "cf71b67aec5a48dd8499da626eb2ecb6af017857",
+      "git_blob_sha": "8d8a3fb027906c57a8240c2051f5a4a8600c29b1",
       "baseline_delta_status": "added"
     },
     {
@@ -1782,6 +1792,11 @@
     {
       "path": "apps/fa3-control-center/qml/NarrationStudioPage.qml",
       "git_blob_sha": "10df680c9492afcd55f0371b5853daf67e5a30fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/PluginExtensionManagerPage.qml",
+      "git_blob_sha": "15b65519962c87d1d97ab4369e68044f9bdd657e",
       "baseline_delta_status": "added"
     },
     {
@@ -1966,7 +1981,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "cba75d12a5cc7a54db5687eef4e90d2cb98366dd",
+      "git_blob_sha": "daaefac78e362f5dce5e1ca4795ed5d9ff988287",
       "baseline_delta_status": "added"
     },
     {
@@ -3065,6 +3080,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-PLUGIN-EXTENSION-MANAGEMENT-001.json",
+      "git_blob_sha": "c06a2e6857c10afb0540ab8541d04dcb808b3a49",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-PODMAN-SECRET-ISOLATION-CURRENT-HOST-001.json",
       "git_blob_sha": "eb39b1dc65e27f0006e757bdcacc72dfc5a54deb",
       "baseline_delta_status": "added"
@@ -3086,7 +3106,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "682cbe98837fb70434aac83a58cf52a6ced08665",
+      "git_blob_sha": "f2dd1ab43f5c3d0f68cac986ef9915e0946f09bd",
       "baseline_delta_status": "added"
     },
     {
@@ -3246,7 +3266,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "c833af4ca4324912e53693710e0c941ce4bb291e",
+      "git_blob_sha": "8ed3ac4d9f69855f42f2a127172de235154b425c",
       "baseline_delta_status": "added"
     },
     {
@@ -3427,6 +3447,16 @@
     {
       "path": "canonical/FA3-OS-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "63df3aec75b97a0b7a7362781e7aa3c6bb1970b3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-PLUGIN-EXTENSION-CURRENT-HOST-001.json",
+      "git_blob_sha": "9974fc4a6ce0f4698f79f03914e628cccfad8842",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-PLUGIN-EXTENSION-UI-BINDINGS-001.json",
+      "git_blob_sha": "abd86f5a2763c4d73716eaa407043842af3482e7",
       "baseline_delta_status": "added"
     },
     {
@@ -4885,6 +4915,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-PLUGIN-EXTENSION-CONTRACTS-001.json",
+      "git_blob_sha": "2f1bb79de7c4b0796d7fce6e4ad24d804f195ec3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-PLUGIN-EXTENSION-MANIFEST-001.json",
+      "git_blob_sha": "033c98de9a8f1d94b53e113914ef0242291fb0bb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "git_blob_sha": "3c3c527403b32c0b331e6432ba02fab228d1372e",
       "baseline_delta_status": "added"
@@ -5785,6 +5825,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-PLUGIN-EXTENSION-MANAGEMENT-2026-09-30.json",
+      "git_blob_sha": "a1f5f2c75b3944b86b4930187df85bd486af10c0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b",
       "baseline_delta_status": "added"
@@ -6066,7 +6111,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "77a8a45f53f41527bd1a5fb18136f86192f72862",
+      "git_blob_sha": "61398df635b8569182b5a2082a839763de558dc1",
       "baseline_delta_status": "modified"
     },
     {
@@ -7037,6 +7082,11 @@
     {
       "path": "canonical/profiles/FA3-OS-RUNTIME-001.json",
       "git_blob_sha": "3926bff87247f3e1583f9a4f65571bcd32c27f82",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-PLUGIN-EXTENSION-MANAGEMENT-001.json",
+      "git_blob_sha": "d02924e9efc2f0d24ed5864d62a45a9daaf3d83d",
       "baseline_delta_status": "added"
     },
     {
@@ -8646,7 +8696,7 @@
     },
     {
       "path": "deployment/fa3-gui/install.sh",
-      "git_blob_sha": "acc49e99891e09e5a4676c69390b370e0b5477f5",
+      "git_blob_sha": "5446af8866ccc34f3f79c6fb916b1c11f34b6f90",
       "baseline_delta_status": "added"
     },
     {
@@ -8882,6 +8932,11 @@
     {
       "path": "docs/FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md",
       "git_blob_sha": "3f3a79efb4f8017b8377ffcd9e219b9d9586ccdb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-PLUGIN-EXTENSION-MANAGEMENT-001.md",
+      "git_blob_sha": "6e8573ec79632a66c3138cc19e2a3ebae94e70f4",
       "baseline_delta_status": "added"
     },
     {
@@ -10491,7 +10546,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "f52dc072eb1642f587c55a33d81e506ee236c115",
+      "git_blob_sha": "2818998e3df96e13dc2e80571472ca0efc46fd2e",
       "baseline_delta_status": "added"
     },
     {
@@ -11246,7 +11301,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "b3865f0852a017e0f67003c3065ddefa4824b773",
+      "git_blob_sha": "6666f0c9c9424b66ea1abce600b4eacc049270a6",
       "baseline_delta_status": "modified"
     },
     {
@@ -11376,7 +11431,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "e00658a2e8639d61caef81be636638434360c474",
+      "git_blob_sha": "0b24597164d89079c3e041ef0162a4219e4b2fc8",
       "baseline_delta_status": "added"
     },
     {
@@ -12012,6 +12067,16 @@
     {
       "path": "src/fa3_plasma_secret_service_diagnostic.py",
       "git_blob_sha": "74acb42531ff8ddb66b979cfc4efde6f1babc667",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_plugin_extension_gate.py",
+      "git_blob_sha": "c21f9fa1a81f45700b2b5aa2f6ab99a722a484f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_plugin_extension_manager.py",
+      "git_blob_sha": "3a47be35607ac11b7a54ab863a2218bedae5f291",
       "baseline_delta_status": "added"
     },
     {
@@ -12971,7 +13036,7 @@
     },
     {
       "path": "tests/test_fa3_gui_gate.py",
-      "git_blob_sha": "97d8ee837caf23603f2840596ddadf68fd2521f7",
+      "git_blob_sha": "39ce2698d4b4cf241621037f0bf498dc39b86416",
       "baseline_delta_status": "added"
     },
     {
@@ -13597,6 +13662,11 @@
     {
       "path": "tests/test_plasma_secret_service_diagnostic.py",
       "git_blob_sha": "f9fe495d202e8eef2108913d8c760e1be9aca569",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_plugin_extension_manager.py",
+      "git_blob_sha": "e351c7accb51acfd26fb61da0bcc89e14b4a45ec",
       "baseline_delta_status": "added"
     },
     {
