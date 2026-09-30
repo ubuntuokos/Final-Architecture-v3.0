@@ -1,6 +1,6 @@
 # FA3 Communications & Contacts Shared
 
-Status: **static materialization in progress; physical Current Host runtime promotion remains pending**.
+Status: **static materialized; physical Current Host runtime promotion remains pending**.
 
 The system has one provider-neutral backend contract and two presentation modes:
 
