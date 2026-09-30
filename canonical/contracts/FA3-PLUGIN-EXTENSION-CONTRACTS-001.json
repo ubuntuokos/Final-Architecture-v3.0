@@ -1,19 +1,9 @@
 {
-  "schema": "fa3.plugin-extension.contracts.v1",
+  "schema": "fa3.plugin-extension-manager.contracts.v1",
   "id": "FA3-PLUGIN-EXTENSION-CONTRACTS-001",
   "profile_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-001",
   "provider_neutral": true,
   "fail_closed": true,
-  "execution_classes": [
-    "CONTENT_ONLY",
-    "WASM_SANDBOXED",
-    "PROCESS_ISOLATED",
-    "VENV_ISOLATED",
-    "IN_PROCESS_TRUSTED",
-    "HOST_NATIVE",
-    "MCP_PROVIDER",
-    "EXTERNAL_BRIDGE"
-  ],
   "trust_states": [
     "UNKNOWN",
     "INSPECTED",
@@ -58,11 +48,6 @@
     "REQUIRED_EVIDENCE_VALID",
     "HOST_BINDING_VALID"
   ],
-  "ai_execution_requirements": [
-    "AI_POLICY_ALLOWED",
-    "MODEL_ROUTER_ALLOWED",
-    "REQUESTED_PROVIDER_ALLOWED"
-  ],
   "permission_domains": [
     "FILESYSTEM",
     "NETWORK",
@@ -79,12 +64,13 @@
     "EXTERNAL_HOST"
   ],
   "lifecycle_plan": [
-    "RESOLVE",
+    "INSPECT",
     "IMPACT",
-    "APPROVE",
+    "REQUEST_AUTHORITY_APPROVAL",
     "STAGE",
     "VERIFY",
-    "COMMIT"
+    "COMMIT_BINDING",
+    "ROLLBACK_OR_REMOVE"
   ],
   "update_policy": {
     "silent_update": false,
@@ -93,6 +79,7 @@
     "rollback_required": true
   },
   "shared_package_model": {
+    "identity_source": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
     "single_package_identity": true,
     "per_consumer_enablement": true,
     "side_by_side_versioning_when_abi_requires": true
@@ -106,5 +93,73 @@
   },
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "name": "Plugin and Extension Manager Control-Plane Contracts",
+  "parent_fabric_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "parent_contract_id": "FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001",
+  "parent_registry_id": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
+  "shared_manifest_schema": "fa3.shared-plugin-extension-manifest.v1",
+  "manifest_authority": "PARENT_SHARED_FABRIC_ONLY",
+  "state_projection": {
+    "trust": [
+      "UNKNOWN",
+      "INSPECTED",
+      "ADMISSION_PENDING",
+      "ADMITTED",
+      "BLOCKED_LICENSE",
+      "BLOCKED_SECURITY",
+      "REVOKED",
+      "QUARANTINED"
+    ],
+    "installation": [
+      "NOT_INSTALLED",
+      "STAGED",
+      "INSTALLED",
+      "PARTIAL",
+      "BROKEN",
+      "ROLLBACK_REQUIRED"
+    ],
+    "activation": [
+      "DISABLED",
+      "ENABLED",
+      "ACTIVE",
+      "SUSPENDED",
+      "FAULTED"
+    ],
+    "evidence": [
+      "NONE",
+      "PENDING_CURRENT_HOST",
+      "CURRENT_HOST_PASS",
+      "STALE",
+      "REQUALIFICATION_REQUIRED"
+    ]
+  },
+  "effective_activation_projection_requirements": [
+    "PARENT_BINDING_ELIGIBLE",
+    "SECURITY_ADMITTED",
+    "INSTALLED",
+    "EXPLICIT_APPLICATION_ENABLE",
+    "COMPATIBLE",
+    "PERMISSION_ALLOWED",
+    "LAYER_ALLOWED",
+    "COEXISTENCE_PASS",
+    "RESOURCE_ADMITTED",
+    "REQUIRED_EVIDENCE_VALID",
+    "HOST_BINDING_VALID"
+  ],
+  "ai_policy_projection": {
+    "source": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+    "toggle_levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "COMPONENT",
+      "CAPABILITY"
+    ],
+    "manager_may_override_parent_deny": false,
+    "manager_may_select_provider_or_model": false,
+    "direct_provider_access": false
+  },
+  "mutation_execution_authority": "NONE",
+  "action_output": "AUTHORITY_GATED_INTENT_ONLY"
 }
