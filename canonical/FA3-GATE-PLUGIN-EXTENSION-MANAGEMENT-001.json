@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-PLUGIN-EXTENSION-MANAGEMENT-001",
+  "gateset_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-GATESET-001",
+  "profile_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "p0_invariants": [
+    "PLUGIN_MANAGER_NOT_ARCHITECTURAL_AUTHORITY",
+    "PLUGIN_MANAGER_CAPABILITY_COUNT_175",
+    "PLUGIN_MANAGER_COMMON_BACKEND_ALL_GUI_APPLICATIONS",
+    "PLUGIN_MANAGER_STANDALONE_WITHOUT_TARGET_APP",
+    "PLUGIN_MANAGER_CONTEXTUAL_APPLICATION_ENTRY_REQUIRED",
+    "PLUGIN_MANAGER_AI_DENY_WINS_NO_SILENT_FALLBACK",
+    "PLUGIN_MANAGER_SOFTWARE_COEXISTENCE_REQUIRED",
+    "PLUGIN_MANAGER_LAYER_GUARD_REQUIRED",
+    "PLUGIN_MANAGER_HRB_REQUIRED_FOR_ACCELERATOR",
+    "PLUGIN_MANAGER_CURRENT_HOST_PROMOTION_EVIDENCE_REQUIRED"
+  ],
+  "executable": "PYTHONPATH=src python src/fa3_plugin_extension_gate.py",
+  "current_host_runtime_required_for_runtime_promotion": true,
+  "current_host_conformance": "FA3-PLUGIN-EXTENSION-CURRENT-HOST-001",
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
