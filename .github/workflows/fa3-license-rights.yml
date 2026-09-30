@@ -6,10 +6,13 @@ on:
       - "LICENSE"
       - "LICENSES/**"
       - "NOTICE"
+      - "THIRD_PARTY_NOTICES.md"
+      - "THIRD_PARTY_NOTICES.md"
       - "TRADEMARKS.md"
       - "COMMERCIAL-LICENSING.md"
       - "REUSE.toml"
       - "canonical/license-rights-*.json"
+      - "canonical/descriptors/FA3-RIGHTS-*.json"
       - "canonical/profiles/FA3-LICENSE-RIGHTS-001.json"
       - "canonical/contracts/FA3-LICENSE-RIGHTS-CONTRACTS-001.json"
       - "canonical/decisions/FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30.json"
@@ -22,9 +25,12 @@ on:
       - "canonical/supply-chain-license-policy.json"
       - "src/fa3_license_rights.py"
       - "src/fa3_license_rights_gate.py"
+      - "src/fa3_license_rights_retro_audit.py"
       - "src/fa3_supply_runtime_hardening_gate.py"
       - "tests/test_license_rights.py"
+      - "tests/test_license_rights_retro_audit.py"
       - "docs/license-rights-management.md"
+      - "docs/license-rights-retro-audit.md"
       - ".github/workflows/fa3-license-rights.yml"
   push:
     branches: [main]
@@ -68,7 +74,7 @@ jobs:
       - name: Unit tests
         env:
           PYTHONPATH: src
-        run: python -m unittest tests.test_license_rights
+        run: python -m unittest tests.test_license_rights tests.test_license_rights_retro_audit
       - name: Static fail-closed gate
         env:
           PYTHONPATH: src
