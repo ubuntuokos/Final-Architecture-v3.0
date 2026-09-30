@@ -21,7 +21,7 @@ class RetroLicenseRightsAuditTests(unittest.TestCase):
     def test_jev_snapshot_has_exact_pinned_license_evidence(self):
         policy = json.loads((ROOT / "canonical/license-rights-policy.json").read_text(encoding="utf-8"))
         descriptor = json.loads(
-            (ROOT / "canonical/descriptors/FA3-RIGHTS-JEV-RADAR-SNAPSHOT-001.json").read_text(encoding="utf-8")
+            (ROOT / "canonical/descriptors/FA3-RIGHTS-THIRD-PARTY-RADAR-SNAPSHOT-001.json").read_text(encoding="utf-8")
         )
         result = evaluate_descriptor(descriptor, policy)
         self.assertEqual("PASS", result["result"])
