@@ -1,9 +1,24 @@
 # FA3 Tutorial → Shared Capability → Application Manual plan
 
-Status: **PROPOSED / plan only**  
-Policy: `FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001`  
-Capability baseline: **175 fixed**  
+Status: **MATERIALIZED STATIC / pending finalization**
+Policy: `FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001`
+Capability baseline: **175 fixed**
 Runtime/current-host promotion: **none**
+
+## Materialization status
+
+Owner approval for TUT-01 through TUT-08 was recorded on 2026-09-30.
+
+- **TUT-01:** tutorial reference schema and rights/provenance classification materialized.
+- **TUT-02:** non-executing Tutorial Feature Unit validation/extraction input materialized.
+- **TUT-03:** deterministic 175-capability/application matcher materialized.
+- **TUT-04:** shared-placement planner materialized; two or more consumers require one shared functional core.
+- **TUT-05:** retrospective application impact projection materialized for planned, in-progress/materialized consumer states represented by the inventory.
+- **TUT-06:** per-application manual work-item projection materialized; availability claims remain forbidden before implementation verification.
+- **TUT-07:** fail-closed self-check, regression tests and CI binding materialized.
+- **TUT-08:** Current Host structural-impact hook materialized. This planner-only change has runtime delta **NONE**; future structural runtime changes require physical requalification.
+
+No concrete tutorial source is ingested by this materialization, no shared runtime service is admitted, the capability baseline remains **175**, and finalization/merge remains a separate approval point.
 
 ## 1. Goal
 
@@ -225,9 +240,9 @@ Any tutorial-derived implementation that changes structural runtime behavior mus
 
 The current-host layer must be updated together with the structural change. Static documentation can never satisfy physical current-host evidence.
 
-## 11. Planned repository changes after plan approval
+## 11. Materialized repository changes
 
-The implementation stage should add or modify, at minimum:
+The approved static materialization adds or modifies:
 
 - `src/fa3_tutorial_reuse_planner.py`
 - `bin/fa3-tutorial-reuse-plan`

@@ -39,6 +39,14 @@ Targeted re-evaluation when the canonical donor registry changes:
 
     ./bin/fa3-app-donor-index --previous-registry old-registry.json --output impact.json
 
+Validate the tutorial/shared-capability materialization:
+
+    ./bin/fa3-tutorial-reuse-plan --self-check --check
+
+Plan one already-registered tutorial reference without executing tutorial commands:
+
+    ./bin/fa3-tutorial-reuse-plan --tutorial tutorial-reference.json --check --output tutorial-plan.json
+
 Only source-unique, materially changed donors trigger an impact report, and
 only exact app aliases and normalized source keys create app-specific review
 tasks. Repeated sightings or timestamp-only changes do not cause new reviews.

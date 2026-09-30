@@ -9,9 +9,15 @@ on:
       - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
       - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
       - "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      - "canonical/FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001.json"
+      - "canonical/FA3-TUTORIAL-SHARED-CAPABILITY-CURRENT-HOST-IMPACT-001.json"
+      - "canonical/schemas/FA3-TUTORIAL-REFERENCE-SCHEMA-001.json"
       - "src/fa3_application_donor_index.py"
+      - "src/fa3_tutorial_reuse_planner.py"
       - "tests/test_application_donor_index.py"
+      - "tests/test_tutorial_reuse_planner.py"
       - "bin/fa3-app-donor-index"
+      - "bin/fa3-tutorial-reuse-plan"
       - ".github/workflows/fa3-application-donor-inventory.yml"
 jobs:
   application-donor-integrity:
@@ -24,6 +30,8 @@ jobs:
           fetch-depth: 0
       - name: Static application inventory gate
         run: python3 src/fa3_application_donor_index.py --check --summary
+      - name: Tutorial shared-capability materialization self-check
+        run: python3 src/fa3_tutorial_reuse_planner.py --self-check --check
       - name: Automatically calculate exact donor-change impact
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -41,5 +49,7 @@ jobs:
           name: fa3-application-donor-impact
           path: donor-impact.json
           if-no-files-found: ignore
-      - name: Regression and safety negative tests
+      - name: Application inventory regression and safety tests
         run: python3 -m unittest discover -s tests -p "test_application_donor_index.py" -v
+      - name: Tutorial reuse planner regression and fail-closed tests
+        run: python3 -m unittest discover -s tests -p "test_tutorial_reuse_planner.py" -v

@@ -2,9 +2,9 @@
   "schema": "fa3.tutorial-shared-capability-policy.v1",
   "id": "FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001",
   "date": "2026-09-30",
-  "status": "PROPOSED",
+  "status": "MATERIALIZED_STATIC_PENDING_FINALIZATION",
   "authority": false,
-  "implementation_state": "PLAN_ONLY_PENDING_APPROVAL",
+  "implementation_state": "TUT_01_TO_TUT_08_STATIC_MATERIALIZED",
   "title": "Tutorial-derived knowledge, shared capability placement and retroactive application impact",
   "owner_directives": [
     "INTERNET_TUTORIALS_MAY_BE_USED_AS_DONOR_REFERENCE_MATERIAL",
@@ -111,5 +111,28 @@
   "new_architectural_authorities": 0,
   "capability_count_after": 175,
   "runtime_promotion_claim": false,
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "materialization_approval": "OWNER_APPROVED_2026-09-30",
+  "materialization": {
+    "runtime_service_created": false,
+    "runtime_promotion_claimed": false,
+    "current_host_runtime_delta": "NONE",
+    "schema_path": "canonical/schemas/FA3-TUTORIAL-REFERENCE-SCHEMA-001.json",
+    "planner_path": "src/fa3_tutorial_reuse_planner.py",
+    "cli_path": "bin/fa3-tutorial-reuse-plan",
+    "application_inventory_path": "src/fa3_application_donor_index.py",
+    "current_host_impact_path": "canonical/FA3-TUTORIAL-SHARED-CAPABILITY-CURRENT-HOST-IMPACT-001.json",
+    "test_path": "tests/test_tutorial_reuse_planner.py",
+    "workflow_path": ".github/workflows/fa3-application-donor-inventory.yml",
+    "work_packages": {
+      "TUT-01": "SCHEMA_AND_RIGHTS_CLASSIFICATION_MATERIALIZED",
+      "TUT-02": "TFU_VALIDATION_AND_NON_EXECUTING_EXTRACTION_INPUT_MATERIALIZED",
+      "TUT-03": "CAPABILITY_APPLICATION_MATCHER_MATERIALIZED",
+      "TUT-04": "SHARED_PLACEMENT_PLANNER_MATERIALIZED",
+      "TUT-05": "RETROACTIVE_IMPACT_ANALYZER_MATERIALIZED",
+      "TUT-06": "APPLICATION_MANUAL_TASK_PROJECTION_MATERIALIZED",
+      "TUT-07": "FAIL_CLOSED_CI_AND_REGRESSIONS_MATERIALIZED",
+      "TUT-08": "CURRENT_HOST_STRUCTURAL_IMPACT_HOOK_MATERIALIZED_RUNTIME_DELTA_NONE"
+    }
+  }
 }
