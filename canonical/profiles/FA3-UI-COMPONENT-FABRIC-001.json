@@ -32,7 +32,8 @@
     "ACCESSIBILITY_ADMISSION",
     "SECURITY_ADMISSION",
     "VISUAL_REGRESSION",
-    "UI_PROVENANCE_AND_LICENSE_METADATA"
+    "UI_PROVENANCE_AND_LICENSE_METADATA",
+    "UNIVERSAL_SHARED_ACTION_SURFACES"
   ],
   "consumer_surfaces": [
     "FA3_CONTROL_CENTER",
@@ -42,7 +43,8 @@
     "KDENLIVE_EDITORIAL_UI",
     "DASHBOARDS",
     "SETTINGS",
-    "STATUS_AND_NOTIFICATION_SURFACES"
+    "STATUS_AND_NOTIFICATION_SURFACES",
+    "ALL_FA3_APPLICATIONS"
   ],
   "excluded_scope": [
     "EXTERNAL_UI_RUNTIME_PROVIDER",
@@ -69,7 +71,8 @@
     "NO_UNAPPROVED_REMOTE_RESOURCES",
     "SOURCE_PROVENANCE",
     "LICENSE_METADATA",
-    "VISUAL_REGRESSION_COVERAGE"
+    "VISUAL_REGRESSION_COVERAGE",
+    "CONTEXT_BOUND_SHARED_ACTION_SURFACE"
   ],
   "authority_boundaries": {
     "identity": false,
@@ -90,5 +93,15 @@
     "fa3_native_component_implementation_required_for_production": true
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "shared_action_projection": {
+    "binding_source": "FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001",
+    "action_contract_source": "canonical/actions",
+    "universal_actions": [
+      "email.send"
+    ],
+    "direct_qml_execution": false,
+    "typed_uaf_intent_required": true,
+    "application_context_required": true
+  }
 }
