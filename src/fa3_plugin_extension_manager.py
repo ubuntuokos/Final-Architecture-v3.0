@@ -79,3 +79,50 @@ def shared_binding_state(package: dict[str, Any], application_id: str) -> dict[s
         "enabled": value.get("enabled") is True,
         "context_application": application_id,
     }
+
+
+def plugin_visibility_state(package: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    """Project one package into a context-filtered application manager view."""
+    if context.get("global_catalog") is True:
+        return {"visible": True, "state": "GLOBAL_CATALOG", "reason": None}
+
+    app_id = context.get("application_id")
+    if not app_id:
+        return {"visible": False, "state": "HIDDEN", "reason": "application-context-required"}
+
+    required_caps = set(package.get("requires_capabilities", []))
+    app_caps = set(context.get("application_capabilities", []))
+    explicit_apps = set(package.get("supported_applications", []))
+    excluded_apps = set(package.get("excluded_applications", []))
+
+    if app_id in excluded_apps:
+        return {"visible": False, "state": "HIDDEN", "reason": "application-excluded"}
+    if explicit_apps and app_id not in explicit_apps:
+        return {"visible": False, "state": "HIDDEN", "reason": "not-applicable-to-application"}
+    if required_caps and not required_caps.issubset(app_caps):
+        return {"visible": False, "state": "HIDDEN", "reason": "capability-mismatch"}
+    if context.get("compatible") is False:
+        return {"visible": False, "state": "HIDDEN", "reason": "incompatible"}
+    if context.get("policy_denied") is True:
+        return {
+            "visible": context.get("diagnostic_view") is True,
+            "state": "DENIED",
+            "reason": "policy-denied",
+        }
+    if context.get("temporarily_available") is False:
+        return {"visible": True, "state": "TEMP_UNAVAILABLE", "reason": "runtime-or-dependency-unavailable"}
+
+    installed = package.get("installation") == "INSTALLED"
+    return {
+        "visible": True,
+        "state": "AVAILABLE" if installed else "INSTALLABLE",
+        "reason": None,
+    }
+
+def project_packages_for_application(packages: list[dict[str, Any]], context: dict[str, Any]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for package in packages:
+        visibility = plugin_visibility_state(package, context)
+        if visibility["visible"]:
+            out.append({**package, "applicability": visibility})
+    return out
