@@ -147,7 +147,7 @@ def verify_projection(root: Path):
         shared = recipes.get("shared_recipe_count")
         dedicated = recipes.get("dedicated_capability_ids", [])
         if (
-            recipes.get("capability_count") != CAPABILITY_COUNT
+            recipes.get("active_capability_count", recipes.get("capability_count")) != CAPABILITY_COUNT
             or recipes.get("required_test_obligation_count") != CAPABILITY_COUNT * 3
             or not isinstance(shared, int)
             or not isinstance(dedicated, list)
