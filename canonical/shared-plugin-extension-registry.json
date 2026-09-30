@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.shared-plugin-extension-registry.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
+  "status": "CANONICAL_EMPTY_REGISTRY_READY_FOR_ADMITTED_ENTRIES",
+  "authority": false,
+  "profile_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "contract_id": "FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001",
+  "automatic_activation": false,
+  "automatic_provider_admission": false,
+  "automatic_model_selection": false,
+  "binding_projection": "DYNAMIC_CAPABILITY_AND_HOST_CONTRACT_MATCH",
+  "records": [],
+  "policy": {
+    "all_plugin_and_extension_entries_shared": true,
+    "single_app_private_plugin_record_forbidden": true,
+    "per_app_activation_state_external_to_component_identity": true,
+    "ai_access_policy_external_to_provider_identity": true
+  }
+}
