@@ -106,5 +106,10 @@
     "cpu_only_viable": true,
     "accelerator_cardinality": "0..N",
     "automatic_display_gpu_ai_use": false
-  }
+  },
+  "collector": "evidence/collect-communications-contacts-current-host.py",
+  "receipt_schema": "canonical/schemas/communications-contacts-current-host-receipt.v1.json",
+  "receipt_path": "evidence/receipts/communications-contacts-current-host.json",
+  "provider_e2e_receipt_required": true,
+  "synthetic_or_historical_evidence_accepted": false
 }
