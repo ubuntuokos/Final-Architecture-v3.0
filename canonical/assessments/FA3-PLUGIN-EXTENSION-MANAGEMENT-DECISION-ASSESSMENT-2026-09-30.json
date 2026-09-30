@@ -5,13 +5,16 @@
     "FA3-PLUGIN-EXTENSION-MANAGEMENT-001"
   ],
   "assessment": "NOT_APPLICABLE",
-  "rationale": "Plugin and extension trust, admission, permission, dependency compatibility, activation, update, rollback, resource placement, AI routing and runtime promotion are deterministic authority-owned governance decisions. Decision Fabric must not grant permissions, expand install candidates, select providers or models, activate extensions, bypass Layer Guard, override HRB, or promote runtime evidence.",
+  "rationale": "The Manager projects deterministic state and emits authority-gated lifecycle intents over FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001. Shared component binding, AI policy, trust, admission, permission, activation eligibility, resource placement, provider/model routing and runtime promotion remain deterministic authority-owned operations. Decision Fabric must not override the parent shared Fabric or any canonical authority.",
   "decision_points": [],
   "not_delegated": [
+    "shared component manifest validation",
+    "binding eligibility",
+    "AI access policy",
     "trust and admission",
     "permission grants",
     "dependency install",
-    "activation",
+    "activation authorization",
     "update approval",
     "rollback authority",
     "resource placement",
