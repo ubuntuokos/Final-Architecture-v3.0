@@ -1,32 +1,153 @@
 {
   "schema": "fa3.reuse-assessment.v1",
   "id": "FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30",
+  "project_id": "FA3-ORCHESTRATION-WORKFORCE-001",
   "intent_id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
+  "intent_path": "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
+  "covered_ids": [
+    "FA3-ORCHESTRATION-WORKFORCE-001"
+  ],
+  "project_status": "MATERIALIZED_STATIC_AND_UNIT_VALIDATION_CURRENT_HOST_REQUALIFICATION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "use": "EXISTING_DIRECTOR_AND_SPECIALIST_ROUTING"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_TYPED_ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_RUNTIME_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_TASK_LOCAL_EXECUTION_PROJECTION"
+    },
+    {
+      "id": "github:temporalio/sdk-python",
+      "use": "PUBLISHED_REFERENCE_FOR_EXISTING_TEMPORAL_DURABLE_LIFECYCLE_PATTERNS"
+    },
+    {
+      "id": "github:dagger/dagger",
+      "use": "PUBLISHED_REFERENCE_FOR_INCREMENTAL_GRAPH_PATTERNS"
+    },
+    {
+      "id": "github:skypilot-org/skypilot",
+      "use": "PUBLISHED_REFERENCE_FOR_DISTRIBUTED_LOCALITY_PATTERNS"
+    },
+    {
+      "id": "github:nvidia/openshell",
+      "use": "PUBLISHED_REFERENCE_FOR_EXECUTION_BOUNDARY_PATTERNS"
+    },
+    {
+      "id": "github:langfuse/langfuse",
+      "use": "PUBLISHED_REFERENCE_FOR_OBSERVABILITY_UX_PATTERNS"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_GLOBAL_DURABLE_WORKFLOW_AUTHORITY",
+      "reason": "TEMPORAL_REMAINS_SOLE_GLOBAL_DURABLE_LIFECYCLE_AUTHORITY"
+    },
+    {
+      "id": "PAPERCLIP_RUNTIME_OR_CONTROL_PLANE",
+      "reason": "OWNER_APPROVED_FA3_NATIVE_FUNCTIONAL_ADOPTION_ONLY; SOURCE_NOT_IN_PUBLISHED_OWNER_MARKED_DONOR_REGISTRY"
+    },
+    {
+      "id": "CONDUCTOR_AS_GLOBAL_WORKFLOW_AUTHORITY",
+      "reason": "CONDUCTOR_IS_DELEGATED_BOUNDED_ADAPTIVE_GRAPH_SPECIALIST_ONLY"
+    }
+  ],
+  "pattern_reuse": [
+    "OBJECTIVE_ANCESTRY",
+    "BOUNDARY_BASED_DECOMPOSITION",
+    "TYPED_DEPENDENCIES",
+    "ATOMIC_EXECUTION_CLAIM",
+    "VERSION_BOUND_APPROVAL",
+    "BOUNDED_RECOVERY",
+    "LIVENESS_PROJECTION"
+  ],
+  "existing_authority_bindings": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_approval": "AUTH-HUMAN"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "ORCHESTRATION_GOVERNANCE_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
   "published_main_registry": {
     "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "blob_sha": "7e900cac93936d2f319e132def4c172b2a415d4d",
     "entry_count": 1233,
     "paperclip_present": false
   },
-  "result": "REVIEWED_EXISTING_FA3_REUSE",
-  "matched_published_sources": [
-    "github:temporalio/sdk-python",
-    "github:dagger/dagger",
-    "github:skypilot-org/skypilot",
-    "github:nvidia/openshell",
-    "github:langfuse/langfuse"
-  ],
-  "adopted_external_runtime": [],
-  "source_code_imports": [],
   "paperclip_analysis": {
     "source": "https://github.com/paperclipai/paperclip",
+    "inspected_head": "b54b2dc35c1f41d367ff4d94615ebfd38bbbdad0",
     "canonical_planning_candidate": false,
-    "reason": "Not in the verified published-main registry and not introduced with donornak. Functional requirements are owner-approved FA3-native requirements only.",
     "runtime_dependency": false,
     "code_copy": false
   },
-  "decision": "Reuse existing FA3 authorities and runtime paths. Add one shared FA3-native governance core instead of a second control plane, scheduler, resource authority, model router, secret store or evidence authority.",
-  "capability_count": 175,
-  "capability_delta": 0,
-  "authority_delta": 0
+  "active_pr_reconciliation": [
+    {
+      "pr": 556,
+      "area": "OBJECTIVE_COORDINATION_AND_DEPENDENCY_INTELLIGENCE",
+      "rule": "IF_ADMITTED, USE AS SOURCE FOR OBJECTIVE/DEPENDENCY INTELLIGENCE; DO NOT KEEP DUPLICATE OWNERSHIP"
+    },
+    {
+      "pr": 557,
+      "area": "SCOPE_AND_AUTHORITY_GUARD",
+      "rule": "IF_ADMITTED, USE AS SOURCE FOR AUTHORITY ENFORCEMENT; ORCHESTRATION GOVERNANCE REMAINS A CONSUMER/PROJECTION"
+    }
+  ]
 }
