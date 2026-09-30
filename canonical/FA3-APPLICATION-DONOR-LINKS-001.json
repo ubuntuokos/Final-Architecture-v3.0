@@ -1,5 +1,5 @@
 {
-  "schema": "fa3.application-donor-links.v1",
+  "schema": "fa3.application-donor-links.v2",
   "id": "FA3-APPLICATION-DONOR-LINKS-001",
   "status": "CANONICAL_LINK_DECLARATIONS",
   "authority": false,
@@ -22,7 +22,22 @@
     "automatic_code_import": false,
     "automatic_activation": false,
     "automatic_model_selection": false,
-    "automatic_provider_admission": false
+    "automatic_provider_admission": false,
+    "all_applications_in_scope_even_without_declared_dependency": true,
+    "declared_and_implicit_dependencies_must_be_reconciled": true,
+    "every_donor_change_must_be_processed": true,
+    "donor_change_requires_application_impact_lookup": true,
+    "donor_usage_reverse_traceability_required": true,
+    "donor_usage_record_required_before_adoption": true,
+    "monthly_donor_capability_refresh_days": 31,
+    "donor_security_change_immediate": true,
+    "unsafe_donor_active_registry_forbidden": true,
+    "unsafe_donor_replacement_or_native_rematerialization_required": true,
+    "stalled_used_donor_lock_and_replacement_required": true,
+    "donor_change_capability_non_regression": true,
+    "capability_loss_only_for_verified_fa3_risk": true,
+    "current_host_alignment_required_for_structural_or_runtime_change": true,
+    "gates_evidence_and_release_projection_reconciliation_required": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -217,5 +232,32 @@
       "status": "PROPOSED",
       "human_approval_required": true
     }
-  ]
+  ],
+  "governance_decisions": [
+    "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
+  ],
+  "donor_usage_records": [],
+  "donor_usage_contract": {
+    "schema": "fa3.application-donor-usage.v1",
+    "required_for_actual_donor_use": true,
+    "reverse_lookup_key": "donor_id",
+    "application_lookup_key": "application_id",
+    "allowed_usage_kinds": [
+      "CAPABILITY_PATTERN",
+      "ALGORITHM_PATTERN",
+      "WORKFLOW_PATTERN",
+      "ARCHITECTURE_PATTERN",
+      "UI_UX_PATTERN",
+      "CODE_REUSE",
+      "RUNTIME_DEPENDENCY",
+      "REFERENCE_BINDING"
+    ],
+    "allowed_status": [
+      "ACTIVE",
+      "PINNED_STABLE",
+      "REPLACEMENT_PENDING",
+      "REMOVED"
+    ],
+    "untracked_donor_use_forbidden": true
+  }
 }
