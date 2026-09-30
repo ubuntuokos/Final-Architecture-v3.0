@@ -29,6 +29,27 @@ class AiStudioAppLifecycleGateTests(unittest.TestCase):
         self.assertEqual(self.lifecycle["installation"]["default_mode"], "FIRST_USE")
         self.assertTrue(self.lifecycle["installation"]["confirmation_required_before_materialization"])
 
+    def test_all_catalog_apps_inherit_global_development_reconciliation(self) -> None:
+        policy = self.lifecycle["development_reconciliation"]
+        self.assertTrue(policy["applies_to_every_catalog_application"])
+        self.assertFalse(policy["formal_dependency_declaration_required_for_scope"])
+        self.assertTrue(policy["declared_and_implicit_dependencies_reconciled"])
+        self.assertTrue(policy["affected_layers_reconciled"])
+        self.assertTrue(policy["donor_change_processing_required"])
+        self.assertTrue(policy["donor_usage_reverse_traceability_required"])
+        self.assertTrue(policy["capability_non_regression_on_donor_change"])
+        self.assertTrue(policy["current_host_alignment_required_for_structural_or_runtime_change"])
+        self.assertFalse(policy["exceptions_allowed"])
+        self.assertTrue(self.catalog["all_entries_inherit_fa3_development_rules"])
+        self.assertTrue(self.catalog["formal_dependency_declaration_does_not_limit_governance_scope"])
+
+    def test_donor_lifecycle_is_bound_to_apps(self) -> None:
+        donor = self.lifecycle["donor_lifecycle"]
+        self.assertEqual(donor["monthly_capability_refresh_days"], 31)
+        self.assertEqual(donor["security_change_propagation"], "IMMEDIATE")
+        self.assertEqual(donor["unsafe_donor_active_registry"], "FORBIDDEN")
+        self.assertEqual(donor["rejected_reentry"], "VERIFIED_SAFE_EVIDENCE_REQUIRED")
+
     def test_direct_user_install_is_denied(self) -> None:
         boundary = self.lifecycle["admission_boundary"]
         self.assertTrue(boundary["catalog_is_allowlist"])
