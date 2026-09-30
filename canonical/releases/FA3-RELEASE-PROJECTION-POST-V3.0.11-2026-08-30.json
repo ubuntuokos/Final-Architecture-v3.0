@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2d583bfa910733360bb6f8145636f4f6bfe420cf",
-    "pre_projection_root_tree_sha": "99e2389f1b8c76842de0e9c57ee0395ed62435ee",
-    "pre_projection_canonical_tree_sha": "a12a06d627314f49ced60e6cceae9dcd55c58dce",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2260,
-    "total_post_baseline_commits": 2260,
-    "delta_file_count": 2619,
-    "delta_added_files": 2613,
+    "pre_projection_head_sha": "2bff391454264ff77404263496dad38e787c6da5",
+    "pre_projection_root_tree_sha": "751f623a5e812f68438fc445d140c6fa69effa19",
+    "pre_projection_canonical_tree_sha": "e4063805b4525a45648ab0dff8f8d86b40771981",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2277,
+    "total_post_baseline_commits": 2277,
+    "delta_file_count": 2623,
+    "delta_added_files": 2617,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1222,
+    "canonical_files_in_post_baseline_delta": 1223,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 345,
     "test_files_in_post_baseline_delta": 303,
@@ -1020,7 +1020,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2609,
+  "manifest_entry_count": 2613,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1679,7 +1679,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9189f4cb09926a801d07ec4cec083e4fc2c05119",
+      "git_blob_sha": "4d7aa49dbbcc1570a77f8e9bdfeadfbdbad9e5ac",
       "baseline_delta_status": "added"
     },
     {
@@ -1774,7 +1774,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "cf71b67aec5a48dd8499da626eb2ecb6af017857",
+      "git_blob_sha": "10f12131c116798923703d021674332fd31501a4",
       "baseline_delta_status": "added"
     },
     {
@@ -1810,6 +1810,11 @@
     {
       "path": "apps/fa3-control-center/qml/RtdProvidersPage.qml",
       "git_blob_sha": "c56e83f0f4ff454aaa43f146cf2d650554e9dfe9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/ScopeAuthorityGuardPage.qml",
+      "git_blob_sha": "5cdda818153ce64a1407e0bc01e998b3513855ff",
       "baseline_delta_status": "added"
     },
     {
@@ -1953,6 +1958,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/ScopeAuthorityGuardService.cpp",
+      "git_blob_sha": "64a361618b40b9272f84c7b681d564b759412f17",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/ScopeAuthorityGuardService.h",
+      "git_blob_sha": "bc4aa10f407f49c6ce073670035908258af76a2f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/SessionVaultService.cpp",
       "git_blob_sha": "31a2d23103972f0a9aeb3a932cd72882384418ba",
       "baseline_delta_status": "added"
@@ -1974,7 +1989,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "cba75d12a5cc7a54db5687eef4e90d2cb98366dd",
+      "git_blob_sha": "75a5ab436460e3284fad63914f9bdb5c101b28aa",
       "baseline_delta_status": "added"
     },
     {
@@ -3264,7 +3279,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "c833af4ca4324912e53693710e0c941ce4bb291e",
+      "git_blob_sha": "2bcc820f9913dfb7f4a8dbf1a49d9197200f19d1",
       "baseline_delta_status": "added"
     },
     {
@@ -3345,6 +3360,11 @@
     {
       "path": "canonical/FA3-LAVASR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "f9523a154d0e2d4961bed0ff0ee13235ff6ca261",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-LAYER-CONTRACT-REGISTRY-001.json",
+      "git_blob_sha": "fe25fbac6b47127dce85d40e70fff2d67ea023ee",
       "baseline_delta_status": "added"
     },
     {
@@ -4949,7 +4969,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SCOPE-AUTHORITY-GUARD-CONTRACTS-001.json",
-      "git_blob_sha": "cac565cb1d822097405e6ec87d6dc21ab251c550",
+      "git_blob_sha": "d1c05615b29bde9d9979a5ccc729c4135b72b55d",
       "baseline_delta_status": "added"
     },
     {
@@ -6099,7 +6119,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "180dcd79bf5f58f86103eaf073925f491abcebd5",
+      "git_blob_sha": "119d509a965050d44e1f28b6e50d14407afa7089",
       "baseline_delta_status": "modified"
     },
     {
@@ -7114,7 +7134,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SCOPE-AUTHORITY-GUARD-001.json",
-      "git_blob_sha": "62a82218e1550224cacf3e7af43d55d24bc7d59c",
+      "git_blob_sha": "d75d334ed2a1e65900df0d4f14c28c4cfc2afa85",
       "baseline_delta_status": "added"
     },
     {
@@ -11994,12 +12014,12 @@
     },
     {
       "path": "src/fa3_orchestration_provider_spi.py",
-      "git_blob_sha": "b1a06d98232f171705947bc152b718f6df6e3cf6",
+      "git_blob_sha": "d12e4e3ab1b38bdbb6d084169be95302965a0372",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_orchestration_workforce.py",
-      "git_blob_sha": "95e42196554c1c843a05c158854cd8efdc7cc6f9",
+      "git_blob_sha": "041c4d0508a1cd64d82b212c1cf090a0573a6dce",
       "baseline_delta_status": "added"
     },
     {
@@ -12229,7 +12249,7 @@
     },
     {
       "path": "src/fa3_scope_authority_guard.py",
-      "git_blob_sha": "c6939916ee3676b89ae01e8ff0c10561d47be2e2",
+      "git_blob_sha": "7a181443fdc908d0b6d4b05c5a7bfa5455029997",
       "baseline_delta_status": "added"
     },
     {
