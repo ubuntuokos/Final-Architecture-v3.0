@@ -99,7 +99,8 @@ def required_primitives(root: Path) -> tuple[set[str], dict[str, dict[str, Any]]
     if len(mapping) != shared_count:
         raise RuntimeError("shared proof recipe count mismatch")
     baseline = load_active_release_baseline(root)
-    if data.get("capability_count") != baseline.capability_count:
+    active_count = data.get("active_capability_count", data.get("capability_count"))
+    if active_count != baseline.capability_count:
         raise RuntimeError("proof recipe active capability count does not match release baseline")
     dedicated = data.get("dedicated_capability_ids", [])
     if not isinstance(dedicated, list) or any(not isinstance(cap, str) for cap in dedicated):
