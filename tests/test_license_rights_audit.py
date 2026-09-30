@@ -37,6 +37,7 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             self.assertFalse(inv["invariants"]["release_eligible"])
             self.assertTrue(inv["invariants"]["automatic_inventory_is_not_legal_clearance"])
             self.assertGreater(inv["summary"]["work_queue_items"], 0)
+            self.assertEqual(1, inv["summary"]["unique_release_blockers"])
 
     def test_release_included_subject_is_blocking(self):
         with tempfile.TemporaryDirectory() as td:
