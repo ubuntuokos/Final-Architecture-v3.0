@@ -1,10 +1,10 @@
 # FA3 Orchestrator–Conductor–Temporal — governance-strengthened final plan
 
-**Date:** 2026-09-30  
-**Status:** OWNER-APPROVED IMPLEMENTATION PLAN / MATERIALIZATION BASIS  
-**Capability baseline:** 175 fixed  
-**Provider count:** dynamic  
-**Capability delta:** 0  
+**Date:** 2026-09-30
+**Status:** OWNER-APPROVED IMPLEMENTATION PLAN / MATERIALIZATION BASIS
+**Capability baseline:** 175 fixed
+**Provider count:** dynamic
+**Capability delta:** 0
 **Architectural authority delta:** 0
 
 ## 1. Architecture
