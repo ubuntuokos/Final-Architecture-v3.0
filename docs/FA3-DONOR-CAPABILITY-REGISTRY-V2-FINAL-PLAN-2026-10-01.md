@@ -38,7 +38,9 @@ The reserve is defined against total planned capacity:
 - free growth reserve: 30%;
 - at 90%: open/prepare the next continuation volume and stop treating the remaining space as normal new-record capacity;
 - at 95%: controlled rebalance is required;
-- rebalance stops at 70%, restoring 30% free reserve.
+- rebalance deterministically selects the minimum practical donor-record set (largest records first, donor ID as tie-break) needed to restore reserve;
+- rebalance stops at 70% or slightly below when an indivisible record crosses the target, restoring at least 30% free reserve;
+- the target volume must remain below the 90% rollover threshold, otherwise a new continuation volume is required.
 
 For current used size U:
 
@@ -58,6 +60,8 @@ Migration may refresh source-backed metadata, but every change must be auditable
 
 The first shadow materialization performs lossless migration and accepts source-backed activity observations. Upstream metadata refresh and canonical cutover remain later gated migration stages.
 
+The shadow migration also stores an exact byte-preserved source snapshot and verifies **full donor-record semantic parity**, not only ID/count parity. A generated legacy compatibility projection must reproduce the original registry semantics exactly before reader cutover.
+
 ## Derived usage and capability views
 
 FA3-APPLICATION-DONOR-LINKS-001 remains the usage declaration source. Registry v2 projects derived views and does not create a second usage authority. The existing donor → capability → consumer graph is reused; CAP IDs are never inferred from names.
@@ -72,7 +76,13 @@ The materialized Resolver exposes donor, category and capability queries. Catego
       --output /tmp/fa3-registry-v2 \
       --handling-limit-bytes <measured-or-test-limit>
 
-It validates the legacy registry, 175 model and application/donor index; preserves every donor ID and source key; derives category indexes from existing hints; applies source-backed growth observations when supplied; packs initial volumes to at most 70%; keeps high-growth donors in dedicated series; emits receipts/indexes; and verifies zero donor-ID/source-key loss.
+It validates the legacy registry, 175 model and application/donor index; preserves every donor ID, normalized source key and full donor record; stores an immutable source snapshot; derives category indexes from existing hints; applies source-backed growth observations when supplied; packs initial volumes to at most 70%; keeps high-growth donors in dedicated series; emits receipts/indexes; and verifies zero-loss semantic parity.
+
+Legacy compatibility can be proven with:
+
+    ./bin/fa3-registry-v2 project-legacy \
+      --shadow /tmp/fa3-registry-v2 \
+      --output /tmp/fa3-donor-registry-legacy.json
 
 Unknown categorization remains cross-domain/REVIEW_REQUIRED rather than being guessed.
 
