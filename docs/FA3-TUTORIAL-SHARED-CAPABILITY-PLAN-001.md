@@ -20,7 +20,7 @@ A tutorial is never treated as executable authority. It is a reference source th
 
 The central `FA3-DONOR-REFERENCE-REGISTRY-001` remains the only donor/reference registry. No tutorial-only donor database is created.
 
-Remote links still follow the existing donor intake rule: an unmarked standalone internet link remains analysis-only until the owner authorizes donor intake. A tutorial file supplied/downloaded by the owner, or a tutorial downloaded as part of an explicitly owner-approved tutorial-ingest task, is a narrow class-level exception and may be registered in the existing registry as `TUTORIAL_REFERENCE` without a separate per-link `donornak` marker. Any stored source URL is provenance rather than independent intake authority. Registration still does not authorize copying code, assets, text or screenshots.
+Tutorial material does **not** create a donor-intake exception. A tutorial is processed as a `TUTORIAL_REFERENCE` only after its source has entered the published `FA3-DONOR-REFERENCE-REGISTRY-001` through the normal explicit owner-marked `donornak` intake rule. An unmarked remote link or downloaded tutorial may be analyzed as working material, but it cannot mutate the donor registry or become a planning candidate until normal intake is complete. Any stored source URL remains provenance rather than independent intake authority. Registration still does not authorize copying code, assets, text or screenshots.
 
 Each tutorial reference needs provenance and rights metadata before reuse:
 
