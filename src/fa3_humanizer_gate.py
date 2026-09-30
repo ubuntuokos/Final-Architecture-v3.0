@@ -5,7 +5,7 @@ import argparse
 import json
 from pathlib import Path
 
-CAPABILITY_COUNT = 175
+from fa3_release_baseline import load_active_release_baseline
 PROFILE = "FA3-HUMANIZATION-FABRIC-001"
 CAPABILITY = "CAP-125"
 
@@ -24,6 +24,7 @@ REQUIRED = [
     "apps/fa3-humanizer/CMakeLists.txt",
     "apps/fa3-humanizer/qml/Main.qml",
     "apps/fa3-humanizer/src/main.cpp",
+    "canonical/assessments/FA3-HUMANIZATION-DECISION-ASSESSMENT-2026-09-30.json",
 ]
 
 def load(root: Path, rel: str):
@@ -31,6 +32,7 @@ def load(root: Path, rel: str):
 
 def gate(root: Path) -> dict:
     findings = []
+    capability_count = load_active_release_baseline(root).capability_count
     for rel in REQUIRED:
         if not (root / rel).is_file():
             findings.append({"code":"HUM-001","message":"required file missing","path":rel})
@@ -43,6 +45,7 @@ def gate(root: Path) -> dict:
     bindings = load(root, REQUIRED[5])
     current = load(root, REQUIRED[6])
     enforcement = load(root, REQUIRED[7])
+    decision_assessment = load(root, "canonical/assessments/FA3-HUMANIZATION-DECISION-ASSESSMENT-2026-09-30.json")
 
     if profile.get("id") != PROFILE or profile.get("capability_bindings") != [CAPABILITY]:
         findings.append({"code":"HUM-002","message":"profile/capability binding drift"})
@@ -52,7 +55,7 @@ def gate(root: Path) -> dict:
         "current": current,
         "enforcement": enforcement,
     }.items():
-        if row.get("capability_count") != CAPABILITY_COUNT:
+        if row.get("capability_count") != capability_count:
             findings.append({"code":"HUM-003","message":"capability baseline drift","source":name})
 
     if profile.get("architectural_authority") is not False or profile.get("capability_delta") != 0:
@@ -67,19 +70,26 @@ def gate(root: Path) -> dict:
     if reuse.get("adopted_donors") != []:
         findings.append({"code":"HUM-008","message":"unexpected donor runtime adoption"})
 
+    if (decision_assessment.get("schema") != "fa3.decision-fabric-assessment.v1"
+            or "FA3-HUMANIZATION-FABRIC-001" not in decision_assessment.get("covered_ids", [])
+            or decision_assessment.get("assessment") != "RECOMMENDED"
+            or decision_assessment.get("capability_delta") != 0
+            or decision_assessment.get("authority_delta") != 0):
+        findings.append({"code":"HUM-009","message":"Decision Fabric applicability assessment missing or invalid"})
+
     if bindings.get("duplicate_settings_core_forbidden") is not True:
-        findings.append({"code":"HUM-009","message":"shared settings duplicate guard missing"})
+        findings.append({"code":"HUM-010","message":"shared settings duplicate guard missing"})
 
     if current.get("physical_current_host_pass_claim") is not False:
-        findings.append({"code":"HUM-010","message":"physical Current Host PASS was invented"})
+        findings.append({"code":"HUM-011","message":"physical Current Host PASS was invented"})
     if current.get("host_requalification_required_now") is not True:
-        findings.append({"code":"HUM-011","message":"Current Host requalification not required for new GUI/runtime"})
+        findings.append({"code":"HUM-012","message":"Current Host requalification not required for new GUI/runtime"})
 
     code = (root / "apps/shared/humanizer/HumanizerSettingsService.cpp").read_text(encoding="utf-8")
     forbidden = ["QNetwork", "api.openai.com", "api.anthropic.com", "generativelanguage.googleapis.com"]
     for token in forbidden:
         if token in code:
-            findings.append({"code":"HUM-012","message":"direct provider/network dependency found","token":token})
+            findings.append({"code":"HUM-013","message":"direct provider/network dependency found","token":token})
     required_tokens = [
         "DENIED_AI_DISABLED",
         "ROUTE_REQUIRED_NOT_EXECUTED",
@@ -90,25 +100,25 @@ def gate(root: Path) -> dict:
     ]
     for token in required_tokens:
         if token not in code:
-            findings.append({"code":"HUM-013","message":"shared runtime invariant missing","token":token})
+            findings.append({"code":"HUM-014","message":"shared runtime invariant missing","token":token})
 
     app_cmake = (root / "apps/fa3-humanizer/CMakeLists.txt").read_text(encoding="utf-8")
     app_qml = (root / "apps/fa3-humanizer/qml/Main.qml").read_text(encoding="utf-8")
     if "../shared/humanizer/qml/HumanizerSettingsPanel.qml" not in app_cmake:
-        findings.append({"code":"HUM-014","message":"standalone app does not package shared settings panel"})
+        findings.append({"code":"HUM-015","message":"standalone app does not package shared settings panel"})
     if "HumanizerSettingsPanel" not in app_qml:
-        findings.append({"code":"HUM-015","message":"standalone app does not consume shared settings panel"})
+        findings.append({"code":"HUM-016","message":"standalone app does not consume shared settings panel"})
 
     expected_rules = {f"HUM-{i:03d}" for i in range(1, 11)}
     actual_rules = {r.split("_",1)[0] for r in enforcement.get("rules", [])}
     if expected_rules != actual_rules:
-        findings.append({"code":"HUM-016","message":"enforcement rule set drift"})
+        findings.append({"code":"HUM-017","message":"enforcement rule set drift"})
 
     return {
         "schema":"fa3.humanizer-gate-report.v1",
         "profile_id":PROFILE,
         "capability_id":CAPABILITY,
-        "capability_count":CAPABILITY_COUNT,
+        "capability_count":capability_count,
         "result":"PASS" if not findings else "FAIL",
         "findings":findings,
         "runtime_promotion_claim":False,
