@@ -15,6 +15,8 @@ from fa3_registry_v2 import (
     classify_categories,
     derive_growth_profile,
     rebalance_bytes_required,
+    resolve_category,
+    resolve_donor,
     shadow_migrate,
     verify_shadow,
     volume_state,
@@ -86,6 +88,15 @@ class RegistryV2RepositoryIntegrationTests(unittest.TestCase):
             self.assertEqual(manifest["capacity_policy"]["reserve_percent"], 30)
             for volume in manifest["volumes"]:
                 self.assertLessEqual(volume["capacity"]["fill_percent"], 70.0)
+            locations = json.loads((shadow / "indexes/donor-location-index.json").read_text(encoding="utf-8"))["locations"]
+            donor_id = next(iter(locations))
+            resolved = resolve_donor(shadow, donor_id)
+            self.assertEqual(resolved["record"]["donor_id"], donor_id)
+            categories = json.loads((shadow / "indexes/category-index.json").read_text(encoding="utf-8"))["categories"]
+            category = next(iter(categories))
+            category_view = resolve_category(shadow, category)
+            self.assertEqual(category_view["donor_ids"], sorted(categories[category]))
+            self.assertTrue(category_view["loads_only_indexed_volumes"])
 
 
 if __name__ == "__main__":

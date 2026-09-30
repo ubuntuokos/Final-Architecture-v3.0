@@ -64,6 +64,8 @@ FA3-APPLICATION-DONOR-LINKS-001 remains the usage declaration source. Registry v
 
 Required lookup directions include donor → capability → consumer, capability → donors and consumers, consumer/application → capabilities and donors, source key → donor, category → donor and donor → physical location.
 
+The materialized Resolver exposes donor, category and capability queries. Category/capability queries first resolve IDs and physical volume paths from indexes, so callers do not scan unrelated volumes.
+
 ## Shadow migration command
 
     ./bin/fa3-registry-v2 shadow-migrate \

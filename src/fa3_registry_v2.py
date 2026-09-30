@@ -492,6 +492,53 @@ def verify_shadow(root: Path, shadow: Path) -> dict[str, Any]:
     }
 
 
+
+def resolve_donor(shadow: Path, donor_id: str) -> dict[str, Any]:
+    shadow = shadow.resolve()
+    locations = _load(shadow / "indexes/donor-location-index.json").get("locations", {})
+    location = locations.get(donor_id)
+    if not isinstance(location, dict) or not isinstance(location.get("path"), str):
+        raise KeyError("UNKNOWN_DONOR_ID:" + donor_id)
+    volume = _load(shadow / location["path"])
+    record = next((row for row in volume.get("entries", []) if row.get("donor_id") == donor_id), None)
+    if record is None:
+        raise ValueError("DONOR_LOCATION_INDEX_DRIFT:" + donor_id)
+    return {"donor_id": donor_id, "location": location, "record": record}
+
+
+def resolve_category(shadow: Path, category: str) -> dict[str, Any]:
+    shadow = shadow.resolve()
+    categories = _load(shadow / "indexes/category-index.json").get("categories", {})
+    donor_ids = sorted(set(categories.get(category, [])))
+    locations = _load(shadow / "indexes/donor-location-index.json").get("locations", {})
+    volume_paths = sorted({locations[did]["path"] for did in donor_ids if did in locations})
+    return {
+        "category": category,
+        "donor_ids": donor_ids,
+        "volume_paths": volume_paths,
+        "loads_only_indexed_volumes": True,
+    }
+
+
+def resolve_capability(shadow: Path, capability_id: str) -> dict[str, Any]:
+    shadow = shadow.resolve()
+    graph = _load(shadow / "indexes/capability-consumer-map.json")
+    edge_ids = set(graph.get("views", {}).get("by_capability", {}).get(capability_id, []))
+    donor_ids = sorted({
+        edge.get("donor_id")
+        for edge in graph.get("edges", [])
+        if edge.get("id") in edge_ids and isinstance(edge.get("donor_id"), str)
+    })
+    locations = _load(shadow / "indexes/donor-location-index.json").get("locations", {})
+    volume_paths = sorted({locations[did]["path"] for did in donor_ids if did in locations})
+    return {
+        "capability_id": capability_id,
+        "donor_ids": donor_ids,
+        "volume_paths": volume_paths,
+        "loads_only_indexed_volumes": True,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="FA3 Donor Registry v2 shadow tooling")
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -505,13 +552,25 @@ def main() -> int:
     migrate.add_argument("--activity-observations", type=Path)
     verify = sub.add_parser("verify-shadow")
     verify.add_argument("--shadow", type=Path, required=True)
+    query = sub.add_parser("query")
+    query.add_argument("--shadow", type=Path, required=True)
+    selector = query.add_mutually_exclusive_group(required=True)
+    selector.add_argument("--donor")
+    selector.add_argument("--category")
+    selector.add_argument("--capability")
     args = parser.parse_args()
     if args.command == "plan":
         result = build_plan(args.root, handling_limit_bytes=args.handling_limit_bytes, activity_observations=args.activity_observations)
     elif args.command == "shadow-migrate":
         result = shadow_migrate(args.root, args.output, handling_limit_bytes=args.handling_limit_bytes, activity_observations=args.activity_observations)
-    else:
+    elif args.command == "verify-shadow":
         result = verify_shadow(args.root, args.shadow)
+    elif args.donor:
+        result = resolve_donor(args.shadow, args.donor)
+    elif args.category:
+        result = resolve_category(args.shadow, args.category)
+    else:
+        result = resolve_capability(args.shadow, args.capability)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     terminal_result = result.get("result", result.get("verification", {}).get("result", "PASS"))
     return 0 if terminal_result == "PASS" else 1
