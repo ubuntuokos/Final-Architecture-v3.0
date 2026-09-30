@@ -59,6 +59,8 @@ The application inventory is also the retrospective impact surface for tutorial-
 
 The declaration manifest exposes a `shared_capabilities` collection. Every concrete shared capability must name one owner layer and at least two known consumer applications, require retrospective review and manual updates, forbid capability loss, and remain non-authoritative until separately admitted.
 
+An empty `shared_capabilities` collection means that the placement policy is enforced but no concrete shared runtime capability has yet been admitted by this change.
+
 ## Mandatory planning and audit
 
 Before any new or materially modified FA3 application, capability or module,
