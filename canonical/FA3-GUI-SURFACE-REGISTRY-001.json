@@ -357,6 +357,22 @@
       "title": "Tolmács",
       "group": "GLOBAL_TOOL",
       "projection": "LANGUAGE_CONTROL"
+    },
+    {
+      "route_id": "agents.orchestration-monitor",
+      "title": "Orchestration Control & Monitoring",
+      "group": "AGENTS",
+      "projection": "ORCHESTRATION_GOVERNANCE_AND_LIVENESS",
+      "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "governance_contract": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+      "mode": "READ_ONLY_RUNTIME_PROJECTION_WITH_DRAFT_CHANGE_REQUESTS",
+      "mutation": "DRAFT_ONLY",
+      "direct_runtime_execution": false,
+      "direct_temporal_mutation": false,
+      "direct_hrb_mutation": false,
+      "direct_model_router_mutation": false,
+      "authority": false,
+      "runtime_promotion_claim": false
     }
   ],
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
