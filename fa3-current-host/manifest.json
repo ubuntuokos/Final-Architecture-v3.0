@@ -230,7 +230,15 @@
     "tests/test_step_ca_session_vault_ceremony.py",
     "tests/test_sysctl_governance.py",
     "tools/fa3_approval_tool.py",
-    "tools/fa3_python_namespace_audit.py"
+    "tools/fa3_python_namespace_audit.py",
+    "canonical/FA3-PLUGIN-EXTENSION-CURRENT-HOST-001.json",
+    "canonical/FA3-GATE-PLUGIN-EXTENSION-MANAGEMENT-001.json",
+    "canonical/FA3-PLUGIN-EXTENSION-UI-BINDINGS-001.json",
+    "src/fa3_plugin_extension_manager.py",
+    "src/fa3_plugin_extension_gate.py",
+    "tests/test_plugin_extension_manager.py",
+    "apps/fa3-control-center/qml/PluginExtensionManagerPage.qml",
+    "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop"
   ],
   "registered_current_host_surfaces": [
     {
@@ -456,6 +464,18 @@
       "mutation_performed": false,
       "persistent_mutation_performed": false,
       "global_promotion_claim": false
+    },
+    {
+      "name": "plugin-extension-manager",
+      "collector": null,
+      "gate": "plugin-extension-management",
+      "activation": "MANAGEMENT_CONTROL_PLANE_TARGET_APPLICATION_NOT_REQUIRED_TO_RUN",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "machine_model_pin": "FORBIDDEN",
+      "collection_status": "DESIGN_AND_EXECUTABLE_STATIC_GATE_MATERIALIZED_PHYSICAL_GUI_AND_RUNTIME_EVIDENCE_PENDING",
+      "production_runtime_promoted": false,
+      "global_promotion_claim": false,
+      "current_host_conformance": "canonical/FA3-PLUGIN-EXTENSION-CURRENT-HOST-001.json"
     }
   ],
   "global_gate_sequence": [
