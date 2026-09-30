@@ -215,10 +215,10 @@ def _impact_action(lifecycle: str, existing: bool, shared: bool) -> str:
             else "BLOCKED_BY_PENDING_IMPLEMENTATION"
         )
     if not shared:
-        return "MANUAL_ONLY"     if lifecycle == "PLANNED":
+        return "MANUAL_ONLY"\n    if lifecycle == "PLANNED":
         return "ADAPTER_REQUIRED"
     if lifecycle == "REFERENCE_ONLY":
-        return "REFERENCE_ONLY_NO_RUNTIME_MIGRATION"    return "REGRESSION_REVALIDATION"
+        return "REFERENCE_ONLY_NO_RUNTIME_MIGRATION"\n    return "REGRESSION_REVALIDATION"
 
 
 
