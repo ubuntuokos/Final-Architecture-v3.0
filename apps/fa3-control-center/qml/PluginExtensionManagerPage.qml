@@ -29,7 +29,7 @@ Item {
         Label {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: "Közös FA3 management surface. A célalkalmazásnak nem kell futnia. Telepítve ≠ admitted ≠ enabled ≠ Current Host PASS."
+            text: "Közös FA3 management surface. A célalkalmazásnak nem kell futnia. Alkalmazásnézetben csak az adott alkalmazásban alkalmazható vagy elérhető elemek jelennek meg. Telepítve ≠ admitted ≠ enabled ≠ Current Host PASS."
         }
 
         RowLayout {
@@ -47,7 +47,7 @@ Item {
             ColumnLayout {
                 anchors.fill: parent
                 Label { text: "Extension details"; font.bold: true }
-                Label { text: "Context: " + root.applicationContext }
+                Label { text: "Context: " + root.applicationContext }\n                Label { text: root.applicationContext === "ALL_FA3" ? "Nézet: teljes admitted katalógus" : "Nézet: applicability + capability + runtime + policy szerint szűrt" }
                 Label { text: "Trust: PENDING / ADMITTED projection" }
                 Label { text: "Installation: NOT_INSTALLED / STAGED / INSTALLED" }
                 Label { text: "Activation: DISABLED / ENABLED / ACTIVE" }
