@@ -10,7 +10,7 @@ Audit anchor: `0240bae4100d0410a11c3026657ba28af508c893`
 The anchored tree contains 2636 tracked blobs. The initial structural inventory
 found:
 
-- 7 physically copied upstream research-snapshot files;
+- 6 physically copied upstream research-snapshot files plus 1 FA3 provenance manifest;
 - 5 documentation SVG assets;
 - 0 font files;
 - 0 model-weight/model-binary files;
