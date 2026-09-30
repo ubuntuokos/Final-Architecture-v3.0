@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ca65ec61fb38fa5b99e3dc90eb03514dd2b3c700",
-    "pre_projection_root_tree_sha": "65a698c0783bea8259a9243474756017f8ec6a19",
-    "pre_projection_canonical_tree_sha": "04afae088185a57fe5d280f978bdc65e4f35a563",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2365,
-    "total_post_baseline_commits": 2365,
-    "delta_file_count": 2647,
-    "delta_added_files": 2641,
+    "pre_projection_head_sha": "f251a1275110270c848debb2058501fbaacf34e9",
+    "pre_projection_root_tree_sha": "2bb7315dcba5305ed4bc33b2079d0ae134403634",
+    "pre_projection_canonical_tree_sha": "70fb2bef2d995c6d9e93a7c0de84932a41230e37",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2380,
+    "total_post_baseline_commits": 2380,
+    "delta_file_count": 2651,
+    "delta_added_files": 2645,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1235,
+    "canonical_files_in_post_baseline_delta": 1239,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 347,
     "test_files_in_post_baseline_delta": 306,
@@ -1021,7 +1021,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2637,
+  "manifest_entry_count": 2641,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1380,7 +1380,7 @@
     },
     {
       "path": ".github/workflows/fa3-license-rights.yml",
-      "git_blob_sha": "1316e00504159636df0b9b0662608d520f21f0ad",
+      "git_blob_sha": "bd8be29c9d84bb3149866751455872aad0926538",
       "baseline_delta_status": "added"
     },
     {
@@ -1700,7 +1700,7 @@
     },
     {
       "path": "REUSE.toml",
-      "git_blob_sha": "305843220e35c49e50965b36e52c00f7f8949d1f",
+      "git_blob_sha": "a1a24a8e07960c0794d427c9fd14382952c96a54",
       "baseline_delta_status": "added"
     },
     {
@@ -6539,8 +6539,28 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/license-rights-descriptor-registry.json",
+      "git_blob_sha": "22dedd5ab75a26ae990ecd5949908732f3ebdb1a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/license-rights-policy.json",
       "git_blob_sha": "9b7109ade428e653996b062909cc40e4775f6362",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/license-rights/descriptors/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json",
+      "git_blob_sha": "bd1444a177fa384e0263d2700a1903555035c778",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+      "git_blob_sha": "27b3f576f803e0fc7ba2a43fbd385962a7ee4d5b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json",
+      "git_blob_sha": "5bffdc2c11abc62be21aebec28bbee08af3605d6",
       "baseline_delta_status": "added"
     },
     {
@@ -11770,7 +11790,7 @@
     },
     {
       "path": "src/fa3_license_rights_audit.py",
-      "git_blob_sha": "7e7b4a07258ac85d0898a3fe77c09ad604e321a6",
+      "git_blob_sha": "9c9b5babe9dc02937036c6534540d2d04f69b937",
       "baseline_delta_status": "added"
     },
     {
@@ -13480,7 +13500,7 @@
     },
     {
       "path": "tests/test_license_rights_audit.py",
-      "git_blob_sha": "e1e8c4190fdfc1bbef2de024db753489a5498536",
+      "git_blob_sha": "19291c60554dbf446555ab1c36398e206461e2c9",
       "baseline_delta_status": "added"
     },
     {
