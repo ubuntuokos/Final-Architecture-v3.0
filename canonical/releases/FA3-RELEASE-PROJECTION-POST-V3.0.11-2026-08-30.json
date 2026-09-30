@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b3b8eaf2e555428b3124ef592fba045389b4e009",
-    "pre_projection_root_tree_sha": "3e7a66603e1bb8e690c1d9e29ec8a05f4299003e",
-    "pre_projection_canonical_tree_sha": "84fc298e258e0ef31c147b891685953cd2a84f98",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2299,
-    "total_post_baseline_commits": 2299,
-    "delta_file_count": 2635,
-    "delta_added_files": 2629,
+    "pre_projection_head_sha": "266f1f8de90ba87dfe5ccecd51bb8ee6add3d59e",
+    "pre_projection_root_tree_sha": "5846a75f1991ac19fad9ae2b985a2f1a7ed8282a",
+    "pre_projection_canonical_tree_sha": "d155881524f4cb25c573d1c2baa9d4e90a04ae30",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2303,
+    "total_post_baseline_commits": 2303,
+    "delta_file_count": 2658,
+    "delta_added_files": 2652,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1228,
+    "canonical_files_in_post_baseline_delta": 1238,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 346,
-    "test_files_in_post_baseline_delta": 304,
-    "workflow_files_in_post_baseline_delta": 127,
+    "source_files_in_post_baseline_delta": 347,
+    "test_files_in_post_baseline_delta": 305,
+    "workflow_files_in_post_baseline_delta": 128,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -273,6 +273,7 @@
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-REUSE-DISCOVERY-001.json",
       "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
+      "canonical/profiles/FA3-SCP-FABRIC-001.json",
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-SECRET-BROKER-001.json",
       "canonical/profiles/FA3-SESSION-VAULT-001.json",
@@ -414,6 +415,7 @@
       "canonical/contracts/FA3-REUSE-ASSESSMENT-001.schema.json",
       "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SCP-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
@@ -589,6 +591,7 @@
       "canonical/decisions/FA3-DEC-REUSE-DISCOVERY-2026-09-24.json",
       "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
       "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
+      "canonical/decisions/FA3-DEC-SCP-FABRIC-2026-09-30.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
@@ -1020,7 +1023,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2625,
+  "manifest_entry_count": 2648,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1558,6 +1561,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-scp-fabric.yml",
+      "git_blob_sha": "7c84a23cf69bcbdbb5e02eb9c098caffd976d7e6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-secret-broker-current-host.yml",
       "git_blob_sha": "c7ba206c11763361b53bb3f3dcddf3fdd42a9f7b",
       "baseline_delta_status": "added"
@@ -2005,6 +2013,51 @@
     {
       "path": "apps/fa3-control-center/src/main.cpp",
       "git_blob_sha": "cba75d12a5cc7a54db5687eef4e90d2cb98366dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-scp-manager/CMakeLists.txt",
+      "git_blob_sha": "607ec8af3a333d25ec801175d82c0751d1f52d4a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-scp-manager/README.md",
+      "git_blob_sha": "e40de3c4546f739d1d36b62e11af75146d03bee9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-scp-manager/packaging/org.fa3.SCPManager.desktop",
+      "git_blob_sha": "401f2a6a48d432994961a70348b8248a2bb27441",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-scp-manager/qml/Main.qml",
+      "git_blob_sha": "9c1ed850bc23084dadf732b569d98d8f583d4b94",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-scp-manager/src/main.cpp",
+      "git_blob_sha": "3503fb55d18b437ab5926a73b970dfb91b197f12",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/scp/CMakeLists.txt",
+      "git_blob_sha": "38146e330aa05dab268bc34d7f10ed9626de2d42",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/scp/SCPSettingsService.cpp",
+      "git_blob_sha": "0414002f04bdf08d77d850e7c899cadf180acb58",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/scp/SCPSettingsService.h",
+      "git_blob_sha": "6bc72e9c60f987b9611de3a7771ec8b0359ef4a0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/scp/qml/SecureCommunicationSettings.qml",
+      "git_blob_sha": "0797124779424e45d60f8772ad59cb2bc66b83a3",
       "baseline_delta_status": "added"
     },
     {
@@ -3538,6 +3591,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-SCP-APPLICATION-BINDINGS-001.json",
+      "git_blob_sha": "028ed202dd2350cd7d2af6b2d52214ad5bb95a90",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SCP-CURRENT-HOST-001.json",
+      "git_blob_sha": "7f4a50a23eb3e3f7581ff04cbfbced67ff04bf0f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SCP-UI-BINDINGS-001.json",
+      "git_blob_sha": "c4724031e2e840081faf81c7cdcf46ecb998006e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "e8aad5ca970c1296a2a1d974e47abcbbed52b9bc",
       "baseline_delta_status": "added"
@@ -4260,6 +4328,16 @@
     {
       "path": "canonical/assessments/FA3-REUSE-DISCOVERY-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "797cbb77d2d4b1232f41701398f049164d1f5016",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SCP-FABRIC-DECISION-ASSESSMENT-2026-09-30.json",
+      "git_blob_sha": "71ddf0d3e7d045e372b6194e5d6eb882905ff32a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SCP-FABRIC-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "5c5b65a3f459613fd996212719b0481f06b4852d",
       "baseline_delta_status": "added"
     },
     {
@@ -4990,6 +5068,11 @@
     {
       "path": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
       "git_blob_sha": "59b3ff139edbf38ef32e747afdfd987948e328ad",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SCP-CONTRACTS-001.json",
+      "git_blob_sha": "35f2f8c6b99c6069c3f1f452c69e15d3d9788fb3",
       "baseline_delta_status": "added"
     },
     {
@@ -5923,6 +6006,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SCP-FABRIC-2026-09-30.json",
+      "git_blob_sha": "1df3880c8ff2c8f5fb4e31149f82d6109ba514de",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "git_blob_sha": "c2f3d1b5e06d591ab6fec152f8508d179379c09f",
       "baseline_delta_status": "added"
@@ -6430,6 +6518,11 @@
     {
       "path": "canonical/intents/FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001.json",
       "git_blob_sha": "64b44a0df48aa4de0652cc88f890a705f1a87e66",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SCP-FABRIC-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "2b36978c7593eddd3f2f6a57a48317ca7caba5fd",
       "baseline_delta_status": "added"
     },
     {
@@ -7170,6 +7263,11 @@
     {
       "path": "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
       "git_blob_sha": "ed64a27ef674992cb049c9cc18ce6153070f24f9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-SCP-FABRIC-001.json",
+      "git_blob_sha": "f9da5056bfcc1a961e9385a2ce180876c42cc0d9",
       "baseline_delta_status": "added"
     },
     {
@@ -8538,6 +8636,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/scp-enforcement.json",
+      "git_blob_sha": "eacb3b3abe0baa62a951d80d677cf49f6f1b6652",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/secret-broker-enforcement.json",
       "git_blob_sha": "e0a2c9aeae74df40fcfdfeb747b73422580cd36c",
       "baseline_delta_status": "added"
@@ -9000,6 +9103,11 @@
     {
       "path": "docs/FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.md",
       "git_blob_sha": "68931811e8eede3c873241918f0ef553c5d8c519",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SCP-FABRIC-FINAL-PLAN-2026-09-30.md",
+      "git_blob_sha": "7638d8c0dec7b99e4d35d775cb7be10a10fdb68e",
       "baseline_delta_status": "added"
     },
     {
@@ -12308,6 +12416,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_scp_gate.py",
+      "git_blob_sha": "d80d12bdad8d0161a16292b0d9827eada6a1218d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_secret_broker.py",
       "git_blob_sha": "c5bab431b7a2f80e7ab150c1734f9fb734876784",
       "baseline_delta_status": "added"
@@ -13840,6 +13953,11 @@
     {
       "path": "tests/test_runtime_hardening_gate.py",
       "git_blob_sha": "d852dd6aee4c6d31eb5d135cb703edd11dc46552",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_scp_fabric.py",
+      "git_blob_sha": "6484570e5395bdf1ab95a2cabb260d2d3c216b25",
       "baseline_delta_status": "added"
     },
     {
