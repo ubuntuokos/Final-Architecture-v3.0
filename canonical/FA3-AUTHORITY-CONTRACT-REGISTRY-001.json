@@ -1,0 +1,235 @@
+{
+  "schema": "fa3.authority-contract-registry.v1",
+  "id": "FA3-AUTHORITY-CONTRACT-REGISTRY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority_role": "NONE_POLICY_CONTRACT_ONLY",
+  "default_policy": "DENY",
+  "scope_semantics": {
+    "unknown_actor": "DENY",
+    "unknown_intent": "DENY",
+    "target_not_allowed": "DENY",
+    "requested_authority_outside_delegable_scope": "DENY",
+    "requested_authority_outside_parent_scope": "DENY",
+    "side_effect_without_actor_permission": "DENY",
+    "replan_retry_recovery_scope_expansion": "DENY"
+  },
+  "actors": [
+    {
+      "actor_id": "FA3-ORCHESTRATION-DIRECTOR-001",
+      "actor_type": "ORCHESTRATOR",
+      "allowed_intents": [
+        "orchestration.plan",
+        "orchestration.route",
+        "orchestration.split",
+        "orchestration.delegate",
+        "orchestration.aggregate",
+        "orchestration.replan"
+      ],
+      "forbidden_intents": [
+        "resource.allocate",
+        "resource.lease",
+        "model.route",
+        "provider.route",
+        "security.authorize",
+        "tool.execute",
+        "evidence.verify"
+      ],
+      "owned_authorities": [],
+      "delegable_authorities": [
+        "durable_lifecycle"
+      ],
+      "allowed_delegation_targets": [
+        "FA3-SPECIALIST-*"
+      ],
+      "may_execute_side_effects": false,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+      "actor_type": "DURABLE_LIFECYCLE",
+      "allowed_intents": [
+        "workflow.start",
+        "workflow.signal",
+        "workflow.resume",
+        "workflow.retry",
+        "workflow.cancel",
+        "workflow.inspect"
+      ],
+      "forbidden_intents": [
+        "resource.allocate",
+        "model.route",
+        "security.authorize",
+        "evidence.verify"
+      ],
+      "owned_authorities": [
+        "durable_lifecycle"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": true,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "actor_type": "LAYER_AUTHORITY",
+      "allowed_intents": [
+        "resource.inspect",
+        "resource.admit",
+        "resource.reserve",
+        "resource.lease",
+        "resource.release"
+      ],
+      "forbidden_intents": [
+        "model.route",
+        "provider.route",
+        "security.authorize",
+        "evidence.verify",
+        "content.generate"
+      ],
+      "owned_authorities": [
+        "host_resource"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": true,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "FA3-AUTH-MODEL-ROUTER-001",
+      "actor_type": "LAYER_AUTHORITY",
+      "allowed_intents": [
+        "model.discover",
+        "model.route",
+        "provider.route",
+        "runtime.route"
+      ],
+      "forbidden_intents": [
+        "resource.allocate",
+        "resource.lease",
+        "security.authorize",
+        "evidence.verify",
+        "filesystem.admin"
+      ],
+      "owned_authorities": [
+        "model_routing"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": false,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "FA3-AUTH-SECURITY-GOV-001",
+      "actor_type": "LAYER_AUTHORITY",
+      "allowed_intents": [
+        "security.evaluate",
+        "security.authorize",
+        "security.revoke",
+        "approval.evaluate"
+      ],
+      "forbidden_intents": [
+        "resource.allocate",
+        "model.route",
+        "evidence.verify",
+        "content.generate"
+      ],
+      "owned_authorities": [
+        "security_policy"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": true,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "actor_type": "EXECUTION_BOUNDARY",
+      "allowed_intents": [
+        "action.validate",
+        "action.project",
+        "action.execute"
+      ],
+      "forbidden_intents": [
+        "security.authorize",
+        "resource.allocate",
+        "model.route",
+        "evidence.verify"
+      ],
+      "owned_authorities": [
+        "typed_action_execution"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": true,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "FA3-AUTH-MCP-GATEWAY-001",
+      "actor_type": "TOOL_BOUNDARY",
+      "allowed_intents": [
+        "tool.mediate",
+        "tool.expose",
+        "capability.mediate"
+      ],
+      "forbidden_intents": [
+        "security.authorize",
+        "resource.allocate",
+        "model.route",
+        "evidence.verify"
+      ],
+      "owned_authorities": [
+        "tool_mediation"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": true,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    },
+    {
+      "actor_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "actor_type": "EVIDENCE_AUTHORITY",
+      "allowed_intents": [
+        "evidence.inspect",
+        "evidence.validate",
+        "evidence.verify",
+        "evidence.reject"
+      ],
+      "forbidden_intents": [
+        "resource.allocate",
+        "model.route",
+        "tool.execute",
+        "content.generate"
+      ],
+      "owned_authorities": [
+        "evidence"
+      ],
+      "delegable_authorities": [],
+      "allowed_delegation_targets": [],
+      "may_execute_side_effects": false,
+      "may_expand_scope": false,
+      "may_expand_participants": false,
+      "may_self_verify": false
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
