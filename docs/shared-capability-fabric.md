@@ -8,14 +8,14 @@ The Shared Capability Fabric (SCF) exposes common FA3 functions through one cont
 
 An application receives only shared capability slices relevant to its application, module, project, selected object, workflow, role and authority context. A slice can be `ACTIVE`, `VISIBLE_DISABLED`, `HIDDEN`, `DENIED` or `UNAVAILABLE`. `HIDDEN` and `DENIED` slices must not execute in the background.
 
-The canonical registry is `canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json`; it contains **45** slices.
+The canonical registry is `canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json`; it contains **46** slices.
 
 ## Shared families
 
 - **Content & Project:** import, export, print, share, archive, file/project management.
 - **Media, Capture & Production:** video/image resize, audio/camera settings, A/V recording, lighting, color management, texture management and rendering.
 - **Assistance:** Assistant, Coach, Mentor, Manager and Dramaturg surfaces.
-- **Work, Collaboration & Business:** app-to-app chat, task inbox/delegation, time tracking, deadline log, meetings, expense submission/request/settlement, RFQ, purchase order and email management.
+- **Work, Collaboration & Business:** app-to-app chat, task inbox/delegation, time tracking, deadline log, meetings, expense submission/request/settlement, RFQ, purchase order, email management and contact management.
 - **Plugin & Extension:** common manager with application/context applicability filtering.
 - **Runtime & Distribution:** Model Manager, Download Manager and Update System.
 - **Knowledge & Documentation:** help, manual reader and table-of-contents builder.
@@ -49,3 +49,7 @@ Every SCF slice references only existing CAP-001..CAP-175 identifiers. Source ma
 ## Current Host
 
 This is a structural FA3 change, so Current Host alignment is mandatory. Static materialization is not physical runtime proof. Production promotion remains blocked until fresh real-host evidence covers context filtering, hidden/denied no-background execution, plugin applicability, universal email send surface, Hobby external-service flow, explicit purchase authorization, coexistence, hardware safety and AI-off behavior.
+
+## Shared contacts
+
+`contacts.management` is SCF-046 and reuses existing Integration/Gateway/Messaging capabilities. The standalone Communications Hub may expose the full permitted contact workspace. Embedded application surfaces remain context-filtered, cannot enumerate the global address book, and must use the Communications & Contacts permission-intersection contract.
