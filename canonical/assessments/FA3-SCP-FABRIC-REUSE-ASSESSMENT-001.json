@@ -65,5 +65,17 @@
   "coexistence": {
     "result": "PASS_DESIGN_ONLY",
     "upstream_uninstall_required": false
-  }
+  },
+  "covered_ids": [
+    "FA3-SCP-FABRIC-001"
+  ],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "SCP communication-security and proxy control does not require a direct Khronos SDK binding. Khronos remains mandatory review input for any later media, GPU, RDMA or accelerator-facing data-plane adapter that matches the Khronos fabric."
+    }
+  ]
 }
