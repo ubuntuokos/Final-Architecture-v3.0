@@ -1,0 +1,122 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-001",
+  "intent_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-PLUGIN-EXTENSION-MANAGEMENT-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PLUGIN-EXTENSION-MANAGEMENT-001"
+  ],
+  "project_status": "MATERIALIZED_STATIC_MANAGEMENT_FABRIC_CURRENT_HOST_RUNTIME_REQUALIFICATION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "CENTRAL_NON_AUTHORITATIVE_DONOR_AND_REFERENCE_DISCOVERY"
+    },
+    {
+      "id": "FA3-SCS-001",
+      "use": "SUPPLY_CHAIN_PROVENANCE_LICENSE_SBOM_AND_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "PLUGIN_EXTENSION_TRUST_AND_PERMISSION_POLICY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "CALLABLE_CAPABILITY_PROJECTION_AND_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_AND_ACCELERATOR_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "AI_PROVIDER_AND_MODEL_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "AUDIT_AND_CURRENT_HOST_EVIDENCE"
+    },
+    {
+      "id": "FA3-STANDARD-OPENFX-001",
+      "use": "HOST_PLUGIN_NEGOTIATION_AND_FAIL_CLOSED_INTEROPERABILITY_PATTERN"
+    },
+    {
+      "id": "FA3-DONOR-PROD-QUALITY-LAION-AI-CLAP-001",
+      "use": "REFERENCE_ONLY_STABLE_PLUGIN_ABI_AND_EXTENSION_PATTERN"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_PLUGIN_SECURITY_AUTHORITY",
+      "reason": "EXISTING_SECURITY_AND_SCS_AUTHORITIES_REMAIN_EXCLUSIVE"
+    },
+    {
+      "id": "APPLICATION_LOCAL_INDEPENDENT_MANAGER_BACKENDS",
+      "reason": "ONE_SHARED_MANAGER_PREVENTS_STATE_AND_POLICY_DRIFT"
+    },
+    {
+      "id": "UNRESTRICTED_EXTENSION_INSTALLATION",
+      "reason": "ADMISSION_PERMISSION_COEXISTENCE_AND_EVIDENCE_GATES_ARE_MANDATORY"
+    },
+    {
+      "id": "PLUGIN_MANAGER_AS_MODEL_OR_RESOURCE_ROUTER",
+      "reason": "MODEL_ROUTER_AND_HRB_REMAIN_EXCLUSIVE_AUTHORITIES"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "supply_chain": "FA3-SCS-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "capability_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "orchestration": "FA3-AUTH-ORCHESTRATION-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "PLUGIN_EXTENSION_MANAGEMENT_CONTROL_PLANE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "assessment": "The shared management control plane does not itself require a Khronos SDK or graphics-standard runtime. Host-specific creative plugins continue to use the existing Khronos/OpenFX/consumer integrations where separately applicable."
+    }
+  ]
+}
