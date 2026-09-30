@@ -248,7 +248,15 @@
     "src/fa3_shared_capability_gate.py",
     "tests/test_shared_capability_fabric.py",
     "docs/shared-capability-fabric.md",
-    "canonical/actions/email.send.json"
+    "canonical/actions/email.send.json",
+    "canonical/FA3-COMMUNICATIONS-CONTACTS-SHARED-001.json",
+    "canonical/FA3-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001.json",
+    "canonical/FA3-GATE-COMMUNICATIONS-CONTACTS-SHARED-001.json",
+    "canonical/contracts/FA3-COMMUNICATIONS-CONTACTS-CONTRACTS-001.json",
+    "src/fa3_communications_contacts.py",
+    "src/fa3_communications_contacts_gate.py",
+    "tests/test_communications_contacts.py",
+    "docs/communications-contacts-shared.md"
   ],
   "registered_current_host_surfaces": [
     {
@@ -497,6 +505,15 @@
       "global_promotion_claim": false,
       "current_host_conformance": "canonical/FA3-SHARED-CAPABILITY-CURRENT-HOST-001.json",
       "requalification_reason": "STRUCTURAL_SHARED_CAPABILITY_AND_UNIVERSAL_EMAIL_SEND_SURFACES_ADDED"
+    },
+    {
+      "name": "communications-contacts-shared",
+      "collector": null,
+      "gate": "communications-contacts",
+      "activation": "STATIC_POLICY_MATERIALIZED_PHYSICAL_PROVIDER_E2E_PENDING",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "collection_status": "PENDING_CURRENT_HOST",
+      "production_admitted": false
     }
   ],
   "global_gate_sequence": [
