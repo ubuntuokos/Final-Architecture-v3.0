@@ -29,6 +29,21 @@ class CommunicationsContactsTests(unittest.TestCase):
         self.assertTrue(resource_visible(surface_mode="EMBEDDED",resource_contexts=["PROJECT-A"],active_contexts=["PROJECT-A"],permission_allowed=True))
         self.assertFalse(resource_visible(surface_mode="EMBEDDED",resource_contexts=["PROJECT-B"],active_contexts=["PROJECT-A"],permission_allowed=True))
 
+    def test_non_ai_path_does_not_require_ai_only_gates(self):
+        g=gates()
+        for name in ("AI_PERMISSION","AI_CONTEXT_ISOLATION","PROMPT_INJECTION_TOOL_USE","MODEL_ROUTER_PROVIDER_ADMISSION"):
+            del g[name]
+        d=authorize({"surface_mode":"EMBEDDED","operation":"email.read","gate_results":g,"permission_sets":perms("email.read")})
+        self.assertTrue(d.allowed)
+
+    def test_ai_path_requires_ai_security_gates(self):
+        g=gates(); del g["AI_PERMISSION"]
+        req={"surface_mode":"FULL","operation":"email.read","gate_results":g,"permission_sets":perms("email.read"),
+             "ai_operation":"AI.Mail.Summarize","ai_controls":{k:True for k in ("GLOBAL","APPLICATION","MODULE","CAPABILITY","OPERATION")},
+             "message_content_trust":"UNTRUSTED","prompt_injection_clear":True,"context_minimized":True,"secrets_removed":True,
+             "pii_policy_pass":True,"model_router_receipt":True}
+        self.assertFalse(authorize(req).allowed)
+
     def test_missing_security_gate_fails_closed(self):
         g=gates(); del g["LAYER_GUARD"]
         d=authorize({"surface_mode":"EMBEDDED","operation":"email.read","gate_results":g,"permission_sets":perms("email.read")})
