@@ -40,6 +40,14 @@ class PluginExtensionManagerTests(unittest.TestCase):
     def test_manifest_requires_declared_surface(self):
         self.assertTrue(validate_manifest({"schema":"fa3.plugin-extension.manifest.v1"}))
 
+    def test_reuse_and_decision_adoption_are_explicit(self):
+        reuse=json.loads((ROOT/"canonical/assessments/FA3-PLUGIN-EXTENSION-MANAGEMENT-REUSE-ASSESSMENT-001.json").read_text())
+        decision=json.loads((ROOT/"canonical/assessments/FA3-PLUGIN-EXTENSION-MANAGEMENT-DECISION-ASSESSMENT-2026-09-30.json").read_text())
+        self.assertEqual("PASS",reuse["result"])
+        self.assertEqual(0,reuse["new_capabilities"])
+        self.assertEqual("NOT_APPLICABLE",decision["assessment"])
+        self.assertTrue(decision["project_radar_checked"])
+
     def test_ui_binding_is_global_and_standalone(self):
         data=json.loads((ROOT/"canonical/FA3-PLUGIN-EXTENSION-UI-BINDINGS-001.json").read_text())
         self.assertEqual("ALL_FA3_GUI_APPLICATIONS",data["scope"])
