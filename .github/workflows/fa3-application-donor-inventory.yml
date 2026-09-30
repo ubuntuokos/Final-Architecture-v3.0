@@ -12,7 +12,14 @@ on:
       - "src/fa3_application_donor_index.py"
       - "tests/test_application_donor_index.py"
       - "bin/fa3-app-donor-index"
+      - "canonical/FA3-DONOR-REJECTION-AUDIT-001.json"
+      - "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
+      - "src/fa3_donor_readiness.py"
+      - "tests/test_donor_readiness.py"
       - ".github/workflows/fa3-application-donor-inventory.yml"
+  schedule:
+    - cron: "17 3 1 * *"
+  workflow_dispatch:
 jobs:
   application-donor-integrity:
     runs-on: ubuntu-latest
@@ -24,16 +31,19 @@ jobs:
           fetch-depth: 0
       - name: Static application inventory gate
         run: python3 src/fa3_application_donor_index.py --check --summary
+      - name: Monthly donor capability refresh gate
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        run: python3 src/fa3_application_donor_index.py --check --monthly-refresh-check --summary
       - name: Automatically calculate exact donor-change impact
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          if git cat-file -e "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" 2>/dev/null; then
+          if [ -n "${BASE_SHA:-}" ] && git cat-file -e "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" 2>/dev/null; then
             git show "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" > "$RUNNER_TEMP/fa3-donor-before.json"
             python3 src/fa3_application_donor_index.py --check --previous-registry "$RUNNER_TEMP/fa3-donor-before.json" --output donor-impact.json > "$RUNNER_TEMP/fa3-donor-impact-summary.json"
             python3 -c 'import json; x=json.load(open("donor-impact.json")); print(json.dumps({"counts":x["counts"],"reevaluation":x["reevaluation"]},ensure_ascii=False,indent=2))'
           else
-            echo "Baseline donor registry unavailable; static inventory still checked."
+            echo "No comparable base registry for this event; static inventory and lifecycle policy still checked."
           fi
       - name: Publish targeted review report
         uses: actions/upload-artifact@v4
@@ -42,4 +52,6 @@ jobs:
           path: donor-impact.json
           if-no-files-found: ignore
       - name: Regression and safety negative tests
-        run: python3 -m unittest discover -s tests -p "test_application_donor_index.py" -v
+        run: |
+          python3 -m unittest tests.test_application_donor_index -v
+          python3 -m unittest tests.test_donor_readiness -v
