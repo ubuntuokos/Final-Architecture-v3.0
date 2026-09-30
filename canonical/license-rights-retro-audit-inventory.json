@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.license-rights-retro-audit-inventory.v1",
+  "id": "FA3-LICENSE-RIGHTS-RETRO-AUDIT-INVENTORY-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "snapshot_commit": "0240bae4100d0410a11c3026657ba28af508c893",
+  "snapshot_tree": "23178e6571f1da9b5ca1889a58a13b7ab7d34693",
+  "as_of": "2026-09-30",
+  "capability_count": 175,
+  "repository": {
+    "tracked_blob_count": 2636,
+    "physically_vendored_upstream_files": 7,
+    "canonical_reference_metadata_files": 77,
+    "canonical_third_party_metadata_files": 3,
+    "evidence_reference_files": 107,
+    "media_asset_files": 5,
+    "font_files": 0,
+    "model_weight_or_model_binary_files": 0,
+    "repository_license_files_before_audit_extension": 2
+  },
+  "distribution": {
+    "registry_id": "FA3-DISTRIBUTION-REGISTRY-001",
+    "included_subjects": 6,
+    "included_external_subjects": 0,
+    "external_subjects_in_release_bundle": 0,
+    "interpretation": "No external redistributable/provider subject is currently included in the product release bundle."
+  },
+  "proven_third_party_snapshots": [
+    {
+      "subject_id": "FA3-RIGHTS-JEV-RADAR-SNAPSHOT-001",
+      "source_repository": "logicrw/awesome-jev-projects",
+      "source_commit": "a27922ad457389775f4fe4eadcf688afc9d36d83",
+      "local_file_count": 7,
+      "effective_license": "MIT",
+      "status": "RIGHTS_EVIDENCE_COMPLETE_FOR_REPOSITORY_COPY"
+    }
+  ],
+  "remaining_review_classes": [
+    {
+      "id": "FIRST_PARTY_ORIGIN_PROVENANCE",
+      "status": "PENDING",
+      "reason": "A root license cannot by itself prove ownership/origin of every historical file."
+    },
+    {
+      "id": "DOCUMENTATION_SVG_ASSET_ORIGIN",
+      "status": "PENDING",
+      "file_count": 5,
+      "reason": "Five SVG assets require first-party origin or separate asset-rights evidence."
+    },
+    {
+      "id": "REUSE_FILE_LEVEL_COVERAGE",
+      "status": "PENDING",
+      "reason": "Current REUSE.toml only covers the newly materialized license-rights files, not the entire historical repository."
+    },
+    {
+      "id": "RELEASE_SBOM_SPDX_CYCLONEDX",
+      "status": "PENDING",
+      "reason": "Release SBOM generation must be evidenced for the release artifact."
+    }
+  ],
+  "release_eligible": false,
+  "global_promotion_claim": false
+}
