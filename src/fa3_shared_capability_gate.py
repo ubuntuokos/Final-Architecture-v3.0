@@ -56,7 +56,7 @@ def gate(root: Path) -> dict:
     checks=[
         (baseline==175, "capability-baseline"),
         (registry.get("status")=="CANONICAL" and registry.get("capability_baseline")==175, "registry-canonical-baseline"),
-        (registry.get("slice_count")==45 and len(slices)==45, "slice-count"),
+        (registry.get("slice_count")==46 and len(slices)==46, "slice-count"),
         (len(ids)==len(set(ids)) and len(keys)==len(set(keys)), "slice-identity-unique"),
         (all(capability_id_valid(cap, baseline) for cap in caps), "existing-capability-bindings-only"),
         (registry.get("new_capabilities")==0 and registry.get("new_architectural_authorities")==0 and registry.get("authority") is False, "registry-authority-neutral"),
@@ -70,7 +70,7 @@ def gate(root: Path) -> dict:
         ("email.send" in ui_contract.get("shared_action_surface",{}).get("universal_actions",[]) and ui_contract.get("shared_action_surface",{}).get("direct_network_or_provider_execution") is False, "email-ui-component-contract"),
         (registry.get("profile_policy", {}).get("hobby_is_not_external_service_denial") is True and registry.get("profile_policy", {}).get("external_service_workflows_allowed_in_hobby") is True, "hobby-external-service-access"),
         (registry.get("profile_policy", {}).get("silent_purchase_forbidden") is True, "silent-purchase-forbidden"),
-        ({"color.management","source.management","texture.management","render","expense.request","expense.settlement","rfq.request","purchase.order","email.management"}.issubset(set(keys)), "late-added-slices-present"),
+        ({"color.management","source.management","texture.management","render","expense.request","expense.settlement","rfq.request","purchase.order","email.management","contacts.management"}.issubset(set(keys)), "late-added-slices-present"),
         (current_host.get("status")=="PENDING_CURRENT_HOST" and current_host.get("production_admitted") is False and current_host.get("current_host_runtime_promotion_claim") is False, "current-host-pending"),
         (gate_record.get("fail_closed") is True and gate_record.get("capability_count_after")==175, "gate-record"),
         (decision.get("status")=="CANONICAL_CLOSED" and decision.get("capability_delta")==0 and decision.get("authority_delta")==0, "decision-boundary"),

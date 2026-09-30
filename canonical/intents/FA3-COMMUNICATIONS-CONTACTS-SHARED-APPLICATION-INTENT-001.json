@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001",
+  "project_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "project_type": "SHARED_APPLICATION_AND_CONTEXT_SURFACE",
+  "goal": "Provide one provider-neutral full Communications Hub plus context-limited embedded mail/contact collaboration surfaces without creating new authority.",
+  "required_capabilities": [
+    "CAP-003",
+    "CAP-004",
+    "CAP-049",
+    "CAP-051",
+    "CAP-106",
+    "CAP-109",
+    "CAP-132"
+  ],
+  "optional_capabilities": [],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_MAIL_CONTACT_PROVIDER_CURRENT_HOST_E2E",
+    "RETROACTIVE_APPLICATION_BINDING_PROOF"
+  ],
+  "integration_requirements": [
+    "FA3-SHARED-CAPABILITY-FABRIC-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-communications-contacts",
+    "config_root": "$XDG_CONFIG_HOME/fa3/communications",
+    "cache_root": "$XDG_CACHE_HOME/fa3/communications",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/communications",
+    "data_root": "$XDG_DATA_HOME/fa3/communications",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  }
+}

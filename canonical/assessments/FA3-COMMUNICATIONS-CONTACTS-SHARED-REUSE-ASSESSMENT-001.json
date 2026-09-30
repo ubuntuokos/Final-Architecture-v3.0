@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "intent_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-COMMUNICATIONS-CONTACTS-SHARED-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+    "FA3-COMMUNICATIONS-HUB-001",
+    "FA3-COMMUNICATIONS-SHARED-SURFACE-001"
+  ],
+  "project_status": "STATIC_MATERIALIZATION_APPROVED_RUNTIME_PROMOTION_NOT_CLAIMED",
+  "result": "PASS",
+  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "donor_registry_sha256": "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd",
+  "donor_registry_count": 1233,
+  "donor_review": "REVIEWED_NO_MATCH",
+  "adopted_donors": [],
+  "selected_reuse": [
+    {
+      "id": "FA3-SHARED-CAPABILITY-FABRIC-001",
+      "use": "SHARED_CONTEXT_FILTERED_SURFACE_AND_RETROACTIVE_BINDING"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_AND_EXECUTION_ADMISSION"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "EXCLUSIVE_COMMUNICATION_CREDENTIAL_PATH"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_AI_MODEL_PROVIDER_ROUTE"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "AUDIT_AND_EVIDENCE"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "CPU_ONLY_AND_0_TO_N_ACCELERATOR_SAFETY_BASELINE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_COMMUNICATION_SECURITY_AUTHORITY",
+      "reason": "EXISTING_SECURITY_GOVERNANCE_REMAINS_AUTHORITY"
+    },
+    {
+      "id": "DIRECT_UI_SMTP_OR_PROVIDER_EXECUTION",
+      "reason": "SHARED_UAF_AND_POLICY_GATED_EXECUTION_REQUIRED"
+    },
+    {
+      "id": "GLOBAL_PERMISSION_UNION_FOR_EMBEDDED_SURFACE",
+      "reason": "EMBEDDED_ACCESS_MUST_BE_INTERSECTION"
+    },
+    {
+      "id": "SILENT_AI_FALLBACK",
+      "reason": "AI_DENY_WINS"
+    },
+    {
+      "id": "UNREGISTERED_EXTERNAL_GROUPWARE_SOURCE_ADOPTION",
+      "reason": "EXPLICIT_OWNER_MARKED_DONOR_REGISTRATION_AND_SEPARATE_ADOPTION_DECISION_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "PHYSICAL_MAIL_CONTACT_PROVIDER_CURRENT_HOST_E2E",
+    "RETROACTIVE_APPLICATION_BINDING_PROOF"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "NO_KHRONOS_RUNTIME_OR_INTERCHANGE_STANDARD_REQUIRED_FOR_GENERIC_MAIL_CONTACT_POLICY_FABRIC"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

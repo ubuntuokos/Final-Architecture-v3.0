@@ -1,0 +1,219 @@
+{
+  "schema": "fa3.communications-contacts-shared.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "status": "CANONICAL_STATIC_MATERIALIZED",
+  "date": "2026-09-30",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority": false,
+  "provider_neutral": true,
+  "profile_components": [
+    "MAIL_FABRIC",
+    "THREAD_FABRIC",
+    "SHARED_INBOX_FABRIC",
+    "CONTACT_FABRIC",
+    "ORGANIZATION_FABRIC",
+    "COLLABORATION_FABRIC",
+    "COMMUNICATION_HISTORY",
+    "COMMUNICATION_RELATION_FABRIC"
+  ],
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-004",
+    "CAP-049",
+    "CAP-051",
+    "CAP-106",
+    "CAP-109",
+    "CAP-132"
+  ],
+  "surfaces": {
+    "full_hub": {
+      "id": "FA3-COMMUNICATIONS-HUB-001",
+      "mode": "FULL_WITHIN_EFFECTIVE_PERMISSION",
+      "standalone": true,
+      "global_resource_discovery": "PERMISSION_GATED"
+    },
+    "embedded": {
+      "id": "FA3-COMMUNICATIONS-SHARED-SURFACE-001",
+      "mode": "CONTEXT_LIMITED",
+      "standalone": false,
+      "permission_composition": "INTERSECTION_ONLY",
+      "global_resource_discovery": false
+    }
+  },
+  "canonical_entities": [
+    "CommunicationAccount",
+    "Mailbox",
+    "SharedMailbox",
+    "Message",
+    "Thread",
+    "Attachment",
+    "Contact",
+    "Organization",
+    "ContactGroup",
+    "Team",
+    "Assignment",
+    "InternalNote",
+    "CommunicationContext",
+    "CommunicationRelation",
+    "CommunicationPermission",
+    "CommunicationAuditEvent"
+  ],
+  "full_operations": [
+    "email.read",
+    "email.thread",
+    "email.compose",
+    "email.send",
+    "email.reply",
+    "email.forward",
+    "email.archive",
+    "email.search",
+    "shared-inbox.assign",
+    "shared-inbox.status",
+    "internal-note.add",
+    "contact.lookup",
+    "contact.create",
+    "contact.update",
+    "contact.group.manage",
+    "organization.lookup",
+    "organization.manage",
+    "communication.link-context",
+    "communication.history",
+    "communication.open-full-hub"
+  ],
+  "embedded_operations": [
+    "email.read",
+    "email.thread",
+    "email.compose",
+    "email.send",
+    "email.reply",
+    "email.forward",
+    "shared-inbox.assign",
+    "internal-note.add",
+    "contact.lookup",
+    "contact.create",
+    "communication.link-context",
+    "communication.history",
+    "communication.open-full-hub"
+  ],
+  "embedded_forbidden_operations": [
+    "mailbox.enumerate.global",
+    "contacts.enumerate.global",
+    "account.configure",
+    "provider.configure",
+    "contact.export.global",
+    "permission.admin",
+    "mailbox.admin"
+  ],
+  "permission_intersection": [
+    "USER",
+    "ROLE",
+    "APPLICATION",
+    "PROJECT_WORKSPACE",
+    "WORKFLOW",
+    "DATA_CLASSIFICATION",
+    "COMMUNICATION"
+  ],
+  "security_gate_chain": [
+    "IDENTITY",
+    "AUTHENTICATION",
+    "AUTHORIZATION",
+    "CONTEXT_SCOPE",
+    "LAYER_GUARD",
+    "APPLICATION_BOUNDARY",
+    "DATA_CLASSIFICATION_PRIVACY",
+    "SECRET_BROKER",
+    "COMMUNICATION_SECURITY",
+    "ATTACHMENT_CONTENT_SECURITY",
+    "ANTI_ABUSE_PHISHING",
+    "AI_PERMISSION",
+    "AI_CONTEXT_ISOLATION",
+    "PROMPT_INJECTION_TOOL_USE",
+    "MODEL_ROUTER_PROVIDER_ADMISSION",
+    "HRB_RESOURCE",
+    "PLUGIN_EXTENSION_SECURITY",
+    "SOFTWARE_COEXISTENCE",
+    "HARDWARE_SAFETY_ENVELOPE",
+    "AUDIT_EVIDENCE",
+    "CURRENT_HOST"
+  ],
+  "ai": {
+    "optional": true,
+    "non_ai_path_required": true,
+    "levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "CAPABILITY",
+      "OPERATION"
+    ],
+    "operations": [
+      "AI.Mail.Summarize",
+      "AI.Mail.DraftReply",
+      "AI.Mail.Translate",
+      "AI.Mail.Classify",
+      "AI.Mail.ExtractTasks",
+      "AI.Mail.ExtractContacts",
+      "AI.Mail.Priority",
+      "AI.Mail.PhishingAssist",
+      "AI.Thread.Summarize",
+      "AI.Contact.Deduplicate",
+      "AI.Contact.Enrich",
+      "AI.Search.Semantic"
+    ],
+    "deny_wins": true,
+    "silent_fallback": false,
+    "purpose_bound_context": true,
+    "untrusted_message_content": true,
+    "direct_provider_selection": false
+  },
+  "protocols": {
+    "targets": [
+      "SMTP",
+      "IMAP",
+      "JMAP",
+      "CardDAV",
+      "CalDAV",
+      "OAuth2",
+      "OIDC"
+    ],
+    "direct_ui_protocol_execution": false,
+    "provider_admission_required": true
+  },
+  "security": {
+    "credentials_authority": "FA3-SECRET-BROKER-001",
+    "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "fail_closed": true
+  },
+  "shared_capability": {
+    "parent": "FA3-SHARED-CAPABILITY-FABRIC-001",
+    "retroactive_scope": [
+      "PLANNED",
+      "IN_PROGRESS",
+      "MATERIALIZED"
+    ],
+    "duplicate_local_service_policy": "ADAPTER_MIGRATE_AFTER_VERIFIED_SHARED_EQUIVALENCE",
+    "capability_preservation_required": true
+  },
+  "current_host": {
+    "status": "PENDING_CURRENT_HOST",
+    "production_admitted": false,
+    "current_host_runtime_promotion_claim": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  }
+}

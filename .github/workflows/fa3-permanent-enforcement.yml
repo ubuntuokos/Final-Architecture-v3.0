@@ -229,6 +229,8 @@ jobs:
         run: ./bin/fa3-enforce plugin-extension-management
       - name: FA3 Shared Capability Fabric mandatory gate
         run: ./bin/fa3-enforce shared-capability-fabric
+      - name: FA3 Communications & Contacts Shared mandatory gate
+        run: ./bin/fa3-enforce communications-contacts
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Upload static report

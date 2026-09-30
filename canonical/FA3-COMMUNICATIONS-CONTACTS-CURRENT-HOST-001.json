@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.communications-contacts-current-host.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001",
+  "profile_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "status": "PENDING_CURRENT_HOST",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "production_admitted": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "fail_closed": true,
+  "required_checks": [
+    {
+      "id": "SMTP_CAPABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "IMAP_CAPABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "JMAP_CAPABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "CARDDAV_CAPABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "CALDAV_CAPABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "OAUTH_OIDC_CAPABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "TLS_CERTIFICATE_VALIDATION",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "SECRET_BROKER_INTEGRATION",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "LOCAL_CACHE_ISOLATION",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "OFFLINE_PATH",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "NOTIFICATION_INTEGRATION",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "ATTACHMENT_SCANNER",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "MALWARE_SCANNER",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "NETWORK_EGRESS_POLICY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "PROVIDER_REACHABILITY",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "MODEL_ROUTER_AI_PATH",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "HRB_RESOURCE_PATH",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "PLUGIN_EXTENSION_PERMISSIONS",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "SOFTWARE_COEXISTENCE",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "HARDWARE_SAFETY_ENVELOPE",
+      "status": "PENDING_CURRENT_HOST"
+    },
+    {
+      "id": "PHYSICAL_E2E_SEND_RECEIVE_CONTACT_ROUNDTRIP",
+      "status": "PENDING_CURRENT_HOST"
+    }
+  ],
+  "evidence_policy": {
+    "physical_execution_required": true,
+    "simulation_not_accepted": true,
+    "historical_receipt_not_substitute": true,
+    "provider_specific_receipt_required": true
+  },
+  "hardware": {
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "automatic_display_gpu_ai_use": false
+  },
+  "collector": "evidence/collect-communications-contacts-current-host.py",
+  "receipt_schema": "canonical/schemas/communications-contacts-current-host-receipt.v1.json",
+  "receipt_path": "evidence/receipts/communications-contacts-current-host.json",
+  "provider_e2e_receipt_required": true,
+  "synthetic_or_historical_evidence_accepted": false
+}

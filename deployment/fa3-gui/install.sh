@@ -13,13 +13,20 @@ fi
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 APP_SRC="$REPO_ROOT/apps/fa3-control-center"
+COMM_APP_SRC="$REPO_ROOT/apps/fa3-communications-hub"
 MAIN_QML="$APP_SRC/qml/Main.qml"
+COMM_MAIN_QML="$COMM_APP_SRC/qml/Main.qml"
+COMM_SHARED_QML="$COMM_APP_SRC/qml/CommunicationsSharedSurface.qml"
 BUILD_DIR="$REPO_ROOT/.build/fa3-control-center"
+COMM_BUILD_DIR="$REPO_ROOT/.build/fa3-communications-hub"
 PREFIX="${HOME}/.local"
 INSTALLED_BIN="$PREFIX/libexec/fa3-control-center"
 WRAPPER_BIN="$PREFIX/bin/fa3-control-center"
 DESKTOP_FILE="$PREFIX/share/applications/org.fa3.ControlCenter.desktop"
 PLUGIN_MANAGER_DESKTOP_FILE="$PREFIX/share/applications/org.fa3.PluginExtensionManager.desktop"
+COMM_INSTALLED_BIN="$PREFIX/libexec/fa3-communications-hub"
+COMM_WRAPPER_BIN="$PREFIX/bin/fa3-communications-hub"
+COMM_DESKTOP_FILE="$PREFIX/share/applications/org.fa3.CommunicationsHub.desktop"
 
 if [[ ${EUID} -eq 0 ]]; then
   echo "Run this installer as the desktop user, not root." >&2
@@ -59,6 +66,17 @@ required_markers=(
   'import QtWebEngine'
   'openInternalWeb'
 )
+
+for required_file in "$COMM_MAIN_QML" "$COMM_SHARED_QML" "$COMM_APP_SRC/CMakeLists.txt"; do
+  if [[ ! -f "$required_file" ]]; then
+    echo "FA3 GUI source-contract check FAILED: missing Communications Hub source $required_file" >&2
+    exit 3
+  fi
+done
+if grep -Eq 'XMLHttpRequest|WebSocket|QNetworkAccessManager|smtp://|imap://' "$COMM_SHARED_QML"; then
+  echo "FA3 GUI source-contract check FAILED: Communications Shared Surface contains direct network execution token" >&2
+  exit 3
+fi
 
 for marker in "${required_markers[@]}"; do
   if ! grep -Fq "$marker" "$MAIN_QML"; then
@@ -104,7 +122,7 @@ fi
 # QML is embedded in the executable. Reusing a previous build tree can leave
 # an operator looking at a stale embedded resource even when Main.qml changed.
 # Always build the desktop shell from a clean tree.
-rm -rf "$BUILD_DIR"
+rm -rf "$BUILD_DIR" "$COMM_BUILD_DIR"
 cmake -S "$APP_SRC" -B "$BUILD_DIR" -GNinja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="$PREFIX"
@@ -116,8 +134,19 @@ cmake --build "$BUILD_DIR" --parallel
 rm -f "$INSTALLED_BIN"
 cmake --install "$BUILD_DIR"
 
+cmake -S "$COMM_APP_SRC" -B "$COMM_BUILD_DIR" -GNinja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="$PREFIX"
+cmake --build "$COMM_BUILD_DIR" --parallel
+rm -f "$COMM_INSTALLED_BIN"
+cmake --install "$COMM_BUILD_DIR"
+
 test -x "$INSTALLED_BIN" || {
   echo "Install verification FAILED: $INSTALLED_BIN was not created." >&2
+  exit 4
+}
+test -x "$COMM_INSTALLED_BIN" || {
+  echo "Install verification FAILED: $COMM_INSTALLED_BIN was not created." >&2
   exit 4
 }
 
@@ -148,6 +177,22 @@ fi
 exec "${INSTALLED_BIN}" "\$@"
 EOF
 chmod 0755 "$WRAPPER_BIN"
+cat >"$COMM_WRAPPER_BIN" <<EOF
+#!/usr/bin/env bash
+set -euo pipefail
+export FA3_REPO_ROOT="${REPO_ROOT}"
+export FA3_GUI_SOURCE_REV="${SOURCE_REV}"
+STATE_ROOT="\${XDG_STATE_HOME:-\$HOME/.local/state}/fa3/host-adaptation"
+mkdir -p "\$STATE_ROOT"
+STARTUP_REPORT="\$STATE_ROOT/startup-host-drift.json"
+if ! python3 "${REPO_ROOT}/bin/fa3-host-adaptation" --check --json >"\$STARTUP_REPORT"; then
+  echo "FA3 startup host audit blocked Communications Hub launch:" >&2
+  cat "\$STARTUP_REPORT" >&2 || true
+  exit 5
+fi
+exec "${COMM_INSTALLED_BIN}" "\$@"
+EOF
+chmod 0755 "$COMM_WRAPPER_BIN"
 
 # Install a user desktop entry with an absolute Exec path. The previous static
 # `Exec=fa3-control-center` could resolve to an older system-wide binary when
@@ -164,6 +209,21 @@ Terminal=false
 Categories=Development;System;Utility;
 StartupNotify=true
 StartupWMClass=fa3-control-center
+EOF
+
+cat >"$COMM_DESKTOP_FILE" <<EOF
+[Desktop Entry]
+Type=Application
+Name=FA3 Communications Hub
+Name[hu]=FA3 Kommunikációs Központ
+GenericName=Shared mail, contacts and team communication
+Comment=Full FA3 communications surface within effective permissions
+Exec=${COMM_WRAPPER_BIN}
+Icon=mail-message-new
+Terminal=false
+Categories=Office;Network;Email;
+StartupNotify=true
+StartupWMClass=fa3-communications-hub
 EOF
 
 cat >"$PLUGIN_MANAGER_DESKTOP_FILE" <<EOF
@@ -194,6 +254,8 @@ echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
 echo "Installed binary: $INSTALLED_BIN"
 echo "Desktop launcher: $DESKTOP_FILE"
 echo "Plugin manager launcher: $PLUGIN_MANAGER_DESKTOP_FILE"
+echo "Communications Hub binary: $COMM_INSTALLED_BIN"
+echo "Communications Hub launcher: $COMM_DESKTOP_FILE"
 echo "Repository revision: $SOURCE_REV"
 echo "Host adaptation profile: initialized or already present"
 echo "Startup host drift audit: enabled"

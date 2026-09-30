@@ -78,10 +78,10 @@ class SharedCapabilityFabricTests(unittest.TestCase):
         self.assertTrue(internal)
         self.assertEqual(internal,consumers)
 
-    def test_registry_has_exact_45_slices(self):
+    def test_registry_has_exact_46_slices(self):
         data=json.loads((ROOT/"canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json").read_text())
-        self.assertEqual(45,data["slice_count"])
-        self.assertEqual(45,len(data["slices"]))
+        self.assertEqual(46,data["slice_count"])
+        self.assertEqual(46,len(data["slices"]))
 
 if __name__=="__main__":
     unittest.main()

@@ -248,7 +248,26 @@
     "src/fa3_shared_capability_gate.py",
     "tests/test_shared_capability_fabric.py",
     "docs/shared-capability-fabric.md",
-    "canonical/actions/email.send.json"
+    "canonical/actions/email.send.json",
+    "canonical/FA3-COMMUNICATIONS-CONTACTS-SHARED-001.json",
+    "canonical/FA3-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001.json",
+    "canonical/FA3-GATE-COMMUNICATIONS-CONTACTS-SHARED-001.json",
+    "canonical/contracts/FA3-COMMUNICATIONS-CONTACTS-CONTRACTS-001.json",
+    "src/fa3_communications_contacts.py",
+    "src/fa3_communications_contacts_gate.py",
+    "tests/test_communications_contacts.py",
+    "docs/communications-contacts-shared.md",
+    "canonical/FA3-COMMUNICATIONS-CONTACTS-UI-BINDINGS-001.json",
+    "apps/fa3-communications-hub/CMakeLists.txt",
+    "apps/fa3-communications-hub/src/main.cpp",
+    "apps/fa3-communications-hub/qml/Main.qml",
+    "apps/fa3-communications-hub/qml/CommunicationsSharedSurface.qml",
+    "apps/fa3-communications-hub/packaging/org.fa3.CommunicationsHub.desktop",
+    "tests/test_communications_hub_ui.py",
+    "evidence/collect-communications-contacts-current-host.py",
+    "canonical/schemas/communications-contacts-current-host-receipt.v1.json",
+    "tests/test_communications_current_host_collector.py",
+    "deployment/fa3-gui/install.sh"
   ],
   "registered_current_host_surfaces": [
     {
@@ -497,6 +516,16 @@
       "global_promotion_claim": false,
       "current_host_conformance": "canonical/FA3-SHARED-CAPABILITY-CURRENT-HOST-001.json",
       "requalification_reason": "STRUCTURAL_SHARED_CAPABILITY_AND_UNIVERSAL_EMAIL_SEND_SURFACES_ADDED"
+    },
+    {
+      "name": "communications-contacts-shared",
+      "collector": "evidence/collect-communications-contacts-current-host.py",
+      "gate": "communications-contacts",
+      "activation": "STATIC_POLICY_MATERIALIZED_PHYSICAL_PROVIDER_E2E_PENDING",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "collection_status": "COLLECTOR_MATERIALIZED_PHYSICAL_PROVIDER_E2E_PENDING",
+      "production_admitted": false,
+      "receipt_schema": "canonical/schemas/communications-contacts-current-host-receipt.v1.json"
     }
   ],
   "global_gate_sequence": [
