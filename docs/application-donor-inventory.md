@@ -11,14 +11,9 @@ as surfaces, not apps), explicit planned internal apps and external reference
 apps in the links manifest, and the existing source-unique donor registry.
 
 Every newly admitted curated application is visible on the next index build.
-Every registered application is subject to FA3 development, safety, coexistence,
-governance and lifecycle rules even when it is not formally declared as a
-dependency of the component being changed. An application does not automatically
-become a donor or an approved dependency. Its donor assessment starts at
-NOT_AUTOMATICALLY_ASSESSED; existing donor identity is linked only by exact
-normalized source key. Actual donor use must also be recorded in
-`donor_usage_records`, which provides the canonical reverse donor -> application
-impact path.
+An application does not automatically become a donor or an approved dependency.
+Its donor assessment starts at NOT_AUTOMATICALLY_ASSESSED; existing donor
+identity is linked only by exact normalized source key.
 
 ## Cross-application relationships
 
@@ -44,13 +39,35 @@ Targeted re-evaluation when the canonical donor registry changes:
 
     ./bin/fa3-app-donor-index --previous-registry old-registry.json --output impact.json
 
-Every donor-record change triggers an impact record, including provenance,
-observation, pin, archival and timestamp metadata changes. Application-specific
-reconciliation is derived from explicit donor-usage records and exact normalized
-source/target matching. Security-sensitive changes require immediate trust and
-security reconciliation. Capability-affecting donor changes require capability
-parity/non-regression review. Unmatched donor changes are still processed as
-mandatory donor reconciliation rather than being silently ignored.
+Validate the tutorial/shared-capability materialization:
+
+    ./bin/fa3-tutorial-reuse-plan --self-check --check
+
+Plan one already-registered tutorial reference without executing tutorial commands:
+
+    ./bin/fa3-tutorial-reuse-plan --tutorial tutorial-reference.json --check --output tutorial-plan.json
+
+Only source-unique, materially changed donors trigger an impact report, and
+only exact app aliases and normalized source keys create app-specific review
+tasks. Repeated sightings or timestamp-only changes do not cause new reviews.
+Unmatched donors stay in the existing registry and remain available to
+Reuse Discovery for planning.
+
+## Tutorial-derived functions and shared-capability impact
+
+The application inventory is also the retrospective impact surface for tutorial-derived functions.
+
+- If a registered tutorial describes an existing single-application function, preserve the implementation and adapt the tutorial to that application's real FA3 UI/workflow manual.
+- If the function is missing, record a real gap and complete the necessity/placement decision before implementation.
+- If two or more FA3 applications can use the same functional core, place that core once in the appropriate shared FA3 layer/component and expose it through stable contracts. Consumer applications retain only UI/workflow adapters and context-specific behavior unless an explicit reviewed exception justifies duplication.
+- Impact discovery must include planned, in-progress and materialized applications. A new shared layer is never future-only.
+- Migration from application-local implementations must preserve verified behavior, native project/data compatibility and capability coverage. If direct replacement cannot yet be proven safe, keep a compatibility adapter and leave migration pending rather than reducing capability.
+- Every affected application's manual receives its own UI-specific projection. Shared technical documentation does not replace per-application user documentation.
+- A structural/runtime shared-layer change also triggers Current Host alignment and requires the normal physical evidence before runtime promotion.
+
+The declaration manifest exposes a `shared_capabilities` collection. Every concrete shared capability must name one owner layer and at least two known consumer applications, require retrospective review and manual updates, forbid capability loss, and remain non-authoritative until separately admitted.
+
+An empty `shared_capabilities` collection means that the placement policy is enforced but no concrete shared runtime capability has yet been admitted by this change.
 
 ## Mandatory planning and audit
 
@@ -67,11 +84,9 @@ Wayland is preferred for future GUI adapters and X11 remains supported.
 No current-host execution PASS is claimed by these static checks.
 
 The separate CI workflow enforces catalog coverage, donor uniqueness, safety
-flags, cross-app link integrity, reverse usage records and negative admission
-tests on each PR and relevant main-branch change. A scheduled monthly gate checks
-that each active donor's capability list is refreshed within 31 days. Donor
-security changes do not wait for that cycle. Donor replacement or rematerialization
-must preserve application capability unless continued capability has documented,
-auditable evidence of risk to an FA3 component. Structural or runtime changes
-must also reconcile Current Host obligations. These static checks do not claim
-production runtime qualification.
+flags, cross-app link integrity, and negative admission tests on each PR and
+relevant main-branch change. It does not claim production runtime qualification.
+
+## Donor lifecycle and capability-consumer reverse traceability
+
+Every donor-record change is processed. Actual donor adoption/use requires an explicit usage edge tied to a registered donor and a primary application. The same edge may name additional shared-module, profile, authority, GUI, test and Current Host consumers. `src/fa3_capability_consumer_map.py` derives capability IDs only from canonical profile/contract `capability_bindings` and emits all three reverse projections. Monthly capability refresh remains 31 days; security changes are immediate; donor-driven capability regression is forbidden except for documented auditable FA3 risk.

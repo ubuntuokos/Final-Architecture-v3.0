@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-LICENSE-RIGHTS-AUDIT-001",
+  "parent_gate_id": "FA3-GATE-LICENSE-RIGHTS-001",
+  "gateset_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "name": "Retroactive License & Rights audit inventory",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_license_rights_audit.py",
+  "plan": "canonical/license-rights-audit-plan.json",
+  "status_record": "canonical/license-rights-audit-status.json",
+  "inventory_schema": "fa3.license-rights-audit-inventory.v1",
+  "semantics": {
+    "gate_pass": "Audit inventory machinery is deterministic and the unresolved audit remains fail-closed.",
+    "audit_pass": "Separate state that may only be asserted after all closure requirements are evidence-backed."
+  },
+  "closure_status_required_for_release": "PASS",
+  "allowed_nonrelease_states": [
+    "PENDING_RETROACTIVE_AUDIT",
+    "IN_PROGRESS_RETROACTIVE_AUDIT"
+  ]
+}

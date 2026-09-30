@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.license-rights-audit-status.v1",
+  "id": "FA3-LICENSE-RIGHTS-AUDIT-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "as_of": "2026-09-30",
+  "status": "IN_PROGRESS_RETROACTIVE_AUDIT",
+  "release_eligible": false,
+  "release_block_reason": "RETROACTIVE_AUDIT_WORK_QUEUE_NOT_CLOSED",
+  "global_runtime_promotion_claim": false,
+  "historical_evidence_overwrite_forbidden": true,
+  "scope": [
+    "FA3_ORIGINAL_SOURCE",
+    "THIRD_PARTY_SOURCE_AND_VENDOR_CODE",
+    "TRANSITIVE_DEPENDENCIES",
+    "DONOR_DERIVED_CODE",
+    "MODELS_AND_WEIGHTS",
+    "DATASETS",
+    "FONTS",
+    "IMAGES_AUDIO_VIDEO_AND_OTHER_ASSETS",
+    "PLUGINS_AND_SDKS",
+    "CODECS",
+    "PROVIDERS_AND_SERVICES",
+    "DOCUMENTATION_AND_TEMPLATES",
+    "GENERATED_OUTPUT_USAGE_RIGHTS"
+  ],
+  "completion_requires": [
+    "NO_UNKNOWN_REQUIRED_LICENSE_FACTS",
+    "NO_UNRESOLVED_LICENSE_CONFLICTS",
+    "ALL_REDISTRIBUTED_SUBJECTS_HAVE_RIGHTS_DESCRIPTORS",
+    "ALL_REQUIRED_ATTRIBUTIONS_MATERIALIZED",
+    "ALL_REQUIRED_SOURCE_OFFERS_MATERIALIZED",
+    "ALL_REQUIRED_ENTITLEMENTS_REFERENCED",
+    "SPDX_AND_CYCLONEDX_RELEASE_SBOMS_GENERATED",
+    "RELEASE_LICENSE_COMPLIANCE_RECEIPT_PASS"
+  ],
+  "note": "The authority is materialized fail-closed. This record intentionally does not claim that pre-existing repository content has completed the retroactive rights audit.",
+  "plan_id": "FA3-LICENSE-RIGHTS-AUDIT-PLAN-001",
+  "audit_gate_id": "FA3-GATE-LICENSE-RIGHTS-AUDIT-001",
+  "current_phase": "LR-AUDIT-PHASE-1",
+  "current_phase_status": "MATERIALIZED_INVENTORY_AND_WORK_QUEUE_VALIDATION_PENDING",
+  "automatic_inventory_is_legal_clearance": false
+}

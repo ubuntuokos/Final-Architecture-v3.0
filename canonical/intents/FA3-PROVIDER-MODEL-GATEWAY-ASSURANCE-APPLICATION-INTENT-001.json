@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
+  "project_type": "SHARED_PROFILE_AND_DERIVED_INDEX",
+  "goal": "Materialize donor-capability-consumer reverse traceability and compose existing provider/model/gateway assurance responsibilities without adding an authority, capability, provider runtime or unregistered donor dependency.",
+  "required_capabilities": [
+    "CAP-005",
+    "CAP-028",
+    "CAP-070",
+    "CAP-140",
+    "CAP-145",
+    "CAP-148",
+    "CAP-149",
+    "CAP-156",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "integration_requirements": [
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-EXTERNAL-LLM-CATALOG-001",
+    "FA3-LLM-GATEWAY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-capability-consumer-map",
+    "config_root": "NONE",
+    "cache_root": "NONE",
+    "runtime_root": "NONE",
+    "data_root": "DERIVED_REPORT_ONLY",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required_for_parameter_mutation": true
+  }
+}

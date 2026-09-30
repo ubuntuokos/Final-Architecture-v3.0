@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.license-rights-descriptor.v1",
+  "title": "FA3 License Rights Descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "subject",
+    "source",
+    "license",
+    "rights",
+    "obligations",
+    "disposition",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.license-rights-descriptor.v1"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "CODE",
+            "DOCUMENTATION",
+            "MODEL",
+            "DATASET",
+            "ASSET",
+            "FONT",
+            "SDK",
+            "CODEC",
+            "PROVIDER",
+            "SERVICE",
+            "TEMPLATE"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "locator"
+      ],
+      "properties": {
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "revision"
+          ]
+        },
+        {
+          "required": [
+            "sha256"
+          ]
+        }
+      ]
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "declared",
+        "detected",
+        "concluded",
+        "effective"
+      ],
+      "properties": {
+        "declared": {
+          "type": "string",
+          "minLength": 1
+        },
+        "detected": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "concluded": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effective": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "modification_allowed",
+        "redistribution_allowed",
+        "commercial_use_allowed"
+      ],
+      "properties": {
+        "modification_allowed": {
+          "type": "boolean"
+        },
+        "redistribution_allowed": {
+          "type": "boolean"
+        },
+        "commercial_use_allowed": {
+          "type": "boolean"
+        },
+        "output_usage_rights": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "obligations": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "attribution_required",
+        "source_offer_required",
+        "entitlement_required"
+      ],
+      "properties": {
+        "attribution_required": {
+          "type": "boolean"
+        },
+        "source_offer_required": {
+          "type": "boolean"
+        },
+        "entitlement_required": {
+          "type": "boolean"
+        },
+        "entitlement_reference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "disposition": {
+      "enum": [
+        "ALLOW",
+        "ALLOW_WITH_OBLIGATIONS",
+        "REVIEW_REQUIRED",
+        "REFERENCE_ONLY",
+        "DENY"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

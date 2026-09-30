@@ -2,7 +2,7 @@
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SCS-CONTRACTS-001",
   "status": "CANONICAL",
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "ArtifactIdentity",
     "SourceIdentity",
@@ -24,7 +24,10 @@
     "SBOMAttestation",
     "VulnerabilityDispositionReceipt",
     "SoftwareSupplyChainReceipt",
-    "UpstreamPatchSet"
+    "UpstreamPatchSet",
+    "LicenseRightsDescriptor",
+    "RightsDecisionReceipt",
+    "ReleaseLicenseComplianceReceipt"
   ],
   "secret_contract_semantics": {
     "raw_secret_values_in_canonical_or_evidence": "FORBIDDEN",
@@ -32,7 +35,7 @@
     "runtime_secret_delivery": "LEASE_OR_POLICY_GATED_PROJECTION"
   },
   "distribution_contract_binding": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "automated_admission": {
     "sbom_formats": [
       "SPDX_JSON",
@@ -55,6 +58,9 @@
       "PREBUILT_BINARY": "NOT_INTRINSICALLY_REQUIRED"
     },
     "license_policy_id": "FA3-SCS-LICENSE-POLICY-001",
-    "license_compatibility_source": "POLICY_DERIVED_NOT_OPERATOR_ASSERTED"
+    "license_compatibility_source": "POLICY_DERIVED_NOT_OPERATOR_ASSERTED",
+    "rights_policy_id": "FA3-LICENSE-RIGHTS-POLICY-001",
+    "rights_descriptor_required_for_release_bundle": true,
+    "third_party_relicense_forbidden": true
   }
 }

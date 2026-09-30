@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
+  "name": "Provider, Model & Gateway Assurance Integration",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_EXTERNAL_OR_MULTI_PROVIDER_AI_IS_USED",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "relationship": "COMPOSITION_OF_EXISTING_AUTHORITIES_AND_PROFILES",
+  "composes_profiles": [
+    "FA3-EXTERNAL-LLM-CATALOG-001",
+    "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "FA3-LLM-PROTOCOL-COMPAT-001",
+    "FA3-LLM-GATEWAY-001",
+    "FA3-MCP-GATEWAY-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "authority_boundaries": {
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
+  },
+  "provider_intelligence": {
+    "source_is_authority": false,
+    "source_claim_is_admission": false,
+    "dossier_fields": [
+      "provider_identity",
+      "official_sources",
+      "regions",
+      "terms_privacy",
+      "authentication_modes",
+      "endpoints",
+      "model_catalog",
+      "entitlement",
+      "protocol_claims",
+      "verification_history",
+      "lifecycle_state"
+    ]
+  },
+  "assurance_plane": {
+    "protocol_conformance_profile": "FA3-LLM-PROTOCOL-COMPAT-001",
+    "model_identity_requires_evidence_where_claimed": true,
+    "endpoint_health_is_not_protocol_conformance": true,
+    "protocol_conformance_is_not_model_identity": true,
+    "runtime_admission_requires_existing_provider_admission_path": true
+  },
+  "routing": {
+    "deterministic_eligibility_first": true,
+    "optional_advisory_ranking_only": true,
+    "stage_aware_route_plan": true,
+    "route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "silent_fallback": false,
+    "fallback_mode": "EXPLICIT_BOUNDED_CANDIDATE_SET",
+    "route_exhaustion": "FAIL_EXPLICITLY",
+    "unknown_model_substitution": "DENY"
+  },
+  "gateway_enforcement": {
+    "gateway_cannot_expand_router_candidate_set": true,
+    "identity_and_authorization_required": true,
+    "capability_visibility_projection": true,
+    "mcp_discovery_filtering_allowed_under_existing_policy": true,
+    "quota_budget_policy": true,
+    "protocol_mediation": true,
+    "streaming_preserved": true
+  },
+  "capability_projection": {
+    "canonical_action_layer": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "rest_openapi_to_mcp_projection": "ADAPTER_ONLY",
+    "projection_is_new_authority": false,
+    "direct_mcp_bypass": "DENY"
+  },
+  "plugin_projection": {
+    "existing_plugin_manager_authority_only": true,
+    "wasm_is_optional_execution_backend": true,
+    "provenance_digest_scope_and_security_admission_required": true,
+    "plugin_may_not_expand_authority": true
+  },
+  "external_source_policy": {
+    "unregistered_analysis_sources_are_not_canonical_donors": true,
+    "code_import_or_runtime_adoption_requires_separate_donor_and_license_admission": true
+  },
+  "current_host": {
+    "runtime_behavior_changed_by_this_profile": false,
+    "physical_promotion_claim": false
+  },
+  "contract_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-CONTRACTS-001",
+  "decision_id": "FA3-DEC-DONOR-CAPABILITY-CONSUMER-GRAPH-2026-09-30",
+  "gate_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-GATESET-001"
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.license-rights-policy.v1",
+  "id": "FA3-LICENSE-RIGHTS-POLICY-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "parent_profile": "FA3-SCS-001",
+  "status": "CANONICAL_FAIL_CLOSED",
+  "priority": "P0",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "fa3_original_default_license": "Apache-2.0",
+  "third_party_relicense_forbidden": true,
+  "code_model_dataset_asset_service_rights_are_distinct": true,
+  "output_usage_rights_are_separate_from_model_license": true,
+  "subject_types": [
+    "CODE",
+    "DOCUMENTATION",
+    "MODEL",
+    "DATASET",
+    "ASSET",
+    "FONT",
+    "SDK",
+    "CODEC",
+    "PROVIDER",
+    "SERVICE",
+    "TEMPLATE"
+  ],
+  "dispositions": [
+    "ALLOW",
+    "ALLOW_WITH_OBLIGATIONS",
+    "REVIEW_REQUIRED",
+    "REFERENCE_ONLY",
+    "DENY"
+  ],
+  "allowed_release_dispositions": [
+    "ALLOW",
+    "ALLOW_WITH_OBLIGATIONS"
+  ],
+  "automated_code_license_policy_id": "FA3-SCS-LICENSE-POLICY-001",
+  "canonical_descriptor_schema": "fa3.license-rights-descriptor.v1",
+  "release_receipt_schema": "fa3.release-license-compliance-receipt.v1",
+  "scanners": {
+    "sbom": [
+      "Syft"
+    ],
+    "license": [
+      "ScanCode",
+      "ORT"
+    ],
+    "sbom_formats": [
+      "SPDX_JSON",
+      "CYCLONEDX_JSON"
+    ]
+  },
+  "fail_closed": {
+    "unknown_license": true,
+    "unknown_right": true,
+    "unknown_redistribution_right": true,
+    "unknown_commercial_use_right": true,
+    "unresolved_license_conflict": true,
+    "compound_expression_without_review": true,
+    "missing_entitlement_when_required": true,
+    "missing_attribution_when_required": true,
+    "missing_source_offer_when_required": true,
+    "historical_evidence_overwrite": true
+  },
+  "release_requirements": {
+    "repository_rights_audit": "PASS",
+    "spdx_sbom_required": true,
+    "cyclonedx_sbom_required": true,
+    "third_party_notice_required": true,
+    "attribution_obligations_resolved": true,
+    "source_offer_obligations_resolved": true,
+    "entitlement_obligations_resolved": true,
+    "unknown_license_count": 0,
+    "unresolved_conflict_count": 0
+  },
+  "secret_handling": {
+    "raw_license_keys_in_canonical_or_evidence": "FORBIDDEN",
+    "entitlement_reference_only": true,
+    "resolution_authority": "FA3-SECRET-BROKER-001_OR_ADMITTED_SECRET_PROVIDER"
+  }
+}

@@ -10,7 +10,7 @@ The registry centralizes external projects, repositories, algorithms, research, 
 
 Only a LINK explicitly preceded by the user's `donornak` marker (with or without a colon) may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
 
-A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A `SUPERSEDED` entry requires separate reconciliation. A rejected or security-untrusted source is removed from the active registry and preserved in `FA3-DONOR-REJECTION-AUDIT-001`; it may return only after documented `VERIFIED_SAFE` evidence and FA3 impact review. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
+A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires a separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
 
 ```bash
 ./bin/fa3-donor-capture --owner-submitted-link --owner-donor-marker donornak \\
@@ -19,15 +19,25 @@ A verified owner-marked link is pre-reviewed for reference registration and beco
 
 This command requires a real prior user marker; the flag is an operator attestation, not a way to infer donor status from an unmarked message. Only one donor intake conversation is allowed at a time; GitHub publication must pass the exclusive live intake gate.
 
+## Tutorial references and shared-function reuse (owner decision, 2026-09-30)
+
+Internet tutorials are a supported reference class in this same registry; no second tutorial donor list may be created. They do **not** receive a special intake path. A tutorial can become a `TUTORIAL_REFERENCE` planning input only after its source has been admitted to the published registry under the normal explicit owner `donornak` rule. Unmarked links or downloaded tutorial material remain analysis-only with respect to donor registration.
+
+Tutorial intake does not approve text/code/asset copying, dependency installation, provider admission, model selection or runtime promotion. Provenance and rights/licensing must be classified before reuse; unknown or incompatible rights permit factual/functional analysis and clean FA3-native re-expression only.
+
+Each registered tutorial is decomposed into functional units and matched against the existing capability model and application inventory. If a function already exists, the existing FA3 implementation is preserved and the tutorial is adapted to the actual FA3 UI/workflow in the affected application's manual. If the function is absent, a necessity assessment and normal Reuse Discovery precede any implementation proposal.
+
+When a tutorial-derived function is useful to multiple FA3 applications, its functional core must be implemented once in a shared FA3 layer with stable contracts and application-specific adapters. The impact analysis is retroactive: planned, in-progress and materialized applications must all be checked for manual-only changes, adapter work, local-to-shared migration, regression revalidation and current-host requalification. The 175-capability baseline cannot be silently increased.
+
+See [FA3 Tutorial → Shared Capability → Application Manual plan](FA3-TUTORIAL-SHARED-CAPABILITY-PLAN-001.md).
+
 ## Lifecycle
 
-`CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal active-registry research path. Direct, pre-reviewed owner-submitted links enter `ACCEPTED_REFERENCE` upon capture for catalog inclusion only. `SUPERSEDED` may remain as inactive history in the active registry. `REJECTED` is not a valid active-registry state: rejected or unsafe donor history is moved to `canonical/FA3-DONOR-REJECTION-AUDIT-001.json`. Re-entry requires documented verified-safe security evidence and cannot silently restore the previously rejected artifact.
+`CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal research path. Direct, pre-reviewed owner-submitted links enter `ACCEPTED_REFERENCE` upon capture for catalog inclusion only. `REJECTED` and `SUPERSEDED` are retained as research history and are excluded from derived planning candidates.
 
 ## Planning
 
 Before a new or materially modified FA3 application, capability, or module is implemented, Reuse Discovery queries the registry and the rest of the canonical reuse sources. Matching is deterministic from capability/domain/problem/target/tag metadata. The Decision Fabric may rank already eligible candidates but cannot expand the candidate set.
-
-Every donor-record change is processed. The application/donor index maintains reverse donor -> application traceability and reconciles every affected application, including applications that are not formally declared dependencies. Donor capability lists must be refreshed at least every 31 days. Security-relevant donor changes are propagated immediately and do not wait for the monthly cycle. A used donor whose development stops must have its last verified stable version locked before replacement; the affected capability must then be preserved by FA3-native rematerialization or a verified functionally equivalent donor. Donor changes must not reduce an application's verified capability set unless retaining the capability has documented, auditable evidence of risk to an FA3 component.
 
 ## Hardware Audit
 
@@ -128,3 +138,7 @@ The following imported upstream curation reports are historical/research referen
 ## 2026-09-29 prospective-only donor intake
 
 Mandatory retrospective source extraction from previous PRs is abolished. PRs #24 #31 #52 #70 #71 #125 #180 #181 #245 #252 #392 #427 #434 #438 are explicit exact-head extraction exemptions and closed unmerged. Registry expansion, history-preserving removal and synchronization are serialized donor maintenance and cannot be blocked by application planning/development locks. The existing canonical registry and 175-capability baseline are preserved. `./bin/fa3-donor-capture --owner-submitted-link --source URL --name NAME` is the explicit operator intake path for an already-reviewed direct owner link; it sets reference-registration status, not application adoption.
+
+## Usage graph and downstream impact
+
+The registry remains the only donor identity catalog. Actual use is declared in `FA3-APPLICATION-DONOR-LINKS-001` and reverse-resolved by the derived capability-consumer map. Only owner-`donornak` registered sources may appear as donor IDs in usage edges; analysis-only URLs cannot be inserted as pseudo-donors.

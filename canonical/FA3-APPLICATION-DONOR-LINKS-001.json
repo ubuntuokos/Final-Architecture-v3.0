@@ -1,5 +1,5 @@
 {
-  "schema": "fa3.application-donor-links.v2",
+  "schema": "fa3.application-donor-links.v3",
   "id": "FA3-APPLICATION-DONOR-LINKS-001",
   "status": "CANONICAL_LINK_DECLARATIONS",
   "authority": false,
@@ -23,6 +23,16 @@
     "automatic_activation": false,
     "automatic_model_selection": false,
     "automatic_provider_admission": false,
+    "tutorial_reference_processing_required": true,
+    "tutorial_existing_function_manual_adaptation_required": true,
+    "tutorial_missing_function_need_assessment_required": true,
+    "manual_publish_requires_verified_implementation": true,
+    "multi_application_feature_shared_layer_required": true,
+    "shared_capability_local_duplication_forbidden_without_justification": true,
+    "retrospective_shared_impact_required": true,
+    "affected_application_manual_update_required": true,
+    "structural_change_current_host_alignment_required": true,
+    "capability_loss_during_shared_migration_forbidden": true,
     "all_applications_in_scope_even_without_declared_dependency": true,
     "declared_and_implicit_dependencies_must_be_reconciled": true,
     "every_donor_change_must_be_processed": true,
@@ -37,7 +47,12 @@
     "donor_change_capability_non_regression": true,
     "capability_loss_only_for_verified_fa3_risk": true,
     "current_host_alignment_required_for_structural_or_runtime_change": true,
-    "gates_evidence_and_release_projection_reconciliation_required": true
+    "gates_evidence_and_release_projection_reconciliation_required": true,
+    "donor_capability_consumer_reverse_traceability_required": true,
+    "capability_binding_must_be_canonical_derived": true,
+    "manual_capability_id_inference_forbidden": true,
+    "capability_map_is_derived_non_authoritative": true,
+    "consumer_impact_includes_shared_modules_profiles_authorities_gui_tests_current_host": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -233,12 +248,14 @@
       "human_approval_required": true
     }
   ],
+  "shared_capabilities": [],
   "governance_decisions": [
-    "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
+    "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json",
+    "canonical/decisions/FA3-DEC-DONOR-CAPABILITY-CONSUMER-GRAPH-2026-09-30.json"
   ],
   "donor_usage_records": [],
   "donor_usage_contract": {
-    "schema": "fa3.application-donor-usage.v1",
+    "schema": "fa3.donor-capability-consumer-usage.v2",
     "required_for_actual_donor_use": true,
     "reverse_lookup_key": "donor_id",
     "application_lookup_key": "application_id",
@@ -258,6 +275,44 @@
       "REPLACEMENT_PENDING",
       "REMOVED"
     ],
-    "untracked_donor_use_forbidden": true
+    "untracked_donor_use_forbidden": true,
+    "primary_application_anchor_required": true,
+    "reverse_lookup_keys": [
+      "donor_id",
+      "application_id",
+      "derived_capability_id",
+      "consumer.kind+consumer.id"
+    ],
+    "allowed_consumer_kinds": [
+      "APPLICATION",
+      "SHARED_MODULE",
+      "PROFILE",
+      "AUTHORITY",
+      "GUI_SURFACE",
+      "TEST_HARNESS",
+      "CURRENT_HOST_PATH"
+    ],
+    "fa3_bindings_input_fields": [
+      "profile_ids",
+      "contract_ids",
+      "authority_ids",
+      "shared_module_ids"
+    ],
+    "capability_ids": "DERIVED_FROM_CANONICAL_PROFILE_OR_CONTRACT_BINDINGS_ONLY",
+    "manual_capability_ids_forbidden": true,
+    "unresolved_capability_binding_state": "UNRESOLVED_CAPABILITY_BINDING",
+    "current_host_impact_states": [
+      "NO_RUNTIME_IMPACT",
+      "STRUCTURAL_REASSESSMENT_REQUIRED",
+      "RUNTIME_REQUALIFICATION_REQUIRED"
+    ],
+    "generated_views": [
+      "DONOR_TO_CAPABILITY_TO_CONSUMER",
+      "CAPABILITY_TO_DONOR_AND_CONSUMER",
+      "CONSUMER_TO_CAPABILITY_AND_DONOR"
+    ],
+    "capability_map_authority": false,
+    "automatic_adoption": false,
+    "automatic_runtime_activation": false
   }
 }
