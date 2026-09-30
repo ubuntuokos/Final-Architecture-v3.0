@@ -91,7 +91,9 @@ def capacity_for_used(used_bytes: int) -> int:
         raise ValueError("NEGATIVE_USED_BYTES")
     if used_bytes == 0:
         return 0
-    # Integer arithmetic avoids binary-float drift (e.g. 700 / 0.70 -> 1000 exactly).\n    return (used_bytes * 100 + 69) // 70\n
+    # Integer arithmetic avoids binary-float drift (e.g. 700 / 0.70 -> 1000 exactly).
+    return (used_bytes * 100 + 69) // 70
+
 
 def fill_ratio(used_bytes: int, capacity_bytes: int) -> float:
     if used_bytes < 0 or capacity_bytes <= 0:
