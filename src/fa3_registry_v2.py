@@ -117,6 +117,67 @@ def rebalance_bytes_required(used_bytes: int, capacity_bytes: int) -> int:
     return max(0, used_bytes - target)
 
 
+def plan_rebalance(volume: dict[str, Any]) -> dict[str, Any]:
+    capacity = volume.get("capacity", {})
+    limit = int(capacity.get("handling_limit_bytes", 0))
+    used = int(capacity.get("used_bytes", -1))
+    if limit <= 0 or used < 0:
+        raise ValueError("INVALID_VOLUME_CAPACITY")
+    state = volume_state(used, limit)
+    result = {
+        "state": state,
+        "open_next_volume": state in {"ROLLOVER", "REBALANCE_REQUIRED"},
+        "rebalance_target_fill_percent": 70,
+        "move_donor_ids": [],
+        "bytes_required": 0,
+        "selected_record_bytes": 0,
+    }
+    if state != "REBALANCE_REQUIRED":
+        return result
+    required = rebalance_bytes_required(used, limit)
+    candidates = sorted(
+        (
+            (_json_bytes(row), str(row.get("donor_id", "")), row)
+            for row in volume.get("entries", [])
+            if isinstance(row, dict) and row.get("donor_id")
+        ),
+        key=lambda item: (-item[0], item[1]),
+    )
+    selected: list[str] = []
+    selected_bytes = 0
+    for size, donor_id, _row in candidates:
+        if selected_bytes >= required:
+            break
+        selected.append(donor_id)
+        selected_bytes += size
+    if selected_bytes < required:
+        raise ValueError("REBALANCE_CANNOT_RESTORE_30_PERCENT_RESERVE")
+    result.update({
+        "move_donor_ids": selected,
+        "bytes_required": required,
+        "selected_record_bytes": selected_bytes,
+    })
+    return result
+
+
+def rebalance_volume(source: dict[str, Any], target: dict[str, Any]) -> dict[str, Any]:
+    plan = plan_rebalance(source)
+    if plan["state"] != "REBALANCE_REQUIRED":
+        return {"source": source, "target": target, "plan": plan}
+    move_ids = set(plan["move_donor_ids"])
+    moved = [row for row in source.get("entries", []) if row.get("donor_id") in move_ids]
+    remaining = [row for row in source.get("entries", []) if row.get("donor_id") not in move_ids]
+    source_limit = int(source["capacity"]["handling_limit_bytes"])
+    target_limit = int(target["capacity"]["handling_limit_bytes"])
+    new_target = _volume_wrapper(target["dataset"], target["volume_id"], target_limit, list(target.get("entries", [])) + moved)
+    if new_target["capacity"]["fill_percent"] >= 90.0:
+        raise ValueError("TARGET_VOLUME_NEEDS_CONTINUATION")
+    new_source = _volume_wrapper(source["dataset"], source["volume_id"], source_limit, remaining)
+    if new_source["capacity"]["fill_percent"] > 70.0:
+        raise ValueError("REBALANCE_TARGET_NOT_RESTORED")
+    return {"source": new_source, "target": new_target, "plan": plan}
+
+
 def derive_growth_profile(observation: dict[str, Any] | None) -> dict[str, Any]:
     if not observation:
         return {
@@ -352,6 +413,9 @@ def shadow_migrate(root: Path, output: Path, *, handling_limit_bytes: int, activ
     if output.exists():
         shutil.rmtree(output)
     output.mkdir(parents=True)
+    snapshot_path = output / "migration/source-snapshot.json"
+    snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(root / LEGACY_REGISTRY, snapshot_path)
 
     shared: dict[str, list[tuple[dict[str, Any], dict[str, Any]]]] = {}
     dedicated: list[tuple[dict[str, Any], dict[str, Any]]] = []
@@ -434,6 +498,8 @@ def shadow_migrate(root: Path, output: Path, *, handling_limit_bytes: int, activ
         "canonical_cutover": False,
         "legacy_registry": LEGACY_REGISTRY,
         "legacy_registry_sha256": plan["legacy_registry_sha256"],
+        "source_snapshot": "migration/source-snapshot.json",
+        "source_snapshot_sha256": _file_sha256(snapshot_path),
         "legacy_registry_count": plan["legacy_registry_count"],
         "capability_count": 175,
         "handling_limit_bytes": handling_limit_bytes,
@@ -462,6 +528,24 @@ def verify_shadow(root: Path, shadow: Path) -> dict[str, Any]:
     legacy_ids = {row["donor_id"] for row in registry["entries"]}
     legacy_keys = {row["source"]["normalized_key"] for row in registry["entries"]}
     findings: list[str] = []
+    snapshot_path = shadow / str(manifest.get("source_snapshot", "migration/source-snapshot.json"))
+    if not snapshot_path.is_file() or _file_sha256(snapshot_path) != manifest.get("source_snapshot_sha256"):
+        findings.append("SOURCE_SNAPSHOT_INTEGRITY_FAIL")
+    shadow_records: dict[str, dict[str, Any]] = {}
+    for donor_id, location in locations.items():
+        if not isinstance(location, dict) or not isinstance(location.get("path"), str):
+            findings.append("DONOR_LOCATION_INVALID:" + donor_id)
+            continue
+        volume = _load(shadow / location["path"])
+        matches = [row for row in volume.get("entries", []) if row.get("donor_id") == donor_id]
+        if len(matches) != 1:
+            findings.append("DONOR_LOCATION_INDEX_DRIFT:" + donor_id)
+            continue
+        shadow_records[donor_id] = matches[0]
+    legacy_records = {row["donor_id"]: row for row in registry["entries"]}
+    for donor_id in sorted(legacy_ids):
+        if shadow_records.get(donor_id) != legacy_records.get(donor_id):
+            findings.append("DONOR_RECORD_PARITY_FAIL:" + donor_id)
     if set(locations) != legacy_ids:
         findings.append("DONOR_ID_PARITY_FAIL")
     if set(source_index) != legacy_keys:
@@ -491,6 +575,35 @@ def verify_shadow(root: Path, shadow: Path) -> dict[str, Any]:
         "findings": findings
     }
 
+
+
+def project_legacy_registry(shadow: Path, output: Path) -> dict[str, Any]:
+    shadow = shadow.resolve()
+    snapshot = _load(shadow / "migration/source-snapshot.json")
+    locations = _load(shadow / "indexes/donor-location-index.json").get("locations", {})
+    projected_entries: list[dict[str, Any]] = []
+    for original in snapshot.get("entries", []):
+        donor_id = original.get("donor_id")
+        location = locations.get(donor_id)
+        if not isinstance(location, dict) or not isinstance(location.get("path"), str):
+            raise ValueError("LEGACY_PROJECTION_LOCATION_MISSING:" + str(donor_id))
+        volume = _load(shadow / location["path"])
+        matches = [row for row in volume.get("entries", []) if row.get("donor_id") == donor_id]
+        if len(matches) != 1:
+            raise ValueError("LEGACY_PROJECTION_RECORD_MISSING:" + str(donor_id))
+        projected_entries.append(matches[0])
+    projected = {**snapshot, "entries": projected_entries}
+    parity = projected == snapshot
+    if not parity:
+        raise ValueError("LEGACY_PROJECTION_PARITY_FAIL")
+    _write(output.resolve(), projected)
+    return {
+        "schema": "fa3.registry-v2-legacy-projection-result.v1",
+        "result": "PASS",
+        "entry_count": len(projected_entries),
+        "semantic_parity": True,
+        "output": str(output.resolve()),
+    }
 
 
 def resolve_donor(shadow: Path, donor_id: str) -> dict[str, Any]:
@@ -552,6 +665,9 @@ def main() -> int:
     migrate.add_argument("--activity-observations", type=Path)
     verify = sub.add_parser("verify-shadow")
     verify.add_argument("--shadow", type=Path, required=True)
+    projection = sub.add_parser("project-legacy")
+    projection.add_argument("--shadow", type=Path, required=True)
+    projection.add_argument("--output", type=Path, required=True)
     query = sub.add_parser("query")
     query.add_argument("--shadow", type=Path, required=True)
     selector = query.add_mutually_exclusive_group(required=True)
@@ -565,6 +681,8 @@ def main() -> int:
         result = shadow_migrate(args.root, args.output, handling_limit_bytes=args.handling_limit_bytes, activity_observations=args.activity_observations)
     elif args.command == "verify-shadow":
         result = verify_shadow(args.root, args.shadow)
+    elif args.command == "project-legacy":
+        result = project_legacy_registry(args.shadow, args.output)
     elif args.donor:
         result = resolve_donor(args.shadow, args.donor)
     elif args.category:
