@@ -103,6 +103,60 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             (root / SOURCES[2]).write_text(json.dumps(new))
             self.assertEqual(build_index(root, previous=old)["reevaluation"], [])
 
+    def test_tutorial_and_shared_capability_policy_is_enforced(self):
+        report = build_index(ROOT)
+        self.assertEqual(report["validation"]["result"], "PASS",
+                         report["validation"]["findings"])
+        self.assertTrue(report["tutorial_shared_policy"]["registered_tutorial_only"])
+        self.assertTrue(
+            report["tutorial_shared_policy"]["multi_application_function_routes_to_shared_layer"]
+        )
+        self.assertTrue(
+            report["tutorial_shared_policy"]["retrospective_application_impact_required"]
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / SOURCES[3]
+            links = json.loads(path.read_text())
+            links["shared_capabilities"] = [{
+                "id": "FA3-SHARED-TEST-001",
+                "owner_layer": "FA3-SHARED-CAPABILITY-FABRIC",
+                "consumer_applications": ["fa3.video-editor", "fa3.quickclip"],
+                "status": "PROPOSED",
+                "authority": False,
+                "local_ui_adapter_only": True,
+                "retrospective_review_required": True,
+                "manual_update_required": True,
+                "capability_loss_allowed": False,
+                "current_host_alignment_required_for_structural_change": True,
+            }]
+            path.write_text(json.dumps(links))
+            result = build_index(root)
+            self.assertEqual(result["validation"]["result"], "PASS",
+                             result["validation"]["findings"])
+            self.assertEqual(
+                result["shared_capabilities"][0]["consumer_applications"],
+                ["fa3.quickclip", "fa3.video-editor"],
+            )
+
+            links["shared_capabilities"][0]["consumer_applications"] = ["fa3.video-editor"]
+            path.write_text(json.dumps(links))
+            findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
+            self.assertIn("INVALID_SHARED_CAPABILITY", findings)
+
+    def test_tutorial_shared_policy_drift_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / SOURCES[3]
+            links = json.loads(path.read_text())
+            links["policy"]["retrospective_shared_impact_required"] = False
+            path.write_text(json.dumps(links))
+            findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
+            self.assertIn("TUTORIAL_SHARED_POLICY_INVALID", findings)
+
     def test_fail_closed_auto_admission_and_bad_cross_app_edge(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
