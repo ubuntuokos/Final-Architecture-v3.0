@@ -44,6 +44,7 @@ def gate(root: Path) -> dict:
         (c.get("fail_closed") is True and c.get("new_capabilities")==0 and c.get("new_architectural_authorities")==0,"contracts-boundary"),
         (b.get("scope")=="ALL_FA3_GUI_APPLICATIONS" and b.get("mandatory") is True,"all-app-binding"),
         (b.get("standalone_entry",{}).get("target_application_must_be_running") is False,"standalone-target-app"),
+        (b.get("applicability_filter",{}).get("normal_view_not_applicable_hidden") is True and b.get("applicability_filter",{}).get("same_resolver_for_shared_packages") is True,"application-applicability-filter"),
         (ch.get("production_admitted") is False and ch.get("current_host_runtime_promotion_claim") is False,"current-host-pending"),
         (g.get("fail_closed") is True and g.get("capability_count_after")==175,"gate-boundary"),
         (intent.get("schema")=="fa3.application-intent.v1" and intent.get("project_id")=="FA3-PLUGIN-EXTENSION-MANAGEMENT-001" and intent.get("declared_new_capabilities")==[] and intent.get("proposed_authority_roles")==[],"reuse-intent-boundary"),
