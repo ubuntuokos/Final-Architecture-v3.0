@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Any
 
 REGISTRY_PATH = "canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json"
+APPLICATION_LINKS_PATH = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+APPLICATION_BINDINGS_PATH = "canonical/FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001.json"
 CAP_RE = re.compile(r"^CAP-(\d{3})$")
 STATES = {"ACTIVE", "VISIBLE_DISABLED", "HIDDEN", "DENIED", "UNAVAILABLE"}
 
@@ -88,3 +90,23 @@ def resolve(root: Path, slice_key: str, context: dict[str, Any]) -> SliceDecisio
     if record is None:
         return SliceDecision("DENIED", ("unknown-shared-capability-slice",))
     return resolve_slice(record, context)
+
+
+def internal_application_ids(root: Path) -> tuple[str, ...]:
+    data = json.loads((Path(root) / APPLICATION_LINKS_PATH).read_text(encoding="utf-8"))
+    ids = [
+        item.get("application_id")
+        for item in data.get("applications", [])
+        if item.get("kind") == "INTERNAL_APPLICATION" and item.get("application_id")
+    ]
+    return tuple(sorted(ids))
+
+def universal_surface_consumers(root: Path, operation: str) -> tuple[str, ...]:
+    bindings = json.loads((Path(root) / APPLICATION_BINDINGS_PATH).read_text(encoding="utf-8"))
+    universal = next(
+        (item for item in bindings.get("universal_surfaces", []) if item.get("operation") == operation),
+        None,
+    )
+    if not universal or universal.get("all_fa3_applications") is not True:
+        return ()
+    return internal_application_ids(root)
