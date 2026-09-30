@@ -38,3 +38,14 @@ CrewAI, Conductor, Open Multi-Agent, LangGraph, Kestra, Pipecat, n8n and Haystac
 ## Agent Workload Runtime reconciliation — 2026-09-24
 
 The Orchestration Director still decomposes and routes work but does not execute providers directly. A ROUTED decision can be compiled into an immutable `fa3.agent-workload-task.v1` only through the Agent Workload Runtime contract. This runtime is task-local and non-authoritative; Temporal remains the sole global durable lifecycle authority. Workload runner selection cannot expand the already-eligible provider set and production execution requires runtime admission plus the existing Security/UAF/HRB boundaries.
+
+
+## Governance strengthening — 2026-09-30
+
+The Workforce now consumes `FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001`. Routing projects objective ancestry, a monotonic responsible-principal chain, bounded budget/liveness metadata and monitoring state without creating a new authority. Cross-domain plans distinguish structural parentage from typed hard dependencies and fail closed on hard-dependency cycles.
+
+Runtime work is expected to use generation/idempotency-bound execution claims. A stale heartbeat is not takeover authority. Effectful approvals bind exact object revision and SHA-256 digest. Monitoring/configuration surfaces remain non-authoritative and submit changes through the existing owners.
+
+Temporal remains the sole global durable lifecycle authority. HRB, Model Router, Security/UAF/MCP and Evidence/Gate retain their existing independent scopes. The active capability baseline is 175; this strengthening adds zero capabilities and zero architectural authorities.
+
+See `docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md`.
