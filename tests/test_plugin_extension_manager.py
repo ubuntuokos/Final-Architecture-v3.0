@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from fa3_plugin_extension_manager import effective_execution_allowed, shared_binding_state, validate_manifest
+from fa3_plugin_extension_manager import effective_execution_allowed, plugin_visibility_state, project_packages_for_application, shared_binding_state, validate_manifest
 from fa3_plugin_extension_gate import gate
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -53,6 +53,25 @@ class PluginExtensionManagerTests(unittest.TestCase):
         self.assertEqual("ALL_FA3_GUI_APPLICATIONS",data["scope"])
         self.assertFalse(data["standalone_entry"]["target_application_must_be_running"])
         self.assertTrue(data["application_binding_contract"]["standalone_manageable_required"])
+
+    def test_application_view_hides_not_applicable_plugins(self):
+        pkg={"id":"P","installation":"INSTALLED","requires_capabilities":["CAP-X"]}
+        ctx={"application_id":"Video Editor","application_capabilities":["CAP-Y"],"compatible":True,"temporarily_available":True}
+        self.assertFalse(plugin_visibility_state(pkg,ctx)["visible"])
+        self.assertEqual([],project_packages_for_application([pkg],ctx))
+
+    def test_application_view_shows_installable_applicable_plugin(self):
+        pkg={"id":"P","installation":"NOT_INSTALLED","requires_capabilities":["CAP-X"]}
+        ctx={"application_id":"Video Editor","application_capabilities":["CAP-X"],"compatible":True,"temporarily_available":True}
+        v=plugin_visibility_state(pkg,ctx)
+        self.assertTrue(v["visible"])
+        self.assertEqual("INSTALLABLE",v["state"])
+
+    def test_policy_denied_is_diagnostic_only(self):
+        pkg={"id":"P","installation":"INSTALLED"}
+        base={"application_id":"Story","application_capabilities":[],"compatible":True,"temporarily_available":True,"policy_denied":True}
+        self.assertFalse(plugin_visibility_state(pkg,base)["visible"])
+        self.assertTrue(plugin_visibility_state(pkg,{**base,"diagnostic_view":True})["visible"])
 
 if __name__=="__main__":
     unittest.main()
