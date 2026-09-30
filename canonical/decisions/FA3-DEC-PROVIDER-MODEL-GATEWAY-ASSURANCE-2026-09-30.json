@@ -1,0 +1,113 @@
+{
+  "schema": "fa3.provider-model-gateway-assurance-plan-decision.v1",
+  "id": "FA3-DEC-PROVIDER-MODEL-GATEWAY-ASSURANCE-2026-09-30",
+  "status": "APPROVED_OWNER_PLAN_MATERIALIZED",
+  "effective_date": "2026-09-30",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "authority": false,
+  "runtime_materialized": false,
+  "runtime_promotion": false,
+  "purpose": "Unify existing FA3 provider discovery, assurance, model routing, gateway enforcement, protocol projection, plugin governance and evidence flows without creating a parallel router, gateway, registry, secret store, resource broker or evidence authority.",
+  "architecture_flow": [
+    "PROVIDER_INTELLIGENCE",
+    "PROVIDER_EVIDENCE_DOSSIER",
+    "ASSURANCE_PLANE",
+    "PROVIDER_ADMISSION",
+    "MODEL_ROUTER",
+    "GATEWAY_ENFORCEMENT",
+    "EXECUTION",
+    "EVIDENCE",
+    "CAPABILITY_USAGE_GRAPH"
+  ],
+  "assurance_plane": {
+    "protocol_conformance": "EXTEND_EXISTING_FA3_LLM_PROTOCOL_COMPATIBILITY",
+    "model_identity": "PLANNED_EVIDENCE_BOUND_MODEL_IDENTITY_ASSURANCE",
+    "provider_health": "EXISTING_PROVIDER_RUNTIME_HEALTH_AND_ADMISSION",
+    "entitlement_quota": "EXISTING_PROVIDER_EXECUTION_AND_POLICY_BOUNDARY",
+    "privacy_license_region": "EXISTING_SECURITY_LICENSE_AND_POLICY_AUTHORITIES"
+  },
+  "routing_plan": {
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "deterministic_eligibility_first": true,
+    "decision_advisor_may_rank_only": true,
+    "stage_aware_route_contract": "PLANNED_EXTENSION",
+    "bounded_fallback": true,
+    "fallback_requires_explicit_candidate_set": true,
+    "fallback_requires_capability_privacy_cost_compatibility": true,
+    "silent_cross_provider_fallback": false,
+    "explicit_exhaustion_state": "ROUTE_EXHAUSTED"
+  },
+  "gateway_plan": {
+    "mcp_boundary": "FA3-AUTH-MCP-GATEWAY-001",
+    "execution_order": [
+      "IDENTITY",
+      "AUTHORIZATION",
+      "LAYER_GUARD",
+      "CAPABILITY_VISIBILITY",
+      "TOOL_RESOURCE_PROMPT_POLICY",
+      "QUOTA_BUDGET",
+      "SECURITY_PRIVACY",
+      "PROTOCOL_MEDIATION",
+      "ROUTER_APPROVED_DESTINATION"
+    ],
+    "gateway_may_select_model": false,
+    "discovery_filtering_by_authorized_capability": true,
+    "protocol_projection": "UAF_CANONICAL_ACTION_TO_CONTROLLED_REST_OR_MCP_PROJECTION"
+  },
+  "existing_authorities": {
+    "donor_registry": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "action_contract": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY"
+  },
+  "plugin_plan": {
+    "existing_plugin_manager_authority_preserved": true,
+    "isolated_wasm_backend_optional": true,
+    "provenance_digest_scope_and_security_gate_required": true,
+    "plugin_cannot_expand_authority": true
+  },
+  "evidence_plan": {
+    "single_existing_evidence_authority_preserved": true,
+    "receipt_families": [
+      "SOURCE_OBSERVATION",
+      "PROVIDER_ADMISSION",
+      "PROTOCOL_CONFORMANCE",
+      "MODEL_IDENTITY",
+      "ENTITLEMENT_SNAPSHOT",
+      "PROVIDER_HEALTH",
+      "ROUTING_DECISION",
+      "FALLBACK",
+      "GATEWAY_POLICY",
+      "MCP_PROJECTION",
+      "PLUGIN_PROVENANCE"
+    ],
+    "receipt_family_names_do_not_create_new_authority": true
+  },
+  "donor_research_boundary": {
+    "conversation_research_sources_may_inform_owner_approved_fa3_native_design": true,
+    "unmarked_sources_registered_as_donors": false,
+    "unmarked_sources_adopted": false,
+    "external_code_import": false,
+    "external_runtime_dependency": false,
+    "provider_or_model_admission": false
+  },
+  "implementation_sequence": [
+    "CAPABILITY_USAGE_GRAPH",
+    "PROVIDER_INTELLIGENCE_MULTI_SOURCE_RECONCILIATION",
+    "PROTOCOL_AND_MODEL_IDENTITY_ASSURANCE",
+    "STAGE_AWARE_MODEL_ROUTING_AND_BOUNDED_FALLBACK",
+    "GATEWAY_CAPABILITY_VISIBILITY_AND_POLICY_ENFORCEMENT",
+    "CONTROLLED_PROTOCOL_PROJECTION",
+    "OPTIONAL_PLUGIN_ISOLATION_AND_PROVENANCE",
+    "CURRENT_HOST_REQUALIFICATION_WHERE_RUNTIME_OR_STRUCTURE_CHANGES"
+  ],
+  "current_host_impact": "PLAN_ONLY_NO_RUNTIME_DELTA",
+  "documentation": "docs/provider-model-gateway-assurance-plan-2026-09-30.md"
+}
