@@ -28,10 +28,16 @@ def norm(value: str) -> str:
 
 
 def fingerprint(row: dict[str, Any]) -> str:
-    keys = ("name", "source", "status", "donor_modes", "capability_hints",
-            "domain_hints", "problem_hints", "target_hints", "tags", "license",
-            "code_reuse_policy", "discoverable_for_planning", "selection_scope")
-    return json.dumps({key: row.get(key) for key in keys}, sort_keys=True, ensure_ascii=False)
+    # Owner policy: every donor-record change must be processed.  Do not
+    # silently discard timestamp, provenance, pin, archival or other metadata
+    # changes from the impact stream.
+    return json.dumps(row, sort_keys=True, ensure_ascii=False)
+
+
+def changed_fields(old: dict[str, Any] | None, new: dict[str, Any] | None) -> list[str]:
+    if old is None or new is None:
+        return ["__record__"]
+    return sorted(key for key in set(old) | set(new) if old.get(key) != new.get(key))
 
 
 def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -40,6 +46,23 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
     errors: list[dict[str, str]] = []
     if declaration.get("id") != "FA3-APPLICATION-DONOR-LINKS-001" or declaration.get("authority") is not False:
         errors.append({"code": "LINK_POLICY_INVALID", "detail": LINKS})
+    required_policy = {
+        "all_applications_in_scope_even_without_declared_dependency": True,
+        "declared_and_implicit_dependencies_must_be_reconciled": True,
+        "every_donor_change_must_be_processed": True,
+        "donor_change_requires_application_impact_lookup": True,
+        "donor_usage_reverse_traceability_required": True,
+        "donor_usage_record_required_before_adoption": True,
+        "donor_security_change_immediate": True,
+        "unsafe_donor_active_registry_forbidden": True,
+        "donor_change_capability_non_regression": True,
+        "capability_loss_only_for_verified_fa3_risk": True,
+        "current_host_alignment_required_for_structural_or_runtime_change": True,
+    }
+    for key, expected in required_policy.items():
+        if declaration.get("policy", {}).get(key) is not expected:
+            errors.append({"code": "MANDATORY_APPLICATION_DONOR_POLICY_MISSING",
+                           "detail": key})
     donors = registry.get("entries", [])
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001" or registry.get("backfill", {}).get("entry_count") != len(donors):
         errors.append({"code": "DONOR_REGISTRY_DRIFT", "detail": DONOR})
@@ -52,6 +75,8 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             errors.append({"code": "DUPLICATE_DONOR_ID_OR_SOURCE", "detail": str(did)})
         if donor.get("authority") is not False or any(donor.get(flag) is not False for flag in AUTO):
             errors.append({"code": "DONOR_AUTO_ADMISSION_FORBIDDEN", "detail": str(did)})
+        if donor.get("status") == "REJECTED":
+            errors.append({"code": "REJECTED_DONOR_ACTIVE_REGISTRY_FORBIDDEN", "detail": str(did)})
         donor_by_source[key] = donor
         donor_ids.add(did)
 
@@ -90,6 +115,30 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         gui_surfaces.append({"surface_id": sid, "title": surface.get("title"),
                              "source_catalog": GUI, "is_application": False})
 
+    usage_records = declaration.get("donor_usage_records", [])
+    if not isinstance(usage_records, list):
+        errors.append({"code": "INVALID_DONOR_USAGE_RECORDS", "detail": LINKS})
+        usage_records = []
+    usage_by_donor: dict[str, list[dict[str, Any]]] = {}
+    usage_by_app: dict[str, list[dict[str, Any]]] = {}
+    seen_usage: set[str] = set()
+    allowed_usage = {"CAPABILITY_PATTERN", "ALGORITHM_PATTERN", "WORKFLOW_PATTERN",
+                     "ARCHITECTURE_PATTERN", "UI_UX_PATTERN", "CODE_REUSE",
+                     "RUNTIME_DEPENDENCY", "REFERENCE_BINDING"}
+    allowed_usage_status = {"ACTIVE", "PINNED_STABLE", "REPLACEMENT_PENDING", "REMOVED"}
+    for usage in usage_records:
+        uid = usage.get("id") if isinstance(usage, dict) else None
+        aid = usage.get("application_id") if isinstance(usage, dict) else None
+        did = usage.get("donor_id") if isinstance(usage, dict) else None
+        if (not uid or uid in seen_usage or aid not in applications or did not in donor_ids
+                or usage.get("usage_kind") not in allowed_usage
+                or usage.get("status") not in allowed_usage_status):
+            errors.append({"code": "INVALID_DONOR_USAGE_RECORD", "detail": str(uid)})
+            continue
+        seen_usage.add(uid)
+        usage_by_donor.setdefault(did, []).append(usage)
+        usage_by_app.setdefault(aid, []).append(usage)
+
     for app in applications.values():
         aliases = {norm(s) for s in app["aliases"]}
         source_key = app.get("source_ref") or "project:" + app["name"].lower()
@@ -106,6 +155,20 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             and donor.get("discoverable_for_planning") is True
             and any(isinstance(h, str) and norm(h) in aliases for h in donor.get("target_hints", []))
         ], key=lambda d: d["donor_id"])
+        app["declared_donor_usage"] = sorted(
+            [{"usage_id": u["id"], "donor_id": u["donor_id"],
+              "usage_kind": u["usage_kind"], "status": u["status"]}
+             for u in usage_by_app.get(app["application_id"], [])],
+            key=lambda u: u["usage_id"])
+        app["fa3_compliance"] = {
+            "applies_without_declared_dependency": True,
+            "declared_and_implicit_dependency_reconciliation_required": True,
+            "every_donor_change_processed": True,
+            "donor_usage_traceability_required": True,
+            "capability_non_regression_on_donor_change": True,
+            "capability_loss_only_for_verified_fa3_risk": True,
+            "current_host_alignment_for_structural_or_runtime_change": True,
+        }
         app["authority"] = False
         app["automatic_activation"] = False
         app["automatic_code_import"] = False
@@ -138,19 +201,59 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             if old and new and fingerprint(old) == fingerprint(new):
                 continue
             affected = []
+            donor_ids_for_change = {row.get("donor_id") for row in (old, new)
+                                    if isinstance(row, dict) and row.get("donor_id")}
+            explicitly_used_by = {
+                u["application_id"]
+                for did in donor_ids_for_change for u in usage_by_donor.get(did, [])
+                if u.get("status") != "REMOVED"
+            }
             for app in applications.values():
                 aliases = {norm(s) for s in app["aliases"]}
                 source_key = app.get("source_ref") or "project:" + app["name"].lower()
-                if any(source_key == row.get("source", {}).get("normalized_key")
-                       or any(isinstance(h, str) and norm(h) in aliases
-                              for h in row.get("target_hints", []))
-                       for row in (old, new) if row):
+                if (app["application_id"] in explicitly_used_by or
+                        any(source_key == row.get("source", {}).get("normalized_key")
+                            or any(isinstance(h, str) and norm(h) in aliases
+                                   for h in row.get("target_hints", []))
+                            for row in (old, new) if row)):
                     affected.append(app["application_id"])
+            fields = changed_fields(old, new)
+            security_fields = {"status", "license", "code_reuse_policy", "rejection_reasons",
+                               "source_pin_status", "upstream_snapshot",
+                               "upstream_observation", "upstream_archived",
+                               "security_review", "security_status"}
+            capability_fields = {"donor_modes", "capability_hints", "domain_hints",
+                                 "problem_hints", "target_hints", "tags"}
+            security_sensitive = bool(security_fields.intersection(fields))
+            capability_sensitive = bool(capability_fields.intersection(fields))
+            required_actions = ["DONOR_DIFF_CLASSIFICATION",
+                                "DONOR_TO_APPLICATION_REVERSE_IMPACT_LOOKUP"]
+            if affected:
+                required_actions += [
+                    "CAPABILITY_PARITY_NON_REGRESSION",
+                    "LAYER_AND_DEPENDENCY_RECONCILIATION",
+                    "CURRENT_HOST_ALIGNMENT_IF_STRUCTURAL_OR_RUNTIME_AFFECTED",
+                    "TEST_GATE_EVIDENCE_RECONCILIATION",
+                    "RELEASE_PROJECTION_RECONCILIATION",
+                ]
+            if security_sensitive:
+                required_actions.append("IMMEDIATE_SECURITY_AND_TRUST_REEVALUATION")
+            if not new and explicitly_used_by:
+                required_actions += ["LOCK_LAST_VERIFIED_STABLE_IF_AVAILABLE",
+                                     "REPLACE_DONOR_OR_FA3_NATIVE_REMATERIALIZE_BEFORE_RELEASE"]
             reevaluation.append({
                 "source_key": key,
+                "donor_ids": sorted(donor_ids_for_change),
                 "change": "ADDED" if not old else "REMOVED" if not new else "UPDATED",
-                "affected_applications": sorted(affected),
-                "disposition": "TARGETED_HUMAN_REVIEW" if affected else "NO_EXACT_MATCH",
+                "changed_fields": fields,
+                "security_sensitive": security_sensitive,
+                "capability_sensitive": capability_sensitive,
+                "affected_applications": sorted(set(affected)),
+                "explicitly_used_by": sorted(explicitly_used_by),
+                "required_actions": required_actions,
+                "disposition": ("IMMEDIATE_SECURITY_RECONCILIATION" if security_sensitive and affected
+                                else "MANDATORY_APPLICATION_RECONCILIATION" if affected
+                                else "MANDATORY_DONOR_RECONCILIATION"),
                 "automatic_adoption": False,
             })
     return {
