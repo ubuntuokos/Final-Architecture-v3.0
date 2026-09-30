@@ -29,7 +29,8 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
         registry = json.loads(
             (self.root / "canonical/current-host-capability-proof-recipes.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(175, registry["capability_count"])
+        self.assertEqual(149, registry["capability_count"])
+        self.assertEqual(175, registry["active_capability_count"])
         self.assertEqual(149, registry["shared_recipe_count"])
         self.assertEqual(26, registry["dedicated_capability_count"])
         self.assertEqual(149, len(recipes))
