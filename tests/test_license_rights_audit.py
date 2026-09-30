@@ -47,6 +47,53 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             blocking = [x for x in inv["work_queue"] if x.get("severity") == "BLOCKING"]
             self.assertTrue(any(x.get("subject_id") == "FA3-PROVIDER-NATIVE-001" for x in blocking))
 
+    def test_valid_release_descriptor_clears_subject_blocker(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            (root / "canonical" / "license-rights-policy.json").write_text(json.dumps({
+                "id": "FA3-LICENSE-RIGHTS-POLICY-001"
+            }), encoding="utf-8")
+            descriptor_dir = root / "canonical" / "license-rights" / "descriptors"
+            descriptor_dir.mkdir(parents=True)
+            descriptor = {
+                "schema": "fa3.license-rights-descriptor.v1",
+                "subject": {"id": "FA3-PROVIDER-NATIVE-001", "type": "CODE"},
+                "source": {"locator": "src/native.py", "revision": "a" * 40},
+                "license": {
+                    "declared": "Apache-2.0",
+                    "detected": ["Apache-2.0"],
+                    "concluded": "Apache-2.0",
+                    "effective": "Apache-2.0",
+                },
+                "rights": {
+                    "modification_allowed": True,
+                    "redistribution_allowed": True,
+                    "commercial_use_allowed": True,
+                },
+                "obligations": {
+                    "attribution_required": True,
+                    "source_offer_required": False,
+                    "entitlement_required": False,
+                    "entitlement_reference": None,
+                    "unresolved": [],
+                },
+                "disposition": "ALLOW_WITH_OBLIGATIONS",
+                "evidence": ["fixture"],
+            }
+            dpath = descriptor_dir / "FA3-PROVIDER-NATIVE-001.json"
+            dpath.write_text(json.dumps(descriptor), encoding="utf-8")
+            (root / "canonical" / "license-rights-descriptor-registry.json").write_text(json.dumps({
+                "entries": [{
+                    "subject_id": "FA3-PROVIDER-NATIVE-001",
+                    "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-NATIVE-001.json",
+                }]
+            }), encoding="utf-8")
+            inv = build_inventory(root)
+            self.assertEqual(0, inv["summary"]["unique_release_blockers"])
+            self.assertEqual(1, inv["summary"]["rights_descriptor_cleared_release_subjects"])
+            self.assertFalse(any(x.get("severity") == "BLOCKING" for x in inv["work_queue"]))
+
     def test_non_code_rights_domains_are_separate(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
