@@ -1,8 +1,8 @@
 # FA3 Secure Communication & Proxy Fabric (SCP Fabric)
 
-Status: **OWNER-APPROVED IMPLEMENTATION PLAN**  
-Date: 2026-09-30  
-Capability baseline: **175 (unchanged)**  
+Status: **OWNER-APPROVED IMPLEMENTATION PLAN**
+Date: 2026-09-30
+Capability baseline: **175 (unchanged)**
 Runtime promotion: **NOT CLAIMED**
 
 ## 1. Goal
