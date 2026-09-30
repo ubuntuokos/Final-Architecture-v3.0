@@ -1,0 +1,209 @@
+{
+  "schema": "fa3.communications-contacts-contracts.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-CONTRACTS-001",
+  "profile_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "access": {
+    "embedded_effective_permission": "INTERSECTION",
+    "permission_union_forbidden": true,
+    "full_hub_transition_expands_permission": false,
+    "resource_visibility_requires_context_and_permission": true,
+    "unknown_permission": "DENY"
+  },
+  "operation_boundary": {
+    "direct_qml_network_execution": false,
+    "direct_provider_bypass": false,
+    "hidden_background_send": false,
+    "blind_retry_mutations": false,
+    "explicit_send_intent_required": true
+  },
+  "security": {
+    "required_gate_order": [
+      "IDENTITY",
+      "AUTHENTICATION",
+      "AUTHORIZATION",
+      "CONTEXT_SCOPE",
+      "LAYER_GUARD",
+      "APPLICATION_BOUNDARY",
+      "DATA_CLASSIFICATION_PRIVACY",
+      "SECRET_BROKER",
+      "COMMUNICATION_SECURITY",
+      "ATTACHMENT_CONTENT_SECURITY",
+      "ANTI_ABUSE_PHISHING",
+      "AI_PERMISSION",
+      "AI_CONTEXT_ISOLATION",
+      "PROMPT_INJECTION_TOOL_USE",
+      "MODEL_ROUTER_PROVIDER_ADMISSION",
+      "HRB_RESOURCE",
+      "PLUGIN_EXTENSION_SECURITY",
+      "SOFTWARE_COEXISTENCE",
+      "HARDWARE_SAFETY_ENVELOPE",
+      "AUDIT_EVIDENCE",
+      "CURRENT_HOST"
+    ],
+    "required_gate_result": "PASS",
+    "unknown": "DENY",
+    "error": "DENY",
+    "timeout": "DENY",
+    "missing_evidence": "DENY",
+    "policy_conflict": "DENY"
+  },
+  "email_security": {
+    "tls_required_when_provider_supports": true,
+    "certificate_validation_required": true,
+    "starttls_downgrade_forbidden": true,
+    "spf_dkim_dmarc_evaluation": "WHEN_AVAILABLE",
+    "mta_sts_tls_rpt_arc": "WHEN_AVAILABLE",
+    "phishing_spoofing_link_homograph_checks": true,
+    "external_recipient_warning": true,
+    "rate_limit_policy": true
+  },
+  "attachment_security": {
+    "stages": [
+      "TYPE_VALIDATION",
+      "MIME_VALIDATION",
+      "SIZE_POLICY",
+      "MALWARE_SCAN",
+      "ARCHIVE_INSPECTION",
+      "ACTIVE_CONTENT_DETECTION",
+      "SAFE_PREVIEW",
+      "DLP"
+    ],
+    "unknown_scan_state": "QUARANTINE",
+    "allowed_dispositions": [
+      "ALLOW",
+      "RESTRICT",
+      "QUARANTINE",
+      "DENY"
+    ]
+  },
+  "contact_security": {
+    "field_level_access": true,
+    "project_team_workspace_isolation": true,
+    "private_shared_separation": true,
+    "bulk_export_separate_permission": true,
+    "pii_classification": true,
+    "retention_policy": true,
+    "import_validation": [
+      "CSV",
+      "VCARD",
+      "CARDDAV"
+    ]
+  },
+  "dlp": {
+    "outbound_required": true,
+    "classes": [
+      "SECRET",
+      "CREDENTIAL",
+      "PII",
+      "FINANCIAL",
+      "INTERNAL_DOCUMENT",
+      "RESTRICTED_PROJECT",
+      "CUSTOMER_CONFIDENTIAL",
+      "PRODUCTION_CONFIDENTIAL"
+    ],
+    "decisions": [
+      "ALLOW",
+      "WARN",
+      "REQUIRE_APPROVAL",
+      "REDACT",
+      "BLOCK"
+    ]
+  },
+  "ai": {
+    "optional": true,
+    "operations": [
+      "AI.Mail.Summarize",
+      "AI.Mail.DraftReply",
+      "AI.Mail.Translate",
+      "AI.Mail.Classify",
+      "AI.Mail.ExtractTasks",
+      "AI.Mail.ExtractContacts",
+      "AI.Mail.Priority",
+      "AI.Mail.PhishingAssist",
+      "AI.Thread.Summarize",
+      "AI.Contact.Deduplicate",
+      "AI.Contact.Enrich",
+      "AI.Search.Semantic"
+    ],
+    "control_levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "CAPABILITY",
+      "OPERATION"
+    ],
+    "all_enabled_required_for_operation": true,
+    "email_is_untrusted_input": true,
+    "message_text_cannot_be_system_instruction": true,
+    "prompt_injection_gate": true,
+    "context_minimization": true,
+    "secret_filter": true,
+    "pii_filter": true,
+    "model_router_required": true,
+    "provider_admission_required": true,
+    "external_egress_permission_required": true,
+    "output_validation": true,
+    "silent_fallback": false
+  },
+  "agent": {
+    "default_mailbox_scope": "NONE",
+    "send_separate_permission": true,
+    "delete_separate_permission": true,
+    "bulk_export_separate_permission": true,
+    "permission_change_separate_permission": true,
+    "mailbox_admin_separate_permission": true,
+    "credential_access": false,
+    "high_risk_action": "PROPOSE_THEN_AUTHORIZED_EXECUTE"
+  },
+  "secrets": {
+    "authority": "FA3-SECRET-BROKER-001",
+    "forbidden_locations": [
+      "AI_PROMPT",
+      "PROJECT_FILE",
+      "PLAINTEXT_CONFIG",
+      "LOG",
+      "CLIPBOARD_HISTORY",
+      "UNCONTROLLED_DONOR_STORE"
+    ]
+  },
+  "audit": {
+    "required_fields": [
+      "WHO",
+      "WHAT",
+      "WHEN",
+      "APPLICATION",
+      "CONTEXT",
+      "PROJECT",
+      "RESOURCE",
+      "CAPABILITY",
+      "PROVIDER",
+      "ACTOR_TYPE",
+      "RESULT",
+      "SECURITY_GATES"
+    ],
+    "events": [
+      "MAIL_READ",
+      "MAIL_SENT",
+      "MAIL_FORWARDED",
+      "CONTACT_CREATED",
+      "CONTACT_EXPORTED",
+      "PERMISSION_CHANGED",
+      "AI_DRAFT_CREATED",
+      "AI_PROVIDER_USED",
+      "AI_CONTEXT_REDACTED",
+      "PROMPT_INJECTION_BLOCKED",
+      "ATTACHMENT_QUARANTINED",
+      "DLP_BLOCKED",
+      "SECURITY_GATE_DENIED"
+    ],
+    "application_can_rewrite_evidence": false
+  },
+  "runtime": {
+    "document_only_promotion_forbidden": true,
+    "physical_current_host_required": true
+  }
+}
