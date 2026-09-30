@@ -81,7 +81,7 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
 
     def test_historical_alias_capture_is_idempotent(self):
         from tempfile import TemporaryDirectory
-        from fa3_donor_registry import capture_candidate
+        from fa3_donor_registry import capture_candidate, REJECTION_AUDIT_REL
         with TemporaryDirectory() as d:
             root = Path(d)
             path = root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
@@ -89,6 +89,9 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
             row = next(e for e in self.entries if e["donor_id"] == "FA3-DONOR-OPENCUT-001")
             path.write_text(json.dumps({"id": "FA3-DONOR-REFERENCE-REGISTRY-001",
                                         "entries": [row]}, ensure_ascii=False))
+            audit = root / REJECTION_AUDIT_REL
+            audit.write_text(json.dumps({"id":"FA3-DONOR-REJECTION-AUDIT-001",
+                                         "entries":[]}), encoding="utf-8")
             result = capture_candidate(root, name="OpenCut", source_kind="PROJECT",
                                        source_locator="project:OpenCut", seen_date="2026-09-29",
                                        explicit_donor_marker=True)

@@ -1,0 +1,430 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-MAIL-CRM-ERP-GROUPWARE-SYNC-2026-09-30",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "81cfac81634867c087735bcd5cd378c8c308e4c7",
+  "source_count": 36,
+  "unique_source_key_count": 36,
+  "matched_existing_parent": [],
+  "expected_new_source_count": 36,
+  "previous_registry_count": 1232,
+  "expected_registry_count": 1268,
+  "requirements": [
+    "Preserve all thirty-six exact owner-marked URLs as reference identities",
+    "Explicit filtered GitHub topic views remain distinct discovery viewpoints under current canonical precedent",
+    "GitHub organization/profile/topic indexes are discovery only; do not recursively register listed repositories",
+    "Direct repository license observations are intake metadata only and do not authorize source reuse",
+    "Metadata-only ACCEPTED_REFERENCE registration; fixed capability baseline 175 and no new architectural authority",
+    "No automatic code copy, dependency adoption, installation, fetch, model/provider selection, runtime activation, cross-repository write or current-host claim"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "sources": [
+    {
+      "normalized_source_key": "github:bnfy/blanc",
+      "urls": [
+        "https://github.com/bnfy/blanc"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:topics/mail-client",
+      "urls": [
+        "https://github.com/topics/mail-client"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:mail-0/zero",
+      "urls": [
+        "https://github.com/mail-0/zero"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:topics/email-management?o=asc&s=forks",
+      "urls": [
+        "https://github.com/topics/email-management?o=asc&s=forks"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/webmail-client",
+      "urls": [
+        "https://github.com/topics/webmail-client"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/email-integration",
+      "urls": [
+        "https://github.com/topics/email-integration"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:m66b/fairemail",
+      "urls": [
+        "https://github.com/m66b/fairemail"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:topics/mailserver",
+      "urls": [
+        "https://github.com/topics/mailserver"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/crm",
+      "urls": [
+        "https://github.com/topics/crm"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/crm-system",
+      "urls": [
+        "https://github.com/topics/crm-system"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:trycompai/crm",
+      "urls": [
+        "https://github.com/trycompai/crm"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:topics/crm-system?l=php&o=desc&s=updated",
+      "urls": [
+        "https://github.com/topics/crm-system?l=php&o=desc&s=updated"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/crm-platform?l=javascript",
+      "urls": [
+        "https://github.com/topics/crm-platform?l=javascript"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/customer-relationship-management",
+      "urls": [
+        "https://github.com/topics/customer-relationship-management"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/crm?l=shell",
+      "urls": [
+        "https://github.com/topics/crm?l=shell"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/erp-software",
+      "urls": [
+        "https://github.com/topics/erp-software"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/erp-system?l=php",
+      "urls": [
+        "https://github.com/topics/erp-system?l=php"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/erp?o=asc&s=forks",
+      "urls": [
+        "https://github.com/topics/erp?o=asc&s=forks"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:frappe/erpnext",
+      "urls": [
+        "https://github.com/frappe/erpnext"
+      ],
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:topics/erp-software?l=c%23&o=asc&s=updated",
+      "urls": [
+        "https://github.com/topics/erp-software?l=c%23&o=asc&s=updated"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/erp-application?l=c%23&o=desc&s=stars",
+      "urls": [
+        "https://github.com/topics/erp-application?l=c%23&o=desc&s=stars"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:aureuserp",
+      "urls": [
+        "https://github.com/aureuserp"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:topics/erp-application?l=python&o=desc&s=stars",
+      "urls": [
+        "https://github.com/topics/erp-application?l=python&o=desc&s=stars"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/erp-finance",
+      "urls": [
+        "https://github.com/topics/erp-finance"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:topics/groupware?l=go&o=asc&s=forks",
+      "urls": [
+        "https://github.com/topics/groupware?l=go&o=asc&s=forks"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:egroupware",
+      "urls": [
+        "https://github.com/EGroupware"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:intermesh",
+      "urls": [
+        "https://github.com/Intermesh"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:tine-groupware",
+      "urls": [
+        "https://github.com/tine-groupware"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:horde",
+      "urls": [
+        "https://github.com/horde"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:topics/file-sync?l=c%23&o=desc&s=forks",
+      "urls": [
+        "https://github.com/topics/file-sync?l=c%23&o=desc&s=forks"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:polius",
+      "urls": [
+        "https://github.com/polius"
+      ],
+      "kind": "GITHUB_PROFILE"
+    },
+    {
+      "normalized_source_key": "github:topics/file-synchronization?l=c%2B%2B",
+      "urls": [
+        "https://github.com/topics/file-synchronization?l=c%2B%2B"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:syncthing",
+      "urls": [
+        "https://github.com/syncthing"
+      ],
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:marketplace/actions/team-ai-sync",
+      "urls": [
+        "https://github.com/marketplace/actions/team-ai-sync"
+      ],
+      "kind": "GITHUB_MARKETPLACE"
+    },
+    {
+      "normalized_source_key": "github:topics/file-synchronization?o=desc&s=stars",
+      "urls": [
+        "https://github.com/topics/file-synchronization?o=desc&s=stars"
+      ],
+      "kind": "GITHUB_TOPIC"
+    },
+    {
+      "normalized_source_key": "github:lbb00/ai-rules-sync",
+      "urls": [
+        "https://github.com/lbb00/ai-rules-sync"
+      ],
+      "kind": "GITHUB"
+    }
+  ],
+  "new_ids": [
+    {
+      "id": "FA3-DONOR-BNFY-BLANC-001",
+      "key": "github:bnfy/blanc"
+    },
+    {
+      "id": "FA3-DONOR-MAIL-CLIENT-TOPIC-001",
+      "key": "github:topics/mail-client"
+    },
+    {
+      "id": "FA3-DONOR-MAIL-0-ZERO-001",
+      "key": "github:mail-0/zero"
+    },
+    {
+      "id": "FA3-DONOR-EMAIL-MANAGEMENT-FORKS-ASC-TOPIC-001",
+      "key": "github:topics/email-management?o=asc&s=forks"
+    },
+    {
+      "id": "FA3-DONOR-WEBMAIL-CLIENT-TOPIC-001",
+      "key": "github:topics/webmail-client"
+    },
+    {
+      "id": "FA3-DONOR-EMAIL-INTEGRATION-TOPIC-001",
+      "key": "github:topics/email-integration"
+    },
+    {
+      "id": "FA3-DONOR-M66B-FAIREMAIL-001",
+      "key": "github:m66b/fairemail"
+    },
+    {
+      "id": "FA3-DONOR-MAILSERVER-TOPIC-001",
+      "key": "github:topics/mailserver"
+    },
+    {
+      "id": "FA3-DONOR-CRM-TOPIC-001",
+      "key": "github:topics/crm"
+    },
+    {
+      "id": "FA3-DONOR-CRM-SYSTEM-TOPIC-001",
+      "key": "github:topics/crm-system"
+    },
+    {
+      "id": "FA3-DONOR-TRYCOMPAI-CRM-001",
+      "key": "github:trycompai/crm"
+    },
+    {
+      "id": "FA3-DONOR-CRM-SYSTEM-PHP-UPDATED-DESC-TOPIC-001",
+      "key": "github:topics/crm-system?l=php&o=desc&s=updated"
+    },
+    {
+      "id": "FA3-DONOR-CRM-PLATFORM-JAVASCRIPT-TOPIC-001",
+      "key": "github:topics/crm-platform?l=javascript"
+    },
+    {
+      "id": "FA3-DONOR-CUSTOMER-RELATIONSHIP-MANAGEMENT-TOPIC-001",
+      "key": "github:topics/customer-relationship-management"
+    },
+    {
+      "id": "FA3-DONOR-CRM-SHELL-TOPIC-001",
+      "key": "github:topics/crm?l=shell"
+    },
+    {
+      "id": "FA3-DONOR-ERP-SOFTWARE-TOPIC-001",
+      "key": "github:topics/erp-software"
+    },
+    {
+      "id": "FA3-DONOR-ERP-SYSTEM-PHP-TOPIC-001",
+      "key": "github:topics/erp-system?l=php"
+    },
+    {
+      "id": "FA3-DONOR-ERP-FORKS-ASC-TOPIC-001",
+      "key": "github:topics/erp?o=asc&s=forks"
+    },
+    {
+      "id": "FA3-DONOR-FRAPPE-ERPNEXT-001",
+      "key": "github:frappe/erpnext"
+    },
+    {
+      "id": "FA3-DONOR-ERP-SOFTWARE-CSHARP-UPDATED-ASC-TOPIC-001",
+      "key": "github:topics/erp-software?l=c%23&o=asc&s=updated"
+    },
+    {
+      "id": "FA3-DONOR-ERP-APPLICATION-CSHARP-STARS-DESC-TOPIC-001",
+      "key": "github:topics/erp-application?l=c%23&o=desc&s=stars"
+    },
+    {
+      "id": "FA3-DONOR-AUREUSERP-ORG-001",
+      "key": "github:aureuserp"
+    },
+    {
+      "id": "FA3-DONOR-ERP-APPLICATION-PYTHON-STARS-DESC-TOPIC-001",
+      "key": "github:topics/erp-application?l=python&o=desc&s=stars"
+    },
+    {
+      "id": "FA3-DONOR-ERP-FINANCE-TOPIC-001",
+      "key": "github:topics/erp-finance"
+    },
+    {
+      "id": "FA3-DONOR-GROUPWARE-GO-FORKS-ASC-TOPIC-001",
+      "key": "github:topics/groupware?l=go&o=asc&s=forks"
+    },
+    {
+      "id": "FA3-DONOR-EGROUPWARE-ORG-001",
+      "key": "github:egroupware"
+    },
+    {
+      "id": "FA3-DONOR-INTERMESH-ORG-001",
+      "key": "github:intermesh"
+    },
+    {
+      "id": "FA3-DONOR-TINE-GROUPWARE-ORG-001",
+      "key": "github:tine-groupware"
+    },
+    {
+      "id": "FA3-DONOR-HORDE-ORG-001",
+      "key": "github:horde"
+    },
+    {
+      "id": "FA3-DONOR-FILE-SYNC-CSHARP-FORKS-DESC-TOPIC-001",
+      "key": "github:topics/file-sync?l=c%23&o=desc&s=forks"
+    },
+    {
+      "id": "FA3-DONOR-POLIUS-PROFILE-001",
+      "key": "github:polius"
+    },
+    {
+      "id": "FA3-DONOR-FILE-SYNCHRONIZATION-CPP-TOPIC-001",
+      "key": "github:topics/file-synchronization?l=c%2B%2B"
+    },
+    {
+      "id": "FA3-DONOR-SYNCTHING-ORG-001",
+      "key": "github:syncthing"
+    },
+    {
+      "id": "FA3-DONOR-TEAM-AI-SYNC-MARKETPLACE-001",
+      "key": "github:marketplace/actions/team-ai-sync"
+    },
+    {
+      "id": "FA3-DONOR-FILE-SYNCHRONIZATION-STARS-DESC-TOPIC-001",
+      "key": "github:topics/file-synchronization?o=desc&s=stars"
+    },
+    {
+      "id": "FA3-DONOR-LBB00-AI-RULES-SYNC-001",
+      "key": "github:lbb00/ai-rules-sync"
+    }
+  ]
+}

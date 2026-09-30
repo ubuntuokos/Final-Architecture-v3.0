@@ -86,3 +86,7 @@ No current-host execution PASS is claimed by these static checks.
 The separate CI workflow enforces catalog coverage, donor uniqueness, safety
 flags, cross-app link integrity, and negative admission tests on each PR and
 relevant main-branch change. It does not claim production runtime qualification.
+
+## Donor lifecycle and capability-consumer reverse traceability
+
+Every donor-record change is processed. Actual donor adoption/use requires an explicit usage edge tied to a registered donor and a primary application. The same edge may name additional shared-module, profile, authority, GUI, test and Current Host consumers. `src/fa3_capability_consumer_map.py` derives capability IDs only from canonical profile/contract `capability_bindings` and emits all three reverse projections. Monthly capability refresh remains 31 days; security changes are immediate; donor-driven capability regression is forbidden except for documented auditable FA3 risk.
