@@ -14,7 +14,7 @@ The migration is zero-reentry: existing donor, capability, usage and provenance 
 
 ## Existing sources remain authoritative until cutover
 
-Registry v2 consumes the existing donor registry, application-donor links, 175 capability model and Reuse Catalog. The shadow engine never promotes itself to canonical donor authority. The active serialized donor-intake stream remains exclusive.
+Registry v2 consumes the published donor registry, application-donor links, 175 capability model and Reuse Catalog. The shadow engine never promotes itself to canonical donor authority. Donor intake remains serialized by the existing lifecycle policy.
 
 ## Identity and locality
 
@@ -100,7 +100,7 @@ M8 Current Host structural alignment and full gates.
 M9 atomic canonical manifest switch.
 M10 immutable legacy snapshot and rollback path.
 
-This materialization implements M1–M2 and verification foundations without competing with the active serialized donor intake.
+This materialization implements M1–M2 and verification foundations on the published donor-lifecycle baseline without creating a second donor-intake authority.
 
 ## Required cutover gates
 
@@ -122,4 +122,4 @@ Registry v2 does not adopt or install donors, admit providers/models, change the
 - tests/test_registry_v2.py
 - .github/workflows/fa3-donor-registry-v2.yml
 
-The legacy registry itself remains unchanged until the serialized donor stream is clear and the cutover stages are satisfied.
+The legacy registry itself remains unchanged until the benchmark, cutover stages and required gates are satisfied.
