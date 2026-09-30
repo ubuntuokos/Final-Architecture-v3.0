@@ -48,5 +48,28 @@ class CurrentHostProjectionTests(unittest.TestCase):
         self.assertFalse(resource["global_promotion_claim"])
 
 
+    def test_active_175_525_closure_contract_is_bound(self):
+        manifest = json.loads((ROOT / "fa3-current-host/manifest.json").read_text(encoding="utf-8"))
+        closure = manifest["active_closure"]
+        self.assertEqual(175, closure["capability_count"])
+        self.assertEqual(525, closure["obligation_count"])
+        self.assertEqual("POSITIVE_NEGATIVE_ROLLBACK_PER_CAPABILITY", closure["obligation_model"])
+        self.assertTrue(closure["hardware_safety_preflight_mandatory"])
+        self.assertTrue(closure["software_coexistence_cap175_mandatory"])
+        self.assertFalse(closure["historical_143_429_evidence_auto_inheritance"])
+        self.assertTrue(closure["physical_requalification_required_for_active_release"])
+        self.assertFalse(closure["global_promotion_claim"])
+        required = set(manifest["required_repository_paths"])
+        for path in (
+            "canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json",
+            "canonical/current-host-capability-proof-recipes.json",
+            "src/fa3_full_current_host_preflight.py",
+            "src/fa3_current_host_batch_planner.py",
+            "src/fa3_current_host_batch_integrity.py",
+            "src/fa3_current_host_structural_impact_gate.py",
+        ):
+            self.assertIn(path, required)
+
+
 if __name__ == "__main__":
     unittest.main()

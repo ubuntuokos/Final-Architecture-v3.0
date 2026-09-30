@@ -2,7 +2,7 @@
   "schema": "fa3.current-host-capability-proof-recipes.v1",
   "decision_id": "FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19",
   "semantics": "CAPABILITY_SPECIFIC_REAL_CURRENT_HOST_PROOF_RECIPE_NOT_RUNTIME_PASS_BY_REGISTRATION",
-  "capability_count": 149,
+  "capability_count": 175,
   "requirements": {
     "synthetic_current_host_pass_allowed": false,
     "hosted_ci_current_host_pass_allowed": false,
@@ -1847,5 +1847,37 @@
     }
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "shared_recipe_count": 149,
+  "dedicated_capability_count": 26,
+  "dedicated_capability_ids": [
+    "CAP-001",
+    "CAP-002",
+    "CAP-003",
+    "CAP-004",
+    "CAP-005",
+    "CAP-006",
+    "CAP-007",
+    "CAP-008",
+    "CAP-009",
+    "CAP-010",
+    "CAP-011",
+    "CAP-012",
+    "CAP-013",
+    "CAP-014",
+    "CAP-015",
+    "CAP-016",
+    "CAP-017",
+    "CAP-018",
+    "CAP-019",
+    "CAP-020",
+    "CAP-028",
+    "CAP-054",
+    "CAP-074",
+    "CAP-075",
+    "CAP-076",
+    "CAP-080"
+  ],
+  "coverage_semantics": "ACTIVE_175_EQUALS_SHARED_RECIPES_PLUS_DEDICATED_CAPABILITY_PRODUCERS",
+  "required_test_obligation_count": 525
 }

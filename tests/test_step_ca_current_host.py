@@ -7,7 +7,7 @@ COLLECTOR_SPEC=importlib.util.spec_from_file_location("fa3_step_ca_current_host_
 COLLECTOR=importlib.util.module_from_spec(COLLECTOR_SPEC); COLLECTOR_SPEC.loader.exec_module(COLLECTOR)
 def good():
  d="a"*64
- return {"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":g.PROVIDER_ID,"status":"PASS","evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS","synthetic":False,"supply_chain":{"status":"PASS","server":{"version":"0.30.2","asset_sha256":d,"binary_sha256":d,"sigstore_verified":True},"client":{"version":"0.30.6","asset_sha256":d,"binary_sha256":d,"sigstore_verified":True}},"root_ceremony":{"status":"PASS","network_default_route_present":True,"root_private_key_bytes_collected":False,"root_private_key_exported_online":False,"chain_verification":"PASS"},"activation":{"status":"PASS","service_user":"fa3-step-ca","root_private_key_present_online":False,"intermediate_key_encrypted":True,"systemd_credential_unlock":True,"transfer_bundle_removed":True},"runtime":{"service_active":True,"bind":"127.0.0.1:9443","root_private_key_present_online":False,"certificate_chain_valid":True},"e2e":{"acme_issue_pass":True,"acme_reorder_pass":True,"mtls_pass":True,"ssh_certificate_pass":True,"trust_bundle_pass":True,"max_observed_tls_ttl_hours":0.2},"backup_restore":{"status":"PASS","root_private_key_in_backup":False,"unlock_secret_in_backup":False,"shadow_health_pass":True,"post_restore_issuance_pass":True},"secret_values_collected":False,"runtime_promotion_eligible":True,"global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143}
+ return {"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":g.PROVIDER_ID,"status":"PASS","evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS","synthetic":False,"supply_chain":{"status":"PASS","server":{"version":"0.30.2","asset_sha256":d,"binary_sha256":d,"sigstore_verified":True},"client":{"version":"0.30.6","asset_sha256":d,"binary_sha256":d,"sigstore_verified":True}},"root_ceremony":{"status":"PASS","network_default_route_present":True,"root_private_key_bytes_collected":False,"root_private_key_exported_online":False,"chain_verification":"PASS"},"activation":{"status":"PASS","service_user":"fa3-step-ca","root_private_key_present_online":False,"intermediate_key_encrypted":True,"systemd_credential_unlock":True,"transfer_bundle_removed":True},"runtime":{"service_active":True,"bind":"127.0.0.1:9443","root_private_key_present_online":False,"certificate_chain_valid":True},"e2e":{"acme_issue_pass":True,"acme_reorder_pass":True,"mtls_pass":True,"ssh_certificate_pass":True,"trust_bundle_pass":True,"max_observed_tls_ttl_hours":0.2},"backup_restore":{"status":"PASS","root_private_key_in_backup":False,"unlock_secret_in_backup":False,"shadow_health_pass":True,"post_restore_issuance_pass":True},"secret_values_collected":False,"runtime_promotion_eligible":True,"global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":g.ACTIVE_CAPABILITY_COUNT}
 class T(unittest.TestCase):
  def test_good(self): self.assertEqual([],g.validate_receipt(good()))
  def test_root_online_fails(self):
@@ -129,11 +129,13 @@ class T(unittest.TestCase):
   self.assertIn('if [[ -n "$PID" ]] && kill -0 "$PID"',s)
   self.assertIn('if [[ "$PRIMARY_STOPPED" == true ]]; then systemctl start fa3-step-ca.service; fi',s)
   self.assertIn("trap cleanup EXIT",s)
- def test_current_host_runtime_promoted_only(self):
+ def test_current_host_runtime_requires_fresh_requalification_after_surface_change(self):
   x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text())
-  self.assertEqual("CURRENT_HOST_PRODUCTION_E2E_PASS",x["status"])
-  self.assertTrue(x["production_runtime_promoted"])
+  self.assertEqual("PENDING_FRESH_CURRENT_HOST_REQUALIFICATION",x["status"])
+  self.assertFalse(x["production_runtime_promoted"])
+  self.assertTrue(x["fresh_current_host_requalification_required"])
+  self.assertFalse(x["historical_evidence_reused_for_active_promotion"])
   self.assertEqual("CURRENT_HOST_PROVIDER_RUNTIME_ONLY",x["production_promotion_scope"])
   self.assertFalse(x["global_promotion_claim"])
-  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["durable_current_host_evidence_reference"])
+  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["historical_current_host_evidence_reference"])
 if __name__=="__main__": unittest.main()

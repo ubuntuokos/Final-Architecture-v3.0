@@ -127,8 +127,19 @@ def recipe_map(root: Path) -> dict[str, dict[str, Any]]:
         if cap in out:
             raise RuntimeError(f"duplicate proof recipe: {cap}")
         out[cap] = row
-    if len(out) != data.get("capability_count"):
-        raise RuntimeError("recipe count mismatch")
+    expected_shared = data.get("shared_recipe_count", data.get("capability_count"))
+    if len(out) != expected_shared:
+        raise RuntimeError("shared recipe count mismatch")
+    active_count = data.get("capability_count")
+    dedicated = data.get("dedicated_capability_ids", [])
+    if not isinstance(active_count, int) or not isinstance(dedicated, list):
+        raise RuntimeError("active/dedicated recipe coverage metadata malformed")
+    if any(not isinstance(cap, str) for cap in dedicated):
+        raise RuntimeError("dedicated capability id malformed")
+    if set(out).intersection(dedicated):
+        raise RuntimeError("shared and dedicated current-host capability coverage overlap")
+    if len(out) + len(set(dedicated)) != active_count:
+        raise RuntimeError("shared + dedicated current-host capability coverage mismatch")
     return out
 
 

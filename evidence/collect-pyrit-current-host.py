@@ -6,8 +6,14 @@ import hashlib
 import importlib.metadata
 import json
 import shutil
+import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROVIDER_ID = "FA3-PROVIDER-PYRIT-001"
 ADMISSION_ID = "FA3-PYRIT-RUNTIME-ADMISSION-001"
 RELEASE = "v1.1.0"
@@ -112,7 +118,7 @@ def main() -> int:
         "runtime_admission_eligible": not errors,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "capability_count_after": 143,
+        "capability_count_after": ACTIVE_CAPABILITY_COUNT,
     }
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

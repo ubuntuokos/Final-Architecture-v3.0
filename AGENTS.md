@@ -73,3 +73,14 @@ If the function does not exist, stop at necessity and placement assessment until
 If a function is useful to more than one FA3 application, the functional core must be placed in one shared FA3 layer/service/contract and consumed through application-specific adapters. Duplicate functional cores require an explicit reviewed exception. Shared-function impact analysis must cover planned, in-progress and already materialized applications and must preserve existing verified capabilities during migration.
 
 Every consuming application receives its own manual projection based on its actual UI/workflow. A function may be documented as generally available only after implementation and required verification. Structural runtime changes also require matching Current Host alignment; static documentation never creates current-host PASS.
+
+## Current Host structural co-development rule
+
+Every change that modifies FA3 structural behavior must assess and reconcile its Current Host impact in the same development changeset. The canonical policy is `canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json`.
+
+- Structural changes to architecture, authority boundaries, orchestration/conductor behavior, runtime/provider admission, resource handling, security, evidence/promotion, licensing/rights, hardware safety, Software Coexistence, UAF/MCP or related governance may not silently omit Current Host work.
+- A structurally affected change must add a `canonical/current-host-impact/*.json` record with schema `fa3.current-host-structural-impact.v1`.
+- Use `RECONCILED` when Current Host surfaces change; list the changed Current Host companion files and explicitly declare whether fresh physical requalification is required.
+- Use `NO_RUNTIME_IMPACT` only with a substantive rationale and `physical_requalification_required=false`.
+- Historical Current Host evidence is immutable and must never be inherited as proof for a structurally changed active release.
+- The fail-closed gate `src/fa3_current_host_structural_impact_gate.py` and workflow `.github/workflows/fa3-current-host-structural-impact.yml` enforce this rule.

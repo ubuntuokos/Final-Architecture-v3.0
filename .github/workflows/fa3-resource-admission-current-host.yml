@@ -246,4 +246,4 @@ jobs:
             --base main \
             --head "$FA3_RECONCILIATION_BRANCH" \
             --title 'FA3: reconcile real current-host resource admission evidence' \
-            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the 143-capability count, and future workloads still require fresh HRB authorization and, when an accelerator is requested, a fresh HRB accelerator lease and fresh admission.'
+            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the active 175-capability baseline, and future workloads still require fresh HRB authorization and, when an accelerator is requested, a fresh HRB accelerator lease and fresh admission.'

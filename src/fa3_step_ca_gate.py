@@ -79,6 +79,52 @@ def git_blob_sha(path: Path) -> str:
     header = f"blob {len(data)}\0".encode()
     return hashlib.sha1(header + data).hexdigest()
 
+def historical_current_host_evidence_valid(ev: dict[str, Any]) -> bool:
+    flags = ev.get("required_evidence_flags", {})
+    required_flags = {
+        "supply_chain_pass", "offline_root_ceremony_pass", "activation_pass",
+        "root_private_key_never_exported_online", "systemd_credential_unlock",
+        "activation_transfer_bundle_removed", "acme_issue_pass", "acme_reorder_pass",
+        "host_port_80_untouched", "temporary_ca_override_restored", "mtls_pass",
+        "ssh_certificate_pass", "trust_bundle_pass", "workload_certificate_ttl_le_24h",
+        "backup_restore_pass", "shadow_health_pass", "post_restore_issuance_pass",
+        "backup_excludes_root_private_key", "backup_excludes_unlock_secret",
+        "no_secret_values_collected",
+    }
+    blobs = ev.get("source", {}).get("runtime_surface_git_blobs", {})
+    required_runtime_paths = {
+        "bin/fa3-step-ca-bootstrap.sh",
+        "bin/fa3-step-ca-root-ceremony.sh",
+        "bin/fa3-step-ca-activate.sh",
+        "bin/fa3-step-ca-e2e.sh",
+        "bin/fa3-step-ca-backup-restore-drill.sh",
+        "evidence/collect-step-ca-current-host.py",
+        "src/fa3_step_ca_current_host_gate.py",
+    }
+    inv = ev.get("invariants", {})
+    return (
+        ev.get("schema") == "fa3.current-host-evidence-reference.v1"
+        and ev.get("id") == CURRENT_HOST_EVIDENCE_ID
+        and ev.get("provider_id") == PROVIDER_ID
+        and ev.get("result") == "PASS"
+        and ev.get("status") == "CURRENT_HOST_ADMITTED"
+        and ev.get("evidence_level") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and ev.get("synthetic") is False
+        and ev.get("global_promotion_claim") is False
+        and ev.get("source", {}).get("tested_main_sha") == TESTED_MAIN_SHA
+        and ev.get("source", {}).get("raw_receipt_committed") is False
+        and set(blobs) == required_runtime_paths
+        and all(isinstance(blobs.get(rel), str) and re.fullmatch(r"[0-9a-f]{40}", blobs.get(rel, "")) for rel in required_runtime_paths)
+        and all(flags.get(name) is True for name in required_flags)
+        and inv.get("secret_values_collected") is False
+        and inv.get("provider_is_architectural_authority") is False
+        and inv.get("new_capabilities") == 0
+        and inv.get("new_architectural_authorities") == 0
+        and isinstance(inv.get("capability_count_after"), int)
+        and inv.get("capability_count_after") <= CAPABILITY_COUNT
+        and inv.get("global_fa3_promotion_claim") is False
+    )
+
 def current_host_evidence_valid(root: Path, ev: dict[str, Any]) -> bool:
     flags = ev.get("required_evidence_flags", {})
     required_flags = {
@@ -232,12 +278,13 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append("provider")
     provider_promotion = p["provider"].get("promotion", {})
     if not (
-        p["provider"].get("runtime_activation_status") == "ADMITTED_CURRENT_HOST"
+        p["provider"].get("runtime_activation_status") == "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION"
         and p["provider"].get("runtime_promotion_decision") == PROMOTION_DECISION_ID
-        and provider_promotion.get("production_runtime_promoted") is True
+        and provider_promotion.get("production_runtime_promoted") is False
         and provider_promotion.get("scope") == "CURRENT_HOST_PROVIDER_RUNTIME_ONLY"
-        and provider_promotion.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
-        and provider_promotion.get("tested_main_sha") == TESTED_MAIN_SHA
+        and provider_promotion.get("historical_current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and provider_promotion.get("fresh_current_host_requalification_required") is True
+        and provider_promotion.get("active_runtime_promotion_claim") is False
         and provider_promotion.get("global_promotion_claim") is False
     ):
         findings.append("provider-promotion")
@@ -291,28 +338,32 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append("enforcement")
     admission = p["admission"]
     if not (
-        admission.get("status") == "ADMITTED_CURRENT_HOST"
+        admission.get("status") == "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION"
         and admission.get("current_host_evidence_required") is True
-        and admission.get("current_blockers") == []
-        and admission.get("production_runtime_promoted") is True
+        and admission.get("current_blockers") == ["FRESH_EXACT_HEAD_CURRENT_HOST_E2E_REQUIRED"]
+        and admission.get("production_runtime_promoted") is False
         and admission.get("global_promotion_claim") is False
         and admission.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
         and admission.get("promotion_decision") == PROMOTION_DECISION_ID
         and admission.get("immutable_runtime_pin", {}).get("binary_artifact_digest_status") == "VERIFIED_CURRENT_HOST_AMD64"
-        and admission.get("current_host_closure", {}).get("status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
-        and admission.get("current_host_closure", {}).get("tested_main_sha") == TESTED_MAIN_SHA
+        and admission.get("current_host_closure", {}).get("status") == "HISTORICAL_PASS_ACTIVE_REQUALIFICATION_REQUIRED"
+        and admission.get("current_host_closure", {}).get("historical_tested_main_sha") == TESTED_MAIN_SHA
+        and admission.get("current_host_closure", {}).get("active_tested_main_sha") is None
+        and admission.get("current_host_closure", {}).get("fresh_current_host_requalification_required") is True
     ):
         findings.append("admission")
     conf = p["conformance"]
     if not (
-        conf.get("status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        conf.get("status") == "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION"
         and conf.get("synthetic_evidence_allowed_for_promotion") is False
         and conf.get("current_host_receipt") == "evidence/receipts/step-ca-current-host.json"
         and conf.get("current_host_receipt_persistence") == "LOCAL_GITIGNORED_RUNTIME_EVIDENCE"
         and conf.get("durable_current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
         and conf.get("tested_main_sha") == TESTED_MAIN_SHA
-        and conf.get("production_runtime_promoted") is True
+        and conf.get("production_runtime_promoted") is False
         and conf.get("production_promotion_scope") == "CURRENT_HOST_PROVIDER_RUNTIME_ONLY"
+        and conf.get("fresh_current_host_requalification_required") is True
+        and conf.get("historical_evidence_reused_for_active_promotion") is False
         and conf.get("global_promotion_claim") is False
         and conf.get("promotion_decision") == PROMOTION_DECISION_ID
     ):
@@ -322,8 +373,10 @@ def reference_check(root: Path) -> dict[str, Any]:
         gate.get("id") == "FA3-GATE-STEP-CA-001" and gate.get("gateset_id") == GATE_ID
         and gate.get("fail_closed") is True and gate.get("rule_count") == len(P0_INVARIANTS)
         and gate.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
-        and gate.get("current_host_runtime_status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
-        and gate.get("production_runtime_promoted") is True
+        and gate.get("current_host_runtime_status") == "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION"
+        and gate.get("production_runtime_promoted") is False
+        and gate.get("fresh_current_host_requalification_required") is True
+        and gate.get("historical_evidence_reused_for_active_promotion") is False
         and gate.get("production_promotion_scope") == "CURRENT_HOST_PROVIDER_RUNTIME_ONLY"
         and gate.get("global_promotion_claim") is False
         and gate.get("runtime_promotion_decision") == PROMOTION_DECISION_ID
@@ -337,8 +390,10 @@ def reference_check(root: Path) -> dict[str, Any]:
     ):
         findings.append("evidence")
     current_host_ev = p["current_host_evidence"]
-    if not current_host_evidence_valid(root, current_host_ev):
-        findings.append("current-host-evidence")
+    if not historical_current_host_evidence_valid(current_host_ev):
+        findings.append("historical-current-host-evidence")
+    if current_host_evidence_valid(root, current_host_ev):
+        findings.append("stale-current-host-evidence-unexpectedly-valid-for-active-source")
     release = p["release"]
     if not (
         release.get("runtime_promotion_decision_id") == PROMOTION_DECISION_ID
@@ -391,7 +446,7 @@ def main() -> int:
     result = "PASS" if reference["result"] == regressions["result"] == "PASS" else "FAIL"
     print(json.dumps({"schema":"fa3.step-ca-gate-report.v1","gate_id":GATE_ID,
         "provider_id":PROVIDER_ID,"reference":reference,"regressions":regressions,
-        "production_runtime_promoted":True,"production_promotion_scope":"CURRENT_HOST_PROVIDER_RUNTIME_ONLY",
+        "production_runtime_promoted":False,"production_promotion_scope":"CURRENT_HOST_PROVIDER_RUNTIME_ONLY",
         "global_promotion_claim":False,"result":result}, indent=2, sort_keys=True))
     return 0 if result == "PASS" else 1
 

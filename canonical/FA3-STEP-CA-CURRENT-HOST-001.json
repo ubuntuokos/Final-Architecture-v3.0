@@ -47,7 +47,7 @@
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "root_ceremony": {
     "runner": "bin/fa3-step-ca-root-ceremony.sh",
     "custody": "FA3_SESSION_VAULT_LUKS2_IMAGE",
@@ -57,5 +57,7 @@
     "online_bundle": "$XDG_RUNTIME_DIR/fa3-step-ca-transfer",
     "online_bundle_lifecycle": "PURGED_AFTER_SUCCESSFUL_ACTIVATION",
     "network_isolation_required": false
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
