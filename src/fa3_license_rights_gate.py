@@ -105,7 +105,7 @@ def gate(root: Path) -> dict[str, Any]:
         "release_schema": "canonical/schemas/release-license-compliance-receipt.v1.json",
         "automated_code_policy": "canonical/supply-chain-license-policy.json",
         "retro_inventory": "canonical/license-rights-retro-audit-inventory.json",
-        "jev_rights_descriptor": "canonical/descriptors/FA3-RIGHTS-JEV-RADAR-SNAPSHOT-001.json",
+        "jev_rights_descriptor": "canonical/descriptors/FA3-RIGHTS-THIRD-PARTY-RADAR-SNAPSHOT-001.json",
     }
     data: dict[str, dict[str, Any]] = {}
     for key, rel in paths.items():
