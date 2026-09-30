@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.license-rights-descriptor-registry.v1",
+  "id": "FA3-LICENSE-RIGHTS-DESCRIPTOR-REGISTRY-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "status": "CANONICAL_IN_PROGRESS",
+  "entries": [
+    {
+      "subject_id": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+      "descriptor": null,
+      "disposition": "REVIEW_REQUIRED",
+      "audit_status": "PROVENANCE_EVIDENCE_INCOMPLETE"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
+      "descriptor": null,
+      "disposition": "REVIEW_REQUIRED",
+      "audit_status": "PROVENANCE_AND_EXTERNAL_RUNTIME_BOUNDARY_INCOMPLETE"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+      "descriptor": null,
+      "disposition": "REVIEW_REQUIRED",
+      "audit_status": "PROVENANCE_EVIDENCE_INCOMPLETE"
+    }
+  ],
+  "invariants": {
+    "third_party_runtime_or_service_terms_separate": true,
+    "native_subject_descriptor_does_not_relicense_external_dependency": true,
+    "release_included_subject_must_have_valid_descriptor": true
+  }
+}
