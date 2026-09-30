@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.release-license-compliance-receipt.v1",
+  "title": "FA3 Release License Compliance Receipt",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "release",
+    "repository_audit",
+    "sbom",
+    "notices",
+    "obligations",
+    "counts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.release-license-compliance-receipt.v1"
+    },
+    "release": {
+      "type": "object"
+    },
+    "repository_audit": {
+      "type": "object"
+    },
+    "sbom": {
+      "type": "object"
+    },
+    "notices": {
+      "type": "object"
+    },
+    "obligations": {
+      "type": "object"
+    },
+    "counts": {
+      "type": "object"
+    }
+  }
+}
