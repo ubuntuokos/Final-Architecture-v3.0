@@ -17,6 +17,11 @@ on:
       - "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json"
       - "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json"
       - "canonical/FA3-GATE-LICENSE-RIGHTS-001.json"
+      - "canonical/FA3-GATE-LICENSE-RIGHTS-AUDIT-001.json"
+      - "canonical/schemas/license-rights-audit-inventory.v1.json"
+      - "src/fa3_license_rights_audit.py"
+      - "tests/test_license_rights_audit.py"
+      - "docs/license-rights-retroactive-audit.md"
       - "canonical/schemas/license-rights-descriptor.v1.json"
       - "canonical/schemas/release-license-compliance-receipt.v1.json"
       - "canonical/supply-chain-license-policy.json"
@@ -43,6 +48,11 @@ on:
       - "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json"
       - "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json"
       - "canonical/FA3-GATE-LICENSE-RIGHTS-001.json"
+      - "canonical/FA3-GATE-LICENSE-RIGHTS-AUDIT-001.json"
+      - "canonical/schemas/license-rights-audit-inventory.v1.json"
+      - "src/fa3_license_rights_audit.py"
+      - "tests/test_license_rights_audit.py"
+      - "docs/license-rights-retroactive-audit.md"
       - "canonical/schemas/license-rights-descriptor.v1.json"
       - "canonical/schemas/release-license-compliance-receipt.v1.json"
       - "canonical/supply-chain-license-policy.json"
@@ -73,3 +83,19 @@ jobs:
         env:
           PYTHONPATH: src
         run: python src/fa3_license_rights_gate.py --root .
+      - name: Retroactive audit unit tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_license_rights_audit
+      - name: Retroactive audit inventory gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_license_rights_audit.py --root .
+      - name: Upload audit inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-license-rights-retroactive-audit
+          path: |
+            reports/license-rights-retroactive-audit-inventory.json
+            reports/license-rights-retroactive-audit-gate-report.json
+          if-no-files-found: error

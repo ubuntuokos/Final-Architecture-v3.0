@@ -42,7 +42,7 @@ class LicenseRightsTests(unittest.TestCase):
         result = gate(ROOT)
         self.assertEqual("PASS", result["result"])
         self.assertFalse(result["release_eligible"])
-        self.assertEqual("PENDING_RETROACTIVE_AUDIT", result["retroactive_audit_status"])
+        self.assertIn(result["retroactive_audit_status"], {"PENDING_RETROACTIVE_AUDIT", "IN_PROGRESS_RETROACTIVE_AUDIT"})
 
     def test_valid_descriptor(self):
         result = evaluate_descriptor(self.descriptor(), POLICY)

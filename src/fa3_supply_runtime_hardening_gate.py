@@ -77,6 +77,8 @@ def gate(root:Path)->dict[str,Any]:
       "rights_policy":"canonical/license-rights-policy.json",
       "rights_audit":"canonical/license-rights-audit-status.json",
       "rights_gate":"canonical/FA3-GATE-LICENSE-RIGHTS-001.json",
+      "rights_audit_plan":"canonical/license-rights-audit-plan.json",
+      "rights_audit_gate":"canonical/FA3-GATE-LICENSE-RIGHTS-AUDIT-001.json",
       "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
       "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
       "reservation_schema":"canonical/schemas/resource-reservation-plan.v1.json",
@@ -112,7 +114,9 @@ def gate(root:Path)->dict[str,Any]:
         if data["license_policy"].get("id")!="FA3-SCS-LICENSE-POLICY-001" or data["license_policy"].get("commercial_compatible_is_derived") is not True: findings.append(finding("SRH-015","automated license admission policy drift"))
         if data["rights_policy"].get("id")!="FA3-LICENSE-RIGHTS-POLICY-001" or data["rights_policy"].get("status")!="CANONICAL_FAIL_CLOSED" or data["rights_policy"].get("third_party_relicense_forbidden") is not True: findings.append(finding("SRH-016","license-rights authority policy drift"))
         if data["rights_gate"].get("gateset_id")!=GATESET_ID or data["rights_gate"].get("fail_closed") is not True: findings.append(finding("SRH-017","license-rights subgate binding drift"))
-        if data["rights_audit"].get("status")=="PENDING_RETROACTIVE_AUDIT":
+        if data["rights_audit_plan"].get("id")!="FA3-LICENSE-RIGHTS-AUDIT-PLAN-001": findings.append(finding("SRH-017A","license-rights audit plan binding drift"))
+        if data["rights_audit_gate"].get("id")!="FA3-GATE-LICENSE-RIGHTS-AUDIT-001" or data["rights_audit_gate"].get("fail_closed") is not True: findings.append(finding("SRH-017B","license-rights audit subgate binding drift"))
+        if data["rights_audit"].get("status") in {"PENDING_RETROACTIVE_AUDIT","IN_PROGRESS_RETROACTIVE_AUDIT"}:
             if data["rights_audit"].get("release_eligible") is not False or data["rights_audit"].get("global_runtime_promotion_claim") is not False: findings.append(finding("SRH-018","pending rights audit must fail closed for release/promotion"))
         elif data["rights_audit"].get("status")=="PASS":
             if data["rights_audit"].get("release_eligible") is not True: findings.append(finding("SRH-018","completed rights audit release state inconsistent"))
