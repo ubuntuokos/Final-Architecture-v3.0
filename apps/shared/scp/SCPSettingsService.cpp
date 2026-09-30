@@ -117,7 +117,12 @@ QVariantMap SCPSettingsService::evaluateRequest(const QVariantMap &context) cons
     }
 
     if (context.value("ai_request", false).toBool()) {
-        for (const auto &key : {"ai_enabled", "provider_admitted", "model_route_approved"}) {
+        const QStringList aiRequired{
+            QStringLiteral("ai_enabled"),
+            QStringLiteral("provider_admitted"),
+            QStringLiteral("model_route_approved")
+        };
+        for (const auto &key : aiRequired) {
             if (!context.value(key, false).toBool()) {
                 reasons << QStringLiteral("AI_POLICY_DENY:") + key;
             }
