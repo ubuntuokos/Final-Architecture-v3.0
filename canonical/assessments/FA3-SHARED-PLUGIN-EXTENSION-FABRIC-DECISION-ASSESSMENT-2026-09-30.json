@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "covered_ids": [
+    "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "Shared component admission, host compatibility, capability-gain projection, explicit activation and hierarchical AI enable/disable enforcement are deterministic fail-closed policy operations. Decision Fabric must not decide whether a component is trusted, expand its eligible application set beyond declared host contracts, enable AI, select a model or provider, bypass Layer Guard or Orchestrator/Conductor scope, alter HRB placement, weaken Software Coexistence or Hardware Safety Envelope requirements, or promote current-host evidence.",
+  "decision_points": [],
+  "not_delegated": [
+    "plugin or extension admission",
+    "application compatibility and capability-gain eligibility",
+    "component activation",
+    "global application module component or capability AI enable/disable policy",
+    "provider or model selection",
+    "network egress authorization",
+    "resource placement or accelerator selection",
+    "layer or orchestrator/conductor scope enforcement",
+    "Software Coexistence admission",
+    "Hardware Safety Envelope enforcement",
+    "current-host evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Shared Plugin & Extension Fabric against existing Reuse Discovery, Skill Fabric, Model Router, HRB, Security Governance, Software Coexistence, Hardware Safety Envelope and current-host evidence boundaries",
+    "result": "NO_NEW_DECISION_FABRIC_DECISION_POINT_REQUIRED",
+    "note": "Eligibility and denial are deterministic contract checks. Any later semantic choice remains owned by the already-canonical consumer fabric after deterministic eligibility and authorization."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.shared-plugin-extension-fabric.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "name": "Shared Plugin & Extension Fabric",
+  "status": "CANONICAL_MATERIALIZED",
+  "component_scope": "SHARED_ONLY",
+  "component_kinds": [
+    "PLUGIN",
+    "EXTENSION"
+  ],
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "binding_policy": {
+    "capability_based": true,
+    "host_contract_based": true,
+    "single_application_hard_binding": false,
+    "explicit_activation_required": true,
+    "automatic_activation": false,
+    "candidate_projection_is_not_authorization": true,
+    "application_local_enable_disable_supported": true,
+    "component_reuse_across_multiple_applications": true,
+    "capability_gain_required": true
+  },
+  "ai_access": {
+    "toggle_levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "COMPONENT",
+      "CAPABILITY"
+    ],
+    "state_model": [
+      "ENABLED",
+      "DISABLED",
+      "INHERIT"
+    ],
+    "external_shared_component_default": "DISABLED",
+    "local_and_remote_routes_separately_controllable": true,
+    "global_disable_is_non_overridable": true,
+    "child_policy_cannot_expand_global_remote_egress": true,
+    "direct_provider_access": false,
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "silent_fallback": false,
+    "background_ai_when_disabled": false,
+    "disabled_component_may_start_model": false,
+    "non_ai_path_preserved_when_functionally_meaningful": true
+  },
+  "authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "security_admission": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "hardware": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "policy": "FA3-AUTH-POLICY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "governance": {
+    "layer_guard_required": true,
+    "orchestrator_conductor_scope_enforced": true,
+    "software_coexistence_required": true,
+    "hardware_safety_envelope_required": true,
+    "license_security_dependency_admission_required": true,
+    "donor_capability_preservation_required": true,
+    "regression_free_migration_required": true,
+    "retroactive_application_required": true
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "intent_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001.json",
+  "project_status": "STATIC_IMPLEMENTATION_READY_RUNTIME_PROMOTION_NOT_CLAIMED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_CAPABILITY_AND_EXISTING_IMPLEMENTATION_DISCOVERY_BEFORE_COMPONENT_ADOPTION"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "CENTRAL_DONOR_AND_REFERENCE_SOURCE_DISCOVERY"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "EXISTING_SHARED_PACKAGE_ADMISSION_AND_HOST_PROJECTION_PATTERNS"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_LOGICAL_AI_ROUTE_AND_PROVIDER_MODEL_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_RUNTIME_RESOURCE_PLACEMENT_AND_ACCELERATOR_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "COMPONENT_SECURITY_AND_EXECUTION_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "AUDIT_AND_CURRENT_HOST_EVIDENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PER_APPLICATION_PRIVATE_PLUGIN_REGISTRY",
+      "reason": "PLUGIN_AND_EXTENSION_COMPONENTS_MUST_BE_SHARED_AND_CAPABILITY_BOUND"
+    },
+    {
+      "id": "DIRECT_COMPONENT_PROVIDER_OR_MODEL_SELECTION",
+      "reason": "MODEL_ROUTER_REMAINS_EXCLUSIVE_AI_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "AUTOMATIC_COMPONENT_ACTIVATION",
+      "reason": "DISCOVERY_AND_ELIGIBILITY_DO_NOT_AUTHORIZE_ACTIVATION"
+    },
+    {
+      "id": "SILENT_AI_FALLBACK",
+      "reason": "DISABLED_OR_UNAVAILABLE_AI_PATH_MUST_FAIL_CLOSED_WITHOUT_HIDDEN_PROVIDER_FALLBACK"
+    },
+    {
+      "id": "NEW_PLUGIN_EXECUTION_AUTHORITY",
+      "reason": "EXISTING_SECURITY_POLICY_LAYER_GUARD_ORCHESTRATOR_CONDUCTOR_AND_HOST_AUTHORITIES_REMAIN_CANONICAL"
+    }
+  ],
+  "external_pattern_sources": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_SHARED_FABRIC_CURRENT_HOST_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "covered_ids": [
+    "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001"
+  ],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "NO_KHRONOS_STANDARD_OR_SDK_REQUIRED_FOR_GENERIC_SHARED_PLUGIN_EXTENSION_POLICY_LAYER"
+    }
+  ]
+}

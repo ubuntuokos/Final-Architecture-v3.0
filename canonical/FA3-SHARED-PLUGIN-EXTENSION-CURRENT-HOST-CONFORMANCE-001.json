@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.shared-plugin-extension-current-host-conformance.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-CURRENT-HOST-CONFORMANCE-001",
+  "status": "PENDING_CURRENT_HOST",
+  "physical_proof_required": true,
+  "production_promotion": false,
+  "historical_or_simulated_substitution_allowed": false,
+  "required_positive_cases": [
+    "same_admitted_component_loads_in_two_distinct_eligible_FA3_applications",
+    "application_level_enable_disable_changes_runtime_access_without_reinstall",
+    "module_level_disable_blocks_AI_request",
+    "component_level_disable_blocks_AI_request",
+    "capability_level_disable_blocks_AI_request",
+    "global_AI_disable_blocks_all_shared_component_AI_requests",
+    "local_AI_enable_routes_only_through_Model_Router",
+    "remote_AI_requires_global_egress_permission_and_existing_policy",
+    "non_AI_component_functionality_remains_available_when_AI_disabled_where_supported"
+  ],
+  "required_negative_cases": [
+    "direct_provider_call_rejected",
+    "silent_fallback_rejected",
+    "incompatible_host_binding_rejected",
+    "automatic_activation_rejected",
+    "single_application_hard_binding_rejected",
+    "path_port_service_cache_socket_or_runtime_collision_rejected",
+    "hardware_parameter_mutation_or_safety_bypass_rejected"
+  ],
+  "required_authorities": {
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "hrb": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001"
+  },
+  "receipt": "evidence/receipts/shared-plugin-extension-current-host.json",
+  "receipt_present": false
+}

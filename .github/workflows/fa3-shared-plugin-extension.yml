@@ -1,0 +1,66 @@
+name: FA3 Shared Plugin Extension Fabric
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001.json'
+      - 'canonical/shared-plugin-extension-registry.json'
+      - 'canonical/shared-plugin-extension-migration-inventory.json'
+      - 'canonical/FA3-SHARED-PLUGIN-EXTENSION-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/decisions/FA3-DEC-SHARED-PLUGIN-EXTENSION-AI-ACCESS-2026-09-30.json'
+      - 'canonical/shared-plugin-extension-enforcement.json'
+      - 'canonical/intents/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-REUSE-ASSESSMENT-001.json'
+      - 'canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-DECISION-ASSESSMENT-2026-09-30.json'
+      - 'src/fa3_shared_plugin_extension_fabric.py'
+      - 'src/fa3_shared_plugin_extension_gate.py'
+      - 'src/fa3_shared_plugin_extension_current_host_gate.py'
+      - 'tests/test_shared_plugin_extension_fabric.py'
+      - 'docs/shared-plugin-extension-fabric.md'
+      - '.github/workflows/fa3-shared-plugin-extension.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001.json'
+      - 'canonical/shared-plugin-extension-registry.json'
+      - 'canonical/shared-plugin-extension-migration-inventory.json'
+      - 'canonical/FA3-SHARED-PLUGIN-EXTENSION-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/decisions/FA3-DEC-SHARED-PLUGIN-EXTENSION-AI-ACCESS-2026-09-30.json'
+      - 'canonical/shared-plugin-extension-enforcement.json'
+      - 'canonical/intents/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-REUSE-ASSESSMENT-001.json'
+      - 'canonical/assessments/FA3-SHARED-PLUGIN-EXTENSION-FABRIC-DECISION-ASSESSMENT-2026-09-30.json'
+      - 'src/fa3_shared_plugin_extension_fabric.py'
+      - 'src/fa3_shared_plugin_extension_gate.py'
+      - 'src/fa3_shared_plugin_extension_current_host_gate.py'
+      - 'tests/test_shared_plugin_extension_fabric.py'
+      - 'docs/shared-plugin-extension-fabric.md'
+      - '.github/workflows/fa3-shared-plugin-extension.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-and-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_shared_plugin_extension_fabric.py src/fa3_shared_plugin_extension_gate.py src/fa3_shared_plugin_extension_current_host_gate.py
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_shared_plugin_extension_fabric -v
+      - name: Shared plugin extension gate
+        run: PYTHONPATH=src python src/fa3_shared_plugin_extension_gate.py --root .
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-shared-plugin-extension-gate
+          path: reports/shared-plugin-extension-gate-report.json
