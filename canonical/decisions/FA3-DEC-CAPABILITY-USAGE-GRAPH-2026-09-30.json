@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.capability-usage-graph-decision.v1",
+  "id": "FA3-DEC-CAPABILITY-USAGE-GRAPH-2026-09-30",
+  "status": "APPROVED_OWNER_POLICY",
+  "effective_date": "2026-09-30",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "authority": false,
+  "runtime_promotion": false,
+  "source_of_truth": "FA3-APPLICATION-DONOR-LINKS-001::donor_usage_records",
+  "purpose": "Maintain one derived Donor ↔ Capability ↔ Consumer dependency graph so donor, capability and consumer changes can be impact-resolved without creating a second registry or authority.",
+  "rules": {
+    "usage_graph_single_edge_source_of_truth": true,
+    "donor_identity_must_exist_in_published_donor_registry": true,
+    "unmarked_or_unregistered_source_cannot_enter_usage_graph_as_donor": true,
+    "capability_ids_derived_from_canonical_bindings_only": true,
+    "manual_capability_id_inference_forbidden": true,
+    "unresolved_binding_cannot_support_active_capability_use": true,
+    "typed_consumers_required_for_new_usage": true,
+    "reverse_views_derived_only": true,
+    "used_by_and_uses_hand_maintenance_forbidden": true,
+    "donor_change_requires_capability_and_consumer_impact_lookup": true,
+    "current_host_impact_classification_required": true,
+    "current_host_impact_is_declaration_not_runtime_evidence": true,
+    "capability_non_regression_required": true,
+    "automatic_adoption": false,
+    "automatic_code_import": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "automatic_runtime_activation": false
+  },
+  "consumer_kinds": [
+    "APPLICATION",
+    "SHARED_MODULE",
+    "PROFILE",
+    "AUTHORITY",
+    "GUI_SURFACE",
+    "TEST_HARNESS",
+    "CURRENT_HOST_PATH"
+  ],
+  "existing_authorities": {
+    "donor_identity": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "materialization": {
+    "declaration": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "generator": "src/fa3_capability_usage_graph.py",
+    "cli": "bin/fa3-capability-map",
+    "documentation": "docs/capability-usage-graph.md",
+    "regressions": "tests/test_capability_usage_graph.py",
+    "workflow": ".github/workflows/fa3-application-donor-inventory.yml"
+  },
+  "current_host_impact": "canonical/FA3-CAPABILITY-USAGE-GRAPH-CURRENT-HOST-IMPACT-001.json"
+}

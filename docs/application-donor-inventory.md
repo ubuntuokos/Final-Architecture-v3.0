@@ -15,6 +15,39 @@ An application does not automatically become a donor or an approved dependency.
 Its donor assessment starts at NOT_AUTOMATICALLY_ASSESSED; existing donor
 identity is linked only by exact normalized source key.
 
+## Donor ↔ Capability ↔ Consumer graph
+
+Actual donor use is declared once in `donor_usage_records` and projected by
+`src/fa3_capability_usage_graph.py` as:
+
+```text
+DONOR ↔ CAPABILITY ↔ CONSUMER
+```
+
+Consumers may be applications, shared modules, profiles, authority projections,
+GUI surfaces, test harnesses or Current Host paths. The generated
+`by_donor`, `by_capability` and `by_consumer` views are projections, not
+independent state.
+
+A usage edge references canonical profile/contract IDs through
+`fa3_binding_refs`. Capability IDs are derived only from those records'
+`capability_bindings`; manually inferred CAP IDs are forbidden. New usage also
+declares Current Host impact, but that declaration cannot create runtime
+authority or a PASS.
+
+Validate and inspect:
+
+    ./bin/fa3-capability-map --check --summary
+    ./bin/fa3-capability-map --donor FA3-DONOR-EXAMPLE-001
+    ./bin/fa3-capability-map --capability CAP-005
+    ./bin/fa3-capability-map --consumer APPLICATION:fa3.video-editor
+
+For donor-update impact:
+
+    ./bin/fa3-capability-map --previous-registry old-registry.json --check --output capability-update-impact.json
+
+See `docs/capability-usage-graph.md` for the complete contract.
+
 ## Cross-application relationships
 
 The relationship manifest identifies which application offers an artifact or
@@ -47,11 +80,7 @@ Plan one already-registered tutorial reference without executing tutorial comman
 
     ./bin/fa3-tutorial-reuse-plan --tutorial tutorial-reference.json --check --output tutorial-plan.json
 
-Only source-unique, materially changed donors trigger an impact report, and
-only exact app aliases and normalized source keys create app-specific review
-tasks. Repeated sightings or timestamp-only changes do not cause new reviews.
-Unmatched donors stay in the existing registry and remain available to
-Reuse Discovery for planning.
+Every donor-record change can be classified in the impact stream. The derived capability graph joins registered usage edges to changed donors, resolves affected canonical capability bindings and typed consumers, and reports Current Host reassessment requirements without creating runtime authority. Unmatched donors remain available to Reuse Discovery for planning.
 
 ## Tutorial-derived functions and shared-capability impact
 

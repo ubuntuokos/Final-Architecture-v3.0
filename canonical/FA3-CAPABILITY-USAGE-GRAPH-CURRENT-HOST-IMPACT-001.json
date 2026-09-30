@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.capability-usage-graph-current-host-impact.v1",
+  "id": "FA3-CAPABILITY-USAGE-GRAPH-CURRENT-HOST-IMPACT-001",
+  "date": "2026-09-30",
+  "status": "NO_RUNTIME_IMPACT",
+  "authority": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_delta": "NONE",
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claim": false,
+  "historical_evidence_reused": false,
+  "this_materialization": {
+    "derived_metadata_graph_only": true,
+    "new_runtime_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "new_hardware_requirement": false,
+    "hardware_mutation": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "model_provider_routing_change": false,
+    "host_resource_placement_change": false,
+    "secret_projection_change": false,
+    "current_host_probe_change": false,
+    "current_host_manifest_change": false,
+    "host_requalification_required_now": false,
+    "reason": "The materialization adds a static/CI dependency graph and impact classifier only. It does not alter any admitted runtime path, provider execution path, host resource policy, secret projection, service, port, socket, package or Current Host probe."
+  },
+  "future_edge_rule": {
+    "usage_edge_current_host_classification_required": true,
+    "structural_reassessment_state": "STRUCTURAL_REASSESSMENT_REQUIRED",
+    "runtime_requalification_state": "RUNTIME_REQUALIFICATION_REQUIRED",
+    "physical_runtime_evidence_required_before_promotion": true,
+    "map_classification_is_not_current_host_authority": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_resource_authority_preserved": true,
+    "hardware_safety_envelope_preserved": true
+  },
+  "software_coexistence": {
+    "host_mutation": false,
+    "global_environment_mutation": false,
+    "fixed_port_claim": false,
+    "upstream_uninstall_required": false,
+    "namespace_collision_introduced": false
+  }
+}
