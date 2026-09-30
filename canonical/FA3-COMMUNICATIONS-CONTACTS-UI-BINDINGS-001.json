@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.communications-contacts-ui-bindings.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-UI-BINDINGS-001",
+  "profile_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "status": "STATIC_MATERIALIZED_CURRENT_HOST_PENDING",
+  "standalone": {
+    "application_id": "FA3-COMMUNICATIONS-HUB-001",
+    "executable": "fa3-communications-hub",
+    "qml_surface": "apps/fa3-communications-hub/qml/CommunicationsSharedSurface.qml",
+    "surface_mode": "FULL",
+    "target_application_required_running": false
+  },
+  "embedded": {
+    "surface_id": "FA3-COMMUNICATIONS-SHARED-SURFACE-001",
+    "qml_reference": "apps/fa3-communications-hub/qml/CommunicationsSharedSurface.qml",
+    "surface_mode": "EMBEDDED",
+    "scope": "ALL_FUNCTIONALLY_RELEVANT_FA3_APPLICATIONS",
+    "binding_rule": "CONTEXT_AND_PERMISSION_INTERSECTION",
+    "global_mailbox_enumeration": false,
+    "global_address_book_enumeration": false,
+    "open_full_hub_preserves_context_not_permission_expansion": true
+  },
+  "direct_qml_network_execution": false,
+  "direct_provider_execution": false,
+  "direct_credential_entry": false,
+  "action_intent_only": true,
+  "retroactive_binding_status": "INVENTORY_REQUIRED_PER_APPLICATION_BEFORE_RUNTIME_PROMOTION",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}
