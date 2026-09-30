@@ -4,7 +4,7 @@ import argparse,json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from fa3_scope_authority_guard import guard_orchestration_delegation
+from fa3_scope_authority_guard import guard_orchestration_delegation, record_monitor_decision
 REGISTRY_REL=Path("canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json")
 ADMISSION_SCHEMA="fa3.orchestration-provider-current-host-admission.v1"
 EXISTING_RUNTIME_AUTHORITY_STATES={"EXISTING_CANONICAL_AUTHORITY"}
@@ -80,7 +80,7 @@ def route_task(root,task,*,runtime_execution=None,admission_receipts=None,decisi
     ranked=sorted(accepted,key=lambda s:(-_score(s,task)[0],_score(s,task)[1])); top=_score(ranked[0],task)[0]; ties=[s for s in ranked if _score(s,task)[0]==top]
     if len(ties)>1 and task.get("require_unambiguous",False): return {**common,"status":"HUMAN_ESCALATION","reason":"AMBIGUOUS_TOP_SPECIALIST","top_candidates":[{"specialist_id":s["id"],"provider":s["provider"],"score":top} for s in ties],"rejected":[r.as_dict() for r in rejected]}
     winner,trace=_advisory(ranked,decision_advisory)
-    scope_guard=guard_orchestration_delegation(root,task,winner)
+    scope_guard=record_monitor_decision(guard_orchestration_delegation(root,task,winner),event_kind="ORCHESTRATOR_ROUTE")
     if scope_guard.get("result")!="DELEGATE":
         return {**common,"status":"HUMAN_ESCALATION","reason":"SCOPE_AUTHORITY_GUARD_DENIED","scope_guard":scope_guard,"rejected":[r.as_dict() for r in rejected]}
     return {**common,"status":"ROUTED","specialist_id":winner["id"],"specialist_name":winner["name"],"provider":winner["provider"],"provider_id":winner["provider_id"],"score":_score(winner,task)[0],"authority_scope":winner.get("authority_scope",[]),"decision_fabric":trace,"scope_guard":scope_guard,"uaf_execution_required":True,"fallback_candidates":[{"specialist_id":s["id"],"provider":s["provider"],"score":_score(s,task)[0]} for s in ranked if s["id"]!=winner["id"]],"rejected":[r.as_dict() for r in rejected]}
