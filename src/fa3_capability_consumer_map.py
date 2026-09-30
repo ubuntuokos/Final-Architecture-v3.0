@@ -4,7 +4,8 @@ from __future__ import annotations
 import argparse, json
 from pathlib import Path
 from typing import Any
-DONOR="canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"; LINKS="canonical/FA3-APPLICATION-DONOR-LINKS-001.json"; APP="canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"; GUI="canonical/FA3-GUI-SURFACE-REGISTRY-001.json"; CAPABILITY_COUNT=175
+from fa3_release_baseline import module_active_capability_count
+DONOR="canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"; LINKS="canonical/FA3-APPLICATION-DONOR-LINKS-001.json"; APP="canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"; GUI="canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
 CONSUMER_KINDS={"APPLICATION","SHARED_MODULE","PROFILE","AUTHORITY","GUI_SURFACE","TEST_HARNESS","CURRENT_HOST_PATH"}; CH_STATES={"NO_RUNTIME_IMPACT","STRUCTURAL_REASSESSMENT_REQUIRED","RUNTIME_REQUALIFICATION_REQUIRED"}
 def load(path:Path)->dict[str,Any]:
  v=json.loads(path.read_text(encoding="utf-8"))
@@ -51,7 +52,7 @@ def build_map(root:Path)->dict[str,Any]:
   by_donor.setdefault(e["donor_id"],[]).append(e["id"])
   for cap in e["fa3_bindings"]["capability_ids"]: by_cap.setdefault(cap,[]).append(e["id"])
   for c in e["consumers"]: by_consumer.setdefault(c["kind"]+":"+c["id"],[]).append(e["id"])
- return {"schema":"fa3.capability-consumer-map.v1","derived":True,"authority":False,"capability_count":CAPABILITY_COUNT,"new_capability":False,"new_architectural_authority":False,"source_records":[DONOR,LINKS,APP,GUI],"edges":sorted(edges,key=lambda x:x["id"]),"views":{"by_donor":{k:sorted(v) for k,v in sorted(by_donor.items())},"by_capability":{k:sorted(v) for k,v in sorted(by_cap.items())},"by_consumer":{k:sorted(v) for k,v in sorted(by_consumer.items())}},"validation":{"result":"PASS" if not errors else "FAIL","findings":errors}}
+ return {"schema":"fa3.capability-consumer-map.v1","derived":True,"authority":False,"capability_count":module_active_capability_count(__file__),"new_capability":False,"new_architectural_authority":False,"source_records":[DONOR,LINKS,APP,GUI],"edges":sorted(edges,key=lambda x:x["id"]),"views":{"by_donor":{k:sorted(v) for k,v in sorted(by_donor.items())},"by_capability":{k:sorted(v) for k,v in sorted(by_cap.items())},"by_consumer":{k:sorted(v) for k,v in sorted(by_consumer.items())}},"validation":{"result":"PASS" if not errors else "FAIL","findings":errors}}
 def main()->int:
  p=argparse.ArgumentParser(); p.add_argument("--root",type=Path,default=Path(__file__).resolve().parents[1]); p.add_argument("--check",action="store_true"); p.add_argument("--output",type=Path); p.add_argument("--donor"); p.add_argument("--capability"); p.add_argument("--consumer"); a=p.parse_args(); r=build_map(a.root)
  key=None
