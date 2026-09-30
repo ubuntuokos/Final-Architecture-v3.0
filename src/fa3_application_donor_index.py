@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +39,43 @@ def changed_fields(old: dict[str, Any] | None, new: dict[str, Any] | None) -> li
     if old is None or new is None:
         return ["__record__"]
     return sorted(key for key in set(old) | set(new) if old.get(key) != new.get(key))
+
+
+def capability_refresh_status(registry: dict[str, Any], today: date | None = None) -> dict[str, Any]:
+    today = today or date.today()
+    period_days = 31
+    due: list[dict[str, Any]] = []
+    active = 0
+    for donor in registry.get("entries", []):
+        if donor.get("status") == "SUPERSEDED":
+            continue
+        active += 1
+        stamp = donor.get("capability_reviewed_at")
+        clock_source = "capability_reviewed_at"
+        if not stamp:
+            stamp = donor.get("first_seen")
+            clock_source = "first_seen_initial_grace"
+        try:
+            reviewed = date.fromisoformat(str(stamp))
+            age_days = (today - reviewed).days
+        except (TypeError, ValueError):
+            age_days = period_days
+        if age_days >= period_days:
+            due.append({
+                "donor_id": donor.get("donor_id"),
+                "source_key": donor.get("source", {}).get("normalized_key"),
+                "review_clock": stamp,
+                "review_clock_source": clock_source,
+                "age_days": age_days,
+                "required_action": "REFRESH_DONOR_CAPABILITY_LIST_AND_PROPAGATE_ALL_CHANGES",
+            })
+    return {
+        "period_days": period_days,
+        "active_donors": active,
+        "due_count": len(due),
+        "due": due,
+        "policy": "MONTHLY_DONOR_CAPABILITY_REFRESH_REQUIRED",
+    }
 
 
 def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -290,9 +328,13 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--summary", action="store_true")
+    parser.add_argument("--monthly-refresh-check", action="store_true")
     args = parser.parse_args()
     previous = load(args.previous_registry) if args.previous_registry else None
     result = build_index(args.root, previous=previous)
+    if args.monthly_refresh_check:
+        registry = load(args.root.resolve() / DONOR)
+        result["monthly_capability_refresh"] = capability_refresh_status(registry)
     if args.app:
         matches = [a for a in result["applications"] if a["application_id"] == args.app]
         if not matches:
@@ -309,7 +351,10 @@ def main() -> int:
         dst.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     display = {"counts": result["counts"], "validation": result["validation"]} if args.summary and "counts" in result else result
     print(json.dumps(display, ensure_ascii=False, indent=2))
-    return 1 if args.check and result["validation"]["result"] != "PASS" else 0
+    failed = args.check and result["validation"]["result"] != "PASS"
+    if args.monthly_refresh_check and result.get("monthly_capability_refresh", {}).get("due_count", 0):
+        failed = True
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
