@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 REGISTRY_REL = Path("canonical/FA3-AUTHORITY-CONTRACT-REGISTRY-001.json")
+LAYER_REGISTRY_REL = Path("canonical/FA3-LAYER-CONTRACT-REGISTRY-001.json")
 ENVELOPE_SCHEMA = "fa3.task-authority-envelope.v1"
 DIRECTOR_ID = "FA3-ORCHESTRATION-DIRECTOR-001"
 
@@ -31,6 +32,23 @@ def load_registry(root: Path | str) -> dict[str, Any]:
     if len(ids) != len(set(ids)) or any(not isinstance(x, str) or not x for x in ids):
         raise ScopeGuardError("authority registry actor ids invalid")
     return reg
+
+def load_layer_registry(root: Path | str) -> dict[str, Any]:
+    reg = _load(Path(root) / LAYER_REGISTRY_REL)
+    if reg.get("schema") != "fa3.layer-contract-registry.v1" or reg.get("id") != "FA3-LAYER-CONTRACT-REGISTRY-001":
+        raise ScopeGuardError("unexpected layer contract registry")
+    if reg.get("default_policy") != "DENY" or reg.get("new_architectural_authorities") != 0:
+        raise ScopeGuardError("layer registry must be fail-closed and non-authoritative")
+    layers = reg.get("layers")
+    if not isinstance(layers, list) or not layers:
+        raise ScopeGuardError("layer registry layers missing")
+    keys = [x.get("layer_key") for x in layers]
+    if len(keys) != len(set(keys)) or any(not isinstance(x, str) or not x for x in keys):
+        raise ScopeGuardError("layer registry keys invalid")
+    return reg
+
+def _layer_contract(reg: dict[str, Any], layer_key: str) -> dict[str, Any] | None:
+    return next((x for x in reg["layers"] if x.get("layer_key") == layer_key), None)
 
 def _contract(reg: dict[str, Any], actor_id: str) -> dict[str, Any] | None:
     return next((x for x in reg["actors"] if x.get("actor_id") == actor_id), None)
@@ -117,6 +135,59 @@ def _decision(envelope: Any, result: str, reason: str) -> dict[str, Any]:
         "result": result, "reason": reason, "execution_authority": False,
         "authority_expansion": False,
     }
+
+def evaluate_layer_task(root: Path | str, *, task_id: str, target_layer: str,
+                        canonical_capability_ids: list[str]) -> dict[str, Any]:
+    try:
+        required = set(_strings(canonical_capability_ids, "canonical_capability_ids"))
+    except ScopeGuardError as exc:
+        return _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", str(exc))
+    if not required:
+        return _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "CANONICAL_CAPABILITY_IDS_REQUIRED")
+    reg = load_layer_registry(root)
+    target = _layer_contract(reg, target_layer)
+    if target is None:
+        return _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_LAYER")
+    all_known = set()
+    for layer in reg["layers"]:
+        all_known.update(_strings(layer.get("allowed_capabilities", []), "allowed_capabilities"))
+    unknown = sorted(required - all_known)
+    if unknown:
+        decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DENY", "UNKNOWN_CANONICAL_CAPABILITY")
+        decision["unknown_capabilities"] = unknown
+        return decision
+    allowed = set(_strings(target.get("allowed_capabilities", []), "allowed_capabilities"))
+    if required.issubset(allowed):
+        decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "ALLOW", "LAYER_CONTRACT_MATCH")
+        decision["layer_key"] = target_layer
+        decision["canonical_capability_ids"] = sorted(required)
+        return decision
+    exact_targets = []
+    per_capability: dict[str, list[str]] = {}
+    for layer in reg["layers"]:
+        layer_caps = set(_strings(layer.get("allowed_capabilities", []), "allowed_capabilities"))
+        if required.issubset(layer_caps):
+            exact_targets.append(layer["layer_key"])
+        for cap in required:
+            if cap in layer_caps:
+                per_capability.setdefault(cap, []).append(layer["layer_key"])
+    if exact_targets:
+        decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "DELEGATE", "WRONG_LAYER")
+        decision["recommended_layers"] = sorted(exact_targets)
+        decision["canonical_capability_ids"] = sorted(required)
+        return decision
+    decision = _decision({"task_id": task_id, "target_actor": target_layer, "intent": "layer.task"}, "SPLIT", "CROSS_LAYER_TASK")
+    decision["capability_layer_candidates"] = {key: sorted(value) for key, value in sorted(per_capability.items())}
+    decision["canonical_capability_ids"] = sorted(required)
+    return decision
+
+def require_layer_permitted(root: Path | str, *, task_id: str, target_layer: str,
+                            canonical_capability_ids: list[str]) -> dict[str, Any]:
+    decision = evaluate_layer_task(root, task_id=task_id, target_layer=target_layer,
+                                   canonical_capability_ids=canonical_capability_ids)
+    if decision["result"] != "ALLOW":
+        raise ScopeGuardError(f"{decision['result']}:{decision['reason']}")
+    return decision
 
 def require_permitted(root: Path | str, envelope: dict[str, Any]) -> dict[str, Any]:
     decision = evaluate(root, envelope)
