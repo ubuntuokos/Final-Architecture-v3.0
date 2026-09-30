@@ -13,6 +13,8 @@ on:
       - "canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json"
       - "canonical/contracts/FA3-SHARED-CAPABILITY-CONTRACTS-001.json"
       - "src/fa3_communications_contacts.py"
+      - "evidence/collect-communications-contacts-current-host.py"
+      - "deployment/fa3-gui/install.sh"
       - "src/fa3_communications_contacts_gate.py"
       - "src/fa3_shared_capability_gate.py"
       - "src/fa3_enforce.py"
@@ -34,9 +36,11 @@ jobs:
         with:
           python-version: "3.13"
       - name: Syntax
-        run: python -m py_compile src/fa3_communications_contacts.py src/fa3_communications_contacts_gate.py src/fa3_shared_capability_gate.py
+        run: python -m py_compile src/fa3_communications_contacts.py src/fa3_communications_contacts_gate.py src/fa3_shared_capability_gate.py evidence/collect-communications-contacts-current-host.py
       - name: Targeted tests
-        run: PYTHONPATH=src python -m unittest tests.test_communications_contacts tests.test_communications_hub_ui tests.test_shared_capability_fabric -v
+        run: PYTHONPATH=src python -m unittest tests.test_communications_contacts tests.test_communications_hub_ui tests.test_communications_current_host_collector tests.test_shared_capability_fabric -v
+      - name: GUI installer source contract
+        run: bash deployment/fa3-gui/install.sh --check-source-contract
       - name: Shared capability gate
         run: ./bin/fa3-enforce shared-capability-fabric
       - name: Communications gate
