@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SCOPE-AUTHORITY-GUARD-001",
+  "covered_ids": [
+    "FA3-SCOPE-AUTHORITY-GUARD-001"
+  ],
+  "assessment": "PROHIBITED",
+  "rationale": "Scope and authority admission is a deterministic fail-closed security and architecture boundary. Decision Fabric must not rank, override, soften, expand or infer authority eligibility, delegation scope, parent scope, side-effect permission, actor identity or self-verification policy.",
+  "decision_points": [],
+  "not_delegated": [
+    "actor eligibility",
+    "intent admission",
+    "authority-scope membership",
+    "delegation target admission",
+    "parent-scope containment",
+    "side-effect permission",
+    "security authorization",
+    "model routing",
+    "host-resource admission",
+    "tool mediation",
+    "evidence verification"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "current FA3 project/donor radar and existing Decision Fabric applicability patterns",
+    "result": "NO_ADVISORY_DECISION_POINT_ADMITTED",
+    "note": "External patterns may inform static engineering design only; deterministic guard policy remains canonical and fail-closed."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
