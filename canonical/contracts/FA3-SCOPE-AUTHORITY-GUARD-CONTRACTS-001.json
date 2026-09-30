@@ -54,7 +54,9 @@
     "SIDE_EFFECT_REQUIRES_ACTOR_SIDE_EFFECT_PERMISSION",
     "REPLAN_RETRY_RECOVERY_FALLBACK_DO_NOT_EXPAND_SCOPE",
     "SPECIALIST_DOMAIN_CAPABILITY_ANTI_CAPABILITY_AND_AUTHORITY_FILTERS_RECHECKED",
-    "GUARD_DECISION_IS_NOT_EXECUTION_AUTHORIZATION"
+    "GUARD_DECISION_IS_NOT_EXECUTION_AUTHORIZATION",
+    "EVERY_CANONICAL_LAYER_HAS_A_FAIL_CLOSED_LAYER_CONTRACT",
+    "WORKFORCE_CAPABILITY_NAMES_MUST_NOT_BE_CONFUSED_WITH_CANONICAL_CAPABILITY_IDS"
   ],
   "authority_bindings": {
     "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -66,5 +68,19 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "layer_registry_id": "FA3-LAYER-CONTRACT-REGISTRY-001",
+  "layer_task_envelope": {
+    "schema": "fa3.layer-task-envelope.v1",
+    "required": [
+      "task_id",
+      "target_layer",
+      "canonical_capability_ids"
+    ],
+    "policy": "ALL_CANONICAL_CAPABILITY_IDS_MUST_BELONG_TO_TARGET_LAYER",
+    "wrong_layer": "DELEGATE",
+    "cross_layer": "SPLIT",
+    "unknown_layer_or_capability": "DENY",
+    "execution_authority": false
+  }
 }
