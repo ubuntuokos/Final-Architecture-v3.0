@@ -523,7 +523,12 @@ jobs:
           orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
-          promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          promotion_path=Path('promotion/runtime-status.json')
+          promotion_artifact_present=promotion_path.is_file()
+          promotion=json.loads(promotion_path.read_text()) if promotion_artifact_present else {
+              'actual_state': 'PROMOTION_BLOCKED',
+              'promotion_allowed': False,
+          }
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 525, executor
           assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
@@ -559,6 +564,7 @@ jobs:
               'criteria_passed': acceptance['criteria_passed'],
               'criteria_total': acceptance['criteria_total'],
               'promotion': promotion['actual_state'],
+              'promotion_artifact_present': promotion_artifact_present,
           }, indent=2))
           PY
       - name: Upload regression reconciliation reports
