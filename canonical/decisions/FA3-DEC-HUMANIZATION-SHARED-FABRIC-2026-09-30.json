@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-HUMANIZATION-SHARED-FABRIC-2026-09-30",
+  "date": "2026-09-30",
+  "status": "OWNER_APPROVED_FOR_IMPLEMENTATION",
+  "title": "Materialize Humanizer as shared settings and writing-quality fabric",
+  "decision": "Implement one FA3-native shared Humanizer settings/core service and shared QML settings panel, with a standalone Qt6/QML Humanizer consumer and mandatory retroactive application bindings. Preserve CAP-125, existing authorities, AI-off operation and physical Current Host proof requirements.",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_promotion_claim": false,
+  "owner_directives": [
+    "HUMANIZER_SETTINGS_ELEMENTS_SHARED_ACROSS_FA3",
+    "BUILD_PLAN_SUPPLEMENT_THEN_APPLICATION"
+  ],
+  "non_claims": [
+    "NO_PHYSICAL_CURRENT_HOST_PASS",
+    "NO_NEW_PROVIDER_ADMISSION",
+    "NO_DONOR_RUNTIME_ADOPTION",
+    "NO_CONTROL_CENTER_CONCURRENT_FILE_OVERWRITE"
+  ]
+}

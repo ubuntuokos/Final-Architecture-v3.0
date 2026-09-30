@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-HUMANIZATION-APPLICATION-INTENT-001",
+  "status": "OWNER_APPROVED",
+  "title": "FA3 Humanizer shared settings and application",
+  "target": "FA3_SHARED_HUMANIZATION_FABRIC_AND_STANDALONE_APPLICATION",
+  "problem": "FA3 text-producing applications require one extensible humanization and writing-quality layer with shared settings, deterministic AI-off operation and policy-governed optional AI.",
+  "required_outcomes": [
+    "SHARED_SETTINGS_SERVICE",
+    "SHARED_QML_SETTINGS_PANEL",
+    "STANDALONE_HUMANIZER",
+    "AI_OFF_DETERMINISTIC_PATH",
+    "PROTECTED_CONTENT_VALIDATION",
+    "RETROACTIVE_CONSUMER_BINDINGS",
+    "CURRENT_HOST_REQUALIFICATION"
+  ],
+  "excluded_outcomes": [
+    "NEW_ARCHITECTURAL_AUTHORITY",
+    "DIRECT_PROVIDER_CALLS",
+    "SILENT_FALLBACK",
+    "DETECTOR_AS_AUTHORSHIP_PROOF",
+    "PER_APPLICATION_SETTINGS_FORK",
+    "FAKE_CURRENT_HOST_PASS"
+  ],
+  "capability_delta": 0,
+  "authority": false,
+  "project_id": "FA3-HUMANIZATION-FABRIC-001",
+  "project_type": "SHARED_APPLICATION_CAPABILITY",
+  "integration_requirements": [
+    "CAP-125",
+    "FA3-QUALITY-ANTI-SLOP-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "declared_new_capabilities": [],
+  "proposed_authority_roles": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "config_root": "$XDG_CONFIG_HOME/fa3/humanizer",
+    "state_root": "$XDG_STATE_HOME/fa3/humanizer",
+    "runtime_root": null,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  }
+}

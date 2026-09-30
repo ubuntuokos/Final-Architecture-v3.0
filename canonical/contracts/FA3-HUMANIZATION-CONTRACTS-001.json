@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-HUMANIZATION-CONTRACTS-001",
+  "profile": "FA3-HUMANIZATION-FABRIC-001",
+  "version": "0.1.0",
+  "status": "CANONICAL_PENDING_RUNTIME_PROOF",
+  "provider_neutral": true,
+  "capability_count": 175,
+  "contracts": [
+    "HumanizationDocument",
+    "HumanizerSettings",
+    "HumanizerScope",
+    "HumanizerAnalysis",
+    "ProtectedContentSet",
+    "HumanizerCandidate",
+    "HumanizerComparison",
+    "HumanizerAIRequestEnvelope",
+    "HumanizerExtensionManifest"
+  ],
+  "settings_contract": {
+    "scopes": [
+      "USER",
+      "PROJECT",
+      "APPLICATION",
+      "MODULE_PLUGIN",
+      "CAPABILITY",
+      "FUNCTION"
+    ],
+    "locked_scopes": [
+      "GLOBAL",
+      "HOST",
+      "USER_ROLE"
+    ],
+    "keys": [
+      "enabled",
+      "ai_enabled",
+      "language",
+      "register_profile",
+      "edit_budget",
+      "voice_profile",
+      "preserve_numbers",
+      "preserve_urls",
+      "preserve_quotes",
+      "preserve_citations",
+      "preserve_terminology",
+      "semantic_validation"
+    ],
+    "one_shared_store": true,
+    "per_application_duplicate_store": false
+  },
+  "ai_contract": {
+    "direct_provider_call": false,
+    "model_router_required": true,
+    "uaf_required": true,
+    "hrb_required_for_model_execution": true,
+    "silent_fallback": false,
+    "ai_off_must_block_execution": true
+  },
+  "preservation_contract": {
+    "deterministic_initial": [
+      "NUMBERS",
+      "URLS",
+      "QUOTED_TEXT",
+      "CITATION_MARKERS"
+    ],
+    "semantic_validator_authority": false,
+    "failed_preservation_result": "REVIEW_OR_REJECT"
+  },
+  "extension_contract": {
+    "discovery_is_admission": false,
+    "activation_requires_policy": true,
+    "extension_may_gain_authority": false
+  }
+}

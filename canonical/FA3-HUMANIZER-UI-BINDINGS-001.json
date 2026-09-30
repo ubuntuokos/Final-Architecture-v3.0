@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.humanizer-ui-bindings.v1",
+  "id": "FA3-HUMANIZER-UI-BINDINGS-001",
+  "status": "MATERIALIZED_BINDING_CONTRACT",
+  "shared_service": "apps/shared/humanizer/HumanizerSettingsService",
+  "shared_panel": "apps/shared/humanizer/qml/HumanizerSettingsPanel.qml",
+  "duplicate_settings_core_forbidden": true,
+  "standalone": {
+    "surface": "FA3 Humanizer",
+    "binding": "DIRECT_SHARED_PANEL"
+  },
+  "control_center": {
+    "surface": "Settings / Humanizer",
+    "binding": "MANDATORY_SHARED_PANEL",
+    "integration_state": "PENDING_RECONCILE_WITH_OPEN_PR_564"
+  },
+  "embedded_consumers": [
+    {
+      "surface": "Story / Screenplay",
+      "classification": "RECOMMENDED",
+      "action": "SHARED_PANEL_OR_CONTEXTUAL_SUBSET"
+    },
+    {
+      "surface": "Document Editor",
+      "classification": "MANDATORY_WHEN_TEXT_EDITING_PRESENT",
+      "action": "SHARED_PANEL_OR_CONTEXTUAL_SUBSET"
+    },
+    {
+      "surface": "Mail / Contacts",
+      "classification": "RECOMMENDED",
+      "action": "CONTEXT_LIMITED_SHARED_PANEL"
+    },
+    {
+      "surface": "Marketing",
+      "classification": "MANDATORY_FOR_PROSE_QUALITY",
+      "action": "CONTEXT_LIMITED_SHARED_PANEL"
+    },
+    {
+      "surface": "Presentation",
+      "classification": "RECOMMENDED",
+      "action": "CONTEXT_LIMITED_SHARED_PANEL"
+    },
+    {
+      "surface": "Subtitle Editor",
+      "classification": "RECOMMENDED",
+      "action": "TIMING_AWARE_SHARED_ADAPTER"
+    },
+    {
+      "surface": "Narration",
+      "classification": "RECOMMENDED",
+      "action": "SPOKEN_REGISTER_SHARED_ADAPTER"
+    },
+    {
+      "surface": "Credits / Titles",
+      "classification": "OPTIONAL",
+      "action": "CONTEXT_LIMITED_SHARED_PANEL"
+    },
+    {
+      "surface": "Prompt Editor",
+      "classification": "OPTIONAL",
+      "action": "CONTEXT_LIMITED_SHARED_PANEL"
+    },
+    {
+      "surface": "Knowledge / Documentation",
+      "classification": "MANDATORY_FOR_PROSE_QUALITY",
+      "action": "SHARED_PANEL_OR_CONTEXTUAL_SUBSET"
+    }
+  ],
+  "local_consumer_may_do": [
+    "PLACE_PANEL",
+    "HIDE_IRRELEVANT_CONTROLS",
+    "SET_CONTEXT_ID",
+    "SET_CONTEXTUAL_DEFAULTS"
+  ],
+  "local_consumer_may_not_do": [
+    "FORK_SETTINGS_STORE",
+    "REIMPLEMENT_AI_POLICY",
+    "CALL_PROVIDER_DIRECTLY",
+    "WEAKEN_INHERITED_LOCKS"
+  ]
+}
