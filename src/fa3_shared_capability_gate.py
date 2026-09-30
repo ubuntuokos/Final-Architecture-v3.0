@@ -23,6 +23,8 @@ def gate(root: Path) -> dict:
         "plugin_bindings": root / "canonical/FA3-PLUGIN-EXTENSION-UI-BINDINGS-001.json",
         "docs": root / "docs/shared-capability-fabric.md",
         "email_action": root / "canonical/actions/email.send.json",
+        "ui_component_profile": root / "canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json",
+        "ui_component_contract": root / "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
     }
     findings: list[str] = []
     for name, path in required.items():
@@ -39,6 +41,8 @@ def gate(root: Path) -> dict:
     decision=loadj(required["decision"])
     plugin_bindings=loadj(required["plugin_bindings"])
     email_action=loadj(required["email_action"])
+    ui_profile=loadj(required["ui_component_profile"])
+    ui_contract=loadj(required["ui_component_contract"])
     baseline=module_active_capability_count(__file__)
     slices=registry.get("slices", [])
     ids=[item.get("id") for item in slices]
@@ -58,6 +62,8 @@ def gate(root: Path) -> dict:
         (any(item.get("operation")=="email.send" and item.get("all_fa3_applications") is True for item in bindings.get("universal_surfaces", [])), "email-send-all-apps-binding"),
         (email.get("all_applications_send_surface") is True and "email.send" in email.get("universal_operations", []), "email-slice-universal-send"),
         (email_action.get("schema")=="fa3.uaf.action-contract.v1" and email_action.get("id")=="email.send" and email_action.get("semantics",{}).get("mutating") is True and email_action.get("security",{}).get("authorization")=="required" and email_action.get("provider",{}).get("direct_surface_provider_bypass") is False, "email-action-contract"),
+        ("email.send" in ui_profile.get("shared_action_projection",{}).get("universal_actions",[]) and ui_profile.get("shared_action_projection",{}).get("direct_qml_execution") is False and "ALL_FA3_APPLICATIONS" in ui_profile.get("consumer_surfaces",[]), "email-ui-component-projection"),
+        ("email.send" in ui_contract.get("shared_action_surface",{}).get("universal_actions",[]) and ui_contract.get("shared_action_surface",{}).get("direct_network_or_provider_execution") is False, "email-ui-component-contract"),
         (registry.get("profile_policy", {}).get("hobby_is_not_external_service_denial") is True and registry.get("profile_policy", {}).get("external_service_workflows_allowed_in_hobby") is True, "hobby-external-service-access"),
         (registry.get("profile_policy", {}).get("silent_purchase_forbidden") is True, "silent-purchase-forbidden"),
         ({"color.management","source.management","texture.management","render","expense.request","expense.settlement","rfq.request","purchase.order","email.management"}.issubset(set(keys)), "late-added-slices-present"),
