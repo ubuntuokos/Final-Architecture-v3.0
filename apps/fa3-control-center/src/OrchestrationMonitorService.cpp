@@ -1,11 +1,13 @@
 #include "OrchestrationMonitorService.h"
 
+#include <QDateTime>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStandardPaths>
+#include <QVariantMap>
 
 OrchestrationMonitorService::OrchestrationMonitorService(QObject *parent)
     : QObject(parent)
