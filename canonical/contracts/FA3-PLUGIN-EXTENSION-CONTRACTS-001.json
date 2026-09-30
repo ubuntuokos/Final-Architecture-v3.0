@@ -161,5 +161,32 @@
     "direct_provider_access": false
   },
   "mutation_execution_authority": "NONE",
-  "action_output": "AUTHORITY_GATED_INTENT_ONLY"
+  "action_output": "AUTHORITY_GATED_INTENT_ONLY",
+  "applicability_projection": {
+    "resolver": "FA3_PLUGIN_EXTENSION_APPLICABILITY_RESOLVER",
+    "embedded_application_view_requires_application_context": true,
+    "required_inputs": [
+      "APPLICATION_ID",
+      "APPLICATION_CAPABILITIES",
+      "PROJECT_OBJECT_CONTEXT",
+      "RUNTIME_DEPENDENCIES",
+      "PERMISSIONS",
+      "LAYER_POLICY",
+      "AI_POLICY",
+      "HARDWARE_POLICY"
+    ],
+    "visible_states": [
+      "AVAILABLE",
+      "INSTALLABLE",
+      "TEMP_UNAVAILABLE"
+    ],
+    "normal_view_hidden_states": [
+      "NOT_APPLICABLE",
+      "INCOMPATIBLE"
+    ],
+    "denied_visible_only_in_admin_or_diagnostic_view": true,
+    "shared_package_uses_same_resolver": true,
+    "global_catalog_view_may_show_all_admitted_packages": true,
+    "application_binding_cannot_expand_authority": true
+  }
 }
