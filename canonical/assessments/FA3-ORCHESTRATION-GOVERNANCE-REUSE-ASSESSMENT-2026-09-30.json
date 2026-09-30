@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30",
+  "intent_id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
+  "published_main_registry": {
+    "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "blob_sha": "7e900cac93936d2f319e132def4c172b2a415d4d",
+    "entry_count": 1233,
+    "paperclip_present": false
+  },
+  "result": "REVIEWED_EXISTING_FA3_REUSE",
+  "matched_published_sources": [
+    "github:temporalio/sdk-python",
+    "github:dagger/dagger",
+    "github:skypilot-org/skypilot",
+    "github:nvidia/openshell",
+    "github:langfuse/langfuse"
+  ],
+  "adopted_external_runtime": [],
+  "source_code_imports": [],
+  "paperclip_analysis": {
+    "source": "https://github.com/paperclipai/paperclip",
+    "canonical_planning_candidate": false,
+    "reason": "Not in the verified published-main registry and not introduced with donornak. Functional requirements are owner-approved FA3-native requirements only.",
+    "runtime_dependency": false,
+    "code_copy": false
+  },
+  "decision": "Reuse existing FA3 authorities and runtime paths. Add one shared FA3-native governance core instead of a second control plane, scheduler, resource authority, model router, secret store or evidence authority.",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
