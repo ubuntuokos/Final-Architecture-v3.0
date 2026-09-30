@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.plugin-extension.manifest-contract.v1",
+  "id": "FA3-PLUGIN-EXTENSION-MANIFEST-001",
+  "manifest_schema": "fa3.plugin-extension.manifest.v1",
+  "required_sections": [
+    "identity",
+    "source",
+    "package_class",
+    "execution_class",
+    "host_bindings",
+    "abi",
+    "capabilities",
+    "consumes",
+    "permissions",
+    "ai",
+    "dependencies",
+    "conflicts",
+    "resources",
+    "entrypoints",
+    "ui_contributions",
+    "migrations",
+    "rollback",
+    "license",
+    "sbom",
+    "signatures",
+    "evidence"
+  ],
+  "package_classes": [
+    "PLUGIN",
+    "EXTENSION",
+    "PROVIDER_PLUGIN",
+    "BRIDGE",
+    "CONTENT_EXTENSION",
+    "SHARED_EXTENSION",
+    "HOST_NATIVE_PLUGIN"
+  ],
+  "ai_classes": [
+    "AI_NONE",
+    "AI_OPTIONAL",
+    "AI_REQUIRED"
+  ],
+  "undeclared_capability_action": "DENY",
+  "undeclared_permission_action": "DENY",
+  "undeclared_network_action": "DENY",
+  "silent_dependency_install": false,
+  "runtime_fetch_without_admission": false,
+  "authority": false,
+  "capability_delta": 0
+}
