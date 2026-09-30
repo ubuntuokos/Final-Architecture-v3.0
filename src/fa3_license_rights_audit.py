@@ -164,7 +164,8 @@ def build_inventory(root: Path) -> dict[str, Any]:
 
     descriptor_registry_path = root / "canonical/license-rights-descriptor-registry.json"
     descriptor_registry = loadj(descriptor_registry_path) if descriptor_registry_path.is_file() else {"entries": []}
-    rights_policy = loadj(root / "canonical/license-rights-policy.json")
+    rights_policy_path = root / "canonical/license-rights-policy.json"
+    rights_policy = loadj(rights_policy_path) if rights_policy_path.is_file() else {"id": "FA3-LICENSE-RIGHTS-POLICY-001"}
     descriptor_rows = {
         str(row.get("subject_id")): row
         for row in descriptor_registry.get("entries", [])
@@ -172,7 +173,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
     }
     cleared_release_ids: set[str] = set()
     descriptor_results: dict[str, dict[str, Any]] = {}
-    for subject_id in sorted(unresolved_release_ids):
+    for subject_id in sorted(included_ids):
         row = descriptor_rows.get(subject_id, {})
         descriptor_rel = row.get("descriptor")
         if not isinstance(descriptor_rel, str) or not descriptor_rel:
