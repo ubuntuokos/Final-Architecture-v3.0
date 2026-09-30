@@ -19,6 +19,18 @@ A verified owner-marked link is pre-reviewed for reference registration and beco
 
 This command requires a real prior user marker; the flag is an operator attestation, not a way to infer donor status from an unmarked message. Only one donor intake conversation is allowed at a time; GitHub publication must pass the exclusive live intake gate.
 
+## Tutorial references and shared-function reuse (owner decision, 2026-09-30)
+
+Internet tutorials are a supported reference class in this same registry; no second tutorial donor list may be created. They do **not** receive a special intake path. A tutorial can become a `TUTORIAL_REFERENCE` planning input only after its source has been admitted to the published registry under the normal explicit owner `donornak` rule. Unmarked links or downloaded tutorial material remain analysis-only with respect to donor registration.
+
+Tutorial intake does not approve text/code/asset copying, dependency installation, provider admission, model selection or runtime promotion. Provenance and rights/licensing must be classified before reuse; unknown or incompatible rights permit factual/functional analysis and clean FA3-native re-expression only.
+
+Each registered tutorial is decomposed into functional units and matched against the existing capability model and application inventory. If a function already exists, the existing FA3 implementation is preserved and the tutorial is adapted to the actual FA3 UI/workflow in the affected application's manual. If the function is absent, a necessity assessment and normal Reuse Discovery precede any implementation proposal.
+
+When a tutorial-derived function is useful to multiple FA3 applications, its functional core must be implemented once in a shared FA3 layer with stable contracts and application-specific adapters. The impact analysis is retroactive: planned, in-progress and materialized applications must all be checked for manual-only changes, adapter work, local-to-shared migration, regression revalidation and current-host requalification. The 175-capability baseline cannot be silently increased.
+
+See [FA3 Tutorial → Shared Capability → Application Manual plan](FA3-TUTORIAL-SHARED-CAPABILITY-PLAN-001.md).
+
 ## Lifecycle
 
 `CANDIDATE -> ANALYZED -> ACCEPTED_REFERENCE` is the normal research path. Direct, pre-reviewed owner-submitted links enter `ACCEPTED_REFERENCE` upon capture for catalog inclusion only. `REJECTED` and `SUPERSEDED` are retained as research history and are excluded from derived planning candidates.
