@@ -6,7 +6,7 @@ from typing import Any
 from fa3_ai_comms import validate_message_envelope
 from fa3_orchestration_workforce import EXISTING_RUNTIME_AUTHORITY_STATES,WorkforceContractError,current_host_admission_valid,load_registry
 from fa3_uaf import ActionRegistry
-from fa3_scope_authority_guard import guard_orchestration_delegation
+from fa3_scope_authority_guard import guard_orchestration_delegation, record_monitor_decision
 SPI_REL=Path("canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json")
 UAF_ACTION_BY_MODE={"design":"orchestration.delegate","runtime":"orchestration.execute"}
 FORBIDDEN_DIRECT_METADATA={"direct_model_provider","direct_provider_endpoint","runtime_provider_override"}
@@ -38,7 +38,7 @@ def compile_provider_envelope(root,task,route_decision,*,runtime_execution=False
     if not kind:raise ProviderAdapterError("adapter kind missing")
     scope=set(route_decision.get("authority_scope",[]))
     if not scope.issubset(set(s.get("authority_scope",[]))):raise ProviderAdapterError("authority expansion")
-    scope_guard=guard_orchestration_delegation(root,task,s)
+    scope_guard=record_monitor_decision(guard_orchestration_delegation(root,task,s),event_kind="PROVIDER_PROJECTION")
     if scope_guard.get("result")!="DELEGATE":raise ProviderAdapterError("scope authority guard denied: "+str(scope_guard.get("reason")))
     auth_participants=_participants(task)
     if runtime_execution and s.get("runtime_promotion_status") not in EXISTING_RUNTIME_AUTHORITY_STATES and not current_host_admission_valid(str(pid),admission_receipt):raise ProviderRuntimeNotPromoted("scope-bound current-host production admission receipt required")
