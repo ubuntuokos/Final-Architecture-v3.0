@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6ad94035dd515675ca6975d7414574d40bbbd46a",
-    "pre_projection_root_tree_sha": "e2ee65ce698525b366e63790492042ee380412e2",
-    "pre_projection_canonical_tree_sha": "1cf8636874613ebc65372d5ae6fe841249b80805",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2316,
-    "total_post_baseline_commits": 2316,
-    "delta_file_count": 2641,
-    "delta_added_files": 2635,
+    "pre_projection_head_sha": "3f4812a873a98fc3cf7a988312886c41ffa5e2b2",
+    "pre_projection_root_tree_sha": "c86c910e481b242f25fa363c4802424c51bcb53e",
+    "pre_projection_canonical_tree_sha": "9766c7eef1479a745e4e21c56067cf8d1556000a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2320,
+    "total_post_baseline_commits": 2320,
+    "delta_file_count": 2647,
+    "delta_added_files": 2641,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1231,
+    "canonical_files_in_post_baseline_delta": 1233,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 347,
-    "test_files_in_post_baseline_delta": 305,
+    "source_files_in_post_baseline_delta": 348,
+    "test_files_in_post_baseline_delta": 306,
     "workflow_files_in_post_baseline_delta": 127,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -475,6 +475,7 @@
       "canonical/decisions/FA3-DEC-CAP070-AGENT-FEDERATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13.json",
       "canonical/decisions/FA3-DEC-CAPABILITY-MODEL-175-2026-09-26.json",
+      "canonical/decisions/FA3-DEC-CAPABILITY-USAGE-GRAPH-2026-09-30.json",
       "canonical/decisions/FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23.json",
       "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CENTRAL-MCP-GATEWAY-2026-09-18.json",
@@ -1020,7 +1021,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2631,
+  "manifest_entry_count": 2637,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1089,7 +1090,7 @@
     },
     {
       "path": ".github/workflows/fa3-application-donor-inventory.yml",
-      "git_blob_sha": "cdb96117592287ceb516e7a32726e6ccfef68e9e",
+      "git_blob_sha": "8db6eb5a8d4583dd0706891fd6a65da19efe3ef8",
       "baseline_delta_status": "added"
     },
     {
@@ -1669,7 +1670,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "1694229396e87f19dc1b333b65ed213c2c8ec90c",
+      "git_blob_sha": "7d951929fad1d26e4b6674b5ba1574ff7ce7ebcf",
       "baseline_delta_status": "added"
     },
     {
@@ -2075,6 +2076,11 @@
     {
       "path": "bin/fa3-buzz-runtime-admission-gate",
       "git_blob_sha": "4b6231a3d20d380dd46a964bd1f5e263763cc548",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-capability-map",
+      "git_blob_sha": "e270b3b65e5aca33ecf62419f2ee25046b032366",
       "baseline_delta_status": "added"
     },
     {
@@ -2624,7 +2630,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "50b42405d1b7e0ae80db6b1bd1503785ee6337b8",
+      "git_blob_sha": "f206d9736b33dffffc83e14cf64cb25dde9e2c5c",
       "baseline_delta_status": "added"
     },
     {
@@ -2645,6 +2651,11 @@
     {
       "path": "canonical/FA3-CAPABILITY-MODEL-175-001.json",
       "git_blob_sha": "573fd607883504e97cd4c29002266a91cdbd3872",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-CAPABILITY-USAGE-GRAPH-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "af50d167deda4b14a12d317723601472e397ea1d",
       "baseline_delta_status": "added"
     },
     {
@@ -4989,7 +5000,7 @@
     },
     {
       "path": "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "39ac928d8a9cae42e4f92711afea5da5f7b1ebf1",
+      "git_blob_sha": "a685186309e534c59ad3e1dbb3cf09db565868a3",
       "baseline_delta_status": "added"
     },
     {
@@ -5355,6 +5366,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-CAPABILITY-MODEL-175-2026-09-26.json",
       "git_blob_sha": "e0b30285e3f2abf5bd07e15d735a8e9d99578a11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CAPABILITY-USAGE-GRAPH-2026-09-30.json",
+      "git_blob_sha": "3d2d1f28f3b0e6bd204e57cce2083c8653247a89",
       "baseline_delta_status": "added"
     },
     {
@@ -9069,7 +9085,7 @@
     },
     {
       "path": "docs/application-donor-inventory.md",
-      "git_blob_sha": "74b4709eb33b7305601726f84bda4b95e8ccbde5",
+      "git_blob_sha": "28cc14948f99e05bbd5f8f43768a2d23bb350499",
       "baseline_delta_status": "added"
     },
     {
@@ -9130,6 +9146,11 @@
     {
       "path": "docs/capability-count-dehardcode.md",
       "git_blob_sha": "a0af049555eefacfcf340cee6bd603e6bc970c84",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/capability-usage-graph.md",
+      "git_blob_sha": "27c5816ad0d995bd772354b8bf1989a20cd6c106",
       "baseline_delta_status": "added"
     },
     {
@@ -9304,7 +9325,7 @@
     },
     {
       "path": "docs/donor-reference-registry.md",
-      "git_blob_sha": "ad9a309303d1d9aeb3ff50534d4e1c211a24897d",
+      "git_blob_sha": "704e311ebd96dd6cd04d1ea37672693eab847bb0",
       "baseline_delta_status": "added"
     },
     {
@@ -11098,6 +11119,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_capability_usage_graph.py",
+      "git_blob_sha": "88e396377179ee2a6dd0b5bc96241fbcc33960e6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_caption_studio_server.py",
       "git_blob_sha": "ddeee643ba08b435a7abe63e034d144dd0e4972f",
       "baseline_delta_status": "added"
@@ -12785,6 +12811,11 @@
     {
       "path": "tests/test_capability_model_175.py",
       "git_blob_sha": "e2a9ea0dcd05d3e4f604bf8649f69e9e90bb17bc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_capability_usage_graph.py",
+      "git_blob_sha": "fe99abc44d8d9e81fb5dd97f3ac06e820ef29205",
       "baseline_delta_status": "added"
     },
     {
