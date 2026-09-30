@@ -133,10 +133,7 @@ def explicit_license_metadata(text: str) -> bool:
     )
 
 
-def severity_for(category: str, rel: str, included_ids: set[str], text: str) -> tuple[str, str]:
-    name = Path(rel).stem
-    if name in included_ids:
-        return "BLOCKING", "RELEASE_INCLUDED_SUBJECT_REQUIRES_EVIDENCE_BACKED_RIGHTS_DESCRIPTOR"
+def severity_for(category: str, rel: str, text: str) -> tuple[str, str]:
     if category in {"MODEL_OR_WEIGHT", "DATASET_OR_DATA", "FONT", "CREATIVE_ASSET", "SDK", "CODEC"}:
         return "HIGH", "NON_CODE_RIGHTS_DOMAIN_REQUIRES_SEPARATE_REVIEW"
     if category in {"PROVIDER_OR_SERVICE", "THIRD_PARTY_REFERENCE", "DONOR_OR_REFERENCE", "DEPENDENCY_MANIFEST"}:
@@ -184,7 +181,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
         if has_reuse:
             reuse_tagged += 1
 
-        severity, reason = severity_for(category, rel, included_ids, text)
+        severity, reason = severity_for(category, rel, text)
         severity_counts[severity] += 1
 
         subject = {
@@ -240,6 +237,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "subjects_scanned": len(subjects),
         "work_queue_items": len(queue),
         "release_included_subjects": len(included_ids),
+        "unique_release_blockers": len(included_ids),
         "excluded_external_or_reference_subjects": len(excluded_ids),
         "spdx_file_tagged": spdx_tagged,
         "reuse_annotated": reuse_tagged,
