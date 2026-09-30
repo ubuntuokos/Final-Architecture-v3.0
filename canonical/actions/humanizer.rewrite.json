@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "humanizer.rewrite",
+  "version": "1.0.0",
+  "description": "Request an AI-assisted Humanizer rewrite through existing FA3 routing authorities.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "text",
+      "settings"
+    ],
+    "properties": {
+      "text": {
+        "type": "string"
+      },
+      "settings": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "candidate",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "candidate": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": false,
+    "retry_safe": false,
+    "long_running": true
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "human-acceptance-required",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": true,
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match-via-model-router",
+    "direct_provider_call": false,
+    "silent_fallback": false
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "runtime_state": "CONTRACT_ONLY_EXECUTOR_PENDING_SEPARATE_CURRENT_HOST_ADMISSION"
+}

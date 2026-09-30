@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-HUMANIZATION-FABRIC-001",
+  "name": "FA3 Humanization, Author Voice & Writing Quality Fabric",
+  "version": "0.1.0",
+  "status": "STATIC_MATERIALIZED_RUNTIME_PENDING",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_bindings": [
+    "CAP-125"
+  ],
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "profile_kind": "SHARED_TEXT_TRANSFORMATION_AND_QUALITY_FABRIC",
+  "human_acceptance_authority": true,
+  "ai_optional": true,
+  "deterministic_ai_off_path_required": true,
+  "direct_provider_calls_forbidden": true,
+  "silent_fallback_forbidden": true,
+  "shared_settings": {
+    "service": "apps/shared/humanizer/HumanizerSettingsService",
+    "qml_panel": "apps/shared/humanizer/qml/HumanizerSettingsPanel.qml",
+    "duplicate_local_settings_implementation": "DENY",
+    "precedence": [
+      "FUNCTION",
+      "CAPABILITY",
+      "MODULE_PLUGIN",
+      "APPLICATION",
+      "PROJECT",
+      "USER",
+      "DEFAULT"
+    ],
+    "authority_locked_layers": [
+      "GLOBAL",
+      "HOST",
+      "USER_ROLE"
+    ]
+  },
+  "extension_categories": [
+    "AnalyzerPlugin",
+    "TransformerPlugin",
+    "ValidatorPlugin",
+    "LanguagePlugin",
+    "StylePack",
+    "RegisterPack",
+    "GenrePack",
+    "AuthorVoicePlugin",
+    "MetricPlugin",
+    "GrammarPlugin",
+    "TerminologyPlugin",
+    "DetectorPlugin",
+    "DocumentAdapter"
+  ],
+  "integration_bindings": {
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "skill_fabric": "FA3-SKILL-FABRIC-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "hrb": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "quality_profile": "FA3-QUALITY-ANTI-SLOP-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware": {
+    "cpu_only_supported": true,
+    "accelerator_required": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "invariants": [
+    "AI_DISABLED_MEANS_NO_MODEL_OR_PROVIDER_EXECUTION",
+    "DETERMINISTIC_PATH_REMAINS_AVAILABLE",
+    "HUMANIZER_CANNOT_BECOME_WORKFLOW_OR_MODEL_ROUTING_AUTHORITY",
+    "PROTECTED_CONTENT_MUST_BE_VALIDATED_BEFORE_ACCEPTANCE",
+    "EMBEDDED_CONSUMERS_USE_ONE_SHARED_SETTINGS_IMPLEMENTATION",
+    "DISCOVERY_DOES_NOT_EQUAL_ADMISSION",
+    "CURRENT_HOST_PASS_REQUIRES_PHYSICAL_EVIDENCE"
+  ],
+  "decision_fabric": {
+    "assessment_id": "FA3-HUMANIZATION-DECISION-ASSESSMENT-2026-09-30",
+    "applicability": "RECOMMENDED",
+    "role": "ADVISORY_SELECTION_ONLY_WITHIN_PREAUTHORIZED_CANDIDATES",
+    "may_expand_candidate_set": false,
+    "may_accept_edit": false
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-HUMANIZATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-HUMANIZATION-FABRIC-001",
+  "intent_id": "FA3-HUMANIZATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-HUMANIZATION-APPLICATION-INTENT-001.json",
+  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "donor_registry_sha256": "740593d1df5c64bf0ff6e87f7baddbd0d01789e479e840af3f22f1e5d3abf1dd",
+  "donor_registry_main_sha": "0240bae4100d0410a11c3026657ba28af508c893",
+  "donor_registry_blob_sha": "7e900cac93936d2f319e132def4c172b2a415d4d",
+  "donor_count": 1233,
+  "donor_review": "REVIEWED_MATCH",
+  "adopted_donors": [],
+  "matched_reference_donors": [
+    {
+      "id": "FA3-DONOR-GITHUB-TOPIC-AI-HUMANIZER-001",
+      "use": "REFERENCE_ONLY_NO_RUNTIME"
+    },
+    {
+      "id": "FA3-DONOR-GITHUB-TOPIC-HUMANIZER-001",
+      "use": "REFERENCE_ONLY_NO_RUNTIME"
+    },
+    {
+      "id": "FA3-DONOR-GITHUB-TOPIC-HUMANIZE-AI-001",
+      "use": "REFERENCE_ONLY_NO_RUNTIME"
+    },
+    {
+      "id": "FA3-DONOR-HARDIKPANDYA-STOP-SLOP-001",
+      "use": "EXISTING_CAP125_REFERENCE_ONLY_NO_CODE_IMPORT"
+    },
+    {
+      "id": "FA3-DONOR-LYNOTE-AI-AI-TEXT-DETECTOR-001",
+      "use": "DETECTOR_REFERENCE_ONLY_NOT_AUTHORSHIP_PROOF"
+    }
+  ],
+  "selected_reuse": [
+    {
+      "id": "CAP-125",
+      "use": "CANONICAL_PROSE_QUALITY_CAPABILITY"
+    },
+    {
+      "id": "FA3-QUALITY-ANTI-SLOP-001",
+      "use": "EXISTING_DETERMINISTIC_QUALITY_PROFILE"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "GOVERNED_ACTION_SURFACE"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "TASK_SCOPED_EXTENSION_BINDING"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PER_APPLICATION_HUMANIZER_SETTINGS_CORE",
+      "reason": "OWNER_REQUIRES_SHARED_SETTINGS_IMPLEMENTATION"
+    },
+    {
+      "id": "DIRECT_LLM_PROVIDER_ADAPTER_IN_GUI",
+      "reason": "MODEL_ROUTER_AUTHORITY_MUST_BE_PRESERVED"
+    },
+    {
+      "id": "AI_DETECTOR_AS_PROVENANCE_AUTHORITY",
+      "reason": "DETECTOR_OUTPUT_IS_NON_AUTHORITATIVE_SIGNAL_ONLY"
+    }
+  ],
+  "result": "PASS",
+  "implementation_readiness": "READY_FOR_SHARED_STATIC_AND_GUI_MATERIALIZATION",
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N"
+  },
+  "coexistence": {
+    "result": "PASS_DESIGN_ONLY",
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "covered_ids": [
+    "FA3-HUMANIZATION-FABRIC-001",
+    "CAP-125"
+  ],
+  "project_status": "SHARED_HUMANIZATION_FABRIC_STATIC_MATERIALIZED_RUNTIME_PENDING",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Humanization, prose analysis and shared text settings do not require a Khronos graphics/compute SDK integration. Any future accelerator-specific text runtime remains separately admitted through existing Model Router, HRB and Khronos/reuse review boundaries."
+    }
+  ],
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

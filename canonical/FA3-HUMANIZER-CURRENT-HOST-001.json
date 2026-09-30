@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.humanizer-current-host-impact.v1",
+  "id": "FA3-HUMANIZER-CURRENT-HOST-001",
+  "date": "2026-09-30",
+  "status": "PENDING_PHYSICAL_CURRENT_HOST",
+  "capability_count": 175,
+  "capability_binding": "CAP-125",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_delta": "NEW_GUI_AND_SHARED_LIBRARY_REQUIRES_REQUALIFICATION",
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claim": false,
+  "host_requalification_required_now": true,
+  "central_recipe_reconcile": {
+    "required": true,
+    "concurrent_pr": 559,
+    "state": "DEFER_DIRECT_EDIT_RECONCILE_ON_FINAL_CURRENT_HOST_HEAD"
+  },
+  "required_physical_proofs": [
+    "HUMANIZER_STANDALONE_GUI_START",
+    "AI_OFF_DETERMINISTIC_ANALYZE",
+    "SHARED_SETTINGS_PERSISTENCE_AND_SCOPE_RESOLUTION",
+    "NUMBER_URL_QUOTE_PRESERVATION",
+    "AI_OFF_NO_PROVIDER_OR_MODEL_EXECUTION",
+    "AI_REQUEST_REQUIRES_UAF_MODEL_ROUTER_HRB",
+    "CPU_ONLY_PATH",
+    "ROLLBACK",
+    "SOFTWARE_COEXISTENCE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false,
+    "hardware_safety_envelope_preserved": true
+  },
+  "software_coexistence": {
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "global_environment_mutation": false,
+    "upstream_uninstall_required": false,
+    "config_namespace": "fa3/humanizer"
+  }
+}

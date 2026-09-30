@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-HUMANIZATION-FABRIC-001",
+  "covered_ids": [
+    "FA3-HUMANIZATION-FABRIC-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Humanizer can benefit from bounded advisory selection when several already eligible rewrite candidates or admitted transformation strategies are available. Decision Fabric may rank or select only within a policy-preauthorized candidate set; protected-content validation, semantic/factual preservation gates, human acceptance, permissions, provider/model admission, resource admission and release promotion remain outside Decision Fabric.",
+  "decision_points": [
+    {
+      "id": "humanizer-candidate-selection",
+      "purpose": "Rank or select among already-generated rewrite candidates that have passed deterministic eligibility and preservation prechecks.",
+      "contract": "RANK",
+      "candidate_source": "FA3-HUMANIZATION-FABRIC-001 preauthorized validated candidate set",
+      "final_policy_owner": "FA3-HUMANIZATION-FABRIC-001 + AUTH-HUMAN",
+      "failure_policy": "HUMAN_CONFIRM"
+    }
+  ],
+  "not_delegated": [
+    "protected-content PASS/FAIL",
+    "semantic or factual preservation authority",
+    "human edit acceptance",
+    "AI enablement or permission",
+    "model or provider admission",
+    "resource admission",
+    "candidate-set expansion",
+    "plugin or extension admission",
+    "release or Current Host promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
