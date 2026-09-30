@@ -11,7 +11,8 @@ from pathlib import Path
 from typing import Any
 
 REGISTRY_REL = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
-ALLOWED_STATES = {"CANDIDATE", "ANALYZED", "ACCEPTED_REFERENCE", "REJECTED", "SUPERSEDED"}
+REJECTION_AUDIT_REL = "canonical/FA3-DONOR-REJECTION-AUDIT-001.json"
+ALLOWED_STATES = {"CANDIDATE", "ANALYZED", "ACCEPTED_REFERENCE", "SUPERSEDED"}
 
 def _load(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
@@ -55,6 +56,8 @@ def refresh_donor_count(registry: dict[str, Any]) -> int:
         if not isinstance(entry, dict) or not isinstance(entry.get("source"), dict):
             raise ValueError(f"MALFORMED_DONOR_ENTRY:{index}")
         donor_id, key = entry.get("donor_id"), entry["source"].get("normalized_key")
+        if entry.get("status") not in ALLOWED_STATES:
+            raise ValueError(f"INVALID_ACTIVE_DONOR_STATE:{index}")
         if not isinstance(donor_id, str) or not donor_id or donor_id in ids:
             raise ValueError(f"DUPLICATE_OR_INVALID_DONOR_ID:{index}")
         if not isinstance(key, str) or not key or key in keys:
@@ -66,6 +69,27 @@ def refresh_donor_count(registry: dict[str, Any]) -> int:
         raise ValueError("invalid donor backfill metadata")
     backfill["entry_count"] = len(entries)
     return len(entries)
+
+
+def _rejection_audit(root: Path) -> dict[str, Any]:
+    path = root.resolve() / REJECTION_AUDIT_REL
+    if not path.is_file():
+        raise ValueError("REJECTION_AUDIT_MISSING")
+    value = _load(path)
+    if value.get("id") != "FA3-DONOR-REJECTION-AUDIT-001" or not isinstance(value.get("entries"), list):
+        raise ValueError("REJECTION_AUDIT_INVALID")
+    return value
+
+
+def _security_reentry_verified(row: dict[str, Any]) -> bool:
+    proof = row.get("security_reentry_evidence")
+    return (
+        isinstance(proof, dict)
+        and proof.get("status") == "VERIFIED_SAFE"
+        and isinstance(proof.get("evidence_refs"), list)
+        and bool(proof["evidence_refs"])
+        and row.get("code_reuse_policy") != "FORBIDDEN"
+    )
 
 
 def _atomic_write(path: Path, value: dict[str, Any]) -> None:
@@ -130,6 +154,14 @@ def capture_candidate(
     match = next((row for row in entries if isinstance(row, dict)
                   and (row.get("source", {}).get("normalized_key") == key
                        or key in row.get("legacy_source_keys", []))), None)
+    audit = _rejection_audit(root)
+    audited = {
+        item.get("donor", {}).get("source", {}).get("normalized_key")
+        for item in audit.get("entries", [])
+        if isinstance(item, dict) and isinstance(item.get("donor"), dict)
+    }
+    if key in audited and (match is None or not _security_reentry_verified(match)):
+        raise ValueError("REJECTED_DONOR_REENTRY_REQUIRES_VERIFIED_SAFE_MAINTENANCE")
     created = match is None
     if match is None and not (owner_submitted_link and source_locator.lower().startswith(("https://", "http://"))):
         raise ValueError("NEW_DONOR_REQUIRES_EXPLICIT_OWNER_MARKED_LINK")
@@ -172,8 +204,8 @@ def capture_candidate(
     # Direct owner-submitted donor links are pre-reviewed for registry inclusion.
     # A historical rejection/supersession cannot be silently overwritten.
     if owner_submitted_link:
-        if match.get("status") in ("REJECTED", "SUPERSEDED"):
-            raise ValueError("historically rejected or superseded source needs explicit conflict reconciliation")
+        if match.get("status") == "SUPERSEDED":
+            raise ValueError("superseded source needs explicit conflict reconciliation")
         match["status"] = "ACCEPTED_REFERENCE"
         match["submission_review"] = {
             "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
