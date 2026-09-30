@@ -130,7 +130,7 @@ def build_capability_usage_graph(
     declaration = load(root / LINKS)
     registry = load(root / DONOR)
     capability_model = load(root / CAPABILITY_MODEL)
-    app_index = build_index(root, previous=previous_registry)
+    app_index = build_index(root)
     errors: list[dict[str, str]] = list(app_index["validation"]["findings"])
 
     capability_count = int(capability_model.get("canonical_capability_count", 0))
@@ -276,12 +276,40 @@ def build_capability_usage_graph(
 
     impact: list[dict[str, Any]] = []
     if previous_registry is not None:
+        before = {
+            row.get("source", {}).get("normalized_key"): row
+            for row in previous_registry.get("entries", [])
+            if isinstance(row, dict) and row.get("source", {}).get("normalized_key")
+        }
+        after = {
+            row.get("source", {}).get("normalized_key"): row
+            for row in registry.get("entries", [])
+            if isinstance(row, dict) and row.get("source", {}).get("normalized_key")
+        }
         edges_by_donor: dict[str, list[dict[str, Any]]] = {}
         for edge in edges:
             edges_by_donor.setdefault(str(edge["donor_id"]), []).append(edge)
-        for change in app_index.get("reevaluation", []):
+
+        for source_key in sorted(set(before) | set(after)):
+            old_row = before.get(source_key)
+            new_row = after.get(source_key)
+            if old_row is not None and new_row is not None:
+                if json.dumps(old_row, sort_keys=True, ensure_ascii=False) == json.dumps(new_row, sort_keys=True, ensure_ascii=False):
+                    continue
+            changed_fields = (
+                ["__record__"] if old_row is None or new_row is None
+                else sorted(
+                    key for key in set(old_row) | set(new_row)
+                    if old_row.get(key) != new_row.get(key)
+                )
+            )
+            donor_ids_for_change = sorted({
+                row.get("donor_id")
+                for row in (old_row, new_row)
+                if isinstance(row, dict) and isinstance(row.get("donor_id"), str)
+            })
             related = [
-                edge for donor_id in change.get("donor_ids", [])
+                edge for donor_id in donor_ids_for_change
                 for edge in edges_by_donor.get(str(donor_id), [])
                 if edge.get("status") != "REMOVED"
             ]
@@ -296,18 +324,43 @@ def build_capability_usage_graph(
             current_host_required = bool(
                 impacts & {"STRUCTURAL_REASSESSMENT_REQUIRED", "RUNTIME_REQUALIFICATION_REQUIRED"}
             )
-            required_actions = list(change.get("required_actions", []))
+            security_fields = {
+                "status", "license", "code_reuse_policy", "rejection_reasons",
+                "source_pin_status", "upstream_snapshot", "upstream_observation",
+                "upstream_archived", "security_review", "security_status",
+            }
+            capability_fields = {
+                "donor_modes", "capability_hints", "domain_hints",
+                "problem_hints", "target_hints", "tags",
+            }
+            required_actions = [
+                "DONOR_DIFF_CLASSIFICATION",
+                "DONOR_TO_CAPABILITY_TO_CONSUMER_REVERSE_IMPACT_LOOKUP",
+            ]
             if related:
                 required_actions += [
-                    "DONOR_TO_CAPABILITY_TO_CONSUMER_REVERSE_IMPACT_LOOKUP",
                     "CAPABILITY_BINDING_REVALIDATION",
+                    "CAPABILITY_PARITY_NON_REGRESSION",
+                    "LAYER_AND_DEPENDENCY_RECONCILIATION",
+                    "TEST_GATE_EVIDENCE_RECONCILIATION",
                 ]
+            if current_host_required:
+                required_actions.append("CURRENT_HOST_ALIGNMENT_IF_STRUCTURAL_OR_RUNTIME_AFFECTED")
+            if security_fields.intersection(changed_fields):
+                required_actions.append("IMMEDIATE_SECURITY_AND_TRUST_REEVALUATION")
             impact.append({
-                **change,
+                "source_key": source_key,
+                "donor_ids": donor_ids_for_change,
+                "change": "ADDED" if old_row is None else "REMOVED" if new_row is None else "UPDATED",
+                "changed_fields": changed_fields,
+                "security_sensitive": bool(security_fields.intersection(changed_fields)),
+                "capability_sensitive": bool(capability_fields.intersection(changed_fields)),
                 "affected_capabilities": affected_caps,
                 "affected_consumers": affected_consumers,
                 "current_host_reconciliation_required": current_host_required,
                 "required_actions": sorted(set(required_actions)),
+                "disposition": "CAPABILITY_USAGE_RECONCILIATION" if related else "DONOR_CHANGE_NO_DECLARED_USAGE",
+                "automatic_adoption": False,
             })
 
     result = {
