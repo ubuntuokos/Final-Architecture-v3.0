@@ -9,10 +9,12 @@ on:
 jobs:
   application-donor-integrity:
     runs-on: ubuntu-latest
-    permissions: {contents: read}
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
-        with: {fetch-depth: 0}
+        with:
+          fetch-depth: 0
       - name: Static application inventory gate
         run: python3 src/fa3_application_donor_index.py --check --summary
       - name: Capability consumer map gate
@@ -25,7 +27,8 @@ jobs:
         if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         run: python3 src/fa3_application_donor_index.py --check --monthly-refresh-check --summary
       - name: Donor-change impact
-        env: {BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}}
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           if [ -n "${BASE_SHA:-}" ] && git cat-file -e "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" 2>/dev/null; then
             git show "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" > "$RUNNER_TEMP/fa3-donor-before.json"
