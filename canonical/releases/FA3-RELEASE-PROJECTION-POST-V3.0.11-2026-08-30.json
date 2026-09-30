@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6ad94035dd515675ca6975d7414574d40bbbd46a",
-    "pre_projection_root_tree_sha": "e2ee65ce698525b366e63790492042ee380412e2",
-    "pre_projection_canonical_tree_sha": "1cf8636874613ebc65372d5ae6fe841249b80805",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2316,
-    "total_post_baseline_commits": 2316,
-    "delta_file_count": 2641,
-    "delta_added_files": 2635,
+    "pre_projection_head_sha": "81ebdbe9da6c05f6e5c8265c29c2528461ddf0dd",
+    "pre_projection_root_tree_sha": "af9438a512a010ec833029e616e246a33c7a1f87",
+    "pre_projection_canonical_tree_sha": "b1eb2e9a193c4d1147055931f4339c797c7169b5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2335,
+    "total_post_baseline_commits": 2335,
+    "delta_file_count": 2648,
+    "delta_added_files": 2642,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1231,
+    "canonical_files_in_post_baseline_delta": 1235,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 347,
-    "test_files_in_post_baseline_delta": 305,
+    "source_files_in_post_baseline_delta": 348,
+    "test_files_in_post_baseline_delta": 306,
     "workflow_files_in_post_baseline_delta": 127,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -402,6 +402,7 @@
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENMP-RUNTIME-GOVERNANCE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001.schema.json",
       "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
       "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
@@ -573,6 +574,7 @@
       "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
+      "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
       "canonical/decisions/FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15.json",
       "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
       "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
@@ -1020,7 +1022,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2631,
+  "manifest_entry_count": 2638,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3469,7 +3471,7 @@
     },
     {
       "path": "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json",
-      "git_blob_sha": "6731967f9f2775ff3956d3d408c149e4840508c1",
+      "git_blob_sha": "f43bb5d33ec07a83c046fbeec1862aa1a383ec9f",
       "baseline_delta_status": "added"
     },
     {
@@ -4233,6 +4235,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30.json",
+      "git_blob_sha": "f4efb4751982c8466e330a3df057d97b11bd3c48",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-ORCHESTRATION-WORKFORCE-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "6d6fb9d7ebc63e299cff082e39630ec3f02ac53b",
       "baseline_delta_status": "added"
@@ -4938,6 +4945,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001.json",
+      "git_blob_sha": "f25b4fed855323ae62415d7d1e3832b5c84016c8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001.schema.json",
       "git_blob_sha": "0351e2825f27f997c5b8a1835022a4aefed959b8",
       "baseline_delta_status": "added"
@@ -4949,7 +4961,7 @@
     },
     {
       "path": "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
-      "git_blob_sha": "d31f8b62d35cac6c279a30632344da4a7db430cb",
+      "git_blob_sha": "f953934ef658589975b3f0344a137952023b21b0",
       "baseline_delta_status": "added"
     },
     {
@@ -5848,6 +5860,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
+      "git_blob_sha": "c602af204e2d443c6e0fc28e216f6a53eadb9642",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15.json",
       "git_blob_sha": "5484b10f04c27906af66b2979cb0bd2010f50dde",
       "baseline_delta_status": "added"
@@ -6420,6 +6437,11 @@
     {
       "path": "canonical/intents/FA3-OPENMP-RUNTIME-GOVERNANCE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "56fab9a7161e6125a8c427e855c4e0c2c79f4c0d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
+      "git_blob_sha": "a26b269dcfb8267bedd6b9dc3491912fec1ce190",
       "baseline_delta_status": "added"
     },
     {
@@ -7129,7 +7151,7 @@
     },
     {
       "path": "canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
-      "git_blob_sha": "7b467575c2c4e5dde24df4e18653b3397e1cdece",
+      "git_blob_sha": "e393cd5a9727e0cbb5502f01d3246ffb3d3d92fd",
       "baseline_delta_status": "added"
     },
     {
@@ -9003,8 +9025,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
+      "git_blob_sha": "556a707e6445f24db16ea33226933a87498e27bb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-ORCHESTRATION-WORKFORCE-001.md",
-      "git_blob_sha": "0b13ae8081f38877b77c7d5d8ed680eb5a5843b2",
+      "git_blob_sha": "10c639ae5f48985bf0553bf7afa18f28aebc8251",
       "baseline_delta_status": "added"
     },
     {
@@ -10634,7 +10661,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "f52dc072eb1642f587c55a33d81e506ee236c115",
+      "git_blob_sha": "d03c7c03d1b360e332254b20940bbddf852ce0a4",
       "baseline_delta_status": "added"
     },
     {
@@ -12098,18 +12125,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_orchestration_governance.py",
+      "git_blob_sha": "a87ea4cbd2738a9a082fcf0fc98db451c2efec55",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_orchestration_provider_spi.py",
       "git_blob_sha": "ab34194855f2f0709f0f629bb9ab837b8e22ede3",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_orchestration_workforce.py",
-      "git_blob_sha": "26ccff8ad75a44354df1e670fc372f207c8f036d",
+      "git_blob_sha": "dc269bdc916aefcb22b1211b55c260bd6e87152f",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_orchestration_workforce_gate.py",
-      "git_blob_sha": "a384d9758d7a9ca86eaa6a6ea260aad4215013d8",
+      "git_blob_sha": "f7f9ab0e03f04295291560f822bf8aeb79f9dd65",
       "baseline_delta_status": "added"
     },
     {
@@ -13738,8 +13770,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_orchestration_governance.py",
+      "git_blob_sha": "b08f078082342ea5c3d5e274c7129a7b2ef3a116",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_orchestration_workforce.py",
-      "git_blob_sha": "725e9e9bf6ea397f6d89117dbd714f5a24fbd56a",
+      "git_blob_sha": "f4a494a1b1cd35e1326400f7ec9b1a177b3fc04b",
       "baseline_delta_status": "added"
     },
     {
