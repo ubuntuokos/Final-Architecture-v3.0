@@ -5,7 +5,7 @@
   "as_of": "2026-09-30",
   "status": "PENDING_RETROACTIVE_AUDIT",
   "release_eligible": false,
-  "release_block_reason": "HISTORICAL_REPOSITORY_RIGHTS_CLASSIFICATION_NOT_YET_COMPLETE",
+  "release_block_reason": "FIRST_PARTY_ORIGIN_REUSE_COVERAGE_AND_RELEASE_SBOM_PENDING",
   "global_runtime_promotion_claim": false,
   "historical_evidence_overwrite_forbidden": true,
   "scope": [
@@ -33,5 +33,28 @@
     "SPDX_AND_CYCLONEDX_RELEASE_SBOMS_GENERATED",
     "RELEASE_LICENSE_COMPLIANCE_RECEIPT_PASS"
   ],
-  "note": "The authority is materialized fail-closed. This record intentionally does not claim that pre-existing repository content has completed the retroactive rights audit."
+  "note": "Retroactive audit control is materialized and one physically copied upstream snapshot is rights-resolved. Repository audit remains fail-closed pending first-party origin, asset origin, complete REUSE coverage, and release SBOM evidence.",
+  "progress": {
+    "inventory_id": "FA3-LICENSE-RIGHTS-RETRO-AUDIT-INVENTORY-001",
+    "anchored_commit": "0240bae4100d0410a11c3026657ba28af508c893",
+    "tracked_blob_count_at_anchor": 2636,
+    "resolved_vendored_upstream_subjects": 1,
+    "resolved_vendored_upstream_files": 6,
+    "included_external_release_subjects": 0,
+    "model_binary_files_at_anchor": 0,
+    "font_files_at_anchor": 0,
+    "documentation_svg_assets_pending_origin_review": 5
+  },
+  "resolved_classes": [
+    "DISTRIBUTION_EXTERNAL_SUBJECT_INCLUSION_ZERO",
+    "JEV_RADAR_PINNED_SNAPSHOT_MIT_RIGHTS_EVIDENCE",
+    "MODEL_BINARY_REPOSITORY_PRESENCE_ZERO",
+    "FONT_REPOSITORY_PRESENCE_ZERO"
+  ],
+  "pending_classes": [
+    "FIRST_PARTY_ORIGIN_PROVENANCE",
+    "DOCUMENTATION_SVG_ASSET_ORIGIN",
+    "REUSE_FILE_LEVEL_COVERAGE",
+    "RELEASE_SBOM_SPDX_CYCLONEDX"
+  ]
 }
