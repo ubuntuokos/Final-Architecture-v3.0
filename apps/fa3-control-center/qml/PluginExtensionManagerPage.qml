@@ -52,7 +52,7 @@ Item {
                 Label { text: "Installation: NOT_INSTALLED / STAGED / INSTALLED" }
                 Label { text: "Activation: DISABLED / ENABLED / ACTIVE" }
                 Label { text: "Evidence: PENDING_CURRENT_HOST / CURRENT_HOST_PASS" }
-                Label { text: "AI: külön policy alatt · DENY győz · nincs silent fallback" }
+                Label { text: "AI: külön policy alatt · DENY győz · rejtett helyettesítés tiltott" }
                 Label { text: "GPU/NPU: kizárólag HRB admission után" }
                 Label { text: "Layer Guard + Software Coexistence: kötelező" }
                 Item { Layout.fillHeight: true }
