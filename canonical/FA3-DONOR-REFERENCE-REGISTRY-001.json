@@ -2,7 +2,7 @@
   "schema": "fa3.donor-reference-registry.v1",
   "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
   "name": "FA3 Donor & Reference Registry",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "authority": false,
   "canonical_source_of_truth_for_donor_notes": true,
@@ -32,7 +32,6 @@
     "CANDIDATE",
     "ANALYZED",
     "ACCEPTED_REFERENCE",
-    "REJECTED",
     "SUPERSEDED"
   ],
   "planning_policy": {
@@ -46,8 +45,18 @@
       "tags"
     ],
     "future_applications_supported": true,
-    "rejected_entries_retained_to_prevent_repeat_research": true,
-    "rejected_or_superseded_are_not_planning_candidates": true
+    "rejected_entries_retained_to_prevent_repeat_research": false,
+    "rejected_or_superseded_are_not_planning_candidates": true,
+    "rejected_history_registry": "canonical/FA3-DONOR-REJECTION-AUDIT-001.json",
+    "security_reentry_requires_verified_safe_evidence": true,
+    "every_donor_change_requires_processing": true,
+    "donor_change_application_reconciliation_required": true,
+    "donor_usage_reverse_traceability_required": true,
+    "monthly_capability_refresh_days": 31,
+    "capability_non_regression_on_donor_change": true,
+    "capability_loss_only_for_verified_fa3_risk": true,
+    "development_reconciles_declared_and_implicit_dependencies": true,
+    "current_host_alignment_required_for_structural_or_runtime_change": true
   },
   "safety_boundary": {
     "automatic_dependency": false,
@@ -79,8 +88,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1233,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained. Owner-marked AlternativeTo Octane Render 4-page discovery-list intake: 4 original URLs as 1 canonical metadata-only index; no automatically admitted child applications. Owner-marked GitHub Actions runner and Actions/Temporal organization indexes 2026-09-30: 5 exact owner URLs as 5 distinct new metadata-only references; no automatically admitted child repositories. Owner-marked GGUF/Comfy/codec batch 2026-09-30: 12 exact URLs as 12 unique metadata-only reference identities; no child-repository auto-registration and archived Comfy-Org/desktop retained as historical reference."
+    "entry_count": 1232,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained. Owner-marked AlternativeTo Octane Render 4-page discovery-list intake: 4 original URLs as 1 canonical metadata-only index; no automatically admitted child applications. Owner-marked GitHub Actions runner and Actions/Temporal organization indexes 2026-09-30: 5 exact owner URLs as 5 distinct new metadata-only references; no automatically admitted child repositories. Owner-marked GGUF/Comfy/codec batch 2026-09-30: 12 exact URLs as 12 unique metadata-only reference identities; no child-repository auto-registration and archived Comfy-Org/desktop retained as historical reference. 2026-09-30 lifecycle hardening: rejected donor records are removed from the active registry and preserved in FA3-DONOR-REJECTION-AUDIT-001; every donor change requires application impact processing, capability non-regression, dependency/layer reconciliation and Current Host alignment when affected."
   },
   "entries": [
     {
@@ -13835,52 +13844,6 @@
       ],
       "notes": [
         "Exact upstream repository and pinned revision verified via GitHub API; reference metadata only, no code import, runtime/provider admission or independent license approval. Historical project-key alias and original source locator preserved."
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-DONUTBROWSER-001",
-      "name": "donutbrowser",
-      "source": {
-        "kind": "PROJECT",
-        "locator": "project:donutbrowser",
-        "normalized_key": "project:donutbrowser"
-      },
-      "status": "REJECTED",
-      "discovered_from": [
-        "prior-fa3-research-backfill"
-      ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION"
-      ],
-      "capability_hints": [],
-      "domain_hints": [
-        "browser"
-      ],
-      "problem_hints": [],
-      "target_hints": [],
-      "tags": [
-        "anti-detect",
-        "fingerprint-spoofing"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "FORBIDDEN",
-      "discoverable_for_planning": false,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "rejection_reasons": [
-        "ANTI_DETECT_AND_FINGERPRINT_SPOOFING_CONFLICT_WITH_FA3_TRUST_AND_AUDITABILITY"
       ]
     },
     {
