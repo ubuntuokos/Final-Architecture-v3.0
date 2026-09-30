@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from fa3_shared_capability_fabric import resolve, resolve_slice
+from fa3_shared_capability_fabric import internal_application_ids, resolve, resolve_slice, universal_surface_consumers
 from fa3_shared_capability_gate import gate
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -71,6 +71,12 @@ class SharedCapabilityFabricTests(unittest.TestCase):
         record={"key":"expense.submit","activation_class":"COST_CONTEXT"}
         decision=resolve_slice(record,self.base_context())
         self.assertEqual("HIDDEN",decision.state)
+
+    def test_email_send_covers_every_registered_internal_application(self):
+        internal=set(internal_application_ids(ROOT))
+        consumers=set(universal_surface_consumers(ROOT,"email.send"))
+        self.assertTrue(internal)
+        self.assertEqual(internal,consumers)
 
     def test_registry_has_exact_45_slices(self):
         data=json.loads((ROOT/"canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json").read_text())
