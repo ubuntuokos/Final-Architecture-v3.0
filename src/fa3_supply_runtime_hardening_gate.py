@@ -74,6 +74,9 @@ def gate(root:Path)->dict[str,Any]:
       "hu":"canonical/profiles/FA3-HU-AQC-001.json",
       "policy":"canonical/enforcement-policy.json",
       "license_policy":"canonical/supply-chain-license-policy.json",
+      "rights_policy":"canonical/license-rights-policy.json",
+      "rights_audit":"canonical/license-rights-audit-status.json",
+      "rights_gate":"canonical/FA3-GATE-LICENSE-RIGHTS-001.json",
       "scs_schema":"canonical/schemas/software-supply-chain-receipt.v1.json",
       "runtime_schema":"canonical/schemas/provider-runtime-environment.v1.json",
       "reservation_schema":"canonical/schemas/resource-reservation-plan.v1.json",
@@ -107,6 +110,13 @@ def gate(root:Path)->dict[str,Any]:
         if data["hu"].get("current_host_runtime_promotion_claimed") is not False: findings.append(finding("SRH-009","HU-AQC document-only promotion forbidden"))
         if GATESET_ID not in set(data["policy"].get("mandatory_reference_gates",[])): findings.append(finding("SRH-010","global enforcement binding missing"))
         if data["license_policy"].get("id")!="FA3-SCS-LICENSE-POLICY-001" or data["license_policy"].get("commercial_compatible_is_derived") is not True: findings.append(finding("SRH-015","automated license admission policy drift"))
+        if data["rights_policy"].get("id")!="FA3-LICENSE-RIGHTS-POLICY-001" or data["rights_policy"].get("status")!="CANONICAL_FAIL_CLOSED" or data["rights_policy"].get("third_party_relicense_forbidden") is not True: findings.append(finding("SRH-016","license-rights authority policy drift"))
+        if data["rights_gate"].get("gateset_id")!=GATESET_ID or data["rights_gate"].get("fail_closed") is not True: findings.append(finding("SRH-017","license-rights subgate binding drift"))
+        if data["rights_audit"].get("status")=="PENDING_RETROACTIVE_AUDIT":
+            if data["rights_audit"].get("release_eligible") is not False or data["rights_audit"].get("global_runtime_promotion_claim") is not False: findings.append(finding("SRH-018","pending rights audit must fail closed for release/promotion"))
+        elif data["rights_audit"].get("status")=="PASS":
+            if data["rights_audit"].get("release_eligible") is not True: findings.append(finding("SRH-018","completed rights audit release state inconsistent"))
+        else: findings.append(finding("SRH-018","unknown license-rights audit state"))
         if data["scs_schema"].get("$id")!="fa3.software-supply-chain-receipt.v1" or data["runtime_schema"].get("$id")!="fa3.provider-runtime-environment.v1" or data["reservation_schema"].get("$id")!="fa3.resource-reservation-plan.v1" or data["patch_schema"].get("$id")!="fa3.upstream-patch-set.v1": findings.append(finding("SRH-014","typed schema identity drift"))
         tp=evaluate_patchset(data["tencent_patch"])
         if tp["result"]!="PASS" or data["tencent_patch"].get("disposition")!="REFERENCE_ONLY" or data["tencent_patch"].get("runtime_admission") is not False or data["tencent_patch"].get("license_disposition",{}).get("conflicts")==[]: findings.append(finding("SRH-012","TencentDB security/license blockers must remain fail-closed reference-only"))

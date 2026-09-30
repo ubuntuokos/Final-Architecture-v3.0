@@ -1,0 +1,75 @@
+name: FA3 License & Rights
+
+on:
+  pull_request:
+    paths:
+      - "LICENSE"
+      - "LICENSES/**"
+      - "NOTICE"
+      - "TRADEMARKS.md"
+      - "COMMERCIAL-LICENSING.md"
+      - "REUSE.toml"
+      - "canonical/license-rights-*.json"
+      - "canonical/profiles/FA3-LICENSE-RIGHTS-001.json"
+      - "canonical/contracts/FA3-LICENSE-RIGHTS-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30.json"
+      - "canonical/assessments/FA3-LICENSE-RIGHTS-DECISION-ASSESSMENT-2026-09-30.json"
+      - "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json"
+      - "canonical/FA3-GATE-LICENSE-RIGHTS-001.json"
+      - "canonical/schemas/license-rights-descriptor.v1.json"
+      - "canonical/schemas/release-license-compliance-receipt.v1.json"
+      - "canonical/supply-chain-license-policy.json"
+      - "src/fa3_license_rights.py"
+      - "src/fa3_license_rights_gate.py"
+      - "src/fa3_supply_runtime_hardening_gate.py"
+      - "tests/test_license_rights.py"
+      - "docs/license-rights-management.md"
+      - ".github/workflows/fa3-license-rights.yml"
+  push:
+    branches: [main]
+    paths:
+      - "LICENSE"
+      - "LICENSES/**"
+      - "NOTICE"
+      - "TRADEMARKS.md"
+      - "COMMERCIAL-LICENSING.md"
+      - "REUSE.toml"
+      - "canonical/license-rights-*.json"
+      - "canonical/profiles/FA3-LICENSE-RIGHTS-001.json"
+      - "canonical/contracts/FA3-LICENSE-RIGHTS-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30.json"
+      - "canonical/assessments/FA3-LICENSE-RIGHTS-DECISION-ASSESSMENT-2026-09-30.json"
+      - "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json"
+      - "canonical/FA3-GATE-LICENSE-RIGHTS-001.json"
+      - "canonical/schemas/license-rights-descriptor.v1.json"
+      - "canonical/schemas/release-license-compliance-receipt.v1.json"
+      - "canonical/supply-chain-license-policy.json"
+      - "src/fa3_license_rights.py"
+      - "src/fa3_license_rights_gate.py"
+      - "src/fa3_supply_runtime_hardening_gate.py"
+      - "tests/test_license_rights.py"
+      - "docs/license-rights-management.md"
+      - ".github/workflows/fa3-license-rights.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  license-rights:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_license_rights
+      - name: Static fail-closed gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_license_rights_gate.py --root .
