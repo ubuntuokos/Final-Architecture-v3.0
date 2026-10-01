@@ -1,14 +1,14 @@
 {
-  "schema":"fa3.reuse-assessment.v1",
-  "id":"FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001",
-  "status":"REVIEWED_MATCH",
-  "date":"2026-10-01",
-  "subject_id":"FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
-  "published_main_commit":"6b10c881616cd52bd2ccd4350103cd1964f5bd8d",
-  "donor_registry_blob_sha":"d28e46732a2068bff7fcc7091baa1f754012085d",
-  "donor_registry_entry_count":1287,
-  "capability_baseline":175,
-  "selected_existing_donor_ids":[
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+  "published_main_commit": "6b10c881616cd52bd2ccd4350103cd1964f5bd8d",
+  "donor_registry_blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "donor_registry_entry_count": 1287,
+  "capability_baseline": 175,
+  "selected_existing_donor_ids": [
     "FA3-DONOR-COMFYUI-001",
     "FA3-DONOR-FIFTYONE-001",
     "FA3-DONOR-CVAT-COMMUNITY-001",
@@ -17,9 +17,66 @@
     "FA3-DONOR-SELECTIVE-IMPORT-BREAKTHROUGH-PYSCENEDETECT-001",
     "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001"
   ],
-  "analysis_only_policy":"Internet research sources without the exact owner donornak marker remain pattern research only and MUST NOT receive donor IDs, usage edges, runtime admission or code-import status.",
-  "adoption_authorized":false,
-  "runtime_admission_authorized":false,
-  "code_import_authorized":false,
-  "provider_or_model_admission_authorized":false
+  "analysis_only_policy": "Internet research sources without the exact owner donornak marker remain pattern research only and MUST NOT receive donor IDs, usage edges, runtime admission or code-import status.",
+  "adoption_authorized": false,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "covered_ids": [
+    "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+    "FA3-SHARED-AI-INTERACTION-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001"
+  ],
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_PROVIDER_ROUTING"
+    },
+    {
+      "id": "FA3-KNOWLEDGE-001",
+      "use": "KNOWLEDGE_AND_RETRIEVAL_BOUNDARY"
+    },
+    {
+      "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+      "use": "HYBRID_RETRIEVAL_COMPOSITION"
+    },
+    {
+      "id": "FA3-EMBEDDING-FABRIC-001",
+      "use": "PROVIDER_NEUTRAL_VECTORIZATION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "TOOL_MEDIATION"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "ISOLATED_ACTION_EXECUTION"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "CREDENTIAL_DELIVERY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "RECEIPT_AND_PROVENANCE_EVIDENCE"
+    }
+  ],
+  "gaps": [],
+  "implementation_readiness": "STATIC_SHARED_COMPONENT_CONTRACTS_MATERIALIZED_RUNTIME_ADMISSION_NOT_CREATED",
+  "static_materialization_authorized": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false
 }
