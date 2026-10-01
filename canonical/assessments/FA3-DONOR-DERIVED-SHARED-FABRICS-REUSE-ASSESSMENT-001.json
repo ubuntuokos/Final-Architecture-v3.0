@@ -47,9 +47,31 @@
   "project_status":"STATIC_SHARED_COMPOSITION_CONTRACTS_MATERIALIZED",
   "result":"PASS",
   "mandatory_source_reviews":[
-    {"source_family_id":"FA3-KHRONOS-OPEN-STANDARDS-001","review_status":"REVIEWED_MATCH_FOR_CREATIVE_INTERCHANGE_ONLY","authority":false,"automatic_selection":false,"assessment":"Creative 3D/interchange consumers continue using the existing Khronos/Open Standards Fabric; no new Khronos runtime is introduced by this composition."}
+    {
+      "source_family_id":"FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status":"MATCHED",
+      "available_candidate_ids":[
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.anari"
+      ],
+      "matched_candidate_ids":[
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx"
+      ],
+      "roles":["INTERCHANGE_STANDARD_SOURCE","DESIGN_PATTERN_INSTRUCTION_SOURCE"],
+      "authority":false,
+      "automatic_selection":false,
+      "automatic_activation":false,
+      "disposition":"REUSE_EXISTING_KHRONOS_FABRIC_FOR_CREATIVE_INTERCHANGE_ONLY_NO_NEW_SDK_RUNTIME_ADMISSION"
+    }
   ],
   "hardware_audit":{"vendor_neutral":true,"cpu_only_viable":true,"accelerator_cardinality":"0..N","global_accelerator_requirement":false,"hardware_mutation":false,"hrb_authority_preserved":true},
-  "coexistence":{"result":"PASS_STATIC_ONLY","namespaced":true,"upstream_uninstall_required":false,"global_mutation":false,"default_port_claim":false,"runtime_change":false},
+  "coexistence":{"result":"PASS","namespaced":true,"upstream_uninstall_required":false,"global_mutation":false,"default_port_claim":false,"runtime_change":false},
   "global_promotion_claim":false
 }
