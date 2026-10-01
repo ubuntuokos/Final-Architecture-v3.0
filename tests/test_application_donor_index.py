@@ -27,6 +27,8 @@ SOURCES = (
     "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
     "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
     "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-STTIF-001.json",
+    "canonical/contracts/FA3-STTIF-CONTRACTS-001.json",
 )
 
 
