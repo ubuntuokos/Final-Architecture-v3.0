@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-GAME-CREATION-ASSET-PROCESSING-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-SHARED-ASSET-PROCESSING-001",
+  "project_id": "FA3-SHARED-ASSET-PROCESSING-001",
+  "intent_id": "FA3-GAME-CREATION-ASSET-PROCESSING-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-GAME-CREATION-ASSET-PROCESSING-APPLICATION-INTENT-001.json",
+  "base_wp0_head": "9818bd82e96e46d7775b3bb514bfd3f470c6dca9",
+  "capability_baseline": 175,
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001",
+      "use": "BASE_ASSET_METADATA_RIGHTS_PROVENANCE_PATTERN"
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "use": "ORIGINAL_AND_DERIVED_REPRESENTATION_BOUNDARY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "RIGHTS_ELIGIBILITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "FUTURE_PROCESSING_RECEIPTS"
+    }
+  ],
+  "external_source_policy": "WP0 analysis-only sources provide architectural observations only. No new donor ID, donor usage edge, source copying or runtime dependency is created in WP1.",
+  "adoption_authorized": false,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "static_fa3_native_materialization_authorized": true,
+  "gaps": [
+    "TRANSFORM_EXECUTOR_DEFERRED",
+    "HOT_RELOAD_RUNTIME_DEFERRED_TO_WP5",
+    "APPLICATION_ADAPTER_MIGRATION_DEFERRED_TO_WP7"
+  ],
+  "implementation_readiness": "READY_FOR_STATIC_DETERMINISTIC_PLANNER",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "result": "PASS"
+}
