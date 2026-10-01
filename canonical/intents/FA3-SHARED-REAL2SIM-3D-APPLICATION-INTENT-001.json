@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-REAL2SIM-3D-APPLICATION-INTENT-001",
+  "project_id": "FA3-SHARED-REAL2SIM-3D-001",
+  "project_type": "PROFILE",
+  "goal": "Materialize one shared provider-neutral Real2Sim 3D plugin core for all relevant Bforartists/Blender-engine FA3 applications by composing existing reconstruction, vision, human-motion and DCC-interchange capabilities without adding a capability, provider, model or authority.",
+  "required_capabilities": [
+    "Metric 3D Reconstruction",
+    "Neural Rendering & Reconstruction Enhancement",
+    "Character Motion Synthesis, Retargeting & Performance Transfer",
+    "Scene / Shot / Camera / Rig Interchange",
+    "Vision Detection, Tracking & Segmentation Fabric"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "real2sim",
+    "video-to-editable-3d-scene",
+    "room-and-camera-reconstruction",
+    "human-motion-reconstruction",
+    "contact-refinement",
+    "scene-variant-authoring",
+    "multi-application-shared-3d-plugin"
+  ],
+  "input_modalities": [
+    "VIDEO",
+    "IMAGE_SEQUENCE",
+    "GEOMETRY_REFERENCE",
+    "MOTION_REFERENCE"
+  ],
+  "output_modalities": [
+    "FA3_GEOMETRY",
+    "CAMERA_TRAJECTORY",
+    "FA3_HUMAN_MOTION_IR",
+    "SCENE_ASSEMBLY_PLAN",
+    "DCC_HANDOFF",
+    "REVIEW_RECEIPT"
+  ],
+  "execution_classes": [
+    "STATIC_PLUGIN_CORE",
+    "GOVERNED_JOB_PLAN"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "MODEL_ROUTER_REMAINS_SOLE_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "MCP_GATEWAY_REMAINS_TOOL_MEDIATION_AUTHORITY",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_AUTHORITY",
+    "DCC_SCENE_AND_FINAL_ASSET_AUTHORITY_REMAINS_FA3_DCC_RT3D_001",
+    "AI_DISABLE_DENY_WINS",
+    "NO_SILENT_FALLBACK",
+    "NO_IMPLICIT_DISPLAY_GPU_ENLISTMENT",
+    "HUMAN_APPROVAL_REQUIRED_BEFORE_DCC_COMMIT",
+    "NATIVE_PROJECT_PRESERVATION_REQUIRED"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-3D-GEOM-001",
+    "FA3-DIFFERENTIABLE-3D-001",
+    "FA3-HUMAN-MOTION-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "FA3-DCC-RT3D-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "gui_requirements": [
+    "NO_STANDALONE_DUPLICATE_3D_APPLICATION_REQUIRED",
+    "CONTEXT_AWARE_HOST_ADAPTERS",
+    "BFORARTISTS_PRIMARY",
+    "BLENDER_COMPATIBILITY_ADAPTER",
+    "APPLICATION_SPECIFIC_UI_PROJECTION_ONLY"
+  ],
+  "task_classes": [
+    "3d",
+    "reconstruction",
+    "animation",
+    "character-motion",
+    "scene-authoring"
+  ],
+  "skill_triggers": []
+}

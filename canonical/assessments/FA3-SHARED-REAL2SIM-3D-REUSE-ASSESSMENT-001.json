@@ -1,0 +1,150 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-REAL2SIM-3D-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-SHARED-REAL2SIM-3D-001",
+  "published_main_commit": "7e4f5d7a0298710815e007fd28d6279281c7bc36",
+  "donor_registry_blob_sha": "55111e30b4508efb4e8825c40c0f9c6152ca5b35",
+  "donor_registry_entry_count": 1307,
+  "capability_baseline": 175,
+  "analysis_source": {
+    "name": "KevinXu02/aha-3d",
+    "source": "https://github.com/KevinXu02/aha-3d",
+    "observed_commit": "82f4b1110cfe4b55fff19df3b3790852ce07b171",
+    "registry_status": "UNREGISTERED_UNMARKED_ANALYSIS_ONLY",
+    "owner_donornak_marker_observed": false,
+    "donor_id_created": false,
+    "usage_edge_created": false,
+    "code_import_authorized": false,
+    "runtime_dependency_authorized": false,
+    "pattern_reexpression_only": true
+  },
+  "selected_existing_donor_ids": [],
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-3D-GEOM-001",
+      "use": "SOLE_CANONICAL_GEOMETRY_SEMANTICS"
+    },
+    {
+      "id": "FA3-DIFFERENTIABLE-3D-001",
+      "use": "METRIC_3D_RECONSTRUCTION_AND_CAMERA_OPTIMIZATION"
+    },
+    {
+      "id": "FA3-HUMAN-MOTION-001",
+      "use": "HUMAN_MOTION_AND_RETARGETING"
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "use": "VIDEO_IMAGE_TEMPORAL_SOURCE_ENVELOPE"
+    },
+    {
+      "id": "FA3-DCC-RT3D-001",
+      "use": "DCC_SCENE_CAMERA_AND_FINAL_ASSET_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_PROVIDER_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_EXECUTION"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "TOOL_MEDIATION"
+    }
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "component_ids": [
+      "FA3-SHARED-REAL2SIM-3D-001",
+      "FA3-SHARED-REAL2SIM-3D-CONTRACTS-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplication_allowed": false
+  },
+  "retrospective_consumer_classes": [
+    "Character Studio",
+    "World / Environment Studio",
+    "Scene / Shot Designer",
+    "Animation Department",
+    "Bforartists-hosted FA3 3D applications",
+    "Blender-compatible FA3 3D applications"
+  ],
+  "gaps": [],
+  "implementation_readiness": "STATIC_SHARED_PLUGIN_CORE_MATERIALIZED_RUNTIME_AND_CURRENT_HOST_ADMISSION_PENDING",
+  "static_materialization_authorized": true,
+  "adoption_authorized": false,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "project_id": "FA3-SHARED-REAL2SIM-3D-001",
+  "intent_id": "FA3-SHARED-REAL2SIM-3D-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-REAL2SIM-3D-APPLICATION-INTENT-001.json",
+  "project_status": "IMPLEMENTATION_DRAFT",
+  "result": "PASS",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Real2Sim outputs remain behind existing FA3 3D geometry and DCC interchange authorities; this change creates no new Khronos runtime or SDK dependency."
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true,
+    "display_gpu_implicit_enlistment": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_change": false
+  },
+  "rejected_candidates": [
+    {
+      "id": "DIRECT_AHA3D_CODE_IMPORT",
+      "reason": "SOURCE_IS_NOT_IN_CANONICAL_DONOR_REGISTRY_AND_NO_CODE_ADOPTION_DECISION_EXISTS"
+    },
+    {
+      "id": "AHA3D_AS_GLOBAL_RUNTIME_DEPENDENCY",
+      "reason": "WOULD_BYPASS_PROVIDER_NEUTRAL_FA3_AUTHORITIES_AND_CURRENT_HOST_ADMISSION"
+    },
+    {
+      "id": "NEW_PARALLEL_GEOMETRY_AUTHORITY",
+      "reason": "FA3_3D_GEOM_001_IS_SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY"
+    },
+    {
+      "id": "DIRECT_BLENDER_MUTATION_FROM_PLUGIN_CORE",
+      "reason": "DCC_SCENE_AND_FINAL_ASSET_AUTHORITY_MUST_REMAIN_FA3_DCC_RT3D_001"
+    }
+  ],
+  "p0_followup": {
+    "open_pr_596_snapshot_gate_observed": true,
+    "finalization_after_pr_596_requires_fresh_assessment": true,
+    "registry_sha256_not_claimed_in_this_pre_596_assessment": true
+  },
+  "global_promotion_claim": false,
+  "covered_ids": [
+    "FA3-SHARED-REAL2SIM-3D-001"
+  ]
+}
