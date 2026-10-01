@@ -52,7 +52,11 @@
     "capability_binding_must_be_canonical_derived": true,
     "manual_capability_id_inference_forbidden": true,
     "capability_map_is_derived_non_authoritative": true,
-    "consumer_impact_includes_shared_modules_profiles_authorities_gui_tests_current_host": true
+    "consumer_impact_includes_shared_modules_profiles_authorities_gui_tests_current_host": true,
+    "shared_capability_consumer_reverse_traceability_required": true,
+    "shared_capability_binding_must_be_canonical_derived": true,
+    "shared_capability_manual_capability_ids_forbidden": true,
+    "shared_capability_current_host_impact_required": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -248,7 +252,232 @@
       "human_approval_required": true
     }
   ],
-  "shared_capabilities": [],
+  "shared_capabilities": [
+    {
+      "id": "FA3-SHARED-AI-INTERACTION-001",
+      "owner_layer": "Unified AI Gateway, Model & Memory",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.bforartists",
+        "studio.natron",
+        "studio.gaffer",
+        "studio.demucs",
+        "studio.deepfilternet",
+        "studio.mautic",
+        "studio.twenty",
+        "studio.listmonk"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-AI-INTERACTION-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-AI-INTERACTION-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+      "owner_layer": "Unified AI Gateway, Model & Memory",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "studio.mautic",
+        "studio.twenty",
+        "studio.listmonk"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-MULTIMODAL-RETRIEVAL-PATTERN-001",
+        "FA3-SHARED-STRUCTURED-DOCUMENT-INTAKE-PATTERN-001",
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "owner_layer": "Audio, Video, Streaming & Realtime",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.bforartists",
+        "studio.natron",
+        "studio.gaffer",
+        "studio.demucs",
+        "studio.deepfilternet"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-MULTIMODAL-SOURCE-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
+        "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-CONVERSATION-SESSION-001",
+      "owner_layer": "Unified AI Gateway, Model & Memory",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "studio.mautic",
+        "studio.twenty",
+        "studio.listmonk"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-CONVERSATION-SESSION-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
+        "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "owner_layer": "Tools, Skills & Automation",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.bforartists",
+        "studio.natron",
+        "studio.gaffer",
+        "studio.demucs",
+        "studio.deepfilternet",
+        "studio.mautic",
+        "studio.twenty",
+        "studio.listmonk"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-TOOL-ACTION-MEDIATION-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MCP-GATEWAY-001",
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001"
+      ]
+    }
+  ],
   "governance_decisions": [
     "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
   ],
