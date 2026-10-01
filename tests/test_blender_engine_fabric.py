@@ -17,6 +17,7 @@ FILES = [
     "canonical/profiles/FA3-BLENDER-COMPATIBILITY-PROFILE-001.json",
     "canonical/contracts/FA3-BLENDER-COMPATIBILITY-CONTRACTS-001.json",
     "canonical/assessments/FA3-BLENDER-ENGINE-FABRIC-REUSE-ASSESSMENT-001.json",
+    "canonical/assessments/FA3-BLENDER-COMPATIBILITY-PROFILE-DECISION-ASSESSMENT-2026-10-01.json",
     "canonical/decisions/FA3-DEC-BLENDER-ENGINE-FABRIC-2026-10-01.json",
     "canonical/intents/FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001.json",
     "canonical/FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001.json",
@@ -37,6 +38,13 @@ class BlenderEngineFabricTests(unittest.TestCase):
         self.assertEqual(report["capability_bindings"], 16)
         self.assertFalse(report["runtime_activation"])
         self.assertFalse(report["physical_current_host_pass_claimed"])
+
+    def test_governance_assessments_cover_profile(self):
+        reuse = json.loads((ROOT / FILES[3]).read_text())
+        self.assertIn("FA3-BLENDER-COMPATIBILITY-PROFILE-001", reuse["covered_ids"])
+        decision = json.loads((ROOT / FILES[4]).read_text())
+        self.assertEqual(decision["assessment"], "NOT_APPLICABLE")
+        self.assertIn("FA3-BLENDER-COMPATIBILITY-PROFILE-001", decision["covered_ids"])
 
     def test_blender_fork_fails(self):
         with tempfile.TemporaryDirectory() as td:
@@ -98,7 +106,7 @@ class BlenderEngineFabricTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             fixture(root)
-            path = root / FILES[6]
+            path = root / FILES[7]
             data = json.loads(path.read_text())
             data["physical_current_host_pass_claimed"] = True
             path.write_text(json.dumps(data))

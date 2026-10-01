@@ -24,15 +24,15 @@
     },
     {
       "subject_id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
-      "descriptor": null,
-      "disposition": "REVIEW_REQUIRED",
-      "audit_status": "PROVENANCE_EVIDENCE_INCOMPLETE"
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-AGENT-RUNNER-NATIVE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT_EXTERNAL_SYSTEMD_RUNTIME_SEPARATE"
     },
     {
       "subject_id": "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
-      "descriptor": null,
-      "disposition": "REVIEW_REQUIRED",
-      "audit_status": "PROVENANCE_AND_EXTERNAL_RUNTIME_BOUNDARY_INCOMPLETE"
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-AGENT-RUNNER-PODMAN-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT_EXTERNAL_PODMAN_RUNTIME_SEPARATE"
     },
     {
       "subject_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
@@ -45,5 +45,7 @@
     "third_party_runtime_or_service_terms_separate": true,
     "native_subject_descriptor_does_not_relicense_external_dependency": true,
     "release_included_subject_must_have_valid_descriptor": true
-  }
+  },
+  "release_included_subjects_rights_status": "PASS",
+  "release_included_subject_blockers": 0
 }

@@ -2,10 +2,10 @@
   "schema": "fa3.license-rights-audit-status.v1",
   "id": "FA3-LICENSE-RIGHTS-AUDIT-001",
   "authority": "FA3-AUTH-SECURITY-GOV-001",
-  "as_of": "2026-09-30",
+  "as_of": "2026-10-01",
   "status": "IN_PROGRESS_RETROACTIVE_AUDIT",
   "release_eligible": false,
-  "release_block_reason": "RETROACTIVE_AUDIT_WORK_QUEUE_NOT_CLOSED",
+  "release_block_reason": "RETROACTIVE_AUDIT_NON_RELEASE_SUBJECT_WORK_QUEUE_NOT_CLOSED",
   "global_runtime_promotion_claim": false,
   "historical_evidence_overwrite_forbidden": true,
   "scope": [
@@ -36,7 +36,12 @@
   "note": "The authority is materialized fail-closed. This record intentionally does not claim that pre-existing repository content has completed the retroactive rights audit.",
   "plan_id": "FA3-LICENSE-RIGHTS-AUDIT-PLAN-001",
   "audit_gate_id": "FA3-GATE-LICENSE-RIGHTS-AUDIT-001",
-  "current_phase": "LR-AUDIT-PHASE-1",
-  "current_phase_status": "MATERIALIZED_INVENTORY_AND_WORK_QUEUE_VALIDATION_PENDING",
-  "automatic_inventory_is_legal_clearance": false
+  "current_phase": "LR-AUDIT-PHASE-2",
+  "current_phase_status": "RELEASE_INCLUDED_SUBJECT_RIGHTS_CLEARED_BROADER_THIRD_PARTY_AND_NON_CODE_AUDIT_IN_PROGRESS",
+  "automatic_inventory_is_legal_clearance": false,
+  "release_included_subject_rights_status": "PASS",
+  "release_included_subject_count": 6,
+  "release_included_subject_descriptor_count": 6,
+  "release_included_subject_blockers": 0,
+  "full_retroactive_audit_closed": false
 }

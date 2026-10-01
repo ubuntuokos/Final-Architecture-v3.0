@@ -10,6 +10,7 @@ INTEGRATION = "canonical/FA3-BLENDER-ENGINE-FABRIC-001.json"
 PROFILE = "canonical/profiles/FA3-BLENDER-COMPATIBILITY-PROFILE-001.json"
 CONTRACT = "canonical/contracts/FA3-BLENDER-COMPATIBILITY-CONTRACTS-001.json"
 ASSESSMENT = "canonical/assessments/FA3-BLENDER-ENGINE-FABRIC-REUSE-ASSESSMENT-001.json"
+DECISION_ASSESSMENT = "canonical/assessments/FA3-BLENDER-COMPATIBILITY-PROFILE-DECISION-ASSESSMENT-2026-10-01.json"
 DECISION = "canonical/decisions/FA3-DEC-BLENDER-ENGINE-FABRIC-2026-10-01.json"
 INTENT = "canonical/intents/FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001.json"
 IMPACT = "canonical/FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001.json"
@@ -56,6 +57,7 @@ def validate(root: Path) -> dict[str, Any]:
     profile = load(root / PROFILE)
     contract = load(root / CONTRACT)
     assessment = load(root / ASSESSMENT)
+    decision_assessment = load(root / DECISION_ASSESSMENT)
     decision = load(root / DECISION)
     intent = load(root / INTENT)
     impact = load(root / IMPACT)
@@ -168,10 +170,28 @@ def validate(root: Path) -> dict[str, Any]:
         fail("OWNER_DECISION", str(decision.get("status")))
     if intent.get("declared_new_capabilities") != [] or intent.get("proposed_authority_roles") != []:
         fail("INTENT_DELTA", "intent proposes capability/authority")
+    covered = set(assessment.get("covered_ids", []))
+    for required_id in ("FA3-BLENDER-ENGINE-FABRIC-001", "FA3-BLENDER-COMPATIBILITY-PROFILE-001", "FA3-BLENDER-COMPATIBILITY-CONTRACTS-001"):
+        if required_id not in covered:
+            fail("REUSE_ASSESSMENT_COVERAGE", required_id)
     if assessment.get("static_materialization_authorized") is not True:
         fail("REUSE_ASSESSMENT", "static materialization not authorized")
     if assessment.get("code_import_authorized") is not False or assessment.get("runtime_admission_authorized") is not False:
         fail("UNAUTHORIZED_SOURCE_OR_RUNTIME_ADOPTION", "assessment")
+    if decision_assessment.get("schema") != "fa3.decision-fabric-assessment.v1":
+        fail("DECISION_ASSESSMENT_SCHEMA", str(decision_assessment.get("schema")))
+    if "FA3-BLENDER-COMPATIBILITY-PROFILE-001" not in set(decision_assessment.get("covered_ids", [])):
+        fail("DECISION_ASSESSMENT_COVERAGE", "FA3-BLENDER-COMPATIBILITY-PROFILE-001")
+    if decision_assessment.get("assessment") != "NOT_APPLICABLE":
+        fail("DECISION_ASSESSMENT_SCOPE", str(decision_assessment.get("assessment")))
+    if decision_assessment.get("decision_points") != []:
+        fail("DECISION_ASSESSMENT_SCOPE", "static compatibility profile must not introduce decision points")
+    if decision_assessment.get("project_radar_checked") is not True:
+        fail("DECISION_ASSESSMENT_RADAR", "required")
+    security = decision_assessment.get("security_boundary", {})
+    for field in ("may_grant_permission", "may_expand_candidate_set", "may_create_agent", "may_admit_model", "may_admit_provider"):
+        if security.get(field) is not False:
+            fail("DECISION_ASSESSMENT_SECURITY", field)
 
     if impact.get("structural_alignment_performed") is not True:
         fail("CURRENT_HOST_ALIGNMENT", "missing")
