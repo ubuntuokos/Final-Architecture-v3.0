@@ -29,7 +29,7 @@
   "production_runtime_promoted": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "migration": {
     "legacy_default_image": "~/.local/share/fa3/vault/fa3-session-vault.img",
     "new_default_image": "~/.local/share/fa3/state/fa3-state.img",
@@ -45,5 +45,12 @@
     "runtime_promotion_eligible": true,
     "global_promotion_claim": false,
     "secret_values_collected": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "evidence_baseline_separation": {
+    "prior_component_current_host_evidence_capability_baseline": 143,
+    "prior_component_evidence_may_promote_active_global_175_525_closure": false,
+    "active_global_current_host_requalification_required": true
   }
 }
