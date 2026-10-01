@@ -1,0 +1,7 @@
+{
+  "schema":"fa3.contract-family.v1","id":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-CONTRACTS-001","version":"1.0.0","status":"CANONICAL","parent_profile":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-001","provider_neutral":true,"new_capability":false,"new_architectural_authority":false,"capability_count":175,
+  "capability_bindings":["CAP-070","CAP-150","CAP-152","CAP-174","CAP-175"],
+  "contracts":["TransportIntent","TransportBackendDescriptor","TransportSession","StreamBudget","FlowBudget","CongestionPolicyRequest","PacingHint","TransportTelemetryEvent","ProtocolQualificationReceipt","TransportFallbackReceipt"],
+  "required_semantics":{"protocols":["TCP_TLS","HTTP_1_1","HTTP_2","QUIC","HTTP_3"],"quic_http3":"OPTIONAL_ADMITTED_BACKEND_ONLY","stream_budget":"EXPLICIT_PER_WORKLOAD","ports":"NAMESPACED_DISCOVERED_OR_CONFIGURED_NO_GLOBAL_HARDCODE","telemetry":"QLOG_COMPATIBLE_WHEN_BACKEND_SUPPORTS","fallback":"EXPLICIT_RECEIPT_NO_SILENT_DOWNGRADE"},
+  "invariants":["NETWORK_BACKEND_NOT_SECURITY_AUTHORITY","NETWORK_BACKEND_NOT_HRB_AUTHORITY","QUICHE_SOURCE_OR_RUNTIME_NOT_ADMITTED_BY_THIS_CONTRACT","BORINGSSL_OR_OTHER_TRANSITIVE_DEPENDENCY_REQUIRES_SEPARATE_LICENSE_SECURITY_COEXISTENCE_REVIEW"]
+}

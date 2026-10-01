@@ -1,0 +1,9 @@
+{
+  "schema":"fa3.profile-record.v1","id":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-001","name":"Shared Network Transport Composition","version":"1.0.0","status":"CANONICAL","priority":"P0","requirement":"MUST_IF_COMPONENT_USED","canonical_root":false,"provider_neutral":true,"shared_component":true,"new_capability":false,"new_architectural_authority":false,"capability_count":175,
+  "capability_bindings":["CAP-070","CAP-150","CAP-152","CAP-174","CAP-175"],
+  "contract_family":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-CONTRACTS-001",
+  "authority_bindings":{"security":"FA3-AUTH-SECURITY-GOV-001","host_resources":"FA3-AUTH-HOST-RESOURCE-BROKER-001","evidence":"FA3-AUTH-OBS-EVIDENCE-001","registry":"FA3-REGISTRY-001"},
+  "invariants":["TRANSPORT_IS_NOT_APPLICATION_AUTHORITY","TRANSPORT_MAY_NOT_EXPAND_AGENT_OR_PROVIDER_AUTHORITY","TCP_TLS_AND_HTTP_FALLBACKS_REMAIN_AVAILABLE_BY_POLICY","QUIC_HTTP3_OPTIONAL","NO_FIXED_PORT_CLAIM","UDP_PORT_OWNERSHIP_EXPLICIT","CONGESTION_PROFILE_POLICY_BOUNDED","QLOG_COMPATIBLE_TELEMETRY_OPTIONAL","TRANSPORT_DOWNGRADE_VISIBLE_AND_POLICY_GOVERNED","CURRENT_HOST_PHYSICAL_QUALIFICATION_REQUIRED_BEFORE_RUNTIME_PROMOTION"],
+  "runtime_materialization":{"new_service":false,"new_daemon":false,"new_port":false,"new_socket":false,"new_package_dependency":false,"provider_activation":false,"model_selection":false,"hardware_mutation":false,"semantics":"STATIC_TRANSPORT_CONTRACT_NO_QUICHE_RUNTIME_ADMISSION"},
+  "capability_model_reconciliation":"FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

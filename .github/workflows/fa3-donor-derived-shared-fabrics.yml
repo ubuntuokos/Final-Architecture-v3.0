@@ -1,0 +1,31 @@
+name: FA3 Donor Derived Shared Fabrics
+on:
+  pull_request:
+    paths:
+      - "canonical/FA3-DONOR-DERIVED-SHARED-FABRICS-001.json"
+      - "canonical/FA3-DONOR-DERIVED-SHARED-FABRICS-CURRENT-HOST-IMPACT-001.json"
+      - "canonical/profiles/FA3-SHARED-*-COMPOSITION-001.json"
+      - "canonical/contracts/FA3-SHARED-*-COMPOSITION-CONTRACTS-001.json"
+      - "canonical/assessments/FA3-DONOR-DERIVED-SHARED-FABRICS-REUSE-ASSESSMENT-001.json"
+      - "canonical/decisions/FA3-DEC-DONOR-DERIVED-SHARED-FABRICS-2026-10-01.json"
+      - "canonical/intents/FA3-DONOR-DERIVED-SHARED-FABRICS-APPLICATION-INTENT-001.json"
+      - "src/fa3_donor_derived_shared_fabrics.py"
+      - "tests/test_donor_derived_shared_fabrics.py"
+      - "bin/fa3-donor-derived-shared-fabrics"
+      - "docs/FA3-DONOR-DERIVED-SHARED-FABRICS-PLAN-2026-10-01.md"
+  push:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate donor-derived shared fabrics
+        run: python3 bin/fa3-donor-derived-shared-fabrics --check --summary
+      - name: Syntax
+        run: python3 -m py_compile src/fa3_donor_derived_shared_fabrics.py
+      - name: Regression tests
+        run: python3 -m unittest tests.test_donor_derived_shared_fabrics -v

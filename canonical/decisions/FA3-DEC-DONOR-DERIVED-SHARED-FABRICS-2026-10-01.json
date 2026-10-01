@@ -1,0 +1,33 @@
+{
+  "schema":"fa3.architecture-decision.v1",
+  "id":"FA3-DEC-DONOR-DERIVED-SHARED-FABRICS-2026-10-01",
+  "status":"OWNER_APPROVED_MATERIALIZATION",
+  "date":"2026-10-01",
+  "title":"Donor-derived shared Agent, Resource, Retrieval, Transport and Creative compositions",
+  "decision":"Materialize the approved donor-derived patterns as FA3-native shared compositions. Do not create competing applications, plugins or architectural authorities. Preserve the 175 capability baseline and existing exclusive authorities. Newly submitted sources without a literal user-authored donornak marker remain analysis-only; do not forge donor identities or usage edges.",
+  "approved_plan":"docs/FA3-DONOR-DERIVED-SHARED-FABRICS-PLAN-2026-10-01.md",
+  "invariants":{
+    "capability_baseline":175,
+    "capability_delta":0,
+    "architectural_authority_delta":0,
+    "donor_registry_is_only_donor_identity_authority":true,
+    "new_donor_requires_literal_owner_donornak_marker":true,
+    "shared_first":true,
+    "retroactive_impact_required":true,
+    "capability_non_regression":true,
+    "model_router_authority_preserved":true,
+    "hrb_authority_preserved":true,
+    "orchestrator_authority_preserved":true,
+    "secret_broker_authority_preserved":true,
+    "evidence_authority_preserved":true,
+    "runtime_activation_by_this_change":false,
+    "physical_current_host_pass_claimed":false
+  },
+  "materialized_components":[
+    "FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-001",
+    "FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-001",
+    "FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-001",
+    "FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-001",
+    "FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-001"
+  ]
+}

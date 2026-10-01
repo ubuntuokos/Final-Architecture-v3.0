@@ -1,0 +1,7 @@
+{
+  "schema":"fa3.contract-family.v1","id":"FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-CONTRACTS-001","version":"1.0.0","status":"CANONICAL","parent_profile":"FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-001","provider_neutral":true,"new_capability":false,"new_architectural_authority":false,"capability_count":175,
+  "capability_bindings":["CAP-028","CAP-070","CAP-144","CAP-145","CAP-152"],
+  "contracts":["AgentBackendDescriptor","AgentSessionEnvelope","WorkspaceOwnershipEnvelope","AgentEvent","AgentExecutionReceipt","AutomationTriggerEnvelope","SkillDisclosureRequest","CompatibilityFloor","IndependentReviewRequest","RepairRecheckReceipt"],
+  "required_semantics":{"workspace":"SCOPED_OWNERSHIP_AND_EXPLICIT_WRITABLE_ARTIFACTS","event_stream":"PROVIDER_NORMALIZED","automation":"TRIGGER_ONLY_NO_EXECUTION_AUTHORITY","review":"PRODUCER_REVIEWER_SEPARATION_SUPPORTED","resume":"CHECKPOINT_AND_FRESH_RESOURCE_ADMISSION","permissions":"DENY_BY_DEFAULT"},
+  "invariants":["TOOL_DISCOVERY_NOT_TOOL_AUTHORIZATION","BACKEND_SELECTION_NOT_MODEL_ROUTING_AUTHORITY","AUTOMATION_NOT_DURABLE_WORKFLOW_AUTHORITY","REVIEW_PASS_REQUIRES_ARTIFACT_EVIDENCE"]
+}

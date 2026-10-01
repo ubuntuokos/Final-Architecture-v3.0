@@ -1,0 +1,16 @@
+{
+  "schema":"fa3.contract-family.v1",
+  "id":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-CONTRACTS-001",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "parent_profile":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-001",
+  "provider_neutral":true,
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":175,
+  "capability_bindings":["CAP-014","CAP-041","CAP-111","CAP-159","CAP-161","CAP-164","CAP-166","CAP-168","CAP-170","CAP-171","CAP-172"],
+  "extends_contract":"FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+  "contracts":["CreativeCandidateSet","MaterializationApproval","ParallelArtifactOwnership","IndependentReviewPacket","RepairEvidencePair","ExecutionSnapshot","AssetRecipe","ContentDerivationEdge","DistributionTargetProfile","CharacterIdentityEnvelope","GeometryProductionizationPlan","BatchProductionPlan"],
+  "required_semantics":{"candidate_gate":"CHEAP_PREVIEW_BEFORE_EXPENSIVE_BUILD_WHEN_APPLICABLE","parallelism":"SHARED_READ_MOSTLY_STATE_PLUS_SINGLE_WRITABLE_ARTIFACT_OWNER","review":"FRESH_REVIEW_CONTEXT_ALLOWED","repair":"SAME_REGION_OR_MOMENT_BEFORE_AFTER_EVIDENCE","snapshot":"APPROVAL_BOUND_ENGINE_MODEL_POLICY_CONFIG_INPUT_HASHES_RIGHTS","derivation":"PARENT_SOURCE_RANGES_RIGHTS_VERSION_TARGET_PROFILE","geometry":"GENERATE_THEN_VALIDATE_RETOPO_UV_BAKE_AS_REQUIRED"},
+  "invariants":["REVIEW_FAILURE_CANNOT_SELF_PROMOTE","LICENSE_OR_SAFETY_FAILURE_CANNOT_DOWNGRADE_TO_POLISH","SCHEDULED_PUBLICATION_REQUIRES_APPLICABLE_APPROVAL","EXTERNAL_PROVIDER_NAMES_NOT_CANONICAL_WORKFLOW_DEPENDENCIES"]
+}

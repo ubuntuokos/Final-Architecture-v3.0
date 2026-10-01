@@ -1,0 +1,9 @@
+{
+  "schema":"fa3.profile-record.v1","id":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-001","name":"Shared Resource & Application Composition","version":"1.0.0","status":"CANONICAL","priority":"P0","requirement":"MUST_IF_COMPONENT_USED","canonical_root":false,"provider_neutral":true,"shared_component":true,"new_capability":false,"new_architectural_authority":false,"capability_count":175,
+  "capability_bindings":[],"binding_semantics":"NO_NEW_CAPABILITY_CONSUMER_BINDINGS_REMAIN_OWNED_BY_EXISTING_PROFILES",
+  "contract_family":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-CONTRACTS-001",
+  "authority_bindings":{"registry":"FA3-REGISTRY-001","security":"FA3-AUTH-SECURITY-GOV-001","identity":"EXISTING_FA3_IDENTITY_AUTHORITY_ONLY","evidence":"FA3-AUTH-OBS-EVIDENCE-001"},
+  "invariants":["RESOURCE_DESCRIPTOR_NOT_SOURCE_AUTHORITY","AUTHENTICATION_SEPARATE_FROM_AUTHORIZATION","ACCESS_CONTROL_DENY_WINS","AUDIT_BEFORE_AFTER_STATE_SUPPORTED","LIVE_EVENT_PROVIDER_REPLACEABLE","SCHEMA_DERIVED_UI_IS_DRAFT_UNTIL_HUMAN_REVIEW","QT6_QML_CANONICAL_DESKTOP_UI","REACT_UI_NOT_REQUIRED_RUNTIME","BACKEND_ADAPTER_NOT_ARCHITECTURAL_AUTHORITY"],
+  "runtime_materialization":{"new_service":false,"new_daemon":false,"new_port":false,"new_socket":false,"new_package_dependency":false,"provider_activation":false,"model_selection":false,"hardware_mutation":false,"semantics":"HEADLESS_CONTRACT_ONLY"},
+  "capability_model_reconciliation":"FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
