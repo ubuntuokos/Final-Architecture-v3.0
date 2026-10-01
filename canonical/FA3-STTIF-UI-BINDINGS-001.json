@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.ui-bindings.v1",
+  "id": "FA3-STTIF-UI-BINDINGS-001",
+  "status": "CANONICAL_SHARED_COMPONENT_CONTRACT",
+  "profile_id": "FA3-STTIF-001",
+  "shared_component_id": "FA3-SHARED-STTIF-001",
+  "authority": false,
+  "panel": {
+    "title": "Resolution & Memory",
+    "normal_mode": [
+      {
+        "field": "target_resolution",
+        "type": "RESOLUTION",
+        "required": true
+      },
+      {
+        "field": "quality_policy",
+        "type": "ENUM",
+        "values": [
+          "STANDARD",
+          "HIGH",
+          "MAXIMUM"
+        ]
+      },
+      {
+        "field": "memory_strategy",
+        "type": "ENUM",
+        "values": [
+          "HRB_MANAGED",
+          "MANUAL_BUDGET"
+        ]
+      },
+      {
+        "field": "temporal_mode",
+        "type": "ENUM",
+        "values": [
+          "AUTO_FROM_MODEL_CONSTRAINTS",
+          "EXPLICIT_VALIDATED"
+        ]
+      },
+      {
+        "field": "resource_authority",
+        "type": "READ_ONLY",
+        "value": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+      }
+    ],
+    "advanced_mode": [
+      "spatial_tile_width",
+      "spatial_tile_height",
+      "spatial_overlap_fraction",
+      "temporal_window_frames",
+      "temporal_overlap_frames",
+      "fusion_policy",
+      "vae_tile_policy",
+      "sampler",
+      "seed_noise_policy"
+    ]
+  },
+  "rules": [
+    "UI_MUST_NOT_SELECT_OR_PIN_A_PHYSICAL_DEVICE",
+    "UI_MUST_NOT_SILENTLY_SUBSTITUTE_PROVIDER_MODEL_SAMPLER_OR_PRECISION",
+    "INVALID_MODEL_CONSTRAINT_COMBINATION_FAILS_CLOSED",
+    "DISABLED_AI_PATH_MUST_NOT_INVOKE_MODEL_PROVIDER_OR_STTIF_EXECUTION"
+  ],
+  "consumer_surfaces": [
+    "fa3.video-editor",
+    "fa3.quickclip",
+    "fa3.character-studio",
+    "studio.comfyui",
+    "studio.invokeai",
+    "studio.kdenlive",
+    "studio.natron",
+    "studio.gaffer",
+    "studio.bforartists"
+  ]
+}

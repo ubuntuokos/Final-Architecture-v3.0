@@ -1,0 +1,56 @@
+name: FA3 STTIF
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_sttif.py'
+      - 'src/fa3_sttif_gate.py'
+      - 'tests/test_sttif.py'
+      - 'canonical/profiles/FA3-STTIF-001.json'
+      - 'canonical/contracts/FA3-STTIF-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-STTIF-LTX-TILED-FUSION-2026-10-01.json'
+      - 'canonical/FA3-GATE-STTIF-001.json'
+      - 'canonical/sttif-enforcement.json'
+      - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/license-rights/descriptors/FA3-DONOR-LTX2-UPSTREAM-001.json'
+      - 'canonical/license-rights/descriptors/FA3-DONOR-COMFYUI-LTXVIDEO-UPSTREAM-001.json'
+      - 'canonical/current-host-impact/FA3-CH-IMPACT-STTIF-20261001.json'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'bin/fa3-enforce'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    name: sttif / static-native-control-plane
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_sttif.py src/fa3_sttif_gate.py tests/test_sttif.py
+      - name: Planner and fail-closed regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_sttif -v
+      - name: Canonical STTIF gate
+        run: ./bin/fa3-enforce sttif
+      - name: License & Rights descriptor regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_license_rights -v
+      - name: Donor registry integrity
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_donor_readiness -v
