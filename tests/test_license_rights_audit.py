@@ -122,6 +122,7 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
                 "repository": "example/project",
                 "commit": "b" * 40,
                 "license": "MIT",
+                "license_blob_sha": "d" * 40,
                 "distribution": {
                     "class": "REFERENCE_ONLY",
                     "release_bundle_status": "EXCLUDED",
@@ -150,6 +151,7 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
                 "repository": "example/project",
                 "commit": "c" * 40,
                 "license": "UNKNOWN",
+                "license_blob_sha": "e" * 40,
                 "distribution": {
                     "class": "REFERENCE_ONLY",
                     "release_bundle_status": "EXCLUDED",
@@ -158,6 +160,31 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             inv = build_inventory(root)
             external = {x["subject_id"]: x for x in inv["external_subjects"]}
             self.assertEqual("REVIEW_REQUIRED", external["FA3-UPSTREAM-REFERENCE-001"]["resolution"])
+            self.assertTrue(any(
+                x.get("subject_id") == "FA3-UPSTREAM-REFERENCE-001" and x.get("severity") == "HIGH"
+                for x in inv["work_queue"]
+            ))
+
+    def test_reference_only_without_license_evidence_stays_review_required(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            refs = root / "canonical" / "references"
+            refs.mkdir()
+            (refs / "FA3-UPSTREAM-REFERENCE-001.json").write_text(json.dumps({
+                "id": "FA3-UPSTREAM-REFERENCE-001",
+                "repository": "example/project",
+                "commit": "d" * 40,
+                "license": "MIT",
+                "distribution": {
+                    "class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                },
+            }), encoding="utf-8")
+            inv = build_inventory(root)
+            external = {x["subject_id"]: x for x in inv["external_subjects"]}
+            self.assertEqual("REVIEW_REQUIRED", external["FA3-UPSTREAM-REFERENCE-001"]["resolution"])
+            self.assertIsNone(external["FA3-UPSTREAM-REFERENCE-001"]["license_evidence"])
             self.assertTrue(any(
                 x.get("subject_id") == "FA3-UPSTREAM-REFERENCE-001" and x.get("severity") == "HIGH"
                 for x in inv["work_queue"]
@@ -174,6 +201,7 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
                 "repository": "example/project",
                 "branch": "main",
                 "license": "MIT",
+                "license_blob_sha": "f" * 40,
                 "distribution": {
                     "class": "REFERENCE_ONLY",
                     "release_bundle_status": "EXCLUDED",
