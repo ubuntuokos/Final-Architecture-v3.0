@@ -40,6 +40,60 @@ def fixture(root: Path) -> None:
 
 
 class ApplicationDonorIndexTests(unittest.TestCase):
+    def test_verified_canonical_donor_uses_have_typed_usage_edges(self):
+        report = build_index(ROOT)
+        self.assertEqual(
+            report["validation"]["result"], "PASS", report["validation"]["findings"]
+        )
+        self.assertGreaterEqual(report["counts"]["donor_usage_records"], 3)
+        self.assertEqual(report["counts"]["verified_explicit_usage_expectations"], 3)
+        pairs = {
+            (edge["donor_id"], consumer["kind"], consumer["id"])
+            for edge in report["capability_consumer_map"]["edges"]
+            if edge["status"] != "REMOVED"
+            for consumer in edge["consumers"]
+        }
+        self.assertIn(
+            (
+                "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+                "PROVIDER",
+                "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+            ),
+            pairs,
+        )
+        self.assertIn(
+            (
+                "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+                "PROVIDER",
+                "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+            ),
+            pairs,
+        )
+        self.assertIn(
+            (
+                "FA3-DONOR-CRYNTA-TERAX-AI-001",
+                "PROVIDER",
+                "FA3-PROVIDER-TERAX-001",
+            ),
+            pairs,
+        )
+
+    def test_new_explicit_provider_donor_use_without_edge_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            donor = json.loads((root / SOURCES[2]).read_text())["entries"][0]
+            provider = root / "canonical/providers/FA3-PROVIDER-TRACEABILITY-TEST-001.json"
+            provider.parent.mkdir(parents=True, exist_ok=True)
+            provider.write_text(json.dumps({
+                "id": "FA3-PROVIDER-TRACEABILITY-TEST-001",
+                "donor_registry_id": donor["donor_id"],
+            }))
+            findings = {
+                row["code"] for row in build_index(root)["validation"]["findings"]
+            }
+            self.assertIn("MISSING_EXPLICIT_DONOR_USAGE_EDGE", findings)
+
     def test_curated_catalog_and_gui_surface_coverage(self):
         report = build_index(ROOT)
         catalog = json.loads((ROOT / SOURCES[0]).read_text())
