@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.blender-compatibility-profile.v1",
+  "id": "FA3-BLENDER-COMPATIBILITY-PROFILE-001",
+  "status": "CANONICAL_STATIC_PROFILE",
+  "date": "2026-10-01",
+  "subject_id": "FA3-BLENDER-ENGINE-FABRIC-001",
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-006",
+    "CAP-015",
+    "CAP-016",
+    "CAP-022",
+    "CAP-025",
+    "CAP-027",
+    "CAP-032",
+    "CAP-146",
+    "CAP-147",
+    "CAP-148",
+    "CAP-161",
+    "CAP-163",
+    "CAP-165",
+    "CAP-166",
+    "CAP-171",
+    "CAP-175"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "provider_neutral": true,
+  "dcc_policy": {
+    "primary_dcc": "BFORARTISTS",
+    "blender_compatibility_required": true,
+    "blender_fork_forbidden": true,
+    "blender_core_patch_required": false,
+    "upstream_uninstall_required": false,
+    "new_fa3_blend_format_forbidden": true
+  },
+  "compatibility_surfaces": [
+    ".blend native project",
+    "bpy",
+    "RNA",
+    "operators",
+    "Geometry Nodes",
+    "animation",
+    "rig/constraints/drivers",
+    "camera/scene",
+    "Cycles",
+    "EEVEE",
+    "USD/Hydra",
+    "glTF",
+    "extensions"
+  ],
+  "conformance_tests": [
+    "BLEND-ROUNDTRIP",
+    "BFORARTISTS-ROUNDTRIP",
+    "BLENDER-BFORARTISTS-CROSSOPEN",
+    "BPY-CONFORMANCE",
+    "RNA-CONFORMANCE",
+    "OPERATOR-CONFORMANCE",
+    "SCENE-CONFORMANCE",
+    "MATERIAL-CONFORMANCE",
+    "GEOMETRY-NODES-CONFORMANCE",
+    "ANIMATION-CONFORMANCE",
+    "RIG-CONFORMANCE",
+    "CAMERA-CONFORMANCE",
+    "ASSET-CONFORMANCE",
+    "CYCLES-CONFORMANCE",
+    "EEVEE-CONFORMANCE",
+    "USD-ROUNDTRIP",
+    "GLTF-ROUNDTRIP",
+    "HEADLESS-CONFORMANCE",
+    "EXTENSION-CONFORMANCE",
+    "ROLLBACK-CONFORMANCE"
+  ],
+  "loss_policy": {
+    "allowed_outcomes": [
+      "LOSSLESS",
+      "LOSSY_WITH_EXPLICIT_REPORT",
+      "BLOCKED"
+    ],
+    "silent_loss_forbidden": true,
+    "lossy_requires_machine_readable_report": true,
+    "blocked_is_preferred_to_unreported_degradation": true
+  },
+  "hardware_audit": {
+    "hrb_authority_preserved": true,
+    "hardware_safety_envelope_required": true,
+    "cpu_only_viable": true,
+    "vendor_neutral": true,
+    "accelerator_cardinality": "0..N",
+    "no_automatic_display_gpu_compute_recruitment": true,
+    "no_silent_gpu_cpu_fallback": true,
+    "hardware_mutation": false
+  },
+  "runtime_materialization": {
+    "static_contract_only": true,
+    "blender_runtime_activation": false,
+    "render_provider_activation": false,
+    "hydra_delegate_activation": false,
+    "ai_provider_activation": false,
+    "distributed_worker_activation": false
+  }
+}

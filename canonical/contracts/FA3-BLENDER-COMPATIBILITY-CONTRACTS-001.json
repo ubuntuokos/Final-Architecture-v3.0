@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.blender-compatibility-contracts.v1",
+  "id": "FA3-BLENDER-COMPATIBILITY-CONTRACTS-001",
+  "status": "CANONICAL_STATIC_CONTRACT",
+  "date": "2026-10-01",
+  "subject_id": "FA3-BLENDER-ENGINE-FABRIC-001",
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-006",
+    "CAP-015",
+    "CAP-016",
+    "CAP-022",
+    "CAP-025",
+    "CAP-027",
+    "CAP-032",
+    "CAP-146",
+    "CAP-147",
+    "CAP-148",
+    "CAP-161",
+    "CAP-163",
+    "CAP-165",
+    "CAP-166",
+    "CAP-171",
+    "CAP-175"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "provider_neutral": true,
+  "invariants": {
+    "bforartists_remains_primary_dcc": true,
+    "blender_upstream_compatibility_is_architectural_requirement": true,
+    "blender_core_fork_forbidden": true,
+    "blender_core_patch_required": false,
+    "blend_native_authority_preserved": true,
+    "new_fa3_blend_format_forbidden": true,
+    "no_duplicate_scene_authority": true,
+    "cycles_preserved": true,
+    "eevee_preserved": true,
+    "cpu_path_preserved": true,
+    "hrb_is_only_execution_resource_authority": true,
+    "hardware_safety_envelope_mandatory": true,
+    "model_router_is_only_ai_model_provider_authority": true,
+    "ai_optional_and_disableable": true,
+    "no_silent_provider_or_device_fallback": true,
+    "no_automatic_display_gpu_compute_recruitment": true,
+    "no_paid_renderer_baseline_dependency": true,
+    "neural_rendering_routes_through_existing_cap_163": true,
+    "render_dispatch_routes_through_existing_cap_161": true,
+    "native_project_roundtrip_routes_through_existing_cap_171": true,
+    "software_coexistence_cap_175_mandatory": true,
+    "no_runtime_promotion_by_static_contract": true
+  },
+  "typed_boundaries": {
+    "scene": "BlenderSceneBridge -> existing FA3 scene/interchange fabrics",
+    "material": "BlenderMaterialBridge -> existing material/color/interchange fabrics",
+    "geometry": "BlenderGeometryBridge -> FA3-3D-GEOM-001 and compatible derived execution",
+    "render": "BlenderRenderBridge -> CAP-161 Render Fabric",
+    "resource": "BlenderDeviceBridge -> FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "neural": "BlenderAIServiceBridge/RenderBridge -> CAP-163, never direct Blender-core authority",
+    "cache": "BlenderAssetCacheBridge -> existing shared/intelligent cache",
+    "distributed": "future BlenderDistributedWorker -> CAP-161 coordinator/worker contract"
+  },
+  "roundtrip_contract": {
+    "authoritative_input_preserved": true,
+    "derived_cache_discardable": true,
+    "loss_outcomes": [
+      "LOSSLESS",
+      "LOSSY_WITH_EXPLICIT_REPORT",
+      "BLOCKED"
+    ],
+    "silent_loss_forbidden": true
+  },
+  "current_host_contract": {
+    "static_change_only_now": true,
+    "physical_pass_claimed": false,
+    "future_executable_materialization_requires": [
+      "POSITIVE",
+      "NEGATIVE",
+      "ROLLBACK"
+    ],
+    "future_required_surfaces": [
+      "Blender GUI",
+      "Bforartists GUI",
+      "Blender headless",
+      "Cycles CPU",
+      "admitted accelerator backend",
+      "USD/interchange",
+      "render bridge",
+      "native project roundtrip"
+    ]
+  }
+}

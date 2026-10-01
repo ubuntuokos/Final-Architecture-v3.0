@@ -1,0 +1,34 @@
+name: FA3 Blender Engine Fabric
+
+on:
+  pull_request:
+    paths:
+      - "canonical/FA3-BLENDER-ENGINE-FABRIC-001.json"
+      - "canonical/FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001.json"
+      - "canonical/profiles/FA3-BLENDER-COMPATIBILITY-PROFILE-001.json"
+      - "canonical/contracts/FA3-BLENDER-COMPATIBILITY-CONTRACTS-001.json"
+      - "canonical/assessments/FA3-BLENDER-ENGINE-FABRIC-REUSE-ASSESSMENT-001.json"
+      - "canonical/assessments/FA3-BLENDER-COMPATIBILITY-PROFILE-DECISION-ASSESSMENT-2026-10-01.json"
+      - "canonical/decisions/FA3-DEC-BLENDER-ENGINE-FABRIC-2026-10-01.json"
+      - "canonical/intents/FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001.json"
+      - "src/fa3_blender_engine_fabric_gate.py"
+      - "tests/test_blender_engine_fabric.py"
+      - "bin/fa3-blender-engine-fabric"
+      - "docs/FA3-BLENDER-ENGINE-FABRIC-MATERIALIZATION-2026-10-01.md"
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Blender Engine Fabric
+        run: python3 bin/fa3-blender-engine-fabric --check --summary
+      - name: Syntax
+        run: python3 -m py_compile src/fa3_blender_engine_fabric_gate.py
+      - name: Regression tests
+        run: python3 -m unittest tests.test_blender_engine_fabric -v

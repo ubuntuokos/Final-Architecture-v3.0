@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-BLENDER-ENGINE-FABRIC-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-BLENDER-ENGINE-FABRIC-001",
+  "published_main_commit": "f6c005b9bf2adab8a0cf312f12dfb3223b0067e0",
+  "capability_baseline": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "donor_registry_query_performed": true,
+  "donor_registry_mutation": false,
+  "selected_existing_donor_ids": [],
+  "analysis_and_curation_inputs": [
+    "docs/donor-blender-github-2026-09-28.md",
+    "docs/donor-openusd-2026-09-28.md",
+    "docs/metric-3d-provider-fabric.md"
+  ],
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-3D-GEOM-001",
+      "use": "GEOMETRY_SEMANTIC_AUTHORITY"
+    },
+    {
+      "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "use": "KHRONOS_INTERCHANGE_FABRIC"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXECUTION_RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "OPTIONAL_AI_MODEL_PROVIDER_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AND_RECEIPTS"
+    },
+    {
+      "id": "CAP-161",
+      "use": "RENDER_FABRIC_AND_JOB_DISPATCH"
+    },
+    {
+      "id": "CAP-163",
+      "use": "NEURAL_RENDERING_AND_RECONSTRUCTION"
+    },
+    {
+      "id": "CAP-166",
+      "use": "SCENE_SHOT_CAMERA_RIG_INTERCHANGE"
+    },
+    {
+      "id": "CAP-171",
+      "use": "NATIVE_PROJECT_PRESERVATION_AND_ROUNDTRIP"
+    },
+    {
+      "id": "CAP-175",
+      "use": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    }
+  ],
+  "adoption_authorized": true,
+  "static_materialization_authorized": true,
+  "code_import_authorized": false,
+  "runtime_admission_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "source_copy_authorized": false,
+  "implementation_readiness": "STATIC_COMPATIBILITY_CONTRACTS_AUTHORIZED_RUNTIME_DEFERRED",
+  "project_status": "STATIC_COMPATIBILITY_FABRIC_MATERIALIZED",
+  "intent_id": "FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001.json",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE",
+        "EXISTING_SHARED_FABRIC"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "REUSE_EXISTING_KHRONOS_FABRIC_NO_NEW_SDK_RUNTIME_ADMISSION"
+    },
+    {
+      "source_family_id": "BLENDER_CURATED_REFERENCE_SET",
+      "review_status": "MATCHED_AS_PLANNING_INPUT",
+      "source_path": "docs/donor-blender-github-2026-09-28.md",
+      "authority": false,
+      "code_copy_authorized": false,
+      "automatic_activation": false,
+      "disposition": "ADAPTER_FIRST_COMPATIBILITY_DESIGN_ONLY"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true,
+    "hardware_safety_envelope_mandatory": true
+  },
+  "coexistence": {
+    "result": "PASS_STATIC_DESIGN",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_change": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "result": "PASS",
+  "covered_ids": [
+    "FA3-BLENDER-ENGINE-FABRIC-001",
+    "FA3-BLENDER-COMPATIBILITY-PROFILE-001",
+    "FA3-BLENDER-COMPATIBILITY-CONTRACTS-001"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-BLENDER-COMPATIBILITY-PROFILE-DECISION-ASSESSMENT-2026-10-01",
+  "covered_ids": [
+    "FA3-BLENDER-COMPATIBILITY-PROFILE-001",
+    "FA3-BLENDER-ENGINE-FABRIC-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The Blender compatibility profile is a deterministic compatibility, safety and interchange contract. It does not rank candidates, select providers or models, grant permissions, choose execution resources, or make runtime promotion decisions. Existing Blender/Bforartists compatibility invariants, HRB, Hardware Safety Envelope, Model Router, Render Fabric, Reuse Discovery and human-controlled creative authorities remain authoritative, so Decision Fabric must not introduce a parallel choice layer.",
+  "decision_points": [],
+  "not_delegated": [
+    "Blender/Bforartists compatibility semantics",
+    "native .blend authority",
+    "provider admission or selection",
+    "model routing",
+    "HRB admission or lease",
+    "Hardware Safety Envelope",
+    "render runtime promotion",
+    "Current Host promotion",
+    "candidate-set expansion",
+    "permission granting"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}
