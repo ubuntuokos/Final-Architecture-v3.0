@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
+from fa3_api_mega_list_adapter import sanitize_locator
 
 import csv
 import json
@@ -12,8 +13,10 @@ PROFILE_ID = "FA3-EXTERNAL-API-DISCOVERY-001"
 CONTRACT_ID = "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30"
 GATE_ID = "FA3-EXTERNAL-API-DISCOVERY-GATESET-001"
+STORE_POLICY_ID = "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001"
+INGESTION_DECISION_ID = "FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
-REGRESSION_CASE_COUNT = 15
+REGRESSION_CASE_COUNT = 17
 
 SOURCE_IDS = {
     "FA3-SOURCE-PUBLIC-APIS-001",
@@ -59,6 +62,9 @@ RULES = [
     "MCP_CATALOG_ENTRY_MUST_NOT_AUTO_REGISTER_OR_AUTO_EXECUTE",
     "SOURCE_FAILURE_OR_DRIFT_MUST_NOT_REPLACE_CANONICAL_STATE",
     "DISCOVERY_SOURCE_CANNOT_BECOME_ARCHITECTURAL_AUTHORITY",
+    "DISCOVERY_INGESTION_IS_OFFLINE_FROM_PINNED_SNAPSHOT",
+    "AFFILIATE_AND_SPONSORSHIP_METADATA_CANNOT_CHANGE_IDENTITY_RANKING_OR_AUTHORIZATION",
+    "DISCOVERY_CANDIDATE_STORE_IS_REBUILDABLE_NON_AUTHORITY",
 ]
 
 def loadj(path: Path):
@@ -178,6 +184,12 @@ def reference_check(root: Path):
         "decision": root / "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
         "enforcement": root / "canonical/external-api-discovery-enforcement.json",
         "policy": root / "canonical/enforcement-policy.json",
+        "candidate_store_policy": root / "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json",
+        "ingestion_decision": root / "canonical/decisions/FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01.json",
+        "ingestion_adapter": root / "src/fa3_api_mega_list_adapter.py",
+        "candidate_store": root / "src/fa3_external_discovery_store.py",
+        "ingestion_pipeline": root / "src/fa3_external_api_discovery_pipeline.py",
+        "ingestion_cli": root / "bin/fa3-external-api-discovery",
     }
     for sid, (rel, _, _) in REFERENCES.items():
         required[sid] = root / rel
@@ -192,6 +204,8 @@ def reference_check(root: Path):
     decision = loadj(required["decision"])
     enforcement = loadj(required["enforcement"])
     policy = loadj(required["policy"])
+    candidate_store_policy = loadj(required["candidate_store_policy"])
+    ingestion_decision = loadj(required["ingestion_decision"])
 
     if not (
         profile.get("id") == PROFILE_ID
@@ -202,6 +216,8 @@ def reference_check(root: Path):
         and profile.get("new_architectural_authority") is False
         and profile.get("capability_count") == CAPABILITY_COUNT
         and set(profile.get("capabilities", [])) == {"CAP-011","CAP-074","CAP-075"}
+        and profile.get("candidate_store_policy_id") == STORE_POLICY_ID
+        and profile.get("invariants") == RULES
     ):
         findings.append(finding("EXTDISC-REF-002", "External discovery profile invariant mismatch"))
 
@@ -209,7 +225,13 @@ def reference_check(root: Path):
         contracts.get("id") == CONTRACT_ID
         and contracts.get("profile_id") == PROFILE_ID
         and contracts.get("capability_count") == CAPABILITY_COUNT
-        and {"ExternalDiscoverySnapshot","ExternalCapabilityCandidate","ExternalProviderAdmissionDecision"}.issubset(set(contracts.get("contracts", [])))
+        and {
+            "ExternalDiscoverySnapshot",
+            "ExternalCapabilityCandidate",
+            "ExternalProviderAdmissionDecision",
+            "ExternalDiscoveryCandidateStoreManifest",
+            "ExternalDiscoveryIngestReceipt",
+        }.issubset(set(contracts.get("contracts", [])))
     ):
         findings.append(finding("EXTDISC-REF-003", "External discovery contract-family invariant mismatch"))
 
@@ -233,6 +255,41 @@ def reference_check(root: Path):
         and enforcement.get("regression_case_count") == REGRESSION_CASE_COUNT
     ):
         findings.append(finding("EXTDISC-REF-005", "External discovery enforcement invariant mismatch"))
+
+    if not (
+        candidate_store_policy.get("id") == STORE_POLICY_ID
+        and candidate_store_policy.get("profile_id") == PROFILE_ID
+        and candidate_store_policy.get("authority") is False
+        and candidate_store_policy.get("canonical_source_of_truth") is False
+        and candidate_store_policy.get("derived_state") is True
+        and candidate_store_policy.get("rebuildable") is True
+        and candidate_store_policy.get("runtime_provider") is False
+        and candidate_store_policy.get("automatic_donor_creation") is False
+        and candidate_store_policy.get("automatic_provider_admission") is False
+        and candidate_store_policy.get("automatic_mcp_registration") is False
+        and candidate_store_policy.get("automatic_activation") is False
+        and candidate_store_policy.get("network_fetch_permitted") is False
+        and candidate_store_policy.get("capability_count") == CAPABILITY_COUNT
+    ):
+        findings.append(finding("EXTDISC-REF-013", "External discovery candidate-store policy invariant mismatch"))
+
+    if not (
+        ingestion_decision.get("id") == INGESTION_DECISION_ID
+        and ingestion_decision.get("status") == "CANONICAL_CLOSED"
+        and ingestion_decision.get("profile_id") == PROFILE_ID
+        and ingestion_decision.get("source_id") == "FA3-SOURCE-API-MEGA-LIST-001"
+        and ingestion_decision.get("candidate_store_policy_id") == STORE_POLICY_ID
+        and ingestion_decision.get("rules", {}).get("network_fetch_by_ingestion_core") is False
+        and ingestion_decision.get("rules", {}).get("candidate_store_is_non_authoritative") is True
+        and ingestion_decision.get("rules", {}).get("automatic_donor_creation") is False
+        and ingestion_decision.get("rules", {}).get("automatic_provider_admission") is False
+        and ingestion_decision.get("rules", {}).get("automatic_mcp_registration") is False
+        and ingestion_decision.get("current_host_obligation_delta") == 0
+        and ingestion_decision.get("new_capabilities") == 0
+        and ingestion_decision.get("new_architectural_authorities") == 0
+        and ingestion_decision.get("capability_count_after") == CAPABILITY_COUNT
+    ):
+        findings.append(finding("EXTDISC-REF-014", "API Mega List ingestion decision invariant mismatch"))
 
     if GATE_ID not in policy.get("mandatory_reference_gates", []):
         findings.append(finding("EXTDISC-REF-006", "External discovery gate not bound into global policy"))
@@ -294,6 +351,20 @@ def run_regressions(root: Path):
     add("sandbox probe required before admission", not admission_valid(**{**full, "sandbox_probe_pass":False}))
     add("source outage cannot fail open", source_failure_isolated(canonical_registry_unchanged=True, fail_open_execution=False, source_state_is_canonical=False))
     add("source cannot become provider or authority", source_role_valid(runtime_provider=False, canonical_root=False, architectural_authority=False, new_capability=False))
+    tracked = sanitize_locator("https://apify.com/example/tool?fpr=partner&utm_source=test")
+    clean = sanitize_locator("https://apify.com/example/tool")
+    add(
+        "affiliate and tracking metadata are identity-neutral",
+        tracked["canonical_locator"] == clean["canonical_locator"]
+        and tracked["affiliate_or_tracking_present"] is True,
+    )
+    secret = sanitize_locator("https://api.example.com/v1?api_key=DO_NOT_PERSIST&mode=fast")
+    add(
+        "secret query values are stripped before persistence",
+        secret["canonical_locator"] == "https://api.example.com/v1?mode=fast"
+        and secret["secret_parameter_present"] is True
+        and "DO_NOT_PERSIST" not in json.dumps(secret),
+    )
 
     passed = sum(x["status"] == "PASS" for x in cases)
     return {"result":"PASS" if passed == len(cases) else "FAIL","passed":passed,"total":len(cases),"cases":cases}
