@@ -22,7 +22,8 @@ An excluded external subject may be classified as
 1. distribution class is exactly `REFERENCE_ONLY`;
 2. release bundle status is exactly `EXCLUDED`;
 3. an immutable 40- or 64-hex source revision is recorded;
-4. a non-UNKNOWN license value is recorded.
+4. a non-UNKNOWN license value is recorded;
+5. concrete license evidence is recorded (for example `license_blob_sha`).
 
 This resolution means that the **reference-only provenance record is complete
 enough for the current no-bundle use**. It is not a general legal clearance and
