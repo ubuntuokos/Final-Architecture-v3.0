@@ -4,6 +4,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QUrl>
 
 int main(int argc, char *argv[])
 {
@@ -14,8 +15,6 @@ int main(int argc, char *argv[])
     OfficeFabricService service;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty(QStringLiteral("fa3Office"), &service);
-    engine.loadFromModule(QStringLiteral("FA3.Office"), QStringLiteral("Main"));
-    if (engine.rootObjects().isEmpty())
-        return 1;
-    return app.exec();
+    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/Office/Main.qml")));
+    return engine.rootObjects().isEmpty() ? 2 : app.exec();
 }
