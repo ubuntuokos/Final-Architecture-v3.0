@@ -1,8 +1,8 @@
 # FA3 Shared Module Pattern & Donor Catalogue
 
-**Status:** owner-approved materialization, metadata/reference only  
-**Capability baseline:** 175, unchanged  
-**Architectural authority delta:** 0  
+**Status:** owner-approved materialization, metadata/reference only
+**Capability baseline:** 175, unchanged
+**Architectural authority delta:** 0
 **Runtime / provider / model admission:** none
 
 ## Purpose
