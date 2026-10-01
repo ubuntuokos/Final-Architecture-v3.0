@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-OFFICE-FABRIC-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH_WITH_PENDING_DONOR_INTAKE",
+  "date": "2026-10-01",
+  "subject_id": "FA3-OFFICE-FABRIC-001",
+  "project_id": "FA3-OFFICE-FABRIC-001",
+  "intent_id": "FA3-OFFICE-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-OFFICE-FABRIC-APPLICATION-INTENT-001.json",
+  "published_main_commit": "5c76236c7c6c6e6a9c13521b9a807ce22608900c",
+  "donor_registry_blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "donor_registry_entry_count": 1287,
+  "capability_baseline": 175,
+  "selected_existing_reference_source_keys": ["github:libreoffice", "github:onlyoffice", "github:apache/openoffice"],
+  "existing_reference_roles": {
+    "github:libreoffice": "PRIMARY_ENGINE_CANDIDATE",
+    "github:onlyoffice": "REFERENCE_ONLY",
+    "github:apache/openoffice": "COMPATIBILITY_REFERENCE_ONLY"
+  },
+  "pending_new_donor_candidates": [
+    {"name": "Calligra", "intended_role": "PRIMARY_QT6_UI_WORKFLOW_DONOR", "state": "PENDING_DONOR_INTAKE"},
+    {"name": "Collabora Online", "intended_role": "OPTIONAL_COLLABORATION_PROVIDER_DONOR", "state": "PENDING_DONOR_INTAKE"}
+  ],
+  "donor_intake_status": {
+    "state": "DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION",
+    "active_pr": 581,
+    "new_donor_records_published": false
+  },
+  "code_import_authorized": false,
+  "upstream_binary_bundling_authorized": false,
+  "runtime_admission_authorized": false,
+  "static_materialization_authorized": true,
+  "license_policy": "EXACT_VERSION_LICENSE_NOTICE_DEPENDENCY_REVIEW_REQUIRED_BEFORE_CODE_OR_RUNTIME_ADMISSION",
+  "selected_internal_reuse": [
+    {"id": "CAP-018", "use": "DOCUMENTS_KNOWLEDGE_AUTHORING_CAPABILITY"},
+    {"id": "CAP-030", "use": "DOCUMENTATION_PUBLISHING_CAPABILITY"},
+    {"id": "FA3-DOC-001", "use": "CANONICAL_DOCUMENT_AUTHORITY"}
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS_STATIC_DESIGN",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "upstream_user_profile_mutation": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "result": "PASS_STATIC_MATERIALIZATION_WITH_RUNTIME_AND_TWO_DONOR_FOLLOWUPS"
+}
