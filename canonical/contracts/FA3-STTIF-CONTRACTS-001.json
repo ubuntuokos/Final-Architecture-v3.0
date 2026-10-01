@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-STTIF-CONTRACTS-001",
+  "profile": "FA3-STTIF-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "contracts": [
+    "TiledInferenceRequest",
+    "CanvasDescriptor",
+    "ModelWindowDescriptor",
+    "SpatialTilePlan",
+    "TemporalWindowPlan",
+    "ConditioningPlan",
+    "NoiseTrajectoryDescriptor",
+    "LatentCanvasDescriptor",
+    "FusionPolicy",
+    "SamplerPolicy",
+    "ResourceBudget",
+    "TiledInferenceExecutionPlan",
+    "TiledInferenceReceipt"
+  ],
+  "invariants": [
+    "ONE_LOGICAL_CANVAS_MAY_BE_PROJECTED_TO_MULTIPLE_OVERLAPPING_SPATIAL_TILES",
+    "ONE_REQUEST_SEED_AND_NOISE_TRAJECTORY_ID_IS_SHARED_ACROSS_TILES",
+    "SPATIAL_TILES_MUST_COVER_THE_TARGET_CANVAS_WITHOUT_GAPS",
+    "TEMPORAL_WINDOWS_MUST_COVER_THE_REQUESTED_FRAME_RANGE_WITHOUT_GAPS",
+    "MODEL_ALIGNMENT_AND_TEMPORAL_SHAPE_RULES_ARE_TYPED_PROVIDER_CONSTRAINTS_NOT_CORE_CONSTANTS",
+    "SAMPLER_COMPATIBILITY_IS_VALIDATED_BEFORE_EXECUTION",
+    "UNSUPPORTED_SAMPLER_FAILS_CLOSED_WITHOUT_SUBSTITUTION",
+    "RESOURCE_BUDGET_NEVER_AUTHORIZES_OR_MUTATES_A_PHYSICAL_DEVICE",
+    "HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
+    "MODEL_ROUTER_REMAINS_EXCLUSIVE_MODEL_PROVIDER_SELECTION_AUTHORITY",
+    "EXTERNAL_CODE_MODEL_AND_RUNTIME_RIGHTS_REMAIN_SEPARATELY_ADMITTED",
+    "STATIC_PLANNER_PASS_IS_NOT_CURRENT_HOST_RUNTIME_PASS"
+  ],
+  "donor_separation": {
+    "algorithmic_pattern_reference_only": true,
+    "copied_external_source_code": false,
+    "copied_external_model_artifacts": false,
+    "ltx_specific_constraints_not_global_defaults": true
+  }
+}
