@@ -411,12 +411,14 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         sid = str(item.get("id", ""))
         status = str(item.get("status", "PROPOSED"))
         consumers = sorted(set(str(x) for x in item.get("consumer_applications", []) if x))
+        shared_gui_surfaces = sorted(set(str(x) for x in item.get("gui_surface_ids", []) if x))
         valid = (
             bool(sid)
             and sid not in seen_shared
             and bool(item.get("owner_layer"))
             and len(consumers) >= 2
             and all(app_id in applications for app_id in consumers)
+            and all(surface_id in gui_surface_ids for surface_id in shared_gui_surfaces)
             and item.get("authority") is False
             and item.get("local_ui_adapter_only") is True
             and item.get("retrospective_review_required") is True
@@ -493,6 +495,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             "id": sid,
             "owner_layer": item.get("owner_layer"),
             "consumer_applications": consumers,
+            "gui_surface_ids": shared_gui_surfaces,
             "status": status,
             "authority": False,
             "retrospective_review_required": True,
@@ -521,6 +524,9 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         edge_consumers = [
             {"kind": "APPLICATION", "id": app_id, "relationship": "SHARED_CONSUMER"}
             for app_id in consumers
+        ] + [
+            {"kind": "GUI_SURFACE", "id": surface_id, "relationship": "SHARED_PROJECTION"}
+            for surface_id in shared_gui_surfaces
         ]
         edge = {
             "id": edge_id,
