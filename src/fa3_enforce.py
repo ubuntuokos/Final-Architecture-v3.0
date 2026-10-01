@@ -80,6 +80,7 @@ from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_
 from fa3_hardware_portability_gate import gate as hardware_portability_gate
 from fa3_host_adaptation import self_test as host_adaptation_gate
 from fa3_uaf_gate import gate as uaf_gate
+from fa3_computer_interaction_gate import gate as computer_interaction_runtime_gate
 from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
@@ -194,6 +195,9 @@ def static_check(root:Path):
     uaf_ref=uaf_gate(root)
     if uaf_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-115","Unified Action Fabric P0 canonical/security-boundary gate failed",uaf_gate=uaf_ref))
+    computer_interaction_ref=computer_interaction_runtime_gate(root)
+    if computer_interaction_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-146","Computer Interaction Runtime bounded native-desktop execution gate failed",computer_interaction_runtime_gate=computer_interaction_ref))
     browser_action_ref=browser_action_runtime_gate(root)
     if browser_action_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-120","Browser Action Runtime bounded-execution gate failed",browser_action_runtime_gate=browser_action_ref))
@@ -282,6 +286,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-080","Hardware portability/repository-assumption gate is not bound into global enforcement policy"))
     if "FA3-UNIFIED-ACTION-FABRIC-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-115","Unified Action Fabric gate is not bound into global enforcement policy"))
+    if "FA3-COMPUTER-INTERACTION-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-146","Computer Interaction Runtime gate is not bound into global enforcement policy"))
     if "FA3-BROWSER-ACTION-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-120","Browser Action Runtime gate is not bound into global enforcement policy"))
     if "FA3-BROWSER-CDP-PROVIDER-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
