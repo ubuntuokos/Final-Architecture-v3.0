@@ -105,7 +105,7 @@ ApplicationWindow {
                             anchors.fill: parent
                             Label { text: "Mutation"; font.bold: true }
                             Label { text: "Preview → explicit Apply → Undo" }
-                            Label { text: "No silent fallback" }
+                            Label { text: "Implicit alternate-route substitution disabled" }
                         }
                     }
                     Frame {
