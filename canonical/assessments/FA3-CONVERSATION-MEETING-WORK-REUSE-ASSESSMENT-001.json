@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CONVERSATION-MEETING-WORK-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-CONVERSATION-MEETING-WORK-FABRIC-001",
+  "intent_id": "FA3-CONVERSATION-MEETING-WORK-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CONVERSATION-MEETING-WORK-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-CONVERSATION-MEETING-WORK-FABRIC-001"
+  ],
+  "project_status": "REFERENCE_CORE_MATERIALIZED_RUNTIME_PROMOTION_PENDING",
+  "result": "PASS",
+  "published_main_sha": "f6c005b9bf2adab8a0cf312f12dfb3223b0067e0",
+  "published_registry_blob_sha": "01cce717bfc99fe4216dcfd4a5b74723c4a6eec3",
+  "selected_reuse": [
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_DECISION_CLASSIFICATION_AND_APPROVAL_ADVISORY"
+    },
+    {
+      "id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+      "use": "TASK_AND_ACTION_ITEM_TARGET_PROJECTION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ALL_SIDE_EFFECTS_REMAIN_MEDIATED"
+    },
+    {
+      "id": "FA3-JOURNAL-001",
+      "use": "SOURCE_AND_APPROVAL_LINEAGE"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "OPTIONAL_AI_ROUTE_ONLY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "PERMISSION_AND_PRIVACY_BOUNDARY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PR-552-MIND-MAP-STUDIO",
+      "reason": "OPEN_PR_OPTIONAL_ADAPTER_TARGET_NOT_CANONICAL_RUNTIME_DEPENDENCY"
+    },
+    {
+      "id": "PR-556-OBJECTIVE-COORDINATION",
+      "reason": "OPEN_PR_OPTIONAL_ADAPTER_TARGET_NOT_CANONICAL_RUNTIME_DEPENDENCY"
+    }
+  ],
+  "pattern_reuse": [
+    "SHARED_WORKFLOW_GRAPH_MODEL_AND_UI",
+    "MEDIA_REVIEW_AND_ANNOTATION_HUMAN_APPROVAL",
+    "CREATIVE_PROVENANCE_FABRIC",
+    "STATEFUL_WORKFLOW_ADAPTER"
+  ],
+  "existing_authority_bindings": {
+    "work_execution": "EXISTING_WORKFLOW_ORCHESTRATION_AUTHORITIES",
+    "action_side_effects": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "decision_judgment": "FA3-DECISION-FABRIC-001",
+    "work_management_projection": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "source_truth": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACT",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "credentials": "SECRET_BROKER_EXISTING_AUTHORITY"
+  },
+  "gaps": [
+    "CONVERSATION_MEETING_WORK_CANONICAL_INTERCHANGE",
+    "PROPOSAL_TO_MATERIALIZATION_APPROVAL_STATE_MACHINE",
+    "SHARED_PROJECTION_ADAPTER_CONTRACT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claimed": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "NO_DIRECT_MATCH_FOR_CONVERSATION_WORK_IR"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "adopted_donors": [],
+  "donor_registry_mutated": false,
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION"
+}

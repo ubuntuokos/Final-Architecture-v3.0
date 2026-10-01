@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.conversation-meeting-work-contracts.v1",
+  "id": "FA3-CONVERSATION-MEETING-WORK-CONTRACTS-001",
+  "profile_id": "FA3-CONVERSATION-MEETING-WORK-FABRIC-001",
+  "fail_closed": true,
+  "source_event_required_fields": [
+    "event_id",
+    "source_id",
+    "timestamp",
+    "speaker_id",
+    "speaker_role",
+    "origin",
+    "object_type",
+    "text"
+  ],
+  "origins": [
+    "MANUAL",
+    "DETERMINISTIC",
+    "AI_PROPOSAL"
+  ],
+  "materialization_rules": {
+    "raw_text_never_directly_canonical": true,
+    "ai_proposal_never_directly_canonical": true,
+    "speaker_claim_never_grants_permission": true,
+    "human_verification_required": true,
+    "explicit_materialization_approval_required": true,
+    "approval_permission_required": "MATERIALIZE_WORK",
+    "provenance_required": true,
+    "output": "TYPED_DRAFT_INTENT_ONLY",
+    "target_authority_must_finalize": true
+  },
+  "draft_targets": {
+    "TASK": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "ACTION_ITEM": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "DECISION": "FA3-DECISION-FABRIC-001",
+    "REQUIREMENT": "FA3-JOURNAL-001",
+    "QUESTION": "FA3-JOURNAL-001",
+    "DEADLINE": "DEADLINE_MILESTONE_SHARED_TARGET",
+    "MILESTONE": "DEADLINE_MILESTONE_SHARED_TARGET",
+    "DEPENDENCY": "WORK_COORDINATION_SHARED_TARGET",
+    "BLOCKER": "WORK_COORDINATION_SHARED_TARGET",
+    "FOLLOW_UP": "MEETING_MANAGER_SHARED_TARGET"
+  },
+  "rejection_reasons": [
+    "MISSING_PROVENANCE",
+    "AI_DISABLED",
+    "HUMAN_VERIFICATION_REQUIRED",
+    "MATERIALIZATION_APPROVAL_REQUIRED",
+    "APPROVER_NOT_AUTHORIZED",
+    "UNSUPPORTED_OBJECT_TYPE",
+    "INVALID_STATE_TRANSITION"
+  ],
+  "projection_rules": {
+    "views_share_one_graph": true,
+    "mind_map_is_source_of_truth": false,
+    "task_list_is_source_of_truth": false,
+    "work_plan_is_source_of_truth": false,
+    "minutes_is_source_of_truth": false
+  },
+  "rollback": {
+    "draft_intent_retractable_before_target_commit": true,
+    "external_canonical_rollback_owned_by_target_authority": true,
+    "historical_source_and_approval_evidence_not_deleted": true
+  }
+}
