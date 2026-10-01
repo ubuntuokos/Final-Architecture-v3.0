@@ -26,6 +26,8 @@ SOURCES = (
     "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
     "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
     "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-ASSET-PROCESSING-001.json",
+    "canonical/contracts/FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001.json",
 )
 
 def fixture(root: Path) -> None:
@@ -71,11 +73,11 @@ class SharedModulePatternCatalogueTests(unittest.TestCase):
         self.assertFalse(by_id[pattern_id]["analysis_sources_are_donors"])
         self.assertNotIn("ANALYSIS-IMMICH", by_id)
 
-    def test_exact_five_materialized_shared_components(self):
+    def test_six_materialized_shared_components(self):
         report = validate(ROOT)
         self.assertEqual(report["validation"]["result"], "PASS",
                          report["validation"]["findings"])
-        self.assertEqual(report["summary"]["materialized_shared_components"], 5)
+        self.assertEqual(report["summary"]["materialized_shared_components"], 6)
         catalogue = json.loads((ROOT / SOURCES[0]).read_text())
         self.assertEqual(
             {row["id"] for row in catalogue["materialized_shared_components"]},
@@ -85,6 +87,7 @@ class SharedModulePatternCatalogueTests(unittest.TestCase):
                 "FA3-SHARED-MULTIMODAL-SOURCE-001",
                 "FA3-SHARED-CONVERSATION-SESSION-001",
                 "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+                "FA3-SHARED-ASSET-PROCESSING-001",
             },
         )
 

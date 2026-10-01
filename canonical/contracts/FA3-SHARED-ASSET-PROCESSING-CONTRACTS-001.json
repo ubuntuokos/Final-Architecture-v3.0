@@ -1,0 +1,94 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL_CANDIDATE",
+  "parent_profile": "FA3-SHARED-ASSET-PROCESSING-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-015",
+    "CAP-016",
+    "CAP-017",
+    "CAP-018",
+    "CAP-111",
+    "CAP-122",
+    "CAP-123",
+    "CAP-166",
+    "CAP-171"
+  ],
+  "contracts": [
+    "AssetLogicalIdentity",
+    "AssetVersionIdentity",
+    "SourceAssetDescriptor",
+    "ProductAssetDescriptor",
+    "AssetDependencyEdge",
+    "AssetProcessingRecipe",
+    "AssetProcessingJob",
+    "AssetProcessingPlan",
+    "AssetInvalidationPlan",
+    "AssetProcessingReceipt"
+  ],
+  "identity_model": {
+    "logical_identity": "PROJECT_NAMESPACE_PLUS_EXPLICIT_ASSET_KEY_STABLE_ACROSS_REVISIONS",
+    "version_identity": "LOGICAL_ID_PLUS_CONTENT_OR_RECIPE_INPUT_DIGEST",
+    "product_identity": "PROJECT_NAMESPACE_PLUS_EXPLICIT_OUTPUT_KEY",
+    "host_path_is_identity": false,
+    "provider_runtime_is_identity": false
+  },
+  "dependency_model": {
+    "kinds": [
+      "BUILD",
+      "REFERENCE",
+      "OPTIONAL"
+    ],
+    "build_edges_form_dag": true,
+    "reference_cycles_permitted": true,
+    "missing_build_dependency": "FAIL_CLOSED",
+    "missing_optional_dependency": "RECORD_UNRESOLVED_OPTIONAL_NO_SILENT_SUBSTITUTE",
+    "invalidation_edges": [
+      "BUILD"
+    ]
+  },
+  "processing_model": {
+    "wp1_executes_transforms": false,
+    "canonical_plan_contains": [
+      "ordered_assets",
+      "ordered_jobs",
+      "input_versions",
+      "recipe_digest",
+      "output_logical_ids",
+      "predicted_output_version_ids",
+      "rights_eligibility",
+      "plan_digest"
+    ],
+    "deterministic_sorting_required": true,
+    "arbitrary_code_payload_forbidden": true,
+    "network_fetch_forbidden": true,
+    "silent_codec_provider_selection_forbidden": true
+  },
+  "rights_provenance": {
+    "required_source_fields": [
+      "rights_state",
+      "provenance_ref"
+    ],
+    "rights_states": [
+      "CLEARED",
+      "REFERENCE_ONLY",
+      "PENDING",
+      "RESTRICTED"
+    ],
+    "execution_eligible_only_when_all_required_inputs_cleared": true,
+    "product_lineage_required": true
+  },
+  "future_execution_boundary": {
+    "transform_execution": "SEPARATELY_ADMITTED_WORKER_OR_APPLICATION_ADAPTER",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "current_host_requalification_required": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0"
+}

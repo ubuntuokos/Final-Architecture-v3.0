@@ -29,6 +29,8 @@ SOURCES = (
     "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
     "canonical/profiles/FA3-AI-MODULE-FACTORY-001.json",
     "canonical/contracts/FA3-AI-MODULE-FACTORY-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-ASSET-PROCESSING-001.json",
+    "canonical/contracts/FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001.json",
 )
 
 

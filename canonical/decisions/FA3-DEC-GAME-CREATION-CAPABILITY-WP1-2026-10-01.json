@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-GAME-CREATION-CAPABILITY-WP1-2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-01",
+  "title": "Materialize Shared Asset Processing Fabric from game-creation authoring patterns",
+  "decision": "Materialize WP1 as an FA3-native deterministic asset identity, dependency and processing-plan layer. Extend the existing Shared Media Asset pattern rather than importing a game-engine Asset Processor or creating a second asset authority. No third-party source code, engine runtime, codec, processor, provider or network fetch is admitted by this change.",
+  "parent_decision": "FA3-DEC-GAME-CREATION-CAPABILITY-WP0-2026-10-01",
+  "profile_id": "FA3-SHARED-ASSET-PROCESSING-001",
+  "contract_id": "FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "shared_first": true,
+    "retroactive_impact_required": true,
+    "capability_non_regression": true,
+    "source_code_import": false,
+    "runtime_transform_execution": false,
+    "donor_registry_mutation": false,
+    "donor_usage_edge_creation": false,
+    "native_project_preservation": true,
+    "license_rights_fail_closed": true,
+    "hardware_safety_envelope_preserved": true,
+    "software_coexistence_preserved": true,
+    "hrb_authority_preserved": true,
+    "model_router_authority_preserved": true
+  },
+  "next_stage": "WP2_CREATIVE_OBJECT_SCENE_AND_SMART_ASSET_REQUIRES_SEPARATE_APPROVAL"
+}

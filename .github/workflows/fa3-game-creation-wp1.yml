@@ -1,0 +1,47 @@
+name: FA3 Game-Creation WP1 Asset Processing
+
+on:
+  pull_request:
+    paths:
+      - 'src/fa3_asset_processing.py'
+      - 'src/fa3_shared_module_pattern_catalogue.py'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json'
+      - 'canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-CURRENT-HOST-IMPACT-001.json'
+      - 'canonical/profiles/FA3-SHARED-ASSET-PROCESSING-001.json'
+      - 'canonical/contracts/FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001.json'
+      - 'tests/test_asset_processing.py'
+      - 'tests/test_shared_module_pattern_catalogue.py'
+      - '.github/workflows/fa3-game-creation-wp1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wp1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: JSON parse
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for name in [
+              "canonical/profiles/FA3-SHARED-ASSET-PROCESSING-001.json",
+              "canonical/contracts/FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001.json",
+              "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+              "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
+          ]:
+              json.loads(Path(name).read_text(encoding="utf-8"))
+          PY
+      - name: Targeted regressions
+        run: |
+          python -m unittest -v \
+            tests.test_asset_processing \
+            tests.test_shared_module_pattern_catalogue \
+            tests.test_application_donor_index

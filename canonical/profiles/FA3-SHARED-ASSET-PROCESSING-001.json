@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-ASSET-PROCESSING-001",
+  "name": "Shared Asset Processing Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL_CANDIDATE",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-015",
+    "CAP-016",
+    "CAP-017",
+    "CAP-018",
+    "CAP-111",
+    "CAP-122",
+    "CAP-123",
+    "CAP-166",
+    "CAP-171"
+  ],
+  "contract_family": "FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001",
+  "authority_bindings": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "host_resources_future_execution": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "license_rights_profile": "FA3-LICENSE-RIGHTS-001",
+    "human_review": "AUTH-HUMAN"
+  },
+  "invariants": [
+    "LOGICAL_ASSET_ID_STABLE_ACROSS_CONTENT_REVISIONS",
+    "CONTENT_VERSION_ID_CHANGES_WHEN_RELEVANT_INPUT_CONTENT_CHANGES",
+    "SOURCE_ASSET_AND_PRODUCT_ASSET_IDENTITIES_DISTINCT",
+    "SOURCE_AND_NATIVE_EDITABLE_PROJECTS_PRESERVED",
+    "BUILD_REFERENCE_AND_OPTIONAL_DEPENDENCIES_EXPLICIT",
+    "BUILD_DEPENDENCY_GRAPH_MUST_BE_ACYCLIC",
+    "MISSING_REQUIRED_BUILD_DEPENDENCY_FAILS_CLOSED",
+    "PROCESSING_PLAN_DETERMINISTIC_FROM_CANONICAL_INPUTS",
+    "RIGHTS_AND_PROVENANCE_PROPAGATE_TO_PRODUCTS",
+    "UNCLEARED_RIGHTS_CANNOT_BECOME_EXECUTION_ELIGIBLE",
+    "INVALIDATION_IS_TRANSITIVE_ONLY_OVER_BUILD_EDGES",
+    "EXTERNAL_LOCATORS_ARE_OPAQUE_AND_NEVER_AUTO_FETCHED",
+    "NO_PROCESSOR_PROVIDER_OR_CODEC_SELECTED_BY_THIS_PROFILE",
+    "CPU_ONLY_PLANNING_PATH_REMAINS_VALID"
+  ],
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "DETERMINISTIC_METADATA_AND_PROCESSING_PLAN_ONLY_NO_TRANSFORM_EXECUTION"
+  },
+  "framework_policy": {
+    "upstream_game_engine_is_authority": false,
+    "hard_runtime_dependency": false,
+    "source_copy_by_this_change": false,
+    "analysis_patterns_may_be_reexpressed_fa3_native": true
+  },
+  "wp_scope": "WP1_ASSET_PROCESSING_STABLE_ID_DEPENDENCY_SCHEMA",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
