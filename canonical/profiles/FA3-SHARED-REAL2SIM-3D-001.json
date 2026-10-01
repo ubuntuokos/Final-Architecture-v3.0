@@ -1,0 +1,116 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-REAL2SIM-3D-001",
+  "name": "Shared Real2Sim 3D Reconstruction & DCC Plugin",
+  "version": "0.1.0",
+  "status": "PROPOSED_STATIC_IMPLEMENTATION",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-032",
+    "CAP-163",
+    "CAP-164",
+    "CAP-166",
+    "CAP-167"
+  ],
+  "contract_family": "FA3-SHARED-REAL2SIM-3D-CONTRACTS-001",
+  "authority_bindings": {
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "dcc_scene_and_final_asset": "FA3-DCC-RT3D-001",
+    "workflow": "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_review": "AUTH-HUMAN"
+  },
+  "host_adapters": [
+    {
+      "id": "BFORARTISTS",
+      "role": "PRIMARY_DCC_HOST",
+      "compatibility": "BLENDER_ENGINE_COMPATIBLE",
+      "direct_host_mutation": false
+    },
+    {
+      "id": "BLENDER",
+      "role": "COMPATIBILITY_DCC_HOST",
+      "compatibility": "BLENDER_NATIVE_COMPATIBILITY_ADAPTER",
+      "direct_host_mutation": false
+    }
+  ],
+  "workflow_surfaces": [
+    "ROOM_GEOMETRY",
+    "CAMERA_RECOVERY",
+    "ACTOR_RECONSTRUCTION",
+    "CONTACT_REFINEMENT",
+    "MOTION_TRANSFER",
+    "SCENE_VARIANTS",
+    "PLACEMENT_VALIDATION",
+    "PREVIEW_REVIEW"
+  ],
+  "consumer_scope": {
+    "multi_application": true,
+    "shared_first": true,
+    "application_specific_adapters_required": true,
+    "retrospective_consumer_review_required": true,
+    "candidate_consumers": [
+      "Character Studio",
+      "World / Environment Studio",
+      "Scene / Shot Designer",
+      "Animation Department",
+      "Bforartists-hosted FA3 3D applications",
+      "Blender-compatible FA3 3D applications"
+    ]
+  },
+  "runtime_policy": {
+    "cpu_only_control_path_valid": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "display_gpu_implicit_enlistment": false,
+    "silent_provider_fallback": false,
+    "silent_accelerator_fallback": false,
+    "hardware_mutation": false,
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "global_environment_mutation": false,
+    "network_egress_default": "DENY_UNLESS_GOVERNED_JOB_REQUIRES_IT",
+    "current_host_runtime_promotion_claim": false
+  },
+  "upstream_analysis_boundary": {
+    "source": "https://github.com/KevinXu02/aha-3d",
+    "observed_commit": "82f4b1110cfe4b55fff19df3b3790852ce07b171",
+    "registry_status": "UNREGISTERED_UNMARKED_ANALYSIS_ONLY",
+    "source_code_copied": false,
+    "runtime_dependency_created": false,
+    "provider_or_model_admission_created": false,
+    "pattern_reexpression_only": true,
+    "future_direct_bridge_requires_normal_donor_and_runtime_admission": true
+  },
+  "invariants": [
+    "SINGLE_CANONICAL_GEOMETRY_AUTHORITY_PRESERVED",
+    "DCC_FINAL_ASSET_AUTHORITY_PRESERVED",
+    "MODEL_ROUTER_REMAINS_SOLE_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_AUTHORITY",
+    "NO_DIRECT_PROVIDER_OR_MODEL_SELECTION_IN_PLUGIN",
+    "NO_SILENT_FALLBACK",
+    "NO_IMPLICIT_DISPLAY_GPU_ENLISTMENT",
+    "AI_ACCESS_EXPLICITLY_CONTROLLABLE",
+    "HUMAN_APPROVAL_REQUIRED_BEFORE_DCC_COMMIT",
+    "NATIVE_PROJECT_PRESERVATION_REQUIRED",
+    "BLENDER_COMPATIBLE_INTERCHANGE_REQUIRED",
+    "NO_UPSTREAM_UNINSTALL_REQUIREMENT",
+    "NO_CAPABILITY_BASELINE_EXPANSION"
+  ],
+  "implementation_status": "STATIC_PLUGIN_CORE_AND_TESTS_MATERIALIZED_CURRENT_HOST_PENDING",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
