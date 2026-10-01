@@ -28,6 +28,9 @@ REQUIRED_POLICY = {
     "orchestrator_authority_preserved": True,
     "secret_broker_authority_preserved": True,
     "layer_guard_and_ai_disable_policy_preserved": True,
+    "materialized_component_capability_bindings_canonical_only": True,
+    "materialized_component_manual_capability_ids_forbidden": True,
+    "materialized_component_runtime_activation_separately_gated": True,
 }
 
 def load(path: Path) -> dict[str, Any]:
@@ -158,6 +161,114 @@ def validate(root: Path) -> dict[str, Any]:
         if row.get("reuse_status") not in {"REFERENCE_ONLY","PATTERN_CANDIDATE","COMPOSITE_REFERENCE"}:
             fail("PATTERN_REUSE_STATUS_INVALID", str(pid))
 
+    expected_components = {
+        "FA3-SHARED-AI-INTERACTION-001",
+        "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+        "FA3-SHARED-MULTIMODAL-SOURCE-001",
+        "FA3-SHARED-CONVERSATION-SESSION-001",
+        "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    }
+    materialized_rows = catalogue.get("materialized_shared_components", [])
+    materialized_ids: set[str] = set()
+    app_shared_by_id = {
+        row.get("id"): row
+        for row in apps.get("shared_capabilities", [])
+        if isinstance(row, dict) and isinstance(row.get("id"), str)
+    }
+    allowed_pattern_refs = module_ids | pattern_ids
+    for row in materialized_rows:
+        if not isinstance(row, dict):
+            fail("MATERIALIZED_COMPONENT_INVALID", repr(row))
+            continue
+        cid = row.get("id")
+        profile_id = row.get("profile_id")
+        contract_id = row.get("contract_id")
+        if not isinstance(cid, str) or cid in materialized_ids:
+            fail("MATERIALIZED_COMPONENT_ID_INVALID", str(cid))
+            continue
+        materialized_ids.add(cid)
+        if row.get("binding_semantics") != "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY":
+            fail("MATERIALIZED_COMPONENT_BINDING_SEMANTICS_INVALID", cid)
+        if row.get("current_host_impact") != "NO_RUNTIME_IMPACT":
+            fail("MATERIALIZED_COMPONENT_RUNTIME_IMPACT_INVALID", cid)
+        for ref in row.get("pattern_references", []):
+            if ref not in allowed_pattern_refs:
+                fail("MATERIALIZED_COMPONENT_PATTERN_REFERENCE_UNKNOWN", f"{cid}:{ref}")
+
+        profile_path = root / "canonical/profiles" / f"{profile_id}.json"
+        contract_path = root / "canonical/contracts" / f"{contract_id}.json"
+        try:
+            profile = load(profile_path)
+        except Exception:
+            fail("MATERIALIZED_COMPONENT_PROFILE_MISSING", f"{cid}:{profile_id}")
+            continue
+        try:
+            contract = load(contract_path)
+        except Exception:
+            fail("MATERIALIZED_COMPONENT_CONTRACT_MISSING", f"{cid}:{contract_id}")
+            continue
+
+        if profile.get("id") != profile_id or contract.get("id") != contract_id:
+            fail("MATERIALIZED_COMPONENT_RECORD_ID_MISMATCH", cid)
+        for source_name, source in (("profile", profile), ("contract", contract)):
+            if source.get("capability_count") != 175:
+                fail("MATERIALIZED_COMPONENT_CAPABILITY_COUNT_DRIFT", f"{cid}:{source_name}")
+            if source.get("new_capability") is not False:
+                fail("MATERIALIZED_COMPONENT_NEW_CAPABILITY_FORBIDDEN", f"{cid}:{source_name}")
+            if source.get("new_architectural_authority") is not False:
+                fail("MATERIALIZED_COMPONENT_NEW_AUTHORITY_FORBIDDEN", f"{cid}:{source_name}")
+            if source.get("provider_neutral") is not True:
+                fail("MATERIALIZED_COMPONENT_PROVIDER_NEUTRAL_REQUIRED", f"{cid}:{source_name}")
+
+        profile_caps = profile.get("capability_bindings", [])
+        contract_caps = contract.get("capability_bindings", [])
+        if (
+            not isinstance(profile_caps, list)
+            or not profile_caps
+            or not isinstance(contract_caps, list)
+            or sorted(set(profile_caps)) != sorted(set(contract_caps))
+        ):
+            fail("MATERIALIZED_COMPONENT_BINDING_PARITY_INVALID", cid)
+        for cap in set(profile_caps if isinstance(profile_caps, list) else []):
+            if not isinstance(cap, str) or not cap.startswith("CAP-"):
+                fail("MATERIALIZED_COMPONENT_CAPABILITY_ID_INVALID", f"{cid}:{cap}")
+                continue
+            try:
+                number = int(cap.split("-", 1)[1])
+            except (ValueError, IndexError):
+                number = 0
+            if number < 1 or number > 175:
+                fail("MATERIALIZED_COMPONENT_CAPABILITY_ID_OUT_OF_BASELINE", f"{cid}:{cap}")
+
+        runtime = profile.get("runtime_materialization", {})
+        for key in (
+            "new_service", "new_daemon", "new_port", "new_socket",
+            "new_package_dependency", "provider_activation", "model_selection",
+            "hardware_mutation",
+        ):
+            if runtime.get(key) is not False:
+                fail("MATERIALIZED_COMPONENT_RUNTIME_ACTIVATION_FORBIDDEN", f"{cid}:{key}")
+
+        app_row = app_shared_by_id.get(cid)
+        if app_row is None:
+            fail("MATERIALIZED_COMPONENT_APPLICATION_BINDING_MISSING", cid)
+        else:
+            app_bindings = app_row.get("fa3_bindings", {})
+            if app_bindings.get("capability_ids"):
+                fail("MATERIALIZED_COMPONENT_MANUAL_CAPABILITY_BINDING_FORBIDDEN", cid)
+            if profile_id not in app_bindings.get("profile_ids", []):
+                fail("MATERIALIZED_COMPONENT_PROFILE_LINK_MISSING", cid)
+            if contract_id not in app_bindings.get("contract_ids", []):
+                fail("MATERIALIZED_COMPONENT_CONTRACT_LINK_MISSING", cid)
+            if (app_row.get("current_host_impact") or {}).get("classification") != "NO_RUNTIME_IMPACT":
+                fail("MATERIALIZED_COMPONENT_APPLICATION_RUNTIME_IMPACT_INVALID", cid)
+
+    if materialized_ids != expected_components:
+        fail(
+            "MATERIALIZED_COMPONENT_SET_INVALID",
+            ",".join(sorted(materialized_ids ^ expected_components)),
+        )
+
     impact = catalogue.get("current_host_impact", {})
     if impact.get("classification") != "NO_RUNTIME_IMPACT":
         fail("STATIC_CATALOGUE_RUNTIME_IMPACT_INVALID", str(impact.get("classification")))
@@ -172,6 +283,7 @@ def validate(root: Path) -> dict[str, Any]:
             "analysis_only_sources": len(analysis_ids),
             "resolved_canonical_donors": len(referenced_donors),
             "referenced_analysis_sources": len(referenced_analysis),
+            "materialized_shared_components": len(materialized_ids),
         },
         "validation": {
             "result": "PASS" if not findings else "FAIL",
