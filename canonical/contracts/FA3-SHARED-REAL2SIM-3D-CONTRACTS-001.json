@@ -1,0 +1,125 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-REAL2SIM-3D-CONTRACTS-001",
+  "version": "0.1.0",
+  "status": "PROPOSED_STATIC_IMPLEMENTATION",
+  "parent_profile": "FA3-SHARED-REAL2SIM-3D-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-032",
+    "CAP-163",
+    "CAP-164",
+    "CAP-166",
+    "CAP-167"
+  ],
+  "contracts": [
+    "Real2Sim3DRequest",
+    "Real2Sim3DPlan",
+    "Real2SimStagePlan",
+    "Real2SimDccHostAdapter",
+    "Real2SimDccHandoff",
+    "Real2SimReviewReceipt"
+  ],
+  "request": {
+    "schema": "fa3.shared-real2sim-3d.request.v1",
+    "required_fields": [
+      "project_id",
+      "source_asset_ref",
+      "features",
+      "dcc_host",
+      "ai_enabled",
+      "allow_network",
+      "commit_to_dcc"
+    ],
+    "allowed_dcc_hosts": [
+      "BFORARTISTS",
+      "BLENDER"
+    ],
+    "allowed_features": [
+      "ROOM_GEOMETRY",
+      "CAMERA_RECOVERY",
+      "ACTOR_RECONSTRUCTION",
+      "CONTACT_REFINEMENT",
+      "MOTION_TRANSFER",
+      "SCENE_VARIANTS",
+      "PLACEMENT_VALIDATION",
+      "PREVIEW_REVIEW"
+    ],
+    "commit_to_dcc_requires_approval_ref": true,
+    "source_asset_content_addressed_or_governed_reference_required": true
+  },
+  "plan": {
+    "schema": "fa3.shared-real2sim-3d.plan.v1",
+    "execution_authorized": false,
+    "direct_dcc_mutation_authorized": false,
+    "model_provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow_authority": "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+    "geometry_authority": "FA3-3D-GEOM-001",
+    "dcc_authority": "FA3-DCC-RT3D-001"
+  },
+  "stage_profiles": {
+    "SOURCE_ANALYSIS": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "ROOM_RECONSTRUCTION": "FA3-DIFFERENTIABLE-3D-001",
+    "CAMERA_RECOVERY": "FA3-DIFFERENTIABLE-3D-001",
+    "ACTOR_RECONSTRUCTION": "FA3-HUMAN-MOTION-001",
+    "CONTACT_REFINEMENT": "FA3-HUMAN-MOTION-001",
+    "MOTION_TRANSFER": "FA3-HUMAN-MOTION-001",
+    "SCENE_ASSEMBLY": "FA3-DCC-RT3D-001",
+    "PLACEMENT_VALIDATION": "FA3-3D-GEOM-001",
+    "PREVIEW_REVIEW": "FA3-DCC-RT3D-001"
+  },
+  "dcc_handoff": {
+    "schema": "fa3.shared-real2sim-3d.dcc-handoff.v1",
+    "explicit_approved_receipt_required": true,
+    "project_identity_must_match": true,
+    "native_project_preservation_required": true,
+    "blender_compatible_interchange_required": true,
+    "direct_host_mutation": false,
+    "execution_authorized_by_handoff": false
+  },
+  "ai_policy": {
+    "application_module_function_switchable": true,
+    "disabled_means_no_model_launch": true,
+    "disabled_means_no_provider_call": true,
+    "disabled_means_no_background_ai_service": true,
+    "silent_fallback": false,
+    "non_ai_control_path_preserved": true
+  },
+  "hardware_policy": {
+    "vendor_neutral": true,
+    "cpu_only_control_path_valid": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_lease_required_for_compute_device_execution": true,
+    "display_gpu_implicit_selection": false,
+    "hardware_mutation": false,
+    "unsafe_tuning": false,
+    "incompatible_provider_disposition": "UNAVAILABLE_NO_SILENT_FALLBACK"
+  },
+  "coexistence": {
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "shared_upstream_config_mutation": false,
+    "shadow_upstream_executable": false,
+    "new_daemon": false,
+    "new_service": false
+  },
+  "upstream_boundary": {
+    "aha3d_source_code_imported": false,
+    "aha3d_runtime_dependency": false,
+    "aha3d_models_or_assets_bundled": false,
+    "future_aha3d_bridge_requires_separate_donor_license_security_coexistence_hardware_and_current_host_admission": true
+  },
+  "promotion": {
+    "static_contract_materialization_is_current_host_pass": false,
+    "current_host_runtime_evidence": "PENDING",
+    "production_promotion_claim": false
+  }
+}
