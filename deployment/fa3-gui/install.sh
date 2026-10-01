@@ -19,6 +19,7 @@ PREFIX="${HOME}/.local"
 INSTALLED_BIN="$PREFIX/libexec/fa3-control-center"
 WRAPPER_BIN="$PREFIX/bin/fa3-control-center"
 DESKTOP_FILE="$PREFIX/share/applications/org.fa3.ControlCenter.desktop"
+PLUGIN_MANAGER_DESKTOP_FILE="$PREFIX/share/applications/org.fa3.PluginExtensionManager.desktop"
 
 if [[ ${EUID} -eq 0 ]]; then
   echo "Run this installer as the desktop user, not root." >&2
@@ -44,6 +45,8 @@ required_markers=(
   'routeId: "system.accelerator-guard"'
   'routeId: "system.updates"'
   'routeId: "integrations.fa3-os"'
+  'routeId: "integrations.plugins-extensions"'
+  'label: "Pluginok és extensionök"'
   'text: "⌕  Keresés"'
   'label: "Model Manager"'
   'label: "Rendszerbeállítások"'
@@ -163,6 +166,20 @@ StartupNotify=true
 StartupWMClass=fa3-control-center
 EOF
 
+cat >"$PLUGIN_MANAGER_DESKTOP_FILE" <<EOF
+[Desktop Entry]
+Type=Application
+Name=FA3 Plugin & Extension Manager
+GenericName=FA3 plugin and extension management
+Comment=Manage FA3 plugins and extensions without starting the target application
+Exec=${WRAPPER_BIN} --route integrations.plugins-extensions
+Icon=applications-system
+Terminal=false
+Categories=Development;System;Utility;
+StartupNotify=true
+StartupWMClass=fa3-control-center
+EOF
+
 printf '%s\n' "$SOURCE_REV" >"$PREFIX/share/fa3-control-center/source-revision"
 update-desktop-database "$PREFIX/share/applications" >/dev/null 2>&1 || true
 
@@ -176,6 +193,7 @@ fi
 echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
 echo "Installed binary: $INSTALLED_BIN"
 echo "Desktop launcher: $DESKTOP_FILE"
+echo "Plugin manager launcher: $PLUGIN_MANAGER_DESKTOP_FILE"
 echo "Repository revision: $SOURCE_REV"
 echo "Host adaptation profile: initialized or already present"
 echo "Startup host drift audit: enabled"

@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001",
+  "name": "Shared Plugin and Extension Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "manifest_schema": "fa3.shared-plugin-extension-manifest.v1",
+  "required_manifest_fields": [
+    "component_id",
+    "kind",
+    "scope",
+    "authority",
+    "automatic_activation",
+    "capabilities.provides",
+    "capabilities.requires_host",
+    "host_contracts",
+    "provenance.source",
+    "provenance.immutable_revision",
+    "provenance.content_sha256",
+    "provenance.license",
+    "ai.uses_ai",
+    "ai.capabilities",
+    "ai.default_access",
+    "ai.direct_provider_access",
+    "ai.silent_fallback",
+    "ai.route_authority",
+    "runtime.hardware_authority",
+    "security.admission_authority"
+  ],
+  "retroactive_scope": "ALL_EXISTING_PLANNED_IN_PROGRESS_AND_FUTURE_FA3_APPLICATIONS",
+  "lifecycle": [
+    "discover",
+    "pin_source",
+    "license_security_dependency_review",
+    "normalize_manifest",
+    "capability_and_host_contract_match",
+    "software_coexistence_check",
+    "hardware_safety_check",
+    "admit",
+    "project_binding_candidates",
+    "explicit_application_activation",
+    "runtime_policy_evaluation",
+    "audit",
+    "update_readmission",
+    "rollback"
+  ],
+  "binding": {
+    "match_basis": [
+      "component_kind",
+      "required_host_capabilities",
+      "host_contracts",
+      "capability_gain"
+    ],
+    "hardcoded_single_host_application": false,
+    "candidate_binding_is_authorization": false,
+    "explicit_enable_required": true,
+    "per_application_disable_required": true,
+    "duplicate_local_implementation_preferred": false,
+    "shared_adapter_preferred_when_equivalent": true
+  },
+  "ai_policy": {
+    "toggle_levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "COMPONENT",
+      "CAPABILITY"
+    ],
+    "external_component_default": "DISABLED",
+    "global_disable_overridable": false,
+    "disabled_means_no_model_start": true,
+    "disabled_means_no_provider_call": true,
+    "disabled_means_no_background_ai": true,
+    "direct_provider_access": false,
+    "model_router_only": true,
+    "local_remote_separate_ceiling": true,
+    "silent_fallback": false,
+    "provider_or_model_pin_in_component": false
+  },
+  "coexistence": {
+    "upstream_uninstall_required": false,
+    "collision_fail_closed": true,
+    "namespaces_paths_ports_services_packages_desktop_mime_env_config_cache_sockets_db_ipc_plugin_runtime_gpu_runtime_user_data_checked": true
+  },
+  "hardware_safety": {
+    "hardware_parameter_mutation": false,
+    "safety_bypass": false,
+    "resource_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "display_gpu_rules_inherited": true,
+    "cpu_only_path_preserved_when_supported": true
+  },
+  "supply_chain": {
+    "immutable_source_required": true,
+    "digest_required": true,
+    "license_snapshot_required": true,
+    "sbom_required_for_executable_components": true,
+    "sandbox_or_process_isolation_required_when_executable": true,
+    "automatic_external_update": false,
+    "new_revision_requires_readmission": true
+  }
+}

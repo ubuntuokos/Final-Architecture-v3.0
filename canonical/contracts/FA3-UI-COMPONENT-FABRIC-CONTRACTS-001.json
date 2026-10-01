@@ -8,7 +8,9 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "capability_projection": ["CAP-057"],
+  "capability_projection": [
+    "CAP-057"
+  ],
   "contracts": [
     "UiPatternSourceDescriptor",
     "UiPatternIntakeRecord",
@@ -79,5 +81,18 @@
     "fail_closed": true,
     "reference_source_never_promotes_automatically": true,
     "component_requires_native_fa3_identity_before_production_use": true
+  },
+  "shared_action_surface": {
+    "scope": "ALL_FA3_APPLICATIONS",
+    "binding_source": "FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001",
+    "universal_actions": [
+      "email.send"
+    ],
+    "behavior": "EMIT_TYPED_UAF_INTENT_ONLY",
+    "direct_network_or_provider_execution": false,
+    "context_refs_supported": true,
+    "keyboard_access_required": true,
+    "visible_label_required": true,
+    "silent_background_mutation_forbidden": true
   }
 }

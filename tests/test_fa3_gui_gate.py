@@ -169,5 +169,18 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("IntegrationsPage.qml", cmake)
 
 
+    def test_plugin_extension_manager_is_contextual_and_standalone(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        page = (ROOT / "apps/fa3-control-center/qml/PluginExtensionManagerPage.qml").read_text(encoding="utf-8")
+        launcher = (ROOT / "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop").read_text(encoding="utf-8")
+        self.assertIn('"integrations.plugins-extensions"', main)
+        self.assertIn("Pluginok és extensionök", main)
+        self.assertIn("PluginExtensionManagerPage", main)
+        self.assertIn("fa3InitialRoute", main)
+        self.assertIn("ALL FA3", page)
+        self.assertIn("A célalkalmazásnak nem kell futnia", page)
+        self.assertIn("Exec=fa3-control-center --route integrations.plugins-extensions", launcher)
+
+
 if __name__ == "__main__":
     unittest.main()

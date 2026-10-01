@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.plugin-extension.ui-bindings.v1",
+  "id": "FA3-PLUGIN-EXTENSION-UI-BINDINGS-001",
+  "scope": "ALL_FA3_GUI_APPLICATIONS",
+  "mandatory": true,
+  "common_manager_route": "integrations.plugins-extensions",
+  "embedded_entry": {
+    "label_hu": "Pluginok és extensionök",
+    "preferred_menu_paths": [
+      "Bővítmények/Pluginok és extensionök",
+      "Beállítások/Pluginok és extensionök"
+    ],
+    "context_application_required": true,
+    "same_backend_as_global_manager": true
+  },
+  "standalone_entry": {
+    "desktop_file": "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop",
+    "command": "fa3-control-center --route integrations.plugins-extensions",
+    "target_application_must_be_running": false
+  },
+  "control_center_entry": {
+    "route_id": "integrations.plugins-extensions",
+    "navigation_group": "INTEGRATIONS",
+    "global_view": true
+  },
+  "application_binding_contract": {
+    "required_fields": [
+      "application_id",
+      "plugin_manager_entrypoint",
+      "plugin_host_classes",
+      "supported_extension_classes",
+      "embedded_menu_location",
+      "standalone_manageable"
+    ],
+    "standalone_manageable_required": true,
+    "duplicate_manager_backend_forbidden": true
+  },
+  "shared_extension_policy": {
+    "package_installed_once": true,
+    "application_bindings_independent": true
+  },
+  "retroactive_scope": [
+    "PLANNED",
+    "IN_PROGRESS",
+    "MATERIALIZED"
+  ],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "parent_fabric_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "parent_registry_id": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
+  "binding_projection_source": "PARENT_SHARED_FABRIC_DYNAMIC_CAPABILITY_AND_HOST_CONTRACT_MATCH",
+  "ai_policy_source": "PARENT_SHARED_FABRIC_FIVE_LEVEL_POLICY",
+  "applicability_filter": {
+    "resolver": "FA3_PLUGIN_EXTENSION_APPLICABILITY_RESOLVER",
+    "application_context_required": true,
+    "capability_match_required": true,
+    "project_and_object_context_applied": true,
+    "runtime_dependency_policy_applied": true,
+    "permission_layer_ai_hardware_policy_applied": true,
+    "normal_view_not_applicable_hidden": true,
+    "applicable_available_active_or_installable_visible": true,
+    "temporarily_unavailable_may_be_visible_with_reason": true,
+    "policy_denied_admin_diagnostic_only": true,
+    "same_resolver_for_shared_packages": true,
+    "global_control_center_may_show_full_admitted_catalog": true
+  }
+}

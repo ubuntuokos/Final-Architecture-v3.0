@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "project_type": "PROFILE_OVERLAY",
+  "goal": "Provide one provider-neutral shared plugin and extension fabric that can project an admitted component to every compatible FA3 application that gains capability from it, with explicit activation and scoped AI access control, without creating a new execution, model, resource, security or policy authority.",
+  "required_capabilities": [
+    "CAP-139",
+    "CAP-140",
+    "CAP-147"
+  ],
+  "optional_capabilities": [],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_CURRENT_HOST_SHARED_COMPONENT_REUSE_AND_AI_TOGGLE_PROOF"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-POLICY-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "namespace_claims": {
+    "package_prefix": "fa3-shared-plugin-extension",
+    "config_root": "$XDG_CONFIG_HOME/fa3/shared-plugin-extension",
+    "cache_root": "$XDG_CACHE_HOME/fa3/shared-plugin-extension",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/shared-plugin-extension",
+    "data_root": "$XDG_DATA_HOME/fa3/shared-plugin-extension",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required_for_parameter_mutation": true
+  }
+}

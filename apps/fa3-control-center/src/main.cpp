@@ -17,6 +17,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickStyle>
+#include <QStringList>
 #include <QUrl>
 #include <QtWebEngineQuick/qtwebenginequickglobal.h>
 
@@ -58,7 +59,17 @@ int main(int argc, char *argv[])
     DecisionFabricService decisionFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
 
+    QString initialRoute;
+    const QStringList arguments = app.arguments();
+    for (qsizetype i = 1; i + 1 < arguments.size(); ++i) {
+        if (arguments.at(i) == QStringLiteral("--route")) {
+            initialRoute = arguments.at(i + 1);
+            break;
+        }
+    }
+
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("fa3InitialRoute", initialRoute);
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
     engine.rootContext()->setContextProperty("fa3Journal", &journal);
     engine.rootContext()->setContextProperty("fa3Preferences", &preferences);

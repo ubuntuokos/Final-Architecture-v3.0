@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-2026-09-30",
+  "covered_ids": [
+    "FA3-PLUGIN-EXTENSION-MANAGEMENT-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The Manager projects deterministic state and emits authority-gated lifecycle intents over FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001. Shared component binding, AI policy, trust, admission, permission, activation eligibility, resource placement, provider/model routing and runtime promotion remain deterministic authority-owned operations. Decision Fabric must not override the parent shared Fabric or any canonical authority.",
+  "decision_points": [],
+  "not_delegated": [
+    "shared component manifest validation",
+    "binding eligibility",
+    "AI access policy",
+    "trust and admission",
+    "permission grants",
+    "dependency install",
+    "activation authorization",
+    "update approval",
+    "rollback authority",
+    "resource placement",
+    "model/provider routing",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "result": "REVIEWED_EXISTING_DONOR_AND_REFERENCE_INPUTS_ONLY",
+    "external_decision_authority_selected": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}

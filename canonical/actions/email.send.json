@@ -1,0 +1,168 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "email.send",
+  "version": "1.0.0",
+  "description": "Send an email from any FA3 application through the shared provider-neutral communication path.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "operation_id",
+      "recipients",
+      "subject",
+      "body",
+      "explicit_send_intent",
+      "application_context"
+    ],
+    "properties": {
+      "operation_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "recipients": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "minLength": 3
+        }
+      },
+      "cc": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 3
+        }
+      },
+      "bcc": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 3
+        }
+      },
+      "subject": {
+        "type": "string"
+      },
+      "body": {
+        "type": "string"
+      },
+      "explicit_send_intent": {
+        "type": "boolean",
+        "const": true
+      },
+      "application_context": {
+        "type": "string",
+        "minLength": 1
+      },
+      "project_ref": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "task_ref": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "context_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "attachment_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "reply_to_message_ref": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "message_ref",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "message_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "provider_ref": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "blind_retry": "DENY",
+    "background_send_without_explicit_intent": "DENY"
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "explicit-or-preauthorized-workflow",
+    "audit": "required",
+    "secrets_via_secret_authority_only": true
+  },
+  "resources": {
+    "hrb_required": false,
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "network": {
+      "required": true,
+      "egress_policy": "provider-and-policy-bounded"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "INTEGRATION_AND_BUSINESS_AUTOMATION_PROVIDER",
+    "architectural_authority": false,
+    "direct_surface_provider_bypass": false
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "capability_bindings": [
+    "CAP-049",
+    "CAP-106",
+    "CAP-109"
+  ]
+}

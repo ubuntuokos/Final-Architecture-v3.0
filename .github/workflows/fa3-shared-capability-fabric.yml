@@ -1,0 +1,55 @@
+name: FA3 Shared Capability Fabric
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/actions/email.send.json'
+      - 'canonical/FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001.json'
+      - 'canonical/FA3-SHARED-CAPABILITY-CURRENT-HOST-001.json'
+      - 'canonical/FA3-GATE-SHARED-CAPABILITY-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SHARED-CAPABILITY-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json'
+      - 'canonical/decisions/FA3-DEC-SHARED-CAPABILITY-FABRIC-2026-09-30.json'
+      - 'canonical/FA3-PLUGIN-EXTENSION-UI-BINDINGS-001.json'
+      - 'src/fa3_shared_capability_fabric.py'
+      - 'src/fa3_shared_capability_gate.py'
+      - 'src/fa3_plugin_extension_manager.py'
+      - 'tests/test_shared_capability_fabric.py'
+      - 'tests/test_plugin_extension_manager.py'
+      - 'docs/shared-capability-fabric.md'
+      - '.github/workflows/fa3-shared-capability-fabric.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/actions/email.send.json'
+      - 'canonical/FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001.json'
+      - 'canonical/FA3-SHARED-CAPABILITY-CURRENT-HOST-001.json'
+      - 'src/fa3_shared_capability_fabric.py'
+      - 'src/fa3_shared_capability_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shared-capability-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_shared_capability_fabric.py src/fa3_shared_capability_gate.py src/fa3_plugin_extension_manager.py
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_shared_capability_fabric tests.test_plugin_extension_manager -v
+      - name: Shared capability gate
+        run: PYTHONPATH=src python src/fa3_shared_capability_gate.py --root .
+      - name: Plugin and extension gate
+        run: PYTHONPATH=src python src/fa3_plugin_extension_gate.py --root .

@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-APPLICATION-INTENT-001",
+  "project_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-001",
+  "project_type": "PROFILE",
+  "goal": "Provide one shared FA3 Plugin & Extension Manager control plane and GUI over FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001, with contextual entry from every affected FA3 GUI application and standalone access without starting the target application; no second plugin manifest, binding or AI policy authority is created.",
+  "required_capabilities": [
+    "CAP-001",
+    "CAP-003",
+    "CAP-004",
+    "CAP-006",
+    "CAP-011",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "plugin-extension-management",
+    "shared-package-lifecycle",
+    "host-plugin-interoperability",
+    "permission-policy",
+    "application-contextual-gui",
+    "current-host-requalification"
+  ],
+  "task_classes": [
+    "plugin-inspection",
+    "extension-lifecycle-plan",
+    "compatibility-analysis",
+    "shared-binding-management"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "PLUGIN_MANIFEST",
+    "HOST_BINDING_METADATA"
+  ],
+  "output_modalities": [
+    "MANAGEMENT_PROJECTION",
+    "LIFECYCLE_INTENT",
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-plugin-extension",
+    "service_prefix": "fa3-plugin-extension",
+    "config_root": "$XDG_CONFIG_HOME/fa3/plugin-extension",
+    "cache_root": "$XDG_CACHE_HOME/fa3/plugin-extension",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/plugin-extension",
+    "socket_namespace": "fa3/plugin-extension",
+    "data_root": "$XDG_DATA_HOME/fa3/plugin-extension",
+    "desktop_prefix": "org.fa3.PluginExtension",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "PARENT_SHARED_FABRIC_POLICY_REQUIRED",
+    "FAIL_CLOSED_ADMISSION",
+    "DECLARED_PERMISSIONS_ONLY",
+    "LAYER_GUARD_REQUIRED",
+    "AI_DENY_WINS",
+    "NO_SILENT_FALLBACK",
+    "MANAGER_MAY_NOT_OVERRIDE_PARENT_DENY"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+    "FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001",
+    "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
+    "FA3-SCS-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECRETS-001",
+    "FA3-AUTH-ORCHESTRATION-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "gui_requirements": [
+    "ONE_SHARED_MANAGER_BACKEND",
+    "CONTEXTUAL_ENTRY_EVERY_AFFECTED_FA3_GUI_APPLICATION",
+    "STANDALONE_ACCESS_WITHOUT_TARGET_APP_RUNNING"
+  ]
+}

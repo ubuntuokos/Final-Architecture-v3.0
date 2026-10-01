@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.shared-capability.application-bindings.v1",
+  "id": "FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001",
+  "fabric_id": "FA3-SHARED-CAPABILITY-FABRIC-001",
+  "status": "CANONICAL",
+  "scope": "ALL_FA3_APPLICATIONS",
+  "retroactive_scope": [
+    "PLANNED",
+    "IN_PROGRESS",
+    "MATERIALIZED"
+  ],
+  "default_rule": "HIDDEN_UNLESS_APPLICATION_OR_CONTEXT_BINDING_MATCHES",
+  "universal_surfaces": [
+    {
+      "operation": "email.send",
+      "label_hu": "Email küldése",
+      "all_fa3_applications": true,
+      "compose_surface": "SHARED",
+      "current_context_attachment_supported": true,
+      "direct_provider_bypass": false,
+      "explicit_send_intent_required": true
+    }
+  ],
+  "context_rules": [
+    {
+      "class": "GENERAL",
+      "activation": "WHEN_APPLICATION_AND_PROJECT_CONTEXT_MATCH"
+    },
+    {
+      "class": "COST_CONTEXT",
+      "activation": "WHEN_PROJECT_OR_EXTERNAL_SERVICE_HAS_COST_CONTEXT",
+      "hobby_behavior": "ACTIVATABLE_WHEN_CONTEXT_REQUIRES"
+    },
+    {
+      "class": "EXTERNAL_SERVICE_CONTEXT",
+      "activation": "WHEN_USER_EXPLICITLY_SELECTS_ADMITTED_EXTERNAL_SERVICE",
+      "hobby_behavior": "ALLOWED"
+    }
+  ],
+  "required_application_binding_fields": [
+    "application_id",
+    "declared_capability_ids",
+    "supported_shared_slice_keys",
+    "ui_entrypoints"
+  ],
+  "application_local_duplicate_service_forbidden_when_shared_equivalent_verified": true,
+  "migration_policy": "KEEP_ADAPTER_VERIFY_MIGRATE_REMOVE_DUPLICATE",
+  "capability_preservation_required": true,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

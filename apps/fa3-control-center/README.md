@@ -47,3 +47,7 @@ Agent-native operations are projected through the provider-neutral Unified Actio
 Decision Fabric remains advisory and authority-neutral. Decision Fabric, Decision Inspector, Project Radar and Context Inspector are grouped under **Decision & Context** while preserving their separate canonical/runtime boundaries.
 
 Work Management and Accelerator Guard no longer expose dead shell signals: refresh/intents are explicitly wired, with mutating intent remaining draft-only and HRB/policy/provider authorities external.
+
+## Plugin & Extension Manager
+
+The shared FA3 Plugin & Extension Manager is available under **Integrations → Pluginok és extensionök** and through the standalone desktop launcher. The launcher opens the same Control Center route with `--route integrations.plugins-extensions`; target applications do not have to be running. Application-specific entry points must bind to this same backend/state model rather than creating a second manager.

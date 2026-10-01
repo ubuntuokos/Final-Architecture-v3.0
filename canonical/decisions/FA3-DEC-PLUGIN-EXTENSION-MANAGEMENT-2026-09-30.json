@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-PLUGIN-EXTENSION-MANAGEMENT-2026-09-30",
+  "date": "2026-09-30",
+  "status": "CANONICAL_PENDING_PR_MERGE",
+  "title": "Shared Fabric-backed FA3 Plugin & Extension Manager",
+  "decision": "ONE_MANAGER_CONTROL_PLANE_OVER_FA3_SHARED_PLUGIN_EXTENSION_FABRIC_WITH_CONTEXTUAL_ENTRIES_AND_STANDALONE_ACCESS",
+  "rationale": [
+    "Reuse FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001 as the single plugin/extension manifest, binding and AI-policy source.",
+    "Avoid duplicate per-application plugin managers and state drift.",
+    "Keep trust/admission, resources, routing, secrets, workflow and evidence in existing authorities.",
+    "Allow plugin and extension management without starting the target application.",
+    "Apply the shared manager entry retroactively to every functionally affected FA3 GUI application."
+  ],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_requalification_required": true,
+  "parent_decision_id": "FA3-DEC-SHARED-PLUGIN-EXTENSION-AI-ACCESS-2026-09-30"
+}

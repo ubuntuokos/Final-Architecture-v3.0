@@ -25,6 +25,8 @@ REQUIRED = {
     "work_management_qml": ROOT / "apps/fa3-control-center/qml/WorkManagementPage.qml",
     "accelerator_guard_qml": ROOT / "apps/fa3-control-center/qml/AcceleratorGuardPage.qml",
     "update_center_qml": ROOT / "apps/fa3-control-center/qml/UpdateCenterPage.qml",
+    "plugin_extension_qml": ROOT / "apps/fa3-control-center/qml/PluginExtensionManagerPage.qml",
+    "plugin_extension_launcher": ROOT / "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
     "cmake": ROOT / "apps/fa3-control-center/CMakeLists.txt",
     "main_cpp": ROOT / "apps/fa3-control-center/src/main.cpp",
@@ -56,7 +58,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
+NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Pluginok és extensionök", "Rendszerbeállítások", "System"]
 NAVIGATION_GROUPS = ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
@@ -159,6 +161,11 @@ def validate() -> list[str]:
     if len(route_ids) != len(set(route_ids)): failures.append("surface-registry-duplicate-route-id")
     for route_id in route_ids:
         if route_id and f'"{route_id}"' not in qml: failures.append(f"qml-route-missing:{route_id}")
+    for token in ['"integrations.plugins-extensions"', "PluginExtensionManagerPage", "fa3InitialRoute"]:
+        if token not in qml: failures.append(f"qml-plugin-extension-manager-missing:{token}")
+    launcher = REQUIRED["plugin_extension_launcher"].read_text(encoding="utf-8")
+    if "Exec=fa3-control-center --route integrations.plugins-extensions" not in launcher:
+        failures.append("plugin-extension-standalone-launcher-missing")
     if "property int pageIndex" in qml[qml.find("component NavButton"):qml.find("component ModuleCard")]:
         failures.append("qml-navbutton-still-index-coupled")
     if "function navigate(routeId)" not in qml or "property var routeTable" not in qml:

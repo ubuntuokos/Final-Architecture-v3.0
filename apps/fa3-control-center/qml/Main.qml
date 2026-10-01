@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "integrations.plugins-extensions": 39
     })
 
     function routeIndex(routeId) {
@@ -87,6 +88,11 @@ ApplicationWindow {
         closeTransientWorkspaces()
         selectedIndex = index
         return true
+    }
+
+    Component.onCompleted: {
+        if (fa3InitialRoute && String(fa3InitialRoute).length > 0)
+            navigate(String(fa3InitialRoute))
     }
 
     function acceleratorProjection(inventory) {
@@ -156,6 +162,7 @@ ApplicationWindow {
         {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", routeId: "home.work-management"},
         {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", routeId: "system.accelerator-guard"},
         {title: "Update Center", detail: "Provider-neutral frissítés, security maintenance és workload-aware restart UAF draft felület", category: "FUNCTION", routeId: "system.updates"},
+        {title: "Pluginok és extensionök", detail: "Közös FA3 Plugin & Extension Manager · alkalmazás indítása nélkül is", category: "FUNCTION", routeId: "integrations.plugins-extensions"},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
@@ -711,6 +718,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "INTEGRATIONS"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "↔"; label: "Integrations"; routeId: "integrations.root" }
+                        NavButton { iconText: "▣"; label: "Pluginok és extensionök"; routeId: "integrations.plugins-extensions" }
                         NavButton { iconText: "⇄"; label: "MCP Gateway"; routeId: "integrations.mcp-gateway" }
                         NavButton { iconText: "◎"; label: "FA3 OS"; routeId: "integrations.fa3-os" }
 
@@ -1727,6 +1735,10 @@ ApplicationWindow {
                     accent: window.magenta
                     green: window.green
                     orange: window.orange
+                }
+
+                PluginExtensionManagerPage {
+                    applicationContext: "ALL_FA3"
                 }
             }
 

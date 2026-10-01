@@ -1,0 +1,192 @@
+{
+  "schema": "fa3.plugin-extension-manager.contracts.v1",
+  "id": "FA3-PLUGIN-EXTENSION-CONTRACTS-001",
+  "profile_id": "FA3-PLUGIN-EXTENSION-MANAGEMENT-001",
+  "provider_neutral": true,
+  "fail_closed": true,
+  "trust_states": [
+    "UNKNOWN",
+    "INSPECTED",
+    "ADMISSION_PENDING",
+    "ADMITTED",
+    "BLOCKED_LICENSE",
+    "BLOCKED_SECURITY",
+    "REVOKED",
+    "QUARANTINED"
+  ],
+  "installation_states": [
+    "NOT_INSTALLED",
+    "STAGED",
+    "INSTALLED",
+    "PARTIAL",
+    "BROKEN",
+    "ROLLBACK_REQUIRED"
+  ],
+  "activation_states": [
+    "DISABLED",
+    "ENABLED",
+    "ACTIVE",
+    "SUSPENDED",
+    "FAULTED"
+  ],
+  "evidence_states": [
+    "NONE",
+    "PENDING_CURRENT_HOST",
+    "CURRENT_HOST_PASS",
+    "STALE",
+    "REQUALIFICATION_REQUIRED"
+  ],
+  "effective_execution_requirements": [
+    "ADMITTED",
+    "INSTALLED",
+    "ENABLED",
+    "COMPATIBLE",
+    "PERMISSION_ALLOWED",
+    "LAYER_ALLOWED",
+    "COEXISTENCE_PASS",
+    "RESOURCE_ADMITTED",
+    "REQUIRED_EVIDENCE_VALID",
+    "HOST_BINDING_VALID"
+  ],
+  "permission_domains": [
+    "FILESYSTEM",
+    "NETWORK",
+    "PROCESS",
+    "IPC",
+    "DEVICE",
+    "CLIPBOARD",
+    "SECRET",
+    "MODEL",
+    "MCP",
+    "WORKFLOW",
+    "UI",
+    "BACKGROUND",
+    "EXTERNAL_HOST"
+  ],
+  "lifecycle_plan": [
+    "INSPECT",
+    "IMPACT",
+    "REQUEST_AUTHORITY_APPROVAL",
+    "STAGE",
+    "VERIFY",
+    "COMMIT_BINDING",
+    "ROLLBACK_OR_REMOVE"
+  ],
+  "update_policy": {
+    "silent_update": false,
+    "permission_growth_requires_approval": true,
+    "abi_break_auto_activation": false,
+    "rollback_required": true
+  },
+  "shared_package_model": {
+    "identity_source": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
+    "single_package_identity": true,
+    "per_consumer_enablement": true,
+    "side_by_side_versioning_when_abi_requires": true
+  },
+  "uninstall_policy": {
+    "hidden_daemon_forbidden": true,
+    "hidden_service_forbidden": true,
+    "hidden_port_forbidden": true,
+    "hidden_hook_forbidden": true,
+    "hidden_autostart_forbidden": true
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "name": "Plugin and Extension Manager Control-Plane Contracts",
+  "parent_fabric_id": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+  "parent_contract_id": "FA3-SHARED-PLUGIN-EXTENSION-CONTRACTS-001",
+  "parent_registry_id": "FA3-SHARED-PLUGIN-EXTENSION-REGISTRY-001",
+  "shared_manifest_schema": "fa3.shared-plugin-extension-manifest.v1",
+  "manifest_authority": "PARENT_SHARED_FABRIC_ONLY",
+  "state_projection": {
+    "trust": [
+      "UNKNOWN",
+      "INSPECTED",
+      "ADMISSION_PENDING",
+      "ADMITTED",
+      "BLOCKED_LICENSE",
+      "BLOCKED_SECURITY",
+      "REVOKED",
+      "QUARANTINED"
+    ],
+    "installation": [
+      "NOT_INSTALLED",
+      "STAGED",
+      "INSTALLED",
+      "PARTIAL",
+      "BROKEN",
+      "ROLLBACK_REQUIRED"
+    ],
+    "activation": [
+      "DISABLED",
+      "ENABLED",
+      "ACTIVE",
+      "SUSPENDED",
+      "FAULTED"
+    ],
+    "evidence": [
+      "NONE",
+      "PENDING_CURRENT_HOST",
+      "CURRENT_HOST_PASS",
+      "STALE",
+      "REQUALIFICATION_REQUIRED"
+    ]
+  },
+  "effective_activation_projection_requirements": [
+    "PARENT_BINDING_ELIGIBLE",
+    "SECURITY_ADMITTED",
+    "INSTALLED",
+    "EXPLICIT_APPLICATION_ENABLE",
+    "COMPATIBLE",
+    "PERMISSION_ALLOWED",
+    "LAYER_ALLOWED",
+    "COEXISTENCE_PASS",
+    "RESOURCE_ADMITTED",
+    "REQUIRED_EVIDENCE_VALID",
+    "HOST_BINDING_VALID"
+  ],
+  "ai_policy_projection": {
+    "source": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+    "toggle_levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "COMPONENT",
+      "CAPABILITY"
+    ],
+    "manager_may_override_parent_deny": false,
+    "manager_may_select_provider_or_model": false,
+    "direct_provider_access": false
+  },
+  "mutation_execution_authority": "NONE",
+  "action_output": "AUTHORITY_GATED_INTENT_ONLY",
+  "applicability_projection": {
+    "resolver": "FA3_PLUGIN_EXTENSION_APPLICABILITY_RESOLVER",
+    "embedded_application_view_requires_application_context": true,
+    "required_inputs": [
+      "APPLICATION_ID",
+      "APPLICATION_CAPABILITIES",
+      "PROJECT_OBJECT_CONTEXT",
+      "RUNTIME_DEPENDENCIES",
+      "PERMISSIONS",
+      "LAYER_POLICY",
+      "AI_POLICY",
+      "HARDWARE_POLICY"
+    ],
+    "visible_states": [
+      "AVAILABLE",
+      "INSTALLABLE",
+      "TEMP_UNAVAILABLE"
+    ],
+    "normal_view_hidden_states": [
+      "NOT_APPLICABLE",
+      "INCOMPATIBLE"
+    ],
+    "denied_visible_only_in_admin_or_diagnostic_view": true,
+    "shared_package_uses_same_resolver": true,
+    "global_catalog_view_may_show_all_admitted_packages": true,
+    "application_binding_cannot_expand_authority": true
+  }
+}

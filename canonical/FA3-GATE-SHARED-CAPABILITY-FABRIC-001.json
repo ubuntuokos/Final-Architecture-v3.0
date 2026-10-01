@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-SHARED-CAPABILITY-FABRIC-001",
+  "gateset_id": "FA3-SHARED-CAPABILITY-FABRIC-GATESET-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "profile_id": "FA3-SHARED-CAPABILITY-FABRIC-001",
+  "contract_id": "FA3-SHARED-CAPABILITY-CONTRACTS-001",
+  "executable": "PYTHONPATH=src python src/fa3_shared_capability_gate.py --root .",
+  "current_host_runtime_required_for_runtime_promotion": true,
+  "current_host_conformance": "FA3-SHARED-CAPABILITY-CURRENT-HOST-001",
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "invariants": [
+    "EXACT_SHARED_SLICE_COUNT_45",
+    "EXISTING_CAPABILITY_IDS_ONLY",
+    "EMAIL_SEND_ALL_APPLICATIONS",
+    "HOBBY_EXTERNAL_SERVICES_ALLOWED",
+    "PLUGIN_EXTENSION_CONTEXT_FILTERED",
+    "HIDDEN_DENIED_NO_BACKGROUND_EXECUTION",
+    "NO_NEW_AUTHORITY"
+  ]
+}

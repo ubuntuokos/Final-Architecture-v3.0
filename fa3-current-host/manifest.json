@@ -230,7 +230,25 @@
     "tests/test_step_ca_session_vault_ceremony.py",
     "tests/test_sysctl_governance.py",
     "tools/fa3_approval_tool.py",
-    "tools/fa3_python_namespace_audit.py"
+    "tools/fa3_python_namespace_audit.py",
+    "canonical/FA3-PLUGIN-EXTENSION-CURRENT-HOST-001.json",
+    "canonical/FA3-GATE-PLUGIN-EXTENSION-MANAGEMENT-001.json",
+    "canonical/FA3-PLUGIN-EXTENSION-UI-BINDINGS-001.json",
+    "src/fa3_plugin_extension_manager.py",
+    "src/fa3_plugin_extension_gate.py",
+    "tests/test_plugin_extension_manager.py",
+    "apps/fa3-control-center/qml/PluginExtensionManagerPage.qml",
+    "apps/fa3-control-center/packaging/org.fa3.PluginExtensionManager.desktop",
+    "canonical/FA3-SHARED-CAPABILITY-FABRIC-001.json",
+    "canonical/FA3-SHARED-CAPABILITY-APPLICATION-BINDINGS-001.json",
+    "canonical/FA3-SHARED-CAPABILITY-CURRENT-HOST-001.json",
+    "canonical/FA3-GATE-SHARED-CAPABILITY-FABRIC-001.json",
+    "canonical/contracts/FA3-SHARED-CAPABILITY-CONTRACTS-001.json",
+    "src/fa3_shared_capability_fabric.py",
+    "src/fa3_shared_capability_gate.py",
+    "tests/test_shared_capability_fabric.py",
+    "docs/shared-capability-fabric.md",
+    "canonical/actions/email.send.json"
   ],
   "registered_current_host_surfaces": [
     {
@@ -456,6 +474,29 @@
       "mutation_performed": false,
       "persistent_mutation_performed": false,
       "global_promotion_claim": false
+    },
+    {
+      "name": "plugin-extension-manager",
+      "collector": null,
+      "gate": "plugin-extension-management",
+      "activation": "MANAGEMENT_CONTROL_PLANE_TARGET_APPLICATION_NOT_REQUIRED_TO_RUN",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "machine_model_pin": "FORBIDDEN",
+      "collection_status": "DESIGN_AND_EXECUTABLE_STATIC_GATE_MATERIALIZED_PHYSICAL_GUI_AND_RUNTIME_EVIDENCE_PENDING",
+      "production_runtime_promoted": false,
+      "global_promotion_claim": false,
+      "current_host_conformance": "canonical/FA3-PLUGIN-EXTENSION-CURRENT-HOST-001.json"
+    },
+    {
+      "name": "shared-capability-fabric",
+      "collector": null,
+      "gate": "shared-capability-fabric",
+      "activation": "APPLICATION_CONTEXT_FILTERED_SHARED_SURFACES",
+      "collection_status": "STATIC_POLICY_MATERIALIZED_PHYSICAL_APPLICATION_AND_GUI_E2E_PENDING",
+      "production_runtime_promoted": false,
+      "global_promotion_claim": false,
+      "current_host_conformance": "canonical/FA3-SHARED-CAPABILITY-CURRENT-HOST-001.json",
+      "requalification_reason": "STRUCTURAL_SHARED_CAPABILITY_AND_UNIVERSAL_EMAIL_SEND_SURFACES_ADDED"
     }
   ],
   "global_gate_sequence": [

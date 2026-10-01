@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.shared-plugin-extension-migration-inventory.v1",
+  "id": "FA3-SHARED-PLUGIN-EXTENSION-MIGRATION-001",
+  "status": "MATERIALIZED_MIGRATION_POLICY_ACTIVE_RECONCILIATION_PENDING",
+  "retroactive_reconciliation_required": true,
+  "no_capability_loss": true,
+  "scope": "ALL_EXISTING_PLANNED_IN_PROGRESS_AND_FUTURE_FA3_APPLICATIONS",
+  "known_integration_families": [
+    {
+      "id": "skill-fabric",
+      "evidence_path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
+      "migration": "ADAPT_TO_SHARED_COMPONENT_MANIFEST_WHERE_EXECUTABLE_PLUGIN_OR_EXTENSION_SEMANTICS_APPLY"
+    },
+    {
+      "id": "openfx",
+      "evidence_path": "src/fa3_openfx_interop_gate.py",
+      "migration": "KEEP_OPENFX_NATIVE_ADMISSION; PROJECT_SHARED_CAPABILITY_BINDINGS_TO_ELIGIBLE_HOSTS"
+    },
+    {
+      "id": "browser-session-extension",
+      "evidence_path": "src/fa3_browser_session_gate.py",
+      "migration": "KEEP_BROWSER_SPECIFIC_HOST_CONTRACT; SHARE_CAPABILITY_POLICY_NOT_BROWSER_RUNTIME_AUTHORITY"
+    },
+    {
+      "id": "inference-ep-plugin",
+      "evidence_path": "src/fa3_inference_portability_gate.py",
+      "migration": "KEEP_RUNTIME_ABI_BOUNDARY; REGISTER_AS_SHARED_WHEN_MULTIPLE_ELIGIBLE_HOSTS_EXIST"
+    }
+  ],
+  "required_for_each_family": [
+    "capability_inventory",
+    "host_contract_inventory",
+    "application_eligibility_projection",
+    "local_duplicate_detection",
+    "adapter_or_migration_plan",
+    "license_security_review",
+    "software_coexistence",
+    "hardware_safety",
+    "regression_test",
+    "rollback",
+    "current_host_evidence_if_runtime_claimed"
+  ],
+  "promotion_rule": "NO_FAMILY_MAY_CLAIM_COMPLETE_RETROACTIVE_MIGRATION_WITHOUT_EVIDENCE"
+}

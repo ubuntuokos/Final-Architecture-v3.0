@@ -1,0 +1,632 @@
+{
+  "schema": "fa3.shared-capability-fabric.v1",
+  "id": "FA3-SHARED-CAPABILITY-FABRIC-001",
+  "status": "CANONICAL",
+  "date": "2026-09-30",
+  "capability_baseline": 175,
+  "slice_count": 45,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority": false,
+  "scope": "ALL_FA3_APPLICATIONS_CONTEXT_FILTERED",
+  "activation_states": [
+    "ACTIVE",
+    "VISIBLE_DISABLED",
+    "HIDDEN",
+    "DENIED",
+    "UNAVAILABLE"
+  ],
+  "profile_policy": {
+    "hobby_is_not_external_service_denial": true,
+    "business_admin_default_in_hobby": "HIDDEN_UNLESS_CONTEXT_REQUIRES",
+    "external_service_workflows_allowed_in_hobby": true,
+    "paid_or_costed_external_service_requires_explicit_user_choice": true,
+    "cost_or_procurement_slices_may_activate_for_external_service_workflow": true,
+    "silent_purchase_forbidden": true,
+    "silent_cost_commitment_forbidden": true
+  },
+  "invariants": [
+    "ONLY_CONTEXT_RELEVANT_SLICES_MAY_BE_ACTIVE",
+    "HIDDEN_OR_DENIED_SLICES_MUST_NOT_EXECUTE_IN_BACKGROUND",
+    "SHARED_SURFACE_DOES_NOT_CREATE_AUTHORITY",
+    "APPLICATION_BINDING_CANNOT_EXPAND_CAPABILITY_OR_AUTHORITY",
+    "AI_DENY_WINS_NO_SILENT_FALLBACK",
+    "PLUGIN_EXTENSION_VIEW_SHOWS_ONLY_APPLICABLE_OR_AVAILABLE_ITEMS",
+    "HOBBY_PROFILE_MAY_USE_EXPLICIT_EXTERNAL_SERVICES",
+    "COST_AND_PROCUREMENT_SLICES_ACTIVATE_ONLY_WHEN_CONTEXT_REQUIRES",
+    "PURCHASE_ORDER_REQUIRES_EXPLICIT_AUTHORIZATION",
+    "CURRENT_HOST_REQUALIFICATION_REQUIRED_FOR_RUNTIME_PROMOTION",
+    "SOFTWARE_COEXISTENCE_AND_HARDWARE_SAFETY_REMAIN_MANDATORY",
+    "EMAIL_SEND_MUTATION_REQUIRES_EXPLICIT_AUTHORITY_AND_PROVIDER_ADMISSION",
+    "EMAIL_SEND_SURFACE_AVAILABLE_IN_ALL_FA3_APPLICATIONS",
+    "EMAIL_FULL_MANAGEMENT_REMAINS_CONTEXT_FILTERED",
+    "EMAIL_HIDDEN_BACKGROUND_SEND_FORBIDDEN"
+  ],
+  "fabrics": [
+    {
+      "id": "CONTENT_PROJECT",
+      "name": "Content & Project Fabric"
+    },
+    {
+      "id": "MEDIA_CAPTURE",
+      "name": "Media, Capture & Production Fabric"
+    },
+    {
+      "id": "ASSISTANCE",
+      "name": "Assistance & Creative Guidance Fabric"
+    },
+    {
+      "id": "WORK_COLLAB",
+      "name": "Work, Collaboration & Business Fabric"
+    },
+    {
+      "id": "PLUGIN_EXTENSION",
+      "name": "Plugin & Extension Fabric"
+    },
+    {
+      "id": "RUNTIME_DISTRIBUTION",
+      "name": "Runtime & Distribution Fabric"
+    },
+    {
+      "id": "KNOWLEDGE_DOCS",
+      "name": "Knowledge & Documentation Fabric"
+    },
+    {
+      "id": "LANGUAGE",
+      "name": "Language Fabric"
+    },
+    {
+      "id": "SEARCH_RESEARCH",
+      "name": "Search & Research Fabric"
+    },
+    {
+      "id": "KNOWLEDGE_NAV",
+      "name": "Knowledge Navigation Fabric"
+    }
+  ],
+  "slices": [
+    {
+      "id": "SCF-001",
+      "key": "export",
+      "name_hu": "Exportálás",
+      "fabric": "CONTENT_PROJECT",
+      "capability_ids": [
+        "CAP-152",
+        "CAP-171"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-002",
+      "key": "import",
+      "name_hu": "Importálás",
+      "fabric": "CONTENT_PROJECT",
+      "capability_ids": [
+        "CAP-035",
+        "CAP-055",
+        "CAP-171"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-003",
+      "key": "video.resize",
+      "name_hu": "Videó átméretezés",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-084",
+        "CAP-121"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-004",
+      "key": "image.resize",
+      "name_hu": "Képméret átméretezés",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-112",
+        "CAP-122"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-005",
+      "key": "coach",
+      "name_hu": "Coach felület",
+      "fabric": "ASSISTANCE",
+      "capability_ids": [
+        "CAP-008",
+        "CAP-094"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-006",
+      "key": "mentor",
+      "name_hu": "Mentor felület",
+      "fabric": "ASSISTANCE",
+      "capability_ids": [
+        "CAP-008",
+        "CAP-094"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-007",
+      "key": "manager",
+      "name_hu": "Manager felület",
+      "fabric": "ASSISTANCE",
+      "capability_ids": [
+        "CAP-008",
+        "CAP-101"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-008",
+      "key": "assistant",
+      "name_hu": "Asszisztens felület",
+      "fabric": "ASSISTANCE",
+      "capability_ids": [
+        "CAP-008"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-009",
+      "key": "print",
+      "name_hu": "Nyomtatás",
+      "fabric": "CONTENT_PROJECT",
+      "capability_ids": [
+        "CAP-018",
+        "CAP-030"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-010",
+      "key": "share",
+      "name_hu": "Megosztás",
+      "fabric": "CONTENT_PROJECT",
+      "capability_ids": [
+        "CAP-109",
+        "CAP-152"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-011",
+      "key": "chat.app_to_app",
+      "name_hu": "Alkalmazások közti chat",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-106",
+        "CAP-109"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-012",
+      "key": "audio.settings",
+      "name_hu": "Hang beállítás",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-017",
+        "CAP-066"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-013",
+      "key": "camera.settings",
+      "name_hu": "Kamera beállítás",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-027",
+        "CAP-037"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-014",
+      "key": "model.manager",
+      "name_hu": "Model Manager",
+      "fabric": "RUNTIME_DISTRIBUTION",
+      "capability_ids": [
+        "CAP-005",
+        "CAP-048",
+        "CAP-050"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-015",
+      "key": "download.manager",
+      "name_hu": "Letöltéskezelő",
+      "fabric": "RUNTIME_DISTRIBUTION",
+      "capability_ids": [
+        "CAP-151",
+        "CAP-174"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-016",
+      "key": "update.system",
+      "name_hu": "Update rendszer",
+      "fabric": "RUNTIME_DISTRIBUTION",
+      "capability_ids": [
+        "CAP-038",
+        "CAP-141"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-017",
+      "key": "archive",
+      "name_hu": "Archiválás",
+      "fabric": "CONTENT_PROJECT",
+      "capability_ids": [
+        "CAP-077",
+        "CAP-093"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-018",
+      "key": "file_project.manager",
+      "name_hu": "Fájl-/Projektkezelő",
+      "fabric": "CONTENT_PROJECT",
+      "capability_ids": [
+        "CAP-093",
+        "CAP-123"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-019",
+      "key": "mindmap.access",
+      "name_hu": "Mind Map elérése",
+      "fabric": "KNOWLEDGE_NAV",
+      "capability_ids": [
+        "CAP-041"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-020",
+      "key": "plugin_extension.manager",
+      "name_hu": "Plugin & Extension Manager",
+      "fabric": "PLUGIN_EXTENSION",
+      "capability_ids": [
+        "CAP-011",
+        "CAP-074",
+        "CAP-080"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-021",
+      "key": "task.delegation",
+      "name_hu": "Feladatmegosztás",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-070",
+        "CAP-132"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-022",
+      "key": "task.inbox",
+      "name_hu": "Feladat lekérése",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-049"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-023",
+      "key": "expense.submit",
+      "name_hu": "Költség benyújtás",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-049",
+        "CAP-073"
+      ],
+      "activation_class": "COST_CONTEXT"
+    },
+    {
+      "id": "SCF-024",
+      "key": "time.tracking",
+      "name_hu": "Munkaidő-nyilvántartás",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-110"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-025",
+      "key": "deadline.log",
+      "name_hu": "Határidőnapló",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-132"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-026",
+      "key": "meeting.manager",
+      "name_hu": "Meeting Manager",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-109"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-027",
+      "key": "help",
+      "name_hu": "Súgó",
+      "fabric": "KNOWLEDGE_DOCS",
+      "capability_ids": [
+        "CAP-030",
+        "CAP-094"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-028",
+      "key": "manual.reader",
+      "name_hu": "Kézikönyv-olvasó",
+      "fabric": "KNOWLEDGE_DOCS",
+      "capability_ids": [
+        "CAP-018",
+        "CAP-030"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-029",
+      "key": "toc.builder",
+      "name_hu": "Tartalomjegyzék-készítő",
+      "fabric": "KNOWLEDGE_DOCS",
+      "capability_ids": [
+        "CAP-018",
+        "CAP-030"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-030",
+      "key": "dictionary",
+      "name_hu": "Szótárak",
+      "fabric": "LANGUAGE",
+      "capability_ids": [
+        "CAP-018",
+        "CAP-094"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-031",
+      "key": "web.search",
+      "name_hu": "Webes kereső",
+      "fabric": "SEARCH_RESEARCH",
+      "capability_ids": [
+        "CAP-103",
+        "CAP-157"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-032",
+      "key": "spellcheck",
+      "name_hu": "Helyesírás",
+      "fabric": "LANGUAGE",
+      "capability_ids": [
+        "CAP-018",
+        "CAP-125"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-033",
+      "key": "synonym",
+      "name_hu": "Szinonima",
+      "fabric": "LANGUAGE",
+      "capability_ids": [
+        "CAP-018",
+        "CAP-125"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-034",
+      "key": "dramaturg",
+      "name_hu": "Dramaturg",
+      "fabric": "ASSISTANCE",
+      "capability_ids": [
+        "CAP-014",
+        "CAP-170"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-035",
+      "key": "lighting",
+      "name_hu": "Világítás",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-165",
+        "CAP-166"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-036",
+      "key": "capture.av",
+      "name_hu": "Hang- és/vagy videófelvétel",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-037",
+        "CAP-084",
+        "CAP-118"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-037",
+      "key": "color.management",
+      "name_hu": "Színkezelés",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-016",
+        "CAP-121",
+        "CAP-122",
+        "CAP-171"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-038",
+      "key": "source.management",
+      "name_hu": "Források kezelése",
+      "fabric": "SEARCH_RESEARCH",
+      "capability_ids": [
+        "CAP-154",
+        "CAP-155"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-039",
+      "key": "texture.management",
+      "name_hu": "Textúra-kezelés",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-016",
+        "CAP-123",
+        "CAP-166",
+        "CAP-171"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-040",
+      "key": "render",
+      "name_hu": "Renderelés",
+      "fabric": "MEDIA_CAPTURE",
+      "capability_ids": [
+        "CAP-161",
+        "CAP-162",
+        "CAP-163"
+      ],
+      "activation_class": "GENERAL"
+    },
+    {
+      "id": "SCF-041",
+      "key": "expense.request",
+      "name_hu": "Költségigénylés",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-049",
+        "CAP-073"
+      ],
+      "activation_class": "COST_CONTEXT"
+    },
+    {
+      "id": "SCF-042",
+      "key": "expense.settlement",
+      "name_hu": "Költségelszámolás",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-049",
+        "CAP-073"
+      ],
+      "activation_class": "COST_CONTEXT"
+    },
+    {
+      "id": "SCF-043",
+      "key": "rfq.request",
+      "name_hu": "Árajánlatkérő",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-049",
+        "CAP-073"
+      ],
+      "activation_class": "EXTERNAL_SERVICE_CONTEXT"
+    },
+    {
+      "id": "SCF-044",
+      "key": "purchase.order",
+      "name_hu": "Megrendelő",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-004",
+        "CAP-049",
+        "CAP-073"
+      ],
+      "activation_class": "EXTERNAL_SERVICE_CONTEXT"
+    },
+    {
+      "id": "SCF-045",
+      "key": "email.management",
+      "name_hu": "Email-kezelés",
+      "fabric": "WORK_COLLAB",
+      "capability_ids": [
+        "CAP-049",
+        "CAP-106",
+        "CAP-109"
+      ],
+      "activation_class": "GENERAL",
+      "operations": [
+        "email.send",
+        "email.compose",
+        "email.reply",
+        "email.forward",
+        "email.attach-context",
+        "email.link-project-task",
+        "email.read",
+        "email.thread"
+      ],
+      "universal_operations": [
+        "email.send",
+        "email.compose",
+        "email.attach-context"
+      ],
+      "contextual_operations": [
+        "email.reply",
+        "email.forward",
+        "email.link-project-task",
+        "email.read",
+        "email.thread"
+      ],
+      "all_applications_send_surface": true,
+      "full_management_context_filtered": true
+    }
+  ],
+  "application_surface_policy": {
+    "universal_surfaces": [
+      "email.send"
+    ],
+    "email_send_available_in_all_fa3_applications": true,
+    "email_full_management_context_filtered": true,
+    "application_may_attach_current_context_artifacts": true,
+    "sending_requires_explicit_user_or_authorized_workflow_intent": true,
+    "hidden_background_send_forbidden": true
+  }
+}
