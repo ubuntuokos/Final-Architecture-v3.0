@@ -101,9 +101,18 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     projection = loadj(projection_path)
     policy = loadj(policy_path)
     donor_registry = loadj(root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
+    donor_rejection_audit = loadj(root / "canonical/FA3-DONOR-REJECTION-AUDIT-001.json")
+    donor_lifecycle_decision = loadj(root / "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json")
+    application_donor_links = loadj(root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
     donor_decision = loadj(root / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json")
     if donor_decision.get("capture_rule") != "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY":
         raise ValueError("owner-marked donor capture decision is not canonical")
+    if donor_rejection_audit.get("id") != "FA3-DONOR-REJECTION-AUDIT-001":
+        raise ValueError("donor rejection audit is not canonical")
+    if donor_lifecycle_decision.get("id") != "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30":
+        raise ValueError("donor lifecycle application-sync decision is not canonical")
+    if application_donor_links.get("id") != "FA3-APPLICATION-DONOR-LINKS-001":
+        raise ValueError("application donor links are not canonical")
 
     gui_conformance = loadj(root / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json")
     gui_runtime_pass = (
@@ -315,6 +324,20 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
         "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
         "donor_registry_entry_count": len(donor_registry.get("entries", [])),
+        "donor_rejection_audit_id": donor_rejection_audit.get("id"),
+        "donor_rejection_audit_count": len(donor_rejection_audit.get("entries", [])),
+        "donor_lifecycle_decision_id": donor_lifecycle_decision.get("id"),
+        "application_donor_links_id": application_donor_links.get("id"),
+        "donor_every_change_processed": donor_registry.get("planning_policy", {}).get("every_donor_change_requires_processing") is True,
+        "donor_usage_reverse_traceability": donor_registry.get("planning_policy", {}).get("donor_usage_reverse_traceability_required") is True,
+        "donor_monthly_capability_refresh_days": donor_registry.get("planning_policy", {}).get("monthly_capability_refresh_days"),
+        "donor_monthly_capability_refresh_policy_effective_date": donor_registry.get("planning_policy", {}).get("monthly_capability_refresh_policy_effective_date"),
+        "donor_security_change_propagation": donor_lifecycle_decision.get("rules", {}).get("donor_security_change_requires_immediate_propagation") is True,
+        "donor_unsafe_active_registry_forbidden": donor_lifecycle_decision.get("rules", {}).get("unsafe_donor_must_be_removed_from_active_registry") is True,
+        "application_scope_independent_of_declared_dependency": application_donor_links.get("policy", {}).get("all_applications_in_scope_even_without_declared_dependency") is True,
+        "application_capability_non_regression_on_donor_change": application_donor_links.get("policy", {}).get("donor_change_capability_non_regression") is True,
+        "application_capability_loss_only_for_verified_fa3_risk": application_donor_links.get("policy", {}).get("capability_loss_only_for_verified_fa3_risk") is True,
+        "application_current_host_alignment_when_affected": application_donor_links.get("policy", {}).get("current_host_alignment_required_for_structural_or_runtime_change") is True,
         "donor_capture_default_status": "NO_CAPTURE_ANALYSIS_ONLY",
         "donor_owner_marked_capture_status": "ACCEPTED_REFERENCE",
         "donor_owner_marker_required": "donornak",

@@ -10,12 +10,15 @@ import urllib.request
 from pathlib import Path
 
 REGISTRY = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+REJECTION_AUDIT = "canonical/FA3-DONOR-REJECTION-AUDIT-001.json"
+LIFECYCLE_DECISION = "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
 REPO = "ubuntuokos/Final-Architecture-v3.0"
 FLAGS = ("authority","automatic_selection","automatic_fetch","automatic_install",
          "automatic_activation","automatic_dependency","automatic_code_import",
          "automatic_provider_admission","automatic_model_selection")
-STATES = {"CANDIDATE","ANALYZED","ACCEPTED_REFERENCE","REJECTED","SUPERSEDED"}
-DONOR_FILES = {REGISTRY, "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+STATES = {"CANDIDATE","ANALYZED","ACCEPTED_REFERENCE","SUPERSEDED"}
+DONOR_FILES = {REGISTRY, REJECTION_AUDIT, LIFECYCLE_DECISION,
+               "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
                "docs/donor-reference-registry.md",
                "src/fa3_donor_registry.py", "src/fa3_donor_chat_import.py",
                "src/fa3_donor_chat_inbox.py", "src/fa3_donor_readiness.py",
@@ -83,8 +86,43 @@ def inspect_registry(root):
                 problems.append("INVALID_LEGACY_ALIAS:"+str(i))
             else: aliases.add(alias)
     if keys & aliases: problems.append("LEGACY_ALIAS_COLLIDES_WITH_PRIMARY")
+
+    audit_path = root / REJECTION_AUDIT
+    if not audit_path.is_file():
+        problems.append("REJECTION_AUDIT_MISSING")
+        audit = {"entries": []}
+    else:
+        try:
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            audit = {"entries": []}
+            problems.append("REJECTION_AUDIT_INVALID")
+    if audit.get("id") != "FA3-DONOR-REJECTION-AUDIT-001" or not isinstance(audit.get("entries"), list):
+        problems.append("REJECTION_AUDIT_SCHEMA_INVALID")
+    active_by_key = {
+        row.get("source", {}).get("normalized_key"): row
+        for row in rows if isinstance(row, dict) and isinstance(row.get("source"), dict)
+    }
+    audited_keys = set()
+    for i, item in enumerate(audit.get("entries", [])):
+        donor = item.get("donor") if isinstance(item, dict) else None
+        key = donor.get("source", {}).get("normalized_key") if isinstance(donor, dict) else None
+        if not isinstance(key, str) or not key or key in audited_keys:
+            problems.append("REJECTION_AUDIT_SOURCE_INVALID_OR_DUPLICATE:"+str(i))
+            continue
+        audited_keys.add(key)
+        active = active_by_key.get(key)
+        if active is None:
+            continue
+        proof = active.get("security_reentry_evidence")
+        refs = proof.get("evidence_refs") if isinstance(proof, dict) else None
+        if (not isinstance(proof, dict) or proof.get("status") != "VERIFIED_SAFE"
+                or not isinstance(refs, list) or not refs
+                or active.get("code_reuse_policy") == "FORBIDDEN"):
+            problems.append("REJECTED_DONOR_REENTRY_WITHOUT_VERIFIED_SAFE_EVIDENCE:"+key)
     return {"registry":reg,"sha256":hashlib.sha256(raw).hexdigest(),
-            "count":len(rows),"findings":sorted(set(problems))}
+            "count":len(rows),"rejection_audit_count":len(audit.get("entries", [])),
+            "findings":sorted(set(problems))}
 
 def git_blob_sha(raw):
     """GitHub's contents API exposes the blob SHA even for files above 1 MiB."""

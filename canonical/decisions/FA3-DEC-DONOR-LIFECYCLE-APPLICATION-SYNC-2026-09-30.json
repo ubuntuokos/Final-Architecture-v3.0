@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.donor-lifecycle-application-sync-decision.v1",
+  "id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
+  "status": "APPROVED_OWNER_POLICY",
+  "effective_date": "2026-09-30",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": false,
+  "scope": "ALL_FA3_APPLICATIONS_MODULES_SERVICES_LAYERS_AND_DECLARED_OR_IMPLICIT_DEPENDENCIES",
+  "rules": {
+    "all_applications_follow_fa3_rules_regardless_of_dependency_declaration": true,
+    "development_change_reconciles_all_affected_layers_and_dependencies": true,
+    "structural_change_requires_current_host_alignment": true,
+    "exceptions_allowed": false,
+    "donor_capability_refresh_period_days": 31,
+    "donor_usage_reverse_traceability_required": true,
+    "every_donor_change_must_be_processed": true,
+    "donor_security_change_requires_immediate_propagation": true,
+    "unsafe_donor_must_be_removed_from_active_registry": true,
+    "unsafe_donor_replacement_modes": [
+      "FA3_NATIVE_REMATERIALIZATION",
+      "VERIFIED_FUNCTIONALLY_EQUIVALENT_DONOR"
+    ],
+    "rejected_donor_reentry_requires_verified_safe_evidence": true,
+    "stalled_donor_requires_last_verified_stable_lock": true,
+    "stalled_donor_replacement_required_if_used": true,
+    "donor_change_capability_non_regression": true,
+    "capability_loss_allowed_only_for_verified_risk_to_any_fa3_component": true
+  },
+  "required_reconciliation_actions": [
+    "DONOR_DIFF_CLASSIFICATION",
+    "DONOR_TO_APPLICATION_REVERSE_IMPACT_LOOKUP",
+    "CAPABILITY_PARITY_NON_REGRESSION",
+    "LAYER_AND_DEPENDENCY_RECONCILIATION",
+    "SECURITY_AND_TRUST_REEVALUATION_WHEN_RELEVANT",
+    "CURRENT_HOST_ALIGNMENT_WHEN_RUNTIME_OR_STRUCTURE_IS_AFFECTED",
+    "TEST_GATE_EVIDENCE_RECONCILIATION",
+    "RELEASE_PROJECTION_RECONCILIATION"
+  ],
+  "safety_override": {
+    "only_permitted_capability_reduction_reason": "VERIFIED_RISK_TO_FA3_COMPONENT",
+    "required_proof": [
+      "DOCUMENTED_RISK",
+      "IMPACT_ANALYSIS",
+      "AUDITABLE_DECISION"
+    ],
+    "convenience_or_implementation_simplification_is_not_sufficient": true
+  }
+}
