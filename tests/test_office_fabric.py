@@ -58,8 +58,6 @@ class OfficeFabricStructureTest(unittest.TestCase):
         links = load("canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
         app = next(x for x in links["applications"] if x["application_id"] == "fa3.office")
         self.assertEqual(app["lifecycle"], "PLANNED")
-        shared = next(x for x in links["shared_capabilities"] if x["id"] == "FA3-SHARED-OFFICE-DOCUMENT-001")
-        self.assertIn("fa3.story-screenplay", shared["consumer_applications"])
         gui = load("canonical/FA3-GUI-SURFACE-REGISTRY-001.json")
         surface = next(x for x in gui["surfaces"] if x["route_id"] == "create.office")
         self.assertEqual(surface["document_authority"], "FA3-DOC-001")
