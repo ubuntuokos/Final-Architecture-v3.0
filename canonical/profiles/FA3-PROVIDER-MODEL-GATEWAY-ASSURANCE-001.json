@@ -2,7 +2,7 @@
   "schema": "fa3.profile.v1",
   "id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
   "name": "Provider, Model & Gateway Assurance Integration",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL_CANDIDATE",
   "priority": "P0",
   "requirement": "MUST_IF_EXTERNAL_OR_MULTI_PROVIDER_AI_IS_USED",
@@ -44,16 +44,34 @@
     "dossier_fields": [
       "provider_identity",
       "official_sources",
+      "source_revision",
+      "source_health",
+      "freshness_state",
       "regions",
+      "country_availability",
       "terms_privacy",
       "authentication_modes",
       "endpoints",
       "model_catalog",
+      "quota_price_observation",
       "entitlement",
       "protocol_claims",
       "verification_history",
       "lifecycle_state"
-    ]
+    ],
+    "collection_policy": {
+      "deterministic_public_source_collection": true,
+      "explicit_https_allowlist": true,
+      "bounded_response_bytes": 16777216,
+      "etag_last_modified_cache_supported": true,
+      "per_source_failure_isolation": true,
+      "official_and_community_evidence_separated": true,
+      "community_discovery_cannot_upgrade_verification": true,
+      "parser_drift_keeps_last_trusted_value": true,
+      "removal_requires_successful_confirmation_count": 2,
+      "regional_availability_is_observation_not_admission": true,
+      "normalized_price_and_quota_metadata": true
+    }
   },
   "assurance_plane": {
     "protocol_conformance_profile": "FA3-LLM-PROTOCOL-COMPAT-001",
@@ -70,7 +88,16 @@
     "silent_fallback": false,
     "fallback_mode": "EXPLICIT_BOUNDED_CANDIDATE_SET",
     "route_exhaustion": "FAIL_EXPLICITLY",
-    "unknown_model_substitution": "DENY"
+    "unknown_model_substitution": "DENY",
+    "telemetry_inputs": {
+      "provider_key_health_non_secret": true,
+      "rate_window_observation": true,
+      "cooldown_observation": true,
+      "token_usage_latency_and_error_category": true,
+      "may_expand_candidate_set": false,
+      "may_select_outside_router_policy": false
+    },
+    "random_or_implicit_provider_selection": "DENY"
   },
   "gateway_enforcement": {
     "gateway_cannot_expand_router_candidate_set": true,
@@ -95,7 +122,8 @@
   },
   "external_source_policy": {
     "unregistered_analysis_sources_are_not_canonical_donors": true,
-    "code_import_or_runtime_adoption_requires_separate_donor_and_license_admission": true
+    "code_import_or_runtime_adoption_requires_separate_donor_and_license_admission": true,
+    "registered_reference_pattern_use_requires_usage_edge": true
   },
   "current_host": {
     "runtime_behavior_changed_by_this_profile": false,
@@ -103,5 +131,27 @@
   },
   "contract_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-CONTRACTS-001",
   "decision_id": "FA3-DEC-PROVIDER-MODEL-GATEWAY-ASSURANCE-2026-09-30",
-  "gate_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-GATESET-001"
+  "gate_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-GATESET-001",
+  "credential_policy": {
+    "authority": "FA3-SECRET-BROKER-001",
+    "donor_local_credential_database_adopted": false,
+    "donor_encryption_store_adopted": false,
+    "raw_secret_in_canonical_state": false
+  },
+  "donor_pattern_provenance": [
+    {
+      "donor_id": "FA3-DONOR-FERDIUNAL-LARAVEL-AI-ROUTER-001",
+      "assessment": "canonical/assessments/FA3-DONOR-LARAVEL-AI-ROUTER-DETAILED-ASSESSMENT-2026-10-01.json",
+      "adoption": "ARCHITECTURE_AND_OPERATIONAL_TELEMETRY_PATTERNS_ONLY",
+      "runtime_dependency": false,
+      "code_import": false
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-RESOURCE-RADAR-AI-RESOURCE-RADAR-001",
+      "assessment": "canonical/assessments/FA3-DONOR-AI-RESOURCE-RADAR-DETAILED-ASSESSMENT-2026-10-01.json",
+      "adoption": "PROVENANCE_FRESHNESS_SOURCE_HEALTH_AND_CHANGE_DETECTION_PATTERNS_ONLY",
+      "runtime_dependency": false,
+      "code_import": false
+    }
+  ]
 }
