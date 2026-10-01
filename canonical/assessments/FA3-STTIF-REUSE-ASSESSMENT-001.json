@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-STTIF-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-STTIF-001",
+  "intent_id": "FA3-STTIF-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-STTIF-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-STTIF-001",
+    "FA3-DONOR-LTX2-001",
+    "FA3-DONOR-COMFYUI-LTXVIDEO-001",
+    "FA3-DONOR-LTX-TILED-FUSION-DOC-001"
+  ],
+  "project_status": "MATERIALIZED_STATIC_CONTROL_PLANE_NO_EXTERNAL_RUNTIME_ADMISSION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "CAP-159",
+      "use": "MOTION_VIDEO_GENERATION_CAPABILITY_BINDING"
+    },
+    {
+      "id": "CAP-160",
+      "use": "VIDEO_PROVIDER_AND_MODEL_INTERCHANGE_BINDING"
+    },
+    {
+      "id": "CAP-161",
+      "use": "RENDER_JOB_DISPATCH_BINDING"
+    },
+    {
+      "id": "CAP-163",
+      "use": "NEURAL_RENDERING_AND_RECONSTRUCTION_BINDING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_DISCOVERY_BUDGET_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_PROVIDER_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AND_RECEIPT_AUTHORITY"
+    }
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-LTX-TILED-FUSION-DOC-001",
+      "use": "ALGORITHM_PATTERN_SHARED_CANVAS_SHARED_NOISE_OVERLAP_FUSION",
+      "source_copy": false
+    },
+    {
+      "donor_id": "FA3-DONOR-COMFYUI-LTXVIDEO-001",
+      "use": "WORKFLOW_PATTERN_SPATIAL_TEMPORAL_WINDOWING_AND_LOW_MEMORY_ORCHESTRATION",
+      "source_copy": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LTX2-001",
+      "use": "OPTIONAL_MODEL_CONSTRAINT_AND_PROVIDER_ADAPTER_REFERENCE",
+      "source_copy": false
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "LTX_AS_FA3_CORE_DEPENDENCY",
+      "reason": "CUSTOM_COMMUNITY_LICENSE_AND_COMMERCIAL_COMPETITION_RESTRICTIONS_REQUIRE_REFERENCE_ONLY_BOUNDARY"
+    },
+    {
+      "id": "COMFYUI_AS_STTIF_RUNTIME_AUTHORITY",
+      "reason": "FA3_OWNS_THE_PROVIDER_NEUTRAL_CONTROL_PLANE_AND_COMFYUI_REMAINS_REFERENCE_OR_OPTIONAL_EXTERNAL_SURFACE"
+    },
+    {
+      "id": "STTIF_AS_SECOND_MODEL_ROUTER_OR_HRB",
+      "reason": "EXISTING_AUTHORITIES_MUST_REMAIN_EXCLUSIVE"
+    },
+    {
+      "id": "SILENT_SAMPLER_OR_DEVICE_SUBSTITUTION",
+      "reason": "FA3_FAIL_CLOSED_ROUTING_REQUIRES_EXPLICIT_RESELECTION"
+    }
+  ],
+  "existing_authority_bindings": {
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "upstream_paths_shadowed": false
+  },
+  "implementation_readiness": "READY_STATIC_CONTROL_PLANE",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
