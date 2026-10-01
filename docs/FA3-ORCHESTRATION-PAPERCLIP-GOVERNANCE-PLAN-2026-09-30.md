@@ -77,7 +77,7 @@ Paperclip was analyzed as an external reference because the owner explicitly req
 
 The FA3-native design adopts only owner-approved functional requirements that are independently justified by FA3 needs: goal ancestry, ownership/dependency/execution separation, atomic claim semantics, version-bound approvals, bounded recovery, responsibility attribution, budget envelopes and operator observability.
 
-Published-main Reuse Discovery remains bound to donor registry blob `7e900cac93936d2f319e132def4c172b2a415d4d` with 1233 entries. Existing published donors relevant to this design include Temporal SDK patterns, Dagger, SkyPilot, OpenShell and Langfuse references; no external runtime is promoted by this plan.
+Published-main Reuse Discovery is bound to donor registry blob `d28e46732a2068bff7fcc7091baa1f754012085d` with 1287 entries after merged donor-lifecycle/intake PR #562. Existing published donors relevant to this design include Temporal SDK patterns, Dagger, SkyPilot, OpenShell and Langfuse references; no external runtime is promoted by this plan.
 
 ## 4. Stability and recovery
 
