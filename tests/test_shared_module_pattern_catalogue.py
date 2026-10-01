@@ -16,6 +16,16 @@ SOURCES = (
     "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
     "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
+    "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
+    "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
+    "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
+    "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
+    "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
 )
 
 def fixture(root: Path) -> None:
@@ -60,6 +70,49 @@ class SharedModulePatternCatalogueTests(unittest.TestCase):
         self.assertEqual(by_id[pattern_id]["candidate_class"], "SHARED_MODULE_PATTERN")
         self.assertFalse(by_id[pattern_id]["analysis_sources_are_donors"])
         self.assertNotIn("ANALYSIS-IMMICH", by_id)
+
+    def test_exact_five_materialized_shared_components(self):
+        report = validate(ROOT)
+        self.assertEqual(report["validation"]["result"], "PASS",
+                         report["validation"]["findings"])
+        self.assertEqual(report["summary"]["materialized_shared_components"], 5)
+        catalogue = json.loads((ROOT / SOURCES[0]).read_text())
+        self.assertEqual(
+            {row["id"] for row in catalogue["materialized_shared_components"]},
+            {
+                "FA3-SHARED-AI-INTERACTION-001",
+                "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+                "FA3-SHARED-MULTIMODAL-SOURCE-001",
+                "FA3-SHARED-CONVERSATION-SESSION-001",
+                "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+            },
+        )
+
+    def test_materialized_profile_contract_binding_parity_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json"
+            profile = json.loads(path.read_text())
+            profile["capability_bindings"].append("CAP-176")
+            path.write_text(json.dumps(profile), encoding="utf-8")
+            findings = {x["code"] for x in validate(root)["validation"]["findings"]}
+            self.assertIn("MATERIALIZED_COMPONENT_BINDING_PARITY_INVALID", findings)
+            self.assertIn("MATERIALIZED_COMPONENT_CAPABILITY_ID_OUT_OF_BASELINE", findings)
+
+    def test_materialized_app_link_cannot_manual_bind_capability(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+            links = json.loads(path.read_text())
+            links["shared_capabilities"][0]["fa3_bindings"]["capability_ids"] = ["CAP-005"]
+            path.write_text(json.dumps(links), encoding="utf-8")
+            findings = {x["code"] for x in validate(root)["validation"]["findings"]}
+            self.assertIn(
+                "MATERIALIZED_COMPONENT_MANUAL_CAPABILITY_BINDING_FORBIDDEN",
+                findings,
+            )
 
     def test_analysis_source_cannot_self_promote(self):
         with tempfile.TemporaryDirectory() as tmp:
