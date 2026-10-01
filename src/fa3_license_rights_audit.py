@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import json
+import re
 import subprocess
 import tomllib
 from collections import Counter
@@ -37,6 +38,10 @@ DEPENDENCY_NAMES = {
     "Cargo.toml", "Cargo.lock", "go.mod", "go.sum", "Gemfile", "Gemfile.lock",
     "composer.json", "composer.lock",
 }
+DISTRIBUTION_SCOPE_DIRS = ("canonical/providers", "canonical/references", "canonical/third-party")
+UNKNOWN_LICENSE_MARKERS = {"", "UNKNOWN", "UNVERIFIED", "PENDING", "NOASSERTION", "NONE", "UNCLASSIFIED"}
+IMMUTABLE_REVISION = re.compile(r"^[0-9a-fA-F]{40}(?:[0-9a-fA-F]{24})?$")
+
 LICENSE_NAMES = {
     "license", "license.txt", "license.md", "copying", "copying.txt", "notice",
     "third-party.md", "third_party.md", "third-party-notices.txt", "licenses",
@@ -96,12 +101,10 @@ def classify(rel: str) -> str:
     suffix = p.suffix.lower()
     name = p.name.lower()
 
-    if rel.startswith("canonical/providers/"):
-        return "PROVIDER_OR_SERVICE"
-    if rel.startswith("canonical/references/") or rel.startswith("research/"):
+    if rel.startswith(tuple(scope + "/" for scope in DISTRIBUTION_SCOPE_DIRS)):
+        return "FA3_CANONICAL_METADATA"
+    if rel.startswith("research/"):
         return "THIRD_PARTY_REFERENCE"
-    if "donor" in low and rel.startswith(("canonical/", "docs/", "research/")):
-        return "DONOR_OR_REFERENCE"
     if suffix in MODEL_SUFFIXES or "/models/" in low or low.startswith("models/"):
         return "MODEL_OR_WEIGHT"
     if suffix in FONT_SUFFIXES or "/fonts/" in low:
@@ -135,14 +138,121 @@ def explicit_license_metadata(text: str) -> bool:
     )
 
 
-def severity_for(category: str, rel: str, text: str) -> tuple[str, str]:
+def severity_for(category: str, rel: str, text: str, *, has_spdx: bool, has_reuse: bool) -> tuple[str, str]:
     if category in {"MODEL_OR_WEIGHT", "DATASET_OR_DATA", "FONT", "CREATIVE_ASSET", "SDK", "CODEC"}:
         return "HIGH", "NON_CODE_RIGHTS_DOMAIN_REQUIRES_SEPARATE_REVIEW"
-    if category in {"PROVIDER_OR_SERVICE", "THIRD_PARTY_REFERENCE", "DONOR_OR_REFERENCE", "DEPENDENCY_MANIFEST"}:
+    if category in {"THIRD_PARTY_REFERENCE", "DEPENDENCY_MANIFEST"}:
         return "HIGH", "THIRD_PARTY_OR_DEPENDENCY_RIGHTS_REVIEW_REQUIRED"
-    if category in {"SOURCE_CODE", "DOCUMENTATION"} and not explicit_license_metadata(text):
+    if category in {"SOURCE_CODE", "DOCUMENTATION", "FA3_CANONICAL_METADATA"}:
+        if has_spdx or has_reuse or explicit_license_metadata(text):
+            return "LOW", "EXPLICIT_FILE_OR_REUSE_LICENSE_EVIDENCE_PRESENT"
         return "MEDIUM", "FILE_OR_COMPONENT_LICENSE_PROVENANCE_TAGGING_REQUIRED"
     return "LOW", "CLASSIFICATION_RECORDED_NO_AUTOMATIC_CLEARANCE"
+
+
+def _known_license(value: Any) -> str | None:
+    if isinstance(value, str):
+        token = value.strip()
+        if token and token.upper() not in UNKNOWN_LICENSE_MARKERS:
+            return token
+        return None
+    if isinstance(value, dict):
+        for key in ("effective", "concluded", "spdx_expression", "spdx", "declared", "id", "license"):
+            token = _known_license(value.get(key))
+            if token:
+                return token
+    return None
+
+
+def _license_evidence(value: Any) -> str | None:
+    if not isinstance(value, dict):
+        return None
+    preferred = (
+        "license_blob_sha",
+        "license_file_sha",
+        "license_evidence_sha256",
+        "license_evidence_digest",
+        "license_evidence_url",
+        "license_evidence",
+    )
+    for key in preferred:
+        raw = value.get(key)
+        if isinstance(raw, str) and raw.strip():
+            return f"{key}:{raw.strip()}"
+    nested = value.get("license")
+    if isinstance(nested, dict):
+        for key in ("evidence_digest", "evidence_url", "source"):
+            raw = nested.get(key)
+            if isinstance(raw, str) and raw.strip() and raw.strip().upper() not in UNKNOWN_LICENSE_MARKERS:
+                return f"license.{key}:{raw.strip()}"
+    return None
+
+
+def _immutable_revision(value: Any) -> str | None:
+    if isinstance(value, dict):
+        preferred = (
+            "commit", "revision", "upstream_commit", "source_commit", "immutable_commit",
+            "git_commit", "repository_commit", "sha", "sha256",
+        )
+        for key in preferred:
+            raw = value.get(key)
+            if isinstance(raw, str) and IMMUTABLE_REVISION.fullmatch(raw.strip()):
+                return raw.strip().lower()
+        for child in value.values():
+            found = _immutable_revision(child)
+            if found:
+                return found
+    elif isinstance(value, list):
+        for child in value:
+            found = _immutable_revision(child)
+            if found:
+                return found
+    return None
+
+
+def _distribution_fields(row: dict[str, Any]) -> tuple[str | None, str | None]:
+    dist = row.get("distribution") if isinstance(row.get("distribution"), dict) else {}
+    cls = dist.get("class") or row.get("distribution_class")
+    status = dist.get("release_bundle_status")
+    if status not in {"INCLUDED", "EXCLUDED"}:
+        allowed = dist.get("product_bundle_allowed")
+        if allowed is None:
+            allowed = row.get("product_bundle_allowed")
+        if allowed is not None:
+            status = "INCLUDED" if allowed is True else "EXCLUDED"
+    return (str(cls) if cls else None, str(status) if status else None)
+
+
+def canonical_subject_records(root: Path) -> dict[str, dict[str, Any]]:
+    records: dict[str, dict[str, Any]] = {}
+    for scope in DISTRIBUTION_SCOPE_DIRS:
+        base = root / scope
+        if not base.is_dir():
+            continue
+        for path in sorted(base.rglob("*.json")):
+            try:
+                row = loadj(path)
+            except Exception:
+                continue
+            subject_id = row.get("id") or row.get("subject_id")
+            if not isinstance(subject_id, str) or not subject_id.strip():
+                continue
+            cls, status = _distribution_fields(row)
+            license_value = _known_license(row.get("license"))
+            if not license_value:
+                license_value = _known_license(row.get("license_and_rights"))
+            if not license_value:
+                license_value = _known_license(row.get("license_status"))
+            records[subject_id] = {
+                "subject_id": subject_id,
+                "record_path": path.relative_to(root).as_posix(),
+                "class": cls,
+                "release_bundle_status": status,
+                "license": license_value,
+                "license_evidence": _license_evidence(row),
+                "immutable_revision": _immutable_revision(row),
+            }
+    return records
 
 
 def build_inventory(root: Path) -> dict[str, Any]:
@@ -151,6 +261,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
     patterns = reuse_patterns(root)
 
     distribution = loadj(root / "canonical/distribution-manifest.json")
+    distribution_registry = loadj(root / "canonical/distribution-registry.json")
     included_ids = {
         str(row.get("subject_id"))
         for row in distribution.get("included", [])
@@ -161,6 +272,13 @@ def build_inventory(root: Path) -> dict[str, Any]:
         for row in distribution.get("excluded", [])
         if row.get("release_bundle_status") == "EXCLUDED"
     }
+
+    distribution_by_id = {
+        str(row.get("subject_id")): row
+        for row in distribution_registry.get("records", [])
+        if isinstance(row, dict) and row.get("subject_id")
+    }
+    canonical_records = canonical_subject_records(root)
 
     descriptor_registry_path = root / "canonical/license-rights-descriptor-registry.json"
     descriptor_registry = loadj(descriptor_registry_path) if descriptor_registry_path.is_file() else {"entries": []}
@@ -216,7 +334,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
         if has_reuse:
             reuse_tagged += 1
 
-        severity, reason = severity_for(category, rel, text)
+        severity, reason = severity_for(category, rel, text, has_spdx=has_spdx, has_reuse=has_reuse)
         severity_counts[severity] += 1
 
         subject = {
@@ -252,15 +370,55 @@ def build_inventory(root: Path) -> dict[str, Any]:
         })
         severity_counts["BLOCKING"] += 1
 
+    external_subjects: list[dict[str, Any]] = []
+    resolved_reference_only_ids: set[str] = set()
     for subject_id in sorted(excluded_ids):
+        registry_row = distribution_by_id.get(subject_id, {})
+        record = canonical_records.get(subject_id, {})
+        cls = registry_row.get("class") or record.get("class")
+        release_status = registry_row.get("release_bundle_status") or record.get("release_bundle_status") or "EXCLUDED"
+        license_value = record.get("license")
+        license_evidence = record.get("license_evidence")
+        immutable_revision = record.get("immutable_revision")
+        reference_resolved = (
+            cls == "REFERENCE_ONLY"
+            and release_status == "EXCLUDED"
+            and isinstance(license_value, str)
+            and bool(license_value.strip())
+            and isinstance(license_evidence, str)
+            and bool(license_evidence.strip())
+            and isinstance(immutable_revision, str)
+            and bool(immutable_revision.strip())
+        )
+        resolution = "REFERENCE_ONLY_EVIDENCE_BACKED" if reference_resolved else "REVIEW_REQUIRED"
+        external_subjects.append({
+            "subject_id": subject_id,
+            "record_path": record.get("record_path"),
+            "distribution_class": cls,
+            "release_bundle_status": release_status,
+            "license": license_value,
+            "license_evidence": license_evidence,
+            "immutable_revision": immutable_revision,
+            "resolution": resolution,
+            "automatic_legal_clearance": False,
+        })
+        if reference_resolved:
+            resolved_reference_only_ids.add(subject_id)
+            continue
+        severity = "MEDIUM" if cls == "FA3_NATIVE" else "HIGH"
         queue.append({
             "subject_id": subject_id,
             "category": "EXCLUDED_EXTERNAL_OR_REFERENCE_SUBJECT",
-            "severity": "HIGH",
-            "reason": "EXCLUSION_DOES_NOT_REMOVE_PROVENANCE_OR_REFERENCE_LICENSE_RECORDING_REQUIREMENT",
-            "required_action": "Record source revision, declared/detected license evidence and retained reference-only/excluded disposition.",
+            "severity": severity,
+            "reason": "EXCLUDED_SUBJECT_REQUIRES_PROVENANCE_LICENSE_OR_RIGHTS_COMPLETION",
+            "distribution_class": cls,
+            "record_path": record.get("record_path"),
+            "required_action": (
+                "Record immutable source revision and concrete license evidence. REFERENCE_ONLY may be resolved "
+                "without bundle admission only when immutable provenance, a known license, and license evidence are all present."
+            ),
         })
-        severity_counts["HIGH"] += 1
+        severity_counts[severity] += 1
 
     queue.sort(key=lambda x: (
         {"BLOCKING": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3}.get(x.get("severity", "LOW"), 9),
@@ -275,6 +433,9 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "rights_descriptor_cleared_release_subjects": len(cleared_release_ids),
         "unique_release_blockers": len(unresolved_release_ids),
         "excluded_external_or_reference_subjects": len(excluded_ids),
+        "external_subjects_scanned": len(external_subjects),
+        "evidence_backed_reference_only_subjects": len(resolved_reference_only_ids),
+        "unresolved_excluded_subjects": len(excluded_ids - resolved_reference_only_ids),
         "spdx_file_tagged": spdx_tagged,
         "reuse_annotated": reuse_tagged,
         "category_counts": dict(sorted(category_counts.items())),
@@ -290,6 +451,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "work_queue": queue,
         "subjects": subjects,
         "release_descriptor_results": descriptor_results,
+        "external_subjects": external_subjects,
         "invariants": {
             "automatic_inventory_is_not_legal_clearance": True,
             "third_party_relicense_forbidden": True,
