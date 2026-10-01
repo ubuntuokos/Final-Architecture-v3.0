@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from fa3_shared_module_pattern_catalogue import validate
+from fa3_reuse_catalog import build_catalog
 
 SOURCES = (
     "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
@@ -51,6 +52,14 @@ class SharedModulePatternCatalogueTests(unittest.TestCase):
         unknown = [x for x in report["validation"]["findings"]
                    if x["code"] == "UNKNOWN_CANONICAL_DONOR"]
         self.assertEqual(unknown, [])
+
+    def test_reuse_discovery_indexes_patterns_not_analysis_sources(self):
+        reuse = build_catalog(ROOT)
+        by_id = {row["candidate_id"]: row for row in reuse["entries"]}
+        pattern_id = "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001"
+        self.assertEqual(by_id[pattern_id]["candidate_class"], "SHARED_MODULE_PATTERN")
+        self.assertFalse(by_id[pattern_id]["analysis_sources_are_donors"])
+        self.assertNotIn("ANALYSIS-IMMICH", by_id)
 
     def test_analysis_source_cannot_self_promote(self):
         with tempfile.TemporaryDirectory() as tmp:
