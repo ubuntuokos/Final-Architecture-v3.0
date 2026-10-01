@@ -130,6 +130,10 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "donor_change_capability_non_regression": True,
         "capability_loss_only_for_verified_fa3_risk": True,
         "current_host_alignment_required_for_structural_or_runtime_change": True,
+        "shared_capability_consumer_reverse_traceability_required": True,
+        "shared_capability_binding_must_be_canonical_derived": True,
+        "shared_capability_manual_capability_ids_forbidden": True,
+        "shared_capability_current_host_impact_required": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
@@ -398,9 +402,14 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         app["automatic_code_import"] = False
 
     shared_capabilities = []
+    shared_capability_edges: list[dict[str, Any]] = []
+    by_shared_capability: dict[str, list[str]] = {}
+    by_shared_derived_capability: dict[str, list[str]] = {}
+    by_shared_consumer: dict[str, list[str]] = {}
     seen_shared: set[str] = set()
     for item in declaration.get("shared_capabilities", []):
         sid = str(item.get("id", ""))
+        status = str(item.get("status", "PROPOSED"))
         consumers = sorted(set(str(x) for x in item.get("consumer_applications", []) if x))
         valid = (
             bool(sid)
@@ -420,19 +429,132 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                 "code": "INVALID_SHARED_CAPABILITY",
                 "detail": sid or "<missing-id>",
             })
+
+        fa3_bindings = item.get("fa3_bindings") or {}
+        if not isinstance(fa3_bindings, dict):
+            errors.append({"code": "INVALID_SHARED_FA3_BINDINGS", "detail": sid})
+            fa3_bindings = {}
+        if fa3_bindings.get("capability_ids"):
+            errors.append({
+                "code": "MANUAL_SHARED_CAPABILITY_BINDING_FORBIDDEN",
+                "detail": sid,
+            })
+
+        binding_refs: list[str] = []
+        normalized_refs: dict[str, list[str]] = {}
+        for key in ("profile_ids", "contract_ids", "authority_ids", "shared_module_ids"):
+            values = fa3_bindings.get(key, [])
+            if not isinstance(values, list) or any(not isinstance(value, str) for value in values):
+                errors.append({
+                    "code": "INVALID_SHARED_BINDING_REFERENCE",
+                    "detail": sid + ":" + key,
+                })
+                values = []
+            normalized_refs[key] = sorted(set(values))
+            if key in ("profile_ids", "contract_ids"):
+                binding_refs.extend(values)
+
+        derived_capabilities = sorted({
+            capability
+            for record_id in binding_refs
+            for capability in capability_bindings.get(record_id, [])
+        })
+        unresolved_refs = sorted({
+            record_id for record_id in binding_refs if record_id not in capability_bindings
+        })
+        if status != "PROPOSED" and (
+            not binding_refs or unresolved_refs or not derived_capabilities
+        ):
+            errors.append({
+                "code": "UNRESOLVED_SHARED_CAPABILITY_BINDING",
+                "detail": sid,
+            })
+
+        impact_value = item.get("current_host_impact")
+        if status != "PROPOSED" and not isinstance(impact_value, dict):
+            errors.append({
+                "code": "MISSING_SHARED_CURRENT_HOST_IMPACT",
+                "detail": sid,
+            })
+        current_host_impact = (
+            impact_value.get("classification", "NO_RUNTIME_IMPACT")
+            if isinstance(impact_value, dict)
+            else "NO_RUNTIME_IMPACT"
+        )
+        if current_host_impact not in allowed_current_host_impact:
+            errors.append({
+                "code": "INVALID_SHARED_CURRENT_HOST_IMPACT",
+                "detail": sid,
+            })
+            current_host_impact = "STRUCTURAL_REASSESSMENT_REQUIRED"
+
         seen_shared.add(sid)
-        shared_capabilities.append({
+        row = {
             "id": sid,
             "owner_layer": item.get("owner_layer"),
             "consumer_applications": consumers,
-            "status": item.get("status", "PROPOSED"),
+            "status": status,
             "authority": False,
             "retrospective_review_required": True,
             "manual_update_required": True,
             "local_ui_adapter_only": True,
             "capability_loss_allowed": False,
             "current_host_alignment_required_for_structural_change": True,
-        })
+            "pattern_catalogue_refs": sorted(set(item.get("pattern_catalogue_refs", []))),
+            "fa3_bindings": {
+                **normalized_refs,
+                "capability_ids": derived_capabilities,
+                "unresolved_binding_ids": unresolved_refs,
+                "resolution": (
+                    "RESOLVED"
+                    if binding_refs and not unresolved_refs and derived_capabilities
+                    else "NOT_REQUIRED"
+                    if status == "PROPOSED" and not binding_refs
+                    else "UNRESOLVED_CAPABILITY_BINDING"
+                ),
+            },
+            "current_host_impact": {"classification": current_host_impact},
+        }
+        shared_capabilities.append(row)
+
+        edge_id = "SHARED:" + sid
+        edge_consumers = [
+            {"kind": "APPLICATION", "id": app_id, "relationship": "SHARED_CONSUMER"}
+            for app_id in consumers
+        ]
+        edge = {
+            "id": edge_id,
+            "shared_capability_id": sid,
+            "status": status,
+            "fa3_bindings": row["fa3_bindings"],
+            "consumers": edge_consumers,
+            "current_host_impact": row["current_host_impact"],
+        }
+        shared_capability_edges.append(edge)
+        by_shared_capability.setdefault(sid, []).append(edge_id)
+        for capability in derived_capabilities:
+            by_shared_derived_capability.setdefault(capability, []).append(edge_id)
+        for consumer in edge_consumers:
+            key = consumer["kind"] + ":" + consumer["id"]
+            by_shared_consumer.setdefault(key, []).append(edge_id)
+
+    shared_capability_consumer_map = {
+        "schema": "fa3.shared-capability-consumer-map.v1",
+        "derived": True,
+        "authority": False,
+        "edges": sorted(shared_capability_edges, key=lambda edge: edge["id"]),
+        "views": {
+            "by_shared_capability": {
+                key: sorted(value) for key, value in sorted(by_shared_capability.items())
+            },
+            "by_capability": {
+                key: sorted(value) for key, value in sorted(by_shared_derived_capability.items())
+            },
+            "by_consumer": {
+                key: sorted(value) for key, value in sorted(by_shared_consumer.items())
+            },
+        },
+    }
 
     edges = []
     seen_edges: set[str] = set()
@@ -551,6 +673,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                    "donor_records": len(donors),
                    "proposed_cross_app_links": len(edges),
                    "shared_capabilities": len(shared_capabilities),
+                   "shared_capability_edges": len(shared_capability_edges),
                    "changed_donor_sources": len(reevaluation)},
         "applications": [applications[k] for k in sorted(applications)],
         "gui_surfaces": sorted(gui_surfaces, key=lambda x: x["surface_id"]),
@@ -558,6 +681,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "shared_capabilities": sorted(shared_capabilities, key=lambda x: x["id"]),
         "tutorial_shared_policy": {"registered_tutorial_only": True, "existing_function_routes_to_fa3_native_manual": True, "missing_function_requires_need_assessment": True, "multi_application_function_routes_to_shared_layer": True, "retrospective_application_impact_required": True, "manual_publish_requires_verified_implementation": True, "structural_change_requires_current_host_alignment": True},
         "capability_consumer_map": capability_consumer_map,
+        "shared_capability_consumer_map": shared_capability_consumer_map,
         "reevaluation": reevaluation,
         "validation": {"result": "PASS" if not errors else "FAIL", "findings": errors},
     }
@@ -603,12 +727,32 @@ def main() -> int:
                 ids = set(views[view_name].get(value, []))
                 selected_ids = ids if selected_ids is None else selected_ids & ids
         selected_ids = selected_ids or set()
+
+        shared_views = result["shared_capability_consumer_map"]["views"]
+        shared_selected: set[str] | None = None
+        if not args.donor:
+            for view_name, value in (
+                ("by_capability", args.capability),
+                ("by_consumer", args.consumer),
+            ):
+                if value:
+                    ids = set(shared_views[view_name].get(value, []))
+                    shared_selected = ids if shared_selected is None else shared_selected & ids
+        shared_selected = shared_selected or set()
+
         result = {
             "capability_consumer_map": {
                 **result["capability_consumer_map"],
                 "edges": [
                     edge for edge in result["capability_consumer_map"]["edges"]
                     if edge["id"] in selected_ids
+                ],
+            },
+            "shared_capability_consumer_map": {
+                **result["shared_capability_consumer_map"],
+                "edges": [
+                    edge for edge in result["shared_capability_consumer_map"]["edges"]
+                    if edge["id"] in shared_selected
                 ],
             },
             "validation": result["validation"],
