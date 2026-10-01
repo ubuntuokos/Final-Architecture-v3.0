@@ -1,0 +1,632 @@
+{
+  "schema": "fa3.research.agent-harness-phase-a.v1",
+  "id": "FA3-RESEARCH-UNIVERSAL-AGENT-HARNESS-PHASE-A-2026-10-01",
+  "date": "2026-10-01",
+  "status": "RESEARCH_ONLY_OWNER_REVIEW_REQUIRED",
+  "fa3_base": {
+    "repository": "ubuntuokos/Final-Architecture-v3.0",
+    "main_sha": "dfb9ab7d8a3e192908bc2fb0f57c6aefed1d7bee",
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0
+  },
+  "scope": {
+    "phase": "A",
+    "work_packages": [
+      "WP0_SOURCE_FREEZE",
+      "WP1_CAPABILITY_EXTRACTION",
+      "WP2_COVERAGE_RECONCILIATION"
+    ],
+    "code_change": false,
+    "canonical_registry_mutation": false,
+    "donor_registration": false,
+    "runtime_activation": false,
+    "provider_admission": false,
+    "current_host_promotion": false,
+    "note": "AGENTS.md requires an owner link preceded by the literal 'donornak' marker for canonical donor registration. The researched sources therefore remain analysis-only in this Phase A branch."
+  },
+  "source_level_license_note": "License values are upstream repository declarations observed at the frozen source identities. They are not FA3 License & Rights clearance for code, dependency, asset, model, service or runtime adoption.",
+  "sources": [
+    {
+      "id": "SRC-OMNIGENT",
+      "repo": "omnigent-ai/omnigent",
+      "head": "8a71f9003e0dbedb1eaada37a39be827f44174e1",
+      "license": "Apache-2.0",
+      "role": "meta-harness, policy, session, sandbox reference"
+    },
+    {
+      "id": "SRC-ACP",
+      "repo": "agentclientprotocol/agent-client-protocol",
+      "head": "9e032156545412be9bba5e092f12d0080c499b6d",
+      "license": "Apache-2.0",
+      "role": "client-agent interoperability protocol"
+    },
+    {
+      "id": "SRC-A2A",
+      "repo": "a2aproject/A2A",
+      "head": "c0e13ef67ec386ab304acbf60952f09cdc70bd66",
+      "license": "Apache-2.0",
+      "role": "agent-agent interoperability protocol"
+    },
+    {
+      "id": "SRC-PYDANTIC-AI",
+      "repo": "pydantic/pydantic-ai",
+      "head": "dac0464672d09272a11065bbe84201e9ae67167e",
+      "license": "MIT",
+      "role": "deferred actions, typed tools, durability patterns"
+    },
+    {
+      "id": "SRC-LANGGRAPH",
+      "repo": "langchain-ai/langgraph",
+      "head": "b36b1d58a8b408455b512cfad3b1b26e02927282",
+      "license": "MIT",
+      "role": "interrupt/checkpoint/state graph patterns"
+    },
+    {
+      "id": "SRC-MAF",
+      "repo": "microsoft/agent-framework",
+      "head": "f1fb145c4d80191aa86b3480d12112d828233763",
+      "license": "MIT",
+      "role": "workflow checkpoints, approval/session persistence"
+    },
+    {
+      "id": "SRC-CEDAR",
+      "repo": "cedar-policy/cedar",
+      "head": "2cfa86bab4776d587e96e8da43a37fc44622411a",
+      "license": "Apache-2.0",
+      "role": "typed authorization model reference"
+    },
+    {
+      "id": "SRC-OTEL",
+      "repo": "open-telemetry/semantic-conventions",
+      "head": "70550277d98a01ca3fe83bcfc3a2dac18a0d98b7",
+      "license": "Apache-2.0",
+      "role": "GenAI observability interchange"
+    },
+    {
+      "id": "SRC-LETTA",
+      "repo": "letta-ai/letta",
+      "head": "5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a",
+      "license": "Apache-2.0",
+      "role": "agent/conversation/memory state separation reference"
+    },
+    {
+      "id": "SRC-OPENHANDS-SDK",
+      "repo": "OpenHands/software-agent-sdk",
+      "head": "0a9abc87641ad7ffe02e2dadf5e2cb3976b35217",
+      "license": "MIT",
+      "role": "existing FA3 developer-agent and ACP-related reference"
+    },
+    {
+      "id": "SRC-TEMPORAL-PY",
+      "repo": "temporalio/sdk-python",
+      "head": "65fecc416588151b65e62495d76015778124dd8d",
+      "license": "MIT",
+      "role": "existing FA3 durable workflow authority implementation reference"
+    }
+  ],
+  "disposition_counts": {
+    "PARTIALLY_COVERED": 21,
+    "MISSING": 8,
+    "ALREADY_COVERED": 8,
+    "REJECT": 1,
+    "CONFLICT": 1
+  },
+  "capability_candidates": [
+    {
+      "research_id": "RAH-001",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Portable harness abstraction and runtime swapping",
+      "category": "HARNESS",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 Agent Workload Runtime is provider-neutral, but no single universal harness descriptor/contract exists",
+      "fa3_consumer": "Agent Workload Runtime + Model Router",
+      "recommended_next_action": "DEFINE_UNIVERSAL_HARNESS_CONTRACT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-002",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Harness capability declaration and feature matrix",
+      "category": "HARNESS",
+      "coverage": "MISSING",
+      "rationale": "Model capability descriptors exist; harness capabilities are not a canonical normalized descriptor",
+      "fa3_consumer": "Agent Workload Runtime + Assurance",
+      "recommended_next_action": "ADD_HARNESS_DESCRIPTOR_AND_ASSURANCE",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-003",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Declarative portable agent specification independent of harness",
+      "category": "AGENT_SPEC",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "Typed workload/task/execution-plan contracts exist; portable agent-to-harness manifest is not unified",
+      "fa3_consumer": "Agent Workload Runtime",
+      "recommended_next_action": "MAP_TO_FA3_AGENT_MANIFEST_OVERLAY",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-004",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Contextual policy composition with ALLOW/ASK/DENY",
+      "category": "AUTHORIZATION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "UAF has external authorization and explicit approval; #557 draft is intended authority guard",
+      "fa3_consumer": "Scope & Authority Guard + UAF",
+      "recommended_next_action": "FORMALIZE_VERDICT_COMPOSITION_IN_PHASE_B",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "NO_REOPEN_DRAFT_EXTENSION"
+    },
+    {
+      "research_id": "RAH-005",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Sub-agent creation and bounded multi-agent delegation",
+      "category": "MULTI_AGENT",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "Agent Federation, runtime transfer budgets and UAF mediation already cover bounded delegation",
+      "fa3_consumer": "Agent Federation + Agent Runtime Semantics",
+      "recommended_next_action": "MAP_AND_REUSE",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-006",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Persistent session continuity across harness/client surfaces",
+      "category": "SESSION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 has session integrity and durable workload resume, but lacks a universal client-agent session compatibility contract",
+      "fa3_consumer": "Session surfaces + Agent Workload Runtime",
+      "recommended_next_action": "ADD_SESSION_INTEROP_CONTRACT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-007",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Separate placement environment from OS access confinement",
+      "category": "SANDBOX",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "HRB owns where/resources; FA3 Agent Sandbox owns filesystem/network confinement",
+      "fa3_consumer": "HRB + Agent Sandbox",
+      "recommended_next_action": "DOCUMENT_MAPPING_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-008",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Fail when requested sandbox cannot be supplied",
+      "category": "SANDBOX",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "FA3 mandatory sandbox is fail-closed and host subprocess arbitrary agent execution is denied",
+      "fa3_consumer": "Agent Sandbox",
+      "recommended_next_action": "MAP_AND_REUSE",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-009",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "MCP subprocess outside primary OS sandbox",
+      "category": "SANDBOX",
+      "coverage": "REJECT",
+      "rationale": "Omnigent documents MCP subprocesses outside its OS sandbox; FA3 target requires canonical mediation and full execution containment",
+      "fa3_consumer": "Agent Sandbox + MCP Gateway",
+      "recommended_next_action": "REJECT_UPSTREAM_BEHAVIOR_RETAIN_AS_NEGATIVE_TEST",
+      "current_host_impact": "SANDBOX_DELTA_IF_FIXED",
+      "closure_protection": "NO_REOPEN_UNTIL_PHASE_D"
+    },
+    {
+      "research_id": "RAH-010",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Per-harness conformance/capability test bench",
+      "category": "ASSURANCE",
+      "coverage": "MISSING",
+      "rationale": "Provider/model assurance exists, but no harness-specific conformance matrix/gate",
+      "fa3_consumer": "Harness Assurance",
+      "recommended_next_action": "ADD_HARNESS_ASSURANCE_PROFILE",
+      "current_host_impact": "SCHEMA_ONLY_THEN_RUNTIME_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-011",
+      "source_id": "SRC-OMNIGENT",
+      "capability": "Optional ACP-backed custom harness registration",
+      "category": "INTEROP",
+      "coverage": "MISSING",
+      "rationale": "ACP is not yet an explicit FA3 compatibility surface",
+      "fa3_consumer": "Universal Harness + client-agent adapter",
+      "recommended_next_action": "ADD_ACP_ADAPTER_CONTRACT",
+      "current_host_impact": "SCHEMA_ONLY_THEN_LOCAL_PROTOCOL_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-012",
+      "source_id": "SRC-ACP",
+      "capability": "Client creates and resumes agent sessions",
+      "category": "INTEROP",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "Workload start/resume and session integrity exist; ACP session/new/resume mapping does not",
+      "fa3_consumer": "ACP Compatibility Adapter",
+      "recommended_next_action": "MAP_SESSION_NEW_RESUME_TO_EXISTING_FA3_ACTIONS",
+      "current_host_impact": "LOCAL_PROTOCOL_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-013",
+      "source_id": "SRC-ACP",
+      "capability": "Permission requests with cancellation semantics",
+      "category": "APPROVAL",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "UAF approval is digest-bound and fail-closed; ACP request_permission/cancel transport semantics are absent",
+      "fa3_consumer": "ACP Adapter + UAF",
+      "recommended_next_action": "MAP_PERMISSION_TO_CANONICAL_APPROVAL",
+      "current_host_impact": "LOCAL_PROTOCOL_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-014",
+      "source_id": "SRC-ACP",
+      "capability": "Client/agent capability negotiation",
+      "category": "INTEROP",
+      "coverage": "MISSING",
+      "rationale": "No ACP capability negotiation projection exists",
+      "fa3_consumer": "ACP Adapter + Harness Descriptor",
+      "recommended_next_action": "ADD_NEGOTIATION_MAPPING",
+      "current_host_impact": "SCHEMA_ONLY_THEN_LOCAL_PROTOCOL_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-015",
+      "source_id": "SRC-ACP",
+      "capability": "Streaming progress/session updates",
+      "category": "INTEROP",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 has journal/control-center projections but no ACP wire projection",
+      "fa3_consumer": "ACP Adapter + Control Center",
+      "recommended_next_action": "ADD_NON_AUTHORITATIVE_STREAM_PROJECTION",
+      "current_host_impact": "LOCAL_PROTOCOL_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-016",
+      "source_id": "SRC-A2A",
+      "capability": "AgentCard capability advertisement/discovery",
+      "category": "FEDERATION",
+      "coverage": "MISSING",
+      "rationale": "FA3 Federation exists, but no standard AgentCard projection; advertised capability must remain untrusted",
+      "fa3_consumer": "Agent Federation",
+      "recommended_next_action": "ADD_AGENTCARD_PROJECTION_AS_UNTRUSTED_DECLARATION",
+      "current_host_impact": "SCHEMA_ONLY_THEN_CROSS_HOST_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-017",
+      "source_id": "SRC-A2A",
+      "capability": "Stateful task lifecycle for remote agents",
+      "category": "FEDERATION",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "FA3 Federation + Agent Workload Task + Temporal already provide stateful bounded execution semantics",
+      "fa3_consumer": "Agent Federation + Agent Workload Runtime",
+      "recommended_next_action": "MAP_PROTOCOL_STATES_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT_UNTIL_ADAPTER",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-018",
+      "source_id": "SRC-A2A",
+      "capability": "Message and Artifact are distinct protocol objects",
+      "category": "ARTIFACT",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 has artifacts/provenance, but A2A-compatible communication-output separation is not explicit",
+      "fa3_consumer": "Federation + Artifact model",
+      "recommended_next_action": "ADD_INTEROP_MAPPING_MESSAGE_NE_ARTIFACT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-019",
+      "source_id": "SRC-A2A",
+      "capability": "Streaming task status and artifact updates",
+      "category": "FEDERATION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 has lifecycle/journal projection but no A2A stream binding",
+      "fa3_consumer": "A2A Adapter",
+      "recommended_next_action": "ADD_STREAM_MAPPING",
+      "current_host_impact": "CROSS_HOST_DELTA_WHEN_ENABLED",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-020",
+      "source_id": "SRC-A2A",
+      "capability": "Resubscribe/push notification for long-running disconnected tasks",
+      "category": "FEDERATION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "Temporal/event-driven work exists; A2A transport binding is absent",
+      "fa3_consumer": "A2A Adapter + Temporal projection",
+      "recommended_next_action": "ADD_PROTOCOL_BINDING_NO_NEW_SCHEDULER",
+      "current_host_impact": "CROSS_HOST_DELTA_WHEN_ENABLED",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-021",
+      "source_id": "SRC-PYDANTIC-AI",
+      "capability": "Deferred tool/action requests with later supplied results",
+      "category": "DEFERRED_EXECUTION",
+      "coverage": "MISSING",
+      "rationale": "FA3 has pause/checkpoint and approval but no generic typed deferred-action lifecycle",
+      "fa3_consumer": "UAF + Temporal + Objective Coordination",
+      "recommended_next_action": "ADD_DEFERRED_ACTION_CONTRACT",
+      "current_host_impact": "SCHEMA_ONLY_THEN_RUNTIME_DELTA",
+      "closure_protection": "PHASE_B_DRAFT_EXTENSION"
+    },
+    {
+      "research_id": "RAH-022",
+      "source_id": "SRC-PYDANTIC-AI",
+      "capability": "Human approval represented as a deferred tool state",
+      "category": "APPROVAL",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "Approval exists; explicit deferred-state coupling is missing",
+      "fa3_consumer": "UAF + Temporal",
+      "recommended_next_action": "BIND_APPROVAL_PENDING_TO_DEFERRED_STATE",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-023",
+      "source_id": "SRC-PYDANTIC-AI",
+      "capability": "Pluggable durability backends for agent runs",
+      "category": "DURABILITY",
+      "coverage": "CONFLICT",
+      "rationale": "FA3 already assigns sole global durable lifecycle authority to Temporal",
+      "fa3_consumer": "Temporal",
+      "recommended_next_action": "REFERENCE_ONLY_NO_PARALLEL_DURABILITY_AUTHORITY",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-024",
+      "source_id": "SRC-PYDANTIC-AI",
+      "capability": "Stable tool identity across wrappers/MCP/deferred/durable execution",
+      "category": "TOOL_IDENTITY",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "UAF action IDs and MCP mediation exist; cross-wrapper stable identity invariant is not explicit",
+      "fa3_consumer": "UAF + MCP Gateway",
+      "recommended_next_action": "ADD_IDENTITY_PRESERVATION_INVARIANT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-025",
+      "source_id": "SRC-LANGGRAPH",
+      "capability": "Interrupt and resume from persisted graph state",
+      "category": "DURABILITY",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "FA3 workload resume/checkpoint plus Temporal authority already materialized",
+      "fa3_consumer": "Temporal + Agent Workload Runtime",
+      "recommended_next_action": "MAP_AND_REUSE",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-026",
+      "source_id": "SRC-LANGGRAPH",
+      "capability": "Checkpoint-aware nested/subgraph resume semantics",
+      "category": "DURABILITY",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 supports bounded agent transfer and checkpoint resume, but nested checkpoint inheritance semantics are not explicit",
+      "fa3_consumer": "Agent Runtime Semantics",
+      "recommended_next_action": "ASSESS_NESTED_CHECKPOINT_CONTRACT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-027",
+      "source_id": "SRC-MAF",
+      "capability": "Checkpoint captures pending approval/session state",
+      "category": "DURABILITY",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 checkpoint validation and approvals exist separately; explicit pending-approval checkpoint binding is not proven",
+      "fa3_consumer": "Agent Workload Runtime + UAF",
+      "recommended_next_action": "ADD_PENDING_APPROVAL_CHECKPOINT_BINDING",
+      "current_host_impact": "SCHEMA_ONLY_THEN_RUNTIME_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-028",
+      "source_id": "SRC-MAF",
+      "capability": "Per-user/session storage isolation and strict resume identity",
+      "category": "SESSION_SECURITY",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 session/thread integrity exists; storage-scope isolation should be made explicit for interoperability",
+      "fa3_consumer": "Session Fabric + Security",
+      "recommended_next_action": "ADD_SCOPE_BOUND_RESUME_INVARIANT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-029",
+      "source_id": "SRC-MAF",
+      "capability": "Cancel selected pending external requests and unwind nested correlation",
+      "category": "CANCELLATION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "Cancellation exists, but targeted nested pending-request cancellation semantics are not normalized",
+      "fa3_consumer": "Temporal + UAF",
+      "recommended_next_action": "ADD_TARGETED_CANCELLATION_MAPPING",
+      "current_host_impact": "SCHEMA_ONLY_THEN_RUNTIME_DELTA",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-030",
+      "source_id": "SRC-CEDAR",
+      "capability": "Principal-Action-Resource-Context authorization envelope",
+      "category": "AUTHORIZATION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 has scoped actions/identity/context; #557 draft is the natural insertion point",
+      "fa3_consumer": "Scope & Authority Guard",
+      "recommended_next_action": "ADOPT_PATTERN_FA3_NATIVE",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "PHASE_B_DRAFT_EXTENSION"
+    },
+    {
+      "research_id": "RAH-031",
+      "source_id": "SRC-CEDAR",
+      "capability": "Forbid precedence and default-deny authorization evaluation",
+      "category": "AUTHORIZATION",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 is broadly fail-closed; formal cross-policy precedence is not yet a universal contract",
+      "fa3_consumer": "Scope & Authority Guard",
+      "recommended_next_action": "FORMALIZE_DENY_PRECEDENCE_AND_ERROR_DENY",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "PHASE_B_DRAFT_EXTENSION"
+    },
+    {
+      "research_id": "RAH-032",
+      "source_id": "SRC-OTEL",
+      "capability": "GenAI semantic convention export for agents/tools/model usage",
+      "category": "OBSERVABILITY",
+      "coverage": "MISSING",
+      "rationale": "No canonical OpenTelemetry GenAI adapter found",
+      "fa3_consumer": "Journal/Observability projection",
+      "recommended_next_action": "ADD_VERSIONED_EXPORT_ADAPTER_NON_AUTHORITY",
+      "current_host_impact": "PROJECTION_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-033",
+      "source_id": "SRC-OTEL",
+      "capability": "Conversation/tool/token/model operation attributes",
+      "category": "OBSERVABILITY",
+      "coverage": "MISSING",
+      "rationale": "FA3 internal evidence/journal fields exist, but no standard GenAI semantic-convention projection",
+      "fa3_consumer": "Observability exporter",
+      "recommended_next_action": "MAP_WITH_PRIVACY_REDACTION",
+      "current_host_impact": "PROJECTION_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-034",
+      "source_id": "SRC-LETTA",
+      "capability": "Agent identity separated from multiple conversations",
+      "category": "STATE_MODEL",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 has agent/session concepts, but canonical Run/Session/Memory/Evidence ownership split is not explicit in one contract",
+      "fa3_consumer": "Session + Memory Governance",
+      "recommended_next_action": "ADD_STATE_OWNERSHIP_INVARIANT",
+      "current_host_impact": "SCHEMA_ONLY",
+      "closure_protection": "FOLLOW_UP_EXTENSION"
+    },
+    {
+      "research_id": "RAH-035",
+      "source_id": "SRC-LETTA",
+      "capability": "Shareable memory blocks across agents",
+      "category": "MEMORY",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "FA3 already has governed memory; donor pattern is useful only through existing Memory Governance",
+      "fa3_consumer": "Memory Governance",
+      "recommended_next_action": "REFERENCE_PATTERN_ONLY_NO_NEW_MEMORY_AUTHORITY",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-036",
+      "source_id": "SRC-OPENHANDS-SDK",
+      "capability": "Crash-safe resume and append-only execution trajectory",
+      "category": "EXECUTION",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "Existing FA3 OpenHands enforcement explicitly requires crash-safe resume, append-only trajectory and replay without side-effect reexecution",
+      "fa3_consumer": "Existing OpenHands provider + Agent Runtime",
+      "recommended_next_action": "REUSE_EXISTING_WORK",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-037",
+      "source_id": "SRC-OPENHANDS-SDK",
+      "capability": "ACP-capable external agent integration",
+      "category": "INTEROP",
+      "coverage": "PARTIALLY_COVERED",
+      "rationale": "OpenHands upstream supports ACP-related settings, but FA3 lacks the common ACP adapter contract",
+      "fa3_consumer": "Universal Harness + ACP Adapter",
+      "recommended_next_action": "REUSE_AS_INTEROP_TEST_TARGET_AFTER_CONTRACT",
+      "current_host_impact": "LOCAL_PROTOCOL_DELTA",
+      "closure_protection": "NO_REOPEN_PROVIDER_UNTIL_ADAPTER_EXISTS"
+    },
+    {
+      "research_id": "RAH-038",
+      "source_id": "SRC-TEMPORAL-PY",
+      "capability": "Durable workflow lifecycle, signals, retries and cancellation",
+      "category": "DURABILITY",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "Temporal is already the sole FA3 global durable lifecycle authority",
+      "fa3_consumer": "Temporal",
+      "recommended_next_action": "REUSE_EXISTING_AUTHORITY",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    },
+    {
+      "research_id": "RAH-039",
+      "source_id": "SRC-TEMPORAL-PY",
+      "capability": "Long-running human approval wait without losing workflow state",
+      "category": "DURABILITY",
+      "coverage": "ALREADY_COVERED",
+      "rationale": "FA3 already binds durable approvals/workflow lifecycle to Temporal; donor strengthens implementation guidance",
+      "fa3_consumer": "Temporal + UAF",
+      "recommended_next_action": "MAP_AND_REUSE",
+      "current_host_impact": "NO_RUNTIME_IMPACT",
+      "closure_protection": "NO_REOPEN"
+    }
+  ],
+  "phase_a_findings": {
+    "new_top_level_capability_required": false,
+    "universal_harness_contract_needed": true,
+    "acp_explicit_adapter_missing": true,
+    "a2a_core_surface_already_named_in_uaf": true,
+    "agentcard_projection_missing": true,
+    "generic_deferred_action_contract_missing": true,
+    "harness_assurance_missing": true,
+    "otel_genai_projection_missing": true,
+    "existing_durable_authority": "Temporal",
+    "existing_model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "existing_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "existing_tool_mediation_authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "current_host_strategy": "NO_PHASE_A_RUNTIME_DELTA; protect active PR #559"
+  },
+  "open_work_reconciliation": [
+    {
+      "pr": 557,
+      "state": "OPEN_DRAFT",
+      "action": "Phase B insertion point for authorization-envelope / deny-precedence / nested approval semantics; do not create parallel authority"
+    },
+    {
+      "pr": 556,
+      "state": "OPEN_DRAFT",
+      "action": "Phase B insertion point for DEFERRED / WAITING_EXTERNAL / WAITING_APPROVAL coordination states; zero authority"
+    },
+    {
+      "pr": 573,
+      "state": "OPEN_NON_DRAFT",
+      "action": "Do not rewrite; prefer separate Harness Assurance follow-up extension"
+    },
+    {
+      "pr": 559,
+      "state": "OPEN",
+      "action": "Do not add runtime delta during Phase A; keep 175/525 physical reconciliation isolated"
+    }
+  ],
+  "owner_gate": {
+    "phase_a_complete_when": [
+      "source freeze recorded",
+      "capability candidates extracted",
+      "coverage disposition assigned",
+      "closed/open FA3 consumer impact identified"
+    ],
+    "next_phase": "PHASE_B",
+    "next_phase_requires_explicit_owner_approval": true
+  }
+}
