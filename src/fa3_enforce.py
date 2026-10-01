@@ -104,6 +104,7 @@ from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
 from fa3_modernization_integration_gate import gate as modernization_integration_gate
 from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
+from fa3_knowledge_shared_enhancement_gate import gate as knowledge_shared_enhancement_gate
 
 OK=0
 BLOCKED=2
