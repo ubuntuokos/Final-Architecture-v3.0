@@ -22,6 +22,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from fa3_release_baseline import module_active_capability_count
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 from fa3_ai_infra_guard_adapter import (
     ADAPTER_ID,
     ADMISSION_ID,
@@ -303,7 +306,7 @@ def main() -> int:
             "global_capability_promotion_effect": "NONE_PROVIDER_SPECIFIC_EVIDENCE_ONLY",
             "new_capabilities": 0,
             "new_architectural_authorities": 0,
-            "capability_count_after": 143,
+            "capability_count_after": ACTIVE_CAPABILITY_COUNT,
         }
         writej(receipt_path, receipt)
         writej(runtime_dir / "summary.json", {
