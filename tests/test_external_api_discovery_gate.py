@@ -24,7 +24,7 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
     def test_baseline_gate_passes(self):
         r = d.gate(ROOT)
         self.assertEqual("PASS", r["result"], r)
-        self.assertEqual((15, 15), (r["regressions"]["passed"], r["regressions"]["total"]))
+        self.assertEqual((17, 17), (r["regressions"]["passed"], r["regressions"]["total"]))
         self.assertFalse(r["runtime_provider_required"])
         self.assertEqual(module_active_capability_count(__file__), r["capability_count"])
 
@@ -106,6 +106,34 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
             r = d.gate(root)
             self.assertEqual("FAIL", r["result"], r)
             self.assertTrue(any(x["code"] == "EXTDISC-REF-006" for x in r["reference"]["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_candidate_store_policy_is_non_authoritative(self):
+        policy = json.loads(
+            (ROOT / "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json").read_text()
+        )
+        self.assertFalse(policy["authority"])
+        self.assertFalse(policy["canonical_source_of_truth"])
+        self.assertTrue(policy["derived_state"])
+        self.assertTrue(policy["rebuildable"])
+        self.assertFalse(policy["network_fetch_permitted"])
+        self.assertFalse(policy["automatic_donor_creation"])
+        self.assertFalse(policy["automatic_provider_admission"])
+        self.assertFalse(policy["automatic_mcp_registration"])
+
+    def test_candidate_store_authority_escalation_fails_closed(self):
+        td, root = self._copy_root()
+        try:
+            p = root / "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json"
+            o = json.loads(p.read_text(encoding="utf-8"))
+            o["automatic_provider_admission"] = True
+            self._write(p, o)
+            r = d.gate(root)
+            self.assertEqual("FAIL", r["result"], r)
+            self.assertTrue(
+                any(x["code"] == "EXTDISC-REF-013" for x in r["reference"]["findings"])
+            )
         finally:
             td.cleanup()
 
