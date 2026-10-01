@@ -73,3 +73,7 @@ If the function does not exist, stop at necessity and placement assessment until
 If a function is useful to more than one FA3 application, the functional core must be placed in one shared FA3 layer/service/contract and consumed through application-specific adapters. Duplicate functional cores require an explicit reviewed exception. Shared-function impact analysis must cover planned, in-progress and already materialized applications and must preserve existing verified capabilities during migration.
 
 Every consuming application receives its own manual projection based on its actual UI/workflow. A function may be documented as generally available only after implementation and required verification. Structural runtime changes also require matching Current Host alignment; static documentation never creates current-host PASS.
+
+## FA3 donor capability consumer graph (2026-09-30)
+
+Actual donor use must be recorded in the existing `FA3-APPLICATION-DONOR-LINKS-001` usage-edge list; do not create a second donor/capability registry. Capability bindings are derived from canonical profile/contract `capability_bindings`, never guessed from names. Track the primary application plus relevant shared-module/profile/authority/GUI/test/current-host consumers. The generated capability map is non-authoritative and cannot admit, activate or route a provider/model. Unmarked analysis links remain outside the canonical donor registry.

@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_donor_registry import (REGISTRY_REL, _atomic_write, capture_candidate,
-                                refresh_donor_count)
+from fa3_donor_registry import (REGISTRY_REL, REJECTION_AUDIT_REL, _atomic_write,
+                                capture_candidate, refresh_donor_count)
 from fa3_donor_chat_import import ingest
 
 
@@ -27,6 +27,11 @@ class CountRefreshTests(unittest.TestCase):
             "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
             "capability_count": 175,
             "entries": [], "backfill": {"entry_count": 0},
+        }), encoding="utf-8")
+        audit = self.root / REJECTION_AUDIT_REL
+        audit.parent.mkdir(parents=True, exist_ok=True)
+        audit.write_text(json.dumps({
+            "id": "FA3-DONOR-REJECTION-AUDIT-001", "entries": []
         }), encoding="utf-8")
 
     def current(self):

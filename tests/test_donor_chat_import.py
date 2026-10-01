@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from fa3_donor_chat_import import _candidate_sources, _conversations, ingest, read_export
-from fa3_donor_registry import REGISTRY_REL, capture_candidate
+from fa3_donor_registry import REGISTRY_REL, REJECTION_AUDIT_REL, capture_candidate
 
 class DonorChatImportTests(unittest.TestCase):
     def setUp(self):
@@ -22,6 +22,11 @@ class DonorChatImportTests(unittest.TestCase):
         self.path.write_text(json.dumps({
             "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
             "entries": [], "backfill": {"entry_count": 0}
+        }), encoding="utf-8")
+        self.audit_path = self.root / REJECTION_AUDIT_REL
+        self.audit_path.parent.mkdir(parents=True, exist_ok=True)
+        self.audit_path.write_text(json.dumps({
+            "id": "FA3-DONOR-REJECTION-AUDIT-001", "entries": []
         }), encoding="utf-8")
 
     def entries(self):
@@ -100,15 +105,21 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(len(self.entries()), 1)
         self.assertFalse(self.entries()[0]["submission_review"]["second_registry_approval_required"])
 
-    def test_preserve_existing_rejected_entry_without_partial_write(self):
+    def test_rejected_history_blocks_normal_reentry_without_partial_write(self):
         capture_candidate(self.root, name="denied", source_kind="GITHUB",
                           source_locator="https://github.com/example/denied",
                           explicit_donor_marker=True, owner_submitted_link=True)
         data=json.loads(self.path.read_text(encoding="utf-8"))
-        data["entries"][0]["status"]="REJECTED"
+        rejected=data["entries"].pop()
+        data["backfill"]["entry_count"]=0
         self.path.write_text(json.dumps(data), encoding="utf-8")
+        self.audit_path.write_text(json.dumps({
+            "id":"FA3-DONOR-REJECTION-AUDIT-001",
+            "entries":[{"donor":rejected}]
+        }), encoding="utf-8")
         before=self.path.read_bytes()
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError,
+                "REJECTED_DONOR_REENTRY_REQUIRES_VERIFIED_SAFE_MAINTENANCE"):
             ingest(self.root, [self.user("donornak: https://github.com/example/new https://github.com/example/denied")],
                    origin="chatgpt-export")
         self.assertEqual(self.path.read_bytes(), before)

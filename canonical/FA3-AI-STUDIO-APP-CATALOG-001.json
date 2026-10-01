@@ -18,7 +18,9 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "comfyui.json",
-      "probe_executables": ["comfyui"]
+      "probe_executables": [
+        "comfyui"
+      ]
     },
     {
       "id": "invokeai",
@@ -30,7 +32,10 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "invokeai.json",
-      "probe_executables": ["invokeai-web", "invokeai"]
+      "probe_executables": [
+        "invokeai-web",
+        "invokeai"
+      ]
     },
     {
       "id": "kdenlive",
@@ -42,7 +47,9 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "kdenlive.json",
-      "probe_executables": ["kdenlive"]
+      "probe_executables": [
+        "kdenlive"
+      ]
     },
     {
       "id": "bforartists",
@@ -54,7 +61,9 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "bforartists.json",
-      "probe_executables": ["bforartists"]
+      "probe_executables": [
+        "bforartists"
+      ]
     },
     {
       "id": "natron",
@@ -66,7 +75,10 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "natron.json",
-      "probe_executables": ["Natron", "natron"]
+      "probe_executables": [
+        "Natron",
+        "natron"
+      ]
     },
     {
       "id": "gaffer",
@@ -78,7 +90,9 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "gaffer.json",
-      "probe_executables": ["gaffer"]
+      "probe_executables": [
+        "gaffer"
+      ]
     },
     {
       "id": "demucs",
@@ -90,7 +104,9 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "demucs.json",
-      "probe_executables": ["demucs"]
+      "probe_executables": [
+        "demucs"
+      ]
     },
     {
       "id": "deepfilternet",
@@ -102,7 +118,10 @@
       "installable": true,
       "direct_source_install_allowed": false,
       "provider_recipe": "deepfilternet.json",
-      "probe_executables": ["deep-filter", "deepfilternet"]
+      "probe_executables": [
+        "deep-filter",
+        "deepfilternet"
+      ]
     },
     {
       "id": "mautic",
@@ -140,5 +159,8 @@
       "provider_recipe": "listmonk.json",
       "probe_executables": []
     }
-  ]
+  ],
+  "development_policy": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
+  "all_entries_inherit_fa3_development_rules": true,
+  "formal_dependency_declaration_does_not_limit_governance_scope": true
 }

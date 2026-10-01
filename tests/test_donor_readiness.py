@@ -5,7 +5,8 @@ import unittest
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_donor_readiness import inspect_registry,pending_prs,gate,is_donor_pr,is_donor_intake_pr,REGISTRY,git_blob_sha
+from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
+    is_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha)
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -18,12 +19,43 @@ def fixture():
     t=tempfile.TemporaryDirectory();root=Path(t.name);p=root/REGISTRY;p.parent.mkdir(parents=True)
     p.write_text(json.dumps({"id":"FA3-DONOR-REFERENCE-REGISTRY-001",
        "capability_count":175,"backfill":{"entry_count":1},"entries":[source()]}))
+    audit=root/REJECTION_AUDIT;audit.parent.mkdir(parents=True,exist_ok=True)
+    audit.write_text(json.dumps({"id":"FA3-DONOR-REJECTION-AUDIT-001","entries":[]}))
     return t,root,p
 class Tests(unittest.TestCase):
     def test_real_repository_invariants(self):
         r=inspect_registry(Path(__file__).resolve().parents[1])
         self.assertEqual(r["findings"],[])
         self.assertGreaterEqual(r["count"],1059)
+    def test_rejected_donor_cannot_remain_in_active_registry(self):
+        t,root,p=fixture()
+        with t:
+            d=json.loads(p.read_text());d["entries"][0]["status"]="REJECTED"
+            p.write_text(json.dumps(d))
+            findings=inspect_registry(root)["findings"]
+            self.assertTrue(any(x.startswith("INVALID_STATUS:") for x in findings))
+
+    def test_rejected_donor_reentry_requires_verified_safe_evidence(self):
+        t,root,p=fixture()
+        with t:
+            row=json.loads(p.read_text())["entries"][0]
+            audit=root/REJECTION_AUDIT
+            audit.write_text(json.dumps({
+                "id":"FA3-DONOR-REJECTION-AUDIT-001",
+                "entries":[{"donor":row}]
+            }))
+            findings=inspect_registry(root)["findings"]
+            self.assertTrue(any(
+                x.startswith("REJECTED_DONOR_REENTRY_WITHOUT_VERIFIED_SAFE_EVIDENCE:")
+                for x in findings))
+            d=json.loads(p.read_text())
+            d["entries"][0]["security_reentry_evidence"]={
+                "status":"VERIFIED_SAFE",
+                "evidence_refs":["canonical/evidence/example.json"]
+            }
+            p.write_text(json.dumps(d))
+            self.assertEqual(inspect_registry(root)["findings"],[])
+
     def test_duplicate_fails(self):
         t,root,p=fixture()
         with t:

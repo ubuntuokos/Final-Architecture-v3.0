@@ -138,3 +138,7 @@ The following imported upstream curation reports are historical/research referen
 ## 2026-09-29 prospective-only donor intake
 
 Mandatory retrospective source extraction from previous PRs is abolished. PRs #24 #31 #52 #70 #71 #125 #180 #181 #245 #252 #392 #427 #434 #438 are explicit exact-head extraction exemptions and closed unmerged. Registry expansion, history-preserving removal and synchronization are serialized donor maintenance and cannot be blocked by application planning/development locks. The existing canonical registry and 175-capability baseline are preserved. `./bin/fa3-donor-capture --owner-submitted-link --source URL --name NAME` is the explicit operator intake path for an already-reviewed direct owner link; it sets reference-registration status, not application adoption.
+
+## Usage graph and downstream impact
+
+The registry remains the only donor identity catalog. Actual use is declared in `FA3-APPLICATION-DONOR-LINKS-001` and reverse-resolved by the derived capability-consumer map. Only owner-`donornak` registered sources may appear as donor IDs in usage edges; analysis-only URLs cannot be inserted as pseudo-donors.
