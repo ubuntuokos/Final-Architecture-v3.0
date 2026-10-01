@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30",
+  "title": "Task-group based Orchestrator–Conductor–Temporal governance strengthening",
+  "date": "2026-09-30",
+  "status": "CANONICAL",
+  "decision": "ACCEPT",
+  "owner_approval": "EXPLICIT",
+  "owner_approval_context": "User requested the new plan based on the Paperclip re-analysis and explicitly instructed that it be built into the FA3 orchestrator layer.",
+  "canonical_profile": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "contract_set": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "preserves": [
+    "TEMPORAL_SOLE_GLOBAL_DURABLE_LIFECYCLE_AUTHORITY",
+    "FA3_HRB_AS_HOST_RESOURCE_AUTHORITY",
+    "FA3_MODEL_ROUTER_AS_MODEL_PROVIDER_RUNTIME_AUTHORITY",
+    "FA3_SECURITY_AND_UAF_MCP_BOUNDARIES",
+    "FA3_EVIDENCE_GATE_INDEPENDENT_VERIFICATION",
+    "CPU_ONLY_AND_ZERO_TO_N_ACCELERATORS",
+    "HARDWARE_SAFETY_ENVELOPE",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+  ],
+  "adopts": [
+    "OBJECTIVE_ANCESTRY_PROJECTION",
+    "BOUNDARY_BASED_WORK_DECOMPOSITION",
+    "TYPED_DEPENDENCY_RELATIONS",
+    "RESPONSIBLE_PRINCIPAL_CHAIN",
+    "TASK_BOUND_EXECUTION_CLAIMS",
+    "VERSION_AND_DIGEST_BOUND_APPROVALS",
+    "BOUNDED_EXECUTION_BUDGETS",
+    "COMMON_LIVENESS_PROJECTION",
+    "NON_AUTHORITATIVE_ORCHESTRATION_MONITOR_PROJECTION",
+    "VERSIONED_CONFIGURATION_CHANGE_AND_ROLLBACK_REFERENCES"
+  ],
+  "paperclip_boundary": {
+    "source": "https://github.com/paperclipai/paperclip",
+    "inspected_head": "b54b2dc35c1f41d367ff4d94615ebfd38bbbdad0",
+    "license_observed": "MIT",
+    "registry_status": "ANALYSIS_ONLY_NOT_CANONICAL_DONOR",
+    "code_copied": false,
+    "runtime_adopted": false,
+    "control_plane_adopted": false,
+    "rationale": "Functional requirements are implemented FA3-native. Paperclip is not made an FA3 authority, runtime dependency or provider."
+  },
+  "implementation_plan": "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
+  "current_host_requalification_required": true
+}

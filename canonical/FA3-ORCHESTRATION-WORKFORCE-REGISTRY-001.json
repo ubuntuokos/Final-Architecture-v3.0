@@ -3,7 +3,7 @@
   "id": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
   "status": "CANONICAL",
   "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
   "selection_semantics": {
@@ -16,7 +16,11 @@
     "decision_fabric_candidate_expansion": false,
     "static_runtime_status_is_admission_authority": false,
     "runtime_admission": "SCOPE_BOUND_CURRENT_HOST_EVIDENCE_RECEIPT",
-    "authorized_ai_participant_set_may_expand": false
+    "authorized_ai_participant_set_may_expand": false,
+    "governance_contract": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+    "atomic_execution_claim_required_for_runtime": true,
+    "version_bound_approval_required_for_effectful_changes": true,
+    "monitor_projection_authority": false
   },
   "director": {
     "id": "FA3-ORCHESTRATION-DIRECTOR-001",
@@ -35,7 +39,16 @@
       "result_aggregation",
       "candidate_set_construction",
       "decision_advisory_request_construction",
-      "uaf_action_projection"
+      "uaf_action_projection",
+      "objective_ancestry_projection",
+      "boundary_based_work_decomposition",
+      "typed_dependency_projection",
+      "responsibility_chain_projection",
+      "execution_claim_projection",
+      "version_bound_approval_projection",
+      "budget_envelope_projection",
+      "liveness_projection",
+      "orchestration_monitor_projection"
     ]
   },
   "horizontal_authorities": [
@@ -671,5 +684,12 @@
     "may_grant_capability_tool_model_secret_or_resource_access": false,
     "runtime_provider_selection_remains_workforce_and_existing_admission": true,
     "profile_id": "FA3-AGENT-DEFINITION-001"
+  },
+  "governance_projection": {
+    "schema": "fa3.orchestration-task-governance.v1",
+    "responsibility_scope_may_expand": false,
+    "structural_parent_is_execution_dependency": false,
+    "unknown_effect_may_blind_replay": false,
+    "durable_lifecycle_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
   }
 }

@@ -21,6 +21,15 @@ class Tests(unittest.TestCase):
   p=compile_cross_domain_plan(ROOT,json.loads((ROOT/"examples/orchestration-workforce-media.json").read_text()));self.assertEqual(p["status"],"READY");self.assertEqual(p["execution_fabric"],"FA3-UNIFIED-ACTION-FABRIC-001");self.assertEqual(len(p["decisions"]),4)
  def test_invalid(self):
   with self.assertRaises(WorkforceContractError):route_task(ROOT,{"task_id":"bad","domain":"integration"})
+ def test_governance_projection(self):
+  t={"task_id":"c","domain":"media-production","required_capabilities":["media_production_planning"],"objective_ancestry":["project","scene","c"],"budget_envelope":{"parallelism":2}}
+  r=route_task(ROOT,t)
+  self.assertEqual(r["governance_projection"]["objective_ancestry"],["project","scene","c"])
+  self.assertFalse(r["governance_projection"]["monitoring_authority"])
+  p=compile_cross_domain_plan(ROOT,{"goal":"g","tasks":[t]})
+  self.assertEqual(p["governance_contract"],"FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001")
+  self.assertFalse(p["monitor_projection"]["authority"])
+  self.assertEqual(json.loads((ROOT/"canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json").read_text())["capability_count"],175)
  def test_gate(self):
   r=gate(ROOT);self.assertEqual(r["result"],"PASS");self.assertFalse(r["details"]["runtime_provider_promotion_claimed"])
 if __name__=="__main__":unittest.main()

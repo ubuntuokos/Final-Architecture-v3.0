@@ -102,6 +102,66 @@
       "name": "Evidence-Bound Runtime Admission",
       "requirement": "MUST",
       "rule": "Static provider status is informative only. External runtime execution requires a provider- and scope-bound CURRENT_HOST_PRODUCTION_E2E_PASS admission receipt with runtime identity evidence; no receipt means fail closed."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-017",
+      "name": "Objective-to-Work Traceability",
+      "requirement": "MUST",
+      "rule": "Every governed task MAY carry objective ancestry; the ancestry MUST remain non-authoritative context and MUST be preserved in monitoring/audit projections."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-018",
+      "name": "Minimal Qualified Decomposition",
+      "requirement": "MUST",
+      "rule": "A separate subtask MUST have a real owner, permission, parallel-deliverable, hard dependency/handoff, independent review/approval, or retry/recovery boundary."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-019",
+      "name": "Typed Dependency Separation",
+      "requirement": "MUST",
+      "rule": "Parent/child structure MUST NOT be treated as an execution blocker. Hard dependency relations MUST be explicit and cycle-free."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-020",
+      "name": "Monotonic Delegation Scope",
+      "requirement": "MUST",
+      "rule": "Every delegated responsibility/claim scope MUST be equal to or narrower than its parent scope."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-021",
+      "name": "Execution Claim Safety",
+      "requirement": "MUST",
+      "rule": "Runtime claims MUST be task-bound, generation-bound and idempotency-bound. Stale heartbeat alone MUST NOT authorize takeover."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-022",
+      "name": "Version-Bound Approval",
+      "requirement": "MUST",
+      "rule": "Effectful approval MUST bind exact object identity, revision, digest, scope and operation; changed objects require fresh approval."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-023",
+      "name": "Bounded Execution Budget",
+      "requirement": "MUST",
+      "rule": "Coordination budgets MUST be bounded/non-negative and MUST NOT grant HRB, provider, model or security authority."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-024",
+      "name": "Liveness Separation",
+      "requirement": "MUST",
+      "rule": "Liveness state, Temporal durable state and canonical evidence verification MUST remain separately represented."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-025",
+      "name": "Monitoring and Reconfiguration Boundary",
+      "requirement": "MUST",
+      "rule": "Monitoring MAY project state and submit governed change requests but MUST NOT directly mutate protected authorities or silently switch runtime engines."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-026",
+      "name": "Bounded Recovery and No Blind Replay",
+      "requirement": "MUST",
+      "rule": "Unknown effect outcome MUST block blind replay; recovery MUST be bounded, idempotent and revalidate current authorization/leases/approvals."
     }
   ],
   "work_request_contract": {
@@ -135,7 +195,7 @@
     "decision_fabric_role": "OPTIONAL_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY_NO_CANDIDATE_EXPANSION",
     "runtime_admission": "SCOPE_BOUND_EVIDENCE_RECEIPT_REQUIRED_FOR_EXTERNAL_PROVIDER"
   },
-  "version": "2.0.0",
+  "version": "2.1.0",
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
