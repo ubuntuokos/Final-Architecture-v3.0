@@ -69,6 +69,28 @@ The declaration manifest exposes a `shared_capabilities` collection. Every concr
 
 An empty `shared_capabilities` collection means that the placement policy is enforced but no concrete shared runtime capability has yet been admitted by this change.
 
+## Shared capability consumer projection
+
+FA3-native shared components use a separate derived
+`fa3.shared-capability-consumer-map.v1` projection. This avoids conflating
+native shared composition with donor adoption.
+
+For a materialized shared component:
+
+- capability IDs are derived only from its canonical profile/contract
+  `capability_bindings`; manual CAP-ID declaration is rejected;
+- application consumers and existing GUI surface projections are reverse
+  queryable;
+- materialized components must declare Current Host impact;
+- `NO_RUNTIME_IMPACT` is valid only while no executable service, provider,
+  package/runtime, credential, host-resource or mutating action path is added;
+- the 175 baseline remains unchanged unless an explicit capability-model
+  reconciliation separately changes it.
+
+The donor `capability_consumer_map` remains unchanged and continues to describe
+registered donor usage only. The two derived views can be queried together by
+capability/consumer without turning FA3-native shared components into donors.
+
 ## Mandatory planning and audit
 
 Before any new or materially modified FA3 application, capability or module,
