@@ -139,6 +139,20 @@
       ]
     },
     {
+      "application_id": "fa3.office",
+      "name": "FA3 Office",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Office",
+        "Writer",
+        "Sheets",
+        "Presentation",
+        "Documents",
+        "Forms"
+      ]
+    },
+    {
       "application_id": "reference.krita",
       "name": "Krita",
       "kind": "EXTERNAL_REFERENCE_APPLICATION",
@@ -330,6 +344,31 @@
         "workflow provenance"
       ],
       "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-STORY-OFFICE",
+      "from_application": "fa3.story-screenplay",
+      "to_application": "fa3.office",
+      "offered_artifacts": [
+        "approved screenplay/document projection",
+        "production document metadata"
+      ],
+      "integration_boundary": "FA3-DOC-001 remains document authority; Story semantics remain owned by Story/Screenplay; explicit export/handoff only.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-OFFICE-STORY",
+      "from_application": "fa3.office",
+      "to_application": "fa3.story-screenplay",
+      "offered_artifacts": [
+        "approved document text projection",
+        "versioned office source reference",
+        "format loss receipt"
+      ],
+      "integration_boundary": "Only admitted symmetric format profiles may provide editable interchange; source office artifact and Story canonical graph are preserved.",
       "status": "PROPOSED",
       "human_approval_required": true
     }
@@ -638,6 +677,42 @@
       ],
       "gui_surface_ids": [
         "create.ai-module-factory"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-OFFICE-DOCUMENT-001",
+      "owner_layer": "Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "fa3.office",
+        "fa3.story-screenplay",
+        "fa3.ai-module-factory"
+      ],
+      "status": "MATERIALIZED_STATIC_RUNTIME_ADMISSION_PENDING",
+      "authority": false,
+      "local_ui_adapter_only": false,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "RUNTIME_REQUALIFICATION_REQUIRED"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-OFFICE-FABRIC-001"
+        ],
+        "contract_ids": [
+          "FA3-OFFICE-FABRIC-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": [
+          "FA3-DOC-001"
+        ]
+      },
+      "pattern_catalogue_refs": [],
+      "gui_surface_ids": [
+        "create.office",
+        "create.ai-studio"
       ]
     }
   ],
