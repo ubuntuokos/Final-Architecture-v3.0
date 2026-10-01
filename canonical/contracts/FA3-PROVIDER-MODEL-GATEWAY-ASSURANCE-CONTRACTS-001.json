@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL_CANDIDATE",
   "provider_neutral": true,
   "new_capability": false,
@@ -12,9 +12,14 @@
       "required": [
         "provider_id",
         "official_sources",
+        "source_revision",
+        "source_health",
+        "freshness_state",
         "endpoint_identity",
         "authentication_mode",
         "model_catalog_observation",
+        "quota_price_observation",
+        "region_availability_observation",
         "entitlement_state",
         "verification_state",
         "observed_at"
@@ -67,6 +72,38 @@
         "security_state"
       ],
       "activation_authority": false
+    },
+    "ProviderSourceObservation": {
+      "required": [
+        "source_ref",
+        "source_kind",
+        "officiality",
+        "source_revision",
+        "observed_at",
+        "freshness_state",
+        "parser_state",
+        "last_trusted_value_state",
+        "removal_confirmation_count"
+      ],
+      "authority": false,
+      "community_source_may_upgrade_verification": false,
+      "source_failure_may_clear_other_sources": false
+    },
+    "ProviderTelemetryProjection": {
+      "required": [
+        "provider_key_ref",
+        "model_id",
+        "health_state",
+        "rate_windows",
+        "cooldown_state",
+        "latency",
+        "token_usage",
+        "error_category",
+        "observed_at"
+      ],
+      "raw_secret_allowed": false,
+      "route_authority": false,
+      "candidate_set_expansion": "DENY"
     }
   },
   "invariants": [
@@ -77,6 +114,10 @@
     "ROUTER_REMAINS_EXCLUSIVE_MODEL_PROVIDER_SELECTION_AUTHORITY",
     "MCP_GATEWAY_REMAINS_EXTERNAL_TOOL_TRUST_BOUNDARY",
     "HRB_REMAINS_EXCLUSIVE_HOST_RESOURCE_AUTHORITY",
-    "UNREGISTERED_ANALYSIS_SOURCE_IS_NOT_DONOR_ADOPTION"
+    "UNREGISTERED_ANALYSIS_SOURCE_IS_NOT_DONOR_ADOPTION",
+    "DONOR_LOCAL_SECRET_STORE_NOT_ADOPTED",
+    "DONOR_RANDOM_ROUTING_NOT_AUTHORITY",
+    "COMMUNITY_DISCOVERY_IS_NOT_VERIFIED_ADMISSION",
+    "SOURCE_FRESHNESS_IS_OBSERVATION_NOT_PROMOTION"
   ]
 }
