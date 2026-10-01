@@ -6,7 +6,7 @@ ColumnLayout {
     id: root
     property alias targetWidth: widthField.value
     property alias targetHeight: heightField.value
-    property alias overlapFraction: overlapField.value
+    property real overlapFraction: overlapField.value / 100.0
     property alias sampler: samplerField.text
     property bool advanced: false
     signal planningChanged()
