@@ -1,0 +1,7 @@
+{
+  "schema":"fa3.contract-family.v1","id":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-CONTRACTS-001","version":"1.0.0","status":"CANONICAL","parent_profile":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-001","provider_neutral":true,"new_capability":false,"new_architectural_authority":false,"capability_count":175,
+  "capability_bindings":[],"binding_semantics":"CONSUMER_PROFILE_CAPABILITIES_ARE_NOT_REDECLARED_HERE",
+  "contracts":["ResourceDescriptor","ResourceProvider","AuthAdapter","AccessDecisionRequest","AccessDecisionReceipt","LiveResourceEvent","AuditChangeReceipt","SchemaUIProjection","MutationPolicy"],
+  "required_semantics":{"data_operations":["LIST","GET","CREATE","UPDATE","DELETE","CUSTOM"],"mutation_modes":["PESSIMISTIC","OPTIMISTIC","UNDOABLE"],"high_risk_default":"PESSIMISTIC","access":"SUBJECT_RESOURCE_ACTION_CONTEXT_POLICY","audit":"BEFORE_AFTER_REASON_ACTOR_TIMESTAMP","ui_projection":"QT6_QML_DRAFT_PROJECTION"},
+  "invariants":["REGISTRY_REMAINS_SSOT","PROVIDER_FAILURE_CANNOT_REPLACE_CANONICAL_STATE","OPTIMISTIC_MODE_FORBIDDEN_FOR_SAFETY_RIGHTS_OR_SECURITY_AUTHORITY_CHANGES","SCHEMA_INFERENCE_CANNOT_GRANT_PERMISSION"]
+}
