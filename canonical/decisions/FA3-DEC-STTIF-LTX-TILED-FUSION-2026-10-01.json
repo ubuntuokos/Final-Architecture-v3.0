@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-STTIF-LTX-TILED-FUSION-2026-10-01",
+  "date": "2026-10-01",
+  "status": "ACCEPTED",
+  "title": "Materialize provider-neutral Spatial-Temporal Tiled Inference Fabric from reference patterns without LTX runtime dependency",
+  "decision": [
+    "MATERIALIZE_FA3_NATIVE_STTIF_AS_SHARED_CONTROL_PLANE",
+    "KEEP_LTX2_AND_COMFYUI_LTXVIDEO_REFERENCE_ONLY_IN_THIS_CHANGE",
+    "DO_NOT_COPY_UPSTREAM_SOURCE_CODE_OR_MODEL_ARTIFACTS",
+    "BIND_TO_EXISTING_CAP_159_CAP_160_CAP_161_CAP_163_WITHOUT_CAPABILITY_EXPANSION",
+    "PRESERVE_MODEL_ROUTER_HRB_SECURITY_EVIDENCE_AND_LICENSE_AUTHORITIES",
+    "NO_PARALLEL_MOTION_VIDEO_OR_RENDER_AUTHORITY",
+    "NO_RUNTIME_OR_CURRENT_HOST_PROMOTION_FROM_STATIC_MATERIALIZATION",
+    "FUTURE_LTX_ADAPTER_REQUIRES_SEPARATE_LICENSE_MODEL_PROVIDER_RUNTIME_AND_CURRENT_HOST_ADMISSION"
+  ],
+  "donor_refs": [
+    "FA3-DONOR-LTX2-001",
+    "FA3-DONOR-COMFYUI-LTXVIDEO-001",
+    "FA3-DONOR-LTX-TILED-FUSION-DOC-001"
+  ],
+  "upstream_revisions": {
+    "ltx2": "2d6e71c88be37b55a2dd698c2dff447edfbe5898",
+    "comfyui_ltxvideo": "bf2ca0264f706db64cb8931155695ca481fc9d91"
+  },
+  "license_rights_boundary": {
+    "ltx2_disposition": "REFERENCE_ONLY",
+    "comfyui_ltxvideo_disposition": "REFERENCE_ONLY",
+    "ltx_core_dependency": false,
+    "commercial_entitlement_assumed": false
+  },
+  "current_host": {
+    "impact": "NO_RUNTIME_IMPACT",
+    "physical_requalification_required": false,
+    "runtime_promotion_claim": false,
+    "reason": "This decision materializes deterministic planning/validation code and metadata only; it does not add a provider executable, model artifact, network route, device placement, service, package, or runtime dependency."
+  },
+  "compatibility": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "open_h3_replacement_pr_401_is_not_imported_or_modified": true,
+    "future_motion_video_runtime_must_consume_sttif_through_provider_neutral_contracts": true
+  }
+}
