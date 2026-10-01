@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "28f3a87dd2235306eaa2ae403bbfb8932e3246de",
-    "pre_projection_root_tree_sha": "b7f062aeae8db4990cafe93b6abae227eabc2108",
-    "pre_projection_canonical_tree_sha": "8e76f3c7a111ba495c7319ecc980098cbd720f32",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2443,
-    "total_post_baseline_commits": 2443,
-    "delta_file_count": 2726,
-    "delta_added_files": 2720,
+    "pre_projection_head_sha": "b39375855f5cbff6cd78f57cc3c9af3623adc1ed",
+    "pre_projection_root_tree_sha": "932e0ac1105924befdd82ab1056fea8c5844bb93",
+    "pre_projection_canonical_tree_sha": "972f9b421009b838c9cc6e16499927456094c300",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2449,
+    "total_post_baseline_commits": 2449,
+    "delta_file_count": 2734,
+    "delta_added_files": 2728,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1282,
+    "canonical_files_in_post_baseline_delta": 1287,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 351,
-    "test_files_in_post_baseline_delta": 312,
+    "source_files_in_post_baseline_delta": 352,
+    "test_files_in_post_baseline_delta": 313,
     "workflow_files_in_post_baseline_delta": 130,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -282,6 +282,7 @@
       "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
       "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
       "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
+      "canonical/profiles/FA3-SHARED-REAL2SIM-3D-001.json",
       "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SKILL-FABRIC-001.json",
@@ -431,6 +432,7 @@
       "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SHARED-REAL2SIM-3D-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json",
@@ -1041,7 +1043,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2716,
+  "manifest_entry_count": 2724,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4439,6 +4441,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-SHARED-REAL2SIM-3D-DECISION-ASSESSMENT-2026-10-01.json",
+      "git_blob_sha": "e1bc7bb4e21f9574cdeea413dc25c2e7809cd80e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-REAL2SIM-3D-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "bb5b44cb5ac0f70a8aa7981819153012558ea761",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SKILL-DISTRIBUTION-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "cbd732a4cfd9c5c87871faa1ed42b60537ed903a",
       "baseline_delta_status": "added"
@@ -5216,6 +5228,11 @@
     {
       "path": "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
       "git_blob_sha": "e234d94a13978e22d63c06f376a88d2d88909468",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SHARED-REAL2SIM-3D-CONTRACTS-001.json",
+      "git_blob_sha": "0b705cf7f06ff7912a42080df997762c5a009683",
       "baseline_delta_status": "added"
     },
     {
@@ -6714,6 +6731,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-SHARED-REAL2SIM-3D-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "e284ecbb57e9ec02732fd13ff4f144dbdc6d9e83",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-SKILL-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "daadca1a2e6a6230ce3d4f6b193e533e152ff7af",
       "baseline_delta_status": "added"
@@ -7536,6 +7558,11 @@
     {
       "path": "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
       "git_blob_sha": "613d85eebe7ee59fb903b6a00d7511df6471a24d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-SHARED-REAL2SIM-3D-001.json",
+      "git_blob_sha": "e4612e74ed38dec47d329c928b9f1db40604f661",
       "baseline_delta_status": "added"
     },
     {
@@ -9381,6 +9408,11 @@
     {
       "path": "docs/FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.md",
       "git_blob_sha": "68931811e8eede3c873241918f0ef553c5d8c519",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SHARED-REAL2SIM-3D-PLUGIN-2026-10-01.md",
+      "git_blob_sha": "929247a7b16bad58d88c024e2d33ea2946f54790",
       "baseline_delta_status": "added"
     },
     {
@@ -12774,6 +12806,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_shared_real2sim_3d.py",
+      "git_blob_sha": "df0302821dbe6d19ccb8b0340352cae496d522e4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_silero_vad_provider.py",
       "git_blob_sha": "b2aaf5b706547c2c4b0fed9f5dfa4058f8eab742",
       "baseline_delta_status": "added"
@@ -14346,6 +14383,11 @@
     {
       "path": "tests/test_shared_module_pattern_catalogue.py",
       "git_blob_sha": "6e9c51e141338df847cfccd3cafadeb302b53f7d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_shared_real2sim_3d.py",
+      "git_blob_sha": "3daadaf1209797836f264e8e85009fa104521f50",
       "baseline_delta_status": "added"
     },
     {
