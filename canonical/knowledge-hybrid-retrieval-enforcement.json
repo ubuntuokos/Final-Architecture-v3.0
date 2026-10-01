@@ -2,7 +2,7 @@
   "schema": "fa3.knowledge-hybrid-retrieval-enforcement.v1",
   "gate_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
   "fail_closed": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "authority_delta": 0,
   "rules": {
     "knowledge_root": "FA3-KNOWLEDGE-001",
@@ -25,6 +25,18 @@
     "community_source_revision_or_digest_binding": "REQUIRED",
     "community_source_freshness_assessment": "REQUIRED_BEFORE_VERIFIED",
     "community_source_target_compatibility_assessment": "REQUIRED_BEFORE_VERIFIED",
-    "inline_secret_material_in_knowledge_or_runbook": "DENY"
-  }
+    "inline_secret_material_in_knowledge_or_runbook": "DENY",
+    "shared_knowledge_retrieval_profile": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "source_sync_state": "REQUIRED_WHEN_SOURCE_SUPPORTS_INCREMENTAL_OR_REVALIDATION",
+    "ingestion_reconciliation_receipt": "REQUIRED_FOR_INCREMENTAL_UPDATE_DELETE_OR_RESUME",
+    "knowledge_materialization_state": "REQUIRED_FOR_DERIVED_KNOWLEDGE_PROJECTIONS",
+    "knowledge_compilation_output": "DERIVED_REBUILDABLE_NON_AUTHORITY",
+    "generated_skill": "CANDIDATE_REQUIRES_SKILL_FABRIC_ADMISSION",
+    "retrieval_effort_budget": "REQUIRED_BEFORE_PROVIDER_DISPATCH",
+    "authorization_before_retrieval": "REQUIRED",
+    "rag_provider_quality_evidence": "REQUIRED_BEFORE_RUNTIME_PROMOTION",
+    "analysis_pattern_source_authority": "DENY"
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

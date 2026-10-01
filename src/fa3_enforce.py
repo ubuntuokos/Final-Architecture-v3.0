@@ -104,6 +104,7 @@ from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
 from fa3_modernization_integration_gate import gate as modernization_integration_gate
 from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
+from fa3_knowledge_shared_enhancement_gate import gate as knowledge_shared_enhancement_gate
 
 OK=0
 BLOCKED=2
@@ -249,6 +250,9 @@ def static_check(root:Path):
     modernization_integration_ref=modernization_integration_gate(root)
     if modernization_integration_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-135","Modernization integration authority/evidence boundary gate failed",modernization_integration_gate=modernization_integration_ref))
+    knowledge_shared_enhancement_ref=knowledge_shared_enhancement_gate(root)
+    if knowledge_shared_enhancement_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-147","Shared Knowledge multi-source enhancement gate failed",knowledge_shared_enhancement_gate=knowledge_shared_enhancement_ref))
 
     if pol.get("architecture_release")!=RELEASE or pol.get("canonical_capability_count")!=CAPS:
         fs.append(finding("FA3-STATIC-001","Enforcement policy release/capability invariant mismatch"))
@@ -332,6 +336,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-095","Obsidian human knowledge workspace gate is not bound into global enforcement policy"))
     if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
+    if "FA3-KNOWLEDGE-SHARED-ENHANCEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-148","Shared Knowledge enhancement gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -725,6 +731,32 @@ def acceptance_check(root:Path):
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
 
+def materialize_donor_blocked_promotion(root:Path,donor:dict):
+    RELEASE,_=active_release_values(root)
+    head=git_head(root)
+    acceptance_path=root/"acceptance/acceptance-report.json"
+    if acceptance_path.is_file():
+        try:
+            acceptance=loadj(acceptance_path)
+        except Exception:
+            acceptance={}
+    else:
+        acceptance=acceptance_check(root)
+    state={
+        "schema":"fa3.runtime-status.v1",
+        "architecture_release":RELEASE,
+        "target_state":"PROMOTED",
+        "actual_state":"PROMOTION_BLOCKED",
+        "promotion_allowed":False,
+        "acceptance":acceptance.get("status","UNKNOWN"),
+        "source_commit":head,
+        "approval_consumption":None,
+        "reason":"Fail-closed: donor readiness finalization is blocked; runtime promotion is forbidden.",
+        "donor_readiness":donor,
+    }
+    writej(root/"promotion/runtime-status.json",state)
+    return state
+
 def promote(root:Path):
     RELEASE,_=active_release_values(root)
     head=git_head(root)
@@ -771,7 +803,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","knowledge-shared-enhancement","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -911,6 +943,8 @@ def main():
             x=skill_fabric_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="distribution-compliance":
             x=distribution_compliance_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="knowledge-shared-enhancement":
+            x=knowledge_shared_enhancement_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="reuse-discovery":
             x=reuse_discovery_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="agency-agents":
@@ -976,7 +1010,8 @@ def main():
                 plan=os.getenv("FA3_APPROVED_PLAN_PATH"),approval=os.getenv("FA3_PLAN_APPROVAL_RECORD"),
                 pr_number=int(pr) if pr.isdigit() else None)
             if donor["result"] != "READY_FOR_SEPARATE_FA3_ADMISSION_GATES":
-                print(json.dumps({"result":"PROMOTION_BLOCKED","donor_readiness":donor},indent=2)); return BLOCKED
+                blocked=materialize_donor_blocked_promotion(root,donor)
+                print(json.dumps(blocked,indent=2)); return BLOCKED
             x,rc=promote(root); print(json.dumps(x,indent=2)); return rc
         p=root/"promotion/runtime-status.json"
         print(p.read_text() if p.exists() else '{"actual_state":"UNKNOWN"}')

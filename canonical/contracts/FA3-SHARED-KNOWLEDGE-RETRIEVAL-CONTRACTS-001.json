@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
   "provider_neutral": true,
@@ -28,7 +28,11 @@
     "HistoryAwareQueryRewrite",
     "CitationEnvelope",
     "ClaimSourceLink",
-    "RetrievalDenial"
+    "RetrievalDenial",
+    "SourceSyncState",
+    "IngestionReconciliationReceipt",
+    "KnowledgeMaterializationState",
+    "KnowledgeCompilationPlan"
   ],
   "required_semantics": {
     "segmentation": "SOURCE_AND_STRUCTURE_AWARE_POLICY_DRIVEN",
@@ -37,14 +41,132 @@
     "provenance": "CAP_155_MANDATORY_FOR_CITED_OUTPUT",
     "claim_verification": "CAP_156_WHEN_VERIFICATION_REQUESTED",
     "access_filtering": "BEFORE_RESULT_DISCLOSURE",
-    "implementation_examples": "REFERENCE_ONLY_NOT_CANONICAL"
+    "implementation_examples": "REFERENCE_ONLY_NOT_CANONICAL",
+    "ingestion": "REVISION_HASH_AND_STRUCTURE_AWARE_IDEMPOTENT_WHERE_APPLICABLE",
+    "source_sync": "CHECKPOINT_RESUMABLE_AND_EXPLICIT_DELETE_RECONCILIATION",
+    "materialization": "DERIVED_PROJECTIONS_BOUND_TO_SOURCE_REVISION_AND_DIGEST",
+    "knowledge_compilation": "DERIVED_REBUILDABLE_NON_AUTHORITY",
+    "quality_evaluation": "REUSE_EXISTING_EvaluationEvidence_WITH_RETRIEVAL_GROUNDING_CITATION_FRESHNESS_DIMENSIONS"
   },
   "invariants": [
     "NO_FIXED_CHUNK_MAGIC_NUMBER",
     "NO_FIXED_TOP_K_MAGIC_NUMBER",
     "NO_GENERATION_MODEL_ASSUMED_AS_EMBEDDING_MODEL",
-    "NO_UNCITED_SOURCE_CLAIM_WHEN_CITATION_REQUESTED"
+    "NO_UNCITED_SOURCE_CLAIM_WHEN_CITATION_REQUESTED",
+    "SOURCE_SYNC_CHECKPOINT_MUST_NOT_EXPAND_AUTHORIZATION",
+    "DELETE_RECONCILIATION_EXPLICIT",
+    "COMPILED_KNOWLEDGE_DERIVED_REBUILDABLE_NON_AUTHORITY",
+    "SKILL_CANDIDATE_CANNOT_AUTO_ADMIT",
+    "QUALITY_EVIDENCE_REUSES_EXISTING_EVALUATION_AUTHORITY"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "contract_shapes": {
+    "SourceSyncState": {
+      "required": [
+        "source_id",
+        "source_revision",
+        "source_digest",
+        "sync_mode",
+        "freshness_state",
+        "last_successful_sync"
+      ],
+      "optional": [
+        "cursor",
+        "bookmark",
+        "resume_token",
+        "next_revalidation",
+        "provider_state_digest"
+      ],
+      "freshness_states": [
+        "FRESH_REQUIRED",
+        "CACHED_ACCEPTABLE",
+        "STALE_ALLOWED",
+        "REVALIDATION_REQUIRED",
+        "UNKNOWN"
+      ],
+      "reconciliation_states": [
+        "NEW",
+        "UNCHANGED",
+        "MODIFIED",
+        "DELETED",
+        "STALE",
+        "FAILED",
+        "REVALIDATION_REQUIRED",
+        "UNKNOWN"
+      ],
+      "authority": false
+    },
+    "IngestionReconciliationReceipt": {
+      "required": [
+        "reconciliation_id",
+        "source_id",
+        "previous_revision",
+        "current_revision",
+        "outcome_counts",
+        "affected_derivative_refs",
+        "invalidated_derivative_refs",
+        "rebuilt_derivative_refs",
+        "checkpoint",
+        "evidence_refs"
+      ],
+      "append_only": true,
+      "authorization_expansion_allowed": false
+    },
+    "KnowledgeMaterializationState": {
+      "required": [
+        "materialization_id",
+        "source_id",
+        "source_revision",
+        "source_digest",
+        "derivation_chain",
+        "materialized_at",
+        "freshness_state",
+        "rebuild_required",
+        "derived_artifact_refs"
+      ],
+      "optional": [
+        "parser_identity",
+        "segmentation_policy",
+        "embedding_identity",
+        "index_projection_version",
+        "graph_projection_version",
+        "compiled_projection_version",
+        "supersedes"
+      ],
+      "authoritative": false,
+      "rebuildable": true
+    },
+    "KnowledgeCompilationPlan": {
+      "required": [
+        "plan_id",
+        "source_scope",
+        "requested_projections",
+        "refresh_policy",
+        "provenance_requirement",
+        "resource_budget",
+        "output_artifact_policy"
+      ],
+      "projection_types": [
+        "WIKI",
+        "GRAPH",
+        "TREE",
+        "PAGE_INDEX",
+        "MIND_MAP",
+        "TIMELINE",
+        "SKILL_CANDIDATE"
+      ],
+      "output_semantics": [
+        "DERIVED",
+        "REBUILDABLE",
+        "PROVENANCE_BOUND",
+        "NON_AUTHORITY"
+      ],
+      "skill_projection_disposition": "CANDIDATE_REQUIRES_SEPARATE_SKILL_ADMISSION"
+    }
+  },
+  "related_contract_families": [
+    "FA3-KNOWLEDGE-CONTRACTS-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001"
+  ]
 }

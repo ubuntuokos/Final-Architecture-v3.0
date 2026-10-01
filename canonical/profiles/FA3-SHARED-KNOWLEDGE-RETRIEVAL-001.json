@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
   "name": "Shared Knowledge & Retrieval",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST_IF_COMPONENT_USED",
@@ -40,7 +40,20 @@
     "ACL_AND_CONTEXT_FILTERING_BEFORE_DISCLOSURE",
     "HISTORY_AWARE_QUERY_REWRITE_MUST_PRESERVE_ORIGINAL_QUERY",
     "CITATION_AND_CLAIM_SOURCE_LINEAGE_REQUIRED",
-    "RAG_STORE_IMPLEMENTATION_NOT_ARCHITECTURAL_AUTHORITY"
+    "RAG_STORE_IMPLEMENTATION_NOT_ARCHITECTURAL_AUTHORITY",
+    "SOURCE_REVISION_REQUIRED_FOR_DERIVED_KNOWLEDGE",
+    "UNCHANGED_SOURCE_MUST_NOT_TRIGGER_UNNECESSARY_REBUILD",
+    "SOURCE_CHANGE_INVALIDATES_AFFECTED_DERIVATIVES",
+    "SOURCE_DELETE_REQUIRES_TOMBSTONE_OR_EXPLICIT_RETENTION_POLICY",
+    "INGESTION_RESUME_MUST_PRESERVE_POLICY_AND_AUTHORIZATION",
+    "CHECKPOINT_CANNOT_GRANT_NEW_PERMISSION",
+    "COMPILED_KNOWLEDGE_IS_DERIVED_REBUILDABLE_AND_NON_AUTHORITATIVE",
+    "GENERATED_SKILL_IS_CANDIDATE_NOT_ADMITTED_SKILL",
+    "RETRIEVAL_EFFORT_MUST_BE_EXPLICITLY_BOUNDED_OR_POLICY_RESOLVED_BEFORE_DISPATCH",
+    "AUTHORIZATION_PRECEDES_CORPUS_SELECTION_AND_RETRIEVAL",
+    "RETRIEVED_CONTENT_REMAINS_UNTRUSTED_DATA",
+    "QUALITY_EVIDENCE_REQUIRED_BEFORE_PROVIDER_PROMOTION",
+    "PATTERN_SOURCE_CANNOT_BECOME_CANONICAL_KNOWLEDGE_AUTHORITY"
   ],
   "gui_projection": [
     "create.knowledge",
@@ -65,5 +78,24 @@
     "analysis_patterns_may_be_reexpressed_fa3_native": true
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "semantic_domains": [
+    "INGESTION",
+    "SOURCE_SYNC",
+    "RECONCILIATION",
+    "MATERIALIZATION_STATE",
+    "KNOWLEDGE_COMPILATION",
+    "HYBRID_RETRIEVAL",
+    "RETRIEVAL_EFFORT_BUDGETING",
+    "QUALITY_EVALUATION"
+  ],
+  "pattern_source_policy": {
+    "analysis_only_pattern_sources_allowed": true,
+    "formal_donor_adoption_requires_owner_marker": "donornak",
+    "analysis_source_creates_donor_usage_edge": false,
+    "source_code_copy": false,
+    "runtime_dependency": false,
+    "architectural_authority": false
+  },
+  "implementation_status": "STATIC_SHARED_MULTI_SOURCE_ENHANCEMENT_MATERIALIZED_RUNTIME_UNCHANGED"
 }

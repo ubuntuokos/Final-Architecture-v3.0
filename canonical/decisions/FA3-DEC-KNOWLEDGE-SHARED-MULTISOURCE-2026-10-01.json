@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KNOWLEDGE-SHARED-MULTISOURCE-2026-10-01",
+  "date": "2026-10-01",
+  "status": "CANONICAL_CLOSED",
+  "scope": "FA3-KNOWLEDGE-001",
+  "decision": "MATERIALIZE_MULTI_SOURCE_SHARED_KNOWLEDGE_ENHANCEMENT_WITH_OPTIONAL_RAGFLOW_REFERENCE_PROVIDER",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "shared_profile": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "new_canonical_roots": 0,
+  "historical_snapshot_policy": "PRESERVE_143_ERA_DECISIONS_AND_EVIDENCE_UNCHANGED_RECONCILE_ACTIVE_PROJECTIONS_ONLY",
+  "active_reconciled_records": [
+    "FA3-KNOWLEDGE-001",
+    "FA3-KNOWLEDGE-CONTRACTS-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001",
+    "FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001",
+    "FA3-PROVIDER-RAGFLOW-001",
+    "FA3-PROVIDER-HAYSTACK-001",
+    "FA3-PROVIDER-PAGEINDEX-LOCAL-001"
+  ],
+  "provider_neutral_contract_delta": [
+    "SourceSyncState",
+    "IngestionReconciliationReceipt",
+    "KnowledgeMaterializationState",
+    "KnowledgeCompilationPlan",
+    "RetrievalEffortBudget"
+  ],
+  "reuse_existing_contracts": [
+    "IngestionRequest",
+    "IngestionResult",
+    "EvaluationEvidence",
+    "RetrievalPlan",
+    "RetrievalTrace",
+    "ContextPassport",
+    "CitationEnvelope",
+    "RerankRequest",
+    "RerankResult"
+  ],
+  "pattern_source_policy": {
+    "reference_id": "FA3-KNOWLEDGE-MULTISOURCE-PATTERN-REFERENCE-2026-10-01",
+    "formal_donor_registry_mutation": false,
+    "donor_usage_edge_created": false,
+    "reason": "OWNER_DONORNAK_MARKER_NOT_PRESENT_FOR_THESE_ANALYSIS_SOURCES",
+    "code_copy": false,
+    "runtime_dependency": false
+  },
+  "ragflow_disposition": {
+    "provider_id": "FA3-PROVIDER-RAGFLOW-001",
+    "role": "OPTIONAL_REFERENCE_PROVIDER_AND_ARCHITECTURAL_PATTERN_SOURCE",
+    "activation": "OPTIONAL_DISABLED_BY_DEFAULT",
+    "runtime_promotion": "NOT_PROMOTED_REFERENCE_ONLY",
+    "current_host_evidence": "NOT_CLAIMED"
+  },
+  "invariants": [
+    "AUTHORIZATION_BEFORE_RETRIEVAL",
+    "SOURCE_REVISION_AND_DIGEST_LINEAGE",
+    "DERIVED_KNOWLEDGE_REBUILDABLE_NON_AUTHORITY",
+    "SKILL_COMPILATION_OUTPUT_REQUIRES_SEPARATE_ADMISSION",
+    "RETRIEVAL_EFFORT_BOUNDED",
+    "QUALITY_EVIDENCE_BEFORE_PROVIDER_PROMOTION",
+    "MODEL_ROUTER_HRB_MCP_SECURITY_SECRET_EVIDENCE_AUTHORITIES_PRESERVED"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "global_environment_mutation": false,
+    "upstream_uninstall_required": false
+  },
+  "rights_boundary": "PATTERN_ONLY_NO_CODE_COPY_RUNTIME_OR_BUNDLING_ADOPTION_REQUIRES_SEPARATE_LICENSE_RIGHTS_CLEARANCE",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

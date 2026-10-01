@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-KNOWLEDGE-SHARED-ENHANCEMENT-001",
+  "gateset_id": "FA3-KNOWLEDGE-SHARED-ENHANCEMENT-GATESET-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "priority": "P0",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "profile_id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+  "knowledge_root_id": "FA3-KNOWLEDGE-001",
+  "contract_ids": [
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001"
+  ],
+  "decision_id": "FA3-DEC-KNOWLEDGE-SHARED-MULTISOURCE-2026-10-01",
+  "reuse_assessment_id": "FA3-KNOWLEDGE-SHARED-MULTISOURCE-REUSE-ASSESSMENT-001",
+  "pattern_reference_id": "FA3-KNOWLEDGE-MULTISOURCE-PATTERN-REFERENCE-2026-10-01",
+  "entrypoint": "src/fa3_knowledge_shared_enhancement_gate.py",
+  "unit_test": "tests/test_knowledge_shared_enhancement.py",
+  "report_path": "reports/knowledge-shared-enhancement-gate-report.json",
+  "current_host_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "intent_id": "FA3-KNOWLEDGE-SHARED-MULTISOURCE-APPLICATION-INTENT-001"
+}

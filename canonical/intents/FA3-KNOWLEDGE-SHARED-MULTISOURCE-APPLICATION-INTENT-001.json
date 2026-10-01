@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-KNOWLEDGE-SHARED-MULTISOURCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-KNOWLEDGE-SHARED-MULTISOURCE-001",
+  "project_type": "PROFILE",
+  "goal": "Strengthen the existing FA3 Knowledge, RAG, Context & Ingestion Fabric through provider-neutral shared ingestion, synchronization, reconciliation, materialization-state, knowledge-compilation and bounded retrieval semantics while preserving the 175 capability baseline and all existing architectural authorities.",
+  "required_capabilities": [
+    "CAP-010",
+    "CAP-021",
+    "CAP-102",
+    "CAP-153",
+    "CAP-155",
+    "CAP-156"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "shared-knowledge-retrieval",
+    "incremental-ingestion",
+    "source-reconciliation",
+    "knowledge-compilation",
+    "retrieval-budgeting",
+    "rag-quality-evaluation",
+    "cross-application-reuse"
+  ],
+  "input_modalities": [
+    "TEXT",
+    "DOCUMENT",
+    "IMAGE",
+    "AUDIO",
+    "VIDEO",
+    "STRUCTURED_DATA",
+    "WEB_SOURCE",
+    "KNOWLEDGE_SOURCE_REVISION"
+  ],
+  "output_modalities": [
+    "STRUCTURED_SEGMENT",
+    "SOURCE_SYNC_STATE",
+    "INGESTION_RECONCILIATION_RECEIPT",
+    "KNOWLEDGE_MATERIALIZATION_STATE",
+    "KNOWLEDGE_COMPILATION_PROJECTION",
+    "RETRIEVAL_PLAN",
+    "RETRIEVAL_TRACE",
+    "EVALUATION_EVIDENCE"
+  ],
+  "execution_classes": [
+    "STATIC_CONTRACT_AND_MAPPING",
+    "GOVERNED_PROVIDER_ADAPTER_HANDOFF"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "DURABLE_PROVIDER_NEUTRAL_SOURCE_SYNC_STATE",
+    "EXPLICIT_INCREMENTAL_INGESTION_RECONCILIATION_RECEIPT",
+    "DERIVED_KNOWLEDGE_MATERIALIZATION_STATE",
+    "PROVIDER_NEUTRAL_KNOWLEDGE_COMPILATION_PLAN",
+    "EXPLICIT_RETRIEVAL_EFFORT_BUDGET"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "AUTHORIZATION_PRECEDES_CORPUS_SELECTION_AND_RETRIEVAL",
+    "MODEL_ROUTER_REMAINS_SOLE_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "MCP_GATEWAY_REMAINS_TOOL_MEDIATION_AUTHORITY",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_AUTHORITY",
+    "SECRET_BROKER_REMAINS_SOLE_SECRET_DELIVERY_BOUNDARY",
+    "EVIDENCE_AUTHORITY_REMAINS_FA3_AUTH_OBS_EVIDENCE_001",
+    "RETRIEVED_CONTENT_IS_UNTRUSTED_DATA",
+    "NO_SILENT_FALLBACK",
+    "NO_PROVIDER_AUTHORITY_ESCALATION",
+    "NO_DOCUMENT_ONLY_CURRENT_HOST_PROMOTION"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-KNOWLEDGE-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "gui_requirements": [
+    "REUSE_EXISTING_KNOWLEDGE_AND_APPLICATION_CONTEXT_SURFACES",
+    "NO_NEW_PARALLEL_KNOWLEDGE_APPLICATION_REQUIRED"
+  ],
+  "task_classes": [
+    "knowledge",
+    "retrieval",
+    "ingestion",
+    "evaluation",
+    "governance"
+  ],
+  "skill_triggers": []
+}

@@ -221,6 +221,8 @@ jobs:
         run: ./bin/fa3-enforce pageindex-mcp
       - name: Knowledge hierarchical + hybrid retrieval gate
         run: ./bin/fa3-enforce knowledge-hybrid-retrieval
+      - name: Shared Knowledge multi-source enhancement gate
+        run: ./bin/fa3-enforce knowledge-shared-enhancement
       - name: Cross-cutting runtime hardening and shadow execution gate
         run: ./bin/fa3-enforce runtime-hardening
       - name: Runtime hardening current-host closure materialization gate
@@ -312,6 +314,7 @@ jobs:
             reports/hardware-portability-gate-report.json
             reports/pageindex-mcp-gate-report.json
             reports/knowledge-hybrid-retrieval-gate-report.json
+            reports/knowledge-shared-enhancement-gate-report.json
             reports/runtime-hardening-gate-report.json
             reports/runtime-hardening-current-host-gate-report.json
             reports/pytorch3d-gate-report.json
