@@ -95,6 +95,25 @@ class AssetProcessingTests(unittest.TestCase):
         self.assertNotEqual(by_a["texture.product"]["version_id"], by_b["texture.product"]["version_id"])
         self.assertNotEqual(by_a["material.product"]["version_id"], by_b["material.product"]["version_id"])
 
+    def test_transitive_build_state_changes_downstream_version(self):
+        sources, _, jobs = case()
+        jobs = [{
+            "job_key": "mesh.package",
+            "input_keys": ["mesh.source"],
+            "recipe": {"id": "mesh.package", "version": "1", "parameters": {}},
+            "outputs": [{"asset_key": "mesh.product", "media_type": "model/gltf-binary"}],
+        }]
+        edges = [{"consumer_key": "mesh.source", "dependency_key": "texture.source", "kind": "BUILD"}]
+        a = compile_processing_plan(project_namespace="project:test", source_assets=sources, dependency_edges=edges, jobs=jobs)
+        changed = deepcopy(sources)
+        changed[1]["content_digest"] = digest("c")
+        b = compile_processing_plan(project_namespace="project:test", source_assets=changed, dependency_edges=edges, jobs=jobs)
+        by_a = {x["asset_key"]: x for x in a["assets"]}
+        by_b = {x["asset_key"]: x for x in b["assets"]}
+        self.assertEqual(by_a["mesh.source"]["version_id"], by_b["mesh.source"]["version_id"])
+        self.assertNotEqual(by_a["mesh.source"]["build_state_id"], by_b["mesh.source"]["build_state_id"])
+        self.assertNotEqual(by_a["mesh.product"]["version_id"], by_b["mesh.product"]["version_id"])
+
     def test_transitive_invalidation_uses_build_edges_only(self):
         sources, edges, jobs = case()
         plan = compile_processing_plan(project_namespace="project:test", source_assets=sources, dependency_edges=edges, jobs=jobs)
