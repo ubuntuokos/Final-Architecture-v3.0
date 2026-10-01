@@ -75,7 +75,8 @@ ApplicationWindow {
         "create.subtitle-studio": 37,
         "create.narration-studio": 38,
         "agents.orchestration-monitor": 39,
-        "create.ai-module-factory": 40
+        "create.ai-module-factory": 40,
+        "create.office": 41
     })
 
     function routeIndex(routeId) {
@@ -160,6 +161,7 @@ ApplicationWindow {
         {title: "Update Center", detail: "Provider-neutral frissítés, security maintenance és workload-aware restart UAF draft felület", category: "FUNCTION", routeId: "system.updates"},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "AI Module Factory", detail: "Jóváhagyott FA3 munkákból rights- és provenance-gated modultervek CAP-095 handoffal", category: "FUNCTION", routeId: "create.ai-module-factory"},
+        {title: "FA3 Office", detail: "Writer, Sheets, Presentation és dokumentum-interchange a FA3-DOC-001 authority alatt", category: "FUNCTION", routeId: "create.office"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -688,6 +690,7 @@ ApplicationWindow {
                         Label { text: "CREATE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; routeId: "create.ai-studio" }
                         NavButton { iconText: "AI"; label: "AI Module Factory"; routeId: "create.ai-module-factory" }
+                        NavButton { iconText: "▤"; label: "FA3 Office"; routeId: "create.office" }
                         NavButton { iconText: "CC"; label: "Subtitle Studio"; routeId: "create.subtitle-studio" }
                         NavButton { iconText: "VO"; label: "Narration Studio"; routeId: "create.narration-studio" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
@@ -1761,6 +1764,18 @@ ApplicationWindow {
                         {title: "CAP-095 Handoff", subtitle: "A tréninget ez a felület nem indítja közvetlenül; a jóváhagyott draft a meglévő CAP-095 útvonalhoz kerül.", badge: "DRAFT", tone: window.accent},
                         {title: "Model Router + HRB", subtitle: "Provider- és hardverválasztás kizárólag a meglévő központi authority-kon keresztül történhet.", badge: "ROUTED", tone: window.cyan},
                         {title: "Current Host", subtitle: "A standalone Qt6 alkalmazás fizikai requalification státusza külön evidence-gated; ez a felület nem állít PASS-t.", badge: "PENDING", tone: window.magenta}
+                    ]
+                }
+
+                ModulePage {
+                    pageTitle: "FA3 Office"
+                    pageSubtitle: "Qt6/QML Office felület · FA3-DOC-001 · izolált LibreOffice engine candidate"
+                    cards: [
+                        {title: "Writer", subtitle: "FA3-native szövegszerkesztési felület; idegen formátum nem válik canonical authority-vá.", badge: "STATIC", tone: window.cyan},
+                        {title: "Sheets", subtitle: "Táblázat workflow a shared Document Fabric és version-scoped format profile-ok fölött.", badge: "STATIC", tone: window.green},
+                        {title: "Presentation", subtitle: "Prezentációs authoring és export; LibreOffice/UNO runtime csak admission után.", badge: "STATIC", tone: window.magenta},
+                        {title: "Format Gate", subtitle: "ODT/DOCX/ODS/XLSX/ODP/PPTX: PENDING golden roundtrip; PDF alapból preview/delivery.", badge: "FAIL-CLOSED", tone: window.orange},
+                        {title: "Current Host", subtitle: "Runtime worker, formátum roundtrip és rollback fizikai requalification szükséges; nincs PASS állítás.", badge: "PENDING", tone: window.orange}
                     ]
                 }
             }

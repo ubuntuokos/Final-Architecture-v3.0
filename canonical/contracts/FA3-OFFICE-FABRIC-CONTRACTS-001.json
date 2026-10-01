@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.office-fabric-contracts.v1",
+  "id": "FA3-OFFICE-FABRIC-CONTRACTS-001",
+  "status": "CANONICAL_STATIC_CONTRACT",
+  "authority": false,
+  "capability_count": 175,
+  "capability_bindings": ["CAP-018", "CAP-030"],
+  "document_session": {
+    "required_fields": ["session_id", "document_ref", "document_kind", "source_revision", "requested_operation"],
+    "operations": ["INSPECT", "PREVIEW", "PLAN_EDIT", "APPLY_EDIT", "UNDO", "EXPORT"],
+    "apply_requires_exact_source_revision": true,
+    "apply_requires_explicit_human_approval": true,
+    "undo_required_for_mutation": true,
+    "runtime_execution_authorized_by_contract": false
+  },
+  "canonical_model": {
+    "owner": "FA3-DOC-001",
+    "foreign_file_is_source_or_projection_not_authority": true,
+    "preserve_original_artifact": true,
+    "preserve_styles_comments_revisions_metadata_when_profile_supports_them": true
+  },
+  "format_admission": {
+    "candidate_editable_formats": ["ODT", "DOCX", "ODS", "XLSX", "ODP", "PPTX"],
+    "default_state": "PENDING_GOLDEN_ROUNDTRIP",
+    "same_type_import_export_symmetry_required": true,
+    "external_fixture_required": true,
+    "semantic_retention_report_required": true,
+    "loss_receipt_required": true,
+    "unsupported_or_one_way_state": "PREVIEW_ONLY_OR_DENY",
+    "pdf_editable_import_claim": false
+  },
+  "security": {
+    "macros_disabled_by_default": true,
+    "embedded_script_execution_disabled_by_default": true,
+    "untrusted_external_link_activation_disabled_by_default": true,
+    "unknown_format_profile_policy": "DENY",
+    "silent_fallback": false
+  },
+  "runtime": {
+    "engine_candidate": "LibreOffice",
+    "adapter_modes": ["LIBREOFFICEKIT", "UNO", "HEADLESS"],
+    "separate_worker_required": true,
+    "direct_application_process_embedding": false,
+    "runtime_admission_state": "PENDING",
+    "physical_current_host_pass_claimed": false
+  },
+  "ai": {
+    "optional": true,
+    "disabled_means_no_ai_invocation": true,
+    "non_ai_authoring_path_required": true,
+    "proposal_preview_before_mutation": true,
+    "explicit_apply_required": true
+  },
+  "collaboration": {
+    "provider_neutral_api_required": true,
+    "collabora_required": false,
+    "onlyoffice_required": false,
+    "provider_runtime_auto_admission": false
+  }
+}

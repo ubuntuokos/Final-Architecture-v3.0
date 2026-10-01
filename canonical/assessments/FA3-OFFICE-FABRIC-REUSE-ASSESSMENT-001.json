@@ -1,0 +1,103 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-OFFICE-FABRIC-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-OFFICE-FABRIC-001",
+  "project_id": "FA3-OFFICE-FABRIC-001",
+  "intent_id": "FA3-OFFICE-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-OFFICE-FABRIC-APPLICATION-INTENT-001.json",
+  "published_main_commit": "5c76236c7c6c6e6a9c13521b9a807ce22608900c",
+  "donor_registry_blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "donor_registry_entry_count": 1287,
+  "capability_baseline": 175,
+  "selected_existing_reference_source_keys": [
+    "github:libreoffice",
+    "github:onlyoffice",
+    "github:apache/openoffice"
+  ],
+  "existing_reference_roles": {
+    "github:libreoffice": "PRIMARY_ENGINE_CANDIDATE",
+    "github:onlyoffice": "REFERENCE_ONLY",
+    "github:apache/openoffice": "COMPATIBILITY_REFERENCE_ONLY"
+  },
+  "pending_new_donor_candidates": [
+    {
+      "name": "Calligra",
+      "intended_role": "PRIMARY_QT6_UI_WORKFLOW_DONOR",
+      "state": "PENDING_DONOR_INTAKE"
+    },
+    {
+      "name": "Collabora Online",
+      "intended_role": "OPTIONAL_COLLABORATION_PROVIDER_DONOR",
+      "state": "PENDING_DONOR_INTAKE"
+    }
+  ],
+  "donor_intake_status": {
+    "state": "DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION",
+    "active_pr": 581,
+    "new_donor_records_published": false
+  },
+  "code_import_authorized": false,
+  "upstream_binary_bundling_authorized": false,
+  "runtime_admission_authorized": false,
+  "static_materialization_authorized": true,
+  "license_policy": "EXACT_VERSION_LICENSE_NOTICE_DEPENDENCY_REVIEW_REQUIRED_BEFORE_CODE_OR_RUNTIME_ADMISSION",
+  "selected_internal_reuse": [
+    {
+      "id": "CAP-018",
+      "use": "DOCUMENTS_KNOWLEDGE_AUTHORING_CAPABILITY"
+    },
+    {
+      "id": "CAP-030",
+      "use": "DOCUMENTATION_PUBLISHING_CAPABILITY"
+    },
+    {
+      "id": "FA3-DOC-001",
+      "use": "CANONICAL_DOCUMENT_AUTHORITY"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "upstream_user_profile_mutation": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "result": "PASS",
+  "selected_existing_donor_ids": [],
+  "donor_adoption_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "gaps": [
+    "CALLIGRA_CANONICAL_DONOR_INTAKE",
+    "COLLABORA_CANONICAL_DONOR_INTAKE",
+    "VERSIONED_LIBREOFFICE_RUNTIME_LICENSE_CLEARANCE",
+    "PHYSICAL_CURRENT_HOST_ROUNDTRIP_EVIDENCE"
+  ],
+  "implementation_readiness": "FA3_NATIVE_STATIC_APP_AND_DOCUMENT_CONTRACT_CAN_MATERIALIZE; EXTERNAL_OFFICE_RUNTIME_REMAINS_ADMISSION_GATED",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Office/document authoring and LibreOffice interoperability do not require a direct Khronos SDK/runtime dependency; graphics acceleration remains beneath existing platform/runtime authorities."
+    }
+  ],
+  "global_promotion_claim": false,
+  "covered_ids": [
+    "FA3-OFFICE-FABRIC-001"
+  ]
+}

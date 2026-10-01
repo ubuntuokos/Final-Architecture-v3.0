@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-OFFICE-FABRIC-2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-01",
+  "title": "FA3 Office Fabric with isolated LibreOffice engine candidate",
+  "decision": "Materialize FA3 Office as a Qt6/QML application and shared Document/Office Fabric subordinate to CAP-018 and FA3-DOC-001. Use LibreOffice Core through LibreOfficeKit/UNO/headless as the primary isolated engine candidate after separate License & Rights and physical Current Host admission; do not embed the full LibreOffice GUI. Treat ONLYOFFICE and Apache OpenOffice as references. Queue Calligra as the primary Qt6 UI/workflow donor and Collabora Online as an optional collaboration provider/donor once the exclusive donor-intake slot is free.",
+  "approval_basis": "Owner approved the final Office Fabric plan and then instructed materialization on 2026-10-01.",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "fa3_doc_001_remains_document_authority": true,
+    "full_libreoffice_gui_embedded": false,
+    "foreign_formats_are_not_canonical_state": true,
+    "same_type_import_export_symmetry_required": true,
+    "unknown_format_or_rights_fail_closed": true,
+    "ai_optional_and_disableable": true,
+    "no_silent_fallback": true,
+    "physical_current_host_pass_claimed": false
+  },
+  "donor_boundary": {
+    "active_intake_pr": 581,
+    "calligra": "PENDING_DONOR_INTAKE",
+    "collabora_online": "PENDING_DONOR_INTAKE",
+    "new_donor_records_created_by_this_change": false
+  },
+  "current_host_effect": "STRUCTURAL_REASSESSMENT_REQUIRED_FOR_GUI_RUNTIME_WORKER_FORMAT_ROUNDTRIP_AND_ROLLBACK; NO_PASS_CLAIM"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-OFFICE-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-OFFICE-FABRIC-001",
+  "project_type": "APPLICATION_SHARED_FABRIC",
+  "goal": "Materialize an FA3-native Qt6/QML Office workspace and shared document service over existing CAP-018/FA3-DOC-001, with LibreOffice Core via LibreOfficeKit/UNO/headless as the isolated engine candidate, without embedding the full upstream GUI or creating a second document/conversion authority.",
+  "required_capabilities": ["CAP-018", "CAP-030"],
+  "optional_capabilities": [],
+  "problem_classes": ["document-authoring", "spreadsheet-authoring", "presentation-authoring", "document-interchange", "office-format-roundtrip", "document-preview"],
+  "input_modalities": ["DOCUMENT", "SPREADSHEET", "PRESENTATION", "FORM"],
+  "output_modalities": ["DOCUMENT", "SPREADSHEET", "PRESENTATION", "PDF_DELIVERY", "LOSS_RECEIPT"],
+  "execution_classes": ["GUI_SESSION", "ISOLATED_OFFICE_WORKER", "DOCUMENT_INTERCHANGE"],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": ["CALLIGRA_CANONICAL_DONOR_INTAKE", "COLLABORA_CANONICAL_DONOR_INTAKE", "VERSIONED_LIBREOFFICE_RUNTIME_LICENSE_CLEARANCE", "PHYSICAL_CURRENT_HOST_ROUNDTRIP_EVIDENCE"],
+  "namespace_claims": {
+    "config_root": "$XDG_CONFIG_HOME/fa3/office",
+    "cache_root": "$XDG_CACHE_HOME/fa3/office",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/office",
+    "data_root": "$XDG_DATA_HOME/fa3/office",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "LICENSE_AND_RIGHTS_FAIL_CLOSED",
+    "NO_FULL_UPSTREAM_GUI_EMBED",
+    "NO_UNTRUSTED_MACRO_EXECUTION_BY_DEFAULT",
+    "NO_SILENT_FORMAT_FALLBACK",
+    "AI_DISABLE_DENY_WINS",
+    "NON_AI_AUTHORING_PATH_REQUIRED",
+    "EXPLICIT_PREVIEW_APPLY_UNDO_FOR_ASSISTED_MUTATION",
+    "NO_RUNTIME_PROMOTION_FROM_STATIC_MATERIALIZATION"
+  ],
+  "integration_requirements": ["FA3-DOC-001", "FA3-LICENSE-RIGHTS-001", "FA3-REUSE-DISCOVERY-001"],
+  "gui_requirements": ["QT6_QML_STANDALONE_APPLICATION", "CONTROL_CENTER_ROUTE_PROJECTION", "WAYLAND_FIRST_X11_FALLBACK"],
+  "task_classes": ["document", "spreadsheet", "presentation", "interchange", "publishing"]
+}

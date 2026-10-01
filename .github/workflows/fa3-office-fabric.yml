@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: Apache-2.0
+name: FA3 Office Fabric
+
+on:
+  pull_request:
+    paths:
+      - "apps/fa3-office/**"
+      - "canonical/profiles/FA3-OFFICE-FABRIC-001.json"
+      - "canonical/contracts/FA3-OFFICE-FABRIC-CONTRACTS-001.json"
+      - "canonical/intents/FA3-OFFICE-FABRIC-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-OFFICE-FABRIC-*.json"
+      - "canonical/decisions/FA3-DEC-OFFICE-FABRIC-2026-10-01.json"
+      - "canonical/current-host-impact/FA3-CH-IMPACT-OFFICE-FABRIC-20261001.json"
+      - "src/fa3_office_fabric_gate.py"
+      - "tests/test_office_fabric.py"
+  workflow_dispatch:
+
+jobs:
+  static-and-qt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Structural gate
+        run: |
+          python3 src/fa3_office_fabric_gate.py
+          python3 -m unittest tests/test_office_fabric.py
+      - name: Install Qt6 build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++ qt6-base-dev qt6-declarative-dev
+      - name: Configure
+        run: cmake -S apps/fa3-office -B build/office -G Ninja
+      - name: Build
+        run: cmake --build build/office
+      - name: Test
+        run: ctest --test-dir build/office --output-on-failure
