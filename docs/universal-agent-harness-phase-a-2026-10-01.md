@@ -1,10 +1,10 @@
 # FA3 Universal Agent Harness & Interoperability — Phase A research and coverage
 
-Date: 2026-10-01  
-Status: **RESEARCH_ONLY / OWNER_REVIEW_REQUIRED**  
-FA3 comparison base: `dfb9ab7d8a3e192908bc2fb0f57c6aefed1d7bee` on `main`  
-Capability baseline: **175 fixed**  
-Capability delta: **0**  
+Date: 2026-10-01
+Status: **RESEARCH_ONLY / OWNER_REVIEW_REQUIRED**
+FA3 comparison base: `dfb9ab7d8a3e192908bc2fb0f57c6aefed1d7bee` on `main`
+Capability baseline: **175 fixed**
+Capability delta: **0**
 Architectural authority delta: **0**
 
 ## 1. Approved scope
@@ -29,7 +29,7 @@ This change does **not**:
 
 Repository policy requires a user-supplied source link preceded by the literal owner marker `donornak` before canonical Donor & Reference Registry registration. The sources below are therefore **analysis-only research inputs** in Phase A.
 
-Machine-readable extraction:  
+Machine-readable extraction:
 `research/universal-agent-harness-phase-a-coverage-2026-10-01.json`
 
 ## 2. Architecture decision retained
