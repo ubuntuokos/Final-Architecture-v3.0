@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-AI-MODULE-FACTORY-2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-01",
+  "title": "FA3 Work-Derived Intelligence / AI Module Factory",
+  "decision": "Materialize the FA3 AI Module Factory as a Qt6/QML application and FA3-native qualification/planning layer over existing CAP-095. It may create governed module-plan drafts from approved FA3 work but receives no provider, model-routing, resource, rights, execution or promotion authority.",
+  "approval_basis": "Owner message on 2026-10-01: Készítsd el, jóváhagyom!",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "cap095_remains_training_governance": true,
+    "model_router_remains_exclusive": true,
+    "hrb_remains_exclusive": true,
+    "license_rights_fail_closed": true,
+    "ai_disable_deny_wins": true,
+    "no_silent_fallback": true,
+    "direct_provider_execution": false,
+    "direct_hardware_selection": false,
+    "human_approval_before_execution": true,
+    "physical_current_host_pass_claimed": false,
+    "new_research_donor_registration_authorized_by_this_decision": false
+  },
+  "module_types": [
+    "KNOWLEDGE",
+    "PREFERENCE",
+    "SKILL_ADAPTER",
+    "WORKFLOW",
+    "NATIVE_MODEL"
+  ],
+  "donor_research_boundary": {
+    "analyzed_sources_remain_analysis_only": true,
+    "exact_owner_donornak_marker_required": true,
+    "active_intake_pr": 581,
+    "intake_state": "DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION"
+  },
+  "current_host_effect": "STRUCTURAL_REASSESSMENT_REQUIRED_APP_STARTUP_DRAFT_IO_AND_CAP095_HANDOFF; NO_PASS_CLAIM"
+}
