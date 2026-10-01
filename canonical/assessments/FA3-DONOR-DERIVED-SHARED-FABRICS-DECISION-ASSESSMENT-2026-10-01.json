@@ -1,0 +1,73 @@
+{
+  "schema":"fa3.decision-fabric-assessment.v1",
+  "project_id":"FA3-DONOR-DERIVED-SHARED-FABRICS-DECISION-ASSESSMENT-2026-10-01",
+  "covered_ids":[
+    "FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-001",
+    "FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-001",
+    "FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-001",
+    "FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-001",
+    "FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-001"
+  ],
+  "assessment":"RECOMMENDED",
+  "rationale":"The five shared compositions contain bounded ranking/selection points only after deterministic eligibility, policy, rights, security, compatibility and resource checks. Decision Fabric may advise among already eligible agent backends, retrieval strategies, transport backends or creative candidates, but it cannot expand candidate sets, admit providers/models, grant permissions, override rights/safety gates or become workflow authority.",
+  "decision_points":[
+    {
+      "id":"AGENT_BACKEND_RANKING",
+      "candidate_source":"DETERMINISTICALLY_ADMITTED_AGENT_BACKENDS",
+      "final_policy_owner":"EXISTING_FA3_AGENT_EXECUTION_AND_POLICY_AUTHORITIES",
+      "failure_policy":"NO_DECISION_OR_EXPLICIT_OPERATOR_SELECTION_NO_SILENT_FALLBACK"
+    },
+    {
+      "id":"RETRIEVAL_STRATEGY_RANKING",
+      "candidate_source":"QUERY_PLANNER_ELIGIBLE_RETRIEVAL_METHODS",
+      "final_policy_owner":"FA3-KNOWLEDGE-001_AND_SECURITY_RIGHTS_AUTHORITIES",
+      "failure_policy":"DETERMINISTIC_BASELINE_RETRIEVAL_OR_EXPLICIT_INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "id":"TRANSPORT_BACKEND_RANKING",
+      "candidate_source":"SECURITY_COMPATIBILITY_AND_CURRENT_HOST_ADMITTED_TRANSPORTS",
+      "final_policy_owner":"EXISTING_FA3_SECURITY_HRB_AND_NETWORK_POLICY",
+      "failure_policy":"POLICY_DECLARED_FALLBACK_WITH_RECEIPT_OR_FAIL_CLOSED"
+    },
+    {
+      "id":"CREATIVE_CANDIDATE_RANKING",
+      "candidate_source":"RIGHTS_SAFE_POLICY_ELIGIBLE_PREVIEW_CANDIDATES",
+      "final_policy_owner":"AUTH-HUMAN_AND_EXISTING_CREATIVE_POLICY",
+      "failure_policy":"HUMAN_SELECTION_OR_NO_MATERIALIZATION"
+    }
+  ],
+  "not_delegated":[
+    "provider or model admission",
+    "license or rights authorization",
+    "security permission",
+    "host resource allocation",
+    "agent creation or privilege expansion",
+    "workflow orchestration authority",
+    "donor registration",
+    "runtime promotion",
+    "human creative approval"
+  ],
+  "project_radar_checked":true,
+  "project_radar_review":{
+    "scope":"Existing Agent, Reuse Discovery, Knowledge/Retrieval, Khronos, Creative Workflow, Provider, HRB and Transport-adjacent FA3 records",
+    "result":"REUSE_EXISTING_AUTHORITIES_NO_PARALLEL_AUTHORITY",
+    "note":"Decision Fabric is advisory and bounded to already eligible candidates."
+  },
+  "provider_neutral":true,
+  "hardware_audit":{
+    "vendor_neutral":true,
+    "cpu_only_viable":true,
+    "global_accelerator_requirement":false
+  },
+  "security_boundary":{
+    "may_grant_permission":false,
+    "may_expand_candidate_set":false,
+    "may_create_agent":false,
+    "may_admit_model":false,
+    "may_admit_provider":false
+  },
+  "shadow_mode_required":true,
+  "shadow_mode_policy":"Any new semantic ranking implementation starts advisory/shadow-only until existing evidence and regression gates approve use.",
+  "capability_delta":0,
+  "authority_delta":0
+}
