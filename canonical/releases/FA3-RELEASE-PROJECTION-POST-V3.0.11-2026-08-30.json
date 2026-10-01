@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "dae939f57a7d592866491ffb1702c72d6cac0a34",
-    "pre_projection_root_tree_sha": "1361b313e0a4300a1d802b4f3243fc22e6015c30",
-    "pre_projection_canonical_tree_sha": "dd2d8e989f1831dbff792faab42718fcba1cab8e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2421,
-    "total_post_baseline_commits": 2421,
-    "delta_file_count": 2725,
-    "delta_added_files": 2719,
+    "pre_projection_head_sha": "65a2db77eb1c4124a6de72377129b702ffc11388",
+    "pre_projection_root_tree_sha": "aabc653bdb9d355a3f269da229fcd7a471701be6",
+    "pre_projection_canonical_tree_sha": "1b12870c07f0e7a6f0665c72ebe2fcc2be4c2d04",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2429,
+    "total_post_baseline_commits": 2429,
+    "delta_file_count": 2739,
+    "delta_added_files": 2733,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1282,
+    "canonical_files_in_post_baseline_delta": 1290,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 351,
-    "test_files_in_post_baseline_delta": 312,
-    "workflow_files_in_post_baseline_delta": 130,
+    "source_files_in_post_baseline_delta": 353,
+    "test_files_in_post_baseline_delta": 313,
+    "workflow_files_in_post_baseline_delta": 131,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -215,6 +215,7 @@
       "canonical/profiles/FA3-COMPOSITING-001.json",
       "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json",
       "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
+      "canonical/profiles/FA3-CONVERSATION-MEETING-WORK-FABRIC-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
@@ -342,6 +343,7 @@
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CONVERSATION-MEETING-WORK-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
@@ -498,6 +500,7 @@
       "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
       "canonical/decisions/FA3-DEC-COMPUTER-INTERACTION-RUNTIME-2026-10-01.json",
+      "canonical/decisions/FA3-DEC-CONVERSATION-MEETING-WORK-FABRIC-2026-10-01.json",
       "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
@@ -915,7 +918,8 @@
     "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
     "FA3-AUDACITY-MCP-GATESET-001",
     "FA3-GATE-REGISTRY-GATESET-001",
-    "FA3-GOVERNANCE-STATUS-GATESET-001"
+    "FA3-GOVERNANCE-STATUS-GATESET-001",
+    "FA3-CONVERSATION-MEETING-WORK-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1041,7 +1045,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2715,
+  "manifest_entry_count": 2729,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1186,6 +1190,11 @@
     {
       "path": ".github/workflows/fa3-computer-interaction-runtime.yml",
       "git_blob_sha": "be93e3ee6a45a436173eafec5ee8852912530784",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-conversation-meeting-work.yml",
+      "git_blob_sha": "56393fd3eaa1bc351ea009b007c5ad0e01ad77ab",
       "baseline_delta_status": "added"
     },
     {
@@ -1735,7 +1744,7 @@
     },
     {
       "path": "REUSE.toml",
-      "git_blob_sha": "d86a8dd940f83827ac4bdd6e556b7faabfb806d3",
+      "git_blob_sha": "16e658093347d32e7615b488647ca28e52705821",
       "baseline_delta_status": "added"
     },
     {
@@ -2186,6 +2195,11 @@
     {
       "path": "bin/fa3-codex-current-host.sh",
       "git_blob_sha": "a98c913e73ad0efc0458b48a71e34d9ca22abd1d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-conversation-meeting-work",
+      "git_blob_sha": "7b43012c11c25a4d70ce34a2b3c4aff673c7f37c",
       "baseline_delta_status": "added"
     },
     {
@@ -2769,6 +2783,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-CONVERSATION-MEETING-WORK-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "1318898c6f66ad2195347c93081d26c9138cf95f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-CONVERSATION-MEETING-WORK-GATE-001.json",
+      "git_blob_sha": "1140e09cf415de60c1f63c51cde6e23fe055992d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-COSYVOICE-MODEL-ALLOWLIST-001.json",
       "git_blob_sha": "f595d0db2b478e58db914795b4fc48ade376d528",
       "baseline_delta_status": "added"
@@ -3255,7 +3279,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "84cf73561b6c58ae9dd793c7e19e4d3b72e22783",
+      "git_blob_sha": "d766681ebdaf836ebb13280bb3dbf7b0fb8e8ef4",
       "baseline_delta_status": "added"
     },
     {
@@ -4254,6 +4278,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-CONVERSATION-MEETING-WORK-DECISION-ASSESSMENT-2026-10-01.json",
+      "git_blob_sha": "b5c0fafcfe3780f6042d64c9e2e6d90d2fed9a41",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-CONVERSATION-MEETING-WORK-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "44448060f174bd3307f420e8c821618c33d57b44",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "ecf8232924a4ff66051df682c2c24aaceb544e73",
       "baseline_delta_status": "added"
@@ -4771,6 +4805,11 @@
     {
       "path": "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "git_blob_sha": "39078542ba2830a002e8881c2cf55b0a0a293888",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CONVERSATION-MEETING-WORK-CONTRACTS-001.json",
+      "git_blob_sha": "d6d36ccd0470a58394ad9c68e7870173b8dcff01",
       "baseline_delta_status": "added"
     },
     {
@@ -5609,6 +5648,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-CONVERSATION-MEETING-WORK-FABRIC-2026-10-01.json",
+      "git_blob_sha": "e5745ea7b85c92692dbb7a2fe96b7d6dd4bb0081",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
       "git_blob_sha": "a62273f04b63ab7867d5e3fb0622b99555957b36",
       "baseline_delta_status": "added"
@@ -6400,7 +6444,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "0ce47559af441098d971b24415ab945fa8712c02",
+      "git_blob_sha": "bc333d8efbb333c0f6bde77ffbc2241214cda8b3",
       "baseline_delta_status": "modified"
     },
     {
@@ -6586,6 +6630,11 @@
     {
       "path": "canonical/intents/FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001.json",
       "git_blob_sha": "0d7c5c6a74dc27fc47c649447fe38222baa68ff5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-CONVERSATION-MEETING-WORK-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "69b80ad650364f5eb6a74e5a0c353e659c233413",
       "baseline_delta_status": "added"
     },
     {
@@ -7201,6 +7250,11 @@
     {
       "path": "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
       "git_blob_sha": "4acbf641658571df20a655aa2d7edd98e47223b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-CONVERSATION-MEETING-WORK-FABRIC-001.json",
+      "git_blob_sha": "5cf5b80bf710ecb72095a656776f2c7fecc93f43",
       "baseline_delta_status": "added"
     },
     {
@@ -9316,6 +9370,11 @@
     {
       "path": "docs/FA3-COMPUTER-INTERACTION-RUNTIME-2026-10-01.md",
       "git_blob_sha": "c0f204b0dc3039b480e5cdec0bf6eabc50e638a6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-CONVERSATION-MEETING-WORK-FABRIC-001.md",
+      "git_blob_sha": "c957ca1821c1b4e74696006699c9cf5ef5331aa3",
       "baseline_delta_status": "added"
     },
     {
@@ -11559,6 +11618,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_conversation_meeting_work.py",
+      "git_blob_sha": "7c7933c8bfcb20bce880f7f293e84f204e7d70ef",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_conversation_meeting_work_gate.py",
+      "git_blob_sha": "c4ebe882eff565486d826d626d230bb401f5b2f0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_cosyvoice_gate.py",
       "git_blob_sha": "1538133d627f92c736a44a879bb94d7526f0d575",
       "baseline_delta_status": "added"
@@ -13236,6 +13305,11 @@
     {
       "path": "tests/test_computer_interaction_runtime.py",
       "git_blob_sha": "c1e9f13dc476cf4e715e21c81eca36efafac7afc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_conversation_meeting_work.py",
+      "git_blob_sha": "7bcddbae1d5e17bb2d5d1b740bce8bb750b743c5",
       "baseline_delta_status": "added"
     },
     {
