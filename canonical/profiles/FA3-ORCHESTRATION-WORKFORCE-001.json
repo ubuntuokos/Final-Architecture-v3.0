@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-ORCHESTRATION-WORKFORCE-001",
   "name": "Competency-Driven Hierarchical Orchestration Workforce",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -32,7 +32,8 @@
     "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001",
     "FA3-AI-COMMS-CONTRACTS-001",
     "FA3-DECISION-FABRIC-CONTRACTS-001",
-    "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001"
+    "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+    "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001"
   ],
   "registry": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
   "authority_boundaries": {
@@ -69,7 +70,16 @@
       "result_aggregation",
       "candidate_set_construction",
       "decision_advisory_request_construction",
-      "uaf_action_projection"
+      "uaf_action_projection",
+      "objective_ancestry_projection",
+      "boundary_based_work_decomposition",
+      "typed_dependency_projection",
+      "responsibility_chain_projection",
+      "execution_claim_projection",
+      "version_bound_approval_projection",
+      "budget_envelope_projection",
+      "liveness_projection",
+      "orchestration_monitor_projection"
     ],
     "forbidden_responsibilities": [
       "security_authorization",
@@ -120,9 +130,28 @@
     "RUNTIME_ADMISSION_REQUIRES_SCOPE_BOUND_EVIDENCE_RECEIPT",
     "STATIC_RUNTIME_STATUS_IS_NOT_ADMISSION_AUTHORITY",
     "ORCHESTRATION_EXECUTION_PROJECTS_TO_AGENT_WORKLOAD_TASK",
-    "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY"
+    "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY",
+    "OBJECTIVE_ANCESTRY_IS_CONTEXT_NOT_AUTHORITY",
+    "TASK_SPLIT_REQUIRES_REAL_EXECUTION_BOUNDARY",
+    "STRUCTURAL_PARENTAGE_IS_NOT_EXECUTION_DEPENDENCY",
+    "HARD_DEPENDENCY_CYCLES_FAIL_CLOSED",
+    "DELEGATION_SCOPE_MONOTONIC_NON_EXPANDING",
+    "LIVE_EXECUTION_CLAIM_CANNOT_BE_STOLEN_BY_STALE_HEARTBEAT",
+    "APPROVAL_BOUND_TO_OBJECT_REVISION_DIGEST_SCOPE_AND_OPERATION",
+    "BUDGET_ENVELOPE_DOES_NOT_REPLACE_HRB_AUTHORITY",
+    "LIVENESS_TEMPORAL_STATE_AND_EVIDENCE_VERIFICATION_ARE_DISTINCT",
+    "MONITORING_AND_CONFIGURATION_SURFACE_IS_NON_AUTHORITY"
   ],
-  "implementation_status": "CANONICAL_RECONCILED_UAF_DECISION_FABRIC_AI_COMMS_AGENT_WORKLOAD_RUNTIME_V3",
+  "implementation_status": "CANONICAL_RECONCILED_UAF_DECISION_FABRIC_AI_COMMS_AGENT_WORKLOAD_RUNTIME_GOVERNANCE_V4",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "governance_strengthening": {
+    "contract_id": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+    "decision_id": "FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30",
+    "monitor_projection": "fa3.orchestration-monitor-projection.v1",
+    "execution_claim_schema": "fa3.execution-claim.v1",
+    "approval_schema": "fa3.version-bound-approval.v1",
+    "durable_lifecycle_owner": "Temporal",
+    "monitoring_authority": false
+  }
 }

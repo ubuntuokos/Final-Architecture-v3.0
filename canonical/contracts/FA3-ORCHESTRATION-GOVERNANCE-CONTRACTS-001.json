@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "FA3-ORCH-GOV-001",
+      "name": "Objective Ancestry",
+      "requirement": "MUST",
+      "rule": "Governed work SHALL preserve objective ancestry and reason context. Objective ancestry is explanatory context and MUST NOT grant authority."
+    },
+    {
+      "id": "FA3-ORCH-GOV-002",
+      "name": "Boundary-Based Decomposition",
+      "requirement": "MUST",
+      "rule": "A separate delegated task requires an ownership, permission, independent parallel-deliverable, hard-dependency/handoff, independent review/approval, or independent retry/recovery boundary."
+    },
+    {
+      "id": "FA3-ORCH-GOV-003",
+      "name": "Typed Dependencies",
+      "requirement": "MUST",
+      "rule": "Structural parentage MUST remain distinct from execution dependency. Hard dependency relations are typed and cycles fail closed."
+    },
+    {
+      "id": "FA3-ORCH-GOV-004",
+      "name": "Responsibility Scope Monotonicity",
+      "requirement": "MUST",
+      "rule": "A delegated principal's authority scope MUST be a subset of the delegating principal scope. Replan, retry, recovery and fallback MUST NOT expand it."
+    },
+    {
+      "id": "FA3-ORCH-GOV-005",
+      "name": "Execution Claim",
+      "requirement": "MUST",
+      "rule": "Runtime work SHALL use task-bound generation/idempotency claims. A stale heartbeat alone MUST NOT authorize takeover of a non-terminal claim."
+    },
+    {
+      "id": "FA3-ORCH-GOV-006",
+      "name": "Version-Bound Approval",
+      "requirement": "MUST",
+      "rule": "Approval SHALL bind object identity, revision, digest, scope and allowed operations. Superseded revision or digest MUST NOT inherit execution approval."
+    },
+    {
+      "id": "FA3-ORCH-GOV-007",
+      "name": "Budget Envelope",
+      "requirement": "MUST",
+      "rule": "Time, compute, memory, storage, network, provider-cost, token, retry and parallelism coordination budgets MUST be bounded and non-negative; HRB retains physical resource authority."
+    },
+    {
+      "id": "FA3-ORCH-GOV-008",
+      "name": "Liveness Separation",
+      "requirement": "MUST",
+      "rule": "Worker liveness, Temporal durable state and canonical Evidence/Gate verification are distinct states and MUST NOT be conflated."
+    },
+    {
+      "id": "FA3-ORCH-GOV-009",
+      "name": "Monitoring Non-Authority",
+      "requirement": "MUST",
+      "rule": "Control & Monitoring surfaces MAY inspect and request governed changes but MUST NOT directly bypass the owning authority."
+    },
+    {
+      "id": "FA3-ORCH-GOV-010",
+      "name": "Configuration Revision and Rollback",
+      "requirement": "MUST",
+      "rule": "Orchestration setting changes SHALL be revisioned, attributable and rollback-addressable; a rollback does not restore expired/revoked approvals."
+    },
+    {
+      "id": "FA3-ORCH-GOV-011",
+      "name": "Bounded Recovery",
+      "requirement": "MUST",
+      "rule": "Recovery SHALL be bounded and idempotent; unknown effect outcome MUST NOT be blindly replayed."
+    },
+    {
+      "id": "FA3-ORCH-GOV-012",
+      "name": "Temporal Singularity",
+      "requirement": "MUST",
+      "rule": "Temporal remains the sole global durable workflow lifecycle authority; delegated Conductors and runners own only bounded task-local execution state."
+    }
+  ],
+  "paperclip_reference_boundary": {
+    "canonical_donor_registered": false,
+    "reason": "Owner requested functional adoption after analysis, but source was not introduced with the repository's explicit donornak marker.",
+    "source_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "model_admission": false
+  }
+}
