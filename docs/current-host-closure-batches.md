@@ -1,6 +1,6 @@
 # FA3 current-host closure batches
 
-The global current-host closure has 143 capabilities and three mandatory runtime obligations per capability: positive, negative and rollback. That produces 429 obligations.
+The active global current-host closure has **175 capabilities** and three mandatory runtime obligations per capability: positive, negative and rollback. That produces **525 obligations**.
 
 This planner deliberately separates two states:
 
@@ -19,13 +19,13 @@ The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*
 
 ## Current materialization and runtime-closure status
 
-The repository-side materialization stage is complete: explicit registration coverage is **429/429 obligations** across all **143 capabilities**. Every capability has an explicit positive, negative and rollback qualification definition, qualification-constituent producer and capability-test executor.
+The repository-side active materialization stage is complete at the registry level: explicit registration coverage is **525/525 obligations** across all **175 capabilities**. Every capability has an explicit positive, negative and rollback qualification definition, qualification-constituent producer and capability-test executor.
 
-The 117 capabilities that were still unmaterialized after MAT-004 are bound through `canonical/current-host-capability-proof-recipes.json` to explicit real-host proof primitives. Registration alone cannot produce PASS: missing required runtime dependencies causes the corresponding real current-host obligation to fail closed.
+`canonical/current-host-capability-proof-recipes.json` contains **149 shared real-host proof recipes**. The remaining **26 capabilities** use dedicated capability producers (`CAP-001..CAP-020`, `CAP-028`, `CAP-054`, `CAP-074`, `CAP-075`, `CAP-076`, `CAP-080`). The shared and dedicated sets are disjoint and together must equal the exact active 175-capability Evidence Registry. Registration alone cannot produce PASS: missing runtime dependencies or failed safety/coexistence preflight causes the corresponding real current-host obligation to fail closed.
 
-There is no remaining `MAT-*` batch. `next_materialization_batch` is `null`, and all 143 capabilities are materialized in deterministic `EXEC-*` batches.
+There is no remaining `MAT-*` batch. `next_materialization_batch` is `null`, and all 175 capabilities are materialized in deterministic digest-bound `EXEC-*` batches. Each batch is bound to the exact executor/qualification/producer registry SHA-256 set and a selection SHA-256; duplicate obligation keys or cross-registry binding drift are fatal.
 
-Physical current-host runtime closure is also complete. `FA3 Global Current-Host Evidence Closure` run **#443** (run ID `35822104006`) succeeded on source main commit `4277829255fea114e3b082199e9736012445537e`. The verified result is **429/429 current-host obligations**, **143/143 bundles**, **143/143 attestations**, **143/143 qualified current-host receipts**, and **0 pending Evidence Registry runtime records**. The durable reference is `evidence/reference/current-host-143-audit-2026-09-23.json`.
+The earlier physical closure remains valid **only as historical evidence for the 143-capability release**. `FA3 Global Current-Host Evidence Closure` run **#443** (run ID `35822104006`) on source commit `4277829255fea114e3b082199e9736012445537e` proved **429/429** obligations for that historical release; the immutable reference remains `evidence/reference/current-host-143-audit-2026-09-23.json`. It does **not** satisfy the active 175/525 release. Fresh physical Current Host requalification on the active exact source is required before 175/525 runtime closure may be claimed.
 
 Runtime closure does **not** imply global release promotion. Release acceptance remains a separate fail-closed boundary: static/release acceptance, all 19 acceptance criteria and every mandatory promotion gate must independently PASS before promotion is allowed.
 
