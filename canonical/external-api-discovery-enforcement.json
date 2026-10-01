@@ -5,7 +5,7 @@
   "contract_family_id": "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001",
   "fail_closed": true,
   "runtime_provider_required_for_global_promotion": false,
-  "mandatory_rule_count": 13,
+  "mandatory_rule_count": 16,
   "p0_invariants": [
     "EXTERNAL_DISCOVERY_IS_NOT_AUTHORIZATION",
     "UPSTREAM_CATALOG_METADATA_IS_UNTRUSTED_INPUT",
@@ -19,7 +19,10 @@
     "SANDBOX_PROBE_AND_CONFORMANCE_EVIDENCE_REQUIRED_BEFORE_REGISTRY_ADMISSION",
     "MCP_CATALOG_ENTRY_MUST_NOT_AUTO_REGISTER_OR_AUTO_EXECUTE",
     "SOURCE_FAILURE_OR_DRIFT_MUST_NOT_REPLACE_CANONICAL_STATE",
-    "DISCOVERY_SOURCE_CANNOT_BECOME_ARCHITECTURAL_AUTHORITY"
+    "DISCOVERY_SOURCE_CANNOT_BECOME_ARCHITECTURAL_AUTHORITY",
+    "DISCOVERY_INGESTION_IS_OFFLINE_FROM_PINNED_SNAPSHOT",
+    "AFFILIATE_AND_SPONSORSHIP_METADATA_CANNOT_CHANGE_IDENTITY_RANKING_OR_AUTHORIZATION",
+    "DISCOVERY_CANDIDATE_STORE_IS_REBUILDABLE_NON_AUTHORITY"
   ],
   "rules": [
     {
@@ -86,10 +89,25 @@
       "id": "FA3-EXTDISC-P0-013",
       "name": "source non-authority",
       "requirement": "Discovery and UI pattern sources remain non-root, non-provider and non-authoritative; capability mapping and count MUST follow the canonical active release baseline."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-014",
+      "name": "offline pinned-snapshot ingestion",
+      "requirement": "The ingestion core MUST consume only a local immutable pinned snapshot and MUST NOT perform network fetching or treat floating upstream state as input evidence."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-015",
+      "name": "affiliate and sponsorship neutrality",
+      "requirement": "Affiliate, referral, tracking, featured and sponsorship metadata MUST NOT alter canonical identity, ranking authority, authorization or admission."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-016",
+      "name": "derived candidate store non-authority",
+      "requirement": "The discovery candidate store MUST remain derived, rebuildable and non-authoritative and MUST NOT create donors, providers, MCP registrations, activations or runtime authority."
     }
   ],
   "executable_gate": "./bin/fa3-enforce external-api-discovery",
   "report_path": "reports/external-api-discovery-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 15
+  "regression_case_count": 17
 }
