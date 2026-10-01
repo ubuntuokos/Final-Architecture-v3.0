@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "db71be57cbc1384ff919c97798844e69bf9af3ca",
-    "pre_projection_root_tree_sha": "d498fdaf74ff1cff68be130a8100cd9e1a18c445",
-    "pre_projection_canonical_tree_sha": "c8e692b9c28c590e26b9d2fa48cbfbb60625f533",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2333,
-    "total_post_baseline_commits": 2333,
-    "delta_file_count": 2651,
-    "delta_added_files": 2645,
+    "pre_projection_head_sha": "5438d06aec155d1a2e4c10764efb221f7a2bbde1",
+    "pre_projection_root_tree_sha": "cafc66450cc5ac491aa423ad3aa4867b17df4f52",
+    "pre_projection_canonical_tree_sha": "136994f4c1e1a2d32894ae42f36cc7d15930925a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2348,
+    "total_post_baseline_commits": 2348,
+    "delta_file_count": 2661,
+    "delta_added_files": 2655,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1239,
+    "canonical_files_in_post_baseline_delta": 1244,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 347,
-    "test_files_in_post_baseline_delta": 306,
-    "workflow_files_in_post_baseline_delta": 127,
+    "source_files_in_post_baseline_delta": 348,
+    "test_files_in_post_baseline_delta": 307,
+    "workflow_files_in_post_baseline_delta": 128,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -593,6 +593,7 @@
       "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
+      "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
@@ -1021,7 +1022,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2641,
+  "manifest_entry_count": 2651,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1576,6 +1577,11 @@
     {
       "path": ".github/workflows/fa3-session-vault-reference-gate.yml",
       "git_blob_sha": "71fee0668b124e4994afd835c532e77ae366daaa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-shared-module-pattern-catalogue.yml",
+      "git_blob_sha": "d62cecd83db681cd93f204279d5be5f4fb4debae",
       "baseline_delta_status": "added"
     },
     {
@@ -2496,6 +2502,11 @@
     {
       "path": "bin/fa3-session-vault-init",
       "git_blob_sha": "cbd82c7f52c4bac4b26a38e48ab547214cf2647a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-shared-pattern-catalogue",
+      "git_blob_sha": "79512bf1626cc7dfed5b32f326968928bcfc7803",
       "baseline_delta_status": "added"
     },
     {
@@ -3540,7 +3551,7 @@
     },
     {
       "path": "canonical/FA3-REUSE-CATALOG-001.json",
-      "git_blob_sha": "2cbab819192b3bab1108bca483ab0956b7a8d8a3",
+      "git_blob_sha": "8631e073b4f42b61bdb60490c758a89b4225911d",
       "baseline_delta_status": "added"
     },
     {
@@ -3561,6 +3572,16 @@
     {
       "path": "canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "02acf3a65748b0a2db33a0b7af51ff871cbc4eff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
+      "git_blob_sha": "a5d6d5d6563a9da8398e0aea3322d20e7315340d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "38525a755749257cd26433c7dae296ac37a64df0",
       "baseline_delta_status": "added"
     },
     {
@@ -4276,6 +4297,11 @@
     {
       "path": "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "dd69f1699c002c973c508b3fe2223fc468af124b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "4a420307259e315285fa3308245033ef772ed169",
       "baseline_delta_status": "added"
     },
     {
@@ -5951,6 +5977,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
       "git_blob_sha": "ce5c8c67267920f965e39279d5314e071ce629bb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
+      "git_blob_sha": "02b58437aa070fcc9dc828f5fdd79b9ea98ad5f5",
       "baseline_delta_status": "added"
     },
     {
@@ -8514,6 +8545,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/schemas/FA3-SHARED-MODULE-PATTERN-CATALOGUE-SCHEMA-001.json",
+      "git_blob_sha": "c4e892bc930b804326234389f1b70ced17155193",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/FA3-TUTORIAL-REFERENCE-SCHEMA-001.json",
       "git_blob_sha": "2277ea16f07622ad0771fe6a1003c84e885a2789",
       "baseline_delta_status": "added"
@@ -9721,6 +9757,11 @@
     {
       "path": "docs/security/FA3-TRUST-PKI-001.md",
       "git_blob_sha": "57655bca6e5f058cfcdffe15ee9157ffb06e1076",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/shared-module-pattern-donor-catalogue.md",
+      "git_blob_sha": "68653297abcb5a23536f69a1892b8a5e9a5306bf",
       "baseline_delta_status": "added"
     },
     {
@@ -12340,7 +12381,7 @@
     },
     {
       "path": "src/fa3_reuse_catalog.py",
-      "git_blob_sha": "c0aac04a919a2c222835310d1974b899a2e012a8",
+      "git_blob_sha": "68fbfff3e23dbb48960f671a256e9deb97975dd8",
       "baseline_delta_status": "added"
     },
     {
@@ -12406,6 +12447,11 @@
     {
       "path": "src/fa3_session_vault_gate.py",
       "git_blob_sha": "0df12410cceb69e784b55dd0340e93d989fe8f18",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_shared_module_pattern_catalogue.py",
+      "git_blob_sha": "2aeb5e93d53ec21abd4cd9d1776cd92417ab9abb",
       "baseline_delta_status": "added"
     },
     {
@@ -13951,6 +13997,11 @@
     {
       "path": "tests/test_session_vault_current_host.py",
       "git_blob_sha": "e64e7932319e8e7e6a58cb2ed69c2938dd3bb855",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_shared_module_pattern_catalogue.py",
+      "git_blob_sha": "5e2f46b629d94bdeca4113a69c73ff3d2b8c9a72",
       "baseline_delta_status": "added"
     },
     {
