@@ -235,6 +235,8 @@ jobs:
         run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . snapshot-authority-inputs
       - name: Permanent Gate authority/provenance hardening
         run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . check
+      - name: Canonical Registry integrity/live graph gate
+        run: PYTHONPATH=src python src/fa3_canonical_registry_integrity.py --root .
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Materialize non-authorizing authority trace and provenance binding
@@ -260,6 +262,8 @@ jobs:
           path: |
             reports/static-gate-report.json
             reports/permanent-gate-hardening-report.json
+            reports/canonical-registry-integrity-report.json
+            reports/fa3-canonical-registry-graph.json
             reports/fa3-permanent-gate-authority-input-snapshot.json
             reports/fa3-permanent-gate-authority-manifest.json
             reports/fa3-permanent-gate-provenance-binding.json
