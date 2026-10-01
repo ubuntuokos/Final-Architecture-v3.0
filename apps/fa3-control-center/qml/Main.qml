@@ -73,7 +73,8 @@ ApplicationWindow {
         "agents.action-center": 35,
         "system.updates": 36,
         "create.subtitle-studio": 37,
-        "create.narration-studio": 38
+        "create.narration-studio": 38,
+        "agents.orchestration-monitor": 39
     })
 
     function routeIndex(routeId) {
@@ -171,6 +172,7 @@ ApplicationWindow {
         {title: "Prezentáció", detail: "Prezentáció készítés és export", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Agent Action Center", detail: "Agent Native / UAF action contractok, approval és evidence flow", category: "FUNCTION", routeId: "agents.action-center"},
         {title: "Agents & Workflows", detail: "Agentek, taskok és durable workflow-k", category: "FUNCTION", routeId: "agents.workflows"},
+        {title: "Orchestration Monitor", detail: "Temporal, hét vezérlési profil, liveness és felügyelt DRAFT átállítások", category: "FUNCTION", routeId: "agents.orchestration-monitor"},
         {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", routeId: "models.providers"},
         {title: "Model Manager", detail: "Modellek felderítése és nyilvántartása", category: "FUNCTION", routeId: "models.manager"},
         {title: "Checkpoint Manager", detail: "Checkpoint, LoRA, VAE és adapter artifact governance", category: "FUNCTION", routeId: "models.checkpoints"},
@@ -974,7 +976,8 @@ ApplicationWindow {
                         {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
                         {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
                         {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan},
-                        {title: "Imported Packs · Agency Agents", subtitle: "12 canonical FA3 role + 5 canonical template · upstream body nincs vendorizálva · runtime/provider külön admission. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "CANONICAL", tone: window.cyan, routeId: "agents.action-center"}
+                        {title: "Imported Packs · Agency Agents", subtitle: "12 canonical FA3 role + 5 canonical template · upstream body nincs vendorizálva · runtime/provider külön admission. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "CANONICAL", tone: window.cyan, routeId: "agents.action-center"},
+                        {title: "Orchestration Monitor", subtitle: "Temporal + P1–P7 profilok, liveness, blockers és auditált DRAFT átállítások.", badge: "MONITOR", tone: window.green, routeId: "agents.orchestration-monitor"}
                     ]
                 }
 
@@ -1727,6 +1730,23 @@ ApplicationWindow {
                     accent: window.magenta
                     green: window.green
                     orange: window.orange
+                }
+
+                OrchestrationMonitorPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onStageChangeRequest: function(actionId, target, rationale) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "ORCHESTRATION_GOVERNANCE", actionId, target,
+                            rationale + " · DRAFT only; Temporal/Security/UAF/HRB/Model Router/Evidence authority checks remain mandatory.")
+                    }
                 }
             }
 
