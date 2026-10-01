@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "dae939f57a7d592866491ffb1702c72d6cac0a34",
-    "pre_projection_root_tree_sha": "1361b313e0a4300a1d802b4f3243fc22e6015c30",
-    "pre_projection_canonical_tree_sha": "dd2d8e989f1831dbff792faab42718fcba1cab8e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2421,
-    "total_post_baseline_commits": 2421,
-    "delta_file_count": 2725,
-    "delta_added_files": 2719,
+    "pre_projection_head_sha": "77e3b971f79a4a1ffde65e08240e59ea3fdee467",
+    "pre_projection_root_tree_sha": "25c24ce825cfe2956805805b5adbe8f796c25c1a",
+    "pre_projection_canonical_tree_sha": "6f21c8664870cadc97601d35edbdae1e58def22e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2425,
+    "total_post_baseline_commits": 2425,
+    "delta_file_count": 2738,
+    "delta_added_files": 2732,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1282,
+    "canonical_files_in_post_baseline_delta": 1290,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 351,
-    "test_files_in_post_baseline_delta": 312,
-    "workflow_files_in_post_baseline_delta": 130,
+    "source_files_in_post_baseline_delta": 352,
+    "test_files_in_post_baseline_delta": 313,
+    "workflow_files_in_post_baseline_delta": 131,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -207,6 +207,7 @@
       "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
       "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
+      "canonical/profiles/FA3-BLENDER-COMPATIBILITY-PROFILE-001.json",
       "canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json",
       "canonical/profiles/FA3-BROWSER-SESSION-INTERACTION-001.json",
       "canonical/profiles/FA3-CAPTION-SUBTITLE-001.json",
@@ -331,6 +332,7 @@
       "canonical/contracts/FA3-AUTHENTICATED-APPROVAL-RECEIPT-001.schema.json",
       "canonical/contracts/FA3-AUTHORIZATION-ROLE-GRANT-001.schema.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-BLENDER-COMPATIBILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-SESSION-INTERACTION-CONTRACTS-001.json",
@@ -485,6 +487,7 @@
       "canonical/decisions/FA3-DEC-AUDACITY-MCP-2026-09-28.json",
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-BLENDER-ENGINE-FABRIC-2026-10-01.json",
       "canonical/decisions/FA3-DEC-BROWSER-ACTION-RUNTIME-JEV-ULTRAFAST-2026-09-23.json",
       "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
@@ -1041,7 +1044,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2715,
+  "manifest_entry_count": 2728,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1121,6 +1124,11 @@
     {
       "path": ".github/workflows/fa3-audacity-mcp.yml",
       "git_blob_sha": "3d7493069a1bc1320df0d473143b7fb78d442528",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-blender-engine-fabric.yml",
+      "git_blob_sha": "86e6e809f7094294de539b64d5fac73070b67d91",
       "baseline_delta_status": "added"
     },
     {
@@ -2154,6 +2162,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-blender-engine-fabric",
+      "git_blob_sha": "49257eca5a60af63df7459b5c505f9e8b7212e68",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-bootstrap-wasmtime",
       "git_blob_sha": "fe32e6379b5e9541c9ea7320649b91fd70ef7a4c",
       "baseline_delta_status": "added"
@@ -2736,6 +2749,16 @@
     {
       "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-BLENDER-ENGINE-FABRIC-001.json",
+      "git_blob_sha": "ec8baf6e4ff47945f8f504ebbbefb8e746f8516b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "d35f5e27f540f42262f56ca723148d221b872d38",
       "baseline_delta_status": "added"
     },
     {
@@ -4219,6 +4242,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-BLENDER-COMPATIBILITY-PROFILE-DECISION-ASSESSMENT-2026-10-01.json",
+      "git_blob_sha": "fd2dbb82cd96b92281a807bc6ec1dc151a4ba486",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-BLENDER-ENGINE-FABRIC-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "7dd6137b188b14453905299e2ed72748391305c7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-BROWSER-ACTION-RUNTIME-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "4296d2f890ac279be1212db0d45824d80ca10552",
       "baseline_delta_status": "added"
@@ -4716,6 +4749,11 @@
     {
       "path": "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "git_blob_sha": "059746681913822173109262ea19762f86b013f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-BLENDER-COMPATIBILITY-CONTRACTS-001.json",
+      "git_blob_sha": "ffb15256f70bdebccbeceafd9eb9ea64cbf940b5",
       "baseline_delta_status": "added"
     },
     {
@@ -5541,6 +5579,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
       "git_blob_sha": "835b0a99ee86a9e2554884f07d02934929a39fff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BLENDER-ENGINE-FABRIC-2026-10-01.json",
+      "git_blob_sha": "f9583d72cd87219a67219a2eb038cac688a28335",
       "baseline_delta_status": "added"
     },
     {
@@ -6574,6 +6617,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "1239f0bff8eef902f485f72ed37ca9a9578bb731",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-BROWSER-SESSION-INTERACTION-APPLICATION-INTENT-001.json",
       "git_blob_sha": "2afa3d79447b13c7fb7be85bc14e6bf648a9f438",
       "baseline_delta_status": "added"
@@ -7161,6 +7209,11 @@
     {
       "path": "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
       "git_blob_sha": "6ed663468ddc2320ceb15f56b37c7aadf5f58d7c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-BLENDER-COMPATIBILITY-PROFILE-001.json",
+      "git_blob_sha": "71c12c1ffa4adfbb6c2c22433196f6fb1267d082",
       "baseline_delta_status": "added"
     },
     {
@@ -9314,6 +9367,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-BLENDER-ENGINE-FABRIC-MATERIALIZATION-2026-10-01.md",
+      "git_blob_sha": "34c7a56c4fe973090d45176fe0d9145061c02ca7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-COMPUTER-INTERACTION-RUNTIME-2026-10-01.md",
       "git_blob_sha": "c0f204b0dc3039b480e5cdec0bf6eabc50e638a6",
       "baseline_delta_status": "added"
@@ -11369,6 +11427,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_blender_engine_fabric_gate.py",
+      "git_blob_sha": "e5c5dbd3b35ed73b9dc24907d5b82e75fd005055",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_browser_action_gate.py",
       "git_blob_sha": "e147ccaf0c97d6f33c8d94e73409d3d1cd805f12",
       "baseline_delta_status": "added"
@@ -13111,6 +13174,11 @@
     {
       "path": "tests/test_blackhole_kdenlive.py",
       "git_blob_sha": "8b655375b164b038b82ad6488a42be8f58389fbe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_blender_engine_fabric.py",
+      "git_blob_sha": "b926d51584a46974adbdacadb7ba405554396ade",
       "baseline_delta_status": "added"
     },
     {
