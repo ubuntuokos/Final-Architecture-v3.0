@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.objective-coordination-intelligence-contracts.v1",
+  "id": "FA3-OBJECTIVE-COORDINATION-INTELLIGENCE-CONTRACTS-001",
+  "fail_closed": true,
+  "capability_baseline": 175,
+  "states": [
+    "PENDING",
+    "READY",
+    "RUNNING",
+    "WAITING",
+    "BLOCKED",
+    "PAUSED",
+    "COMPLETED",
+    "FAILED",
+    "CANCELLED",
+    "RECONCILING"
+  ],
+  "relations": [
+    "REQUIRES",
+    "OPTIONAL",
+    "CONDITIONAL",
+    "SEQUENCE_BEFORE",
+    "HANDOFF_AFTER",
+    "APPROVAL_BEFORE",
+    "ARTIFACT_BEFORE",
+    "EVIDENCE_BEFORE",
+    "RESOURCE_BEFORE",
+    "PRODUCES",
+    "CONSUMES",
+    "MUTEX_WITH",
+    "COLOCATE_WITH",
+    "NON_INTERRUPTIBLE_AFTER"
+  ],
+  "blocker_kinds": [
+    "DEPENDENCY",
+    "APPROVAL",
+    "ARTIFACT",
+    "EVIDENCE",
+    "RESOURCE",
+    "MODEL",
+    "PROVIDER",
+    "APPLICATION",
+    "AGENT",
+    "NETWORK",
+    "HANDOFF",
+    "POLICY",
+    "SECURITY",
+    "RECONCILIATION",
+    "EXTERNAL",
+    "HARDWARE"
+  ],
+  "rules": {
+    "required_cycles": "DENY_FAIL_CLOSED",
+    "ready_is_authorization": false,
+    "direct_execution": false,
+    "direct_resource_allocation": false,
+    "direct_model_selection": false,
+    "evidence_self_promotion": false,
+    "mutation_output": "TYPED_UAF_DRAFT_INTENT_ONLY",
+    "identical_event_replay": "NOOP",
+    "same_event_id_different_payload": "DENY_FAIL_CLOSED"
+  }
+}
