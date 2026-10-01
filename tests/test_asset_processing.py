@@ -58,6 +58,20 @@ def case():
 
 
 class AssetProcessingTests(unittest.TestCase):
+    def test_canonical_profile_contract_and_shared_binding_match(self):
+        import json
+        profile = json.loads((ROOT / "canonical/profiles/FA3-SHARED-ASSET-PROCESSING-001.json").read_text())
+        contracts = json.loads((ROOT / "canonical/contracts/FA3-SHARED-ASSET-PROCESSING-CONTRACTS-001.json").read_text())
+        links = json.loads((ROOT / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json").read_text())
+        self.assertEqual(profile["capability_bindings"], contracts["capability_bindings"])
+        self.assertEqual(profile["capability_count"], 175)
+        self.assertFalse(profile["new_capability"])
+        shared = next(x for x in links["shared_capabilities"] if x["id"] == "FA3-SHARED-ASSET-PROCESSING-001")
+        self.assertNotIn("capability_ids", shared["fa3_bindings"])
+        self.assertEqual(shared["current_host_impact"]["classification"], "NO_RUNTIME_IMPACT")
+        self.assertIn("fa3.video-editor", shared["consumer_applications"])
+        self.assertIn("fa3.ai-module-factory", shared["consumer_applications"])
+
     def test_plan_is_deterministic_and_non_executing(self):
         sources, edges, jobs = case()
         a = compile_processing_plan(
