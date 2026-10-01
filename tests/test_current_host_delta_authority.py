@@ -43,6 +43,7 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
         self.td = tempfile.TemporaryDirectory()
         self.root = Path(self.td.name)
         (self.root / "canonical").mkdir()
+        (self.root / "canonical/profiles").mkdir()
         (self.root / "evidence").mkdir()
         (self.root / "canonical/FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001.json").write_text(
             json.dumps(AUTHORITY), encoding="utf-8"
@@ -56,11 +57,31 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+        (self.root / "canonical/profiles/FA3-PROFILE-TEST-001.json").write_text(
+            json.dumps({
+                "id": "FA3-PROFILE-TEST-001",
+                "capability_bindings": ["CAP-168", "CAP-170"],
+            }),
+            encoding="utf-8",
+        )
+        (self.root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json").write_text(
+            json.dumps({
+                "shared_capabilities": [{
+                    "id": "FA3-SHARED-TEST-001",
+                    "consumer_applications": ["fa3.video-editor", "fa3.quickclip"],
+                    "fa3_bindings": {
+                        "profile_ids": ["FA3-PROFILE-TEST-001"],
+                        "contract_ids": [],
+                    },
+                }]
+            }),
+            encoding="utf-8",
+        )
 
     def tearDown(self):
         self.td.cleanup()
 
-    def request(self, impact="LOCAL", affected=None, consumers=None, **flag_overrides):
+    def request(self, impact="LOCAL", affected=None, consumers=None, shared=None, **flag_overrides):
         flags = {key: False for key in AUTHORITY["full_requalification_trigger_flags"]}
         flags.update(
             {
@@ -80,6 +101,7 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
             "changed_paths": ["apps/fa3-video-editor/runtime.py"],
             "affected_capabilities": affected or [],
             "consumer_capabilities": consumers or [],
+            "changed_shared_component_ids": shared or [],
             "flags": flags,
             "rationale": "Test request with explicit Current Host impact scope.",
             "global_promotion_claim": False,
@@ -100,6 +122,25 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
         self.assertEqual("IMPACT_REQUALIFICATION", plan["classification"])
         self.assertEqual(["CAP-168", "CAP-170", "CAP-175"], plan["affected_capabilities"])
         self.assertEqual(9, plan["required_obligation_count"])
+
+    def test_shared_component_scope_is_derived_not_manually_trusted(self):
+        plan = plan_request(
+            self.root,
+            self.request("SHARED", affected=["CAP-168"], shared=["FA3-SHARED-TEST-001"]),
+        )
+        self.assertEqual("PASS", plan["status"])
+        self.assertEqual("IMPACT_REQUALIFICATION", plan["classification"])
+        self.assertEqual(["CAP-168", "CAP-170", "CAP-175"], plan["affected_capabilities"])
+        self.assertEqual(["fa3.quickclip", "fa3.video-editor"], plan["affected_applications"])
+        self.assertEqual(9, plan["required_obligation_count"])
+
+    def test_unknown_shared_component_fails_closed(self):
+        plan = plan_request(
+            self.root,
+            self.request("SHARED", shared=["FA3-SHARED-UNKNOWN-001"]),
+        )
+        self.assertEqual("FAIL", plan["status"])
+        self.assertTrue(any("unknown shared capability" in row for row in plan["findings"]))
 
     def test_global_authority_change_escalates_to_full_175_525(self):
         plan = plan_request(
