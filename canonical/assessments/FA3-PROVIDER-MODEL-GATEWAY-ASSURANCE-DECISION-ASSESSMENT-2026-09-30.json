@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-2026-09-30",
+  "covered_ids": [
+    "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Provider admission, protocol/model evidence, authorization and candidate eligibility remain deterministic and fail closed. Decision Fabric may only advise ranking among an exact already-eligible stage candidate set; Model Router remains the final routing authority.",
+  "decision_points": [
+    {
+      "id": "assurance-stage-advisory-ranking",
+      "purpose": "rank already-eligible stage routes using non-secret health, evidence, latency, cost, context and policy metadata",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-AUTH-MODEL-ROUTER-001 deterministic eligible candidate set",
+      "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001",
+      "failure_policy": "DETERMINISTIC_ROUTER_POLICY_OR_EXPLICIT_ROUTE_EXHAUSTION"
+    }
+  ],
+  "not_delegated": [
+    "provider admission",
+    "model admission",
+    "protocol compatibility verdict",
+    "model identity verdict",
+    "credential custody",
+    "candidate-set expansion",
+    "egress authorization",
+    "host resource placement",
+    "MCP authorization",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

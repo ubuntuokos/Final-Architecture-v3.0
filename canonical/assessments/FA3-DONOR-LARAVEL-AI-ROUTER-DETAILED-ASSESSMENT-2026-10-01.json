@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.donor-detailed-assessment.v1",
+  "id": "FA3-DONOR-LARAVEL-AI-ROUTER-DETAILED-ASSESSMENT-2026-10-01",
+  "date": "2026-10-01",
+  "donor_id": "FA3-DONOR-FERDIUNAL-LARAVEL-AI-ROUTER-001",
+  "normalized_key": "github:ferdiunal/laravel-ai-router",
+  "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "registry_blob": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "registry_entry_count": 1287,
+  "upstream_snapshot": {
+    "head_sha": "5aa8e3f0a3f971522692049becb7c29f1bda27f3",
+    "default_branch": "main",
+    "observed_date": "2026-10-01"
+  },
+  "license": {
+    "declared": "MIT",
+    "evidence": [
+      "composer.json license=MIT",
+      "GitHub repository license metadata=MIT"
+    ],
+    "root_license_file_observed": false
+  },
+  "result": "APPROVED_FOR_PATTERN_REUSE_ONLY",
+  "adopted_patterns": [
+    "PUBLIC_HTTPS_CUSTOM_PROVIDER_DEFINITION_VALIDATION",
+    "PROVIDER_AND_LABEL_SCOPED_MODEL_VISIBILITY_CACHE",
+    "NON_SECRET_PROVIDER_HEALTH_RATE_WINDOW_COOLDOWN_TELEMETRY",
+    "USAGE_LATENCY_TOKEN_AND_ERROR_CATEGORY_OBSERVABILITY",
+    "BOUNDED_TRANSPORT_AND_STREAM_PARSING_PATTERNS"
+  ],
+  "rejected_or_not_adopted": [
+    "RANDOM_PROVIDER_OR_AUTO_ROUTING_AS_AUTHORITY",
+    "INTERNAL_SILENT_OR_AUTONOMOUS_FAILOVER",
+    "PACKAGE_LOCAL_CREDENTIAL_DATABASE_OR_LARAVEL_ENCRYPTION_AS_FA3_SECRET_AUTHORITY",
+    "LARAVEL_OR_PHP_RUNTIME_DEPENDENCY",
+    "PACKAGE_SQLITE_AS_CANONICAL_FA3_STATE",
+    "DISCOVERED_PROVIDER_OR_MODEL_AUTO_ADMISSION"
+  ],
+  "fa3_destinations": [
+    "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
+    "FA3-EXTERNAL-LLM-CATALOG-001",
+    "FA3-AUTH-MODEL-ROUTER-001"
+  ],
+  "source_copy_policy": "NO_SOURCE_COPY_SELECTED; exact-revision license/dependency/security review required before any later code reuse",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "runtime_dependency": false,
+  "provider_admission": false,
+  "model_admission": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS_FOR_PATTERN_ONLY",
+    "upstream_install": false,
+    "service_or_port_claim": false,
+    "host_database_claim": false
+  },
+  "current_host": {
+    "classification": "NO_RUNTIME_IMPACT",
+    "physical_requalification_required": false
+  }
+}
