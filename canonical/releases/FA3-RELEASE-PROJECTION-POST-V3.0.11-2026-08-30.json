@@ -912,7 +912,8 @@
     "FA3-KHRONOS-OPEN-STANDARDS-GATESET-001",
     "FA3-AUDACITY-MCP-GATESET-001",
     "FA3-GATE-REGISTRY-GATESET-001",
-    "FA3-GOVERNANCE-STATUS-GATESET-001"
+    "FA3-GOVERNANCE-STATUS-GATESET-001",
+    "FA3-STTIF-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1038,7 +1039,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2711,
+  "manifest_entry_count": 2729,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1641,6 +1642,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-sttif.yml",
+      "git_blob_sha": "09793d666b932b48756f4930c4ace292ed0cc542",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-supply-runtime-hardening-current-host.yml",
       "git_blob_sha": "5c2699dd6c0cf572778717f5b506e5f4c1bd4bef",
       "baseline_delta_status": "added"
@@ -2061,6 +2067,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/shared/sttif/qml/STTIFSettingsPanel.qml",
+      "git_blob_sha": "bb0a45c4c1919f98c80b9b38fbd9ba21bd367c6a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/AGENTS.md",
       "git_blob_sha": "b09a0719dcb46734bcd2c65cf5d31db4d992cf11",
       "baseline_delta_status": "added"
@@ -2252,7 +2263,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "5c71168df5c308772103013c2ddaa566076574b0",
+      "git_blob_sha": "1777580cb24d2aa32357b1d39a4143b647c922d1",
       "baseline_delta_status": "modified"
     },
     {
@@ -3321,6 +3332,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-STTIF-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "a6184759bf001ffc9cfd9ba0ae2c4d2f3583b697",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SYSCTL-HOST-TUNING-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "d5f3805e55b898e9ab966045ee2a097f73508914",
       "baseline_delta_status": "added"
@@ -4171,6 +4187,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-STTIF-CONTRACTS-001.json",
+      "git_blob_sha": "415407f54eb88fe10146bd898a6f997d5ea466e6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-SYSCTL-HOST-TUNING-GOVERNANCE-CONTRACTS-001.json",
       "git_blob_sha": "b5b8fbacab2c41196d0e777e8dc58fce9f08b129",
       "baseline_delta_status": "added"
@@ -4323,6 +4344,11 @@
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
       "git_blob_sha": "2e367b1ae44b2cba64f7504af90ffddff5b60add",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-STTIF-20261001.json",
+      "git_blob_sha": "fee77f964c5e8a9b98d8d547df854570ba157fb9",
       "baseline_delta_status": "added"
     },
     {
@@ -5111,6 +5137,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-STTIF-LTX-TILED-FUSION-2026-10-01.json",
+      "git_blob_sha": "2214766e54489063396ca65752ccea50327ee322",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
       "git_blob_sha": "324b9619b3bcba38a66b1460cdf8cecf7dc45b85",
       "baseline_delta_status": "added"
@@ -5272,7 +5303,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "0ce47559af441098d971b24415ab945fa8712c02",
+      "git_blob_sha": "00c56da82e943c9f146f4a8ec60209d2d7063578",
       "baseline_delta_status": "modified"
     },
     {
@@ -5332,7 +5363,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "32e75c977f55ab07cc4790694ede6a6dc23c6b41",
+      "git_blob_sha": "caaeb75cc7e62da7c88b9679f56f4818be43f1cb",
       "baseline_delta_status": "added"
     },
     {
@@ -5862,7 +5893,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "84cf73561b6c58ae9dd793c7e19e4d3b72e22783",
+      "git_blob_sha": "4fa3208e4c715196c10dcbc7956e20059befed69",
       "baseline_delta_status": "added"
     },
     {
@@ -5948,6 +5979,11 @@
     {
       "path": "canonical/FA3-GATE-STEP-CA-001.json",
       "git_blob_sha": "549885e988a452ffb7f45c4950cbd71a02c320b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-STTIF-001.json",
+      "git_blob_sha": "a7b8dfd92f0fc1e26c5b0e22ffebea5645714d04",
       "baseline_delta_status": "added"
     },
     {
@@ -6316,6 +6352,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-STTIF-UI-BINDINGS-001.json",
+      "git_blob_sha": "a972c4ec1e05b7c75b3b5a9ca763159ee6f54347",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
       "git_blob_sha": "bf2da7358ccbd768a7d4739ee2ae93f6c1f1b0c0",
       "baseline_delta_status": "added"
@@ -6681,6 +6722,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-STTIF-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "29111ba5fddaa963a33df87917a69958c41a7319",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-SYSCTL-HOST-TUNING-APPLICATION-INTENT-001.json",
       "git_blob_sha": "7e493217819bf4c8495cca6349e01be50caff819",
       "baseline_delta_status": "added"
@@ -6758,6 +6804,16 @@
     {
       "path": "canonical/license-rights-policy.json",
       "git_blob_sha": "9b7109ade428e653996b062909cc40e4775f6362",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/license-rights/descriptors/FA3-DONOR-COMFYUI-LTXVIDEO-UPSTREAM-001.json",
+      "git_blob_sha": "eab76ff2886a4e041581f446dc4230c9ac33fde6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/license-rights/descriptors/FA3-DONOR-LTX2-UPSTREAM-001.json",
+      "git_blob_sha": "290632c53442d7ba0d816df47dd96459d5abb844",
       "baseline_delta_status": "added"
     },
     {
@@ -7528,6 +7584,11 @@
     {
       "path": "canonical/profiles/FA3-STT-MEDIA-001.json",
       "git_blob_sha": "e606b448afdda1b90aa35f06a646a5be14511b2c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-STTIF-001.json",
+      "git_blob_sha": "f6c1968b9dca68314147aeb498eb82ab506ce76f",
       "baseline_delta_status": "added"
     },
     {
@@ -8441,6 +8502,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-LTX25-TILED-FUSION-UPSTREAM-REFERENCE-2026-10-01.json",
+      "git_blob_sha": "777d36b97af20341c447be97b4ea108112593bb8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f",
       "baseline_delta_status": "added"
@@ -8933,6 +8999,11 @@
     {
       "path": "canonical/step-ca-runtime-admission.json",
       "git_blob_sha": "e141569de36836f847e9d1bd3ff17e56e8048116",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/sttif-enforcement.json",
+      "git_blob_sha": "ad733fd6622e648de04f7a3521a376c21e5e5aa1",
       "baseline_delta_status": "added"
     },
     {
@@ -9698,6 +9769,11 @@
     {
       "path": "docs/FA3-SKILL-FABRIC-UNIFIED-RECONCILIATION-2026-09-25.md",
       "git_blob_sha": "dbaa523e3dfc2338146d1b5a14656a6aee1d147b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-STTIF-LTX-TILED-FUSION-FINAL-2026-10-01.md",
+      "git_blob_sha": "636c6746c451548f5131994bf41fde60559a6e56",
       "baseline_delta_status": "added"
     },
     {
@@ -12806,6 +12882,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_sttif_gate.py",
+      "git_blob_sha": "c8a6fe45bec4f327c4ad6e9c0453e31f6788f79b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_sttif.py",
+      "git_blob_sha": "4eacee0b70e43de1aeb910e748b5045c57ba776e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_supply_chain_admission.py",
       "git_blob_sha": "ce8d96812b9fad3d5c32873c0ae08c6fa035af64",
       "baseline_delta_status": "added"
@@ -13047,7 +13133,7 @@
     },
     {
       "path": "tests/test_application_donor_index.py",
-      "git_blob_sha": "317a21cb1242b8c0f8814356682431bcb89edeae",
+      "git_blob_sha": "0c5bc77e331fa13c546d7dd704455ca36bd9dde6",
       "baseline_delta_status": "added"
     },
     {
@@ -14378,6 +14464,11 @@
     {
       "path": "tests/test_step_ca_session_vault_ceremony.py",
       "git_blob_sha": "a46cee123e013c4696d76f832654a04dc42d5817",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_sttif.py",
+      "git_blob_sha": "735514afb03146c160fe7ff92a13645e0ece842b",
       "baseline_delta_status": "added"
     },
     {
