@@ -13,7 +13,7 @@ The application is a consumer/projection of the existing **CAP-095 – Multimoda
 - governed module-plan draft generation;
 - XDG-namespaced draft persistence;
 - explicit Model Router, HRB, License & Rights and Evidence requirements;
-- no silent fallback, direct provider execution, direct GPU selection or runtime promotion.
+- implicit alternate-route substitution is disabled; direct provider execution, direct GPU selection and runtime promotion are also disabled.
 
 Training-capable plans are **drafts only**. Actual training remains behind CAP-095 plus existing approval, Model Router, HRB, License & Rights and evidence gates.
 

@@ -45,6 +45,15 @@ class AIModuleFactoryStructureTest(unittest.TestCase):
         self.assertFalse(r["donor_intake_status"]["new_research_batch_registered"])
         self.assertEqual(r["donor_intake_status"]["active_pr"],581)
 
+    def test_control_center_route_and_decision_assessment(self):
+        qml = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        self.assertIn('"create.ai-module-factory": 40', qml)
+        self.assertIn('routeId: "create.ai-module-factory"', qml)
+        d = load("canonical/assessments/FA3-AI-MODULE-FACTORY-DECISION-ASSESSMENT-2026-10-01.json")
+        self.assertEqual(d["assessment"], "NOT_APPLICABLE")
+        self.assertIn("FA3-AI-MODULE-FACTORY-001", d["covered_ids"])
+        self.assertFalse(d["security_boundary"]["may_grant_permission"])
+
     def test_current_host_remains_pending(self):
         h=load("canonical/FA3-AI-MODULE-FACTORY-CURRENT-HOST-IMPACT-001.json")
         self.assertFalse(h["physical_pass_claimed"])

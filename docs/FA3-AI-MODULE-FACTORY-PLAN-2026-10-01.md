@@ -79,7 +79,11 @@ A training-capable artifact is rejected unless all are true:
 
 Knowledge modules do not require training/derivative-model rights, but still require approved final, verified provenance, permitted use and an explicit consent scope.
 
-AI disabled means no AI-module plan. Missing or unknown rights never fall back to permissive behavior.
+AI disabled means no AI-module plan. Missing or unknown rights are denied; the factory does not substitute a permissive execution route.
+
+## Decision Fabric applicability
+
+The current materialization uses deterministic eligibility plus explicit user choice for module strategy. Decision Fabric is therefore **NOT_APPLICABLE** to authorization or strategy selection in this version; it may not expand candidates, grant permissions, admit models/providers, or replace human approval. A future advisory ranking path requires a separately approved change.
 
 ## Authority boundaries
 
