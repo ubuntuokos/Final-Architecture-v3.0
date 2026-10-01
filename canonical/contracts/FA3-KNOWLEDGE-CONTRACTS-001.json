@@ -2,7 +2,7 @@
   "schema": "fa3.contract-family.v1",
   "id": "FA3-KNOWLEDGE-CONTRACTS-001",
   "status": "CANONICAL",
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "KnowledgeSourceIdentity",
     "IngestionRequest",
@@ -26,5 +26,26 @@
     "RetrievalTrace",
     "FusionReceipt",
     "ContextPassport"
-  ]
+  ],
+  "related_contract_families": [
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001"
+  ],
+  "evaluation_evidence_profiles": {
+    "knowledge_retrieval_quality": [
+      "retrieval_precision",
+      "retrieval_recall",
+      "ranking_quality",
+      "citation_correctness",
+      "citation_completeness",
+      "claim_support_rate",
+      "unsupported_claim_rate",
+      "context_pollution",
+      "freshness_correctness",
+      "latency",
+      "resource_cost"
+    ]
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

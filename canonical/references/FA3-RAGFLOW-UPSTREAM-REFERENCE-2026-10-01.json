@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-RAGFLOW-UPSTREAM-REFERENCE-2026-10-01",
+  "date": "2026-10-01",
+  "subject": "infiniflow/ragflow",
+  "status": "PINNED_REFERENCE",
+  "release": {
+    "tag": "v1.0.0-rc1",
+    "commit": "14bb02ee4584c1ab18f0c722c48beecd6bbf9860",
+    "published_at": "2026-09-29"
+  },
+  "inspected_main_commit": "519e7d98a5651564d4e35d6648f006cba4baaf4f",
+  "observed_architecture": {
+    "major_rewrite": "GO_SERVICE_ARCHITECTURE",
+    "message_queue": "NATS",
+    "cache_checkpoints": "KVROCKS",
+    "deepdoc": "IN_PROCESS_CGO_NATIVE_ONNX",
+    "python_backend_role": "LARGELY_REMOVED"
+  },
+  "observed_features": [
+    "DEEP_DOCUMENT_UNDERSTANDING",
+    "TEMPLATE_CHUNKING",
+    "KNOWLEDGE_COMPILATION",
+    "AGENTIC_RETRIEVAL",
+    "GROUNDED_CITATIONS",
+    "HETEROGENEOUS_DATA",
+    "MULTI_RECALL_FUSED_RERANKING",
+    "API_ACCESS"
+  ],
+  "release_constraints": [
+    "DEEPDOC_CPU_ONLY",
+    "LOCAL_SANDBOX_NOT_SUPPORTED",
+    "TEAM_ME_PERMISSION_MODEL_NOT_SUPPORTED"
+  ],
+  "migration_boundary": {
+    "from_version": "v0.27.2",
+    "to_version": "v1.0.0-rc1",
+    "in_place_reversible": false,
+    "backup_required": true,
+    "fa3_policy": "ISOLATED_COPY_MIGRATION_SNAPSHOT_EXPORT_RESTORE_VALIDATION_EXPLICIT_CUTOVER_ROLLBACK_RECEIPT"
+  },
+  "sandbox_boundary": "VERSION_SPECIFIC_IMPLEMENTATION_NOT_FA3_AUTHORITY",
+  "permission_boundary": "PARTIAL_TRANSITIONAL_UPSTREAM_SURFACE_FA3_AUTHORIZATION_REQUIRED_BEFORE_RETRIEVAL_OR_EXISTENCE_DISCLOSURE",
+  "rights": {
+    "root_license_observed": "Apache-2.0",
+    "transitive_native_model_container_connector_rights_clearance": "REQUIRED_BEFORE_RUNTIME_OR_BUNDLING"
+  },
+  "runtime_promotion_evidence": false,
+  "current_host_evidence": false,
+  "authority": false
+}

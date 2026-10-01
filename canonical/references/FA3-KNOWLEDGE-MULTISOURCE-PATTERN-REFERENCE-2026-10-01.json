@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.reference-record.v1",
+  "id": "FA3-KNOWLEDGE-MULTISOURCE-PATTERN-REFERENCE-2026-10-01",
+  "date": "2026-10-01",
+  "status": "ANALYSIS_ONLY_PATTERN_STUDY",
+  "authority": false,
+  "formal_donor_registry_mutation": false,
+  "donor_usage_edge_created": false,
+  "code_copied": false,
+  "runtime_dependency_created": false,
+  "provider_or_model_admission": false,
+  "owner_marker_required_for_formal_donor_adoption": "donornak",
+  "sources": [
+    {
+      "repository": "infiniflow/ragflow",
+      "commit": "14bb02ee4584c1ab18f0c722c48beecd6bbf9860",
+      "observed_main": "519e7d98a5651564d4e35d6648f006cba4baaf4f",
+      "patterns": [
+        "INGESTION_ORCHESTRATION",
+        "KNOWLEDGE_COMPILATION",
+        "RETRIEVAL_EFFORT"
+      ]
+    },
+    {
+      "repository": "docling-project/docling",
+      "commit": "bba2ec58fe58af1be630fea5cc0d35b0ad2a472e",
+      "patterns": [
+        "STRUCTURE_PRESERVING_PARSE",
+        "LAYOUT_AWARE_SEGMENTATION"
+      ]
+    },
+    {
+      "repository": "run-llama/llama_index",
+      "commit": "139761450a1e43c65042b10d01be6bb3605534ed",
+      "patterns": [
+        "HASH_REVISION_AWARE_INGESTION",
+        "DEDUPE_UPSERT_RECONCILIATION"
+      ]
+    },
+    {
+      "repository": "meltano/meltano",
+      "commit": "1c1f512881402b5e738dec73ce2c2ac7d4486fba",
+      "patterns": [
+        "CURSOR_BOOKMARK_CHECKPOINT_RESUME",
+        "INCREMENTAL_SOURCE_SYNC"
+      ]
+    },
+    {
+      "repository": "vibrantlabsai/ragas",
+      "commit": "298b68274234c060deacab3cf5fb52aa3a20e885",
+      "patterns": [
+        "GROUNDING_QUALITY_EVALUATION",
+        "CONTEXT_PRECISION_RECALL"
+      ]
+    },
+    {
+      "repository": "deepset-ai/haystack",
+      "commit": "9f31fb4b0ef318c51a6fa8ad30321336d99e2cb8",
+      "patterns": [
+        "TYPED_PIPELINE_VALIDATION",
+        "RETRIEVAL_EVALUATION"
+      ]
+    },
+    {
+      "repository": "microsoft/graphrag",
+      "commit": "769542fbf1d8e5b4c6a8677fefc34621c87894c5",
+      "patterns": [
+        "LOCAL_GLOBAL_ADAPTIVE_GRAPH_RETRIEVAL"
+      ]
+    }
+  ],
+  "rights_policy": "REFERENCE_ANALYSIS_ONLY_LICENSE_RIGHTS_REVIEW_REQUIRED_BEFORE_ANY_CODE_RUNTIME_ASSET_OR_BUNDLE_ADOPTION",
+  "floating_main_promotion_evidence": false
+}

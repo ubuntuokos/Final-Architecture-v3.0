@@ -1,0 +1,124 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-KNOWLEDGE-SHARED-MULTISOURCE-REUSE-ASSESSMENT-001",
+  "date": "2026-10-01",
+  "status": "REVIEWED_MATCH",
+  "result": "PASS",
+  "project_id": "FA3-KNOWLEDGE-SHARED-MULTISOURCE-001",
+  "subject_id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+  "covered_ids": [
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-KNOWLEDGE-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+    "FA3-PROVIDER-RAGFLOW-001",
+    "FA3-PROVIDER-HAYSTACK-001",
+    "FA3-PROVIDER-PAGEINDEX-LOCAL-001"
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "6bcb6b7d4d5ece9e98a0eb091382c41c790f2256",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "55111e30b4508efb4e8825c40c0f9c6152ca5b35",
+    "donor_registry_sha256": "56ca1a4846d8d866b1b4317bca2f9240f85e6f5031752a31cd21c2051839916c",
+    "donor_registry_entry_count": 1307
+  },
+  "donor_review": "REVIEWED_NO_FORMAL_ADOPTION",
+  "adoption_authorized": false,
+  "donor_adoption_authorized": false,
+  "selected_existing_donor_ids": [],
+  "analysis_only_pattern_sources": [
+    "infiniflow/ragflow",
+    "docling-project/docling",
+    "run-llama/llama_index",
+    "meltano/meltano",
+    "vibrantlabsai/ragas",
+    "deepset-ai/haystack",
+    "microsoft/graphrag"
+  ],
+  "analysis_only_policy": "Unmarked research sources remain pattern research only and do not receive donor IDs or usage edges. Existing provider records remain independent from Donor Registry intake.",
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-KNOWLEDGE-001",
+      "use": "EXISTING_KNOWLEDGE_AUTHORITY"
+    },
+    {
+      "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+      "use": "SHARED_MULTI_APPLICATION_PLACEMENT"
+    },
+    {
+      "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_RETRIEVAL_PLANNER"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "TOOL_MEDIATION"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "AUTHORIZATION_POLICY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AND_PROVENANCE"
+    }
+  ],
+  "gaps": [
+    "DURABLE_PROVIDER_NEUTRAL_SOURCE_SYNC_STATE",
+    "EXPLICIT_INCREMENTAL_INGESTION_RECONCILIATION_RECEIPT",
+    "DERIVED_KNOWLEDGE_MATERIALIZATION_STATE",
+    "PROVIDER_NEUTRAL_KNOWLEDGE_COMPILATION_PLAN",
+    "EXPLICIT_RETRIEVAL_EFFORT_BUDGET"
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true
+  },
+  "retrospective_consumers": [
+    "fa3.video-editor",
+    "fa3.quickclip",
+    "fa3.story-screenplay",
+    "fa3.music-studio",
+    "fa3.character-studio",
+    "studio.mautic",
+    "studio.twenty",
+    "studio.listmonk",
+    "fa3.ai-module-factory"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_change": false
+  },
+  "code_import_authorized": false,
+  "runtime_admission_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "static_materialization_authorized": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

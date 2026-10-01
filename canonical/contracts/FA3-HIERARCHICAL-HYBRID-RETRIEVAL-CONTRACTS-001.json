@@ -6,7 +6,7 @@
   "provider_neutral": true,
   "capability_delta": 0,
   "authority_delta": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": {
     "StructuralIndex": {
       "required": [
@@ -87,7 +87,8 @@
         "stages",
         "strategy_order",
         "source_scope",
-        "authority_snapshot"
+        "authority_snapshot",
+        "effort_budget"
       ],
       "forbids": [
         "provider_secret",
@@ -134,6 +135,31 @@
       ],
       "derived": true,
       "rebuildable": true
+    },
+    "RetrievalEffortBudget": {
+      "required": [
+        "budget_id",
+        "mode"
+      ],
+      "modes": [
+        "EXPLICIT_BOUNDS",
+        "POLICY_RESOLVED"
+      ],
+      "policy_resolved_required": [
+        "policy_ref"
+      ],
+      "explicit_bound_fields": [
+        "max_query_decomposition",
+        "max_retrieval_rounds",
+        "max_candidate_expansion",
+        "max_rerank_candidates",
+        "max_graph_depth",
+        "max_context_tokens",
+        "max_model_tokens",
+        "max_latency_ms"
+      ],
+      "provider_expansion_allowed": false,
+      "unbounded_execution_allowed": false
     }
   },
   "strategy_rules": {
@@ -142,12 +168,26 @@
     "vector": "OPTIONAL",
     "tree_reasoning": "MUST_BE_PROVIDER_ROUTED",
     "rerank": "PROVIDER_NEUTRAL",
-    "fusion": "MUST_PRESERVE_EVIDENCE_LINKS"
+    "fusion": "MUST_PRESERVE_EVIDENCE_LINKS",
+    "sparse": "OPTIONAL",
+    "structural": "OPTIONAL",
+    "graph_local": "OPTIONAL",
+    "graph_global": "OPTIONAL",
+    "graph_adaptive": "OPTIONAL",
+    "temporal": "OPTIONAL",
+    "multimodal": "OPTIONAL",
+    "compiled_knowledge": "OPTIONAL_DERIVED_ONLY",
+    "web_live": "OPTIONAL_EGRESS_GATED",
+    "memory": "OPTIONAL_MEMORY_GATEWAY_MEDIATED",
+    "authorization": "REQUIRED_BEFORE_CANDIDATE_GENERATION",
+    "effort_budget": "REQUIRED_BEFORE_PROVIDER_DISPATCH"
   },
   "media_rules": {
     "image": "DERIVE_SourceRegion_AND_CrossModalRelation",
     "video": "DERIVE_MediaSegment_AND_TemporalSpan",
     "audio": "DERIVE_TRANSCRIPT_OR_MediaSegment_AND_TemporalSpan",
     "binary_storage": "OUTSIDE_KNOWLEDGE_INDEX"
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -8,7 +8,7 @@ from typing import Any
 from fa3_decision_fabric import DecisionFabric
 from fa3_decision_adapters import Fa3DecisionAdapters
 
-STRATEGY_ORDER = ("metadata", "hierarchical", "lexical", "vector", "tree_reasoning", "rerank", "evidence_fusion")
+STRATEGY_ORDER = ("metadata", "structural", "hierarchical", "lexical", "sparse", "vector", "graph_local", "graph_global", "graph_adaptive", "temporal", "multimodal", "compiled_knowledge", "web_live", "memory", "tree_reasoning", "rerank", "evidence_fusion")\nEFFORT_BUDGET_POLICY_REF = "FA3-KNOWLEDGE-RETRIEVAL-BUDGET-POLICY-001"\nEXPLICIT_BOUND_FIELDS = ("max_query_decomposition", "max_retrieval_rounds", "max_candidate_expansion", "max_rerank_candidates", "max_graph_depth", "max_context_tokens", "max_model_tokens", "max_latency_ms")
 
 
 def canonical_sha256(value: Any) -> str:

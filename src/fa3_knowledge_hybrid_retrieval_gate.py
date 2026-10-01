@@ -22,7 +22,7 @@ def gate(root: Path) -> dict[str, Any]:
     root = root.resolve()
     findings: list[dict[str, Any]] = []
     try:
-        knowledge = loadj(root / "canonical/profiles/FA3-KNOWLEDGE-001.json")
+        expected_count = load_active_release_baseline(root).capability_count\n        knowledge = loadj(root / "canonical/profiles/FA3-KNOWLEDGE-001.json")
         sub = loadj(root / "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json")
         contracts = loadj(root / "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json")
         runbook_contract = loadj(root / "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json")
@@ -134,7 +134,7 @@ def gate(root: Path) -> dict[str, Any]:
         "gate_id":GATE_ID,
         "result":"PASS" if not findings else "FAIL",
         "findings":findings,
-        "capability_count":143,
+        "capability_count":expected_count,
         "authority_delta":0,
         "global_promotion_claim":False,
     }

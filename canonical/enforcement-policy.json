@@ -80,6 +80,7 @@
     "FA3-OS-EVENT-PRIVACY-GATESET-001",
     "FA3-WORK-MANAGEMENT-GATESET-001",
     "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
+    "FA3-KNOWLEDGE-SHARED-ENHANCEMENT-GATESET-001",
     "FA3-RUNTIME-HARDENING-GATESET-001",
     "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
     "FA3-AGENT-INSTRUCTIONS-GATESET-001",
@@ -2138,5 +2139,16 @@
     "donor_usage_edges_remain_in": "FA3-APPLICATION-DONOR-LINKS-001",
     "new_capabilities": 0,
     "new_architectural_authorities": 0
+  },
+  "knowledge_shared_enhancement_gate": {
+    "gate_id": "FA3-KNOWLEDGE-SHARED-ENHANCEMENT-GATESET-001",
+    "fail_closed": true,
+    "shared_profile_id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "knowledge_root_id": "FA3-KNOWLEDGE-001",
+    "capability_count": 175,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "current_host_runtime_promotion_claim": false,
+    "formal_donor_adoption_requires_owner_marker": "donornak"
   }
 }

@@ -9,13 +9,50 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "authority_boundaries": [
     "NO_KNOWLEDGE_AUTHORITY",
     "NO_MODEL_ROUTING_AUTHORITY",
     "NO_SECURITY_AUTHORITY",
-    "NO_ARTIFACT_IDENTITY_AUTHORITY"
-  ]
+    "NO_ARTIFACT_IDENTITY_AUTHORITY",
+    "NO_MCP_OR_TOOL_AUTHORITY",
+    "NO_SECRET_AUTHORITY",
+    "NO_HOST_RESOURCE_AUTHORITY",
+    "NO_EVIDENCE_AUTHORITY",
+    "NO_ORCHESTRATION_AUTHORITY",
+    "NO_MEMORY_AUTHORITY"
+  ],
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "upstream_reference_id": "FA3-RAGFLOW-UPSTREAM-REFERENCE-2026-10-01",
+  "upstream_snapshot": {
+    "release": "v1.0.0-rc1",
+    "release_commit": "14bb02ee4584c1ab18f0c722c48beecd6bbf9860",
+    "inspected_main_commit": "519e7d98a5651564d4e35d6648f006cba4baaf4f",
+    "floating_main_runtime_promotion_evidence": false
+  },
+  "known_release_constraints": [
+    "DEEPDOC_CPU_ONLY_IN_V1_0_0_RC1",
+    "LOCAL_SANDBOX_NOT_SUPPORTED_IN_V1_0_0_RC1",
+    "TEAM_ME_PERMISSION_MODEL_NOT_SUPPORTED_IN_V1_0_0_RC1",
+    "UPGRADE_FROM_V0_27_2_TO_V1_0_0_RC1_REQUIRES_BACKUP_AND_IS_IRREVERSIBLE_IN_PLACE"
+  ],
+  "runtime_constraints": {
+    "model_access": "FA3_MODEL_ROUTER_ONLY",
+    "tool_execution": "FA3_MCP_AND_EXECUTION_BOUNDARIES_ONLY",
+    "secrets": "FA3_SECRET_BROKER_ONLY",
+    "resources": "FA3_HRB_ONLY",
+    "host_sysctl_mutation": "DENY_AUTOMATIC",
+    "migration": "SNAPSHOT_EXPORT_RESTORE_VALIDATION_AND_EXPLICIT_CUTOVER_REQUIRED"
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

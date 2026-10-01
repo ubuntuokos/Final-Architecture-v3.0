@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
   "name": "Hierarchical + Hybrid Retrieval Fabric",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -10,7 +10,7 @@
   "parent_profile": "FA3-KNOWLEDGE-001",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "capability_projection": [
     "fa3.document.index",
     "fa3.document.retrieve",
@@ -62,7 +62,35 @@
     "CONTEXT_PASSPORT_IS_DERIVED_AND_REBUILDABLE",
     "NO_PROVIDER_BECOMES_KNOWLEDGE_AUTHORITY",
     "VECTOR_SEARCH_OPTIONAL_NOT_REQUIRED",
-    "LOCAL_FIRST_ROUTING_WHEN_ADMITTED"
+    "LOCAL_FIRST_ROUTING_WHEN_ADMITTED",
+    "AUTHORIZATION_BEFORE_RETRIEVAL_CANDIDATE_GENERATION",
+    "RETRIEVAL_EFFORT_EXPLICITLY_BOUNDED_OR_POLICY_RESOLVED_BEFORE_DISPATCH",
+    "GRAPH_AND_COMPILED_KNOWLEDGE_ARE_OPTIONAL_STRATEGIES_NOT_AUTHORITIES"
   ],
-  "runtime_status": "MATERIALIZED_CURRENT_HOST_PENDING"
+  "runtime_status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "strategy_portfolio": [
+    "LEXICAL",
+    "DENSE",
+    "SPARSE",
+    "METADATA",
+    "STRUCTURAL",
+    "HIERARCHICAL",
+    "GRAPH_LOCAL",
+    "GRAPH_GLOBAL",
+    "GRAPH_ADAPTIVE",
+    "TEMPORAL",
+    "MULTIMODAL",
+    "COMPILED_KNOWLEDGE",
+    "WEB_LIVE",
+    "MEMORY"
+  ],
+  "retrieval_effort_budget": {
+    "contract": "RetrievalEffortBudget",
+    "default_mode": "POLICY_RESOLVED",
+    "policy_ref": "FA3-KNOWLEDGE-RETRIEVAL-BUDGET-POLICY-001",
+    "resolved_before_provider_dispatch": true,
+    "provider_may_expand_budget": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

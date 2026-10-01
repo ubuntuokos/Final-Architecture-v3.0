@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.shared-capability-consumer-impact.v1",
+  "id": "FA3-KNOWLEDGE-SHARED-CONSUMER-IMPACT-2026-10-01",
+  "date": "2026-10-01",
+  "status": "STATIC_IMPACT_REVIEW_PASS",
+  "shared_component_id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "applications": [
+    "fa3.video-editor",
+    "fa3.quickclip",
+    "fa3.story-screenplay",
+    "fa3.music-studio",
+    "fa3.character-studio",
+    "studio.mautic",
+    "studio.twenty",
+    "studio.listmonk",
+    "fa3.ai-module-factory"
+  ],
+  "platform_consumers": [
+    "FA3-KNOWLEDGE-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+    "FA3-EMBEDDING-FABRIC-001",
+    "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+    "FA3-PROVIDER-PAGEINDEX-MCP-001",
+    "FA3-PROVIDER-RAGFLOW-001",
+    "FA3-PROVIDER-HAYSTACK-001",
+    "FA3-PROVIDER-ULTRARAG-001",
+    "FA3-PROVIDER-CAVEMAN-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "compatibility": {
+    "existing_contracts_preserved": true,
+    "new_contracts_additive": true,
+    "existing_provider_runtime_activation_changed": false,
+    "existing_current_host_pass_invalidated": false,
+    "runtime_requalification_required_for_existing_behavior": false,
+    "adoption_of_new_semantics_requires_normal_runtime_current_host_evidence": true,
+    "capability_loss": false
+  },
+  "documentation_update_required_for_consumers_when_new_semantics_are_exposed": true,
+  "current_host_runtime_promotion_claim": false
+}
