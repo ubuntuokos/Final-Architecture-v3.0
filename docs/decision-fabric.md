@@ -151,9 +151,9 @@ These are inspection/projection surfaces. The GUI does not self-approve or direc
 
 `FA3-DONOR-REFERENCE-REGISTRY-001` is the central non-authoritative donor/reference knowledge base federated into `FA3-REUSE-DISCOVERY-001`. It exists so planned and future applications do not need to rediscover donor research from earlier conversations, notes, or isolated project assessments.
 
-A source is captured as soon as FA3 research identifies it as potentially useful as a donor or reference. Tentative mention is sufficient for `CANDIDATE` capture; capture is deliberately weaker than analysis or admission. Repeated mentions merge into the same source-normalized record.
+Only links explicitly introduced by the owner with the `donornak` marker enter the donor registry; unmarked research and assistant suggestions remain analysis-only. Repeated authorized mentions merge into the same source-normalized record.
 
-Every new or materially modified application, capability, or module queries the donor registry before a new implementation is proposed. Matching uses capability, domain, problem, target, and tag hints. `REJECTED` and `SUPERSEDED` entries remain recorded to prevent repeated research but are excluded from planning candidates.
+Every new or materially modified application, capability, or module queries the donor registry before a new implementation is proposed. Every published donor change is diff-processed and mapped back to affected applications through explicit usage records and exact source/target matching. `SUPERSEDED` entries are excluded from planning; rejected or security-untrusted donors are removed from the active registry and retained only in the rejection audit until verified-safe re-entry.
 
 Donor discovery never grants architectural authority and never performs dependency adoption, code import, fetch/install, provider admission, model selection, activation, or runtime promotion. Those actions remain behind the existing FA3 license/provenance, security, coexistence, provider, Model Router, HRB, and evidence gates.
 

@@ -1,24 +1,11 @@
 name: FA3 Application Donor Inventory
-
 on:
   pull_request:
   push:
     branches: [main]
-    paths:
-      - "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
-      - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
-      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
-      - "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
-      - "canonical/FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001.json"
-      - "canonical/FA3-TUTORIAL-SHARED-CAPABILITY-CURRENT-HOST-IMPACT-001.json"
-      - "canonical/schemas/FA3-TUTORIAL-REFERENCE-SCHEMA-001.json"
-      - "src/fa3_application_donor_index.py"
-      - "src/fa3_tutorial_reuse_planner.py"
-      - "tests/test_application_donor_index.py"
-      - "tests/test_tutorial_reuse_planner.py"
-      - "bin/fa3-app-donor-index"
-      - "bin/fa3-tutorial-reuse-plan"
-      - ".github/workflows/fa3-application-donor-inventory.yml"
+  schedule:
+    - cron: "17 3 1 * *"
+  workflow_dispatch:
 jobs:
   application-donor-integrity:
     runs-on: ubuntu-latest
@@ -30,26 +17,30 @@ jobs:
           fetch-depth: 0
       - name: Static application inventory gate
         run: python3 src/fa3_application_donor_index.py --check --summary
+      - name: Capability consumer map gate
+        run: python3 src/fa3_application_donor_index.py --check --output capability-map.json
       - name: Tutorial shared-capability materialization self-check
         run: python3 src/fa3_tutorial_reuse_planner.py --self-check --check
-      - name: Automatically calculate exact donor-change impact
+      - name: Monthly donor capability refresh gate
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        run: python3 src/fa3_application_donor_index.py --check --monthly-refresh-check --summary
+      - name: Donor-change impact
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          if git cat-file -e "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" 2>/dev/null; then
+          if [ -n "${BASE_SHA:-}" ] && git cat-file -e "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" 2>/dev/null; then
             git show "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" > "$RUNNER_TEMP/fa3-donor-before.json"
-            python3 src/fa3_application_donor_index.py --check --previous-registry "$RUNNER_TEMP/fa3-donor-before.json" --output donor-impact.json > "$RUNNER_TEMP/fa3-donor-impact-summary.json"
-            python3 -c 'import json; x=json.load(open("donor-impact.json")); print(json.dumps({"counts":x["counts"],"reevaluation":x["reevaluation"]},ensure_ascii=False,indent=2))'
-          else
-            echo "Baseline donor registry unavailable; static inventory still checked."
+            python3 src/fa3_application_donor_index.py --check --previous-registry "$RUNNER_TEMP/fa3-donor-before.json" --output donor-impact.json
           fi
-      - name: Publish targeted review report
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: fa3-application-donor-impact
-          path: donor-impact.json
+          path: |
+            donor-impact.json
+            capability-map.json
           if-no-files-found: ignore
-      - name: Application inventory regression and safety tests
-        run: python3 -m unittest discover -s tests -p "test_application_donor_index.py" -v
-      - name: Tutorial reuse planner regression and fail-closed tests
-        run: python3 -m unittest discover -s tests -p "test_tutorial_reuse_planner.py" -v
+      - name: Regression and safety negative tests
+        run: |
+          python3 -m unittest tests.test_application_donor_index -v
+          python3 -m unittest tests.test_tutorial_reuse_planner -v
+          python3 -m unittest tests.test_donor_readiness -v

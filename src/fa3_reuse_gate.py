@@ -36,6 +36,8 @@ EVIDENCE = "evidence/reference/reuse-discovery-ci-2026-09-24.json"
 SKILL_REGISTRY = "canonical/skill-registry.json"
 EXTERNAL_SKILL_RADAR = "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
 DONOR_REGISTRY = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+DONOR_REJECTION_AUDIT = "canonical/FA3-DONOR-REJECTION-AUDIT-001.json"
+DONOR_LIFECYCLE_DECISION = "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
 DONOR_DECISION = "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json"
 DONOR_CAPTURE = "src/fa3_donor_registry.py"
 DONOR_CAPTURE_BIN = "bin/fa3-donor-capture"
@@ -276,6 +278,8 @@ def gate(root: Path) -> dict[str, Any]:
     skill_registry = load(root, SKILL_REGISTRY)
     external_skill_radar = load(root, EXTERNAL_SKILL_RADAR)
     donor_registry = load(root, DONOR_REGISTRY)
+    donor_rejection_audit = load(root, DONOR_REJECTION_AUDIT)
+    donor_lifecycle_decision = load(root, DONOR_LIFECYCLE_DECISION)
     donor_decision = load(root, DONOR_DECISION)
     gui_intent = load(root, GUI_INTENT)
     gui_reuse_assessment = load(root, GUI_REUSE_ASSESSMENT)
@@ -375,7 +379,7 @@ def gate(root: Path) -> dict[str, Any]:
         "domain_hints", "target_hints", "license", "code_reuse_policy",
         "discoverable_for_planning", "authority",
     }
-    allowed_donor_states = {"CANDIDATE", "ANALYZED", "ACCEPTED_REFERENCE", "REJECTED", "SUPERSEDED"}
+    allowed_donor_states = {"CANDIDATE", "ANALYZED", "ACCEPTED_REFERENCE", "SUPERSEDED"}
     donor_ids = [str(row.get("donor_id")) for row in donor_entries if row.get("donor_id")]
     donor_keys = [
         str(row.get("source", {}).get("normalized_key"))
@@ -416,6 +420,14 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_planning_policy.get("query_required_for_every_new_or_materially_modified_application_capability_or_module") is True
         and donor_planning_policy.get("query_before_new_implementation") is True
         and donor_planning_policy.get("future_applications_supported") is True
+        and donor_planning_policy.get("every_donor_change_requires_processing") is True
+        and donor_planning_policy.get("donor_change_application_reconciliation_required") is True
+        and donor_planning_policy.get("donor_usage_reverse_traceability_required") is True
+        and donor_planning_policy.get("monthly_capability_refresh_days") == 31
+        and donor_planning_policy.get("capability_non_regression_on_donor_change") is True
+        and donor_planning_policy.get("capability_loss_only_for_verified_fa3_risk") is True
+        and donor_planning_policy.get("security_reentry_requires_verified_safe_evidence") is True
+        and donor_planning_policy.get("rejected_history_registry") == DONOR_REJECTION_AUDIT
         and donor_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
         and donor_binding.get("potential_donor_signal_requires_capture") is False
         and donor_binding.get("owner_marker_required") == "donornak"
@@ -427,6 +439,13 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_contract.get("potential_signal_capture_required") is False
         and donor_contract.get("owner_marker_required") == "donornak"
         and donor_contract.get("unmarked_links_analysis_only") is True
+        and donor_contract.get("rejected_sources_archived_outside_active_registry") is True
+        and donor_contract.get("rejection_audit_id") == "FA3-DONOR-REJECTION-AUDIT-001"
+        and donor_contract.get("rejected_reentry_requires_verified_safe_evidence") is True
+        and donor_contract.get("every_donor_change_requires_processing") is True
+        and donor_contract.get("donor_to_application_reverse_traceability_required") is True
+        and donor_contract.get("capability_non_regression_on_donor_change") is True
+        and donor_contract.get("capability_loss_only_for_verified_fa3_risk") is True
         and donor_contract.get("authority") is False
         and donor_contract.get("admission_authority") is False
         and donor_hardware.get("vendor_neutral") is True
@@ -442,7 +461,13 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("REUSE-031", "Donor Registry canonical non-authority/capture/planning boundary drift"))
 
     if not (
-        len(donor_entries) >= 160
+        donor_rejection_audit.get("id") == "FA3-DONOR-REJECTION-AUDIT-001"
+        and donor_rejection_audit.get("active_donor_registry") is False
+        and donor_lifecycle_decision.get("id") == "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30"
+        and donor_lifecycle_decision.get("capability_count") == capability_count
+        and donor_lifecycle_decision.get("rules", {}).get("every_donor_change_must_be_processed") is True
+        and donor_lifecycle_decision.get("rules", {}).get("donor_change_capability_non_regression") is True
+        and len(donor_entries) >= 160
         and donor_registry.get("backfill", {}).get("entry_count") == len(donor_entries)
         and len(donor_ids) == len(set(donor_ids)) == len(donor_entries)
         and len(donor_keys) == len(set(donor_keys)) == len(donor_entries)
@@ -532,7 +557,7 @@ def gate(root: Path) -> dict[str, Any]:
         for row in donor_entries
         if row.get("donor_id")
         and row.get("discoverable_for_planning") is True
-        and row.get("status") not in {"REJECTED", "SUPERSEDED"}
+        and row.get("status") != "SUPERSEDED"
     }
     catalog_donors = {
         row["candidate_id"]: row
@@ -761,6 +786,18 @@ def gate(root: Path) -> dict[str, Any]:
         and rec.get("capability_count_after") == capability_count
         and rec.get("new_capabilities") == 0
         and rec.get("new_architectural_authorities") == 0
+        and rec.get("donor_rejection_audit_id") == "FA3-DONOR-REJECTION-AUDIT-001"
+        and rec.get("donor_lifecycle_decision_id") == "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30"
+        and rec.get("application_donor_links_id") == "FA3-APPLICATION-DONOR-LINKS-001"
+        and rec.get("donor_every_change_processed") is True
+        and rec.get("donor_usage_reverse_traceability") is True
+        and rec.get("donor_monthly_capability_refresh_days") == 31
+        and rec.get("donor_security_change_propagation") is True
+        and rec.get("donor_unsafe_active_registry_forbidden") is True
+        and rec.get("application_scope_independent_of_declared_dependency") is True
+        and rec.get("application_capability_non_regression_on_donor_change") is True
+        and rec.get("application_capability_loss_only_for_verified_fa3_risk") is True
+        and rec.get("application_current_host_alignment_when_affected") is True
         and rec.get("global_promotion_claim") is False
     ):
         findings.append(finding("REUSE-017", "unified release projection reuse-discovery reconciliation missing or stale"))

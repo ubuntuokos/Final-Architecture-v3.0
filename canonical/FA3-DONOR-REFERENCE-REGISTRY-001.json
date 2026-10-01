@@ -2,7 +2,7 @@
   "schema": "fa3.donor-reference-registry.v1",
   "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
   "name": "FA3 Donor & Reference Registry",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "authority": false,
   "canonical_source_of_truth_for_donor_notes": true,
@@ -32,7 +32,6 @@
     "CANDIDATE",
     "ANALYZED",
     "ACCEPTED_REFERENCE",
-    "REJECTED",
     "SUPERSEDED"
   ],
   "planning_policy": {
@@ -46,8 +45,20 @@
       "tags"
     ],
     "future_applications_supported": true,
-    "rejected_entries_retained_to_prevent_repeat_research": true,
-    "rejected_or_superseded_are_not_planning_candidates": true
+    "rejected_entries_retained_to_prevent_repeat_research": false,
+    "rejected_or_superseded_are_not_planning_candidates": true,
+    "rejected_history_registry": "canonical/FA3-DONOR-REJECTION-AUDIT-001.json",
+    "security_reentry_requires_verified_safe_evidence": true,
+    "every_donor_change_requires_processing": true,
+    "donor_change_application_reconciliation_required": true,
+    "donor_usage_reverse_traceability_required": true,
+    "monthly_capability_refresh_days": 31,
+    "capability_non_regression_on_donor_change": true,
+    "capability_loss_only_for_verified_fa3_risk": true,
+    "development_reconciles_declared_and_implicit_dependencies": true,
+    "current_host_alignment_required_for_structural_or_runtime_change": true,
+    "monthly_capability_refresh_policy_effective_date": "2026-09-30",
+    "capability_reviewed_at_required_after_first_refresh": true
   },
   "safety_boundary": {
     "automatic_dependency": false,
@@ -79,8 +90,8 @@
   "backfill": {
     "source": "PRIOR_FA3_RESEARCH_AND_CONVERSATION_NOTES",
     "performed_at": "2026-09-28",
-    "entry_count": 1233,
-    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained. Owner-marked AlternativeTo Octane Render 4-page discovery-list intake: 4 original URLs as 1 canonical metadata-only index; no automatically admitted child applications. Owner-marked GitHub Actions runner and Actions/Temporal organization indexes 2026-09-30: 5 exact owner URLs as 5 distinct new metadata-only references; no automatically admitted child repositories. Owner-marked GGUF/Comfy/codec batch 2026-09-30: 12 exact URLs as 12 unique metadata-only reference identities; no child-repository auto-registration and archived Comfy-Org/desktop retained as historical reference."
+    "entry_count": 1287,
+    "note": "Backfill centralizes previously identified donors so application planning does not need to traverse prior conversations; known exact upstream locators are normalized when available. Extended with previously recorded red-flag, IAM and Generative Media candidates; all new records remain unverified candidates. Additional selective capability/pattern curation from 2026-09-28 historical Architecture v1/v2/v3 Library artifacts. Source classifications are archival, not live upstream admission. Mentor enhancement capture added 15 non-authoritative candidate source identities on 2026-09-28; no code import or runtime admission. Visual-editing discovery and selected project candidates added 2026-09-29, without admission or runtime authority. Production-import curation 2026-09-29 appended 27 normalized unique source candidates; existing AYON, OpenAssetIO, and C2PA source identities enriched in place. Converter-history reconciliation 2026-09-29: 11 new canonical source candidates plus OpenImageIO same-source enrichment; ConvertX remains quarantined in PR #195. Earlier converter and music/animation decisions reconciled 2026-09-29: 3 unique official repositories plus DAWproject and OpenToonz in-place donor enrichments; no runtime admission. STARc earlier-conversation source verified 2026-09-29 against official story-apps/starc: 1 unique GPL-3.0 metadata-only candidate; no runtime or code admission. Owner-marked 2026-09-29 text/detection/mindmap/render/shader intake: 39 distinct new references and 0 existing references; 50 original discovery URLs preserved and topic filter variants deduplicated. Owner-marked Maverick/Misfit MM3D, OpenMMLab and Z3DR intake: 4 distinct new reference source identities; 5 original URLs retained. Owner-marked AlternativeTo Octane Render 4-page discovery-list intake: 4 original URLs as 1 canonical metadata-only index; no automatically admitted child applications. Owner-marked GitHub Actions runner and Actions/Temporal organization indexes 2026-09-30: 5 exact owner URLs as 5 distinct new metadata-only references; no automatically admitted child repositories. Owner-marked GGUF/Comfy/codec batch 2026-09-30: 12 exact URLs as 12 unique metadata-only reference identities; no child-repository auto-registration and archived Comfy-Org/desktop retained as historical reference. 2026-09-30 lifecycle hardening: rejected donor records are removed from the active registry and preserved in FA3-DONOR-REJECTION-AUDIT-001; every donor change requires application impact processing, capability non-regression, dependency/layer reconciliation and Current Host alignment when affected. Owner-marked mail/CRM/ERP/groupware/file-sync batch 2026-09-30: 36 exact URLs registered as 36 metadata-only references; explicit filtered topic views remain distinct discovery identities; no child-repository auto-registration, code/runtime admission, capability delta or new authority. Owner-approved provider/gateway/reference intake 2026-10-01 added 19 normalized references from the already analyzed conversation set; reference registration only, no runtime/provider/model admission."
   },
   "entries": [
     {
@@ -166,6 +177,76 @@
         "Upstream direct Gemini/Vertex/MiniMax calls, automatic MiniMax activation from key presence, hard-coded provider/models, generic fallback prompt, 2-12 shot limit and 4/6/8 second durations violate or restrict FA3 assumptions. FA3 must use central Model Router/UAF/MCP/HRB with no silent fallback, no direct cloud application bypass and no unauthorized display GPU.",
         "Existing RainLib storyboard candidate and canonical FA3 creative graph take precedence. Preserve native story branches, production-specific screenplay profiles, independent AI notes, human approvals, native project files, MLT/FFmpeg editable Video Editor and QuickClip interchange.",
         "Hardware Audit: metadata-only registration, CPU-only feasible, vendor neutral, 0..N accelerators, no provider/runtime admission or current-host E2E. Full review: docs/storygen-atelier-donor-review-2026-09-28.md."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-0XZR-FREELLMPOOL-001",
+      "name": "0xzr/freellmpool",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/0xzr/freellmpool",
+        "normalized_key": "github:0xzr/freellmpool"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "protocol-conformance",
+        "provider-health",
+        "quota-capacity",
+        "provider-pool",
+        "routing",
+        "streaming-conformance"
+      ],
+      "domain_hints": [
+        "provider-assurance",
+        "model-routing",
+        "llm-gateway"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-LLM-PROTOCOL-COMPAT-001",
+        "FA3-AUTH-MODEL-ROUTER-001",
+        "FA3-LLM-GATEWAY-001"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "explicit-owner-donornak",
+        "metadata-only",
+        "protocol-conformance",
+        "provider-pool",
+        "routing",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "High-value protocol/health donor. Automatic/silent failover semantics are not adopted; FA3 bounded explicit fallback remains mandatory."
       ]
     },
     {
@@ -4221,6 +4302,76 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-AI-RESOURCE-RADAR-AI-RESOURCE-RADAR-001",
+      "name": "ai-resource-radar/ai-resource-radar",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ai-resource-radar/ai-resource-radar",
+        "normalized_key": "github:ai-resource-radar/ai-resource-radar"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "deterministic-collector",
+        "source-health",
+        "change-detection",
+        "evidence-normalization",
+        "regional-availability",
+        "resource-intelligence"
+      ],
+      "domain_hints": [
+        "provider-intelligence",
+        "resource-radar",
+        "provenance"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Provider Intelligence Fabric",
+        "FA3 Donor & Reference Registry"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "collector",
+        "explicit-owner-donornak",
+        "metadata-only",
+        "provenance",
+        "resource-radar",
+        "review-pending",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "LICENSE_FILE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Accepted as reference registration. Detailed FA3 evaluation was interrupted and must be completed before implementation/adoption decisions."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-AI-SHORT-VIDEO-ENGINE-CHENWR727-001",
       "name": "AI Short Video Engine (chenwr727)",
       "source": {
@@ -4867,6 +5018,72 @@
         "AlternativeTo pages have mixed historical update dates and search-crawl freshness; current availability, functionality, source license and upstream URLs must be verified directly for any individually owner-approved source.",
         "The list mixes free/open, proprietary and paid products. Third-party descriptions and rankings are research leads only, not code provenance, license clearance or an approval for paid renderer runtime.",
         "FA3 existing no-paid-renderer-dependency, Bforartists-primary-DCC, 175 fixed capabilities, CPU-only support, Hardware Safety, Software Coexistence, central HRB/Model Router and exact-head evidence rules remain unchanged."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMARDEEPLAKSHKAR-AWESOME-FREE-LLM-APIS-001",
+      "name": "amardeeplakshkar/awesome-free-llm-apis",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/amardeeplakshkar/awesome-free-llm-apis",
+        "normalized_key": "github:amardeeplakshkar/awesome-free-llm-apis"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "permanent-free-provider-curation",
+        "protocol-compatibility-hints",
+        "performance-metadata",
+        "provider-health-discovery"
+      ],
+      "domain_hints": [
+        "provider-intelligence",
+        "llm"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-EXTERNAL-LLM-CATALOG-001",
+        "Provider Explorer"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "cc0",
+        "explicit-owner-donornak",
+        "metadata-only",
+        "permanent-free",
+        "provider-discovery",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "CC0-1.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Curated permanent-free reference; freshness and live compatibility still require independent FA3 verification."
       ]
     },
     {
@@ -7202,6 +7419,71 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-AUREUSERP-ORG-001",
+      "name": "Aureus ERP organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/aureuserp",
+        "normalized_key": "github:aureuserp"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Aureus ERP ecosystem and extension discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only",
+        "erp",
+        "aureus"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-AUTOCACHE-001",
       "name": "AutoCache",
       "source": {
@@ -9140,6 +9422,81 @@
       "notes": [
         "Verified Blender Foundation GitHub organization. Discovery index only: a listed repository is not automatically admitted."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-BNFY-BLANC-001",
+      "name": "bnfy/blanc (Blanc Browser)",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/bnfy/blanc",
+        "normalized_key": "github:bnfy/blanc"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "UI_REFERENCE",
+        "ARCHITECTURE_PATTERN"
+      ],
+      "capability_hints": [
+        "minimal desktop browser shell and command-island UI",
+        "network-layer ad/tracker blocking pattern",
+        "private in-memory session and local-profile separation",
+        "permission deny-by-default and narrow trusted IPC boundaries"
+      ],
+      "domain_hints": [
+        "browser",
+        "desktop",
+        "privacy",
+        "security",
+        "ui"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Browser Action Runtime",
+        "Application Fabric",
+        "Security Governance",
+        "Control Center"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "browser",
+        "electron",
+        "privacy",
+        "permission-boundary",
+        "supply-chain"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Repository verified public and non-archived on 2026-09-30; root LICENSE declares MIT.",
+        "Reference only: Electron/Chromium runtime is not admitted by this record; FA3 browser/security architecture and Software Coexistence rules remain authoritative."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-BOADIJ-PI-HERDSMAN-001",
@@ -12188,6 +12545,349 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-CRM-PLATFORM-JAVASCRIPT-TOPIC-001",
+      "name": "GitHub crm-platform JavaScript topic discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/crm-platform?l=javascript",
+        "normalized_key": "github:topics/crm-platform?l=javascript"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "JavaScript CRM-platform candidate discovery"
+      ],
+      "domain_hints": [
+        "crm",
+        "javascript",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "crm-platform",
+        "javascript",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "javascript",
+        "observed_url": "https://github.com/topics/crm-platform?l=javascript",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-CRM-SHELL-TOPIC-001",
+      "name": "GitHub CRM Shell topic discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/crm?l=shell",
+        "normalized_key": "github:topics/crm?l=shell"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Shell-based CRM automation and integration discovery"
+      ],
+      "domain_hints": [
+        "crm",
+        "shell",
+        "automation"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM",
+        "Automation/Integration Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "crm",
+        "shell",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "shell",
+        "observed_url": "https://github.com/topics/crm?l=shell",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-CRM-SYSTEM-PHP-UPDATED-DESC-TOPIC-001",
+      "name": "GitHub crm-system PHP topic — recently updated discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/crm-system?l=php&o=desc&s=updated",
+        "normalized_key": "github:topics/crm-system?l=php&o=desc&s=updated"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "PHP CRM-system candidate discovery"
+      ],
+      "domain_hints": [
+        "crm",
+        "php",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "crm-system",
+        "php",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "php",
+        "sort": "updated",
+        "order": "desc",
+        "observed_url": "https://github.com/topics/crm-system?l=php&o=desc&s=updated",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-CRM-SYSTEM-TOPIC-001",
+      "name": "GitHub crm-system topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/crm-system",
+        "normalized_key": "github:topics/crm-system"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "CRM-system architecture discovery"
+      ],
+      "domain_hints": [
+        "crm",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "crm-system"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-CRM-TOPIC-001",
+      "name": "GitHub CRM topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/crm",
+        "normalized_key": "github:topics/crm"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "CRM implementation and workflow discovery"
+      ],
+      "domain_hints": [
+        "crm",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM",
+        "Communications & Contacts Shared"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "crm"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
       "name": "crynta/terax-ai",
       "source": {
@@ -12495,6 +13195,71 @@
       }
     },
     {
+      "donor_id": "FA3-DONOR-CUSTOMER-RELATIONSHIP-MANAGEMENT-TOPIC-001",
+      "name": "GitHub customer-relationship-management topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/customer-relationship-management",
+        "normalized_key": "github:topics/customer-relationship-management"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "customer relationship management candidate discovery"
+      ],
+      "domain_hints": [
+        "crm",
+        "business",
+        "customer-management"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM",
+        "Communications & Contacts Shared"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "customer-relationship-management"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-CVAT-COMMUNITY-001",
       "name": "CVAT Community",
       "source": {
@@ -12569,6 +13334,73 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research candidate only. Reference user workflows or optional standalone data-curation provider; separately licensed serverless assets/dependencies require independent review. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-CYBERPRADEEP-ZEROKEY-001",
+      "name": "Cyberpradeep/ZeroKey",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Cyberpradeep/ZeroKey",
+        "normalized_key": "github:cyberpradeep/zerokey"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "openai-compatibility-facade",
+        "browser-adapter-test-patterns",
+        "sdk-compatibility-tests",
+        "multi-turn-agent-tests"
+      ],
+      "domain_hints": [
+        "test-harness",
+        "browser-automation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Provider Compatibility Test Harness",
+        "Browser Action Runtime tests"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "browser-automation",
+        "explicit-owner-donornak",
+        "license-clarification-required",
+        "metadata-only",
+        "reference-only",
+        "runtime-admission-separate",
+        "runtime-rejected"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "README_CLAIM_ONLY_NO_LICENSE_FILE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "REFERENCE ONLY. ChatGPT-web provider/runtime, stealth automation and no-sandbox pattern remain rejected for FA3; only generic façade/test patterns may be considered."
+      ]
     },
     {
       "discovered_from": [
@@ -13838,52 +14670,6 @@
       ]
     },
     {
-      "donor_id": "FA3-DONOR-DONUTBROWSER-001",
-      "name": "donutbrowser",
-      "source": {
-        "kind": "PROJECT",
-        "locator": "project:donutbrowser",
-        "normalized_key": "project:donutbrowser"
-      },
-      "status": "REJECTED",
-      "discovered_from": [
-        "prior-fa3-research-backfill"
-      ],
-      "first_seen": "2026-09-27",
-      "last_seen": "2026-09-28",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION"
-      ],
-      "capability_hints": [],
-      "domain_hints": [
-        "browser"
-      ],
-      "problem_hints": [],
-      "target_hints": [],
-      "tags": [
-        "anti-detect",
-        "fingerprint-spoofing"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "FORBIDDEN",
-      "discoverable_for_planning": false,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "rejection_reasons": [
-        "ANTI_DETECT_AND_FINGERPRINT_SPOOFING_CONFLICT_WITH_FA3_TRUST_AND_AUDITABILITY"
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-DORA-HPC-AI-TRAINING-PLATFORM-001",
       "name": "Dora HPC/AI training platform",
       "source": {
@@ -14611,6 +15397,206 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-EGROUPWARE-ORG-001",
+      "name": "EGroupware organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/EGroupware",
+        "normalized_key": "github:egroupware"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "groupware calendar contacts project-management source discovery"
+      ],
+      "domain_hints": [
+        "groupware",
+        "collaboration",
+        "email",
+        "calendar",
+        "contacts"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "Meeting Manager",
+        "Project/Task Shared"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only",
+        "egroupware"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-EMAIL-INTEGRATION-TOPIC-001",
+      "name": "GitHub email-integration topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/email-integration",
+        "normalized_key": "github:topics/email-integration"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "email integration adapter and workflow discovery"
+      ],
+      "domain_hints": [
+        "email",
+        "integration"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "Integration Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "email-integration"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-EMAIL-MANAGEMENT-FORKS-ASC-TOPIC-001",
+      "name": "GitHub email-management topic — forks ascending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/email-management?o=asc&s=forks",
+        "normalized_key": "github:topics/email-management?o=asc&s=forks"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "email-management candidate discovery"
+      ],
+      "domain_hints": [
+        "email",
+        "communications"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "FA3 Communications Hub"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "email-management",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "sort": "forks",
+        "order": "asc",
+        "observed_url": "https://github.com/topics/email-management?o=asc&s=forks",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-EMOCA-001",
       "name": "EMOCA",
       "source": {
@@ -14826,6 +15812,502 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-APPLICATION-CSHARP-STARS-DESC-TOPIC-001",
+      "name": "GitHub erp-application C# topic — stars descending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp-application?l=c%23&o=desc&s=stars",
+        "normalized_key": "github:topics/erp-application?l=c%23&o=desc&s=stars"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "C# ERP-application candidate discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "csharp",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp-application",
+        "csharp",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "c#",
+        "sort": "stars",
+        "order": "desc",
+        "observed_url": "https://github.com/topics/erp-application?l=c%23&o=desc&s=stars",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-APPLICATION-PYTHON-STARS-DESC-TOPIC-001",
+      "name": "GitHub erp-application Python topic — stars descending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp-application?l=python&o=desc&s=stars",
+        "normalized_key": "github:topics/erp-application?l=python&o=desc&s=stars"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Python ERP-application candidate discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "python",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp-application",
+        "python",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "python",
+        "sort": "stars",
+        "order": "desc",
+        "observed_url": "https://github.com/topics/erp-application?l=python&o=desc&s=stars",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-FINANCE-TOPIC-001",
+      "name": "GitHub erp-finance topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp-finance",
+        "normalized_key": "github:topics/erp-finance"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ERP finance/accounting candidate discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "finance",
+        "accounting"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp-finance"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-FORKS-ASC-TOPIC-001",
+      "name": "GitHub ERP topic — forks ascending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp?o=asc&s=forks",
+        "normalized_key": "github:topics/erp?o=asc&s=forks"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ERP candidate discovery by fork count"
+      ],
+      "domain_hints": [
+        "erp",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement",
+        "Project Management"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "sort": "forks",
+        "order": "asc",
+        "observed_url": "https://github.com/topics/erp?o=asc&s=forks",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-SOFTWARE-CSHARP-UPDATED-ASC-TOPIC-001",
+      "name": "GitHub erp-software C# topic — updated ascending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp-software?l=c%23&o=asc&s=updated",
+        "normalized_key": "github:topics/erp-software?l=c%23&o=asc&s=updated"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "C# ERP-software candidate discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "csharp",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp-software",
+        "csharp",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "c#",
+        "sort": "updated",
+        "order": "asc",
+        "observed_url": "https://github.com/topics/erp-software?l=c%23&o=asc&s=updated",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-SOFTWARE-TOPIC-001",
+      "name": "GitHub erp-software topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp-software",
+        "normalized_key": "github:topics/erp-software"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ERP software candidate discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement",
+        "Project Management"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp-software"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ERP-SYSTEM-PHP-TOPIC-001",
+      "name": "GitHub erp-system PHP topic discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/erp-system?l=php",
+        "normalized_key": "github:topics/erp-system?l=php"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "PHP ERP-system candidate discovery"
+      ],
+      "domain_hints": [
+        "erp",
+        "php",
+        "business"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "erp-system",
+        "php",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "php",
+        "observed_url": "https://github.com/topics/erp-system?l=php",
+        "observed_at": "2026-09-30"
+      }
     },
     {
       "donor_id": "FA3-DONOR-EYEVINN-MP4FF-001",
@@ -15280,6 +16762,72 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-FERDIUNAL-LARAVEL-AI-ROUTER-001",
+      "name": "ferdiunal/laravel-ai-router",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ferdiunal/laravel-ai-router",
+        "normalized_key": "github:ferdiunal/laravel-ai-router"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "provider-routing",
+        "provider-adapter-patterns",
+        "provider-state",
+        "custom-provider-definition"
+      ],
+      "domain_hints": [
+        "provider-routing",
+        "application-sdk"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-AUTH-MODEL-ROUTER-001",
+        "Provider Adapter Contract"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "explicit-owner-donornak",
+        "laravel",
+        "metadata-only",
+        "provider-router",
+        "review-pending",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "PACKAGE_METADATA_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Accepted as reference registration while detailed FA3 evaluation remains incomplete. No runtime or code adoption until review is closed."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-FIFTYONE-001",
       "name": "FiftyOne",
       "source": {
@@ -15353,6 +16901,223 @@
         "source_group": "2026-09-28-complementary-vision-donor-research",
         "source_reviewed_at": "2026-09-28",
         "notes": "Research candidate only. Keep dataset provenance and data permissions inside existing FA3 evidence/security boundaries. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-FILE-SYNC-CSHARP-FORKS-DESC-TOPIC-001",
+      "name": "GitHub file-sync C# topic — forks descending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/file-sync?l=c%23&o=desc&s=forks",
+        "normalized_key": "github:topics/file-sync?l=c%23&o=desc&s=forks"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "C# file-sync candidate discovery"
+      ],
+      "domain_hints": [
+        "file-sync",
+        "csharp",
+        "distributed-data"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "FA3 Multi-Host Sync",
+        "Project/Asset Sync",
+        "Application Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "file-sync",
+        "csharp",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "c#",
+        "sort": "forks",
+        "order": "desc",
+        "observed_url": "https://github.com/topics/file-sync?l=c%23&o=desc&s=forks",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-FILE-SYNCHRONIZATION-CPP-TOPIC-001",
+      "name": "GitHub file-synchronization C++ topic discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/file-synchronization?l=c%2B%2B",
+        "normalized_key": "github:topics/file-synchronization?l=c%2B%2B"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "C++ file-synchronization candidate discovery"
+      ],
+      "domain_hints": [
+        "file-sync",
+        "cpp",
+        "distributed-data"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "FA3 Multi-Host Sync",
+        "Project/Asset Sync",
+        "Application Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "file-synchronization",
+        "cpp",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "c++",
+        "observed_url": "https://github.com/topics/file-synchronization?l=c%2B%2B",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
+      "donor_id": "FA3-DONOR-FILE-SYNCHRONIZATION-STARS-DESC-TOPIC-001",
+      "name": "GitHub file-synchronization topic — stars descending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/file-synchronization?o=desc&s=stars",
+        "normalized_key": "github:topics/file-synchronization?o=desc&s=stars"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "file-synchronization candidate discovery by stars"
+      ],
+      "domain_hints": [
+        "file-sync",
+        "distributed-data"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "FA3 Multi-Host Sync",
+        "Project/Asset Sync",
+        "Application Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "file-synchronization",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "sort": "stars",
+        "order": "desc",
+        "observed_url": "https://github.com/topics/file-synchronization?o=desc&s=stars",
+        "observed_at": "2026-09-30"
       }
     },
     {
@@ -16018,6 +17783,86 @@
         "GPL-3.0; UX and Fountain conformance reference only pending license review.",
         "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-FRAPPE-ERPNEXT-001",
+      "name": "frappe/erpnext",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/frappe/erpnext",
+        "normalized_key": "github:frappe/erpnext"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "accounting and financial workflow references",
+        "order inventory supplier and fulfillment workflow patterns",
+        "manufacturing and capacity-planning references",
+        "asset lifecycle management",
+        "project task timesheet and issue workflow patterns"
+      ],
+      "domain_hints": [
+        "erp",
+        "finance",
+        "inventory",
+        "manufacturing",
+        "assets",
+        "projects"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "Finance",
+        "Procurement",
+        "Inventory",
+        "Project Management"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "erp",
+        "accounting",
+        "orders",
+        "inventory",
+        "manufacturing",
+        "assets",
+        "projects"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Repository verified public and non-archived on 2026-09-30; license.txt contains GNU GPL version 3.",
+        "ERPNext/Frappe runtime, database and web stack are not admitted by this reference; selective capability/workflow reuse requires separate rights, security, coexistence and application-fit review."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-FREE-VIDEO-GEN-TOPIC-001",
@@ -27845,6 +29690,80 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-GROUPWARE-GO-FORKS-ASC-TOPIC-001",
+      "name": "GitHub groupware Go topic — forks ascending discovery view",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/groupware?l=go&o=asc&s=forks",
+        "normalized_key": "github:topics/groupware?l=go&o=asc&s=forks"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Go groupware candidate discovery"
+      ],
+      "domain_hints": [
+        "groupware",
+        "go",
+        "collaboration"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "Meeting Manager",
+        "Shared Capability Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "groupware",
+        "go",
+        "filtered-topic"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "discovery_filter": {
+        "language": "go",
+        "sort": "forks",
+        "order": "asc",
+        "observed_url": "https://github.com/topics/groupware?l=go&o=asc&s=forks",
+        "observed_at": "2026-09-30"
+      }
+    },
+    {
       "donor_id": "FA3-DONOR-GSPLAT-001",
       "name": "gsplat",
       "source": {
@@ -27893,6 +29812,72 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GUIHUASHAOXIANG-FREELLM-API-KEYHUB-001",
+      "name": "guihuashaoxiang/FreeLLM-API-KeyHub",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/guihuashaoxiang/FreeLLM-API-KeyHub",
+        "normalized_key": "github:guihuashaoxiang/freellm-api-keyhub"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "provider-access-metadata",
+        "free-tier-intelligence",
+        "commercial-access-intelligence",
+        "expiry-change-intelligence"
+      ],
+      "domain_hints": [
+        "provider-intelligence",
+        "llm"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-EXTERNAL-LLM-CATALOG-001",
+        "Provider Explorer"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "access-metadata",
+        "explicit-owner-donornak",
+        "license-unknown",
+        "metadata-only",
+        "provider-discovery",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_SEPARATE_LICENSE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Commercial/access metadata reference only. Source copying remains blocked pending license review."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-H5P-INTERACTIVE-BOOK-001",
@@ -29081,6 +31066,495 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIGRESS-001",
+      "name": "higress-group/higress",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/higress-group/higress",
+        "normalized_key": "github:higress-group/higress"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ai-gateway",
+        "provider-protocol-mediation",
+        "mcp-hosting",
+        "mcp-federation",
+        "streaming",
+        "token-rate-limit",
+        "quota",
+        "ai-security",
+        "ai-observability",
+        "wasm-plugins"
+      ],
+      "domain_hints": [
+        "gateway",
+        "mcp",
+        "llm",
+        "plugins"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-LLM-GATEWAY-001",
+        "FA3-MCP-GATEWAY-001",
+        "Plugin & Extension Manager"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "ai-gateway",
+        "apache-2.0",
+        "explicit-owner-donornak",
+        "higress",
+        "mcp",
+        "metadata-only",
+        "runtime-admission-separate",
+        "wasm"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "High-value AI gateway donor. Kubernetes/Istio/Redis-style dependencies are not mandatory FA3 baseline dependencies."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIMARKET-001",
+      "name": "higress-group/himarket",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/higress-group/himarket",
+        "normalized_key": "github:higress-group/himarket"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "agent-marketplace",
+        "skill-marketplace",
+        "worker-marketplace",
+        "versioning",
+        "approval-workflow",
+        "subscription-lifecycle",
+        "rollback"
+      ],
+      "domain_hints": [
+        "agents",
+        "skills",
+        "plugins",
+        "marketplace"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Agent Federation",
+        "Skill Fabric",
+        "Plugin & Extension Manager"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "agents",
+        "apache-2.0",
+        "explicit-owner-donornak",
+        "himarket",
+        "marketplace",
+        "metadata-only",
+        "runtime-admission-separate",
+        "skills"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Marketplace/lifecycle donor only; does not create a new FA3 catalog authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIROUTE-001",
+      "name": "higress-group/HiRoute",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/higress-group/HiRoute",
+        "normalized_key": "github:higress-group/hiroute"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "stage-aware-routing",
+        "bounded-fallback",
+        "explicit-route-exhaustion",
+        "routing-decision-evidence",
+        "agent-model-stage-routing"
+      ],
+      "domain_hints": [
+        "model-routing",
+        "agent-routing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-AUTH-MODEL-ROUTER-001",
+        "FA3-DECISION-FABRIC-001",
+        "Agent Workload Runtime"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "apache-2.0",
+        "bounded-fallback",
+        "explicit-owner-donornak",
+        "hiroute",
+        "metadata-only",
+        "runtime-admission-separate",
+        "stage-routing"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Primary donor pattern for stage-aware routing and bounded fallback; final route authority remains the FA3 Model Router."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-OPENAPI-TO-MCPSERVER-001",
+      "name": "higress-group/openapi-to-mcpserver",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/higress-group/openapi-to-mcpserver",
+        "normalized_key": "github:higress-group/openapi-to-mcpserver"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "openapi-to-mcp-projection",
+        "schema-conversion",
+        "tool-projection"
+      ],
+      "domain_hints": [
+        "mcp",
+        "protocol-projection"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-MCP-GATEWAY-001",
+        "Unified Action Fabric"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "apache-2.0",
+        "explicit-owner-donornak",
+        "mcp",
+        "metadata-only",
+        "openapi",
+        "projection",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference for adapter-only REST/OpenAPI→MCP projection; Central MCP Gateway remains the trust boundary."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-ORGANIZATION-DISCOVERY-INDEX-001",
+      "name": "higress-group organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/higress-group",
+        "normalized_key": "github:higress-group"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "ai-gateway-discovery",
+        "mcp-discovery",
+        "wasm-plugin-discovery",
+        "agent-marketplace-discovery"
+      ],
+      "domain_hints": [
+        "gateway",
+        "mcp",
+        "plugins",
+        "agents"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Gateway Fabric",
+        "Plugin & Extension Manager",
+        "Agent Federation"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "discovery-only",
+        "explicit-owner-donornak",
+        "github-organization",
+        "higress",
+        "metadata-only",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Organization-level discovery index for Higress ecosystem; individual repository licensing and admission remain separate."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-PLUGIN-SERVER-001",
+      "name": "higress-group/plugin-server",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/higress-group/plugin-server",
+        "normalized_key": "github:higress-group/plugin-server"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "plugin-provenance",
+        "artifact-digest",
+        "snapshot-inventory",
+        "drift-detection",
+        "wasm-validation"
+      ],
+      "domain_hints": [
+        "plugins",
+        "supply-chain"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Plugin & Extension Manager",
+        "Security Governance"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "apache-2.0",
+        "explicit-owner-donornak",
+        "metadata-only",
+        "plugin-supply-chain",
+        "provenance",
+        "runtime-admission-separate",
+        "wasm"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "High-value plugin supply-chain/provenance donor; activation remains under existing FA3 Plugin & Extension authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-WASM-GO-001",
+      "name": "higress-group/wasm-go",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/higress-group/wasm-go",
+        "normalized_key": "github:higress-group/wasm-go"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "proxy-wasm-sdk",
+        "sandboxed-plugin-patterns",
+        "gateway-plugin-scope"
+      ],
+      "domain_hints": [
+        "plugins",
+        "gateway"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Plugin & Extension Manager",
+        "Gateway Fabric"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "apache-2.0",
+        "explicit-owner-donornak",
+        "metadata-only",
+        "plugin-sdk",
+        "proxy-wasm",
+        "runtime-admission-separate",
+        "wasm"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Optional plugin execution/reference pattern; not a mandatory runtime dependency."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-HKUDS-DEEPTUTOR-001",
       "name": "DeepTutor",
       "source": {
@@ -29241,6 +31715,73 @@
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HORDE-ORG-001",
+      "name": "Horde organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/horde",
+        "normalized_key": "github:horde"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Horde webmail/groupware framework and protocol implementation discovery"
+      ],
+      "domain_hints": [
+        "groupware",
+        "webmail",
+        "email",
+        "calendar"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "FA3 Communications Hub",
+        "Meeting Manager"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only",
+        "horde",
+        "webmail"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-HOTCLIP-001",
@@ -33166,6 +35707,72 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-INTERMESH-ORG-001",
+      "name": "Intermesh organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/Intermesh",
+        "normalized_key": "github:intermesh"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "GroupOffice and groupware ecosystem discovery"
+      ],
+      "domain_hints": [
+        "groupware",
+        "collaboration",
+        "email",
+        "contacts"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "Meeting Manager",
+        "Project/Task Shared"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only",
+        "groupoffice"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-IOR-AND-MDTEST-001",
       "name": "IOR and mdtest",
       "source": {
@@ -35182,6 +37789,72 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-KONGLONG87-FREE-AI-FREE-TOKEN-001",
+      "name": "konglong87/free-AI-free-token",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/konglong87/free-AI-free-token",
+        "normalized_key": "github:konglong87/free-ai-free-token"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "provider-evidence-dossier",
+        "provenance-schema",
+        "integration-matrix",
+        "multimodal-provider-discovery"
+      ],
+      "domain_hints": [
+        "provider-intelligence",
+        "provenance"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-EXTERNAL-LLM-CATALOG-001",
+        "Evidence"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "explicit-owner-donornak",
+        "license-unknown",
+        "metadata-only",
+        "provenance",
+        "provider-dossier",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_LICENSE_FILE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Documentation/provenance donor only; not a credential source and not a runtime provider."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-KRITA-001",
       "name": "Krita",
       "source": {
@@ -35787,6 +38460,81 @@
       "notes": [
         "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-LBB00-AI-RULES-SYNC-001",
+      "name": "lbb00/ai-rules-sync",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/lbb00/ai-rules-sync",
+        "normalized_key": "github:lbb00/ai-rules-sync"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "Git-native agent asset federation",
+        "symlink-based rules skills commands and agent distribution",
+        "multi-repository import publish review workflow",
+        "one-source-to-many-project synchronization pattern"
+      ],
+      "domain_hints": [
+        "agents",
+        "skills",
+        "developer-tools",
+        "sync",
+        "configuration-management"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Agent Skills / Reuse Discovery",
+        "Plugin & Extension Fabric",
+        "Developer Fabric",
+        "FA3 Multi-Host Sync"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "agent-assets",
+        "skills",
+        "rules",
+        "symlink-sync",
+        "git-native"
+      ],
+      "license": {
+        "declared": "Unlicense",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Repository verified public and non-archived on 2026-09-30; root LICENSE is the Unlicense/public-domain dedication.",
+        "Symlink and cross-project mutation semantics require Software Coexistence, scope/authority, provenance and rollback review before any implementation reuse."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "status": "CANDIDATE",
@@ -38535,6 +41283,83 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-M66B-FAIREMAIL-001",
+      "name": "M66B/FairEmail",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/m66b/fairemail",
+        "normalized_key": "github:m66b/fairemail"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "SECURITY_PATTERN",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "IMAP POP3 SMTP standards-oriented client patterns",
+        "unified inbox and conversation threading",
+        "offline operations and two-way synchronization",
+        "OpenPGP and S/MIME handling references",
+        "phishing tracking-image and unsafe-HTML controls"
+      ],
+      "domain_hints": [
+        "email",
+        "communications",
+        "privacy",
+        "security",
+        "offline-sync"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "FA3 Communications Hub",
+        "Security Governance"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "email",
+        "imap",
+        "smtp",
+        "openpgp",
+        "smime",
+        "anti-phishing",
+        "privacy"
+      ],
+      "license": {
+        "declared": "GPL-3.0",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Repository verified public and non-archived on 2026-09-30; root LICENSE is GNU GPL version 3.",
+        "Android-specific runtime and implementation are not admitted; protocol/security patterns require independent compatibility, rights and coexistence review before reuse."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-MAGDA-001",
       "name": "MAGDA",
       "source": {
@@ -38581,6 +41406,208 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MAIL-0-ZERO-001",
+      "name": "Mail-0/Zero",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/mail-0/zero",
+        "normalized_key": "github:mail-0/zero"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN",
+        "UI_REFERENCE"
+      ],
+      "capability_hints": [
+        "self-hosted unified inbox patterns",
+        "multi-provider email integration",
+        "email AI-agent workflow references",
+        "extensible mail UI and integration patterns"
+      ],
+      "domain_hints": [
+        "email",
+        "communications",
+        "self-hosting",
+        "ai"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "FA3 Communications Hub",
+        "Shared Capability Fabric",
+        "Model Router"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "email",
+        "unified-inbox",
+        "self-hosting",
+        "ai-email"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Repository verified public and non-archived on 2026-09-30; root LICENSE declares MIT.",
+        "Direct provider/model calls, AI-agent autonomy and web stack are reference-only; FA3 AI enablement, Model Router, Secret Broker, UAF/MCP and no-silent-fallback rules remain mandatory."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MAIL-CLIENT-TOPIC-001",
+      "name": "GitHub mail-client topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/mail-client",
+        "normalized_key": "github:topics/mail-client"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "mail-client implementation discovery"
+      ],
+      "domain_hints": [
+        "email",
+        "communications"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "FA3 Communications Hub",
+        "Shared Capability Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "mail-client"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-MAILSERVER-TOPIC-001",
+      "name": "GitHub mailserver topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/mailserver",
+        "normalized_key": "github:topics/mailserver"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "mail-server and protocol implementation discovery"
+      ],
+      "domain_hints": [
+        "email",
+        "server",
+        "communications"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "Provider/Protocol Adapters",
+        "Security Governance"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "mailserver"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -38652,6 +41679,75 @@
         "checked_at": "2026-09-28",
         "source": "GitHub repository API"
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-MALDA231125-FREE-LLM-GATEWAY-001",
+      "name": "malda231125/free-llm-gateway",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/malda231125/free-llm-gateway",
+        "normalized_key": "github:malda231125/free-llm-gateway"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "dynamic-model-catalog",
+        "quota-ledger",
+        "advisory-ai-routing",
+        "per-credential-cooldown"
+      ],
+      "domain_hints": [
+        "llm-gateway",
+        "provider-capacity",
+        "model-routing"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-AUTH-MODEL-ROUTER-001",
+        "FA3-LLM-GATEWAY-001",
+        "Token Governance"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "explicit-owner-donornak",
+        "license-clarification-required",
+        "metadata-only",
+        "model-catalog",
+        "quota",
+        "routing",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "DECLARED_IN_PACKAGE_METADATA_BUT_ROOT_LICENSE_MISSING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Strong quota/catalog donor. Silent provider fallback and in-memory quota degradation are rejected for FA3; source copying blocked until license is clarified."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-MARIADB-001",
@@ -48628,6 +51724,72 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-OPEN-FREE-LLM-API-AWESOME-FREELLM-APIS-001",
+      "name": "open-free-llm-api/awesome-freellm-apis",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-free-llm-api/awesome-freellm-apis",
+        "normalized_key": "github:open-free-llm-api/awesome-freellm-apis"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "provider-discovery",
+        "free-tier-intelligence",
+        "model-catalog",
+        "provider-rate-metadata"
+      ],
+      "domain_hints": [
+        "provider-intelligence",
+        "llm"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-EXTERNAL-LLM-CATALOG-001",
+        "Provider Explorer"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "catalog",
+        "explicit-owner-donornak",
+        "free-llm",
+        "metadata-only",
+        "provider-discovery",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Broad, frequently refreshed provider/model discovery feed. Reference registration does not make upstream claims canonical or admit providers."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-OPEN-HIGGSFIELD-AI-001",
       "name": "Open-Higgsfield-AI",
       "source": {
@@ -53945,6 +57107,70 @@
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-POLIUS-PROFILE-001",
+      "name": "polius GitHub profile discovery index",
+      "source": {
+        "kind": "GITHUB_PROFILE",
+        "locator": "https://github.com/polius",
+        "normalized_key": "github:polius"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "file synchronization and related utility candidate discovery"
+      ],
+      "domain_hints": [
+        "file-sync",
+        "utilities"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "FA3 Multi-Host Sync",
+        "Project/Asset Sync",
+        "Application Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-profile",
+        "discovery-only",
+        "file-sync"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-PONYTAIL-001",
@@ -67277,6 +70503,73 @@
       ]
     },
     {
+      "donor_id": "FA3-DONOR-SYNCTHING-ORG-001",
+      "name": "Syncthing organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/syncthing",
+        "normalized_key": "github:syncthing"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Syncthing ecosystem and cross-device synchronization implementation discovery"
+      ],
+      "domain_hints": [
+        "file-sync",
+        "distributed-data",
+        "multi-host"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "FA3 Multi-Host Sync",
+        "Project/Asset Sync",
+        "Model Manager",
+        "Application Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only",
+        "syncthing",
+        "file-sync"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
       "name": "HarnessRouter/SystemOneHarness",
       "source": {
@@ -67509,6 +70802,78 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-TEAM-AI-SYNC-MARKETPLACE-001",
+      "name": "GitHub Marketplace: team-ai-sync",
+      "source": {
+        "kind": "GITHUB_MARKETPLACE",
+        "locator": "https://github.com/marketplace/actions/team-ai-sync",
+        "normalized_key": "github:marketplace/actions/team-ai-sync"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "WORKFLOW_PATTERN",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "shared AI guidance synchronization across repositories",
+        "reviewable PR/MR based configuration synchronization",
+        "central source-of-truth distribution pattern for AGENTS and prompt/rule files"
+      ],
+      "domain_hints": [
+        "agent-assets",
+        "repository-sync",
+        "developer-workflow",
+        "ci-cd"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Agent Skills / Reuse Discovery",
+        "Developer Fabric",
+        "Plugin & Extension Fabric",
+        "FA3 repository governance"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-marketplace",
+        "team-ai-sync",
+        "agent-assets",
+        "reviewable-sync"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "MARKETPLACE_LISTING"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Marketplace listing verified to correspond to public paladini/team-ai-sync, which advertises an MIT license; the underlying repository is not separately owner-marked in this batch and is not auto-registered.",
+        "Reference only: no PAT/token handling, CI action execution, automatic cross-repository write or dependency adoption is admitted by this record."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,
@@ -67786,6 +71151,66 @@
       "automatic_model_selection": false,
       "notes": [
         "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TERAFITZSING-FREEPIK-AI-LAB-001",
+      "name": "Terafitzsing/freepik-ai-lab",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Terafitzsing/freepik-ai-lab",
+        "normalized_key": "github:terafitzsing/freepik-ai-lab"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "creative-ai-reference"
+      ],
+      "domain_hints": [
+        "creative-ai"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Creative Studio research"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "explicit-owner-donornak",
+        "insufficient-evidence",
+        "license-unknown",
+        "metadata-only",
+        "reference-only",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_LICENSE_VERIFIED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "REFERENCE ONLY. Earlier review found insufficient source/build/test/license evidence for runtime or code donor admission."
       ]
     },
     {
@@ -68221,6 +71646,73 @@
       "notes": [
         "Contemporary coordinate-to-IANA timezone mapping; historical local offsets must use dated time-zone rules and historic place boundary validation."
       ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TINE-GROUPWARE-ORG-001",
+      "name": "tine-groupware organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/tine-groupware",
+        "normalized_key": "github:tine-groupware"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "Tine groupware and collaboration ecosystem discovery"
+      ],
+      "domain_hints": [
+        "groupware",
+        "collaboration",
+        "calendar",
+        "contacts"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "Meeting Manager",
+        "Shared Capability Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-organization",
+        "discovery-only",
+        "tine",
+        "groupware"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "PROFILE_OR_ORGANIZATION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Organization/profile discovery index only; child repositories are not automatically registered or admitted."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
     },
     {
       "donor_id": "FA3-DONOR-TINY-SKIA-001",
@@ -70739,6 +74231,80 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-TRYCOMPAI-CRM-001",
+      "name": "trycompai/crm",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/trycompai/crm",
+        "normalized_key": "github:trycompai/crm"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "ARCHITECTURE_PATTERN",
+        "WORKFLOW_PATTERN"
+      ],
+      "capability_hints": [
+        "agentic-first CRM interaction pattern",
+        "evidence-ledger and observed-fact workflow",
+        "durable follow-up/work-queue pattern",
+        "human settlement of weak evidence"
+      ],
+      "domain_hints": [
+        "crm",
+        "business",
+        "agents",
+        "evidence"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Business Fabric",
+        "CRM",
+        "Agent Workforce",
+        "Evidence Registry",
+        "Communications & Contacts Shared"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "crm",
+        "agentic-crm",
+        "evidence-ledger",
+        "human-review"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_LICENSE_OBSERVED_UNAUDITED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Repository verified public and non-archived on 2026-09-30; root LICENSE declares MIT.",
+        "Its autonomous agent runtime, scheduling and external research behavior do not become FA3 authority; Orchestrator/Conductor, Scope Guard, security and approval rules remain controlling."
+      ],
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
       "donor_id": "FA3-DONOR-TRYSKILLY-SKILLY-001",
       "name": "Skilly",
       "source": {
@@ -71178,6 +74744,80 @@
       "notes": [
         "Archived triangulation node wraps Mapbox Earcut; separately review original upstream dependencies before copying.",
         "Archived upstream; historical reference only."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TYKTECHNOLOGIES-TYK-001",
+      "name": "TykTechnologies/tyk",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/TykTechnologies/tyk",
+        "normalized_key": "github:tyktechnologies/tyk"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "api-gateway",
+        "mcp-tool-resource-prompt-acl",
+        "mcp-discovery-filtering",
+        "authentication",
+        "rate-limiting",
+        "middleware-pipeline",
+        "protocol-mediation"
+      ],
+      "domain_hints": [
+        "gateway",
+        "proxy",
+        "mcp",
+        "security"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-MCP-GATEWAY-001",
+        "Layer Guard",
+        "Gateway Fabric"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "ee-commercial-excluded",
+        "explicit-owner-donornak",
+        "gateway",
+        "mcp",
+        "metadata-only",
+        "mpl-2.0",
+        "policy",
+        "runtime-admission-separate"
+      ],
+      "license": {
+        "declared": "MPL-2.0",
+        "status": "OSS_ROOT_WITH_EE_COMMERCIAL_CARVEOUT"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "High-value gateway/MCP policy donor. OSS and ee/ scopes must remain license-separated; full Tyk runtime is not an FA3 authority."
       ]
     },
     {
@@ -71783,6 +75423,74 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research/planning reference only; verify source license, security and compatibility before code or runtime reuse."
       }
+    },
+    {
+      "donor_id": "FA3-DONOR-UNOROUTER-UNOROUTER-001",
+      "name": "unorouter/unorouter",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/unorouter/unorouter",
+        "normalized_key": "github:unorouter/unorouter"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "conversation-owner-approved-batch-2026-10-01"
+      ],
+      "first_seen": "2026-10-01",
+      "last_seen": "2026-10-01",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "model-identity-attestation",
+        "ssrf-safe-fetch",
+        "gateway-ux",
+        "credential-boundary-patterns"
+      ],
+      "domain_hints": [
+        "provider-assurance",
+        "gateway-security",
+        "model-identity"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "FA3-AUTH-MODEL-ROUTER-001",
+        "FA3-MCP-GATEWAY-001",
+        "Security Governance"
+      ],
+      "tags": [
+        "2026-10-01-intake",
+        "agpl",
+        "explicit-owner-donornak",
+        "metadata-only",
+        "model-identity",
+        "runtime-admission-separate",
+        "ssrf"
+      ],
+      "license": {
+        "declared": "AGPL-3.0-only",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Reference for model identity and SSRF-safe remote fetch. Direct code import requires separate AGPL/license review; no runtime admission implied."
+      ]
     },
     {
       "donor_id": "FA3-DONOR-UNTRIVIAL-AI-AGENT-ORCHESTRATOR-001",
@@ -73930,6 +77638,69 @@
         "status": "UNKNOWN"
       },
       "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-WEBMAIL-CLIENT-TOPIC-001",
+      "name": "GitHub webmail-client topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/webmail-client",
+        "normalized_key": "github:topics/webmail-client"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-09-30-mail-crm-erp-groupware-sync"
+      ],
+      "first_seen": "2026-09-30",
+      "last_seen": "2026-09-30",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "webmail client candidate discovery"
+      ],
+      "domain_hints": [
+        "email",
+        "webmail"
+      ],
+      "problem_hints": [
+        "selective metadata-only upstream discovery"
+      ],
+      "target_hints": [
+        "Communications & Contacts Shared",
+        "FA3 Communications Hub"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "webmail"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "notes": [
+        "Dynamic GitHub topic discovery view only; child repositories are not automatically registered, selected, fetched, installed, imported or admitted."
+      ],
       "discoverable_for_planning": true,
       "authority": false,
       "automatic_selection": false,

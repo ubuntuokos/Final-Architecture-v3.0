@@ -316,7 +316,7 @@ def build_catalog(root: Path) -> dict[str, Any]:
                 if not isinstance(row, dict) or not row.get("donor_id"):
                     continue
                 status = str(row.get("status", "CANDIDATE"))
-                if status in {"REJECTED", "SUPERSEDED"} or row.get("discoverable_for_planning") is not True:
+                if status == "SUPERSEDED" or row.get("discoverable_for_planning") is not True:
                     continue
                 source_meta = row.get("source", {}) if isinstance(row.get("source"), dict) else {}
                 license_meta = row.get("license", {}) if isinstance(row.get("license"), dict) else {}

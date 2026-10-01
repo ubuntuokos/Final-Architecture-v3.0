@@ -58,5 +58,32 @@
   },
   "supersedes": [
     "eager installation of optional AI Studio applications"
-  ]
+  ],
+  "governance_decisions": [
+    "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30"
+  ],
+  "development_reconciliation": {
+    "applies_to_every_catalog_application": true,
+    "formal_dependency_declaration_required_for_scope": false,
+    "declared_and_implicit_dependencies_reconciled": true,
+    "affected_layers_reconciled": true,
+    "donor_change_processing_required": true,
+    "donor_usage_reverse_traceability_required": true,
+    "capability_non_regression_on_donor_change": true,
+    "capability_loss_only_for_verified_fa3_risk": true,
+    "current_host_alignment_required_for_structural_or_runtime_change": true,
+    "tests_gates_evidence_and_release_projection_reconciled": true,
+    "exceptions_allowed": false
+  },
+  "donor_lifecycle": {
+    "monthly_capability_refresh_days": 31,
+    "security_change_propagation": "IMMEDIATE",
+    "unsafe_donor_active_registry": "FORBIDDEN",
+    "unsafe_donor_replacement": [
+      "FA3_NATIVE_REMATERIALIZATION",
+      "VERIFIED_FUNCTIONALLY_EQUIVALENT_DONOR"
+    ],
+    "stalled_used_donor": "LOCK_LAST_VERIFIED_STABLE_THEN_REPLACE_OR_REMATERIALIZE",
+    "rejected_reentry": "VERIFIED_SAFE_EVIDENCE_REQUIRED"
+  }
 }
