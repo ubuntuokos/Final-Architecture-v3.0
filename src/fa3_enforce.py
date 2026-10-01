@@ -731,6 +731,32 @@ def acceptance_check(root:Path):
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
 
+def materialize_donor_blocked_promotion(root:Path,donor:dict):
+    RELEASE,_=active_release_values(root)
+    head=git_head(root)
+    acceptance_path=root/"acceptance/acceptance-report.json"
+    if acceptance_path.is_file():
+        try:
+            acceptance=loadj(acceptance_path)
+        except Exception:
+            acceptance={}
+    else:
+        acceptance=acceptance_check(root)
+    state={
+        "schema":"fa3.runtime-status.v1",
+        "architecture_release":RELEASE,
+        "target_state":"PROMOTED",
+        "actual_state":"PROMOTION_BLOCKED",
+        "promotion_allowed":False,
+        "acceptance":acceptance.get("status","UNKNOWN"),
+        "source_commit":head,
+        "approval_consumption":None,
+        "reason":"Fail-closed: donor readiness finalization is blocked; runtime promotion is forbidden.",
+        "donor_readiness":donor,
+    }
+    writej(root/"promotion/runtime-status.json",state)
+    return state
+
 def promote(root:Path):
     RELEASE,_=active_release_values(root)
     head=git_head(root)
@@ -984,7 +1010,8 @@ def main():
                 plan=os.getenv("FA3_APPROVED_PLAN_PATH"),approval=os.getenv("FA3_PLAN_APPROVAL_RECORD"),
                 pr_number=int(pr) if pr.isdigit() else None)
             if donor["result"] != "READY_FOR_SEPARATE_FA3_ADMISSION_GATES":
-                print(json.dumps({"result":"PROMOTION_BLOCKED","donor_readiness":donor},indent=2)); return BLOCKED
+                blocked=materialize_donor_blocked_promotion(root,donor)
+                print(json.dumps(blocked,indent=2)); return BLOCKED
             x,rc=promote(root); print(json.dumps(x,indent=2)); return rc
         p=root/"promotion/runtime-status.json"
         print(p.read_text() if p.exists() else '{"actual_state":"UNKNOWN"}')
