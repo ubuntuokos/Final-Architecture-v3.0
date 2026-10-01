@@ -46,6 +46,11 @@ This keeps exact evidence provenance while avoiding a 175 × 3 replay when only 
 
 ## CLI
 
+A runtime request is bound to the exact 40-character Git `source_commit`, a SHA-256 `change_digest`, the immutable admitted base digest and the current effective-host parent digest.
+
+Shared gate evidence is not a free-form PASS assertion. It uses `fa3.current-host-delta-shared-gate-evidence.v1` and hash-binds the current Hardware Portability/Safety, License & Rights and Current Host Structural Impact reports. Software Coexistence is derived from the mandatory fresh physical CAP-175 delta proof.
+
+
 Plan:
 
 ```bash
@@ -54,12 +59,34 @@ bash bin/fa3-current-host-delta plan \
   --output reports/current-host-delta-plan.json
 ```
 
+Execute only the planned capability subset on the physical Current Host and collect the receipt automatically:
+
+```bash
+bash bin/fa3-current-host-delta execute \
+  --plan reports/current-host-delta-plan.json \
+  --base evidence/receipts/current-host-base-state.json \
+  --shared-gates reports/current-host-delta-shared-gates.json \
+  --receipt-output evidence/receipts/current-host-deltas/current.json \
+  --output reports/current-host-delta-execution.json
+```
+
+The command performs a producer/executor preflight first, runs only the affected capability IDs through the existing registered qualification-constituent and capability-test orchestrators, binds every proof to the exact source commit and physical host fingerprint, and then verifies the delta receipt.
+
+A previously executed subset can also be collected without rerunning it:
+
+```bash
+bash bin/fa3-current-host-delta collect \
+  --plan reports/current-host-delta-plan.json \
+  --shared-gates reports/current-host-delta-shared-gates.json \
+  --output evidence/receipts/current-host-deltas/current.json
+```
+
 Verify a physical receipt produced on the Current Host:
 
 ```bash
 bash bin/fa3-current-host-delta verify \
   --plan reports/current-host-delta-plan.json \
-  --receipt evidence/receipts/current-host-delta.json \
+  --receipt evidence/receipts/current-host-deltas/current.json \
   --output reports/current-host-delta-gate.json
 ```
 
