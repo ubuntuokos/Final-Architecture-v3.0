@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-SHARED-CONVERSATION-SESSION-001",
   "provider_neutral": true,
@@ -27,7 +27,12 @@
     "SessionCheckpoint",
     "SessionExport",
     "SessionImport",
-    "SessionCloseReceipt"
+    "SessionCloseReceipt",
+    "PrivateParticipantContext",
+    "MinimumDisclosureProjection",
+    "StructuredCoordinationSignal",
+    "SharedProposal",
+    "RatificationState"
   ],
   "required_semantics": {
     "event_model": "VERSIONED_APPEND_OR_RECONCILED_EVENTS",
@@ -36,12 +41,16 @@
     "knowledge_boundary": "EXPLICIT_REFERENCE_ONLY",
     "streaming": "TRANSPORT_INDEPENDENT",
     "import_export": "VERSIONED_SCHEMA_ROUND_TRIP",
-    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN"
+    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN",
+    "minimum_disclosure": "PRIVATE_CONTEXT_TO_EXPLICIT_STRUCTURED_SHARED_PROJECTION_ONLY",
+    "human_ratification": "MAY_BE_NON_DELEGABLE_AND_NON_CALLABLE_BY_AGENT"
   },
   "invariants": [
     "NO_FRAMEWORK_OBJECT_PERSISTENCE_AS_CANONICAL",
     "NO_CONVERSATION_MEMORY_RAG_COLLAPSE",
-    "NO_HIDDEN_BACKGROUND_AI"
+    "NO_HIDDEN_BACKGROUND_AI",
+    "NO_RAW_PRIVATE_CONTEXT_IMPLICIT_SHARED_STATE",
+    "NO_AGENT_RATIFICATION_WHEN_HUMAN_ONLY_BOUNDARY_DECLARED"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"

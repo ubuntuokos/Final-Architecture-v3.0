@@ -167,6 +167,7 @@ def validate(root: Path) -> dict[str, Any]:
         "FA3-SHARED-MULTIMODAL-SOURCE-001",
         "FA3-SHARED-CONVERSATION-SESSION-001",
         "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+        "FA3-SHARED-AGENT-WEB-INTERACTION-001",
     }
     materialized_rows = catalogue.get("materialized_shared_components", [])
     materialized_ids: set[str] = set()

@@ -2,14 +2,14 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-WEB-AI-001",
   "name": "Browser-Resident AI Execution, Capability Discovery & Hybrid Fallback Profile",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "FA3-WEB-AI-CONTRACTS-001"
   ],
@@ -32,7 +32,11 @@
     "STALE_DECISION_EXECUTION_DENIED",
     "BROWSER_MUTATION_NOT_BLINDLY_RETRIED",
     "DONE_REQUIRES_INDEPENDENT_VERIFICATION",
-    "PAGE_CONTENT_UNTRUSTED"
+    "PAGE_CONTENT_UNTRUSTED",
+    "AGENT_WEB_EXECUTION_RAIL_EXPLICITLY_BOUND",
+    "NO_SILENT_NATIVE_HTTP_BROWSER_RAIL_FALLBACK",
+    "LOWER_ASSURANCE_WEB_RAIL_CANNOT_INHERIT_HIGHER_ASSURANCE_AUTHORITY",
+    "TRANSPORT_SUCCESS_NOT_BUSINESS_SUCCESS"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "neural_rendering_projection": {
@@ -57,5 +61,6 @@
     "provider_neutral": true,
     "decision_fabric": "FA3-DECISION-FABRIC-001",
     "uaf": "FA3-UNIFIED-ACTION-FABRIC-001"
-  }
+  },
+  "shared_agent_web_interaction_profile": "FA3-SHARED-AGENT-WEB-INTERACTION-001"
 }

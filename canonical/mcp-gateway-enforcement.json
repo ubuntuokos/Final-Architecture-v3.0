@@ -22,7 +22,15 @@
     "MISSING_OR_INVALID_HRB_LEASE",
     "INVALID_SECRET_REFERENCE",
     "INLINE_SECRET_FORBIDDEN",
-    "BYPASS_PATH_DETECTED"
+    "BYPASS_PATH_DETECTED",
+    "PRIVATE_OR_NONPUBLIC_REMOTE_TARGET",
+    "TLS_IDENTITY_OR_CHAIN_INVALID",
+    "UNSAFE_REDIRECT_CHAIN",
+    "UNSUPPORTED_REMOTE_MCP_REVISION",
+    "INVALID_TOOL_DESCRIPTOR_OR_SCHEMA",
+    "OAUTH_RESOURCE_ISSUER_BINDING_INVALID",
+    "PKCE_REQUIRED_BUT_UNAVAILABLE",
+    "REMOTE_DIAGNOSTIC_TOOL_EXECUTION_FORBIDDEN"
   ],
   "legacy_compatibility": {
     "in_canonical_modern_endpoint": "DENY",
@@ -30,5 +38,11 @@
   },
   "capability_delta": 0,
   "authority_delta": 0,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "capability_count": 175,
+  "remote_endpoint_diagnostics": {
+    "default": "NON_EXECUTING",
+    "authenticated_probe": "EXPLICIT_PERMISSION_ONLY",
+    "client_profiles": "DIAGNOSTIC_ONLY"
+  }
 }

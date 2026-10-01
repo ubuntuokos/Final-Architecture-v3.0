@@ -643,6 +643,50 @@
       "gui_surface_ids": [
         "create.ai-module-factory"
       ]
+    },
+    {
+      "id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+      "owner_layer": "Tools, Skills & Automation",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "fa3.ai-module-factory"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-AGENT-WEB-INTERACTION-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-AGENT-WEB-INTERACTION-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MCP-GATEWAY-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-AGENT-WEB-INTERACTION-PATTERN-001",
+        "FA3-PATTERN-AGENT-NATIVE-WEB-INTERACTION-001"
+      ],
+      "gui_surface_ids": [
+        "agents.action-center",
+        "agents.workflows",
+        "governance.security"
+      ]
     }
   ],
   "governance_decisions": [

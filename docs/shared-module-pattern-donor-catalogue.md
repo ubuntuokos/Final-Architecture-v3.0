@@ -184,3 +184,11 @@ python3 -m unittest tests.test_shared_module_pattern_catalogue
 ```
 
 The validator fails closed on unresolved canonical donor IDs, analysis sources pretending to be donors, unknown application consumers, single-consumer "shared" modules, unknown pattern classes or shared targets, capability baseline drift and authority/runtime-policy violations.
+
+## Agent Native / Agent-Native-Web reconciliation (2026-10-01)
+
+| Materialized shared component | Shared responsibility | Existing capability bindings |
+| --- | --- | --- |
+| `FA3-SHARED-AGENT-WEB-INTERACTION-001` | explicit native-contract / semantic-HTTP / browser-visual rails; safe write preview/approval/receipt; outcome reconciliation and human-only commitment boundary | CAP-003, CAP-007, CAP-011, CAP-013, CAP-051, CAP-079, CAP-144, CAP-145, CAP-172 |
+
+The inspected child repositories remain analysis-only pattern sources unless separately owner-marked for canonical donor registration. The three owner-submitted GitHub topic URLs are discovery references only and do not create donor usage edges or child-project adoption.

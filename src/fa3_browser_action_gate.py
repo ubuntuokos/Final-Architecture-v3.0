@@ -15,7 +15,7 @@ def load(path:Path)->dict[str,Any]:
     return v
 def gate(root:Path)->dict[str,Any]:
     root=root.resolve(); findings=[]
-    required=["canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json","canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json","canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json","canonical/profiles/FA3-WEB-AI-001.json","canonical/actions/browser.action.execute.json","canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json","canonical/third-party/FA3-JEV-CODE-REUSE-001.json","canonical/FA3-GATE-BROWSER-ACTION-RUNTIME-001.json","canonical/browser-action-runtime-enforcement.json","src/fa3_browser_action_runtime.py","src/fa3_jev_decision_provider.py","tests/test_browser_action_runtime.py","docs/browser-action-runtime.md"]
+    required=["canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json","canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json","canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json","canonical/profiles/FA3-WEB-AI-001.json","canonical/profiles/FA3-SHARED-AGENT-WEB-INTERACTION-001.json","canonical/contracts/FA3-SHARED-AGENT-WEB-INTERACTION-CONTRACTS-001.json","canonical/agent-web-interaction-enforcement.json","src/fa3_agent_web_interaction_gate.py","tests/test_agent_web_interaction.py","canonical/actions/browser.action.execute.json","canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json","canonical/third-party/FA3-JEV-CODE-REUSE-001.json","canonical/FA3-GATE-BROWSER-ACTION-RUNTIME-001.json","canonical/browser-action-runtime-enforcement.json","src/fa3_browser_action_runtime.py","src/fa3_jev_decision_provider.py","tests/test_browser_action_runtime.py","docs/browser-action-runtime.md"]
     for rel in required:
         if not (root/rel).is_file(): findings.append({"code":"BAR-001","message":"required artifact missing","path":rel})
     if findings: return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
@@ -27,9 +27,13 @@ def gate(root:Path)->dict[str,Any]:
     miss=sorted(REQUIRED_INVARIANTS-set(p.get("invariants",[])))
     if miss: findings.append({"code":"BAR-006","message":"invariants missing","missing":miss})
     c=load(root/"canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json")
+    if c.get("capability_count")!=module_active_capability_count(__file__): findings.append({"code":"BAR-007A","message":"browser contract active baseline drift"})
     miss=sorted(REQUIRED_CONTRACTS-set(c.get("contracts",[])))
     if miss: findings.append({"code":"BAR-007","message":"contracts missing","missing":miss})
     w=load(root/"canonical/profiles/FA3-WEB-AI-001.json")
+    wc=load(root/"canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json")
+    if w.get("capability_count")!=module_active_capability_count(__file__) or wc.get("capability_count")!=module_active_capability_count(__file__): findings.append({"code":"BAR-008A","message":"Web-AI active baseline drift"})
+    if w.get("shared_agent_web_interaction_profile")!="FA3-SHARED-AGENT-WEB-INTERACTION-001": findings.append({"code":"BAR-008B","message":"shared Agent-Web binding missing"})
     if p["id"] not in w.get("subprofiles",[]): findings.append({"code":"BAR-008","message":"Web-AI subprofile binding missing"})
     if not {"BROWSER_RUNTIME_IS_EXECUTION_DOMAIN_NOT_AUTHORITY","BROWSER_ADAPTER_CANNOT_BYPASS_CENTRAL_GATEWAY_OR_ROUTER"}.issubset(set(w.get("invariants",[]))): findings.append({"code":"BAR-009","message":"existing Web-AI boundaries weakened"})
     j=load(root/"canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json")
@@ -53,10 +57,14 @@ def gate(root:Path)->dict[str,Any]:
     for token,code in [("UNTRUSTED_EXTERNAL_CONTENT","BAR-020"),("BLIND_MUTATION_RETRY_DENIED","BAR-021"),("COMPLETION_CLAIM","BAR-022"),("VERIFIED_SUCCESS","BAR-023")]:
         if token not in rt: findings.append({"code":code,"message":"runtime invariant token missing","token":token})
     from fa3_browser_session_gate import gate as browser_session_gate
+    from fa3_agent_web_interaction_gate import gate as agent_web_interaction_gate
+    agent_web_report=agent_web_interaction_gate(root)
+    if agent_web_report.get("result")!="PASS":
+        findings.append({"code":"BAR-025","message":"Agent-Web shared child gate failed","findings":agent_web_report.get("findings",[])})
     session_report=browser_session_gate(root)
     if session_report.get("result")!="PASS":
         findings.append({"code":"BAR-024","message":"Browser Session child gate failed","findings":session_report.get("findings",[])})
-    return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"browser_session_child_gate":{"gate_id":session_report.get("gate_id"),"result":session_report.get("result"),"current_host_runtime_claim":session_report.get("current_host_runtime_claim",False)},"upstream_pin":{"repository":UPSTREAM_REPO,"commit":UPSTREAM_COMMIT,"license":"MIT"},"capability_count":module_active_capability_count(__file__),"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
+    return {"schema":"fa3.browser-action-runtime-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not findings else "FAIL","findings":findings,"browser_session_child_gate":{"gate_id":session_report.get("gate_id"),"result":session_report.get("result"),"current_host_runtime_claim":session_report.get("current_host_runtime_claim",False)},"agent_web_interaction_child_gate":{"gate_id":agent_web_report.get("gate_id"),"result":agent_web_report.get("result"),"runtime_promotion_claim":agent_web_report.get("runtime_promotion_claim",False)},"upstream_pin":{"repository":UPSTREAM_REPO,"commit":UPSTREAM_COMMIT,"license":"MIT"},"capability_count":module_active_capability_count(__file__),"capability_delta":0,"authority_delta":0,"global_promotion_claim":False}
 def main()->int:
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default="."); ap.add_argument("--report",default="reports/browser-action-runtime-gate-report.json"); args=ap.parse_args()
     root=Path(args.root).resolve(); report=gate(root); path=root/args.report; path.parent.mkdir(parents=True,exist_ok=True); path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); print(json.dumps(report,ensure_ascii=False,indent=2)); return 0 if report["result"]=="PASS" else 2
