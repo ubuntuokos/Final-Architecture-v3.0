@@ -6,6 +6,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 REQUIRED_PROVIDERS = {
     "FA3-PROVIDER-MAUTIC-001",
     "FA3-PROVIDER-TWENTY-001",
@@ -59,7 +63,7 @@ def evaluate(receipt: dict[str, Any]) -> dict[str, Any]:
         findings.append("runtime_status")
     if receipt.get("secret_values_collected") is not False:
         findings.append("secret_values_collected")
-    if receipt.get("capability_count") != 143 or receipt.get("new_architectural_authorities") != 0:
+    if receipt.get("capability_count") != ACTIVE_CAPABILITY_COUNT or receipt.get("new_architectural_authorities") != 0:
         findings.append("architecture_invariants")
     if receipt.get("current_host_commit_sha") in (None, "", "UNKNOWN"):
         findings.append("current_host_commit_sha")
