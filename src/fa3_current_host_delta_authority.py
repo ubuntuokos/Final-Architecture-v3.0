@@ -13,6 +13,7 @@ REQUEST_SCHEMA = "fa3.current-host-change-request.v1"
 RECEIPT_SCHEMA = "fa3.current-host-delta-receipt.v1"
 BASE_SCHEMA = "fa3.current-host-base-state.v1"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -158,6 +159,10 @@ def validate_request(root: Path, request: dict[str, Any], authority: dict[str, A
         if not isinstance(request.get(key), str) or not request[key].strip():
             findings.append(f"{key} is required")
 
+    source_commit = request.get("source_commit")
+    if not isinstance(source_commit, str) or HEX40.fullmatch(source_commit) is None:
+        findings.append("source_commit must be a lowercase 40-character git commit")
+
     for key in ("base_release_digest", "parent_effective_digest", "change_digest"):
         value = request.get(key)
         if not isinstance(value, str) or HEX64.fullmatch(value) is None:
@@ -296,6 +301,7 @@ def plan_request(root: Path, request: dict[str, Any], authority: dict[str, Any] 
         "classification": classification,
         "base_release_digest": request["base_release_digest"],
         "parent_effective_digest": request["parent_effective_digest"],
+        "source_commit": request["source_commit"],
         "change_digest": request["change_digest"],
         "changed_paths": sorted(set(request["changed_paths"])),
         "changed_shared_component_ids": sorted(set(request.get("changed_shared_component_ids", []))),
@@ -334,9 +340,12 @@ def verify_delta_receipt(plan: dict[str, Any], receipt: dict[str, Any]) -> dict[
         findings.append("NO_RUNTIME_IMPACT plan does not accept a runtime delta receipt")
     if receipt.get("schema") != RECEIPT_SCHEMA:
         findings.append("receipt schema mismatch")
-    for key in ("plan_digest", "base_release_digest", "parent_effective_digest", "change_digest"):
+    for key in ("plan_digest", "base_release_digest", "parent_effective_digest", "source_commit", "change_digest"):
         if receipt.get(key) != plan.get(key):
             findings.append(f"receipt {key} does not match plan")
+    host_fingerprint_sha256 = receipt.get("host_fingerprint_sha256")
+    if not isinstance(host_fingerprint_sha256, str) or HEX64.fullmatch(host_fingerprint_sha256) is None:
+        findings.append("host_fingerprint_sha256 missing/invalid")
     if receipt.get("physical_current_host_execution") is not True:
         findings.append("physical_current_host_execution must be true")
     if receipt.get("synthetic_current_host_pass") is not False:
@@ -371,11 +380,24 @@ def verify_delta_receipt(plan: dict[str, Any], receipt: dict[str, Any]) -> dict[
         if row.get("status") != "PASS":
             findings.append(f"proof is not PASS: {key[0]}/{key[1]}")
         artifact = row.get("artifact_sha256")
+        qualification_artifact = row.get("qualification_artifact_sha256")
         if not isinstance(artifact, str) or HEX64.fullmatch(artifact) is None:
             findings.append(f"proof artifact digest invalid: {key[0]}/{key[1]}")
-        else:
+        if not isinstance(qualification_artifact, str) or HEX64.fullmatch(qualification_artifact) is None:
+            findings.append(f"qualification artifact digest invalid: {key[0]}/{key[1]}")
+        if (
+            isinstance(artifact, str)
+            and HEX64.fullmatch(artifact) is not None
+            and isinstance(qualification_artifact, str)
+            and HEX64.fullmatch(qualification_artifact) is not None
+        ):
             proof_projection.append(
-                {"capability_id": key[0], "test_kind": key[1], "artifact_sha256": artifact}
+                {
+                    "capability_id": key[0],
+                    "test_kind": key[1],
+                    "artifact_sha256": artifact,
+                    "qualification_artifact_sha256": qualification_artifact,
+                }
             )
     if actual != expected:
         missing = sorted(expected - actual)
@@ -407,7 +429,9 @@ def verify_delta_receipt(plan: dict[str, Any], receipt: dict[str, Any]) -> dict[
         "plan_digest": plan["plan_digest"],
         "base_release_digest": plan["base_release_digest"],
         "parent_effective_digest": plan["parent_effective_digest"],
+        "source_commit": plan["source_commit"],
         "change_digest": plan["change_digest"],
+        "host_fingerprint_sha256": receipt["host_fingerprint_sha256"],
         "proofs": sorted(proof_projection, key=lambda x: (_cap_sort_key(x["capability_id"]), x["test_kind"])),
         "shared_gates": {key: gates[key] for key in sorted(plan["required_shared_gates"])},
     }
@@ -423,7 +447,9 @@ def verify_delta_receipt(plan: dict[str, Any], receipt: dict[str, Any]) -> dict[
         "classification": plan["classification"],
         "base_release_digest": plan["base_release_digest"],
         "parent_effective_digest": plan["parent_effective_digest"],
+        "source_commit": plan["source_commit"],
         "change_digest": plan["change_digest"],
+        "host_fingerprint_sha256": receipt["host_fingerprint_sha256"],
         "plan_digest": plan["plan_digest"],
         "delta_digest": delta_digest,
         "effective_host_digest": effective_host_digest,
