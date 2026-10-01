@@ -5,8 +5,11 @@ import argparse
 import hashlib
 import json
 import re
+import shutil
 from pathlib import Path
 from typing import Any
+
+from fa3_evidence_validation import git_head
 
 TEST_KINDS = ("positive", "negative", "rollback")
 REQUEST_SCHEMA = "fa3.current-host-change-request.v1"
@@ -333,6 +336,348 @@ def plan_request(root: Path, request: dict[str, Any], authority: dict[str, Any] 
     }
     plan["plan_digest"] = _digest_json(plan)
     return plan
+
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _repo_file(root: Path, rel: Any) -> tuple[Path | None, str | None]:
+    if not isinstance(rel, str) or not rel or Path(rel).is_absolute():
+        return None, "path missing/absolute"
+    path = (root / rel).resolve()
+    if path == root or root not in path.parents:
+        return None, "path escapes repository"
+    if not path.is_file():
+        return None, f"file missing: {rel}"
+    return path, None
+
+
+def _shared_gate_statuses(plan: dict[str, Any], value: dict[str, Any]) -> tuple[dict[str, str], list[str]]:
+    findings: list[str] = []
+    statuses: dict[str, str] = {}
+    for gate in plan.get("required_shared_gates", []):
+        status = value.get(gate)
+        if status != "PASS":
+            findings.append(f"required shared gate is not PASS: {gate}")
+        else:
+            statuses[gate] = "PASS"
+    return statuses, findings
+
+
+def collect_delta_receipt(
+    root: Path,
+    plan: dict[str, Any],
+    shared_gates: dict[str, Any],
+) -> dict[str, Any]:
+    root = root.resolve()
+    findings: list[str] = []
+    if plan.get("status") != "PASS" or plan.get("classification") == "NO_RUNTIME_IMPACT":
+        findings.append("runtime PASS delta plan required")
+    subjects = set(plan.get("affected_capabilities", []))
+    expected_obligation_count = int(plan.get("required_obligation_count", -1))
+    if expected_obligation_count != len(subjects) * len(TEST_KINDS):
+        findings.append("plan obligation cardinality mismatch")
+
+    gate_statuses, gate_findings = _shared_gate_statuses(plan, shared_gates)
+    findings.extend(gate_findings)
+
+    producer_report_path = root / "reports/current-host-capability-qualification-constituent-orchestrator.json"
+    test_report_path = root / "reports/current-host-capability-test-orchestrator.json"
+    if not producer_report_path.is_file():
+        findings.append("qualification constituent orchestrator report missing")
+        producer_report: dict[str, Any] = {}
+    else:
+        producer_report = load_json(producer_report_path)
+    if not test_report_path.is_file():
+        findings.append("capability test orchestrator report missing")
+        test_report: dict[str, Any] = {}
+    else:
+        test_report = load_json(test_report_path)
+
+    requested = sorted(subjects, key=_cap_sort_key)
+    if producer_report:
+        if producer_report.get("orchestrator_integrity") != "PASS":
+            findings.append("qualification constituent orchestrator is not PASS")
+        if producer_report.get("execution_requested") is not True:
+            findings.append("qualification constituent execution was not requested")
+        if producer_report.get("requested_subjects") != requested:
+            findings.append("qualification constituent subject scope mismatch")
+        if producer_report.get("selected_producer_count") != expected_obligation_count:
+            findings.append("qualification constituent selected producer count mismatch")
+        if producer_report.get("constituents_materialized") != expected_obligation_count:
+            findings.append("qualification constituents are incomplete")
+        if producer_report.get("global_promotion_claim") is not False:
+            findings.append("qualification constituent report claims global promotion")
+    if test_report:
+        if test_report.get("orchestrator_integrity") != "PASS":
+            findings.append("capability test orchestrator is not PASS")
+        if test_report.get("execution_requested") is not True:
+            findings.append("capability test execution was not requested")
+        if test_report.get("requested_subjects") != requested:
+            findings.append("capability test subject scope mismatch")
+        if test_report.get("selected_executor_count") != expected_obligation_count:
+            findings.append("capability test selected executor count mismatch")
+        if test_report.get("results_materialized") != expected_obligation_count:
+            findings.append("capability test results are incomplete")
+        if test_report.get("source_commit") != plan.get("source_commit"):
+            findings.append("capability test source commit does not match delta plan")
+        if test_report.get("global_promotion_claim") is not False:
+            findings.append("capability test report claims global promotion")
+
+    producer_registry_path = root / "canonical/current-host-capability-qualification-constituent-producers.json"
+    if not producer_registry_path.is_file():
+        findings.append("qualification constituent producer registry missing")
+        producer_entries: list[dict[str, Any]] = []
+    else:
+        registry = load_json(producer_registry_path)
+        producer_entries = [
+            row for row in registry.get("entries", [])
+            if isinstance(row, dict)
+        ]
+
+    producer_by_obligation: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in producer_entries:
+        key = (str(row.get("subject_id", "")), str(row.get("test_kind", "")))
+        producer_by_obligation.setdefault(key, []).append(row)
+
+    proofs: list[dict[str, str]] = []
+    host_digest: str | None = None
+    for obligation in plan.get("required_obligations", []):
+        capability_id = obligation.get("capability_id")
+        test_kind = obligation.get("test_kind")
+        key = (capability_id, test_kind)
+        producers = producer_by_obligation.get(key, [])
+        if len(producers) != 1:
+            findings.append(f"exactly one qualification producer required: {capability_id}/{test_kind}")
+            continue
+        producer = producers[0]
+        qid = producer.get("qualification_id")
+        cid = producer.get("constituent_id")
+        constituent_path = root / ".fa3-current-host/qualification-constituents" / str(qid) / f"{cid}.json"
+        result_path = root / ".fa3-current-host/test-results/capabilities" / str(capability_id) / f"{test_kind}.json"
+        if not constituent_path.is_file():
+            findings.append(f"qualification constituent missing: {capability_id}/{test_kind}")
+            continue
+        if not result_path.is_file():
+            findings.append(f"capability test result missing: {capability_id}/{test_kind}")
+            continue
+        constituent = load_json(constituent_path)
+        result = load_json(result_path)
+
+        for label, row in (("qualification", constituent), ("test", result)):
+            if row.get("subject_id") != capability_id or row.get("test_kind") != test_kind:
+                findings.append(f"{label} obligation identity mismatch: {capability_id}/{test_kind}")
+            if row.get("status") != "PASS":
+                findings.append(f"{label} obligation is not PASS: {capability_id}/{test_kind}")
+            if row.get("execution_scope") != "CURRENT_HOST" or row.get("current_host") is not True:
+                findings.append(f"{label} is not physical CURRENT_HOST evidence: {capability_id}/{test_kind}")
+            if row.get("synthetic") is not False or row.get("ci_reference_only") is not False:
+                findings.append(f"{label} synthetic/CI evidence forbidden: {capability_id}/{test_kind}")
+            if row.get("global_promotion_claim") is not False:
+                findings.append(f"{label} global promotion claim forbidden: {capability_id}/{test_kind}")
+
+        if result.get("source_commit") != plan.get("source_commit"):
+            findings.append(f"test result source commit mismatch: {capability_id}/{test_kind}")
+
+        result_host = result.get("host_fingerprint_sha256")
+        constituent_host = constituent.get("host_fingerprint_sha256")
+        if (
+            not isinstance(result_host, str)
+            or HEX64.fullmatch(result_host) is None
+            or result_host != constituent_host
+        ):
+            findings.append(f"host fingerprint mismatch: {capability_id}/{test_kind}")
+        elif host_digest is None:
+            host_digest = result_host
+        elif host_digest != result_host:
+            findings.append(f"mixed host fingerprints in delta: {capability_id}/{test_kind}")
+
+        test_artifact, test_error = _repo_file(root, result.get("artifact_path"))
+        test_artifact_digest = result.get("artifact_sha256")
+        if test_error:
+            findings.append(f"test artifact {test_error}: {capability_id}/{test_kind}")
+        if (
+            not isinstance(test_artifact_digest, str)
+            or HEX64.fullmatch(test_artifact_digest) is None
+            or test_artifact is not None
+            and _sha256_file(test_artifact) != test_artifact_digest
+        ):
+            findings.append(f"test artifact digest invalid: {capability_id}/{test_kind}")
+
+        qualification_artifact, qualification_error = _repo_file(
+            root, constituent.get("source_artifact_path")
+        )
+        qualification_digest = constituent.get("source_artifact_sha256")
+        if qualification_error:
+            findings.append(f"qualification artifact {qualification_error}: {capability_id}/{test_kind}")
+        if (
+            not isinstance(qualification_digest, str)
+            or HEX64.fullmatch(qualification_digest) is None
+            or qualification_artifact is not None
+            and _sha256_file(qualification_artifact) != qualification_digest
+        ):
+            findings.append(f"qualification artifact digest invalid: {capability_id}/{test_kind}")
+
+        if (
+            isinstance(test_artifact_digest, str)
+            and HEX64.fullmatch(test_artifact_digest) is not None
+            and isinstance(qualification_digest, str)
+            and HEX64.fullmatch(qualification_digest) is not None
+        ):
+            proofs.append({
+                "capability_id": str(capability_id),
+                "test_kind": str(test_kind),
+                "status": "PASS",
+                "artifact_sha256": test_artifact_digest,
+                "qualification_artifact_sha256": qualification_digest,
+            })
+
+    host_path = root / ".fa3-current-host/global-closure/host/host-fingerprint.json"
+    if host_digest is None:
+        findings.append("delta host fingerprint was not established")
+    elif not host_path.is_file() or _sha256_file(host_path) != host_digest:
+        findings.append("delta host fingerprint artifact missing or digest mismatch")
+
+    if findings:
+        return {
+            "schema": "fa3.current-host-delta-collection-report.v1",
+            "result": "FAIL",
+            "fail_closed": True,
+            "plan_digest": plan.get("plan_digest"),
+            "global_promotion_claim": False,
+            "findings": findings,
+        }
+
+    return {
+        "schema": RECEIPT_SCHEMA,
+        "plan_digest": plan["plan_digest"],
+        "base_release_digest": plan["base_release_digest"],
+        "parent_effective_digest": plan["parent_effective_digest"],
+        "source_commit": plan["source_commit"],
+        "change_digest": plan["change_digest"],
+        "host_fingerprint_sha256": host_digest,
+        "physical_current_host_execution": True,
+        "synthetic_current_host_pass": False,
+        "historical_evidence_reused": False,
+        "global_promotion_claim": False,
+        "proofs": sorted(
+            proofs,
+            key=lambda row: (_cap_sort_key(row["capability_id"]), row["test_kind"]),
+        ),
+        "shared_gates": gate_statuses,
+    }
+
+
+def execute_delta(
+    root: Path,
+    plan: dict[str, Any],
+    base: dict[str, Any],
+    shared_gates: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    root = root.resolve()
+    findings: list[str] = []
+    base_check = compose_effective_host(base, [])
+    if base_check.get("status") != "PASS":
+        findings.append("admitted Current Host base is required before delta execution")
+    elif base_check.get("base_release_digest") != plan.get("base_release_digest"):
+        findings.append("delta plan base_release_digest does not match admitted base")
+    elif base_check.get("effective_host_digest") != plan.get("parent_effective_digest"):
+        findings.append("delta plan parent_effective_digest does not match effective base/overlay head")
+
+    if plan.get("status") != "PASS" or plan.get("classification") == "NO_RUNTIME_IMPACT":
+        findings.append("runtime PASS delta plan required")
+    head = git_head(root)
+    if head != plan.get("source_commit"):
+        findings.append("repository HEAD does not match delta plan source_commit")
+    gate_statuses, gate_findings = _shared_gate_statuses(plan, shared_gates)
+    findings.extend(gate_findings)
+
+    subjects = set(plan.get("affected_capabilities", []))
+    expected = int(plan.get("required_obligation_count", -1))
+    if expected != len(subjects) * len(TEST_KINDS):
+        findings.append("delta plan obligation cardinality mismatch")
+
+    if findings:
+        return ({
+            "schema": "fa3.current-host-delta-execution-report.v1",
+            "result": "FAIL",
+            "fail_closed": True,
+            "plan_digest": plan.get("plan_digest"),
+            "global_promotion_claim": False,
+            "findings": findings,
+        }, None)
+
+    from fa3_current_host_capability_qualification_constituent_orchestrator import (
+        orchestrate as orchestrate_producers,
+    )
+    from fa3_current_host_capability_test_orchestrator import orchestrate as orchestrate_tests
+
+    producer_preflight = orchestrate_producers(root, execute=False, subjects=subjects)
+    test_preflight = orchestrate_tests(root, execute=False, subjects=subjects)
+    if (
+        producer_preflight.get("orchestrator_integrity") != "PASS"
+        or producer_preflight.get("selected_producer_count") != expected
+        or test_preflight.get("orchestrator_integrity") != "PASS"
+        or test_preflight.get("selected_executor_count") != expected
+    ):
+        return ({
+            "schema": "fa3.current-host-delta-execution-report.v1",
+            "result": "FAIL",
+            "fail_closed": True,
+            "plan_digest": plan.get("plan_digest"),
+            "producer_preflight": producer_preflight,
+            "test_preflight": test_preflight,
+            "global_promotion_claim": False,
+            "findings": ["selected Current Host producer/executor coverage is incomplete"],
+        }, None)
+
+    # Test results are transient execution workspace. Historical admitted evidence
+    # remains immutable in its receipt/evidence chain and is never deleted here.
+    for capability_id in subjects:
+        shutil.rmtree(
+            root / ".fa3-current-host/test-results/capabilities" / capability_id,
+            ignore_errors=True,
+        )
+
+    producer_report = orchestrate_producers(root, execute=True, subjects=subjects)
+    test_report = orchestrate_tests(root, execute=True, subjects=subjects)
+    receipt = collect_delta_receipt(root, plan, gate_statuses)
+    gate_report = (
+        verify_delta_receipt(plan, receipt)
+        if receipt.get("schema") == RECEIPT_SCHEMA
+        else {
+            "schema": "fa3.current-host-delta-gate-report.v1",
+            "result": "FAIL",
+            "fail_closed": True,
+            "plan_digest": plan.get("plan_digest"),
+            "global_promotion_claim": False,
+            "findings": receipt.get("findings", ["delta receipt collection failed"]),
+        }
+    )
+    result = "PASS" if gate_report.get("result") == "PASS" else "FAIL"
+    return ({
+        "schema": "fa3.current-host-delta-execution-report.v1",
+        "result": result,
+        "fail_closed": True,
+        "plan_digest": plan["plan_digest"],
+        "source_commit": plan["source_commit"],
+        "affected_capabilities": sorted(subjects, key=_cap_sort_key),
+        "required_obligation_count": expected,
+        "producer_report_status": producer_report.get("status"),
+        "test_report_status": test_report.get("status"),
+        "verified_obligation_count": gate_report.get("verified_obligation_count", 0),
+        "delta_digest": gate_report.get("delta_digest"),
+        "effective_host_digest": gate_report.get("effective_host_digest"),
+        "global_promotion_claim": False,
+        "findings": gate_report.get("findings", []),
+    }, receipt if result == "PASS" else None)
+
 
 
 def verify_delta_receipt(plan: dict[str, Any], receipt: dict[str, Any]) -> dict[str, Any]:
