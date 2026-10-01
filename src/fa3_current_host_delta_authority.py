@@ -895,6 +895,18 @@ def main() -> int:
     verify_p.add_argument("--receipt", required=True)
     verify_p.add_argument("--output", required=True)
 
+    collect_p = sub.add_parser("collect")
+    collect_p.add_argument("--plan", required=True)
+    collect_p.add_argument("--shared-gates", required=True)
+    collect_p.add_argument("--output", required=True)
+
+    execute_p = sub.add_parser("execute")
+    execute_p.add_argument("--plan", required=True)
+    execute_p.add_argument("--base", required=True)
+    execute_p.add_argument("--shared-gates", required=True)
+    execute_p.add_argument("--receipt-output", required=True)
+    execute_p.add_argument("--output", required=True)
+
     compose_p = sub.add_parser("compose")
     compose_p.add_argument("--base", required=True)
     compose_p.add_argument("--delta", action="append", default=[])
@@ -907,6 +919,21 @@ def main() -> int:
         result = plan_request(root, load_json(Path(args.request)))
     elif args.command == "verify":
         result = verify_delta_receipt(load_json(Path(args.plan)), load_json(Path(args.receipt)))
+    elif args.command == "collect":
+        result = collect_delta_receipt(
+            root,
+            load_json(Path(args.plan)),
+            load_json(Path(args.shared_gates)),
+        )
+    elif args.command == "execute":
+        result, receipt = execute_delta(
+            root,
+            load_json(Path(args.plan)),
+            load_json(Path(args.base)),
+            load_json(Path(args.shared_gates)),
+        )
+        if receipt is not None:
+            _write(Path(args.receipt_output), receipt)
     else:
         result = compose_effective_host(
             load_json(Path(args.base)),
@@ -915,7 +942,10 @@ def main() -> int:
 
     _write(Path(args.output), result)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result.get("status", result.get("result")) == "PASS" else 2
+    state = result.get("status", result.get("result"))
+    if args.command == "collect" and result.get("schema") == RECEIPT_SCHEMA:
+        state = "PASS"
+    return 0 if state == "PASS" else 2
 
 
 if __name__ == "__main__":
