@@ -139,5 +139,10 @@
       "assessment": "The bounded desktop interaction control plane adds no graphics/compute/media SDK dependency. Any future native visual or accelerator adapter remains subject to the existing Khronos and HRB reviews."
     }
   ],
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "covered_ids": [
+    "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "coverage_reason": "The new Computer Interaction Runtime is the subject, and UAF is materially modified only to bind this shared execution profile; both are covered by the same ApplicationIntent and reuse assessment."
 }
