@@ -123,11 +123,56 @@ Analysis-only source IDs themselves are **not** reuse candidates and are explici
 
 This integration extends the existing `FA3-REUSE-CATALOG-001` source policy and `src/fa3_reuse_catalog.py`; it does not create a second discovery authority and does not modify the capability-usage graph owned by the separate capability-map work.
 
+
+## Materialized FA3-native shared AI composition
+
+The approved analysis is materialized as five **shared profile/contract families**, not as a new chat application and not as an upstream framework stack.
+
+| Shared component | Canonical purpose | Existing capability coverage |
+| --- | --- | --- |
+| `FA3-SHARED-AI-INTERACTION-001` | capability-oriented AI request/stream/result contract behind Model Router | CAP-005, CAP-098, CAP-138, CAP-140, CAP-148, CAP-149 |
+| `FA3-SHARED-KNOWLEDGE-RETRIEVAL-001` | source-aware RAG, embedding, hybrid retrieval, reranking, provenance and claim linkage | CAP-010, CAP-021, CAP-102, CAP-153, CAP-155, CAP-156 |
+| `FA3-SHARED-MULTIMODAL-SOURCE-001` | original + derived text/image/audio/video representations with temporal alignment | CAP-017, CAP-037, CAP-066, CAP-084, CAP-085, CAP-086, CAP-088, CAP-115, CAP-116, CAP-167, CAP-168 |
+| `FA3-SHARED-CONVERSATION-SESSION-001` | versioned session/events, streaming, persistence and explicit memory/knowledge references | CAP-004, CAP-021, CAP-102, CAP-106, CAP-110, CAP-116 |
+| `FA3-SHARED-TOOL-ACTION-MEDIATION-001` | typed action request → policy/approval → MCP/UAF → isolated execution → receipt | CAP-003, CAP-007, CAP-011, CAP-013, CAP-051, CAP-079, CAP-144, CAP-145, CAP-172 |
+
+The table is descriptive. The machine-readable Capability Map does **not** trust manually copied CAP IDs: it derives them only from the canonical profile/contract `capability_bindings` fields.
+
+### Rejected direct-stack assumptions
+
+The shared contracts explicitly reject the weaknesses found in the analyzed material:
+
+- no hard-coded physical provider/model selection;
+- no silent local→cloud fallback;
+- no framework object serialization as the canonical session format;
+- no fixed global RAG chunk-size or top-k magic number;
+- no implicit use of a generation model as an embedding model;
+- no claim of video understanding from one midpoint frame or a fixed tiny sample;
+- native-audio and transcription-derived semantic paths remain distinct;
+- Base64 is treated as encoding, not compression;
+- no model-output → `subprocess`/shell/provider execution path;
+- prompt-injection classification is advisory and cannot grant authorization;
+- no Streamlit, LangChain, Ollama, Chroma, LLaVA, MoviePy, Firejail or Docker component becomes architectural authority or mandatory dependency through this materialization.
+
+The supplied chat/tutorial text itself has no donor ID because it was not submitted through the explicit owner `donornak` intake rule. Its useful ideas are cleanly re-expressed under existing FA3 authorities.
+
+### Shared capability consumer map
+
+`src/fa3_application_donor_index.py` now emits a separate
+`fa3.shared-capability-consumer-map.v1` view alongside the donor usage map.
+For each materialized shared component it derives capability IDs from canonical
+profile/contract bindings and projects reverse lookup by capability and by
+application. Manual CAP-ID declarations fail closed.
+
+This keeps the Donor ↔ Capability ↔ Consumer graph semantically clean: donor
+usage edges remain donor usage, while FA3-native shared components have their
+own derived consumer projection.
+
 ## Current Host
 
-This materialization is metadata + validation + CI only and is classified `NO_RUNTIME_IMPACT`.
+This materialization adds canonical shared profiles/contracts, derived application/capability mappings, validation and CI but no executable host path; it is therefore structurally aligned and classified `NO_RUNTIME_IMPACT`.
 
-When a pattern is later materialized as a real shared runtime, service, GUI, adapter or host-integrated component, the structural-change rule applies: affected Current Host obligations must be aligned and physical positive/negative/rollback evidence is required before promotion.
+Current Host alignment is recorded in `FA3-SHARED-MODULE-PATTERN-CATALOGUE-CURRENT-HOST-IMPACT-001`. If a shared contract later gains a real service, daemon, port/socket, package/runtime dependency, provider/model activation, host-resource execution, credential delivery, mutating action path or physical GUI/application runtime binding, physical positive/negative/rollback requalification becomes mandatory before promotion.
 
 ## Validation
 
