@@ -25,6 +25,8 @@ qt_add_executable(fa3-control-center
     src/JournalService.h
     src/ModelLibraryService.cpp
     src/ModelLibraryService.h
+    src/OrchestrationMonitorService.cpp
+    src/OrchestrationMonitorService.h
     src/McpControlService.cpp
     src/McpControlService.h
     src/McpGatewayService.cpp
@@ -59,6 +61,7 @@ set_source_files_properties(qml/IntegrationsPage.qml PROPERTIES QT_RESOURCE_ALIA
 set_source_files_properties(qml/AcceleratorGuardPage.qml PROPERTIES QT_RESOURCE_ALIAS AcceleratorGuardPage.qml)
 set_source_files_properties(qml/Fa3OsPage.qml PROPERTIES QT_RESOURCE_ALIAS Fa3OsPage.qml)
 set_source_files_properties(qml/WorkManagementPage.qml PROPERTIES QT_RESOURCE_ALIAS WorkManagementPage.qml)
+set_source_files_properties(qml/OrchestrationMonitorPage.qml PROPERTIES QT_RESOURCE_ALIAS OrchestrationMonitorPage.qml)
 set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS McpGatewayPage.qml)
 set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS KnowledgePage.qml)
 set_source_files_properties(qml/TrustCertificatesPage.qml PROPERTIES QT_RESOURCE_ALIAS TrustCertificatesPage.qml)
@@ -97,6 +100,7 @@ qt_add_qml_module(fa3-control-center
         qml/AcceleratorGuardPage.qml
         qml/Fa3OsPage.qml
         qml/WorkManagementPage.qml
+        qml/OrchestrationMonitorPage.qml
         qml/McpGatewayPage.qml
         qml/KnowledgePage.qml
         qml/TrustCertificatesPage.qml
