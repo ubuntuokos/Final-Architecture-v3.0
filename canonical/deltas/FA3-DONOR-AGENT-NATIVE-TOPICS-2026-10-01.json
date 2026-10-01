@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-AGENT-NATIVE-TOPICS-2026-10-01",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "6bcb6b7d4d5ece9e98a0eb091382c41c790f2256",
+  "parent_registry_blob_sha": "55111e30b4508efb4e8825c40c0f9c6152ca5b35",
+  "parent_entry_count": 1307,
+  "source_count": 3,
+  "unique_source_key_count": 3,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1310,
+  "capability_baseline": 175,
+  "authority_delta": 0,
+  "approval_ref": "FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01",
+  "sources": [
+    {
+      "url": "https://github.com/topics/agent-native?l=c&o=desc&s=updated",
+      "normalized_key": "github:topics/agent-native?l=c&o=desc&s=updated",
+      "donor_id": "FA3-DONOR-TOPICS-AGENT-NATIVE-L-C-O-DESC-S-UPDATED-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/agent-native?l=python&o=asc&s=stars",
+      "normalized_key": "github:topics/agent-native?l=python&o=asc&s=stars",
+      "donor_id": "FA3-DONOR-TOPICS-AGENT-NATIVE-L-PYTHON-O-ASC-S-STARS-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/agent-native-web",
+      "normalized_key": "github:topics/agent-native-web",
+      "donor_id": "FA3-DONOR-TOPICS-AGENT-NATIVE-WEB-001",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "child_repository_auto_registration": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false
+  }
+}
