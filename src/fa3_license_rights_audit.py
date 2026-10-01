@@ -164,6 +164,30 @@ def _known_license(value: Any) -> str | None:
     return None
 
 
+def _license_evidence(value: Any) -> str | None:
+    if not isinstance(value, dict):
+        return None
+    preferred = (
+        "license_blob_sha",
+        "license_file_sha",
+        "license_evidence_sha256",
+        "license_evidence_digest",
+        "license_evidence_url",
+        "license_evidence",
+    )
+    for key in preferred:
+        raw = value.get(key)
+        if isinstance(raw, str) and raw.strip():
+            return f"{key}:{raw.strip()}"
+    nested = value.get("license")
+    if isinstance(nested, dict):
+        for key in ("evidence_digest", "evidence_url", "source"):
+            raw = nested.get(key)
+            if isinstance(raw, str) and raw.strip() and raw.strip().upper() not in UNKNOWN_LICENSE_MARKERS:
+                return f"license.{key}:{raw.strip()}"
+    return None
+
+
 def _immutable_revision(value: Any) -> str | None:
     if isinstance(value, dict):
         preferred = (
@@ -225,6 +249,7 @@ def canonical_subject_records(root: Path) -> dict[str, dict[str, Any]]:
                 "class": cls,
                 "release_bundle_status": status,
                 "license": license_value,
+                "license_evidence": _license_evidence(row),
                 "immutable_revision": _immutable_revision(row),
             }
     return records
@@ -353,12 +378,15 @@ def build_inventory(root: Path) -> dict[str, Any]:
         cls = registry_row.get("class") or record.get("class")
         release_status = registry_row.get("release_bundle_status") or record.get("release_bundle_status") or "EXCLUDED"
         license_value = record.get("license")
+        license_evidence = record.get("license_evidence")
         immutable_revision = record.get("immutable_revision")
         reference_resolved = (
             cls == "REFERENCE_ONLY"
             and release_status == "EXCLUDED"
             and isinstance(license_value, str)
             and bool(license_value.strip())
+            and isinstance(license_evidence, str)
+            and bool(license_evidence.strip())
             and isinstance(immutable_revision, str)
             and bool(immutable_revision.strip())
         )
@@ -369,6 +397,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
             "distribution_class": cls,
             "release_bundle_status": release_status,
             "license": license_value,
+            "license_evidence": license_evidence,
             "immutable_revision": immutable_revision,
             "resolution": resolution,
             "automatic_legal_clearance": False,
@@ -385,8 +414,8 @@ def build_inventory(root: Path) -> dict[str, Any]:
             "distribution_class": cls,
             "record_path": record.get("record_path"),
             "required_action": (
-                "Record immutable source revision and license/right evidence. REFERENCE_ONLY may be resolved "
-                "without bundle admission only when immutable provenance and a known license are both present."
+                "Record immutable source revision and concrete license evidence. REFERENCE_ONLY may be resolved "
+                "without bundle admission only when immutable provenance, a known license, and license evidence are all present."
             ),
         })
         severity_counts[severity] += 1
