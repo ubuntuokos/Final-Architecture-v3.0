@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "computer.interaction.execute",
+  "version": "1.0.0",
+  "description": "Execute one observation-bound, bounded and revalidated native desktop interaction through an admitted UAF computer-interaction adapter.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "binding_ref",
+      "authorization_ref"
+    ],
+    "properties": {
+      "binding_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "authorization_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "expected_postconditions": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "execution_receipt_ref"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "execution_receipt_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "verification_ref": {
+        "type": "string"
+      },
+      "reobserve_ref": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "blind_retry": "DENY",
+    "stale_observation_execution": "DENY",
+    "post_mutation_reobserve": "REQUIRED",
+    "execution_receipt_is_success": false
+  },
+  "exposure": {
+    "cli": false,
+    "mcp": true,
+    "agent_direct": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "conditional",
+    "desktop_content_trust": "UNTRUSTED_DESKTOP_CONTENT",
+    "raw_coordinate_only_action": "DENY_BY_DEFAULT",
+    "arbitrary_script": "DENY"
+  },
+  "resources": {
+    "hrb_required": true,
+    "accelerator_required": false,
+    "accelerator": {
+      "cardinality": "0..N"
+    }
+  },
+  "provider": {
+    "selection": "capability-match",
+    "architectural_authority": false,
+    "computer_interaction_runtime_is_execution_domain_not_authority": true,
+    "silent_fallback": "FORBIDDEN"
+  },
+  "evidence": {
+    "required": true,
+    "independent_outcome_verification": true,
+    "current_host_pass_requires_physical_e2e": true
+  }
+}
