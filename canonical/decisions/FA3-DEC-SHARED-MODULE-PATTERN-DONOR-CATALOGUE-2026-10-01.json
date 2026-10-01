@@ -1,0 +1,20 @@
+{
+  "schema":"fa3.architecture-decision.v1",
+  "id":"FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01",
+  "status":"OWNER_APPROVED_MATERIALIZATION",
+  "date":"2026-10-01",
+  "title":"Shared Module Pattern & Donor Catalogue",
+  "decision":"Materialize one non-authoritative pattern catalogue on top of the existing Donor & Reference Registry. Extract reusable shared-module patterns instead of treating donor applications as whole-product dependencies.",
+  "invariants":{
+    "capability_baseline":175,
+    "capability_delta":0,
+    "architectural_authority_delta":0,
+    "donor_registry_remains_only_donor_identity_authority":true,
+    "new_donor_requires_explicit_owner_donornak_marker":true,
+    "retroactive_shared_impact_required":true,
+    "current_host_physical_pass_claimed":false
+  },
+  "composite_reference_retained":"FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001",
+  "authority_boundaries":["Model Router","HRB","Orchestrator/Temporal","Secret Broker","Security/UAF/MCP","Evidence/Gates","Layer Guard"],
+  "runtime_effect":"NONE"
+}
