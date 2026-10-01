@@ -19,6 +19,12 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             "included": [{"subject_id": "FA3-PROVIDER-NATIVE-001", "release_bundle_status": "INCLUDED"}],
             "excluded": [{"subject_id": "FA3-UPSTREAM-REFERENCE-001", "release_bundle_status": "EXCLUDED"}],
         }), encoding="utf-8")
+        (root / "canonical" / "distribution-registry.json").write_text(json.dumps({
+            "records": [
+                {"subject_id": "FA3-PROVIDER-NATIVE-001", "class": "FA3_NATIVE", "release_bundle_status": "INCLUDED"},
+                {"subject_id": "FA3-UPSTREAM-REFERENCE-001", "class": "REFERENCE_ONLY", "release_bundle_status": "EXCLUDED"},
+            ]
+        }), encoding="utf-8")
         (root / "REUSE.toml").write_text(
             'version = 1\n[[annotations]]\npath = ["src/native.py"]\n'
             'precedence = "override"\nSPDX-FileCopyrightText = "FA3"\n'
@@ -104,6 +110,82 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             inv["summary"]["rights_descriptor_cleared_release_subjects"],
         )
         self.assertFalse(any(x.get("severity") == "BLOCKING" for x in inv["work_queue"]))
+
+    def test_reference_only_with_immutable_revision_and_known_license_is_resolved_as_reference(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            refs = root / "canonical" / "references"
+            refs.mkdir()
+            (refs / "FA3-UPSTREAM-REFERENCE-001.json").write_text(json.dumps({
+                "id": "FA3-UPSTREAM-REFERENCE-001",
+                "repository": "example/project",
+                "commit": "b" * 40,
+                "license": "MIT",
+                "distribution": {
+                    "class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                },
+            }), encoding="utf-8")
+            inv = build_inventory(root)
+            external = {x["subject_id"]: x for x in inv["external_subjects"]}
+            self.assertEqual("REFERENCE_ONLY_EVIDENCE_BACKED", external["FA3-UPSTREAM-REFERENCE-001"]["resolution"])
+            self.assertEqual(1, inv["summary"]["evidence_backed_reference_only_subjects"])
+            self.assertFalse(any(
+                x.get("subject_id") == "FA3-UPSTREAM-REFERENCE-001" and x.get("severity") == "HIGH"
+                for x in inv["work_queue"]
+            ))
+            meta = next(x for x in inv["subjects"] if x["path"] == "canonical/references/FA3-UPSTREAM-REFERENCE-001.json")
+            self.assertEqual("FA3_CANONICAL_METADATA", meta["category"])
+            self.assertFalse(meta["automatic_legal_clearance"])
+
+    def test_reference_only_unknown_license_stays_review_required(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            refs = root / "canonical" / "references"
+            refs.mkdir()
+            (refs / "FA3-UPSTREAM-REFERENCE-001.json").write_text(json.dumps({
+                "id": "FA3-UPSTREAM-REFERENCE-001",
+                "repository": "example/project",
+                "commit": "c" * 40,
+                "license": "UNKNOWN",
+                "distribution": {
+                    "class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                },
+            }), encoding="utf-8")
+            inv = build_inventory(root)
+            external = {x["subject_id"]: x for x in inv["external_subjects"]}
+            self.assertEqual("REVIEW_REQUIRED", external["FA3-UPSTREAM-REFERENCE-001"]["resolution"])
+            self.assertTrue(any(
+                x.get("subject_id") == "FA3-UPSTREAM-REFERENCE-001" and x.get("severity") == "HIGH"
+                for x in inv["work_queue"]
+            ))
+
+    def test_reference_only_floating_revision_stays_review_required(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            refs = root / "canonical" / "references"
+            refs.mkdir()
+            (refs / "FA3-UPSTREAM-REFERENCE-001.json").write_text(json.dumps({
+                "id": "FA3-UPSTREAM-REFERENCE-001",
+                "repository": "example/project",
+                "branch": "main",
+                "license": "MIT",
+                "distribution": {
+                    "class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                },
+            }), encoding="utf-8")
+            inv = build_inventory(root)
+            external = {x["subject_id"]: x for x in inv["external_subjects"]}
+            self.assertEqual("REVIEW_REQUIRED", external["FA3-UPSTREAM-REFERENCE-001"]["resolution"])
+            self.assertTrue(any(
+                x.get("subject_id") == "FA3-UPSTREAM-REFERENCE-001" and x.get("severity") == "HIGH"
+                for x in inv["work_queue"]
+            ))
 
     def test_non_code_rights_domains_are_separate(self):
         with tempfile.TemporaryDirectory() as td:
