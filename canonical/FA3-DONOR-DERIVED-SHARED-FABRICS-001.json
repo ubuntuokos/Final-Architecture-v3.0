@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.donor-derived-shared-fabrics.v1",
+  "id": "FA3-DONOR-DERIVED-SHARED-FABRICS-001",
+  "status": "CANONICAL_STATIC_COMPOSITION",
+  "date": "2026-10-01",
+  "authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_baseline": 175,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "donor_registry_blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "donor_registry_entry_count": 1287,
+  "source_policy": {
+    "donor_registry_is_only_identity_authority": true,
+    "new_source_requires_literal_owner_donornak_marker": true,
+    "analysis_source_cannot_create_donor_usage_edge": true,
+    "analysis_source_cannot_authorize_code_import": true,
+    "analysis_source_cannot_authorize_runtime": true,
+    "discovery_is_not_admission": true
+  },
+  "sources": [
+    {"id":"SRC-REELMIMIC","locator":"https://github.com/edenfunf/reelmimic","role":["CREATIVE_WORKFLOW_PATTERN","SOURCE_REUSE_CANDIDATE"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-SHAPECAST","locator":"https://shapecast.io/","role":["3D_WORKFLOW_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-FACELESS","locator":"https://github.com/cporter202/automate-faceless-content","role":["CONTENT_LIFECYCLE_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-AGENTIC-APIS","locator":"https://github.com/cporter202/agentic-ai-apis","role":["DISCOVERY_CATALOG_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-OPENHANDS-CANVAS","locator":"https://github.com/OpenHands/OpenHands","role":["AGENT_OPERATIONS_UX_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-OPENHANDS-SDK","locator":"https://github.com/OpenHands/software-agent-sdk","role":["EXISTING_CANONICAL_PROVIDER_REFERENCE","AGENT_RUNTIME_PATTERN"],"registration_status":"EXISTING_CANONICAL_REFERENCE"},
+    {"id":"SRC-OPENHANDS-AUTOMATION","locator":"https://github.com/OpenHands/automation","role":["AUTOMATION_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-OPENHANDS-EXTENSIONS","locator":"https://github.com/OpenHands/extensions","role":["SKILL_PLUGIN_APP_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-REFINE","locator":"https://github.com/refinedev/refine","role":["RESOURCE_PROVIDER_CONTRACT_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-ELASTICSEARCH","locator":"https://github.com/elastic/elasticsearch","role":["SEARCH_RETRIEVAL_PATTERN","OPTIONAL_BACKEND_CANDIDATE"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-PULSAR-RAG","locator":"https://pulsarai.co.uk/learn/rag-explained","role":["RAG_EDUCATIONAL_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-QUICHE","locator":"https://github.com/cloudflare/quiche","role":["QUIC_HTTP3_TRANSPORT_PATTERN","SOURCE_REUSE_CANDIDATE"],"registration_status":"OWNER_MARKER_REQUIRED"},
+    {"id":"SRC-AWESOME-AI-TOOLS","locator":"https://github.com/cporter202/awesome-ai-tools","role":["DISCOVERY_CATALOG_PATTERN"],"registration_status":"OWNER_MARKER_REQUIRED"}
+  ],
+  "shared_compositions": [
+    {
+      "id":"FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-001",
+      "profile_id":"FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-001",
+      "contract_id":"FA3-SHARED-AGENT-OPERATIONS-COMPOSITION-CONTRACTS-001",
+      "source_ids":["SRC-OPENHANDS-CANVAS","SRC-OPENHANDS-SDK","SRC-OPENHANDS-AUTOMATION","SRC-OPENHANDS-EXTENSIONS"],
+      "consumer_ids":["FA3-AGENT-WORKLOAD-RUNTIME-001","FA3-AGENT-EXEC-001","FA3-AGENT-FEDERATION-001","FA3-SHARED-CONVERSATION-SESSION-001","FA3-SHARED-TOOL-ACTION-MEDIATION-001"]
+    },
+    {
+      "id":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-001",
+      "profile_id":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-001",
+      "contract_id":"FA3-SHARED-RESOURCE-APPLICATION-COMPOSITION-CONTRACTS-001",
+      "source_ids":["SRC-REFINE"],
+      "consumer_ids":["FA3-REGISTRY-001","FA3-APPLICATION-DONOR-LINKS-001","FA3-AUTH-OBS-EVIDENCE-001"]
+    },
+    {
+      "id":"FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-001",
+      "profile_id":"FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-001",
+      "contract_id":"FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-CONTRACTS-001",
+      "source_ids":["SRC-ELASTICSEARCH","SRC-PULSAR-RAG"],
+      "consumer_ids":["FA3-SHARED-KNOWLEDGE-RETRIEVAL-001","FA3-KNOWLEDGE-001","FA3-AUTH-OBS-EVIDENCE-001"]
+    },
+    {
+      "id":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-001",
+      "profile_id":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-001",
+      "contract_id":"FA3-SHARED-NETWORK-TRANSPORT-COMPOSITION-CONTRACTS-001",
+      "source_ids":["SRC-QUICHE"],
+      "consumer_ids":["FA3-AGENT-FEDERATION-001","FA3-AUTH-HOST-RESOURCE-BROKER-001","FA3-AUTH-OBS-EVIDENCE-001"]
+    },
+    {
+      "id":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-001",
+      "profile_id":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-001",
+      "contract_id":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-CONTRACTS-001",
+      "source_ids":["SRC-REELMIMIC","SRC-SHAPECAST","SRC-FACELESS"],
+      "consumer_ids":["fa3.video-editor","fa3.quickclip","fa3.story-screenplay","fa3.character-studio"]
+    }
+  ],
+  "discovery_sources": ["SRC-AGENTIC-APIS","SRC-AWESOME-AI-TOOLS"],
+  "license_boundaries": {
+    "no_third_party_source_copied": true,
+    "openhands_existing_reference_reused": true,
+    "elasticsearch_file_level_clearance_required_before_source_reuse": true,
+    "quiche_transitive_dependency_clearance_required_before_runtime_reuse": true,
+    "proprietary_or_unknown_sources_pattern_only_without_clearance": true
+  },
+  "runtime_effect": "STATIC_CONTRACT_MAPPING_VALIDATION_ONLY",
+  "runtime_promotion_claim": false
+}
