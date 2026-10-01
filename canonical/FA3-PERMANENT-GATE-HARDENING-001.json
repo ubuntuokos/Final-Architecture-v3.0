@@ -69,7 +69,9 @@
   "derived_artifacts": {
     "authority_manifest": "reports/fa3-permanent-gate-authority-manifest.json",
     "provenance_binding": "reports/fa3-permanent-gate-provenance-binding.json",
-    "preservation_package": "reports/fa3-permanent-gate-preservation.zip"
+    "preservation_package": "reports/fa3-permanent-gate-preservation.zip",
+    "canonical_registry_graph": "reports/fa3-canonical-registry-graph.json",
+    "canonical_registry_integrity_report": "reports/canonical-registry-integrity-report.json"
   },
   "invariants": [
     "ONE_EXISTING_FA3_AUTHORITY_PATH_ONLY",
@@ -78,7 +80,8 @@
     "MISSING_UNKNOWN_STALE_OR_MALFORMED_GATE_STATE_CANNOT_IMPLY_PASS",
     "TRUSTED_CONTROL_PLANE_NEVER_EXECUTES_CANDIDATE_CODE",
     "PROTECTED_GITHUB_ACTIONS_USE_IMMUTABLE_COMMIT_SHA",
-    "PRESERVATION_ARTIFACT_NEVER_REPLACES_PRIMARY_DECISION"
+    "PRESERVATION_ARTIFACT_NEVER_REPLACES_PRIMARY_DECISION",
+    "CANONICAL_REGISTRY_REFERENTIAL_AND_SUPERSEDENCE_INTEGRITY_FAILS_CLOSED"
   ],
   "pattern_study": {
     "source": "https://github.com/HKati/pulse-release-gates-0.1",
