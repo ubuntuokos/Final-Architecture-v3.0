@@ -29,6 +29,11 @@ on:
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_current_host_batch_planner.py'
+      - 'src/fa3_current_host_batch_integrity.py'
+      - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
+      - 'src/fa3_current_host_structural_impact_gate.py'
+      - 'tests/test_current_host_structural_impact_gate.py'
+      - '.github/workflows/fa3-current-host-structural-impact.yml'
       - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'src/fa3_cap076_acceptance_resilience_current_host.py'
       - 'src/fa3_cap054_external_asset_inventory_current_host.py'
@@ -70,6 +75,7 @@ on:
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_batch_planner.py'
       - 'tests/test_current_host_batch_orchestration.py'
+      - 'tests/test_current_host_batch_integrity.py'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
       - 'tests/test_cap054_external_asset_inventory_current_host.py'
@@ -117,6 +123,11 @@ on:
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_current_host_batch_planner.py'
+      - 'src/fa3_current_host_batch_integrity.py'
+      - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
+      - 'src/fa3_current_host_structural_impact_gate.py'
+      - 'tests/test_current_host_structural_impact_gate.py'
+      - '.github/workflows/fa3-current-host-structural-impact.yml'
       - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'src/fa3_cap076_acceptance_resilience_current_host.py'
       - 'src/fa3_cap054_external_asset_inventory_current_host.py'
@@ -152,6 +163,7 @@ on:
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_batch_planner.py'
       - 'tests/test_current_host_batch_orchestration.py'
+      - 'tests/test_current_host_batch_integrity.py'
       - 'docs/current-host-closure-batches.md'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
@@ -223,6 +235,7 @@ jobs:
             src/fa3_current_host_capability_test_executor_audit.py \
             src/fa3_current_host_capability_test_orchestrator.py \
             src/fa3_current_host_batch_planner.py \
+            src/fa3_current_host_batch_integrity.py \
             src/fa3_cap075_contract_registry_current_host.py \
             src/fa3_cap076_acceptance_resilience_current_host.py \
             src/fa3_cap054_external_asset_inventory_current_host.py \
@@ -257,6 +270,7 @@ jobs:
             tests/test_current_host_capability_test_orchestrator.py \
             tests/test_current_host_batch_planner.py \
             tests/test_current_host_batch_orchestration.py \
+            tests/test_current_host_batch_integrity.py \
             tests/test_cap075_contract_registry_current_host.py \
             tests/test_cap076_acceptance_resilience_current_host.py \
             tests/test_cap054_external_asset_inventory_current_host.py \
@@ -281,7 +295,9 @@ jobs:
         run: |
           PYTHONPATH=src python -m unittest \
             tests.test_current_host_batch_planner \
-            tests.test_current_host_batch_orchestration -v
+            tests.test_current_host_batch_orchestration \
+            tests.test_current_host_batch_integrity \
+            tests.test_current_host_structural_impact_gate -v
           PYTHONPATH=src python src/fa3_current_host_batch_planner.py --root . --batch-size 5
           python3 - <<'PY'
           import json
@@ -507,7 +523,12 @@ jobs:
           orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
-          promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          promotion_path=Path('promotion/runtime-status.json')
+          promotion_artifact_present=promotion_path.is_file()
+          promotion=json.loads(promotion_path.read_text()) if promotion_artifact_present else {
+              'actual_state': 'PROMOTION_BLOCKED',
+              'promotion_allowed': False,
+          }
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 525, executor
           assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
@@ -543,6 +564,7 @@ jobs:
               'criteria_passed': acceptance['criteria_passed'],
               'criteria_total': acceptance['criteria_total'],
               'promotion': promotion['actual_state'],
+              'promotion_artifact_present': promotion_artifact_present,
           }, indent=2))
           PY
       - name: Upload regression reconciliation reports
@@ -554,12 +576,14 @@ jobs:
           path: |
             .fa3-current-host/test-plan/capabilities.json
             reports/current-host-closure-batch-plan.json
+            reports/current-host-batch-integrity.json
             reports/current-host-capability-test-qualification-audit.json
             reports/current-host-capability-qualification-constituent-producer-audit.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
             reports/current-host-capability-qualification-constituent-producer-audit.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
             reports/current-host-closure-batch-plan.json
+            reports/current-host-batch-integrity.json
             reports/current-host-capability-test-executor-audit.json
             reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
@@ -663,6 +687,7 @@ jobs:
               if len(subjects) != 175:
                   raise SystemExit(f'FULL-525 requires 175 execution-ready capabilities, got {len(subjects)}')
               obligation_count=plan['materialized_obligation_count']
+              selection_sha256=plan['execution_ready_selection_sha256']
               if obligation_count != 525 or plan['pending_obligation_count'] != 0:
                   raise SystemExit(f'FULL-525 requires exact 525/525 definition materialization before physical execution: {plan}')
           else:
@@ -671,16 +696,22 @@ jobs:
                   raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
               subjects=batch['capabilities']
               obligation_count=batch['obligation_count']
+              selection_sha256=batch['selection_sha256']
           if not subjects:
               raise SystemExit(f'Empty execution selection: {requested}')
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
               fh.write(f"FA3_CURRENT_HOST_BATCH_ID={requested}\n")
               fh.write(f"FA3_CURRENT_HOST_SUBJECTS={','.join(subjects)}\n")
               fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={obligation_count}\n")
-          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count}, indent=2))
+              fh.write(f"FA3_CURRENT_HOST_SELECTION_SHA256={selection_sha256}\n")
+          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count, 'selection_sha256': selection_sha256}, indent=2))
           PY
         env:
           FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-525' || inputs.execution_batch_id }}
+      - name: Validate digest-bound batch selection
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_batch_integrity.py --root .
       - name: Materialize exact-head Khronos core SDK when CAP-083 is selected
         shell: bash
         run: |
