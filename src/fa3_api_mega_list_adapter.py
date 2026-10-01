@@ -96,7 +96,6 @@ def sanitize_locator(url: str) -> dict[str, Any]:
         "host": host,
         "affiliate_or_tracking_present": tracking_present,
         "secret_parameter_present": secret_parameter_present,
-        "raw_locator_sha256": _sha256_text(url),
     }
 
 
@@ -171,7 +170,6 @@ def parse_api_mega_list_markdown(text: str, *, source_path: str) -> list[dict[st
                     "source_listing_digest": listing_digest,
                     "listing_name": label[:240],
                     "canonical_locator": locator["canonical_locator"],
-                    "raw_locator_sha256": locator["raw_locator_sha256"],
                     "provider_identity": provider,
                     "service_identity": service,
                     "affiliate_or_tracking_present": locator["affiliate_or_tracking_present"],
