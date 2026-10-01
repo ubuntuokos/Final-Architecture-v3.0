@@ -36,7 +36,7 @@ SECRET_KEYS = {
     "secret",
     "token",
 }
-_LINK = re.compile(r"(?<!!)\\[([^\\]]+)\\]\\((https?://[^)\\s]+)\\)", re.IGNORECASE)
+_LINK = re.compile(r"(?<!!)\[([^\]]+)\]\((https?://[^)\s]+)\)", re.IGNORECASE)
 _HTML_TAG = re.compile(r"<[^>]+>")
 _TOKEN = re.compile(r"[a-z0-9][a-z0-9._+-]{1,63}", re.IGNORECASE)
 
