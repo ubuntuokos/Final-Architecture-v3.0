@@ -47,6 +47,8 @@ jobs:
         run: python3 -m unittest tests.test_computer_interaction_runtime -v
       - name: Computer Interaction gate
         run: python3 src/fa3_computer_interaction_gate.py --root .
+      - name: Governance gate regressions
+        run: python3 -m unittest tests.test_computer_interaction_gate -v
       - name: UAF regression
         run: python3 -m unittest tests.test_uaf_gate -v
       - name: Browser specialization regression
