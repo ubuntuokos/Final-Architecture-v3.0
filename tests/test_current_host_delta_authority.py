@@ -96,6 +96,7 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
             "application_id": "fa3.video-editor",
             "base_release_digest": h("base"),
             "parent_effective_digest": h("base"),
+            "source_commit": "a" * 40,
             "change_digest": h("change"),
             "runtime_impact": impact,
             "changed_paths": ["apps/fa3-video-editor/runtime.py"],
@@ -174,6 +175,7 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
                 "test_kind": row["test_kind"],
                 "status": "PASS",
                 "artifact_sha256": h(row["capability_id"] + row["test_kind"]),
+                "qualification_artifact_sha256": h("qual-" + row["capability_id"] + row["test_kind"]),
             }
             for row in plan["required_obligations"]
         ]
@@ -182,7 +184,9 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
             "plan_digest": plan["plan_digest"],
             "base_release_digest": plan["base_release_digest"],
             "parent_effective_digest": plan["parent_effective_digest"],
+            "source_commit": plan["source_commit"],
             "change_digest": plan["change_digest"],
+            "host_fingerprint_sha256": h("host"),
             "physical_current_host_execution": True,
             "synthetic_current_host_pass": False,
             "historical_evidence_reused": False,
