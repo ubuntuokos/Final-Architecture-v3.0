@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "af7f4b45349e03602ffb783a0716781706dfd2ca",
-    "pre_projection_root_tree_sha": "80491bdffb50edeffd747b5a5600e496e31b806f",
-    "pre_projection_canonical_tree_sha": "239f8151fee07e491ecee3dc3906387a2c4680e1",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2376,
-    "total_post_baseline_commits": 2376,
-    "delta_file_count": 2685,
-    "delta_added_files": 2679,
+    "pre_projection_head_sha": "2bf8bfe8aea239ab273bdc63e466d62238e02961",
+    "pre_projection_root_tree_sha": "7484f2932b46da0b05e1f1d1699bb0fc407f1ffc",
+    "pre_projection_canonical_tree_sha": "7b9fc28bb8941dd3140fda8e56a4cf0e4cec45af",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2406,
+    "total_post_baseline_commits": 2406,
+    "delta_file_count": 2701,
+    "delta_added_files": 2695,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1261,
+    "canonical_files_in_post_baseline_delta": 1271,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 349,
-    "test_files_in_post_baseline_delta": 309,
-    "workflow_files_in_post_baseline_delta": 128,
+    "source_files_in_post_baseline_delta": 351,
+    "test_files_in_post_baseline_delta": 311,
+    "workflow_files_in_post_baseline_delta": 129,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -212,6 +212,7 @@
       "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "canonical/profiles/FA3-COACH-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
+      "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json",
       "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
@@ -337,6 +338,7 @@
       "canonical/contracts/FA3-COACH-CONTRACTS-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
@@ -492,6 +494,7 @@
       "canonical/decisions/FA3-DEC-COACH-2026-09-12.json",
       "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-COMPUTER-INTERACTION-RUNTIME-2026-10-01.json",
       "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
@@ -884,6 +887,7 @@
     "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
     "FA3-AGENT-INSTRUCTIONS-GATESET-001",
     "FA3-UNIFIED-ACTION-FABRIC-GATESET-001",
+    "FA3-COMPUTER-INTERACTION-RUNTIME-GATESET-001",
     "FA3-NEURAL-RENDERING-GATESET-001",
     "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
     "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
@@ -1034,7 +1038,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2675,
+  "manifest_entry_count": 2691,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1169,6 +1173,11 @@
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
       "git_blob_sha": "265f379de1c0328d17f3ab148584140a53f6ed2f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-computer-interaction-runtime.yml",
+      "git_blob_sha": "be93e3ee6a45a436173eafec5ee8852912530784",
       "baseline_delta_status": "added"
     },
     {
@@ -2702,6 +2711,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "c76f48daa9d114df22561195bf11038cb7f692b0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-COSYVOICE-MODEL-ALLOWLIST-001.json",
       "git_blob_sha": "f595d0db2b478e58db914795b4fc48ade376d528",
       "baseline_delta_status": "added"
@@ -2874,6 +2888,11 @@
     {
       "path": "canonical/FA3-GATE-COACH-001.json",
       "git_blob_sha": "952dbc5c82855957a9b2bf8be0540ae717bce966",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-COMPUTER-INTERACTION-RUNTIME-001.json",
+      "git_blob_sha": "d48ae931cdc7242464c707a6cf0ce5cd913f1131",
       "baseline_delta_status": "added"
     },
     {
@@ -3183,7 +3202,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "682cbe98837fb70434aac83a58cf52a6ced08665",
+      "git_blob_sha": "84cf73561b6c58ae9dd793c7e19e4d3b72e22783",
       "baseline_delta_status": "added"
     },
     {
@@ -3842,6 +3861,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/actions/computer.interaction.execute.json",
+      "git_blob_sha": "11f8fd25443b6f9cc8e51f2aa4365f736c5408dc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/actions/development.enter.json",
       "git_blob_sha": "ab206eab833ad344887f6804de78483f43cdfda8",
       "baseline_delta_status": "added"
@@ -4157,6 +4181,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-DECISION-ASSESSMENT-2026-10-01.json",
+      "git_blob_sha": "2597c5bca9188140d36abcab14f017a48a95bc57",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "3bfd2f98c985ff68202157f19184e4b5d11be418",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "ecf8232924a4ff66051df682c2c24aaceb544e73",
       "baseline_delta_status": "added"
@@ -4457,6 +4491,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/computer-interaction-runtime-enforcement.json",
+      "git_blob_sha": "bb9863f7a1f81c7f76a52b9c6f386e9e57b5b925",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/conformance-matrix.csv",
       "git_blob_sha": "bd88495977e841c9ab7c78a2cb32ff24e1b61a69",
       "baseline_delta_status": "modified"
@@ -4654,6 +4693,11 @@
     {
       "path": "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001.json",
+      "git_blob_sha": "e26bc9f682c1949ddb635356fce334e4e32af1dd",
       "baseline_delta_status": "added"
     },
     {
@@ -5253,7 +5297,7 @@
     },
     {
       "path": "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
-      "git_blob_sha": "01ab3bc8694c9eec6ea186223ccbd9884a2a0102",
+      "git_blob_sha": "91749357bb30d8547bc2b1063a5b975ee50e11c9",
       "baseline_delta_status": "added"
     },
     {
@@ -5484,6 +5528,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
       "git_blob_sha": "38b0eb4e253993c9a0fbbcade057a8d335da9a4b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-COMPUTER-INTERACTION-RUNTIME-2026-10-01.json",
+      "git_blob_sha": "a6f58243e49dfc5ff1ebe847056dcf9cdc43e771",
       "baseline_delta_status": "added"
     },
     {
@@ -6273,7 +6322,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "77a8a45f53f41527bd1a5fb18136f86192f72862",
+      "git_blob_sha": "0ce47559af441098d971b24415ab945fa8712c02",
       "baseline_delta_status": "modified"
     },
     {
@@ -6449,6 +6498,11 @@
     {
       "path": "canonical/intents/FA3-CAPTION-SUBTITLE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "2e0c6bde202741c519bf326e6a993007f7ffc25f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "0d7c5c6a74dc27fc47c649447fe38222baa68ff5",
       "baseline_delta_status": "added"
     },
     {
@@ -7037,6 +7091,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json",
+      "git_blob_sha": "d5834ecd31e798de1a558ffa1ba4ce2a9b660090",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
       "git_blob_sha": "4acbf641658571df20a655aa2d7edd98e47223b1",
       "baseline_delta_status": "added"
@@ -7063,7 +7122,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-001.json",
-      "git_blob_sha": "0bc8afcd402bb0e2a726e880f152f210ad635dce",
+      "git_blob_sha": "538cc09b0fe04bfe80fc9f4dee188a76eeaa74b0",
       "baseline_delta_status": "added"
     },
     {
@@ -7378,7 +7437,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
-      "git_blob_sha": "92eb7420d83497e3ac9d3b19d8904ec9e7ce94a7",
+      "git_blob_sha": "b681104033e7b1853573a62ce013d3c05a4bd738",
       "baseline_delta_status": "added"
     },
     {
@@ -7438,7 +7497,7 @@
     },
     {
       "path": "canonical/profiles/FA3-UNIFIED-ACTION-FABRIC-001.json",
-      "git_blob_sha": "b2497a1da47ec3b4902910c484e2f75fd8152ad6",
+      "git_blob_sha": "b591d87b2c66391cd62e02c598bbe8eb3c30d542",
       "baseline_delta_status": "added"
     },
     {
@@ -9147,6 +9206,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-COMPUTER-INTERACTION-RUNTIME-2026-10-01.md",
+      "git_blob_sha": "c0f204b0dc3039b480e5cdec0bf6eabc50e638a6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26.md",
       "git_blob_sha": "2879a4d5d035d15d68c4fcf30a93fc08714ef6e7",
       "baseline_delta_status": "added"
@@ -10838,7 +10902,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "5b9d555ef7eca5d85a1aa31bc38a7b9d043d14ec",
+      "git_blob_sha": "21ff1c8e2ba0e747ce83e59ff9b6983ef2428887",
       "baseline_delta_status": "added"
     },
     {
@@ -11362,6 +11426,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_computer_interaction_gate.py",
+      "git_blob_sha": "9e0f5f2dd22dc0875eaeda2e7cfb610c36537594",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_computer_interaction_runtime.py",
+      "git_blob_sha": "d084678df471d032dc168124998c761bd009987a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_context_selection.py",
       "git_blob_sha": "47d3499d12a193c97d118ac36a4038efc459045b",
       "baseline_delta_status": "added"
@@ -11593,7 +11667,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "b3865f0852a017e0f67003c3065ddefa4824b773",
+      "git_blob_sha": "b7766134b4c75eaf860f18a42b6b1d921560c992",
       "baseline_delta_status": "modified"
     },
     {
@@ -12708,7 +12782,7 @@
     },
     {
       "path": "src/fa3_uaf_gate.py",
-      "git_blob_sha": "272d607d703922ade671065b64202ed8337db698",
+      "git_blob_sha": "6d033649721954a504794a44bfd2f5ea7fb4c40e",
       "baseline_delta_status": "added"
     },
     {
@@ -13029,6 +13103,16 @@
     {
       "path": "tests/test_codex_adapter.py",
       "git_blob_sha": "8ecf90712e69426f3c696a8c449800997763f6ed",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_computer_interaction_gate.py",
+      "git_blob_sha": "03bb9207b3ef342835e2da8f355dd40c39b20d2b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_computer_interaction_runtime.py",
+      "git_blob_sha": "c1e9f13dc476cf4e715e21c81eca36efafac7afc",
       "baseline_delta_status": "added"
     },
     {
