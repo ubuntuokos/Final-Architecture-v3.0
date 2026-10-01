@@ -15,6 +15,16 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         shutil.copytree(ROOT / "canonical", root / "canonical")
+        for rel in (
+            "src/fa3_api_mega_list_adapter.py",
+            "src/fa3_external_discovery_store.py",
+            "src/fa3_external_api_discovery_pipeline.py",
+            "bin/fa3-external-api-discovery",
+        ):
+            source = ROOT / rel
+            target = root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
         return td, root
 
     def _write(self, path, obj):
