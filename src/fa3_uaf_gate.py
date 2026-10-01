@@ -45,6 +45,8 @@ def validate(root: Path) -> list[dict[str, Any]]:
         "secret_contract": root / "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
         "mcp_contract": root / "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
         "evidence_contract": root / "canonical/FA3-EVIDENCE-ENVELOPE-001.json",
+        "computer_interaction_profile": root / "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json",
+        "shared_tool_action_profile": root / "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
     }
     for name, path in required.items():
         if name == "actions":
@@ -75,6 +77,10 @@ def validate(root: Path) -> list[dict[str, Any]]:
         (profile.get("hrb_authority") == "FA3-AUTH-HOST-RESOURCE-BROKER-001", "UAF-GATE-007", "HRB authority not preserved"),
         (profile.get("mcp_boundary") == "FA3-MCP-GATEWAY-001", "UAF-GATE-008", "Central MCP Gateway boundary not preserved"),
         (contract.get("id") == CONTRACT_ID and contract.get("profile") == PROFILE_ID, "UAF-GATE-009", "contract/profile binding mismatch"),
+        (contract.get("capability_count") == capability_count, "UAF-GATE-024", "contract capability count drift"),
+        ("FA3-COMPUTER-INTERACTION-RUNTIME-001" in profile.get("shared_execution_profiles", []), "UAF-GATE-025", "computer interaction shared execution profile missing"),
+        ("FA3-COMPUTER-INTERACTION-RUNTIME-001" in contract.get("shared_execution_profiles", []), "UAF-GATE-026", "computer interaction contract binding missing"),
+        (profile.get("shared_mediation_profile") == "FA3-SHARED-TOOL-ACTION-MEDIATION-001", "UAF-GATE-027", "shared tool/action mediation binding missing"),
         (contract.get("new_capability") is False and contract.get("new_architectural_authority") is False, "UAF-GATE-010", "contract changes capability or authority baseline"),
         (decision.get("id") == DECISION_ID and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "UAF-GATE-011", "decision changes baseline"),
         (gate_record.get("profile") == PROFILE_ID and gate_record.get("fail_closed") is True, "UAF-GATE-012", "gate record invalid"),
