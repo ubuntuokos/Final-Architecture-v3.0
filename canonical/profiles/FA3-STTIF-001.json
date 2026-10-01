@@ -1,0 +1,101 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STTIF-001",
+  "name": "Spatial-Temporal Tiled Inference Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-SHARED-PROVIDER-NEUTRAL",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "contracts": [
+    "FA3-STTIF-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "core_components": [
+    "CanvasPlanner",
+    "SpatialTilePlanner",
+    "TemporalWindowPlanner",
+    "LatentNoiseCoordinator",
+    "SamplerCompatibilityPolicy",
+    "FusionPlanner",
+    "ResourceBudgetProjection",
+    "InferenceReceiptBuilder"
+  ],
+  "authority_boundaries": {
+    "resource_discovery_admission_placement_and_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_and_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "sttif_may_select_physical_device": false,
+    "sttif_may_admit_model_or_provider": false,
+    "sttif_may_mutate_hardware_parameters": false
+  },
+  "external_reference_policy": {
+    "ltx2": "REFERENCE_ONLY_OPTIONAL_FUTURE_ADAPTER_REQUIRES_SEPARATE_LICENSE_RUNTIME_AND_MODEL_ADMISSION",
+    "comfyui_ltxvideo": "REFERENCE_ONLY_NO_CORE_RUNTIME_DEPENDENCY",
+    "source_copy_performed": false
+  },
+  "runtime_policy": {
+    "silent_provider_model_device_sampler_precision_or_cloud_fallback": false,
+    "requested_sampler_must_be_supported_or_fail_closed": true,
+    "provider_specific_constraints_enter_only_via_typed_descriptor": true,
+    "resource_budget_is_input_not_hardware_authority": true,
+    "external_model_execution_not_materialized_by_this_profile": true
+  },
+  "shared_integration": {
+    "primary_consumers": [
+      "fa3.video-editor",
+      "fa3.quickclip",
+      "fa3.character-studio"
+    ],
+    "reference_surfaces": [
+      "studio.comfyui",
+      "studio.invokeai",
+      "studio.kdenlive",
+      "studio.natron",
+      "studio.gaffer",
+      "studio.bforartists"
+    ],
+    "retrospective_integration_required": true,
+    "duplicated_local_tiling_cores_should_migrate_to_shared_contract": true
+  },
+  "gui_projection": {
+    "shared_panel": "Resolution & Memory",
+    "normal_fields": [
+      "target_resolution",
+      "quality_policy",
+      "memory_strategy",
+      "temporal_mode",
+      "resource_authority"
+    ],
+    "advanced_fields": [
+      "spatial_tiling",
+      "temporal_windowing",
+      "overlap",
+      "fusion_policy",
+      "vae_tiling",
+      "sampler_compatibility",
+      "seed_noise_policy"
+    ],
+    "provider_or_device_autoselection": false
+  },
+  "implementation_status": "FA3_NATIVE_STATIC_PLANNER_AND_VALIDATOR_MATERIALIZED",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
