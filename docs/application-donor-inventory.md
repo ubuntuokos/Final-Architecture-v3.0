@@ -112,3 +112,37 @@ relevant main-branch change. It does not claim production runtime qualification.
 ## Donor lifecycle and capability-consumer reverse traceability
 
 Every donor-record change is processed. Actual donor adoption/use requires an explicit usage edge tied to a registered donor and a primary application. The same edge may name additional shared-module, profile, authority, GUI, test and Current Host consumers. `src/fa3_application_donor_index.py` derives capability IDs only from canonical profile/contract `capability_bindings` and emits all three reverse projections. Monthly capability refresh remains 31 days; security changes are immediate; donor-driven capability regression is forbidden except for documented auditable FA3 risk.
+
+
+## P0 donor usage traceability repair (2026-10-01)
+
+The canonical donor registry capture metadata now matches the effective owner rule:
+unmarked or merely suggested links remain analysis-only, while only an explicit
+owner `donornak` marker may create a registry reference. The obsolete embedded
+automatic-CANDIDATE capture flag is no longer retained as contradictory metadata.
+
+Actual donor use is different from donor/reference registration. The
+`donor_usage_records` list accepts either the existing application primary
+consumer or a typed primary consumer, so shared profiles, contracts and providers
+do not need to be misrepresented as applications. Existing application-scoped
+usage remains backward compatible.
+
+The index discovers explicit canonical donor-use evidence from provider
+`donor_registry_id` bindings and License & Rights
+`boundaries.donor_pattern_source` declarations. Every such declaration must
+have a matching active usage edge with the evidence path recorded in provenance,
+or CI fails closed. This rule does not infer adoption from names, target hints,
+pattern catalogues, research notes or a Reuse Assessment that explicitly says
+adoption is not authorized.
+
+The initial evidence-backed backfill contains only the currently proven uses:
+System One Harness pattern use by the two FA3-native System One provider
+surfaces, and the Terax donor/reference binding by the canonical Terax provider.
+Further historical edges are added only when equivalent canonical evidence
+exists.
+
+Shared-capability rules remain separate but coupled: a multi-application
+functional core must live in one shared FA3 layer, and a donor-derived shared
+capability requires an explicit donor usage edge before donor adoption can be
+claimed. Reference-only pattern candidates do not create usage edges by
+themselves.
