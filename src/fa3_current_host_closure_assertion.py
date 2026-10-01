@@ -7,6 +7,11 @@ import os
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
+OBLIGATION_COUNT = CAPABILITY_COUNT * 3
+
 
 def _load(path: Path) -> dict[str, Any]:
     value=json.loads(path.read_text(encoding="utf-8"))
@@ -43,8 +48,8 @@ def assert_current_host_closure(root: Path, selected_obligation_count: int) -> d
     assert producer_orchestrator["global_promotion_claim"] is False, producer_orchestrator
 
     assert executor["audit_integrity"]=="PASS", executor
-    assert executor["required_test_obligation_count"]==429, executor
-    assert executor["registered_executor_count"]+executor["pending_executor_count"]==429, executor
+    assert executor["required_test_obligation_count"]==OBLIGATION_COUNT, executor
+    assert executor["registered_executor_count"]+executor["pending_executor_count"]==OBLIGATION_COUNT, executor
     assert executor["provider_receipts_promoted"]==0, executor
     assert executor["generic_host_evidence_promoted"]==0, executor
     assert executor["global_promotion_claim"] is False, executor
@@ -73,23 +78,23 @@ def assert_current_host_closure(root: Path, selected_obligation_count: int) -> d
     assert handoff["global_promotion_claim"] is False, handoff
 
     assert audit["audit_integrity"]=="PASS", audit
-    assert audit["registry_pass_count"]+audit["registry_pending_count"]==143, audit
+    assert audit["registry_pass_count"]+audit["registry_pending_count"]==CAPABILITY_COUNT, audit
     assert acceptance["criteria_total"]==19, acceptance
 
     runtime_closure=audit["runtime_closure"]
     if runtime_closure=="PASS":
-        assert executor["coverage_status"]=="COMPLETE_429_OF_429", executor
-        assert executor["registered_executor_count"]==429, executor
-        assert orchestrator["results_materialized"]==429, orchestrator
-        assert assembler["bundles_materialized"]==143, assembler
-        assert producer["attestations_materialized"]==143, producer
-        assert handoff["receipts_materialized"]==143, handoff
-        assert audit["registry_pass_count"]==143 and audit["registry_pending_count"]==0, audit
-        assert audit["qualified_current_host_receipt_count"]==143, audit
+        assert executor["coverage_status"]==f"COMPLETE_{OBLIGATION_COUNT}_OF_{OBLIGATION_COUNT}", executor
+        assert executor["registered_executor_count"]==OBLIGATION_COUNT, executor
+        assert orchestrator["results_materialized"]==OBLIGATION_COUNT, orchestrator
+        assert assembler["bundles_materialized"]==CAPABILITY_COUNT, assembler
+        assert producer["attestations_materialized"]==CAPABILITY_COUNT, producer
+        assert handoff["receipts_materialized"]==CAPABILITY_COUNT, handoff
+        assert audit["registry_pass_count"]==CAPABILITY_COUNT and audit["registry_pending_count"]==0, audit
+        assert audit["qualified_current_host_receipt_count"]==CAPABILITY_COUNT, audit
         assert acceptance["runtime_gate"]=="PASS", acceptance
 
     # Runtime closure and global release promotion are deliberately separate.
-    # A FULL-429 runtime PASS MUST NOT fabricate the independent 19-point
+    # A FULL-525 runtime PASS MUST NOT fabricate the independent 19-point
     # static/release acceptance artifacts.
     if acceptance["status"]=="PASS":
         assert runtime_closure=="PASS", audit
