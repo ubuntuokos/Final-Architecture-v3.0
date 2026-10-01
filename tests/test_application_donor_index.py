@@ -17,6 +17,7 @@ SOURCES = (
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
     "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/profiles/FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001.json",
 )
 
 
