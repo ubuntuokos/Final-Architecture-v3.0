@@ -1,0 +1,237 @@
+{
+  "schema": "fa3.blender-engine-fabric.v1",
+  "id": "FA3-BLENDER-ENGINE-FABRIC-001",
+  "status": "CANONICAL_STATIC_COMPATIBILITY_FABRIC",
+  "date": "2026-10-01",
+  "authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "published_main_commit": "7c320638f021fd2783975d13e42af993dfae40e0",
+  "profile_id": "FA3-BLENDER-COMPATIBILITY-PROFILE-001",
+  "contract_id": "FA3-BLENDER-COMPATIBILITY-CONTRACTS-001",
+  "intent_id": "FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001",
+  "reuse_assessment_id": "FA3-BLENDER-ENGINE-FABRIC-REUSE-ASSESSMENT-001",
+  "current_host_impact_id": "FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001",
+  "capability_bindings": [
+    "CAP-006",
+    "CAP-015",
+    "CAP-016",
+    "CAP-022",
+    "CAP-025",
+    "CAP-027",
+    "CAP-032",
+    "CAP-146",
+    "CAP-147",
+    "CAP-148",
+    "CAP-161",
+    "CAP-163",
+    "CAP-165",
+    "CAP-166",
+    "CAP-171",
+    "CAP-175"
+  ],
+  "source_reuse": {
+    "reuse_discovery_performed": true,
+    "donor_registry_mutation": false,
+    "new_donor_identity_created": false,
+    "planning_inputs": [
+      "docs/donor-blender-github-2026-09-28.md",
+      "docs/metric-3d-provider-fabric.md",
+      "docs/donor-openusd-2026-09-28.md",
+      "docs/FA3-KHRONOS-OPEN-STANDARDS-MATERIALIZATION-2026-09-27.md",
+      "docs/current-host-runner.md"
+    ],
+    "no_source_copy_authorized": true,
+    "no_runtime_admission_inferred": true
+  },
+  "architecture": {
+    "primary_dcc": "BFORARTISTS",
+    "blender_roles": [
+      "UPSTREAM_COMPATIBILITY_BASE",
+      "BLEND_NATIVE_AUTHORING_COMPATIBILITY",
+      "HEADLESS_COMPATIBILITY_TARGET",
+      "CYCLES_EEVEE_REFERENCE_RENDER_TARGET"
+    ],
+    "blender_core_fork": false,
+    "blender_core_patch_required": false,
+    "adapter_first": true,
+    "new_project_format": false,
+    "native_project_authority": ".blend",
+    "native_project_semantics": "BLENDER_UPSTREAM",
+    "rings": [
+      {
+        "id": "RING-A",
+        "name": "UPSTREAM_PURE",
+        "rule": "Preserve .blend, bpy/RNA/operator, Geometry Nodes and native Cycles/EEVEE compatibility contracts."
+      },
+      {
+        "id": "RING-B",
+        "name": "COMPATIBLE_ACCELERATION",
+        "rule": "Add replaceable FA3 scene, render, geometry, cache, distributed and AI adapters without requiring an FA3-only project representation."
+      },
+      {
+        "id": "RING-C",
+        "name": "EXPERIMENTAL",
+        "rule": "Experimental acceleration may not become the sole representation and may not silently mutate upstream-compatible project semantics."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "BlenderCompatibilityBridge",
+      "role": "Bforartists/Blender to FA3 typed boundary",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlendRoundTripGuard",
+      "role": "native .blend preservation and explicit loss accounting",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderVersionProfile",
+      "role": "supported upstream compatibility range metadata",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderExtensionGate",
+      "role": "extension/add-on compatibility admission contract",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderSceneBridge",
+      "role": "scene interchange through existing FA3/OpenUSD/Khronos fabrics",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderUsdHydraBridge",
+      "role": "USD/Hydra delegation contract",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderMaterialBridge",
+      "role": "MaterialX/OpenPBR-compatible material interchange",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderGeometryBridge",
+      "role": "Geometry Nodes/mesh/volume compatible execution boundary",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderRenderBridge",
+      "role": "Cycles/EEVEE and FA3 Render Fabric delegation",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderDeviceBridge",
+      "role": "HRB-only device admission and lease boundary",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderAssetCacheBridge",
+      "role": "shared content-addressed cache projection",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderDistributedWorker",
+      "role": "future headless worker contract behind CAP-161",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderAIServiceBridge",
+      "role": "optional Model Router mediated AI services",
+      "runtime_materialized": false
+    },
+    {
+      "id": "BlenderCompatibilityGate",
+      "role": "fail-closed static and future physical conformance",
+      "runtime_materialized": false
+    }
+  ],
+  "interoperability": {
+    "scene_authority_duplicate_forbidden": true,
+    "existing_fabrics_reused": true,
+    "planned_standards": [
+      "OpenUSD",
+      "Hydra",
+      "glTF",
+      "MaterialX",
+      "OpenPBR",
+      "OpenVDB",
+      "NanoVDB",
+      "OpenEXR",
+      "OpenImageIO",
+      "OpenColorIO"
+    ],
+    "standards_list_is_not_runtime_admission": true
+  },
+  "render_policy": {
+    "cycles_preserved": true,
+    "eevee_preserved": true,
+    "cpu_render_path_preserved": true,
+    "optional_delegate_path": "FA3_RENDER_FABRIC_CAP_161",
+    "neural_rendering_path": "FA3_NEURAL_RENDERING_CAP_163",
+    "direct_opendlss_nr_blender_core_coupling": false,
+    "paid_renderer_baseline_dependency": false
+  },
+  "resource_policy": {
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_mandatory": true,
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "silent_device_fallback": false,
+    "automatic_display_gpu_compute_recruitment": false,
+    "hardware_mutation": false
+  },
+  "ai_policy": {
+    "optional": true,
+    "per_application_module_function_disable_required": true,
+    "disabled_path_must_not_start_model_or_provider": true,
+    "model_provider_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "silent_ai_fallback": false
+  },
+  "cache_policy": {
+    "replace_blender_native_cache": false,
+    "reuse_fa3_shared_cache": true,
+    "derived_data_must_be_regenerable": true,
+    "authoritative_source_remains_native_or_canonical_input": true
+  },
+  "compatibility_outcomes": [
+    "LOSSLESS",
+    "LOSSY_WITH_EXPLICIT_REPORT",
+    "BLOCKED"
+  ],
+  "silent_loss_forbidden": true,
+  "runtime_materialization": {
+    "blender_install_or_activation": false,
+    "bforartists_install_or_activation": false,
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "gpu_backend_activation": false,
+    "distributed_worker_activation": false,
+    "hardware_mutation": false,
+    "credential_path_change": false
+  },
+  "license_rights": {
+    "no_third_party_source_copied": true,
+    "no_blender_source_imported": true,
+    "no_cycles_source_imported": true,
+    "no_addon_source_imported": true,
+    "future_source_reuse_requires_file_level_rights_and_provenance_review": true
+  },
+  "current_host": {
+    "structural_alignment_required": true,
+    "structural_alignment_materialized": true,
+    "physical_runtime_promotion_claim": false,
+    "future_runtime_positive_negative_rollback_required": true
+  }
+}

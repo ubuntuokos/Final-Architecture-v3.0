@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-BLENDER-ENGINE-FABRIC-2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-01",
+  "title": "Blender Engine Fabric strengthening with upstream compatibility preservation",
+  "decision": "Materialize an adapter-first FA3 Blender Engine Fabric around the existing Bforartists-primary DCC architecture. Preserve Blender-native .blend semantics, bpy/RNA/operator and Cycles/EEVEE compatibility; do not create a Blender fork, a competing scene authority, a new .fa3blend format, a new capability, or a new architectural authority. Reuse existing FA3 Render, 3D Geometry, Khronos/OpenUSD, HRB, Model Router, cache, evidence and Current Host structures.",
+  "approved_plan": "docs/FA3-BLENDER-ENGINE-FABRIC-MATERIALIZATION-2026-10-01.md",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "bforartists_primary_dcc": true,
+    "blender_upstream_compatibility_required": true,
+    "blender_core_fork": false,
+    "blender_core_patch_required": false,
+    "new_project_format": false,
+    "adapter_first": true,
+    "hrb_authority_preserved": true,
+    "hardware_safety_envelope_mandatory": true,
+    "model_router_authority_preserved": true,
+    "software_coexistence_required": true,
+    "paid_renderer_baseline_dependency": false,
+    "runtime_activation_by_this_change": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "materialized_components": [
+    "FA3-BLENDER-ENGINE-FABRIC-001",
+    "FA3-BLENDER-COMPATIBILITY-PROFILE-001",
+    "FA3-BLENDER-COMPATIBILITY-CONTRACTS-001",
+    "FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001"
+  ]
+}

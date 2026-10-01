@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-BLENDER-ENGINE-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-BLENDER-ENGINE-FABRIC-001",
+  "project_type": "PROFILE",
+  "goal": "Strengthen Blender/Bforartists execution, render and interchange in FA3 while preserving upstream Blender compatibility and reusing existing FA3 3D, Render, HRB, Khronos/OpenUSD, cache, AI and Current Host authorities.",
+  "required_capabilities": [
+    "CAP-006",
+    "CAP-015",
+    "CAP-016",
+    "CAP-022",
+    "CAP-025",
+    "CAP-027",
+    "CAP-032",
+    "CAP-146",
+    "CAP-147",
+    "CAP-148",
+    "CAP-161",
+    "CAP-163",
+    "CAP-165",
+    "CAP-166",
+    "CAP-171",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "dcc-compatibility",
+    "native-project-roundtrip",
+    "scene-interchange",
+    "render-delegation",
+    "geometry-execution",
+    "material-interchange",
+    "asset-cache",
+    "headless-distributed-render",
+    "optional-ai-services"
+  ],
+  "input_modalities": [
+    "BLEND_PROJECT",
+    "SCENE_GRAPH",
+    "GEOMETRY",
+    "MATERIAL",
+    "ASSET",
+    "RENDER_JOB"
+  ],
+  "output_modalities": [
+    "BLEND_PROJECT",
+    "SCENE_INTERCHANGE",
+    "RENDER_ARTIFACT",
+    "COMPATIBILITY_REPORT",
+    "EXECUTION_RECEIPT"
+  ],
+  "execution_classes": [
+    "STATIC_CONTRACT_AND_MAPPING"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_mandatory": true,
+    "automatic_display_gpu_compute_recruitment": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FAIL_CLOSED",
+    "NO_SILENT_FALLBACK",
+    "HRB_RESOURCE_AUTHORITY",
+    "HARDWARE_SAFETY_ENVELOPE",
+    "SOFTWARE_COEXISTENCE",
+    "MODEL_ROUTER_FOR_OPTIONAL_AI",
+    "EXPLICIT_LOSS_REPORTING"
+  ],
+  "integration_requirements": [
+    "FA3-3D-GEOM-001",
+    "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-CAPABILITY-MODEL-175-001"
+  ],
+  "gui_requirements": [
+    "BFORARTISTS_PRIMARY",
+    "BLENDER_COMPATIBILITY",
+    "NO_NEW_COMPETING_DCC",
+    "WAYLAND_FIRST_X11_FALLBACK_WHEN_GUI_RUNTIME_MATERIALIZES"
+  ],
+  "task_classes": [
+    "creative",
+    "3d",
+    "render",
+    "vfx",
+    "compatibility",
+    "governance"
+  ],
+  "skill_triggers": []
+}

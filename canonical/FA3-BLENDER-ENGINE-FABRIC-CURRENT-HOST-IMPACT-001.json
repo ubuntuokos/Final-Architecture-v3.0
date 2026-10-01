@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-BLENDER-ENGINE-FABRIC-CURRENT-HOST-IMPACT-001",
+  "status": "STATIC_ALIGNMENT_COMPLETE_RUNTIME_REQUALIFICATION_DEFERRED",
+  "subject_id": "FA3-BLENDER-ENGINE-FABRIC-001",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_change": true,
+  "structural_alignment_performed": true,
+  "runtime_change": false,
+  "runtime_delta": "NONE_IN_THIS_MATERIALIZATION",
+  "service_change": false,
+  "daemon_change": false,
+  "port_or_socket_change": false,
+  "package_dependency_change": false,
+  "provider_or_model_activation": false,
+  "blender_or_bforartists_install_change": false,
+  "gpu_backend_activation": false,
+  "hardware_mutation": false,
+  "credential_path_change": false,
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false,
+  "host_requalification_required_now": false,
+  "future_runtime_requalification_required": true,
+  "obligation_model": {
+    "capability_count": 175,
+    "proof_classes": [
+      "POSITIVE",
+      "NEGATIVE",
+      "ROLLBACK"
+    ],
+    "global_obligation_count": 525,
+    "new_obligation_count": 0,
+    "no_capability_renumbering": true
+  },
+  "alignment_scope": {
+    "static_contracts": [
+      "FA3-BLENDER-ENGINE-FABRIC-001",
+      "FA3-BLENDER-COMPATIBILITY-PROFILE-001",
+      "FA3-BLENDER-COMPATIBILITY-CONTRACTS-001"
+    ],
+    "executable_current_host_path_added": false,
+    "current_host_runner_reused": "FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001"
+  },
+  "future_physical_surfaces": [
+    "BLENDER_GUI",
+    "BFORARTISTS_GUI",
+    "BLENDER_HEADLESS",
+    "CYCLES_CPU",
+    "ADMITTED_ACCELERATOR_BACKEND",
+    "USD_INTERCHANGE",
+    "RENDER_BRIDGE",
+    "BLEND_ROUNDTRIP"
+  ],
+  "escalation_triggers": [
+    "BLENDER_OR_BFORARTISTS_INSTALL_OR_VERSION_CHANGE",
+    "BLENDER_PYTHON_OR_EXTENSION_RUNTIME_BINDING",
+    "HYDRA_OR_USD_RUNTIME_BINDING",
+    "NEW_NATIVE_LIBRARY_OR_PACKAGE",
+    "RENDER_PROVIDER_ACTIVATION",
+    "GPU_BACKEND_ACTIVATION",
+    "DISTRIBUTED_WORKER_ACTIVATION",
+    "AI_PROVIDER_OR_MODEL_ACTIVATION",
+    "NEW_PORT_SOCKET_OR_IPC_ENDPOINT",
+    "CREDENTIAL_DELIVERY_PATH",
+    "PHYSICAL_GUI_BINDING"
+  ],
+  "future_rule": "Any escalation trigger requires exact Current Host contract/probe/manifest alignment plus non-simulated positive, negative and rollback evidence before runtime promotion."
+}
