@@ -105,5 +105,14 @@
   "global_promotion_claim": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "rationale": "STTIF is a provider-neutral inference planning/control-plane layer and introduces no Khronos SDK, loader, runtime, API-profile, shader, graphics/compute source or build dependency. Khronos remains available to downstream 3D/render consumers through its existing governed fabric."
+    }
+  ]
 }
