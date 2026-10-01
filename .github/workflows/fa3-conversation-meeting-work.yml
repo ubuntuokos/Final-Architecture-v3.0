@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: python -m py_compile src/fa3_conversation_meeting_work.py src/fa3_conversation_meeting_work_gate.py tests/test_conversation_meeting_work.py
@@ -31,3 +33,6 @@ jobs:
         run: python src/fa3_gate_registry.py
       - env: {PYTHONPATH: src}
         run: python src/fa3_reuse_gate.py
+      - name: Decision Fabric adoption
+        env: {PYTHONPATH: src}
+        run: python src/fa3_decision_adoption_gate.py --base-ref origin/main
