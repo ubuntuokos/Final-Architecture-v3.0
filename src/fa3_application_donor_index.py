@@ -73,6 +73,61 @@ def canonical_capability_bindings(root: Path) -> dict[str, list[str]]:
     return bindings
 
 
+def explicit_donor_usage_expectations(root: Path) -> list[dict[str, str]]:
+    """Find only explicit canonical donor-use declarations; never infer use from names."""
+    found: dict[tuple[str, str, str], dict[str, str]] = {}
+
+    provider_root = root / "canonical/providers"
+    if provider_root.is_dir():
+        for path in sorted(provider_root.glob("*.json")):
+            try:
+                row = load(path)
+            except Exception:
+                continue
+            donor_id = row.get("donor_registry_id")
+            consumer_id = row.get("id")
+            if (
+                isinstance(donor_id, str) and donor_id.startswith("FA3-DONOR-")
+                and isinstance(consumer_id, str) and consumer_id
+            ):
+                key = (donor_id, "PROVIDER", consumer_id)
+                found[key] = {
+                    "donor_id": donor_id,
+                    "consumer_kind": "PROVIDER",
+                    "consumer_id": consumer_id,
+                    "evidence_path": path.relative_to(root).as_posix(),
+                    "basis": "PROVIDER_DONOR_REGISTRY_BINDING",
+                }
+
+    rights_root = root / "canonical/license-rights/descriptors"
+    if rights_root.is_dir():
+        for path in sorted(rights_root.glob("*.json")):
+            try:
+                row = load(path)
+            except Exception:
+                continue
+            donor_id = (row.get("boundaries") or {}).get("donor_pattern_source")
+            subject_id = (row.get("subject") or {}).get("id")
+            if (
+                isinstance(donor_id, str) and donor_id.startswith("FA3-DONOR-")
+                and isinstance(subject_id, str) and subject_id
+            ):
+                consumer_kind = (
+                    "PROVIDER" if subject_id.startswith("FA3-PROVIDER-")
+                    else "CANONICAL_RECORD"
+                )
+                key = (donor_id, consumer_kind, subject_id)
+                found[key] = {
+                    "donor_id": donor_id,
+                    "consumer_kind": consumer_kind,
+                    "consumer_id": subject_id,
+                    "evidence_path": path.relative_to(root).as_posix(),
+                    "basis": "LICENSE_RIGHTS_DONOR_PATTERN_SOURCE",
+                }
+
+    return [found[key] for key in sorted(found)]
+
+
 def capability_refresh_status(registry: dict[str, Any], today: date | None = None) -> dict[str, Any]:
     today = today or date.today()
     policy = registry.get("planning_policy", {})
@@ -134,6 +189,10 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "shared_capability_binding_must_be_canonical_derived": True,
         "shared_capability_manual_capability_ids_forbidden": True,
         "shared_capability_current_host_impact_required": True,
+        "donor_usage_typed_primary_consumer_required": True,
+        "explicit_canonical_donor_use_requires_usage_edge": True,
+        "shared_capability_donor_adoption_requires_usage_edge": True,
+        "reference_only_pattern_is_not_adoption_without_usage_evidence": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
@@ -210,24 +269,41 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                      "ARCHITECTURE_PATTERN", "UI_UX_PATTERN", "CODE_REUSE",
                      "RUNTIME_DEPENDENCY", "REFERENCE_BINDING"}
     allowed_usage_status = {"ACTIVE", "PINNED_STABLE", "REPLACEMENT_PENDING", "REMOVED"}
+    allowed_consumer_kinds = {
+        "APPLICATION", "SHARED_MODULE", "SHARED_CAPABILITY", "PROFILE", "CONTRACT",
+        "PROVIDER", "AUTHORITY", "GUI_SURFACE", "TEST_HARNESS", "CURRENT_HOST_PATH",
+        "CANONICAL_RECORD",
+    }
     for usage in usage_records:
         uid = usage.get("id") if isinstance(usage, dict) else None
         aid = usage.get("application_id") if isinstance(usage, dict) else None
+        primary = usage.get("primary_consumer") if isinstance(usage, dict) else None
         did = usage.get("donor_id") if isinstance(usage, dict) else None
-        if (not uid or uid in seen_usage or aid not in applications or did not in donor_ids
+        has_application = isinstance(aid, str) and bool(aid)
+        has_typed_primary = isinstance(primary, dict)
+        primary_valid = False
+        if has_application and not has_typed_primary:
+            primary_valid = aid in applications
+        elif has_typed_primary and not has_application:
+            kind = primary.get("kind")
+            consumer_id = primary.get("id")
+            primary_valid = (
+                kind in allowed_consumer_kinds
+                and isinstance(consumer_id, str) and bool(consumer_id)
+                and (kind != "APPLICATION" or consumer_id in applications)
+                and (kind != "GUI_SURFACE" or consumer_id in seen_surfaces)
+            )
+        if (not uid or uid in seen_usage or not primary_valid or did not in donor_ids
                 or usage.get("usage_kind") not in allowed_usage
                 or usage.get("status") not in allowed_usage_status):
             errors.append({"code": "INVALID_DONOR_USAGE_RECORD", "detail": str(uid)})
             continue
         seen_usage.add(uid)
         usage_by_donor.setdefault(did, []).append(usage)
-        usage_by_app.setdefault(aid, []).append(usage)
+        if has_application:
+            usage_by_app.setdefault(aid, []).append(usage)
 
     capability_bindings = canonical_capability_bindings(root)
-    allowed_consumer_kinds = {
-        "APPLICATION", "SHARED_MODULE", "PROFILE", "AUTHORITY",
-        "GUI_SURFACE", "TEST_HARNESS", "CURRENT_HOST_PATH",
-    }
     allowed_current_host_impact = {
         "NO_RUNTIME_IMPACT", "STRUCTURAL_REASSESSMENT_REQUIRED",
         "RUNTIME_REQUALIFICATION_REQUIRED",
@@ -242,7 +318,8 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         uid = usage.get("id") if isinstance(usage, dict) else None
         if not uid or uid not in seen_usage:
             continue
-        aid = usage["application_id"]
+        aid = usage.get("application_id")
+        primary_consumer = usage.get("primary_consumer")
         did = usage["donor_id"]
         fa3_bindings = usage.get("fa3_bindings") or {}
         if not isinstance(fa3_bindings, dict):
@@ -277,7 +354,14 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         ):
             errors.append({"code": "UNRESOLVED_CAPABILITY_BINDING", "detail": uid})
 
-        consumers = [{"kind": "APPLICATION", "id": aid, "relationship": "PRIMARY_APPLICATION"}]
+        if aid:
+            consumers = [{"kind": "APPLICATION", "id": aid, "relationship": "PRIMARY_APPLICATION"}]
+        else:
+            consumers = [{
+                "kind": primary_consumer["kind"],
+                "id": primary_consumer["id"],
+                "relationship": primary_consumer.get("relationship", "PRIMARY_CONSUMER"),
+            }]
         extra_consumers = usage.get("consumers", [])
         if not isinstance(extra_consumers, list):
             errors.append({"code": "INVALID_CONSUMERS", "detail": uid})
@@ -350,6 +434,38 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         for consumer in edge["consumers"]:
             key = consumer["kind"] + ":" + consumer["id"]
             by_usage_consumer.setdefault(key, []).append(uid)
+
+    explicit_usage_expectations = explicit_donor_usage_expectations(root)
+    active_usage_edges = [edge for edge in capability_usage_edges if edge["status"] != "REMOVED"]
+    for expected in explicit_usage_expectations:
+        matches = [
+            edge for edge in active_usage_edges
+            if edge["donor_id"] == expected["donor_id"]
+            and any(
+                consumer["kind"] == expected["consumer_kind"]
+                and consumer["id"] == expected["consumer_id"]
+                for consumer in edge["consumers"]
+            )
+        ]
+        if not matches:
+            errors.append({
+                "code": "MISSING_EXPLICIT_DONOR_USAGE_EDGE",
+                "detail": (
+                    expected["donor_id"] + "->" + expected["consumer_kind"]
+                    + ":" + expected["consumer_id"]
+                ),
+            })
+            continue
+        if not any(
+            expected["evidence_path"] in (
+                edge.get("provenance", {}).get("evidence_paths") or []
+            )
+            for edge in matches
+        ):
+            errors.append({
+                "code": "MISSING_EXPLICIT_DONOR_USAGE_EVIDENCE",
+                "detail": expected["donor_id"] + "->" + expected["consumer_id"],
+            })
 
     capability_consumer_map = {
         "schema": "fa3.capability-consumer-map.v1",
@@ -593,9 +709,11 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             donor_ids_for_change = {row.get("donor_id") for row in (old, new)
                                     if isinstance(row, dict) and row.get("donor_id")}
             explicitly_used_by = {
-                u["application_id"]
-                for did in donor_ids_for_change for u in usage_by_donor.get(did, [])
-                if u.get("status") != "REMOVED"
+                consumer["id"]
+                for edge in capability_usage_edges
+                if edge["donor_id"] in donor_ids_for_change and edge["status"] != "REMOVED"
+                for consumer in edge["consumers"]
+                if consumer["kind"] == "APPLICATION"
             }
             for app in applications.values():
                 aliases = {norm(s) for s in app["aliases"]}
@@ -680,6 +798,8 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                    "proposed_cross_app_links": len(edges),
                    "shared_capabilities": len(shared_capabilities),
                    "shared_capability_edges": len(shared_capability_edges),
+                   "donor_usage_records": len(capability_usage_edges),
+                   "verified_explicit_usage_expectations": len(explicit_usage_expectations),
                    "changed_donor_sources": len(reevaluation)},
         "applications": [applications[k] for k in sorted(applications)],
         "gui_surfaces": sorted(gui_surfaces, key=lambda x: x["surface_id"]),
@@ -687,6 +807,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "shared_capabilities": sorted(shared_capabilities, key=lambda x: x["id"]),
         "tutorial_shared_policy": {"registered_tutorial_only": True, "existing_function_routes_to_fa3_native_manual": True, "missing_function_requires_need_assessment": True, "multi_application_function_routes_to_shared_layer": True, "retrospective_application_impact_required": True, "manual_publish_requires_verified_implementation": True, "structural_change_requires_current_host_alignment": True},
         "capability_consumer_map": capability_consumer_map,
+        "explicit_donor_usage_expectations": explicit_usage_expectations,
         "shared_capability_consumer_map": shared_capability_consumer_map,
         "reevaluation": reevaluation,
         "validation": {"result": "PASS" if not errors else "FAIL", "findings": errors},

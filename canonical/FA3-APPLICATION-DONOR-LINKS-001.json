@@ -56,7 +56,11 @@
     "shared_capability_consumer_reverse_traceability_required": true,
     "shared_capability_binding_must_be_canonical_derived": true,
     "shared_capability_manual_capability_ids_forbidden": true,
-    "shared_capability_current_host_impact_required": true
+    "shared_capability_current_host_impact_required": true,
+    "donor_usage_typed_primary_consumer_required": true,
+    "explicit_canonical_donor_use_requires_usage_edge": true,
+    "shared_capability_donor_adoption_requires_usage_edge": true,
+    "reference_only_pattern_is_not_adoption_without_usage_evidence": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -644,7 +648,120 @@
   "governance_decisions": [
     "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
   ],
-  "donor_usage_records": [],
+  "donor_usage_records": [
+    {
+      "id": "FA3-USAGE-SYSTEM-ONE-HARNESS-DECISION-001",
+      "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "donor_capability_key": "finite-typed-action-space-confidence-gating",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROVIDER",
+        "id": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_PROVIDER"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "PROFILE",
+          "id": "FA3-DECISION-FABRIC-001",
+          "relationship": "PATTERN_HOST"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-SYSTEM-ONE-REFLEX-001",
+          "relationship": "PATTERN_CONTRACT"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+          "canonical/assessments/FA3-SYSTEM-ONE-REFLEX-REUSE-ASSESSMENT-001.json",
+          "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-SYSTEM-ONE-HARNESS-NATIVE-001",
+      "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "donor_capability_key": "provider-neutral-native-protocol-bridge-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROVIDER",
+        "id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_PROVIDER"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "PROFILE",
+          "id": "FA3-DECISION-FABRIC-001",
+          "relationship": "PATTERN_HOST"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-SYSTEM-ONE-REFLEX-001",
+          "relationship": "PATTERN_CONTRACT"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json",
+          "canonical/assessments/FA3-SYSTEM-ONE-REFLEX-REUSE-ASSESSMENT-001.json",
+          "canonical/providers/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-TERAX-REFERENCE-001",
+      "donor_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
+      "donor_capability_key": "optional-provider-reference-binding",
+      "usage_kind": "REFERENCE_BINDING",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROVIDER",
+        "id": "FA3-PROVIDER-TERAX-001",
+        "relationship": "CANONICAL_PROVIDER_REFERENCE"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_PROVIDER_DONOR_BINDING",
+        "evidence_paths": [
+          "canonical/providers/FA3-PROVIDER-TERAX-001.json",
+          "canonical/assessments/FA3-TERAX-REUSE-ASSESSMENT-2026-09-28.json",
+          "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json"
+        ]
+      }
+    }
+  ],
   "donor_usage_contract": {
     "schema": "fa3.donor-capability-consumer-usage.v2",
     "required_for_actual_donor_use": true,

@@ -11,9 +11,9 @@
   "capability_count": 175,
   "purpose": "CENTRAL_CROSS_APPLICATION_DONOR_REFERENCE_KNOWLEDGE_BASE",
   "capture_policy": {
-    "potential_donor_signal_requires_capture": true,
-    "trigger_semantics": "IF_A_SOURCE_IS_MENTIONED_AS_POTENTIALLY_USEFUL_AS_A_DONOR_CAPTURE_IT_IMMEDIATELY_AS_CANDIDATE",
-    "default_status": "CANDIDATE",
+    "potential_donor_signal_requires_capture": false,
+    "trigger_semantics": "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_MAY_ENTER_REGISTRY",
+    "default_status": "NO_CAPTURE_ANALYSIS_ONLY",
     "minimum_required_fields": [
       "name",
       "source.kind",
@@ -26,7 +26,12 @@
     ],
     "merge_repeat_mentions": true,
     "conversation_capture_is_admission": false,
-    "full_audit_required_before_code_or_runtime_reuse": true
+    "full_audit_required_before_code_or_runtime_reuse": true,
+    "owner_marker_required": "donornak",
+    "owner_role_required": true,
+    "owner_marked_capture_status": "ACCEPTED_REFERENCE",
+    "unmarked_link_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+    "legacy_automatic_candidate_capture": false
   },
   "lifecycle": [
     "CANDIDATE",

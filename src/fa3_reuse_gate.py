@@ -411,11 +411,16 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_registry.get("new_capability") is False
         and donor_registry.get("new_architectural_authority") is False
         and donor_registry.get("capability_count") == capability_count
-        # Historical registry capture metadata is superseded by the exact
-        # canonical owner decision. It is NOT permission to auto-register links.
         and donor_decision.get("capture_rule") == "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY"
         and "AUTOMATIC_POTENTIAL_DONOR_CANDIDATE_CAPTURE" in donor_decision.get("policy_supersedes", [])
-        and donor_capture_policy.get("default_status") == "CANDIDATE"
+        and donor_capture_policy.get("potential_donor_signal_requires_capture") is False
+        and donor_capture_policy.get("trigger_semantics") == "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_MAY_ENTER_REGISTRY"
+        and donor_capture_policy.get("default_status") == "NO_CAPTURE_ANALYSIS_ONLY"
+        and donor_capture_policy.get("owner_marker_required") == "donornak"
+        and donor_capture_policy.get("owner_role_required") is True
+        and donor_capture_policy.get("owner_marked_capture_status") == "ACCEPTED_REFERENCE"
+        and donor_capture_policy.get("unmarked_link_disposition") == "ANALYSIS_ONLY_NO_REGISTRY_MUTATION"
+        and donor_capture_policy.get("legacy_automatic_candidate_capture") is False
         and donor_capture_policy.get("conversation_capture_is_admission") is False
         and donor_planning_policy.get("query_required_for_every_new_or_materially_modified_application_capability_or_module") is True
         and donor_planning_policy.get("query_before_new_implementation") is True
@@ -503,7 +508,7 @@ def gate(root: Path) -> dict[str, Any]:
         and "default=\"conversation\"" in capture_source
         and "fa3_donor_registry.py" in capture_bin
     ):
-        findings.append(finding("REUSE-034", "automatic potential-donor capture instruction/tooling drift"))
+        findings.append(finding("REUSE-034", "explicit owner donor-capture instruction/tooling drift"))
 
     source_review = next((
         row for row in catalog_policy.get("mandatory_source_reviews", [])

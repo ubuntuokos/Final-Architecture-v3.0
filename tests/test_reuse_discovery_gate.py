@@ -93,8 +93,16 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertGreaterEqual(len(entries), 160)
         self.assertEqual(registry["backfill"]["entry_count"], len(entries))
         self.assertFalse(registry["authority"])
-        # Legacy embedded flag is historical only: owner decision supersedes it.
-        self.assertTrue(registry["capture_policy"]["potential_donor_signal_requires_capture"])
+        self.assertFalse(registry["capture_policy"]["potential_donor_signal_requires_capture"])
+        self.assertEqual(registry["capture_policy"]["default_status"], "NO_CAPTURE_ANALYSIS_ONLY")
+        self.assertEqual(registry["capture_policy"]["owner_marker_required"], "donornak")
+        self.assertTrue(registry["capture_policy"]["owner_role_required"])
+        self.assertEqual(registry["capture_policy"]["owner_marked_capture_status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(
+            registry["capture_policy"]["unmarked_link_disposition"],
+            "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+        )
+        self.assertFalse(registry["capture_policy"]["legacy_automatic_candidate_capture"])
         decision = json.loads((ROOT / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json").read_text(encoding="utf-8"))
         profile = json.loads((ROOT / "canonical/profiles/FA3-REUSE-DISCOVERY-001.json").read_text(encoding="utf-8"))
         contract = json.loads((ROOT / "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
