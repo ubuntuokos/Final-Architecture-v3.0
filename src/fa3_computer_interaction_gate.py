@@ -62,6 +62,7 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/decisions/FA3-DEC-COMPUTER-INTERACTION-RUNTIME-2026-10-01.json",
         "canonical/intents/FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001.json",
         "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-DECISION-ASSESSMENT-2026-10-01.json",
         "canonical/FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001.json",
         "canonical/profiles/FA3-UNIFIED-ACTION-FABRIC-001.json",
         "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
@@ -83,6 +84,9 @@ def gate(root: Path) -> dict[str, Any]:
     policy = load(root / "canonical/enforcement-policy.json")
     assessment = load(
         root / "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-REUSE-ASSESSMENT-001.json"
+    )
+    decision_assessment = load(
+        root / "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-DECISION-ASSESSMENT-2026-10-01.json"
     )
     impact = load(root / "canonical/FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001.json")
 
@@ -152,6 +156,15 @@ def gate(root: Path) -> dict[str, Any]:
             and assessment.get("runtime_admission_authorized") is False,
             "CIR-010",
             "research-only CUA boundary drift",
+        ),
+        (
+            decision_assessment.get("schema") == "fa3.decision-fabric-assessment.v1"
+            and "FA3-COMPUTER-INTERACTION-RUNTIME-001" in decision_assessment.get("covered_ids", [])
+            and decision_assessment.get("assessment") == "REQUIRED"
+            and decision_assessment.get("project_radar_checked") is True
+            and decision_assessment.get("security_boundary", {}).get("may_expand_candidate_set") is False,
+            "CIR-020",
+            "Decision Fabric applicability assessment missing or unsafe",
         ),
         (
             impact.get("physical_current_host_pass_claimed") is False
