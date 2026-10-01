@@ -27,6 +27,8 @@ A delta is not a weaker Current Host. It is a scope-bound physical requalificati
 
 Every runtime delta automatically includes CAP-175 Software Coexistence & Host Non-Interference. Hardware Safety Envelope, License & Rights, Software Coexistence and structural-impact gates remain mandatory.
 
+For shared-component changes, the request names the changed shared component IDs. The planner derives their capability scope and consuming applications from the canonical FA3 application/shared Capability Map bindings. A manually supplied smaller list cannot override that derived scope; unknown or unresolved shared bindings fail closed.
+
 ## Evidence rule
 
 Unchanged base evidence is never copied to the new source commit.
@@ -47,7 +49,7 @@ This keeps exact evidence provenance while avoiding a 175 × 3 replay when only 
 Plan:
 
 ```bash
-bin/fa3-current-host-delta plan \
+bash bin/fa3-current-host-delta plan \
   --request /path/to/change-request.json \
   --output reports/current-host-delta-plan.json
 ```
@@ -55,7 +57,7 @@ bin/fa3-current-host-delta plan \
 Verify a physical receipt produced on the Current Host:
 
 ```bash
-bin/fa3-current-host-delta verify \
+bash bin/fa3-current-host-delta verify \
   --plan reports/current-host-delta-plan.json \
   --receipt evidence/receipts/current-host-delta.json \
   --output reports/current-host-delta-gate.json
@@ -64,7 +66,7 @@ bin/fa3-current-host-delta verify \
 Compose an effective host only after the full base has status `CURRENT_HOST_BASE_ADMITTED`:
 
 ```bash
-bin/fa3-current-host-delta compose \
+bash bin/fa3-current-host-delta compose \
   --base evidence/receipts/current-host-base-state.json \
   --delta reports/current-host-delta-gate.json \
   --output reports/effective-current-host.json
