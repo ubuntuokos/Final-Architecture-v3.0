@@ -81,5 +81,16 @@
     "unknown_shared_component_fails_closed": true,
     "unresolved_shared_binding_fails_closed": true,
     "consumer_application_projection_required": true
+  },
+  "shared_gate_evidence": {
+    "schema": "fa3.current-host-delta-shared-gate-evidence.v1",
+    "source_commit_binding_required": true,
+    "hash_bound_reports_required": true,
+    "report_paths": {
+      "HARDWARE_SAFETY_ENVELOPE": "reports/hardware-portability-gate-report.json",
+      "LICENSE_RIGHTS": "reports/license-rights-gate-report.json",
+      "CURRENT_HOST_STRUCTURAL_IMPACT": "reports/current-host-structural-impact-gate-report.json"
+    },
+    "SOFTWARE_COEXISTENCE_HOST_NON_INTERFERENCE": "DERIVED_FROM_MANDATORY_CAP_175_PHYSICAL_DELTA_PROOF"
   }
 }
