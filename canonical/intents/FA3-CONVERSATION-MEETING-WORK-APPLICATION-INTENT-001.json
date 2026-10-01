@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CONVERSATION-MEETING-WORK-APPLICATION-INTENT-001",
+  "project_id": "FA3-CONVERSATION-MEETING-WORK-FABRIC-001",
+  "project_type": "SHARED_MODULE",
+  "goal": "Convert chats, one-to-one meetings and group meetings into human-reviewed structured work projections without creating a second task, decision, orchestration, resource, model, security or evidence authority.",
+  "required_capabilities": [
+    "fa3.workflow.structured-event",
+    "fa3.work.propose",
+    "fa3.review.approve"
+  ],
+  "optional_capabilities": [
+    "fa3.speech.transcribe",
+    "fa3.decision.classify",
+    "fa3.knowledge.link"
+  ],
+  "problem_classes": [
+    "conversation-to-work",
+    "meeting-to-work",
+    "group-meeting",
+    "mind-map-projection",
+    "task-extraction",
+    "decision-extraction",
+    "work-plan",
+    "meeting-minutes",
+    "speaker-attribution",
+    "human-approval"
+  ],
+  "input_modalities": [
+    "TEXT",
+    "AUDIO_TRANSCRIPT",
+    "VIDEO_TRANSCRIPT",
+    "STRUCTURED_EVENT",
+    "ARTIFACT_REFERENCE"
+  ],
+  "output_modalities": [
+    "STRUCTURED_WORK_GRAPH",
+    "MIND_MAP_PROJECTION",
+    "TASK_PROPOSAL",
+    "WORK_PLAN_PROJECTION",
+    "DECISION_PROPOSAL",
+    "MINUTES"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_MODEL_ROUTER_AI"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CONVERSATION_MEETING_WORK_CANONICAL_INTERCHANGE",
+    "PROPOSAL_TO_MATERIALIZATION_APPROVAL_STATE_MACHINE",
+    "SHARED_PROJECTION_ADAPTER_CONTRACT"
+  ],
+  "task_classes": [
+    "MEETING_REVIEW",
+    "WORK_EXTRACTION",
+    "ACTION_ITEM_REVIEW",
+    "FOLLOW_UP_PLANNING"
+  ],
+  "skill_triggers": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-conversation-meeting-work",
+    "service_prefix": "fa3-conversation-meeting-work",
+    "config_root": "$XDG_CONFIG_HOME/fa3/conversation-meeting-work",
+    "cache_root": "$XDG_CACHE_HOME/fa3/conversation-meeting-work",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/conversation-meeting-work",
+    "socket_namespace": "fa3/conversation-meeting-work",
+    "data_root": "$XDG_DATA_HOME/fa3/conversation-meeting-work",
+    "desktop_prefix": "org.fa3.conversationmeetingwork",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

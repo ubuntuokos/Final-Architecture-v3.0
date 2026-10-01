@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-CONVERSATION-MEETING-WORK-FABRIC-2026-10-01",
+  "covered_ids": [
+    "FA3-CONVERSATION-MEETING-WORK-FABRIC-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Deterministic event normalization, provenance, permission checks and approval transitions remain mandatory and sufficient for the manual path. Decision Fabric may classify or rank only already authorized proposal candidates; it cannot turn raw speech, speaker identity or AI output into canonical work.",
+  "decision_points": [
+    {
+      "id": "WORK-OBJECT-CLASSIFICATION",
+      "candidate_source": "PREAUTHORIZED_WORK_OBJECT_TYPES",
+      "final_policy_owner": "HUMAN_REVIEW_AND_TARGET_AUTHORITY",
+      "failure_policy": "KEEP_AS_PROPOSAL_FOR_HUMAN_REVIEW"
+    },
+    {
+      "id": "FOLLOW-UP-PRIORITIZATION",
+      "candidate_source": "ALREADY_REVIEWED_WORK_PROPOSALS",
+      "final_policy_owner": "WORK_MANAGEMENT_TARGET_AUTHORITY",
+      "failure_policy": "USE_DETERMINISTIC_ORDER_NO_AUTOMATIC_PRIORITY"
+    }
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false,
+    "may_materialize_canonical_work": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}

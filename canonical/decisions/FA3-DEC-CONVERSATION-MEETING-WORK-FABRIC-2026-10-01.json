@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-CONVERSATION-MEETING-WORK-FABRIC-2026-10-01",
+  "date": "2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZED",
+  "subject": "FA3-CONVERSATION-MEETING-WORK-FABRIC-001",
+  "decision": "Materialize one shared Conversation & Meeting -> Work Fabric for chat, 1:1 meeting and group meeting, using a single structured work graph with multiple projections.",
+  "invariants": [
+    "CAPABILITY_BASELINE_175_UNCHANGED",
+    "CAPABILITY_DELTA_ZERO",
+    "AUTHORITY_DELTA_ZERO",
+    "AI_OUTPUT_IS_PROPOSAL_NOT_CANONICAL_FACT",
+    "SPEAKER_IDENTITY_IS_NOT_AUTHORIZATION",
+    "HUMAN_VERIFICATION_AND_AUTHORIZED_APPROVAL_BEFORE_MATERIALIZATION",
+    "MIND_MAP_TASK_LIST_WORK_PLAN_DECISION_MAP_AND_MINUTES_ARE_VIEWS_OF_ONE_GRAPH",
+    "NO_REQUIRED_DEPENDENCY_ON_UNMERGED_PR_552_OR_556",
+    "AI_CAN_BE_DISABLED_WITH_MANUAL_DETERMINISTIC_PATH_RETAINED",
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_OR_CLOUD_FALLBACK",
+    "RAW_MEDIA_TRANSCRIPT_AND_DERIVED_WORK_HAVE_SEPARATE_ACCESS_SCOPES",
+    "PHYSICAL_CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+  ],
+  "owner_approval_context": "Conversation approval immediately following final design on 2026-10-01",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_promotion_claim": false
+}

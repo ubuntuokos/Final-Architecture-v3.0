@@ -1,0 +1,141 @@
+{
+  "schema": "fa3.conversation-meeting-work-fabric.v1",
+  "id": "FA3-CONVERSATION-MEETING-WORK-FABRIC-001",
+  "status": "CANDIDATE_MATERIALIZED",
+  "priority": "P0",
+  "requirement": "MUST",
+  "role": "ZERO_AUTHORITY_CONVERSATION_AND_MEETING_TO_STRUCTURED_WORK_SHARED_FABRIC",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "inputs": [
+    "CHAT_MESSAGE",
+    "ONE_TO_ONE_MEETING_EVENT",
+    "GROUP_MEETING_EVENT",
+    "VOICE_TRANSCRIPT_EVENT",
+    "VIDEO_MEETING_TRANSCRIPT_EVENT",
+    "MEETING_CHAT_EVENT",
+    "NOTE_EVENT",
+    "SHARED_ARTIFACT_REFERENCE"
+  ],
+  "work_object_types": [
+    "TOPIC",
+    "IDEA",
+    "REQUIREMENT",
+    "PROPOSAL",
+    "DECISION",
+    "ALTERNATIVE",
+    "QUESTION",
+    "ACTION_ITEM",
+    "TASK",
+    "ACTOR",
+    "DEADLINE",
+    "DEPENDENCY",
+    "BLOCKER",
+    "APPROVAL_GATE",
+    "MILESTONE",
+    "ARTIFACT",
+    "EVIDENCE",
+    "FOLLOW_UP"
+  ],
+  "relation_types": [
+    "REQUIRES",
+    "BLOCKS",
+    "PRODUCES",
+    "CONSUMES",
+    "ASSIGNED_TO",
+    "DECIDED_BY",
+    "APPROVED_BY",
+    "DISCUSSED_IN",
+    "SUPERSEDES",
+    "DERIVED_FROM",
+    "FOLLOW_UP_OF",
+    "SEQUENCE_BEFORE",
+    "HANDOFF_AFTER"
+  ],
+  "proposal_states": [
+    "DETECTED",
+    "PROPOSED",
+    "HUMAN_VERIFIED",
+    "APPROVED_FOR_MATERIALIZATION",
+    "CANONICAL",
+    "REJECTED"
+  ],
+  "projections": [
+    "MIND_MAP",
+    "DECISION_MAP",
+    "TASK_LIST",
+    "WORK_PLAN",
+    "TIMELINE_MILESTONE",
+    "MEETING_MINUTES",
+    "OPEN_QUESTIONS",
+    "FOLLOW_UP_AGENDA"
+  ],
+  "capability_bindings": [
+    "CAP-004",
+    "CAP-017",
+    "CAP-049",
+    "CAP-109",
+    "CAP-132",
+    "CAP-145",
+    "CAP-152",
+    "CAP-155",
+    "CAP-172"
+  ],
+  "authority_boundaries": {
+    "work_execution": "EXISTING_WORKFLOW_ORCHESTRATION_AUTHORITIES",
+    "action_side_effects": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "decision_judgment": "FA3-DECISION-FABRIC-001",
+    "work_management_projection": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "source_truth": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACT",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "credentials": "SECRET_BROKER_EXISTING_AUTHORITY"
+  },
+  "planned_optional_adapter_targets": [
+    {
+      "id": "FA3-MIND-MAP-STUDIO",
+      "source": "PR-552",
+      "binding": "OPTIONAL_UNTIL_CANONICAL",
+      "rule": "NO_REQUIRED_RUNTIME_DEPENDENCY_ON_UNMERGED_PR"
+    },
+    {
+      "id": "FA3-OBJECTIVE-COORDINATION-INTELLIGENCE-001",
+      "source": "PR-556",
+      "binding": "OPTIONAL_UNTIL_CANONICAL",
+      "rule": "NO_REQUIRED_RUNTIME_DEPENDENCY_ON_UNMERGED_PR"
+    }
+  ],
+  "ai_policy": {
+    "optional": true,
+    "disableable_at_application_module_and_operation_scope": true,
+    "disabled_means_no_model_or_provider_call": true,
+    "manual_deterministic_path_required": true,
+    "silent_fallback_forbidden": true,
+    "ai_output_is_canonical_fact": false,
+    "ai_output_initial_state": "PROPOSED"
+  },
+  "group_meeting_policy": {
+    "speaker_attribution_supported": true,
+    "speaker_identity_is_authorization": false,
+    "utterance_approval_without_permission_is_valid": false,
+    "role_and_permission_check_required_for_materialization": true
+  },
+  "privacy": {
+    "raw_media_separate_permission_object": true,
+    "transcript_separate_permission_object": true,
+    "derived_work_separate_permission_object": true,
+    "derived_task_access_does_not_imply_raw_recording_access": true,
+    "local_first": true
+  },
+  "hardware": {
+    "vendor_neutral": true,
+    "cpu_only_required": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false,
+    "hrb_bypass": false
+  },
+  "current_host_status": "PENDING_PHYSICAL_CURRENT_HOST_EVIDENCE"
+}
