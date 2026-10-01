@@ -1,0 +1,128 @@
+{
+  "schema": "fa3.communications-contacts-contracts.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-CONTRACTS-001",
+  "profile_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "canonical_objects": [
+    "CommunicationAccount",
+    "Mailbox",
+    "SharedMailbox",
+    "Message",
+    "Thread",
+    "Attachment",
+    "Contact",
+    "Organization",
+    "ContactGroup",
+    "Team",
+    "Assignment",
+    "InternalNote",
+    "CommunicationContext",
+    "CommunicationRelation",
+    "CommunicationPermission",
+    "CommunicationAuditEvent"
+  ],
+  "operation_permissions": {
+    "mail.read": "mail.read",
+    "mail.compose": "mail.compose",
+    "mail.send": "mail.send",
+    "mail.forward": "mail.forward",
+    "mail.assign": "mail.assign",
+    "mail.note": "mail.note",
+    "contact.read": "contacts.read",
+    "contact.write": "contacts.write",
+    "contact.export": "contacts.export",
+    "ai.mail.summarize": "ai.mail.summarize",
+    "ai.mail.draft_reply": "ai.mail.draft_reply",
+    "ai.contact.deduplicate": "ai.contact.deduplicate"
+  },
+  "embedded_forbidden_operations": [
+    "mailbox.admin",
+    "permissions.admin",
+    "contacts.export_all",
+    "mail.read_all"
+  ],
+  "base_security_gates": [
+    "identity",
+    "authentication",
+    "authorization",
+    "context_scope",
+    "layer_guard",
+    "application_boundary",
+    "data_classification",
+    "privacy",
+    "secret_broker",
+    "communication_security",
+    "audit_evidence",
+    "software_coexistence",
+    "hardware_safety",
+    "current_host"
+  ],
+  "conditional_security_gates": {
+    "attachment": [
+      "attachment_security"
+    ],
+    "external_message": [
+      "anti_phishing"
+    ],
+    "egress": [
+      "dlp"
+    ],
+    "ai": [
+      "ai_permission",
+      "ai_context_isolation",
+      "prompt_injection",
+      "context_minimization",
+      "secret_filter",
+      "pii_filter",
+      "model_router",
+      "provider_admission",
+      "hrb",
+      "tool_permission",
+      "output_validation"
+    ]
+  },
+  "high_risk_operations": {
+    "mail.send": [
+      "explicit_approval",
+      "provider_admission",
+      "dlp"
+    ],
+    "contact.export": [
+      "explicit_approval",
+      "dlp"
+    ],
+    "permissions.admin": [
+      "explicit_approval"
+    ],
+    "mailbox.admin": [
+      "explicit_approval"
+    ]
+  },
+  "secret_policy": {
+    "authority": "EXISTING_FA3_SECRET_BROKER_ONLY",
+    "prompt_inclusion": "DENY",
+    "plaintext_config": "DENY",
+    "log_inclusion": "DENY",
+    "clipboard_history": "DENY"
+  },
+  "ai_untrusted_input_policy": {
+    "external_message_is_untrusted": true,
+    "message_text_never_becomes_system_instruction": true,
+    "prompt_injection_detection_required": true
+  },
+  "plugin_permission_semantics": {
+    "global_wildcard_default": "DENY",
+    "context_scoped_required": true,
+    "revocable": true,
+    "auditable": true
+  },
+  "failure_policy": {
+    "UNKNOWN": "DENY",
+    "ERROR": "DENY",
+    "TIMEOUT": "DENY",
+    "NO_EVIDENCE": "DENY",
+    "POLICY_CONFLICT": "DENY"
+  },
+  "no_silent_fallback": true
+}

@@ -1,0 +1,223 @@
+{
+  "schema": "fa3.communications-contacts-application-bindings.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-APPLICATION-BINDINGS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "application_inventory_id": "FA3-APPLICATION-DONOR-LINKS-001",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "default_policy": {
+    "every_internal_application_requires_explicit_binding": true,
+    "missing_binding": "FAIL_CLOSED",
+    "binding_does_not_grant_user_permission": true,
+    "effective_permission_semantics": "INTERSECTION",
+    "external_reference_applications_receive_no_embedded_surface": true
+  },
+  "bindings": [
+    {
+      "application_id": "fa3.video-editor",
+      "lifecycle": "PLANNED",
+      "surface_mode": "CONTEXT_LIMITED",
+      "binding_status": "REQUIRED_ON_APPLICATION_MATERIALIZATION",
+      "allowed_context_dimensions": [
+        "application",
+        "project",
+        "production",
+        "task",
+        "meeting"
+      ],
+      "maximum_operations": [
+        "mail.read",
+        "mail.compose",
+        "mail.send",
+        "mail.forward",
+        "mail.assign",
+        "mail.note",
+        "contact.read",
+        "contact.write",
+        "ai.mail.summarize",
+        "ai.mail.draft_reply"
+      ],
+      "administrative_global_operations_available": false,
+      "actual_operations_require_runtime_permission_intersection": true,
+      "ai_requires_explicit_five_level_enablement": true
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "lifecycle": "PLANNED",
+      "surface_mode": "CONTEXT_LIMITED",
+      "binding_status": "REQUIRED_ON_APPLICATION_MATERIALIZATION",
+      "allowed_context_dimensions": [
+        "application",
+        "project",
+        "task"
+      ],
+      "maximum_operations": [
+        "mail.read",
+        "mail.compose",
+        "mail.send",
+        "mail.forward",
+        "mail.assign",
+        "mail.note",
+        "contact.read",
+        "contact.write",
+        "ai.mail.summarize",
+        "ai.mail.draft_reply"
+      ],
+      "administrative_global_operations_available": false,
+      "actual_operations_require_runtime_permission_intersection": true,
+      "ai_requires_explicit_five_level_enablement": true
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "lifecycle": "PLANNED",
+      "surface_mode": "CONTEXT_LIMITED",
+      "binding_status": "REQUIRED_ON_APPLICATION_MATERIALIZATION",
+      "allowed_context_dimensions": [
+        "application",
+        "project",
+        "production",
+        "document",
+        "task",
+        "meeting"
+      ],
+      "maximum_operations": [
+        "mail.read",
+        "mail.compose",
+        "mail.send",
+        "mail.forward",
+        "mail.assign",
+        "mail.note",
+        "contact.read",
+        "contact.write",
+        "ai.mail.summarize",
+        "ai.mail.draft_reply"
+      ],
+      "administrative_global_operations_available": false,
+      "actual_operations_require_runtime_permission_intersection": true,
+      "ai_requires_explicit_five_level_enablement": true
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "lifecycle": "PLANNED",
+      "surface_mode": "CONTEXT_LIMITED",
+      "binding_status": "REQUIRED_ON_APPLICATION_MATERIALIZATION",
+      "allowed_context_dimensions": [
+        "application",
+        "project",
+        "production",
+        "task"
+      ],
+      "maximum_operations": [
+        "mail.read",
+        "mail.compose",
+        "mail.send",
+        "mail.forward",
+        "mail.assign",
+        "mail.note",
+        "contact.read",
+        "contact.write",
+        "ai.mail.summarize",
+        "ai.mail.draft_reply"
+      ],
+      "administrative_global_operations_available": false,
+      "actual_operations_require_runtime_permission_intersection": true,
+      "ai_requires_explicit_five_level_enablement": true
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "lifecycle": "PLANNED",
+      "surface_mode": "CONTEXT_LIMITED",
+      "binding_status": "REQUIRED_ON_APPLICATION_MATERIALIZATION",
+      "allowed_context_dimensions": [
+        "application",
+        "project",
+        "production",
+        "task"
+      ],
+      "maximum_operations": [
+        "mail.read",
+        "mail.compose",
+        "mail.send",
+        "mail.forward",
+        "mail.assign",
+        "mail.note",
+        "contact.read",
+        "contact.write",
+        "ai.mail.summarize",
+        "ai.mail.draft_reply"
+      ],
+      "administrative_global_operations_available": false,
+      "actual_operations_require_runtime_permission_intersection": true,
+      "ai_requires_explicit_five_level_enablement": true
+    },
+    {
+      "application_id": "fa3.communications-hub",
+      "lifecycle": "MATERIALIZED_STATIC_CURRENT_HOST_PENDING",
+      "surface_mode": "FULL",
+      "binding_status": "ACTIVE_STATIC_CURRENT_HOST_PENDING",
+      "allowed_context_dimensions": [
+        "application",
+        "workspace",
+        "project",
+        "task",
+        "production",
+        "document",
+        "meeting",
+        "customer",
+        "campaign",
+        "team",
+        "user",
+        "role",
+        "workflow"
+      ],
+      "maximum_operations": [
+        "mail.read",
+        "mail.compose",
+        "mail.send",
+        "mail.forward",
+        "mail.assign",
+        "mail.note",
+        "mail.delete",
+        "mail.read_all",
+        "mailbox.admin",
+        "permissions.admin",
+        "contact.read",
+        "contact.write",
+        "contact.export",
+        "contacts.export_all",
+        "ai.mail.summarize",
+        "ai.mail.draft_reply",
+        "ai.contact.deduplicate"
+      ],
+      "administrative_global_operations_available": true,
+      "actual_operations_require_runtime_permission_intersection": true,
+      "ai_requires_explicit_five_level_enablement": true
+    }
+  ],
+  "future_shared_module_requirements": [
+    {
+      "module_class": "MEETING_MANAGER",
+      "surface_mode": "CONTEXT_LIMITED",
+      "required_when_materialized": true
+    },
+    {
+      "module_class": "TASK_PRIORITY_MANAGER",
+      "surface_mode": "CONTEXT_LIMITED",
+      "required_when_materialized": true
+    },
+    {
+      "module_class": "DEADLINE_MILESTONE_LOG",
+      "surface_mode": "CONTEXT_LIMITED",
+      "required_when_materialized": true
+    }
+  ],
+  "invariants": [
+    "ALL_INTERNAL_APPLICATIONS_EXPLICITLY_BOUND",
+    "PLANNED_APP_BINDING_IS_NOT_RUNTIME_MATERIALIZATION",
+    "EMBEDDED_MAXIMUM_OPERATIONS_DO_NOT_GRANT_PERMISSION",
+    "EXTERNAL_REFERENCE_APPLICATIONS_NOT_AUTO_EMBEDDED",
+    "NEW_INTERNAL_APPLICATION_REQUIRES_BINDING_BEFORE_GLOBAL_GATE_PASS"
+  ]
+}

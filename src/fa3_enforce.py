@@ -14,6 +14,8 @@ from fa3_terax_gate import gate as terax_gate, reference_check as terax_referenc
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
 from fa3_work_management_gate import gate as work_management_gate
+from fa3_communications_contacts_gate import gate as communications_contacts_gate
+from fa3_communications_contacts_current_host_gate import gate as communications_contacts_current_host_gate
 from fa3_buzz_gate import gate as buzz_gate
 from fa3_xcmd_gate import gate as xcmd_gate
 from fa3_ai_engineering_gate import gate as ai_engineering_gate
@@ -409,6 +411,9 @@ def static_check(root:Path):
     if "FA3-WORK-MANAGEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-106","Work Management mandatory GUI/provider-neutral gate is not bound into global enforcement policy"))
 
+    if "FA3-COMMUNICATIONS-CONTACTS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-142","Communications & Contacts Shared fail-closed gate is not bound into global enforcement policy"))
+
     if "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-111","External RT3D engine exclusion gate is not bound into global enforcement policy"))
 
@@ -605,6 +610,10 @@ def static_check(root:Path):
     if work_management_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-107","Work Management provider-neutral GUI gate failed",work_management_gate=work_management_ref))
 
+    communications_contacts_ref=communications_contacts_gate(root)
+    if communications_contacts_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-143","Communications & Contacts Shared gate failed",communications_contacts_gate=communications_contacts_ref))
+
     external_rt3d_exclusion_ref=external_rt3d_engine_exclusion_gate(root)
     if external_rt3d_exclusion_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-112","External RT3D engine exclusion gate failed",external_rt3d_engine_exclusion_gate=external_rt3d_exclusion_ref))
@@ -765,7 +774,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","communications-contacts","communications-contacts-current-host","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -795,6 +804,10 @@ def main():
             x=kanboard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="work-management":
             x=work_management_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="communications-contacts":
+            x=communications_contacts_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="communications-contacts-current-host":
+            x=communications_contacts_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="buzz":
             x=buzz_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="xcmd":

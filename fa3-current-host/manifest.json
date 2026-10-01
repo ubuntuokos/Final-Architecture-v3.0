@@ -26,6 +26,7 @@
   },
   "required_repository_paths": [
     ".github/workflows/fa3-agent-workload-runtime-current-host.yml",
+    ".github/workflows/fa3-communications-contacts.yml",
     ".github/workflows/fa3-cosyvoice-current-host.yml",
     ".github/workflows/fa3-current-host.yml",
     ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
@@ -59,10 +60,12 @@
     "bin/fa3-step-ca-root-ceremony.sh",
     "bin/fa3-test",
     "canonical/FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001.json",
+    "canonical/FA3-COMMUNICATIONS-CONTACTS-APPLICATION-BINDINGS-001.json",
     "canonical/FA3-EVIDENCE-VALIDATION-CORE-001.json",
     "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
     "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-AUTHENTICATED-APPROVAL-001.json",
+    "canonical/FA3-GATE-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-GATE-REGISTRY-001.json",
@@ -86,6 +89,7 @@
     "canonical/FA3-STEP-CA-CURRENT-HOST-001.json",
     "canonical/assessments/FA3-REPRODUCIBILITY-FABRIC-REUSE-ASSESSMENT-001.json",
     "canonical/authenticated-approval-enforcement.json",
+    "canonical/communications-contacts-current-host-enforcement.json",
     "canonical/conformance-matrix.csv",
     "canonical/contracts/FA3-AUTHENTICATED-APPROVAL-RECEIPT-001.schema.json",
     "canonical/contracts/FA3-AUTHORIZATION-ROLE-GRANT-001.schema.json",
@@ -164,6 +168,7 @@
     "src/fa3_authenticated_approval.py",
     "src/fa3_authenticated_approval_gate.py",
     "src/fa3_cap028_agent_execution_current_host.py",
+    "src/fa3_communications_contacts_current_host_gate.py",
     "src/fa3_cosyvoice_gate.py",
     "src/fa3_cosyvoice_provider.py",
     "src/fa3_cpu_numa_threading_current_host_gate.py",
@@ -456,6 +461,19 @@
       "mutation_performed": false,
       "persistent_mutation_performed": false,
       "global_promotion_claim": false
+    },
+    {
+      "name": "communications-contacts",
+      "collector": null,
+      "gate": "communications-contacts-current-host",
+      "activation": "EXPLICIT_CONFIGURED_COMMUNICATION_ACCOUNT_OR_CONTACT_PROVIDER; AI_ONLY_WHEN_EXPLICITLY_ENABLED",
+      "collection_status": "POLICY_AND_GATE_MATERIALIZED_PHYSICAL_PROTOCOL_E2E_PENDING",
+      "global_promotion_claim": false,
+      "receipt": "evidence/receipts/communications-contacts-current-host.json",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "machine_model_pin": "FORBIDDEN",
+      "cpu_only_viable": true,
+      "ai_accelerator_lease_conditional": true
     }
   ],
   "global_gate_sequence": [

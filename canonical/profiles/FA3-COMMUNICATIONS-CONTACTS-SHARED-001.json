@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-COMMUNICATIONS-CONTACTS-SHARED-001",
+  "name": "FA3 Communications & Contacts Shared",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "application_id": "fa3.communications-hub",
+  "surfaces": {
+    "standalone": {
+      "mode": "FULL",
+      "application": "FA3 Communications Hub",
+      "full_within_user_authorization": true
+    },
+    "embedded": {
+      "mode": "CONTEXT_LIMITED",
+      "shared_component": "CommunicationsSurface",
+      "scope_semantics": "INTERSECTION",
+      "global_mailbox_or_directory_access_by_embedding_alone": false
+    }
+  },
+  "fabrics": [
+    "MAIL",
+    "CONTACT",
+    "ORGANIZATION",
+    "SHARED_INBOX",
+    "COLLABORATION",
+    "COMMUNICATION_HISTORY",
+    "COMMUNICATION_RELATION"
+  ],
+  "context_dimensions": [
+    "application",
+    "project",
+    "workspace",
+    "task",
+    "production",
+    "document",
+    "meeting",
+    "customer",
+    "campaign",
+    "team",
+    "user",
+    "role",
+    "workflow"
+  ],
+  "protocol_targets": [
+    "SMTP",
+    "IMAP",
+    "JMAP",
+    "CardDAV",
+    "CalDAV",
+    "OAuth2",
+    "OIDC"
+  ],
+  "authority_boundaries": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRET_BROKER_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "ai_communication_policy": "FA3-AI-COMMS-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "ai_policy": {
+    "optional": true,
+    "default_state": "DISABLED_UNLESS_EXPLICITLY_ENABLED",
+    "levels": [
+      "GLOBAL",
+      "APPLICATION",
+      "MODULE",
+      "CAPABILITY",
+      "OPERATION"
+    ],
+    "silent_fallback": false,
+    "disabled_means_no_model_or_provider_call": true,
+    "non_ai_path_required": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "fail_closed": true,
+    "hardware_parameter_mutation": "DENY",
+    "safety_protection_bypass": "DENY"
+  },
+  "software_coexistence": {
+    "required": true,
+    "upstream_uninstall_required": false,
+    "fixed_port_required": false,
+    "global_mail_client_takeover": false,
+    "provider_runtime_must_be_replaceable": true
+  },
+  "current_host": {
+    "gate_id": "FA3-GATE-COMMUNICATIONS-CONTACTS-CURRENT-HOST-001",
+    "physical_evidence_required_before_runtime_promotion": true,
+    "static_materialization_is_not_runtime_pass": true
+  },
+  "invariants": [
+    "FULL_STANDALONE_AND_CONTEXT_LIMITED_EMBEDDED_SHARE_ONE_BACKEND",
+    "EMBEDDED_SCOPE_IS_PERMISSION_INTERSECTION_NOT_UNION",
+    "EMBEDDED_SURFACE_CANNOT_EXPAND_AUTHORITY",
+    "ALL_APPLICABLE_SECURITY_GATES_FAIL_CLOSED",
+    "DIRECT_PROTOCOL_BYPASS_FORBIDDEN",
+    "SECRET_BROKER_ONLY",
+    "AI_OPTIONAL_EXPLICIT_AND_REVOCABLE",
+    "AI_DISABLED_MEANS_NO_AI_EXECUTION",
+    "EXTERNAL_MESSAGE_CONTENT_IS_UNTRUSTED_INPUT",
+    "PROMPT_INJECTION_CANNOT_GRANT_AUTHORITY",
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_OR_CLOUD_FALLBACK",
+    "CURRENT_HOST_PHYSICAL_EVIDENCE_REQUIRED_FOR_PROMOTION",
+    "SOFTWARE_COEXISTENCE_AND_HARDWARE_SAFETY_REQUIRED",
+    "RETROACTIVE_SHARED_CONSUMER_RECONCILIATION_REQUIRED"
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
