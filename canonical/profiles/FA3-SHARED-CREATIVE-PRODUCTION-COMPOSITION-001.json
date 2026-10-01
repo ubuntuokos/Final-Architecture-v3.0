@@ -1,0 +1,23 @@
+{
+  "schema":"fa3.profile-record.v1",
+  "id":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-001",
+  "name":"Shared Creative Production Composition",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "priority":"P0",
+  "requirement":"MUST_IF_COMPONENT_USED",
+  "canonical_root":false,
+  "provider_neutral":true,
+  "shared_component":true,
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":175,
+  "capability_bindings":["CAP-014","CAP-041","CAP-111","CAP-159","CAP-161","CAP-164","CAP-166","CAP-168","CAP-170","CAP-171","CAP-172"],
+  "contract_family":"FA3-SHARED-CREATIVE-PRODUCTION-COMPOSITION-CONTRACTS-001",
+  "composes_contracts":["FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001"],
+  "authority_bindings":{"workflow":"EXISTING_FA3_ORCHESTRATION_AUTHORITY","model_routing":"FA3-AUTH-MODEL-ROUTER-001","host_resources":"FA3-AUTH-HOST-RESOURCE-BROKER-001","rights":"EXISTING_FA3_LICENSE_RIGHTS_AUTHORITY","evidence":"FA3-AUTH-OBS-EVIDENCE-001","human_approval":"AUTH-HUMAN"},
+  "consumer_applications":["fa3.video-editor","fa3.quickclip","fa3.story-screenplay","fa3.character-studio"],
+  "invariants":["PLAN_BEFORE_EXPENSIVE_MATERIALIZATION","HUMAN_APPROVAL_GATE_SUPPORTED","PARALLEL_WORKERS_REQUIRE_ARTIFACT_OWNERSHIP","PRODUCER_AND_REVIEWER_SEPARATION_SUPPORTED","REPAIR_REQUIRES_BEFORE_AFTER_EVIDENCE","EXECUTION_RECIPE_AND_SNAPSHOT_REQUIRED","MASTER_TO_DERIVED_CONTENT_LINEAGE_REQUIRED","CHARACTER_IDENTITY_CONTINUITY_SHARED","GENERATED_GEOMETRY_NOT_ASSUMED_PRODUCTION_GEOMETRY","NATIVE_PROJECT_PRESERVATION","NO_COMPETING_VIDEO_EDITOR_OR_3D_AUTHORITY"],
+  "runtime_materialization":{"new_service":false,"new_daemon":false,"new_port":false,"new_socket":false,"new_package_dependency":false,"provider_activation":false,"model_selection":false,"hardware_mutation":false,"semantics":"STATIC_CREATIVE_COMPOSITION_CONTRACT"},
+  "capability_model_reconciliation":"FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
