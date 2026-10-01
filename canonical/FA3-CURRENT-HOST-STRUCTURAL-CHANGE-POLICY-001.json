@@ -83,6 +83,20 @@
     "no_runtime_impact_may_skip_physical_requalification": true,
     "reconciled_requires_explicit_physical_requalification_flag": true,
     "historical_evidence_reuse_forbidden": true,
-    "current_host_only_change_requires_separate_impact_record": false
+    "current_host_only_change_requires_separate_impact_record": false,
+    "delta_request_must_be_digest_bound": true,
+    "delta_parent_effective_digest_required": true,
+    "delta_scope_underdeclaration_fails_closed": true
+  },
+  "delta_authority": "FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001",
+  "delta_policy": {
+    "admitted_full_base_required": true,
+    "scoped_requalification_allowed_after_base_admission": true,
+    "unchanged_base_evidence_must_remain_bound_to_immutable_base": true,
+    "evidence_relabeling_forbidden": true,
+    "fresh_positive_negative_rollback_required_for_each_affected_capability": true,
+    "cap175_mandatory_for_runtime_delta": true,
+    "global_or_proof_model_change_escalates_to_full_requalification": true,
+    "delta_admission_never_implies_global_promotion": true
   }
 }
