@@ -201,13 +201,27 @@ def committed(root,rel):
         raise ValueError("DIRTY_OR_NONCOMMITTED_SOURCE")
     return raw
 
-def assessment_findings(root,path,sha,reg):
+def planning_snapshot_findings(row,sha,reg,published_main_sha,registry_blob_sha):
+    snapshot=row.get("donor_planning_snapshot")
+    if not isinstance(snapshot,dict):
+        return ["DONOR_PLANNING_SNAPSHOT_REQUIRED"]
+    expected={
+        "published_main_commit":published_main_sha,
+        "donor_registry_id":reg["id"],
+        "donor_registry_blob_sha":registry_blob_sha,
+        "donor_registry_sha256":sha,
+        "donor_registry_entry_count":len(reg.get("entries",[])),
+    }
+    findings=[]
+    for key,value in expected.items():
+        if snapshot.get(key)!=value:
+            findings.append("DONOR_PLANNING_SNAPSHOT_MISMATCH:"+key)
+    return findings
+
+def assessment_findings(root,path,sha,reg,published_main_sha,registry_blob_sha):
     if not path:return ["DONOR_ASSESSMENT_REQUIRED"]
     row=json.loads(committed(root,path))
-    findings=[]
-    if (row.get("donor_registry_id")!=reg["id"] or
-            row.get("donor_registry_sha256")!=sha):
-        findings.append("REUSE_ASSESSMENT_REGISTRY_SNAPSHOT_MISMATCH")
+    findings=planning_snapshot_findings(row,sha,reg,published_main_sha,registry_blob_sha)
     if row.get("donor_review") not in ("REVIEWED_MATCH","REVIEWED_NO_MATCH"):
         findings.append("DONOR_REVIEW_REQUIRED")
     all_ids={e["donor_id"] for e in reg["entries"]}
@@ -312,7 +326,7 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             return result
         if phase in ("entry","finalize"):
             result["findings"].extend(assessment_findings(
-                root,assessment,inspect["sha256"],inspect["registry"]))
+                root,assessment,inspect["sha256"],inspect["registry"],after,remote["sha"]))
         if phase=="finalize" and not result["findings"]:
             result["findings"].extend(plan_findings(
                 root,plan,approval,pr_number,REPO,getter))

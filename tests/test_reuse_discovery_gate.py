@@ -12,6 +12,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_reuse_assessment import assess_intent
 from fa3_reuse_catalog import build_catalog
 from fa3_reuse_resolver import bounded_rank, resolve
+from fa3_reuse_gate import (
+    validate_assessment_donor_usage_edges,
+    validate_donor_planning_snapshot,
+    validate_shared_capability_placement,
+)
 
 
 class ReuseDiscoveryTests(unittest.TestCase):
@@ -317,6 +322,46 @@ class ReuseDiscoveryTests(unittest.TestCase):
             parse_donor_mention("Look at https://github.com/example/source")
         with self.assertRaises(ValueError):
             parse_donor_mention("donornak: https://github.com/a/one https://github.com/b/two")
+
+
+    def test_donor_planning_snapshot_contract_rejects_stale_main(self):
+        expected = {
+            "published_main_commit": "a" * 40,
+            "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+            "donor_registry_blob_sha": "b" * 40,
+            "donor_registry_sha256": "c" * 64,
+            "donor_registry_entry_count": 1307,
+        }
+        assessment = {"id": "FA3-TEST-REUSE-ASSESSMENT-001",
+                      "donor_planning_snapshot": {**expected, "published_main_commit": "d" * 40}}
+        findings = validate_donor_planning_snapshot(assessment, expected)
+        self.assertTrue(any(row["code"] == "REUSE-SNAPSHOT-002" for row in findings))
+
+    def test_shared_capability_placement_requires_shared_or_reviewed_exception(self):
+        assessment = {"id": "FA3-TEST-REUSE-ASSESSMENT-001",
+                      "shared_capability_placement": {
+                          "reviewed": True,
+                          "multi_application_reuse_detected": True,
+                          "disposition": "LOCAL_SINGLE_CONSUMER",
+                          "retrospective_consumer_impact_reviewed": True}}
+        findings = validate_shared_capability_placement(assessment)
+        self.assertTrue(any(row["code"] == "REUSE-SNAPSHOT-017" for row in findings))
+        assessment["shared_capability_placement"] = {
+            "reviewed": True,
+            "multi_application_reuse_detected": True,
+            "disposition": "SHARED",
+            "shared_component_ids": ["FA3-SHARED-TEST-001"],
+            "retrospective_consumer_impact_reviewed": True}
+        self.assertEqual(validate_shared_capability_placement(assessment), [])
+
+    def test_actual_donor_pattern_use_requires_usage_edge(self):
+        assessment = {"id": "FA3-TEST-REUSE-ASSESSMENT-001",
+                      "donor_pattern_reuse": [{"donor_id": "FA3-DONOR-X-001"}]}
+        links = {"donor_usage_records": []}
+        findings = validate_assessment_donor_usage_edges(assessment, links)
+        self.assertTrue(any(row["code"] == "REUSE-SNAPSHOT-018" for row in findings))
+        links["donor_usage_records"] = [{"donor_id": "FA3-DONOR-X-001", "status": "ACTIVE"}]
+        self.assertEqual(validate_assessment_donor_usage_edges(assessment, links), [])
 
 
 if __name__ == "__main__":

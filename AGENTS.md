@@ -77,3 +77,9 @@ Every consuming application receives its own manual projection based on its actu
 ## FA3 donor capability consumer graph (2026-09-30)
 
 Actual donor use must be recorded in the existing `FA3-APPLICATION-DONOR-LINKS-001` usage-edge list; do not create a second donor/capability registry. Capability bindings are derived from canonical profile/contract `capability_bindings`, never guessed from names. Track the primary application plus relevant shared-module/profile/authority/GUI/test/current-host consumers. The generated capability map is non-authoritative and cannot admit, activate or route a provider/model. Unmarked analysis links remain outside the canonical donor registry.
+
+## P0 donor planning snapshot freshness (2026-10-01)
+
+For every new or materially modified application, capability, module, profile, provider or shared component, the Reuse Assessment MUST contain a `donor_planning_snapshot` bound to the exact published-main commit and its canonical Donor Registry Git-blob SHA, SHA-256 and entry count. A stale or missing snapshot blocks implementation/finalization and requires reassessment against the new main; do not silently continue from an older green CI result.
+
+The same material Reuse Assessment MUST contain `shared_capability_placement`. If the function can serve multiple FA3 applications, use the shared layer first. A local duplicate is allowed only with explicit reviewed justification and retrospective consumer-impact review. Actual donor adoption requires a canonical usage edge; reference-only research must not create a false adoption edge.
