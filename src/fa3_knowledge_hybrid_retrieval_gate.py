@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import load_active_release_baseline
+
 PROVIDER_ID = "FA3-PROVIDER-PAGEINDEX-LOCAL-001"
 GATE_ID = "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001"
 
@@ -22,7 +24,8 @@ def gate(root: Path) -> dict[str, Any]:
     root = root.resolve()
     findings: list[dict[str, Any]] = []
     try:
-        expected_count = load_active_release_baseline(root).capability_count\n        knowledge = loadj(root / "canonical/profiles/FA3-KNOWLEDGE-001.json")
+        expected_count = load_active_release_baseline(root).capability_count
+        knowledge = loadj(root / "canonical/profiles/FA3-KNOWLEDGE-001.json")
         sub = loadj(root / "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json")
         contracts = loadj(root / "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json")
         runbook_contract = loadj(root / "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json")
@@ -39,7 +42,7 @@ def gate(root: Path) -> dict[str, Any]:
 
     if knowledge.get("id") != "FA3-KNOWLEDGE-001" or knowledge.get("canonical_root") is not True:
         findings.append(finding("KNOWLEDGE-001","Existing FA3-KNOWLEDGE-001 must remain canonical root"))
-    if knowledge.get("capability_count") != 143 or knowledge.get("new_architectural_authority") is not False:
+    if knowledge.get("capability_count") != expected_count or knowledge.get("new_architectural_authority") is not False:
         findings.append(finding("KNOWLEDGE-002","Knowledge root capability/authority invariant drift"))
     if sub.get("parent_profile") != "FA3-KNOWLEDGE-001" or sub.get("canonical_root") is not False:
         findings.append(finding("KNOWLEDGE-003","Hybrid retrieval must be a subprofile, not a new root"))
