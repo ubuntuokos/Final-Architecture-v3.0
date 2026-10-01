@@ -16,6 +16,49 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+def normalize_effort_budget(value: dict[str, Any] | None) -> dict[str, Any]:
+    if value is None:
+        material = {"mode": "POLICY_RESOLVED", "policy_ref": EFFORT_BUDGET_POLICY_REF}
+        return {
+            "budget_id": "FA3-RBUDGET-" + canonical_sha256(material)[:20].upper(),
+            **material,
+            "provider_expansion_allowed": False,
+            "unbounded_execution_allowed": False,
+        }
+    if not isinstance(value, dict):
+        raise ValueError("effort_budget must be an object")
+    mode = str(value.get("mode", "")).strip()
+    if mode == "POLICY_RESOLVED":
+        policy_ref = str(value.get("policy_ref", EFFORT_BUDGET_POLICY_REF)).strip()
+        if not policy_ref:
+            raise ValueError("POLICY_RESOLVED effort_budget requires policy_ref")
+        material = {"mode": mode, "policy_ref": policy_ref}
+        return {
+            "budget_id": str(value.get("budget_id") or ("FA3-RBUDGET-" + canonical_sha256(material)[:20].upper())),
+            **material,
+            "provider_expansion_allowed": False,
+            "unbounded_execution_allowed": False,
+        }
+    if mode != "EXPLICIT_BOUNDS":
+        raise ValueError("effort_budget mode must be POLICY_RESOLVED or EXPLICIT_BOUNDS")
+    missing = [key for key in EXPLICIT_BOUND_FIELDS if key not in value]
+    if missing:
+        raise ValueError("EXPLICIT_BOUNDS effort_budget missing fields: " + ",".join(missing))
+    bounds: dict[str, int] = {}
+    for key in EXPLICIT_BOUND_FIELDS:
+        raw = value.get(key)
+        if not isinstance(raw, int) or isinstance(raw, bool) or raw <= 0:
+            raise ValueError(f"effort_budget {key} must be a positive integer")
+        bounds[key] = raw
+    material = {"mode": mode, **bounds}
+    return {
+        "budget_id": str(value.get("budget_id") or ("FA3-RBUDGET-" + canonical_sha256(material)[:20].upper())),
+        **material,
+        "provider_expansion_allowed": False,
+        "unbounded_execution_allowed": False,
+    }
+
+
 def build_plan(request: dict[str, Any]) -> dict[str, Any]:
     query = str(request.get("query", "")).strip()
     if not query:
@@ -35,13 +78,14 @@ def build_plan(request: dict[str, Any]) -> dict[str, Any]:
     source_scope = request.get("source_scope", {})
     if not isinstance(source_scope, dict):
         raise ValueError("source_scope must be an object")
+    effort_budget = normalize_effort_budget(request.get("effort_budget"))
     authority_snapshot = {
         "knowledge_root": "FA3-KNOWLEDGE-001",
         "model_router": "FA3-AUTH-MODEL-ROUTER-001",
         "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
         "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     }
-    material = {"query": query, "strategies": strategies, "source_scope": source_scope, "authority_snapshot": authority_snapshot}
+    material = {"query": query, "strategies": strategies, "source_scope": source_scope, "effort_budget": effort_budget, "authority_snapshot": authority_snapshot}
     plan_id = "FA3-RPLAN-" + canonical_sha256(material)[:24].upper()
     return {
         "schema": "fa3.retrieval-plan.v1",
@@ -50,6 +94,8 @@ def build_plan(request: dict[str, Any]) -> dict[str, Any]:
         "strategy_order": strategies,
         "source_scope": source_scope,
         "provider_preferences": request.get("provider_preferences", ["LOCAL_FIRST"]),
+        "effort_budget": effort_budget,
+        "authorization_requirement": "CANONICAL_SECURITY_DECISION_REQUIRED_BEFORE_CANDIDATE_GENERATION",
         "stages": [{"stage_id": f"S{i+1:02d}", "strategy": strategy, "authority": "FA3-KNOWLEDGE-001"} for i, strategy in enumerate(strategies)],
         "authority_snapshot": authority_snapshot,
         "provider_neutral": True,
