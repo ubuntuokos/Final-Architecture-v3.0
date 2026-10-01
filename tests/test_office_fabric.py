@@ -54,6 +54,20 @@ class OfficeFabricStructureTest(unittest.TestCase):
         self.assertFalse(h["physical_pass_claimed"])
         self.assertEqual(h["central_current_host_reconciliation"]["active_pr"], 559)
 
+    def test_canonical_application_and_gui_registration(self):
+        links = load("canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
+        app = next(x for x in links["applications"] if x["application_id"] == "fa3.office")
+        self.assertEqual(app["lifecycle"], "PLANNED")
+        shared = next(x for x in links["shared_capabilities"] if x["id"] == "FA3-SHARED-OFFICE-DOCUMENT-001")
+        self.assertIn("fa3.story-screenplay", shared["consumer_applications"])
+        gui = load("canonical/FA3-GUI-SURFACE-REGISTRY-001.json")
+        surface = next(x for x in gui["surfaces"] if x["route_id"] == "create.office")
+        self.assertEqual(surface["document_authority"], "FA3-DOC-001")
+        self.assertEqual(surface["runtime_admission"], "PENDING")
+        qml = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        self.assertIn('"create.office": 41', qml)
+        self.assertIn('routeId: "create.office"', qml)
+
     def test_gate(self):
         subprocess.run([sys.executable, str(ROOT / "src/fa3_office_fabric_gate.py")], cwd=ROOT, check=True)
 
