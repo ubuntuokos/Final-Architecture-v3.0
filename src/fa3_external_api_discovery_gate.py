@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from fa3_release_baseline import module_active_capability_count
+from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
 
+import csv
 import json
 import re
 from pathlib import Path
@@ -12,6 +13,7 @@ CONTRACT_ID = "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30"
 GATE_ID = "FA3-EXTERNAL-API-DISCOVERY-GATESET-001"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
+REGRESSION_CASE_COUNT = 15
 
 SOURCE_IDS = {
     "FA3-SOURCE-PUBLIC-APIS-001",
@@ -98,8 +100,29 @@ def secret_boundary_valid(*, auth_requirement_declared: bool, secret_value_prese
 def egress_boundary_valid(*, canonical_egress_authorized: bool, ssrf_controls: bool, dns_rebinding_controls: bool) -> bool:
     return canonical_egress_authorized and ssrf_controls and dns_rebinding_controls
 
-def capability_mapping_valid(*, capability_id: str, vendor_defined_canonical_capability: bool) -> bool:
-    return bool(re.fullmatch(r"CAP-(?:0[0-9]{2}|1[0-3][0-9]|14[0-3])", capability_id or "")) and not vendor_defined_canonical_capability
+def canonical_capability_ids(root: Path) -> frozenset[str]:
+    root = Path(root).resolve()
+    baseline = load_active_release_baseline(root)
+    matrix = root / "canonical/conformance-matrix.csv"
+    try:
+        with matrix.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+    except (OSError, csv.Error) as exc:
+        raise ValueError(f"canonical capability matrix unreadable: {exc}") from exc
+    ids = [str(row.get("capability_id") or "") for row in rows]
+    expected = [f"CAP-{i:03d}" for i in range(1, baseline.capability_count + 1)]
+    if ids != expected:
+        raise ValueError("canonical capability matrix does not match active release baseline")
+    return frozenset(ids)
+
+def capability_mapping_valid(*, capability_id: str, vendor_defined_canonical_capability: bool, root: Path | None = None) -> bool:
+    if vendor_defined_canonical_capability:
+        return False
+    try:
+        allowed = canonical_capability_ids(root or Path(__file__).resolve().parents[1])
+    except (OSError, ValueError):
+        return False
+    return capability_id in allowed
 
 def admission_valid(*, discovered: bool, normalized: bool, deduplicated: bool, immutable_source_identity: bool,
                     license_terms_admitted: bool, endpoint_verified: bool, protocol_schema_verified: bool,
@@ -207,6 +230,7 @@ def reference_check(root: Path):
         and enforcement.get("runtime_provider_required_for_global_promotion") is False
         and enforcement.get("mandatory_rule_count") == len(RULES)
         and enforcement.get("p0_invariants") == RULES
+        and enforcement.get("regression_case_count") == REGRESSION_CASE_COUNT
     ):
         findings.append(finding("EXTDISC-REF-005", "External discovery enforcement invariant mismatch"))
 
@@ -243,7 +267,7 @@ def reference_check(root: Path):
 
     return {"result":"PASS" if not findings else "FAIL","findings":findings}
 
-def run_regressions():
+def run_regressions(root: Path):
     cases = []
     def add(name, ok):
         cases.append({"name":name,"status":"PASS" if ok else "FAIL"})
@@ -263,8 +287,10 @@ def run_regressions():
     add("egress requires SSRF and DNS rebinding controls", not egress_boundary_valid(canonical_egress_authorized=True, ssrf_controls=False, dns_rebinding_controls=True))
     add("secret values forbidden in discovery metadata", not secret_boundary_valid(auth_requirement_declared=True, secret_value_present_in_discovery_metadata=True))
     add("multi-source endpoint dedupe normalization", dedupe_key(provider_name=" Example ", endpoint_url="HTTPS://API.EXAMPLE.COM:443/v1/", protocol="REST") == dedupe_key(provider_name="example", endpoint_url="https://api.example.com/v1", protocol="rest"))
-    add("provider-neutral existing capability mapping", capability_mapping_valid(capability_id="CAP-011", vendor_defined_canonical_capability=False))
-    add("vendor-defined canonical capability denied", not capability_mapping_valid(capability_id="CAP-999", vendor_defined_canonical_capability=True))
+    add("provider-neutral existing capability mapping", capability_mapping_valid(capability_id="CAP-011", vendor_defined_canonical_capability=False, root=root))
+    add("active baseline final capability mapping", capability_mapping_valid(capability_id=f"CAP-{CAPABILITY_COUNT:03d}", vendor_defined_canonical_capability=False, root=root))
+    add("capability beyond active baseline denied", not capability_mapping_valid(capability_id=f"CAP-{CAPABILITY_COUNT + 1:03d}", vendor_defined_canonical_capability=False, root=root))
+    add("vendor-defined canonical capability denied", not capability_mapping_valid(capability_id="CAP-999", vendor_defined_canonical_capability=True, root=root))
     add("sandbox probe required before admission", not admission_valid(**{**full, "sandbox_probe_pass":False}))
     add("source outage cannot fail open", source_failure_isolated(canonical_registry_unchanged=True, fail_open_execution=False, source_state_is_canonical=False))
     add("source cannot become provider or authority", source_role_valid(runtime_provider=False, canonical_root=False, architectural_authority=False, new_capability=False))
@@ -276,7 +302,7 @@ def gate(root: Path):
     root = Path(root).resolve()
     ref = reference_check(root)
     auth = scan_source_authority_assignments(root)
-    regressions = run_regressions()
+    regressions = run_regressions(root)
     findings = list(ref.get("findings", [])) + list(auth.get("findings", []))
     if regressions["result"] != "PASS":
         findings.append(finding("EXTDISC-REG-001", "Executable external discovery regression matrix failed", regressions=regressions))
