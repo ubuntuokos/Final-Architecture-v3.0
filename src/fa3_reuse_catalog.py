@@ -311,6 +311,53 @@ def build_catalog(root: Path) -> dict[str, Any]:
                     "automatic_activation": False,
                 })
 
+        elif source.endswith("FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json"):
+            analysis_sources = {
+                str(row.get("id")): row
+                for row in obj.get("analysis_only_sources", [])
+                if isinstance(row, dict) and row.get("id")
+            }
+            for row in obj.get("patterns", []):
+                if not isinstance(row, dict) or not row.get("id"):
+                    continue
+                analysis_ids = list(row.get("analysis_source_ids", [])) if isinstance(row.get("analysis_source_ids"), list) else []
+                analysis_names = [
+                    analysis_sources[sid].get("name")
+                    for sid in analysis_ids
+                    if sid in analysis_sources
+                ]
+                add({
+                    "candidate_id": str(row["id"]),
+                    "candidate_class": "SHARED_MODULE_PATTERN",
+                    "source_path": source,
+                    "status": str(row.get("reuse_status", "REFERENCE_ONLY")),
+                    "authority": False,
+                    "capabilities": [],
+                    "tokens": _expanded_tokens({
+                        "name": row.get("name"),
+                        "pattern_class": row.get("class"),
+                        "shared_module_ids": row.get("shared_module_ids", []),
+                        "canonical_donor_ids": row.get("canonical_donor_ids", []),
+                        "analysis_source_names": analysis_names,
+                    }),
+                    "distribution_class": "REFERENCE_ONLY",
+                    "release_bundle_status": "EXCLUDED",
+                    "license": None,
+                    "pattern_class": row.get("class"),
+                    "shared_module_ids": list(row.get("shared_module_ids", [])) if isinstance(row.get("shared_module_ids"), list) else [],
+                    "canonical_donor_ids": list(row.get("canonical_donor_ids", [])) if isinstance(row.get("canonical_donor_ids"), list) else [],
+                    "analysis_source_ids": analysis_ids,
+                    "analysis_sources_are_donors": False,
+                    "automatic_selection": False,
+                    "automatic_fetch": False,
+                    "automatic_install": False,
+                    "automatic_activation": False,
+                    "automatic_dependency": False,
+                    "automatic_code_import": False,
+                    "automatic_provider_admission": False,
+                    "automatic_model_selection": False,
+                })
+
         elif source.endswith("FA3-DONOR-REFERENCE-REGISTRY-001.json"):
             for row in obj.get("entries", []):
                 if not isinstance(row, dict) or not row.get("donor_id"):

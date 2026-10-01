@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-010",
+    "CAP-021",
+    "CAP-102",
+    "CAP-153",
+    "CAP-155",
+    "CAP-156"
+  ],
+  "contracts": [
+    "KnowledgeSourceEnvelope",
+    "StructuredSegment",
+    "EmbeddingRequest",
+    "EmbeddingReceipt",
+    "RetrievalRequest",
+    "RetrievalCandidate",
+    "RerankRequest",
+    "RerankResult",
+    "HistoryAwareQueryRewrite",
+    "CitationEnvelope",
+    "ClaimSourceLink",
+    "RetrievalDenial"
+  ],
+  "required_semantics": {
+    "segmentation": "SOURCE_AND_STRUCTURE_AWARE_POLICY_DRIVEN",
+    "retrieval": "LEXICAL_VECTOR_HYBRID_ALLOWED",
+    "embedding": "CAP_153_PROVIDER_NEUTRAL",
+    "provenance": "CAP_155_MANDATORY_FOR_CITED_OUTPUT",
+    "claim_verification": "CAP_156_WHEN_VERIFICATION_REQUESTED",
+    "access_filtering": "BEFORE_RESULT_DISCLOSURE",
+    "implementation_examples": "REFERENCE_ONLY_NOT_CANONICAL"
+  },
+  "invariants": [
+    "NO_FIXED_CHUNK_MAGIC_NUMBER",
+    "NO_FIXED_TOP_K_MAGIC_NUMBER",
+    "NO_GENERATION_MODEL_ASSUMED_AS_EMBEDDING_MODEL",
+    "NO_UNCITED_SOURCE_CLAIM_WHEN_CITATION_REQUESTED"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

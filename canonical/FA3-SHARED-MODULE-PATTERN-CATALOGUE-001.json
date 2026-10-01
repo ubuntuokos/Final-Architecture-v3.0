@@ -1,0 +1,671 @@
+{
+  "schema": "fa3.shared-module-pattern-catalogue.v1",
+  "id": "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+  "status": "CANONICAL_PATTERN_REFERENCE",
+  "authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_baseline": 175,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "purpose": "Classify reusable donor/application patterns for FA3 shared-module design without creating a second donor registry or admitting code/runtime dependencies.",
+  "source_of_donor_identity": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "application_inventory": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+  "pattern_classes": [
+    "DATA_MODEL_PATTERN",
+    "UI_PATTERN",
+    "WORKFLOW_PATTERN",
+    "ENGINE_PATTERN",
+    "ADAPTER_PATTERN",
+    "SEARCH_PATTERN",
+    "REVIEW_PATTERN",
+    "PROVENANCE_PATTERN",
+    "INTERCHANGE_PATTERN",
+    "PERFORMANCE_PATTERN",
+    "TEST_PATTERN",
+    "SECURITY_PATTERN",
+    "PROJECT_CONTEXT_PATTERN",
+    "TEMPORAL_PATTERN",
+    "MULTIMODAL_PATTERN",
+    "COMPOSITE_REFERENCE_PATTERN"
+  ],
+  "policy": {
+    "donor_registry_remains_only_donor_identity_authority": true,
+    "pattern_catalogue_is_non_authoritative": true,
+    "pattern_registration_does_not_admit_code": true,
+    "pattern_registration_does_not_admit_runtime": true,
+    "pattern_registration_does_not_admit_provider_or_model": true,
+    "analysis_only_source_cannot_receive_donor_id": true,
+    "new_canonical_donor_requires_explicit_owner_donornak_marker": true,
+    "shared_first_for_multi_application_patterns": true,
+    "retroactive_application_impact_required": true,
+    "capability_non_regression_required": true,
+    "current_host_alignment_required_after_structural_or_runtime_materialization": true,
+    "model_router_authority_preserved": true,
+    "hrb_authority_preserved": true,
+    "orchestrator_authority_preserved": true,
+    "secret_broker_authority_preserved": true,
+    "layer_guard_and_ai_disable_policy_preserved": true,
+    "materialized_component_capability_bindings_canonical_only": true,
+    "materialized_component_manual_capability_ids_forbidden": true,
+    "materialized_component_runtime_activation_separately_gated": true
+  },
+  "shared_module_targets": [
+    {
+      "id": "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001",
+      "name": "Shared Media Asset Fabric pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "asset-registry",
+        "metadata",
+        "collections",
+        "proxy-preview",
+        "derivative-relations",
+        "rights-license",
+        "provenance"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-RETRIEVAL-PATTERN-001",
+      "name": "Multimodal Retrieval Fabric pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "text-text",
+        "text-image",
+        "text-video",
+        "image-image",
+        "image-video",
+        "transcript-segment",
+        "metadata",
+        "hybrid-retrieval"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
+      "name": "Temporal Media Fabric pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.music-studio"
+      ],
+      "pattern_scope": [
+        "scene",
+        "shot",
+        "frame",
+        "keyframe",
+        "segment",
+        "speech-region",
+        "word-timing",
+        "speaker-region",
+        "silence-region",
+        "music-region",
+        "marker",
+        "cue",
+        "time-range"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-MEDIA-REVIEW-ANNOTATION-PATTERN-001",
+      "name": "Media Review and Annotation Fabric pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "annotation",
+        "machine-proposal",
+        "human-correction",
+        "review-status",
+        "confidence",
+        "issue",
+        "approval-receipt"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-CREATIVE-CANVAS-PATTERN-001",
+      "name": "Shared Creative Canvas Toolkit pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.story-screenplay",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "canvas",
+        "layer",
+        "mask",
+        "selection",
+        "region",
+        "reference",
+        "variant",
+        "history",
+        "annotation-overlay"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-WORKFLOW-GRAPH-PATTERN-001",
+      "name": "Shared Workflow Graph Model and UI pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "graph",
+        "node",
+        "typed-port",
+        "edge",
+        "condition",
+        "subgraph",
+        "template",
+        "parameter",
+        "state",
+        "execution-preview",
+        "version"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-MEDIA-REPRESENTATION-RESOLVER-PATTERN-001",
+      "name": "Media Representation Resolver pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.music-studio"
+      ],
+      "pattern_scope": [
+        "direct-original",
+        "remux",
+        "proxy",
+        "preview",
+        "transcode",
+        "representation-lineage"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
+      "name": "Creative Provenance Fabric pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "source-artifact",
+        "workflow",
+        "model-runtime-identity",
+        "parameters",
+        "prompt",
+        "human-edits",
+        "tool-version",
+        "branch",
+        "approval",
+        "evidence"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-STRUCTURED-DOCUMENT-INTAKE-PATTERN-001",
+      "name": "Structured Document Intake Fabric pattern",
+      "consumer_application_ids": [
+        "fa3.story-screenplay",
+        "fa3.video-editor",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "section",
+        "heading",
+        "paragraph",
+        "list",
+        "table",
+        "image",
+        "caption",
+        "reference",
+        "metadata",
+        "source-provenance"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
+      "name": "Shared AI Composition pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "retriever-interface",
+        "tool-adapter",
+        "structured-output",
+        "prompt-composition",
+        "middleware-hook",
+        "callback-event",
+        "streaming"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
+      "name": "Stateful Workflow Adapter pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "state",
+        "checkpoint",
+        "interrupt",
+        "resume",
+        "conditional-transition",
+        "human-in-loop",
+        "failure-state"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-UI-PROTOTYPING-INSPECTION-PATTERN-001",
+      "name": "Shared UI Prototyping and Inspection pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "diagnostics",
+        "inspection",
+        "rag-probe",
+        "search-ui",
+        "evaluation",
+        "test-harness",
+        "prototype",
+        "dashboard",
+        "evidence-view"
+      ]
+    }
+  ],
+  "analysis_only_sources": [
+    {
+      "id": "ANALYSIS-IMMICH",
+      "name": "Immich",
+      "locator": "https://github.com/immich-app/immich",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-PHOTOPRISM",
+      "name": "PhotoPrism",
+      "locator": "https://github.com/photoprism/photoprism",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-INVOKEAI",
+      "name": "InvokeAI",
+      "locator": "https://github.com/invoke-ai/InvokeAI",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-LABEL-STUDIO",
+      "name": "Label Studio",
+      "locator": "https://github.com/HumanSignal/label-studio",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-MEDIACMS",
+      "name": "MediaCMS",
+      "locator": "https://github.com/mediacms-io/mediacms",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-LOSSLESSCUT",
+      "name": "LosslessCut",
+      "locator": "https://github.com/mifi/lossless-cut",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-JELLYFIN",
+      "name": "Jellyfin",
+      "locator": "https://github.com/jellyfin/jellyfin",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-DOCLING",
+      "name": "Docling",
+      "locator": "https://github.com/docling-project/docling",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-LIBRECHAT",
+      "name": "LibreChat",
+      "locator": "https://github.com/danny-avila/LibreChat",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-ANYTHINGLLM",
+      "name": "AnythingLLM",
+      "locator": "https://github.com/Mintplex-Labs/anything-llm",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-DIFY",
+      "name": "Dify",
+      "locator": "https://github.com/langgenius/dify",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-LANGFLOW",
+      "name": "Langflow",
+      "locator": "https://github.com/langflow-ai/langflow",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-OPEN-WEBUI",
+      "name": "Open WebUI",
+      "locator": "https://github.com/open-webui/open-webui",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-LANGCHAIN",
+      "name": "LangChain",
+      "locator": "https://github.com/langchain-ai/langchain",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-SUBTITLE-EDIT",
+      "name": "Subtitle Edit",
+      "locator": "https://github.com/SubtitleEdit/subtitleedit",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-STREAMLIT",
+      "name": "Streamlit",
+      "locator": "https://github.com/streamlit/streamlit",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    }
+  ],
+  "patterns": [
+    {
+      "id": "FA3-PATTERN-MEDIA-ASSET-001",
+      "class": "DATA_MODEL_PATTERN",
+      "name": "Shared media asset, metadata, collection and derivative model",
+      "canonical_donor_ids": [],
+      "analysis_source_ids": [
+        "ANALYSIS-IMMICH",
+        "ANALYSIS-PHOTOPRISM",
+        "ANALYSIS-INVOKEAI",
+        "ANALYSIS-MEDIACMS"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001"
+      ],
+      "reuse_status": "REFERENCE_ONLY"
+    },
+    {
+      "id": "FA3-PATTERN-MULTIMODAL-RETRIEVAL-001",
+      "class": "SEARCH_PATTERN",
+      "name": "Cross-modal media retrieval and curation",
+      "canonical_donor_ids": [
+        "FA3-DONOR-FIFTYONE-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-IMMICH",
+        "ANALYSIS-PHOTOPRISM",
+        "ANALYSIS-ANYTHINGLLM"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-MULTIMODAL-RETRIEVAL-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-TEMPORAL-MEDIA-001",
+      "class": "TEMPORAL_PATTERN",
+      "name": "Scene, shot, word timing and temporal marker model",
+      "canonical_donor_ids": [
+        "FA3-DONOR-SELECTIVE-IMPORT-M-BAIN-WHISPERX-001",
+        "FA3-DONOR-SELECTIVE-IMPORT-BREAKTHROUGH-PYSCENEDETECT-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-LOSSLESSCUT",
+        "ANALYSIS-SUBTITLE-EDIT"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-REVIEW-ANNOTATION-001",
+      "class": "REVIEW_PATTERN",
+      "name": "Human review, annotation and machine-proposal comparison",
+      "canonical_donor_ids": [
+        "FA3-DONOR-FIFTYONE-001",
+        "FA3-DONOR-CVAT-COMMUNITY-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-LABEL-STUDIO"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-MEDIA-REVIEW-ANNOTATION-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-CREATIVE-CANVAS-001",
+      "class": "UI_PATTERN",
+      "name": "Canvas, masks, regions, layers, references and variants",
+      "canonical_donor_ids": [
+        "FA3-DONOR-KRITA-AI-DIFFUSION-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-INVOKEAI"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-CREATIVE-CANVAS-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-WORKFLOW-GRAPH-001",
+      "class": "WORKFLOW_PATTERN",
+      "name": "Typed node graph, subgraph, template and execution-preview authoring",
+      "canonical_donor_ids": [
+        "FA3-DONOR-COMFYUI-001",
+        "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-DIFY",
+        "ANALYSIS-LANGFLOW"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-WORKFLOW-GRAPH-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-MEDIA-REPRESENTATION-001",
+      "class": "PERFORMANCE_PATTERN",
+      "name": "Prefer original/direct representation, then remux/proxy, transcode only when required",
+      "canonical_donor_ids": [],
+      "analysis_source_ids": [
+        "ANALYSIS-MEDIACMS",
+        "ANALYSIS-JELLYFIN",
+        "ANALYSIS-LOSSLESSCUT"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-MEDIA-REPRESENTATION-RESOLVER-PATTERN-001"
+      ],
+      "reuse_status": "REFERENCE_ONLY"
+    },
+    {
+      "id": "FA3-PATTERN-CREATIVE-PROVENANCE-001",
+      "class": "PROVENANCE_PATTERN",
+      "name": "Artifact lineage across source assets, workflow, parameters, edits and approvals",
+      "canonical_donor_ids": [
+        "FA3-DONOR-COMFYUI-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-INVOKEAI"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-STRUCTURED-DOCUMENT-INTAKE-001",
+      "class": "INTERCHANGE_PATTERN",
+      "name": "Structured document intake for production preparation",
+      "canonical_donor_ids": [],
+      "analysis_source_ids": [
+        "ANALYSIS-DOCLING"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-STRUCTURED-DOCUMENT-INTAKE-PATTERN-001"
+      ],
+      "reuse_status": "REFERENCE_ONLY"
+    },
+    {
+      "id": "FA3-PATTERN-AI-COMPOSITION-001",
+      "class": "ADAPTER_PATTERN",
+      "name": "Retriever, tool, structured-output, middleware and streaming composition behind FA3 authorities",
+      "canonical_donor_ids": [],
+      "analysis_source_ids": [
+        "ANALYSIS-LANGCHAIN"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001"
+      ],
+      "reuse_status": "REFERENCE_ONLY"
+    },
+    {
+      "id": "FA3-PATTERN-STATEFUL-WORKFLOW-001",
+      "class": "WORKFLOW_PATTERN",
+      "name": "State, checkpoint, interrupt, resume and human-in-loop adapter semantics",
+      "canonical_donor_ids": [
+        "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001"
+      ],
+      "analysis_source_ids": [],
+      "shared_module_ids": [
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001"
+      ],
+      "reuse_status": "PATTERN_CANDIDATE"
+    },
+    {
+      "id": "FA3-PATTERN-UI-PROTOTYPING-INSPECTION-001",
+      "class": "UI_PATTERN",
+      "name": "Rapid diagnostic, inspection, evaluation and prototype surfaces",
+      "canonical_donor_ids": [],
+      "analysis_source_ids": [
+        "ANALYSIS-STREAMLIT"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-UI-PROTOTYPING-INSPECTION-PATTERN-001"
+      ],
+      "reuse_status": "REFERENCE_ONLY"
+    },
+    {
+      "id": "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001",
+      "class": "COMPOSITE_REFERENCE_PATTERN",
+      "name": "Multimodal Assistant / Workbench composite reference",
+      "canonical_donor_ids": [
+        "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001",
+        "FA3-DONOR-COMFYUI-001"
+      ],
+      "analysis_source_ids": [
+        "ANALYSIS-OPEN-WEBUI",
+        "ANALYSIS-LIBRECHAT",
+        "ANALYSIS-ANYTHINGLLM",
+        "ANALYSIS-STREAMLIT",
+        "ANALYSIS-LANGCHAIN",
+        "ANALYSIS-DIFY",
+        "ANALYSIS-LANGFLOW",
+        "ANALYSIS-INVOKEAI"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-MULTIMODAL-RETRIEVAL-PATTERN-001",
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
+        "FA3-SHARED-UI-PROTOTYPING-INSPECTION-PATTERN-001",
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
+      ],
+      "reuse_status": "COMPOSITE_REFERENCE"
+    }
+  ],
+  "current_host_impact": {
+    "classification": "NO_RUNTIME_IMPACT",
+    "reason": "Metadata, mapping, validation and CI only. No service, provider, model, package, port, socket, hardware or credential path is activated."
+  },
+  "materialized_shared_components": [
+    {
+      "id": "FA3-SHARED-AI-INTERACTION-001",
+      "profile_id": "FA3-SHARED-AI-INTERACTION-001",
+      "contract_id": "FA3-SHARED-AI-INTERACTION-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
+        "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+      "profile_id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+      "contract_id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-MULTIMODAL-RETRIEVAL-PATTERN-001",
+        "FA3-SHARED-STRUCTURED-DOCUMENT-INTAKE-PATTERN-001",
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "profile_id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "contract_id": "FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
+        "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-CONVERSATION-SESSION-001",
+      "profile_id": "FA3-SHARED-CONVERSATION-SESSION-001",
+      "contract_id": "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
+        "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "profile_id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "contract_id": "FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT"
+    }
+  ]
+}
