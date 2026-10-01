@@ -10,6 +10,7 @@
     "application_id",
     "base_release_digest",
     "parent_effective_digest",
+    "source_commit",
     "change_digest",
     "runtime_impact",
     "changed_paths",
@@ -133,6 +134,10 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
     }
   }
 }
