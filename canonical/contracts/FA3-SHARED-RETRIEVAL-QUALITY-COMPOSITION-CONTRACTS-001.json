@@ -1,0 +1,8 @@
+{
+  "schema":"fa3.contract-family.v1","id":"FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-CONTRACTS-001","version":"1.0.0","status":"CANONICAL","parent_profile":"FA3-SHARED-RETRIEVAL-QUALITY-COMPOSITION-001","provider_neutral":true,"new_capability":false,"new_architectural_authority":false,"capability_count":175,
+  "capability_bindings":["CAP-010","CAP-021","CAP-102","CAP-153","CAP-154","CAP-155","CAP-156"],
+  "extends_contract":"FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+  "contracts":["RetrievalPlan","DomainSegment","HybridRetrieverRequest","FusionReceipt","RetrievalQualityGate","RightsFilteredCandidate","EvidenceContextPack","ContradictionSignal","CoverageSignal","RagEvaluationCase","RagRegressionReceipt"],
+  "required_semantics":{"planner":"DIRECT_STRUCTURED_LEXICAL_VECTOR_HYBRID_GRAPH_AS_NEEDED","fusion":"REPLACEABLE_AND_EXPLICIT","quality_gate":["RELEVANCE","COVERAGE","FRESHNESS","AUTHORITY","RIGHTS","CONTRADICTIONS"],"context_pack":"SOURCE_ID_PROVENANCE_RIGHTS_RELEVANCE_TIMESTAMP_TOKEN_BUDGET","evaluation":["RETRIEVAL_PRECISION","RETRIEVAL_RECALL","SOURCE_COVERAGE","CITATION_CORRECTNESS","GROUNDEDNESS","LATENCY","COST"]},
+  "invariants":["NO_VECTOR_DATABASE_ASSUMED_AS_CANONICAL_KNOWLEDGE","NO_LLM_AS_KNOWLEDGE_AUTHORITY","INSUFFICIENT_EVIDENCE_RETURNS_UNKNOWN_OR_ESCALATION","INDEX_REBUILDABLE_FROM_CANONICAL_DATA"]
+}
