@@ -59,6 +59,95 @@ def _list_of_strings(value: Any) -> bool:
     return isinstance(value, list) and all(isinstance(item, str) and item for item in value)
 
 
+def canonical_binding_index(root: Path) -> dict[str, list[str]]:
+    bindings: dict[str, set[str]] = {}
+    for path in (root / "canonical").rglob("*.json"):
+        try:
+            row = load_json(path)
+        except Exception:
+            continue
+        record_id = row.get("id")
+        values = row.get("capability_bindings")
+        if (
+            isinstance(record_id, str)
+            and isinstance(values, list)
+            and all(isinstance(value, str) and value.startswith("CAP-") for value in values)
+        ):
+            bindings.setdefault(record_id, set()).update(values)
+    return {key: sorted(values, key=_cap_sort_key) for key, values in bindings.items()}
+
+
+def shared_component_scope(
+    root: Path,
+    component_ids: list[str],
+) -> tuple[set[str], set[str], list[dict[str, Any]], list[str]]:
+    if not component_ids:
+        return set(), set(), [], []
+    findings: list[str] = []
+    declaration_path = root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+    if not declaration_path.is_file():
+        return set(), set(), [], ["application/shared capability declaration is missing"]
+    declaration = load_json(declaration_path)
+    rows = declaration.get("shared_capabilities")
+    if not isinstance(rows, list):
+        return set(), set(), [], ["shared_capabilities declaration must be a list"]
+
+    by_id: dict[str, dict[str, Any]] = {}
+    duplicate_ids: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict) or not isinstance(row.get("id"), str):
+            continue
+        sid = row["id"]
+        if sid in by_id:
+            duplicate_ids.add(sid)
+        by_id[sid] = row
+    if duplicate_ids:
+        findings.append(f"duplicate shared capability IDs: {sorted(duplicate_ids)}")
+
+    bindings = canonical_binding_index(root)
+    capabilities: set[str] = set()
+    applications: set[str] = set()
+    projection: list[dict[str, Any]] = []
+    for sid in component_ids:
+        row = by_id.get(sid)
+        if row is None:
+            findings.append(f"unknown shared capability: {sid}")
+            continue
+        refs: list[str] = []
+        fa3_bindings = row.get("fa3_bindings")
+        if not isinstance(fa3_bindings, dict):
+            findings.append(f"shared capability fa3_bindings missing: {sid}")
+            fa3_bindings = {}
+        for key in ("profile_ids", "contract_ids"):
+            values = fa3_bindings.get(key, [])
+            if not isinstance(values, list) or any(not isinstance(value, str) for value in values):
+                findings.append(f"shared capability binding list invalid: {sid}/{key}")
+                values = []
+            refs.extend(values)
+        unresolved = sorted({ref for ref in refs if ref not in bindings})
+        derived = sorted(
+            {capability for ref in refs for capability in bindings.get(ref, [])},
+            key=_cap_sort_key,
+        )
+        if unresolved:
+            findings.append(f"shared capability has unresolved canonical bindings: {sid}: {unresolved}")
+        if not derived:
+            findings.append(f"shared capability has no derived capability scope: {sid}")
+        consumers = row.get("consumer_applications", [])
+        if not isinstance(consumers, list) or any(not isinstance(value, str) for value in consumers):
+            findings.append(f"shared capability consumer applications invalid: {sid}")
+            consumers = []
+        capabilities.update(derived)
+        applications.update(consumers)
+        projection.append({
+            "shared_component_id": sid,
+            "binding_refs": sorted(set(refs)),
+            "derived_capabilities": derived,
+            "consumer_applications": sorted(set(consumers)),
+        })
+    return capabilities, applications, projection, findings
+
+
 def validate_request(root: Path, request: dict[str, Any], authority: dict[str, Any]) -> list[str]:
     findings: list[str] = []
     caps = set(canonical_capabilities(root))
@@ -85,15 +174,21 @@ def validate_request(root: Path, request: dict[str, Any], authority: dict[str, A
 
     affected = request.get("affected_capabilities", [])
     consumers = request.get("consumer_capabilities", [])
-    for label, values in (("affected_capabilities", affected), ("consumer_capabilities", consumers)):
+    changed_shared = request.get("changed_shared_component_ids", [])
+    for label, values in (
+        ("affected_capabilities", affected),
+        ("consumer_capabilities", consumers),
+        ("changed_shared_component_ids", changed_shared),
+    ):
         if not _list_of_strings(values):
             findings.append(f"{label} must be a string list")
             continue
         if len(values) != len(set(values)):
             findings.append(f"{label} contains duplicates")
-        unknown = sorted(set(values) - caps, key=_cap_sort_key)
-        if unknown:
-            findings.append(f"{label} contains unknown capability IDs: {unknown}")
+        if label != "changed_shared_component_ids":
+            unknown = sorted(set(values) - caps, key=_cap_sort_key)
+            if unknown:
+                findings.append(f"{label} contains unknown capability IDs: {unknown}")
 
     flags = request.get("flags")
     if not isinstance(flags, dict):
@@ -118,8 +213,8 @@ def validate_request(root: Path, request: dict[str, Any], authority: dict[str, A
     )
     if impact in {"LOCAL", "SHARED"} and not affected and not full_trigger:
         findings.append("runtime-changing request requires affected_capabilities")
-    if impact == "SHARED" and not consumers and not full_trigger:
-        findings.append("SHARED runtime impact requires consumer_capabilities")
+    if impact == "SHARED" and not consumers and not changed_shared and not full_trigger:
+        findings.append("SHARED runtime impact requires consumer_capabilities or changed_shared_component_ids")
     if impact == "NONE" and any(flags.get(key) is True for key in allowed_flags):
         findings.append("NONE runtime impact cannot declare runtime/global change flags")
 
@@ -140,6 +235,17 @@ def plan_request(root: Path, request: dict[str, Any], authority: dict[str, Any] 
         }
 
     all_caps = canonical_capabilities(root)
+    shared_caps, affected_apps, shared_projection, shared_findings = shared_component_scope(
+        root, request.get("changed_shared_component_ids", [])
+    )
+    if shared_findings:
+        return {
+            "schema": "fa3.current-host-delta-plan.v1",
+            "status": "FAIL",
+            "fail_closed": True,
+            "findings": shared_findings,
+            "global_promotion_claim": False,
+        }
     flags = request["flags"]
     full_trigger = request["runtime_impact"] == "GLOBAL" or any(
         flags.get(key) is True for key in authority["full_requalification_trigger_flags"]
@@ -151,11 +257,16 @@ def plan_request(root: Path, request: dict[str, Any], authority: dict[str, Any] 
     elif full_trigger:
         classification = "FULL_REQUALIFICATION"
         selected_caps = list(all_caps)
-    elif request["runtime_impact"] == "SHARED" or request.get("consumer_capabilities"):
+    elif (
+        request["runtime_impact"] == "SHARED"
+        or request.get("consumer_capabilities")
+        or request.get("changed_shared_component_ids")
+    ):
         classification = "IMPACT_REQUALIFICATION"
         selected_caps = sorted(
             set(request["affected_capabilities"])
             | set(request.get("consumer_capabilities", []))
+            | shared_caps
             | set(authority.get("mandatory_runtime_delta_capabilities", [])),
             key=_cap_sort_key,
         )
@@ -187,6 +298,9 @@ def plan_request(root: Path, request: dict[str, Any], authority: dict[str, Any] 
         "parent_effective_digest": request["parent_effective_digest"],
         "change_digest": request["change_digest"],
         "changed_paths": sorted(set(request["changed_paths"])),
+        "changed_shared_component_ids": sorted(set(request.get("changed_shared_component_ids", []))),
+        "affected_applications": sorted(affected_apps),
+        "shared_capability_scope": shared_projection,
         "affected_capabilities": selected_caps,
         "affected_capability_count": len(selected_caps),
         "required_test_kinds": list(TEST_KINDS),
