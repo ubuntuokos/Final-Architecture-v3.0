@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -38,6 +40,9 @@ EXTERNAL_SKILL_RADAR = "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json"
 DONOR_REGISTRY = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 DONOR_REJECTION_AUDIT = "canonical/FA3-DONOR-REJECTION-AUDIT-001.json"
 DONOR_LIFECYCLE_DECISION = "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
+APPLICATION_DONOR_LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+DONOR_PLANNING_SNAPSHOT_GATESET = "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001"
+EXPECTED_REUSE_RULE_COUNT = 38
 DONOR_DECISION = "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json"
 DONOR_CAPTURE = "src/fa3_donor_registry.py"
 DONOR_CAPTURE_BIN = "bin/fa3-donor-capture"
@@ -58,6 +63,340 @@ def load(root: Path, rel: str) -> dict[str, Any]:
 
 def finding(code: str, message: str, **details: Any) -> dict[str, Any]:
     return {"code": code, "severity": "P0", "message": message, **details}
+
+
+def _git_bytes(root: Path, *args: str) -> bytes | None:
+    proc = subprocess.run(["git", "-C", str(root), *args], capture_output=True, check=False)
+    if proc.returncode != 0:
+        return None
+    return proc.stdout
+
+
+def _git_show_bytes(root: Path, ref: str, rel: str) -> bytes | None:
+    return _git_bytes(root, "show", f"{ref}:{rel}")
+
+
+def _git_blob_sha(raw: bytes) -> str:
+    return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+
+
+def _valid_sha40(value: str) -> bool:
+    return len(value) == 40 and all(ch in "0123456789abcdefABCDEF" for ch in value)
+
+
+def validate_donor_planning_snapshot(
+    assessment: dict[str, Any], expected: dict[str, Any]
+) -> list[dict[str, Any]]:
+    snapshot = assessment.get("donor_planning_snapshot")
+    if not isinstance(snapshot, dict):
+        return [finding(
+            "REUSE-SNAPSHOT-001",
+            "material reuse assessment missing donor_planning_snapshot",
+            assessment_id=assessment.get("id"),
+        )]
+    findings: list[dict[str, Any]] = []
+    required = {
+        "published_main_commit": expected["published_main_commit"],
+        "donor_registry_id": expected["donor_registry_id"],
+        "donor_registry_blob_sha": expected["donor_registry_blob_sha"],
+        "donor_registry_sha256": expected["donor_registry_sha256"],
+        "donor_registry_entry_count": expected["donor_registry_entry_count"],
+    }
+    for key, value in required.items():
+        if snapshot.get(key) != value:
+            findings.append(finding(
+                "REUSE-SNAPSHOT-002",
+                "reuse assessment donor planning snapshot is stale or incomplete",
+                assessment_id=assessment.get("id"),
+                field=key,
+                expected=value,
+                declared=snapshot.get(key),
+            ))
+    return findings
+
+
+def validate_shared_capability_placement(
+    assessment: dict[str, Any]
+) -> list[dict[str, Any]]:
+    placement = assessment.get("shared_capability_placement")
+    if not isinstance(placement, dict):
+        return [finding(
+            "REUSE-SNAPSHOT-010",
+            "material reuse assessment missing shared_capability_placement review",
+            assessment_id=assessment.get("id"),
+        )]
+    findings: list[dict[str, Any]] = []
+    if placement.get("reviewed") is not True:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-011",
+            "shared-capability placement review must be explicit",
+            assessment_id=assessment.get("id"),
+        ))
+    if placement.get("retrospective_consumer_impact_reviewed") is not True:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-012",
+            "shared-capability review must cover planned, in-progress and materialized consumers",
+            assessment_id=assessment.get("id"),
+        ))
+    multi = placement.get("multi_application_reuse_detected")
+    if not isinstance(multi, bool):
+        findings.append(finding(
+            "REUSE-SNAPSHOT-013",
+            "shared-capability review must explicitly classify multi-application reuse",
+            assessment_id=assessment.get("id"),
+        ))
+        return findings
+    disposition = placement.get("disposition")
+    allowed = {"SHARED", "LOCAL_SINGLE_CONSUMER", "LOCAL_WITH_REVIEWED_JUSTIFICATION", "NOT_APPLICABLE"}
+    if disposition not in allowed:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-014",
+            "invalid shared-capability placement disposition",
+            assessment_id=assessment.get("id"),
+            disposition=disposition,
+        ))
+    if multi:
+        if disposition == "SHARED":
+            ids = placement.get("shared_component_ids")
+            if not isinstance(ids, list) or not ids or not all(isinstance(x, str) and x for x in ids):
+                findings.append(finding(
+                    "REUSE-SNAPSHOT-015",
+                    "multi-application shared disposition requires shared_component_ids",
+                    assessment_id=assessment.get("id"),
+                ))
+        elif disposition == "LOCAL_WITH_REVIEWED_JUSTIFICATION":
+            reason = placement.get("local_exception_reason")
+            if not isinstance(reason, str) or not reason.strip():
+                findings.append(finding(
+                    "REUSE-SNAPSHOT-016",
+                    "local duplicate of multi-application function requires reviewed justification",
+                    assessment_id=assessment.get("id"),
+                ))
+        else:
+            findings.append(finding(
+                "REUSE-SNAPSHOT-017",
+                "multi-application function must be shared or have a reviewed local exception",
+                assessment_id=assessment.get("id"),
+                disposition=disposition,
+            ))
+    return findings
+
+
+def validate_assessment_donor_usage_edges(
+    assessment: dict[str, Any], links: dict[str, Any]
+) -> list[dict[str, Any]]:
+    expected: set[str] = set()
+    for row in assessment.get("donor_pattern_reuse", []):
+        if isinstance(row, dict) and isinstance(row.get("donor_id"), str):
+            expected.add(row["donor_id"])
+    for row in assessment.get("adopted_donors", []):
+        if isinstance(row, dict) and isinstance(row.get("donor_id"), str):
+            expected.add(row["donor_id"])
+    if assessment.get("adoption_authorized") is True or assessment.get("donor_adoption_authorized") is True:
+        selected = assessment.get("selected_existing_donor_ids", [])
+        if isinstance(selected, list):
+            expected.update(x for x in selected if isinstance(x, str))
+    if not expected:
+        return []
+    active = {
+        row.get("donor_id")
+        for row in links.get("donor_usage_records", [])
+        if isinstance(row, dict) and row.get("status") != "REMOVED"
+    }
+    return [
+        finding(
+            "REUSE-SNAPSHOT-018",
+            "actual donor adoption/pattern use lacks canonical donor usage edge",
+            assessment_id=assessment.get("id"),
+            donor_id=donor_id,
+        )
+        for donor_id in sorted(expected - active)
+    ]
+
+
+def _material_planning_path(rel: str) -> bool:
+    if rel in {PROFILE, CONTRACT}:
+        return False
+    if rel.startswith(("canonical/intents/", "canonical/profiles/", "canonical/providers/", "apps/")):
+        return True
+    if rel.startswith("canonical/contracts/"):
+        return True
+    name = Path(rel).name
+    return rel.startswith("canonical/") and "SHARED" in name and rel.endswith(".json")
+
+
+def donor_planning_snapshot_check(root: Path) -> dict[str, Any]:
+    root = root.resolve()
+    findings: list[dict[str, Any]] = []
+    base = os.getenv("FA3_CHANGE_BASE_SHA", "").strip()
+    head = os.getenv("FA3_CHANGE_HEAD_SHA", "").strip()
+    published = os.getenv("FA3_PUBLISHED_MAIN_SHA", "").strip()
+
+    links = load(root, APPLICATION_DONOR_LINKS)
+    usage_policy = links.get("policy", {})
+    if not (
+        usage_policy.get("donor_usage_record_required_before_adoption") is True
+        and usage_policy.get("explicit_canonical_donor_use_requires_usage_edge") is True
+        and usage_policy.get("shared_capability_donor_adoption_requires_usage_edge") is True
+        and usage_policy.get("shared_capability_local_duplication_forbidden_without_justification") is True
+        and usage_policy.get("retrospective_shared_impact_required") is True
+    ):
+        findings.append(finding(
+            "REUSE-SNAPSHOT-020",
+            "donor usage/shared capability fail-closed policy binding is incomplete",
+        ))
+
+    if not (base or head or published):
+        return {
+            "gate_id": DONOR_PLANNING_SNAPSHOT_GATESET,
+            "result": "PASS" if not findings else "FAIL",
+            "state": "STATIC_POLICY_ONLY",
+            "material_change_paths": [],
+            "assessment_paths": [],
+            "findings": findings,
+        }
+    if not all(_valid_sha40(x) for x in (base, head, published)):
+        findings.append(finding("REUSE-SNAPSHOT-021", "invalid or incomplete Git change context"))
+        return {
+            "gate_id": DONOR_PLANNING_SNAPSHOT_GATESET,
+            "result": "FAIL",
+            "state": "CHANGE_CONTEXT_INVALID",
+            "material_change_paths": [],
+            "assessment_paths": [],
+            "findings": findings,
+        }
+    if published != base:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-022",
+            "published-main planning anchor differs from PR/change base",
+            published_main_commit=published,
+            change_base_commit=base,
+        ))
+
+    raw_registry = _git_show_bytes(root, published, DONOR_REGISTRY)
+    if raw_registry is None:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-023",
+            "published-main donor registry snapshot is unavailable",
+            published_main_commit=published,
+        ))
+        return {
+            "gate_id": DONOR_PLANNING_SNAPSHOT_GATESET,
+            "result": "FAIL",
+            "state": "PUBLISHED_MAIN_SNAPSHOT_UNAVAILABLE",
+            "material_change_paths": [],
+            "assessment_paths": [],
+            "findings": findings,
+        }
+    try:
+        registry = json.loads(raw_registry.decode("utf-8"))
+    except Exception as exc:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-024",
+            "published-main donor registry is unreadable",
+            error=repr(exc),
+        ))
+        registry = {"entries": []}
+
+    expected = {
+        "published_main_commit": published,
+        "donor_registry_id": registry.get("id"),
+        "donor_registry_blob_sha": _git_blob_sha(raw_registry),
+        "donor_registry_sha256": hashlib.sha256(raw_registry).hexdigest(),
+        "donor_registry_entry_count": len(registry.get("entries", [])) if isinstance(registry.get("entries"), list) else -1,
+    }
+
+    changed_text = _git(root, "diff", "--name-only", "--diff-filter=AM", base, head, "--")
+    if changed_text is None:
+        findings.append(finding("REUSE-SNAPSHOT-025", "change-set diff unavailable"))
+        changed: list[str] = []
+    else:
+        changed = [x for x in changed_text.splitlines() if x]
+    material = sorted(rel for rel in changed if _material_planning_path(rel))
+
+    assessments: list[tuple[str, dict[str, Any]]] = []
+    for rel in changed:
+        if not (rel.startswith("canonical/assessments/") and rel.endswith(".json")):
+            continue
+        raw = _git_show_bytes(root, head, rel)
+        if raw is None:
+            continue
+        try:
+            row = json.loads(raw.decode("utf-8"))
+        except Exception:
+            findings.append(finding("REUSE-SNAPSHOT-026", "changed assessment unreadable", path=rel))
+            continue
+        if isinstance(row, dict) and row.get("schema") == "fa3.reuse-assessment.v1":
+            assessments.append((rel, row))
+
+    if material and not assessments:
+        findings.append(finding(
+            "REUSE-SNAPSHOT-027",
+            "material application/module/profile/provider/shared change lacks changed Reuse Assessment",
+            material_change_paths=material,
+        ))
+
+    intent_ids: list[str] = []
+    record_ids: list[str] = []
+    for rel in material:
+        raw = _git_show_bytes(root, head, rel)
+        if raw is None or not rel.endswith(".json"):
+            continue
+        try:
+            row = json.loads(raw.decode("utf-8"))
+        except Exception:
+            continue
+        if not isinstance(row, dict):
+            continue
+        if rel.startswith("canonical/intents/") and row.get("schema") == "fa3.application-intent.v1":
+            if isinstance(row.get("id"), str):
+                intent_ids.append(row["id"])
+        elif rel.startswith(("canonical/profiles/", "canonical/providers/")) and isinstance(row.get("id"), str):
+            record_ids.append(row["id"])
+
+    for rel, assessment in assessments:
+        if assessment.get("result") != "PASS":
+            findings.append(finding(
+                "REUSE-SNAPSHOT-028",
+                "material Reuse Assessment must be PASS before finalization",
+                path=rel,
+                result=assessment.get("result"),
+            ))
+        findings.extend(validate_donor_planning_snapshot(assessment, expected))
+        findings.extend(validate_shared_capability_placement(assessment))
+        findings.extend(validate_assessment_donor_usage_edges(assessment, links))
+
+    for intent_id in sorted(set(intent_ids)):
+        if not any(row.get("intent_id") == intent_id for _, row in assessments):
+            findings.append(finding(
+                "REUSE-SNAPSHOT-029",
+                "changed ApplicationIntent lacks matching changed Reuse Assessment",
+                intent_id=intent_id,
+            ))
+    for record_id in sorted(set(record_ids)):
+        def covers(row: dict[str, Any]) -> bool:
+            covered = row.get("covered_ids", [])
+            return (
+                row.get("subject_id") == record_id
+                or row.get("project_id") == record_id
+                or (isinstance(covered, list) and record_id in covered)
+            )
+        if not any(covers(row) for _, row in assessments):
+            findings.append(finding(
+                "REUSE-SNAPSHOT-030",
+                "changed profile/provider lacks matching changed Reuse Assessment",
+                record_id=record_id,
+            ))
+
+    return {
+        "gate_id": DONOR_PLANNING_SNAPSHOT_GATESET,
+        "result": "PASS" if not findings else "FAIL",
+        "state": "ENFORCED",
+        "published_main_snapshot": expected,
+        "material_change_paths": material,
+        "assessment_paths": [rel for rel, _ in assessments],
+        "findings": findings,
+    }
 
 
 def _git(root: Path, *args: str) -> str | None:
@@ -351,8 +690,8 @@ def gate(root: Path) -> dict[str, Any]:
     if not (
         gate_record.get("gateset_id") == "FA3-REUSE-DISCOVERY-GATESET-001"
         and gate_record.get("fail_closed") is True
-        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == 29
-        and len(enforcement.get("p0_invariants", [])) == 29
+        and gate_record.get("mandatory_checks") == enforcement.get("mandatory_rule_count") == EXPECTED_REUSE_RULE_COUNT
+        and len(enforcement.get("p0_invariants", [])) == EXPECTED_REUSE_RULE_COUNT
     ):
         findings.append(finding("REUSE-006", "gate/enforcement inventory drift"))
 
@@ -824,6 +1163,14 @@ def gate(root: Path) -> dict[str, Any]:
     if khronos_adoption.get("result") != "PASS":
         findings.append(finding("REUSE-030", "post-adoption mandatory Khronos source review failed", adoption=khronos_adoption))
 
+    donor_snapshot = donor_planning_snapshot_check(root)
+    if donor_snapshot.get("result") != "PASS":
+        findings.append(finding(
+            "REUSE-031",
+            "donor planning snapshot/shared-capability placement gate failed",
+            donor_planning_snapshot=donor_snapshot,
+        ))
+
     result = "PASS" if not findings else "FAIL"
     return {
         "schema": "fa3.reuse-discovery-gate-report.v1",
@@ -838,6 +1185,7 @@ def gate(root: Path) -> dict[str, Any]:
         "golden_project": generated,
         "adoption_enforcement": adoption,
         "khronos_source_adoption_enforcement": khronos_adoption,
+        "donor_planning_snapshot_enforcement": donor_snapshot,
         "reference_evidence_status": evidence.get("status"),
         "capability_count": capability_count,
         "new_capabilities": 0,

@@ -92,6 +92,19 @@ def main() -> int:
         print(json.dumps(readiness,ensure_ascii=False,indent=2))
         return 2
     result = assess_intent(root, load_json(intent_path))
+    result["donor_planning_snapshot"] = {
+        "published_main_commit": readiness.get("published_main_sha"),
+        "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+        "donor_registry_blob_sha": readiness.get("main_registry_blob_sha"),
+        "donor_registry_sha256": readiness.get("registry_sha256"),
+        "donor_registry_entry_count": readiness.get("donor_count"),
+    }
+    result["shared_capability_placement"] = {
+        "reviewed": False,
+        "multi_application_reuse_detected": None,
+        "disposition": "PENDING_REVIEW",
+        "retrospective_consumer_impact_reviewed": False,
+    }
     text = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
         output = Path(args.output)

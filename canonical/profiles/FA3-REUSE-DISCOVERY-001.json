@@ -131,6 +131,20 @@
     "owner_marked_link_capture_state": "ACCEPTED_REFERENCE",
     "pending_donor_prs_excluded_from_planning": true,
     "published_main_registry_only": true,
-    "legacy_registry_embedded_capture_policy_superseded_by": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28"
+    "legacy_registry_embedded_capture_policy_superseded_by": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
+    "planning_snapshot_gate_id": "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+    "planning_snapshot_required_for_material_change": true,
+    "planning_snapshot_published_main_commit_required": true,
+    "planning_snapshot_registry_blob_sha_required": true,
+    "planning_snapshot_registry_sha256_required": true,
+    "planning_snapshot_registry_entry_count_required": true,
+    "stale_snapshot_requires_reassessment_before_finalization": true
+  },
+  "shared_capability_placement_review": {
+    "required_for_material_change": true,
+    "multi_application_feature_shared_first": true,
+    "local_duplication_requires_reviewed_justification": true,
+    "retrospective_consumer_impact_required": true,
+    "capability_loss_forbidden": true
   }
 }

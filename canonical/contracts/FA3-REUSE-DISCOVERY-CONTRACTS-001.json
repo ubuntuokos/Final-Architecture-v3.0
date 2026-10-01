@@ -201,6 +201,43 @@
       "donor_to_application_reverse_traceability_required": true,
       "capability_non_regression_on_donor_change": true,
       "capability_loss_only_for_verified_fa3_risk": true
+    },
+    "DonorPlanningSnapshot": {
+      "schema": "fa3.donor-planning-snapshot.v1",
+      "gate_id": "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+      "required_for": "NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_MODULE_PROFILE_PROVIDER_SHARED_COMPONENT",
+      "required_fields": [
+        "published_main_commit",
+        "donor_registry_id",
+        "donor_registry_blob_sha",
+        "donor_registry_sha256",
+        "donor_registry_entry_count"
+      ],
+      "source": "LATEST_VERIFIED_COMMITTED_MAIN_ONLY",
+      "pending_pr_registry_inputs_forbidden": true,
+      "stale_snapshot_disposition": "REASSESSMENT_REQUIRED",
+      "runtime_or_provider_admission": false
+    },
+    "SharedCapabilityPlacementReview": {
+      "schema": "fa3.shared-capability-placement-review.v1",
+      "required_fields": [
+        "reviewed",
+        "multi_application_reuse_detected",
+        "disposition",
+        "retrospective_consumer_impact_reviewed"
+      ],
+      "multi_application_dispositions": [
+        "SHARED",
+        "LOCAL_WITH_REVIEWED_JUSTIFICATION"
+      ],
+      "single_consumer_dispositions": [
+        "LOCAL_SINGLE_CONSUMER",
+        "NOT_APPLICABLE",
+        "SHARED"
+      ],
+      "shared_disposition_requires_component_ids": true,
+      "local_multi_application_exception_requires_reason": true,
+      "capability_loss_allowed": false
     }
   },
   "invariants": [

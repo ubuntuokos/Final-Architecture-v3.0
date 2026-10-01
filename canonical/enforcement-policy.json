@@ -97,6 +97,7 @@
     "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001",
     "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
     "FA3-REUSE-DISCOVERY-GATESET-001",
+    "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
     "FA3-AGENT-FEDERATION-GATESET-001",
     "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
     "FA3-GUI-CURRENT-HOST-GATESET-001",
@@ -2118,5 +2119,15 @@
   "computer_interaction_runtime_global_static_required": true,
   "computer_interaction_runtime_new_capability": false,
   "computer_interaction_runtime_new_architectural_authority": false,
-  "computer_interaction_runtime_current_host_claim": false
+  "computer_interaction_runtime_current_host_claim": false,
+  "donor_planning_snapshot_gate": {
+    "gate_id": "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+    "fail_closed": true,
+    "current_published_main_only": true,
+    "stale_snapshot_requires_reassessment": true,
+    "shared_capability_placement_review_required": true,
+    "donor_usage_edges_remain_in": "FA3-APPLICATION-DONOR-LINKS-001",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  }
 }

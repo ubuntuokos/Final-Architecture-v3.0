@@ -28,6 +28,10 @@ jobs:
     needs: donor-serialization
     if: ${{ always() }}
     runs-on: ubuntu-latest
+    env:
+      FA3_CHANGE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+      FA3_CHANGE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      FA3_PUBLISHED_MAIN_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
     timeout-minutes: 10
     steps:
       - name: Enforce the required donor readiness dependency
@@ -42,6 +46,12 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Resolve live published main for donor planning snapshot
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          LIVE_MAIN="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          test -n "$LIVE_MAIN"
+          echo "FA3_PUBLISHED_MAIN_SHA=$LIVE_MAIN" >> "$GITHUB_ENV"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

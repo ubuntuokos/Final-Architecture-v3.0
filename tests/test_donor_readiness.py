@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
-    is_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha)
+    is_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -293,4 +293,16 @@ class Tests(unittest.TestCase):
             x=gate(root,"status",get=get)
             self.assertEqual(x["result"],"BLOCKED")
             self.assertTrue(any("PROOF_UNAVAILABLE:" in f for f in x["findings"]))
+    def test_planning_snapshot_must_match_live_published_main(self):
+        reg={"id":"FA3-DONOR-REFERENCE-REGISTRY-001","entries":[source()]}
+        row={"donor_planning_snapshot":{
+            "published_main_commit":"a"*40,
+            "donor_registry_id":reg["id"],
+            "donor_registry_blob_sha":"b"*40,
+            "donor_registry_sha256":"c"*64,
+            "donor_registry_entry_count":1}}
+        self.assertEqual(planning_snapshot_findings(row,"c"*64,reg,"a"*40,"b"*40),[])
+        stale=planning_snapshot_findings(row,"c"*64,reg,"d"*40,"b"*40)
+        self.assertIn("DONOR_PLANNING_SNAPSHOT_MISMATCH:published_main_commit",stale)
+
 if __name__=="__main__":unittest.main()
