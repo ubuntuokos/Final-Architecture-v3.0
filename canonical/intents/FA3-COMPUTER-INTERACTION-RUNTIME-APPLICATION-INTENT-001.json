@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001",
+  "project_id": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+  "project_type": "SHARED_PROFILE",
+  "goal": "Materialize a provider-neutral native desktop computer-interaction runtime below UAF using bounded observation-bound actions, revalidation, authorization, verification and privacy-minimal trajectory semantics without creating a new authority.",
+  "required_capabilities": [
+    "CAP-013"
+  ],
+  "optional_capabilities": [
+    "CAP-007",
+    "CAP-008",
+    "CAP-011",
+    "CAP-079"
+  ],
+  "problem_classes": [
+    "native-desktop-observation",
+    "window-scoped-interaction",
+    "bounded-ui-action",
+    "stale-observation-denial",
+    "effect-verification",
+    "privacy-bounded-trajectory"
+  ],
+  "task_classes": [
+    "desktop",
+    "agent",
+    "automation",
+    "gui"
+  ],
+  "input_modalities": [
+    "NATIVE_WINDOW_OBSERVATION",
+    "ACCESSIBILITY_TARGETS",
+    "OPTIONAL_VISUAL_REGIONS",
+    "BOUNDED_ACTION_INTENT"
+  ],
+  "output_modalities": [
+    "ACTION_SPACE",
+    "DECISION_BINDING",
+    "EXECUTION_GUARD",
+    "EFFECT_RECEIPT",
+    "OUTCOME_VERIFICATION",
+    "REOBSERVE_REQUEST",
+    "TRAJECTORY_EVENT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT_CONTROL_PATH",
+    "OPTIONAL_ADMITTED_DESKTOP_ADAPTER"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_NATIVE_DESKTOP_ADAPTER_CURRENT_HOST_E2E",
+    "CAP_013_POSITIVE_NEGATIVE_ROLLBACK_REQUALIFICATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-computer-interaction",
+    "service_prefix": null,
+    "config_root": "$XDG_CONFIG_HOME/fa3/computer-interaction",
+    "cache_root": "$XDG_CACHE_HOME/fa3/computer-interaction",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/computer-interaction",
+    "socket_namespace": null,
+    "data_root": "$XDG_DATA_HOME/fa3/computer-interaction",
+    "desktop_prefix": null,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "default_port": null
+  },
+  "security_requirements": [
+    "DESKTOP_CONTENT_UNTRUSTED",
+    "OBSERVATION_AND_CAPTURE_BINDING",
+    "STALE_ACTION_DENIED",
+    "MUTATION_AUTHORIZATION_REQUIRED",
+    "NO_BLIND_MUTATION_RETRY",
+    "POST_MUTATION_REOBSERVATION",
+    "INDEPENDENT_VERIFICATION",
+    "NO_DIRECT_AGENT_PROVIDER_BYPASS"
+  ],
+  "integration_requirements": [
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

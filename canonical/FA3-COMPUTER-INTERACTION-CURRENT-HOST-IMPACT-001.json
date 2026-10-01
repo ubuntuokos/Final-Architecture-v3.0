@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.current-host-impact.v1",
+  "id": "FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001",
+  "date": "2026-10-01",
+  "status": "PENDING_PHYSICAL_REQUALIFICATION",
+  "subject_profile": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+  "capability_subject": "CAP-013",
+  "structural_change": true,
+  "current_host_alignment_required": true,
+  "physical_current_host_pass_claimed": false,
+  "global_promotion_claim": false,
+  "reason": "A new shared CAP-013 execution path changes how native desktop actions are bound, guarded and evidenced. Static CI can validate contracts and fail-closed semantics but cannot prove physical Wayland/X11 application interaction.",
+  "required_physical_evidence": [
+    "REAL_CURRENT_USER_SESSION_DISCOVERY",
+    "REAL_NATIVE_APPLICATION_AND_WINDOW_IDENTITY",
+    "OBSERVATION_AND_CAPTURE_ID_FROM_PHYSICAL_SESSION",
+    "AUTHORIZED_POSITIVE_INTERACTION_WITH_OBSERVED_EFFECT",
+    "STALE_CAPTURE_NEGATIVE_DENIAL",
+    "UNAUTHORIZED_MUTATION_NEGATIVE_DENIAL",
+    "OCCLUDED_OR_INVALID_TARGET_NEGATIVE_DENIAL",
+    "POST_MUTATION_REOBSERVATION",
+    "INDEPENDENT_EFFECT_VERIFICATION",
+    "ROLLBACK_OR_REVERSIBLE_STATE_RESTORATION",
+    "PRIVACY_CHECK_NO_SCREENSHOT_TYPED_TEXT_CLIPBOARD_OR_RAW_ARGUMENT_RETENTION"
+  ],
+  "current_host_projection": {
+    "positive": "AT-CAP-013-POS",
+    "negative": "AT-CAP-013-NEG",
+    "evidence": "EVID-CAP-013-CURRENT-HOST",
+    "rollback": "ROLLBACK-CAP-013"
+  },
+  "promotion_rule": "CAP_013_RUNTIME_PROMOTION_REMAINS_BLOCKED_UNTIL_FRESH_PHYSICAL_SCOPE_BOUND_EVIDENCE_PASSES",
+  "simulation_or_document_substitution": "FORBIDDEN",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

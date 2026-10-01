@@ -74,7 +74,8 @@ ApplicationWindow {
         "system.updates": 36,
         "create.subtitle-studio": 37,
         "create.narration-studio": 38,
-        "agents.orchestration-monitor": 39
+        "agents.orchestration-monitor": 39,
+        "create.ai-module-factory": 40
     })
 
     function routeIndex(routeId) {
@@ -158,6 +159,7 @@ ApplicationWindow {
         {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", routeId: "system.accelerator-guard"},
         {title: "Update Center", detail: "Provider-neutral frissítés, security maintenance és workload-aware restart UAF draft felület", category: "FUNCTION", routeId: "system.updates"},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "AI Module Factory", detail: "Jóváhagyott FA3 munkákból rights- és provenance-gated modultervek CAP-095 handoffal", category: "FUNCTION", routeId: "create.ai-module-factory"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -685,6 +687,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "CREATE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; routeId: "create.ai-studio" }
+                        NavButton { iconText: "AI"; label: "AI Module Factory"; routeId: "create.ai-module-factory" }
                         NavButton { iconText: "CC"; label: "Subtitle Studio"; routeId: "create.subtitle-studio" }
                         NavButton { iconText: "VO"; label: "Narration Studio"; routeId: "create.narration-studio" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
@@ -1747,6 +1750,18 @@ ApplicationWindow {
                             "ORCHESTRATION_GOVERNANCE", actionId, target,
                             rationale + " · DRAFT only; Temporal/Security/UAF/HRB/Model Router/Evidence authority checks remain mandatory.")
                     }
+                }
+
+                ModulePage {
+                    pageTitle: "AI Module Factory"
+                    pageSubtitle: "Jóváhagyott FA3 munkaeredményekből készülő, jog- és provenance-gated AI-modultervek"
+                    cards: [
+                        {title: "Approved Work Intake", subtitle: "Csak jóváhagyott artifact-, korrekció- és workflow-evidence hivatkozások kerülhetnek a modul-előkészítésbe.", badge: "GATED", tone: window.green},
+                        {title: "Rights & Consent", subtitle: "Ismeretlen vagy hiányzó felhasználási/tréning/derivative jog esetén a folyamat lezár.", badge: "FAIL-CLOSED", tone: window.orange},
+                        {title: "CAP-095 Handoff", subtitle: "A tréninget ez a felület nem indítja közvetlenül; a jóváhagyott draft a meglévő CAP-095 útvonalhoz kerül.", badge: "DRAFT", tone: window.accent},
+                        {title: "Model Router + HRB", subtitle: "Provider- és hardverválasztás kizárólag a meglévő központi authority-kon keresztül történhet.", badge: "ROUTED", tone: window.cyan},
+                        {title: "Current Host", subtitle: "A standalone Qt6 alkalmazás fizikai requalification státusza külön evidence-gated; ez a felület nem állít PASS-t.", badge: "PENDING", tone: window.magenta}
+                    ]
                 }
             }
 

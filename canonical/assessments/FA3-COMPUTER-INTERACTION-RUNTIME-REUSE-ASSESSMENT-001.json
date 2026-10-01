@@ -1,0 +1,148 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-COMPUTER-INTERACTION-RUNTIME-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+  "project_id": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+  "intent_id": "FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001.json",
+  "published_main_commit": "1866768b0f1846648bb31165fc7d814c6098b16e",
+  "donor_registry_blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "donor_registry_entry_count": 1287,
+  "capability_baseline": 175,
+  "result": "PASS",
+  "analysis_only_external_source": {
+    "repository": "https://github.com/trycua/cua",
+    "observed_commit": "9545a3d17b44b587b593d59090dc140740876a6e",
+    "registry_status": "UNREGISTERED_UNMARKED_ANALYSIS_ONLY",
+    "reason": "OWNER_LINK_WAS_NOT_PRECEDED_BY_REQUIRED_DONORNAK_MARKER",
+    "donor_id_created": false,
+    "usage_edge_created": false,
+    "code_copied": false,
+    "runtime_dependency_created": false
+  },
+  "analysis_only_policy": "The CUA repository may inform FA3-native functional patterns but cannot receive a donor identity or runtime/code adoption status without the explicit owner donornak intake marker and separate normal admission.",
+  "adoption_authorized": false,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "SOLE_TYPED_ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "use": "SHARED_ACTION_INTENT_POLICY_APPROVAL_AND_RECEIPT_COMPOSITION"
+    },
+    {
+      "id": "FA3-DESKTOP-001",
+      "use": "NATIVE_DESKTOP_SESSION_AND_PORTABILITY_BOUNDARY"
+    },
+    {
+      "id": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "use": "EXISTING_BOUNDED_OBSERVE_REVALIDATE_VERIFY_PATTERN_WITH_BROWSER_SCOPE_PRESERVED"
+    },
+    {
+      "id": "FA3-DECISION-FABRIC-001",
+      "use": "BOUNDED_ADVISORY_CANDIDATE_SELECTION_WITHOUT_EXPANSION"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_SPECIALIST_MODEL_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "SOLE_MCP_AND_TOOL_MEDIATION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_ISOLATED_WORKLOAD_AND_SANDBOX_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_HOST_RESOURCE_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "SOLE_CANONICAL_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_ORCHESTRATOR_OR_CONDUCTOR",
+      "reason": "EXISTING_FA3_ORCHESTRATION_AUTHORITIES_REMAIN_CANONICAL"
+    },
+    {
+      "id": "SECOND_MCP_AUTHORITY",
+      "reason": "CENTRAL_MCP_GATEWAY_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "SECOND_MODEL_ROUTER",
+      "reason": "FA3_MODEL_ROUTER_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "DIRECT_CUA_DRIVER_RUNTIME_DEPENDENCY",
+      "reason": "UNREGISTERED_ANALYSIS_ONLY_SOURCE_AND_FA3_NATIVE_RUNTIME_IS_SUFFICIENT"
+    },
+    {
+      "id": "CUA_FLEETS_MANDATORY_RUNTIME",
+      "reason": "REMOTE_SANDBOXES_MUST_REMAIN_OPTIONAL_SEPARATELY_ADMITTED_PROVIDERS"
+    },
+    {
+      "id": "CUA_PERCEPTION_OR_SOM_AUTOMATIC_BUNDLE",
+      "reason": "SEPARATE_AGPL_AND_ARTIFACT_RIGHTS_SECURITY_REVIEW_REQUIRED"
+    },
+    {
+      "id": "TELEMETRY_OPT_OUT_DEFAULT",
+      "reason": "FA3_PRIVACY_BASELINE_REQUIRES_DEFAULT_OFF_AND_EXPLICIT_OPT_IN"
+    },
+    {
+      "id": "DIRECT_AGENT_TO_DRIVER_BYPASS",
+      "reason": "ALL_EFFECTS_MUST_REMAIN_UAF_AND_SECURITY_MEDIATED"
+    }
+  ],
+  "gaps": [
+    "PHYSICAL_NATIVE_DESKTOP_ADAPTER_CURRENT_HOST_E2E",
+    "CAP_013_REQUALIFICATION"
+  ],
+  "implementation_readiness": "FA3_NATIVE_STATIC_RUNTIME_AND_GATE_MATERIALIZATION_APPROVED",
+  "static_materialization_authorized": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_service_created": false,
+    "external_runtime_installed": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "The bounded desktop interaction control plane adds no graphics/compute/media SDK dependency. Any future native visual or accelerator adapter remains subject to the existing Khronos and HRB reviews."
+    }
+  ],
+  "global_promotion_claim": false,
+  "covered_ids": [
+    "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "coverage_reason": "The new Computer Interaction Runtime is the subject, and UAF is materially modified only to bind this shared execution profile; both are covered by the same ApplicationIntent and reuse assessment."
+}

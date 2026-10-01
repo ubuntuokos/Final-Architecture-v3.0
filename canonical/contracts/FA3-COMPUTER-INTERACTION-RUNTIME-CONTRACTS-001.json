@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-007",
+    "CAP-008",
+    "CAP-011",
+    "CAP-013",
+    "CAP-079"
+  ],
+  "contracts": [
+    "ComputerInteractionObservation",
+    "ComputerInteractionTarget",
+    "ComputerInteractionCandidate",
+    "ComputerInteractionActionSpace",
+    "ComputerInteractionDecisionBinding",
+    "ComputerInteractionExecutionGuard",
+    "ComputerInteractionExecutionParameters",
+    "ComputerInteractionEffectReceipt",
+    "ComputerInteractionOutcomeVerification",
+    "ComputerInteractionReobserveRequest",
+    "ComputerInteractionAbstention",
+    "ComputerInteractionTrajectoryEvent"
+  ],
+  "operation_set": [
+    "CLICK",
+    "TYPE_TEXT",
+    "SELECT",
+    "PRESS_KEY",
+    "SCROLL",
+    "WAIT",
+    "REOBSERVE",
+    "ABSTAIN",
+    "BLOCKED"
+  ],
+  "observation_binding": {
+    "required": [
+      "session_id",
+      "observation_id",
+      "revision",
+      "application_id",
+      "window_id",
+      "window_fingerprint",
+      "capture_id",
+      "action_space_hash"
+    ],
+    "stale_execution": "DENY",
+    "target_must_exist_in_observation": true,
+    "region_or_visual_target_requires_same_capture_id": true,
+    "raw_coordinate_only_target": "DENY_BY_DEFAULT"
+  },
+  "decision": {
+    "candidate_set_source": "FA3_RUNTIME_ONLY",
+    "candidate_set_expansion": "DENY",
+    "unobserved_target": "DENY",
+    "allowed_control_outcomes": [
+      "REOBSERVE",
+      "ABSTAIN",
+      "BLOCKED"
+    ],
+    "control_outcome_is_success": false
+  },
+  "execution_parameters": {
+    "arbitrary_script": "DENY",
+    "arbitrary_selector": "DENY",
+    "raw_shell": "DENY",
+    "TYPE_TEXT": {
+      "required": ["text"],
+      "max_length": 32768
+    },
+    "SELECT": {
+      "required": ["value"],
+      "max_length": 4096
+    },
+    "PRESS_KEY": {
+      "allowlist": [
+        "Enter",
+        "Tab",
+        "Escape",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "Backspace",
+        "Delete",
+        "Home",
+        "End",
+        "PageUp",
+        "PageDown"
+      ]
+    },
+    "SCROLL": {
+      "delta_y_range": [-20, 20]
+    },
+    "WAIT": {
+      "milliseconds_range": [0, 5000]
+    }
+  },
+  "mutation_policy": {
+    "authorization_reference_required": true,
+    "blind_retry": "DENY",
+    "uncertain_outcome": "REOBSERVE_AND_VERIFY_BEFORE_NEW_MUTATION",
+    "post_mutation_reobserve": "REQUIRED"
+  },
+  "verification": {
+    "execution_receipt_is_success": false,
+    "independent_outcome_verifier_required": true,
+    "results": [
+      "VERIFIED_SUCCESS",
+      "VERIFIED_FAILURE",
+      "INCOMPLETE",
+      "INDETERMINATE"
+    ]
+  },
+  "privacy": {
+    "telemetry_default": "DISABLED",
+    "trajectory_default": "METADATA_MINIMAL",
+    "trajectory_forbidden_payloads": [
+      "SCREENSHOT_BYTES",
+      "RAW_TYPED_TEXT",
+      "CLIPBOARD_CONTENT",
+      "RAW_TOOL_ARGUMENTS",
+      "RAW_PROVIDER_RESULTS",
+      "WINDOW_TITLE",
+      "URL"
+    ],
+    "explicit_opt_in_required_for_external_telemetry": true
+  },
+  "authority_boundaries": {
+    "execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_approval": "AUTH-HUMAN"
+  },
+  "upstream_runtime_dependency": false
+}

@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: Apache-2.0
+name: FA3 AI Module Factory
+
+on:
+  pull_request:
+    paths:
+      - "apps/fa3-ai-module-factory/**"
+      - "canonical/profiles/FA3-AI-MODULE-FACTORY-001.json"
+      - "canonical/contracts/FA3-AI-MODULE-FACTORY-CONTRACTS-001.json"
+      - "canonical/intents/FA3-AI-MODULE-FACTORY-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-AI-MODULE-FACTORY-REUSE-ASSESSMENT-001.json"
+      - "canonical/assessments/FA3-AI-MODULE-FACTORY-DECISION-ASSESSMENT-2026-10-01.json"
+      - "canonical/decisions/FA3-DEC-AI-MODULE-FACTORY-2026-10-01.json"
+      - "canonical/FA3-AI-MODULE-FACTORY-CURRENT-HOST-IMPACT-001.json"
+      - "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
+      - "apps/fa3-control-center/qml/Main.qml"
+      - "tests/test_application_donor_index.py"
+      - "tests/test_ai_module_factory.py"
+  workflow_dispatch:
+
+jobs:
+  static-and-qt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python structural tests
+        run: python3 -m unittest tests/test_ai_module_factory.py
+      - name: Install Qt6 build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++ qt6-base-dev qt6-declarative-dev
+      - name: Configure
+        run: cmake -S apps/fa3-ai-module-factory -B build/ai-module-factory -G Ninja
+      - name: Build
+        run: cmake --build build/ai-module-factory
+      - name: Test
+        run: ctest --test-dir build/ai-module-factory --output-on-failure

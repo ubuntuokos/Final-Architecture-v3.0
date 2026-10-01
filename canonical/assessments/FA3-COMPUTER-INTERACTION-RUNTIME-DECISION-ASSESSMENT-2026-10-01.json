@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-COMPUTER-INTERACTION-RUNTIME-2026-10-01",
+  "covered_ids": [
+    "FA3-COMPUTER-INTERACTION-RUNTIME-001"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "Native desktop interaction may use Decision Fabric only for bounded advisory selection over an FA3-generated, observation-bound action set. Decision Fabric may choose an observed candidate or return reobserve/abstain guidance, but execution, authorization, target construction, candidate expansion, model/provider admission, resources and outcome verification remain with existing FA3 authorities.",
+  "decision_points": [
+    {
+      "id": "computer-interaction-bounded-action-selection",
+      "purpose": "select exactly one currently observed and runtime-authorized native desktop interaction candidate",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+      "final_policy_owner": "FA3-UNIFIED-ACTION-FABRIC-001 / FA3-AUTH-SECURITY-GOV-001 / AUTH-HUMAN",
+      "failure_policy": "FAIL_CLOSED"
+    },
+    {
+      "id": "computer-interaction-uncertain-state",
+      "purpose": "request reobservation or abstention when the observed desktop state is insufficient or stale",
+      "contract": "STOP_CONTINUE",
+      "candidate_source": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+      "final_policy_owner": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "failure_policy": "FAIL_CLOSED"
+    }
+  ],
+  "not_delegated": [
+    "desktop execution authority",
+    "permission or approval authority",
+    "target construction",
+    "candidate-set construction or expansion",
+    "model/provider admission or physical routing",
+    "MCP authority",
+    "secret access",
+    "HRB resource leasing",
+    "independent outcome verification",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

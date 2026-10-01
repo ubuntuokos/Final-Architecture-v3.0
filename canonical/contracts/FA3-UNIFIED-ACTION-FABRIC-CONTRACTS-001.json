@@ -8,7 +8,7 @@
   "fail_closed": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "upstream_runtime_dependency": false,
   "upstream_reference": "BuilderIO/agent-native architecture pattern only; no code/runtime dependency",
   "contract_schemas": [
@@ -49,7 +49,9 @@
     "REQUIRED_EVIDENCE_FAILURE_MAKES_ACTION_FAIL",
     "CURRENT_HOST_EVIDENCE_NOT_IMPLIED_BY_STATIC_PASS",
     "PROVIDER_CATALOG_IS_NON_AUTHORITY_AND_REPLACEABLE",
-    "EXPOSURE_IS_EXPLICIT_OPT_IN"
+    "EXPOSURE_IS_EXPLICIT_OPT_IN",
+    "NATIVE_COMPUTER_INTERACTION_MUST_USE_OBSERVATION_BOUND_SHARED_RUNTIME",
+    "DESKTOP_MUTATION_REQUIRES_REOBSERVATION_AND_INDEPENDENT_VERIFICATION"
   ],
   "execution_order": [
     "CONTRACT_LOOKUP",
@@ -68,5 +70,8 @@
     "EVIDENCE",
     "RESOURCE_AND_SECRET_RELEASE",
     "RESULT"
+  ],
+  "shared_execution_profiles": [
+    "FA3-COMPUTER-INTERACTION-RUNTIME-001"
   ]
 }
