@@ -279,12 +279,14 @@ class ReuseDiscoveryTests(unittest.TestCase):
 
     def test_capture_does_not_conflate_same_name_distinct_repositories(self):
         import tempfile
-        from fa3_donor_registry import capture_candidate
+        from fa3_donor_registry import capture_candidate, REJECTION_AUDIT_REL
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             path = root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
             path.parent.mkdir(parents=True)
             path.write_text(json.dumps({"id":"FA3-DONOR-REFERENCE-REGISTRY-001", "entries":[]}), encoding="utf-8")
+            audit = root / REJECTION_AUDIT_REL
+            audit.write_text(json.dumps({"id":"FA3-DONOR-REJECTION-AUDIT-001", "entries":[]}), encoding="utf-8")
             first = capture_candidate(root, name="Example", source_kind="GITHUB",
                 source_locator="https://github.com/alice/example", seen_date="2026-09-28",
                 explicit_donor_marker=True, owner_submitted_link=True)

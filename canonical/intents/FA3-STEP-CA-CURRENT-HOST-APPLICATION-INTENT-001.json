@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-STEP-CA-CURRENT-HOST-APPLICATION-INTENT-001",
+  "project_id": "FA3-PROVIDER-STEP-CA-001",
+  "project_type": "PROVIDER",
+  "goal": "Reconcile the existing canonical step-ca provider with the fixed 175-capability Current Host contract and require fresh exact-head physical requalification without adding capability or architectural authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "internal-pki-provider",
+    "current-host-requalification",
+    "runtime-promotion-governance",
+    "hardware-safety",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "EXISTING_RUNTIME_CONFIGURATION"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_POLICY_AND_EVIDENCE"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "CURRENT_HOST_PHYSICAL_REQUALIFICATION"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "FRESH_EXACT_HEAD_PHYSICAL_CURRENT_HOST_REQUALIFICATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "unsafe_hardware_parameter_mutation": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-step-ca",
+    "service_prefix": "fa3-step-ca",
+    "config_root": "$XDG_CONFIG_HOME/fa3/step-ca",
+    "cache_root": "$XDG_CACHE_HOME/fa3/step-ca",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/step-ca",
+    "socket_namespace": "fa3/step-ca",
+    "data_root": "$XDG_DATA_HOME/fa3/step-ca",
+    "desktop_prefix": "org.fa3.stepca",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "OFFLINE_ROOT_PRIVATE_KEY",
+    "EXISTING_FA3_IDENTITY_AND_AUTHORIZATION_AUTHORITIES",
+    "NO_SECRET_VALUES_IN_EVIDENCE",
+    "FAIL_CLOSED_RUNTIME_PROMOTION"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-TRUST-PKI-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+    "FA3-SOFTWARE-COEXISTENCE-001"
+  ],
+  "task_classes": [
+    "architecture",
+    "security",
+    "current-host"
+  ],
+  "skill_triggers": []
+}

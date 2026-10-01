@@ -83,7 +83,9 @@ class GGUFComfyCodecIntakeTests(unittest.TestCase):
     def test_derived_counts_and_baseline(self):
         self.assertEqual(len(self.entries), len(self.by_key))
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
-        self.assertEqual(len(self.entries), 1233)
+        # The intake delta remains historical proof of the 1221 -> 1233 event.
+        # The active registry is allowed to change afterwards (for example a
+        # rejected donor may be removed under lifecycle/security policy).
         self.assertEqual(self.registry["capability_count"], 175)
         self.assertEqual(self.delta["source_count"], 12)
         self.assertEqual(self.delta["previous_registry_count"], 1221)

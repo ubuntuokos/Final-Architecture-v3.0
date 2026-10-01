@@ -109,7 +109,12 @@
     "automatic_provider_admission": false,
     "automatic_model_selection": false,
     "automatic_activation": false,
-    "authority": false
+    "authority": false,
+    "rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
+    "rejected_active_registry_forbidden": true,
+    "rejected_reentry_requires_verified_safe_evidence": true,
+    "every_donor_change_requires_processing": true,
+    "monthly_capability_refresh_days": 31
   },
   "application_donor_inventory_binding": {
     "links_id": "FA3-APPLICATION-DONOR-LINKS-001",
@@ -122,6 +127,13 @@
     "application_registration_is_donor_approval": false,
     "automatic_code_import": false,
     "automatic_activation": false,
-    "authority": false
-  }
+    "authority": false,
+    "all_applications_in_scope_without_formal_dependency": true,
+    "every_donor_change_requires_impact_processing": true,
+    "donor_usage_reverse_traceability_required": true,
+    "capability_non_regression_on_donor_change": true,
+    "capability_loss_only_for_verified_fa3_risk": true,
+    "current_host_alignment_when_structural_or_runtime_affected": true
+  },
+  "strategies": []
 }
