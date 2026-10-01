@@ -71,5 +71,5 @@ void AIModuleFactoryServiceTest::adapterRoutesToCap095()
     QCOMPARE(plan.value("silent_fallback").toBool(), false);
 }
 
-QTEST_MAIN(AIModuleFactoryServiceTest)
+QTEST_APPLESS_MAIN(AIModuleFactoryServiceTest)
 #include "test_service.moc"
