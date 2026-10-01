@@ -17,6 +17,16 @@ SOURCES = (
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
     "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
+    "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
+    "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
+    "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
+    "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
+    "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
 )
 
 
@@ -208,6 +218,54 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
             self.assertIn("INVALID_SHARED_CAPABILITY", findings)
 
+
+    def test_materialized_shared_capability_bindings_are_derived(self):
+        result = build_index(ROOT)
+        self.assertEqual(result["validation"]["result"], "PASS",
+                         result["validation"]["findings"])
+        row = next(
+            item for item in result["shared_capabilities"]
+            if item["id"] == "FA3-SHARED-AI-INTERACTION-001"
+        )
+        self.assertEqual(
+            row["fa3_bindings"]["capability_ids"],
+            ["CAP-005", "CAP-098", "CAP-138", "CAP-140", "CAP-148", "CAP-149"],
+        )
+        self.assertEqual(row["fa3_bindings"]["resolution"], "RESOLVED")
+        shared_map = result["shared_capability_consumer_map"]
+        edge_id = "SHARED:FA3-SHARED-AI-INTERACTION-001"
+        self.assertIn(
+            edge_id,
+            shared_map["views"]["by_capability"]["CAP-149"],
+        )
+        self.assertIn(
+            edge_id,
+            shared_map["views"]["by_consumer"]["APPLICATION:fa3.video-editor"],
+        )
+
+    def test_manual_shared_capability_binding_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / SOURCES[3]
+            links = json.loads(path.read_text())
+            links["shared_capabilities"][0]["fa3_bindings"]["capability_ids"] = ["CAP-005"]
+            path.write_text(json.dumps(links))
+            findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
+            self.assertIn("MANUAL_SHARED_CAPABILITY_BINDING_FORBIDDEN", findings)
+
+    def test_unresolved_materialized_shared_binding_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / SOURCES[3]
+            links = json.loads(path.read_text())
+            links["shared_capabilities"][0]["fa3_bindings"]["profile_ids"] = [
+                "FA3-PROFILE-NOT-REAL-001"
+            ]
+            path.write_text(json.dumps(links))
+            findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
+            self.assertIn("UNRESOLVED_SHARED_CAPABILITY_BINDING", findings)
 
     def test_tutorial_shared_policy_drift_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
