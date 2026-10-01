@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.ai-module-factory-profile.v1",
+  "id": "FA3-AI-MODULE-FACTORY-001",
+  "name": "FA3 Work-Derived Intelligence / AI Module Factory",
+  "status": "STATIC_APPLICATION_MATERIALIZED_RUNTIME_HANDOFF_PENDING",
+  "authority": false,
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-004",
+    "CAP-006",
+    "CAP-094",
+    "CAP-095",
+    "CAP-098",
+    "CAP-141"
+  ],
+  "application_id": "fa3.ai-module-factory",
+  "gui_route": "create.ai-module-factory",
+  "module_types": [
+    "KNOWLEDGE",
+    "PREFERENCE",
+    "SKILL_ADAPTER",
+    "WORKFLOW",
+    "NATIVE_MODEL"
+  ],
+  "source_applications": [
+    "fa3.video-editor",
+    "fa3.quickclip",
+    "fa3.story-screenplay",
+    "fa3.music-studio",
+    "fa3.character-studio"
+  ],
+  "eligibility": {
+    "human_approved_final_required": true,
+    "provenance_verified_required": true,
+    "use_rights_allowed_required": true,
+    "training_rights_allowed_required_for_training": true,
+    "derivative_model_rights_allowed_required_for_training": true,
+    "consent_scope_required": [
+      "PRIVATE",
+      "PROJECT",
+      "SHARED"
+    ],
+    "unknown_rights_policy": "DENY"
+  },
+  "routing": {
+    "knowledge_profile": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "training_capability": "CAP-095",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "rights_profile": "FA3-LICENSE-RIGHTS-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "direct_provider_execution": false,
+    "direct_hardware_selection": false,
+    "silent_fallback": false
+  },
+  "approval": {
+    "prepared_plans_are_drafts": true,
+    "execution_authorized_by_factory": false,
+    "human_approval_required": true,
+    "runtime_promotion_claim": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_planning_path": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hardware_safety_envelope_required_for_runtime": true
+  },
+  "coexistence": {
+    "xdg_namespaced": true,
+    "config_root": "$XDG_CONFIG_HOME/fa3/ai-module-factory",
+    "data_root": "$XDG_DATA_HOME/fa3/ai-module-factory",
+    "cache_root": "$XDG_CACHE_HOME/fa3/ai-module-factory",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/ai-module-factory",
+    "default_port_claim": false,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false
+  }
+}

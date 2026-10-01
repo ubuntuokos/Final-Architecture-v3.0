@@ -127,6 +127,18 @@
       ]
     },
     {
+      "application_id": "fa3.ai-module-factory",
+      "name": "FA3 AI Module Factory",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "AI Module Factory",
+        "Work-Derived Intelligence",
+        "Training Studio",
+        "Dataset Factory"
+      ]
+    },
+    {
       "application_id": "reference.krita",
       "name": "Krita",
       "kind": "EXTERNAL_REFERENCE_APPLICATION",
@@ -250,6 +262,76 @@
       "integration_boundary": "Preserve Ardour native session; no required dependency",
       "status": "PROPOSED",
       "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-VIDEO-AI-MODULE-FACTORY",
+      "from_application": "fa3.video-editor",
+      "to_application": "fa3.ai-module-factory",
+      "offered_artifacts": [
+        "approved edit decisions",
+        "human correction trace",
+        "approved media artifact references",
+        "workflow provenance"
+      ],
+      "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-QUICKCLIP-AI-MODULE-FACTORY",
+      "from_application": "fa3.quickclip",
+      "to_application": "fa3.ai-module-factory",
+      "offered_artifacts": [
+        "approved clip decisions",
+        "caption/reframe corrections",
+        "approved short-form artifacts",
+        "workflow provenance"
+      ],
+      "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-STORY-AI-MODULE-FACTORY",
+      "from_application": "fa3.story-screenplay",
+      "to_application": "fa3.ai-module-factory",
+      "offered_artifacts": [
+        "approved text and screenplay segments",
+        "human revisions",
+        "branch decisions",
+        "workflow provenance"
+      ],
+      "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-MUSIC-AI-MODULE-FACTORY",
+      "from_application": "fa3.music-studio",
+      "to_application": "fa3.ai-module-factory",
+      "offered_artifacts": [
+        "approved audio/music artifacts",
+        "mix/edit corrections",
+        "cue decisions",
+        "workflow provenance"
+      ],
+      "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-CHARACTER-AI-MODULE-FACTORY",
+      "from_application": "fa3.character-studio",
+      "to_application": "fa3.ai-module-factory",
+      "offered_artifacts": [
+        "approved character/animation artifacts",
+        "pose/animation corrections",
+        "style decisions",
+        "workflow provenance"
+      ],
+      "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
     }
   ],
   "shared_capabilities": [
@@ -272,7 +354,8 @@
         "studio.deepfilternet",
         "studio.mautic",
         "studio.twenty",
-        "studio.listmonk"
+        "studio.listmonk",
+        "fa3.ai-module-factory"
       ],
       "status": "MATERIALIZED_STATIC",
       "authority": false,
@@ -319,7 +402,8 @@
         "fa3.character-studio",
         "studio.mautic",
         "studio.twenty",
-        "studio.listmonk"
+        "studio.listmonk",
+        "fa3.ai-module-factory"
       ],
       "status": "MATERIALIZED_STATIC",
       "authority": false,
@@ -372,7 +456,8 @@
         "studio.natron",
         "studio.gaffer",
         "studio.demucs",
-        "studio.deepfilternet"
+        "studio.deepfilternet",
+        "fa3.ai-module-factory"
       ],
       "status": "MATERIALIZED_STATIC",
       "authority": false,
@@ -418,7 +503,8 @@
         "fa3.character-studio",
         "studio.mautic",
         "studio.twenty",
-        "studio.listmonk"
+        "studio.listmonk",
+        "fa3.ai-module-factory"
       ],
       "status": "MATERIALIZED_STATIC",
       "authority": false,
@@ -472,7 +558,8 @@
         "studio.deepfilternet",
         "studio.mautic",
         "studio.twenty",
-        "studio.listmonk"
+        "studio.listmonk",
+        "fa3.ai-module-factory"
       ],
       "status": "MATERIALIZED_STATIC",
       "authority": false,
@@ -506,6 +593,51 @@
         "agents.workflows",
         "governance.security",
         "system.settings"
+      ]
+    },
+    {
+      "id": "FA3-SHARED-WORK-DERIVED-AI-001",
+      "owner_layer": "Engineering, Research, Simulation & Learning",
+      "consumer_applications": [
+        "fa3.ai-module-factory",
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "RUNTIME_REQUALIFICATION_REQUIRED"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-AI-MODULE-FACTORY-001"
+        ],
+        "contract_ids": [
+          "FA3-AI-MODULE-FACTORY-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
+        "FA3-SHARED-MEDIA-REVIEW-ANNOTATION-PATTERN-001",
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001"
+      ],
+      "gui_surface_ids": [
+        "create.ai-module-factory"
       ]
     }
   ],
