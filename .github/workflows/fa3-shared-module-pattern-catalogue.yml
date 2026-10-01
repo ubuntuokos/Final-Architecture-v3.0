@@ -1,0 +1,35 @@
+name: FA3 Shared Module Pattern Catalogue
+
+on:
+  pull_request:
+    paths:
+      - "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json"
+      - "canonical/schemas/FA3-SHARED-MODULE-PATTERN-CATALOGUE-SCHEMA-001.json"
+      - "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json"
+      - "canonical/assessments/FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001.json"
+      - "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-CURRENT-HOST-IMPACT-001.json"
+      - "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+      - "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      - "src/fa3_shared_module_pattern_catalogue.py"
+      - "bin/fa3-shared-pattern-catalogue"
+      - "tests/test_shared_module_pattern_catalogue.py"
+      - "docs/shared-module-pattern-donor-catalogue.md"
+  push:
+    branches: [main]
+    paths:
+      - "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json"
+      - "src/fa3_shared_module_pattern_catalogue.py"
+      - "tests/test_shared_module_pattern_catalogue.py"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate shared pattern catalogue
+        run: python3 bin/fa3-shared-pattern-catalogue --check --summary
+      - name: Run pattern catalogue regressions
+        run: python3 -m unittest tests.test_shared_module_pattern_catalogue
