@@ -142,6 +142,16 @@
         "Audio Fabric",
         "Music Studio"
       ]
+    },
+    {
+      "application_id": "fa3.control-center",
+      "name": "FA3 Control Center",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Control Center",
+        "Architecture Operations Console"
+      ]
     }
   ],
   "relationships": [
@@ -252,7 +262,100 @@
   "governance_decisions": [
     "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
   ],
-  "donor_usage_records": [],
+  "donor_usage_records": [
+    {
+      "id": "FA3-USAGE-LARAVEL-AI-ROUTER-ASSURANCE-001",
+      "application_id": "fa3.control-center",
+      "donor_id": "FA3-DONOR-FERDIUNAL-LARAVEL-AI-ROUTER-001",
+      "donor_capability_key": "provider-definition-validation-quota-cooldown-usage-observability",
+      "usage_kind": "CAPABILITY_PATTERN",
+      "status": "ACTIVE",
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-SECRET-BROKER-001"
+        ],
+        "shared_module_ids": [
+          "FA3-EXTERNAL-LLM-CATALOG-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "PROFILE",
+          "id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "SHARED_MODULE",
+          "id": "FA3-EXTERNAL-LLM-CATALOG-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "models.providers",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "AUTHORITY",
+          "id": "FA3-AUTH-MODEL-ROUTER-001",
+          "relationship": "POLICY_BOUND"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      }
+    },
+    {
+      "id": "FA3-USAGE-AI-RESOURCE-RADAR-ASSURANCE-001",
+      "application_id": "fa3.control-center",
+      "donor_id": "FA3-DONOR-AI-RESOURCE-RADAR-AI-RESOURCE-RADAR-001",
+      "donor_capability_key": "provider-source-provenance-freshness-health-change-detection",
+      "usage_kind": "CAPABILITY_PATTERN",
+      "status": "ACTIVE",
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-EXTERNAL-LLM-CATALOG-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "PROFILE",
+          "id": "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "SHARED_MODULE",
+          "id": "FA3-EXTERNAL-LLM-CATALOG-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "models.providers",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "AUTHORITY",
+          "id": "FA3-AUTH-OBS-EVIDENCE-001",
+          "relationship": "EVIDENCE_BOUND"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      }
+    }
+  ],
   "donor_usage_contract": {
     "schema": "fa3.donor-capability-consumer-usage.v2",
     "required_for_actual_donor_use": true,
