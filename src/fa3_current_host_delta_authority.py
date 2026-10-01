@@ -17,6 +17,12 @@ RECEIPT_SCHEMA = "fa3.current-host-delta-receipt.v1"
 BASE_SCHEMA = "fa3.current-host-base-state.v1"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
+GATE_REPORT_PATHS = {
+    "HARDWARE_SAFETY_ENVELOPE": "reports/hardware-portability-gate-report.json",
+    "LICENSE_RIGHTS": "reports/license-rights-gate-report.json",
+    "CURRENT_HOST_STRUCTURAL_IMPACT": "reports/current-host-structural-impact-gate-report.json",
+}
+
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -358,17 +364,63 @@ def _repo_file(root: Path, rel: Any) -> tuple[Path | None, str | None]:
     return path, None
 
 
-def _shared_gate_statuses(plan: dict[str, Any], value: dict[str, Any]) -> tuple[dict[str, str], list[str]]:
+def _shared_gate_statuses(
+    root: Path,
+    plan: dict[str, Any],
+    value: dict[str, Any],
+) -> tuple[dict[str, str], list[str]]:
     findings: list[str] = []
     statuses: dict[str, str] = {}
-    for gate in plan.get("required_shared_gates", []):
-        status = value.get(gate)
-        if status != "PASS":
-            findings.append(f"required shared gate is not PASS: {gate}")
-        else:
-            statuses[gate] = "PASS"
-    return statuses, findings
+    if value.get("schema") != "fa3.current-host-delta-shared-gate-evidence.v1":
+        findings.append("shared gate evidence schema mismatch")
+    if value.get("source_commit") != plan.get("source_commit"):
+        findings.append("shared gate evidence source_commit mismatch")
+    gates = value.get("gates")
+    if not isinstance(gates, dict):
+        findings.append("shared gate evidence gates must be an object")
+        gates = {}
 
+    for gate in plan.get("required_shared_gates", []):
+        if gate == "SOFTWARE_COEXISTENCE_HOST_NON_INTERFERENCE":
+            if "CAP-175" not in set(plan.get("affected_capabilities", [])):
+                findings.append("Software Coexistence gate requires physical CAP-175 delta proof")
+            else:
+                statuses[gate] = "PASS"
+            continue
+
+        expected_path = GATE_REPORT_PATHS.get(gate)
+        row = gates.get(gate)
+        if expected_path is None:
+            findings.append(f"no canonical shared gate evidence path registered: {gate}")
+            continue
+        if not isinstance(row, dict):
+            findings.append(f"shared gate evidence missing: {gate}")
+            continue
+        if row.get("status") != "PASS":
+            findings.append(f"required shared gate is not PASS: {gate}")
+        if row.get("artifact_path") != expected_path:
+            findings.append(f"shared gate artifact path mismatch: {gate}")
+        artifact, artifact_error = _repo_file(root, row.get("artifact_path"))
+        digest = row.get("artifact_sha256")
+        if artifact_error:
+            findings.append(f"shared gate artifact {artifact_error}: {gate}")
+            continue
+        if not isinstance(digest, str) or HEX64.fullmatch(digest) is None:
+            findings.append(f"shared gate artifact digest invalid: {gate}")
+            continue
+        if artifact is None or _sha256_file(artifact) != digest:
+            findings.append(f"shared gate artifact digest mismatch: {gate}")
+            continue
+        try:
+            report = load_json(artifact)
+        except Exception as exc:
+            findings.append(f"shared gate artifact unreadable: {gate}: {exc}")
+            continue
+        if report.get("result") != "PASS":
+            findings.append(f"shared gate report result is not PASS: {gate}")
+            continue
+        statuses[gate] = "PASS"
+    return statuses, findings
 
 def collect_delta_receipt(
     root: Path,
@@ -384,7 +436,7 @@ def collect_delta_receipt(
     if expected_obligation_count != len(subjects) * len(TEST_KINDS):
         findings.append("plan obligation cardinality mismatch")
 
-    gate_statuses, gate_findings = _shared_gate_statuses(plan, shared_gates)
+    gate_statuses, gate_findings = _shared_gate_statuses(root, plan, shared_gates)
     findings.extend(gate_findings)
 
     producer_report_path = root / "reports/current-host-capability-qualification-constituent-orchestrator.json"
