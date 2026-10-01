@@ -1,0 +1,46 @@
+name: FA3 Current Host Structural Impact
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-current-host-structural-impact-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  current-host-impact:
+    name: current-host-impact / fail-closed
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Structural impact gate unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_structural_impact_gate -v
+      - name: Enforce Current Host co-development rule
+        env:
+          FA3_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          FA3_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          PYTHONPATH=src python src/fa3_current_host_structural_impact_gate.py \
+            --root . \
+            --base "$FA3_BASE_SHA" \
+            --head "$FA3_HEAD_SHA"
+      - name: Upload impact report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-current-host-structural-impact
+          if-no-files-found: error
+          path: reports/current-host-structural-impact-gate-report.json
