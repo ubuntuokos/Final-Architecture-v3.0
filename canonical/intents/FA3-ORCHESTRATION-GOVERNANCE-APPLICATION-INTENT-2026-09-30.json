@@ -1,0 +1,104 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
+  "project_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "project_type": "PROFILE",
+  "goal": "Strengthen the existing FA3 Orchestration Workforce with task-group-aware work governance, objective ancestry, qualified decomposition, typed dependencies, monotonic responsibility scope, execution claims, exact approval binding, bounded budgets/liveness and non-authoritative monitoring without creating a second durable workflow, resource, model, security or evidence authority.",
+  "required_capabilities": [
+    "CAP-004",
+    "CAP-007",
+    "CAP-009",
+    "CAP-010",
+    "CAP-011",
+    "CAP-019",
+    "CAP-029",
+    "CAP-084",
+    "CAP-085",
+    "CAP-086"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "orchestration-governance",
+    "task-decomposition",
+    "dependency-coordination",
+    "delegation-safety",
+    "execution-recovery",
+    "operator-observability"
+  ],
+  "task_classes": [
+    "orchestration-planning",
+    "adaptive-task-graph",
+    "agent-coordination",
+    "production-coordination",
+    "distributed-work",
+    "live-coordination",
+    "event-coordination"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "USER_OBJECTIVE",
+    "PROJECT_CONTEXT",
+    "TASK_GRAPH",
+    "AUTHORITY_CONTEXT"
+  ],
+  "output_modalities": [
+    "ROUTING_DECISION",
+    "GOVERNANCE_PROJECTION",
+    "MONITORING_PROJECTION"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-orchestration",
+    "service_prefix": "fa3-orchestration",
+    "config_root": "$XDG_CONFIG_HOME/fa3/orchestration",
+    "cache_root": "$XDG_CACHE_HOME/fa3/orchestration",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/orchestration",
+    "socket_namespace": "fa3/orchestration",
+    "data_root": "$XDG_DATA_HOME/fa3/orchestration",
+    "desktop_prefix": "org.fa3.orchestration",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "DELEGATION_SCOPE_NON_EXPANDING",
+    "VERSION_BOUND_APPROVAL",
+    "NO_BLIND_REPLAY",
+    "UAF_MCP_MEDIATION",
+    "TEMPORAL_SOLE_GLOBAL_DURABLE_LIFECYCLE"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001"
+  ],
+  "shared_function": true,
+  "retroactive_consumers": "ALL_ORCHESTRATION_PROFILES_AND_AFFECTED_FA3_APPLICATIONS",
+  "runtime_promotion_claim": false,
+  "gui_requirements": [
+    "CONTROL_CENTER_ORCHESTRATION_MONITOR",
+    "READ_ONLY_RUNTIME_PROJECTION",
+    "DRAFT_ONLY_RECONFIGURATION_REQUESTS",
+    "VISIBLE_STALE_OR_MISSING_TELEMETRY_STATE",
+    "NO_DIRECT_TEMPORAL_HRB_MODEL_ROUTER_OR_PROVIDER_MUTATION"
+  ]
+}

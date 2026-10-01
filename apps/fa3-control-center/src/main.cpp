@@ -5,6 +5,7 @@
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
 #include "ModelLibraryService.h"
+#include "OrchestrationMonitorService.h"
 #include "McpControlService.h"
 #include "McpGatewayService.h"
 #include "PreferenceStore.h"
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
     SystemDeviceModel devices;
     ChatFileService chatFiles;
     ModelLibraryService modelLibrary;
+    OrchestrationMonitorService orchestrationMonitor;
     McpControlService mcpControl;
     McpGatewayService mcpGateway;
     AppCatalogService appCatalog;
@@ -65,6 +67,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3Devices", &devices);
     engine.rootContext()->setContextProperty("fa3ChatFiles", &chatFiles);
     engine.rootContext()->setContextProperty("fa3ModelLibrary", &modelLibrary);
+    engine.rootContext()->setContextProperty("fa3OrchestrationMonitor", &orchestrationMonitor);
     engine.rootContext()->setContextProperty("fa3McpControl", &mcpControl);
     engine.rootContext()->setContextProperty("fa3McpGateway", &mcpGateway);
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
