@@ -216,10 +216,13 @@ def validate_request(root: Path, request: dict[str, Any], authority: dict[str, A
     full_trigger = impact == "GLOBAL" or any(
         flags.get(key) is True for key in authority.get("full_requalification_trigger_flags", [])
     )
-    if impact in {"LOCAL", "SHARED"} and not affected and not full_trigger:
-        findings.append("runtime-changing request requires affected_capabilities")
-    if impact == "SHARED" and not consumers and not changed_shared and not full_trigger:
-        findings.append("SHARED runtime impact requires consumer_capabilities or changed_shared_component_ids")
+    if impact == "LOCAL" and not affected and not full_trigger:
+        findings.append("LOCAL runtime impact requires affected_capabilities")
+    if impact == "SHARED" and not affected and not consumers and not changed_shared and not full_trigger:
+        findings.append(
+            "SHARED runtime impact requires affected_capabilities, consumer_capabilities, "
+            "or changed_shared_component_ids"
+        )
     if impact == "NONE" and any(flags.get(key) is True for key in allowed_flags):
         findings.append("NONE runtime impact cannot declare runtime/global change flags")
 
