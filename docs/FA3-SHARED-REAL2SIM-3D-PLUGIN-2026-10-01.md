@@ -1,6 +1,6 @@
 # FA3 Shared Real2Sim 3D Plugin
 
-Date: 2026-10-01  
+Date: 2026-10-01
 Status: implementation draft; static core materialized; Current Host/runtime promotion pending.
 
 ## Purpose
