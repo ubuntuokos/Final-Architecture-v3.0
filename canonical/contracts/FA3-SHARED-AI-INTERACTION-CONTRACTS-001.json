@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-AI-INTERACTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-AI-INTERACTION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-098",
+    "CAP-138",
+    "CAP-140",
+    "CAP-148",
+    "CAP-149"
+  ],
+  "contracts": [
+    "AIInteractionRequest",
+    "AIInteractionCapabilityNeed",
+    "AIInteractionContext",
+    "AIInteractionStreamEvent",
+    "AIInteractionResult",
+    "AIInteractionRouteReceipt",
+    "AIInteractionDenial"
+  ],
+  "required_semantics": {
+    "request_surface": "CAPABILITY_AND_CONTEXT_ONLY",
+    "physical_model_provider_fields": "FORBIDDEN_CANONICAL",
+    "routing": "FA3_AUTH_MODEL_ROUTER_ONLY",
+    "cloud_route": "EXPLICIT_POLICY_ONLY",
+    "fallback": "EXPLICIT_POLICY_EQUIVALENT_OR_ROUTE_EXHAUSTED",
+    "credential_delivery": "SECRET_REFERENCE_ONLY",
+    "disabled_ai": "NO_MODEL_OR_PROVIDER_INVOCATION"
+  },
+  "invariants": [
+    "NO_DIRECT_PROVIDER_CALL",
+    "NO_SILENT_FALLBACK",
+    "NO_UI_STORED_SECRET",
+    "NO_FRAMEWORK_ROUTING_AUTHORITY"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-AI-INTERACTION-001",
+  "name": "Shared AI Interaction",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-098",
+    "CAP-138",
+    "CAP-140",
+    "CAP-148",
+    "CAP-149"
+  ],
+  "contract_family": "FA3-SHARED-AI-INTERACTION-CONTRACTS-001",
+  "authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "LOGICAL_CAPABILITY_REQUEST_NOT_PHYSICAL_MODEL_SELECTION",
+    "PHYSICAL_PROVIDER_AND_MODEL_PINNING_FORBIDDEN_IN_CANONICAL_REQUEST",
+    "RUNTIME_PROVIDER_REQUIRES_CANONICAL_ADMISSION_AND_CURRENT_HOST_EVIDENCE",
+    "SILENT_LOCAL_TO_CLOUD_FALLBACK_FORBIDDEN",
+    "EXTERNAL_EGRESS_REQUIRES_EXPLICIT_POLICY",
+    "STREAMING_IS_TRANSPORT_SEMANTICS_NOT_PROVIDER_AUTHORITY",
+    "CREDENTIAL_VALUES_FORBIDDEN_IN_REQUEST_AND_UI_STATE",
+    "AI_DISABLE_DENY_WINS",
+    "FRAMEWORK_LOCK_IN_FORBIDDEN"
+  ],
+  "gui_projection": [
+    "create.ai-studio",
+    "models.providers",
+    "models.manager",
+    "models.remote-ai",
+    "models.external-providers",
+    "governance.security"
+  ],
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "COMPOSE_EXISTING_FA3_AUTHORITIES_AND_CAPABILITIES"
+  },
+  "framework_policy": {
+    "upstream_framework_is_authority": false,
+    "hard_runtime_dependency": false,
+    "analysis_patterns_may_be_reexpressed_fa3_native": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

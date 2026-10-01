@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-017",
+    "CAP-037",
+    "CAP-066",
+    "CAP-084",
+    "CAP-085",
+    "CAP-086",
+    "CAP-088",
+    "CAP-115",
+    "CAP-116",
+    "CAP-167",
+    "CAP-168"
+  ],
+  "contracts": [
+    "MultimodalSourceEnvelope",
+    "OriginalAssetReference",
+    "DerivedRepresentation",
+    "ImageObservation",
+    "AudioObservation",
+    "TranscriptSegment",
+    "SpeakerRegion",
+    "VideoTemporalMap",
+    "SceneBoundary",
+    "ShotBoundary",
+    "AdaptiveKeyframe",
+    "OCRSegment",
+    "TrackingObservation",
+    "MultimodalContextEnvelope"
+  ],
+  "required_semantics": {
+    "original_asset": "IMMUTABLE_REFERENCE_PRESERVED",
+    "derived_representation": "PROVENANCE_LINK_REQUIRED",
+    "audio_routes": [
+      "NATIVE_AUDIO_MODEL",
+      "TRANSCRIPTION_DERIVED_TEXT"
+    ],
+    "video_sampling": "ADAPTIVE_SCENE_SHOT_CHANGE_AWARE",
+    "temporal_alignment": "TIMECODE_OR_TIMESTAMP_REQUIRED_FOR_DERIVED_VIDEO_AUDIO_EVENTS",
+    "hardware": "HRB_ADMISSION_WHEN_RESOURCE_EXECUTION_OCCURS"
+  },
+  "invariants": [
+    "NO_ONE_FRAME_VIDEO_CLAIM",
+    "NO_FIXED_FRAME_COUNT_AS_GLOBAL_POLICY",
+    "NO_TRANSCRIPT_REPLACES_ORIGINAL_AUDIO",
+    "NO_AUTOMATIC_DISPLAY_GPU_ENLISTMENT"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
