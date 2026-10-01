@@ -242,6 +242,10 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             edge_id,
             shared_map["views"]["by_consumer"]["APPLICATION:fa3.video-editor"],
         )
+        self.assertIn(
+            edge_id,
+            shared_map["views"]["by_consumer"]["GUI_SURFACE:create.ai-studio"],
+        )
 
     def test_manual_shared_capability_binding_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
