@@ -9,6 +9,7 @@ from fa3_authenticated_approval import ApprovalVerificationError, PROMOTION_RECE
 from fa3_authenticated_approval_gate import gate as authenticated_approval_gate
 from fa3_reproducibility_gate import gate as reproducibility_gate
 from fa3_gate_registry import gate as gate_registry_gate
+from fa3_permanent_gate_hardening import gate as permanent_gate_hardening_gate
 from fa3_governance_status import gate as governance_status_gate, project as governance_status_project
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
@@ -176,6 +177,10 @@ def static_check(root:Path):
     gate_registry_ref=gate_registry_gate(root)
     if gate_registry_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-139","Canonical mandatory gate registry failed",gate_registry_gate=gate_registry_ref))
+
+    permanent_gate_hardening_ref=permanent_gate_hardening_gate(root)
+    if permanent_gate_hardening_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-147","Permanent Gate authority/provenance hardening failed",permanent_gate_hardening_gate=permanent_gate_hardening_ref))
 
     governance_status_ref=governance_status_gate(root)
     if governance_status_ref["result"]!="PASS":
