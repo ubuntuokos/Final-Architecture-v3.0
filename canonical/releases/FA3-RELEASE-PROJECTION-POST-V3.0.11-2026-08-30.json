@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "615e4a487d3eaa5d8988edc229354dcea0853fd5",
-    "pre_projection_root_tree_sha": "63b8ba3a40034ada8e771fbcf47228ad78d15380",
-    "pre_projection_canonical_tree_sha": "4f5ed1c1f6995e278eaedcdc8468b976aa960958",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2441,
-    "total_post_baseline_commits": 2441,
-    "delta_file_count": 2726,
-    "delta_added_files": 2720,
+    "pre_projection_head_sha": "dbca8acc7f834349df24eb9bf839f35d6913b683",
+    "pre_projection_root_tree_sha": "57da313e2711384f1c40294e14d9d8ca1a337179",
+    "pre_projection_canonical_tree_sha": "af18369868416bb96bd6c9d46d81d6991b7e0328",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2439,
+    "total_post_baseline_commits": 2439,
+    "delta_file_count": 2730,
+    "delta_added_files": 2724,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1282,
+    "canonical_files_in_post_baseline_delta": 1284,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 351,
-    "test_files_in_post_baseline_delta": 312,
+    "test_files_in_post_baseline_delta": 313,
     "workflow_files_in_post_baseline_delta": 130,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -474,6 +474,7 @@
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
       "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
+      "canonical/decisions/FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01.json",
       "canonical/decisions/FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24.json",
       "canonical/decisions/FA3-DEC-AGENT-WORKLOAD-RUNTIME-AX-DERIVED-2026-09-24.json",
       "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json",
@@ -1042,7 +1043,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2716,
+  "manifest_entry_count": 2720,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2821,7 +2822,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "55111e30b4508efb4e8825c40c0f9c6152ca5b35",
+      "git_blob_sha": "49f5d238fd741f72e99963b90917ffab8e157724",
       "baseline_delta_status": "added"
     },
     {
@@ -5490,6 +5491,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01.json",
+      "git_blob_sha": "b8ae7fd8b94b920144dabcab32e23e89065918dd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24.json",
       "git_blob_sha": "6081849c306a1a74ddc01a6b831b0ad8ec693372",
       "baseline_delta_status": "added"
@@ -6317,6 +6323,11 @@
     {
       "path": "canonical/deltas/FA3-DONOR-ACTIONS-RUNNER-TEMPORAL-ORGS-2026-09-30.json",
       "git_blob_sha": "7ad8b1d1898b02649d61cd2b84659a03548e745c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-AGENT-NATIVE-TOPICS-2026-10-01.json",
+      "git_blob_sha": "4065009ca7223f19c2b0796d3402cf7397678711",
       "baseline_delta_status": "added"
     },
     {
@@ -9542,6 +9553,11 @@
     {
       "path": "docs/donor-actions-runner-temporal-orgs-2026-09-30.md",
       "git_blob_sha": "2474a8cc51141fe2a7e22167976a5b97210f2980",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-agent-native-topics-2026-10-01.md",
+      "git_blob_sha": "7631872b704ad5464a597376e6b3c778e913e92d",
       "baseline_delta_status": "added"
     },
     {
@@ -13400,6 +13416,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_agent_native_topics_20261001.py",
+      "git_blob_sha": "d0c2d0082ecfd74813f695217cb758217b23ac11",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_ai_orchestration_shell.py",
       "git_blob_sha": "1726ccbf0d0e758648671888b4f8ef4c06438fa4",
       "baseline_delta_status": "added"
@@ -16334,7 +16355,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1307,
+    "donor_registry_entry_count": 1310,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
@@ -16355,17 +16376,17 @@
     "donor_potential_signal_capture_required": false,
     "donor_capture_effective_policy_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
     "donor_query_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",
+    "donor_planning_snapshot_gate_id": "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+    "donor_planning_snapshot_required": true,
+    "shared_capability_placement_review_required": true,
+    "stale_snapshot_requires_reassessment_before_finalization": true,
     "donor_future_application_matching": true,
     "donor_registry_authority": false,
     "donor_automatic_dependency": false,
     "donor_automatic_code_import": false,
     "donor_automatic_provider_admission": false,
     "donor_automatic_model_selection": false,
-    "donor_automatic_activation": false,
-    "donor_planning_snapshot_gate_id": "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
-    "donor_planning_snapshot_required": true,
-    "shared_capability_placement_review_required": true,
-    "stale_snapshot_requires_reassessment_before_finalization": true
+    "donor_automatic_activation": false
   },
   "supply_runtime_hardening_reconciliation": {
     "decision_id": "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25",
