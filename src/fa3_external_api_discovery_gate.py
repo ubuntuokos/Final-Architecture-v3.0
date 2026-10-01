@@ -269,6 +269,10 @@ def reference_check(root: Path):
         and candidate_store_policy.get("automatic_mcp_registration") is False
         and candidate_store_policy.get("automatic_activation") is False
         and candidate_store_policy.get("network_fetch_permitted") is False
+        and candidate_store_policy.get("capacity_policy", {}).get("growth_headroom_fraction") == 0.30
+        and candidate_store_policy.get("capacity_policy", {}).get("open_next_volume_at_utilization") == 0.90
+        and candidate_store_policy.get("capacity_policy", {}).get("rebalance_at_utilization") == 0.95
+        and candidate_store_policy.get("capacity_policy", {}).get("rebalance_target_utilization") == 0.70
         and candidate_store_policy.get("capability_count") == CAPABILITY_COUNT
     ):
         findings.append(finding("EXTDISC-REF-013", "External discovery candidate-store policy invariant mismatch"))
