@@ -127,7 +127,7 @@ class CurrentHostDeltaAuthorityTests(unittest.TestCase):
     def test_shared_component_scope_is_derived_not_manually_trusted(self):
         plan = plan_request(
             self.root,
-            self.request("SHARED", affected=["CAP-168"], shared=["FA3-SHARED-TEST-001"]),
+            self.request("SHARED", shared=["FA3-SHARED-TEST-001"]),
         )
         self.assertEqual("PASS", plan["status"])
         self.assertEqual("IMPACT_REQUALIFICATION", plan["classification"])
