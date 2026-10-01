@@ -176,7 +176,7 @@ def _normalize_jobs(rows: list[dict[str, Any]], known_source_keys: set[str]) -> 
             normalized_outputs.append({
                 "asset_key": key,
                 "media_type": _token(output.get("media_type"), f"{key}.media_type"),
-                "variant": str(output.get("variant", "default")),
+                "variant": _token(output.get("variant", "default"), f"{key}.variant"),
             })
         recipe_normalized = {
             "id": recipe_id,
@@ -260,33 +260,56 @@ def compile_processing_plan(
     assets: dict[str, dict[str, Any]] = dict(sources)
     job_by_output = {output["asset_key"]: job for job in normalized_jobs.values() for output in job["outputs"]}
     for asset_key in asset_order:
+        deps = sorted(set(build_deps.get(asset_key, [])))
+        dep_rows = [assets[key] for key in deps]
         if asset_key in assets:
+            source = assets[asset_key]
+            effective_rights = _rights_max(
+                [source["rights_state"]] + [row["effective_rights_state"] for row in dep_rows]
+            )
+            source["effective_rights_state"] = effective_rights
+            source["build_state_id"] = stable_digest({
+                "logical_id": source["logical_id"],
+                "version_id": source["version_id"],
+                "dependencies": [
+                    {"logical_id": row["logical_id"], "build_state_id": row["build_state_id"]}
+                    for row in dep_rows
+                ],
+            })
             continue
         job = job_by_output[asset_key]
-        deps = sorted(set(build_deps.get(asset_key, [])))
         if not deps:
             raise AssetPlanError(f"product has no BUILD inputs: {asset_key}")
-        dep_rows = [assets[key] for key in deps]
-        rights = _rights_max([row["rights_state"] for row in dep_rows])
+        rights = _rights_max([row["effective_rights_state"] for row in dep_rows])
         logical_id = logical_asset_id(project_namespace, asset_key)
         output_decl = next(row for row in job["outputs"] if row["asset_key"] == asset_key)
         version_basis = {
             "logical_id": logical_id,
             "recipe_digest": job["recipe_digest"],
             "dependencies": [
-                {"logical_id": row["logical_id"], "version_id": row["version_id"]}
+                {"logical_id": row["logical_id"], "build_state_id": row["build_state_id"]}
                 for row in dep_rows
             ],
             "output": output_decl,
         }
+        version_id = "fa3assetver:v1:" + stable_digest(version_basis).split(":", 1)[1]
         assets[asset_key] = {
             "asset_key": asset_key,
             "role": "PRODUCT",
             "logical_id": logical_id,
-            "version_id": "fa3assetver:v1:" + stable_digest(version_basis).split(":", 1)[1],
+            "version_id": version_id,
+            "build_state_id": stable_digest({
+                "logical_id": logical_id,
+                "version_id": version_id,
+                "dependencies": [
+                    {"logical_id": row["logical_id"], "build_state_id": row["build_state_id"]}
+                    for row in dep_rows
+                ],
+            }),
             "content_digest": None,
             "media_type": output_decl["media_type"],
             "rights_state": rights,
+            "effective_rights_state": rights,
             "provenance_ref": f"job:{job['job_key']}",
             "source_locator": None,
             "recipe_digest": job["recipe_digest"],
@@ -296,8 +319,13 @@ def compile_processing_plan(
     ordered_jobs = []
     for job_key in job_order:
         job = normalized_jobs[job_key]
-        input_rows = [assets[key] for key in job["input_keys"]]
-        eligible = all(row["rights_state"] == "CLEARED" for row in input_rows)
+        required_keys = sorted({
+            dependency
+            for output in job["outputs"]
+            for dependency in build_deps.get(output["asset_key"], [])
+        } | set(job["input_keys"]))
+        input_rows = [assets[key] for key in required_keys]
+        eligible = all(row["effective_rights_state"] == "CLEARED" for row in input_rows)
         ordered_jobs.append({
             **job,
             "execution_eligible_if_executor_admitted": eligible,
