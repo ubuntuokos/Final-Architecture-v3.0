@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-OFFICE-FABRIC-DECISION-ASSESSMENT-2026-10-01",
+  "covered_ids": ["FA3-OFFICE-FABRIC-001"],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The Office Fabric engine choice and boundaries were explicitly approved by the repository owner; format/runtime admission remains deterministic and evidence-gated. Decision Fabric receives no permission to admit donors, formats, runtimes or mutate documents.",
+  "decision_points": [],
+  "not_delegated": ["donor admission", "license clearance", "format admission", "runtime admission", "document mutation approval", "current-host promotion"],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Office Fabric materialization against existing CAP-018 and FA3-DOC-001",
+    "result": "NO_NEW_DECISION_AUTHORITY",
+    "note": "Deterministic contracts and explicit human approval remain authoritative."
+  },
+  "hardware_audit": {"vendor_neutral": true, "cpu_only_viable": true, "global_accelerator_requirement": false},
+  "security_boundary": {"may_grant_permission": false, "may_expand_candidate_set": false, "may_admit_runtime": false, "may_admit_format": false},
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
