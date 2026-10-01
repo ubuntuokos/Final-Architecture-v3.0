@@ -115,6 +115,14 @@ Pattern extraction never transfers authority. In particular:
 - LangChain is an AI composition/adaptation pattern, not routing/tool/secret/orchestration authority.
 - LangGraph is a stateful-workflow adapter/reference under the existing orchestration boundary, not a second global lifecycle owner.
 
+## Reuse Discovery integration
+
+The derived reuse catalogue indexes each concrete pattern as a `SHARED_MODULE_PATTERN` candidate. Matching therefore sees the pattern name, class, shared-module targets, registered donor IDs and the display names of analysis-only research sources.
+
+Analysis-only source IDs themselves are **not** reuse candidates and are explicitly marked `analysis_sources_are_donors: false`. Reuse Discovery can propose the FA3-native pattern while donor registration/adoption remains separately gated.
+
+This integration extends the existing `FA3-REUSE-CATALOG-001` source policy and `src/fa3_reuse_catalog.py`; it does not create a second discovery authority and does not modify the capability-usage graph owned by the separate capability-map work.
+
 ## Current Host
 
 This materialization is metadata + validation + CI only and is classified `NO_RUNTIME_IMPACT`.
