@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.office-fabric-profile.v1",
+  "id": "FA3-OFFICE-FABRIC-001",
+  "name": "FA3 Office / Document Fabric",
+  "status": "STATIC_APPLICATION_MATERIALIZED_RUNTIME_ADMISSION_PENDING",
+  "authority": false,
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": ["CAP-018", "CAP-030"],
+  "application_id": "fa3.office",
+  "gui_route": "create.office",
+  "document_authority": "FA3-DOC-001",
+  "surfaces": ["WRITER", "SHEETS", "PRESENTATION", "DOCUMENTS", "FORMS"],
+  "engine": {
+    "canonical_engine_candidate": "LibreOffice",
+    "source_key": "github:libreoffice",
+    "integration_modes": ["LIBREOFFICEKIT", "UNO", "HEADLESS"],
+    "full_upstream_gui_embedded": false,
+    "bundled_upstream_binary": false,
+    "bundled_upstream_source": false,
+    "runtime_admission": "PENDING_LICENSE_RIGHTS_AND_PHYSICAL_CURRENT_HOST"
+  },
+  "canonical_document_model": {
+    "owner": "FA3-DOC-001",
+    "kinds": ["TEXT_DOCUMENT", "SPREADSHEET", "PRESENTATION", "DRAWING", "FORM"],
+    "foreign_formats_are_canonical_state": false
+  },
+  "format_policy": {
+    "editable_candidates": ["ODT", "DOCX", "ODS", "XLSX", "ODP", "PPTX"],
+    "editable_candidate_state": "PENDING_VERSION_SCOPED_GOLDEN_ROUNDTRIP",
+    "same_type_export_required_for_editable_import": true,
+    "pdf_state": "DELIVERY_OR_PREVIEW_ONLY_UNTIL_EXPLICIT_EDITABLE_PROFILE",
+    "loss_receipt_required": true,
+    "silent_format_fallback": false
+  },
+  "runtime_isolation": {
+    "worker_required": true,
+    "xdg_namespaced": true,
+    "config_root": "$XDG_CONFIG_HOME/fa3/office",
+    "data_root": "$XDG_DATA_HOME/fa3/office",
+    "cache_root": "$XDG_CACHE_HOME/fa3/office",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/office",
+    "default_port_claim": false,
+    "global_environment_mutation": false,
+    "upstream_uninstall_required": false,
+    "upstream_user_profile_mutation": false
+  },
+  "ai_policy": {
+    "ai_optional": true,
+    "ai_off_path_required": true,
+    "direct_model_or_provider_execution": false,
+    "silent_fallback": false,
+    "mutation_requires_preview_and_explicit_apply": true
+  },
+  "donor_roles": {
+    "github:libreoffice": "CANONICAL_ENGINE_CANDIDATE_EXISTING_REFERENCE",
+    "github:onlyoffice": "OOXML_AND_COLLABORATION_REFERENCE_ONLY",
+    "github:apache/openoffice": "LEGACY_COMPATIBILITY_REFERENCE_ONLY",
+    "Calligra": "PRIMARY_QT6_UI_WORKFLOW_DONOR_PENDING_CANONICAL_INTAKE",
+    "Collabora Online": "OPTIONAL_COLLABORATION_PROVIDER_DONOR_PENDING_CANONICAL_INTAKE"
+  }
+}
