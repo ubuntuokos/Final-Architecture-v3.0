@@ -24,6 +24,7 @@
     "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json",
     "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
     "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
+    "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
   ],
   "classes": [
@@ -43,7 +44,8 @@
     "EXTERNAL_SKILL_SOURCE",
     "OPEN_STANDARD_ADAPTER",
     "OPEN_STANDARD_FABRIC_BINDING",
-    "DONOR_REFERENCE"
+    "DONOR_REFERENCE",
+    "SHARED_MODULE_PATTERN"
   ],
   "deterministic_filters": [
     "EXACT_CAPABILITY_MATCH",
@@ -60,7 +62,9 @@
     "OPEN_STANDARD_SOURCE_MATCH",
     "DONOR_CAPABILITY_DOMAIN_TARGET_MATCH",
     "DONOR_REJECTED_SUPERSEDED_EXCLUSION",
-    "DONOR_REFERENCE_NON_AUTHORITY_FILTER"
+    "DONOR_REFERENCE_NON_AUTHORITY_FILTER",
+    "SHARED_MODULE_PATTERN_TARGET_MATCH",
+    "ANALYSIS_ONLY_PATTERN_SOURCE_NON_DONOR_FILTER"
   ],
   "decision_fabric_post_filter_ranking_only": true,
   "candidate_set_expansion_by_semantic_provider": false,
@@ -134,6 +138,18 @@
     "capability_non_regression_on_donor_change": true,
     "capability_loss_only_for_verified_fa3_risk": true,
     "current_host_alignment_when_structural_or_runtime_affected": true
+  },
+  "shared_module_pattern_binding": {
+    "catalogue_id": "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+    "catalogue_path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
+    "patterns_are_reuse_candidates": true,
+    "analysis_only_sources_are_reuse_candidates": false,
+    "analysis_only_sources_are_donors": false,
+    "owner_marker_required_before_donor_registration": true,
+    "shared_module_targets_are_non_authoritative": true,
+    "automatic_adoption": false,
+    "automatic_activation": false,
+    "authority": false
   },
   "strategies": []
 }
