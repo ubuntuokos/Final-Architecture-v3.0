@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/current-host-change-request.v1",
+  "title": "FA3 Current Host Change Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "request_id",
+    "application_id",
+    "base_release_digest",
+    "parent_effective_digest",
+    "change_digest",
+    "runtime_impact",
+    "changed_paths",
+    "affected_capabilities",
+    "consumer_capabilities",
+    "flags",
+    "rationale",
+    "global_promotion_claim"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.current-host-change-request.v1"},
+    "request_id": {"type": "string", "minLength": 1},
+    "application_id": {"type": "string", "minLength": 1},
+    "base_release_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "parent_effective_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "change_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "runtime_impact": {"enum": ["NONE", "LOCAL", "SHARED", "GLOBAL"]},
+    "changed_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "affected_capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^CAP-[0-9]{3}$"}
+    },
+    "consumer_capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^CAP-[0-9]{3}$"}
+    },
+    "flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "changes_capability_model": {"type": "boolean"},
+        "changes_obligation_model": {"type": "boolean"},
+        "changes_proof_registry": {"type": "boolean"},
+        "changes_current_host_engine": {"type": "boolean"},
+        "changes_evidence_or_promotion_authority": {"type": "boolean"},
+        "changes_global_resource_authority": {"type": "boolean"},
+        "changes_global_model_routing_authority": {"type": "boolean"},
+        "changes_global_secret_or_security_authority": {"type": "boolean"},
+        "changes_hardware_safety_authority": {"type": "boolean"},
+        "changes_software_coexistence_authority": {"type": "boolean"},
+        "hardware_surface_changed": {"type": "boolean"},
+        "software_coexistence_surface_changed": {"type": "boolean"}
+      }
+    },
+    "rationale": {"type": "string", "minLength": 1},
+    "global_promotion_claim": {"const": false}
+  }
+}
