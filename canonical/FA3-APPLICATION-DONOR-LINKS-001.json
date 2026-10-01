@@ -298,6 +298,14 @@
       },
       "pattern_catalogue_refs": [
         "FA3-SHARED-AI-COMPOSITION-PATTERN-001"
+      ],
+      "gui_surface_ids": [
+        "create.ai-studio",
+        "models.providers",
+        "models.manager",
+        "models.remote-ai",
+        "models.external-providers",
+        "governance.security"
       ]
     },
     {
@@ -340,6 +348,12 @@
         "FA3-SHARED-MULTIMODAL-RETRIEVAL-PATTERN-001",
         "FA3-SHARED-STRUCTURED-DOCUMENT-INTAKE-PATTERN-001",
         "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
+      ],
+      "gui_surface_ids": [
+        "create.knowledge",
+        "global.search",
+        "create.ai-studio",
+        "governance.security"
       ]
     },
     {
@@ -386,6 +400,11 @@
       "pattern_catalogue_refs": [
         "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
         "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001"
+      ],
+      "gui_surface_ids": [
+        "create.ai-studio",
+        "create.knowledge",
+        "governance.security"
       ]
     },
     {
@@ -426,6 +445,12 @@
       "pattern_catalogue_refs": [
         "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
         "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001"
+      ],
+      "gui_surface_ids": [
+        "create.ai-studio",
+        "create.knowledge",
+        "agents.workflows",
+        "global.search"
       ]
     },
     {
@@ -475,6 +500,12 @@
       "pattern_catalogue_refs": [
         "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
         "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001"
+      ],
+      "gui_surface_ids": [
+        "agents.action-center",
+        "agents.workflows",
+        "governance.security",
+        "system.settings"
       ]
     }
   ],
@@ -542,5 +573,21 @@
     "capability_map_authority": false,
     "automatic_adoption": false,
     "automatic_runtime_activation": false
+  },
+  "shared_capability_usage_contract": {
+    "schema": "fa3.shared-capability-consumer-usage.v1",
+    "source_collection": "shared_capabilities",
+    "capability_ids": "DERIVED_FROM_CANONICAL_PROFILE_OR_CONTRACT_BINDINGS_ONLY",
+    "manual_capability_ids_forbidden": true,
+    "application_reverse_traceability_required": true,
+    "gui_surface_reverse_traceability_required": true,
+    "current_host_impact_required_for_materialized_component": true,
+    "generated_map_schema": "fa3.shared-capability-consumer-map.v1",
+    "generated_views": [
+      "SHARED_COMPONENT_TO_CAPABILITY_AND_CONSUMER",
+      "CAPABILITY_TO_SHARED_COMPONENT_AND_CONSUMER",
+      "CONSUMER_TO_SHARED_COMPONENT_AND_CAPABILITY"
+    ],
+    "authority": false
   }
 }
