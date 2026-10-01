@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.donor-detailed-assessment.v1",
+  "id": "FA3-DONOR-AI-RESOURCE-RADAR-DETAILED-ASSESSMENT-2026-10-01",
+  "date": "2026-10-01",
+  "donor_id": "FA3-DONOR-AI-RESOURCE-RADAR-AI-RESOURCE-RADAR-001",
+  "normalized_key": "github:ai-resource-radar/ai-resource-radar",
+  "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "registry_blob": "d28e46732a2068bff7fcc7091baa1f754012085d",
+  "registry_entry_count": 1287,
+  "upstream_snapshot": {
+    "head_sha": "c3a27246801e5b5d8945d2cd4627aae75858c449",
+    "default_branch": "main",
+    "observed_date": "2026-10-01",
+    "version_observed": "0.9.0"
+  },
+  "license": {
+    "declared": "MIT",
+    "status": "LICENSE_FILE_VERIFIED"
+  },
+  "result": "APPROVED_FOR_PATTERN_REUSE_ONLY",
+  "adopted_patterns": [
+    "DETERMINISTIC_ALLOWLISTED_PUBLIC_SOURCE_COLLECTION",
+    "ETAG_LAST_MODIFIED_SOURCE_CACHE",
+    "PER_SOURCE_FAILURE_ISOLATION",
+    "OFFICIAL_VS_COMMUNITY_CANDIDATE_SEPARATION",
+    "SOURCE_HEALTH_FRESHNESS_AND_EVIDENCE_TIMESTAMPS",
+    "LAST_TRUSTED_VALUE_ON_PARSER_DRIFT",
+    "TWO_SUCCESSFUL_PARSE_REMOVAL_CONFIRMATION",
+    "COUNTRY_AVAILABILITY_QUOTA_AND_PRICE_NORMALIZATION",
+    "CHANGE_DETECTION_WITH_BOUNDED_PROVENANCE"
+  ],
+  "rejected_or_not_adopted": [
+    "A_TO_D_TIER_AS_FA3_PROVIDER_OR_MODEL_ADMISSION",
+    "RESOURCE_RANKING_AS_MODEL_ROUTER_AUTHORITY",
+    "AUTOMATIC_PROVIDER_OR_MODEL_ACTIVATION",
+    "MACOS_KEYCHAIN_OR_LAUNCHAGENT_RUNTIME_DEPENDENCY",
+    "TIP_WRITES_TO_AGENTS_MD_AS_FA3_GOVERNANCE_PATH"
+  ],
+  "fa3_destinations": [
+    "FA3-PROVIDER-MODEL-GATEWAY-ASSURANCE-001",
+    "FA3-EXTERNAL-LLM-CATALOG-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "source_copy_policy": "NO_SOURCE_COPY_SELECTED; MIT source remains separately reviewable if a later implementation need is approved",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "runtime_dependency": false,
+  "provider_admission": false,
+  "model_admission": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS_FOR_PATTERN_ONLY",
+    "upstream_install": false,
+    "service_or_port_claim": false,
+    "local_dashboard_not_adopted": true
+  },
+  "current_host": {
+    "classification": "NO_RUNTIME_IMPACT",
+    "physical_requalification_required": false
+  }
+}
