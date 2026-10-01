@@ -1,7 +1,7 @@
 # FA3 donor-derived shared fabrics — approved materialization plan
 
-**Date:** 2026-10-01  
-**Status:** OWNER-APPROVED STATIC MATERIALIZATION; donor intake for newly submitted links remains fail-closed on the literal owner `donornak` marker rule.  
+**Date:** 2026-10-01
+**Status:** OWNER-APPROVED STATIC MATERIALIZATION; donor intake for newly submitted links remains fail-closed on the literal owner `donornak` marker rule.
 **Baseline:** 175 capabilities, dynamic provider count, authority delta 0.
 
 ## Scope
