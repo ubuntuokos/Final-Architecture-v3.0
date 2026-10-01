@@ -331,6 +331,14 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append({"code": "LRA-015", "message": "retroactive audit work queue unexpectedly empty"})
     if inventory.get("invariants", {}).get("automatic_inventory_is_not_legal_clearance") is not True:
         findings.append({"code": "LRA-016", "message": "inventory may not claim automatic legal clearance"})
+    if status.get("release_included_subject_rights_status") == "PASS":
+        blockers = int(inventory.get("summary", {}).get("unique_release_blockers", -1))
+        if blockers != 0:
+            findings.append({"code": "LRA-017", "message": "release-included rights phase marked PASS but unresolved release blockers remain", "blockers": blockers})
+        cleared = int(inventory.get("summary", {}).get("rights_descriptor_cleared_release_subjects", -1))
+        included = int(inventory.get("summary", {}).get("release_included_subjects", -1))
+        if cleared != included:
+            findings.append({"code": "LRA-018", "message": "release-included rights phase marked PASS but descriptor coverage is incomplete", "cleared": cleared, "included": included})
 
     result = {
         "schema": "fa3.license-rights-audit-gate-report.v1",

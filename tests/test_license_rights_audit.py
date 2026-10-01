@@ -7,6 +7,8 @@ from pathlib import Path
 
 from fa3_license_rights_audit import build_inventory
 
+ROOT = Path(__file__).resolve().parents[1]
+
 
 class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
     def fixture(self, root: Path) -> None:
@@ -93,6 +95,15 @@ class RetroactiveLicenseRightsAuditTests(unittest.TestCase):
             self.assertEqual(0, inv["summary"]["unique_release_blockers"])
             self.assertEqual(1, inv["summary"]["rights_descriptor_cleared_release_subjects"])
             self.assertFalse(any(x.get("severity") == "BLOCKING" for x in inv["work_queue"]))
+
+    def test_repository_release_included_subjects_have_descriptors(self):
+        inv = build_inventory(ROOT)
+        self.assertEqual(0, inv["summary"]["unique_release_blockers"])
+        self.assertEqual(
+            inv["summary"]["release_included_subjects"],
+            inv["summary"]["rights_descriptor_cleared_release_subjects"],
+        )
+        self.assertFalse(any(x.get("severity") == "BLOCKING" for x in inv["work_queue"]))
 
     def test_non_code_rights_domains_are_separate(self):
         with tempfile.TemporaryDirectory() as td:
