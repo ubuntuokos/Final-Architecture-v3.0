@@ -1,7 +1,7 @@
 # FA3 Conversation & Meeting → Work Fabric
 
-**Profile:** `FA3-CONVERSATION-MEETING-WORK-FABRIC-001`  
-**Status:** reference core materialized; physical Current Host promotion **PENDING**  
+**Profile:** `FA3-CONVERSATION-MEETING-WORK-FABRIC-001`
+**Status:** reference core materialized; physical Current Host promotion **PENDING**
 **Capability baseline:** 175, delta 0. **Authority delta:** 0.
 
 One shared FA3 layer converts chat, 1:1 meetings and group meetings into one structured work graph. Mind map, decision map, task list, work plan, timeline/milestones, minutes, open questions and follow-up agenda are projections rather than independent sources of truth.
