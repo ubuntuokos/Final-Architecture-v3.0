@@ -5808,74 +5808,6 @@
       ]
     },
     {
-      "donor_id": "FA3-DONOR-ANIMATED-DRAWINGS-001",
-      "name": "Animated Drawings",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/facebookresearch/AnimatedDrawings",
-        "normalized_key": "github:facebookresearch/animateddrawings"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "HISTORICAL_REFERENCE",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "drawn-character-auto-rigging",
-        "2d-character-skeleton-extraction",
-        "motion-retargeting-to-drawings",
-        "character-segmentation-pipeline-patterns"
-      ],
-      "domain_hints": [
-        "2d-animation",
-        "character-animation",
-        "computer-vision"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "2d",
-        "auto-rig",
-        "retargeting",
-        "archived",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "MIT",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "REFERENCE_ONLY_ARCHIVED_UPSTREAM",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Upstream repository is archived; retained as a research/historical pattern, not a preferred runtime dependency."
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-ANIMATION-COMPRESSION-LIBRARY-ACL-001",
       "name": "Animation Compression Library (ACL)",
       "source": {
@@ -6415,90 +6347,6 @@
       "automatic_model_selection": false,
       "notes": [
         "GitHub repository identity checked 2026-09-29; license/provenance/security/coexistence review still required."
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-APIFY-ORG-001",
-      "name": "Apify GitHub organization discovery index",
-      "source": {
-        "kind": "GITHUB_ORGANIZATION",
-        "locator": "https://github.com/apify",
-        "normalized_key": "github:apify",
-        "discovery_urls": [
-          "https://github.com/apify"
-        ]
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-apify-org-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-apify-org"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "donor_modes": [
-        "DISCOVERY_INDEX",
-        "RESEARCH_REFERENCE"
-      ],
-      "license": {
-        "declared": "NOT_APPLICABLE",
-        "status": "COLLECTION_INDEX"
-      },
-      "notes": [
-        "Owner explicitly marked the Apify GitHub organization as a donor/reference source; registration is metadata/reference only.",
-        "The organization page is a discovery index. Child repositories are not recursively registered, adopted, downloaded, installed, activated or promoted.",
-        "Apify Cloud, Actors, hosted storage, MCP services and other Apify services are not admitted or activated by this organization-level record.",
-        "Any child repository selected for material reuse requires independent donor/reuse, license/provenance, security, Software Coexistence, Hardware Safety, shared-capability/layer placement and canonical usage-edge review."
-      ],
-      "capability_hints": [
-        "web-crawling-pattern-discovery",
-        "browser-automation-pattern-discovery",
-        "durable-crawl-state-pattern-discovery",
-        "mcp-tooling-pattern-discovery",
-        "agent-skill-pattern-discovery"
-      ],
-      "domain_hints": [
-        "web-crawling",
-        "browser-automation",
-        "storage",
-        "mcp",
-        "agent-skills"
-      ],
-      "problem_hints": [
-        "durable-request-queue-and-recovery",
-        "http-browser-backend-parity",
-        "session-and-concurrency-hardening",
-        "child-repository-requires-independent-review"
-      ],
-      "target_hints": [
-        "FA3-native Web Acquisition Fabric",
-        "Browser Action Runtime",
-        "Knowledge/RAG Ingestion",
-        "Central MCP Gateway",
-        "Skill Fabric / Reuse Discovery"
-      ],
-      "tags": [
-        "explicit-owner-donornak",
-        "metadata-only",
-        "discovery-only",
-        "github-organization",
-        "apify",
-        "web-automation"
       ]
     },
     {
@@ -15468,75 +15316,6 @@
       "notes": [
         "Inspected commit 40ca3eaf723c8052f6e4761eaea7e03837aea6b4. README claims MIT but no LICENSE file found; no source copying until verified. Useful separate image/video selected batch, ZIP load/append, ComfyUI manifest node mapping. Upstream localStorage stores API keys and direct ComfyUI URL, prohibited in FA3; Secret Broker, central Model Router, UAF/MCP, HRB and current-host admission required.",
         "Full detailed donor review: docs/three-storyboard-donor-curation-2026-09-28.md; hardware audit metadata-only, CPU-only, vendor-neutral, no direct provider admission."
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-EASYMOCAP-001",
-      "name": "EasyMocap",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/zju3dv/EasyMocap",
-        "normalized_key": "github:zju3dv/easymocap"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "multi-view-human-mocap",
-        "body-hand-face-reconstruction",
-        "smpl-family-fitting",
-        "multi-person-motion-capture-patterns"
-      ],
-      "domain_hints": [
-        "motion-capture",
-        "3d-animation",
-        "character-animation",
-        "computer-vision"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Performance Capture",
-        "3D Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "mocap",
-        "multi-view",
-        "smpl",
-        "registration-required",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "Project Registration License v1.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "REFERENCE_ONLY_PROJECT_REGISTRATION_AND_RIGHTS_REVIEW_REQUIRED",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Current 2026 license requires registration for organizational project use. Reference-only intake; no project/runtime use without separate rights process."
       ]
     },
     {
@@ -34079,143 +33858,6 @@
       "automatic_model_selection": false
     },
     {
-      "donor_id": "FA3-DONOR-INOCHI-CREATOR-001",
-      "name": "Inochi Creator",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/Inochi2D/inochi-creator",
-        "normalized_key": "github:inochi2d/inochi-creator"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "2d-character-rig-authoring",
-        "mesh-morph-authoring",
-        "layered-texture-rigging",
-        "parameter-authoring",
-        "realtime-rig-preview"
-      ],
-      "domain_hints": [
-        "2d-animation",
-        "character-animation",
-        "rigging",
-        "authoring"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "2d",
-        "rig-authoring",
-        "puppet",
-        "mesh-deformation",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "BSD-2-Clause",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Branding assets and dependencies require independent rights review; intake does not admit the application runtime."
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-INOCHI2D-RUNTIME-001",
-      "name": "Inochi2D runtime",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/Inochi2D/inochi2d",
-        "normalized_key": "github:inochi2d/inochi2d"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "2d-puppet-runtime",
-        "layered-art-mesh-deformation",
-        "parameter-driven-deformation",
-        "c-ffi-animation-runtime",
-        "realtime-2d-avatar-animation"
-      ],
-      "domain_hints": [
-        "2d-animation",
-        "character-animation",
-        "avatar",
-        "runtime"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "2d",
-        "puppet",
-        "mesh-deformation",
-        "runtime",
-        "avatar",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "BSD-2-Clause",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": []
-    },
-    {
       "donor_id": "FA3-DONOR-INTEL-AI-PLAYGROUND-001",
       "name": "intel/AI-Playground",
       "source": {
@@ -43833,77 +43475,6 @@
       ]
     },
     {
-      "donor_id": "FA3-DONOR-MEDIAPIPE-001",
-      "name": "MediaPipe",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/google-ai-edge/mediapipe",
-        "normalized_key": "github:google-ai-edge/mediapipe"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "body-pose-capture",
-        "hand-landmark-capture",
-        "face-landmark-capture",
-        "on-device-vision-pipeline",
-        "cross-platform-tracking"
-      ],
-      "domain_hints": [
-        "motion-capture",
-        "face-capture",
-        "character-animation",
-        "computer-vision"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Performance Capture",
-        "Shared Character Animation Fabric",
-        "AI Fabric"
-      ],
-      "tags": [
-        "mocap",
-        "pose",
-        "face",
-        "hands",
-        "on-device",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_MODEL_AND_THIRD_PARTY_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Repository code declares Apache-2.0; pretrained models and task assets require independent model/rights admission. The existing MediaPipe Face Landmarker project record remains a narrower historical reference."
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-MEDIAPIPE-FACE-LANDMARKER-001",
       "name": "MediaPipe Face Landmarker",
       "source": {
@@ -46134,148 +45705,6 @@
         "source_reviewed_at": "2026-09-28",
         "notes": "Research candidate only. Framework reference and training toolkit, not a new inference or model-routing authority; check project maintenance and dependency versions. No runtime promotion, model download, source copying or current-host PASS is inferred. Model Router and HRB retain exclusive existing authorities; CPU-only must remain viable even if the candidate itself cannot execute on CPU."
       }
-    },
-    {
-      "donor_id": "FA3-DONOR-MMPOSE-001",
-      "name": "MMPose",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/open-mmlab/mmpose",
-        "normalized_key": "github:open-mmlab/mmpose"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "2d-human-pose-estimation",
-        "whole-body-keypoints",
-        "hand-pose-estimation",
-        "face-landmarks",
-        "3d-human-mesh-recovery",
-        "animal-pose-estimation"
-      ],
-      "domain_hints": [
-        "motion-capture",
-        "pose-estimation",
-        "character-animation",
-        "computer-vision"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Performance Capture",
-        "Shared Character Animation Fabric",
-        "AI Fabric"
-      ],
-      "tags": [
-        "mocap",
-        "pose",
-        "whole-body",
-        "3d-mesh",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_MODEL_DATASET_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Code license does not clear model-zoo checkpoints or source datasets; those remain independently gated."
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-MOCAPANYTHING-001",
-      "name": "MoCapAnything",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/phongdaot/MocapAnything",
-        "normalized_key": "github:phongdaot/mocapanything"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "monocular-video-mocap",
-        "arbitrary-skeleton-motion-recovery",
-        "joint-rotation-estimation",
-        "animal-motion-capture",
-        "motion-retargeting-research"
-      ],
-      "domain_hints": [
-        "motion-capture",
-        "3d-animation",
-        "character-animation",
-        "computer-vision"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Performance Capture",
-        "3D Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "mocap",
-        "arbitrary-rig",
-        "retargeting",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "MIT",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_THIRD_PARTY_COMPONENT_RIGHTS_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Repository code is MIT, but RMBG components/weights, DINO/SAM dependencies and Truebones-derived animal motion data retain separate terms."
-      ]
     },
     {
       "donor_id": "FA3-DONOR-MODOOJUNKO-AWESOME-NOVEL-AGENT-001",
@@ -51367,78 +50796,6 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-O3DE-EMOTIONFX-001",
-      "name": "O3DE / EMotionFX animation patterns",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/o3de/o3de",
-        "normalized_key": "github:o3de/o3de"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "animation-graph",
-        "blend-tree",
-        "hierarchical-animation-state-machine",
-        "motion-events",
-        "motion-mirroring",
-        "skeletal-retargeting-patterns"
-      ],
-      "domain_hints": [
-        "3d-animation",
-        "character-animation",
-        "realtime",
-        "game-engine"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "3D Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "3d",
-        "emotionfx",
-        "animation-graph",
-        "retargeting",
-        "selective-reuse",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "Apache-2.0 OR MIT",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Selective EMotionFX/reference intake only; no O3DE engine/runtime admission. O3DE third-party packages remain separately licensed."
-      ]
     },
     {
       "donor_id": "FA3-DONOR-OBSIDIAN-SKILLS-001",
@@ -59406,74 +58763,6 @@
       "notes": [
         "Research metadata only; upstream exact commit pin, transitive licenses, security and coexistence require independent admission. No runtime or current-host PASS claim."
       ]
-    },
-    {
-      "donor_id": "FA3-DONOR-POSE2SIM-001",
-      "name": "Pose2Sim",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/perfanalytics/pose2sim",
-        "normalized_key": "github:perfanalytics/pose2sim"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "multi-camera-markerless-mocap",
-        "2d-to-3d-pose-triangulation",
-        "camera-calibration-workflow",
-        "pose-filtering",
-        "biomechanical-motion-pipeline-patterns"
-      ],
-      "domain_hints": [
-        "motion-capture",
-        "3d-animation",
-        "character-animation",
-        "computer-vision"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Performance Capture",
-        "3D Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "mocap",
-        "multi-camera",
-        "triangulation",
-        "pose",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "BSD-3-Clause",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": []
     },
     {
       "donor_id": "FA3-DONOR-POSTGRES-POSTGRES-001",
@@ -67679,76 +66968,6 @@
       }
     },
     {
-      "donor_id": "FA3-DONOR-RIVE-RUNTIME-001",
-      "name": "Rive Runtime",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/rive-app/rive-runtime",
-        "normalized_key": "github:rive-app/rive-runtime"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "2d-animation-state-machine",
-        "realtime-vector-animation-runtime",
-        "artboard-animation-runtime",
-        "renderer-abstraction",
-        "interactive-animation"
-      ],
-      "domain_hints": [
-        "2d-animation",
-        "character-animation",
-        "realtime",
-        "ui-animation"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Animation Studio",
-        "Character Studio",
-        "Shared Character Animation Fabric",
-        "GUI Fabric"
-      ],
-      "tags": [
-        "2d",
-        "runtime",
-        "state-machine",
-        "interactive-animation",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "MIT",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Only the open runtime is registered here; this is not an admission of proprietary or hosted Rive authoring services."
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-RIZINORG-RIZIN-001",
       "name": "Rizin",
       "source": {
@@ -68850,76 +68069,6 @@
       ]
     },
     {
-      "donor_id": "FA3-DONOR-SATA-001",
-      "name": "SATA",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/zzysteve/SATA",
-        "normalized_key": "github:zzysteve/sata"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "RESEARCH_REFERENCE",
-        "REFERENCE_IMPLEMENTATION"
-      ],
-      "capability_hints": [
-        "topology-agnostic-motion-representation",
-        "cross-skeleton-retargeting",
-        "cross-species-motion-transfer",
-        "text-to-motion-research"
-      ],
-      "domain_hints": [
-        "3d-animation",
-        "character-animation",
-        "retargeting",
-        "generative-motion"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "3D Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "3d",
-        "retargeting",
-        "topology-agnostic",
-        "cross-species",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "REFERENCE_FIRST_PENDING_MODEL_AND_RESEARCH_MATURITY_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Research-oriented source; model/checkpoint and maturity review remain separate from repository-code licensing."
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-SCENARLY-001",
       "name": "Scenarly",
       "source": {
@@ -69443,77 +68592,6 @@
       "notes": [
         "Discovery index only. Individual repositories require separate source, license, provenance and fit reviews.",
         "Curation: docs/scriptwriting-github-donor-curation-2026-09-28.md"
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-SEE-THROUGH-001",
-      "name": "See-Through",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/shitagaki-lab/see-through",
-        "normalized_key": "github:shitagaki-lab/see-through"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "single-image-layer-decomposition",
-        "2d-character-part-segmentation",
-        "2.5d-character-preprocessing",
-        "layered-psd-generation",
-        "occlusion-inpainting-patterns"
-      ],
-      "domain_hints": [
-        "2d-animation",
-        "character-animation",
-        "computer-vision",
-        "generative-media"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "Image Studio",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "2d",
-        "2.5d",
-        "layer-decomposition",
-        "character-preprocessing",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "Apache-2.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_MODEL_DATASET_THIRD_PARTY_LICENSE_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Repository root declares Apache-2.0. Model weights, annotators, datasets and inherited third-party components require separate rights and model admission."
       ]
     },
     {
@@ -73155,74 +72233,6 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-TAHOMA2D-001",
-      "name": "Tahoma2D",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/tahoma2d/tahoma2d",
-        "normalized_key": "github:tahoma2d/tahoma2d"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "2d-cutout-animation",
-        "2d-plastic-mesh-deformation",
-        "2d-rigging",
-        "xsheet-timeline-workflow",
-        "stop-motion-workflow"
-      ],
-      "domain_hints": [
-        "2d-animation",
-        "character-animation",
-        "rigging"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Animation Studio",
-        "Character Studio",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "2d",
-        "character-animation",
-        "rigging",
-        "toonz-family",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "BSD-3-Clause",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Main Tahoma2D code declares BSD-3-Clause; thirdparty and bundled brush assets retain separate licenses."
-      ]
     },
     {
       "donor_id": "FA3-DONOR-TANCHAOWEN84-VOLUME-SHADER-001",
@@ -77965,75 +76975,6 @@
       "automatic_model_selection": false
     },
     {
-      "donor_id": "FA3-DONOR-UBISOFT-ZEROEGGS-001",
-      "name": "Ubisoft La Forge ZeroEGGS",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/ubisoft/ubisoft-laforge-ZeroEGGS",
-        "normalized_key": "github:ubisoft/ubisoft-laforge-zeroeggs"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "speech-to-gesture-research",
-        "style-conditioned-gesture-generation",
-        "bvh-gesture-dataset-pipeline",
-        "speech-motion-alignment-patterns"
-      ],
-      "domain_hints": [
-        "3d-animation",
-        "character-animation",
-        "gesture-generation",
-        "speech"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "Animation Studio",
-        "Audio Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "3d",
-        "gesture",
-        "speech-driven-animation",
-        "restricted-license",
-        "research",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "CC-BY-NC-ND-4.0",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "REFERENCE_ONLY_RESTRICTED_LICENSE_NO_FA3_SOURCE_OR_ASSET_REUSE",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Repository License.md declares CC BY-NC-ND 4.0. Treat code, pretrained artifacts and dataset as reference-only unless separately cleared; no commercial/source modification assumption."
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-UBUNTU-APP-CENTER-001",
       "name": "ubuntu/app-center — App Center",
       "source": {
@@ -78446,77 +77387,6 @@
       "notes": [
         "CPU-only function-emulation provider candidate; enforce instruction/wallclock/memory budgets and default-deny guest-to-host syscall/network/filesystem passthrough. GitHub's reported SPDX is observation, not redistribution clearance.",
         "Candidate capture only; immutable source pin, license/provenance review, isolated provider admission and current-host evidence are separate."
-      ]
-    },
-    {
-      "donor_id": "FA3-DONOR-UNIVRM-001",
-      "name": "UniVRM",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/vrm-c/UniVRM",
-        "normalized_key": "github:vrm-c/univrm"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "REFERENCE_IMPLEMENTATION",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "vrm-import-export",
-        "vrm-animation-import-export",
-        "gltf-avatar-interchange",
-        "runtime-avatar-loading",
-        "vrm-migration-patterns"
-      ],
-      "domain_hints": [
-        "3d-animation",
-        "avatar",
-        "interchange",
-        "character-animation"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "3D Fabric",
-        "Conversion Fabric",
-        "Shared Character Animation Fabric"
-      ],
-      "tags": [
-        "3d",
-        "vrm",
-        "gltf",
-        "interchange",
-        "implementation-reference",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "MIT",
-        "status": "KNOWN_DECLARATION"
-      },
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Unity-specific implementation is reference material; intake does not create a Unity runtime dependency."
       ]
     },
     {
@@ -80193,77 +79063,6 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-VRM-SPECIFICATION-001",
-      "name": "VRM Specification",
-      "source": {
-        "kind": "GITHUB",
-        "locator": "https://github.com/vrm-c/vrm-specification",
-        "normalized_key": "github:vrm-c/vrm-specification"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
-      ],
-      "first_seen": "2026-10-02",
-      "last_seen": "2026-10-02",
-      "donor_modes": [
-        "SPECIFICATION_REFERENCE",
-        "RESEARCH_REFERENCE"
-      ],
-      "capability_hints": [
-        "humanoid-bone-mapping",
-        "avatar-expression-schema",
-        "look-at-schema",
-        "vrm-animation-interchange",
-        "avatar-rights-metadata-patterns"
-      ],
-      "domain_hints": [
-        "3d-animation",
-        "avatar",
-        "interchange",
-        "character-animation"
-      ],
-      "problem_hints": [],
-      "target_hints": [
-        "Character Studio",
-        "3D Fabric",
-        "Shared Character Animation Fabric",
-        "Conversion Fabric"
-      ],
-      "tags": [
-        "3d",
-        "vrm",
-        "gltf",
-        "interchange",
-        "specification",
-        "explicit-owner-donornak"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "code_reuse_policy": "REFERENCE_ONLY_PENDING_SPECIFICATION_RIGHTS_REVIEW",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "notes": [
-        "Repository does not expose a root license file; sample avatar rights metadata is distinct from specification copyright. Reference use only until specification rights are resolved."
-      ]
     },
     {
       "donor_id": "FA3-DONOR-VSHULCZ-DEJA-VU-001",
@@ -82247,6 +81046,1207 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-APIFY-ORG-001",
+      "name": "Apify GitHub organization discovery index",
+      "source": {
+        "kind": "GITHUB_ORGANIZATION",
+        "locator": "https://github.com/apify",
+        "normalized_key": "github:apify",
+        "discovery_urls": [
+          "https://github.com/apify"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-apify-org-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-apify-org"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "notes": [
+        "Owner explicitly marked the Apify GitHub organization as a donor/reference source; registration is metadata/reference only.",
+        "The organization page is a discovery index. Child repositories are not recursively registered, adopted, downloaded, installed, activated or promoted.",
+        "Apify Cloud, Actors, hosted storage, MCP services and other Apify services are not admitted or activated by this organization-level record.",
+        "Any child repository selected for material reuse requires independent donor/reuse, license/provenance, security, Software Coexistence, Hardware Safety, shared-capability/layer placement and canonical usage-edge review."
+      ],
+      "capability_hints": [
+        "web-crawling-pattern-discovery",
+        "browser-automation-pattern-discovery",
+        "durable-crawl-state-pattern-discovery",
+        "mcp-tooling-pattern-discovery",
+        "agent-skill-pattern-discovery"
+      ],
+      "domain_hints": [
+        "web-crawling",
+        "browser-automation",
+        "storage",
+        "mcp",
+        "agent-skills"
+      ],
+      "problem_hints": [
+        "durable-request-queue-and-recovery",
+        "http-browser-backend-parity",
+        "session-and-concurrency-hardening",
+        "child-repository-requires-independent-review"
+      ],
+      "target_hints": [
+        "FA3-native Web Acquisition Fabric",
+        "Browser Action Runtime",
+        "Knowledge/RAG Ingestion",
+        "Central MCP Gateway",
+        "Skill Fabric / Reuse Discovery"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "discovery-only",
+        "github-organization",
+        "apify",
+        "web-automation"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-ANIMATED-DRAWINGS-001",
+      "name": "Animated Drawings",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/facebookresearch/AnimatedDrawings",
+        "normalized_key": "github:facebookresearch/animateddrawings"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "HISTORICAL_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "drawn-character-auto-rigging",
+        "2d-character-skeleton-extraction",
+        "motion-retargeting-to-drawings",
+        "character-segmentation-pipeline-patterns"
+      ],
+      "domain_hints": [
+        "2d-animation",
+        "character-animation",
+        "computer-vision"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "2d",
+        "auto-rig",
+        "retargeting",
+        "archived",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_ARCHIVED_UPSTREAM",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Upstream repository is archived; retained as a research/historical pattern, not a preferred runtime dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-EASYMOCAP-001",
+      "name": "EasyMocap",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zju3dv/EasyMocap",
+        "normalized_key": "github:zju3dv/easymocap"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "multi-view-human-mocap",
+        "body-hand-face-reconstruction",
+        "smpl-family-fitting",
+        "multi-person-motion-capture-patterns"
+      ],
+      "domain_hints": [
+        "motion-capture",
+        "3d-animation",
+        "character-animation",
+        "computer-vision"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Performance Capture",
+        "3D Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "mocap",
+        "multi-view",
+        "smpl",
+        "registration-required",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "Project Registration License v1.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_PROJECT_REGISTRATION_AND_RIGHTS_REVIEW_REQUIRED",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Current 2026 license requires registration for organizational project use. Reference-only intake; no project/runtime use without separate rights process."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INOCHI-CREATOR-001",
+      "name": "Inochi Creator",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Inochi2D/inochi-creator",
+        "normalized_key": "github:inochi2d/inochi-creator"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "2d-character-rig-authoring",
+        "mesh-morph-authoring",
+        "layered-texture-rigging",
+        "parameter-authoring",
+        "realtime-rig-preview"
+      ],
+      "domain_hints": [
+        "2d-animation",
+        "character-animation",
+        "rigging",
+        "authoring"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "2d",
+        "rig-authoring",
+        "puppet",
+        "mesh-deformation",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Branding assets and dependencies require independent rights review; intake does not admit the application runtime."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-INOCHI2D-RUNTIME-001",
+      "name": "Inochi2D runtime",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/Inochi2D/inochi2d",
+        "normalized_key": "github:inochi2d/inochi2d"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "2d-puppet-runtime",
+        "layered-art-mesh-deformation",
+        "parameter-driven-deformation",
+        "c-ffi-animation-runtime",
+        "realtime-2d-avatar-animation"
+      ],
+      "domain_hints": [
+        "2d-animation",
+        "character-animation",
+        "avatar",
+        "runtime"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "2d",
+        "puppet",
+        "mesh-deformation",
+        "runtime",
+        "avatar",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "BSD-2-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": []
+    },
+    {
+      "donor_id": "FA3-DONOR-MEDIAPIPE-001",
+      "name": "MediaPipe",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/google-ai-edge/mediapipe",
+        "normalized_key": "github:google-ai-edge/mediapipe"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "body-pose-capture",
+        "hand-landmark-capture",
+        "face-landmark-capture",
+        "on-device-vision-pipeline",
+        "cross-platform-tracking"
+      ],
+      "domain_hints": [
+        "motion-capture",
+        "face-capture",
+        "character-animation",
+        "computer-vision"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Performance Capture",
+        "Shared Character Animation Fabric",
+        "AI Fabric"
+      ],
+      "tags": [
+        "mocap",
+        "pose",
+        "face",
+        "hands",
+        "on-device",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_MODEL_AND_THIRD_PARTY_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository code declares Apache-2.0; pretrained models and task assets require independent model/rights admission. The existing MediaPipe Face Landmarker project record remains a narrower historical reference."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-MMPOSE-001",
+      "name": "MMPose",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/open-mmlab/mmpose",
+        "normalized_key": "github:open-mmlab/mmpose"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "2d-human-pose-estimation",
+        "whole-body-keypoints",
+        "hand-pose-estimation",
+        "face-landmarks",
+        "3d-human-mesh-recovery",
+        "animal-pose-estimation"
+      ],
+      "domain_hints": [
+        "motion-capture",
+        "pose-estimation",
+        "character-animation",
+        "computer-vision"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Performance Capture",
+        "Shared Character Animation Fabric",
+        "AI Fabric"
+      ],
+      "tags": [
+        "mocap",
+        "pose",
+        "whole-body",
+        "3d-mesh",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_MODEL_DATASET_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Code license does not clear model-zoo checkpoints or source datasets; those remain independently gated."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-MOCAPANYTHING-001",
+      "name": "MoCapAnything",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/phongdaot/MocapAnything",
+        "normalized_key": "github:phongdaot/mocapanything"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "monocular-video-mocap",
+        "arbitrary-skeleton-motion-recovery",
+        "joint-rotation-estimation",
+        "animal-motion-capture",
+        "motion-retargeting-research"
+      ],
+      "domain_hints": [
+        "motion-capture",
+        "3d-animation",
+        "character-animation",
+        "computer-vision"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Performance Capture",
+        "3D Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "mocap",
+        "arbitrary-rig",
+        "retargeting",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_THIRD_PARTY_COMPONENT_RIGHTS_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository code is MIT, but RMBG components/weights, DINO/SAM dependencies and Truebones-derived animal motion data retain separate terms."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-O3DE-EMOTIONFX-001",
+      "name": "O3DE / EMotionFX animation patterns",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/o3de/o3de",
+        "normalized_key": "github:o3de/o3de"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "animation-graph",
+        "blend-tree",
+        "hierarchical-animation-state-machine",
+        "motion-events",
+        "motion-mirroring",
+        "skeletal-retargeting-patterns"
+      ],
+      "domain_hints": [
+        "3d-animation",
+        "character-animation",
+        "realtime",
+        "game-engine"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "3D Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "3d",
+        "emotionfx",
+        "animation-graph",
+        "retargeting",
+        "selective-reuse",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "Apache-2.0 OR MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Selective EMotionFX/reference intake only; no O3DE engine/runtime admission. O3DE third-party packages remain separately licensed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-POSE2SIM-001",
+      "name": "Pose2Sim",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/perfanalytics/pose2sim",
+        "normalized_key": "github:perfanalytics/pose2sim"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "multi-camera-markerless-mocap",
+        "2d-to-3d-pose-triangulation",
+        "camera-calibration-workflow",
+        "pose-filtering",
+        "biomechanical-motion-pipeline-patterns"
+      ],
+      "domain_hints": [
+        "motion-capture",
+        "3d-animation",
+        "character-animation",
+        "computer-vision"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Performance Capture",
+        "3D Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "mocap",
+        "multi-camera",
+        "triangulation",
+        "pose",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": []
+    },
+    {
+      "donor_id": "FA3-DONOR-RIVE-RUNTIME-001",
+      "name": "Rive Runtime",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/rive-app/rive-runtime",
+        "normalized_key": "github:rive-app/rive-runtime"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "2d-animation-state-machine",
+        "realtime-vector-animation-runtime",
+        "artboard-animation-runtime",
+        "renderer-abstraction",
+        "interactive-animation"
+      ],
+      "domain_hints": [
+        "2d-animation",
+        "character-animation",
+        "realtime",
+        "ui-animation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation Studio",
+        "Character Studio",
+        "Shared Character Animation Fabric",
+        "GUI Fabric"
+      ],
+      "tags": [
+        "2d",
+        "runtime",
+        "state-machine",
+        "interactive-animation",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Only the open runtime is registered here; this is not an admission of proprietary or hosted Rive authoring services."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SATA-001",
+      "name": "SATA",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/zzysteve/SATA",
+        "normalized_key": "github:zzysteve/sata"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "RESEARCH_REFERENCE",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "capability_hints": [
+        "topology-agnostic-motion-representation",
+        "cross-skeleton-retargeting",
+        "cross-species-motion-transfer",
+        "text-to-motion-research"
+      ],
+      "domain_hints": [
+        "3d-animation",
+        "character-animation",
+        "retargeting",
+        "generative-motion"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "3D Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "3d",
+        "retargeting",
+        "topology-agnostic",
+        "cross-species",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_FIRST_PENDING_MODEL_AND_RESEARCH_MATURITY_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Research-oriented source; model/checkpoint and maturity review remain separate from repository-code licensing."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-SEE-THROUGH-001",
+      "name": "See-Through",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/shitagaki-lab/see-through",
+        "normalized_key": "github:shitagaki-lab/see-through"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "single-image-layer-decomposition",
+        "2d-character-part-segmentation",
+        "2.5d-character-preprocessing",
+        "layered-psd-generation",
+        "occlusion-inpainting-patterns"
+      ],
+      "domain_hints": [
+        "2d-animation",
+        "character-animation",
+        "computer-vision",
+        "generative-media"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "Image Studio",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "2d",
+        "2.5d",
+        "layer-decomposition",
+        "character-preprocessing",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_MODEL_DATASET_THIRD_PARTY_LICENSE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository root declares Apache-2.0. Model weights, annotators, datasets and inherited third-party components require separate rights and model admission."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TAHOMA2D-001",
+      "name": "Tahoma2D",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/tahoma2d/tahoma2d",
+        "normalized_key": "github:tahoma2d/tahoma2d"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "2d-cutout-animation",
+        "2d-plastic-mesh-deformation",
+        "2d-rigging",
+        "xsheet-timeline-workflow",
+        "stop-motion-workflow"
+      ],
+      "domain_hints": [
+        "2d-animation",
+        "character-animation",
+        "rigging"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Animation Studio",
+        "Character Studio",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "2d",
+        "character-animation",
+        "rigging",
+        "toonz-family",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "BSD-3-Clause",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Main Tahoma2D code declares BSD-3-Clause; thirdparty and bundled brush assets retain separate licenses."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UBISOFT-ZEROEGGS-001",
+      "name": "Ubisoft La Forge ZeroEGGS",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/ubisoft/ubisoft-laforge-ZeroEGGS",
+        "normalized_key": "github:ubisoft/ubisoft-laforge-zeroeggs"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "speech-to-gesture-research",
+        "style-conditioned-gesture-generation",
+        "bvh-gesture-dataset-pipeline",
+        "speech-motion-alignment-patterns"
+      ],
+      "domain_hints": [
+        "3d-animation",
+        "character-animation",
+        "gesture-generation",
+        "speech"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "Animation Studio",
+        "Audio Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "3d",
+        "gesture",
+        "speech-driven-animation",
+        "restricted-license",
+        "research",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "CC-BY-NC-ND-4.0",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_RESTRICTED_LICENSE_NO_FA3_SOURCE_OR_ASSET_REUSE",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository License.md declares CC BY-NC-ND 4.0. Treat code, pretrained artifacts and dataset as reference-only unless separately cleared; no commercial/source modification assumption."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UNIVRM-001",
+      "name": "UniVRM",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/vrm-c/UniVRM",
+        "normalized_key": "github:vrm-c/univrm"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "vrm-import-export",
+        "vrm-animation-import-export",
+        "gltf-avatar-interchange",
+        "runtime-avatar-loading",
+        "vrm-migration-patterns"
+      ],
+      "domain_hints": [
+        "3d-animation",
+        "avatar",
+        "interchange",
+        "character-animation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "3D Fabric",
+        "Conversion Fabric",
+        "Shared Character Animation Fabric"
+      ],
+      "tags": [
+        "3d",
+        "vrm",
+        "gltf",
+        "interchange",
+        "implementation-reference",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "KNOWN_DECLARATION"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Unity-specific implementation is reference material; intake does not create a Unity runtime dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-VRM-SPECIFICATION-001",
+      "name": "VRM Specification",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/vrm-c/vrm-specification",
+        "normalized_key": "github:vrm-c/vrm-specification"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-02-character-animation-deep-research"
+      ],
+      "first_seen": "2026-10-02",
+      "last_seen": "2026-10-02",
+      "donor_modes": [
+        "SPECIFICATION_REFERENCE",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "humanoid-bone-mapping",
+        "avatar-expression-schema",
+        "look-at-schema",
+        "vrm-animation-interchange",
+        "avatar-rights-metadata-patterns"
+      ],
+      "domain_hints": [
+        "3d-animation",
+        "avatar",
+        "interchange",
+        "character-animation"
+      ],
+      "problem_hints": [],
+      "target_hints": [
+        "Character Studio",
+        "3D Fabric",
+        "Shared Character Animation Fabric",
+        "Conversion Fabric"
+      ],
+      "tags": [
+        "3d",
+        "vrm",
+        "gltf",
+        "interchange",
+        "specification",
+        "explicit-owner-donornak"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "code_reuse_policy": "REFERENCE_ONLY_PENDING_SPECIFICATION_RIGHTS_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "notes": [
+        "Repository does not expose a root license file; sample avatar rights metadata is distinct from specification copyright. Reference use only until specification rights are resolved."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
