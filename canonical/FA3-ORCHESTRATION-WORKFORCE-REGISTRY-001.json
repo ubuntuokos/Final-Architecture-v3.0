@@ -20,7 +20,8 @@
     "governance_contract": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
     "atomic_execution_claim_required_for_runtime": true,
     "version_bound_approval_required_for_effectful_changes": true,
-    "monitor_projection_authority": false
+    "monitor_projection_authority": false,
+    "agent_application_blueprint_contract": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
   },
   "director": {
     "id": "FA3-ORCHESTRATION-DIRECTOR-001",
@@ -48,7 +49,8 @@
       "version_bound_approval_projection",
       "budget_envelope_projection",
       "liveness_projection",
-      "orchestration_monitor_projection"
+      "orchestration_monitor_projection",
+      "agent_application_blueprint_compilation"
     ]
   },
   "horizontal_authorities": [
@@ -649,7 +651,7 @@
       "rank_bias": 0
     }
   ],
-  "version": "2.0.0",
+  "version": "2.1.0",
   "horizontal_fabrics": [
     {
       "domain": "action_execution",
@@ -691,5 +693,19 @@
     "structural_parent_is_execution_dependency": false,
     "unknown_effect_may_blind_replay": false,
     "durable_lifecycle_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
+  },
+  "agent_application_blueprint_projection": {
+    "contract_id": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "schema": "fa3.agent-application-blueprint.v1",
+    "compiler": "src/fa3_agent_application_blueprint.py",
+    "role": "NON_AUTHORITY_PROVIDER_NEUTRAL_COMPILE_LAYER",
+    "may_create_specialist": false,
+    "may_expand_specialist_set": false,
+    "may_select_provider": false,
+    "may_select_physical_model": false,
+    "may_grant_capability_tool_model_secret_resource_or_authority_access": false,
+    "durable_lifecycle_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "optional_conductor_scope": "TASK_LOCAL_ONLY",
+    "runtime_admission_separate": true
   }
 }
