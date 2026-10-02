@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-ANTHROPICS-FINANCIAL-SERVICES-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "eaf6ea69897db229e6e6973bb57f2182f153ec3c",
+  "parent_registry_blob_sha": "7059b3a8c816400f4dee221744be2d13038c48f8",
+  "parent_entry_count": 1339,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1340,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-anthropics-financial-services-2026-10-02.md",
+  "requirements": [
+    "Preserve the exact owner-marked Anthropic financial-services repository URL as one canonical reference identity.",
+    "Metadata-only ACCEPTED_REFERENCE registration; no Claude/Anthropic runtime, provider, model, MCP connector, external financial data service, plugin or managed-agent deployment is admitted.",
+    "Repository-level Apache-2.0 does not automatically clear partner-built integrations, external data-provider terms, datasets, credentials or separately governed assets.",
+    "Any material reuse requires source-specific License & Rights/provenance, dependency and supply-chain security, Software Coexistence, Hardware Safety, shared-capability/layer placement and canonical usage-edge review.",
+    "Fixed capability baseline 175, dynamic provider-count policy unchanged and no new architectural authority.",
+    "No automatic code copy, dependency adoption, installation, fetch, provider/model selection, hosted-service activation, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/anthropics/financial-services",
+      "normalized_key": "github:anthropics/financial-services",
+      "donor_id": "FA3-DONOR-ANTHROPICS-FINANCIAL-SERVICES-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "mcp_connector_admission": false,
+    "hosted_service_activation": false,
+    "partner_component_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false
+  }
+}
