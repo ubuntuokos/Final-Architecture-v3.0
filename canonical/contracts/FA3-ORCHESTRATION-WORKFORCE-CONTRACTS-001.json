@@ -162,6 +162,30 @@
       "name": "Bounded Recovery and No Blind Replay",
       "requirement": "MUST",
       "rule": "Unknown effect outcome MUST block blind replay; recovery MUST be bounded, idempotent and revalidate current authorization/leases/approvals."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-027",
+      "name": "Canonical Task-Group Eligibility",
+      "requirement": "MUST",
+      "rule": "When a work request declares a task group, it MUST resolve through FA3-TASK-GROUP-REGISTRY-001 before specialist ranking. Unknown or invalid task groups fail closed."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-028",
+      "name": "Task-Group Authority Isolation",
+      "requirement": "MUST",
+      "rule": "AUTHORITY_BOUND task groups MUST NOT be routed as workforce specialist authority; orchestration requests the owning horizontal authority instead."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-029",
+      "name": "Ordered Guard-Chain Projection",
+      "requirement": "MUST",
+      "rule": "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001 defines the non-authoritative G0-G10 validation order. Guard projection MUST NOT mint authority decisions."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-030",
+      "name": "Workload Mode Intent Boundary",
+      "requirement": "MUST",
+      "rule": "Task-group workload-mode policy is intent/state context only. With FA3 present, HRB remains the exclusive physical resource admission, placement, reservation and lease authority."
     }
   ],
   "work_request_contract": {
@@ -179,7 +203,8 @@
       "authorized_ai_participants",
       "resource_requirements",
       "decision_advisory",
-      "application_id"
+      "application_id",
+      "task_group_id"
     ]
   },
   "route_decision_contract": {
@@ -193,9 +218,11 @@
     "must_attach_uaf_boundary": true,
     "must_preserve_authorized_ai_participant_set": true,
     "decision_fabric_role": "OPTIONAL_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY_NO_CANDIDATE_EXPANSION",
-    "runtime_admission": "SCOPE_BOUND_EVIDENCE_RECEIPT_REQUIRED_FOR_EXTERNAL_PROVIDER"
+    "runtime_admission": "SCOPE_BOUND_EVIDENCE_RECEIPT_REQUIRED_FOR_EXTERNAL_PROVIDER",
+    "task_group_policy_projection": "CANONICAL_ID_REVISION_DIGEST_WHEN_DECLARED",
+    "guard_chain_contract": "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001"
   },
-  "version": "2.1.0",
+  "version": "2.2.0",
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
