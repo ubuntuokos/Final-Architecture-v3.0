@@ -52,11 +52,20 @@ class MotionVideoDonorIntakeTests(unittest.TestCase):
             self.assertTrue(row["discoverable_for_planning"])
             self.assertTrue(all(row[flag] is False for flag in FLAGS))
 
-    def test_no_automatic_usage_or_runtime_admission(self):
-        serialized=json.dumps(self.links,sort_keys=True)
-        for donor_id in EXPECTED.values():
-            self.assertNotIn(donor_id,serialized)
+    def test_intake_itself_did_not_auto_adopt_or_admit_runtime(self):
         self.assertTrue(all(v is False for v in self.delta["boundaries"].values()))
+        usages=[
+            row for row in self.links.get("donor_usage_records",[])
+            if row.get("donor_id") in set(EXPECTED.values())
+        ]
+        # Later explicit canonical adoption is permitted, but it must be traceable
+        # and must not be confused with the metadata-only intake delta.
+        for row in usages:
+            self.assertTrue(str(row.get("id","")).startswith("FA3-USAGE-"))
+            self.assertIn(row.get("usage_kind"),{"ARCHITECTURE_PATTERN","CAPABILITY_PATTERN","REFERENCE_BINDING"})
+            self.assertEqual(row.get("status"),"ACTIVE")
+            self.assertTrue((row.get("provenance") or {}).get("evidence_paths"))
+        self.assertFalse(any(row.get("donor_id")=="FA3-DONOR-HUNYUANVIDEO-1-5-001" for row in usages))
 
 if __name__ == "__main__":
     unittest.main()
