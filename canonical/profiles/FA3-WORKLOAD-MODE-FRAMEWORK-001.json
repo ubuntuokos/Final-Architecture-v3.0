@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "name": "Standalone Workload Mode Framework",
+  "version": "0.1.0",
+  "status": "CANONICAL_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_bindings": [
+    "CAP-130",
+    "CAP-175"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "domains": {
+    "AI": [
+      "INTERACTIVE_INFERENCE",
+      "BATCH_INFERENCE",
+      "LLM_SERVING",
+      "IMAGE_GENERATION",
+      "VIDEO_GENERATION",
+      "AUDIO_GENERATION",
+      "RAG_QUERY",
+      "RAG_INGESTION",
+      "EMBEDDING",
+      "TRAINING",
+      "FINE_TUNING",
+      "VISION",
+      "SPEECH_RECOGNITION",
+      "TEXT_TO_SPEECH",
+      "AGENT_INTERACTIVE",
+      "AGENT_BACKGROUND",
+      "CPU_ONLY_AI",
+      "CUSTOM"
+    ],
+    "RENDER": [
+      "RENDER_VIEWPORT_INTERACTIVE",
+      "RENDER_FINAL_FRAME",
+      "RENDER_ANIMATION_BATCH",
+      "RENDER_CPU",
+      "RENDER_GPU",
+      "RENDER_HYBRID",
+      "RENDER_PREVIEW",
+      "RENDER_BACKGROUND",
+      "RENDER_DENOISE",
+      "RENDER_COMPOSITING",
+      "RENDER_VIDEO_ENCODE",
+      "RENDER_DISTRIBUTED"
+    ],
+    "GAME": [
+      "GAME_EXTERNAL_GAMEMODE"
+    ]
+  },
+  "effective_modes": [
+    "NORMAL",
+    "AI",
+    "RENDER",
+    "GAME",
+    "AI+RENDER",
+    "AI+GAME",
+    "RENDER+GAME",
+    "AI+RENDER+GAME",
+    "BACKGROUND",
+    "SAFE_MODE",
+    "DEGRADED",
+    "CONFLICT",
+    "RESOURCE_PRESSURE",
+    "AUTHORITY_LOST"
+  ],
+  "external_workload_states": [
+    "OBSERVED",
+    "COORDINATED",
+    "MANAGED"
+  ],
+  "resource_capability_semantics": [
+    "OBSERVABLE",
+    "ADVISORY",
+    "RESERVABLE",
+    "ENFORCEABLE"
+  ],
+  "authority": {
+    "standalone": "WORKLOAD_MODE_LOCAL_POLICY_AUTHORITY_OUTSIDE_FA3",
+    "when_fa3_present": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "workload_intent_owner": "WORKLOAD_MODE_FRAMEWORK",
+    "fa3_parallel_resource_authority_forbidden": true
+  },
+  "interoperability": {
+    "fa3_bidirectional_discovery_required": true,
+    "fa3_protocol": "org.workloadmode.Manager1@1",
+    "gamemode_service": "com.feralinteractive.GameMode",
+    "gamemode_required_dependency": false,
+    "gamemode_bridge_required_when_present": true,
+    "external_tuner_detection_required": true,
+    "external_tuner_silent_disable_forbidden": true
+  },
+  "safety": {
+    "hardware_safety_decision": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "automatic_overclock": "DENY",
+    "voltage_increase": "DENY",
+    "power_limit_increase": "DENY",
+    "thermal_bypass": "DENY",
+    "fan_safety_bypass": "DENY",
+    "unknown_hardware_mutation": "DENY",
+    "sysctl_default": "OBSERVE_ONLY",
+    "persistent_sysctl_automatic": "DENY"
+  },
+  "linux_backend": {
+    "preferred_projection": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+    "standalone_systemd_scope": "PLANNED_CURRENT_HOST_VALIDATION",
+    "direct_cgroup_v2_fallback": "PLANNED_CURRENT_HOST_VALIDATION",
+    "pidfd_lifecycle": "REQUIRED_WHEN_SUPPORTED",
+    "global_systemd_manager_mutation": false
+  },
+  "gpu_telemetry": {
+    "optional_backends": [
+      "NVIDIA_NVML",
+      "AMD_SMI",
+      "INTEL_LEVEL_ZERO_SYSMAN"
+    ],
+    "hard_vendor_dependency": false,
+    "hard_vram_quota_portable_guarantee": false
+  },
+  "ui": {
+    "global_indicator_required": true,
+    "shared_component": "WorkloadModeIndicator",
+    "event_driven": true,
+    "color_only_state_forbidden": true,
+    "critical_states": [
+      "SAFE_MODE",
+      "DEGRADED",
+      "CONFLICT",
+      "RESOURCE_PRESSURE",
+      "AUTHORITY_LOST"
+    ]
+  },
+  "current_host": {
+    "standalone_daemon_runtime": "PENDING_PHYSICAL_CURRENT_HOST",
+    "gamemode_coexistence": "PENDING_PHYSICAL_CURRENT_HOST",
+    "fa3_handshake": "PENDING_PHYSICAL_CURRENT_HOST",
+    "systemd_cgroup_projection": "PENDING_PHYSICAL_CURRENT_HOST",
+    "vendor_gpu_telemetry": "PENDING_PHYSICAL_CURRENT_HOST",
+    "global_mode_indicator_runtime": "PENDING_PHYSICAL_CURRENT_HOST",
+    "current_host_runtime_promotion_claim": false
+  }
+}

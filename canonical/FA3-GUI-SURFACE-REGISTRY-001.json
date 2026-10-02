@@ -13,7 +13,21 @@
     "stack_layout_index_is_implementation_detail": true,
     "direct_provider_execution_from_navigation": false,
     "direct_authority_from_surface": false,
-    "search_and_shortcuts_resolve_semantic_routes": true
+    "search_and_shortcuts_resolve_semantic_routes": true,
+    "workload_mode_indicator_required_on_all_primary_surfaces": true,
+    "workload_mode_indicator_inherited_from_common_shell": true,
+    "workload_mode_indicator_shared_component": "WorkloadModeIndicator",
+    "workload_mode_indicator_state_provider": "fa3WorkloadMode",
+    "workload_mode_indicator_event_driven": true,
+    "workload_mode_indicator_color_only_forbidden": true,
+    "workload_mode_indicator_global_and_local_state": true,
+    "workload_mode_critical_states_always_visible": [
+      "SAFE_MODE",
+      "DEGRADED",
+      "CONFLICT",
+      "RESOURCE_PRESSURE",
+      "AUTHORITY_LOST"
+    ]
   },
   "groups": [
     "HOME",
@@ -393,5 +407,6 @@
       "runtime_promotion_claim": false
     }
   ],
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "workload_mode_framework_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001"
 }

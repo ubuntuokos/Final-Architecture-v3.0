@@ -1,0 +1,12 @@
+[Unit]
+Description=Standalone Workload Mode broker
+After=dbus.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/libexec/workmoded
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
