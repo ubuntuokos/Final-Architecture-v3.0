@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-SHARED-WEB-ACQUISITION-STATE-GATESET-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "profile": "FA3-SHARED-WEB-ACQUISITION-STATE-001",
+  "contract_family": "FA3-SHARED-WEB-ACQUISITION-STATE-CONTRACTS-001",
+  "gate": "src/fa3_shared_web_acquisition_state_gate.py",
+  "tests": [
+    "tests/test_shared_web_acquisition_state.py"
+  ],
+  "workflow": ".github/workflows/fa3-shared-web-acquisition-state.yml",
+  "capability_baseline": 175,
+  "mandatory_rules": [
+    "CAPABILITY_AND_AUTHORITY_DELTA_ZERO",
+    "DURABLE_REQUEST_IDENTITY_AND_DEDUPE",
+    "LEASE_EXPIRY_RECOVERY_RECEIPT",
+    "HTTP_BROWSER_PARITY_WITHOUT_BROWSER_AUTHORITY_DUPLICATION",
+    "ROBOTS_AND_ORIGIN_POLITENESS_FAIL_CLOSED",
+    "SESSION_REPLACEMENT_REQUIRES_RETIREMENT",
+    "HRB_FEEDBACK_ADVISORY_ONLY",
+    "NO_UNREGISTERED_APIFY_CHILD_ADOPTION",
+    "FUTURE_DONOR_ADOPTION_REQUIRES_CANONICAL_USAGE_EDGE",
+    "NO_RUNTIME_OR_CURRENT_HOST_PROMOTION_CLAIM"
+  ],
+  "current_host_runtime_promotion_claim": false
+}
