@@ -59,27 +59,4 @@ jobs:
           cmake -S apps/workload-mode -B build/workload-mode -GNinja -DCMAKE_BUILD_TYPE=Release
           cmake --build build/workload-mode --parallel
       - name: Exercise standalone D-Bus state and FA3 handshake
-        run: |
-          dbus-run-session -- bash -euxo pipefail -c '
-            build/workload-mode/workmoded &
-            daemon=$!
-            bridge=""
-            trap '"'"'test -z "$bridge" || kill "$bridge" 2>/dev/null || true; kill "$daemon" 2>/dev/null || true'"'"' EXIT
-            sleep 1
-            build/workload-mode/workmodectl doctor | tee /tmp/wm-normal.json
-            grep -q '"'"effective_mode": "NORMAL"'"' /tmp/wm-normal.json
-            build/workload-mode/workmodectl register AI ci-ai COORDINATED $$ >/dev/null
-            build/workload-mode/workmodectl status | tee /tmp/wm-ai.json
-            grep -q '"'"effective_mode": "AI"'"' /tmp/wm-ai.json
-            build/workload-mode/fa3-workload-mode-bridge &
-            bridge=$!
-            sleep 1
-            build/workload-mode/workmodectl status | tee /tmp/wm-fa3.json
-            grep -q '"'"authority": "FA3_HRB"'"' /tmp/wm-fa3.json
-            grep -q '"'"fa3_state": "CONNECTED"'"' /tmp/wm-fa3.json
-            build/workload-mode/workmodectl release ci-ai >/dev/null
-            ln -s workmoderun build/workload-mode/aimoderun
-            ln -s workmoderun build/workload-mode/rendermoderun
-            build/workload-mode/aimoderun /bin/true
-            build/workload-mode/rendermoderun /bin/true
-          '
+        run: dbus-run-session -- bash tests/workload_mode_dbus_smoke.sh build/workload-mode
