@@ -760,6 +760,156 @@
           "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json"
         ]
       }
+    },
+    {
+      "id": "FA3-USAGE-DIFFUSERS-MOTION-VIDEO-V3-001",
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_MODEL_PIPELINE_ADAPTER",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VIDEO-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-02",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared Motion & Video v3 profile and refinement structure changed; physical runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VIDEO-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-XDIT-MOTION-VIDEO-V3-001",
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VIDEO-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-02",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared Motion & Video v3 profile and refinement structure changed; physical runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VIDEO-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SKYREELS-V3-MOTION-VIDEO-V3-001",
+      "donor_id": "FA3-DONOR-SKYREELS-V3-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "MULTIMODAL_CONDITIONING_AND_SYNCHRONIZED_AV_CAPABILITY_SHAPE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VIDEO-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-02",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared Motion & Video v3 profile and refinement structure changed; physical runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VIDEO-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-VIDEOSYS-MOTION-VIDEO-V3-001",
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATION_RUNTIME_SERVING_LIFECYCLE_SEPARATION",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VIDEO-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-02",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared Motion & Video v3 profile and refinement structure changed; physical runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VIDEO-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-NVLABS-SANA-VIDEO-REFINEMENT-001",
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATOR_REFINER_LIFECYCLE_AND_DRAFT_TO_TARGET_REFINEMENT",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VIDEO-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-02",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared Motion & Video v3 profile and refinement structure changed; physical runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VIDEO-001"
+        ],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
     }
   ],
   "donor_usage_contract": {
