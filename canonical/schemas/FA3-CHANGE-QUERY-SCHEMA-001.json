@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/change-query/v1",
+  "title": "FA3 ChangeQuery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "query_id",
+    "mode",
+    "selectors"
+  ],
+  "properties": {
+    "query_id": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "EXPLAIN",
+        "HISTORY",
+        "IMPACT",
+        "ROLLBACK",
+        "SCOPE",
+        "REGRESSION"
+      ]
+    },
+    "selectors": {
+      "type": "object"
+    },
+    "ai_mode": {
+      "enum": [
+        "OFF",
+        "SHADOW",
+        "ADVISORY"
+      ]
+    }
+  }
+}
