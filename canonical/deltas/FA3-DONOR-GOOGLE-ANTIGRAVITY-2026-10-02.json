@@ -1,0 +1,101 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "8e1f30528e3af7c001fa7b0be1acf1aa4731f8b4",
+  "parent_registry_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
+  "parent_entry_count": 1349,
+  "source_count": 5,
+  "unique_source_key_count": 5,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1354,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-google-antigravity-2026-10-02.md",
+  "requirements": [
+    "Preserve the five exact owner-marked GitHub URLs as distinct canonical donor/reference identities.",
+    "The exact Antigravity Python SDK repository is a metadata-only ACCEPTED_REFERENCE; organization and topic URLs are discovery indexes and do not recursively admit child repositories.",
+    "Registration grants no code, dependency, compiled binary, provider, model, runtime, MCP endpoint, cloud service or architectural authority admission.",
+    "The SDK may inform stateful agent session, tool dispatch, policy-hook, trigger, MCP, multimodal, streaming and local-model adapter patterns, but actual FA3 reuse requires a fresh Reuse Assessment and explicit canonical usage edges.",
+    "Upstream's platform-specific compiled runtime binary and any PyPI wheel/runtime path require separate exact License & Rights/provenance, security, Software Coexistence, Hardware Safety, Model Router/HRB/MCP and Current Host review before material use.",
+    "The Google Antigravity organization currently exposes the SDK and CLI repositories; only the SDK is separately registered in this intake because only its exact repository URL was owner-marked. The CLI remains discovery-only until separately admitted.",
+    "Fixed capability baseline 175, dynamic provider-count policy unchanged and no new architectural authority.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/google-antigravity/antigravity-sdk-python",
+      "normalized_key": "github:google-antigravity/antigravity-sdk-python",
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      }
+    },
+    {
+      "url": "https://github.com/topics/antigravity-tools",
+      "normalized_key": "github:topics/antigravity-tools",
+      "donor_id": "FA3-DONOR-ANTIGRAVITY-TOOLS-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/topics/antigravity",
+      "normalized_key": "github:topics/antigravity",
+      "donor_id": "FA3-DONOR-ANTIGRAVITY-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/topics/google-antigravity",
+      "normalized_key": "github:topics/google-antigravity",
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/google-antigravity",
+      "normalized_key": "github:google-antigravity",
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "mcp_connector_admission": false,
+    "hosted_service_activation": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}
