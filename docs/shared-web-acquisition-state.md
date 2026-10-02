@@ -8,6 +8,10 @@ Requests carry stable request identity, dedupe identity, backend, policy revisio
 
 HTTP and browser-backed acquisition use the same request/result binding. Browser mutation and verification remain the responsibility of `FA3-BROWSER-ACTION-RUNTIME-001`; this layer does not click, type, launch a browser or select a browser provider.
 
+## Crash-consistent persistence
+
+The reference core can persist a deterministic snapshot through a same-directory temporary file, file flush + `fsync`, and atomic `os.replace`. If replacement fails, the previously committed snapshot remains unchanged and the temporary file is cleaned up. Corrupt/unreadable snapshots fail closed.
+
 ## Origin and session policy
 
 An origin policy must explicitly permit robots access and satisfy the configured politeness interval before a request can be claimed. Concurrency values are advisory only. Session replacement is allowed only after the predecessor session is retired or blocked, preventing silent session substitution.
