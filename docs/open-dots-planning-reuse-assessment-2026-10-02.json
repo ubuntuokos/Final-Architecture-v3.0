@@ -1,0 +1,128 @@
+{
+  "schema": "fa3.planning-reuse-assessment.v1",
+  "id": "FA3-OPEN-DOTS-PLANNING-REUSE-ASSESSMENT-2026-10-02",
+  "status": "BLOCKED_PENDING_EXPLICIT_OWNER_DONORNAK_MARKER",
+  "canonical_adoption": false,
+  "planning_only": true,
+  "source": {
+    "url": "https://github.com/Anil-matcha/open-dots",
+    "normalized_key_if_later_admitted": "github:anil-matcha/open-dots",
+    "inspected_commit": "5abe1b3d65d5176af936ed92de1b731634d2bcb5",
+    "license_declaration": "MIT",
+    "license_blob_sha": "83c02287248c0e2e3e6b0618d86cd758e454bd27",
+    "readme_blob_sha": "23f69cc9dcab5c7922f5eb6b8b7a83cfa06f69c6",
+    "upstream_runtime_status": "PROTOTYPE_ACTIVE_DEVELOPMENT",
+    "upstream_hostile_web_isolation_production_ready": false
+  },
+  "fa3_snapshot": {
+    "main_commit": "bf50877f64c41cfea49c69dc274812370dfcb77b",
+    "main_pr": 601,
+    "published_registry_expected_entry_count": 1316,
+    "source_found_in_repository_search": false,
+    "capability_count": 175
+  },
+  "blocker": {
+    "rule": "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_ENTER_DONOR_REGISTRY",
+    "satisfied": false,
+    "effect": "NO_DONOR_REGISTRY_MUTATION_NO_USAGE_EDGE_NO_CODE_ADOPTION"
+  },
+  "existing_reuse": [
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "use": "EXISTING_TYPED_POLICY_APPROVAL_AND_ACTION_MEDIATION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_ACTION_CONTRACT_DISPATCH_AND_SINGLE_USE_APPROVAL_BOUNDARY"
+    },
+    {
+      "id": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+      "use": "EXISTING_OBSERVATION_BOUND_COMPUTER_EXECUTION_AND_BLIND_RETRY_DENIAL"
+    },
+    {
+      "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+      "use": "EXISTING_DURABLE_POLICY_BUDGET_VERIFICATION_AND_IDEMPOTENCY_SEMANTICS"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_AUTHORIZATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_EXTERNAL_TOOL_PROTOCOL_TRUST_BOUNDARY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "EXISTING_SECRET_PROJECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_HOST_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "proposed_hardening_deltas": [
+    {
+      "id": "OD-H1",
+      "name": "UNIFORM_UAF_ACTION_LIFECYCLE_EVENTS",
+      "new_capability": false,
+      "new_authority": false
+    },
+    {
+      "id": "OD-H2",
+      "name": "GENERIC_REMOTE_SIDE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION",
+      "new_capability": false,
+      "new_authority": false
+    },
+    {
+      "id": "OD-H3",
+      "name": "UAF_ACTION_ATTEMPT_AND_DISPATCH_REPLAY_LEDGER",
+      "new_capability": false,
+      "new_authority": false
+    }
+  ],
+  "explicit_non_adoption": [
+    "OPEN_DOTS_APPLICATION",
+    "OPEN_DOTS_APPROVAL_BROKER_AS_AUTHORITY",
+    "OPEN_DOTS_SQLITE_AS_CANONICAL_STATE_AUTHORITY",
+    "OPEN_DOTS_SECRET_STORE",
+    "OPEN_DOTS_INFERENCE_ROUTER",
+    "OPEN_DOTS_NEXTJS_GUI_AS_FA3_GUI_BASE",
+    "COMPOSIO_AS_ARCHITECTURAL_AUTHORITY",
+    "OPEN_DOTS_DOCKER_PLAYWRIGHT_RUNTIME_AS_TRUSTED_SECURITY_BOUNDARY",
+    "FREE_FORM_TERMINAL_EXECUTION"
+  ],
+  "hardware_audit": {
+    "runtime_change": false,
+    "hardware_mutation": false,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N"
+  },
+  "coexistence": {
+    "runtime_change": false,
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_dependency": false,
+    "upstream_uninstall_required": false
+  },
+  "capability_count_after": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_delta": 0,
+  "runtime_dependency": false,
+  "code_copy": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "next_stage_requires": [
+    "EXPLICIT_OWNER_DONORNAK_MARKER_FOR_EXACT_SOURCE",
+    "CURRENT_PUBLISHED_MAIN_DONOR_SNAPSHOT_RECONCILIATION",
+    "SEPARATE_OWNER_APPROVAL_FOR_ACTUAL_DONOR_ADOPTION",
+    "EXACT_HEAD_APPLICATION_INTENT_AND_REUSE_ASSESSMENT",
+    "NORMAL_SECURITY_COEXISTENCE_HARDWARE_EVIDENCE_GATES"
+  ]
+}
