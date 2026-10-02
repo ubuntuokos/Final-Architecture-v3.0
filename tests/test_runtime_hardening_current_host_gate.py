@@ -129,6 +129,18 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
                 "nvproxy_supported_driver": True,
                 "unsupported_driver_override": False,
             },
+            "execution_security": {
+                "status": "PASS",
+                "physical_current_host": True,
+                "filesystem_denial": True,
+                "process_or_syscall_denial": True,
+                "network_egress_denial": True,
+                "executable_digest_mismatch_denial": True,
+                "credential_non_exposure": True,
+                "direct_mcp_bypass_denial": True,
+                "enforcer_loss_fail_closed": True,
+                "rollback": True,
+            },
             "quadlet": {
                 "status": "PASS",
                 "network_none": True,
@@ -158,6 +170,9 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
         })
         ok, reasons = validate_runtime_sandbox_receipt(receipt, root=ROOT)
         self.assertTrue(ok, reasons)
+        bad = copy.deepcopy(receipt)
+        bad["execution_security"]["physical_current_host"] = False
+        self.assertFalse(validate_runtime_sandbox_receipt(bad, root=ROOT)[0])
 
     def test_media_residency_requires_provider_proof_and_never_overclaims_full_pipeline(self):
         receipt = base(
