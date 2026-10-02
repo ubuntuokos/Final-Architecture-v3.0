@@ -2,7 +2,7 @@
   "schema": "fa3.runtime-hardening-enforcement.v1",
   "gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
   "fail_closed": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "authority_delta": 0,
   "rules": {
     "hrb_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY",
@@ -24,7 +24,11 @@
     "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS",
     "provider_runtime_class_explicit": "REQUIRED",
     "conda_mamba_baseline": "DENY",
-    "oci_rootless_digest_pinned_when_selected": "REQUIRED"
+    "oci_rootless_digest_pinned_when_selected": "REQUIRED",
+    "execution_security_profile_required_for_effectful_agent_workload": "REQUIRED",
+    "execution_policy_expansion": "DENY",
+    "silent_execution_security_downgrade": "DENY",
+    "enforcer_loss": "FAIL_CLOSED"
   },
   "provider_runtime": {
     "profile_id": "FA3-PROVIDER-RUNTIME-001",
