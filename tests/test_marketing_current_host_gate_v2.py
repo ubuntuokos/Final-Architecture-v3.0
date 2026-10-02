@@ -4,6 +4,10 @@ import sys
 import unittest
 from pathlib import Path
 
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
@@ -22,7 +26,7 @@ def receipt():
         "provider_ids": sorted(REQUIRED_PROVIDERS),
         "runtime_status": "CURRENT_HOST_PRODUCTION_E2E_PASS",
         "secret_values_collected": False,
-        "capability_count": 143,
+        "capability_count": CAPABILITY_COUNT,
         "new_architectural_authorities": 0,
         "current_host_commit_sha": "0123456789abcdef",
         "tests": {name: {"status": "PASS"} for name in REQUIRED_TESTS},

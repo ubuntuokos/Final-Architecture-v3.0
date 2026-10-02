@@ -6,8 +6,13 @@
   "architectural_authority": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
-  "required_runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "capability_count": 175,
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
   "collector": "src/fa3_accelerator_guard_probe.py",
   "canonical_gate": "src/fa3_accelerator_guard_gate.py",
   "unit_tests": "tests/test_accelerator_guard.py",
@@ -42,5 +47,7 @@
     "missing_gpu_or_npu_provider_may_be_not_applicable_but_must_be_explicit": true,
     "user_priority_may_not_be_synthesized_for_test_completion": true
   },
-  "evidence_output": "reports/accelerator-guard/current-host-receipt.json"
+  "evidence_output": "reports/accelerator-guard/current-host-receipt.json",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

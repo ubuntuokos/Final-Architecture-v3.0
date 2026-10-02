@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-175-525-RECONCILIATION-20260930",
+  "date": "2026-09-30",
+  "status": "RECONCILED",
+  "capability_count": 175,
+  "required_test_obligation_count": 525,
+  "structural_changes": [
+    "canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
+    "canonical/FA3-GATE-STEP-CA-001.json",
+    "canonical/FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json",
+    "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
+    "canonical/step-ca-runtime-admission.json",
+    "src/fa3_step_ca_gate.py"
+  ],
+  "current_host_changes": [
+    "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json",
+    "canonical/current-host-capability-proof-recipes.json",
+    "fa3-current-host/manifest.json",
+    "src/fa3_current_host.py",
+    "src/fa3_current_host_batch_integrity.py",
+    "src/fa3_current_host_batch_planner.py",
+    "src/fa3_current_host_closure_assertion.py",
+    "src/fa3_full_current_host_preflight.py",
+    "src/fa3_model_artifact_security_current_host_gate.py",
+    "src/fa3_step_ca_current_host_gate.py",
+    "evidence/collect-step-ca-current-host.py",
+    "canonical/FA3-STEP-CA-CURRENT-HOST-001.json"
+  ],
+  "physical_requalification_required": true,
+  "physical_requalification_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD",
+  "historical_evidence_reused": false,
+  "historical_evidence_semantics": "143_429_EVIDENCE_RETAINED_AS_IMMUTABLE_HISTORICAL_PROOF_ONLY",
+  "current_host_status": "PENDING_FRESH_EXACT_HEAD_PHYSICAL_EXECUTION",
+  "global_promotion_claim": false,
+  "rationale": "Active runtime/conformance descriptors were reconciled from the historical 143-capability accounting surface to the fixed 175-capability release baseline. Step-CA was explicitly reopened to PENDING_FRESH_CURRENT_HOST_REQUALIFICATION because its exact-source Current Host collector/gate changed; its 2026-09-20 evidence remains historical only. Current Host batch planning, proof coverage, preflight, closure assertions and control-plane verification were updated in the same changeset. Fresh physical 175/525 exact-head requalification is required before active runtime closure can be claimed. Reuse Discovery governance was reconciled for the materially modified Step-CA provider through a dedicated ApplicationIntent and PASS ReuseAssessment; this static governance PASS does not satisfy or replace the required fresh exact-head physical Current Host requalification. The 2026-10-03 reconciliation rebases this physical requalification vehicle onto main at b7e9491df373fe7a897404a75b86f919436a9a8d, including PR #633 Motion & Video v3. Full 175/525 exact-head execution covers that merged structural state; structural_changes remains limited to files actually changed by PR #559.",
+  "governance_reconciliation_records": [
+    "canonical/intents/FA3-STEP-CA-CURRENT-HOST-APPLICATION-INTENT-001.json",
+    "canonical/assessments/FA3-STEP-CA-CURRENT-HOST-REUSE-ASSESSMENT-001.json"
+  ],
+  "governance_reconciliation_semantics": "REUSE_DISCOVERY_APPLICATION_INTENT_AND_PASS_REUSE_ASSESSMENT_ADDED_FOR_MATERIALLY_MODIFIED_STEP_CA_PROVIDER_WITHOUT_WEAKENING_PHYSICAL_REQUALIFICATION",
+  "last_reconciled_at": "2026-10-03",
+  "requalification_base_commit": "b7e9491df373fe7a897404a75b86f919436a9a8d",
+  "requalification_base_lineage": [
+    {
+      "pr": 633,
+      "merge_commit": "b7e9491df373fe7a897404a75b86f919436a9a8d",
+      "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+      "note": "Motion & Video v3 is already in the rebased base; full 175/525 exact-head physical requalification covers it without relabelling PR #633 files as PR #559 structural changes."
+    }
+  ],
+  "base_lineage_semantics": "FULL_175_525_EXACT_HEAD_REQUALIFICATION_COVERS_ALL_RUNTIME_STRUCTURAL_STATE_ALREADY_MERGED_INTO_BASE; HISTORICAL_EVIDENCE_IS_NOT_RELABELED_OR_REUSED"
+}

@@ -24,9 +24,21 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
     def setUpClass(cls):
         cls.root = Path(__file__).resolve().parents[1]
 
-    def test_recipe_registry_covers_exactly_previously_pending_capabilities(self):
+    def test_recipe_registry_covers_shared_capabilities_and_declares_dedicated_coverage(self):
         recipes = recipe_map(self.root)
+        registry = json.loads(
+            (self.root / "canonical/current-host-capability-proof-recipes.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(149, registry["capability_count"])
+        self.assertEqual(175, registry["active_capability_count"])
+        self.assertEqual(149, registry["shared_recipe_count"])
+        self.assertEqual(26, registry["dedicated_capability_count"])
         self.assertEqual(149, len(recipes))
+        self.assertEqual(
+            175,
+            len(recipes) + len(registry["dedicated_capability_ids"]),
+        )
+        self.assertTrue(set(recipes).isdisjoint(registry["dedicated_capability_ids"]))
         self.assertNotIn("CAP-001", recipes)
         self.assertNotIn("CAP-020", recipes)
         self.assertNotIn("CAP-028", recipes)
