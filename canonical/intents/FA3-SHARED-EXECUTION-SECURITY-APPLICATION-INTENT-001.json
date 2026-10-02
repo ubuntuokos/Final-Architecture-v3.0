@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001",
+  "project_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "project_type": "SHARED_PROFILE",
+  "goal": "Materialize a provider-neutral non-authoritative execution-security layer below existing FA3 authorization, UAF/MCP, Secret Broker and HRB boundaries so approved agent/tool/plugin/external workloads are technically constrained to their exact execution envelope.",
+  "required_capabilities": [
+    "CAP-028"
+  ],
+  "optional_capabilities": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "problem_classes": [
+    "execution-policy-boundary",
+    "policy-proof",
+    "sandbox-runtime-enforcement",
+    "executable-identity",
+    "network-egress-control",
+    "credential-projection",
+    "mcp-l7-enforcement",
+    "security-event-receipts"
+  ],
+  "task_classes": [
+    "agent",
+    "tool",
+    "plugin",
+    "automation",
+    "developer",
+    "browser",
+    "runtime-security"
+  ],
+  "input_modalities": [
+    "TYPED_ACTION_INTENT",
+    "AUTHORIZATION_DECISION",
+    "RESOURCE_LEASE",
+    "SECRETREF",
+    "WORKLOAD_MODE",
+    "EXECUTABLE_IDENTITY"
+  ],
+  "output_modalities": [
+    "EXECUTION_SECURITY_ENVELOPE",
+    "POLICY_PROOF",
+    "EXECUTION_SECURITY_RECEIPT",
+    "EXECUTION_DENIAL",
+    "ROLLBACK_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT_CONTROL_PATH",
+    "ADMITTED_ISOLATED_WORKLOAD_BACKEND"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_EXECUTION_SECURITY_CURRENT_HOST_REQUALIFICATION",
+    "OS_BACKEND_ENFORCEMENT_PROOF"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-execution-security",
+    "service_prefix": null,
+    "config_root": "$XDG_CONFIG_HOME/fa3/execution-security",
+    "cache_root": "$XDG_CACHE_HOME/fa3/execution-security",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/execution-security",
+    "socket_namespace": null,
+    "data_root": "$XDG_DATA_HOME/fa3/execution-security",
+    "desktop_prefix": null,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "default_port": null
+  },
+  "security_requirements": [
+    "AUTHORIZED_POLICY_IS_MAXIMUM_EXECUTION_BOUNDARY",
+    "EFFECTIVE_POLICY_MUST_EQUAL_OR_NARROW_AUTHORIZED_BOUNDARY",
+    "UNPROVEN_IS_NEVER_PASS_WHEN_PROOF_REQUIRED",
+    "POLICY_PROVER_CANNOT_GRANT_AUTHORIZATION",
+    "EXECUTABLE_IDENTITY_OR_DIGEST_CHANGE_REQUIRES_REVALIDATION",
+    "NETWORK_DEFAULT_DENY_FOR_AGENT_WORKLOADS",
+    "RAW_SECRET_EXPOSURE_TO_AGENT_OR_TOOL_ARGUMENTS_FORBIDDEN_WHEN_SECRETREF_PROJECTION_EXISTS",
+    "DIRECT_MCP_PROVIDER_MODEL_ROUTER_BYPASS_FORBIDDEN",
+    "SILENT_SECURITY_ASSURANCE_DOWNGRADE_FORBIDDEN",
+    "ENFORCER_OR_SUPERVISOR_LOSS_FAILS_CLOSED",
+    "SECURITY_EVENT_OR_RECEIPT_IS_NOT_EVIDENCE_AUTHORITY",
+    "HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
+    "MODEL_ROUTER_REMAINS_EXCLUSIVE_MODEL_PROVIDER_ROUTE_AUTHORITY",
+    "TEMPORAL_REMAINS_GLOBAL_DURABLE_WORKFLOW_AUTHORITY",
+    "CPU_ONLY_EXECUTION_REMAINS_VALID",
+    "DISPLAY_GPU_RULE_REMAINS_UNCHANGED"
+  ],
+  "integration_requirements": [
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}
