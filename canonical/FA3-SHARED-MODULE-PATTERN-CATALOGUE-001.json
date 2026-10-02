@@ -297,6 +297,29 @@
         "dashboard",
         "evidence-view"
       ]
+    },
+    {
+      "id": "FA3-SHARED-EXECUTION-SECURITY-PATTERN-001",
+      "name": "Shared Execution Security pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "fa3.ai-module-factory"
+      ],
+      "pattern_scope": [
+        "policy-boundary",
+        "policy-proof",
+        "executable-identity",
+        "filesystem-guard",
+        "process-syscall-guard",
+        "network-egress-guard",
+        "credential-projection",
+        "mcp-l7-inspection",
+        "security-event-receipt"
+      ]
     }
   ],
   "analysis_only_sources": [
@@ -604,6 +627,19 @@
         "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
       ],
       "reuse_status": "COMPOSITE_REFERENCE"
+    },
+    {
+      "id": "FA3-PATTERN-EXECUTION-SECURITY-001",
+      "class": "SECURITY_PATTERN",
+      "name": "Bounded policy-proven execution security with executable identity and deny-by-default runtime enforcement",
+      "canonical_donor_ids": [
+        "FA3-DONOR-NVIDIA-OPENSHELL-001"
+      ],
+      "analysis_source_ids": [],
+      "shared_module_ids": [
+        "FA3-SHARED-EXECUTION-SECURITY-PATTERN-001"
+      ],
+      "reuse_status": "ADOPTED_PATTERN_WITH_ACTIVE_USAGE_EDGE"
     }
   ],
   "current_host_impact": {
@@ -666,6 +702,16 @@
       ],
       "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
       "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-EXECUTION-SECURITY-001",
+      "profile_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+      "contract_id": "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-EXECUTION-SECURITY-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "RUNTIME_REQUALIFICATION_REQUIRED"
     }
   ]
 }
