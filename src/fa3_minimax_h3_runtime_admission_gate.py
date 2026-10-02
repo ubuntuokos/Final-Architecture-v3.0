@@ -139,6 +139,22 @@ def static_gate(root: Path) -> dict[str, Any]:
 
 def current_host_gate(root: Path) -> dict[str, Any]:
     findings: list[dict[str, Any]] = []
+    provider_path = root / "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json"
+    if provider_path.is_file():
+        provider_state = _load(provider_path)
+        if provider_state.get("status") == "RETIRED_REFERENCE_ONLY" or provider_state.get("runtime_execution_forbidden") is True:
+            report = {
+                "schema": "fa3.minimax-h3-current-host-gate-report.v1",
+                "gate_id": GATE_ID,
+                "provider_id": PROVIDER_ID,
+                "mode": "CURRENT_HOST_REMOTE_E2E",
+                "result": "FAIL",
+                "findings": [{"code": "H3-HOST-000", "severity": "P0", "message": "MiniMax H3 is retired reference-only; current-host runtime promotion is forbidden"}],
+                "evidence_level": None,
+                "promotion_effect": "NONE_RETIRED_PROVIDER_CANNOT_BE_REACTIVATED_BY_HISTORICAL_EVIDENCE",
+            }
+            _write(root / REPORT, report)
+            return report
 
     def fail(code: str, message: str) -> None:
         findings.append({"code": code, "severity": "P0", "message": message})
