@@ -137,6 +137,8 @@ jobs:
         run: ./bin/fa3-enforce tencentdb-agent-memory
       - name: Video provider lifecycle/backend/cache regression gate
         run: ./bin/fa3-enforce video-provider-lifecycle
+      - name: H3 retirement / native Motion & Video replacement gate
+        run: ./bin/fa3-enforce h3-replacement
       - name: Stability SGM generative-pipeline and multi-view gate
         run: ./bin/fa3-enforce stability-sgm
       - name: Collect developer-agent coordination reference-runtime E2E evidence
@@ -297,6 +299,7 @@ jobs:
             reports/obsidian-knowledge-workspace-gate-report.json
             reports/openbmb-gate-report.json
             reports/video-provider-lifecycle-gate-report.json
+            reports/h3-replacement-gate-report.json
             reports/stability-sgm-gate-report.json
             reports/developer-agent-coordination-gate-report.json
             reports/developer-agent-coordination-e2e-report.json
