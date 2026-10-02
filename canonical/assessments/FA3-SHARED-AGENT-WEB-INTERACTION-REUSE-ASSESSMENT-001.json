@@ -163,5 +163,16 @@
     "FA3-SHARED-CONVERSATION-SESSION-001",
     "FA3-SHARED-MULTIMODAL-SOURCE-001"
   ],
-  "coverage_reason": "One shared Agent-Web contract is added while the existing Web-AI, MCP Gateway and three shared contracts are materially hardened under the same published-main donor snapshot; no external donor is adopted."
+  "coverage_reason": "One shared Agent-Web contract is added while the existing Web-AI, MCP Gateway and three shared contracts are materially hardened under the same published-main donor snapshot; no external donor is adopted.",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "rationale": "The shared Agent-Web contract reuses existing FA3 web, MCP, action, conversation and multimodal boundaries; no Khronos SDK or open-standard runtime source is required by this static control contract."
+    }
+  ]
 }
