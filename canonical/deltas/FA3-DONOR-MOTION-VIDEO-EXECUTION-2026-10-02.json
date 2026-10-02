@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-MOTION-VIDEO-EXECUTION-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "d65215e75867d71605093ae8f46a0dfbd6c6f471",
+  "parent_registry_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
+  "parent_entry_count": 1344,
+  "source_count": 5,
+  "unique_source_key_count": 5,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1349,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-motion-video-execution-2026-10-02.md",
+  "requirements": [
+    "Preserve the five exact owner-marked GitHub repositories as distinct canonical donor/reference identities.",
+    "Registration is metadata-only ACCEPTED_REFERENCE and grants no code, dependency, provider, model, runtime or architectural authority admission.",
+    "Diffusers informs common model/pipeline adapter patterns; xDiT informs zero-to-many accelerator and distributed DiT execution projection; HunyuanVideo-1.5 and SkyReels-V3 stress provider-neutral capability/conditioning schemas; VideoSys informs scalable generation/serving boundaries.",
+    "Actual FA3 adoption requires explicit canonical usage edges and a fresh Reuse Assessment bound to the then-current published-main donor snapshot.",
+    "HunyuanVideo-1.5 and SkyReels-V3 remain exact-license-review-required before any material source/model/runtime reuse.",
+    "Fixed capability baseline 175, dynamic provider-count policy unchanged and no new architectural authority.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/huggingface/diffusers",
+      "normalized_key": "github:huggingface/diffusers",
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "DECLARED_BY_GITHUB_REPOSITORY_METADATA"
+      }
+    },
+    {
+      "url": "https://github.com/xdit-project/xDiT",
+      "normalized_key": "github:xdit-project/xdit",
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "DECLARED_BY_GITHUB_REPOSITORY_METADATA"
+      }
+    },
+    {
+      "url": "https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5",
+      "normalized_key": "github:tencent-hunyuan/hunyuanvideo-1.5",
+      "donor_id": "FA3-DONOR-HUNYUANVIDEO-1-5-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "OTHER/NOASSERTION",
+        "status": "EXACT_LICENSE_REVIEW_REQUIRED_BEFORE_MATERIAL_REUSE"
+      }
+    },
+    {
+      "url": "https://github.com/SkyworkAI/SkyReels-V3",
+      "normalized_key": "github:skyworkai/skyreels-v3",
+      "donor_id": "FA3-DONOR-SKYREELS-V3-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "OTHER/NOASSERTION",
+        "status": "EXACT_LICENSE_REVIEW_REQUIRED_BEFORE_MATERIAL_REUSE"
+      }
+    },
+    {
+      "url": "https://github.com/NUS-HPC-AI-Lab/VideoSys",
+      "normalized_key": "github:nus-hpc-ai-lab/videosys",
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "DECLARED_BY_GITHUB_REPOSITORY_METADATA"
+      }
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}
