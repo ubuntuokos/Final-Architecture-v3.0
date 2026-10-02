@@ -20,7 +20,8 @@
       "id": "RUNTIME_ISOLATION_AGENT_SANDBOX",
       "profiles": [
         "FA3-RUNTIME-ISOLATION-001",
-        "FA3-AGENT-SANDBOX-001"
+        "FA3-AGENT-SANDBOX-001",
+        "FA3-SHARED-EXECUTION-SECURITY-001"
       ],
       "receipt": "evidence/receipts/runtime-isolation-sandbox-current-host.json",
       "collector": "evidence/collect-runtime-isolation-sandbox-current-host.py",
@@ -31,7 +32,17 @@
         "INSTALLED_QUADLET_FAIL_CLOSED_POLICY_PASS",
         "ACTUAL_CONTAINER_RUNTIME_RUNSC_PASS",
         "NVPROXY_DRIVER_ABI_PASS_IF_GPU_PROJECTED",
-        "FA3_EVIDENCE_ENVELOPE_PAYLOAD_SHA256_PASS"
+        "FA3_EVIDENCE_ENVELOPE_PAYLOAD_SHA256_PASS",
+        "FILESYSTEM_DENY_PASS",
+        "PROCESS_OR_SYSCALL_DENY_PASS",
+        "NETWORK_DENY_PASS",
+        "EXECUTABLE_DIGEST_SWAP_DENY_PASS",
+        "POLICY_REVISION_STALE_DENY_PASS",
+        "CREDENTIAL_EXFILTRATION_DENY_PASS",
+        "DIRECT_MCP_BYPASS_DENY_PASS",
+        "ENFORCER_LOSS_FAIL_CLOSED_PASS",
+        "RESTART_STALE_TOKEN_DENY_PASS",
+        "ROLLBACK_PASS"
       ],
       "compatibility_smoke_is_production_pass": false
     },
