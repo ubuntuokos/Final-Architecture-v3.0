@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-WORKLOAD-MODE-DECISION-ASSESSMENT-2026-10-02",
+  "covered_ids": [
+    "FA3-WORKLOAD-MODE-FRAMEWORK-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "Workload Mode coordination, Hardware Safety enforcement, resource admission, placement, reservation and lease ownership are deterministic fail-closed control-plane functions. Under FA3 the Host Resource Broker remains the exclusive physical resource authority; Decision Fabric must not select modes, resources, providers or models, expand candidates, or authorize host mutation.",
+  "decision_points": [],
+  "not_delegated": [
+    "effective workload mode authority",
+    "hardware safety decision",
+    "host resource admission",
+    "resource placement or lease creation",
+    "provider or model selection",
+    "permission or mutation authorization",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "FA3 Workload Mode Framework against the Decision Fabric boundary",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "Deterministic policy, explicit user intent, Workload Mode coordination and HRB authority remain authoritative; no scoring or advisory decision point is delegated."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
