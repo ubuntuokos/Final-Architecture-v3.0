@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from fa3_orchestration_governance import build_monitor_projection, build_task_governance, validate_dependency_graph
+from fa3_task_group import TaskGroupContractError, bind_task_group
 REGISTRY_REL=Path("canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json")
 ADMISSION_SCHEMA="fa3.orchestration-provider-current-host-admission.v1"
 EXISTING_RUNTIME_AUTHORITY_STATES={"EXISTING_CANONICAL_AUTHORITY"}
@@ -70,13 +71,23 @@ def _advisory(ranked,a):
         trace["advisory_applied"]=True; return next(s for s in ranked if s["id"]==selected),trace
     return deterministic,trace
 def route_task(root,task,*,runtime_execution=None,admission_receipts=None,decision_advisory=None):
-    _require_task_shape(task); reg=load_registry(root); runtime=bool(task.get("runtime_execution",False)) if runtime_execution is None else runtime_execution; receipts=admission_receipts or {}
+    _require_task_shape(task)
+    try:
+        task,task_group=bind_task_group(root,task)
+    except TaskGroupContractError as exc:
+        raise WorkforceContractError(str(exc)) from exc
+    reg=load_registry(root); runtime=bool(task.get("runtime_execution",False)) if runtime_execution is None else runtime_execution; receipts=admission_receipts or {}
     accepted=[]; rejected=[]
     for s in reg["specialists"]:
         rs=_reasons(s,task,runtime,receipts)
+        if task_group and task_group["record"].get("classification")=="TEMPORAL_EXCLUSIVE" and s.get("provider")!="Temporal":
+            rs.append("TASK_GROUP_TEMPORAL_EXCLUSIVE")
         (rejected.append(Rejection(s["id"],tuple(rs))) if rs else accepted.append(s))
-    common={"schema":"fa3.orchestration-route-decision.v1","task_id":task["task_id"],"runtime_execution":runtime,"horizontal_gates":reg.get("horizontal_authorities",[]),"horizontal_fabrics":reg.get("horizontal_fabrics",[]),"resource_boundary":{"hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","accelerator_conflict":"FA3-ACCEL-GUARD-001","requirements":task.get("resource_requirements",{})},"authorized_ai_participants":list(task.get("authorized_ai_participants",[]))}
+    tgproj=None if task_group is None else {"registry_id":task_group["registry_id"],"registry_revision":task_group["registry_revision"],"submitted_task_group_id":task_group["submitted_task_group_id"],"task_group_id":task_group["task_group_id"],"revision":task_group["revision"],"digest":task_group["digest"],"classification":task_group["record"]["classification"]}
+    common={"schema":"fa3.orchestration-route-decision.v1","task_id":task["task_id"],"runtime_execution":runtime,"task_group_policy":tgproj,"guard_chain_contract":"FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001","horizontal_gates":reg.get("horizontal_authorities",[]),"horizontal_fabrics":reg.get("horizontal_fabrics",[]),"resource_boundary":{"hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","workload_mode":"FA3-WORKLOAD-MODE-FRAMEWORK-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","accelerator_conflict":"FA3-ACCEL-GUARD-001","requirements":task.get("resource_requirements",{})},"authorized_ai_participants":list(task.get("authorized_ai_participants",[]))}
     governed_task=dict(task);governed_task["runtime_execution"]=runtime;common["governance_projection"]=build_task_governance(governed_task)
+    if task_group and task_group["record"].get("classification")=="AUTHORITY_BOUND":
+        return {**common,"status":"HUMAN_ESCALATION","reason":"TASK_GROUP_HORIZONTAL_AUTHORITY_REQUIRED","required_authority_refs":task_group["record"].get("authority_policy",{}).get("required_authority_refs",[]),"rejected":[r.as_dict() for r in rejected]}
     if not accepted:return {**common,"status":"HUMAN_ESCALATION","reason":"NO_ELIGIBLE_SPECIALIST_AFTER_HARD_FILTERS","rejected":[r.as_dict() for r in rejected]}
     ranked=sorted(accepted,key=lambda s:(-_score(s,task)[0],_score(s,task)[1])); top=_score(ranked[0],task)[0]; ties=[s for s in ranked if _score(s,task)[0]==top]
     if len(ties)>1 and task.get("require_unambiguous",False): return {**common,"status":"HUMAN_ESCALATION","reason":"AMBIGUOUS_TOP_SPECIALIST","top_candidates":[{"specialist_id":s["id"],"provider":s["provider"],"score":top} for s in ties],"rejected":[r.as_dict() for r in rejected]}
@@ -92,7 +103,7 @@ def compile_cross_domain_plan(root,request,*,runtime_execution=None):
         if t["task_id"] in seen: raise WorkforceContractError("duplicate task_id")
         seen.add(t["task_id"]);all_edges.extend(t.get("dependency_edges",[]));decisions.append(route_task(root,t,runtime_execution=runtime_execution,admission_receipts=receipts,decision_advisory=advisories.get(t["task_id"])))
     validated_edges=validate_dependency_graph(list(seen),all_edges);monitor=build_monitor_projection(decisions)
-    return {"schema":"fa3.cross-domain-work-plan.v2","goal":request.get("goal",""),"status":"READY" if all(d["status"]=="ROUTED" for d in decisions) else "HUMAN_REQUIRED","director":"FA3-ORCHESTRATION-DIRECTOR-001","provider_neutral":True,"execution_fabric":"FA3-UNIFIED-ACTION-FABRIC-001","decision_fabric":"FA3-DECISION-FABRIC-001_OPTIONAL_ADVISORY","ai_communication_policy":"FA3-AI-COMMS-001","hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","governance_contract":"FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001","dependency_edges":validated_edges,"monitor_projection":monitor,"decisions":decisions}
+    return {"schema":"fa3.cross-domain-work-plan.v2","goal":request.get("goal",""),"status":"READY" if all(d["status"]=="ROUTED" for d in decisions) else "HUMAN_REQUIRED","director":"FA3-ORCHESTRATION-DIRECTOR-001","provider_neutral":True,"execution_fabric":"FA3-UNIFIED-ACTION-FABRIC-001","decision_fabric":"FA3-DECISION-FABRIC-001_OPTIONAL_ADVISORY","ai_communication_policy":"FA3-AI-COMMS-001","hardware_discovery":"FA3-HARDWARE-DISCOVERY-CONTRACTS-001","workload_mode":"FA3-WORKLOAD-MODE-FRAMEWORK-001","resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","task_group_contract":"FA3-TASK-GROUP-CONTRACTS-001","task_group_registry":"FA3-TASK-GROUP-REGISTRY-001","guard_chain_contract":"FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001","governance_contract":"FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001","dependency_edges":validated_edges,"monitor_projection":monitor,"decisions":decisions}
 def _main():
     p=argparse.ArgumentParser();p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));p.add_argument("--request",required=True);p.add_argument("--runtime",action="store_true");a=p.parse_args()
     plan=compile_cross_domain_plan(Path(a.root).resolve(),_load_json(Path(a.request)),runtime_execution=a.runtime);print(json.dumps(plan,ensure_ascii=False,indent=2));return 0 if plan["status"]=="READY" else 2
