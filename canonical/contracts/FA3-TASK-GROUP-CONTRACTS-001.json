@@ -1,0 +1,125 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-TASK-GROUP-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "FA3-TG-001",
+      "name": "Policy Registry Only",
+      "requirement": "MUST",
+      "rule": "The Task Group Registry classifies work and constrains eligibility. It MUST NOT store task instances, own workflow lifecycle, grant authority, allocate resources, route physical models, execute effects or attest evidence."
+    },
+    {
+      "id": "FA3-TG-002",
+      "name": "Exactly 31 First-Level Groups",
+      "requirement": "MUST",
+      "rule": "The canonical registry MUST contain exactly F01 through F31 as unique first-level task groups."
+    },
+    {
+      "id": "FA3-TG-003",
+      "name": "Temporal Exclusivity",
+      "requirement": "MUST",
+      "rule": "F07 Durable Workflow Lifecycle is Temporal-exclusive. Conductor or another specialist MUST NOT become global durable lifecycle owner."
+    },
+    {
+      "id": "FA3-TG-004",
+      "name": "Horizontal Authority Isolation",
+      "requirement": "MUST",
+      "rule": "F09 through F13 are horizontal authority/service domains. Orchestration MAY request their decisions but MUST NOT project them as specialist authority."
+    },
+    {
+      "id": "FA3-TG-005",
+      "name": "Independent Verification",
+      "requirement": "MUST",
+      "rule": "F17 Verification & Evidence remains independent from the executor; worker output is a claim until Evidence/Gate verification."
+    },
+    {
+      "id": "FA3-TG-006",
+      "name": "Monotonic Scope",
+      "requirement": "MUST",
+      "rule": "Task-group policy MAY narrow eligibility and scope but MUST NOT widen user, application, role, task, security, runtime or authority scope."
+    },
+    {
+      "id": "FA3-TG-007",
+      "name": "Workload Mode Boundary",
+      "requirement": "MUST",
+      "rule": "Task-group policy MAY declare Workload Mode intent/domain hints but MUST NOT mutate physical resources. With FA3 present, HRB remains exclusive resource admission, placement, reservation and lease authority."
+    },
+    {
+      "id": "FA3-TG-008",
+      "name": "CPU-Only Validity",
+      "requirement": "MUST",
+      "rule": "Task-group policy MUST preserve CPU-only viability and zero-to-N accelerator cardinality unless an individual admitted workload explicitly requires otherwise."
+    },
+    {
+      "id": "FA3-TG-009",
+      "name": "No Display-GPU Auto Recruitment",
+      "requirement": "MUST",
+      "rule": "Task-group policy MUST NOT automatically recruit the display GPU for AI execution when another GPU or NPU exists; any exception remains subject to the existing manual selection rule."
+    },
+    {
+      "id": "FA3-TG-010",
+      "name": "Blueprint Binding",
+      "requirement": "MUST",
+      "rule": "Every Agent/Application Blueprint task_group_id MUST resolve to a canonical task-group ID or registered compatibility alias, and compilation MUST bind canonical ID, revision and digest."
+    },
+    {
+      "id": "FA3-TG-011",
+      "name": "No Runtime Promotion",
+      "requirement": "MUST",
+      "rule": "Task-group policy, registry presence or static guard PASS MUST NOT promote a provider/runtime or manufacture Current Host evidence."
+    }
+  ],
+  "record_schema": {
+    "schema": "fa3.task-group.v1",
+    "required_fields": [
+      "task_group_id",
+      "revision",
+      "name",
+      "classification",
+      "profile_policy",
+      "role_policy",
+      "capability_policy",
+      "authority_policy",
+      "workflow_policy",
+      "execution_policy",
+      "review_policy",
+      "resource_policy",
+      "workload_mode_policy",
+      "evidence_policy",
+      "current_host_policy"
+    ],
+    "classifications": [
+      "ORCHESTRATED",
+      "TEMPORAL_EXCLUSIVE",
+      "AUTHORITY_BOUND"
+    ],
+    "role_kinds": [
+      "PLANNER",
+      "ROUTER",
+      "WORKER",
+      "REVIEWER",
+      "VERIFIER",
+      "OPERATOR"
+    ],
+    "control_profiles": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7"
+    ],
+    "durable_lifecycle_authority": "Temporal",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "workload_mode_profile": "FA3-WORKLOAD-MODE-FRAMEWORK-001"
+  }
+}
