@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "155bc9150505312eae59311d96e5a3466c924ac6",
-    "pre_projection_root_tree_sha": "fb9ff46ec8317463556e393eadcad0afc497c544",
-    "pre_projection_canonical_tree_sha": "974d7b1b3e024b624dcca400dbd60e5634bb6038",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2468,
-    "total_post_baseline_commits": 2468,
-    "delta_file_count": 2746,
-    "delta_added_files": 2740,
+    "pre_projection_head_sha": "1058f1a355de4578f12fd795350fc55333c42d5f",
+    "pre_projection_root_tree_sha": "8be7c52896cfabf127b8ab7431c1c87bc5cb2fb0",
+    "pre_projection_canonical_tree_sha": "ca42594f83dbbc9834d3fc7f74060a0106050a78",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2472,
+    "total_post_baseline_commits": 2472,
+    "delta_file_count": 2749,
+    "delta_added_files": 2743,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1290,
+    "canonical_files_in_post_baseline_delta": 1291,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 354,
-    "test_files_in_post_baseline_delta": 317,
+    "test_files_in_post_baseline_delta": 318,
     "workflow_files_in_post_baseline_delta": 131,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1045,7 +1045,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2736,
+  "manifest_entry_count": 2739,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3085,6 +3085,11 @@
     {
       "path": "canonical/assessments/FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24.json",
       "git_blob_sha": "adbb22f42fd4f5c56111e24c0ecf7791fba9e3da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-APIFY-ECOSYSTEM-DONOR-ASSESSMENT-2026-10-02.json",
+      "git_blob_sha": "5ee5962f3af2c29ba0fb505bcfbc4aa30f6cc92a",
       "baseline_delta_status": "added"
     },
     {
@@ -9318,6 +9323,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/apify-ecosystem-donor-assessment-2026-10-02.md",
+      "git_blob_sha": "7209752725390ec4e9901b799d806d06d78354af",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/application-donor-inventory.md",
       "git_blob_sha": "78feb0d0cb81fffe61e6516c43a4b7794f910ccf",
       "baseline_delta_status": "added"
@@ -13150,6 +13160,11 @@
     {
       "path": "tests/test_ai_studio_app_lifecycle.py",
       "git_blob_sha": "0bb3588489e39a4ea5e49b454b6ea61017dd22ee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_apify_ecosystem_donor_assessment_20261002.py",
+      "git_blob_sha": "15eacca2fbda2fe36469cb21709b9bf11cf28d48",
       "baseline_delta_status": "added"
     },
     {
