@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/change-impact/v1",
+  "title": "FA3 ChangeImpact",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "subject_ids",
+    "affected_ids",
+    "invalidated_ids",
+    "requalification_ids",
+    "risk_context"
+  ],
+  "properties": {
+    "subject_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "affected_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "invalidated_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requalification_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_context": {
+      "type": "object"
+    }
+  }
+}
