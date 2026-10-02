@@ -97,6 +97,7 @@ def gate(root: Path) -> dict[str, Any]:
         "BROWSER_MUTATION_AUTHORITY_REMAINS_BROWSER_ACTION_RUNTIME",
         "LOAD_FEEDBACK_IS_ADVISORY_ONLY_HRB_REMAINS_RESOURCE_AUTHORITY",
         "DONOR_ADOPTION_REQUIRES_REGISTERED_SOURCE_AND_CANONICAL_USAGE_EDGE",
+        "CRASH_CONSISTENT_STATE_PERSISTENCE_FAILS_CLOSED",
     }
     if not required_invariants.issubset(set(profile.get("invariants", []))):
         findings.append({"code": "WAS-004", "message": "mandatory profile invariants missing"})
@@ -185,6 +186,8 @@ def gate(root: Path) -> dict[str, Any]:
         "DEDUPE_KEY_IDENTITY_CONFLICT",
         "LEASE_EXPIRED_REQUEUED",
         "ROBOTS_POLICY_DENIED",
+        "ATOMIC_STATE_WRITE_FAILED",
+        "os.replace",
     ):
         if literal not in source:
             findings.append({"code": "WAS-012", "message": "reference core invariant missing", "literal": literal})
