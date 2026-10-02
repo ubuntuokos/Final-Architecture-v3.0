@@ -1,0 +1,36 @@
+name: FA3 Shared Execution Security
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-SHARED-EXECUTION-SECURITY-001.json'
+      - 'canonical/contracts/FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001.json'
+      - 'canonical/shared-execution-security-enforcement.json'
+      - 'canonical/FA3-GATE-SHARED-EXECUTION-SECURITY-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'src/fa3_shared_execution_security.py'
+      - 'src/fa3_shared_execution_security_gate.py'
+      - 'tests/test_shared_execution_security.py'
+      - '.github/workflows/fa3-shared-execution-security.yml'
+  workflow_dispatch:
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_shared_execution_security.py src/fa3_shared_execution_security_gate.py tests/test_shared_execution_security.py
+      - name: Dedicated regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_shared_execution_security -v
+      - name: Shared Execution Security gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_shared_execution_security_gate.py --root .
+      - name: Release projection
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_release_projection_gate.py --root .
