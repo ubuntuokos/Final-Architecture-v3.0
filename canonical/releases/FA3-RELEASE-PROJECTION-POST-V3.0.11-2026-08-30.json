@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2825,
+  "manifest_entry_count": 2827,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3349,6 +3349,11 @@
     {
       "path": "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "25138ba9f9454ebc5cc5e332ff0c082ba8511c44",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-MINIMAX-H3-RUNTIME-ADMISSION-REUSE-ASSESSMENT-2026-10-02.json",
+      "git_blob_sha": "77c778c48989e245f483b2da993bc935fc7aef5c",
       "baseline_delta_status": "added"
     },
     {
@@ -6899,6 +6904,11 @@
     {
       "path": "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json",
       "git_blob_sha": "f53e418d8f1d7ff8a5a0d8a2380b14d5ed834ea3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02.json",
+      "git_blob_sha": "21172b68b4b9788d54e7d4249e20690323592d4e",
       "baseline_delta_status": "added"
     },
     {
@@ -15315,7 +15325,10 @@
     "semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 175
+    "capability_count_after": 175,
+    "application_intent_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02",
+    "reuse_assessment_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-REUSE-ASSESSMENT-2026-10-02",
+    "baseline_reconciliation_status": "ACTIVE_RUNTIME_ADMISSION_METADATA_RECONCILED_TO_FIXED_175_NO_RUNTIME_PROMOTION"
   },
   "developer_agent_coordination_reconciliation": {
     "profile_id": "FA3-AGENT-EXEC-001",
@@ -15607,7 +15620,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-09-28",
+  "last_regenerated_at": "2026-10-02",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",
