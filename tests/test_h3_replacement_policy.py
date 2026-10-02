@@ -26,10 +26,10 @@ class H3ReplacementPolicyTests(unittest.TestCase):
         self.assertEqual(p["capability_delta"],0)
         self.assertEqual(p["authority_delta"],0)
 
-    def test_published_1349_donor_snapshot_and_usage_edges(self):
+    def test_published_1354_donor_snapshot_and_usage_edges(self):
         a=load("canonical/assessments/FA3-H3-REPLACEMENT-REUSE-ASSESSMENT-001.json")
-        self.assertEqual(a["donor_planning_snapshot"]["donor_registry_entry_count"],1349)
-        self.assertEqual(a["donor_planning_snapshot"]["donor_registry_blob_sha"],"22f262dcc88e4429bf5f5b7a4175efad72f63945")
+        self.assertEqual(a["donor_planning_snapshot"]["donor_registry_entry_count"],1354)
+        self.assertEqual(a["donor_planning_snapshot"]["donor_registry_blob_sha"],"804786e96c66ef6c4397b1471e52a6594473bb20")
         self.assertEqual(len(a["adopted_pattern_donors"]),4)
         links=load("canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
         ids={r["id"] for r in links["donor_usage_records"]}
