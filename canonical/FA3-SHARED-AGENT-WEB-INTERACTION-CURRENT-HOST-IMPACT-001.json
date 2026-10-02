@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.current-host-impact.v1",
+  "id": "FA3-SHARED-AGENT-WEB-INTERACTION-CURRENT-HOST-IMPACT-001",
+  "date": "2026-10-01",
+  "status": "NO_DIRECT_RUNTIME_IMPACT_STATIC_CONTRACT",
+  "subject_profile": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+  "structural_change": true,
+  "current_host_alignment_required": true,
+  "physical_current_host_pass_claimed": false,
+  "global_promotion_claim": false,
+  "reason": "This change materializes contracts and fail-closed static gates only; it creates no new runtime, service, port, provider or physical execution path. Existing Browser/MCP runtime promotion status is unchanged. A future consumer that implements a new physical rail must requalify the affected capability path.",
+  "required_physical_evidence_for_future_runtime_adoption": [
+    "EXACT_RAIL_SELECTION_EVIDENCE",
+    "NO_SILENT_FALLBACK_NEGATIVE",
+    "AMBIGUOUS_EFFECT_RECONCILIATION",
+    "NON_DELEGABLE_HUMAN_ACTION_DENIAL",
+    "MCP_ENDPOINT_COMPATIBILITY_WHEN_APPLICABLE"
+  ],
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
