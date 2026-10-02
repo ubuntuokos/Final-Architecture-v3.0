@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-ORCHESTRATION-WORKFORCE-001",
   "name": "Competency-Driven Hierarchical Orchestration Workforce",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -33,7 +33,8 @@
     "FA3-AI-COMMS-CONTRACTS-001",
     "FA3-DECISION-FABRIC-CONTRACTS-001",
     "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
-    "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001"
+    "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
   ],
   "registry": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
   "authority_boundaries": {
@@ -79,7 +80,8 @@
       "version_bound_approval_projection",
       "budget_envelope_projection",
       "liveness_projection",
-      "orchestration_monitor_projection"
+      "orchestration_monitor_projection",
+      "agent_application_blueprint_compilation"
     ],
     "forbidden_responsibilities": [
       "security_authorization",
@@ -140,9 +142,12 @@
     "APPROVAL_BOUND_TO_OBJECT_REVISION_DIGEST_SCOPE_AND_OPERATION",
     "BUDGET_ENVELOPE_DOES_NOT_REPLACE_HRB_AUTHORITY",
     "LIVENESS_TEMPORAL_STATE_AND_EVIDENCE_VERIFICATION_ARE_DISTINCT",
-    "MONITORING_AND_CONFIGURATION_SURFACE_IS_NON_AUTHORITY"
+    "MONITORING_AND_CONFIGURATION_SURFACE_IS_NON_AUTHORITY",
+    "AGENT_APPLICATION_BLUEPRINT_IS_NON_AUTHORITY_PROVIDER_NEUTRAL_COMPILE_LAYER",
+    "BLUEPRINT_ROLE_CONTEXT_CANNOT_GRANT_CAPABILITY_TOOL_MODEL_SECRET_RESOURCE_OR_AUTHORITY_ACCESS",
+    "BLUEPRINT_COMPILATION_IS_NOT_RUNTIME_ADMISSION"
   ],
-  "implementation_status": "CANONICAL_RECONCILED_UAF_DECISION_FABRIC_AI_COMMS_AGENT_WORKLOAD_RUNTIME_GOVERNANCE_V4",
+  "implementation_status": "CANONICAL_RECONCILED_UAF_DECISION_FABRIC_AI_COMMS_AGENT_WORKLOAD_RUNTIME_GOVERNANCE_BLUEPRINT_V5",
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
   "governance_strengthening": {
@@ -153,5 +158,18 @@
     "approval_schema": "fa3.version-bound-approval.v1",
     "durable_lifecycle_owner": "Temporal",
     "monitoring_authority": false
+  },
+  "agent_application_blueprint_fabric": {
+    "contract_id": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "compiler": "src/fa3_agent_application_blueprint.py",
+    "schema": "fa3.agent-application-blueprint.v1",
+    "role": "NON_AUTHORITY_PROVIDER_NEUTRAL_COMPILE_LAYER",
+    "task_group_binding_required": true,
+    "durable_lifecycle_owner": "Temporal",
+    "conductor_scope": "TASK_LOCAL_ONLY",
+    "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "runtime_promotion_claim": false
   }
 }
