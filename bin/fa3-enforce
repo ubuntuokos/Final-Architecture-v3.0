@@ -211,6 +211,10 @@ if [[ "${1:-}" == "mmg-context-ir" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_mmg_context_ir_gate.py" --root "$ROOT" "$@"
 fi
+if [[ "${1:-}" == "h3-replacement" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_h3_replacement_gate.py" --root "$ROOT" "$@"
+fi
 if [[ "${1:-}" == "page-cache-prefetch" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_page_cache_prefetch_gate.py" --root "$ROOT" "$@"
