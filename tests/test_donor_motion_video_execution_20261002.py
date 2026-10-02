@@ -53,10 +53,23 @@ class MotionVideoDonorIntakeTests(unittest.TestCase):
             self.assertTrue(all(row[flag] is False for flag in FLAGS))
 
     def test_no_automatic_usage_or_runtime_admission(self):
-        serialized=json.dumps(self.links,sort_keys=True)
-        for donor_id in EXPECTED.values():
-            self.assertNotIn(donor_id,serialized)
+        # The intake itself remains reference-only forever. Later explicitly
+        # approved pattern adoption may create usage edges, but those edges
+        # must not retroactively imply code/runtime/provider/model admission.
         self.assertTrue(all(v is False for v in self.delta["boundaries"].values()))
+        expected_ids=set(EXPECTED.values())
+        for usage in self.links.get("donor_usage_records",[]):
+            if usage.get("donor_id") not in expected_ids:
+                continue
+            self.assertFalse(usage.get("automatic_activation",False))
+            self.assertFalse(usage.get("code_imported",False))
+            self.assertFalse(usage.get("provider_admission",False))
+            self.assertFalse(usage.get("model_admission",False))
+            self.assertFalse(usage.get("runtime_dependency",False))
+            self.assertIn(usage.get("usage_kind"),{
+                "CAPABILITY_PATTERN","ALGORITHM_PATTERN","WORKFLOW_PATTERN",
+                "ARCHITECTURE_PATTERN","UI_UX_PATTERN","REFERENCE_BINDING"
+            })
 
 if __name__ == "__main__":
     unittest.main()
