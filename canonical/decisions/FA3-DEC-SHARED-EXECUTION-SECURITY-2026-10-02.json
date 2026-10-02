@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SHARED-EXECUTION-SECURITY-2026-10-02",
+  "date": "2026-10-02",
+  "status": "APPROVED_MATERIALIZATION",
+  "title": "Materialize shared execution-security enforcement from OpenShell-derived patterns",
+  "decision": "MATERIALIZE_FA3_NATIVE_SHARED_EXECUTION_SECURITY_WITHOUT_NEW_AUTHORITY_OR_REQUIRED_OPENSHELL_RUNTIME",
+  "owner_approval": "APPROVED_IN_CONVERSATION_2026-10-02",
+  "subject_profile": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+  "donor_usage_kind": "ARCHITECTURE_PATTERN",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "upstream_code_import": false,
+  "upstream_runtime_dependency": false,
+  "selected_patterns": [
+    "POLICY_BOUNDARY_AND_PROVING",
+    "EXECUTABLE_IDENTITY_AND_DIGEST_BINDING",
+    "FILESYSTEM_PROCESS_NETWORK_DENY_BY_DEFAULT_ENFORCEMENT",
+    "ENDPOINT_BOUND_CREDENTIAL_PROJECTION",
+    "MCP_L7_REQUEST_INSPECTION",
+    "FAIL_CLOSED_ENFORCER_LOSS",
+    "STRUCTURED_SECURITY_EVENTS"
+  ],
+  "preserved_authorities": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "AUTH-DURABLE"
+  ],
+  "current_host_runtime_promotion_claim": false
+}
