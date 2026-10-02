@@ -189,6 +189,23 @@ def validate_runtime_sandbox_receipt(receipt: Any, *, root: Path) -> tuple[bool,
         and gvisor.get("unsupported_driver_override") is False
     ):
         reasons.append("gVisor production OCI isolation/runsc/nvproxy proof is incomplete")
+    execution_security = receipt.get("execution_security", {})
+    required_execution_security = (
+        "filesystem_denial",
+        "process_or_syscall_denial",
+        "network_egress_denial",
+        "executable_digest_mismatch_denial",
+        "credential_non_exposure",
+        "direct_mcp_bypass_denial",
+        "enforcer_loss_fail_closed",
+        "rollback",
+    )
+    if not (
+        execution_security.get("status") == "PASS"
+        and execution_security.get("physical_current_host") is True
+        and all(execution_security.get(name) is True for name in required_execution_security)
+    ):
+        reasons.append("execution security physical requalification is incomplete")
     quadlet = receipt.get("quadlet", {})
     if not (
         quadlet.get("status") == "PASS"
