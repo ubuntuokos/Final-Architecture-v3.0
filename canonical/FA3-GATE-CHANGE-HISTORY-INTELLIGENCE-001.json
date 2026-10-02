@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-CHANGE-HISTORY-INTELLIGENCE-001",
+  "gateset_id": "FA3-CHANGE-HISTORY-GATESET-001",
+  "profile_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "contract_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+  "enforcement_path": "canonical/change-history-intelligence-enforcement.json",
+  "executable_gate": "src/fa3_change_history_gate.py",
+  "priority": "P0",
+  "fail_closed": true,
+  "evidence_class": "STATIC_CANONICAL_AND_NEGATIVE_REGRESSION",
+  "current_host_evidence_separate": true,
+  "current_host_pass_claimed": false
+}
