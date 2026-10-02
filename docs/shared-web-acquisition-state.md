@@ -10,7 +10,7 @@ HTTP and browser-backed acquisition use the same request/result binding. Browser
 
 ## Crash-consistent persistence
 
-The reference core can persist a deterministic snapshot through a same-directory temporary file, file flush + `fsync`, and atomic `os.replace`. If replacement fails, the previously committed snapshot remains unchanged and the temporary file is cleaned up. Corrupt/unreadable snapshots fail closed.
+The reference core can persist a deterministic snapshot through a same-directory temporary file, file flush + `fsync`, and atomic `os.replace`. If replacement fails, the previously committed snapshot remains unchanged and the temporary file is cleaned up. Corrupt/unreadable snapshots fail closed. This file persistence is **single-writer reference/test** storage only; it is not a promoted multi-process queue backend. Any real multi-worker backend must provide atomic claim/compare-and-swap semantics and pass separate runtime/Current Host admission before use.
 
 ## Origin and session policy
 
