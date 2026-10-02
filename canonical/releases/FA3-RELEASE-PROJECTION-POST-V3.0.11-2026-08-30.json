@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "456e40c38135387a9dbe987cfb78332f350dce65",
-    "pre_projection_root_tree_sha": "3213a2826e9d5aca3927e950530e473a8b327959",
-    "pre_projection_canonical_tree_sha": "c844af4029d061fc63d3b3f707ccbee75b8488ec",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2518,
-    "total_post_baseline_commits": 2518,
-    "delta_file_count": 2785,
-    "delta_added_files": 2779,
+    "pre_projection_head_sha": "13517c35836518ae525cc5f176f2fc9ee3615314",
+    "pre_projection_root_tree_sha": "6ba8dc979e90d4aedbe3bcdfc8081c1f09d826f1",
+    "pre_projection_canonical_tree_sha": "d3ada41d2605595d4bb0bbe8f47b1b027255b08b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2524,
+    "total_post_baseline_commits": 2524,
+    "delta_file_count": 2788,
+    "delta_added_files": 2782,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1307,
+    "canonical_files_in_post_baseline_delta": 1308,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 358,
-    "test_files_in_post_baseline_delta": 324,
+    "test_files_in_post_baseline_delta": 325,
     "workflow_files_in_post_baseline_delta": 132,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1050,7 +1050,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2775,
+  "manifest_entry_count": 2778,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2849,7 +2849,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
+      "git_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
       "baseline_delta_status": "added"
     },
     {
@@ -6483,6 +6483,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-MOTION-VIDEO-EXECUTION-2026-10-02.json",
+      "git_blob_sha": "66b3d17aec575ab04f8f3f0fa6733ce35b9129f1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-ODBC-SQL-VECTOR-MEDIA-2026-09-29.json",
       "git_blob_sha": "47c51315ab68339a85a3b720674f5e9734c0dc38",
       "baseline_delta_status": "added"
@@ -9825,6 +9830,11 @@
     {
       "path": "docs/donor-mm3d-openmmlab-z3dr-2026-09-29.md",
       "git_blob_sha": "b65021e692ed6944f1e6651e79143729ccb9a7c8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-motion-video-execution-2026-10-02.md",
+      "git_blob_sha": "aab3b9f25fa2c94e481a9352d9bfb2ebb859f355",
       "baseline_delta_status": "added"
     },
     {
@@ -13783,6 +13793,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_motion_video_execution_20261002.py",
+      "git_blob_sha": "50081f0ef33a190fbe0660a720348ab6c1bbed48",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_odbc_sql_vector_media_20260929.py",
       "git_blob_sha": "5fe44bc14057799fb770209acc3c7c3c17817bb9",
       "baseline_delta_status": "added"
@@ -16637,7 +16652,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1344,
+    "donor_registry_entry_count": 1349,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
