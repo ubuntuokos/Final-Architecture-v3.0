@@ -1,0 +1,150 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": false,
+  "contracts": [
+    {
+      "id": "FA3-GUARD-001",
+      "name": "Guard Chain Is Projection",
+      "requirement": "MUST",
+      "rule": "The guard chain validates presence and compatibility of existing authority decisions; it MUST NOT become a super-authority or mint security, resource, model, runtime, action or evidence decisions."
+    },
+    {
+      "id": "FA3-GUARD-002",
+      "name": "Ordered Evaluation",
+      "requirement": "MUST",
+      "rule": "Planning guards G0-G5 precede specialist selection; runtime guards G6-G9 precede effect execution; G10 performs independent post-execution evidence verification."
+    },
+    {
+      "id": "FA3-GUARD-003",
+      "name": "Fail Closed",
+      "requirement": "MUST",
+      "rule": "Missing, stale, conflicting or incompatible required authority decisions MUST block, wait or escalate; they MUST NOT silently pass."
+    },
+    {
+      "id": "FA3-GUARD-004",
+      "name": "Task Group Revision Binding",
+      "requirement": "MUST",
+      "rule": "Guard evaluation MUST bind canonical task-group ID, revision and digest; stale policy identity requires re-evaluation."
+    },
+    {
+      "id": "FA3-GUARD-005",
+      "name": "Workload Mode Resource Boundary",
+      "requirement": "MUST",
+      "rule": "G7 MAY validate Workload Mode state and HRB receipts but MUST NOT mutate physical resources or mint leases."
+    },
+    {
+      "id": "FA3-GUARD-006",
+      "name": "Evidence Independence",
+      "requirement": "MUST",
+      "rule": "G10 MUST NOT accept worker or Conductor self-asserted success as VERIFIED evidence."
+    }
+  ],
+  "guard_chain": [
+    {
+      "guard_id": "G0",
+      "name": "Goal / Intent",
+      "phase": "PLANNING",
+      "owner_boundary": "GOAL_CONTRACT_VALIDATION"
+    },
+    {
+      "guard_id": "G1",
+      "name": "Task Group",
+      "phase": "PLANNING",
+      "owner_boundary": "FA3-TASK-GROUP-REGISTRY-001"
+    },
+    {
+      "guard_id": "G2",
+      "name": "Role / Responsibility Scope",
+      "phase": "PLANNING",
+      "owner_boundary": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001"
+    },
+    {
+      "guard_id": "G3",
+      "name": "Dependency / Handoff",
+      "phase": "PLANNING",
+      "owner_boundary": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001"
+    },
+    {
+      "guard_id": "G4",
+      "name": "Identity / Security",
+      "phase": "PLANNING",
+      "owner_boundary": "FA3-AUTH-SECURITY-GOV-001"
+    },
+    {
+      "guard_id": "G5",
+      "name": "Capability / Specialist Eligibility",
+      "phase": "PLANNING",
+      "owner_boundary": "FA3-ORCHESTRATION-WORKFORCE-001"
+    },
+    {
+      "guard_id": "G6",
+      "name": "Provider / Runtime Admission",
+      "phase": "RUNTIME",
+      "owner_boundary": "FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001"
+    },
+    {
+      "guard_id": "G7",
+      "name": "Workload Mode / HRB / Resource",
+      "phase": "RUNTIME",
+      "owner_boundary": "FA3-WORKLOAD-MODE-FRAMEWORK-001 + FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    {
+      "guard_id": "G8",
+      "name": "Model Router",
+      "phase": "RUNTIME",
+      "owner_boundary": "FA3-AUTH-MODEL-ROUTER-001"
+    },
+    {
+      "guard_id": "G9",
+      "name": "UAF / Effect Authorization",
+      "phase": "RUNTIME",
+      "owner_boundary": "FA3-UNIFIED-ACTION-FABRIC-001 + FA3-AUTH-SECURITY-GOV-001"
+    },
+    {
+      "guard_id": "G10",
+      "name": "Evidence / Verification",
+      "phase": "POST_EXECUTION",
+      "owner_boundary": "FA3-AUTH-OBS-EVIDENCE-001"
+    }
+  ],
+  "guard_states": [
+    "PASS",
+    "BLOCK",
+    "HUMAN_REQUIRED",
+    "WAITING_AUTHORITY",
+    "WAITING_RESOURCE",
+    "WAITING_RUNTIME_ADMISSION",
+    "DEFERRED"
+  ],
+  "overall_results": [
+    "PASS",
+    "BLOCK",
+    "HUMAN_REQUIRED",
+    "WAITING_AUTHORITY",
+    "WAITING_RESOURCE",
+    "WAITING_RUNTIME_ADMISSION"
+  ],
+  "planning_pass_requires": [
+    "G0",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5"
+  ],
+  "runtime_pass_requires": [
+    "G6",
+    "G7",
+    "G8",
+    "G9"
+  ],
+  "post_execution_pass_requires": [
+    "G10"
+  ]
+}
