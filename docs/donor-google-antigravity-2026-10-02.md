@@ -1,6 +1,6 @@
 # FA3 Google Antigravity donor intake — 2026-10-02
 
-**Authority:** owner-explicit `donornak` registration.  
+**Authority:** owner-explicit `donornak` registration.
 **Scope:** reference metadata only; no code, dependency, provider, model, service or runtime admission.
 
 This intake registers five exact owner-marked sources as `ACCEPTED_REFERENCE`:
@@ -45,9 +45,9 @@ This intake does **not**:
 
 Any material reuse remains separately gated by exact License & Rights/provenance, security, Software Coexistence, Hardware Safety, Model Router/HRB/MCP authority reconciliation and canonical usage-edge traceability.
 
-Parent published main: `8e1f30528e3af7c001fa7b0be1acf1aa4731f8b4`  
-Parent donor count: **1349**  
-Proposed donor count: **1354**  
-Capability baseline: **175**  
-Capability delta: **0**  
+Parent published main: `8e1f30528e3af7c001fa7b0be1acf1aa4731f8b4`
+Parent donor count: **1349**
+Proposed donor count: **1354**
+Capability baseline: **175**
+Capability delta: **0**
 Authority delta: **0**
