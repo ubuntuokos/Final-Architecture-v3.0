@@ -96,11 +96,13 @@ The existing Orchestration Governance contract now includes:
 
 ## Donor/reuse boundary
 
-The orchestration Reuse Assessment is refreshed to the latest finalized published donor snapshot used by current main lineage: 1349 entries, registry blob `22f262dcc88e4429bf5f5b7a4175efad72f63945`.
+The orchestration Reuse Assessment is refreshed to the latest finalized published donor snapshot used by current main lineage: 1354 entries, registry blob `804786e96c66ef6c4397b1471e52a6594473bb20`.
 
 Pending donor PR records are not consumed.
 
 `cporter202/agentic-ai-starters` remains analysis-only and is not registered or adopted by this change.
+
+The finalized Google Antigravity donor intake on current main was re-assessed for Shared Orchestration / Layer Guard relevance. No additional material adoption or usage edge is required because the relevant policy-hook, tool-dispatch, session, MCP and adapter patterns are already covered by existing Temporal, UAF/Security/MCP, Blueprint and orchestration-governance boundaries.
 
 ## Current Host boundary
 
