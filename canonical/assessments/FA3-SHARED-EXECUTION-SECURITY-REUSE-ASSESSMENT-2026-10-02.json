@@ -116,5 +116,48 @@
     "runtime_service_created": false,
     "external_runtime_installed": false
   },
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "intent_id": "FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SHARED-EXECUTION-SECURITY-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e",
+    "donor_registry_entry_count": 1357
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-EXECUTION-SECURITY-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false,
+    "rationale": "Execution-security enforcement is cross-cutting and consumed through the existing shared UAF/tool-mediation/sandbox path; application-local duplicates would fragment policy enforcement and donor traceability."
+  },
+  "selected_existing_donor_ids": [
+    "FA3-DONOR-NVIDIA-OPENSHELL-001"
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "use": "EXECUTION_BOUNDARY_POLICY_ENFORCEMENT_PATTERNS_ONLY",
+      "code_copy": false,
+      "runtime_dependency": false
+    }
+  ]
 }
