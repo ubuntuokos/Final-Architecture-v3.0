@@ -3,43 +3,35 @@
   "id": "FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01",
   "date": "2026-10-01",
   "status": "CANONICAL",
-  "title": "Agent Native discovery-source donor intake reconciliation",
-  "decision": "REGISTER_EXACT_OWNER_APPROVED_AGENT_NATIVE_DISCOVERY_URLS_AS_REFERENCE_ONLY",
+  "title": "Agent Native canonical reconciliation, scoped donor registration and shared web interaction hardening",
   "explicit_user_approval": true,
+  "owner_plan_approval": "APPROVED_IN_CONVERSATION_2026-10-01",
+  "user_request_ref": "Owner approved reconciliation, instructed that the previously submitted Agent Native links be added to the donor list, then authorized materialization through closure.",
+  "decisions": [
+    "KEEP_EXISTING_AGENT_NATIVE_AUTHORITY_MODEL",
+    "REGISTER_EXACT_THREE_SUBMITTED_TOPIC_URLS_AS_REFERENCE_ONLY",
+    "MATERIALIZE_ONE_SHARED_AGENT_WEB_INTERACTION_CONTRACT",
+    "HARDEN_EXISTING_TOOL_ACTION_CONVERSATION_MULTIMODAL_BROWSER_WEB_AI_AND_MCP_CONTRACTS",
+    "PRESERVE_175_CAPABILITY_BASELINE",
+    "ADD_ZERO_ARCHITECTURAL_AUTHORITIES"
+  ],
+  "scoped_donor_registration": {
+    "exact_urls": [
+      "https://github.com/topics/agent-native?l=c&o=desc&s=updated",
+      "https://github.com/topics/agent-native?l=python&o=asc&s=stars",
+      "https://github.com/topics/agent-native-web"
+    ],
+    "basis": "OWNER_EXPLICIT_DONOR_LIST_COMMAND_FOR_ALREADY_SUBMITTED_LINKS",
+    "global_literal_donornak_rule_changed": false,
+    "scope": "EXACT_THREE_URLS_REFERENCE_REGISTRATION_ONLY",
+    "child_repository_auto_registration": false,
+    "adoption_authorized": false,
+    "code_import_authorized": false,
+    "runtime_admission_authorized": false,
+    "provider_or_model_admission_authorized": false
+  },
   "capability_count_after": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "authority": false,
-  "scoped_donor_registration": {
-    "scope": "EXACT_THREE_OWNER_APPROVED_AGENT_NATIVE_DISCOVERY_URLS_ONLY",
-    "donor_ids": [
-      "FA3-DONOR-TOPICS-AGENT-NATIVE-L-C-O-DESC-S-UPDATED-001",
-      "FA3-DONOR-TOPICS-AGENT-NATIVE-L-PYTHON-O-ASC-S-STARS-001",
-      "FA3-DONOR-TOPICS-AGENT-NATIVE-WEB-001"
-    ],
-    "global_literal_donornak_rule_changed": false,
-    "adoption_authorized": false,
-    "child_repository_auto_registration": false
-  },
-  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-  "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
-  "registration_scope": "REFERENCE_METADATA_ONLY",
-  "discoverable_for_planning": true,
-  "automatic_dependency": false,
-  "automatic_code_import": false,
-  "automatic_fetch": false,
-  "automatic_install": false,
-  "automatic_provider_admission": false,
-  "automatic_model_selection": false,
-  "automatic_activation": false,
-  "runtime_promotion_claim": false,
-  "current_host_runtime_promotion_claim": false,
-  "invariants": [
-    "EXACT_OWNER_APPROVED_URLS_ONLY",
-    "REFERENCE_REGISTRATION_DOES_NOT_AUTHORIZE_ADOPTION",
-    "CHILD_REPOSITORIES_REQUIRE_SEPARATE_DONOR_REUSE_ASSESSMENT",
-    "GLOBAL_DONORNAK_CAPTURE_RULE_UNCHANGED",
-    "CAPABILITY_BASELINE_REMAINS_175",
-    "NO_NEW_ARCHITECTURAL_AUTHORITY"
-  ]
+  "physical_current_host_pass_claim": false
 }
