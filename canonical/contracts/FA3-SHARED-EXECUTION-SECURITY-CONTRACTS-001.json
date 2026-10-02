@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+  "version": "0.1.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-028",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "contracts": [
+    "ExecutionSecurityEnvelope",
+    "ExecutionPolicyBoundary",
+    "ExecutionPolicyProof",
+    "ExecutableIdentity",
+    "RuntimeIsolationRequest",
+    "CredentialProjectionBinding",
+    "ExecutionSecurityEvent",
+    "ExecutionSecurityReceipt",
+    "ExecutionSecurityRollbackReceipt",
+    "ExecutionSecurityDenial"
+  ],
+  "authority_bindings": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "AUTH-DURABLE",
+    "human_approval": "AUTH-HUMAN",
+    "workload_mode": "FA3-WORKLOAD-MODE-FRAMEWORK-001_NON_RESOURCE_AUTHORITY_INPUT"
+  },
+  "required_semantics": {
+    "policy_relation": "EFFECTIVE_POLICY_SUBSET_OF_AUTHORIZED_BOUNDARY",
+    "proof_states": [
+      "PROVED",
+      "DENIED",
+      "UNPROVEN"
+    ],
+    "proof_required_unproven_action": "DENY",
+    "authorization_source": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_lease_source": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secret_projection_source": "FA3-SECRET-BROKER-001",
+    "tool_boundary": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_route_source": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence_destination": "FA3-AUTH-OBS-EVIDENCE-001",
+    "enforcer_loss": "FREEZE_OR_TERMINATE_FAIL_CLOSED",
+    "executable_digest_change": "REVALIDATE_BEFORE_CONTINUE",
+    "policy_revision_change": "REVALIDATE_BEFORE_CONTINUE",
+    "silent_backend_downgrade": "DENY"
+  },
+  "envelope_fields": [
+    "principal",
+    "task_id",
+    "task_group",
+    "capability_scope",
+    "filesystem_scope",
+    "network_scope",
+    "process_scope",
+    "mcp_scope",
+    "credential_scope",
+    "resource_lease_refs",
+    "executable_identity",
+    "policy_revision",
+    "approval_digest",
+    "workload_mode",
+    "expiry"
+  ],
+  "mcp_l7": {
+    "request_inspection_required": true,
+    "response_inspection_contract_required": true,
+    "stream_event_inspection_contract_required": true,
+    "protocol_revision_bound": true,
+    "method_and_tool_bound": true,
+    "malformed_or_upgrade_bypass": "DENY"
+  },
+  "credential_projection": {
+    "raw_secret_to_agent": "DENY",
+    "endpoint_bound": true,
+    "operation_bound": true,
+    "short_lived": true,
+    "receipt_contains_opaque_lease_ref_only": true
+  },
+  "executable_identity": {
+    "digest_binding_supported": true,
+    "ancestry_binding_supported": true,
+    "digest_mismatch": "DENY_REVALIDATE"
+  },
+  "security_events": {
+    "normalized_schema": "FA3_EXECUTION_SECURITY_EVENT_OCSF_COMPATIBLE",
+    "ocsf_is_external_authority": false,
+    "event_is_canonical_pass": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
