@@ -10,13 +10,16 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_api_mega_list_adapter import (
     OPENCLAW_SOURCE_ID,
     OPENCLAW_SOURCE_REPOSITORY,
+    SOURCE_ID,
     parse_api_mega_list_markdown,
+    parse_external_catalog_markdown,
     sanitize_locator,
 )
 from fa3_external_api_discovery_pipeline import (
     create_snapshot_manifest,
     drift_report,
     ingest_snapshot,
+    ingest_snapshots,
     validate_snapshot_manifest,
 )
 from fa3_external_discovery_store import validate_candidate_store, volume_action
@@ -119,6 +122,90 @@ class ExternalAPIDiscoveryPipelineTests(unittest.TestCase):
             self.assertEqual("apify", candidate["provider_identity"])
             self.assertEqual("https://apify.com/crawlerbros/google-maps-mcp", candidate["canonical_locator"])
             self.assertTrue(candidate["affiliate_or_tracking_observed"])
+            self.assertFalse(candidate["automatic_provider_admission"])
+            self.assertFalse(candidate["automatic_mcp_registration"])
+
+    def test_openclaw_metadata_extracts_description_hints_and_actor_identity(self):
+        rows = parse_external_catalog_markdown(
+            "# MCP servers (plug in directly)\n"
+            "| API | What it does | OpenClaw use |\n"
+            "| [Brave Search MCP Server](https://apify.com/agentify/brave-search-mcp-server?fpr=p2hrc6) | Private search via Brave | Web search from the assistant |\n",
+            source_path="OPENCLAW_RECOMMENDED.md",
+            source_id=OPENCLAW_SOURCE_ID,
+            source_repository=OPENCLAW_SOURCE_REPOSITORY,
+        )
+        self.assertEqual(1, len(rows))
+        row = rows[0]
+        self.assertEqual("Private search via Brave", row["listing_description"])
+        self.assertTrue(row["mcp_hint"])
+        self.assertFalse(row["skill_hint"])
+        self.assertFalse(row["webhook_hint"])
+        self.assertEqual("agentify/brave-search-mcp-server", row["apify_actor_identity"])
+        self.assertNotIn("p2hrc6", json.dumps(row))
+
+        skill_rows = parse_external_catalog_markdown(
+            "# Integrations & productivity (great as skills)\n"
+            "| [Calendar Helper](https://example.com/calendar) | Create events | Use as a skill |\n"
+            "| [Webhook Relay](https://example.com/hook) | Outbound webhook delivery | Automation |\n",
+            source_path="OPENCLAW_RECOMMENDED.md",
+            source_id=OPENCLAW_SOURCE_ID,
+            source_repository=OPENCLAW_SOURCE_REPOSITORY,
+        )
+        self.assertTrue(skill_rows[0]["skill_hint"])
+        self.assertTrue(skill_rows[1]["webhook_hint"])
+
+    def test_multi_source_reconcile_deduplicates_api_mega_and_openclaw(self):
+        with tempfile.TemporaryDirectory() as api_td, tempfile.TemporaryDirectory() as openclaw_td:
+            api_root = Path(api_td)
+            api_cat = api_root / "maps-apis-1"
+            api_cat.mkdir(parents=True)
+            (api_cat / "README.md").write_text(
+                "- [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?utm_source=mega)\n",
+                encoding="utf-8",
+            )
+            api_manifest = create_snapshot_manifest(api_root, source_commit="a" * 40)
+            (api_root / "manifest.json").write_text(json.dumps(api_manifest, indent=2) + "\n", encoding="utf-8")
+
+            openclaw_root = Path(openclaw_td)
+            (openclaw_root / "OPENCLAW_RECOMMENDED.md").write_text(
+                "# MCP servers\n"
+                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6) | Businesses and reviews | Assistant maps |\n",
+                encoding="utf-8",
+            )
+            openclaw_manifest = create_snapshot_manifest(
+                openclaw_root,
+                source_commit="b" * 40,
+                source_id=OPENCLAW_SOURCE_ID,
+                source_repository=OPENCLAW_SOURCE_REPOSITORY,
+            )
+            (openclaw_root / "manifest.json").write_text(
+                json.dumps(openclaw_manifest, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            store, receipt = ingest_snapshots([api_root, openclaw_root])
+            reversed_store, _ = ingest_snapshots([openclaw_root, api_root])
+            self.assertEqual(store["store_digest"], reversed_store["store_digest"])
+            self.assertEqual("PASS", receipt["result"])
+            self.assertEqual(2, receipt["source_count"])
+            self.assertEqual(1, store["candidate_count"])
+            candidate = store["candidates"][0]
+            self.assertEqual(
+                "https://apify.com/crawlerbros/google-maps-mcp",
+                candidate["canonical_locator"],
+            )
+            self.assertEqual(
+                ["crawlerbros/google-maps-mcp"],
+                candidate["apify_actor_identities"],
+            )
+            self.assertEqual(
+                {SOURCE_ID, OPENCLAW_SOURCE_ID},
+                {obs["source_id"] for obs in candidate["observations"]},
+            )
+            self.assertEqual(
+                {"a" * 40, "b" * 40},
+                {obs["source_commit"] for obs in candidate["observations"]},
+            )
             self.assertFalse(candidate["automatic_provider_admission"])
             self.assertFalse(candidate["automatic_mcp_registration"])
 
