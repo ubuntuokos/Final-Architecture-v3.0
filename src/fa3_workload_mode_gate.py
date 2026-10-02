@@ -22,6 +22,7 @@ P={
  "daemon_h":"apps/workload-mode/src/ModeManager.h",
  "daemon_cpp":"apps/workload-mode/src/ModeManager.cpp",
  "daemon_main":"apps/workload-mode/src/main.cpp",
+ "desktop_indicator":"apps/workload-mode/src/indicator.cpp",
  "ctl":"apps/workload-mode/src/workmodectl.cpp",
  "run":"apps/workload-mode/src/workmoderun.cpp",
  "bridge":"apps/workload-mode/src/fa3_workload_mode_bridge.cpp",
@@ -78,10 +79,12 @@ def gate(root:Path)->dict[str,Any]:
       (a.get("current_host_runtime_promotion_claim") is False and a.get("global_promotion_claim") is False,"WM-016","Reuse Assessment overclaims promotion"),
       (p.get("gpu_telemetry",{}).get("hard_vram_quota_portable_guarantee") is False,"WM-017","portable hard VRAM quota is falsely claimed"),
     ]
-    texts={k:(root/P[k]).read_text(encoding="utf-8") for k in ("daemon_h","daemon_cpp","daemon_main","ctl","run","bridge","blender","standalone_installer","service","bridge_service","current_host_collector","current_host_gate","gui_state_h","gui_state_cpp","gui_indicator","gui_main","gui_cmake","gui_cpp","gui_installer")}
+    texts={k:(root/P[k]).read_text(encoding="utf-8") for k in ("daemon_h","daemon_cpp","daemon_main","desktop_indicator","ctl","run","bridge","blender","standalone_installer","service","bridge_service","current_host_collector","current_host_gate","gui_state_h","gui_state_cpp","gui_indicator","gui_main","gui_cmake","gui_cpp","gui_installer")}
     source_checks=[
       ("org.workloadmode.Manager1" in texts["daemon_h"] and "org.workloadmode.Manager1" in texts["daemon_main"],"WM-020","standalone D-Bus service contract missing"),
       ("com.feralinteractive.GameMode" in texts["daemon_cpp"] and "QueryStatus" in texts["daemon_cpp"],"WM-021","GameMode D-Bus observation bridge missing"),
+      ("power-profiles-daemon" in texts["daemon_cpp"] and "auto-cpufreq" in texts["daemon_cpp"] and "lactd" in texts["daemon_cpp"] and "system76-scheduler" in texts["daemon_cpp"],"WM-021A","external tuner read-only discovery missing"),
+      ("QSystemTrayIcon" in texts["desktop_indicator"] and "StateChanged" in texts["desktop_indicator"],"WM-021B","standalone desktop mode indicator missing"),
       ("FA3-AUTH-HOST-RESOURCE-BROKER-001" in texts["bridge"] and 'peer"), QStringLiteral("FA3")' in texts["bridge"],"WM-022","FA3 bidirectional handshake source missing"),
       ("OBSERVED" in texts["daemon_cpp"] and "COORDINATED" in texts["daemon_cpp"] and "MANAGED" in texts["daemon_cpp"],"WM-023","external workload state taxonomy missing"),
       ("SYS_pidfd_open" in texts["daemon_cpp"] and "QSocketNotifier" in texts["daemon_h"],"WM-023A","pidfd process lifetime tracking missing"),

@@ -5,6 +5,7 @@
 #include <QSet>
 #include <QSocketNotifier>
 #include <QString>
+#include <QStringList>
 #include <QVariantMap>
 
 class ModeManager final : public QObject, protected QDBusContext
@@ -19,6 +20,7 @@ class ModeManager final : public QObject, protected QDBusContext
     Q_PROPERTY(QString conflictState READ conflictState NOTIFY stateChanged)
     Q_PROPERTY(QString resourcePressure READ resourcePressure NOTIFY stateChanged)
     Q_PROPERTY(int workloadCount READ workloadCount NOTIFY stateChanged)
+    Q_PROPERTY(QStringList coexistencePeers READ coexistencePeers NOTIFY stateChanged)
 
 public:
     explicit ModeManager(QObject *parent = nullptr);
@@ -30,6 +32,7 @@ public:
     QString conflictState() const { return m_conflictState; }
     QString resourcePressure() const { return m_resourcePressure; }
     int workloadCount() const { return m_workloads.size(); }
+    QStringList coexistencePeers() const { return m_coexistencePeers; }
 
 public slots:
     QVariantMap Hello(const QVariantMap &request);
@@ -39,6 +42,7 @@ public slots:
 
 public:
     void refreshGameMode();
+    void refreshCoexistencePeers();
     void serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner);
 
 signals:
@@ -65,4 +69,5 @@ private:
     QString m_safetyState = QStringLiteral("PASS");
     QString m_conflictState = QStringLiteral("NONE");
     QString m_resourcePressure = QStringLiteral("NORMAL");
+    QStringList m_coexistencePeers;
 };

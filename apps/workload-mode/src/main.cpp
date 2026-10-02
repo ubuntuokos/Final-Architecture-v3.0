@@ -32,5 +32,10 @@ int main(int argc, char **argv)
     gameModeTimer.start(2000);
     manager.refreshGameMode();
 
+    QTimer coexistenceTimer;
+    QObject::connect(&coexistenceTimer, &QTimer::timeout, &manager, &ModeManager::refreshCoexistencePeers);
+    coexistenceTimer.start(5000);
+    manager.refreshCoexistencePeers();
+
     return app.exec();
 }

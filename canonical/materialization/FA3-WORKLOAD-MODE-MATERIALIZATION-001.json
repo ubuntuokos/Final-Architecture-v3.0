@@ -19,7 +19,8 @@
     "deployment/workload-mode/fa3-workload-mode-bridge.service",
     "evidence/collect-workload-mode-current-host.py",
     "src/fa3_workload_mode_current_host_gate.py",
-    ".github/workflows/fa3-workload-mode-current-host.yml"
+    ".github/workflows/fa3-workload-mode-current-host.yml",
+    "apps/workload-mode/src/indicator.cpp"
   ],
   "materialized_scope": [
     "STANDALONE_DBUS_STATE_BROKER",
@@ -31,7 +32,9 @@
     "MANDATORY_FA3_INSTALL_CONTRACT",
     "GLOBAL_GUI_INDICATOR_SOURCE",
     "PIDFD_PROCESS_LIFETIME_TRACKING",
-    "SCOPED_CURRENT_HOST_COLLECTOR_AND_GATE"
+    "SCOPED_CURRENT_HOST_COLLECTOR_AND_GATE",
+    "READ_ONLY_EXTERNAL_TUNER_DISCOVERY",
+    "STANDALONE_DESKTOP_TRAY_INDICATOR_SOURCE"
   ],
   "deferred_physical_scope": [
     "SYSTEMD_TRANSIENT_SCOPE_RESOURCE_MUTATION",

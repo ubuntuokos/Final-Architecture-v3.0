@@ -77,6 +77,13 @@ Button {
             Label { text: "Safety: " + (root.stateProvider ? root.stateProvider.safetyState : "UNKNOWN"); color: root.mutedColor }
             Label { text: "Conflict: " + (root.stateProvider ? root.stateProvider.conflictState : "UNKNOWN"); color: root.mutedColor }
             Label {
+                text: "Coexistence: " + (root.stateProvider && root.stateProvider.coexistencePeers.length
+                      ? root.stateProvider.coexistencePeers.join(", ") : "none")
+                color: root.mutedColor
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+            }
+            Label {
                 visible: root.stateProvider ? root.stateProvider.degraded : true
                 text: "⚠ " + (root.stateProvider ? root.stateProvider.degradedReason : "WORKLOAD_MODE_REQUIRED_SERVICE_UNAVAILABLE")
                 color: root.warningColor

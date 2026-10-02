@@ -2,6 +2,7 @@
 #include <QDBusServiceWatcher>
 #include <QObject>
 #include <QVariantMap>
+#include <QStringList>
 
 class WorkloadModeStateService final : public QObject
 {
@@ -18,6 +19,7 @@ class WorkloadModeStateService final : public QObject
     Q_PROPERTY(bool degraded READ degraded NOTIFY stateChanged)
     Q_PROPERTY(QString degradedReason READ degradedReason NOTIFY stateChanged)
     Q_PROPERTY(bool serviceAvailable READ serviceAvailable NOTIFY stateChanged)
+    Q_PROPERTY(QStringList coexistencePeers READ coexistencePeers NOTIFY stateChanged)
 
 public:
     explicit WorkloadModeStateService(QObject *parent = nullptr);
@@ -33,6 +35,7 @@ public:
     bool degraded() const { return m_degraded; }
     QString degradedReason() const { return m_degradedReason; }
     bool serviceAvailable() const { return m_serviceAvailable; }
+    QStringList coexistencePeers() const { return m_coexistencePeers; }
 
     Q_INVOKABLE void refresh();
 
@@ -60,4 +63,5 @@ private:
     bool m_degraded = true;
     QString m_degradedReason = QStringLiteral("WORKLOAD_MODE_REQUIRED_SERVICE_UNAVAILABLE");
     bool m_serviceAvailable = false;
+    QStringList m_coexistencePeers;
 };

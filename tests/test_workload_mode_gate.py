@@ -25,6 +25,11 @@ class WorkloadModeTests(unittest.TestCase):
         self.assertEqual("FA3-AUTH-HOST-RESOURCE-BROKER-001",row["authority"]["when_fa3_present"])
         self.assertTrue(row["authority"]["fa3_parallel_resource_authority_forbidden"])
 
+    def test_external_tuner_detection_is_read_only(self):
+        profile=json.loads((ROOT/"canonical/profiles/FA3-WORKLOAD-MODE-FRAMEWORK-001.json").read_text())
+        self.assertEqual("READ_ONLY",profile["coexistence_detection"]["mode"])
+        self.assertFalse(profile["coexistence_detection"]["automatic_disable_or_uninstall"])
+
     def test_global_indicator_is_real_backed_and_accessible(self):
         main=(ROOT/"apps/fa3-control-center/qml/Main.qml").read_text()
         indicator=(ROOT/"apps/fa3-control-center/qml/WorkloadModeIndicator.qml").read_text()

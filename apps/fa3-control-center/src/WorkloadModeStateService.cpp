@@ -40,6 +40,7 @@ void WorkloadModeStateService::markUnavailable(const QString &reason)
     m_degraded = true;
     m_degradedReason = reason;
     m_serviceAvailable = false;
+    m_coexistencePeers.clear();
     emit stateChanged();
 }
 
@@ -57,6 +58,7 @@ void WorkloadModeStateService::applyState(const QVariantMap &state)
     m_degraded = state.value(QStringLiteral("degraded_state"), false).toBool();
     m_degradedReason = state.value(QStringLiteral("degraded_reason")).toString();
     m_serviceAvailable = true;
+    m_coexistencePeers = state.value(QStringLiteral("coexistence_peers")).toStringList();
     emit stateChanged();
 }
 

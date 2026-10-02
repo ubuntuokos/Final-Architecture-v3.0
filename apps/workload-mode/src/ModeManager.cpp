@@ -5,6 +5,9 @@
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QDBusReply>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QVariant>
 #ifdef __linux__
 #include <sys/syscall.h>
@@ -123,6 +126,43 @@ void ModeManager::refreshGameMode()
     }
 }
 
+void ModeManager::refreshCoexistencePeers()
+{
+    const QHash<QString, QString> signatures = {
+        {QStringLiteral("tuned"), QStringLiteral("TuneD")},
+        {QStringLiteral("power-profiles-daemon"), QStringLiteral("power-profiles-daemon")},
+        {QStringLiteral("auto-cpufreq"), QStringLiteral("auto-cpufreq")},
+        {QStringLiteral("lactd"), QStringLiteral("LACT")},
+        {QStringLiteral("system76-scheduler"), QStringLiteral("System76 Scheduler")}
+    };
+    QSet<QString> found;
+    QDir proc(QStringLiteral("/proc"));
+    const QStringList pids = proc.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (const QString &pid : pids) {
+        bool numeric = false;
+        pid.toLongLong(&numeric);
+        if (!numeric)
+            continue;
+        QFile cmd(proc.filePath(pid + QStringLiteral("/cmdline")));
+        if (!cmd.open(QIODevice::ReadOnly))
+            continue;
+        QString text = QString::fromLocal8Bit(cmd.readAll()).replace(QChar::Null, QLatin1Char(' ')).toLower();
+        for (auto it = signatures.constBegin(); it != signatures.constEnd(); ++it) {
+            if (text.contains(it.key()))
+                found.insert(it.value());
+        }
+    }
+    if (QFileInfo::exists(QStringLiteral("/etc/tlp.conf"))
+        || QFileInfo::exists(QStringLiteral("/etc/tlp.d")))
+        found.insert(QStringLiteral("TLP"));
+    QStringList next = found.values();
+    next.sort(Qt::CaseInsensitive);
+    if (next != m_coexistencePeers) {
+        m_coexistencePeers = next;
+        publish();
+    }
+}
+
 void ModeManager::serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner)
 {
     Q_UNUSED(name)
@@ -220,5 +260,6 @@ QVariantMap ModeManager::stateMap() const
     out.insert(QStringLiteral("external_workload_present"), external);
     out.insert(QStringLiteral("lease_health"), QStringLiteral("NOT_ACTIVE_REFERENCE_STATE_CORE"));
     out.insert(QStringLiteral("rollback_health"), QStringLiteral("NOT_ACTIVE_REFERENCE_STATE_CORE"));
+    out.insert(QStringLiteral("coexistence_peers"), m_coexistencePeers);
     return out;
 }

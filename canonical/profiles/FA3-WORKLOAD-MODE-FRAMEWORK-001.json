@@ -132,7 +132,9 @@
       "CONFLICT",
       "RESOURCE_PRESSURE",
       "AUTHORITY_LOST"
-    ]
+    ],
+    "standalone_desktop_indicator": "workmode-indicator",
+    "standalone_desktop_indicator_runtime": "PENDING_PHYSICAL_CURRENT_HOST"
   },
   "current_host": {
     "standalone_daemon_runtime": "PENDING_PHYSICAL_CURRENT_HOST",
@@ -149,5 +151,19 @@
     "accelerator_cardinality": "0..N",
     "global_accelerator_requirement": false,
     "hardware_mutation_by_static_materialization": false
+  },
+  "coexistence_detection": {
+    "mode": "READ_ONLY",
+    "automatic_disable_or_uninstall": false,
+    "observed_peer_families": [
+      "GameMode",
+      "TuneD",
+      "power-profiles-daemon",
+      "auto-cpufreq",
+      "LACT",
+      "System76 Scheduler",
+      "TLP"
+    ],
+    "actual_write_conflict_requires_evidence": true
   }
 }
