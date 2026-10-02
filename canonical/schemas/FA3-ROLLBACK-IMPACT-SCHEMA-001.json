@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/rollback-impact/v1",
+  "title": "FA3 RollbackImpact",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "target_changeset_id",
+    "affected_ids",
+    "derived_index_action",
+    "source_mutation"
+  ],
+  "properties": {
+    "target_changeset_id": {
+      "type": "string"
+    },
+    "affected_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "derived_index_action": {
+      "enum": [
+        "REBUILD",
+        "DELETE_AND_REBUILD"
+      ]
+    },
+    "source_mutation": {
+      "const": false
+    }
+  }
+}
