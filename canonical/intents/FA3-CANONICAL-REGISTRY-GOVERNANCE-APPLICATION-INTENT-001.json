@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-REGISTRY-001",
+  "project_type": "PROFILE",
+  "goal": "Align the existing canonical Registry governance root with the active 175-capability release baseline and add fail-closed global registry identity/supersedence integrity checks without creating a new capability, provider, runtime, or architectural authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "canonical-registry-integrity",
+    "referential-integrity",
+    "supersedence-integrity",
+    "release-baseline-drift",
+    "governance-evidence"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "GIT_IDENTITY",
+    "RELEASE_BASELINE"
+  ],
+  "output_modalities": [
+    "EXECUTABLE_GATE_REPORT",
+    "DERIVED_NON_AUTHORIZING_REGISTRY_GRAPH"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "GLOBAL_CANONICAL_REGISTRY_INTEGRITY_EXECUTABLE_ENFORCEMENT"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "task_classes": [
+    "architecture",
+    "governance",
+    "security"
+  ],
+  "skill_triggers": []
+}
