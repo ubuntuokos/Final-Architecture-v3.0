@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-PAPERCLIP-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "536bacedbebcd25ce80fe29cead523c7e890bc82",
+  "parent_registry_blob_sha": "67795f00d5f7d801978bd6d4f92006b5412fe9ee",
+  "parent_entry_count": 1354,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1355,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-paperclip-2026-10-02.md",
+  "requirements": [
+    "Register the exact owner-marked paperclipai/paperclip repository as one canonical ACCEPTED_REFERENCE.",
+    "Preserve the already materialized PR #571 FA3-native orchestration-governance implementation; this intake must not duplicate it or introduce a second orchestrator/control plane.",
+    "Paperclip runtime, scheduler, control plane, provider/model routing, secret handling and source code are not admitted by this intake.",
+    "Temporal remains the sole global durable workflow lifecycle authority; existing HRB, Model Router, Security/UAF/MCP and Evidence/Gate boundaries remain unchanged.",
+    "The fixed capability baseline remains 175; provider-count policy remains dynamic; authority delta is zero.",
+    "No donor usage edge is created in this intake. After publication to main, a fresh Reuse Assessment must bind the finalized Paperclip donor snapshot before the already materialized #571 pattern use is recorded as a canonical usage edge.",
+    "Any future code/runtime reuse requires separate License & Rights/provenance, security, Software Coexistence, Hardware Safety and Current Host admission."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/paperclipai/paperclip",
+      "normalized_key": "github:paperclipai/paperclip",
+      "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "observed_head": "144083fd481464f4a328f0d184a82263de63228d",
+      "prior_fa3_analysis_head": "b54b2dc35c1f41d367ff4d94615ebfd38bbbdad0",
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      }
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "runtime_control_plane_admission": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}

@@ -47,7 +47,7 @@ class NvidiaOpenShellDonorRefreshTests(unittest.TestCase):
         self.assertEqual(len(self.matches), 1)
         self.assertEqual(self.row["donor_id"], DONOR_ID)
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
-        self.assertEqual(len(self.entries), 1354)
+        self.assertGreaterEqual(len(self.entries), self.delta["proposed_entry_count"])
         self.assertEqual(self.registry["capability_count"], 175)
         self.assertEqual(self.delta["parent_entry_count"], 1354)
         self.assertEqual(self.delta["proposed_entry_count"], 1354)
