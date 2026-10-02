@@ -1,0 +1,176 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-REUSE-ASSESSMENT-2026-10-02",
+  "project_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "intent_id": "FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SHARED-EXECUTION-SECURITY-001",
+    "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "use": "PARENT_TYPED_ACTION_POLICY_APPROVAL_RECEIPT_COMPOSITION"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "NON_AUTHORITY_ACTION_DISPATCH"
+    },
+    {
+      "id": "FA3-AGENT-SANDBOX-001",
+      "use": "EXISTING_ISOLATED_AGENT_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXCLUSIVE_AUTHORIZATION_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXCLUSIVE_MCP_TOOL_MEDIATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "EXCLUSIVE_SECRET_PROJECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_HOST_RESOURCE_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_MODEL_PROVIDER_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXCLUSIVE_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "AUTH-DURABLE",
+      "use": "TEMPORAL_GLOBAL_DURABLE_WORKFLOW_AUTHORITY"
+    }
+  ],
+  "selected_donor_patterns": [
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+      "usage_edge_id": "FA3-USAGE-NVIDIA-OPENSHELL-EXECUTION-SECURITY-001",
+      "use": "EXECUTION_BOUNDARY_POLICY_PROVER_IDENTITY_CREDENTIAL_MCP_AND_SANDBOX_PATTERNS",
+      "adopted": true,
+      "code_copy": false,
+      "runtime_dependency": false,
+      "authority": false
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "OPENSHELL_CONTROL_PLANE_AS_FA3_AUTHORITY",
+      "reason": "WOULD_DUPLICATE_EXISTING_FA3_AUTHORITIES"
+    },
+    {
+      "id": "OPENSHELL_AS_REQUIRED_RUNTIME_DEPENDENCY",
+      "reason": "FA3_MUST_REMAIN_PROVIDER_NEUTRAL_AND_CAPABILITY_PRESERVING"
+    },
+    {
+      "id": "NEW_SECURITY_AUTHORIZATION_AUTHORITY",
+      "reason": "SECURITY_GOVERNANCE_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "NEW_MCP_GATEWAY",
+      "reason": "CENTRAL_MCP_GATEWAY_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "NEW_SECRET_OR_RESOURCE_AUTHORITY",
+      "reason": "SECRET_BROKER_AND_HRB_REMAIN_EXCLUSIVE"
+    }
+  ],
+  "pattern_reuse": [
+    "POLICY_BOUNDARY_CONTAINMENT",
+    "POLICY_PROOF_STATES",
+    "EXECUTABLE_IDENTITY_DIGEST_BINDING",
+    "DENY_BY_DEFAULT_FILESYSTEM_PROCESS_NETWORK",
+    "ENDPOINT_BOUND_CREDENTIAL_PROJECTION",
+    "MCP_L7_INSPECTION",
+    "FAIL_CLOSED_SANDBOX_LIFECYCLE",
+    "STRUCTURED_SECURITY_EVENTS"
+  ],
+  "existing_authority_bindings": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "AUTH-DURABLE",
+    "human_approval": "AUTH-HUMAN",
+    "workload_mode": "FA3-WORKLOAD-MODE-FRAMEWORK-001_NON_RESOURCE_AUTHORITY_INPUT"
+  },
+  "gaps": [
+    "PHYSICAL_EXECUTION_SECURITY_CURRENT_HOST_REQUALIFICATION",
+    "OPTIONAL_OS_BACKEND_IMPLEMENTATION_AND_PROOF"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_SHARED_MATERIALIZATION_RUNTIME_PROMOTION_SEPARATE",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [
+        "RUNTIME_PROVIDER_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "536bacedbebcd25ce80fe29cead523c7e890bc82",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "67795f00d5f7d801978bd6d4f92006b5412fe9ee",
+    "donor_registry_sha256": "4a411c35e5db25097c9e87efe685e16b529d355ad522a7474ce64f0e44e04f16",
+    "donor_registry_entry_count": 1354
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-EXECUTION-SECURITY-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false,
+    "rationale": "Execution security is cross-application infrastructure for effectful agent/tool/plugin/external workloads and must be one shared enforcement contract below existing FA3 authorities."
+  }
+}
