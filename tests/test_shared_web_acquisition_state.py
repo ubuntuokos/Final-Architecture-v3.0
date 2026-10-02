@@ -1,7 +1,9 @@
 from __future__ import annotations
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
@@ -168,6 +170,40 @@ class SharedWebAcquisitionStateTests(unittest.TestCase):
             restored.snapshot(),
             AcquisitionStateStore.from_snapshot(restored.snapshot()).snapshot(),
         )
+
+    def test_atomic_persistence_round_trip(self):
+        store = AcquisitionStateStore()
+        store.enqueue(self.req())
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "state.json"
+            store.save_atomic(path)
+            restored = AcquisitionStateStore.load_file(path)
+            self.assertEqual(store.snapshot(), restored.snapshot())
+
+    def test_atomic_persistence_preserves_previous_snapshot_on_replace_failure(self):
+        original = AcquisitionStateStore()
+        original.enqueue(self.req())
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "state.json"
+            original.save_atomic(path)
+            before = path.read_bytes()
+
+            changed = AcquisitionStateStore.from_snapshot(original.snapshot())
+            changed.session_create("s1")
+            with patch(
+                "fa3_shared_web_acquisition_state.os.replace",
+                side_effect=OSError("simulated replace failure"),
+            ):
+                with self.assertRaisesRegex(
+                    AcquisitionStateError, "ATOMIC_STATE_WRITE_FAILED"
+                ):
+                    changed.save_atomic(path)
+
+            self.assertEqual(path.read_bytes(), before)
+            self.assertEqual(
+                list(Path(tmp).glob(".state.json.*.tmp")),
+                [],
+            )
 
     def test_session_retirement_and_replacement(self):
         store = AcquisitionStateStore()
