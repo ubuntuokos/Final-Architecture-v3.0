@@ -1,0 +1,1053 @@
+{
+  "schema": "fa3.task-group-registry.v1",
+  "id": "FA3-TASK-GROUP-REGISTRY-001",
+  "status": "CANONICAL",
+  "contract_id": "FA3-TASK-GROUP-CONTRACTS-001",
+  "registry_revision": 1,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "first_level_group_count": 31,
+  "defaults": {
+    "role_policy": {
+      "allowed_role_kinds": [
+        "PLANNER",
+        "ROUTER",
+        "WORKER",
+        "REVIEWER",
+        "VERIFIER",
+        "OPERATOR"
+      ],
+      "prohibited_role_kinds": []
+    },
+    "capability_policy": {
+      "required_capabilities": [],
+      "optional_capabilities": [],
+      "anti_capabilities": []
+    },
+    "authority_policy": {
+      "required_authority_refs": [],
+      "forbidden_authority_roles": [],
+      "may_grant_authority": false
+    },
+    "workflow_policy": {
+      "temporal_required": true,
+      "durable_lifecycle_owner": "Temporal",
+      "conductor_allowed": false,
+      "conductor_modes": [
+        "NONE"
+      ],
+      "max_graph_depth": 1,
+      "max_parallelism": 1
+    },
+    "execution_policy": {
+      "uaf_required": true,
+      "direct_provider_execution": false,
+      "direct_model_selection": false,
+      "direct_resource_admission": false
+    },
+    "review_policy": {
+      "independent_review_required": false,
+      "allowed_reviewer_roles": [
+        "REVIEWER",
+        "VERIFIER"
+      ],
+      "self_review_allowed": false
+    },
+    "approval_policy": {
+      "human_approval_class": "POLICY_DEPENDENT",
+      "version_bound_approval_required": true
+    },
+    "resource_policy": {
+      "cpu_only_valid": true,
+      "accelerator_optional": true,
+      "hrb_required_for_physical_resource_admission": true,
+      "display_gpu_auto_recruitment": false
+    },
+    "model_policy": {
+      "logical_model_requirements_allowed": true,
+      "physical_model_selection_authority": "FA3-AUTH-MODEL-ROUTER-001"
+    },
+    "workload_mode_policy": {
+      "workload_domains": [],
+      "mode_state_required": true,
+      "allowed_effective_modes": [
+        "NORMAL",
+        "AI",
+        "RENDER",
+        "AI+RENDER",
+        "BACKGROUND",
+        "SAFE_MODE",
+        "DEGRADED",
+        "CONFLICT",
+        "RESOURCE_PRESSURE",
+        "AUTHORITY_LOST"
+      ],
+      "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+      "may_request_mode_change": true,
+      "may_mutate_physical_resources": false
+    },
+    "retry_recovery_policy": {
+      "max_retries": 3,
+      "scope_may_expand": false,
+      "budget_may_expand_without_approval": false,
+      "unknown_effect_blind_retry": false
+    },
+    "handoff_policy": {
+      "typed_handoff_required": true,
+      "digest_required": true,
+      "ack_policy": "RELATION_OR_EFFECT_DEPENDENT"
+    },
+    "evidence_policy": {
+      "verifier_independent": true,
+      "worker_output_is_verified": false,
+      "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    "current_host_policy": {
+      "runtime_promotion_requires_current_host_evidence": true
+    }
+  },
+  "groups": [
+    {
+      "task_group_id": "F01",
+      "revision": 1,
+      "name": "User Goals & Approval",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "goals",
+        "approvals"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P1"
+        ],
+        "permitted_profiles": [
+          "P1"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F02",
+      "revision": 1,
+      "name": "Project / Production Planning",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "planning",
+        "production-planning"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P1"
+        ],
+        "permitted_profiles": [
+          "P1"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F03",
+      "revision": 1,
+      "name": "Task & Dependency Coordination",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "task-coordination",
+        "dependency-coordination"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P1"
+        ],
+        "permitted_profiles": [
+          "P1"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F04",
+      "revision": 1,
+      "name": "Priority & Scheduling Coordination",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "priority",
+        "scheduling"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P1"
+        ],
+        "permitted_profiles": [
+          "P1"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F05",
+      "revision": 1,
+      "name": "Agent Team & Delegation",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "agent-team",
+        "delegation"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P2"
+        ],
+        "permitted_profiles": [
+          "P2",
+          "P3"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "AGENT_BACKGROUND"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F06",
+      "revision": 1,
+      "name": "Adaptive Task Graph",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "adaptive-graph"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P2"
+        ],
+        "permitted_profiles": [
+          "P2"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 4,
+        "max_parallelism": 16
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "AGENT_BACKGROUND"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F07",
+      "revision": 1,
+      "name": "Durable Workflow Lifecycle",
+      "classification": "TEMPORAL_EXCLUSIVE",
+      "aliases": [
+        "durable-workflow"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "temporal_required": true,
+        "durable_lifecycle_owner": "Temporal",
+        "conductor_allowed": false,
+        "conductor_modes": [
+          "NONE"
+        ],
+        "max_graph_depth": 1,
+        "max_parallelism": 1
+      }
+    },
+    {
+      "task_group_id": "F08",
+      "revision": 1,
+      "name": "Unified Operation / Event Execution",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "event-execution",
+        "unified-operation"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P7"
+        ],
+        "permitted_profiles": [
+          "P7"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F09",
+      "revision": 1,
+      "name": "Security / Authorization",
+      "classification": "AUTHORITY_BOUND",
+      "aliases": [
+        "security",
+        "authorization"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "authority_policy": {
+        "required_authority_refs": [
+          "FA3-AUTH-SECURITY-GOV-001"
+        ],
+        "forbidden_authority_roles": [
+          "WORKFORCE_SPECIALIST_AS_AUTHORITY"
+        ],
+        "may_grant_authority": false
+      }
+    },
+    {
+      "task_group_id": "F10",
+      "revision": 1,
+      "name": "Host / System Lifecycle",
+      "classification": "AUTHORITY_BOUND",
+      "aliases": [
+        "host-lifecycle",
+        "system-lifecycle"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "authority_policy": {
+        "required_authority_refs": [],
+        "forbidden_authority_roles": [
+          "WORKFORCE_SPECIALIST_AS_AUTHORITY"
+        ],
+        "may_grant_authority": false
+      }
+    },
+    {
+      "task_group_id": "F11",
+      "revision": 1,
+      "name": "Compute / Resource Management",
+      "classification": "AUTHORITY_BOUND",
+      "aliases": [
+        "compute-resource",
+        "resource-management"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "authority_policy": {
+        "required_authority_refs": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        ],
+        "forbidden_authority_roles": [
+          "WORKFORCE_SPECIALIST_AS_AUTHORITY"
+        ],
+        "may_grant_authority": false
+      }
+    },
+    {
+      "task_group_id": "F12",
+      "revision": 1,
+      "name": "Model / Provider Routing",
+      "classification": "AUTHORITY_BOUND",
+      "aliases": [
+        "model-routing",
+        "provider-routing"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "authority_policy": {
+        "required_authority_refs": [
+          "FA3-AUTH-MODEL-ROUTER-001"
+        ],
+        "forbidden_authority_roles": [
+          "WORKFORCE_SPECIALIST_AS_AUTHORITY"
+        ],
+        "may_grant_authority": false
+      }
+    },
+    {
+      "task_group_id": "F13",
+      "revision": 1,
+      "name": "Data / Artifact Lifecycle",
+      "classification": "AUTHORITY_BOUND",
+      "aliases": [
+        "data-lifecycle",
+        "artifact-lifecycle"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "authority_policy": {
+        "required_authority_refs": [],
+        "forbidden_authority_roles": [
+          "WORKFORCE_SPECIALIST_AS_AUTHORITY"
+        ],
+        "may_grant_authority": false
+      }
+    },
+    {
+      "task_group_id": "F14",
+      "revision": 1,
+      "name": "External Integration & Triggering",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "external-integration",
+        "triggering"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P7"
+        ],
+        "permitted_profiles": [
+          "P7"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F15",
+      "revision": 1,
+      "name": "Research / Knowledge",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "research-intelligence",
+        "research",
+        "knowledge"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P2"
+        ],
+        "permitted_profiles": [
+          "P2",
+          "P3"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "RAG_QUERY",
+          "RAG_INGESTION",
+          "AGENT_BACKGROUND"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F16",
+      "revision": 1,
+      "name": "Software Development",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "software-development",
+        "developer"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P2"
+        ],
+        "permitted_profiles": [
+          "P2",
+          "P3"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "AGENT_INTERACTIVE",
+          "AGENT_BACKGROUND"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F17",
+      "revision": 1,
+      "name": "Verification & Evidence",
+      "classification": "AUTHORITY_BOUND",
+      "aliases": [
+        "verification",
+        "evidence"
+      ],
+      "profile_policy": {
+        "primary_profiles": [],
+        "permitted_profiles": [],
+        "prohibited_profiles": []
+      },
+      "authority_policy": {
+        "required_authority_refs": [
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "forbidden_authority_roles": [
+          "WORKFORCE_SPECIALIST_AS_AUTHORITY"
+        ],
+        "may_grant_authority": false
+      },
+      "review_policy": {
+        "independent_review_required": true,
+        "allowed_reviewer_roles": [
+          "REVIEWER",
+          "VERIFIER"
+        ],
+        "self_review_allowed": false
+      }
+    },
+    {
+      "task_group_id": "F18",
+      "revision": 1,
+      "name": "Experiment / Optimization",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "experiment",
+        "optimization"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P5"
+        ],
+        "permitted_profiles": [
+          "P5"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "CUSTOM"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F19",
+      "revision": 1,
+      "name": "Story / Screenplay",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "story",
+        "screenplay"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F20",
+      "revision": 1,
+      "name": "Preproduction / Location",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "preproduction",
+        "location"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F21",
+      "revision": 1,
+      "name": "Character / Motion",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "character",
+        "motion"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F22",
+      "revision": 1,
+      "name": "Visual Asset Production",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "visual-assets"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F23",
+      "revision": 1,
+      "name": "Generative Media",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "generative-media"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4",
+          "P5"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "IMAGE_GENERATION",
+          "VIDEO_GENERATION",
+          "AUDIO_GENERATION"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F24",
+      "revision": 1,
+      "name": "VFX / Reconstruction",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "vfx",
+        "reconstruction"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4",
+          "P5"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "IMAGE_GENERATION",
+          "VIDEO_GENERATION"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F25",
+      "revision": 1,
+      "name": "Video Editorial",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "video-editorial",
+        "video-editing"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F26",
+      "revision": 1,
+      "name": "Audio / Music / Speech",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "audio",
+        "music",
+        "speech"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "AUDIO_GENERATION",
+          "SPEECH_RECOGNITION",
+          "TEXT_TO_SPEECH"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F27",
+      "revision": 1,
+      "name": "Rendering",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "rendering"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P5"
+        ],
+        "permitted_profiles": [
+          "P5"
+        ],
+        "prohibited_profiles": []
+      },
+      "workflow_policy": {
+        "conductor_allowed": true,
+        "conductor_modes": [
+          "NONE",
+          "FA3_NATIVE_ADAPTIVE",
+          "OPTIONAL_EXTERNAL_ADMITTED"
+        ],
+        "max_graph_depth": 3,
+        "max_parallelism": 8
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "RENDER_FINAL_FRAME",
+          "RENDER_ANIMATION_BATCH",
+          "RENDER_CPU",
+          "RENDER_GPU",
+          "RENDER_HYBRID"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F28",
+      "revision": 1,
+      "name": "Live Production / Cueing",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "live-production",
+        "cueing"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P6"
+        ],
+        "permitted_profiles": [
+          "P6"
+        ],
+        "prohibited_profiles": []
+      },
+      "workload_mode_policy": {
+        "workload_domains": [
+          "CUSTOM"
+        ],
+        "mode_state_required": true,
+        "allowed_effective_modes": [
+          "NORMAL",
+          "AI",
+          "RENDER",
+          "AI+RENDER",
+          "BACKGROUND",
+          "SAFE_MODE",
+          "DEGRADED",
+          "CONFLICT",
+          "RESOURCE_PRESSURE",
+          "AUTHORITY_LOST"
+        ],
+        "degraded_behavior": "VISIBLE_FAIL_CLOSED_FOR_RESOURCE_CHANGING_OPERATIONS",
+        "may_request_mode_change": true,
+        "may_mutate_physical_resources": false
+      }
+    },
+    {
+      "task_group_id": "F29",
+      "revision": 1,
+      "name": "Media QC / Delivery",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "media-qc",
+        "delivery"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P4"
+        ],
+        "permitted_profiles": [
+          "P4"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F30",
+      "revision": 1,
+      "name": "Control Center / Operator Work",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "control-center",
+        "operator-work"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P1"
+        ],
+        "permitted_profiles": [
+          "P1"
+        ],
+        "prohibited_profiles": []
+      }
+    },
+    {
+      "task_group_id": "F31",
+      "revision": 1,
+      "name": "Business / Administrative Operations",
+      "classification": "ORCHESTRATED",
+      "aliases": [
+        "business-operations",
+        "administration"
+      ],
+      "profile_policy": {
+        "primary_profiles": [
+          "P1"
+        ],
+        "permitted_profiles": [
+          "P1"
+        ],
+        "prohibited_profiles": []
+      }
+    }
+  ],
+  "authority_boundaries": {
+    "durable_workflow": "Temporal",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "workload_mode": "FA3-WORKLOAD-MODE-FRAMEWORK-001"
+  }
+}

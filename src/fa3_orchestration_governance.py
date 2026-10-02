@@ -20,6 +20,9 @@ QUALIFYING_SPLIT_REASONS = {
     "INDEPENDENT_PARALLEL_DELIVERABLE", "HARD_DEPENDENCY_OR_HANDOFF",
     "INDEPENDENT_REVIEW_OR_APPROVAL", "INDEPENDENT_RETRY_OR_RECOVERY",
 }
+HANDOFF_STATES = {"CREATED", "DELIVERED", "ACKNOWLEDGED", "ACCEPTED", "REJECTED", "SUPERSEDED", "EXPIRED"}
+RECOVERY_CLASSES = {"RETRYABLE", "RECOVERABLE", "REPLAN_REQUIRED", "HUMAN_REQUIRED", "UNKNOWN_EFFECT"}
+
 LIVENESS_STATES = {
     "READY", "CLAIMED", "RUNNING", "WAITING_INPUT", "WAITING_APPROVAL",
     "WAITING_RESOURCE", "BLOCKED", "RECOVERING", "STALLED", "CANCELLING",
@@ -220,4 +223,75 @@ def build_monitor_projection(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "routed": routed,
         "attention_required": attention,
         "liveness_counts": states,
+    }
+
+
+def build_handoff_envelope(
+    handoff_id: str,
+    from_task_id: str,
+    to_task_id: str,
+    relation_type: str,
+    *,
+    source_revision: int,
+    source_digest: str,
+    artifact_refs: list[str] | None = None,
+    artifact_digests: list[str] | None = None,
+    required_output_contract: str,
+    ack_required: bool = True,
+    expires_at: str,
+    state: str = "CREATED",
+) -> dict[str, Any]:
+    if not all(isinstance(x, str) and x for x in (handoff_id, from_task_id, to_task_id, required_output_contract, expires_at)):
+        raise OrchestrationGovernanceError("handoff identity fields required")
+    if relation_type not in DEPENDENCY_TYPES:
+        raise OrchestrationGovernanceError("unsupported handoff relation")
+    if not isinstance(source_revision, int) or isinstance(source_revision, bool) or source_revision < 1:
+        raise OrchestrationGovernanceError("handoff source revision invalid")
+    if not SHA256_RE.fullmatch(source_digest):
+        raise OrchestrationGovernanceError("handoff source digest invalid")
+    if state not in HANDOFF_STATES:
+        raise OrchestrationGovernanceError("handoff state invalid")
+    refs = _strings(artifact_refs or [], "artifact_refs")
+    digests = _strings(artifact_digests or [], "artifact_digests")
+    if len(refs) != len(digests):
+        raise OrchestrationGovernanceError("artifact refs/digests cardinality mismatch")
+    if any(not SHA256_RE.fullmatch(d) for d in digests):
+        raise OrchestrationGovernanceError("artifact digest invalid")
+    return {
+        "schema": "fa3.orchestration-handoff.v1",
+        "handoff_id": handoff_id,
+        "from_task_id": from_task_id,
+        "to_task_id": to_task_id,
+        "relation_type": relation_type,
+        "source_revision": source_revision,
+        "source_digest": source_digest,
+        "artifact_refs": refs,
+        "artifact_digests": digests,
+        "required_output_contract": required_output_contract,
+        "ack_required": bool(ack_required),
+        "expires_at": expires_at,
+        "state": state,
+        "ack_is_completion": False,
+        "ack_is_verified_evidence": False,
+    }
+
+
+def classify_recovery(classification: str, *, scope_expands: bool = False, participant_set_expands: bool = False,
+                      budget_expands_without_approval: bool = False, blind_retry: bool = False) -> dict[str, Any]:
+    if classification not in RECOVERY_CLASSES:
+        raise OrchestrationGovernanceError("unsupported recovery classification")
+    if scope_expands or participant_set_expands or budget_expands_without_approval:
+        raise OrchestrationGovernanceError("recovery may not expand scope, participants or unapproved budget")
+    if classification == "UNKNOWN_EFFECT" and blind_retry:
+        raise OrchestrationGovernanceError("unknown effect outcome forbids blind retry")
+    return {
+        "schema": "fa3.orchestration-recovery-classification.v1",
+        "classification": classification,
+        "scope_expands": False,
+        "participant_set_expands": False,
+        "budget_expands_without_approval": False,
+        "blind_retry": False,
+        "requires_effect_reconciliation": classification == "UNKNOWN_EFFECT",
+        "requires_fresh_revision_binding": classification == "REPLAN_REQUIRED",
+        "human_required": classification == "HUMAN_REQUIRED",
     }

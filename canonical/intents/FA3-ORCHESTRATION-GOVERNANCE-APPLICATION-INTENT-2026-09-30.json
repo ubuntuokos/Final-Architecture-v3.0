@@ -3,7 +3,7 @@
   "id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
   "project_id": "FA3-ORCHESTRATION-WORKFORCE-001",
   "project_type": "PROFILE",
-  "goal": "Strengthen the existing FA3 Orchestration Workforce with task-group-aware work governance, objective ancestry, qualified decomposition, typed dependencies, monotonic responsibility scope, execution claims, exact approval binding, bounded budgets/liveness and non-authoritative monitoring without creating a second durable workflow, resource, model, security or evidence authority.",
+  "goal": "Strengthen the existing FA3 Orchestration Workforce with a canonical 31-group task-policy registry, ordered non-authoritative guard chain, task-group-aware Blueprint compilation, typed handoff/recovery governance, objective ancestry, qualified decomposition, monotonic responsibility scope, execution claims, exact approval binding, bounded budgets/liveness and monitoring without creating a second durable workflow, resource, model, security, evidence or task-management authority.",
   "required_capabilities": [
     "CAP-004",
     "CAP-007",
@@ -23,7 +23,9 @@
     "dependency-coordination",
     "delegation-safety",
     "execution-recovery",
-    "operator-observability"
+    "operator-observability",
+    "task-group-policy",
+    "guard-chain-validation"
   ],
   "task_classes": [
     "orchestration-planning",
@@ -44,7 +46,9 @@
   "output_modalities": [
     "ROUTING_DECISION",
     "GOVERNANCE_PROJECTION",
-    "MONITORING_PROJECTION"
+    "MONITORING_PROJECTION",
+    "TASK_GROUP_POLICY",
+    "GUARD_EVALUATION"
   ],
   "execution_classes": [
     "CPU_ONLY",
@@ -79,7 +83,10 @@
     "VERSION_BOUND_APPROVAL",
     "NO_BLIND_REPLAY",
     "UAF_MCP_MEDIATION",
-    "TEMPORAL_SOLE_GLOBAL_DURABLE_LIFECYCLE"
+    "TEMPORAL_SOLE_GLOBAL_DURABLE_LIFECYCLE",
+    "TASK_GROUP_POLICY_MUST_NOT_GRANT_AUTHORITY",
+    "ORDERED_GUARD_CHAIN_IS_NON_AUTHORITY",
+    "WORKLOAD_MODE_INTENT_DOES_NOT_REPLACE_HRB"
   ],
   "integration_requirements": [
     "FA3-REUSE-DISCOVERY-001",
@@ -89,7 +96,11 @@
     "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "FA3-AUTH-MODEL-ROUTER-001",
     "FA3-AUTH-OBS-EVIDENCE-001",
-    "FA3-AGENT-WORKLOAD-RUNTIME-001"
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-TASK-GROUP-REGISTRY-001",
+    "FA3-TASK-GROUP-CONTRACTS-001",
+    "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001",
+    "FA3-WORKLOAD-MODE-FRAMEWORK-001"
   ],
   "shared_function": true,
   "retroactive_consumers": "ALL_ORCHESTRATION_PROFILES_AND_AFFECTED_FA3_APPLICATIONS",

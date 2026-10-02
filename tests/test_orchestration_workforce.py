@@ -19,6 +19,27 @@ class Tests(unittest.TestCase):
   with self.assertRaises(DecisionAdvisoryError):route_task(ROOT,t,decision_advisory={"authority":False,"candidate_set_expanded":False,"candidate_ids":[*ids,"x"],"selected_specialist_id":"x","rollout":"ACTIVE","status":"DECIDED"})
  def test_media_plan(self):
   p=compile_cross_domain_plan(ROOT,json.loads((ROOT/"examples/orchestration-workforce-media.json").read_text()));self.assertEqual(p["status"],"READY");self.assertEqual(p["execution_fabric"],"FA3-UNIFIED-ACTION-FABRIC-001");self.assertEqual(len(p["decisions"]),4)
+ def test_task_group_policy(self):
+  r=route_task(ROOT,{"task_id":"k","task_group_id":"F15","domain":"knowledge","required_capabilities":["rag_pipeline","retrieval"]})
+  self.assertEqual(r["status"],"ROUTED")
+  self.assertEqual(r["task_group_policy"]["task_group_id"],"F15")
+  self.assertEqual(len(r["task_group_policy"]["digest"]),64)
+  self.assertEqual(r["resource_boundary"]["workload_mode"],"FA3-WORKLOAD-MODE-FRAMEWORK-001")
+ def test_task_group_alias(self):
+  r=route_task(ROOT,{"task_id":"k","task_group_id":"research-intelligence","domain":"knowledge","required_capabilities":["rag_pipeline","retrieval"]})
+  self.assertEqual(r["task_group_policy"]["task_group_id"],"F15")
+  self.assertEqual(r["task_group_policy"]["submitted_task_group_id"],"research-intelligence")
+ def test_unknown_task_group_fails_closed(self):
+  with self.assertRaises(WorkforceContractError):route_task(ROOT,{"task_id":"bad-group","task_group_id":"F99","domain":"knowledge","required_capabilities":["retrieval"]})
+ def test_authority_bound_group_not_routed_as_specialist(self):
+  r=route_task(ROOT,{"task_id":"sec","task_group_id":"F09","domain":"governed-agent-team","required_capabilities":["governed_agent_team"]})
+  self.assertEqual(r["status"],"HUMAN_ESCALATION")
+  self.assertEqual(r["reason"],"TASK_GROUP_HORIZONTAL_AUTHORITY_REQUIRED")
+  self.assertIn("FA3-AUTH-SECURITY-GOV-001",r["required_authority_refs"])
+ def test_f07_temporal_exclusive(self):
+  r=route_task(ROOT,{"task_id":"dur","task_group_id":"F07","domain":"durable-workflow","required_capabilities":["durable_lifecycle"]})
+  self.assertEqual(r["provider"],"Temporal")
+  self.assertEqual(r["task_group_policy"]["classification"],"TEMPORAL_EXCLUSIVE")
  def test_invalid(self):
   with self.assertRaises(WorkforceContractError):route_task(ROOT,{"task_id":"bad","domain":"integration"})
  def test_governance_projection(self):

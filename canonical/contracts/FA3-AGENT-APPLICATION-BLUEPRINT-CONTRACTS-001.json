@@ -102,6 +102,18 @@
       "name": "External Reference Isolation",
       "requirement": "MUST",
       "rule": "External starter repositories, API catalogs and service recommendations MAY inform blueprint design but MUST NOT become dependencies, providers or donor records without their separate FA3 admission paths."
+    },
+    {
+      "id": "FA3-BLUEPRINT-017",
+      "name": "Canonical Task-Group Resolution",
+      "requirement": "MUST",
+      "rule": "Blueprint task_group_id MUST resolve through FA3-TASK-GROUP-REGISTRY-001 using a canonical ID or registered compatibility alias before work-plan compilation."
+    },
+    {
+      "id": "FA3-BLUEPRINT-018",
+      "name": "Task-Group Policy Provenance",
+      "requirement": "MUST",
+      "rule": "Compilation MUST bind canonical task-group ID, registry revision, task-group revision and effective-policy digest into downstream task provenance; task-group policy MUST NOT grant authority."
     }
   ],
   "blueprint_schema": {
@@ -140,7 +152,10 @@
     "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
     "model_router": "FA3-AUTH-MODEL-ROUTER-001",
     "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "monitoring_authority": false
+    "monitoring_authority": false,
+    "task_group_registry": "FA3-TASK-GROUP-REGISTRY-001",
+    "task_group_contract": "FA3-TASK-GROUP-CONTRACTS-001",
+    "guard_chain_contract": "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001"
   },
   "reference_boundary": {
     "source": "https://github.com/cporter202/agentic-ai-starters",

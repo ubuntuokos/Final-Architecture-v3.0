@@ -9,6 +9,7 @@ from typing import Any
 
 from fa3_orchestration_governance import DEPENDENCY_TYPES, validate_dependency_graph
 from fa3_orchestration_workforce import WorkforceContractError, compile_cross_domain_plan
+from fa3_task_group import TaskGroupContractError, resolve_task_group
 
 BLUEPRINT_SCHEMA = "fa3.agent-application-blueprint.v1"
 CONTRACT_ID = "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
@@ -171,6 +172,11 @@ def validate_blueprint(blueprint: dict[str, Any]) -> dict[str, Any]:
 
 def compile_blueprint(root: Path | str, blueprint: dict[str, Any], *, runtime_execution: bool = False) -> dict[str, Any]:
     normalized = validate_blueprint(blueprint)
+    try:
+        task_group = resolve_task_group(root, blueprint["task_group_id"])
+    except TaskGroupContractError as exc:
+        raise BlueprintContractError(str(exc)) from exc
+    canonical_task_group_id = task_group["task_group_id"]
     digest = canonical_digest(blueprint)
     edge_by_source: dict[str, list[dict[str, str]]] = {task_id: [] for task_id in normalized["tasks"]}
     for edge in normalized["dependency_edges"]:
@@ -187,20 +193,25 @@ def compile_blueprint(root: Path | str, blueprint: dict[str, Any], *, runtime_ex
             "revision": blueprint["revision"],
             "digest": digest,
             "application_id": blueprint["application_id"],
-            "task_group_id": blueprint["task_group_id"],
+            "submitted_task_group_id": blueprint["task_group_id"],
+            "task_group_id": canonical_task_group_id,
+            "task_group_revision": task_group["revision"],
+            "task_group_digest": task_group["digest"],
+            "task_group_registry_revision": task_group["registry_revision"],
             "role_id": raw["role_id"],
             "role_kind": role["kind"],
             "review_task_id": review_targets.get(task_id),
         }
         task = {
             "task_id": task_id,
+            "task_group_id": canonical_task_group_id,
             "domain": raw["domain"],
             "required_capabilities": list(raw["required_capabilities"]),
             "authorized_ai_participants": list(raw.get("authorized_ai_participants", [])),
             "resource_requirements": deepcopy(raw.get("resource_requirements", {})),
             "metadata": metadata,
             "objective_ancestry": list(raw.get("objective_ancestry", [
-                blueprint["application_id"], blueprint["task_group_id"], blueprint["blueprint_id"], task_id
+                blueprint["application_id"], canonical_task_group_id, blueprint["blueprint_id"], task_id
             ])),
             "dependency_edges": edge_by_source[task_id],
             "runtime_execution": bool(runtime_execution),
@@ -232,7 +243,11 @@ def compile_blueprint(root: Path | str, blueprint: dict[str, Any], *, runtime_ex
         "revision": blueprint["revision"],
         "digest": digest,
         "application_id": blueprint["application_id"],
-        "task_group_id": blueprint["task_group_id"],
+        "submitted_task_group_id": blueprint["task_group_id"],
+        "task_group_id": canonical_task_group_id,
+        "task_group_revision": task_group["revision"],
+        "task_group_digest": task_group["digest"],
+        "task_group_registry_revision": task_group["registry_revision"],
         "provider_neutral": True,
         "architectural_authority": False,
         "capability_delta": 0,
