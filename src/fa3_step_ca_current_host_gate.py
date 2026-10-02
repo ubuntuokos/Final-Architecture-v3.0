@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse,json,re
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import module_active_capability_count
+ACTIVE_CAPABILITY_COUNT=module_active_capability_count(__file__)
 GATE_ID="FA3-GATE-STEP-CA-CURRENT-HOST-001"; PROVIDER_ID="FA3-PROVIDER-STEP-CA-001"; RECEIPT="evidence/receipts/step-ca-current-host.json"; HEX64=re.compile(r"^[0-9a-f]{64}$")
 def f(code:str,msg:str,**x:Any)->dict[str,Any]: return {"code":code,"severity":"P0","message":msg,**x}
 def d(v:Any)->bool: return isinstance(v,str) and HEX64.fullmatch(v) is not None
@@ -31,7 +33,7 @@ def validate_receipt(r:dict[str,Any])->list[dict[str,Any]]:
  if not (b.get("status")=="PASS" and b.get("root_private_key_in_backup") is False and b.get("unlock_secret_in_backup") is False and b.get("shadow_health_pass") is True and b.get("post_restore_issuance_pass") is True): fs.append(f("STEP-CA-HOST-010","backup/restore drill incomplete or secret boundary violated"))
  if r.get("secret_values_collected") is not False: fs.append(f("STEP-CA-HOST-011","secret collection boundary failed"))
  if r.get("runtime_promotion_eligible") is not True or r.get("global_promotion_claim") is not False: fs.append(f("STEP-CA-HOST-012","promotion boundary mismatch"))
- if r.get("new_capabilities")!=0 or r.get("new_architectural_authorities")!=0 or r.get("capability_count_after")!=143: fs.append(f("STEP-CA-HOST-013","capability/authority invariant drift"))
+ if r.get("new_capabilities")!=0 or r.get("new_architectural_authorities")!=0 or r.get("capability_count_after")!=ACTIVE_CAPABILITY_COUNT: fs.append(f("STEP-CA-HOST-013","capability/authority invariant drift"))
  return fs
 def gate(root:Path,receipt:Path|None=None)->dict[str,Any]:
  p=receipt or root/RECEIPT

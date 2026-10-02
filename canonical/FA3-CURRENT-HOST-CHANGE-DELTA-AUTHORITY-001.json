@@ -1,0 +1,96 @@
+{
+  "schema": "fa3.current-host-delta-authority.v1",
+  "id": "FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001",
+  "title": "FA3 Current Host Change & Delta Authority",
+  "status": "CANONICAL_DEVELOPMENT_POLICY",
+  "parent_projection": "FA3-CURRENT-HOST-PROJECTION-001",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_baseline": 175,
+  "full_obligation_count": 525,
+  "fail_closed": true,
+  "purpose": "ALLOW_SCOPE_BOUND_CURRENT_HOST_REQUALIFICATION_WITHOUT_WAITING_FOR_A_NEW_FULL_BASE_RELEASE",
+  "base_model": "IMMUTABLE_ADMITTED_BASE_PLUS_ORDERED_ADMITTED_DELTAS",
+  "base_activation_prerequisite": "FULL_175_525_PHYSICAL_CURRENT_HOST_CLOSURE_PASS",
+  "historical_evidence_immutable": true,
+  "historical_evidence_relabeling": "FORBIDDEN",
+  "unaffected_base_proof_semantics": "BASE_PROOF_REMAINS_BOUND_TO_IMMUTABLE_BASE_ONLY_AND_IS_NEVER_COPIED_OR_RELABELED_TO_A_DELTA",
+  "runtime_impact_classes": [
+    "NONE",
+    "LOCAL",
+    "SHARED",
+    "GLOBAL"
+  ],
+  "requalification_classes": [
+    "NO_RUNTIME_IMPACT",
+    "CAPABILITY_DELTA_REQUALIFICATION",
+    "IMPACT_REQUALIFICATION",
+    "FULL_REQUALIFICATION"
+  ],
+  "full_requalification_trigger_flags": [
+    "changes_capability_model",
+    "changes_obligation_model",
+    "changes_proof_registry",
+    "changes_current_host_engine",
+    "changes_evidence_or_promotion_authority",
+    "changes_global_resource_authority",
+    "changes_global_model_routing_authority",
+    "changes_global_secret_or_security_authority",
+    "changes_hardware_safety_authority",
+    "changes_software_coexistence_authority"
+  ],
+  "mandatory_runtime_delta_capabilities": [
+    "CAP-175"
+  ],
+  "required_shared_gates": [
+    "HARDWARE_SAFETY_ENVELOPE",
+    "SOFTWARE_COEXISTENCE_HOST_NON_INTERFERENCE",
+    "LICENSE_RIGHTS",
+    "CURRENT_HOST_STRUCTURAL_IMPACT"
+  ],
+  "physical_proof_model": {
+    "test_kinds": [
+      "positive",
+      "negative",
+      "rollback"
+    ],
+    "fresh_physical_proof_per_affected_capability": true,
+    "synthetic_pass_forbidden": true,
+    "hosted_ci_may_create_physical_pass": false,
+    "exact_change_digest_binding_required": true,
+    "parent_effective_digest_binding_required": true,
+    "duplicate_obligation_proof_forbidden": true
+  },
+  "overlay_chain": {
+    "ordered": true,
+    "parent_digest_must_match_current_effective_digest": true,
+    "duplicate_delta_forbidden": true,
+    "base_digest_must_remain_constant": true,
+    "delta_rollback_is_independent_and_required": true
+  },
+  "promotion": {
+    "delta_admission_is_not_global_release_promotion": true,
+    "global_promotion_claim": false,
+    "automatic_promotion": false
+  },
+  "shared_scope_resolution": {
+    "source": "FA3-APPLICATION-DONOR-LINKS-001.shared_capabilities",
+    "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_OR_CONTRACT_CAPABILITY_BINDINGS",
+    "manual_only_scope_trusted": false,
+    "unknown_shared_component_fails_closed": true,
+    "unresolved_shared_binding_fails_closed": true,
+    "consumer_application_projection_required": true
+  },
+  "shared_gate_evidence": {
+    "schema": "fa3.current-host-delta-shared-gate-evidence.v1",
+    "source_commit_binding_required": true,
+    "hash_bound_reports_required": true,
+    "report_paths": {
+      "HARDWARE_SAFETY_ENVELOPE": "reports/hardware-portability-gate-report.json",
+      "LICENSE_RIGHTS": "reports/license-rights-gate-report.json",
+      "CURRENT_HOST_STRUCTURAL_IMPACT": "reports/current-host-structural-impact-gate-report.json"
+    },
+    "SOFTWARE_COEXISTENCE_HOST_NON_INTERFERENCE": "DERIVED_FROM_MANDATORY_CAP_175_PHYSICAL_DELTA_PROOF"
+  }
+}

@@ -12,7 +12,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "implementation": {
     "runtime": "src/fa3_model_artifact_security_runtime.py",
     "model_manager_hook": "src/fa3_model_manager_security_hook.py",
@@ -38,15 +38,25 @@
     "receipt": "evidence/receipts/model-artifact-security-current-host.json",
     "required_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
     "real_local_model_required": true,
-    "eligible_target_formats": ["safetensors", "gguf"],
+    "eligible_target_formats": [
+      "safetensors",
+      "gguf"
+    ],
     "synthetic_target_for_production_pass": "FORBIDDEN",
     "controlled_malicious_pickle": "NEGATIVE_REGRESSION_ONLY_NEVER_EXECUTED",
-    "dangerous_serialization_negative_scanners": ["modelaudit", "modelscan", "picklescan", "fickling"],
+    "dangerous_serialization_negative_scanners": [
+      "modelaudit",
+      "modelscan",
+      "picklescan",
+      "fickling"
+    ],
     "scan_network_egress": "FORBIDDEN",
     "modelaudit_telemetry": "FORBIDDEN",
     "isolated_first_load": "BUBBLEWRAP_UNSHARE_NET_HOME_AND_RUN_MASKED_READ_ONLY_ROOT",
     "model_manager_promotion_state": "SECURITY_ADMITTED_REQUIRED",
     "direct_runtime_store_download_bypass": "FORBIDDEN"
   },
-  "current_host_status": "PENDING_REAL_HOST_EXECUTION"
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
