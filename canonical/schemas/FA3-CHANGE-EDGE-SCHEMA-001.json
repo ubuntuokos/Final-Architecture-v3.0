@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/change-edge/v1",
+  "title": "FA3 ChangeEdge",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "source_id",
+    "target_id",
+    "relation",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relation": {
+      "enum": [
+        "CAUSED_BY",
+        "AFFECTS",
+        "DEPENDS_ON",
+        "INVALIDATES",
+        "REQUALIFIES",
+        "ROLLED_BACK_BY"
+      ]
+    },
+    "provenance": {
+      "type": "object"
+    }
+  }
+}
