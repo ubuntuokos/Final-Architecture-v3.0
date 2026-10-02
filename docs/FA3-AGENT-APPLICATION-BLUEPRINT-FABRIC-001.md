@@ -1,9 +1,9 @@
 # FA3 Agent/Application Blueprint Fabric
 
-**Date:** 2026-10-02  
-**Status:** MATERIALIZED DESIGN + STATIC COMPILER  
-**Capability baseline:** 175 fixed  
-**Capability delta:** 0  
+**Date:** 2026-10-02
+**Status:** MATERIALIZED DESIGN + STATIC COMPILER
+**Capability baseline:** 175 fixed
+**Capability delta:** 0
 **Architectural authority delta:** 0
 
 ## Purpose
