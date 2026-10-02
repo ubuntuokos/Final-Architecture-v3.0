@@ -2,8 +2,8 @@ from __future__ import annotations
 import unittest
 from fa3_orchestration_governance import (
     OrchestrationGovernanceError, approval_allows, bind_approval,
-    build_monitor_projection, build_task_governance, issue_execution_claim,
-    validate_claim_takeover, validate_dependency_graph, validate_responsibility_chain,
+    build_handoff_envelope, build_monitor_projection, build_task_governance, classify_recovery,
+    issue_execution_claim, validate_claim_takeover, validate_dependency_graph, validate_responsibility_chain,
 )
 
 class Tests(unittest.TestCase):
@@ -59,6 +59,30 @@ class Tests(unittest.TestCase):
         }, "goal")
         self.assertFalse(g["monitoring_authority"])
         self.assertEqual(g["budget_envelope"]["parallelism"], 4)
+
+    def test_typed_handoff_ack_is_not_completion(self):
+        h = build_handoff_envelope(
+            "h1", "a", "b", "HANDOFF_TO",
+            source_revision=1,
+            source_digest="a" * 64,
+            artifact_refs=["artifact:1"],
+            artifact_digests=["b" * 64],
+            required_output_contract="fa3.result.v1",
+            expires_at="2026-10-03T00:00:00+00:00",
+            state="ACKNOWLEDGED",
+        )
+        self.assertFalse(h["ack_is_completion"])
+        self.assertFalse(h["ack_is_verified_evidence"])
+
+    def test_unknown_effect_forbids_blind_retry(self):
+        r = classify_recovery("UNKNOWN_EFFECT")
+        self.assertTrue(r["requires_effect_reconciliation"])
+        with self.assertRaises(OrchestrationGovernanceError):
+            classify_recovery("UNKNOWN_EFFECT", blind_retry=True)
+
+    def test_recovery_cannot_expand_scope(self):
+        with self.assertRaises(OrchestrationGovernanceError):
+            classify_recovery("RECOVERABLE", scope_expands=True)
 
     def test_monitor_projection_is_non_authoritative(self):
         p = build_monitor_projection([
