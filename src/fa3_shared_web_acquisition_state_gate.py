@@ -8,20 +8,21 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import active_capability_count
+
 GATE_ID = "FA3-SHARED-WEB-ACQUISITION-STATE-GATESET-001"
 PROFILE_ID = "FA3-SHARED-WEB-ACQUISITION-STATE-001"
 CONTRACT_ID = "FA3-SHARED-WEB-ACQUISITION-STATE-CONTRACTS-001"
-CAPABILITY_COUNT = 175
-
 PROFILE = "canonical/profiles/FA3-SHARED-WEB-ACQUISITION-STATE-001.json"
 CONTRACTS = "canonical/contracts/FA3-SHARED-WEB-ACQUISITION-STATE-CONTRACTS-001.json"
 ASSESSMENT = "canonical/assessments/FA3-APIFY-WEB-ACQUISITION-HARDENING-REUSE-ASSESSMENT-001.json"
-REFRESH = "canonical/references/FA3-APIFY-ECOSYSTEM-PATTERN-REFRESH-2026-10-02.json"
+REFRESH = "research/apify-ecosystem-pattern-refresh-2026-10-02.json"
 IMPACT = "canonical/reconciliations/FA3-APIFY-WEB-ACQUISITION-CONSUMER-IMPACT-2026-10-02.json"
 HOST_IMPACT = "canonical/FA3-SHARED-WEB-ACQUISITION-STATE-CURRENT-HOST-IMPACT-001.json"
 PLAN = "docs/FA3-APIFY-WEB-ACQUISITION-HARDENING-PLAN-2026-10-02.md"
 APPROVAL = "canonical/decisions/FA3-DEC-APIFY-WEB-ACQUISITION-HARDENING-APPROVAL-2026-10-02.json"
 SOURCE = "src/fa3_shared_web_acquisition_state.py"
+DECISION_ASSESSMENT = "canonical/assessments/FA3-SHARED-WEB-ACQUISITION-STATE-DECISION-ASSESSMENT-2026-10-02.json"
 
 REQUIRED = [
     PROFILE,
@@ -33,6 +34,7 @@ REQUIRED = [
     PLAN,
     APPROVAL,
     SOURCE,
+    DECISION_ASSESSMENT,
     "canonical/decisions/FA3-DEC-SHARED-WEB-ACQUISITION-STATE-2026-10-02.json",
     "canonical/intents/FA3-APIFY-WEB-ACQUISITION-HARDENING-APPLICATION-INTENT-001.json",
     "canonical/FA3-GATE-SHARED-WEB-ACQUISITION-STATE-001.json",
@@ -66,6 +68,7 @@ def gate(root: Path) -> dict[str, Any]:
         }
 
     try:
+        baseline_count = active_capability_count(root)
         profile = loadj(root, PROFILE)
         contracts = loadj(root, CONTRACTS)
         assessment = loadj(root, ASSESSMENT)
@@ -73,14 +76,16 @@ def gate(root: Path) -> dict[str, Any]:
         impact = loadj(root, IMPACT)
         host = loadj(root, HOST_IMPACT)
         approval = loadj(root, APPROVAL)
+        decision_assessment = loadj(root, DECISION_ASSESSMENT)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         findings.append({"code": "WAS-002", "message": str(exc)})
-        profile = contracts = assessment = refresh = impact = host = approval = {}
+        baseline_count = None
+        profile = contracts = assessment = refresh = impact = host = approval = decision_assessment = {}
 
     if (
         profile.get("id") != PROFILE_ID
         or profile.get("parent_profile") != "FA3-WEB-AI-001"
-        or profile.get("capability_count") != CAPABILITY_COUNT
+        or profile.get("capability_count") != baseline_count
         or profile.get("new_capability") is not False
         or profile.get("new_architectural_authority") is not False
     ):
@@ -98,10 +103,17 @@ def gate(root: Path) -> dict[str, Any]:
 
     if (
         contracts.get("id") != CONTRACT_ID
-        or contracts.get("capability_count") != CAPABILITY_COUNT
+        or contracts.get("capability_count") != baseline_count
         or contracts.get("profile_id") != PROFILE_ID
     ):
         findings.append({"code": "WAS-005", "message": "contract identity or baseline drift"})
+    if (
+        decision_assessment.get("assessment") != "NOT_APPLICABLE"
+        or PROFILE_ID not in decision_assessment.get("covered_ids", [])
+        or decision_assessment.get("project_radar_checked") is not True
+    ):
+        findings.append({"code": "WAS-005A", "message": "Decision Fabric applicability assessment missing or drifted"})
+
     donor_boundary = contracts.get("donor_boundary", {})
     if (
         donor_boundary.get("child_repository_adoption") is not False
@@ -181,7 +193,7 @@ def gate(root: Path) -> dict[str, Any]:
         "schema": "fa3.shared-web-acquisition-state-gate-report.v1",
         "gate_id": GATE_ID,
         "profile_id": PROFILE_ID,
-        "capability_baseline": CAPABILITY_COUNT,
+        "capability_baseline": baseline_count,
         "result": "PASS" if not findings else "FAIL",
         "findings": findings,
         "donor_adoption": False,
