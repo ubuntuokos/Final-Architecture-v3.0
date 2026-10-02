@@ -53,6 +53,8 @@ required_markers=(
   'labelText: "GPU"'
   'labelText: "NPU"'
   'Generic Linux · Wayland primary / X11 supported'
+  'WorkloadModeIndicator {'
+  'stateProvider: fa3WorkloadMode'
   'import QtWebEngine'
   'openInternalWeb'
 )
@@ -78,10 +80,17 @@ if grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then
   exit 3
 fi
 
+"$REPO_ROOT/deployment/workload-mode/install.sh" --check-source-contract
+
 if [[ "$CHECK_SOURCE_CONTRACT_ONLY" -eq 1 ]]; then
   echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
   exit 0
 fi
+
+# Workload Mode is a mandatory, non-bypassable FA3 core dependency.
+# Install and enable it before the GUI is built so launch never silently
+# presents a healthy FA3 shell without the required workload-mode service.
+"$REPO_ROOT/deployment/workload-mode/install.sh" --fa3-required
 
 if command -v git >/dev/null 2>&1 && git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   SOURCE_REV="$(git -C "$REPO_ROOT" rev-parse --short=12 HEAD)"

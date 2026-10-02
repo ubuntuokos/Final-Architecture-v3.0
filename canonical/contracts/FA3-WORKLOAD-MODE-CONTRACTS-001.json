@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    "WorkloadIntent",
+    "WorkloadSession",
+    "EffectiveModeState",
+    "ExternalWorkloadDescriptor",
+    "PeerHandshake",
+    "AuthorityNegotiation",
+    "ModeLeaseProjection",
+    "ResourceCapabilityDescriptor",
+    "ModeUiState"
+  ],
+  "invariants": [
+    "WORKLOAD_MODE_MUST_OPERATE_STANDALONE_WITHOUT_FA3",
+    "FA3_MUST_REQUIRE_WORKLOAD_MODE_ON_EVERY_INSTALL_PROFILE",
+    "FA3_AND_WORKLOAD_MODE_MUST_DETECT_EACH_OTHER_WHEN_BOTH_PRESENT",
+    "FA3_HRB_REMAINS_EXCLUSIVE_FA3_RESOURCE_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+    "WORKLOAD_MODE_MUST_NOT_MINT_FA3_HRB_LEASES",
+    "AIMODE_AND_RENDERMODE_ARE_SHARED_FRAMEWORK_DOMAINS_NOT_PARALLEL_RESOURCE_DAEMONS",
+    "GAMEMODE_REMAINS_OPTIONAL_EXTERNAL_PEER_AND_MUST_NOT_BE_FORKED_OR_SILENTLY_DISABLED",
+    "EXTERNAL_APPLICATIONS_REMAIN_EXTERNAL_AND_ARE_TYPED_OBSERVED_COORDINATED_OR_MANAGED",
+    "HEURISTIC_DISCOVERY_MUST_NOT_TRIGGER_AGGRESSIVE_HOST_MUTATION",
+    "HOST_GLOBAL_RESOURCE_SETTING_HAS_AT_MOST_ONE_EFFECTIVE_OWNER",
+    "RESOURCE_CHANGE_REQUIRES_SNAPSHOT_LEASE_ROLLBACK_AND_VERIFICATION",
+    "HARDWARE_SAFETY_OVERRIDES_PERFORMANCE",
+    "AUTOMATIC_OVERCLOCK_VOLTAGE_POWER_OR_THERMAL_BYPASS_FORBIDDEN",
+    "SYSCTL_DEFAULT_IS_OBSERVE_ONLY_AND_PERSISTENT_AUTOMATIC_MUTATION_FORBIDDEN",
+    "VRAM_OBSERVATION_MUST_NOT_BE_REPRESENTED_AS_HARD_QUOTA_WHEN_DRIVER_ENFORCEMENT_IS_UNAVAILABLE",
+    "CPU_ONLY_OPERATION_REMAINS_VALID",
+    "GLOBAL_MODE_INDICATOR_REQUIRED_ON_EVERY_SUPPORTED_PRIMARY_GUI_SURFACE",
+    "MODE_STATE_MUST_NOT_BE_CONVEYED_BY_COLOR_ALONE",
+    "GUI_STATE_PROPAGATION_IS_EVENT_DRIVEN_NOT_PER_PANEL_POLLING",
+    "CRITICAL_SAFETY_CONFLICT_DEGRADED_PRESSURE_AND_AUTHORITY_LOSS_STATES_REMAIN_VISIBLE",
+    "STATIC_PASS_MUST_NOT_PROMOTE_PHYSICAL_CURRENT_HOST_RUNTIME"
+  ],
+  "peer_handshake": {
+    "protocol_major": 1,
+    "required_fields": [
+      "peer",
+      "protocol_major",
+      "implementation_version",
+      "instance_id"
+    ],
+    "fa3_required_fields": [
+      "resource_authority",
+      "capability_count"
+    ],
+    "fa3_resource_authority_value": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "incompatible_major_action": "DENY_INTEGRATION_SAFE_DEGRADED"
+  },
+  "mode_ui_state": {
+    "required_fields": [
+      "effective_mode",
+      "local_mode",
+      "active_domains",
+      "active_workload_count",
+      "authority",
+      "fa3_state",
+      "gamemode_state",
+      "resource_pressure",
+      "safety_state",
+      "conflict_state",
+      "degraded_state",
+      "degraded_reason",
+      "external_workload_present",
+      "lease_health",
+      "rollback_health"
+    ]
+  },
+  "fa3_failure_semantics": {
+    "missing_or_disabled_component": "SAFE_DEGRADED",
+    "incompatible_protocol": "SAFE_DEGRADED",
+    "resource_changing_operations": "FAIL_CLOSED",
+    "safe_non_resource_application_functionality": "MAY_CONTINUE_WITH_VISIBLE_DEGRADED_STATE",
+    "silent_fallback": false
+  }
+}

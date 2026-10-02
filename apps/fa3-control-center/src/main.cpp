@@ -10,6 +10,7 @@
 #include "McpGatewayService.h"
 #include "PreferenceStore.h"
 #include "SystemDeviceModel.h"
+#include "WorkloadModeStateService.h"
 #include "SessionVaultService.h"
 
 #include <QColor>
@@ -59,6 +60,7 @@ int main(int argc, char *argv[])
     SessionVaultService sessionVault;
     DecisionFabricService decisionFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
+    WorkloadModeStateService workloadMode;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
@@ -74,6 +76,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3SessionVault", &sessionVault);
     engine.rootContext()->setContextProperty("fa3DecisionFabric", &decisionFabric);
     engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
+    engine.rootContext()->setContextProperty("fa3WorkloadMode", &workloadMode);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
