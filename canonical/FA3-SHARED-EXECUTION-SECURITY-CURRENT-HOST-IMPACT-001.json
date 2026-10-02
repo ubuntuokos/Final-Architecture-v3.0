@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.current-host-impact.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-CURRENT-HOST-IMPACT-001",
+  "subject_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "classification": "RUNTIME_REQUALIFICATION_REQUIRED",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "physical_current_host_pass_claimed": false,
+  "affected_surface": "RUNTIME_ISOLATION_AGENT_SANDBOX",
+  "existing_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "existing_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "required_physical_proofs": [
+    "FILESYSTEM_DENIAL",
+    "PROCESS_OR_SYSCALL_DENIAL",
+    "NETWORK_EGRESS_DENIAL",
+    "EXECUTABLE_DIGEST_MISMATCH_DENIAL",
+    "POLICY_REVISION_REVALIDATION",
+    "CREDENTIAL_NON_EXPOSURE",
+    "DIRECT_MCP_BYPASS_DENIAL",
+    "EXPIRED_SECRET_OR_RESOURCE_LEASE_DENIAL",
+    "ENFORCER_LOSS_FAIL_CLOSED",
+    "ROLLBACK"
+  ],
+  "cpu_only_proof_required": true,
+  "accelerator_proof_conditional_only": true,
+  "display_gpu_rule_unchanged": true,
+  "hosted_ci_is_physical_pass": false,
+  "runtime_promotion_claim": false
+}
