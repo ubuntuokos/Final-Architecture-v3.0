@@ -1,6 +1,6 @@
 import unittest
-from src.fa3_video_refinement import build_plan, RefinementDenied
-from src.fa3_motion_video_v3_gate import gate
+from fa3_video_refinement import build_plan, RefinementDenied
+from fa3_motion_video_v3_gate import gate
 
 class MotionVideoV3Tests(unittest.TestCase):
  def base(self):
