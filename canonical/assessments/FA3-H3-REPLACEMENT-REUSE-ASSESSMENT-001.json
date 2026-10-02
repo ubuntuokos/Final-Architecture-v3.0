@@ -1,0 +1,195 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-H3-REPLACEMENT-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-H3-REPLACEMENT-001",
+  "intent_id": "FA3-H3-REPLACEMENT-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-H3-REPLACEMENT-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-VIDEO-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-KLING-001",
+    "CAP-159",
+    "CAP-160"
+  ],
+  "project_status": "MATERIALIZING_V2_PROVIDER_NEUTRAL_RUNTIME_REPLACEMENT_PROVIDER_E2E_NOT_CLAIMED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "EXISTING_CANONICAL_VIDEO_PROFILE"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_MULTIMODAL_CONTEXT_IR"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_PROVIDER_AND_MODEL_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_DISCOVERY_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_LICENSE_SECURITY_AND_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_RUNTIME_EVIDENCE_AND_PROVENANCE_AUTHORITY"
+    },
+    {
+      "id": "CAP-159",
+      "use": "EXISTING_MOTION_AND_VIDEO_GENERATION_ENGINE_CAPABILITY"
+    },
+    {
+      "id": "CAP-160",
+      "use": "EXISTING_VIDEO_PROVIDER_AND_MODEL_INTERCHANGE_CAPABILITY"
+    },
+    {
+      "id": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+      "use": "MANDATORY_WORKLOAD_INTENT_SESSION_MODE_AND_DEGRADED_STATE_CONTRACT"
+    },
+    {
+      "id": "FA3-WORKLOAD-MODE-INTEGRATION-001",
+      "use": "EXISTING_HRB_DELEGATION_AND_RESOURCE_PROJECTION_ORDER"
+    },
+    {
+      "id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+      "use": "EXISTING_BACKEND_RUNTIME_MODEL_COMPONENT_AND_CACHE_COMPATIBILITY_AUTHORITY_BOUNDARY"
+    }
+  ],
+  "reference_only_donor_context": [
+    {
+      "donor_id": "FA3-DONOR-HUNYUANVIDEO-1-5-001",
+      "use": "MODEL_INTERCHANGE_AND_CONSUMER_GPU_STRESS_REFERENCE_ONLY_EXACT_LICENSE_REVIEW_REQUIRED",
+      "adopted": false,
+      "usage_edge_required": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LTX2-001",
+      "use": "EXISTING_REGISTERED_VIDEO_MODEL_REFERENCE_FOR_SEPARATE_ADMISSION",
+      "adopted": false,
+      "usage_edge_required": false
+    },
+    {
+      "donor_id": "FA3-DONOR-COMFYUI-LTXVIDEO-001",
+      "use": "EXISTING_ADAPTER_WORKFLOW_REFERENCE",
+      "adopted": false,
+      "usage_edge_required": false
+    }
+  ],
+  "analysis_only_external_sources": [],
+  "rejected_candidates": [
+    {
+      "id": "MINIMAX_H3_ACTIVE_RUNTIME",
+      "reason": "SUPERSEDED_BY_OWNER_DECISION; ACTIVE EXECUTION AND PROVIDER SELECTION FORBIDDEN"
+    },
+    {
+      "id": "NEW_KLING_PROVIDER_ID",
+      "reason": "FA3-PROVIDER-KLING-001 ALREADY EXISTS; VERSION-SPECIFIC DUPLICATE WOULD VIOLATE REUSE"
+    },
+    {
+      "id": "MUAPI_AS_NATIVE_KLING",
+      "reason": "SERVICE PROVIDER IDENTITY MUST REMAIN DISTINCT FROM MODEL FAMILY"
+    },
+    {
+      "id": "NEW_VIDEO_ROUTING_AUTHORITY",
+      "reason": "MODEL ROUTER ALREADY OWNS PROVIDER AND MODEL SELECTION"
+    },
+    {
+      "id": "NEW_RESOURCE_AUTHORITY",
+      "reason": "HRB ALREADY OWNS HOST RESOURCE DISCOVERY PLACEMENT AND LEASES"
+    },
+    {
+      "id": "APPLICATION_DIRECT_PROVIDER_PIN",
+      "reason": "PROVIDER NEUTRALITY AND NO-SILENT-FALLBACK REQUIRE ROUTER SELECTION"
+    },
+    {
+      "id": "PARALLEL_VIDEO_IR",
+      "reason": "EXISTING VideoGenerationIR AND MMG Context IR MUST BE REUSED"
+    }
+  ],
+  "existing_authority_bindings": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "video_profile": "FA3-VIDEO-001",
+    "workload_mode": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+    "video_lifecycle": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+      "FA3-VIDEO-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "implementation_readiness": "READY_FOR_V2_STATIC_MATERIALIZATION_PHYSICAL_REQUALIFICATION_SEPARATE",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "ecafb404aaf1ea484184cc99891d6bc74ed58e23",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
+    "donor_registry_sha256": "d194116f1d80cc61930bc977f3e57192c8c41c9b3a6b08c7614d422c46384f5b",
+    "donor_registry_entry_count": 1349
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "rationale": "Motion/Video provider routing and H3 retirement do not require a new Khronos source-family implementation; existing FA3 open-standards/interchange authorities remain unchanged."
+    }
+  ],
+  "adopted_pattern_donors": [
+    {
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "usage_edge_id": "FA3-USAGE-DIFFUSERS-MOTION-VIDEO-001",
+      "pattern": "PROVIDER_NEUTRAL_MODEL_PIPELINE_ADAPTER"
+    },
+    {
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "usage_edge_id": "FA3-USAGE-XDIT-MOTION-VIDEO-001",
+      "pattern": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION"
+    },
+    {
+      "donor_id": "FA3-DONOR-SKYREELS-V3-001",
+      "usage_edge_id": "FA3-USAGE-SKYREELS-V3-MOTION-VIDEO-001",
+      "pattern": "MULTIMODAL_CONDITIONING_AND_SYNCHRONIZED_AV_CAPABILITY_SHAPE"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "usage_edge_id": "FA3-USAGE-VIDEOSYS-MOTION-VIDEO-001",
+      "pattern": "GENERATION_RUNTIME_SERVING_LIFECYCLE_SEPARATION"
+    }
+  ]
+}
