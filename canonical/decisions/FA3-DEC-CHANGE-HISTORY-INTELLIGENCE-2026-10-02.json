@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-CHANGE-HISTORY-INTELLIGENCE-2026-10-02",
+  "date": "2026-10-02",
+  "status": "APPROVED_MATERIALIZATION",
+  "subject": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "decision": "Materialize CHIF as a shared, deterministic, derived and rebuildable Change-History Intelligence layer under FA3-JOURNAL-001 with no new capability or architectural authority.",
+  "rationale": [
+    "FA3 needs one cross-cutting answer to what changed, why, what it affects, which evidence is current, and what rollback/requalification is required.",
+    "The layer must explain canonical and runtime history without becoming a second Journal, Evidence, Canonical Registry, License & Rights, Current Host or release authority.",
+    "Exact provenance, structured event semantics and explicit lineage improve traceability while avoiding manufactured dependencies."
+  ],
+  "donor_pattern_sources": [
+    {
+      "donor_id": "FA3-DONOR-SLSA-BUILD-PROVENANCE-001",
+      "role": "PROVENANCE_STRUCTURE_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-IN-TOTO-SPECIFICATIONS-001",
+      "role": "ATTESTATION_STATEMENT_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENTELEMETRY-EVENT-CONVENTIONS-001",
+      "role": "EVENT_SEMANTICS_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENLINEAGE-LINEAGE-FACET-001",
+      "role": "EXPLICIT_LINEAGE_PATTERN"
+    }
+  ],
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "source_code_copied": false,
+    "external_runtime_dependency": false,
+    "current_host_pass_claimed": false,
+    "global_promotion_claim": false
+  }
+}
