@@ -760,6 +760,174 @@
           "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json"
         ]
       }
+    },
+    {
+      "id": "FA3-USAGE-CHANGE-HISTORY-SLSA-PROVENANCE-001",
+      "donor_id": "FA3-DONOR-SLSA-BUILD-PROVENANCE-001",
+      "donor_capability_key": "build-provenance",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+          "FA3-JOURNAL-001"
+        ],
+        "contract_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+          "relationship": "PROVENANCE_PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-CHANGE-HISTORY-INTELLIGENCE-REUSE-ASSESSMENT-001.json",
+          "canonical/profiles/FA3-CHANGE-HISTORY-INTELLIGENCE-001.json",
+          "canonical/contracts/FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001.json",
+          "canonical/decisions/FA3-DEC-CHANGE-HISTORY-INTELLIGENCE-2026-10-02.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-CHANGE-HISTORY-IN-TOTO-ATTESTATION-001",
+      "donor_id": "FA3-DONOR-IN-TOTO-SPECIFICATIONS-001",
+      "donor_capability_key": "attestation-envelope-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+          "FA3-JOURNAL-001"
+        ],
+        "contract_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+          "relationship": "ATTESTATION_PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-CHANGE-HISTORY-INTELLIGENCE-REUSE-ASSESSMENT-001.json",
+          "canonical/profiles/FA3-CHANGE-HISTORY-INTELLIGENCE-001.json",
+          "canonical/contracts/FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001.json",
+          "canonical/decisions/FA3-DEC-CHANGE-HISTORY-INTELLIGENCE-2026-10-02.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-CHANGE-HISTORY-OTEL-EVENTS-001",
+      "donor_id": "FA3-DONOR-OPENTELEMETRY-EVENT-CONVENTIONS-001",
+      "donor_capability_key": "structured-event-semantics",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+          "FA3-JOURNAL-001"
+        ],
+        "contract_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+          "relationship": "EVENT_PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-CHANGE-HISTORY-INTELLIGENCE-REUSE-ASSESSMENT-001.json",
+          "canonical/profiles/FA3-CHANGE-HISTORY-INTELLIGENCE-001.json",
+          "canonical/contracts/FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001.json",
+          "canonical/decisions/FA3-DEC-CHANGE-HISTORY-INTELLIGENCE-2026-10-02.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-CHANGE-HISTORY-OPENLINEAGE-001",
+      "donor_id": "FA3-DONOR-OPENLINEAGE-LINEAGE-FACET-001",
+      "donor_capability_key": "explicit-source-target-lineage",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+          "FA3-JOURNAL-001"
+        ],
+        "contract_ids": [
+          "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+          "relationship": "LINEAGE_PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-CHANGE-HISTORY-INTELLIGENCE-REUSE-ASSESSMENT-001.json",
+          "canonical/profiles/FA3-CHANGE-HISTORY-INTELLIGENCE-001.json",
+          "canonical/contracts/FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001.json",
+          "canonical/decisions/FA3-DEC-CHANGE-HISTORY-INTELLIGENCE-2026-10-02.json"
+        ]
+      }
     }
   ],
   "donor_usage_contract": {
