@@ -1,0 +1,224 @@
+{
+  "schema": "fa3.donor-ecosystem-assessment.v1",
+  "id": "FA3-APIFY-ECOSYSTEM-DONOR-ASSESSMENT-2026-10-02",
+  "date": "2026-10-02",
+  "status": "CANONICAL_ANALYSIS_CANDIDATE",
+  "subject": "Apify child-repository donor/reference classification for FA3 and OpenClaw reconciliation",
+  "parent_donor_id": "FA3-DONOR-APIFY-ORG-001",
+  "parent_source": "https://github.com/apify",
+  "published_main_snapshot": "081b3ab23477d30365de04265620ec1704a0cddc",
+  "donor_registry_snapshot": {
+    "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+    "git_blob_sha": "c29638de9ac73f133a817cc239eba0d3837daac6",
+    "entry_count": 1317
+  },
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "current_host_runtime_claim": false,
+  "child_repository_registration": false,
+  "child_usage_edges_created": false,
+  "automatic_code_import": false,
+  "automatic_dependency_install": false,
+  "automatic_provider_admission": false,
+  "automatic_skill_admission": false,
+  "automatic_mcp_registration": false,
+  "apify_cloud_activation": false,
+  "actor_store_admission": false,
+  "sources": [
+    {
+      "repository": "apify/crawlee",
+      "immutable_revision": "438e3419626bd070f8984566bfb86ab9355f55d6",
+      "default_branch": "master",
+      "upstream_state": "ACTIVE",
+      "license_observation": "APACHE-2.0_DETECTED",
+      "disposition": "DONOR_PATTERN_CANDIDATE_ANALYSIS_ONLY",
+      "primary_value": [
+        "http-browser-crawler-parity",
+        "request-queue",
+        "session-and-proxy-lifecycle",
+        "concurrency-and-retry-patterns"
+      ],
+      "fa3_targets": [
+        "FA3-native Web Acquisition Fabric",
+        "FA3-BROWSER-ACTION-RUNTIME-001",
+        "Knowledge/RAG ingestion"
+      ],
+      "material_adoption_authorized": false
+    },
+    {
+      "repository": "apify/crawlee-python",
+      "immutable_revision": "ccdb72cdffd2dee93828c7cf420b7634b965f354",
+      "default_branch": "master",
+      "upstream_state": "ACTIVE",
+      "license_observation": "APACHE-2.0_DETECTED",
+      "disposition": "PRIMARY_DONOR_PATTERN_CANDIDATE_ANALYSIS_ONLY",
+      "primary_value": [
+        "python-native-crawling",
+        "http-playwright-backend-parity",
+        "persistent-crawl-state",
+        "typed-crawler-patterns"
+      ],
+      "fa3_targets": [
+        "FA3-native Web Acquisition Fabric",
+        "FA3-BROWSER-ACTION-RUNTIME-001",
+        "Knowledge/RAG ingestion"
+      ],
+      "material_adoption_authorized": false
+    },
+    {
+      "repository": "apify/crawlee-storage",
+      "immutable_revision": "5bea28ede93f81ee27cc6ee4298dd2a608aa4472",
+      "default_branch": "main",
+      "upstream_state": "ACTIVE",
+      "license_observation": "APACHE-2.0_DETECTED",
+      "disposition": "SHARED_DURABLE_STATE_PATTERN_CANDIDATE_ANALYSIS_ONLY",
+      "primary_value": [
+        "request-lock-expiry",
+        "crash-recovery",
+        "shared-vs-single-owner-queue",
+        "atomic-write",
+        "deterministic-clock-testing"
+      ],
+      "fa3_targets": [
+        "shared crawl-state storage/recovery",
+        "Web Acquisition Fabric",
+        "durable request queue"
+      ],
+      "material_adoption_authorized": false
+    },
+    {
+      "repository": "apify/apify-mcp-server",
+      "immutable_revision": "1b8d4e0236e3b4e17a51c42ebdfcb60d2d4956de",
+      "default_branch": "master",
+      "upstream_state": "ACTIVE",
+      "license_observation": "MIT_DETECTED",
+      "disposition": "OPTIONAL_PROVIDER_REFERENCE_CANDIDATE_ANALYSIS_ONLY",
+      "primary_value": [
+        "actor-to-mcp-exposure",
+        "tool-schema",
+        "hosted-and-stdio-transport-reference"
+      ],
+      "fa3_targets": [
+        "FA3-AUTH-MCP-GATEWAY-001",
+        "External API/MCP Discovery"
+      ],
+      "material_adoption_authorized": false,
+      "extra_admission_required": [
+        "provider-admission",
+        "security",
+        "privacy",
+        "network-egress",
+        "credentials",
+        "billing-entitlement",
+        "telemetry-review"
+      ]
+    },
+    {
+      "repository": "apify/agent-skills",
+      "immutable_revision": "f5e84aa961e0ff2e890efebff64b0c5d04de1f1a",
+      "default_branch": "main",
+      "upstream_state": "ACTIVE",
+      "license_observation": "README_AND_PLUGIN_METADATA_CLAIM_APACHE-2.0_BUT_ROOT_LICENSE_FILE_NOT_OBSERVED",
+      "disposition": "REFERENCE_ONLY_PENDING_LICENSE_PROVENANCE_RESOLUTION",
+      "primary_value": [
+        "actor-selection-workflow",
+        "skill-packaging-patterns",
+        "integration-development-patterns"
+      ],
+      "fa3_targets": [
+        "FA3-SKILL-FABRIC-001",
+        "FA3-EXTERNAL-SKILL-RADAR-001"
+      ],
+      "material_adoption_authorized": false
+    },
+    {
+      "repository": "apify/apify-sdk-python",
+      "immutable_revision": "d1de6546b39cd213b816990373b6472c379d281b",
+      "default_branch": "master",
+      "upstream_state": "ACTIVE",
+      "license_observation": "APACHE-2.0_DETECTED",
+      "disposition": "OPTIONAL_PROVIDER_ADAPTER_REFERENCE_ANALYSIS_ONLY",
+      "primary_value": [
+        "actor-lifecycle-client",
+        "cloud-storage-client",
+        "platform-events",
+        "proxy-and-billing-reference"
+      ],
+      "fa3_targets": [
+        "optional Apify provider adapter",
+        "External API Discovery"
+      ],
+      "material_adoption_authorized": false,
+      "extra_admission_required": [
+        "provider-admission",
+        "credentials",
+        "billing-entitlement",
+        "network-egress",
+        "privacy"
+      ]
+    },
+    {
+      "repository": "apify/browser-pool",
+      "immutable_revision": "80ab2c57934648aaf08ee9d0d3fed8c69b413ac4",
+      "default_branch": "master",
+      "upstream_state": "DEPRECATED_UPSTREAM_MIGRATED_TO_CRAWLEE",
+      "license_observation": "NO_REPOSITORY_LICENSE_DETECTED_AT_SNAPSHOT",
+      "disposition": "SUPERSEDED_HISTORICAL_REFERENCE_ONLY",
+      "primary_value": [
+        "historical-browser-pool-patterns"
+      ],
+      "superseded_by": "apify/crawlee",
+      "material_adoption_authorized": false
+    },
+    {
+      "repository": "apify/fingerprint-suite",
+      "immutable_revision": "67866a6196658076a7b61ecbe2c590a2ff3f4057",
+      "default_branch": "master",
+      "upstream_state": "ACTIVE",
+      "license_observation": "APACHE-2.0_DETECTED",
+      "disposition": "SECURITY_RESTRICTED_REFERENCE_ONLY",
+      "primary_value": [
+        "browser-fingerprint-generation-and-injection-reference"
+      ],
+      "fa3_targets": [
+        "security research only"
+      ],
+      "material_adoption_authorized": false,
+      "restrictions": [
+        "no-default-stealth-capability",
+        "authorization-and-policy-review-required",
+        "privacy-and-target-terms-review-required"
+      ]
+    }
+  ],
+  "identity_model": {
+    "github_organization_index": "DISCOVERY_SOURCE_ONLY",
+    "github_child_repository": "SOURCE_IDENTITY_ONLY_UNLESS_SEPARATELY_REGISTERED_AND_ADMITTED",
+    "apify_actor": "DISTINCT_LOGICAL_EXECUTION_ARTIFACT_IDENTITY",
+    "upstream_target_service": "DISTINCT_FROM_ACTOR_AND_PROVIDER",
+    "mcp_wrapper": "DISTINCT_PROTOCOL_EXPOSURE_IDENTITY",
+    "admitted_runtime_provider": "CREATED_ONLY_BY_SEPARATE_FA3_PROVIDER_ADMISSION",
+    "catalog_or_affiliate_url": "DISCOVERY_LEAD_ONLY_NOT_CANONICAL_PROVIDER_IDENTITY"
+  },
+  "openclaw_reconciliation": {
+    "prerequisite_kind": "SOURCE_CLASSIFICATION_NOT_RUNTIME_ADMISSION",
+    "apify_analysis_prerequisite_satisfied_when_this_assessment_is_published_on_main": true,
+    "openclaw_materialization_remains_blocked_until_publication": true,
+    "required_next_step": "RECONCILE_API_MEGA_LIST_OPENCLAW_API_LIST_AND_APIFY_IDENTITIES",
+    "affiliate_parameters_are_canonical_identity": false,
+    "actor_listing_is_provider_admission": false
+  },
+  "mandatory_boundaries": [
+    "CHILD_REPOSITORY_ANALYSIS_DOES_NOT_REGISTER_A_DONOR",
+    "MATERIAL_ADOPTION_REQUIRES_EXPLICIT_SOURCE_REGISTRATION_AND_CANONICAL_USAGE_EDGE",
+    "LICENSE_PROVENANCE_SECURITY_SOFTWARE_COEXISTENCE_AND_HARDWARE_SAFETY_REVIEW_REQUIRED_BEFORE_MATERIAL_REUSE",
+    "MCP_EXECUTION_MUST_REMAIN_BEHIND_FA3_AUTH_MCP_GATEWAY_001",
+    "SKILL_CONTENT_REMAINS_UNTRUSTED_UNTIL_FA3_SKILL_ADMISSION",
+    "APIFY_CLOUD_ACTOR_STORE_PAYMENT_AND_TELEMETRY_ARE_NOT_ENABLED_BY_THIS_ASSESSMENT",
+    "NO_NEW_CAPABILITY_OR_ARCHITECTURAL_AUTHORITY",
+    "CURRENT_HOST_RUNTIME_PROMOTION_NOT_CLAIMED"
+  ],
+  "conclusion": "APIFY_ECOSYSTEM_ANALYSIS_COMPLETE_FOR_OPENCLAW_SOURCE_RECONCILIATION_ONLY"
+}
