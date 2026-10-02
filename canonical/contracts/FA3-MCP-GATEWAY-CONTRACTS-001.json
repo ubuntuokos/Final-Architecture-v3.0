@@ -8,7 +8,11 @@
   "transport": {
     "canonical_revision": "2026-07-28",
     "stateless": true,
-    "required_request_headers": ["MCP-Protocol-Version", "Mcp-Method", "Mcp-Name"],
+    "required_request_headers": [
+      "MCP-Protocol-Version",
+      "Mcp-Method",
+      "Mcp-Name"
+    ],
     "required_request_meta": [
       "io.modelcontextprotocol/protocolVersion",
       "io.modelcontextprotocol/clientCapabilities"
@@ -46,9 +50,44 @@
     "fabricated_connected_or_pass_state": "FORBIDDEN"
   },
   "lifecycle": {
-    "drivers": ["systemd", "native-process", "podman", "docker", "kubernetes", "remote"],
+    "drivers": [
+      "systemd",
+      "native-process",
+      "podman",
+      "docker",
+      "kubernetes",
+      "remote"
+    ],
     "kubernetes_required": false,
     "azure_required": false,
     "entra_id_required": false
+  },
+  "capability_count": 175,
+  "remote_endpoint_compatibility": {
+    "default_mode": "READ_ONLY_NON_EXECUTING_DIAGNOSTIC",
+    "checks": [
+      "URL_PUBLIC_TARGET",
+      "DNS_A_AAAA_PUBLIC_ONLY",
+      "TLS_PLATFORM_TRUST_HOSTNAME_VALIDITY",
+      "REDIRECT_POLICY",
+      "MCP_PROTOCOL_NEGOTIATION",
+      "TOOLS_LIST_SCHEMA",
+      "OAUTH_RESOURCE_METADATA",
+      "AUTHORIZATION_SERVER_METADATA",
+      "PKCE_S256",
+      "RESOURCE_ISSUER_BINDING"
+    ],
+    "optional_authenticated_probe": "EXPLICIT_PERMISSION_REQUIRED",
+    "tool_execution_during_compatibility_probe": false,
+    "credentials": "SECRETREF_OR_PROCESS_MEMORY_ONLY_NO_REPORT_ECHO",
+    "result_states": [
+      "PASS",
+      "WARN",
+      "FAIL",
+      "INCOMPLETE"
+    ],
+    "client_profile_semantics": "DIAGNOSTIC_ONLY_NOT_PROVIDER_ADMISSION",
+    "transport_success_is_business_success": false,
+    "admission_effect": "NONE_UNTIL_SEPARATE_GATEWAY_POLICY_AND_PROVIDER_ADMISSION"
   }
 }
