@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AGENT-SANDBOX-001",
   "name": "Mandatory Agent Sandbox, Ephemeral Workspace & Network-Deny Execution Boundary",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -16,7 +16,8 @@
     "CAP-028"
   ],
   "contracts": [
-    "FA3-RUNTIME-HARDENING-CONTRACTS-001"
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+    "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001"
   ],
   "backend_policy": {
     "gvisor": {
@@ -58,12 +59,31 @@
     "SCOPED_EGRESS_REQUIRES_EXPLICIT_LEASE",
     "MCP_TOOL_ACCESS_REMAINS_CENTRAL_GATEWAY_MEDIATED",
     "SANDBOX_PROVIDER_NOT_SECURITY_RESOURCE_OR_EVIDENCE_AUTHORITY",
-    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER"
+    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER",
+    "EXECUTION_SECURITY_ASSURANCE_DOWNGRADE_FORBIDDEN",
+    "EXECUTABLE_DIGEST_CHANGE_REQUIRES_REVALIDATION",
+    "RAW_SECRET_EXPOSURE_FORBIDDEN_WHEN_BROKER_PROJECTION_AVAILABLE",
+    "ENFORCER_LOSS_FAILS_CLOSED"
   ],
   "current_host_runtime_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
   "current_host_runtime_promotion_claimed": false,
   "current_host_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
   "current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "execution_security_profile": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "process_policy": {
+    "default": "DENY_UNDECLARED_EFFECTFUL_PROCESS",
+    "allowlist_required": true,
+    "syscall_boundary_required_when_supported": true
+  },
+  "executable_identity_policy": {
+    "digest_binding_required_for_privileged_or_effectful_paths": true,
+    "ancestry_binding_supported": true,
+    "digest_change": "DENY_REVALIDATE"
+  },
+  "credential_policy": {
+    "raw_secret_exposure": "DENY_WHEN_SECRETREF_PROJECTION_AVAILABLE",
+    "endpoint_bound_projection_required": true
+  }
 }
