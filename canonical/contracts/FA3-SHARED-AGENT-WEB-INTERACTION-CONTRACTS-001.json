@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-AGENT-WEB-INTERACTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "contracts": [
+    "AgentWebInteractionRequest",
+    "AgentWebRailSelection",
+    "AgentWebCapabilityManifest",
+    "AgentWebResourceDescriptor",
+    "AgentWebSemanticStateBinding",
+    "AgentWebEffectPreview",
+    "AgentWebApprovalBinding",
+    "AgentWebNativeCommit",
+    "AgentWebNativeReceipt",
+    "AgentWebSemanticHttpPlan",
+    "AgentWebAttemptReceipt",
+    "AgentWebVisualHandoff",
+    "AgentWebOutcomeVerification",
+    "AgentWebReconciliationRequest",
+    "AgentWebNonDelegableHumanBoundary"
+  ],
+  "required_semantics": {
+    "rails": [
+      "NATIVE_AGENT_CONTRACT",
+      "SEMANTIC_HTTP_BRIDGE",
+      "BROWSER_VISUAL"
+    ],
+    "rail_selection": "EXPLICIT_POLICY_GATED_NO_SILENT_FALLBACK",
+    "native_write_pipeline": [
+      "STRICT_INPUT",
+      "CURRENT_STATE_BINDING",
+      "EFFECT_PREVIEW",
+      "EXACT_APPROVAL_BINDING",
+      "IDEMPOTENT_COMMIT",
+      "NATIVE_RECEIPT",
+      "OUTCOME_VERIFICATION"
+    ],
+    "semantic_http_write_pipeline": [
+      "INERT_OBSERVATION",
+      "DETERMINISTIC_REQUEST_PLAN",
+      "REQUEST_PREVIEW",
+      "EXACT_APPROVAL_BINDING",
+      "ONE_DISPATCH",
+      "ATTEMPT_RECEIPT",
+      "OUTCOME_VERIFICATION_OR_UNKNOWN"
+    ],
+    "ambiguous_effect": "RECONCILE_ORIGINAL_IDENTITY_BEFORE_ANY_REDISPATCH",
+    "visual_path": "FA3-BROWSER-ACTION-RUNTIME-001",
+    "secret_boundary": "NO_CROSS_RAIL_SECRET_INHERITANCE",
+    "human_only_commitment": "NON_DELEGABLE_ACTION_ABSENT_FROM_AGENT_EXECUTABLE_SURFACE"
+  },
+  "invariants": [
+    "NO_TRANSPORT_SUCCESS_AS_BUSINESS_SUCCESS",
+    "NO_ATTEMPT_RECEIPT_AS_AUTHORITATIVE_SITE_RECEIPT",
+    "NO_BLIND_RETRY_AFTER_AMBIGUOUS_WRITE",
+    "NO_RENDERED_SCREEN_RECOVERY_WHEN_DIRECT_SEMANTIC_SOURCE_IS_AUTHORITATIVE_AND_AVAILABLE"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
