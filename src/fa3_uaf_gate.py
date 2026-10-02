@@ -47,6 +47,7 @@ def validate(root: Path) -> list[dict[str, Any]]:
         "evidence_contract": root / "canonical/FA3-EVIDENCE-ENVELOPE-001.json",
         "computer_interaction_profile": root / "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json",
         "shared_tool_action_profile": root / "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
+        "execution_security_profile": root / "canonical/profiles/FA3-SHARED-EXECUTION-SECURITY-001.json",
     }
     for name, path in required.items():
         if name == "actions":
@@ -81,6 +82,9 @@ def validate(root: Path) -> list[dict[str, Any]]:
         ("FA3-COMPUTER-INTERACTION-RUNTIME-001" in profile.get("shared_execution_profiles", []), "UAF-GATE-025", "computer interaction shared execution profile missing"),
         ("FA3-COMPUTER-INTERACTION-RUNTIME-001" in contract.get("shared_execution_profiles", []), "UAF-GATE-026", "computer interaction contract binding missing"),
         (profile.get("shared_mediation_profile") == "FA3-SHARED-TOOL-ACTION-MEDIATION-001", "UAF-GATE-027", "shared tool/action mediation binding missing"),
+        ("FA3-SHARED-EXECUTION-SECURITY-001" in profile.get("shared_execution_profiles", []), "UAF-GATE-028", "execution security shared profile missing"),
+        ("FA3-SHARED-EXECUTION-SECURITY-001" in contract.get("shared_execution_profiles", []), "UAF-GATE-029", "execution security contract binding missing"),
+        (profile.get("execution_security_profile") == "FA3-SHARED-EXECUTION-SECURITY-001", "UAF-GATE-030", "execution security profile reference missing"),
         (contract.get("new_capability") is False and contract.get("new_architectural_authority") is False, "UAF-GATE-010", "contract changes capability or authority baseline"),
         (decision.get("id") == DECISION_ID and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "UAF-GATE-011", "decision changes baseline"),
         (gate_record.get("profile") == PROFILE_ID and gate_record.get("fail_closed") is True, "UAF-GATE-012", "gate record invalid"),
