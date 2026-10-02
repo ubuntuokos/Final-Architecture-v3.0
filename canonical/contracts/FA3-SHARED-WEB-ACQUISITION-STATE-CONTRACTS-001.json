@@ -100,6 +100,9 @@
     ],
     "replace_failure": "PRESERVE_PREVIOUS_COMMITTED_SNAPSHOT_AND_FAIL_CLOSED",
     "corrupt_or_unreadable_snapshot": "FAIL_CLOSED",
-    "external_storage_dependency": false
+    "external_storage_dependency": false,
+    "reference_file_snapshot_scope": "SINGLE_WRITER_REFERENCE_TEST",
+    "runtime_multi_process_backend_admitted": false,
+    "runtime_multi_worker_claim_requires_atomic_compare_and_swap": true
   }
 }
