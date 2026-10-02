@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.shared-execution-security-enforcement.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-ENFORCEMENT-001",
+  "gate_id": "FA3-SHARED-EXECUTION-SECURITY-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 175,
+  "authority_delta": 0,
+  "rules": {
+    "policy_expansion": "DENY",
+    "unproven_when_proof_required": "DENY",
+    "executable_digest_mismatch": "DENY_REVALIDATE",
+    "stale_policy_revision": "DENY_REVALIDATE",
+    "expired_approval_or_lease": "DENY",
+    "raw_secret_exposure": "DENY",
+    "direct_mcp_bypass": "DENY",
+    "direct_model_router_bypass": "DENY",
+    "silent_security_downgrade": "DENY",
+    "enforcer_loss": "FREEZE_OR_TERMINATE",
+    "event_as_evidence_authority": "DENY",
+    "openshell_as_authority": "DENY",
+    "openshell_required_runtime": "DENY"
+  }
+}
