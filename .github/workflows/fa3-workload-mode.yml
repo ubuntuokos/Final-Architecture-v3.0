@@ -1,0 +1,81 @@
+name: FA3 Workload Mode
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/workload-mode/**'
+      - 'deployment/workload-mode/**'
+      - 'apps/fa3-control-center/**'
+      - 'deployment/fa3-gui/install.sh'
+      - 'canonical/**WORKLOAD-MODE**'
+      - 'canonical/FA3-MANDATORY-CORE-COMPONENTS-001.json'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
+      - 'src/fa3_workload_mode_gate.py'
+      - 'tests/test_workload_mode_gate.py'
+      - '.github/workflows/fa3-workload-mode.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/workload-mode/**'
+      - 'deployment/workload-mode/**'
+      - 'apps/fa3-control-center/**'
+      - 'deployment/fa3-gui/install.sh'
+      - 'canonical/**WORKLOAD-MODE**'
+      - 'canonical/FA3-MANDATORY-CORE-COMPONENTS-001.json'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
+      - 'src/fa3_workload_mode_gate.py'
+      - 'tests/test_workload_mode_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Static Workload Mode gate
+        run: |
+          python -m py_compile src/fa3_workload_mode_gate.py apps/workload-mode/integrations/blender/workload_mode_addon.py
+          PYTHONPATH=src python src/fa3_workload_mode_gate.py --root . --json
+          PYTHONPATH=src python -m unittest -v tests.test_workload_mode_gate
+          deployment/workload-mode/install.sh --check-source-contract
+          deployment/fa3-gui/install.sh --check-source-contract
+      - name: Install native build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build qt6-base-dev dbus-x11
+      - name: Build standalone Workload Mode
+        run: |
+          cmake -S apps/workload-mode -B build/workload-mode -GNinja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/workload-mode --parallel
+      - name: Exercise standalone D-Bus state and FA3 handshake
+        run: |
+          dbus-run-session -- bash -euxo pipefail -c '
+            build/workload-mode/workmoded &
+            daemon=$!
+            bridge=""
+            trap '"'"'test -z "$bridge" || kill "$bridge" 2>/dev/null || true; kill "$daemon" 2>/dev/null || true'"'"' EXIT
+            sleep 1
+            build/workload-mode/workmodectl doctor | tee /tmp/wm-normal.json
+            grep -q '"'"effective_mode": "NORMAL"'"' /tmp/wm-normal.json
+            build/workload-mode/workmodectl register AI ci-ai COORDINATED $$ >/dev/null
+            build/workload-mode/workmodectl status | tee /tmp/wm-ai.json
+            grep -q '"'"effective_mode": "AI"'"' /tmp/wm-ai.json
+            build/workload-mode/fa3-workload-mode-bridge &
+            bridge=$!
+            sleep 1
+            build/workload-mode/workmodectl status | tee /tmp/wm-fa3.json
+            grep -q '"'"authority": "FA3_HRB"'"' /tmp/wm-fa3.json
+            grep -q '"'"fa3_state": "CONNECTED"'"' /tmp/wm-fa3.json
+            build/workload-mode/workmodectl release ci-ai >/dev/null
+          '

@@ -799,6 +799,17 @@ ApplicationWindow {
                             }
 
                             Item { Layout.fillWidth: true }
+                            WorkloadModeIndicator {
+                                Layout.preferredWidth: 152
+                                Layout.preferredHeight: 30
+                                stateProvider: fa3WorkloadMode
+                                panelColor: "#0d1c2f"
+                                borderColor: window.border
+                                textColor: window.textPrimary
+                                mutedColor: window.textMuted
+                                warningColor: window.orange
+                            }
+                            Rectangle { width: 1; height: 22; color: window.border }
                             Label { text: "CANONICAL"; color: window.accent; font.pixelSize: 9; font.bold: true }
                             Rectangle { width: 1; height: 22; color: window.border }
                             Label { text: fa3Repository.canonicalRecordCount + " records"; color: window.textMuted; font.pixelSize: 9 }

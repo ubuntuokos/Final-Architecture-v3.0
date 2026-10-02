@@ -30,12 +30,14 @@ public:
     QString resourcePressure() const { return m_resourcePressure; }
     int workloadCount() const { return m_workloads.size(); }
 
-    Q_SCRIPTABLE QVariantMap Hello(const QVariantMap &request);
-    Q_SCRIPTABLE QVariantMap Status() const;
-    Q_SCRIPTABLE QVariantMap RegisterWorkload(const QVariantMap &workload);
-    Q_SCRIPTABLE QVariantMap ReleaseWorkload(const QString &workloadId);
-    Q_SCRIPTABLE QVariantMap SetGameModeState(const QString &state);
+public slots:
+    QVariantMap Hello(const QVariantMap &request);
+    QVariantMap Status() const;
+    QVariantMap RegisterWorkload(const QVariantMap &workload);
+    QVariantMap ReleaseWorkload(const QString &workloadId);
+    QVariantMap SetGameModeState(const QString &state);
 
+public:
     void refreshGameMode();
     void serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner);
 

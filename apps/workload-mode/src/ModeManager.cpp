@@ -110,7 +110,8 @@ QVariantMap ModeManager::SetGameModeState(const QString &state)
 void ModeManager::refreshGameMode()
 {
     auto *iface = QDBusConnection::sessionBus().interface();
-    if (!iface || !iface->isServiceRegistered(QStringLiteral(kGameModeService))) {
+    const QDBusReply<bool> registered = iface ? iface->isServiceRegistered(QStringLiteral(kGameModeService)) : QDBusReply<bool>();
+    if (!registered.isValid() || !registered.value()) {
         if (m_gameModeState != QStringLiteral("UNAVAILABLE")) {
             m_gameModeState = QStringLiteral("UNAVAILABLE");
             recompute();
