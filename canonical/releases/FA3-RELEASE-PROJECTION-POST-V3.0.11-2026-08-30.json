@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4fc9026b3bc1305a154d78fb8d8dab9111f79daa",
-    "pre_projection_root_tree_sha": "f49ca8f42167f1eae6d42bdda6740fe898ea3a40",
-    "pre_projection_canonical_tree_sha": "8b9267ab1ea5cdcfe6bdb80346594d176d4d6334",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2539,
-    "total_post_baseline_commits": 2539,
-    "delta_file_count": 2826,
-    "delta_added_files": 2820,
+    "pre_projection_head_sha": "1e832b254f763703bc2235a6c443be366f82fbb1",
+    "pre_projection_root_tree_sha": "b621e741a03ce2f4d16be082db14c99c980e5377",
+    "pre_projection_canonical_tree_sha": "09459e7e3588ca2dce017e46ca70ebf4c2b4ffbd",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2581,
+    "total_post_baseline_commits": 2581,
+    "delta_file_count": 2840,
+    "delta_added_files": 2834,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1319,
+    "canonical_files_in_post_baseline_delta": 1327,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 360,
-    "test_files_in_post_baseline_delta": 329,
+    "source_files_in_post_baseline_delta": 363,
+    "test_files_in_post_baseline_delta": 332,
     "workflow_files_in_post_baseline_delta": 134,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -407,6 +407,7 @@
       "canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
       "canonical/contracts/FA3-MODERNIZATION-INTEGRATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
@@ -464,6 +465,7 @@
       "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
       "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
+      "canonical/contracts/FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
       "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
@@ -529,6 +531,7 @@
       "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
       "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
+      "canonical/decisions/FA3-DEC-H3-REPLACEMENT-MOTION-VIDEO-2026-10-02.json",
       "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",
       "canonical/decisions/FA3-DEC-HOST-ADAPTATION-2026-09-27.json",
@@ -928,7 +931,8 @@
     "FA3-GATE-REGISTRY-GATESET-001",
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
-    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001"
+    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
+    "FA3-H3-REPLACEMENT-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1054,7 +1058,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2816,
+  "manifest_entry_count": 2830,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1558,7 +1562,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "e246cc48b71ecabb07fb67bd108acfa8040251ea",
+      "git_blob_sha": "6a62a3a48a321cfb744d2f9361892ae2ceadd206",
       "baseline_delta_status": "added"
     },
     {
@@ -2388,7 +2392,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "fb09cb77ac7d7311f47f10eb87977636316ef941",
+      "git_blob_sha": "b06cd5e77ae46d43c64c14a157175a6c0e4060ca",
       "baseline_delta_status": "modified"
     },
     {
@@ -2508,7 +2512,7 @@
     },
     {
       "path": "bin/fa3-minimax-h3-current-host.sh",
-      "git_blob_sha": "8fe9ce980ca75976d95516785445e66fe9df582d",
+      "git_blob_sha": "9045977f8803ac0a6f1d89c14a75aea8951fff96",
       "baseline_delta_status": "added"
     },
     {
@@ -2828,7 +2832,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "e98db1968690d50f183e57b3987fd68d28a1c20e",
+      "git_blob_sha": "c9c28fc80b2c7497a15fde4aec080d8dc4f50720",
       "baseline_delta_status": "added"
     },
     {
@@ -3152,6 +3156,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-H3-REPLACEMENT-001.json",
+      "git_blob_sha": "135ae75ac713fd735c58ccaae907a809a64f40f8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
       "git_blob_sha": "c9dc8db2974af9b093def544beca98fb4247a758",
       "baseline_delta_status": "added"
@@ -3368,7 +3377,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "5d037026cc8554c4d797127c79509a4dc4abd6a4",
+      "git_blob_sha": "cb75eaa16b0b3524739456efc0ff7c871fb7081c",
       "baseline_delta_status": "added"
     },
     {
@@ -3689,6 +3698,11 @@
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "0c29e4232a7a650d158edf243e43f1795a66632d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MOTION-VIDEO-H3-RECONCILIATION-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "90acf7e8a71e450401758f6642b408ae0960b0bf",
       "baseline_delta_status": "added"
     },
     {
@@ -4439,6 +4453,11 @@
     {
       "path": "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "980140b6272b1115b7cf9926ed0e97393474f3f8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-H3-REPLACEMENT-REUSE-ASSESSMENT-001.json",
+      "git_blob_sha": "ba014e4be85ef1ffa32d69aaf74d2ae027cc3c84",
       "baseline_delta_status": "added"
     },
     {
@@ -5257,6 +5276,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001.json",
+      "git_blob_sha": "698f42fb485c45439b11ca8b0b424a8a203631a9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "git_blob_sha": "b53782ec660a96cc0bfbf5abae563d2ad9354dd0",
       "baseline_delta_status": "added"
@@ -5539,6 +5563,11 @@
     {
       "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
       "git_blob_sha": "257cbaed10d878f14a9bec3f8d445f81641486dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001.json",
+      "git_blob_sha": "2307436a1add526bd8b3bdf40752ab1540bdf140",
       "baseline_delta_status": "added"
     },
     {
@@ -5919,6 +5948,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
       "git_blob_sha": "82825a91ba3b5a3b93ada643ff86a37b9c12dcbb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-H3-REPLACEMENT-MOTION-VIDEO-2026-10-02.json",
+      "git_blob_sha": "71d7d5d6c6be6f56d57c05d798e2fa5d493b8358",
       "baseline_delta_status": "added"
     },
     {
@@ -6643,7 +6677,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "8ce0a1aef8cceb74d74120476d7452882016f0c1",
+      "git_blob_sha": "662233b200f28f8d4795b33872c296283ec0e970",
       "baseline_delta_status": "modified"
     },
     {
@@ -6714,6 +6748,11 @@
     {
       "path": "canonical/gui-current-host-enforcement.json",
       "git_blob_sha": "e45f38dca9c9469c5898d4262bda6a2928f9515b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/h3-replacement-enforcement.json",
+      "git_blob_sha": "6b5bbd53cf9c966fbc998e7aebf8ef16646d996d",
       "baseline_delta_status": "added"
     },
     {
@@ -6879,6 +6918,11 @@
     {
       "path": "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
       "git_blob_sha": "7c66088d73ba41678a766f91473e6c4b7a118077",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-H3-REPLACEMENT-APPLICATION-INTENT-001.json",
+      "git_blob_sha": "bb60ad49924918aad394facea9d51b6e2208313d",
       "baseline_delta_status": "added"
     },
     {
@@ -7883,7 +7927,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VIDEO-001.json",
-      "git_blob_sha": "951d8042b38d4aaa33b39c1b46a9f0081b23a998",
+      "git_blob_sha": "999d4656df8e7eb66e4a5693c0dac7e71568ccc6",
       "baseline_delta_status": "added"
     },
     {
@@ -8148,7 +8192,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KLING-001.json",
-      "git_blob_sha": "6d99f39b68b1a657667cc6e98ccddaf0575c7570",
+      "git_blob_sha": "4a0cc991cbf8e4d1e5df322767438a3b2d10b366",
       "baseline_delta_status": "added"
     },
     {
@@ -8238,7 +8282,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
-      "git_blob_sha": "166cd532061602556dcb9d30f2ab058f24506901",
+      "git_blob_sha": "91ab9beb12402ba41e517196bfb6e75cde080811",
       "baseline_delta_status": "added"
     },
     {
@@ -9343,7 +9387,7 @@
     },
     {
       "path": "canonical/video-enforcement.json",
-      "git_blob_sha": "1890f167bbc369ec92071d95ef0ca341d538a038",
+      "git_blob_sha": "a63a7d49f026c2c8509f24158d6ad1f1f44f1aea",
       "baseline_delta_status": "added"
     },
     {
@@ -12332,6 +12376,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_h3_replacement_gate.py",
+      "git_blob_sha": "b4c364818d4347ceba66d04d28854ef374fd99d5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hardware_discovery.py",
       "git_blob_sha": "9a7dfbe74553beed1ebe5b1c3aa8202c6b8cc52b",
       "baseline_delta_status": "added"
@@ -12668,7 +12717,7 @@
     },
     {
       "path": "src/fa3_minimax_h3_runtime_admission_gate.py",
-      "git_blob_sha": "769be76ab54da113aa192775d70b1b1e4bad8f4c",
+      "git_blob_sha": "32a3ad4344efc43a0a7271b6d47c1253baa6fa7d",
       "baseline_delta_status": "added"
     },
     {
@@ -12809,6 +12858,11 @@
     {
       "path": "src/fa3_modular_runtime.py",
       "git_blob_sha": "cd2d2c5925bf5975b1d9b9b81aead0a7d4437b30",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_motion_video_provider_adapter.py",
+      "git_blob_sha": "a59bd75e0301f9e1fc2bbde5bc8b8e4c9e35d091",
       "baseline_delta_status": "added"
     },
     {
@@ -13349,6 +13403,11 @@
     {
       "path": "src/fa3_vaultwarden_gate.py",
       "git_blob_sha": "1bbd6beb55c9d0ba3624b077edde1da00204a386",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_video_model_router.py",
+      "git_blob_sha": "efb01d33835d401ae981f7da4daea56efa2e7026",
       "baseline_delta_status": "added"
     },
     {
@@ -13973,7 +14032,7 @@
     },
     {
       "path": "tests/test_donor_motion_video_execution_20261002.py",
-      "git_blob_sha": "50081f0ef33a190fbe0660a720348ab6c1bbed48",
+      "git_blob_sha": "d8db081695cc9d662539db01ebf1839883547ce7",
       "baseline_delta_status": "added"
     },
     {
@@ -14159,6 +14218,11 @@
     {
       "path": "tests/test_gtcrn_provider_runtime.py",
       "git_blob_sha": "9fd184c990b585f4d54cefbc90bc20e18703a85d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_h3_replacement_policy.py",
+      "git_blob_sha": "e75431f4fc678591dacd77f312b738c647330359",
       "baseline_delta_status": "added"
     },
     {
@@ -14473,7 +14537,7 @@
     },
     {
       "path": "tests/test_minimax_h3_runtime_gate.py",
-      "git_blob_sha": "48439451a35caa72a28c0a00f553807b91837f8d",
+      "git_blob_sha": "39ac15e43177acfffe0e2f2d1b0f9314a16d94cf",
       "baseline_delta_status": "added"
     },
     {
@@ -14574,6 +14638,11 @@
     {
       "path": "tests/test_modular_runtime.py",
       "git_blob_sha": "07b85ae3201ad892fd7a5dbc1a60875f135ea9b9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_motion_video_provider_adapter.py",
+      "git_blob_sha": "64449c43b92e3a72b413fbbedf55b63718c4123a",
       "baseline_delta_status": "added"
     },
     {
@@ -14989,6 +15058,11 @@
     {
       "path": "tests/test_video_clip_topic_donor_curation.py",
       "git_blob_sha": "39c9ff72be117bb5ec290e3ea22489d1db970a33",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_video_model_router.py",
+      "git_blob_sha": "c8ed7000b52708434eee911a4b050ebb2b76d224",
       "baseline_delta_status": "added"
     },
     {
