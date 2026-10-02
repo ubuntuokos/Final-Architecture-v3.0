@@ -1,0 +1,183 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-WORKLOAD-MODE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "intent_id": "FA3-WORKLOAD-MODE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-WORKLOAD-MODE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+    "FA3-WORKLOAD-MODE-CONTRACTS-001",
+    "FA3-WORKLOAD-MODE-INTEGRATION-001",
+    "FA3-MANDATORY-CORE-COMPONENTS-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_FA3_EXCLUSIVE_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+      "use": "EXISTING_LEASE_RUNTIME_BINDING_COMPOSITE_RESERVATION_PIDFD_AND_SYSTEMD_SCOPE_CONTRACTS"
+    },
+    {
+      "id": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+      "use": "EXISTING_LINUX_PER_WORKLOAD_RESOURCE_PROJECTION_REFERENCE"
+    },
+    {
+      "id": "FA3-SYSCTL-HOST-TUNING-GOVERNANCE-001",
+      "use": "EXISTING_OBSERVE_FIRST_ROLLBACKABLE_HOST_TUNING_POLICY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_CPU_ONLY_AND_ZERO_TO_N_ACCELERATOR_BASELINE"
+    },
+    {
+      "id": "FA3-DESKTOP-001",
+      "use": "EXISTING_SHARED_QT6_QML_OPERATOR_SURFACE"
+    },
+    {
+      "id": "CAP-130",
+      "use": "EXISTING_DISTRIBUTED_HIGH_THROUGHPUT_COMPUTE_BATCH_SCHEDULING_AND_RESOURCE_CAPABILITY"
+    },
+    {
+      "id": "CAP-175",
+      "use": "EXISTING_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    }
+  ],
+  "reference_only_research": [
+    {
+      "source": "FeralInteractive/GameMode",
+      "classification": "ANALYSIS_ONLY_NOT_DONOR_REGISTERED",
+      "use": "DAEMON_CLIENT_DBUS_LIFECYCLE_AND_COEXISTENCE_REFERENCE"
+    },
+    {
+      "source": "System76/system76-scheduler",
+      "classification": "ANALYSIS_ONLY_NOT_DONOR_REGISTERED",
+      "use": "PROCESS_CLASSIFICATION_AND_SCHEDULING_PATTERN_REFERENCE"
+    },
+    {
+      "source": "AcademySoftwareFoundation/OpenCue",
+      "classification": "ANALYSIS_ONLY_NOT_DONOR_REGISTERED",
+      "use": "DISTRIBUTED_RENDER_JOB_RESOURCE_SCHEDULING_REFERENCE"
+    },
+    {
+      "source": "blender/flamenco",
+      "classification": "ANALYSIS_ONLY_NOT_DONOR_REGISTERED",
+      "use": "RENDER_JOB_WORKER_AND_EVENT_MODEL_REFERENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_FA3_RESOURCE_AUTHORITY",
+      "reason": "HRB_REMAINS_EXCLUSIVE_FA3_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "SEPARATE_AIMODE_RESOURCE_DAEMON",
+      "reason": "AIMODE_IS_A_DOMAIN_OF_THE_SHARED_FRAMEWORK"
+    },
+    {
+      "id": "SEPARATE_RENDERMODE_RESOURCE_DAEMON",
+      "reason": "RENDERMODE_IS_A_DOMAIN_OF_THE_SHARED_FRAMEWORK"
+    },
+    {
+      "id": "GAMEMODE_FORK_OR_HARD_DEPENDENCY",
+      "reason": "GAMEMODE_REMAINS_AN_OPTIONAL_EXTERNAL_INTEROPERABILITY_PEER"
+    },
+    {
+      "id": "UNIVERSAL_HARD_PER_PROCESS_VRAM_QUOTA",
+      "reason": "VENDOR_AND_DRIVER_ENFORCEMENT_IS_NOT_PORTABLY_GUARANTEED"
+    },
+    {
+      "id": "AUTOMATIC_OVERCLOCK_OR_POWER_ESCALATION",
+      "reason": "HARDWARE_SAFETY_ENVELOPE_FORBIDS_UNPROVEN_OR_UNSAFE_MUTATION"
+    }
+  ],
+  "pattern_reuse": [
+    "EXISTING_HRB_LEASE_LIFECYCLE",
+    "EXISTING_SYSTEMD_CGROUPV2_PER_WORKLOAD_PROJECTION",
+    "SHARED_FIRST_MULTI_APPLICATION_COMPONENT",
+    "FAIL_CLOSED_COMPATIBILITY",
+    "EVENT_DRIVEN_STATE_PROJECTION"
+  ],
+  "existing_authority_bindings": {
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "gaps": [
+    "WORKLOAD_MODE_STANDALONE_RUNTIME",
+    "AIMODE_DOMAIN",
+    "RENDERMODE_DOMAIN",
+    "GAMEMODE_STATE_BRIDGE",
+    "FA3_WORKLOAD_MODE_HANDSHAKE",
+    "SHARED_GLOBAL_MODE_INDICATOR"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound_when_fa3_present": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false,
+    "external_tuners_are_observed_not_silently_disabled": true
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [
+        "RUNTIME_PROVIDER_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "c1bf09e1bbad708925893278a41367a376cd0a69",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "c29638de9ac73f133a817cc239eba0d3837daac6",
+    "donor_registry_sha256": "66498300449cd547a6c31111032b4b5bd07b81606492e9918cabcd8785ad7748",
+    "donor_registry_entry_count": 1317
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+      "FA3-HOST-RESOURCE-BROKER-001",
+      "FA3-DESKTOP-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false,
+    "rationale": "AI, rendering, gaming coexistence and effective-mode visibility cross application boundaries. One shared framework and one shared UI state projection avoid parallel resource managers and per-application duplicate indicators."
+  }
+}

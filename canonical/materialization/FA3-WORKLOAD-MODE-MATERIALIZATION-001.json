@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.materialization-record.v1",
+  "id": "FA3-WORKLOAD-MODE-MATERIALIZATION-001",
+  "status": "STATIC_SOURCE_MATERIALIZED_RUNTIME_PENDING",
+  "profile_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "contract_id": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+  "decision_id": "FA3-DEC-WORKLOAD-MODE-MANDATORY-2026-10-02",
+  "source_components": [
+    "apps/workload-mode/CMakeLists.txt",
+    "apps/workload-mode/src/ModeManager.h",
+    "apps/workload-mode/src/ModeManager.cpp",
+    "apps/workload-mode/src/main.cpp",
+    "apps/workload-mode/src/workmodectl.cpp",
+    "apps/workload-mode/src/workmoderun.cpp",
+    "apps/workload-mode/src/fa3_workload_mode_bridge.cpp",
+    "apps/workload-mode/integrations/blender/workload_mode_addon.py",
+    "deployment/workload-mode/install.sh",
+    "deployment/workload-mode/workmoded.service",
+    "deployment/workload-mode/fa3-workload-mode-bridge.service"
+  ],
+  "materialized_scope": [
+    "STANDALONE_DBUS_STATE_BROKER",
+    "AIMODE_RENDERMODE_DOMAIN_STATE",
+    "GAMEMODE_DBUS_AVAILABILITY_AND_STATUS_OBSERVATION",
+    "FA3_BIDIRECTIONAL_HANDSHAKE_SOURCE",
+    "EXTERNAL_WORKLOAD_WRAPPERS",
+    "BLENDER_BFORARTISTS_RENDER_LIFECYCLE_ADAPTER",
+    "MANDATORY_FA3_INSTALL_CONTRACT",
+    "GLOBAL_GUI_INDICATOR_SOURCE"
+  ],
+  "deferred_physical_scope": [
+    "SYSTEMD_TRANSIENT_SCOPE_RESOURCE_MUTATION",
+    "DIRECT_CGROUPV2_FALLBACK_MUTATION",
+    "NVIDIA_NVML_TELEMETRY",
+    "AMD_SMI_TELEMETRY",
+    "INTEL_LEVEL_ZERO_SYSMAN_TELEMETRY",
+    "PHYSICAL_GAMEMODE_COEXISTENCE",
+    "PHYSICAL_FA3_HRB_HANDSHAKE",
+    "PHYSICAL_INSTALL_ENABLEMENT",
+    "PHYSICAL_GUI_PROPAGATION"
+  ],
+  "production_promotion_from_materialization": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

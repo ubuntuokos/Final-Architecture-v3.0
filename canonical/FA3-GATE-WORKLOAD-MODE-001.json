@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-WORKLOAD-MODE-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-WORKLOAD-MODE-GATESET-001",
+  "entrypoint": "src/fa3_workload_mode_gate.py::gate",
+  "profile_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "contract_id": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+  "fail_closed": true,
+  "static_pass_promotes_runtime": false,
+  "tests": [
+    "tests/test_workload_mode_gate.py"
+  ],
+  "required_boundaries": [
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+    "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "CAP-175",
+    "FA3-MANDATORY-CORE-COMPONENTS-001",
+    "FA3-GUI-SURFACE-REGISTRY-001"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=FA3 mandatory Workload Mode bridge
+After=workmoded.service
+Requires=workmoded.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/libexec/fa3-workload-mode-bridge
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

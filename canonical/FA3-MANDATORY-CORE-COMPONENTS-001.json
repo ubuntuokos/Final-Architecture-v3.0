@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.mandatory-core-components.v1",
+  "id": "FA3-MANDATORY-CORE-COMPONENTS-001",
+  "status": "CANONICAL",
+  "capability_count": 175,
+  "profiles": [
+    "FULL",
+    "HOBBY",
+    "MINIMAL",
+    "HEADLESS",
+    "SINGLE_HOST",
+    "MULTI_HOST",
+    "CPU_ONLY",
+    "ACCELERATOR_ENABLED"
+  ],
+  "components": [
+    {
+      "id": "workload-mode",
+      "profile_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+      "requirement": "MUST",
+      "optional": false,
+      "bypassable": false,
+      "required_payloads": [
+        "workmoded",
+        "workmodectl",
+        "workmoderun",
+        "aimoderun",
+        "rendermoderun",
+        "fa3-workload-mode-bridge",
+        "org.workloadmode.Manager1"
+      ],
+      "required_for_all_profiles": true,
+      "game_mode_runtime_dependency": false,
+      "game_mode_bridge_support_required": true,
+      "startup_health_required": true,
+      "protocol_compatibility_required": true,
+      "missing_or_unhealthy_state": "SAFE_DEGRADED",
+      "resource_mutation_when_unhealthy": "DENY",
+      "silent_fallback": false
+    }
+  ],
+  "installer_policy": {
+    "user_may_deselect_workload_mode": false,
+    "first_use_install_for_workload_mode": false,
+    "package_dependency_required": true,
+    "repair_must_restore_missing_payload": true,
+    "uninstall_must_break_or_remove_fa3_dependency": true
+  },
+  "current_host_installation_proof": "PENDING_PHYSICAL_CURRENT_HOST"
+}
