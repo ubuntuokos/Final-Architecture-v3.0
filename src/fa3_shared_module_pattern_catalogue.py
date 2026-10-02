@@ -158,7 +158,7 @@ def validate(root: Path) -> dict[str, Any]:
             for mid in targets:
                 if mid not in module_ids:
                     fail("UNKNOWN_SHARED_MODULE_TARGET", f"{pid}:{mid}")
-        if row.get("reuse_status") not in {"REFERENCE_ONLY","PATTERN_CANDIDATE","COMPOSITE_REFERENCE"}:
+        if row.get("reuse_status") not in {"REFERENCE_ONLY","PATTERN_CANDIDATE","COMPOSITE_REFERENCE","ADOPTED_PATTERN"}:
             fail("PATTERN_REUSE_STATUS_INVALID", str(pid))
 
     expected_components = {
@@ -167,6 +167,7 @@ def validate(root: Path) -> dict[str, Any]:
         "FA3-SHARED-MULTIMODAL-SOURCE-001",
         "FA3-SHARED-CONVERSATION-SESSION-001",
         "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+        "FA3-SHARED-EXECUTION-SECURITY-001",
     }
     materialized_rows = catalogue.get("materialized_shared_components", [])
     materialized_ids: set[str] = set()
@@ -189,7 +190,11 @@ def validate(root: Path) -> dict[str, Any]:
         materialized_ids.add(cid)
         if row.get("binding_semantics") != "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY":
             fail("MATERIALIZED_COMPONENT_BINDING_SEMANTICS_INVALID", cid)
-        if row.get("current_host_impact") != "NO_RUNTIME_IMPACT":
+        impact_state = row.get("current_host_impact")
+        if cid == "FA3-SHARED-EXECUTION-SECURITY-001":
+            if impact_state != "RUNTIME_REQUALIFICATION_REQUIRED":
+                fail("MATERIALIZED_COMPONENT_RUNTIME_IMPACT_INVALID", cid)
+        elif impact_state != "NO_RUNTIME_IMPACT":
             fail("MATERIALIZED_COMPONENT_RUNTIME_IMPACT_INVALID", cid)
         for ref in row.get("pattern_references", []):
             if ref not in allowed_pattern_refs:
@@ -260,7 +265,11 @@ def validate(root: Path) -> dict[str, Any]:
                 fail("MATERIALIZED_COMPONENT_PROFILE_LINK_MISSING", cid)
             if contract_id not in app_bindings.get("contract_ids", []):
                 fail("MATERIALIZED_COMPONENT_CONTRACT_LINK_MISSING", cid)
-            if (app_row.get("current_host_impact") or {}).get("classification") != "NO_RUNTIME_IMPACT":
+            app_impact = (app_row.get("current_host_impact") or {}).get("classification")
+            if cid == "FA3-SHARED-EXECUTION-SECURITY-001":
+                if app_impact != "RUNTIME_REQUALIFICATION_REQUIRED":
+                    fail("MATERIALIZED_COMPONENT_APPLICATION_RUNTIME_IMPACT_INVALID", cid)
+            elif app_impact != "NO_RUNTIME_IMPACT":
                 fail("MATERIALIZED_COMPONENT_APPLICATION_RUNTIME_IMPACT_INVALID", cid)
 
     if materialized_ids != expected_components:
