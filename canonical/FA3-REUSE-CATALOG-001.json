@@ -45,7 +45,8 @@
     "OPEN_STANDARD_ADAPTER",
     "OPEN_STANDARD_FABRIC_BINDING",
     "DONOR_REFERENCE",
-    "SHARED_MODULE_PATTERN"
+    "SHARED_MODULE_PATTERN",
+    "EXTERNAL_DISCOVERY_CANDIDATE"
   ],
   "deterministic_filters": [
     "EXACT_CAPABILITY_MATCH",
@@ -64,7 +65,8 @@
     "DONOR_REJECTED_SUPERSEDED_EXCLUSION",
     "DONOR_REFERENCE_NON_AUTHORITY_FILTER",
     "SHARED_MODULE_PATTERN_TARGET_MATCH",
-    "ANALYSIS_ONLY_PATTERN_SOURCE_NON_DONOR_FILTER"
+    "ANALYSIS_ONLY_PATTERN_SOURCE_NON_DONOR_FILTER",
+    "EXTERNAL_DISCOVERY_PROJECTION_NON_AUTHORITY_FILTER"
   ],
   "decision_fabric_post_filter_ranking_only": true,
   "candidate_set_expansion_by_semantic_provider": false,
@@ -151,5 +153,21 @@
     "automatic_activation": false,
     "authority": false
   },
-  "strategies": []
+  "strategies": [],
+  "external_discovery_binding": {
+    "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+    "candidate_store_policy_id": "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+    "reconciliation_policy_id": "FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001",
+    "candidate_class": "EXTERNAL_DISCOVERY_CANDIDATE",
+    "projection_mode": "QUERY_TIME_DERIVED_ONLY",
+    "donor_registry_query_required": true,
+    "provider_registry_query_required": true,
+    "application_impact_required": true,
+    "shared_capability_detection_required": true,
+    "automatic_donor_promotion": false,
+    "automatic_provider_admission": false,
+    "automatic_shared_materialization": false,
+    "automatic_activation": false,
+    "authority": false
+  }
 }
