@@ -202,6 +202,26 @@ def validate_runtime_sandbox_receipt(receipt: Any, *, root: Path) -> tuple[bool,
         and quadlet.get("forbidden_host_mounts_present") is False
     ):
         reasons.append("installed Quadlet fail-closed policy is incomplete")
+    execution_security = receipt.get("execution_security", {})
+    required_execsec = (
+        "filesystem_deny_pass",
+        "process_or_syscall_deny_pass",
+        "network_deny_pass",
+        "executable_digest_swap_deny_pass",
+        "policy_revision_stale_deny_pass",
+        "credential_exfiltration_deny_pass",
+        "direct_mcp_bypass_deny_pass",
+        "enforcer_loss_fail_closed_pass",
+        "restart_stale_token_deny_pass",
+        "rollback_pass",
+    )
+    if not (
+        execution_security.get("profile_id") == "FA3-SHARED-EXECUTION-SECURITY-001"
+        and execution_security.get("status") == "PASS"
+        and execution_security.get("synthetic") is False
+        and all(execution_security.get(key) is True for key in required_execsec)
+    ):
+        reasons.append("shared execution-security physical proof is incomplete")
     reasons.extend(_nested_evidence_envelope_reasons(receipt, surface="RUNTIME_ISOLATION_AGENT_SANDBOX"))
     return not reasons, reasons
 
