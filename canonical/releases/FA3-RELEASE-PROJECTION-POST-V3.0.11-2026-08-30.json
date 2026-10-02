@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4fc9026b3bc1305a154d78fb8d8dab9111f79daa",
-    "pre_projection_root_tree_sha": "f49ca8f42167f1eae6d42bdda6740fe898ea3a40",
-    "pre_projection_canonical_tree_sha": "8b9267ab1ea5cdcfe6bdb80346594d176d4d6334",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2539,
-    "total_post_baseline_commits": 2539,
-    "delta_file_count": 2826,
-    "delta_added_files": 2820,
+    "pre_projection_head_sha": "eb7db0f68f8cfa10ce8b1719464d0a5289c94262",
+    "pre_projection_root_tree_sha": "302f064b49d551fa6f9d8dc1b0d1cc091f115945",
+    "pre_projection_canonical_tree_sha": "ebecfee2f4d190b114c9942eb34cfef34a3b26b0",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2545,
+    "total_post_baseline_commits": 2545,
+    "delta_file_count": 2829,
+    "delta_added_files": 2823,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1319,
+    "canonical_files_in_post_baseline_delta": 1320,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 360,
-    "test_files_in_post_baseline_delta": 329,
+    "test_files_in_post_baseline_delta": 330,
     "workflow_files_in_post_baseline_delta": 134,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2816,
+  "manifest_entry_count": 2819,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2928,7 +2928,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
+      "git_blob_sha": "67795f00d5f7d801978bd6d4f92006b5412fe9ee",
       "baseline_delta_status": "added"
     },
     {
@@ -6602,6 +6602,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-NVIDIA-OPENSHELL-REFRESH-2026-10-02.json",
+      "git_blob_sha": "5fe81a304a0d79e862de33f73610c069cae04bc9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-ODBC-SQL-VECTOR-MEDIA-2026-09-29.json",
       "git_blob_sha": "47c51315ab68339a85a3b720674f5e9734c0dc38",
       "baseline_delta_status": "added"
@@ -10004,6 +10009,11 @@
     {
       "path": "docs/donor-nnstreamer-onnx-aom-a11y-2026-09-29.md",
       "git_blob_sha": "387466e755495f57c55a00eb80b719be1c173185",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-nvidia-openshell-refresh-2026-10-02.md",
+      "git_blob_sha": "1a27a2f3de1d8ca186964dec5e741f49b5e570bc",
       "baseline_delta_status": "added"
     },
     {
@@ -13974,6 +13984,11 @@
     {
       "path": "tests/test_donor_motion_video_execution_20261002.py",
       "git_blob_sha": "50081f0ef33a190fbe0660a720348ab6c1bbed48",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_nvidia_openshell_refresh_20261002.py",
+      "git_blob_sha": "9b4b2b813fbcd7ab8ea3fb95f720e2e7e084bb4d",
       "baseline_delta_status": "added"
     },
     {

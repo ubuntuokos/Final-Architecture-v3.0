@@ -49961,7 +49961,7 @@
         "nvidia-github-org-curation-2026-09-28"
       ],
       "first_seen": "2026-09-28",
-      "last_seen": "2026-09-28",
+      "last_seen": "2026-10-02",
       "donor_modes": [
         "ARCHITECTURE_PATTERN",
         "REFERENCE_IMPLEMENTATION"
@@ -49969,7 +49969,15 @@
       "capability_hints": [
         "agent-permissions",
         "policy-isolation",
-        "sandboxed-agent-runtime"
+        "sandboxed-agent-runtime",
+        "policy-proving",
+        "executable-identity-binding",
+        "filesystem-process-network-enforcement",
+        "credential-projection",
+        "mcp-l7-inspection",
+        "sandbox-lifecycle",
+        "structured-security-events",
+        "runtime-isolation"
       ],
       "domain_hints": [
         "agents",
@@ -49984,7 +49992,9 @@
       "tags": [
         "nvidia-curation-2026-09-28",
         "nvidia-github",
-        "security"
+        "security",
+        "openshell-refresh-2026-10-02",
+        "execution-security"
       ],
       "license": {
         "declared": "Apache-2.0",
@@ -50002,7 +50012,10 @@
       "automatic_provider_admission": false,
       "automatic_model_selection": false,
       "notes": [
-        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory."
+        "NVIDIA-specific optional donor/reference; FA3 vendor-neutral CPU-only path and HRB remain mandatory.",
+        "Refresh 2026-10-02: stable v0.1.2 pinned at 6648bd0c290efbc41ba131ee9831ee45cd431f94; discovery-only upstream main observed at ec49209da25be39840742df29b64ec694d159c2f, 71 commits ahead of v0.1.2.",
+        "Selected planning value includes policy proving, executable identity/digest binding, deny-by-default filesystem/process/network enforcement, endpoint-bound credential projection, MCP L7 inspection, sandbox lifecycle and structured security-event patterns.",
+        "No OpenShell gateway, broker, scheduler, provider/model router, secret authority, resource authority or evidence authority is admitted by this refresh; runtime/code reuse remains separately admission-gated."
       ]
     },
     {
