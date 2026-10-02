@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001",
+  "project_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "project_type": "SHARED_PROFILE",
+  "goal": "Materialize one provider-neutral shared execution-security enforcement layer below existing FA3 authorization, MCP/UAF, resource, model-routing, secret and evidence authorities using bounded policy proof, executable identity and deny-by-default runtime enforcement patterns without admitting OpenShell as an FA3 authority or required runtime.",
+  "required_capabilities": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-028",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "execution-policy-boundary",
+    "policy-proof",
+    "executable-identity-integrity",
+    "filesystem-process-network-enforcement",
+    "credential-projection",
+    "mcp-l7-enforcement",
+    "fail-closed-enforcer-loss"
+  ],
+  "task_classes": [
+    "agent",
+    "automation",
+    "tool",
+    "mcp",
+    "developer-execution"
+  ],
+  "input_modalities": [
+    "TYPED_ACTION_INTENT",
+    "AUTHORIZATION_DECISION",
+    "POLICY_BOUNDARY",
+    "RESOURCE_LEASE_REFS",
+    "SECRETREF",
+    "WORKLOAD_CONTEXT"
+  ],
+  "output_modalities": [
+    "EXECUTION_SECURITY_ENVELOPE",
+    "POLICY_PROOF",
+    "EXECUTION_SECURITY_RECEIPT",
+    "DENIAL",
+    "ROLLBACK_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_CONTROL_PATH",
+    "OPTIONAL_SEPARATELY_ADMITTED_ISOLATION_BACKEND"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_EXECUTION_SECURITY_CURRENT_HOST_REQUALIFICATION",
+    "FILESYSTEM_PROCESS_NETWORK_NEGATIVE_PROOFS",
+    "EXECUTABLE_DIGEST_AND_CREDENTIAL_EXFILTRATION_NEGATIVE_PROOFS",
+    "ENFORCER_LOSS_AND_ROLLBACK_PHYSICAL_PROOFS"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-shared-execution-security",
+    "service_prefix": null,
+    "config_root": null,
+    "cache_root": null,
+    "runtime_root": null,
+    "socket_namespace": null,
+    "data_root": null,
+    "desktop_prefix": null,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "default_port": null
+  },
+  "security_requirements": [
+    "EFFECTIVE_POLICY_MUST_NOT_EXCEED_AUTHORIZED_BOUNDARY",
+    "UNPROVEN_DENIED_WHEN_PROOF_REQUIRED",
+    "EXECUTABLE_DIGEST_CHANGE_REQUIRES_REVALIDATION",
+    "NETWORK_DEFAULT_DENY",
+    "RAW_SECRET_EXPOSURE_FORBIDDEN_WHEN_BROKER_PROJECTION_SUPPORTED",
+    "DIRECT_MCP_PROVIDER_OR_MODEL_ROUTER_BYPASS_FORBIDDEN",
+    "SILENT_SANDBOX_DOWNGRADE_FORBIDDEN",
+    "ENFORCER_LOSS_FAILS_CLOSED"
+  ],
+  "integration_requirements": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

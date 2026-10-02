@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-028",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "contracts": [
+    "ExecutionSecurityEnvelope",
+    "ExecutionPolicyBoundary",
+    "ExecutionPolicyProof",
+    "ExecutableIdentity",
+    "RuntimeIsolationRequest",
+    "CredentialProjectionBinding",
+    "ExecutionSecurityEvent",
+    "ExecutionSecurityReceipt",
+    "ExecutionSecurityRollbackReceipt",
+    "ExecutionSecurityDenial"
+  ],
+  "required_semantics": {
+    "policy_relation": "EFFECTIVE_POLICY_SUBSET_OF_OR_EQUAL_TO_AUTHORIZED_BOUNDARY",
+    "proof_states": [
+      "PROVED",
+      "DENIED",
+      "UNPROVEN"
+    ],
+    "proof_required_unproven_action": "DENY",
+    "executable_digest_change": "REVOKE_AND_REVALIDATE",
+    "raw_secret_material": "FORBIDDEN_WHEN_SECRETREF_OR_BROKER_PROJECTION_SUPPORTED",
+    "enforcement_loss": "FREEZE_OR_TERMINATE_FAIL_CLOSED",
+    "event_to_evidence": "CANDIDATE_ONLY_UNTIL_EVIDENCE_AUTHORITY_VALIDATES"
+  },
+  "execution_envelope_required_fields": [
+    "principal_ref",
+    "task_id",
+    "task_group_ref",
+    "action_ref",
+    "authorization_ref",
+    "policy_revision",
+    "filesystem_scope",
+    "network_scope",
+    "process_scope",
+    "mcp_scope",
+    "credential_scope",
+    "resource_lease_refs",
+    "minimum_security_level",
+    "expiry"
+  ],
+  "optional_integrity_bindings": [
+    "approval_digest",
+    "arguments_digest",
+    "context_digest",
+    "executable_identity",
+    "executable_sha256",
+    "runtime_image_digest",
+    "parent_process_identity",
+    "workload_mode"
+  ],
+  "authority_invariants": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "AUTH-DURABLE"
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0"
+}

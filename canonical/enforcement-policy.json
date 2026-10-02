@@ -113,7 +113,8 @@
     "FA3-GATE-REGISTRY-GATESET-001",
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
-    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001"
+    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
+    "FA3-SHARED-EXECUTION-SECURITY-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -2156,5 +2157,8 @@
     "protected_action_refs_require_commit_sha": true,
     "capability_delta": 0,
     "authority_delta": 0
-  }
+  },
+  "shared_execution_security_profile_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "shared_execution_security_gate_id": "FA3-SHARED-EXECUTION-SECURITY-GATESET-001",
+  "shared_execution_security_current_host_impact": "RUNTIME_REQUALIFICATION_REQUIRED"
 }

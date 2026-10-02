@@ -263,6 +263,25 @@ def collect(
         gvisor["runsc_sha256"] = sha256_file(Path(runsc))
     receipt["gvisor"] = gvisor
 
+    # OpenShell-derived execution-security hardening adds new physical proof obligations.
+    # They remain fail-closed until a host-specific enforcement backend measures them.
+    execution_security = {
+        "profile_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+        "status": "PENDING_CURRENT_HOST_MEASUREMENT",
+        "filesystem_deny_pass": False,
+        "process_or_syscall_deny_pass": False,
+        "network_deny_pass": False,
+        "executable_digest_swap_deny_pass": False,
+        "policy_revision_stale_deny_pass": False,
+        "credential_exfiltration_deny_pass": False,
+        "direct_mcp_bypass_deny_pass": False,
+        "enforcer_loss_fail_closed_pass": False,
+        "restart_stale_token_deny_pass": False,
+        "rollback_pass": False,
+        "synthetic": False,
+    }
+    receipt["execution_security"] = execution_security
+
     passed = (
         receipt["cgroup_v2"]["present"] is True
         and rootless_oci.get("status") == "PASS"
@@ -270,12 +289,26 @@ def collect(
         and quadlet_result.get("status") == "PASS"
         and gvisor.get("compatibility_smoke_status") == "PASS"
         and gvisor.get("production_oci_isolation_status") == "PASS"
+        and execution_security.get("status") == "PASS"
+        and all(execution_security.get(k) is True for k in (
+            "filesystem_deny_pass",
+            "process_or_syscall_deny_pass",
+            "network_deny_pass",
+            "executable_digest_swap_deny_pass",
+            "policy_revision_stale_deny_pass",
+            "credential_exfiltration_deny_pass",
+            "direct_mcp_bypass_deny_pass",
+            "enforcer_loss_fail_closed_pass",
+            "restart_stale_token_deny_pass",
+            "rollback_pass",
+        ))
     )
     payload = {
         "repository_head": receipt["repository_head"],
         "quadlet": quadlet_result,
         "gvisor": gvisor,
         "cgroup_v2": receipt["cgroup_v2"],
+        "execution_security": execution_security,
     }
     receipt["evidence_envelope"] = _envelope(root, host_attestation_ref=host_attestation_ref, payload=payload, passed=passed)
     receipt["result"] = "PASS" if passed else "PENDING"

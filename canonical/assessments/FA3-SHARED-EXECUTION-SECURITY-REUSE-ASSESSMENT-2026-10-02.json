@@ -1,0 +1,163 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-REUSE-ASSESSMENT-2026-10-02",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-02",
+  "subject_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "project_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "published_main_commit": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
+  "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+  "donor_registry_entry_count": 1357,
+  "capability_baseline": 175,
+  "result": "PASS",
+  "canonical_donor_use": {
+    "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+    "normalized_key": "github:nvidia/openshell",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "code_copied": false,
+    "runtime_dependency_created": false,
+    "provider_or_model_admitted": false
+  },
+  "adoption_authorized": true,
+  "adoption_scope": "SELECTED_ARCHITECTURE_PATTERNS_ONLY",
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "use": "PARENT_TYPED_ACTION_POLICY_APPROVAL_AND_RECEIPT_FABRIC"
+    },
+    {
+      "id": "FA3-AGENT-SANDBOX-001",
+      "use": "EXISTING_MANDATORY_ISOLATED_AGENT_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "SOLE_NON_AUTHORITY_ACTION_DISPATCH_FABRIC"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SOLE_AUTHORIZATION_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "SOLE_MCP_AND_TOOL_TRUST_BOUNDARY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "SOLE_RUNTIME_SECRET_PROJECTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_HOST_RESOURCE_ADMISSION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "SOLE_MODEL_PROVIDER_RUNTIME_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "SOLE_CANONICAL_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "OPENSHELL_CONTROL_PLANE_AS_FA3_AUTHORITY",
+      "reason": "WOULD_DUPLICATE_EXISTING_FA3_AUTHORITIES"
+    },
+    {
+      "id": "REQUIRED_OPENSHELL_RUNTIME_DEPENDENCY",
+      "reason": "FA3_NATIVE_PORTABLE_CONTRACT_REQUIRED"
+    },
+    {
+      "id": "SECOND_MCP_GATEWAY",
+      "reason": "CENTRAL_MCP_GATEWAY_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "SECOND_SECRET_STORE",
+      "reason": "SECRET_BROKER_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "SECOND_MODEL_ROUTER",
+      "reason": "MODEL_ROUTER_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "UPSTREAM_TELEMETRY_DEFAULT_ON",
+      "reason": "FA3_PRIVACY_BASELINE_DEFAULT_OFF"
+    },
+    {
+      "id": "GPU_OR_NVIDIA_GLOBAL_REQUIREMENT",
+      "reason": "CPU_ONLY_AND_VENDOR_NEUTRAL_BASELINE_REQUIRED"
+    }
+  ],
+  "shared_placement_review": {
+    "result": "SHARED",
+    "local_duplication": "FORBIDDEN_WITHOUT_REVIEWED_EXCEPTION"
+  },
+  "implementation_readiness": "FA3_NATIVE_STATIC_MATERIALIZATION_APPROVED",
+  "static_materialization_authorized": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS_STATIC",
+    "namespaced": true,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_service_created": false,
+    "external_runtime_installed": false
+  },
+  "global_promotion_claim": false,
+  "intent_id": "FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SHARED-EXECUTION-SECURITY-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001"
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e",
+    "donor_registry_entry_count": 1357
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-EXECUTION-SECURITY-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false,
+    "rationale": "Execution-security enforcement is cross-cutting and consumed through the existing shared UAF/tool-mediation/sandbox path; application-local duplicates would fragment policy enforcement and donor traceability."
+  },
+  "selected_existing_donor_ids": [
+    "FA3-DONOR-NVIDIA-OPENSHELL-001"
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "use": "EXECUTION_BOUNDARY_POLICY_ENFORCEMENT_PATTERNS_ONLY",
+      "code_copy": false,
+      "runtime_dependency": false
+    }
+  ]
+}

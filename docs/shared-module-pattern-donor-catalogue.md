@@ -170,7 +170,7 @@ own derived consumer projection.
 
 ## Current Host
 
-This materialization adds canonical shared profiles/contracts, derived application/capability mappings, validation and CI but no executable host path; it is therefore structurally aligned and classified `NO_RUNTIME_IMPACT`.
+The catalogue itself remains metadata and mapping, but the later `FA3-SHARED-EXECUTION-SECURITY-001` materialization adds an execution-enforcement boundary. The aggregate alignment record is therefore `RUNTIME_REQUALIFICATION_REQUIRED`; no physical PASS is implied by static materialization.
 
 Current Host alignment is recorded in `FA3-SHARED-MODULE-PATTERN-CATALOGUE-CURRENT-HOST-IMPACT-001`. If a shared contract later gains a real service, daemon, port/socket, package/runtime dependency, provider/model activation, host-resource execution, credential delivery, mutating action path or physical GUI/application runtime binding, physical positive/negative/rollback requalification becomes mandatory before promotion.
 
