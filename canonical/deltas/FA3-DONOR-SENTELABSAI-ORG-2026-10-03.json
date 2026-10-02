@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-SENTELABSAI-ORG-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "a8ab485c23ae672bcd94da06391dd8c80722fa45",
+  "parent_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+  "parent_entry_count": 1357,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1358,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-sentelabsai-org-2026-10-03.md",
+  "sources": [
+    {
+      "url": "https://github.com/SenteLabsAI",
+      "normalized_key": "github:sentelabsai",
+      "donor_id": "FA3-DONOR-SENTELABSAI-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "child_repository_auto_registration": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "hosted_service_activation": false,
+    "usage_edge_created": false
+  },
+  "observed_child_repositories": [
+    {
+      "source": "https://github.com/SenteLabsAI/OpenExecutive",
+      "registered_by_this_intake": false
+    },
+    {
+      "source": "https://github.com/SenteLabsAI/extensible-mcp",
+      "registered_by_this_intake": false
+    }
+  ]
+}
