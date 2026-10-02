@@ -1,8 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VIDEO-001",
-  "name": "Multimodal Generative Video, Reference Conditioning, Cinematic Control & Hybrid Execution Profile",
-  "version": "1.0.0",
+  "name": "Shared Motion & Video Generation, Provider Interchange, Refinement & Hybrid Execution Profile",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -12,14 +12,19 @@
   "capabilities": [
     "CAP-016",
     "CAP-123",
-    "CAP-126"
+    "CAP-126",
+    "CAP-159",
+    "CAP-160"
   ],
   "contracts": [
     "FA3-VIDEO-CONTRACTS-001",
     "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
     "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
     "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
-    "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001"
+    "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001"
   ],
   "dependencies": [
     "FA3-CONTRACT-001",
@@ -83,11 +88,15 @@
     "VideoGenerationIR",
     "security_license_gate",
     "provider_capability_matching",
-    "provider_routing",
+    "model_router_provider_model_selection",
+    "workload_mode_binding",
     "local_hrb_or_remote_admission",
     "provider_projection",
     "ProviderProjectionLossReport",
-    "generate_edit_extend_regenerate",
+    "base_generation",
+    "optional_model_router_refiner_selection",
+    "optional_refiner_hrb_admission",
+    "optional_video_refinement",
     "av_continuity_identity_prompt_qc",
     "provenance_evidence",
     "vfx_dcc",
@@ -116,9 +125,18 @@
     "scene_spatial_camera_state_remains_FA3-DCC-RT3D-001_authority",
     "generative_asset_editing_is_not_editorial_timeline_authority",
     "license_and_policy_admission_fail_closed",
-    "production_outputs_require_qc_and_provenance"
+    "production_outputs_require_qc_and_provenance",
+    "applications_must_consume_shared_motion_video_fabric_not_direct_h3",
+    "h3_remains_conditional_reference_optional_disabled_by_default",
+    "generator_and_refiner_lifecycles_are_separate",
+    "refiner_selection_remains_model_router_authority",
+    "refiner_local_resource_selection_remains_hrb_authority",
+    "cpu_reference_refinement_path_is_mandatory_at_fabric_level",
+    "silent_provider_model_refiner_device_backend_cloud_fallback_forbidden",
+    "refinement_quality_mode_must_be_explicit",
+    "physical_current_host_requalification_required_before_runtime_promotion"
   ],
-  "implementation_status": "CANONICAL_BASELINE_CLOSED_MMG_EXECUTABLE_REFERENCE_PASS_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
+  "implementation_status": "MOTION_VIDEO_V3_SHARED_STATIC_MATERIALIZED_REFINEMENT_STATIC_MATERIALIZED_PHYSICAL_RUNTIME_REQUALIFICATION_PENDING",
   "capability_count": 175,
   "provider_lifecycle_governance": {
     "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
@@ -141,5 +159,43 @@
     "editorial_projection": "OTIO_OR_FA3_VIDEO_EDITOR_COMMAND_BUS_ONLY",
     "external_pattern_source": "FLOVA_PUBLIC_DOCUMENTATION_REFERENCE_ONLY",
     "runtime_promotion_claim": false
+  },
+  "shared_motion_video_generation": {
+    "id": "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+    "capability_ids": [
+      "CAP-159",
+      "CAP-160"
+    ],
+    "execution_contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "routing_contract_id": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "provider_adapter": "src/fa3_motion_video_provider_adapter.py",
+    "model_router_projection": "src/fa3_video_model_router.py",
+    "application_direct_provider_binding": false,
+    "h3_policy": "ACCEPTED_CONDITIONAL_REFERENCE_OPTIONAL_DISABLED_BY_DEFAULT",
+    "silent_fallback_allowed": false
+  },
+  "video_refinement": {
+    "contract_id": "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "reference_implementation": "src/fa3_video_refinement.py",
+    "generator_refiner_lifecycle_separated": true,
+    "modes": [
+      "ONE_STEP_DISTILLED",
+      "MULTI_STEP_REFERENCE"
+    ],
+    "quality_modes": [
+      "REFERENCE",
+      "OPTIMIZED",
+      "APPROXIMATE"
+    ],
+    "backend_classes": [
+      "CPU_REFERENCE",
+      "CUDA_OPTIONAL",
+      "ROCM_HIP_OPTIONAL",
+      "INTEL_XPU_OPTIONAL",
+      "REMOTE_OPTIONAL"
+    ],
+    "donor_pattern_source": "FA3-DONOR-NVLABS-SANA-001",
+    "runtime_dependency_on_donor": false,
+    "current_host_runtime_promotion_claim": false
   }
 }
