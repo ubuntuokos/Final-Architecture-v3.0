@@ -6,6 +6,7 @@
   "capability_count": 175,
   "required_test_obligation_count": 525,
   "structural_changes": [
+    ".github/workflows/fa3-donor-serialization.yml",
     "canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json",
     "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
     "canonical/FA3-GATE-STEP-CA-001.json",
@@ -58,5 +59,11 @@
       "note": "Paperclip donor-usage/provenance reconciliation advanced main after PR #633; its release-projection/provenance state is preserved in the rebased base."
     }
   ],
-  "base_lineage_semantics": "FULL_175_525_EXACT_HEAD_REQUALIFICATION_COVERS_ALL_RUNTIME_STRUCTURAL_STATE_ALREADY_MERGED_INTO_BASE; DONOR_PROVENANCE_ONLY_MAIN_ADVANCES_ARE_PRESERVED; HISTORICAL_EVIDENCE_IS_NOT_RELABELED_OR_REUSED"
+  "base_lineage_semantics": "FULL_175_525_EXACT_HEAD_REQUALIFICATION_COVERS_ALL_RUNTIME_STRUCTURAL_STATE_ALREADY_MERGED_INTO_BASE; DONOR_PROVENANCE_ONLY_MAIN_ADVANCES_ARE_PRESERVED; HISTORICAL_EVIDENCE_IS_NOT_RELABELED_OR_REUSED",
+  "donor_serialization_reconciliation": {
+    "classification": "NO_RUNTIME_AUTHORITY_CHANGE_BUT_STRUCTURAL_GOVERNANCE_WORKFLOW_CHANGED",
+    "path": ".github/workflows/fa3-donor-serialization.yml",
+    "reason": "PR classification now derives changed files from live-main merge-base instead of stale pull_request event base SHA; donor intake exclusivity remains fail-closed and unchanged.",
+    "physical_scope_effect": "NONE_BEYOND_ALREADY_REQUIRED_FULL_175_525_EXACT_HEAD_REQUALIFICATION"
+  }
 }
