@@ -1,0 +1,191 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-MOTION-VIDEO-V3-REUSE-ASSESSMENT-2026-10-02",
+  "project_id": "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+  "intent_id": "FA3-MOTION-VIDEO-V3-APPLICATION-INTENT-2026-10-02",
+  "intent_path": "canonical/intents/FA3-MOTION-VIDEO-V3-APPLICATION-INTENT-2026-10-02.json",
+  "covered_ids": [
+    "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+    "FA3-VIDEO-001",
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "CAP-159",
+    "CAP-160"
+  ],
+  "project_status": "V3_SHARED_STATIC_MATERIALIZED_RUNTIME_REQUALIFICATION_SEPARATE",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "EXISTING_CANONICAL_VIDEO_PROFILE"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_VIDEO_GENERATION_CONTEXT"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_PROVIDER_MODEL_AND_REFINER_SELECTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_PHYSICAL_RESOURCE_DISCOVERY_ADMISSION_PLACEMENT_AND_LEASE"
+    },
+    {
+      "id": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+      "use": "EXISTING_VIDEO_WORKLOAD_SESSION_BOUNDARY"
+    },
+    {
+      "id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+      "use": "EXISTING_RUNTIME_MODEL_BACKEND_COMPATIBILITY_BOUNDARY"
+    },
+    {
+      "id": "CAP-159",
+      "use": "EXISTING_MOTION_VIDEO_GENERATION_CAPABILITY"
+    },
+    {
+      "id": "CAP-160",
+      "use": "EXISTING_VIDEO_PROVIDER_MODEL_INTERCHANGE_CAPABILITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "MINIMAX_H3_RETIREMENT",
+      "reason": "OWNER_DECISION_RETAINS_H3_AS_ACCEPTED_CONDITIONAL_REFERENCE_OPTIONAL_DISABLED_BY_DEFAULT"
+    },
+    {
+      "id": "DIRECT_APPLICATION_H3_OR_REFINER_DEPENDENCY",
+      "reason": "APPLICATIONS_CONSUME_THE_SHARED_FA3_VIDEO_FABRIC"
+    },
+    {
+      "id": "SOL_REFINER_AS_EXCLUSIVE_OR_DEFAULT_REFINER",
+      "reason": "SANA_SOL_IS_PATTERN_SOURCE_ONLY_AND_MUST_NOT_BECOME_ARCHITECTURAL_AUTHORITY"
+    },
+    {
+      "id": "SILENT_VENDOR_OR_CLOUD_FALLBACK",
+      "reason": "FAIL_CLOSED_EXPLICIT_RESELECTION_REQUIRED"
+    },
+    {
+      "id": "NEW_VIDEO_OR_RESOURCE_AUTHORITY",
+      "reason": "MODEL_ROUTER_AND_HRB_ALREADY_OWN_THE_RELEVANT_AUTHORITIES"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001"
+  ],
+  "existing_authority_bindings": {
+    "provider_model_refiner_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_approval": "AUTH-HUMAN"
+  },
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_POSITIVE_NEGATIVE_ROLLBACK_REQUALIFICATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "display_gpu_automatic_ai_use": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "a8ab485c23ae672bcd94da06391dd8c80722fa45",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_entry_count": 1357,
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e"
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+      "FA3-VIDEO-001",
+      "FA3-VIDEO-REFINEMENT-CONTRACTS-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "VIDEO_PROVIDER_INTERCHANGE",
+        "VIDEO_REFINEMENT_EXECUTION_BOUNDARY"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "pattern": "PROVIDER_NEUTRAL_MODEL_PIPELINE_ADAPTER",
+      "usage_edge_id": "FA3-USAGE-DIFFUSERS-MOTION-VIDEO-V3-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "pattern": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION",
+      "usage_edge_id": "FA3-USAGE-XDIT-MOTION-VIDEO-V3-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-SKYREELS-V3-001",
+      "pattern": "MULTIMODAL_CONDITIONING_AND_SYNCHRONIZED_AV_CAPABILITY_SHAPE",
+      "usage_edge_id": "FA3-USAGE-SKYREELS-V3-MOTION-VIDEO-V3-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "pattern": "GENERATION_RUNTIME_SERVING_LIFECYCLE_SEPARATION",
+      "usage_edge_id": "FA3-USAGE-VIDEOSYS-MOTION-VIDEO-V3-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "pattern": "GENERATOR_REFINER_LIFECYCLE_AND_DRAFT_TO_TARGET_REFINEMENT_PATTERN",
+      "usage_edge_id": "FA3-USAGE-NVLABS-SANA-VIDEO-REFINEMENT-001"
+    }
+  ],
+  "reference_only_donor_context": [
+    {
+      "donor_id": "FA3-DONOR-HUNYUANVIDEO-1-5-001",
+      "use": "MODEL_INTERCHANGE_AND_RESOURCE_STRESS_REFERENCE_ONLY",
+      "adopted": false,
+      "usage_edge_required": false
+    },
+    {
+      "donor_id": "FA3-DONOR-LTX2-001",
+      "use": "MODEL_REFERENCE_FOR_SEPARATE_ADMISSION",
+      "adopted": false,
+      "usage_edge_required": false
+    }
+  ]
+}\n
