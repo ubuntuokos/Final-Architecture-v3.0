@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-VIDEO-001",
+  "authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "MotionVideoRouteRequest",
+    "MotionVideoRouteSelectionReceipt",
+    "MotionVideoCandidateManifestSet",
+    "MotionVideoCapabilityRequirementSet",
+    "VideoRefinementRouteRequest",
+    "VideoRefinementSelectionReceipt"
+  ],
+  "rules": {
+    "application_provider_pin_forbidden": true,
+    "application_model_pin_forbidden": true,
+    "admitted_manifest_required": true,
+    "provider_capability_match_required": true,
+    "cost_class_policy_required": true,
+    "billable_route_requires_explicit_permission": true,
+    "silent_fallback_forbidden": true,
+    "deterministic_selection_required": true,
+    "decision_fabric_may_not_expand_candidates": true,
+    "retired_provider_ineligible": true,
+    "disabled_provider_ineligible": true,
+    "service_provider_identity_must_not_be_inferred_from_model_family": true,
+    "runtime_capability_snapshot_required": true,
+    "capability_snapshot_v2_required": true,
+    "conditioning_requirement_match_required": true,
+    "output_mode_requirement_match_required": true,
+    "temporal_mode_requirement_match_required": true,
+    "execution_topology_requirement_match_required": true,
+    "audio_support_requirement_match_required": true,
+    "refiner_candidate_manifest_required": true,
+    "generator_and_refiner_identity_must_remain_distinct": true,
+    "refiner_mode_requirement_match_required": true,
+    "conditional_reference_requires_explicit_execution_enablement": true
+  },
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "selection_dimensions": [
+    "capability_requirements",
+    "cost_class",
+    "execution_topology",
+    "service_provider_identity",
+    "deterministic_tiebreak",
+    "pipeline_stage",
+    "refinement_mode",
+    "quality_mode"
+  ]
+}\n
