@@ -41,6 +41,7 @@ jobs:
           names=(subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines() if base else [])
           metadata=('canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json',
                     'canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json',
+                    'canonical/decisions/FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01.json',
                     'canonical/enforcement-policy.json','AGENTS.md',
                     'src/fa3_donor_readiness.py','src/fa3_donor_registry.py',
                     'src/fa3_donor_chat_import.py','src/fa3_donor_chat_inbox.py',
