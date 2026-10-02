@@ -49,3 +49,12 @@ Runtime work is expected to use generation/idempotency-bound execution claims. A
 Temporal remains the sole global durable lifecycle authority. HRB, Model Router, Security/UAF/MCP and Evidence/Gate retain their existing independent scopes. The active capability baseline is 175; this strengthening adds zero capabilities and zero architectural authorities.
 
 See `docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md`.
+
+
+## Agent/Application Blueprint Fabric — 2026-10-02
+
+The shared orchestration layer now accepts a non-authoritative `fa3.agent-application-blueprint.v1` input through `FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001`. The blueprint binds an application objective to an explicit FA3 task group, task-scoped planner/router/worker/reviewer/verifier/operator roles, typed handoffs and independent review bindings, then compiles them into the existing provider-neutral Workforce work-plan contract.
+
+The blueprint layer cannot grant capability, authority, tool, secret, model, provider or resource access. Temporal remains the sole durable lifecycle authority; FA3 Adaptive Conductor or an admitted external Conductor remains task-local only. All effects still pass through UAF/MCP/Security, HRB/ACCEL-GUARD, Model Router and Evidence/Gate. Compilation is design materialization, not runtime promotion or Current Host PASS.
+
+See `docs/FA3-AGENT-APPLICATION-BLUEPRINT-FABRIC-001.md`.

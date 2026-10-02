@@ -1,0 +1,134 @@
+{
+  "schema": "fa3.agent-application-blueprint.v1",
+  "blueprint_id": "FA3-BLUEPRINT-RESEARCH-REVIEW-EXAMPLE-001",
+  "revision": 1,
+  "application_id": "FA3-EXAMPLE-RESEARCH-APPLICATION",
+  "task_group_id": "research-intelligence",
+  "objective": "Plan, execute and independently review a citation-oriented research task using existing FA3 orchestration boundaries.",
+  "roles": [
+    {
+      "role_id": "planner",
+      "kind": "PLANNER",
+      "allowed_capabilities": [
+        "role_team_management",
+        "task_delegation"
+      ],
+      "forbidden_capabilities": [
+        "model_routing",
+        "host_resource_admission"
+      ],
+      "authority_scope": []
+    },
+    {
+      "role_id": "research-worker",
+      "kind": "WORKER",
+      "allowed_capabilities": [
+        "rag_pipeline",
+        "retrieval",
+        "citation_pipeline"
+      ],
+      "forbidden_capabilities": [
+        "security_policy",
+        "model_routing"
+      ],
+      "authority_scope": []
+    },
+    {
+      "role_id": "reviewer",
+      "kind": "REVIEWER",
+      "allowed_capabilities": [
+        "governed_agent_team",
+        "execution_journal"
+      ],
+      "forbidden_capabilities": [
+        "security_authority",
+        "model_routing"
+      ],
+      "authority_scope": []
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": "plan",
+      "domain": "research-team",
+      "role_id": "planner",
+      "required_capabilities": [
+        "role_team_management"
+      ],
+      "authorized_ai_participants": [],
+      "resource_requirements": {},
+      "budget_envelope": {
+        "parallelism": 1
+      }
+    },
+    {
+      "task_id": "research",
+      "domain": "knowledge",
+      "role_id": "research-worker",
+      "required_capabilities": [
+        "rag_pipeline",
+        "retrieval"
+      ],
+      "parent_task_id": "plan",
+      "split_reasons": [
+        "SPECIALIST_OR_OWNER_BOUNDARY"
+      ],
+      "authorized_ai_participants": [],
+      "resource_requirements": {},
+      "budget_envelope": {
+        "parallelism": 2
+      }
+    },
+    {
+      "task_id": "review",
+      "domain": "governed-agent-team",
+      "role_id": "reviewer",
+      "required_capabilities": [
+        "governed_agent_team",
+        "execution_journal"
+      ],
+      "parent_task_id": "plan",
+      "split_reasons": [
+        "INDEPENDENT_REVIEW_OR_APPROVAL"
+      ],
+      "authorized_ai_participants": [],
+      "resource_requirements": {},
+      "budget_envelope": {
+        "parallelism": 1
+      }
+    }
+  ],
+  "handoffs": [
+    {
+      "from_task_id": "plan",
+      "to_task_id": "research",
+      "type": "HANDOFF_TO",
+      "required_artifacts": [
+        "research-plan"
+      ],
+      "digest_required": true
+    },
+    {
+      "from_task_id": "review",
+      "to_task_id": "research",
+      "type": "VERIFY_REQUIRES",
+      "required_artifacts": [
+        "research-result"
+      ],
+      "digest_required": true
+    }
+  ],
+  "reviews": [
+    {
+      "target_task_id": "research",
+      "review_task_id": "review"
+    }
+  ],
+  "execution_policy": {
+    "durable_lifecycle_authority": "Temporal",
+    "conductor_mode": "FA3_NATIVE_ADAPTIVE",
+    "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "direct_provider_invocation": false,
+    "independent_review_required": true
+  }
+}

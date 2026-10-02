@@ -1,0 +1,154 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "FA3-BLUEPRINT-001",
+      "name": "Provider-Neutral Blueprint",
+      "requirement": "MUST",
+      "rule": "An Agent/Application Blueprint is a non-authoritative FA3-owned planning contract. It MUST NOT embed provider-native runtime objects as canonical execution state."
+    },
+    {
+      "id": "FA3-BLUEPRINT-002",
+      "name": "Task-Group Binding",
+      "requirement": "MUST",
+      "rule": "Every blueprint MUST bind to an explicit FA3 task group and compile into existing Orchestration Workforce work requests; it MUST NOT create a parallel scheduler or task registry."
+    },
+    {
+      "id": "FA3-BLUEPRINT-003",
+      "name": "Explicit Role Separation",
+      "requirement": "MUST",
+      "rule": "Planner/router, worker, reviewer, verifier and operator roles MUST be explicit task-scoped role context. A role MUST NOT grant capability, provider, model, tool, secret, resource or authority access."
+    },
+    {
+      "id": "FA3-BLUEPRINT-004",
+      "name": "Structured Handoff",
+      "requirement": "MUST",
+      "rule": "Cross-task handoffs MUST identify source task, destination task, relation type, required artifacts and whether integrity digests are required. Handoffs remain subject to orchestration dependency validation."
+    },
+    {
+      "id": "FA3-BLUEPRINT-005",
+      "name": "Independent Review",
+      "requirement": "MUST",
+      "rule": "When a blueprint declares independent review, the review task MUST use a REVIEWER or VERIFIER role distinct from the target task role and MUST run before the blueprint can claim reviewed completion."
+    },
+    {
+      "id": "FA3-BLUEPRINT-006",
+      "name": "Temporal Durable Lifecycle",
+      "requirement": "MUST",
+      "rule": "Temporal remains the sole global durable workflow lifecycle authority for blueprint-derived durable execution."
+    },
+    {
+      "id": "FA3-BLUEPRINT-007",
+      "name": "Bounded Conductor",
+      "requirement": "MUST",
+      "rule": "FA3 Adaptive Conductor or an admitted optional Conductor provider MAY manage only delegated task-local adaptive graphs and MUST NOT become a second durable lifecycle authority."
+    },
+    {
+      "id": "FA3-BLUEPRINT-008",
+      "name": "Unified Action and Tool Boundary",
+      "requirement": "MUST",
+      "rule": "Blueprint-derived effects MUST enter through FA3 Unified Action Fabric and applicable MCP/Security approval boundaries. Direct provider or tool execution from a blueprint is forbidden."
+    },
+    {
+      "id": "FA3-BLUEPRINT-009",
+      "name": "Model Routing Boundary",
+      "requirement": "MUST",
+      "rule": "Blueprints MAY name logical model needs but MUST NOT select a physical provider or model. FA3-AUTH-MODEL-ROUTER-001 remains the only model/provider/runtime routing authority."
+    },
+    {
+      "id": "FA3-BLUEPRINT-010",
+      "name": "Resource Boundary",
+      "requirement": "MUST",
+      "rule": "Blueprint resource requirements are requests only. Hardware Discovery is non-authoritative and HRB remains the exclusive host-resource admission, placement, reservation and lease authority."
+    },
+    {
+      "id": "FA3-BLUEPRINT-011",
+      "name": "Evidence and Provenance",
+      "requirement": "MUST",
+      "rule": "Blueprint compilation MUST preserve blueprint identity, revision and digest in downstream task metadata. Worker output remains a claim until independent Evidence/Gate verification."
+    },
+    {
+      "id": "FA3-BLUEPRINT-012",
+      "name": "Human Escalation",
+      "requirement": "MUST",
+      "rule": "Ambiguous role assignment, missing independent review, unresolved authority conflict or unrouteable task MUST fail closed to human escalation rather than silently widening scope."
+    },
+    {
+      "id": "FA3-BLUEPRINT-013",
+      "name": "Deterministic Compilation",
+      "requirement": "MUST",
+      "rule": "The same valid blueprint revision MUST deterministically produce the same normalized task, role, handoff and review projection before runtime-specific admission."
+    },
+    {
+      "id": "FA3-BLUEPRINT-014",
+      "name": "No Capability Inflation",
+      "requirement": "MUST",
+      "rule": "Blueprint templates are reusable configuration and orchestration composition only. They MUST NOT increment the capability baseline or introduce an architectural authority."
+    },
+    {
+      "id": "FA3-BLUEPRINT-015",
+      "name": "Runtime Promotion Separation",
+      "requirement": "MUST",
+      "rule": "A successfully compiled blueprint is not runtime admission. Any external specialist/provider still requires its existing scope-bound Current Host promotion evidence before production execution."
+    },
+    {
+      "id": "FA3-BLUEPRINT-016",
+      "name": "External Reference Isolation",
+      "requirement": "MUST",
+      "rule": "External starter repositories, API catalogs and service recommendations MAY inform blueprint design but MUST NOT become dependencies, providers or donor records without their separate FA3 admission paths."
+    }
+  ],
+  "blueprint_schema": {
+    "schema": "fa3.agent-application-blueprint.v1",
+    "required_fields": [
+      "blueprint_id",
+      "revision",
+      "application_id",
+      "task_group_id",
+      "objective",
+      "roles",
+      "tasks",
+      "handoffs",
+      "reviews",
+      "execution_policy"
+    ],
+    "role_kinds": [
+      "PLANNER",
+      "ROUTER",
+      "WORKER",
+      "REVIEWER",
+      "VERIFIER",
+      "OPERATOR"
+    ],
+    "handoff_relation_types": [
+      "STRUCTURAL_PARENT",
+      "BLOCKED_BY",
+      "DATA_REQUIRES",
+      "APPROVAL_REQUIRES",
+      "RESOURCE_REQUIRES",
+      "VERIFY_REQUIRES",
+      "HANDOFF_TO",
+      "SUPERSEDES"
+    ],
+    "durable_lifecycle_authority": "Temporal",
+    "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "monitoring_authority": false
+  },
+  "reference_boundary": {
+    "source": "https://github.com/cporter202/agentic-ai-starters",
+    "canonical_donor_registered_by_this_change": false,
+    "analysis_only_pattern_use": true,
+    "source_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "model_admission": false
+  }
+}
