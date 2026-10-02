@@ -18,6 +18,9 @@ def gate(root: Path):
     findings=[]
     p=loadj(root,PROFILE); c=loadj(root,CONTRACT); d=loadj(root,DECISION); a=loadj(root,ASSESSMENT); i=loadj(root,IMPACT); links=loadj(root,LINKS)
     required_auth={"FA3-AUTH-SECURITY-GOV-001","FA3-AUTH-MCP-GATEWAY-001","FA3-AUTH-HOST-RESOURCE-BROKER-001","FA3-AUTH-MODEL-ROUTER-001","FA3-SECRET-BROKER-001","FA3-AUTH-OBS-EVIDENCE-001"}
+    snapshot=a.get("donor_planning_snapshot",{})
+    placement=a.get("shared_capability_placement",{})
+    covered=set(a.get("covered_ids",[]))
     checks=[
       (p.get("id")=="FA3-SHARED-EXECUTION-SECURITY-001","EXECSEC-001","profile missing/drifted"),
       (p.get("capability_count")==CAPABILITY_COUNT and p.get("new_capability") is False and p.get("new_architectural_authority") is False,"EXECSEC-002","baseline/authority drift"),
@@ -25,7 +28,10 @@ def gate(root: Path):
       ("UNPROVEN_IS_NOT_PASS_WHEN_PROOF_REQUIRED" in p.get("invariants",[]),"EXECSEC-004","UNPROVEN fail-closed invariant missing"),
       (c.get("parent_profile")==p.get("id") and c.get("capability_count")==CAPABILITY_COUNT,"EXECSEC-005","contract/profile drift"),
       (d.get("authority_delta")==0 and d.get("upstream_runtime_dependency") is False and d.get("upstream_code_import") is False,"EXECSEC-006","decision admits upstream authority/runtime"),
-      (a.get("published_main_commit")=="858498b1c3c81dffd65bb37c2266e53b3e973e06" and a.get("donor_registry_blob_sha")=="50580a9f3082161a3317383baa3e18879e98187e" and a.get("donor_registry_entry_count")==1357,"EXECSEC-007","reuse snapshot stale"),
+      (snapshot.get("published_main_commit")=="858498b1c3c81dffd65bb37c2266e53b3e973e06" and snapshot.get("donor_registry_id")=="FA3-DONOR-REFERENCE-REGISTRY-001" and snapshot.get("donor_registry_blob_sha")=="50580a9f3082161a3317383baa3e18879e98187e" and snapshot.get("donor_registry_sha256")=="ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e" and snapshot.get("donor_registry_entry_count")==1357,"EXECSEC-007","reuse snapshot stale/incomplete"),
+      (placement.get("reviewed") is True and placement.get("multi_application_reuse_detected") is True and placement.get("disposition")=="SHARED" and placement.get("local_duplicate_created") is False and "FA3-SHARED-EXECUTION-SECURITY-001" in placement.get("shared_component_ids",[]),"EXECSEC-007A","shared placement review drift"),
+      ({"FA3-SHARED-EXECUTION-SECURITY-001","FA3-AGENT-SANDBOX-001","FA3-SHARED-TOOL-ACTION-MEDIATION-001","FA3-UNIFIED-ACTION-FABRIC-001"}.issubset(covered),"EXECSEC-007B","reuse assessment coverage incomplete"),
+      (a.get("intent_id")=="FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001" and (root/"canonical/intents/FA3-SHARED-EXECUTION-SECURITY-APPLICATION-INTENT-001.json").is_file(),"EXECSEC-007C","ApplicationIntent binding missing"),
       (i.get("classification")=="RUNTIME_REQUALIFICATION_REQUIRED" and i.get("current_host_runtime_promotion_claim") is False,"EXECSEC-008","current-host impact drift"),
       (any(x.get("donor_id")=="FA3-DONOR-NVIDIA-OPENSHELL-001" and x.get("usage_kind")=="ARCHITECTURE_PATTERN" and x.get("status")=="ACTIVE" for x in links.get("donor_usage_records",[])),"EXECSEC-009","OpenShell usage edge missing"),
       (policy_subset(["read"],["read","write"]) and not policy_subset(["read","network"],["read","write"]),"EXECSEC-010","policy subset regression"),
