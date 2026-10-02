@@ -19,6 +19,7 @@ GATE_ID = "FA3-RUNTIME-HARDENING-GATESET-001"
 PROFILE_IDS = (
     "FA3-RUNTIME-ISOLATION-001",
     "FA3-AGENT-SANDBOX-001",
+    "FA3-SHARED-EXECUTION-SECURITY-001",
     "FA3-MEDIA-GPU-ZEROCOPY-001",
     "FA3-HU-AQC-001",
     "FA3-PROMOTION-SHADOW-001",
@@ -28,6 +29,7 @@ PROFILE_IDS = (
 PATHS = {
     "runtime_isolation": "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
     "agent_sandbox": "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
+    "shared_execution_security": "canonical/profiles/FA3-SHARED-EXECUTION-SECURITY-001.json",
     "media_zero": "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
     "hu_aqc": "canonical/profiles/FA3-HU-AQC-001.json",
     "shadow": "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
@@ -210,7 +212,7 @@ def gate(root: Path) -> dict[str, Any]:
     if findings:
         return _report(root, findings, [])
 
-    for key in ("runtime_isolation", "agent_sandbox", "media_zero", "hu_aqc", "shadow", "provider_runtime"):
+    for key in ("runtime_isolation", "agent_sandbox", "shared_execution_security", "media_zero", "hu_aqc", "shadow", "provider_runtime"):
         record = data[key]
         if (
             record.get("id") not in PROFILE_IDS
@@ -223,6 +225,15 @@ def gate(root: Path) -> dict[str, Any]:
 
     if data["contract"].get("capability_count") != CAPABILITY_COUNT:
         findings.append(finding("HARDEN-002", "Runtime hardening contract capability count drift"))
+    execsec = data["shared_execution_security"]
+    if not (
+        execsec.get("id") == "FA3-SHARED-EXECUTION-SECURITY-001"
+        and execsec.get("execution_security_profile") is None
+        and execsec.get("new_architectural_authority") is False
+        and "UNPROVEN_IS_NOT_PASS_WHEN_PROOF_REQUIRED" in execsec.get("invariants", [])
+        and execsec.get("current_host", {}).get("production_promotion_claim") is False
+    ):
+        findings.append(finding("HARDEN-025", "Shared execution security invariant drift"))
 
     provider = data["provider"]
     if (
