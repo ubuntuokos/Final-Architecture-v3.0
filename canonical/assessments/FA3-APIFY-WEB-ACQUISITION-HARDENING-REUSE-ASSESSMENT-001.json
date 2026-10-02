@@ -19,7 +19,7 @@
     "donor_registry_entry_count": 1339
   },
   "capability_baseline": 175,
-  "result": "PASS_GAP_ONLY_SHARED_PLACEMENT",
+  "result": "PASS",
   "canonical_donor_context": [
     {
       "donor_id": "FA3-DONOR-APIFY-ORG-001",
@@ -173,5 +173,17 @@
     "FA3-KNOWLEDGE-001",
     "FA3-MCP-GATEWAY-001"
   ],
-  "coverage_reason": "Only durable state/recovery/origin/session gaps are materialized as a shared child; existing execution, routing, resource and evidence authorities are reused without duplication."
+  "coverage_reason": "Only durable state/recovery/origin/session gaps are materialized as a shared child; existing execution, routing, resource and evidence authorities are reused without duplication.",
+  "assessment_scope": "GAP_ONLY_SHARED_PLACEMENT",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "rationale": "The durable web acquisition state delta is protocol/state/recovery logic and does not require Khronos API, SDK, graphics, compute or media-standard materialization."
+    }
+  ]
 }
