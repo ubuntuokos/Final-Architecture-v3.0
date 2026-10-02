@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import load_active_release_baseline, module_active_capability_count
-from fa3_api_mega_list_adapter import sanitize_locator
+from fa3_api_mega_list_adapter import (
+    OPENCLAW_SOURCE_ID,
+    OPENCLAW_SOURCE_REPOSITORY,
+    sanitize_locator,
+)
 
 import csv
 import json
@@ -22,6 +26,7 @@ SOURCE_IDS = {
     "FA3-SOURCE-PUBLIC-APIS-001",
     "FA3-SOURCE-PUBLIC-API-LISTS-001",
     "FA3-SOURCE-API-MEGA-LIST-001",
+    OPENCLAW_SOURCE_ID,
     "FA3-PATTERN-MEGALIST-001",
 }
 
@@ -40,6 +45,11 @@ REFERENCES = {
         "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
         "cporter202/API-mega-list",
         "be78c4e79b5f31f6969ebdb94396942d64c6cf95",
+    ),
+    OPENCLAW_SOURCE_ID: (
+        "canonical/references/FA3-OPENCLAW-API-LIST-UPSTREAM-REFERENCE-2026-10-02.json",
+        OPENCLAW_SOURCE_REPOSITORY,
+        "3afa19dd12f3cdc6bc2e297e9b6945059ada0cae",
     ),
     "FA3-PATTERN-MEGALIST-001": (
         "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -216,6 +226,12 @@ def reference_check(root: Path):
         and profile.get("new_architectural_authority") is False
         and profile.get("capability_count") == CAPABILITY_COUNT
         and set(profile.get("capabilities", [])) == {"CAP-011","CAP-074","CAP-075"}
+        and set(profile.get("discovery_sources", [])) == {
+            "FA3-SOURCE-PUBLIC-APIS-001",
+            "FA3-SOURCE-PUBLIC-API-LISTS-001",
+            "FA3-SOURCE-API-MEGA-LIST-001",
+            OPENCLAW_SOURCE_ID,
+        }
         and profile.get("candidate_store_policy_id") == STORE_POLICY_ID
         and profile.get("invariants") == RULES
     ):
@@ -269,6 +285,10 @@ def reference_check(root: Path):
         and candidate_store_policy.get("automatic_mcp_registration") is False
         and candidate_store_policy.get("automatic_activation") is False
         and candidate_store_policy.get("network_fetch_permitted") is False
+        and set(candidate_store_policy.get("source_ids", [])) == {
+            "FA3-SOURCE-API-MEGA-LIST-001",
+            OPENCLAW_SOURCE_ID,
+        }
         and candidate_store_policy.get("capacity_policy", {}).get("growth_headroom_fraction") == 0.30
         and candidate_store_policy.get("capacity_policy", {}).get("open_next_volume_at_utilization") == 0.90
         and candidate_store_policy.get("capacity_policy", {}).get("rebalance_at_utilization") == 0.95
@@ -300,7 +320,10 @@ def reference_check(root: Path):
     if policy.get("external_api_discovery_profile_id") != PROFILE_ID:
         findings.append(finding("EXTDISC-REF-007", "External discovery profile policy binding drift"))
     if set(policy.get("external_api_discovery_source_ids", [])) != {
-        "FA3-SOURCE-PUBLIC-APIS-001","FA3-SOURCE-PUBLIC-API-LISTS-001","FA3-SOURCE-API-MEGA-LIST-001"
+        "FA3-SOURCE-PUBLIC-APIS-001",
+        "FA3-SOURCE-PUBLIC-API-LISTS-001",
+        "FA3-SOURCE-API-MEGA-LIST-001",
+        OPENCLAW_SOURCE_ID,
     }:
         findings.append(finding("EXTDISC-REF-008", "External discovery source policy binding drift"))
 
@@ -321,6 +344,17 @@ def reference_check(root: Path):
     mega = loadj(root / REFERENCES["FA3-SOURCE-API-MEGA-LIST-001"][0])
     if mega.get("license_status") != "NO_REPOSITORY_LICENSE_DETECTED" or mega.get("local_ingestion_policy") != "DISCOVERY_METADATA_ONLY_UNTIL_LICENSE_AND_TERMS_ADMITTED":
         findings.append(finding("EXTDISC-REF-011", "API Mega List licence/terms restriction weakened"))
+
+    openclaw = loadj(root / REFERENCES[OPENCLAW_SOURCE_ID][0])
+    if not (
+        openclaw.get("license_status") == "NO_REPOSITORY_LICENSE_DETECTED"
+        and openclaw.get("local_ingestion_policy") == "DISCOVERY_METADATA_ONLY_UNTIL_LICENSE_AND_TERMS_ADMITTED"
+        and openclaw.get("source_signals", {}).get("affiliate_parameter_observed") is True
+        and openclaw.get("source_signals", {}).get("upstream_direct_mcp_language_is_admission") is False
+        and openclaw.get("fa3_disposition", {}).get("catalog_listing_is_authorization") is False
+        and openclaw.get("fa3_disposition", {}).get("affiliate_parameter_is_identity") is False
+    ):
+        findings.append(finding("EXTDISC-REF-015", "OpenClaw discovery source restriction or identity boundary weakened"))
 
     ui = loadj(root / REFERENCES["FA3-PATTERN-MEGALIST-001"][0])
     if ui.get("fa3_disposition", {}).get("implementation_dependency") is not False or "EXTERNAL_API_DISCOVERY_SOURCE" not in ui.get("not_classified_as", []):

@@ -1,4 +1,4 @@
-# FA3 External API Discovery — API Mega List ingestion core
+# FA3 External API Discovery — multi-source offline ingestion core
 
 This materialization implements the offline ingestion boundary for the existing
 `FA3-EXTERNAL-API-DISCOVERY-001` profile.

@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-OPENCLAW-API-LIST-RECONCILIATION-APPLICATION-INTENT-2026-10-02",
+  "project_id": "FA3-OPENCLAW-API-LIST-RECONCILIATION-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Extend the existing shared External API Discovery ingestion core to accept a pinned OpenClaw API List snapshot and reconcile its API/MCP/skill leads with API Mega List and Apify identities without creating donors, providers, MCP registrations, capabilities or runtime authority.",
+  "required_capabilities": [
+    "CAP-011",
+    "CAP-074",
+    "CAP-075",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "external-api-discovery",
+    "multi-source-catalog-ingestion",
+    "candidate-normalization",
+    "candidate-deduplication",
+    "provenance-preservation",
+    "affiliate-neutral-identity",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "PINNED_LOCAL_SOURCE_SNAPSHOT",
+    "SNAPSHOT_MANIFEST"
+  ],
+  "output_modalities": [
+    "DERIVED_CANDIDATE_STORE",
+    "INGEST_RECEIPT",
+    "DRIFT_REPORT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "OPENCLAW_PINNED_SOURCE_SUPPORT",
+    "MULTI_SOURCE_EXTERNAL_CATALOG_IDENTITY"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-external-discovery",
+    "service_prefix": "fa3-external-discovery",
+    "config_root": "$XDG_CONFIG_HOME/fa3/external-discovery",
+    "cache_root": "$XDG_CACHE_HOME/fa3/external-discovery",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/external-discovery",
+    "socket_namespace": "fa3/external-discovery",
+    "data_root": "$XDG_STATE_HOME/fa3/external-discovery",
+    "desktop_prefix": "org.fa3.external-discovery",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "NO_NETWORK_FETCH_IN_INGESTION_CORE",
+    "NO_SECRET_VALUE_PERSISTENCE",
+    "UNTRUSTED_UPSTREAM_METADATA",
+    "AFFILIATE_TRACKING_NOT_IDENTITY",
+    "UPSTREAM_DIRECT_MCP_CLAIM_NOT_ADMISSION",
+    "NO_AUTOMATIC_ADMISSION_OR_EXECUTION"
+  ],
+  "integration_requirements": [
+    "FA3-EXTERNAL-API-DISCOVERY-001",
+    "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "task_classes": [
+    "architecture",
+    "developer",
+    "external-discovery"
+  ],
+  "skill_triggers": [],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}
