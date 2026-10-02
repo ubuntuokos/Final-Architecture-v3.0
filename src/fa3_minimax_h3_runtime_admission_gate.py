@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_minimax_h3_provider_adapter import PROVIDER_ID, adapter_conformance, admit_local_execution
+from fa3_release_baseline import module_active_capability_count
 
 GATE_ID = "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001"
 RECEIPT = "evidence/receipts/minimax-h3-current-host.json"
@@ -25,6 +26,11 @@ REQUIRED_PASS_KEYS = [
     "qc",
     "provenance",
 ]
+
+
+
+def capability_baseline_valid(active_count: int, *artifact_counts: int) -> bool:
+    return active_count == 175 and all(value == active_count for value in artifact_counts)
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -73,8 +79,14 @@ def static_gate(root: Path) -> dict[str, Any]:
         integration_index = _load(root / INTEGRATION_INDEX_PATH)
         if contract.get("new_capability") is not False or contract.get("new_architectural_authority") is not False:
             fail("H3-ADM-002", "H3 adapter contract cannot create capability or authority")
-        if runtime.get("capability_count") != 143 or enforcement.get("capability_count") != 143:
-            fail("H3-ADM-003", "H3 runtime admission changed the 143-capability invariant")
+        active_capability_count = module_active_capability_count(__file__)
+        if not capability_baseline_valid(
+            active_capability_count,
+            contract.get("capability_count"),
+            runtime.get("capability_count"),
+            enforcement.get("capability_count"),
+        ):
+            fail("H3-ADM-003", "H3 runtime admission is not reconciled to the active 175-capability baseline")
         if runtime.get("runtime_promotion_claim") is not False or enforcement.get("runtime_promotion_claim") is not False:
             fail("H3-ADM-004", "Static materialization must not claim runtime promotion")
         service = provider.get("service_access_policy", {})
