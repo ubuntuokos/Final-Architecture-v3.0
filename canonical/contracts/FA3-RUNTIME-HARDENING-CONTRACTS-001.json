@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "provider_neutral": true,
   "capability_count": 175,
   "contracts": [
@@ -17,7 +17,11 @@
     "ShadowExecutionReceipt",
     "PromotionEligibilityReceipt",
     "ProviderRuntimeEnvironment",
-    "ProviderRuntimeReceipt"
+    "ProviderRuntimeReceipt",
+    "ExecutionSecurityEnvelope",
+    "ExecutionPolicyProof",
+    "ExecutableIdentity",
+    "ExecutionSecurityReceipt"
   ],
   "runtime_isolation": {
     "hrb_resource_decision_required": true,
@@ -30,7 +34,11 @@
     "arbitrary_agent_host_subprocess": "DENY",
     "ephemeral_workspace_required": true,
     "network_default": "DENY",
-    "explicit_mounts_only": true
+    "explicit_mounts_only": true,
+    "execution_security_profile": "FA3-SHARED-EXECUTION-SECURITY-001",
+    "policy_narrowing_required": true,
+    "executable_identity_revalidation_required": true,
+    "enforcer_loss": "FAIL_CLOSED"
   },
   "media": {
     "claim_classification": [
