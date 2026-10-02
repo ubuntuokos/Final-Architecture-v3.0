@@ -31,7 +31,7 @@ def gate(root:Path)->dict:
         chk(contract.get("hrb_resource_projection",{}).get("resource_cardinality")=="0..N","0..N resource projection missing")
         chk(contract.get("rules",{}).get("synchronized_av_output_must_not_claim_voice_authority") is True,"AV authority boundary missing")
         snap=assessment.get("donor_planning_snapshot",{})
-        chk(snap.get("donor_registry_entry_count")==1349 and snap.get("donor_registry_blob_sha")=="22f262dcc88e4429bf5f5b7a4175efad72f63945","stale donor planning snapshot")
+        chk(snap.get("donor_registry_entry_count")==1354 and snap.get("donor_registry_blob_sha")=="804786e96c66ef6c4397b1471e52a6594473bb20","stale donor planning snapshot")
         chk(len(assessment.get("adopted_pattern_donors",[]))==4,"pattern donor usage set incomplete")
     report={"schema":"fa3.h3-replacement-gate-report.v2","gate_id":"FA3-H3-REPLACEMENT-GATESET-001","result":"PASS" if not errors else "FAIL","errors":errors,"capability_count":175,"capability_delta":0,"authority_delta":0,"current_host_runtime_claim":False,"provider_runtime_promotion_claim":False}
     out=root/REPORT; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8"); return report
