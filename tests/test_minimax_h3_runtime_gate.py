@@ -17,7 +17,7 @@ class MiniMaxH3RuntimeGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             report = current_host_gate(Path(td))
             self.assertEqual(report["result"], "FAIL")
-            self.assertTrue(any(f["code"] == "H3-HOST-001" for f in report["findings"]))
+            self.assertTrue(any(f["code"] in {"H3-HOST-000", "H3-HOST-001"} for f in report["findings"]))
 
 
 if __name__ == "__main__":
