@@ -6,9 +6,12 @@
   "intent_path": "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
   "covered_ids": [
     "FA3-ORCHESTRATION-WORKFORCE-001",
-    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "FA3-TASK-GROUP-CONTRACTS-001",
+    "FA3-TASK-GROUP-REGISTRY-001",
+    "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001"
   ],
-  "project_status": "MATERIALIZED_STATIC_AND_UNIT_VALIDATION_PR_GATES_CURRENT_HOST_NON_PROMOTING",
+  "project_status": "MATERIALIZED_STATIC_POLICY_PLANE_PENDING_EXACT_HEAD_GATES",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -58,6 +61,22 @@
     {
       "id": "github:langfuse/langfuse",
       "use": "PUBLISHED_REFERENCE_FOR_OBSERVABILITY_UX_PATTERNS"
+    },
+    {
+      "id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+      "use": "EXISTING_MANDATORY_SHARED_WORKLOAD_INTENT_AND_MODE_STATE_FRAMEWORK"
+    },
+    {
+      "id": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+      "use": "EXISTING_MODE_STATE_FAIL_CLOSED_AND_HRB_DELEGATION_BOUNDARY"
+    },
+    {
+      "id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_WORK_ITEM_AND_OPERATOR_PROJECTION_NO_DUPLICATE_TASK_MANAGER"
+    },
+    {
+      "id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "use": "EXISTING_GOAL_SCOPE_ACCEPTANCE_AND_EXECUTION_POLICY_SOURCE"
     }
   ],
   "rejected_candidates": [
@@ -89,7 +108,12 @@
     "ROLE_SCOPED_AGENT_APPLICATION_BLUEPRINT",
     "STRUCTURED_HANDOFF",
     "INDEPENDENT_REVIEW_BINDING",
-    "DETERMINISTIC_BLUEPRINT_COMPILATION"
+    "DETERMINISTIC_BLUEPRINT_COMPILATION",
+    "TASK_GROUP_POLICY_REGISTRY",
+    "ORDERED_GUARD_CHAIN",
+    "WORKLOAD_MODE_INTENT_BINDING",
+    "TYPED_HANDOFF_LIFECYCLE",
+    "EXPLICIT_RECOVERY_CLASSIFICATION"
   ],
   "existing_authority_bindings": {
     "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -114,7 +138,7 @@
     "upstream_uninstall_required": false,
     "global_mutation": false
   },
-  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "implementation_readiness": "READY_FOR_EXACT_HEAD_STATIC_AND_UNIT_VALIDATION",
   "mandatory_source_reviews": [
     {
       "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
@@ -136,8 +160,8 @@
   "new_architectural_authorities": 0,
   "published_main_registry": {
     "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
-    "entry_count": 1344,
+    "blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
+    "entry_count": 1349,
     "paperclip_present": false
   },
   "paperclip_analysis": {
@@ -160,18 +184,18 @@
     }
   ],
   "donor_lifecycle_main_reconciliation": {
-    "main_sha": "d65215e75867d71605093ae8f46a0dfbd6c6f471",
-    "registry_entry_count": 1344,
-    "registry_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
+    "main_sha": "8e1f30528e3af7c001fa7b0be1acf1aa4731f8b4",
+    "registry_entry_count": 1349,
+    "registry_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
     "reuse_input_scope": "LAST_VERIFIED_COMMITTED_MAIN_ONLY",
     "pending_pr_records_consumed": false
   },
   "donor_planning_snapshot": {
-    "published_main_commit": "d65215e75867d71605093ae8f46a0dfbd6c6f471",
+    "published_main_commit": "8e1f30528e3af7c001fa7b0be1acf1aa4731f8b4",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "donor_registry_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
-    "donor_registry_sha256": "dc9758edfb81e5857236d9dbea29fe533efe27cbafcb44f77ec0c8358114f7c1",
-    "donor_registry_entry_count": 1344
+    "donor_registry_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
+    "donor_registry_sha256": "d194116f1d80cc61930bc977f3e57192c8c41c9b3a6b08c7614d422c46384f5b",
+    "donor_registry_entry_count": 1349
   },
   "shared_capability_placement": {
     "reviewed": true,
@@ -180,9 +204,12 @@
     "disposition": "SHARED",
     "shared_component_ids": [
       "FA3-ORCHESTRATION-WORKFORCE-001",
-      "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
+      "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+      "FA3-TASK-GROUP-REGISTRY-001",
+      "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001",
+      "FA3-WORKLOAD-MODE-FRAMEWORK-001"
     ],
-    "rationale": "Blueprint compilation is a cross-application orchestration function and is therefore materialized once in the existing shared Orchestration Workforce layer rather than duplicated per application."
+    "rationale": "Task-group policy and guard evaluation are cross-application orchestration functions. They are materialized once in the existing shared Orchestration Workforce layer, reuse the mandatory Workload Mode framework and existing Work Management/Goal Execution projections, and do not create duplicate task, workflow, resource or evidence authorities."
   },
   "blueprint_fabric_delta": {
     "contract_id": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
@@ -213,5 +240,19 @@
       "usage_edge_created": false,
       "use": "PLANNER_WORKER_REVIEWER_STRUCTURED_HANDOFF_PATTERN_COMPARISON_ONLY"
     }
-  ]
+  ],
+  "task_group_guard_plane_delta": {
+    "task_group_contract": "FA3-TASK-GROUP-CONTRACTS-001",
+    "task_group_registry": "FA3-TASK-GROUP-REGISTRY-001",
+    "guard_chain_contract": "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001",
+    "first_level_group_count": 31,
+    "task_group_policy_authority": false,
+    "guard_chain_authority": false,
+    "workload_mode_intent_only": true,
+    "hrb_authority_preserved": true,
+    "temporal_sole_global_durable_lifecycle": true,
+    "runtime_promotion_claim": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  }
 }
