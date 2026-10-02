@@ -5,7 +5,6 @@
   "provider_ids": [
     "FA3-PROVIDER-KLING-001",
     "FA3-PROVIDER-SEEDANCE-001",
-    "FA3-PROVIDER-MINIMAX-H3-001",
     "FA3-PROVIDER-OPEN-SORA-PLAN-001",
     "FA3-PROVIDER-HELIOS-001"
   ],
@@ -40,7 +39,14 @@
     "H3_SECRET_NEVER_PERSISTED_OR_LOGGED",
     "H3_REAL_PROVIDER_TASK_REQUIRED_FOR_REMOTE_E2E_PROMOTION",
     "H3_REAL_OUTPUT_AV_QC_AND_PROVENANCE_REQUIRED",
-    "H3_BILLABLE_E2E_MANUAL_ACK_REQUIRED"
+    "H3_BILLABLE_E2E_MANUAL_ACK_REQUIRED",
+    "H3_PROVIDER_RETIRED_REFERENCE_ONLY",
+    "H3_RUNTIME_EXECUTION_FORBIDDEN",
+    "H3_PROVIDER_SELECTION_FORBIDDEN",
+    "MOTION_VIDEO_EXECUTION_REQUIRES_MODEL_ROUTER_SELECTION_RECEIPT",
+    "MOTION_VIDEO_EXECUTION_REQUIRES_PROVIDER_ADMISSION_RECEIPT",
+    "APPLICATION_PHYSICAL_PROVIDER_PIN_FORBIDDEN",
+    "PROVIDER_LIMITS_ARE_RUNTIME_METADATA_NOT_CANONICAL_IR"
   ],
   "mmg_context_ir": {
     "id": "FA3-MMG-CONTEXT-IR-001",
@@ -135,10 +141,30 @@
     "billable_execution_manual_only": true,
     "secret_persistence_forbidden": true,
     "local_execution_without_license_evidence": "DENY",
-    "current_host_runtime_promotion_claim": false
+    "current_host_runtime_promotion_claim": false,
+    "execution_forbidden": true,
+    "provider_selection_forbidden": true,
+    "historical_reference_only": true
   },
   "provider_lifecycle_gate": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
   "provider_lifecycle_contract": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
   "provider_lifecycle_semantics": "OPEN_SORA_PLAN_PREDECESSOR_REFERENCE_TO_HELIOS_SUCCESSOR_LINEAGE_WITHOUT_AUTO_PROMOTION",
-  "derived_cache_policy": "DERIVED_ONLY_VERSIONED_SCOPED_PROVENANCED_FAIL_CLOSED_INVALIDATION"
+  "derived_cache_policy": "DERIVED_ONLY_VERSIONED_SCOPED_PROVENANCED_FAIL_CLOSED_INVALIDATION",
+  "h3_policy_mode": "HISTORICAL_REFERENCE_ONLY_NO_EXECUTION",
+  "motion_video_execution": {
+    "profile_id": "FA3-VIDEO-001",
+    "contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "router_contract_id": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "capability_bindings": [
+      "CAP-159",
+      "CAP-160"
+    ],
+    "provider_selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_admission_required": true,
+    "projection_loss_report_required": true,
+    "hard_projection_loss_fails_closed": true,
+    "silent_provider_model_device_or_cloud_fallback_forbidden": true,
+    "current_host_provider_runtime_promotion_requires_real_e2e": true
+  }
 }

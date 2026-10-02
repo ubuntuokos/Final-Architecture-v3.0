@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.h3-replacement-enforcement.v2",
+  "id": "FA3-H3-REPLACEMENT-001",
+  "gate_id": "FA3-H3-REPLACEMENT-GATESET-001",
+  "executable_gate_id": "FA3-GATE-H3-REPLACEMENT-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "mandatory": true,
+  "fail_closed": true,
+  "applies_retroactively": true,
+  "applies_prospectively": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "prohibited_dependency": {
+    "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+    "direct_dependency_forbidden": true,
+    "provider_selection_forbidden": true,
+    "runtime_execution_forbidden": true,
+    "new_current_host_promotion_forbidden": true,
+    "historical_reference_allowed": true
+  },
+  "replacement": {
+    "surface": "FA3_NATIVE_MOTION_VIDEO_GENERATION_FABRIC",
+    "profile_id": "FA3-VIDEO-001",
+    "execution_contract": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "router_contract": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "canonical_ir": [
+      "FA3-MMG-CONTEXT-IR-001",
+      "VideoGenerationIR"
+    ],
+    "mandatory_execution_chain": [
+      "creative_intent",
+      "video_context_compiler",
+      "FA3-MMG-CONTEXT-IR-001",
+      "VideoGenerationIR",
+      "security_license_gate",
+      "provider_capability_matching",
+      "FA3-AUTH-MODEL-ROUTER-001",
+      "provider_admission",
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "provider_projection",
+      "ProviderProjectionLossReport",
+      "generation_edit_extend_regenerate",
+      "qc_and_provenance"
+    ],
+    "direct_provider_pin_forbidden": true,
+    "silent_fallback_forbidden": true,
+    "provider_native_ir_canonicalization_forbidden": true,
+    "provider_implementation_optional_until_separately_admitted": true
+  },
+  "hardware_audit": {
+    "required": true,
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only_control_plane_supported": true,
+    "accelerator_cardinality": "0..N",
+    "routing_must_not_pin_current_host_gpu": true,
+    "local_accelerator_execution_requires_hrb": true,
+    "display_gpu_rules_remain_governed_by_existing_hardware_policy": true
+  },
+  "coexistence": {
+    "software_coexistence_and_host_non_interference_required": true,
+    "upstream_app_uninstall_forbidden": true,
+    "namespaced_paths_services_configs_required": true,
+    "global_runtime_hijack_forbidden": true
+  },
+  "evidence_rules": {
+    "document_only_runtime_promotion_forbidden": true,
+    "historical_h3_evidence_cannot_reactivate_provider": true,
+    "current_host_claim_requires_real_current_host_evidence": true,
+    "provider_runtime_claim_requires_provider_specific_e2e": true
+  }
+}

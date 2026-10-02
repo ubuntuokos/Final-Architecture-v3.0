@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-H3-REPLACEMENT-MOTION-VIDEO-2026-10-02",
+  "date": "2026-10-02",
+  "status": "CANONICAL_CANDIDATE",
+  "title": "Reconcile MiniMax H3 retirement with the 175-capability FA3-native Motion & Video Generation Fabric",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_PROVIDER_DEPENDENCY_RETIREMENT_AND_VIDEO_FABRIC_HARDENING",
+  "decision": "RETIRE_H3_FROM_ACTIVE_EXECUTION_AND_ROUTE_VIDEO_REQUIREMENTS_THROUGH_PROVIDER_NEUTRAL_FA3_MOTION_VIDEO_FABRIC",
+  "supersedes_active_use_of": [
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+    "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001"
+  ],
+  "preserves_historical_records": true,
+  "direct_h3_dependency_forbidden": true,
+  "h3_provider_selection_forbidden": true,
+  "h3_runtime_execution_forbidden": true,
+  "canonical_execution_contract": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+  "router_projection_contract": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "kling_policy": {
+    "provider_id": "FA3-PROVIDER-KLING-001",
+    "new_provider_created": false,
+    "version_specific_duplicate_forbidden": true,
+    "dynamic_capability_discovery": true,
+    "numeric_limits_are_runtime_metadata": true,
+    "proxy_service_identity_must_remain_distinct": true
+  },
+  "donor_policy": {
+    "registry_snapshot_count": 1339,
+    "unmarked_kling_sources_analysis_only": true,
+    "new_donor_records": 0,
+    "new_usage_edges": 0
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "hardware_audit": {
+    "result": "PASS_ARCHITECTURAL_SCOPE",
+    "cpu_only_control_plane_valid": true,
+    "accelerator_cardinality": "0..N",
+    "local_accelerator_execution_requires_hrb": true,
+    "current_host_runtime_claim": false
+  },
+  "current_host_runtime_claim": false,
+  "cross_host_runtime_claim": false,
+  "provider_runtime_promotion_claim": false,
+  "current_host_impact_id": "FA3-MOTION-VIDEO-H3-RECONCILIATION-CURRENT-HOST-IMPACT-001",
+  "current_host_status": "PENDING_PHYSICAL_REQUALIFICATION"
+}

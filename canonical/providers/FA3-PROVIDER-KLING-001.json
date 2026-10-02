@@ -14,7 +14,9 @@
   "capability_projection": [
     "CAP-016",
     "CAP-123",
-    "CAP-126"
+    "CAP-126",
+    "CAP-159",
+    "CAP-160"
   ],
   "canonical_root": false,
   "architectural_authority": false,
@@ -40,5 +42,44 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
   },
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "supported_projection_classes": [
+    "TEXT_TO_VIDEO",
+    "IMAGE_TO_VIDEO",
+    "TEXT_IMAGE_TO_VIDEO",
+    "REFERENCE_TO_VIDEO",
+    "KEYFRAME_CONDITIONING",
+    "MULTI_SHOT",
+    "CAMERA_MOTION_CONTROL",
+    "NATIVE_AUDIO",
+    "VIDEO_EDIT",
+    "VIDEO_EXTENSION"
+  ],
+  "capability_discovery": {
+    "mode": "DYNAMIC_AT_ADMISSION_AND_EXECUTION",
+    "canonical_numeric_limits_forbidden": true,
+    "runtime_metadata": [
+      "actual_service_provider",
+      "actual_model_id",
+      "actual_model_version",
+      "supported_operations",
+      "reference_limits",
+      "keyframe_limits",
+      "duration_limits",
+      "resolution_modes",
+      "audio_modes",
+      "editing_modes",
+      "region_eligibility",
+      "quota_rate_concurrency",
+      "pricing_or_entitlement"
+    ],
+    "stale_or_unverified_limits_are_not_canonical": true
+  },
+  "provider_identity_policy": {
+    "service_provider_identity_distinct_from_model_family": true,
+    "proxy_or_aggregator_must_not_impersonate_native_kling": true,
+    "execution_receipt_requires_service_provider": true,
+    "execution_receipt_requires_model_family": true,
+    "execution_receipt_requires_actual_model_id_or_version_when_observable": true
+  }
 }
