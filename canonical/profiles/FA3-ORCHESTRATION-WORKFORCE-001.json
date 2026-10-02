@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-ORCHESTRATION-WORKFORCE-001",
   "name": "Competency-Driven Hierarchical Orchestration Workforce",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -34,7 +34,9 @@
     "FA3-DECISION-FABRIC-CONTRACTS-001",
     "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
     "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
-    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "FA3-TASK-GROUP-CONTRACTS-001",
+    "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001"
   ],
   "registry": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
   "authority_boundaries": {
@@ -81,7 +83,10 @@
       "budget_envelope_projection",
       "liveness_projection",
       "orchestration_monitor_projection",
-      "agent_application_blueprint_compilation"
+      "agent_application_blueprint_compilation",
+      "task_group_resolution",
+      "task_group_policy_projection",
+      "guard_chain_projection"
     ],
     "forbidden_responsibilities": [
       "security_authorization",
@@ -145,7 +150,14 @@
     "MONITORING_AND_CONFIGURATION_SURFACE_IS_NON_AUTHORITY",
     "AGENT_APPLICATION_BLUEPRINT_IS_NON_AUTHORITY_PROVIDER_NEUTRAL_COMPILE_LAYER",
     "BLUEPRINT_ROLE_CONTEXT_CANNOT_GRANT_CAPABILITY_TOOL_MODEL_SECRET_RESOURCE_OR_AUTHORITY_ACCESS",
-    "BLUEPRINT_COMPILATION_IS_NOT_RUNTIME_ADMISSION"
+    "BLUEPRINT_COMPILATION_IS_NOT_RUNTIME_ADMISSION",
+    "TASK_GROUP_REGISTRY_IS_POLICY_CLASSIFICATION_NOT_TASK_OR_WORKFLOW_AUTHORITY",
+    "TASK_GROUP_POLICY_MAY_NARROW_BUT_NOT_EXPAND_EXECUTION_SCOPE",
+    "AUTHORITY_BOUND_TASK_GROUPS_ARE_HORIZONTAL_NOT_SPECIALIST_OWNED",
+    "F07_TEMPORAL_EXCLUSIVE_DURABLE_LIFECYCLE",
+    "F17_INDEPENDENT_EVIDENCE_VERIFICATION",
+    "GUARD_CHAIN_IS_NON_AUTHORITY_ORDERED_VALIDATION_PROJECTION",
+    "WORKLOAD_MODE_INTENT_DOES_NOT_REPLACE_HRB_PHYSICAL_RESOURCE_AUTHORITY"
   ],
   "implementation_status": "CANONICAL_RECONCILED_UAF_DECISION_FABRIC_AI_COMMS_AGENT_WORKLOAD_RUNTIME_GOVERNANCE_BLUEPRINT_V5",
   "capability_baseline_release": "2026-09-26/v3.1.0",
@@ -170,6 +182,15 @@
     "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
     "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
     "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "runtime_promotion_claim": false
+  },
+  "task_group_guard_policy_plane": {
+    "task_group_contract": "FA3-TASK-GROUP-CONTRACTS-001",
+    "task_group_registry": "FA3-TASK-GROUP-REGISTRY-001",
+    "guard_chain_contract": "FA3-ORCHESTRATION-GUARD-CHAIN-CONTRACTS-001",
+    "first_level_group_count": 31,
+    "capability_delta": 0,
+    "authority_delta": 0,
     "runtime_promotion_claim": false
   }
 }
