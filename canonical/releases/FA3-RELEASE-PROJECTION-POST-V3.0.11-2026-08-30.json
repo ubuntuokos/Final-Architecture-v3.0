@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2822,
+  "manifest_entry_count": 2825,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -5457,6 +5457,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-NVLABS-SANA-SOL-REFINER-2026-10-02.json",
+      "git_blob_sha": "2d4197ffeff8a9ab11a7fbab01be7f9b7da8c902",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-ODBC-SQL-VECTOR-MEDIA-2026-09-29.json",
       "git_blob_sha": "47c51315ab68339a85a3b720674f5e9734c0dc38",
       "baseline_delta_status": "added"
@@ -5663,7 +5668,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "26b70a29a4eb1ed4c824835dbc10349d8701426a",
+      "git_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
       "baseline_delta_status": "added"
     },
     {
@@ -9847,6 +9852,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-nvlabs-sana-sol-refiner-2026-10-02.md",
+      "git_blob_sha": "fa1cf8d9fb334b4131bc23c752ac60eddb80f051",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-odbc-sql-vector-media-2026-09-29.md",
       "git_blob_sha": "87ec3187f414dfb0902391043158c8c841a13f70",
       "baseline_delta_status": "added"
@@ -13997,6 +14007,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_nvlabs_sana_sol_refiner_20261002.py",
+      "git_blob_sha": "d22dded8ce34f360e9039b795aecf5154d2e719a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_odbc_sql_vector_media_20260929.py",
       "git_blob_sha": "5fe44bc14057799fb770209acc3c7c3c17817bb9",
       "baseline_delta_status": "added"
@@ -15213,7 +15228,8 @@
     "2026-09-19 runtime hardening/shadow reconciliation: five cross-cutting P0 profiles, PyNvVideoCodec NVIDIA AI-frame provider projection, Hungarian multi-signal AQC, and non-authoritative Shadow execution were materialized with zero capability/authority delta; production promotion remains 19/19 plus current-host evidence.",
     "2026-09-19 runtime-hardening current-host closure materialization: four real self-hosted evidence surfaces and fail-closed admission gate added; no runtime PASS or global promotion is claimed before real execution.",
     "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending.",
-    "2026-09-23: FA3 Neural Rendering & Temporal Reconstruction projection reconciled with optional OpenDLSS-NR provider, bounded Jev advisory, Agent Native/UAF actions, vendor-neutral Hardware Audit/HRB boundaries, and no current-host provider-E2E promotion."
+    "2026-09-23: FA3 Neural Rendering & Temporal Reconstruction projection reconciled with optional OpenDLSS-NR provider, bounded Jev advisory, Agent Native/UAF actions, vendor-neutral Hardware Audit/HRB boundaries, and no current-host provider-E2E promotion.",
+    "Owner-explicit NVlabs/Sana SoL-Refiner metadata-only donor intake reconciled at 1357 registry entries; no capability, authority, runtime, provider, model or Current Host promotion change."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -16876,7 +16892,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1355,
+    "donor_registry_entry_count": 1357,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
