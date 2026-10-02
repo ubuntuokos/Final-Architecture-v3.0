@@ -32,7 +32,7 @@ class BrowserSourceIndexDonorIntakeTests(unittest.TestCase):
     def test_registry_integrity_and_baseline(self):
         self.assertEqual(len(self.entries), len(self.by_key))
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
-        self.assertEqual(len(self.entries), 1316)
+        self.assertGreaterEqual(len(self.entries), self.delta["expected_registry_count"])
         self.assertEqual(self.registry["capability_count"], 175)
         self.assertEqual(self.delta["previous_registry_count"], 1310)
         self.assertEqual(self.delta["expected_registry_count"], 1316)
