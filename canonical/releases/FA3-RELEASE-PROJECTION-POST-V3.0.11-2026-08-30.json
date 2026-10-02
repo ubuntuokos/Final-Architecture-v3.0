@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2827,
+  "manifest_entry_count": 2840,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1500,6 +1500,11 @@
       "path": ".github/workflows/fa3-modular-current-host.yml",
       "git_blob_sha": "17b4132d337110161e2ff286a366d7f1ebf276d8",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-motion-video-v3.yml",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "aff4839b444e9b1d6855f9576a05d8ecc3d9e89a"
     },
     {
       "path": ".github/workflows/fa3-neural-rendering-current-host.yml",
@@ -3372,6 +3377,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-MOTION-VIDEO-V3-REUSE-ASSESSMENT-2026-10-02.json",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "740d4e7bf1a21ea1ca38e8462e07f262a6142fe5"
+    },
+    {
       "path": "canonical/assessments/FA3-NEURAL-RENDERING-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "d17e72045df3e8c8aefc679c76c2351e985c2d87",
       "baseline_delta_status": "added"
@@ -4112,6 +4122,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001.json",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "fc886d73cd3151fb6fa6b2b45d0d1f5805e18cee"
+    },
+    {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "git_blob_sha": "b53782ec660a96cc0bfbf5abae563d2ad9354dd0",
       "baseline_delta_status": "added"
@@ -4397,9 +4412,19 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001.json",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "b1f018c231d3784da50c7ff622b3ee05a6edab19"
+    },
+    {
       "path": "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
       "git_blob_sha": "30cae0edaf816e2000e29bf76903ced3b9f7564a",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-VIDEO-REFINEMENT-CONTRACTS-001.json",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "64b9d2d08ce1447c7b5b30b88e2084d931f87090"
     },
     {
       "path": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
@@ -5042,6 +5067,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MOTION-VIDEO-V3-SOL-REFINEMENT-2026-10-02.json",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "8597fa35c6e5aee32733c96478ccccb722b990e0"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
       "git_blob_sha": "7dd2a19aaea4a2f0abcd04669ce06789125e928f",
       "baseline_delta_status": "added"
@@ -5573,7 +5603,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "e98db1968690d50f183e57b3987fd68d28a1c20e",
+      "git_blob_sha": "ad3fc7d32c31768100285e24277a9af3daa4cb09",
       "baseline_delta_status": "added"
     },
     {
@@ -6922,6 +6952,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-MOTION-VIDEO-V3-APPLICATION-INTENT-2026-10-02.json",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "5f8b8709833d93f3e2a202bedc31340f53abb73c"
+    },
+    {
       "path": "canonical/intents/FA3-NEURAL-RENDERING-APPLICATION-INTENT-001.json",
       "git_blob_sha": "a4c03bf5a3c4f19daf4c78f5879ee9c50980d4a3",
       "baseline_delta_status": "added"
@@ -7873,7 +7908,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VIDEO-001.json",
-      "git_blob_sha": "951d8042b38d4aaa33b39c1b46a9f0081b23a998",
+      "git_blob_sha": "37bbf3fc6d7a9b7e9b3d07bcac52d9c37a89bc19",
       "baseline_delta_status": "added"
     },
     {
@@ -10085,6 +10120,11 @@
       "path": "docs/FA3-MODERNIZATION-INTEGRATION-2026-09-25.md",
       "git_blob_sha": "36d65793bd4d6b4dab81661d4a7ddd86a97eb02c",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-MOTION-VIDEO-V3-SOL-REFINEMENT-2026-10-02.md",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "c7eb56c3bb6737a9577d756d60f5e9d1fca423ef"
     },
     {
       "path": "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
@@ -12847,6 +12887,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_motion_video_provider_adapter.py",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "a59bd75e0301f9e1fc2bbde5bc8b8e4c9e35d091"
+    },
+    {
+      "path": "src/fa3_motion_video_v3_gate.py",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "adcb1748915d0545257deb150e267124dac3949d"
+    },
+    {
       "path": "src/fa3_munder_difflin_executable_gate.py",
       "git_blob_sha": "cc7968b2d1c93eb213d509edeebc2ccc7fe9a499",
       "baseline_delta_status": "added"
@@ -13387,9 +13437,19 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_video_model_router.py",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "bd12a7bc390619d5d8dc88fb70890414503f463c"
+    },
+    {
       "path": "src/fa3_video_provider_lifecycle_gate.py",
       "git_blob_sha": "8a023347cdba6d00bb9232fa0062d770c762ace2",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_video_refinement.py",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "be906ef94ceff55b3ef1737cfc05b5a26ed795e4"
     },
     {
       "path": "src/fa3_voice_quality_router.py",
@@ -14625,6 +14685,11 @@
       "path": "tests/test_modular_runtime.py",
       "git_blob_sha": "07b85ae3201ad892fd7a5dbc1a60875f135ea9b9",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_motion_video_v3_sol_refinement.py",
+      "baseline_delta_status": "added",
+      "git_blob_sha": "1c5b82ec1d5ee1b45c7ebc46b528d965b79e048b"
     },
     {
       "path": "tests/test_munder_difflin_executable_gate.py",
@@ -17176,5 +17241,39 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 175
+  },
+  "motion_video_v3_refinement_reconciliation": {
+    "profile_id": "FA3-VIDEO-001",
+    "execution_contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "routing_contract_id": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "refinement_contract_id": "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "decision_id": "FA3-DEC-MOTION-VIDEO-V3-SOL-REFINEMENT-2026-10-02",
+    "application_intent_id": "FA3-MOTION-VIDEO-V3-APPLICATION-INTENT-2026-10-02",
+    "reuse_assessment_id": "FA3-MOTION-VIDEO-V3-REUSE-ASSESSMENT-2026-10-02",
+    "h3_status": "ACCEPTED_CONDITIONAL_REFERENCE_OPTIONAL_DISABLED_BY_DEFAULT",
+    "donor_usage_edges": [
+      "FA3-USAGE-DIFFUSERS-MOTION-VIDEO-V3-001",
+      "FA3-USAGE-XDIT-MOTION-VIDEO-V3-001",
+      "FA3-USAGE-SKYREELS-V3-MOTION-VIDEO-V3-001",
+      "FA3-USAGE-VIDEOSYS-MOTION-VIDEO-V3-001",
+      "FA3-USAGE-NVLABS-SANA-VIDEO-REFINEMENT-001"
+    ],
+    "refinement_backend_classes": [
+      "CPU_REFERENCE",
+      "CUDA_OPTIONAL",
+      "ROCM_HIP_OPTIONAL",
+      "INTEL_XPU_OPTIONAL",
+      "REMOTE_OPTIONAL"
+    ],
+    "capability_ids": [
+      "CAP-159",
+      "CAP-160"
+    ],
+    "capability_count_after": 175,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "current_host_status": "STATIC_MATERIALIZED_PHYSICAL_POSITIVE_NEGATIVE_ROLLBACK_REQUALIFICATION_PENDING",
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false
   }
 }
