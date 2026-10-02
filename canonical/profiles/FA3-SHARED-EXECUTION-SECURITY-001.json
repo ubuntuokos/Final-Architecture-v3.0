@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "name": "Shared Execution Security",
+  "version": "1.0.0",
+  "status": "CANONICAL_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING",
+  "priority": "P0",
+  "requirement": "MUST_FOR_EFFECTFUL_AGENT_OR_EXTERNAL_TOOL_EXECUTION",
+  "canonical_root": false,
+  "shared_component": true,
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-028",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "parent_profiles": [
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-AGENT-SANDBOX-001"
+  ],
+  "contract_family": "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+  "authority_bindings": {
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "AUTH-DURABLE"
+  },
+  "enforcement_planes": [
+    "FILESYSTEM",
+    "PROCESS_SYSCALL",
+    "NETWORK_EGRESS",
+    "EXECUTABLE_IDENTITY",
+    "CREDENTIAL_PROJECTION",
+    "MCP_L7"
+  ],
+  "policy_proof_states": [
+    "PROVED",
+    "DENIED",
+    "UNPROVEN"
+  ],
+  "invariants": [
+    "EXECUTION_SECURITY_IS_ENFORCEMENT_NOT_AUTHORIZATION_AUTHORITY",
+    "EFFECTIVE_EXECUTION_POLICY_MUST_NOT_EXCEED_AUTHORIZED_BOUNDARY",
+    "UNPROVEN_IS_NOT_PASS_WHEN_PROOF_REQUIRED",
+    "SILENT_SANDBOX_DOWNGRADE_FORBIDDEN",
+    "NETWORK_DEFAULT_DENY_FOR_AGENT_WORKLOADS",
+    "DIRECT_MCP_PROVIDER_OR_MODEL_ROUTER_BYPASS_FORBIDDEN",
+    "EXECUTABLE_IDENTITY_OR_DIGEST_CHANGE_REQUIRES_REVALIDATION",
+    "RAW_SECRET_PROPAGATION_TO_AGENT_ARGUMENT_RESULT_LOG_OR_EVIDENCE_FORBIDDEN_WHEN_SECRETREF_SUPPORTED",
+    "HRB_LEASE_REQUIRED_FOR_HOST_RESOURCE_CONSUMPTION",
+    "CPU_ONLY_PATH_REMAINS_SUPPORTED",
+    "DISPLAY_GPU_RULE_REMAINS_HARDWARE_SAFETY_GOVERNED",
+    "SECURITY_EVENT_OR_RECEIPT_IS_NOT_CANONICAL_EVIDENCE_UNTIL_EVIDENCE_AUTHORITY_VALIDATES",
+    "UPSTREAM_OPENSHELL_IS_NOT_REQUIRED_RUNTIME_DEPENDENCY"
+  ],
+  "assurance_levels": {
+    "EXEC-SEC-L0": "NO_ISOLATION_NOT_VALID_FOR_UNTRUSTED_OR_EFFECTFUL_AGENT_EXECUTION",
+    "EXEC-SEC-L1": "PROCESS_AND_WORKSPACE_ISOLATION",
+    "EXEC-SEC-L2": "L1_PLUS_FILESYSTEM_AND_NETWORK_ENFORCEMENT",
+    "EXEC-SEC-L3": "L2_PLUS_EXECUTABLE_IDENTITY_AND_CREDENTIAL_ISOLATION",
+    "EXEC-SEC-L4": "L3_PLUS_POLICY_PROOF_AND_FULL_AUDIT_RECEIPT"
+  },
+  "backend_policy": {
+    "canonical_interface": "ExecutionSecurityBackend",
+    "first_materialization": "FA3_NATIVE_CONTRACT_AND_VALIDATION_CORE",
+    "allowed_future_backends": [
+      "LINUX_NATIVE",
+      "GVISOR",
+      "WASMTIME_WASI",
+      "ROOTLESS_OCI",
+      "PODMAN",
+      "DOCKER",
+      "KUBERNETES",
+      "MICROVM",
+      "OPENSHELL_ADAPTER"
+    ],
+    "upstream_backend_requires_separate_admission": true,
+    "hard_openshell_dependency": false
+  },
+  "telemetry": {
+    "upstream_telemetry_default": "OFF",
+    "external_telemetry_requires_explicit_opt_in": true
+  },
+  "current_host": {
+    "impact": "RUNTIME_REQUALIFICATION_REQUIRED",
+    "production_promotion_claim": false,
+    "physical_execution_required": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "STATIC_FA3_NATIVE_CONTRACT_AND_VALIDATION_CORE_RUNTIME_REQUALIFICATION_SEPARATE"
+  }
+}
