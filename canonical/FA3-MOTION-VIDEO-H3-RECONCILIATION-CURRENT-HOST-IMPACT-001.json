@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.current-host-impact.v1",
+  "id": "FA3-MOTION-VIDEO-H3-RECONCILIATION-CURRENT-HOST-IMPACT-001",
+  "date": "2026-10-02",
+  "status": "PENDING_PHYSICAL_REQUALIFICATION",
+  "subject_profile": "FA3-VIDEO-001",
+  "capability_subjects": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "structural_change": true,
+  "runtime_path_changed": true,
+  "current_host_alignment_required": true,
+  "physical_current_host_pass_claimed": false,
+  "global_promotion_claim": false,
+  "reason": "The active video execution topology removes MiniMax H3 and introduces the provider-neutral Motion & Video execution/router contract surface integrated with mandatory Workload Mode, existing Video Provider Lifecycle governance and HRB-authoritative 0..N resource projection. Hosted/static CI can prove policy and fail-closed routing but cannot prove physical provider execution, hardware placement, mode projection or rollback.",
+  "required_physical_evidence": [
+    "AT-CAP-159-POS",
+    "AT-CAP-159-NEG",
+    "ROLLBACK-CAP-159",
+    "EVID-CAP-159-CURRENT-HOST",
+    "AT-CAP-160-POS",
+    "AT-CAP-160-NEG",
+    "ROLLBACK-CAP-160",
+    "EVID-CAP-160-CURRENT-HOST",
+    "REAL_PROVIDER_ADMISSION_RECEIPT",
+    "REAL_MODEL_ROUTER_SELECTION_RECEIPT",
+    "REAL_HRB_RECEIPT_WHEN_LOCAL_ACCELERATOR_USED",
+    "REAL_GENERATED_VIDEO_ARTIFACT_HASH_AND_QC",
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_OR_CLOUD_FALLBACK",
+    "RETIRED_H3_NEGATIVE_EXECUTION_DENIAL",
+    "REAL_WORKLOAD_MODE_HANDSHAKE_AND_WORKLOAD_SESSION",
+    "REAL_MODE_LEASE_PROJECTION",
+    "REAL_HRB_RESOURCE_PROJECTION_0_TO_N",
+    "REAL_VIDEO_LIFECYCLE_BACKEND_COMPATIBILITY_RECEIPT",
+    "SYNCHRONIZED_AV_AUTHORITY_BOUNDARY_NEGATIVE_TEST_WHEN_AUDIO_PRESENT"
+  ],
+  "current_host_reconciliation_vehicle": {
+    "pull_request": 559,
+    "rebase_or_equivalent_exact_head_reconciliation_required": true,
+    "old_evidence_inheritance_forbidden": true
+  },
+  "promotion_rule": "CAP_159_CAP_160_RUNTIME_PROMOTION_REMAINS_BLOCKED_UNTIL_FRESH_PHYSICAL_EXACT_HEAD_EVIDENCE_PASSES",
+  "simulation_or_document_substitution": "FORBIDDEN",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
