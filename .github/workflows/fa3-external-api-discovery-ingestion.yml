@@ -1,0 +1,72 @@
+name: FA3 External API Discovery Ingestion
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "fa3/**"
+    paths:
+      - "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json"
+      - "canonical/external-api-discovery-enforcement.json"
+      - "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json"
+      - "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01.json"
+      - "canonical/intents/FA3-API-MEGA-LIST-INGESTION-APPLICATION-INTENT-2026-10-01.json"
+      - "canonical/assessments/FA3-API-MEGA-LIST-INGESTION-REUSE-ASSESSMENT-2026-10-01.json"
+      - "src/fa3_api_mega_list_adapter.py"
+      - "src/fa3_external_discovery_store.py"
+      - "src/fa3_external_api_discovery_pipeline.py"
+      - "src/fa3_external_api_discovery_gate.py"
+      - "bin/fa3-external-api-discovery"
+      - "tests/test_external_api_discovery_gate.py"
+      - "tests/test_external_api_discovery_pipeline.py"
+      - ".github/workflows/fa3-external-api-discovery-ingestion.yml"
+  push:
+    branches:
+      - main
+      - "fa3/**"
+    paths:
+      - "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json"
+      - "canonical/external-api-discovery-enforcement.json"
+      - "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json"
+      - "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01.json"
+      - "canonical/intents/FA3-API-MEGA-LIST-INGESTION-APPLICATION-INTENT-2026-10-01.json"
+      - "canonical/assessments/FA3-API-MEGA-LIST-INGESTION-REUSE-ASSESSMENT-2026-10-01.json"
+      - "src/fa3_api_mega_list_adapter.py"
+      - "src/fa3_external_discovery_store.py"
+      - "src/fa3_external_api_discovery_pipeline.py"
+      - "src/fa3_external_api_discovery_gate.py"
+      - "bin/fa3-external-api-discovery"
+      - "tests/test_external_api_discovery_gate.py"
+      - "tests/test_external_api_discovery_pipeline.py"
+      - ".github/workflows/fa3-external-api-discovery-ingestion.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ingestion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Syntax
+        run: |
+          python -m py_compile             src/fa3_api_mega_list_adapter.py             src/fa3_external_discovery_store.py             src/fa3_external_api_discovery_pipeline.py             src/fa3_external_api_discovery_gate.py
+      - name: Targeted regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest -v             tests.test_external_api_discovery_gate             tests.test_external_api_discovery_pipeline
+      - name: P0 external discovery gate
+        run: |
+          chmod +x bin/fa3-enforce bin/fa3-external-api-discovery
+          ./bin/fa3-enforce external-api-discovery
