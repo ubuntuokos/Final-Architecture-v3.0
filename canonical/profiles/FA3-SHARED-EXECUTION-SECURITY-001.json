@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "name": "Shared Execution Security Fabric",
+  "version": "0.1.0",
+  "status": "CANONICAL_MATERIALIZED_CURRENT_HOST_PENDING",
+  "priority": "P0",
+  "requirement": "MUST_IF_EFFECTFUL_AGENT_TOOL_PLUGIN_OR_EXTERNAL_EXECUTION",
+  "canonical_root": false,
+  "parent_profile": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+  "relationship": "SUBPROFILE-OF",
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-028",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "contract_family": "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+  "role": "NON_AUTHORITY_EXECUTION_POLICY_ENFORCEMENT_AND_RECEIPT_FABRIC",
+  "authority_bindings": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "AUTH-DURABLE",
+    "human_approval": "AUTH-HUMAN",
+    "workload_mode": "FA3-WORKLOAD-MODE-FRAMEWORK-001_NON_RESOURCE_AUTHORITY_INPUT"
+  },
+  "enforcement_planes": [
+    "FILESYSTEM",
+    "PROCESS_SYSCALL",
+    "NETWORK_EGRESS",
+    "EXECUTABLE_IDENTITY",
+    "CREDENTIAL_PROJECTION",
+    "MCP_L7",
+    "RUNTIME_ISOLATION"
+  ],
+  "proof_states": [
+    "PROVED",
+    "DENIED",
+    "UNPROVEN"
+  ],
+  "security_assurance_levels": {
+    "EXEC-SEC-L0": "NO_ISOLATION_DENY_FOR_UNTRUSTED_OR_AGENT_CODE",
+    "EXEC-SEC-L1": "PROCESS_AND_EPHEMERAL_WORKSPACE",
+    "EXEC-SEC-L2": "L1_PLUS_FILESYSTEM_AND_NETWORK",
+    "EXEC-SEC-L3": "L2_PLUS_EXECUTABLE_IDENTITY_AND_CREDENTIAL_ISOLATION",
+    "EXEC-SEC-L4": "L3_PLUS_POLICY_PROOF_AND_FULL_SECURITY_RECEIPT"
+  },
+  "runtime_backend_interface": "ExecutionSecurityBackend",
+  "backend_candidates": [
+    "FA3_NATIVE_LINUX",
+    "GVISOR",
+    "WASMTIME_WASI",
+    "ROOTLESS_OCI",
+    "PODMAN",
+    "DOCKER",
+    "KUBERNETES",
+    "MICROVM",
+    "OPENSHELL_OPTIONAL_NOT_ADMITTED"
+  ],
+  "upstream_reference": {
+    "donor_id": "FA3-DONOR-NVIDIA-OPENSHELL-001",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "code_copy": false,
+    "runtime_dependency": false,
+    "authority": false
+  },
+  "invariants": [
+    "AUTHORIZED_POLICY_IS_MAXIMUM_EXECUTION_BOUNDARY",
+    "EFFECTIVE_POLICY_MUST_EQUAL_OR_NARROW_AUTHORIZED_BOUNDARY",
+    "UNPROVEN_IS_NEVER_PASS_WHEN_PROOF_REQUIRED",
+    "POLICY_PROVER_CANNOT_GRANT_AUTHORIZATION",
+    "EXECUTABLE_IDENTITY_OR_DIGEST_CHANGE_REQUIRES_REVALIDATION",
+    "NETWORK_DEFAULT_DENY_FOR_AGENT_WORKLOADS",
+    "RAW_SECRET_EXPOSURE_TO_AGENT_OR_TOOL_ARGUMENTS_FORBIDDEN_WHEN_SECRETREF_PROJECTION_EXISTS",
+    "DIRECT_MCP_PROVIDER_MODEL_ROUTER_BYPASS_FORBIDDEN",
+    "SILENT_SECURITY_ASSURANCE_DOWNGRADE_FORBIDDEN",
+    "ENFORCER_OR_SUPERVISOR_LOSS_FAILS_CLOSED",
+    "SECURITY_EVENT_OR_RECEIPT_IS_NOT_EVIDENCE_AUTHORITY",
+    "HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
+    "MODEL_ROUTER_REMAINS_EXCLUSIVE_MODEL_PROVIDER_ROUTE_AUTHORITY",
+    "TEMPORAL_REMAINS_GLOBAL_DURABLE_WORKFLOW_AUTHORITY",
+    "CPU_ONLY_EXECUTION_REMAINS_VALID",
+    "DISPLAY_GPU_RULE_REMAINS_UNCHANGED"
+  ],
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "openshell_runtime_installed": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false
+  },
+  "current_host": {
+    "impact": "RUNTIME_REQUALIFICATION_REQUIRED",
+    "profile_status": "PENDING_PHYSICAL_CURRENT_HOST",
+    "runtime_promotion_claim": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
