@@ -1,0 +1,290 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-ORCHESTRATION-GOVERNANCE-PAPERCLIP-REUSE-ASSESSMENT-2026-10-02",
+  "project_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "intent_id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
+  "intent_path": "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
+  "covered_ids": [
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
+  ],
+  "project_status": "MATERIALIZED_CANONICAL_DONOR_PROVENANCE_GOVERNED_USE_RECONCILED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "use": "EXISTING_DIRECTOR_AND_SPECIALIST_ROUTING"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_TYPED_ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_RUNTIME_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_TASK_LOCAL_EXECUTION_PROJECTION"
+    },
+    {
+      "id": "github:temporalio/sdk-python",
+      "use": "PUBLISHED_REFERENCE_FOR_EXISTING_TEMPORAL_DURABLE_LIFECYCLE_PATTERNS"
+    },
+    {
+      "id": "github:dagger/dagger",
+      "use": "PUBLISHED_REFERENCE_FOR_INCREMENTAL_GRAPH_PATTERNS"
+    },
+    {
+      "id": "github:skypilot-org/skypilot",
+      "use": "PUBLISHED_REFERENCE_FOR_DISTRIBUTED_LOCALITY_PATTERNS"
+    },
+    {
+      "id": "github:nvidia/openshell",
+      "use": "PUBLISHED_REFERENCE_FOR_EXECUTION_BOUNDARY_PATTERNS"
+    },
+    {
+      "id": "github:langfuse/langfuse",
+      "use": "PUBLISHED_REFERENCE_FOR_OBSERVABILITY_UX_PATTERNS"
+    },
+    {
+      "id": "github:paperclipai/paperclip",
+      "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+      "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+      "use": "CANONICAL_DONOR_FOR_ALREADY_MATERIALIZED_FA3_NATIVE_ORCHESTRATION_GOVERNANCE_PATTERNS",
+      "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_GLOBAL_DURABLE_WORKFLOW_AUTHORITY",
+      "reason": "TEMPORAL_REMAINS_SOLE_GLOBAL_DURABLE_LIFECYCLE_AUTHORITY"
+    },
+    {
+      "id": "PAPERCLIP_RUNTIME_OR_CONTROL_PLANE",
+      "reason": "CANONICAL_DONOR_ARCHITECTURE_PATTERN_USE_ONLY; PAPERCLIP_RUNTIME_SCHEDULER_CONTROL_PLANE_AND_AUTHORITY_REMAIN_REJECTED"
+    },
+    {
+      "id": "CONDUCTOR_AS_GLOBAL_WORKFLOW_AUTHORITY",
+      "reason": "CONDUCTOR_IS_DELEGATED_BOUNDED_ADAPTIVE_GRAPH_SPECIALIST_ONLY"
+    },
+    {
+      "id": "AGENTIC_AI_STARTERS_DIRECT_ADOPTION",
+      "reason": "SOURCE_IS_ANALYSIS_ONLY_UNMARKED_REFERENCE; NO_CANONICAL_DONOR_REGISTRATION_CODE_IMPORT_DEPENDENCY_PROVIDER_MODEL_RUNTIME_OR_USAGE_EDGE"
+    }
+  ],
+  "pattern_reuse": [
+    "OBJECTIVE_ANCESTRY",
+    "BOUNDARY_BASED_DECOMPOSITION",
+    "TYPED_DEPENDENCIES",
+    "ATOMIC_EXECUTION_CLAIM",
+    "VERSION_BOUND_APPROVAL",
+    "BOUNDED_RECOVERY",
+    "LIVENESS_PROJECTION",
+    "ROLE_SCOPED_AGENT_APPLICATION_BLUEPRINT",
+    "STRUCTURED_HANDOFF",
+    "INDEPENDENT_REVIEW_BINDING",
+    "DETERMINISTIC_BLUEPRINT_COMPILATION"
+  ],
+  "existing_authority_bindings": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_approval": "AUTH-HUMAN"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "ORCHESTRATION_GOVERNANCE_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "published_main_registry": {
+    "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "entry_count": 1357,
+    "paperclip_present": true,
+    "paperclip_donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001"
+  },
+  "paperclip_analysis": {
+    "source": "https://github.com/paperclipai/paperclip",
+    "inspected_head": "b54b2dc35c1f41d367ff4d94615ebfd38bbbdad0",
+    "donor_snapshot_head": "144083fd481464f4a328f0d184a82263de63228d",
+    "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+    "canonical_planning_candidate": true,
+    "canonical_donor_registered": true,
+    "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "runtime_dependency": false,
+    "control_plane_adoption": false,
+    "code_copy": false
+  },
+  "active_pr_reconciliation": [
+    {
+      "pr": 556,
+      "area": "OBJECTIVE_COORDINATION_AND_DEPENDENCY_INTELLIGENCE",
+      "rule": "IF_ADMITTED, USE AS SOURCE FOR OBJECTIVE/DEPENDENCY INTELLIGENCE; DO NOT KEEP DUPLICATE OWNERSHIP"
+    },
+    {
+      "pr": 557,
+      "area": "SCOPE_AND_AUTHORITY_GUARD",
+      "rule": "IF_ADMITTED, USE AS SOURCE FOR AUTHORITY ENFORCEMENT; ORCHESTRATION GOVERNANCE REMAINS A CONSUMER/PROJECTION"
+    }
+  ],
+  "donor_lifecycle_main_reconciliation": {
+    "main_sha": "b7e9491df373fe7a897404a75b86f919436a9a8d",
+    "registry_entry_count": 1357,
+    "registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "reuse_input_scope": "PUBLISHED_MAIN_CONTAINING_PAPERCLIP_DONOR",
+    "pending_pr_records_consumed": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "b7e9491df373fe7a897404a75b86f919436a9a8d",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_entry_count": 1357,
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e"
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-ORCHESTRATION-WORKFORCE-001",
+      "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
+    ],
+    "rationale": "Blueprint compilation is a cross-application orchestration function and is therefore materialized once in the existing shared Orchestration Workforce layer rather than duplicated per application."
+  },
+  "blueprint_fabric_delta": {
+    "contract_id": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "compiler": "src/fa3_agent_application_blueprint.py",
+    "application_scope": "CROSS_APPLICATION_SHARED",
+    "task_group_binding_required": true,
+    "role_context_authority": false,
+    "temporal_sole_global_durable_lifecycle": true,
+    "conductor_task_local_only": true,
+    "uaf_execution_required": true,
+    "model_router_authority_preserved": true,
+    "hrb_authority_preserved": true,
+    "evidence_authority_preserved": true,
+    "runtime_admission_separate": true,
+    "current_host_promotion_claim": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  },
+  "analysis_only_references": [
+    {
+      "source": "https://github.com/cporter202/agentic-ai-starters",
+      "donor_registered": false,
+      "donor_adoption_authorized": false,
+      "code_copy": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "usage_edge_created": false,
+      "use": "PLANNER_WORKER_REVIEWER_STRUCTURED_HANDOFF_PATTERN_COMPARISON_ONLY"
+    }
+  ],
+  "canonical_donor_reconciliation": {
+    "date": "2026-10-02",
+    "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+    "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+    "source_copy": false,
+    "runtime_admission": false,
+    "authority_delta": 0,
+    "capability_delta": 0,
+    "current_host_runtime_promotion_claim": false,
+    "historical_assessment_id": "FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30",
+    "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
+  },
+  "donor_review": {
+    "status": "REVIEWED_MATCH",
+    "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+    "source": "https://github.com/paperclipai/paperclip",
+    "registry_status": "ACCEPTED_REFERENCE",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+    "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03",
+    "code_copy": false,
+    "runtime_dependency": false,
+    "scheduler_admission": false,
+    "control_plane_admission": false,
+    "architectural_authority": false
+  },
+  "adopted_donors": [
+    {
+      "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+      "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03",
+      "adoption_scope": "FA3_NATIVE_ORCHESTRATION_GOVERNANCE_PATTERN_PROVENANCE_ONLY",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    }
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+      "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+      "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03",
+      "patterns": [
+        "OBJECTIVE_ANCESTRY",
+        "BOUNDARY_BASED_DECOMPOSITION",
+        "TYPED_DEPENDENCIES",
+        "ATOMIC_EXECUTION_CLAIM",
+        "VERSION_BOUND_APPROVAL",
+        "BOUNDED_RECOVERY",
+        "LIVENESS_PROJECTION"
+      ],
+      "implementation": "FA3_NATIVE_NO_CODE_COPY"
+    }
+  ],
+  "donor_adoption_authorized": true,
+  "selected_existing_donor_ids": [
+    "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001"
+  ]
+}

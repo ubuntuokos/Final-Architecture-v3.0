@@ -81,11 +81,17 @@
     }
   ],
   "paperclip_reference_boundary": {
-    "canonical_donor_registered": false,
-    "reason": "Owner requested functional adoption after analysis, but source was not introduced with the repository's explicit donornak marker.",
+    "canonical_donor_registered": true,
+    "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+    "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+    "usage_kind": "ARCHITECTURE_PATTERN",
     "source_copy": false,
     "runtime_dependency": false,
+    "control_plane_admission": false,
     "provider_admission": false,
-    "model_admission": false
+    "model_admission": false,
+    "temporal_sole_global_durable_lifecycle": true,
+    "reason": "Paperclip is a canonical donor/reference for the already materialized FA3-native governance pattern set after PR #626; no upstream runtime, scheduler, control-plane or authority adoption.",
+    "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
   }
 }

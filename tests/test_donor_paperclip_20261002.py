@@ -6,7 +6,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 DELTA = ROOT / "canonical/deltas/FA3-DONOR-PAPERCLIP-2026-10-02.json"
-LINKS = ROOT / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 
 SOURCE_KEY = "github:paperclipai/paperclip"
 DONOR_ID = "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001"
@@ -24,7 +23,6 @@ class PaperclipDonorIntakeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
         cls.delta = json.loads(DELTA.read_text(encoding="utf-8"))
-        cls.links = json.loads(LINKS.read_text(encoding="utf-8"))
         cls.entries = cls.registry["entries"]
         cls.by_key = {e["source"]["normalized_key"]: e for e in cls.entries}
 
@@ -63,10 +61,12 @@ class PaperclipDonorIntakeTests(unittest.TestCase):
         self.assertFalse(row["selection_scope"]["code_copy"])
 
     def test_no_same_intake_usage_edge_or_runtime_admission(self):
-        serialized = json.dumps(self.links, sort_keys=True)
-        self.assertNotIn(DONOR_ID, serialized)
+        # Scope this regression to the intake delta itself. Later approved
+        # post-publication usage is verified by the dedicated reconciliation
+        # regression and must not retroactively rewrite intake provenance.
         self.assertFalse(self.delta["boundaries"]["usage_edge_created"])
         self.assertTrue(all(value is False for value in self.delta["boundaries"].values()))
+
 
 
 if __name__ == "__main__":

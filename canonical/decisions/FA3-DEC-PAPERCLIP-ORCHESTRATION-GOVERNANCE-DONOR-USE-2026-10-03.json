@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03",
+  "title": "Governed Paperclip donor use for FA3 orchestration governance provenance",
+  "date": "2026-10-03",
+  "status": "CANONICAL",
+  "decision": "ACCEPT",
+  "owner_approval": "EXPLICIT",
+  "owner_approval_context": "Owner explicitly marked paperclipai/paperclip as donornak and approved full materialization and closure of the previously approved FA3 Paperclip integration plan.",
+  "scope": {
+    "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+    "usage_edge_id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "primary_consumer": {
+      "kind": "PROFILE",
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001"
+    },
+    "implementation": "FA3_NATIVE_PATTERN_PROVENANCE_ONLY"
+  },
+  "donor_registry_snapshot": {
+    "published_main_commit": "b7e9491df373fe7a897404a75b86f919436a9a8d",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e",
+    "donor_registry_entry_count": 1357
+  },
+  "capability_count": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "boundaries": {
+    "code_copy": false,
+    "runtime_dependency": false,
+    "scheduler_admission": false,
+    "control_plane_admission": false,
+    "provider_admission": false,
+    "model_admission": false,
+    "secret_authority": false,
+    "runtime_promotion": false,
+    "current_host_pass_claim": false,
+    "temporal_sole_global_durable_lifecycle_authority": true
+  },
+  "evidence": [
+    "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-PAPERCLIP-REUSE-ASSESSMENT-2026-10-02.json",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
+    "canonical/contracts/FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001.json",
+    "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
+    "docs/donor-paperclip-2026-10-02.md"
+  ]
+}
