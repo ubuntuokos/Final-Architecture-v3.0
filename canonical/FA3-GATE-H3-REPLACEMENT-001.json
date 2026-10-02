@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-H3-REPLACEMENT-001",
+  "gateset_id": "FA3-H3-REPLACEMENT-GATESET-001",
+  "profile_id": "FA3-VIDEO-001",
+  "enforcement_path": "canonical/h3-replacement-enforcement.json",
+  "executable": "src/fa3_h3_replacement_gate.py",
+  "command": "./bin/fa3-enforce h3-replacement",
+  "fail_closed": true,
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "capability_count": 175,
+  "current_host_runtime_claim": false,
+  "provider_runtime_promotion_claim": false
+}
