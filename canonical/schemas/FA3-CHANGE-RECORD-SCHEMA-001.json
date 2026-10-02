@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/change-record/v1",
+  "title": "FA3 ChangeRecord",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "timestamp",
+    "truth_class",
+    "source_kind",
+    "source_ref",
+    "object_type",
+    "object_id",
+    "operation",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 1
+    },
+    "truth_class": {
+      "enum": [
+        "FACT",
+        "DERIVED_FACT",
+        "INFERENCE",
+        "USER_NOTE",
+        "AI_INFERENCE"
+      ]
+    },
+    "source_kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "object_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provenance": {
+      "type": "object"
+    }
+  }
+}
