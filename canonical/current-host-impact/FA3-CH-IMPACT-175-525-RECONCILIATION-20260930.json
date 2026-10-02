@@ -7,6 +7,8 @@
   "required_test_obligation_count": 525,
   "structural_changes": [
     ".github/workflows/fa3-donor-serialization.yml",
+    ".github/workflows/fa3-permanent-enforcement.yml",
+    ".github/workflows/fa3-reuse-discovery.yml",
     "canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json",
     "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
     "canonical/FA3-GATE-STEP-CA-001.json",
@@ -64,6 +66,18 @@
     "classification": "NO_RUNTIME_AUTHORITY_CHANGE_BUT_STRUCTURAL_GOVERNANCE_WORKFLOW_CHANGED",
     "path": ".github/workflows/fa3-donor-serialization.yml",
     "reason": "PR classification now derives changed files from live-main merge-base instead of stale pull_request event base SHA; donor intake exclusivity remains fail-closed and unchanged.",
+    "physical_scope_effect": "NONE_BEYOND_ALREADY_REQUIRED_FULL_175_525_EXACT_HEAD_REQUALIFICATION"
+  },
+  "live_main_merge_base_reconciliation": {
+    "status": "MATERIALIZED_FAIL_CLOSED",
+    "paths": [
+      ".github/workflows/fa3-donor-serialization.yml",
+      ".github/workflows/fa3-current-host-structural-impact.yml",
+      ".github/workflows/fa3-reuse-discovery.yml",
+      ".github/workflows/fa3-permanent-enforcement.yml"
+    ],
+    "semantics": "PR_DELTA_AND_PROVENANCE_BINDINGS_USE_LIVE_MAIN_MERGE_BASE_NOT_STALE_PULL_REQUEST_EVENT_BASE",
+    "runtime_authority_delta": 0,
     "physical_scope_effect": "NONE_BEYOND_ALREADY_REQUIRED_FULL_175_525_EXACT_HEAD_REQUALIFICATION"
   }
 }
