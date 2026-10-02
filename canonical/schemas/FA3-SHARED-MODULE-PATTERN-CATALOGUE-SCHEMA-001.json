@@ -170,7 +170,8 @@
             "enum": [
               "REFERENCE_ONLY",
               "PATTERN_CANDIDATE",
-              "COMPOSITE_REFERENCE"
+              "COMPOSITE_REFERENCE",
+              "ADOPTED_PATTERN_WITH_ACTIVE_USAGE_EDGE"
             ]
           }
         },
@@ -195,7 +196,7 @@
     "materialized_shared_components": {
       "type": "array",
       "minItems": 5,
-      "maxItems": 5,
+      "maxItems": 64,
       "uniqueItems": true,
       "items": {
         "type": "object",
@@ -233,7 +234,10 @@
             "const": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY"
           },
           "current_host_impact": {
-            "const": "NO_RUNTIME_IMPACT"
+            "enum": [
+              "NO_RUNTIME_IMPACT",
+              "RUNTIME_REQUALIFICATION_REQUIRED"
+            ]
           }
         },
         "additionalProperties": false
