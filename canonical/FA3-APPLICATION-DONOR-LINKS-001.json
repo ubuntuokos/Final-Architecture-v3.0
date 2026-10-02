@@ -760,6 +760,48 @@
           "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json"
         ]
       }
+    },
+    {
+      "id": "FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001",
+      "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+      "donor_capability_key": "orchestration-governance-pattern-set",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+          "relationship": "PATTERN_CONTRACT"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "agents.orchestration-monitor",
+          "relationship": "NON_AUTHORITATIVE_PATTERN_PROJECTION"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-PAPERCLIP-REUSE-ASSESSMENT-2026-10-02.json",
+          "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
+          "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
+          "docs/donor-paperclip-2026-10-02.md"
+        ]
+      }
     }
   ],
   "donor_usage_contract": {
