@@ -15,6 +15,16 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         shutil.copytree(ROOT / "canonical", root / "canonical")
+        for rel in (
+            "src/fa3_api_mega_list_adapter.py",
+            "src/fa3_external_discovery_store.py",
+            "src/fa3_external_api_discovery_pipeline.py",
+            "bin/fa3-external-api-discovery",
+        ):
+            source = ROOT / rel
+            target = root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
         return td, root
 
     def _write(self, path, obj):
@@ -24,7 +34,7 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
     def test_baseline_gate_passes(self):
         r = d.gate(ROOT)
         self.assertEqual("PASS", r["result"], r)
-        self.assertEqual((13, 13), (r["regressions"]["passed"], r["regressions"]["total"]))
+        self.assertEqual((17, 17), (r["regressions"]["passed"], r["regressions"]["total"]))
         self.assertFalse(r["runtime_provider_required"])
         self.assertEqual(module_active_capability_count(__file__), r["capability_count"])
 
@@ -58,6 +68,30 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         b = d.dedupe_key(provider_name="example", endpoint_url="https://api.example.com/v1", protocol="rest")
         self.assertEqual(a, b)
 
+    def test_capability_mapping_uses_active_175_set(self):
+        self.assertTrue(d.capability_mapping_valid(
+            capability_id="CAP-175",
+            vendor_defined_canonical_capability=False,
+            root=ROOT))
+        self.assertFalse(d.capability_mapping_valid(
+            capability_id="CAP-176",
+            vendor_defined_canonical_capability=False,
+            root=ROOT))
+
+    def test_capability_mapping_fails_closed_on_matrix_drift(self):
+        td, root = self._copy_root()
+        try:
+            matrix = root / "canonical/conformance-matrix.csv"
+            content = matrix.read_text(encoding="utf-8")
+            self.assertIn(",CAP-175,", content)
+            matrix.write_text(content.replace(",CAP-175,", ",CAP-176,", 1), encoding="utf-8")
+            self.assertFalse(d.capability_mapping_valid(
+                capability_id="CAP-175",
+                vendor_defined_canonical_capability=False,
+                root=root))
+        finally:
+            td.cleanup()
+
     def test_source_authority_escalation_fails_closed(self):
         td, root = self._copy_root()
         try:
@@ -85,10 +119,39 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_candidate_store_policy_is_non_authoritative(self):
+        policy = json.loads(
+            (ROOT / "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json").read_text()
+        )
+        self.assertFalse(policy["authority"])
+        self.assertFalse(policy["canonical_source_of_truth"])
+        self.assertTrue(policy["derived_state"])
+        self.assertTrue(policy["rebuildable"])
+        self.assertFalse(policy["network_fetch_permitted"])
+        self.assertFalse(policy["automatic_donor_creation"])
+        self.assertFalse(policy["automatic_provider_admission"])
+        self.assertFalse(policy["automatic_mcp_registration"])
+
+    def test_candidate_store_authority_escalation_fails_closed(self):
+        td, root = self._copy_root()
+        try:
+            p = root / "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json"
+            o = json.loads(p.read_text(encoding="utf-8"))
+            o["automatic_provider_admission"] = True
+            self._write(p, o)
+            r = d.gate(root)
+            self.assertEqual("FAIL", r["result"], r)
+            self.assertTrue(
+                any(x["code"] == "EXTDISC-REF-013" for x in r["reference"]["findings"])
+            )
+        finally:
+            td.cleanup()
+
     def test_api_mega_list_missing_license_remains_restricted(self):
         ref = json.loads((ROOT / "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json").read_text())
         self.assertEqual("NO_REPOSITORY_LICENSE_DETECTED", ref["license_status"])
         self.assertEqual("DISCOVERY_METADATA_ONLY_UNTIL_LICENSE_AND_TERMS_ADMITTED", ref["local_ingestion_policy"])
+        self.assertEqual(143, ref["fa3_disposition"]["canonical_capability_count"])
 
     def test_megalist_is_pattern_only(self):
         ref = json.loads((ROOT / "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json").read_text())

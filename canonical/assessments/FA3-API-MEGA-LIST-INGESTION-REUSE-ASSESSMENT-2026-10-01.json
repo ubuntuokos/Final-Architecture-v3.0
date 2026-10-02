@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-API-MEGA-LIST-INGESTION-REUSE-ASSESSMENT-2026-10-01",
+  "project_id": "FA3-API-MEGA-LIST-INGESTION-CORE-001",
+  "intent_id": "FA3-API-MEGA-LIST-INGESTION-APPLICATION-INTENT-2026-10-01",
+  "intent_path": "canonical/intents/FA3-API-MEGA-LIST-INGESTION-APPLICATION-INTENT-2026-10-01.json",
+  "covered_ids": [
+    "FA3-EXTERNAL-API-DISCOVERY-001",
+    "FA3-SOURCE-API-MEGA-LIST-001",
+    "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-EXTERNAL-API-DISCOVERY-001",
+      "use": "EXISTING_EXTERNAL_DISCOVERY_PROFILE_AND_SECURITY_BOUNDARY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_PRE_IMPLEMENTATION_REUSE_AND_GAP_ASSESSMENT"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "EXISTING_LICENSE_AND_DISTRIBUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_HARDWARE_AUDIT"
+    },
+    {
+      "id": "CAP-175",
+      "use": "EXISTING_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    },
+    {
+      "id": "src/fa3_external_project_radar.py",
+      "use": "EXISTING_IMMUTABLE_SNAPSHOT_AND_NON_AUTHORITATIVE_NORMALIZATION_PATTERN"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_EXTERNAL_DISCOVERY_AUTHORITY",
+      "reason": "EXISTING_REGISTRY_SECURITY_AND_EVIDENCE_AUTHORITIES_REMAIN_CANONICAL"
+    },
+    {
+      "id": "DIRECT_NETWORK_CRAWLER",
+      "reason": "PR_B_IS_OFFLINE_PINNED_SNAPSHOT_INGESTION_ONLY"
+    },
+    {
+      "id": "DIRECT_DONOR_OR_PROVIDER_REGISTRATION",
+      "reason": "DISCOVERY_IS_NOT_AUTHORIZATION"
+    }
+  ],
+  "pattern_reuse": [
+    "IMMUTABLE_SNAPSHOT_VALIDATION",
+    "DERIVED_REBUILDABLE_NON_AUTHORITATIVE_INDEX",
+    "FAIL_CLOSED_INPUT_VALIDATION"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "gaps": [
+    "API_MEGA_LIST_OFFLINE_INGESTION_CORE",
+    "DERIVED_EXTERNAL_DISCOVERY_CANDIDATE_STORE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+        "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [
+        "RUNTIME_PROVIDER_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
