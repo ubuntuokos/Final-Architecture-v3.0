@@ -1,0 +1,112 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "name": "FA3 Change-History Intelligence Fabric",
+  "version": "1.0.0",
+  "status": "STATIC_CANONICAL_MATERIALIZED_CURRENT_HOST_PENDING",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile_id": "FA3-JOURNAL-001",
+  "profile_type": "SHARED_DERIVED_CHANGE_HISTORY_INTELLIGENCE_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001"
+  ],
+  "authorities": {
+    "workstation_event_history": "FA3-JOURNAL-001",
+    "canonical_records": "FA3-REGISTRY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "optional_ai_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "truth_classes": [
+    "FACT",
+    "DERIVED_FACT",
+    "INFERENCE",
+    "USER_NOTE",
+    "AI_INFERENCE"
+  ],
+  "graph_relations": [
+    "CAUSED_BY",
+    "AFFECTS",
+    "DEPENDS_ON",
+    "INVALIDATES",
+    "REQUALIFIES",
+    "ROLLED_BACK_BY"
+  ],
+  "ai_modes": [
+    "OFF",
+    "SHADOW",
+    "ADVISORY"
+  ],
+  "source_adapters": [
+    "JOURNAL",
+    "CANONICAL",
+    "GIT",
+    "PR_METADATA",
+    "EVIDENCE",
+    "CAPABILITY",
+    "PROFILE",
+    "CONTRACT",
+    "APPLICATION",
+    "SHARED_CAPABILITY",
+    "DONOR_USAGE",
+    "CURRENT_HOST",
+    "RELEASE_GATE",
+    "LICENSE_RIGHTS",
+    "APPROVAL_DECISION"
+  ],
+  "storage": {
+    "kind": "SQLITE_DERIVED_INDEX",
+    "default_path": "$XDG_CACHE_HOME/fa3/change-history/change-history.sqlite3",
+    "source_of_truth": false,
+    "rebuildable": true,
+    "atomic_rebuild": true,
+    "read_only_query": true,
+    "source_mutation_forbidden": true
+  },
+  "functional_surfaces": [
+    "CHANGE_PROVENANCE_INSPECTOR",
+    "COMMIT_ARCHAEOLOGY",
+    "CHANGE_GRAPH",
+    "IMPACT_ENGINE",
+    "EVIDENCE_CURRENTNESS",
+    "SCOPE_CREEP_VERIFICATION",
+    "REGRESSION_DIAGNOSTICS",
+    "ROLLBACK_IMPACT",
+    "CHANGE_RISK_CONTEXT"
+  ],
+  "invariants": [
+    "JOURNAL_REMAINS_SINGLE_WORKSTATION_EVENT_HISTORY_AUTHORITY",
+    "DERIVED_INDEX_NEVER_SOURCE_OF_TRUTH",
+    "READ_ONLY_SOURCE_ADAPTERS",
+    "FACT_DERIVED_FACT_INFERENCE_USER_NOTE_AI_INFERENCE_DISTINGUISHABLE",
+    "AI_NEVER_PROMOTES_INFERENCE_TO_FACT",
+    "MODEL_ROUTER_ONLY_FOR_OPTIONAL_AI",
+    "EXPLICIT_SOURCE_TARGET_LINEAGE_NO_MANUFACTURED_ALL_TO_ALL_EDGES",
+    "PROVENANCE_DIGESTS_AND_SOURCE_REFS_PRESERVED",
+    "SECRET_VALUES_REDACTED",
+    "RIGHTS_AND_APPROVAL_AUTHORITIES_UNCHANGED",
+    "ROLLBACK_ANALYSIS_DOES_NOT_EXECUTE_ROLLBACK",
+    "CURRENT_HOST_PASS_REQUIRES_PHYSICAL_EVIDENCE",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ],
+  "implementation": {
+    "python_modules": [
+      "src/fa3_change_history.py",
+      "src/fa3_change_projector.py",
+      "src/fa3_change_graph.py",
+      "src/fa3_change_impact.py",
+      "src/fa3_change_explain.py",
+      "src/fa3_change_regression.py",
+      "src/fa3_change_rollback.py",
+      "src/fa3_change_history_gate.py"
+    ],
+    "cli": "bin/fa3-change-history",
+    "current_host_status": "PENDING_PHYSICAL_CURRENT_HOST_REQUALIFICATION"
+  }
+}
