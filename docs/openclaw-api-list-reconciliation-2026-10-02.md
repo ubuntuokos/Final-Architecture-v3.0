@@ -62,3 +62,38 @@ source path and line. Input ordering cannot change candidate identity.
 Apify remains identity/provenance context in this reconciliation. There is no direct
 Apify catalog ingestion, no Actor/provider/MCP auto-admission, and no inherited
 usage edge from `FA3-DONOR-APIFY-ORG-001`.
+
+## Candidate → admission-review handoff
+
+Discovery candidates can now be converted into a deterministic **draft review plan**
+with the existing `fa3-external-api-discovery` CLI. This is a handoff into the
+existing FA3 admission authorities, not a new admission engine:
+
+```text
+bin/fa3-external-api-discovery review-plan \
+  --store /path/to/candidate-store.json \
+  --candidate-id EXTDISC-... \
+  --target-kind mcp
+```
+
+The target kind must be explicitly chosen from provider, MCP, skill, webhook or
+Apify Actor. Catalog hints never select the target automatically. The plan is bound
+to the candidate digest, Candidate Store digest and pinned source provenance.
+
+The lifecycle is represented explicitly as:
+
+`DISCOVER → NORMALIZE → DEDUPLICATE → PROVENANCE → LICENSE_TERMS →
+ENDPOINT_VERIFY → PROTOCOL_SCHEMA → SECURITY → SECRETS → EGRESS →
+CAPABILITY_MAP → POLICY → SANDBOX → CONFORMANCE → REGISTRY_ADMISSION`.
+
+Only the first three stages may be marked
+`PASS_FROM_DERIVED_DISCOVERY`. Every later stage is emitted as
+`PENDING_REVIEW`. Creating the plan performs no network probe, secret resolution,
+registry mutation, provider/MCP/Actor admission, runtime activation, donor
+registration, donor usage edge, or Current Host promotion.
+
+License/service terms remain governed by
+`FA3-LICENSE-RIGHTS-CONTRACTS-001`; MCP execution remains governed by the Central
+MCP Gateway; secrets remain governed by Secret Broker; resources remain governed by
+HRB. An Apify Actor identity discovered through OpenClaw does not inherit
+`FA3-DONOR-APIFY-ORG-001` donor status.
