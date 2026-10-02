@@ -23,6 +23,7 @@ PROFILE_IDS = (
     "FA3-HU-AQC-001",
     "FA3-PROMOTION-SHADOW-001",
     "FA3-PROVIDER-RUNTIME-001",
+    "FA3-SHARED-EXECUTION-SECURITY-001",
 )
 
 PATHS = {
@@ -32,6 +33,7 @@ PATHS = {
     "hu_aqc": "canonical/profiles/FA3-HU-AQC-001.json",
     "shadow": "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
     "provider_runtime": "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
+    "execution_security": "canonical/profiles/FA3-SHARED-EXECUTION-SECURITY-001.json",
     "contract": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
     "provider": "canonical/providers/FA3-PROVIDER-PYNVVIDEOCODEC-001.json",
     "decision": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
@@ -210,7 +212,7 @@ def gate(root: Path) -> dict[str, Any]:
     if findings:
         return _report(root, findings, [])
 
-    for key in ("runtime_isolation", "agent_sandbox", "media_zero", "hu_aqc", "shadow", "provider_runtime"):
+    for key in ("runtime_isolation", "agent_sandbox", "media_zero", "hu_aqc", "shadow", "provider_runtime", "execution_security"):
         record = data[key]
         if (
             record.get("id") not in PROFILE_IDS
@@ -257,6 +259,10 @@ def gate(root: Path) -> dict[str, Any]:
         "provider_runtime_class_explicit": "REQUIRED",
         "conda_mamba_baseline": "DENY",
         "oci_rootless_digest_pinned_when_selected": "REQUIRED",
+        "execution_security_profile_required_for_effectful_agent_workload": "REQUIRED",
+        "execution_policy_expansion": "DENY",
+        "silent_execution_security_downgrade": "DENY",
+        "enforcer_loss": "FAIL_CLOSED",
     }
     for key, value in expected.items():
         if rules.get(key) != value:
