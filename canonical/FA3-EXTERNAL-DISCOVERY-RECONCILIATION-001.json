@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.external-discovery-reconciliation-policy.v1",
+  "id": "FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001",
+  "status": "CANONICAL_POLICY",
+  "parent_profile": "FA3-EXTERNAL-API-DISCOVERY-001",
+  "reuse_profile": "FA3-REUSE-DISCOVERY-001",
+  "authority": false,
+  "canonical_source_of_truth": false,
+  "derived": true,
+  "rebuildable": true,
+  "candidate_class": "EXTERNAL_DISCOVERY_CANDIDATE",
+  "input_policy_id": "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+  "required_sources": [
+    "FA3-REUSE-CATALOG-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+    "canonical/providers",
+    "canonical/mcp-capability-registry.json"
+  ],
+  "classification_states": [
+    "EXISTING_DONOR",
+    "POSSIBLE_EXISTING_DONOR_REVIEW",
+    "NO_EXISTING_DONOR_MATCH",
+    "EXISTING_PROVIDER",
+    "POSSIBLE_EXISTING_PROVIDER_REVIEW",
+    "NEW_PROVIDER_CANDIDATE_REQUIRES_ADMISSION",
+    "EXACT_EXISTING_CAPABILITY",
+    "EXISTING_CAPABILITY_SUBFUNCTION_REVIEW",
+    "UNMAPPED_FUNCTIONAL_GAP_REVIEW",
+    "EXISTING_SHARED_MATCH",
+    "SHARED_REUSE_CANDIDATE",
+    "APPLICATION_REUSE_CANDIDATE",
+    "REVIEW_REQUIRED"
+  ],
+  "invariants": [
+    "RECONCILIATION_IS_NOT_ADMISSION",
+    "DONOR_REGISTRY_QUERY_REQUIRED",
+    "EXPLICIT_DONOR_MARKER_REQUIRED_BEFORE_NEW_DONOR_INTAKE",
+    "PROVIDER_ADMISSION_REQUIRED_BEFORE_PROVIDER_REGISTRATION",
+    "REUSE_CATALOG_PROJECTION_IS_NON_AUTHORITATIVE",
+    "SHARED_CAPABILITY_PROJECTION_IS_PROPOSAL_ONLY",
+    "RETROSPECTIVE_APPLICATION_IMPACT_REQUIRED",
+    "CAPABILITY_MAPPING_MUST_NOT_CREATE_NEW_CAPABILITY_ID",
+    "CANONICAL_CAPABILITY_BASELINE_REMAINS_175",
+    "NO_AUTOMATIC_CODE_IMPORT_INSTALL_ACTIVATION_OR_RUNTIME_PROMOTION"
+  ],
+  "capability_mapping": {
+    "confirmed_mapping_requires_exact_existing_source_identity": true,
+    "token_mapping_is_review_only": true,
+    "unmapped_function_does_not_create_capability": true,
+    "allowed_capability_prefix": "CAP-",
+    "baseline_count": 175
+  },
+  "shared_detection": {
+    "minimum_application_consumers": 2,
+    "existing_shared_binding_preferred": true,
+    "new_shared_result_is_proposal_only": true,
+    "retroactive_application_scope_required": true,
+    "capability_loss_allowed": false
+  },
+  "donor_policy": {
+    "query_existing_registry": true,
+    "automatic_candidate_to_donor_promotion": false,
+    "explicit_owner_marker_required": true,
+    "automatic_usage_edge_creation": false
+  },
+  "provider_policy": {
+    "query_existing_canonical_providers": true,
+    "automatic_provider_registration": false,
+    "automatic_mcp_registration": false,
+    "automatic_runtime_activation": false
+  },
+  "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED",
+  "current_host_obligation_delta": 0,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 175
+}

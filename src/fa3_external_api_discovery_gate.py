@@ -15,8 +15,10 @@ DECISION_ID = "FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30"
 GATE_ID = "FA3-EXTERNAL-API-DISCOVERY-GATESET-001"
 STORE_POLICY_ID = "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001"
 INGESTION_DECISION_ID = "FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01"
+RECONCILIATION_POLICY_ID = "FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001"
+RECONCILIATION_DECISION_ID = "FA3-DEC-EXTERNAL-DISCOVERY-REUSE-RECONCILIATION-2026-10-02"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
-REGRESSION_CASE_COUNT = 17
+REGRESSION_CASE_COUNT = 20
 
 SOURCE_IDS = {
     "FA3-SOURCE-PUBLIC-APIS-001",
@@ -65,6 +67,11 @@ RULES = [
     "DISCOVERY_INGESTION_IS_OFFLINE_FROM_PINNED_SNAPSHOT",
     "AFFILIATE_AND_SPONSORSHIP_METADATA_CANNOT_CHANGE_IDENTITY_RANKING_OR_AUTHORIZATION",
     "DISCOVERY_CANDIDATE_STORE_IS_REBUILDABLE_NON_AUTHORITY",
+    "DISCOVERY_RECONCILIATION_IS_NOT_ADMISSION",
+    "NEW_DONOR_INTAKE_REQUIRES_EXPLICIT_OWNER_MARKER",
+    "PROVIDER_AND_MCP_PROMOTION_REQUIRE_CANONICAL_ADMISSION",
+    "SHARED_AND_APPLICATION_IMPACT_PROJECTIONS_ARE_PROPOSAL_ONLY",
+    "DISCOVERY_RECONCILIATION_CANNOT_CREATE_NEW_CAPABILITY",
 ]
 
 def loadj(path: Path):
@@ -147,6 +154,20 @@ def mcp_registration_allowed(*, admission_pass: bool, central_gateway_mediated: 
 def source_failure_isolated(*, canonical_registry_unchanged: bool, fail_open_execution: bool, source_state_is_canonical: bool) -> bool:
     return canonical_registry_unchanged and not fail_open_execution and not source_state_is_canonical
 
+def reconciliation_boundary_valid(*, donor_intake_allowed: bool, explicit_owner_marker_required: bool,
+                                  automatic_provider_registration: bool, automatic_mcp_registration: bool,
+                                  automatic_shared_materialization: bool, automatic_application_mutation: bool,
+                                  new_capability_id_creation_allowed: bool) -> bool:
+    return (
+        not donor_intake_allowed
+        and explicit_owner_marker_required
+        and not automatic_provider_registration
+        and not automatic_mcp_registration
+        and not automatic_shared_materialization
+        and not automatic_application_mutation
+        and not new_capability_id_creation_allowed
+    )
+
 def scan_source_authority_assignments(root: Path):
     findings = []
     for path in (root / "canonical").rglob("*.json"):
@@ -190,6 +211,11 @@ def reference_check(root: Path):
         "candidate_store": root / "src/fa3_external_discovery_store.py",
         "ingestion_pipeline": root / "src/fa3_external_api_discovery_pipeline.py",
         "ingestion_cli": root / "bin/fa3-external-api-discovery",
+        "reconciliation_policy": root / "canonical/FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001.json",
+        "reconciliation_decision": root / "canonical/decisions/FA3-DEC-EXTERNAL-DISCOVERY-REUSE-RECONCILIATION-2026-10-02.json",
+        "reconciliation_engine": root / "src/fa3_external_discovery_reconciler.py",
+        "reconciliation_cli": root / "bin/fa3-external-discovery-reconcile",
+        "reuse_catalog": root / "canonical/FA3-REUSE-CATALOG-001.json",
     }
     for sid, (rel, _, _) in REFERENCES.items():
         required[sid] = root / rel
@@ -206,6 +232,9 @@ def reference_check(root: Path):
     policy = loadj(required["policy"])
     candidate_store_policy = loadj(required["candidate_store_policy"])
     ingestion_decision = loadj(required["ingestion_decision"])
+    reconciliation_policy = loadj(required["reconciliation_policy"])
+    reconciliation_decision = loadj(required["reconciliation_decision"])
+    reuse_catalog = loadj(required["reuse_catalog"])
 
     if not (
         profile.get("id") == PROFILE_ID
@@ -217,6 +246,7 @@ def reference_check(root: Path):
         and profile.get("capability_count") == CAPABILITY_COUNT
         and set(profile.get("capabilities", [])) == {"CAP-011","CAP-074","CAP-075"}
         and profile.get("candidate_store_policy_id") == STORE_POLICY_ID
+        and profile.get("reconciliation_policy_id") == RECONCILIATION_POLICY_ID
         and profile.get("invariants") == RULES
     ):
         findings.append(finding("EXTDISC-REF-002", "External discovery profile invariant mismatch"))
@@ -231,6 +261,8 @@ def reference_check(root: Path):
             "ExternalProviderAdmissionDecision",
             "ExternalDiscoveryCandidateStoreManifest",
             "ExternalDiscoveryIngestReceipt",
+            "ExternalDiscoveryReconciliationProjection",
+            "ExternalApplicationImpactProjection",
         }.issubset(set(contracts.get("contracts", [])))
     ):
         findings.append(finding("EXTDISC-REF-003", "External discovery contract-family invariant mismatch"))
@@ -294,6 +326,61 @@ def reference_check(root: Path):
         and ingestion_decision.get("capability_count_after") == CAPABILITY_COUNT
     ):
         findings.append(finding("EXTDISC-REF-014", "API Mega List ingestion decision invariant mismatch"))
+
+    if not (
+        reconciliation_policy.get("id") == RECONCILIATION_POLICY_ID
+        and reconciliation_policy.get("parent_profile") == PROFILE_ID
+        and reconciliation_policy.get("reuse_profile") == "FA3-REUSE-DISCOVERY-001"
+        and reconciliation_policy.get("authority") is False
+        and reconciliation_policy.get("canonical_source_of_truth") is False
+        and reconciliation_policy.get("derived") is True
+        and reconciliation_policy.get("rebuildable") is True
+        and reconciliation_policy.get("candidate_class") == "EXTERNAL_DISCOVERY_CANDIDATE"
+        and reconciliation_policy.get("donor_policy", {}).get("automatic_candidate_to_donor_promotion") is False
+        and reconciliation_policy.get("donor_policy", {}).get("explicit_owner_marker_required") is True
+        and reconciliation_policy.get("provider_policy", {}).get("automatic_provider_registration") is False
+        and reconciliation_policy.get("provider_policy", {}).get("automatic_mcp_registration") is False
+        and reconciliation_policy.get("shared_detection", {}).get("new_shared_result_is_proposal_only") is True
+        and reconciliation_policy.get("capability_mapping", {}).get("unmapped_function_does_not_create_capability") is True
+        and reconciliation_policy.get("capability_count") == CAPABILITY_COUNT
+        and reconciliation_policy.get("new_capabilities") == 0
+        and reconciliation_policy.get("new_architectural_authorities") == 0
+    ):
+        findings.append(finding("EXTDISC-REF-015", "External discovery reconciliation policy invariant mismatch"))
+
+    if not (
+        reconciliation_decision.get("id") == RECONCILIATION_DECISION_ID
+        and reconciliation_decision.get("status") == "CANONICAL_CLOSED"
+        and reconciliation_decision.get("policy_id") == RECONCILIATION_POLICY_ID
+        and reconciliation_decision.get("rules", {}).get("explicit_donor_marker_required_for_new_donor") is True
+        and reconciliation_decision.get("rules", {}).get("new_capability_id_creation") is False
+        and reconciliation_decision.get("current_host_obligation_delta") == 0
+        and reconciliation_decision.get("runtime_promotion_claim") is False
+        and reconciliation_decision.get("new_capabilities") == 0
+        and reconciliation_decision.get("new_architectural_authorities") == 0
+        and reconciliation_decision.get("capability_count_after") == CAPABILITY_COUNT
+    ):
+        findings.append(finding("EXTDISC-REF-016", "External discovery reconciliation decision invariant mismatch"))
+
+    binding = reuse_catalog.get("external_discovery_binding", {})
+    if not (
+        "EXTERNAL_DISCOVERY_CANDIDATE" in reuse_catalog.get("classes", [])
+        and "EXTERNAL_DISCOVERY_PROJECTION_NON_AUTHORITY_FILTER" in reuse_catalog.get("deterministic_filters", [])
+        and binding.get("profile_id") == PROFILE_ID
+        and binding.get("candidate_store_policy_id") == STORE_POLICY_ID
+        and binding.get("reconciliation_policy_id") == RECONCILIATION_POLICY_ID
+        and binding.get("projection_mode") == "QUERY_TIME_DERIVED_ONLY"
+        and binding.get("donor_registry_query_required") is True
+        and binding.get("provider_registry_query_required") is True
+        and binding.get("application_impact_required") is True
+        and binding.get("shared_capability_detection_required") is True
+        and binding.get("automatic_donor_promotion") is False
+        and binding.get("automatic_provider_admission") is False
+        and binding.get("automatic_shared_materialization") is False
+        and binding.get("automatic_activation") is False
+        and binding.get("authority") is False
+    ):
+        findings.append(finding("EXTDISC-REF-017", "Reuse Catalog external discovery binding drift"))
 
     if GATE_ID not in policy.get("mandatory_reference_gates", []):
         findings.append(finding("EXTDISC-REF-006", "External discovery gate not bound into global policy"))
@@ -368,6 +455,43 @@ def run_regressions(root: Path):
         secret["canonical_locator"] == "https://api.example.com/v1?mode=fast"
         and secret["secret_parameter_present"] is True
         and "DO_NOT_PERSIST" not in json.dumps(secret),
+    )
+
+    add(
+        "reconciliation cannot auto-promote donor/provider/MCP/shared/application or capability",
+        reconciliation_boundary_valid(
+            donor_intake_allowed=False,
+            explicit_owner_marker_required=True,
+            automatic_provider_registration=False,
+            automatic_mcp_registration=False,
+            automatic_shared_materialization=False,
+            automatic_application_mutation=False,
+            new_capability_id_creation_allowed=False,
+        ),
+    )
+    add(
+        "reconciliation donor promotion without explicit marker denied",
+        not reconciliation_boundary_valid(
+            donor_intake_allowed=True,
+            explicit_owner_marker_required=False,
+            automatic_provider_registration=False,
+            automatic_mcp_registration=False,
+            automatic_shared_materialization=False,
+            automatic_application_mutation=False,
+            new_capability_id_creation_allowed=False,
+        ),
+    )
+    add(
+        "reconciliation capability expansion denied",
+        not reconciliation_boundary_valid(
+            donor_intake_allowed=False,
+            explicit_owner_marker_required=True,
+            automatic_provider_registration=False,
+            automatic_mcp_registration=False,
+            automatic_shared_materialization=False,
+            automatic_application_mutation=False,
+            new_capability_id_creation_allowed=True,
+        ),
     )
 
     passed = sum(x["status"] == "PASS" for x in cases)

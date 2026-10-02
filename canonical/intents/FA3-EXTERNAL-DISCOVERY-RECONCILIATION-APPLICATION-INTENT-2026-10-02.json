@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-EXTERNAL-DISCOVERY-RECONCILIATION-APPLICATION-INTENT-2026-10-02",
+  "project_id": "FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Reconcile derived external discovery candidates against existing FA3 reuse, donor, provider, shared capability and application inventories without granting admission, authority, activation or new capabilities.",
+  "required_capabilities": [
+    "CAP-011",
+    "CAP-074",
+    "CAP-075",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "external-discovery-reconciliation",
+    "reuse-candidate-matching",
+    "donor-registry-matching",
+    "provider-registry-matching",
+    "shared-capability-detection",
+    "retrospective-application-impact"
+  ],
+  "input_modalities": [
+    "DERIVED_CANDIDATE_STORE",
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "DERIVED_RECONCILIATION_PROJECTION",
+    "APPLICATION_IMPACT_PROJECTION"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "EXTERNAL_DISCOVERY_TO_REUSE_RECONCILIATION",
+    "EXTERNAL_DISCOVERY_SHARED_APPLICATION_IMPACT_PROJECTION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-external-discovery",
+    "service_prefix": "fa3-external-discovery",
+    "config_root": "$XDG_CONFIG_HOME/fa3/external-discovery",
+    "cache_root": "$XDG_CACHE_HOME/fa3/external-discovery",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/external-discovery",
+    "socket_namespace": "fa3/external-discovery",
+    "data_root": "$XDG_STATE_HOME/fa3/external-discovery",
+    "desktop_prefix": "org.fa3.external-discovery",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "NO_REGISTRY_MUTATION_FROM_RECONCILIATION",
+    "NO_SECRET_VALUE_PERSISTENCE",
+    "NO_AUTOMATIC_DONOR_PROVIDER_MCP_PROMOTION",
+    "FAIL_CLOSED_ON_INVALID_CANDIDATE_STORE"
+  ],
+  "integration_requirements": [
+    "FA3-EXTERNAL-API-DISCOVERY-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "task_classes": [
+    "architecture",
+    "developer",
+    "external-discovery",
+    "reuse-discovery"
+  ],
+  "skill_triggers": [],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}

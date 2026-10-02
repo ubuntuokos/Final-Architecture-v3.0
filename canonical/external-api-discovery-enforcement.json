@@ -5,7 +5,7 @@
   "contract_family_id": "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001",
   "fail_closed": true,
   "runtime_provider_required_for_global_promotion": false,
-  "mandatory_rule_count": 16,
+  "mandatory_rule_count": 21,
   "p0_invariants": [
     "EXTERNAL_DISCOVERY_IS_NOT_AUTHORIZATION",
     "UPSTREAM_CATALOG_METADATA_IS_UNTRUSTED_INPUT",
@@ -22,7 +22,12 @@
     "DISCOVERY_SOURCE_CANNOT_BECOME_ARCHITECTURAL_AUTHORITY",
     "DISCOVERY_INGESTION_IS_OFFLINE_FROM_PINNED_SNAPSHOT",
     "AFFILIATE_AND_SPONSORSHIP_METADATA_CANNOT_CHANGE_IDENTITY_RANKING_OR_AUTHORIZATION",
-    "DISCOVERY_CANDIDATE_STORE_IS_REBUILDABLE_NON_AUTHORITY"
+    "DISCOVERY_CANDIDATE_STORE_IS_REBUILDABLE_NON_AUTHORITY",
+    "DISCOVERY_RECONCILIATION_IS_NOT_ADMISSION",
+    "NEW_DONOR_INTAKE_REQUIRES_EXPLICIT_OWNER_MARKER",
+    "PROVIDER_AND_MCP_PROMOTION_REQUIRE_CANONICAL_ADMISSION",
+    "SHARED_AND_APPLICATION_IMPACT_PROJECTIONS_ARE_PROPOSAL_ONLY",
+    "DISCOVERY_RECONCILIATION_CANNOT_CREATE_NEW_CAPABILITY"
   ],
   "rules": [
     {
@@ -104,10 +109,35 @@
       "id": "FA3-EXTDISC-P0-016",
       "name": "derived candidate store non-authority",
       "requirement": "The discovery candidate store MUST remain derived, rebuildable and non-authoritative and MUST NOT create donors, providers, MCP registrations, activations or runtime authority."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-017",
+      "name": "reconciliation is not admission",
+      "requirement": "Discovery reconciliation and Reuse Catalog projection MUST remain derived advisory output and MUST NOT authorize donor, provider, shared-module, application or runtime promotion."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-018",
+      "name": "explicit donor marker required",
+      "requirement": "A discovery candidate without an existing canonical donor match MUST NOT enter the Donor Registry without the explicit owner donor marker and normal donor intake workflow."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-019",
+      "name": "provider and MCP promotion remain admitted",
+      "requirement": "Provider or MCP matches and candidates MUST NOT register, activate or execute until the existing canonical provider/MCP admission gates pass."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-020",
+      "name": "shared and application impact are proposal only",
+      "requirement": "Shared capability detection and retrospective application impact MUST scan existing applications but MUST remain proposal-only until normal shared/application admission and migration approval."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-021",
+      "name": "reconciliation cannot expand capability model",
+      "requirement": "Exact or review-only external mappings MUST stay within the active canonical capability set and an unmapped function MUST NOT create a new CAP identifier."
     }
   ],
   "executable_gate": "./bin/fa3-enforce external-api-discovery",
   "report_path": "reports/external-api-discovery-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 17
+  "regression_case_count": 20
 }

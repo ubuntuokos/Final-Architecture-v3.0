@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-EXTERNAL-DISCOVERY-REUSE-RECONCILIATION-2026-10-02",
+  "date": "2026-10-02",
+  "status": "CANONICAL_CLOSED",
+  "subject": "External discovery candidate reconciliation against FA3 reuse, donor, provider, shared capability and application inventory",
+  "decision": "MATERIALIZE_NON_AUTHORITATIVE_RECONCILIATION_PROJECTION",
+  "policy_id": "FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001",
+  "input_policy_id": "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+  "rules": {
+    "candidate_store_remains_non_authoritative": true,
+    "reuse_projection_is_admission": false,
+    "donor_match_is_donor_intake": false,
+    "provider_match_is_provider_admission": false,
+    "shared_candidate_is_shared_materialization": false,
+    "application_impact_is_runtime_change": false,
+    "explicit_donor_marker_required_for_new_donor": true,
+    "new_capability_id_creation": false
+  },
+  "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED",
+  "current_host_obligation_delta": 0,
+  "runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175
+}
