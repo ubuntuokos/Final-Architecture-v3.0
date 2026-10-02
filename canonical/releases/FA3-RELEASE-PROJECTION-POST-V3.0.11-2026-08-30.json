@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "58981fe09444ee5c55c2f01bec436328289bc59a",
-    "pre_projection_root_tree_sha": "195ecba9124bfc92f498a5840564ffc0b784ab87",
-    "pre_projection_canonical_tree_sha": "f47913902cd18765f522bc673b144f37c0b08a32",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2462,
-    "total_post_baseline_commits": 2462,
-    "delta_file_count": 2737,
-    "delta_added_files": 2731,
+    "pre_projection_head_sha": "fa0cb78bfec8208d8694c73f3a0658529e7482e6",
+    "pre_projection_root_tree_sha": "8f18a9402d9d1a2340044e2ffef1f988573e45f6",
+    "pre_projection_canonical_tree_sha": "9f4be48738aac9610d5cf719d004665008f79d7c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2482,
+    "total_post_baseline_commits": 2482,
+    "delta_file_count": 2747,
+    "delta_added_files": 2741,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1286,
+    "canonical_files_in_post_baseline_delta": 1290,
     "evidence_files_in_post_baseline_delta": 171,
-    "source_files_in_post_baseline_delta": 354,
-    "test_files_in_post_baseline_delta": 313,
-    "workflow_files_in_post_baseline_delta": 131,
+    "source_files_in_post_baseline_delta": 356,
+    "test_files_in_post_baseline_delta": 314,
+    "workflow_files_in_post_baseline_delta": 132,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -513,6 +513,7 @@
       "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json",
       "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-EXTERNAL-DISCOVERY-REUSE-RECONCILIATION-2026-10-02.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
@@ -1042,7 +1043,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2727,
+  "manifest_entry_count": 2737,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1252,6 +1253,11 @@
     {
       "path": ".github/workflows/fa3-external-api-discovery-ingestion.yml",
       "git_blob_sha": "6a7edca7fc8efcb1847ea1d95498f1e63f30cfe8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-external-discovery-reconciliation.yml",
+      "git_blob_sha": "98de0bd675ce5702390564061f511e49f7761638",
       "baseline_delta_status": "added"
     },
     {
@@ -2310,6 +2316,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-external-discovery-reconcile",
+      "git_blob_sha": "761d086a8e1d165631c598f52dd0fcbc5a662133",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-ffmpeg-ai-current-host.sh",
       "git_blob_sha": "02f2b32541f0d32b5ee001281961055eb51c2822",
       "baseline_delta_status": "added"
@@ -2867,6 +2878,11 @@
     {
       "path": "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json",
       "git_blob_sha": "77c378148b1810096caab1e1c00acca0f684c266",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001.json",
+      "git_blob_sha": "f31d134328db4f103f54008e7f45b1bb13e18b80",
       "baseline_delta_status": "added"
     },
     {
@@ -3666,7 +3682,7 @@
     },
     {
       "path": "canonical/FA3-REUSE-CATALOG-001.json",
-      "git_blob_sha": "8631e073b4f42b61bdb60490c758a89b4225911d",
+      "git_blob_sha": "9514e67c388724e3a575026fdecede6cf3e7c21c",
       "baseline_delta_status": "added"
     },
     {
@@ -4295,6 +4311,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-EXTERNAL-DISCOVERY-RECONCILIATION-REUSE-ASSESSMENT-2026-10-02.json",
+      "git_blob_sha": "8d7e7aa0452fbf459660f100602dd2f3a230d959",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json",
       "git_blob_sha": "ecdff71f9a957bf2de62a183d496d91b0869379b",
       "baseline_delta_status": "added"
@@ -4871,7 +4892,7 @@
     },
     {
       "path": "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "a74ed8e317811c709fa3cdbb56bceec608216038",
+      "git_blob_sha": "e7bbe903e10c542793ce76a2c68bae5eb732e1b8",
       "baseline_delta_status": "added"
     },
     {
@@ -5705,6 +5726,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-EXTERNAL-DISCOVERY-REUSE-RECONCILIATION-2026-10-02.json",
+      "git_blob_sha": "9e27c1498bb665847527d43a5036bae33986aa57",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json",
       "git_blob_sha": "1f3967ad77a9b213221a17467f2db02be0b09d54",
       "baseline_delta_status": "added"
@@ -6431,7 +6457,7 @@
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
-      "git_blob_sha": "b1c96edd3653459bdcf9fce681b59bcb38061c3e",
+      "git_blob_sha": "189fea3e8957f023ea91b6047f5080f2d7cab7c6",
       "baseline_delta_status": "added"
     },
     {
@@ -6632,6 +6658,11 @@
     {
       "path": "canonical/intents/FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "277b5cd3488a13839978932cac08ba4ae5c7ac54",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-EXTERNAL-DISCOVERY-RECONCILIATION-APPLICATION-INTENT-2026-10-02.json",
+      "git_blob_sha": "c6f813b8f038ab6eafb3667495daec95c4699a63",
       "baseline_delta_status": "added"
     },
     {
@@ -7276,7 +7307,7 @@
     },
     {
       "path": "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
-      "git_blob_sha": "0c19f0b58da4f44570e18658367c7f34987ce0fd",
+      "git_blob_sha": "ef11e3a30b7eb723d823167bfa579108eafe08f5",
       "baseline_delta_status": "added"
     },
     {
@@ -9795,6 +9826,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/external-discovery-reconciliation.md",
+      "git_blob_sha": "9f5c82af915b865330509bad76bae5c156290cc5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/external-llm-catalog.md",
       "git_blob_sha": "45aed6f234273a90035c46abd135315e9086382e",
       "baseline_delta_status": "added"
@@ -11846,12 +11882,22 @@
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
-      "git_blob_sha": "e5c1658b4dd4725d853c7a55c482d3f4e402f688",
+      "git_blob_sha": "fbac425aa5fdb47eac5bd860c7796466397c34c3",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_external_api_discovery_pipeline.py",
       "git_blob_sha": "73fc69bf8e1771fa693caef46e8593069cf328f9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_external_discovery_reconcile_cli.py",
+      "git_blob_sha": "9f742faf62cd42735bf6c1195ece4848ac7b9bc3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_external_discovery_reconciler.py",
+      "git_blob_sha": "25500e32563bbf4225d60332bb8642ea1e978f32",
       "baseline_delta_status": "added"
     },
     {
@@ -13591,12 +13637,17 @@
     },
     {
       "path": "tests/test_external_api_discovery_gate.py",
-      "git_blob_sha": "26337125c39fae3f57e2c432509efc550d734c63",
+      "git_blob_sha": "5abd4c29c8f69d57fc0a44d92524b73e30e4901f",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_external_api_discovery_pipeline.py",
       "git_blob_sha": "85427a73ee1c0be9f79a87db28488933e2b49fa1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_external_discovery_reconciler.py",
+      "git_blob_sha": "5d4f936835600545d15a4fc3f625481612987464",
       "baseline_delta_status": "added"
     },
     {
@@ -14877,7 +14928,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-10-01",
+  "last_reconciled_at": "2026-10-02",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
