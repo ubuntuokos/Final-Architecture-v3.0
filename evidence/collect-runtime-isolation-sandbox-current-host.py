@@ -263,6 +263,20 @@ def collect(
         gvisor["runsc_sha256"] = sha256_file(Path(runsc))
     receipt["gvisor"] = gvisor
 
+    receipt["execution_security"] = {
+        "status": "PENDING_PHYSICAL_CURRENT_HOST",
+        "physical_current_host": False,
+        "filesystem_denial": False,
+        "process_or_syscall_denial": False,
+        "network_egress_denial": False,
+        "executable_digest_mismatch_denial": False,
+        "credential_non_exposure": False,
+        "direct_mcp_bypass_denial": False,
+        "enforcer_loss_fail_closed": False,
+        "rollback": False,
+        "reason": "Shared Execution Security physical requalification requires dedicated exact-head host probes; legacy sandbox checks cannot satisfy it.",
+    }
+
     passed = (
         receipt["cgroup_v2"]["present"] is True
         and rootless_oci.get("status") == "PASS"
@@ -270,12 +284,15 @@ def collect(
         and quadlet_result.get("status") == "PASS"
         and gvisor.get("compatibility_smoke_status") == "PASS"
         and gvisor.get("production_oci_isolation_status") == "PASS"
+        and receipt["execution_security"].get("status") == "PASS"
+        and receipt["execution_security"].get("physical_current_host") is True
     )
     payload = {
         "repository_head": receipt["repository_head"],
         "quadlet": quadlet_result,
         "gvisor": gvisor,
         "cgroup_v2": receipt["cgroup_v2"],
+        "execution_security": receipt["execution_security"],
     }
     receipt["evidence_envelope"] = _envelope(root, host_attestation_ref=host_attestation_ref, payload=payload, passed=passed)
     receipt["result"] = "PASS" if passed else "PENDING"
