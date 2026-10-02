@@ -1,0 +1,100 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-AGENT-WEB-INTERACTION-APPLICATION-INTENT-001",
+  "project_id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+  "project_type": "SHARED_PROFILE",
+  "goal": "Materialize one provider-neutral shared Agent-Web interaction contract that separates native typed web contracts, lower-assurance semantic HTTP bridging and browser/visual execution without creating a second web, MCP, browser, orchestration or evidence authority.",
+  "required_capabilities": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-079",
+    "CAP-172"
+  ],
+  "optional_capabilities": [
+    "CAP-051",
+    "CAP-144",
+    "CAP-145"
+  ],
+  "problem_classes": [
+    "agent-native-web-contract",
+    "legacy-http-form-bridge",
+    "browser-visual-fallback",
+    "external-effect-evidence",
+    "human-commitment-boundary",
+    "mcp-endpoint-compatibility"
+  ],
+  "task_classes": [
+    "agent",
+    "web",
+    "browser",
+    "mcp",
+    "automation",
+    "collaboration"
+  ],
+  "input_modalities": [
+    "TYPED_WEB_CONTRACT",
+    "INERT_HTTP_HTML",
+    "BROWSER_OBSERVATION",
+    "DIRECT_MEDIA",
+    "STRUCTURED_STATE"
+  ],
+  "output_modalities": [
+    "RAIL_SELECTION",
+    "EFFECT_PREVIEW",
+    "APPROVAL_BINDING",
+    "NATIVE_RECEIPT",
+    "ATTEMPT_RECEIPT",
+    "OUTCOME_VERIFICATION",
+    "RECONCILIATION_REQUEST"
+  ],
+  "execution_classes": [
+    "CONTRACT_ONLY_CONTROL_PATH",
+    "EXISTING_BROWSER_ACTION_RUNTIME",
+    "EXISTING_MCP_GATEWAY"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": null,
+    "service_prefix": null,
+    "config_root": null,
+    "cache_root": null,
+    "runtime_root": null,
+    "socket_namespace": null,
+    "data_root": null,
+    "desktop_prefix": null,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "default_port": null
+  },
+  "security_requirements": [
+    "NO_SILENT_RAIL_FALLBACK",
+    "NO_AUTHORITY_INHERITANCE_ACROSS_RAILS",
+    "EXACT_APPROVAL_BINDING",
+    "NO_BLIND_REDISPATCH_AFTER_UNKNOWN",
+    "NON_DELEGABLE_HUMAN_ACTION_BOUNDARY",
+    "DIRECT_AGENT_PROVIDER_BYPASS_FORBIDDEN"
+  ],
+  "integration_requirements": [
+    "FA3-WEB-AI-001",
+    "FA3-BROWSER-ACTION-RUNTIME-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "FA3-MCP-GATEWAY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}
