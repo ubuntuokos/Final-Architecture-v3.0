@@ -6,13 +6,6 @@
 #include <QVariantMap>
 #include <iostream>
 
-static QDBusInterface manager()
-{
-    return QDBusInterface(QStringLiteral("org.workloadmode.Manager1"),
-                          QStringLiteral("/org/workloadmode/Manager1"),
-                          QStringLiteral("org.workloadmode.Manager1"),
-                          QDBusConnection::sessionBus());
-}
 static void printMap(const QVariantMap &m)
 {
     std::cout << QJsonDocument(QJsonObject::fromVariantMap(m)).toJson(QJsonDocument::Indented).constData();
@@ -26,7 +19,10 @@ int main(int argc, char **argv)
         std::cerr << "usage: workmodectl status|doctor|register DOMAIN ID INTEGRATION [PID]|release ID\n";
         return 64;
     }
-    auto iface = manager();
+    QDBusInterface iface(QStringLiteral("org.workloadmode.Manager1"),
+                         QStringLiteral("/org/workloadmode/Manager1"),
+                         QStringLiteral("org.workloadmode.Manager1"),
+                         QDBusConnection::sessionBus());
     if (!iface.isValid()) {
         std::cerr << "workmoded unavailable\n";
         return 69;

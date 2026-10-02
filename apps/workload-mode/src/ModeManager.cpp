@@ -39,7 +39,7 @@ QVariantMap ModeManager::Hello(const QVariantMap &request)
 
     const QString peer = request.value(QStringLiteral("peer")).toString().trimmed().toUpper();
     if (peer == QStringLiteral("FA3")) {
-        if (request.value(QStringLiteral("resource_authority")).toString() != QStringLiteral(kHrbAuthority)
+        if (request.value(QStringLiteral("resource_authority")).toString() != QString::fromLatin1(kHrbAuthority)
             || request.value(QStringLiteral("capability_count")).toInt() != 175) {
             out.insert(QStringLiteral("accepted"), false);
             out.insert(QStringLiteral("reason"), QStringLiteral("FA3_AUTHORITY_OR_BASELINE_MISMATCH"));
@@ -103,7 +103,7 @@ QVariantMap ModeManager::ReleaseWorkload(const QString &workloadId)
 void ModeManager::refreshGameMode()
 {
     auto *iface = QDBusConnection::sessionBus().interface();
-    const QDBusReply<bool> registered = iface ? iface->isServiceRegistered(QStringLiteral(kGameModeService)) : QDBusReply<bool>();
+    const QDBusReply<bool> registered = iface ? iface->isServiceRegistered(QString::fromLatin1(kGameModeService)) : QDBusReply<bool>();
     if (!registered.isValid() || !registered.value()) {
         if (m_gameModeState != QStringLiteral("UNAVAILABLE")) {
             m_gameModeState = QStringLiteral("UNAVAILABLE");
@@ -112,8 +112,8 @@ void ModeManager::refreshGameMode()
         return;
     }
 
-    QDBusInterface gm(QStringLiteral(kGameModeService), QStringLiteral(kGameModePath),
-                      QStringLiteral(kGameModeInterface), QDBusConnection::sessionBus());
+    QDBusInterface gm(QString::fromLatin1(kGameModeService), QString::fromLatin1(kGameModePath),
+                      QString::fromLatin1(kGameModeInterface), QDBusConnection::sessionBus());
     const QDBusReply<int> reply = gm.call(QStringLiteral("QueryStatus"), 0);
     const QString next = (reply.isValid() && reply.value() > 0)
         ? QStringLiteral("ACTIVE") : QStringLiteral("AVAILABLE");

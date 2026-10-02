@@ -142,5 +142,12 @@
     "vendor_gpu_telemetry": "PENDING_PHYSICAL_CURRENT_HOST",
     "global_mode_indicator_runtime": "PENDING_PHYSICAL_CURRENT_HOST",
     "current_host_runtime_promotion_claim": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation_by_static_materialization": false
   }
 }

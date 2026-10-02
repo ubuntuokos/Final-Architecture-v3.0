@@ -13,15 +13,15 @@ constexpr auto kInterface = "org.workloadmode.Manager1";
 
 WorkloadModeStateService::WorkloadModeStateService(QObject *parent)
     : QObject(parent),
-      m_watcher(QStringLiteral(kService), QDBusConnection::sessionBus(),
+      m_watcher(QString::fromLatin1(kService), QDBusConnection::sessionBus(),
                 QDBusServiceWatcher::WatchForRegistration | QDBusServiceWatcher::WatchForUnregistration, this)
 {
     connect(&m_watcher, &QDBusServiceWatcher::serviceRegistered,
             this, &WorkloadModeStateService::onServiceRegistered);
     connect(&m_watcher, &QDBusServiceWatcher::serviceUnregistered,
             this, &WorkloadModeStateService::onServiceUnregistered);
-    QDBusConnection::sessionBus().connect(QStringLiteral(kService), QStringLiteral(kPath),
-                                          QStringLiteral(kInterface), QStringLiteral("StateChanged"),
+    QDBusConnection::sessionBus().connect(QString::fromLatin1(kService), QString::fromLatin1(kPath),
+                                          QString::fromLatin1(kInterface), QStringLiteral("StateChanged"),
                                           this, SLOT(onRemoteStateChanged(QVariantMap)));
     refresh();
 }
@@ -62,7 +62,7 @@ void WorkloadModeStateService::applyState(const QVariantMap &state)
 
 void WorkloadModeStateService::refresh()
 {
-    QDBusInterface iface(QStringLiteral(kService), QStringLiteral(kPath), QStringLiteral(kInterface),
+    QDBusInterface iface(QString::fromLatin1(kService), QString::fromLatin1(kPath), QString::fromLatin1(kInterface),
                          QDBusConnection::sessionBus());
     if (!iface.isValid()) {
         markUnavailable(QStringLiteral("WORKLOAD_MODE_REQUIRED_SERVICE_UNAVAILABLE"));

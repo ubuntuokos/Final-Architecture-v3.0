@@ -78,4 +78,8 @@ jobs:
             grep -q '"'"authority": "FA3_HRB"'"' /tmp/wm-fa3.json
             grep -q '"'"fa3_state": "CONNECTED"'"' /tmp/wm-fa3.json
             build/workload-mode/workmodectl release ci-ai >/dev/null
+            ln -s workmoderun build/workload-mode/aimoderun
+            ln -s workmoderun build/workload-mode/rendermoderun
+            build/workload-mode/aimoderun /bin/true
+            build/workload-mode/rendermoderun /bin/true
           '

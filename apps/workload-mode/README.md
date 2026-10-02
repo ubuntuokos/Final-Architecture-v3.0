@@ -20,8 +20,8 @@ This initial runtime intentionally performs **no privileged host-resource mutati
 ```bash
 deployment/workload-mode/install.sh
 workmodectl status
-aimoderun --domain AI your-command
-rendermoderun --domain RENDER your-command
+aimoderun your-command
+rendermoderun your-command
 ```
 
 ### FA3-required installation
