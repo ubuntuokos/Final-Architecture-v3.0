@@ -6,9 +6,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_external_discovery_reconciler import (
+    build_reconciliation,
     reconcile_candidate,
     validate_reconciliation,
 )
+from fa3_external_discovery_store import build_candidate_store
 
 
 def candidate():
@@ -135,6 +137,51 @@ class ExternalDiscoveryReconciliationTests(unittest.TestCase):
         self.assertEqual("UNMAPPED_FUNCTIONAL_GAP_REVIEW", row["capability_reconciliation"]["status"])
         self.assertFalse(row["capability_reconciliation"]["new_capability_id_creation_allowed"])
         self.assertEqual(175, row["capability_reconciliation"]["capability_baseline"])
+
+    def test_repository_integration_queries_reuse_donor_provider_and_application_sources(self):
+        store = build_candidate_store(
+            source_snapshot={
+                "source_id": "FA3-SOURCE-API-MEGA-LIST-001",
+                "source_repository": "cporter202/API-mega-list",
+                "source_commit": "a" * 40,
+                "manifest_digest": "b" * 64,
+                "file_count": 1,
+                "immutable": True,
+                "network_fetch_performed": False,
+            },
+            observations=[{
+                "source_id": "FA3-SOURCE-API-MEGA-LIST-001",
+                "source_path": "ai-apis-1555/README.md",
+                "source_line": 1,
+                "source_category": "ai-apis-1555",
+                "source_listing_digest": "c" * 64,
+                "listing_name": "FA3 reconciliation probe",
+                "canonical_locator": "https://probe.invalid/service",
+                "provider_identity": "probe.invalid",
+                "service_identity": "probe.invalid:service",
+                "affiliate_or_tracking_present": False,
+                "secret_parameter_present": False,
+                "sponsorship_or_featured_present": False,
+                "ranking_signal_allowed": False,
+                "authorization_signal_allowed": False,
+                "discovery_terms": ["reconciliation", "probe"],
+                "authority": False,
+                "runtime_provider": False,
+            }],
+        )
+        projection = build_reconciliation(ROOT, store)
+        self.assertEqual("FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001", projection["policy_id"])
+        self.assertEqual("FA3-REUSE-CATALOG-001", projection["reuse_catalog_policy_id"])
+        self.assertGreater(projection["reuse_catalog_entry_count"], 0)
+        self.assertGreater(projection["registered_application_count"], 0)
+        self.assertEqual(1, projection["result_count"])
+        self.assertEqual([], validate_reconciliation(projection))
+        row = projection["results"][0]
+        self.assertTrue(row["donor_reconciliation"]["explicit_owner_marker_required_for_new_donor"])
+        self.assertEqual(
+            projection["registered_application_count"],
+            row["application_impact"]["all_registered_applications_scanned"],
+        )
 
     def test_projection_validator_blocks_authority_and_capability_overflow(self):
         projection = {
