@@ -26,9 +26,11 @@ class Tests(unittest.TestCase):
         self.assertEqual(result["work_plan"]["status"], "READY")
         self.assertEqual(len(result["digest"]), 64)
         self.assertEqual(result["reviewed_task_ids"], ["research"])
-        for decision in result["work_plan"]["decisions"]:
-            meta = next(t for t in self.load()["tasks"] if t["task_id"] == decision["task_id"])
-            self.assertIn(meta["task_id"], {"plan", "research", "review"})
+        for task in result["compiled_tasks"]:
+            meta = task["metadata"]["agent_application_blueprint"]
+            self.assertEqual(meta["blueprint_id"], "FA3-BLUEPRINT-RESEARCH-REVIEW-EXAMPLE-001")
+            self.assertEqual(meta["revision"], 1)
+            self.assertEqual(meta["digest"], result["digest"])
 
     def test_role_authority_rejected(self):
         value = self.load()
