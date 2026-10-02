@@ -55,3 +55,11 @@ CONNECTED/PASS állapot nem fabrikálható.
 A canonical döntés FINAL és a statikus implementáció materializált, de a
 production runtime csak valódi current-host E2E evidence után promotálható.
 A meglévő FA3-MCP-CURRENT-HOST-001 current-host gate változatlanul fail-closed.
+
+## Remote endpoint compatibility and admission hardening (2026-10-01)
+
+A remote MCP endpoint is not admitted merely because it is reachable or protocol-compliant. Before route activation, the Central MCP Gateway must retain evidence for public-target/DNS, TLS identity and validity, bounded redirects, negotiated MCP revision/transport, `tools/list` descriptor and JSON Schema validity, and—when protected—OAuth resource/authorization-server metadata, issuer/resource binding and PKCE S256 where applicable.
+
+The default diagnostic path is **non-executing**: it may discover/initialize/list tools as appropriate for the negotiated revision, but it does not call arbitrary tools. An authenticated compatibility probe requires explicit permission and does not itself admit a provider, grant authority, or prove a business outcome. Client-specific compatibility profiles are diagnostic projections only.
+
+Transport/protocol success remains distinct from tool-effect and business-outcome success.
