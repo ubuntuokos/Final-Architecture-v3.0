@@ -86,7 +86,7 @@
     },
     {
       "id": "PAPERCLIP_RUNTIME_OR_CONTROL_PLANE",
-      "reason": "PAPERCLIP_IS_NOW_CANONICAL_ACCEPTED_REFERENCE_BUT_RUNTIME_OR_CONTROL_PLANE_ADOPTION_REMAINS_REJECTED; TEMPORAL_AND_EXISTING_FA3_AUTHORITIES_REMAIN_AUTHORITATIVE"
+      "reason": "CANONICAL_ACCEPTED_REFERENCE_IS_AVAILABLE_FOR_PLANNING, BUT PR-A REQUIRES_NO_NEW_RUNTIME_OR_CONTROL_PLANE_ADOPTION; EXISTING_FA3_NATIVE_GOVERNANCE_ALREADY_COVERS_THE_RELEVANT_PATTERNS_AND_NO_USAGE_EDGE_IS_CREATED"
     },
     {
       "id": "CONDUCTOR_AS_GLOBAL_WORKFLOW_AUTHORITY",
@@ -166,13 +166,15 @@
   },
   "paperclip_analysis": {
     "source": "https://github.com/paperclipai/paperclip",
+    "donor_id": "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+    "status": "ACCEPTED_REFERENCE",
     "inspected_head": "144083fd481464f4a328f0d184a82263de63228d",
-    "canonical_reference_status": "ACCEPTED_REFERENCE",
+    "prior_fa3_analysis_head": "b54b2dc35c1f41d367ff4d94615ebfd38bbbdad0",
     "canonical_planning_candidate": true,
-    "runtime_dependency": false,
-    "code_copy": false,
+    "reused_in_this_delta": false,
     "usage_edge_created": false,
-    "disposition": "REFERENCE_REVIEWED_EXISTING_FA3_GOVERNANCE_PATTERNS_ALREADY_COVER_REQUIRED_FUNCTIONS_NO_NEW_ADOPTION"
+    "runtime_dependency": false,
+    "code_copy": false
   },
   "active_pr_reconciliation": [
     {
@@ -272,7 +274,7 @@
       "FA3-DONOR-NVLABS-ORG-001"
     ],
     "disposition": "NO_ADDITIONAL_MATERIAL_REUSE_REQUIRED",
-    "rationale": "Paperclip is now a finalized canonical reference and its objective/delegation/review governance patterns are already covered by the materialized FA3 Task Group, Guard Chain, Blueprint, typed handoff and independent Evidence boundaries. The refreshed OpenShell reference remains an already-selected execution-boundary pattern source. NVlabs Sana/SoL-Refiner is media-generation/refinement focused and adds no material orchestration-policy requirement here. No new donor adoption, usage edge, runtime/provider admission, capability or authority is required.",
+    "rationale": "The finalized main delta was reassessed at 1357 donors. Paperclip is now an ACCEPTED_REFERENCE and materially relevant to orchestration governance, while OpenShell has refreshed execution-boundary metadata; both were reviewed. The PR-A implementation already materializes FA3-native objective ancestry, typed dependency/handoff, bounded recovery, fail-closed guards and existing UAF/Security/HRB/Model Router boundaries, so no new donor adoption or usage edge is required. NVlabs Sana/organization entries are video/refinement discovery references and do not change this orchestration policy-plane design.",
     "usage_edge_created": false,
     "code_copy": false,
     "dependency_added": false,
