@@ -111,3 +111,11 @@ The materialization is accepted only if:
 8. existing routing and provider-admission rules remain compatible;
 9. Monitoring projection cannot bypass Security/UAF/HRB/Model Router/Evidence;
 10. Current Host physical promotion remains pending until real evidence exists.
+
+## Canonical donor provenance closure — 2026-10-02
+
+- `paperclipai/paperclip` is now canonical donor `FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001` after PR #626.
+- The already materialized FA3-native pattern use is tracked by `FA3-USAGE-PAPERCLIP-ORCHESTRATION-GOVERNANCE-001` as `ARCHITECTURE_PATTERN`.
+- The historical 2026-09-30 assessment is preserved; the current published-donor reconciliation is `FA3-ORCHESTRATION-GOVERNANCE-PAPERCLIP-REUSE-ASSESSMENT-2026-10-02`.
+- No Paperclip code, runtime, scheduler, provider/model routing, secret authority or control-plane authority is adopted. Temporal remains the sole global durable workflow lifecycle authority.
+- Capability baseline remains 175; authority delta remains 0; this provenance-only reconciliation claims no Current Host PASS.
