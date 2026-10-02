@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
   "name": "Shared Tool & Action Mediation",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST_IF_COMPONENT_USED",
@@ -49,7 +49,8 @@
     "PROMPT_INJECTION_CLASSIFIER_CANNOT_GRANT_AUTHORIZATION",
     "NETWORK_DEFAULT_DENY_FOR_AGENT_WORKLOADS",
     "SILENT_SANDBOX_DOWNGRADE_FORBIDDEN",
-    "NATIVE_DESKTOP_EFFECTS_USE_OBSERVATION_BOUND_COMPUTER_INTERACTION_RUNTIME"
+    "NATIVE_DESKTOP_EFFECTS_USE_OBSERVATION_BOUND_COMPUTER_INTERACTION_RUNTIME",
+    "EFFECTFUL_AGENT_TOOL_EXECUTION_REQUIRES_SHARED_EXECUTION_SECURITY_ENVELOPE"
   ],
   "gui_projection": [
     "agents.action-center",
@@ -76,7 +77,9 @@
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
   "execution_profiles": [
-    "FA3-COMPUTER-INTERACTION-RUNTIME-001"
+    "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+    "FA3-SHARED-EXECUTION-SECURITY-001"
   ],
-  "native_desktop_interaction": "FA3-COMPUTER-INTERACTION-RUNTIME-001"
+  "native_desktop_interaction": "FA3-COMPUTER-INTERACTION-RUNTIME-001",
+  "execution_security_profile": "FA3-SHARED-EXECUTION-SECURITY-001"
 }
