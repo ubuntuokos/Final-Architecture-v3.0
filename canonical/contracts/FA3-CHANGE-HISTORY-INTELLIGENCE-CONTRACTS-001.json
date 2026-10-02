@@ -1,0 +1,152 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+  "name": "FA3 Change-History Intelligence Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL_STATIC_CONTRACT",
+  "profile_ids": [
+    "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+    "FA3-JOURNAL-001"
+  ],
+  "authority": false,
+  "capability_count": 175,
+  "contracts": {
+    "change_record": {
+      "schema": "fa3.change-record.v1",
+      "required": [
+        "id",
+        "timestamp",
+        "truth_class",
+        "source_kind",
+        "source_ref",
+        "object_type",
+        "object_id",
+        "operation",
+        "provenance"
+      ],
+      "truth_classes": [
+        "FACT",
+        "DERIVED_FACT",
+        "INFERENCE",
+        "USER_NOTE",
+        "AI_INFERENCE"
+      ],
+      "fact_requires_evidence": true
+    },
+    "change_edge": {
+      "schema": "fa3.change-edge.v1",
+      "required": [
+        "id",
+        "source_id",
+        "target_id",
+        "relation",
+        "provenance"
+      ],
+      "allowed_relations": [
+        "CAUSED_BY",
+        "AFFECTS",
+        "DEPENDS_ON",
+        "INVALIDATES",
+        "REQUALIFIES",
+        "ROLLED_BACK_BY"
+      ],
+      "explicit_source_target_required": true,
+      "implicit_cartesian_expansion_forbidden": true
+    },
+    "changeset": {
+      "schema": "fa3.changeset.v1",
+      "required": [
+        "id",
+        "record_ids",
+        "edge_ids",
+        "source_digest"
+      ]
+    },
+    "impact": {
+      "schema": "fa3.change-impact.v1",
+      "required": [
+        "subject_ids",
+        "affected_ids",
+        "invalidated_ids",
+        "requalification_ids",
+        "risk_context"
+      ]
+    },
+    "rollback_impact": {
+      "schema": "fa3.rollback-impact.v1",
+      "required": [
+        "target_changeset_id",
+        "affected_ids",
+        "derived_index_action",
+        "source_mutation"
+      ],
+      "source_mutation_must_be": false
+    },
+    "query": {
+      "schema": "fa3.change-query.v1",
+      "required": [
+        "query_id",
+        "selectors"
+      ],
+      "modes": [
+        "EXPLAIN",
+        "HISTORY",
+        "IMPACT",
+        "ROLLBACK",
+        "SCOPE",
+        "REGRESSION"
+      ],
+      "read_only": true
+    },
+    "provenance_pattern": {
+      "statement_type": "https://in-toto.io/Statement/v1",
+      "predicate_pattern": "SLSA_BUILD_PROVENANCE_INSPIRED_NO_CONFORMANCE_CLAIM",
+      "required": [
+        "subject",
+        "predicate_type",
+        "resolved_dependencies",
+        "builder_id",
+        "invocation_id"
+      ],
+      "digest_required": true
+    },
+    "event_pattern": {
+      "source_pattern": "OPENTELEMETRY_SEMANTIC_EVENT_INSPIRED",
+      "required": [
+        "event_name",
+        "timestamp",
+        "attributes"
+      ],
+      "correlation_optional": true
+    },
+    "lineage_pattern": {
+      "source_pattern": "OPENLINEAGE_EXPLICIT_LINEAGE_INSPIRED",
+      "source_target_pairs_required": true,
+      "all_to_all_inference_forbidden": true
+    },
+    "ai_boundary": {
+      "modes": [
+        "OFF",
+        "SHADOW",
+        "ADVISORY"
+      ],
+      "router": "FA3-AUTH-MODEL-ROUTER-001",
+      "direct_provider_execution": false,
+      "output_truth_class": "AI_INFERENCE",
+      "may_create_fact": false,
+      "may_grant_authority": false
+    }
+  },
+  "fail_closed_rules": [
+    "MALFORMED_FACT_REJECTED",
+    "FACT_WITHOUT_PROVENANCE_REJECTED",
+    "UNKNOWN_TRUTH_CLASS_REJECTED",
+    "UNKNOWN_EDGE_RELATION_REJECTED",
+    "IMPLICIT_CARTESIAN_LINEAGE_REJECTED",
+    "AI_OFF_DENY_WINS",
+    "AI_RESULT_CANNOT_BE_FACT",
+    "DIRECT_PROVIDER_AI_FORBIDDEN",
+    "SOURCE_MUTATION_FORBIDDEN",
+    "CURRENT_HOST_PASS_CANNOT_BE_DOCUMENT_DERIVED"
+  ]
+}
