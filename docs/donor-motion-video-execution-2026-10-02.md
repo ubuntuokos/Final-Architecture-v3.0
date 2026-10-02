@@ -1,6 +1,6 @@
 # FA3 Motion/Video execution donor intake — 2026-10-02
 
-**Authority:** owner-explicit `donornak` registration.  
+**Authority:** owner-explicit `donornak` registration.
 **Scope:** reference metadata only; no code, dependency, provider, model or runtime admission.
 
 This intake registers five exact repositories as `ACCEPTED_REFERENCE`:
@@ -29,6 +29,6 @@ No source code, model artifact, dependency, provider, runtime or service is admi
 
 Capability baseline: **175**. Capability delta: **0**. Authority delta: **0**.
 
-Parent published main: `d65215e75867d71605093ae8f46a0dfbd6c6f471`  
-Parent donor count: **1344**  
+Parent published main: `d65215e75867d71605093ae8f46a0dfbd6c6f471`
+Parent donor count: **1344**
 Proposed donor count: **1349**
