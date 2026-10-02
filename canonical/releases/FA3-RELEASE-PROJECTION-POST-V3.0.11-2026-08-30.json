@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2840,
+  "manifest_entry_count": 2843,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3402,6 +3402,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-PAPERCLIP-REUSE-ASSESSMENT-2026-10-02.json",
+      "git_blob_sha": "5691dbc30c8670e64b8dc88803cdff3774f26a5b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30.json",
       "git_blob_sha": "98fa38413e64195ec7c413369e309b06b40a03e6",
       "baseline_delta_status": "added"
@@ -4158,7 +4163,7 @@
     },
     {
       "path": "canonical/contracts/FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001.json",
-      "git_blob_sha": "f25b4fed855323ae62415d7d1e3832b5c84016c8",
+      "git_blob_sha": "dc9371d7867a2d96c260951afe490c146ac8c2e7",
       "baseline_delta_status": "added"
     },
     {
@@ -5153,7 +5158,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
-      "git_blob_sha": "c602af204e2d443c6e0fc28e216f6a53eadb9642",
+      "git_blob_sha": "2aa50fe53b316e9563956f846909e0311a37230b",
       "baseline_delta_status": "added"
     },
     {
@@ -5169,6 +5174,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
       "git_blob_sha": "73c3fdea5ce7d2a10fd49f11514262e08ff5281d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03.json",
+      "git_blob_sha": "e554fb919296de6174668be98d07f0a646f780d0",
       "baseline_delta_status": "added"
     },
     {
@@ -5603,7 +5613,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "1099f2580c59ef4953e9b6c11b310aeefa395ad7",
+      "git_blob_sha": "b97c59a6f6d2239f8ade1491e3f1980e518c5594",
       "baseline_delta_status": "added"
     },
     {
@@ -10128,7 +10138,7 @@
     },
     {
       "path": "docs/FA3-ORCHESTRATION-PAPERCLIP-GOVERNANCE-PLAN-2026-09-30.md",
-      "git_blob_sha": "7bf72c392a7d592933c6b312b7ca856890a702d1",
+      "git_blob_sha": "ebe4f0801b896984769ca3aa470bc0e1793d5821",
       "baseline_delta_status": "added"
     },
     {
@@ -14103,7 +14113,7 @@
     },
     {
       "path": "tests/test_donor_paperclip_20261002.py",
-      "git_blob_sha": "155db5c25b2cbb768f8255d474373d917c4a8703",
+      "git_blob_sha": "d6b4f0260f0849266e43d4ebfda557b33160a474",
       "baseline_delta_status": "added"
     },
     {
@@ -14812,6 +14822,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_paperclip_orchestration_usage_edge_20261002.py",
+      "git_blob_sha": "250ccd08dcad9b5d11e905947d9cf6ed4d9c28a0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_permanent_gate_hardening.py",
       "git_blob_sha": "b87ea7173f9ba7f5f3254b3a0fc90c4a5422c078",
       "baseline_delta_status": "added"
@@ -15305,7 +15320,10 @@
     "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending.",
     "2026-09-23: FA3 Neural Rendering & Temporal Reconstruction projection reconciled with optional OpenDLSS-NR provider, bounded Jev advisory, Agent Native/UAF actions, vendor-neutral Hardware Audit/HRB boundaries, and no current-host provider-E2E promotion.",
     "Owner-explicit NVlabs/Sana SoL-Refiner metadata-only donor intake reconciled at 1357 registry entries; no capability, authority, runtime, provider, model or Current Host promotion change.",
-    "MiniMax H3 active runtime-admission artifacts reconciled from legacy 143 to the fixed 175 capability baseline; historical 143-era decisions/evidence remain preserved."
+    "MiniMax H3 active runtime-admission artifacts reconciled from legacy 143 to the fixed 175 capability baseline; historical 143-era decisions/evidence remain preserved.",
+    "Paperclip orchestration-governance canonical usage edge and fresh Reuse Assessment reconciled against published 1357-donor main; source/runtime/control-plane adoption remains false and capability/authority deltas remain zero.",
+    "Paperclip donor-intake historical regression made post-publication safe: intake still proves it created no same-PR usage edge, while later canonical usage edges are allowed.",
+    "Paperclip architecture-pattern use now has explicit governed approval FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03; Temporal remains sole global durable lifecycle authority and no Current Host PASS is claimed."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -15685,7 +15703,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-10-02",
+  "last_regenerated_at": "2026-10-03",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",
