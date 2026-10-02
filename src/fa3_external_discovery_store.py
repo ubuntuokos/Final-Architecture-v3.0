@@ -43,6 +43,8 @@ def _candidate_id(key: str) -> str:
 def _observation(row: dict[str, Any]) -> dict[str, Any]:
     return {
         "source_id": row["source_id"],
+        "source_repository": row["source_repository"],
+        "source_commit": row.get("source_commit"),
         "source_path": row["source_path"],
         "source_line": row["source_line"],
         "source_category": row["source_category"],
@@ -50,11 +52,40 @@ def _observation(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _prepare_source_snapshots(
+    *,
+    source_snapshot: dict[str, Any] | None,
+    source_snapshots: Iterable[dict[str, Any]] | None,
+) -> list[dict[str, Any]]:
+    if source_snapshot is not None and source_snapshots is not None:
+        raise ValueError("provide source_snapshot or source_snapshots, not both")
+    if source_snapshots is None:
+        snapshots = [source_snapshot] if source_snapshot is not None else []
+    else:
+        snapshots = [dict(row) for row in source_snapshots]
+    if not snapshots:
+        raise ValueError("at least one source snapshot is required")
+    return sorted(
+        snapshots,
+        key=lambda row: (
+            str(row.get("source_id", "")),
+            str(row.get("source_repository", "")),
+            str(row.get("source_commit", "")),
+            str(row.get("manifest_digest", "")),
+        ),
+    )
+
+
 def build_candidate_store(
     *,
-    source_snapshot: dict[str, Any],
     observations: Iterable[dict[str, Any]],
+    source_snapshot: dict[str, Any] | None = None,
+    source_snapshots: Iterable[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    snapshots = _prepare_source_snapshots(
+        source_snapshot=source_snapshot,
+        source_snapshots=source_snapshots,
+    )
     grouped: dict[str, list[dict[str, Any]]] = {}
     for row in observations:
         key = _candidate_key(row)
@@ -68,6 +99,7 @@ def build_candidate_store(
         first = sorted(
             rows,
             key=lambda r: (
+                str(r.get("source_id", "")),
                 str(r.get("source_path", "")),
                 int(r.get("source_line", 0)),
                 str(r.get("source_listing_digest", "")),
@@ -76,14 +108,21 @@ def build_candidate_store(
         observations_out = sorted(
             {_stable_digest(_observation(row)): _observation(row) for row in rows}.values(),
             key=lambda item: (
-                item["source_path"],
-                item["source_line"],
-                item["source_listing_digest"],
+                str(item.get("source_id", "")),
+                str(item.get("source_path", "")),
+                int(item.get("source_line", 0)),
+                str(item.get("source_listing_digest", "")),
             ),
         )
         terms = sorted({term for row in rows for term in row.get("discovery_terms", [])})
         categories = sorted({str(row.get("source_category", "")) for row in rows if row.get("source_category")})
         listing_names = sorted({str(row.get("listing_name", "")) for row in rows if row.get("listing_name")})
+        listing_descriptions = sorted(
+            {str(row.get("listing_description", "")) for row in rows if row.get("listing_description")}
+        )
+        actor_identities = sorted(
+            {str(row.get("apify_actor_identity", "")) for row in rows if row.get("apify_actor_identity")}
+        )
         candidate = {
             "candidate_id": _candidate_id(key),
             "candidate_class": "EXTERNAL_DISCOVERY_CANDIDATE",
@@ -91,9 +130,14 @@ def build_candidate_store(
             "service_identity": first["service_identity"],
             "canonical_locator": first["canonical_locator"],
             "listing_names": listing_names[:16],
+            "listing_descriptions": listing_descriptions[:16],
             "source_categories": categories,
             "discovery_terms": terms[:128],
             "observations": observations_out,
+            "mcp_hint_observed": any(bool(row.get("mcp_hint")) for row in rows),
+            "skill_hint_observed": any(bool(row.get("skill_hint")) for row in rows),
+            "webhook_hint_observed": any(bool(row.get("webhook_hint")) for row in rows),
+            "apify_actor_identities": actor_identities[:16],
             "affiliate_or_tracking_observed": any(bool(row.get("affiliate_or_tracking_present")) for row in rows),
             "sponsorship_or_featured_observed": any(bool(row.get("sponsorship_or_featured_present")) for row in rows),
             "secret_parameter_observed": any(bool(row.get("secret_parameter_present")) for row in rows),
@@ -109,6 +153,17 @@ def build_candidate_store(
         candidate["candidate_digest"] = _stable_digest(candidate)
         candidates.append(candidate)
 
+    source_summary = (
+        snapshots[0]
+        if len(snapshots) == 1
+        else {
+            "source_id": "MULTI_SOURCE_RECONCILIATION",
+            "source_count": len(snapshots),
+            "source_snapshots_digest": _stable_digest(snapshots),
+            "immutable": True,
+            "network_fetch_performed": False,
+        }
+    )
     payload = {
         "schema": STORE_SCHEMA,
         "policy_id": STORE_POLICY_ID,
@@ -121,14 +176,14 @@ def build_candidate_store(
         "automatic_provider_admission": False,
         "automatic_mcp_registration": False,
         "automatic_activation": False,
-        "source_snapshot": source_snapshot,
+        "source_snapshot": source_summary,
+        "source_snapshots": snapshots,
         "candidate_count": len(candidates),
         "observation_count": sum(len(candidate["observations"]) for candidate in candidates),
         "candidates": candidates,
     }
     payload["store_digest"] = _stable_digest({k: v for k, v in payload.items() if k != "store_digest"})
     return payload
-
 
 def _walk_forbidden(value: Any, path: str = "") -> list[str]:
     findings: list[str] = []
@@ -162,6 +217,24 @@ def validate_candidate_store(store: dict[str, Any]) -> list[dict[str, Any]]:
             findings.append({"code": "EXTDISC-STORE-AUTHORITY", "message": f"{flag} must be false"})
     if store.get("derived_state") is not True or store.get("rebuildable") is not True:
         findings.append({"code": "EXTDISC-STORE-DERIVED", "message": "candidate store must be derived and rebuildable"})
+    snapshots = store.get("source_snapshots")
+    if snapshots is None and isinstance(store.get("source_snapshot"), dict):
+        snapshots = [store["source_snapshot"]]
+    if not isinstance(snapshots, list) or not snapshots:
+        findings.append({"code": "EXTDISC-STORE-SOURCES", "message": "at least one source snapshot is required"})
+    else:
+        identities = [
+            (
+                row.get("source_id"),
+                row.get("source_repository"),
+                row.get("source_commit"),
+                row.get("manifest_digest"),
+            )
+            for row in snapshots
+            if isinstance(row, dict)
+        ]
+        if len(identities) != len(snapshots) or len(identities) != len(set(identities)):
+            findings.append({"code": "EXTDISC-STORE-SOURCES", "message": "source snapshots must be unique objects"})
     candidates = store.get("candidates")
     if not isinstance(candidates, list) or store.get("candidate_count") != len(candidates):
         findings.append({"code": "EXTDISC-STORE-COUNT", "message": "candidate count mismatch"})

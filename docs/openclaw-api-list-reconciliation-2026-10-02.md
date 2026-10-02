@@ -29,3 +29,36 @@ fail-closed. OpenClaw accepts recursive `README.md` surfaces plus the root
 
 Capability baseline remains 175; provider count remains dynamic; donor registry is
 unchanged; Current Host obligation delta is zero.
+
+## Structured metadata hardening
+
+The shared catalog adapter extracts only sanitized discovery metadata. For OpenClaw
+tables this includes category, display name, sanitized description, source section,
+MCP/skill/webhook **hints**, and an explicit Apify Actor identity when the canonical
+locator is an `apify.com/<owner>/<actor>` URL. These are discovery signals only:
+they are not protocol conformance, provider admission, MCP registration, donor
+adoption, ranking authority, or activation evidence.
+
+Raw source URLs are not persisted. Affiliate/tracking parameters and secret-bearing
+query values are removed before identity is computed, and descriptions are stripped
+of embedded URLs before persistence.
+
+## Multi-source reconciliation
+
+`FA3 External API Discovery` now supports deterministic reconciliation of multiple
+immutable catalog snapshots into the same derived Candidate Store:
+
+```text
+bin/fa3-external-api-discovery reconcile \
+  --snapshot-dir /path/to/api-mega-list-snapshot \
+  --snapshot-dir /path/to/openclaw-api-list-snapshot
+```
+
+Candidate identity remains the sanitized provider/service/locator tuple, so the same
+listing observed in API Mega List and OpenClaw collapses to one candidate while
+retaining per-source provenance, including source ID, repository, pinned commit,
+source path and line. Input ordering cannot change candidate identity.
+
+Apify remains identity/provenance context in this reconciliation. There is no direct
+Apify catalog ingestion, no Actor/provider/MCP auto-admission, and no inherited
+usage edge from `FA3-DONOR-APIFY-ORG-001`.

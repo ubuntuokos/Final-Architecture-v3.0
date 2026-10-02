@@ -180,7 +180,7 @@ def load_snapshot_manifest(snapshot_dir: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+def _snapshot_observations(snapshot_dir: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     snapshot_dir = Path(snapshot_dir).resolve()
     manifest = load_snapshot_manifest(snapshot_dir)
     findings = validate_snapshot_manifest(snapshot_dir, manifest)
@@ -191,14 +191,15 @@ def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]
     for row in manifest["files"]:
         rel = _safe_relpath(row["path"])
         text = (snapshot_dir / rel).read_text(encoding="utf-8")
-        observations.extend(
-            parse_external_catalog_markdown(
-                text,
-                source_path=rel,
-                source_id=manifest["source_id"],
-                source_repository=manifest["source_repository"],
-            )
+        parsed = parse_external_catalog_markdown(
+            text,
+            source_path=rel,
+            source_id=manifest["source_id"],
+            source_repository=manifest["source_repository"],
         )
+        for observation in parsed:
+            observation["source_commit"] = manifest["source_commit"]
+        observations.extend(parsed)
 
     source_snapshot = {
         "source_id": manifest["source_id"],
@@ -209,6 +210,11 @@ def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]
         "immutable": True,
         "network_fetch_performed": False,
     }
+    return source_snapshot, observations
+
+
+def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    source_snapshot, observations = _snapshot_observations(snapshot_dir)
     store = build_candidate_store(source_snapshot=source_snapshot, observations=observations)
     store_findings = validate_candidate_store(store)
     if store_findings:
@@ -218,6 +224,8 @@ def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]
         "schema": INGEST_RECEIPT_SCHEMA,
         "result": "PASS",
         "source_snapshot": source_snapshot,
+        "source_snapshots": [source_snapshot],
+        "source_count": 1,
         "observation_count": len(observations),
         "candidate_count": store["candidate_count"],
         "store_digest": store["store_digest"],
@@ -231,6 +239,45 @@ def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]
     receipt["receipt_digest"] = _stable_digest({k: v for k, v in receipt.items() if k != "receipt_digest"})
     return store, receipt
 
+
+def ingest_snapshots(snapshot_dirs: list[Path]) -> tuple[dict[str, Any], dict[str, Any]]:
+    if len(snapshot_dirs) < 2:
+        raise ValueError("multi-source reconciliation requires at least two snapshot directories")
+    source_snapshots: list[dict[str, Any]] = []
+    observations: list[dict[str, Any]] = []
+    seen_source_ids: set[str] = set()
+    for snapshot_dir in snapshot_dirs:
+        source_snapshot, source_observations = _snapshot_observations(Path(snapshot_dir))
+        source_id = str(source_snapshot["source_id"])
+        if source_id in seen_source_ids:
+            raise ValueError(f"duplicate external discovery source in reconciliation: {source_id}")
+        seen_source_ids.add(source_id)
+        source_snapshots.append(source_snapshot)
+        observations.extend(source_observations)
+
+    store = build_candidate_store(source_snapshots=source_snapshots, observations=observations)
+    store_findings = validate_candidate_store(store)
+    if store_findings:
+        raise ValueError(json.dumps(store_findings, ensure_ascii=False, sort_keys=True))
+
+    receipt = {
+        "schema": INGEST_RECEIPT_SCHEMA,
+        "result": "PASS",
+        "source_snapshot": store["source_snapshot"],
+        "source_snapshots": store["source_snapshots"],
+        "source_count": len(store["source_snapshots"]),
+        "observation_count": len(observations),
+        "candidate_count": store["candidate_count"],
+        "store_digest": store["store_digest"],
+        "authority": False,
+        "runtime_provider": False,
+        "automatic_donor_creation": False,
+        "automatic_provider_admission": False,
+        "automatic_mcp_registration": False,
+        "automatic_activation": False,
+    }
+    receipt["receipt_digest"] = _stable_digest({k: v for k, v in receipt.items() if k != "receipt_digest"})
+    return store, receipt
 
 def drift_report(previous: dict[str, Any], current: dict[str, Any]) -> dict[str, Any]:
     prev = {row["candidate_id"]: row for row in previous.get("candidates", []) if isinstance(row, dict) and row.get("candidate_id")}
@@ -293,6 +340,11 @@ def main() -> int:
     p_ingest.add_argument("--output")
     p_ingest.add_argument("--receipt")
 
+    p_reconcile = sub.add_parser("reconcile")
+    p_reconcile.add_argument("--snapshot-dir", action="append", required=True)
+    p_reconcile.add_argument("--output")
+    p_reconcile.add_argument("--receipt")
+
     p_check = sub.add_parser("check")
     p_check.add_argument("--store", required=True)
 
@@ -322,6 +374,15 @@ def main() -> int:
 
     if args.command == "ingest":
         store, receipt = ingest_snapshot(Path(args.snapshot_dir))
+        output = Path(args.output) if args.output else default_state_root() / "candidate-store.json"
+        receipt_path = Path(args.receipt) if args.receipt else output.with_name("ingest-receipt.json")
+        _write_json(output, store)
+        _write_json(receipt_path, receipt)
+        print(json.dumps(receipt, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "reconcile":
+        store, receipt = ingest_snapshots([Path(path) for path in args.snapshot_dir])
         output = Path(args.output) if args.output else default_state_root() / "candidate-store.json"
         receipt_path = Path(args.receipt) if args.receipt else output.with_name("ingest-receipt.json")
         _write_json(output, store)

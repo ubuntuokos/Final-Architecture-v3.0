@@ -45,6 +45,8 @@ SECRET_KEYS = {
 _LINK = re.compile(r"(?<!!)\[([^\]]+)\]\((https?://[^)\s]+)\)", re.IGNORECASE)
 _HTML_TAG = re.compile(r"<[^>]+>")
 _TOKEN = re.compile(r"[a-z0-9][a-z0-9._+-]{1,63}", re.IGNORECASE)
+_BARE_URL = re.compile(r"https?://[^\s|)]+", re.IGNORECASE)
+_HEADING = re.compile(r"^#{1,6}\s+(.*)$")
 
 
 def _sha256_text(value: str) -> str:
@@ -55,6 +57,33 @@ def _clean_label(value: str) -> str:
     value = html.unescape(_HTML_TAG.sub("", value))
     value = value.replace("**", "").replace("__", "").replace("`", "")
     return " ".join(value.split()).strip()
+
+
+def _safe_metadata_text(value: str, *, limit: int = 512) -> str:
+    value = _LINK.sub(lambda match: match.group(1), value)
+    value = _BARE_URL.sub("", value)
+    value = html.unescape(_HTML_TAG.sub("", value))
+    value = value.replace("**", "").replace("__", "").replace("`", "")
+    return " ".join(value.split()).strip(" |")[:limit]
+
+
+def _table_description(line: str, match_end: int) -> str:
+    if not line.lstrip().startswith("|"):
+        return ""
+    for cell in line[match_end:].split("|"):
+        cleaned = _safe_metadata_text(cell)
+        if cleaned and cleaned not in {"-", "—"}:
+            return cleaned
+    return ""
+
+
+def integration_hints(*parts: str) -> dict[str, bool]:
+    text = " ".join(part for part in parts if part).casefold()
+    return {
+        "mcp_hint": bool(re.search(r"\bmcp\b|model context protocol", text)),
+        "skill_hint": bool(re.search(r"\bskills?\b", text)),
+        "webhook_hint": bool(re.search(r"\bwebhooks?\b", text)),
+    }
 
 
 def _normalized_netloc(scheme: str, host: str, port: int | None) -> str:
@@ -124,6 +153,16 @@ def identity_hints(canonical_locator: str) -> tuple[str, str]:
     return provider, f"{provider}:{service_path}"
 
 
+def apify_actor_identity(canonical_locator: str) -> str | None:
+    parsed = urlsplit(canonical_locator)
+    if (parsed.hostname or "").lower() not in {"apify.com", "www.apify.com"}:
+        return None
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) < 2:
+        return None
+    return f"{parts[0]}/{parts[1]}"
+
+
 def category_from_source_path(source_path: str) -> str:
     path = PurePosixPath(source_path)
     if len(path.parts) >= 2:
@@ -143,12 +182,16 @@ def parse_external_catalog_markdown(
     source_id: str = SOURCE_ID,
     source_repository: str = SOURCE_REPOSITORY,
 ) -> list[dict[str, Any]]:
-    """Extract untrusted candidate listings without persisting raw URLs or descriptions."""
+    """Extract sanitized untrusted discovery metadata without persisting raw URLs."""
     if SUPPORTED_CATALOG_SOURCES.get(source_id) != source_repository:
         raise ValueError("unsupported or mismatched external catalog source identity")
     rows: list[dict[str, Any]] = []
     category = category_from_source_path(source_path)
+    section = ""
     for line_number, line in enumerate(text.splitlines(), start=1):
+        heading = _HEADING.match(line.strip())
+        if heading:
+            section = _safe_metadata_text(heading.group(1), limit=160)
         if not _line_is_candidate_surface(line):
             continue
         for match in _LINK.finditer(line):
@@ -161,6 +204,9 @@ def parse_external_catalog_markdown(
             except (ValueError, UnicodeError):
                 continue
             provider, service = identity_hints(locator["canonical_locator"])
+            description = _table_description(line, match.end())
+            hints = integration_hints(label, description, section)
+            actor_identity = apify_actor_identity(locator["canonical_locator"])
             lower_line = line.casefold()
             sponsorship = any(token in lower_line for token in ("sponsor", "sponsored", "featured partner"))
             listing_digest = _sha256_text(
@@ -169,7 +215,7 @@ def parse_external_catalog_markdown(
             terms = sorted(
                 {
                     token.casefold()
-                    for token in _TOKEN.findall(f"{label} {category}")
+                    for token in _TOKEN.findall(f"{label} {description} {category} {section}")
                     if len(token) >= 3
                 }
             )
@@ -183,6 +229,12 @@ def parse_external_catalog_markdown(
                     "source_category": category,
                     "source_listing_digest": listing_digest,
                     "listing_name": label[:240],
+                    "listing_description": description or None,
+                    "source_section": section or None,
+                    "mcp_hint": hints["mcp_hint"],
+                    "skill_hint": hints["skill_hint"],
+                    "webhook_hint": hints["webhook_hint"],
+                    "apify_actor_identity": actor_identity,
                     "canonical_locator": locator["canonical_locator"],
                     "provider_identity": provider,
                     "service_identity": service,
