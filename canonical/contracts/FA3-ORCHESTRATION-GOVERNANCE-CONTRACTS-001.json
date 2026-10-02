@@ -78,6 +78,24 @@
       "name": "Temporal Singularity",
       "requirement": "MUST",
       "rule": "Temporal remains the sole global durable workflow lifecycle authority; delegated Conductors and runners own only bounded task-local execution state."
+    },
+    {
+      "id": "FA3-ORCH-GOV-013",
+      "name": "Typed Handoff Lifecycle",
+      "requirement": "MUST",
+      "rule": "Cross-task handoff MUST bind source/destination task identity, relation type, source revision/digest, artifacts and lifecycle state. ACK proves receipt only and MUST NOT imply RUNNING, COMPLETED or VERIFIED."
+    },
+    {
+      "id": "FA3-ORCH-GOV-014",
+      "name": "Explicit Recovery Classification",
+      "requirement": "MUST",
+      "rule": "Failure recovery MUST classify RETRYABLE, RECOVERABLE, REPLAN_REQUIRED, HUMAN_REQUIRED or UNKNOWN_EFFECT. UNKNOWN_EFFECT MUST NOT be blindly replayed."
+    },
+    {
+      "id": "FA3-ORCH-GOV-015",
+      "name": "Task-Group Revision Binding",
+      "requirement": "MUST",
+      "rule": "Governed task projections that declare a task group MUST preserve canonical task-group ID, registry revision, task-group revision and digest so changed policy requires re-evaluation."
     }
   ],
   "paperclip_reference_boundary": {
@@ -87,5 +105,47 @@
     "runtime_dependency": false,
     "provider_admission": false,
     "model_admission": false
+  },
+  "handoff_lifecycle": {
+    "schema": "fa3.orchestration-handoff.v1",
+    "states": [
+      "CREATED",
+      "DELIVERED",
+      "ACKNOWLEDGED",
+      "ACCEPTED",
+      "REJECTED",
+      "SUPERSEDED",
+      "EXPIRED"
+    ],
+    "required_fields": [
+      "handoff_id",
+      "from_task_id",
+      "to_task_id",
+      "relation_type",
+      "source_revision",
+      "source_digest",
+      "artifact_refs",
+      "artifact_digests",
+      "required_output_contract",
+      "ack_required",
+      "expires_at",
+      "state"
+    ],
+    "ack_is_completion": false,
+    "ack_is_verified_evidence": false
+  },
+  "recovery_state_machine": {
+    "classifications": [
+      "RETRYABLE",
+      "RECOVERABLE",
+      "REPLAN_REQUIRED",
+      "HUMAN_REQUIRED",
+      "UNKNOWN_EFFECT"
+    ],
+    "unknown_effect_blind_retry": false,
+    "replan_requires_fresh_revision_binding": true,
+    "permission_expansion_forbidden": true,
+    "participant_set_expansion_forbidden": true,
+    "budget_expansion_without_approval_forbidden": true
   }
 }
