@@ -11,6 +11,9 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 import hashlib
 import json
+import os
+from pathlib import Path
+import tempfile
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -293,6 +296,43 @@ class AcquisitionStateStore:
             "origin_last_start": dict(sorted(self._origin_last_start.items())),
         }
         return json.dumps(body, sort_keys=True, separators=(",", ":"))
+
+    def save_atomic(self, path: str | Path) -> None:
+        """Persist one complete snapshot with same-directory atomic replacement."""
+        target = Path(path)
+        parent = target.parent
+        if not parent.is_dir():
+            raise AcquisitionStateError("STATE_DIRECTORY_NOT_FOUND")
+        temp_path: Path | None = None
+        payload = (self.snapshot() + "\n").encode("utf-8")
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="wb",
+                dir=parent,
+                prefix=f".{target.name}.",
+                suffix=".tmp",
+                delete=False,
+            ) as handle:
+                temp_path = Path(handle.name)
+                handle.write(payload)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temp_path, target)
+        except OSError as exc:
+            if temp_path is not None:
+                try:
+                    temp_path.unlink(missing_ok=True)
+                except OSError:
+                    pass
+            raise AcquisitionStateError("ATOMIC_STATE_WRITE_FAILED") from exc
+
+    @classmethod
+    def load_file(cls, path: str | Path) -> "AcquisitionStateStore":
+        try:
+            raw = Path(path).read_text(encoding="utf-8")
+        except OSError as exc:
+            raise AcquisitionStateError("STATE_FILE_READ_FAILED") from exc
+        return cls.from_snapshot(raw)
 
     @classmethod
     def from_snapshot(cls, raw: str) -> "AcquisitionStateStore":
