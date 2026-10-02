@@ -112,7 +112,8 @@
     "FA3-GATE-REGISTRY-GATESET-001",
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
-    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001"
+    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
+    "FA3-CHANGE-HISTORY-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -2155,5 +2156,26 @@
     "protected_action_refs_require_commit_sha": true,
     "capability_delta": 0,
     "authority_delta": 0
-  }
+  },
+  "change_history_intelligence_profile_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "change_history_intelligence_contract_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-CONTRACTS-001",
+  "change_history_intelligence_gate_id": "FA3-CHANGE-HISTORY-GATESET-001",
+  "change_history_intelligence_parent_profile_id": "FA3-JOURNAL-001",
+  "change_history_intelligence_current_host_impact_id": "FA3-CHANGE-HISTORY-CURRENT-HOST-IMPACT-001",
+  "change_history_intelligence_runtime_status": "PENDING_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+  "change_history_intelligence_mandatory_p0_rules": [
+    "CHIF_JOURNAL_REMAINS_HISTORY_AUTHORITY",
+    "CHIF_DERIVED_INDEX_NOT_SOURCE_OF_TRUTH",
+    "CHIF_SOURCE_ADAPTERS_READ_ONLY",
+    "CHIF_FACT_DERIVED_INFERENCE_USER_NOTE_AI_SEPARATION",
+    "CHIF_FACT_REQUIRES_PROVENANCE",
+    "CHIF_EXPLICIT_LINEAGE_SOURCE_TARGET_REQUIRED",
+    "CHIF_FALSE_CARTESIAN_LINEAGE_FORBIDDEN",
+    "CHIF_SCOPE_CLASSIFICATION_DETERMINISTIC",
+    "CHIF_ROLLBACK_ANALYSIS_NON_EXECUTING",
+    "CHIF_AI_OFF_DENY_WINS",
+    "CHIF_MODEL_ROUTER_ONLY_AI_PATH",
+    "CHIF_DONOR_USAGE_EDGES_REQUIRED",
+    "CHIF_CURRENT_HOST_PASS_PHYSICAL_ONLY"
+  ]
 }
