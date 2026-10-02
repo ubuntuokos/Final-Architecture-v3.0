@@ -58,6 +58,21 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         b = d.dedupe_key(provider_name="example", endpoint_url="https://api.example.com/v1", protocol="rest")
         self.assertEqual(a, b)
 
+    def test_capability_mapping_follows_active_release_baseline(self):
+        count = module_active_capability_count(__file__)
+        self.assertTrue(d.capability_mapping_valid(
+            capability_id=f"CAP-{count:03d}",
+            vendor_defined_canonical_capability=False,
+        ))
+        self.assertFalse(d.capability_mapping_valid(
+            capability_id=f"CAP-{count + 1:03d}",
+            vendor_defined_canonical_capability=False,
+        ))
+        self.assertFalse(d.capability_mapping_valid(
+            capability_id="CAP-000",
+            vendor_defined_canonical_capability=False,
+        ))
+
     def test_source_authority_escalation_fails_closed(self):
         td, root = self._copy_root()
         try:
