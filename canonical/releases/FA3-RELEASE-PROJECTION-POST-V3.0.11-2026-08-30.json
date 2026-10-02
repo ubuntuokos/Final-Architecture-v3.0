@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8ff415b8dd744be97c25eeb6641aa00155a74d2f",
-    "pre_projection_root_tree_sha": "30465ff93c11ce08ab473b3e089263925dd79a30",
-    "pre_projection_canonical_tree_sha": "be5abfb35f2aebcaf6b4bc17ca0dc447cf1dec73",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2477,
-    "total_post_baseline_commits": 2477,
-    "delta_file_count": 2760,
-    "delta_added_files": 2754,
+    "pre_projection_head_sha": "8108185a2f8e343919c23698152fb408b0ffbbce",
+    "pre_projection_root_tree_sha": "7cfc3e513a72b1e7d0f2e11334d1d3f9f7a791ad",
+    "pre_projection_canonical_tree_sha": "8e9a79c4c88e79ef1b815ce8c7fb000e65cd00b7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2481,
+    "total_post_baseline_commits": 2481,
+    "delta_file_count": 2765,
+    "delta_added_files": 2759,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1295,
+    "canonical_files_in_post_baseline_delta": 1299,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 357,
     "test_files_in_post_baseline_delta": 319,
@@ -587,6 +587,7 @@
       "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
       "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
+      "canonical/decisions/FA3-DEC-OPENCLAW-API-LIST-RECONCILIATION-2026-10-02.json",
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
@@ -691,6 +692,7 @@
       "canonical/references/FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OBSIDIAN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02.json",
+      "canonical/references/FA3-OPENCLAW-API-LIST-UPSTREAM-REFERENCE-2026-10-02.json",
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENDLSS-NR-DERIVED-PATTERNS-001.json",
       "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
@@ -1046,7 +1048,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2750,
+  "manifest_entry_count": 2755,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1255,7 +1257,7 @@
     },
     {
       "path": ".github/workflows/fa3-external-api-discovery-ingestion.yml",
-      "git_blob_sha": "c218a18ce76ef09db5dc120b39c03592a01b7d03",
+      "git_blob_sha": "38717a6b94afa9e6210216cbd05ece80cec8a1c7",
       "baseline_delta_status": "added"
     },
     {
@@ -3284,6 +3286,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-OPENCLAW-API-LIST-RECONCILIATION-REUSE-ASSESSMENT-2026-10-02.json",
+      "git_blob_sha": "c82942119ce2a63376a4cf9555adae2694c238a9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-OPENFX-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "61a6779d9938fb554f4ea96dc37f87fc6ec80549",
       "baseline_delta_status": "added"
@@ -4964,6 +4971,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENCLAW-API-LIST-RECONCILIATION-2026-10-02.json",
+      "git_blob_sha": "b70dab99da7ba245e5f9516a03246c3d10bfaf33",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "git_blob_sha": "3ebf01a528a515e12cf3db7a7e5463c5c08c45f1",
       "baseline_delta_status": "added"
@@ -5335,7 +5347,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "e25255e2d089466ea1478b1bec435f554a483f9c",
+      "git_blob_sha": "341e9a378dac9ed6779260a3cdbebc4a881c1277",
       "baseline_delta_status": "modified"
     },
     {
@@ -5530,7 +5542,7 @@
     },
     {
       "path": "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json",
-      "git_blob_sha": "77c378148b1810096caab1e1c00acca0f684c266",
+      "git_blob_sha": "829e69828beffe65ba349df4b1abadd34748900e",
       "baseline_delta_status": "added"
     },
     {
@@ -6724,6 +6736,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-OPENCLAW-API-LIST-RECONCILIATION-APPLICATION-INTENT-2026-10-02.json",
+      "git_blob_sha": "f2fecec208bdd5a2fe522390dfe6753f868da085",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-OPENFX-APPLICATION-INTENT-001.json",
       "git_blob_sha": "907b5cf8289dfdfd2f2dc23ffadc1eaaa98642f3",
       "baseline_delta_status": "added"
@@ -7295,7 +7312,7 @@
     },
     {
       "path": "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
-      "git_blob_sha": "0c19f0b58da4f44570e18658367c7f34987ce0fd",
+      "git_blob_sha": "bd2b47c07727251af361b87a325592777a612975",
       "baseline_delta_status": "added"
     },
     {
@@ -8619,6 +8636,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-OPENCLAW-API-LIST-UPSTREAM-REFERENCE-2026-10-02.json",
+      "git_blob_sha": "3f6a02509d1a9259e18a459249f7aee08a1404e3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "da36e3529290852ed2768a2d463877e4686226ab",
       "baseline_delta_status": "added"
@@ -9700,7 +9722,7 @@
     },
     {
       "path": "docs/external-api-discovery-ingestion.md",
-      "git_blob_sha": "bc679fcdc89ba8394e2841be93eda2ffc3a6bdcb",
+      "git_blob_sha": "099f3ca473d8ee92ebea11889bb8e927d4370da4",
       "baseline_delta_status": "added"
     },
     {
@@ -9971,6 +9993,11 @@
     {
       "path": "docs/obsidian-integration.md",
       "git_blob_sha": "132af8929e63c9c6e8d9fd76e69017a139ce3213",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/openclaw-api-list-reconciliation-2026-10-02.md",
+      "git_blob_sha": "2d6018350cfa42f74dad154da007f70f21570f3c",
       "baseline_delta_status": "added"
     },
     {
@@ -11440,7 +11467,7 @@
     },
     {
       "path": "src/fa3_api_mega_list_adapter.py",
-      "git_blob_sha": "310f5cfe718c28f88634a4672b03fe20e353fed5",
+      "git_blob_sha": "fd920c325845d62a5f68ae34e7eb521874e5047d",
       "baseline_delta_status": "added"
     },
     {
@@ -11920,12 +11947,12 @@
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
-      "git_blob_sha": "e5c1658b4dd4725d853c7a55c482d3f4e402f688",
+      "git_blob_sha": "59f763e72643e4b383c2aee0a1e2a0f5814ad91a",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_external_api_discovery_pipeline.py",
-      "git_blob_sha": "73fc69bf8e1771fa693caef46e8593069cf328f9",
+      "git_blob_sha": "2a34ad676bd16fea28f908b312056618665b9120",
       "baseline_delta_status": "added"
     },
     {
@@ -13700,12 +13727,12 @@
     },
     {
       "path": "tests/test_external_api_discovery_gate.py",
-      "git_blob_sha": "26337125c39fae3f57e2c432509efc550d734c63",
+      "git_blob_sha": "2fa2d6b2b993d3dcc3f65e87fe311805c6da1885",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_external_api_discovery_pipeline.py",
-      "git_blob_sha": "85427a73ee1c0be9f79a87db28488933e2b49fa1",
+      "git_blob_sha": "ff026b9d8448b1eefcf9f276eb0abf3d4ac92760",
       "baseline_delta_status": "added"
     },
     {
