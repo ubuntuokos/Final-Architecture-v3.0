@@ -3,8 +3,9 @@ from __future__ import annotations
 import argparse, json
 from pathlib import Path
 from fa3_shared_execution_security import execution_admitted, policy_subset, proof_allows_execution
+from fa3_release_baseline import module_active_capability_count
 
-CAPABILITY_COUNT = 175
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROFILE = "canonical/profiles/FA3-SHARED-EXECUTION-SECURITY-001.json"
 CONTRACT = "canonical/contracts/FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001.json"
 DECISION = "canonical/decisions/FA3-DEC-SHARED-EXECUTION-SECURITY-2026-10-02.json"
