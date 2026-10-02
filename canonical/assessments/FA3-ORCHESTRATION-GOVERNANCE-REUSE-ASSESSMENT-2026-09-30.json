@@ -160,8 +160,8 @@
   "new_architectural_authorities": 0,
   "published_main_registry": {
     "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
-    "entry_count": 1349,
+    "blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
+    "entry_count": 1354,
     "paperclip_present": false
   },
   "paperclip_analysis": {
@@ -184,18 +184,18 @@
     }
   ],
   "donor_lifecycle_main_reconciliation": {
-    "main_sha": "ecafb404aaf1ea484184cc99891d6bc74ed58e23",
-    "registry_entry_count": 1349,
-    "registry_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
+    "main_sha": "44ebf7444485aeb29db1a4677e7d485fee83fae3",
+    "registry_entry_count": 1354,
+    "registry_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
     "reuse_input_scope": "LAST_VERIFIED_COMMITTED_MAIN_ONLY",
     "pending_pr_records_consumed": false
   },
   "donor_planning_snapshot": {
-    "published_main_commit": "ecafb404aaf1ea484184cc99891d6bc74ed58e23",
+    "published_main_commit": "44ebf7444485aeb29db1a4677e7d485fee83fae3",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "donor_registry_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
-    "donor_registry_sha256": "d194116f1d80cc61930bc977f3e57192c8c41c9b3a6b08c7614d422c46384f5b",
-    "donor_registry_entry_count": 1349
+    "donor_registry_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
+    "donor_registry_sha256": "ba742cad268a22577bb9c0f0145bee1fb980cf909551f346d892760ec2193b8e",
+    "donor_registry_entry_count": 1354
   },
   "shared_capability_placement": {
     "reviewed": true,
@@ -254,5 +254,23 @@
     "runtime_promotion_claim": false,
     "capability_delta": 0,
     "authority_delta": 0
+  },
+  "latest_finalized_donor_reassessment": {
+    "published_main_commit": "44ebf7444485aeb29db1a4677e7d485fee83fae3",
+    "reviewed_donor_ids": [
+      "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "FA3-DONOR-ANTIGRAVITY-TOOLS-TOPIC-001",
+      "FA3-DONOR-ANTIGRAVITY-TOPIC-001",
+      "FA3-DONOR-GOOGLE-ANTIGRAVITY-TOPIC-001",
+      "FA3-DONOR-GOOGLE-ANTIGRAVITY-ORG-001"
+    ],
+    "disposition": "NO_ADDITIONAL_MATERIAL_REUSE_REQUIRED",
+    "rationale": "Antigravity policy-hook, tool-dispatch, stateful-session, MCP and adapter patterns were reviewed after finalized donor admission. The PR-A task-group/guard policy plane already reuses Temporal durable lifecycle, UAF/Security/MCP effect boundaries, Blueprint provenance and existing orchestration governance, so no additional donor adoption is required.",
+    "usage_edge_created": false,
+    "code_copy": false,
+    "dependency_added": false,
+    "provider_or_runtime_admission": false,
+    "authority_delta": 0,
+    "capability_delta": 0
   }
 }
