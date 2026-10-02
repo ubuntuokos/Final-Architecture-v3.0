@@ -99,7 +99,11 @@ def egress_boundary_valid(*, canonical_egress_authorized: bool, ssrf_controls: b
     return canonical_egress_authorized and ssrf_controls and dns_rebinding_controls
 
 def capability_mapping_valid(*, capability_id: str, vendor_defined_canonical_capability: bool) -> bool:
-    return bool(re.fullmatch(r"CAP-(?:0[0-9]{2}|1[0-3][0-9]|14[0-3])", capability_id or "")) and not vendor_defined_canonical_capability
+    match = re.fullmatch(r"CAP-(\d{3})", capability_id or "")
+    if match is None or vendor_defined_canonical_capability:
+        return False
+    capability_number = int(match.group(1))
+    return 1 <= capability_number <= CAPABILITY_COUNT
 
 def admission_valid(*, discovered: bool, normalized: bool, deduplicated: bool, immutable_source_identity: bool,
                     license_terms_admitted: bool, endpoint_verified: bool, protocol_schema_verified: bool,
