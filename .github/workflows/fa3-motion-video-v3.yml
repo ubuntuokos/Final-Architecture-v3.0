@@ -1,0 +1,32 @@
+name: FA3 Motion Video v3
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-VIDEO-001.json'
+      - 'canonical/contracts/FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VIDEO-REFINEMENT-CONTRACTS-001.json'
+      - 'canonical/assessments/FA3-MOTION-VIDEO-V3-REUSE-ASSESSMENT-2026-10-02.json'
+      - 'canonical/intents/FA3-MOTION-VIDEO-V3-APPLICATION-INTENT-2026-10-02.json'
+      - 'src/fa3_motion_video_provider_adapter.py'
+      - 'src/fa3_video_model_router.py'
+      - 'src/fa3_video_refinement.py'
+      - 'src/fa3_motion_video_v3_gate.py'
+      - 'tests/test_motion_video_v3_sol_refinement.py'
+  workflow_dispatch:
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_motion_video_provider_adapter.py src/fa3_video_model_router.py src/fa3_video_refinement.py src/fa3_motion_video_v3_gate.py
+      - name: Motion Video v3 regressions
+        run: python -m unittest tests.test_motion_video_v3_sol_refinement
+      - name: Motion Video v3 gate
+        run: python src/fa3_motion_video_v3_gate.py
+      - name: Reuse Discovery
+        run: ./bin/fa3-enforce reuse-discovery
