@@ -104,6 +104,7 @@ from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
+from fa3_shared_execution_security_gate import gate as shared_execution_security_gate
 from fa3_modernization_integration_gate import gate as modernization_integration_gate
 from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
 
@@ -256,6 +257,9 @@ def static_check(root:Path):
     runtime_hardening_ref=runtime_hardening_gate(root)
     if runtime_hardening_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-108","Cross-cutting runtime hardening gate failed",runtime_hardening_gate=runtime_hardening_ref))
+    shared_execution_security_ref=shared_execution_security_gate(root)
+    if shared_execution_security_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-149","Shared Execution Security fail-closed gate failed",shared_execution_security_gate=shared_execution_security_ref))
     modernization_integration_ref=modernization_integration_gate(root)
     if modernization_integration_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-135","Modernization integration authority/evidence boundary gate failed",modernization_integration_gate=modernization_integration_ref))
