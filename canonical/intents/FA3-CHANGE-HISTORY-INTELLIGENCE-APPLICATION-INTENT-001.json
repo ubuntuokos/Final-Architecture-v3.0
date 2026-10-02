@@ -1,0 +1,99 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "project_type": "SHARED_PROFILE",
+  "goal": "Materialize a shared, derived, non-authoritative and rebuildable Change-History Intelligence Fabric under FA3-JOURNAL-001 that explains what changed, why, what it affects, which evidence and decisions support it, what became stale, and what rollback/requalification is required without replacing Journal, Canonical Registry, Evidence, License & Rights, Current Host, release or approval authorities.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "change-history",
+    "commit-archaeology",
+    "change-provenance",
+    "scope-creep-verification",
+    "impact-analysis",
+    "dependency-lineage",
+    "evidence-currentness",
+    "rollback-impact",
+    "requalification-planning",
+    "change-risk-context"
+  ],
+  "input_modalities": [
+    "JOURNAL_EVENT",
+    "CANONICAL_JSON",
+    "GIT_CHANGE",
+    "PR_METADATA",
+    "EVIDENCE_RECORD",
+    "CAPABILITY_RECORD",
+    "PROFILE_RECORD",
+    "CONTRACT_RECORD",
+    "APPLICATION_RECORD",
+    "SHARED_CAPABILITY_RECORD",
+    "DONOR_USAGE_EDGE",
+    "CURRENT_HOST_RECORD",
+    "RELEASE_PROJECTION",
+    "LICENSE_RIGHTS_RECORD",
+    "APPROVAL_DECISION"
+  ],
+  "output_modalities": [
+    "CHANGE_RECORD",
+    "CHANGE_EDGE",
+    "CHANGESET",
+    "CHANGE_IMPACT",
+    "ROLLBACK_IMPACT",
+    "CHANGE_QUERY_RESULT",
+    "CHANGE_RISK_CONTEXT",
+    "SCOPE_CLASSIFICATION"
+  ],
+  "execution_classes": [
+    "STATIC_PROJECTION",
+    "READ_ONLY_QUERY",
+    "DERIVED_INDEX_REBUILD",
+    "OPTIONAL_AI_ADVISORY"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3/change-history",
+    "cache_root": "$XDG_CACHE_HOME/fa3/change-history",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/change-history",
+    "data_root": "$XDG_DATA_HOME/fa3/change-history",
+    "claims_default_port": false,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false
+  },
+  "security_requirements": [
+    "READ_ONLY_SOURCE_ADAPTERS",
+    "DERIVED_INDEX_NOT_SOURCE_OF_TRUTH",
+    "FACT_DERIVED_FACT_INFERENCE_USER_NOTE_AI_INFERENCE_SEPARATION",
+    "SECRET_AND_CREDENTIAL_VALUE_REDACTION",
+    "LICENSE_RIGHTS_BOUNDARY_PRESERVED",
+    "MODEL_ROUTER_ONLY_FOR_OPTIONAL_AI",
+    "NO_DIRECT_PROVIDER_OR_MODEL_EXECUTION",
+    "AI_OFF_DENY_WINS",
+    "AI_SHADOW_NOT_FACT",
+    "AI_ADVISORY_EXPLICITLY_LABELED",
+    "CURRENT_HOST_PASS_CANNOT_BE_DOCUMENT_DERIVED",
+    "NO_SILENT_FALLBACK"
+  ],
+  "integration_requirements": [
+    "FA3-JOURNAL-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REGISTRY-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
+  ]
+}
