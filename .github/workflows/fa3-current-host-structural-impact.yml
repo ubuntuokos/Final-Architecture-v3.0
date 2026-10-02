@@ -30,9 +30,25 @@ jobs:
         run: PYTHONPATH=src python -m unittest tests.test_current_host_structural_impact_gate -v
       - name: Enforce Current Host co-development rule
         env:
-          FA3_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           FA3_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
+          if [ "$EVENT_NAME" = pull_request ]; then
+            git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+            LIVE_MAIN="$(git rev-parse refs/remotes/origin/main)"
+            FA3_BASE_SHA="$(git merge-base "$LIVE_MAIN" "$FA3_HEAD_SHA")"
+            test -n "$LIVE_MAIN"
+            test -n "$FA3_BASE_SHA"
+            if [ -n "$EVENT_BASE_SHA" ] && [ "$EVENT_BASE_SHA" != "$LIVE_MAIN" ]; then
+              echo "Stale PR event base detected: $EVENT_BASE_SHA; live main: $LIVE_MAIN"
+            fi
+            echo "Current Host structural-impact merge-base: $FA3_BASE_SHA"
+          else
+            FA3_BASE_SHA="$EVENT_BEFORE"
+            test -n "$FA3_BASE_SHA"
+          fi
           PYTHONPATH=src python src/fa3_current_host_structural_impact_gate.py \
             --root . \
             --base "$FA3_BASE_SHA" \
