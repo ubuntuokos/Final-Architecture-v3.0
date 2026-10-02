@@ -49,7 +49,7 @@ class VideoModelRouterTests(unittest.TestCase):
 
     def test_billable_requires_explicit_permission(self):
         with tempfile.TemporaryDirectory() as td:
-            m=self.manifest(Path(td),"BILLABLE_REMOTE")
+            m=self.manifest(Path(td),cost="BILLABLE_REMOTE")
             with self.assertRaises(VideoRouteDenied):
                 select({"schema":"fa3.motion-video-route-request.v1","operation":"TEXT_TO_VIDEO","allowed_cost_classes":["BILLABLE_REMOTE"]},[m])
 
