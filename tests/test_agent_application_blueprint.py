@@ -26,11 +26,24 @@ class Tests(unittest.TestCase):
         self.assertEqual(result["work_plan"]["status"], "READY")
         self.assertEqual(len(result["digest"]), 64)
         self.assertEqual(result["reviewed_task_ids"], ["research"])
+        self.assertEqual(result["submitted_task_group_id"], "research-intelligence")
+        self.assertEqual(result["task_group_id"], "F15")
+        self.assertEqual(result["task_group_revision"], 1)
+        self.assertEqual(len(result["task_group_digest"]), 64)
         for task in result["compiled_tasks"]:
             meta = task["metadata"]["agent_application_blueprint"]
             self.assertEqual(meta["blueprint_id"], "FA3-BLUEPRINT-RESEARCH-REVIEW-EXAMPLE-001")
             self.assertEqual(meta["revision"], 1)
             self.assertEqual(meta["digest"], result["digest"])
+            self.assertEqual(meta["task_group_id"], "F15")
+            self.assertEqual(meta["submitted_task_group_id"], "research-intelligence")
+            self.assertEqual(meta["task_group_digest"], result["task_group_digest"])
+
+    def test_unknown_task_group_rejected_at_compile(self):
+        value = self.load()
+        value["task_group_id"] = "F99"
+        with self.assertRaises(BlueprintContractError):
+            compile_blueprint(ROOT, value)
 
     def test_role_authority_rejected(self):
         value = self.load()
