@@ -104,5 +104,29 @@
   "global_promotion_claim": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "1a3958de1ae3fe78a3bf27bd7bbc0400c375ecaa",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "c29638de9ac73f133a817cc239eba0d3837daac6",
+    "donor_registry_sha256": "66498300449cd547a6c31111032b4b5bd07b81606492e9918cabcd8785ad7748",
+    "donor_registry_entry_count": 1317
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-EXTERNAL-API-DISCOVERY-001",
+      "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false,
+    "rationale": "External API/service/MCP discovery and its candidate store are cross-application shared infrastructure; no application-local duplicate is introduced."
+  }
 }
