@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-SHARED-EXECUTION-SECURITY-001",
+  "gateset_id": "FA3-SHARED-EXECUTION-SECURITY-GATESET-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "profile_ids": [
+    "FA3-SHARED-EXECUTION-SECURITY-001"
+  ],
+  "contract_ids": [
+    "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001"
+  ],
+  "executable": "PYTHONPATH=src python src/fa3_shared_execution_security_gate.py --root .",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_required_for_static_pass": false,
+  "current_host_runtime_required_for_production_promotion": true,
+  "current_host_runtime_promotion_claim": false
+}
