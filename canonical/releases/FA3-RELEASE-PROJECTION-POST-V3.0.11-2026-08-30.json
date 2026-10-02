@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4b20cb461e1952cd60c84c7a894055e4af91de67",
-    "pre_projection_root_tree_sha": "7cef9f2c1377ab0e62aa1dcbf06709445b2389eb",
-    "pre_projection_canonical_tree_sha": "457aeb5553b95a5fe6a2eb77c5db62c048ada314",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2525,
-    "total_post_baseline_commits": 2525,
-    "delta_file_count": 2823,
-    "delta_added_files": 2817,
+    "pre_projection_head_sha": "9aec9317dda02189abe623fe7e6a6dc6332bad46",
+    "pre_projection_root_tree_sha": "ca13a3c6d63ac5b6f99e779d494d5a543f387790",
+    "pre_projection_canonical_tree_sha": "ea92fd8658aa441aecc9c935cd463bbd2bf13fa3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2534,
+    "total_post_baseline_commits": 2534,
+    "delta_file_count": 2826,
+    "delta_added_files": 2820,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1318,
+    "canonical_files_in_post_baseline_delta": 1319,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 360,
-    "test_files_in_post_baseline_delta": 328,
+    "test_files_in_post_baseline_delta": 329,
     "workflow_files_in_post_baseline_delta": 134,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2813,
+  "manifest_entry_count": 2816,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2928,7 +2928,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "22f262dcc88e4429bf5f5b7a4175efad72f63945",
+      "git_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
       "baseline_delta_status": "added"
     },
     {
@@ -6567,6 +6567,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-GOOGLE-ANTIGRAVITY-2026-10-02.json",
+      "git_blob_sha": "b9fc7ee01faaa441194be3670ef64859d72bd9d4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-LITELLM-H2O-LOCAL-LLM-SOURCES-2026-10-02.json",
       "git_blob_sha": "05ac73685db38b84c549e763b5151bbe88a291ae",
       "baseline_delta_status": "added"
@@ -9939,6 +9944,11 @@
     {
       "path": "docs/donor-gmic-github-family-2026-09-28.md",
       "git_blob_sha": "3c3b7e8ac6890a25588e63e5572fceeb5a27ef94",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-google-antigravity-2026-10-02.md",
+      "git_blob_sha": "de0952052437fe75af1046009266fd3437923586",
       "baseline_delta_status": "added"
     },
     {
@@ -13922,6 +13932,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_google_antigravity_20261002.py",
+      "git_blob_sha": "6571f222ca907f9196a31f721b3f7ff60a062c7f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_historical_partial_reuse.py",
       "git_blob_sha": "2d01e7042eca4994c972302540962fe80f87380b",
       "baseline_delta_status": "added"
@@ -16831,7 +16846,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1349,
+    "donor_registry_entry_count": 1354,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
