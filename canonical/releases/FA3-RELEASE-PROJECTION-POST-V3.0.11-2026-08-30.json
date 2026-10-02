@@ -1049,7 +1049,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2767,
+  "manifest_entry_count": 2770,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -5528,7 +5528,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "07dc212b4a68bf4848e278d6eb590c70c2aae5a4",
+      "git_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
       "baseline_delta_status": "added"
     },
     {
@@ -14885,6 +14885,21 @@
       "path": "tests/test_donor_anthropics_financial_services_20261002.py",
       "git_blob_sha": "a1a5230870b2631537f4230005f5a1e77eccd304",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-CHANGE-HISTORY-SPECIFICATIONS-2026-10-02.json",
+      "git_blob_sha": "318bbf963ccb58a9cf69f205f4354f6c49bd7cc6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-change-history-specifications-2026-10-02.md",
+      "git_blob_sha": "6a59778a9555da79d7bad785bf89520e7a76b350",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_change_history_specifications_20261002.py",
+      "git_blob_sha": "eeaa085e5b9a695d3cfbf81ef0dfabe851c771e4",
+      "baseline_delta_status": "added"
     }
   ],
   "self_hash_policy": {
@@ -15820,7 +15835,8 @@
     "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory.",
     "FA3-JOURNAL-001 and FA3-JOURNAL-ARCHIVE-001 are globally reconciled as P0/MUST cross-cutting journal, work-history and retention projections. Append-only active logging, tombstone deletion, SEALED SHA-256 archives, verify-gated restore, retention-trash semantics and non-promotion authority boundaries are mandatory; capability count stays 143 and no architectural authority is added.",
     "FA3-OS-001 and FA3-OS-POLICY-001 are globally reconciled as a local-first privacy-governed context/activity/episodic-memory overlay on FA3-JOURNAL-001. The Journal remains the sole canonical workstation event/history ledger; derived memory remains rebuildable and non-authoritative, Resume Plan has no execution authority, capability count stays 143 and no architectural authority is added.",
-    "FA3-WORK-MANAGEMENT-PROJECTION-001 globally reconciles Kaneo and Kanboard behind one mandatory provider-neutral Work Management Control Center menu. Provider identity remains projection metadata; resource admission is workload-driven and HRB-authoritative, CPU-lightweight by default, and the existing Accelerator Guard decision surface is made GUI-reachable. Capability count remains 143 and no authority is added."
+    "FA3-WORK-MANAGEMENT-PROJECTION-001 globally reconciles Kaneo and Kanboard behind one mandatory provider-neutral Work Management Control Center menu. Provider identity remains projection metadata; resource admission is workload-driven and HRB-authoritative, CPU-lightweight by default, and the existing Accelerator Guard decision surface is made GUI-reachable. Capability count remains 143 and no authority is added.",
+    "Owner-explicit Change-History specification donor intake registers four metadata-only specification references (SLSA Build Provenance, in-toto specs, OpenTelemetry event semantic conventions, OpenLineage Lineage Job Facet); donor count 1340 -> 1344, capability baseline 175 unchanged, no authority/runtime/provider/model/dependency admission."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
