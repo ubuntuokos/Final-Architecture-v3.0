@@ -297,6 +297,39 @@
         "dashboard",
         "evidence-view"
       ]
+    },
+    {
+      "id": "FA3-SHARED-EXECUTION-SECURITY-PATTERN-001",
+      "name": "Shared Execution Security pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.bforartists",
+        "studio.natron",
+        "studio.gaffer",
+        "studio.demucs",
+        "studio.deepfilternet",
+        "studio.mautic",
+        "studio.twenty",
+        "studio.listmonk",
+        "fa3.ai-module-factory"
+      ],
+      "pattern_scope": [
+        "policy-boundary",
+        "policy-proof",
+        "executable-identity",
+        "filesystem-process-network-enforcement",
+        "credential-projection",
+        "mcp-l7",
+        "sandbox-lifecycle",
+        "security-events"
+      ]
     }
   ],
   "analysis_only_sources": [
@@ -604,6 +637,19 @@
         "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
       ],
       "reuse_status": "COMPOSITE_REFERENCE"
+    },
+    {
+      "id": "FA3-PATTERN-EXECUTION-SECURITY-001",
+      "class": "SECURITY_PATTERN",
+      "name": "Policy-bounded fail-closed shared execution security",
+      "canonical_donor_ids": [
+        "FA3-DONOR-NVIDIA-OPENSHELL-001"
+      ],
+      "analysis_source_ids": [],
+      "shared_module_ids": [
+        "FA3-SHARED-EXECUTION-SECURITY-PATTERN-001"
+      ],
+      "reuse_status": "ADOPTED_PATTERN"
     }
   ],
   "current_host_impact": {
@@ -666,6 +712,16 @@
       ],
       "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
       "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-EXECUTION-SECURITY-001",
+      "profile_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+      "contract_id": "FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-EXECUTION-SECURITY-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "RUNTIME_REQUALIFICATION_REQUIRED"
     }
   ]
 }
