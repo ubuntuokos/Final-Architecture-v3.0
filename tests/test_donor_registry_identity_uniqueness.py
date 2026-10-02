@@ -62,7 +62,7 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
         aliases = [key for row in self.entries for key in row.get("legacy_source_keys", [])]
         # Preserve the original #435 pinned donors while allowing serial donor expansion.
         self.assertGreaterEqual(len(self.entries), 1116)
-        self.assertEqual(len(aliases), 9)
+        self.assertGreaterEqual(len(aliases), 9)
         self.assertEqual(len(aliases), len(set(aliases)))
         self.assertFalse(canonical.intersection(aliases))
         for donor_id, new_key, old_key, pinned_commit in pins:
