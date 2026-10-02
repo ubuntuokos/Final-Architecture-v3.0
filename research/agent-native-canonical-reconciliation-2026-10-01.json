@@ -1,0 +1,112 @@
+{
+  "schema": "fa3.agent-native-reconciliation.v1",
+  "id": "FA3-AGENT-NATIVE-CANONICAL-RECONCILIATION-2026-10-01",
+  "date": "2026-10-01",
+  "published_main_snapshot": {
+    "published_main_commit": "6bcb6b7d4d5ece9e98a0eb091382c41c790f2256",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "55111e30b4508efb4e8825c40c0f9c6152ca5b35",
+    "donor_registry_sha256": "56ca1a4846d8d866b1b4317bca2f9240f85e6f5031752a31cd21c2051839916c",
+    "donor_registry_entry_count": 1307
+  },
+  "capability_baseline": 175,
+  "new_capabilities": 0,
+  "new_authorities": 0,
+  "dispositions": [
+    {
+      "surface": "agent-runtime-and-harness-authority",
+      "disposition": "ALREADY_COVERED",
+      "rationale": "FA3 Agent Fabric / Agent Workload Runtime; no duplicate authority"
+    },
+    {
+      "surface": "capability-discovery-and-admission",
+      "disposition": "ALREADY_COVERED",
+      "rationale": "Reuse Discovery + central registries remain canonical"
+    },
+    {
+      "surface": "installed-admitted-invokable-separation",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "retain explicit execution admission semantics"
+    },
+    {
+      "surface": "unknown-effect-recovery",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "reconcile original effect identity before redispatch"
+    },
+    {
+      "surface": "native-web-contract",
+      "disposition": "NEW_SHARED_CONTRACT",
+      "rationale": "FA3-SHARED-AGENT-WEB-INTERACTION-001"
+    },
+    {
+      "surface": "semantic-http-form-bridge",
+      "disposition": "NEW_SHARED_CONTRACT",
+      "rationale": "lower-assurance rail inside shared Agent-Web contract"
+    },
+    {
+      "surface": "browser-visual-execution",
+      "disposition": "ALREADY_COVERED",
+      "rationale": "FA3-BROWSER-ACTION-RUNTIME-001"
+    },
+    {
+      "surface": "silent-cross-rail-fallback",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "fail closed; no authority/secret inheritance"
+    },
+    {
+      "surface": "preview-approval-commit-receipt",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "FA3-SHARED-TOOL-ACTION-MEDIATION-001"
+    },
+    {
+      "surface": "transport-success-vs-business-success",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "dispatch/effect/outcome separation"
+    },
+    {
+      "surface": "minimum-disclosure-coordination",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "FA3-SHARED-CONVERSATION-SESSION-001"
+    },
+    {
+      "surface": "non-delegable-human-ratification",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "AUTH-HUMAN + CAP-172; action absent from agent surface"
+    },
+    {
+      "surface": "direct-semantic-media",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "FA3-SHARED-MULTIMODAL-SOURCE-001"
+    },
+    {
+      "surface": "remote-mcp-endpoint-diagnostics",
+      "disposition": "HARDEN_EXISTING",
+      "rationale": "FA3-MCP-GATEWAY-001; no second MCP authority"
+    },
+    {
+      "surface": "people-project-agent-discovery",
+      "disposition": "PATTERN_ONLY",
+      "rationale": "discovery evidence does not invoke/delegate"
+    },
+    {
+      "surface": "skill-generation-pipeline",
+      "disposition": "PATTERN_ONLY",
+      "rationale": "SkillAnything remains analysis-only"
+    },
+    {
+      "surface": "code-navigation-index",
+      "disposition": "PATTERN_ONLY",
+      "rationale": "codeindex remains analysis-only"
+    },
+    {
+      "surface": "agentchain-blockchain-runtime",
+      "disposition": "REJECT_AS_CORE_RUNTIME",
+      "rationale": "only compact deterministic protocol ideas may inform future research"
+    },
+    {
+      "surface": "topic-child-auto-adoption",
+      "disposition": "REJECT",
+      "rationale": "three topic URLs are discovery references only"
+    }
+  ]
+}
