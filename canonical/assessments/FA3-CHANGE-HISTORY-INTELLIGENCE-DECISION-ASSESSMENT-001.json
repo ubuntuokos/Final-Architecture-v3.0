@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-DECISION-ASSESSMENT-001",
+  "covered_ids": [
+    "FA3-CHANGE-HISTORY-INTELLIGENCE-001"
+  ],
+  "assessment": "NOT_APPLICABLE_TO_FACT_AUTHORITY_AI_ADVISORY_ONLY",
+  "rationale": "Change-History Intelligence is deterministic and derived. Decision Fabric and optional AI may rank or explain already-established facts, but may not create facts, approve changes, grant authority, alter scope classification, admit providers/models, declare Current Host PASS or promote runtime.",
+  "decision_points": [],
+  "not_delegated": [
+    "fact creation",
+    "authority assignment",
+    "scope authorization",
+    "approval",
+    "evidence promotion",
+    "license or rights decisions",
+    "current-host qualification",
+    "runtime promotion",
+    "rollback execution"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Change-History Intelligence against Decision Fabric authority boundary",
+    "result": "NO_AUTHORITY_DELEGATION",
+    "note": "Deterministic records and explicit evidence remain authoritative; optional AI is labeled inference only."
+  },
+  "ai_modes": [
+    "OFF",
+    "SHADOW",
+    "ADVISORY"
+  ],
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_fact": false,
+    "may_admit_model": false,
+    "may_admit_provider": false,
+    "may_claim_current_host_pass": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}
