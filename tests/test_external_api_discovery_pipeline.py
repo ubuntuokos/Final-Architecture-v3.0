@@ -97,11 +97,11 @@ class ExternalAPIDiscoveryPipelineTests(unittest.TestCase):
             mcp = root / "mcp-servers-apis-131"
             mcp.mkdir(parents=True)
             (root / "OPENCLAW_RECOMMENDED.md").write_text(
-                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6) | maps |\\n",
+                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6) | maps |\n",
                 encoding="utf-8",
             )
             (mcp / "README.md").write_text(
-                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6&utm_source=openclaw) | maps |\\n",
+                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6&utm_source=openclaw) | maps |\n",
                 encoding="utf-8",
             )
             manifest = create_snapshot_manifest(
@@ -110,7 +110,7 @@ class ExternalAPIDiscoveryPipelineTests(unittest.TestCase):
                 source_id=OPENCLAW_SOURCE_ID,
                 source_repository=OPENCLAW_SOURCE_REPOSITORY,
             )
-            (root / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\\n", encoding="utf-8")
+            (root / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
             store, receipt = ingest_snapshot(root)
             self.assertEqual("PASS", receipt["result"])
             self.assertEqual(OPENCLAW_SOURCE_ID, receipt["source_snapshot"]["source_id"])
@@ -125,7 +125,7 @@ class ExternalAPIDiscoveryPipelineTests(unittest.TestCase):
     def test_source_id_repository_mismatch_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            (root / "README.md").write_text("- [X](https://example.com/x)\\n", encoding="utf-8")
+            (root / "README.md").write_text("- [X](https://example.com/x)\n", encoding="utf-8")
             with self.assertRaises(ValueError):
                 create_snapshot_manifest(
                     root,

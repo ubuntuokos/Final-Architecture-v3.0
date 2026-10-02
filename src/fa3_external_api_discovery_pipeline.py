@@ -107,7 +107,7 @@ def create_snapshot_manifest(
             }
         )
     if not files:
-        raise ValueError("snapshot requires at least one README.md surface")
+        raise ValueError("snapshot requires at least one supported catalog surface")
     manifest = {
         "schema": SNAPSHOT_SCHEMA,
         "source_id": source_id,
