@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CANONICAL-REGISTRY-GOVERNANCE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-REGISTRY-001",
+  "subject_id": "FA3-REGISTRY-001",
+  "intent_id": "FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-REGISTRY-001",
+    "FA3-CANONICAL-REGISTRY-INTEGRITY-001",
+    "FA3-PERMANENT-GATE-HARDENING-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "EXISTING_CANONICAL_REGISTRY_AND_SSOT_GOVERNANCE"
+    },
+    {
+      "id": "FA3-GATE-REGISTRY-001",
+      "use": "EXISTING_MANDATORY_GATE_IDENTITY_AND_POLICY_MIRROR"
+    },
+    {
+      "id": "FA3-PERMANENT-GATE-HARDENING-001",
+      "use": "EXISTING_PERMANENT_GATE_TRUST_PROVENANCE_AND_NON_INTERFERENCE_HARDENING"
+    },
+    {
+      "id": "FA3-RELEASE-CAPABILITY-BASELINE-001",
+      "use": "ACTIVE_RELEASE_CAPABILITY_BASELINE_SOURCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_CANONICAL_REGISTRY_AUTHORITY",
+      "reason": "EXISTING_FA3_REGISTRY_GOVERNANCE_REMAINS_THE_ONLY_METADATA_SSOT"
+    },
+    {
+      "id": "SECOND_RELEASE_DECISION_ENGINE",
+      "reason": "PERMANENT_CANONICAL_AND_PROMOTION_GATE_REMAINS_THE_ONLY_RELEASE_AUTHORITY_PATH"
+    },
+    {
+      "id": "PULSE_RUNTIME_OR_GATE_ENGINE",
+      "reason": "SOURCE_USED_AS_ANALYSIS_ONLY_PATTERN_STUDY_NO_CODE_IMPORT_NO_RUNTIME_DEPENDENCY"
+    }
+  ],
+  "pattern_reuse": [
+    "TRUSTED_BASE_UNTRUSTED_CANDIDATE",
+    "AUTHORITY_CARRIER_SEPARATION",
+    "NO_IMPLICIT_PASS",
+    "DIGEST_BACKED_PROVENANCE_BINDING",
+    "NON_INTERFERENCE",
+    "DERIVED_NON_AUTHORIZING_REGISTRY_GRAPH"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "release_authority": "EXISTING_FA3_CANONICAL_AND_PROMOTION_PATH"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "CANONICAL_REGISTRY_GOVERNANCE_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "bf50877f64c41cfea49c69dc274812370dfcb77b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "12cbc13cd95c98533603c0746df58c4cfc0b1cfc",
+    "donor_registry_sha256": "d3f2af8c1544832cf517fd3f4415b1b1cdc769e344e634579d55c62d5bdd07c8",
+    "donor_registry_entry_count": 1316
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": false,
+    "disposition": "NOT_APPLICABLE",
+    "retrospective_consumer_impact_reviewed": true,
+    "rationale": "This change hardens shared canonical governance metadata and validation; it does not introduce an application-local functional capability."
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
