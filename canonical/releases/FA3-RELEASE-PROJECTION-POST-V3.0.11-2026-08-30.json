@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2840,
+  "manifest_entry_count": 2843,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -5512,6 +5512,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-SENTELABSAI-ORG-2026-10-03.json",
+      "git_blob_sha": "ad572f31d836af2e3d249db7b502e193142edc46",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-TEXTURE-MATERIAL-LTX-2026-10-01.json",
       "git_blob_sha": "c40ccd6e9b6d4818b89b543fab214bfc69283c88",
       "baseline_delta_status": "added"
@@ -5703,7 +5708,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+      "git_blob_sha": "1cb6b63fb1bf32677bcf04b8fda9b92eb2827e06",
       "baseline_delta_status": "added"
     },
     {
@@ -10012,6 +10017,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-sentelabsai-org-2026-10-03.md",
+      "git_blob_sha": "cc1c952c65639e9704ab8cbc4229d25503b48d63",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-texture-material-curation-2026-10-01.md",
       "git_blob_sha": "64c223b83e5b4567c633d28870dc329b24e003d2",
       "baseline_delta_status": "added"
@@ -14078,7 +14088,7 @@
     },
     {
       "path": "tests/test_donor_nvlabs_sana_sol_refiner_20261002.py",
-      "git_blob_sha": "d22dded8ce34f360e9039b795aecf5154d2e719a",
+      "git_blob_sha": "791bdc41a75362a14a026ae574713bfc20fe934b",
       "baseline_delta_status": "added"
     },
     {
@@ -14119,6 +14129,11 @@
     {
       "path": "tests/test_donor_registry_identity_uniqueness.py",
       "git_blob_sha": "abd16e031cba66a40f2127a6e86dc2cfe1dcbc55",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_sentelabsai_org_20261003.py",
+      "git_blob_sha": "24736e2a4219192d7dd2385217915052485016de",
       "baseline_delta_status": "added"
     },
     {
@@ -15305,7 +15320,8 @@
     "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending.",
     "2026-09-23: FA3 Neural Rendering & Temporal Reconstruction projection reconciled with optional OpenDLSS-NR provider, bounded Jev advisory, Agent Native/UAF actions, vendor-neutral Hardware Audit/HRB boundaries, and no current-host provider-E2E promotion.",
     "Owner-explicit NVlabs/Sana SoL-Refiner metadata-only donor intake reconciled at 1357 registry entries; no capability, authority, runtime, provider, model or Current Host promotion change.",
-    "MiniMax H3 active runtime-admission artifacts reconciled from legacy 143 to the fixed 175 capability baseline; historical 143-era decisions/evidence remain preserved."
+    "MiniMax H3 active runtime-admission artifacts reconciled from legacy 143 to the fixed 175 capability baseline; historical 143-era decisions/evidence remain preserved.",
+    "Owner-explicit SenteLabsAI organization metadata-only donor intake reconciled at 1358 registry entries; child repositories remain discovery-only, with no capability, authority, runtime, provider, model, usage-edge or Current Host promotion change."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -16971,7 +16987,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1357,
+    "donor_registry_entry_count": 1358,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
