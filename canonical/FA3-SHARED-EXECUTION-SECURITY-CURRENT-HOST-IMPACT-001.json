@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.current-host-impact.v1",
+  "id": "FA3-SHARED-EXECUTION-SECURITY-CURRENT-HOST-IMPACT-001",
+  "subject_id": "FA3-SHARED-EXECUTION-SECURITY-001",
+  "classification": "RUNTIME_REQUALIFICATION_REQUIRED",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "existing_surface_to_extend": "RUNTIME_ISOLATION_AGENT_SANDBOX",
+  "required_physical_proofs": [
+    "FILESYSTEM_DENY",
+    "PROCESS_OR_SYSCALL_DENY",
+    "NETWORK_DENY",
+    "EXECUTABLE_DIGEST_SWAP_DENY",
+    "POLICY_REVISION_STALE_DENY",
+    "CREDENTIAL_EXFILTRATION_DENY",
+    "DIRECT_MCP_BYPASS_DENY",
+    "EXPIRED_SECRET_OR_HRB_LEASE_DENY",
+    "ENFORCER_LOSS_FAIL_CLOSED",
+    "RESTART_STALE_TOKEN_DENY",
+    "ROLLBACK_PASS"
+  ],
+  "cpu_only_proof_required": true,
+  "gpu_proof": "ONLY_IF_APPLICABLE_AND_HRB_PLUS_HARDWARE_SAFETY_ADMITTED",
+  "hosted_ci_may_claim_physical_pass": false
+}
