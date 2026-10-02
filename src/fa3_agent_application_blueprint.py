@@ -244,6 +244,7 @@ def compile_blueprint(root: Path | str, blueprint: dict[str, Any], *, runtime_ex
         "review_bindings": normalized["reviews"],
         "reviewed_task_ids": sorted(reviewed),
         "handoffs": normalized["handoffs"],
+        "compiled_tasks": tasks,
         "work_plan": work_plan,
         "runtime_promotion_claim": False,
     }
