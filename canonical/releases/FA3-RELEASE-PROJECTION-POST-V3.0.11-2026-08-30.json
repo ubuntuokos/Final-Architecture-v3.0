@@ -1054,7 +1054,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2825,
+  "manifest_entry_count": 2827,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3352,6 +3352,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-MINIMAX-H3-RUNTIME-ADMISSION-REUSE-ASSESSMENT-2026-10-02.json",
+      "git_blob_sha": "1784ea84d36b802bc1491a3e1cb1a40ab651f70d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-MODEL-MANAGER-NATIVE-STORAGE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "a3f3be060f44a1cdcd846bef73f076c1b41ade47",
       "baseline_delta_status": "added"
@@ -4068,7 +4073,7 @@
     },
     {
       "path": "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
-      "git_blob_sha": "5553d68b42ec22de980da96940fd4e10bf125c6f",
+      "git_blob_sha": "4ab889d9ec79a76ecb609dc513afb7fd1617d14c",
       "baseline_delta_status": "added"
     },
     {
@@ -6393,7 +6398,7 @@
     },
     {
       "path": "canonical/FA3-MINIMAX-H3-RUNTIME-ADMISSION-001.json",
-      "git_blob_sha": "c4048916559d073570c80000d74a92eb57d16642",
+      "git_blob_sha": "14523ef8a249c7b0d10f3b641f9986833fb97359",
       "baseline_delta_status": "added"
     },
     {
@@ -6902,6 +6907,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02.json",
+      "git_blob_sha": "d80c5ea9283c1eb894adecfb1b8ca4284f6bc283",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-MODEL-MANAGER-NATIVE-STORAGE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "45bb0ff9428ffdfb7df0304477247944256a38de",
       "baseline_delta_status": "added"
@@ -7143,7 +7153,7 @@
     },
     {
       "path": "canonical/minimax-h3-runtime-admission-enforcement.json",
-      "git_blob_sha": "f7ded8dff62afa7cd93dccf29f5d32aec956245b",
+      "git_blob_sha": "ce8fcf7a168d2f9b92d1ebf59b37aa2f69100cc4",
       "baseline_delta_status": "added"
     },
     {
@@ -12693,7 +12703,7 @@
     },
     {
       "path": "src/fa3_minimax_h3_runtime_admission_gate.py",
-      "git_blob_sha": "769be76ab54da113aa192775d70b1b1e4bad8f4c",
+      "git_blob_sha": "cd28754401e097d0820408eef34f4eca8e382bbc",
       "baseline_delta_status": "added"
     },
     {
@@ -14508,7 +14518,7 @@
     },
     {
       "path": "tests/test_minimax_h3_runtime_admission.py",
-      "git_blob_sha": "b786a3b4951f5da30889a03dd446d17cd4c9136f",
+      "git_blob_sha": "a528fd7ff03cf6fbb548897eb5205aa063a8744f",
       "baseline_delta_status": "added"
     },
     {
@@ -15229,7 +15239,8 @@
     "2026-09-19 runtime-hardening current-host closure materialization: four real self-hosted evidence surfaces and fail-closed admission gate added; no runtime PASS or global promotion is claimed before real execution.",
     "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending.",
     "2026-09-23: FA3 Neural Rendering & Temporal Reconstruction projection reconciled with optional OpenDLSS-NR provider, bounded Jev advisory, Agent Native/UAF actions, vendor-neutral Hardware Audit/HRB boundaries, and no current-host provider-E2E promotion.",
-    "Owner-explicit NVlabs/Sana SoL-Refiner metadata-only donor intake reconciled at 1357 registry entries; no capability, authority, runtime, provider, model or Current Host promotion change."
+    "Owner-explicit NVlabs/Sana SoL-Refiner metadata-only donor intake reconciled at 1357 registry entries; no capability, authority, runtime, provider, model or Current Host promotion change.",
+    "MiniMax H3 active runtime-admission artifacts reconciled from legacy 143 to the fixed 175 capability baseline; historical 143-era decisions/evidence remain preserved."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -15314,7 +15325,10 @@
     "semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 175
+    "capability_count_after": 175,
+    "application_intent_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02",
+    "reuse_assessment_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-REUSE-ASSESSMENT-2026-10-02",
+    "baseline_reconciliation_status": "ACTIVE_RUNTIME_ADMISSION_METADATA_RECONCILED_TO_FIXED_175_NO_RUNTIME_PROMOTION"
   },
   "developer_agent_coordination_reconciliation": {
     "profile_id": "FA3-AGENT-EXEC-001",
@@ -15606,7 +15620,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-09-28",
+  "last_regenerated_at": "2026-10-02",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",

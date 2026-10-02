@@ -1,0 +1,141 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-REUSE-ASSESSMENT-2026-10-02",
+  "project_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+  "intent_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02",
+  "intent_path": "canonical/intents/FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02.json",
+  "covered_ids": [
+    "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+    "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+    "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-VIDEO-001",
+    "CAP-159",
+    "CAP-160"
+  ],
+  "project_status": "BASELINE_175_RECONCILIATION_RUNTIME_PROMOTION_UNCHANGED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "EXISTING_SHARED_VIDEO_PROFILE_AND_PROVIDER_INTERCHANGE_BOUNDARY"
+    },
+    {
+      "id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+      "use": "EXISTING_PROVIDER_ADAPTER_CONTRACT_RECONCILED_TO_ACTIVE_175_BASELINE"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_AND_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_ADMISSION_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+      "use": "EXISTING_WORKLOAD_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+      "use": "EXISTING_NON_BYPASSABLE_HARDWARE_SAFETY_ENVELOPE"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "H3_RUNTIME_PROMOTION_BY_BASELINE_REPAIR",
+      "reason": "THE_CHANGE ONLY RECONCILES ACTIVE METADATA TO 175; RUNTIME PROMOTION REMAINS SEPARATE AND EVIDENCE_GATED"
+    },
+    {
+      "id": "DIRECT_H3_DEPENDENCY_FOR_FA3_APPLICATIONS",
+      "reason": "APPLICATIONS CONSUME THE SHARED MOTION_VIDEO_GENERATION_FABRIC; H3 REMAINS OPTIONAL_CONDITIONAL_REFERENCE"
+    },
+    {
+      "id": "SILENT_PROVIDER_MODEL_DEVICE_OR_CLOUD_FALLBACK",
+      "reason": "FA3 FAILS CLOSED AND REQUIRES EXPLICIT ADMITTED RESELECTION"
+    },
+    {
+      "id": "HISTORICAL_143_RECORD_REWRITE",
+      "reason": "HISTORICAL DECISIONS AND EVIDENCE ARE IMMUTABLE; ONLY ACTIVE ADMISSION ARTIFACTS ARE RECONCILED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PUBLISHED-MAIN-DONOR-SNAPSHOT-001"
+  ],
+  "existing_authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_approval": "AUTH-HUMAN"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "display_gpu_automatic_ai_use": false,
+    "hrb_bound_when_accelerated": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_entry_count": 1357,
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e"
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-VIDEO-001",
+      "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001"
+    ],
+    "rationale": "The H3 adapter remains behind the existing shared Motion & Video Generation and provider-interchange boundary; no application-specific duplicate or direct H3 dependency is introduced."
+  },
+  "runtime_boundary": {
+    "h3_status": "ACCEPTED_CONDITIONAL_REFERENCE_OPTIONAL_DISABLED_BY_DEFAULT",
+    "provider_promotion_claim": false,
+    "model_promotion_claim": false,
+    "current_host_pass_claim": false,
+    "historical_evidence_rewritten": false,
+    "capability_baseline": 175
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "VIDEO_PROVIDER_ADMISSION_BASELINE_RECONCILIATION"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "assessment": "This baseline-only H3 metadata reconciliation does not require direct Khronos SDK or API reuse; any later native accelerator backend materialization must be reassessed under the shared hardware execution fabric."
+    }
+  ]
+}

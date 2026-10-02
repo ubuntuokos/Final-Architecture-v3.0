@@ -3,6 +3,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from fa3_minimax_h3_runtime_admission_gate import capability_baseline_valid
+from fa3_release_baseline import module_active_capability_count
+
 from fa3_minimax_h3_provider_adapter import (
     GLOBAL_API_BASE,
     H3AdmissionError,
@@ -148,11 +151,20 @@ class MiniMaxH3RuntimeAdmissionTests(unittest.TestCase):
         gate = load("canonical/minimax-h3-runtime-admission-enforcement.json")
         self.assertFalse(contract["new_capability"])
         self.assertFalse(contract["new_architectural_authority"])
-        self.assertEqual(runtime["capability_count"], 143)
-        self.assertEqual(gate["capability_count"], 143)
+        active = module_active_capability_count(__file__)
+        self.assertEqual(active, 175)
+        self.assertEqual(contract["capability_count"], active)
+        self.assertEqual(runtime["capability_count"], active)
+        self.assertEqual(gate["capability_count"], active)
         self.assertFalse(runtime["runtime_promotion_claim"])
         self.assertFalse(gate["runtime_promotion_claim"])
         self.assertEqual(runtime["missing_secret_or_entitlement_state"], "PENDING_EXTERNAL_ADMISSION")
+
+    def test_legacy_or_drifted_capability_counts_fail_closed(self):
+        self.assertTrue(capability_baseline_valid(175, 175, 175, 175))
+        self.assertFalse(capability_baseline_valid(175, 143, 175, 175))
+        self.assertFalse(capability_baseline_valid(175, 174, 175, 175))
+        self.assertFalse(capability_baseline_valid(174, 174, 174, 174))
 
     def test_integration_index_candidates_are_fail_closed(self):
         provider = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
