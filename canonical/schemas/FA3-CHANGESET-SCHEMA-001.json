@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/changeset/v1",
+  "title": "FA3 ChangeSet",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "record_ids",
+    "edge_ids",
+    "source_digest"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "record_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "edge_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
