@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from fa3_release_baseline import module_active_capability_count
 from pathlib import Path
 from typing import Any
 
@@ -57,7 +58,7 @@ def validate(root: Path) -> list[dict[str, Any]]:
         (profile.get("id") == PROFILE_ID, "MCP-FINAL-001", "Canonical profile id mismatch"),
         (profile.get("authority") == AUTHORITY_ID, "MCP-FINAL-002", "Canonical authority mismatch"),
         (profile.get("status") == "CANONICAL", "MCP-FINAL-003", "Profile is not canonical"),
-        (profile.get("capability_count") == 143 and profile.get("capability_delta") == 0, "MCP-FINAL-004", "Capability baseline changed"),
+        (profile.get("capability_count") == module_active_capability_count(__file__) and contracts.get("capability_count") == module_active_capability_count(__file__) and profile.get("capability_delta") == 0, "MCP-FINAL-004", "Active capability baseline changed"),
         (profile.get("authority_delta") == 0 and profile.get("new_architectural_authority") is False, "MCP-FINAL-005", "Authority delta is not zero"),
         (profile.get("canonical_transport", {}).get("revision") == MODERN_VERSION, "MCP-FINAL-006", "Modern protocol revision mismatch"),
         (profile.get("canonical_transport", {}).get("mode") == "STATELESS", "MCP-FINAL-007", "Canonical transport must be stateless"),
@@ -71,6 +72,10 @@ def validate(root: Path) -> list[dict[str, Any]]:
         (current.get("parent_authority") == AUTHORITY_ID, "MCP-FINAL-015", "Current-host authority binding changed"),
         (registry.get("authority") == AUTHORITY_ID and registry.get("direct_agent_provider_bypass") == "DENY", "MCP-FINAL-016", "Registry authority/bypass invariant broken"),
         (gui.get("direct_qml_tool_invocation") is False and gui.get("gui_self_approval") is False, "MCP-FINAL-017", "GUI authority boundary broken"),
+        (profile.get("remote_endpoint_admission", {}).get("tool_execution_during_default_diagnostics") is False, "MCP-FINAL-023", "Remote endpoint diagnostics must not execute tools by default"),
+        (profile.get("remote_endpoint_admission", {}).get("client_profile_is_authority") is False, "MCP-FINAL-024", "Client compatibility profile cannot become authority"),
+        (contracts.get("remote_endpoint_compatibility", {}).get("transport_success_is_business_success") is False, "MCP-FINAL-025", "Transport success cannot imply business success"),
+        (contracts.get("remote_endpoint_compatibility", {}).get("tool_execution_during_compatibility_probe") is False, "MCP-FINAL-026", "Compatibility probe must remain non-executing by default"),
     ]
     for ok, code, message in checks:
         if not ok:

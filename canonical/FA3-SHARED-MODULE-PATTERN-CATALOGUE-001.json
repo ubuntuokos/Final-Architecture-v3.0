@@ -297,6 +297,27 @@
         "dashboard",
         "evidence-view"
       ]
+    },
+    {
+      "id": "FA3-SHARED-AGENT-WEB-INTERACTION-PATTERN-001",
+      "name": "Shared Agent-Web Interaction pattern",
+      "consumer_application_ids": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "fa3.ai-module-factory"
+      ],
+      "pattern_scope": [
+        "native-agent-contract",
+        "semantic-http-bridge",
+        "browser-visual-rail",
+        "preview-approval-commit-receipt",
+        "outcome-verification",
+        "effect-reconciliation",
+        "human-commitment-boundary"
+      ]
     }
   ],
   "analysis_only_sources": [
@@ -394,6 +415,78 @@
       "id": "ANALYSIS-STREAMLIT",
       "name": "Streamlit",
       "locator": "https://github.com/streamlit/streamlit",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-AWESOME-AGENT-NATIVE-SERVICES",
+      "name": "Awesome Agent-Native Services",
+      "locator": "https://github.com/haoruilee/awesome-agent-native-services",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-SKILLANYTHING",
+      "name": "SkillAnything",
+      "locator": "https://github.com/AgentSkillOS/SkillAnything",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-CODEINDEX",
+      "name": "codeindex",
+      "locator": "https://github.com/dreamlx/codeindex",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-ORDIVON-HARNESS",
+      "name": "Ordivon Harness",
+      "locator": "https://github.com/ordivon-org/ordivon-harness",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-ORDIVON-HOST",
+      "name": "Ordivon Host",
+      "locator": "https://github.com/ordivon-org/ordivon-host",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-ORDIVON-WORLD",
+      "name": "Ordivon World",
+      "locator": "https://github.com/ordivon-org/ordivon-world",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-AVASIS-AGENT-NATIVE-WEB",
+      "name": "Agent Native Web",
+      "locator": "https://github.com/avasis-ai/agent-native-web",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-CANMCP",
+      "name": "CanMCP",
+      "locator": "https://github.com/OlegNickeshin/canmcp",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-UNSAID-WEBMCP",
+      "name": "UNSAID WebMCP",
+      "locator": "https://github.com/Crazy-Pyro/unsaid-webmcp",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-SHARED-ROOM-MCP",
+      "name": "Shared Room MCP",
+      "locator": "https://github.com/jiarong0423/shared-room-mcp",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-PEOPLE-MCP",
+      "name": "PeopleMCP",
+      "locator": "https://github.com/OlegNickeshin/people-mcp",
+      "registration_status": "OWNER_MARKER_REQUIRED"
+    },
+    {
+      "id": "ANALYSIS-AGENTCHAIN",
+      "name": "AgentChain",
+      "locator": "https://github.com/beltromatti/agentchain",
       "registration_status": "OWNER_MARKER_REQUIRED"
     }
   ],
@@ -604,6 +697,25 @@
         "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001"
       ],
       "reuse_status": "COMPOSITE_REFERENCE"
+    },
+    {
+      "id": "FA3-PATTERN-AGENT-NATIVE-WEB-INTERACTION-001",
+      "class": "ADAPTER_PATTERN",
+      "name": "Agent-native web contract, lower-assurance HTTP bridge and browser/visual rail separation",
+      "canonical_donor_ids": [],
+      "analysis_source_ids": [
+        "ANALYSIS-AVASIS-AGENT-NATIVE-WEB",
+        "ANALYSIS-CANMCP",
+        "ANALYSIS-UNSAID-WEBMCP",
+        "ANALYSIS-SHARED-ROOM-MCP",
+        "ANALYSIS-PEOPLE-MCP",
+        "ANALYSIS-ORDIVON-HARNESS",
+        "ANALYSIS-ORDIVON-WORLD"
+      ],
+      "shared_module_ids": [
+        "FA3-SHARED-AGENT-WEB-INTERACTION-PATTERN-001"
+      ],
+      "reuse_status": "REFERENCE_ONLY"
     }
   ],
   "current_host_impact": {
@@ -663,6 +775,17 @@
       "pattern_references": [
         "FA3-SHARED-AI-COMPOSITION-PATTERN-001",
         "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+      "profile_id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+      "contract_id": "FA3-SHARED-AGENT-WEB-INTERACTION-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-AGENT-WEB-INTERACTION-PATTERN-001",
+        "FA3-PATTERN-AGENT-NATIVE-WEB-INTERACTION-001"
       ],
       "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
       "current_host_impact": "NO_RUNTIME_IMPACT"

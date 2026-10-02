@@ -1,0 +1,69 @@
+name: FA3 Agent-Web Interaction
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-SHARED-AGENT-WEB-INTERACTION-001.json'
+      - 'canonical/contracts/FA3-SHARED-AGENT-WEB-INTERACTION-CONTRACTS-001.json'
+      - 'canonical/intents/FA3-SHARED-AGENT-WEB-INTERACTION-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-SHARED-AGENT-WEB-INTERACTION-REUSE-ASSESSMENT-001.json'
+      - 'canonical/FA3-SHARED-AGENT-WEB-INTERACTION-CURRENT-HOST-IMPACT-001.json'
+      - 'canonical/agent-web-interaction-enforcement.json'
+      - 'canonical/profiles/FA3-WEB-AI-001.json'
+      - 'canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json'
+      - 'canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json'
+      - 'canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json'
+      - 'canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MCP-GATEWAY-001.json'
+      - 'canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json'
+      - 'canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'src/fa3_agent_web_interaction_gate.py'
+      - 'src/fa3_browser_action_gate.py'
+      - 'src/fa3_mcp_gateway_gate.py'
+      - 'src/fa3_shared_module_pattern_catalogue.py'
+      - 'tests/test_agent_web_interaction.py'
+      - 'tests/test_shared_module_pattern_catalogue.py'
+      - 'tests/test_application_donor_index.py'
+      - '.github/workflows/fa3-agent-web-interaction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_agent_web_interaction_gate.py src/fa3_browser_action_gate.py src/fa3_mcp_gateway_gate.py src/fa3_shared_module_pattern_catalogue.py
+      - name: Shared contract regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_agent_web_interaction tests.test_shared_module_pattern_catalogue tests.test_application_donor_index tests.test_mcp_gateway_final -v
+      - name: Agent-Web gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_agent_web_interaction_gate.py --root .
+      - name: Browser parent gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_browser_action_gate.py --root .
+      - name: Central MCP gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_mcp_gateway_gate.py
+      - name: Shared pattern catalogue
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_shared_module_pattern_catalogue.py --check

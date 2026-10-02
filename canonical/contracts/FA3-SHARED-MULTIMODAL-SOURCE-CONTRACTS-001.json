@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-SHARED-MULTIMODAL-SOURCE-001",
   "provider_neutral": true,
@@ -35,7 +35,11 @@
     "AdaptiveKeyframe",
     "OCRSegment",
     "TrackingObservation",
-    "MultimodalContextEnvelope"
+    "MultimodalContextEnvelope",
+    "DirectSemanticMediaReference",
+    "BoundedMediaRegion",
+    "StructuredVisualData",
+    "RenderedEvidenceRequirement"
   ],
   "required_semantics": {
     "original_asset": "IMMUTABLE_REFERENCE_PRESERVED",
@@ -46,13 +50,17 @@
     ],
     "video_sampling": "ADAPTIVE_SCENE_SHOT_CHANGE_AWARE",
     "temporal_alignment": "TIMECODE_OR_TIMESTAMP_REQUIRED_FOR_DERIVED_VIDEO_AUDIO_EVENTS",
-    "hardware": "HRB_ADMISSION_WHEN_RESOURCE_EXECUTION_OCCURS"
+    "hardware": "HRB_ADMISSION_WHEN_RESOURCE_EXECUTION_OCCURS",
+    "semantic_media_preference": "DIRECT_STRUCTURED_OR_SOURCE_MEDIA_FIRST_WHEN_PIXELS_ARE_NOT_THE_EVIDENCE",
+    "rendered_evidence": "BROWSER_OR_VISUAL_OBSERVATION_REQUIRED_WHEN_RENDERED_PRESENTATION_IS_THE_FACT_UNDER_TEST"
   },
   "invariants": [
     "NO_ONE_FRAME_VIDEO_CLAIM",
     "NO_FIXED_FRAME_COUNT_AS_GLOBAL_POLICY",
     "NO_TRANSCRIPT_REPLACES_ORIGINAL_AUDIO",
-    "NO_AUTOMATIC_DISPLAY_GPU_ENLISTMENT"
+    "NO_AUTOMATIC_DISPLAY_GPU_ENLISTMENT",
+    "NO_PIXEL_RECONSTRUCTION_WHEN_AUTHORITATIVE_STRUCTURED_SOURCE_IS_AVAILABLE",
+    "NO_STRUCTURED_SOURCE_SUBSTITUTION_WHEN_RENDERED_PIXELS_ARE_REQUIRED_EVIDENCE"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"

@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
   "provider_neutral": true,
@@ -30,18 +30,29 @@
     "ExecutionEnvelope",
     "ExecutionReceipt",
     "RollbackReceipt",
-    "ActionDenial"
+    "ActionDenial",
+    "ActionStateBinding",
+    "EffectPreview",
+    "ApprovalBinding",
+    "EffectReceipt",
+    "OutcomeVerification",
+    "ExternalEffectReconciliation",
+    "NonDelegableHumanActionBoundary"
   ],
   "required_semantics": {
     "pipeline": [
       "MODEL_OR_AGENT_REQUEST",
       "TYPED_ACTION_INTENT",
       "LAYER_GUARD_AND_POLICY",
-      "OPTIONAL_HUMAN_APPROVAL",
+      "CURRENT_STATE_OR_REVISION_BINDING",
+      "EFFECT_PREVIEW",
+      "OPTIONAL_OR_REQUIRED_EXACT_APPROVAL_BINDING",
       "MCP_OR_UAF_BINDING",
       "AGENT_WORKLOAD_RUNTIME",
       "HRB_ADMISSION_IF_REQUIRED",
-      "ISOLATED_EXECUTION",
+      "ISOLATED_SINGLE_DISPATCH",
+      "EFFECT_RECEIPT",
+      "OUTCOME_VERIFICATION",
       "RECEIPT_AND_EVIDENCE"
     ],
     "direct_shell_from_model": "DENY",
@@ -49,14 +60,20 @@
     "prompt_injection_signal": "ADVISORY_ONLY",
     "authorization": "DETERMINISTIC_SECURITY_GOVERNANCE",
     "secrets": "SECRETREF_ONLY_WHERE_SUPPORTED",
-    "failure": "FAIL_CLOSED_EXPLICIT_DENIAL"
+    "failure": "FAIL_CLOSED_EXPLICIT_DENIAL",
+    "ambiguous_external_effect": "RECONCILE_ORIGINAL_EFFECT_IDENTITY_BEFORE_REDISPATCH",
+    "transport_success": "NOT_BUSINESS_SUCCESS",
+    "non_delegable_human_action": "ABSENT_FROM_AGENT_EXECUTABLE_SURFACE"
   },
   "invariants": [
     "NO_MODEL_EXECUTION_AUTHORITY",
     "NO_CLASSIFIER_AS_SECURITY_AUTHORITY",
     "NO_DIRECT_PROVIDER_BYPASS",
     "NO_SILENT_SANDBOX_DOWNGRADE",
-    "ROLLBACK_RECEIPT_FOR_REVERSIBLE_MUTATIONS"
+    "ROLLBACK_RECEIPT_FOR_REVERSIBLE_MUTATIONS",
+    "DISPATCH_EFFECT_OUTCOME_SEPARATION",
+    "AMBIGUOUS_EFFECT_RECONCILIATION_BEFORE_REDISPATCH",
+    "NON_DELEGABLE_HUMAN_ACTION_NOT_CALLABLE_BY_AGENT"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"

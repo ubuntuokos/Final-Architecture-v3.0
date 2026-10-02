@@ -1,0 +1,178 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-AGENT-WEB-INTERACTION-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "donor_review": "REVIEWED_MATCH",
+  "date": "2026-10-02",
+  "subject_id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+  "project_id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+  "intent_id": "FA3-SHARED-AGENT-WEB-INTERACTION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-AGENT-WEB-INTERACTION-APPLICATION-INTENT-001.json",
+  "published_main_commit": "bf50877f64c41cfea49c69dc274812370dfcb77b",
+  "donor_registry_blob_sha": "12cbc13cd95c98533603c0746df58c4cfc0b1cfc",
+  "donor_registry_entry_count": 1316,
+  "donor_planning_snapshot": {
+    "published_main_commit": "bf50877f64c41cfea49c69dc274812370dfcb77b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "12cbc13cd95c98533603c0746df58c4cfc0b1cfc",
+    "donor_registry_sha256": "d3f2af8c1544832cf517fd3f4415b1b1cdc769e344e634579d55c62d5bdd07c8",
+    "donor_registry_entry_count": 1316
+  },
+  "capability_baseline": 175,
+  "result": "PASS",
+  "analysis_only_external_sources": [
+    {
+      "id": "ANALYSIS-AVASIS-AGENT-NATIVE-WEB",
+      "repository": "https://github.com/avasis-ai/agent-native-web",
+      "use": "THREE_ASSURANCE_RAILS_SAFE_WRITE_AND_RECEIPT_PATTERNS"
+    },
+    {
+      "id": "ANALYSIS-CANMCP",
+      "repository": "https://github.com/OlegNickeshin/canmcp",
+      "use": "REMOTE_MCP_COMPATIBILITY_DIAGNOSTIC_PATTERN"
+    },
+    {
+      "id": "ANALYSIS-UNSAID-WEBMCP",
+      "repository": "https://github.com/Crazy-Pyro/unsaid-webmcp",
+      "use": "MINIMUM_DISCLOSURE_AND_NON_DELEGABLE_RATIFICATION_PATTERN"
+    },
+    {
+      "id": "ANALYSIS-SHARED-ROOM-MCP",
+      "repository": "https://github.com/jiarong0423/shared-room-mcp",
+      "use": "SCOPED_HITL_REVIEW_ROOM_PATTERN"
+    },
+    {
+      "id": "ANALYSIS-PEOPLE-MCP",
+      "repository": "https://github.com/OlegNickeshin/people-mcp",
+      "use": "DISCOVERY_IS_NOT_DELEGATION_PATTERN"
+    },
+    {
+      "id": "ANALYSIS-ORDIVON-HARNESS",
+      "repository": "https://github.com/ordivon-org/ordivon-harness",
+      "use": "INSTALLED_ADMITTED_INVOKABLE_AND_UNKNOWN_RECOVERY_PATTERN"
+    },
+    {
+      "id": "ANALYSIS-ORDIVON-WORLD",
+      "repository": "https://github.com/ordivon-org/ordivon-world",
+      "use": "RECONCILIATION_BEFORE_REDISPATCH_PATTERN"
+    }
+  ],
+  "adopted_donors": [],
+  "adoption_authorized": false,
+  "donor_adoption_authorized": false,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-WEB-AI-001",
+      "use": "EXISTING_WEB_AI_PARENT_AND_AUTHORITY_BOUNDARY"
+    },
+    {
+      "id": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "use": "EXISTING_BROWSER_VISUAL_EXECUTION_RAIL"
+    },
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "use": "PREVIEW_APPROVAL_COMMIT_RECEIPT_MEDIATION"
+    },
+    {
+      "id": "FA3-SHARED-CONVERSATION-SESSION-001",
+      "use": "MINIMUM_DISCLOSURE_SESSION_SEMANTICS"
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "use": "DIRECT_SEMANTIC_MEDIA_PREFERENCE"
+    },
+    {
+      "id": "FA3-MCP-GATEWAY-001",
+      "use": "SOLE_MCP_ENDPOINT_ADMISSION_AND_TOOL_BOUNDARY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "SOLE_TYPED_EFFECT_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "SOLE_CANONICAL_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_AGENT_NATIVE_ORCHESTRATOR",
+      "reason": "EXISTING_FA3_ORCHESTRATOR_CONDUCTOR_AND_AGENT_AUTHORITIES_REMAIN_CANONICAL"
+    },
+    {
+      "id": "SECOND_MCP_GATEWAY",
+      "reason": "CENTRAL_MCP_GATEWAY_REMAINS_EXCLUSIVE"
+    },
+    {
+      "id": "SECOND_BROWSER_AUTHORITY",
+      "reason": "BROWSER_ACTION_RUNTIME_REMAINS_EXECUTION_DOMAIN_NOT_AUTHORITY"
+    },
+    {
+      "id": "AUTOMATIC_TOPIC_CHILD_ADOPTION",
+      "reason": "TOPIC_DISCOVERY_REFERENCE_IS_NOT_CHILD_REPOSITORY_ADMISSION"
+    },
+    {
+      "id": "SILENT_NATIVE_TO_HTTP_OR_BROWSER_FALLBACK",
+      "reason": "ASSURANCE_AND_SECRET_BOUNDARIES_MUST_FAIL_CLOSED"
+    }
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+      "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "FA3-SHARED-CONVERSATION-SESSION-001",
+      "FA3-SHARED-MULTIMODAL-SOURCE-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true
+  },
+  "implementation_readiness": "STATIC_SHARED_CONTRACT_AND_HARDENING_APPROVED",
+  "static_materialization_authorized": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_service_created": false,
+    "external_runtime_installed": false
+  },
+  "global_promotion_claim": false,
+  "covered_ids": [
+    "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+    "FA3-WEB-AI-001",
+    "FA3-MCP-GATEWAY-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001"
+  ],
+  "coverage_reason": "One shared Agent-Web contract is added while the existing Web-AI, MCP Gateway and three shared contracts are materially hardened under the same published-main donor snapshot; no external donor is adopted.",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "rationale": "The shared Agent-Web contract reuses existing FA3 web, MCP, action, conversation and multimodal boundaries; no Khronos SDK or open-standard runtime source is required by this static control contract."
+    }
+  ]
+}
