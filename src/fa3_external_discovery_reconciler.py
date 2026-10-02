@@ -72,6 +72,64 @@ def _normalize_locator(value: str | None) -> str | None:
         return None
 
 
+def _source_identity(value: str | None) -> str | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    raw = value.strip()
+    normalized = _normalize_locator(raw)
+    if normalized:
+        parsed = urlsplit(normalized)
+        if parsed.hostname in {"github.com", "www.github.com"}:
+            return normalized.casefold()
+        return normalized
+    if re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", raw):
+        return ("https://github.com/" + raw.strip("/")).casefold()
+    if raw.casefold().startswith("github:"):
+        slug = raw.split(":", 1)[1].strip("/")
+        if re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", slug):
+            return ("https://github.com/" + slug).casefold()
+    return None
+
+
+def _provider_source_values(obj: dict[str, Any]) -> list[str]:
+    values: list[str] = []
+    for key in ("repository", "source_repository", "homepage", "source_url", "source_locator"):
+        value = obj.get(key)
+        if isinstance(value, str):
+            values.append(value)
+    upstream = obj.get("upstream")
+    if isinstance(upstream, dict):
+        for key in ("repository", "homepage", "url", "source_url", "locator"):
+            value = upstream.get(key)
+            if isinstance(value, str):
+                values.append(value)
+    source = obj.get("source")
+    if isinstance(source, dict):
+        for key in ("repository", "homepage", "url", "locator", "normalized_key"):
+            value = source.get(key)
+            if isinstance(value, str):
+                values.append(value)
+    elif isinstance(source, str):
+        values.append(source)
+    return values
+
+
+def _provider_capabilities(obj: dict[str, Any]) -> list[str]:
+    found: set[str] = set()
+    for key in ("capability_projection", "capabilities", "capability_bindings"):
+        value = obj.get(key)
+        if not isinstance(value, list):
+            continue
+        for item in value:
+            if isinstance(item, str) and _canonical_capability(item):
+                found.add(item)
+            elif isinstance(item, dict):
+                cap = item.get("capability_id") or item.get("id")
+                if isinstance(cap, str) and _canonical_capability(cap):
+                    found.add(cap)
+    return sorted(found)
+
+
 def _provider_index(root: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     base = root / "canonical/providers"
@@ -87,25 +145,27 @@ def _provider_index(root: Path) -> list[dict[str, Any]]:
         provider_id = obj.get("id")
         if not isinstance(provider_id, str) or not provider_id:
             continue
-        strings = list(_flatten_strings(obj))
+        source_values = _provider_source_values(obj)
         locators = sorted({
-            normalized
-            for value in strings
-            for normalized in [_normalize_locator(value)]
-            if normalized
+            identity
+            for value in source_values
+            for identity in [_source_identity(value)]
+            if identity
         })
-        capabilities = sorted({
-            str(value)
-            for value in obj.get("capability_bindings", [])
-            if isinstance(value, str) and _canonical_capability(value)
-        })
+        token_values = [
+            str(obj.get("id", "")),
+            str(obj.get("name", "")),
+            str(obj.get("provider_role", "")),
+            *[str(x) for x in obj.get("classification", []) if isinstance(x, str)],
+            *source_values,
+        ]
         rows.append({
             "provider_id": provider_id,
             "status": obj.get("status"),
             "source_path": path.relative_to(root).as_posix(),
             "locators": locators,
-            "tokens": sorted(_terms(strings)),
-            "capabilities": capabilities,
+            "tokens": sorted(_terms(token_values)),
+            "capabilities": _provider_capabilities(obj),
         })
     return rows
 
@@ -116,15 +176,16 @@ def _score_terms(candidate_terms: set[str], entry_terms: Iterable[str]) -> tuple
 
 
 def _donor_matches(candidate: dict[str, Any], catalog_entries: list[dict[str, Any]]) -> dict[str, Any]:
-    locator = candidate.get("canonical_locator")
+    locator = _source_identity(candidate.get("canonical_locator"))
     terms = _candidate_terms(candidate)
     exact: list[dict[str, Any]] = []
     review: list[dict[str, Any]] = []
     for entry in catalog_entries:
         if entry.get("candidate_class") != "DONOR_REFERENCE":
             continue
-        source_locator = _normalize_locator(entry.get("source_locator"))
-        if source_locator and source_locator == locator:
+        source_locator = _source_identity(entry.get("source_locator"))
+        source_key = _source_identity(entry.get("source_normalized_key"))
+        if locator and locator in {source_locator, source_key}:
             exact.append({
                 "donor_id": entry["candidate_id"],
                 "basis": "EXACT_SOURCE_LOCATOR",
@@ -152,7 +213,7 @@ def _donor_matches(candidate: dict[str, Any], catalog_entries: list[dict[str, An
 
 
 def _provider_matches(candidate: dict[str, Any], providers: list[dict[str, Any]]) -> dict[str, Any]:
-    locator = candidate.get("canonical_locator")
+    locator = _source_identity(candidate.get("canonical_locator"))
     terms = _candidate_terms(candidate)
     exact: list[dict[str, Any]] = []
     review: list[dict[str, Any]] = []
