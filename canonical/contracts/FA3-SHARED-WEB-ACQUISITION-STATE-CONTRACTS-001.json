@@ -89,5 +89,17 @@
     "child_repository_adoption": false,
     "child_usage_edge_created": false,
     "usage_edge_required_for_future_material_adoption": true
+  },
+  "durable_storage": {
+    "format": "DETERMINISTIC_JSON_SNAPSHOT",
+    "write_protocol": [
+      "SAME_DIRECTORY_TEMP_FILE",
+      "FLUSH",
+      "FSYNC_FILE",
+      "ATOMIC_REPLACE"
+    ],
+    "replace_failure": "PRESERVE_PREVIOUS_COMMITTED_SNAPSHOT_AND_FAIL_CLOSED",
+    "corrupt_or_unreadable_snapshot": "FAIL_CLOSED",
+    "external_storage_dependency": false
   }
 }
