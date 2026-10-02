@@ -6,10 +6,10 @@ This assessment closes the **analysis prerequisite** needed before FA3 can resum
 
 The only canonical donor registration in this scope is `FA3-DONOR-APIFY-ORG-001`, the owner-approved `https://github.com/apify` organization discovery index merged by PR #603.
 
-Published-main anchor: `081b3ab23477d30365de04265620ec1704a0cddc`  
-Donor Registry blob: `c29638de9ac73f133a817cc239eba0d3837daac6`  
-Registry count: **1317**  
-Capability baseline: **175**, delta **0**  
+Published-main anchor: `081b3ab23477d30365de04265620ec1704a0cddc`
+Donor Registry blob: `c29638de9ac73f133a817cc239eba0d3837daac6`
+Registry count: **1317**
+Capability baseline: **175**, delta **0**
 Provider count: **dynamic / unchanged**
 
 ## Child-source conclusions
