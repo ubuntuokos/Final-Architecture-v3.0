@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
   "provider_neutral": true,
@@ -30,7 +30,8 @@
     "ExecutionEnvelope",
     "ExecutionReceipt",
     "RollbackReceipt",
-    "ActionDenial"
+    "ActionDenial",
+    "ExecutionSecurityBinding"
   ],
   "required_semantics": {
     "pipeline": [
@@ -41,7 +42,10 @@
       "MCP_OR_UAF_BINDING",
       "AGENT_WORKLOAD_RUNTIME",
       "HRB_ADMISSION_IF_REQUIRED",
+      "EXECUTION_SECURITY_ENVELOPE",
+      "POLICY_BOUNDARY_VALIDATION",
       "ISOLATED_EXECUTION",
+      "EXECUTION_SECURITY_RECEIPT",
       "RECEIPT_AND_EVIDENCE"
     ],
     "direct_shell_from_model": "DENY",
@@ -56,8 +60,10 @@
     "NO_CLASSIFIER_AS_SECURITY_AUTHORITY",
     "NO_DIRECT_PROVIDER_BYPASS",
     "NO_SILENT_SANDBOX_DOWNGRADE",
-    "ROLLBACK_RECEIPT_FOR_REVERSIBLE_MUTATIONS"
+    "ROLLBACK_RECEIPT_FOR_REVERSIBLE_MUTATIONS",
+    "NO_EXECUTION_POLICY_EXPANSION_BEYOND_SECURITY_GOVERNANCE"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "execution_security_profile": "FA3-SHARED-EXECUTION-SECURITY-001"
 }
