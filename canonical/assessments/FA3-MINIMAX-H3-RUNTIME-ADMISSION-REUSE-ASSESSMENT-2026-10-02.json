@@ -122,5 +122,20 @@
     "current_host_pass_claim": false,
     "historical_evidence_rewritten": false,
     "capability_baseline": 175
-  }
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "VIDEO_PROVIDER_ADMISSION_BASELINE_RECONCILIATION"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "assessment": "This baseline-only H3 metadata reconciliation does not require direct Khronos SDK or API reuse; any later native accelerator backend materialization must be reassessed under the shared hardware execution fabric."
+    }
+  ]
 }
