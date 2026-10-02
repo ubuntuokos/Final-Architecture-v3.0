@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.canonical-registry-integrity.v1",
+  "id": "FA3-CANONICAL-REGISTRY-INTEGRITY-001",
+  "gate_id": "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
+  "status": "P0_MUST",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "purpose": "EXECUTABLE_GLOBAL_CANONICAL_REGISTRY_IDENTITY_REFERENCE_SUPERSEDENCE_AND_BASELINE_INTEGRITY",
+  "graph_role": "DERIVED_DIAGNOSTIC_NON_AUTHORIZING",
+  "live_graph_path": "reports/fa3-canonical-registry-graph.json",
+  "report_path": "reports/canonical-registry-integrity-report.json",
+  "invariants": [
+    "TOP_LEVEL_CANONICAL_IDS_ARE_UNIQUE",
+    "ACTIVE_REGISTRY_ROOT_FOLLOWS_ACTIVE_RELEASE_CAPABILITY_BASELINE",
+    "SUPERSEDENCE_RELATIONS_ARE_EXPLICIT_AND_ACYCLIC",
+    "SUPERSEDENCE_TARGETS_RESOLVE_TO_CANONICAL_RECORD_IDS",
+    "PROVIDER_RECORDS_CANNOT_DECLARE_NEW_ARCHITECTURAL_AUTHORITY",
+    "DERIVED_CANONICAL_GRAPH_IS_NON_AUTHORIZING"
+  ]
+}
