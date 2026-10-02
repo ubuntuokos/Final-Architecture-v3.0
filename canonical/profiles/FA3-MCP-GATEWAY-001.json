@@ -8,7 +8,7 @@
   "authority": "FA3-AUTH-MCP-GATEWAY-001",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "capability_delta": 0,
   "authority_delta": 0,
   "provider_neutral": true,
@@ -23,14 +23,38 @@
     "server_discover": "REQUIRED",
     "initialize_handshake": "FORBIDDEN_ON_CANONICAL_MODERN_PATH",
     "mcp_session_id": "FORBIDDEN_ON_CANONICAL_MODERN_PATH",
-    "header_routing": ["MCP-Protocol-Version", "Mcp-Method", "Mcp-Name"],
+    "header_routing": [
+      "MCP-Protocol-Version",
+      "Mcp-Method",
+      "Mcp-Name"
+    ],
     "legacy_stateful_support": "COMPATIBILITY_ADAPTER_ONLY"
   },
   "planes": {
-    "data": ["stateless MCP ingress", "typed capability dispatch", "result/stream forwarding"],
-    "control": ["provider registry", "tool registry", "capability registry", "route registry", "lifecycle projection"],
-    "policy": ["external policy decision enforcement", "approval enforcement", "rate/timeout/circuit controls"],
-    "governance": ["provenance", "evidence receipts", "supply-chain admission", "revocation", "audit projection"]
+    "data": [
+      "stateless MCP ingress",
+      "typed capability dispatch",
+      "result/stream forwarding"
+    ],
+    "control": [
+      "provider registry",
+      "tool registry",
+      "capability registry",
+      "route registry",
+      "lifecycle projection"
+    ],
+    "policy": [
+      "external policy decision enforcement",
+      "approval enforcement",
+      "rate/timeout/circuit controls"
+    ],
+    "governance": [
+      "provenance",
+      "evidence receipts",
+      "supply-chain admission",
+      "revocation",
+      "audit projection"
+    ]
   },
   "preserved_external_authorities": [
     "SECURITY_GOVERNANCE_POLICY_PLANE",
@@ -45,7 +69,38 @@
   ],
   "runtime_projection": "FA3-MCP-CURRENT-HOST-001",
   "gui_projection": "FA3-MCP-GATEWAY-GUI-001",
-  "reference_implementations": ["microsoft/mcp-gateway"],
+  "reference_implementations": [
+    "microsoft/mcp-gateway"
+  ],
   "production_admitted": false,
-  "production_admission_rule": "REAL_CURRENT_HOST_E2E_AND_ALL_P0_GATES_REQUIRED"
+  "production_admission_rule": "REAL_CURRENT_HOST_E2E_AND_ALL_P0_GATES_REQUIRED",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "remote_endpoint_admission": {
+    "mode": "DIAGNOSTIC_AND_ADMISSION_EVIDENCE_BEFORE_ROUTE_ACTIVATION",
+    "default_diagnostics": "NON_EXECUTING",
+    "tool_execution_during_default_diagnostics": false,
+    "active_authentication_requires_explicit_permission": true,
+    "checks": [
+      "PUBLIC_TARGET_AND_DNS",
+      "TLS_CHAIN_HOSTNAME_AND_VALIDITY",
+      "BOUNDED_REDIRECT_CHAIN_NO_HTTPS_DOWNGRADE",
+      "MCP_PROTOCOL_REVISION",
+      "STREAMABLE_HTTP_OR_ADMITTED_LEGACY_ADAPTER",
+      "TOOLS_LIST_DESCRIPTOR_AND_JSON_SCHEMA",
+      "OAUTH_PROTECTED_RESOURCE_METADATA",
+      "AUTHORIZATION_SERVER_ISSUER_RESOURCE_BINDING",
+      "PKCE_S256_WHEN_AUTH_FLOW_USED",
+      "CLIENT_SPECIFIC_COMPATIBILITY_AS_DIAGNOSTIC_ONLY"
+    ],
+    "client_profile_is_authority": false,
+    "transport_success_is_business_success": false,
+    "route_activation": "SEPARATE_ADMISSION_AND_POLICY_DECISION_REQUIRED"
+  },
+  "invariants": [
+    "REMOTE_MCP_DIAGNOSTIC_DOES_NOT_EXECUTE_TOOLS_BY_DEFAULT",
+    "CLIENT_COMPATIBILITY_PROFILE_IS_DIAGNOSTIC_NOT_AUTHORITY",
+    "MCP_REACHABILITY_OR_PROTOCOL_PASS_IS_NOT_BUSINESS_OUTCOME_SUCCESS",
+    "PROTECTED_ENDPOINT_ACTIVE_LOGIN_REQUIRES_EXPLICIT_PERMISSION",
+    "ENDPOINT_METADATA_AND_TOOL_ANNOTATIONS_ARE_UNTRUSTED_CLAIMS"
+  ]
 }
