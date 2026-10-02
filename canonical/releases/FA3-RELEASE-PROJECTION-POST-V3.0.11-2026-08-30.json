@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "54b280e1dc03320b6319bd7bc953e196b358c890",
-    "pre_projection_root_tree_sha": "8a5931889c878fa24e564e89224dfb861f40d200",
-    "pre_projection_canonical_tree_sha": "102873edded9021bb2b05cde047798bfdfa9700b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2575,
-    "total_post_baseline_commits": 2575,
-    "delta_file_count": 2834,
-    "delta_added_files": 2828,
+    "pre_projection_head_sha": "37156c7167bda43e4cbaf6dc899047d46d0dcc47",
+    "pre_projection_root_tree_sha": "25f8da29b1b68d49fc481ad4ffd48a096a97b49b",
+    "pre_projection_canonical_tree_sha": "9140f0a22c59b9301cf63a0857119a2e17d71e1e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2597,
+    "total_post_baseline_commits": 2597,
+    "delta_file_count": 2843,
+    "delta_added_files": 2837,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1322,
+    "canonical_files_in_post_baseline_delta": 1325,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 362,
-    "test_files_in_post_baseline_delta": 331,
+    "test_files_in_post_baseline_delta": 334,
     "workflow_files_in_post_baseline_delta": 134,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1056,7 +1056,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2824,
+  "manifest_entry_count": 2833,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2930,7 +2930,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
+      "git_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
       "baseline_delta_status": "added"
     },
     {
@@ -4545,7 +4545,7 @@
     },
     {
       "path": "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30.json",
-      "git_blob_sha": "9aac389893c1e3b5a96b18e2034c770925046866",
+      "git_blob_sha": "3882e0cfeb1bac71a1bc80b5899583798c20f874",
       "baseline_delta_status": "added"
     },
     {
@@ -6619,8 +6619,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-NVIDIA-OPENSHELL-REFRESH-2026-10-02.json",
+      "git_blob_sha": "5fe81a304a0d79e862de33f73610c069cae04bc9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-NVLABS-SANA-SOL-REFINER-2026-10-02.json",
+      "git_blob_sha": "2d4197ffeff8a9ab11a7fbab01be7f9b7da8c902",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-ODBC-SQL-VECTOR-MEDIA-2026-09-29.json",
       "git_blob_sha": "47c51315ab68339a85a3b720674f5e9734c0dc38",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-PAPERCLIP-2026-10-02.json",
+      "git_blob_sha": "fceff3dac75f98935fe44e8a8631071cff3ef688",
       "baseline_delta_status": "added"
     },
     {
@@ -10029,6 +10044,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-nvidia-openshell-refresh-2026-10-02.md",
+      "git_blob_sha": "1a27a2f3de1d8ca186964dec5e741f49b5e570bc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-nvlabs-sana-sol-refiner-2026-10-02.md",
+      "git_blob_sha": "fa1cf8d9fb334b4131bc23c752ac60eddb80f051",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-odbc-sql-vector-media-2026-09-29.md",
       "git_blob_sha": "87ec3187f414dfb0902391043158c8c841a13f70",
       "baseline_delta_status": "added"
@@ -10056,6 +10081,11 @@
     {
       "path": "docs/donor-ospray-renderkit-ecosystem-2026-09-28.md",
       "git_blob_sha": "6d265b8de7534e06db434339ef96c0f79798f747",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-paperclip-2026-10-02.md",
+      "git_blob_sha": "6361f51331f67761c8b383a004c75c1b1ea8f2fa",
       "baseline_delta_status": "added"
     },
     {
@@ -14009,6 +14039,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_nvidia_openshell_refresh_20261002.py",
+      "git_blob_sha": "52f03261c8f535af18b7eb6e7eee9e6a500b2d71",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_nvlabs_sana_sol_refiner_20261002.py",
+      "git_blob_sha": "d22dded8ce34f360e9039b795aecf5154d2e719a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_odbc_sql_vector_media_20260929.py",
       "git_blob_sha": "5fe44bc14057799fb770209acc3c7c3c17817bb9",
       "baseline_delta_status": "added"
@@ -14026,6 +14066,11 @@
     {
       "path": "tests/test_donor_ospray_ecosystem.py",
       "git_blob_sha": "43ffd3e008ca5732d883a0bc73ae13e366df5bbe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_paperclip_20261002.py",
+      "git_blob_sha": "155db5c25b2cbb768f8255d474373d917c4a8703",
       "baseline_delta_status": "added"
     },
     {
@@ -16888,7 +16933,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1354,
+    "donor_registry_entry_count": 1357,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
