@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ef91f3c13ceebb4fe1b76c23eae66063825e03fc",
-    "pre_projection_root_tree_sha": "53c67885787994a0c219f8c8f5cd612bf6c2f0ca",
-    "pre_projection_canonical_tree_sha": "8c32f13e99762a2f2053ec0caff4be9734f13006",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2514,
-    "total_post_baseline_commits": 2514,
-    "delta_file_count": 2782,
-    "delta_added_files": 2776,
+    "pre_projection_head_sha": "456e40c38135387a9dbe987cfb78332f350dce65",
+    "pre_projection_root_tree_sha": "3213a2826e9d5aca3927e950530e473a8b327959",
+    "pre_projection_canonical_tree_sha": "c844af4029d061fc63d3b3f707ccbee75b8488ec",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2518,
+    "total_post_baseline_commits": 2518,
+    "delta_file_count": 2785,
+    "delta_added_files": 2779,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1306,
+    "canonical_files_in_post_baseline_delta": 1307,
     "evidence_files_in_post_baseline_delta": 171,
     "source_files_in_post_baseline_delta": 358,
-    "test_files_in_post_baseline_delta": 323,
+    "test_files_in_post_baseline_delta": 324,
     "workflow_files_in_post_baseline_delta": 132,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1050,7 +1050,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2772,
+  "manifest_entry_count": 2775,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2849,7 +2849,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "07dc212b4a68bf4848e278d6eb590c70c2aae5a4",
+      "git_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
       "baseline_delta_status": "added"
     },
     {
@@ -4449,7 +4449,7 @@
     },
     {
       "path": "canonical/assessments/FA3-ORCHESTRATION-GOVERNANCE-REUSE-ASSESSMENT-2026-09-30.json",
-      "git_blob_sha": "957bb3c8be3b358e5bc928c51d2d1d3e5f9a6d35",
+      "git_blob_sha": "98fa38413e64195ec7c413369e309b06b40a03e6",
       "baseline_delta_status": "added"
     },
     {
@@ -6440,6 +6440,11 @@
     {
       "path": "canonical/deltas/FA3-DONOR-CAST-CHROMECAST-ORCHESTRATOR-2026-09-29.json",
       "git_blob_sha": "81d5890e38d70573f6a9a00f77ff14ed467cb59c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-CHANGE-HISTORY-SPECIFICATIONS-2026-10-02.json",
+      "git_blob_sha": "318bbf963ccb58a9cf69f205f4354f6c49bd7cc6",
       "baseline_delta_status": "added"
     },
     {
@@ -9750,6 +9755,11 @@
     {
       "path": "docs/donor-cast-chromecast-orchestrator-2026-09-29.md",
       "git_blob_sha": "5f1fc9738f4f19aaf00c12b7fbff489444f2cdec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-change-history-specifications-2026-10-02.md",
+      "git_blob_sha": "d44ebcd736dd10e7766f810500981f488d647782",
       "baseline_delta_status": "added"
     },
     {
@@ -13664,7 +13674,7 @@
     },
     {
       "path": "tests/test_donor_anthropics_financial_services_20261002.py",
-      "git_blob_sha": "a1a5230870b2631537f4230005f5a1e77eccd304",
+      "git_blob_sha": "9fde11c8403c6a5c017894d1da57584c5f5f11be",
       "baseline_delta_status": "added"
     },
     {
@@ -13685,6 +13695,11 @@
     {
       "path": "tests/test_donor_cast_chromecast_orchestrator_20260929.py",
       "git_blob_sha": "8a92055cecf2d0d65f538aba74afc4ef3c5a7a0b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_change_history_specifications_20261002.py",
+      "git_blob_sha": "eeaa085e5b9a695d3cfbf81ef0dfabe851c771e4",
       "baseline_delta_status": "added"
     },
     {
@@ -16622,7 +16637,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1340,
+    "donor_registry_entry_count": 1344,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
