@@ -153,6 +153,21 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
         self.assertEqual("DISCOVERY_METADATA_ONLY_UNTIL_LICENSE_AND_TERMS_ADMITTED", ref["local_ingestion_policy"])
         self.assertEqual(143, ref["fa3_disposition"]["canonical_capability_count"])
 
+    def test_openclaw_catalog_is_restricted_discovery_only(self):
+        ref = json.loads(
+            (ROOT / "canonical/references/FA3-OPENCLAW-API-LIST-UPSTREAM-REFERENCE-2026-10-02.json").read_text()
+        )
+        self.assertEqual("NO_REPOSITORY_LICENSE_DETECTED", ref["license_status"])
+        self.assertEqual(
+            "DISCOVERY_METADATA_ONLY_UNTIL_LICENSE_AND_TERMS_ADMITTED",
+            ref["local_ingestion_policy"],
+        )
+        self.assertTrue(ref["source_signals"]["affiliate_parameter_observed"])
+        self.assertFalse(ref["source_signals"]["upstream_direct_mcp_language_is_admission"])
+        self.assertFalse(ref["fa3_disposition"]["catalog_listing_is_authorization"])
+        self.assertFalse(ref["fa3_disposition"]["affiliate_parameter_is_identity"])
+        self.assertFalse(ref["fa3_disposition"]["runtime_provider"])
+
     def test_megalist_is_pattern_only(self):
         ref = json.loads((ROOT / "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json").read_text())
         self.assertFalse(ref["fa3_disposition"]["implementation_dependency"])

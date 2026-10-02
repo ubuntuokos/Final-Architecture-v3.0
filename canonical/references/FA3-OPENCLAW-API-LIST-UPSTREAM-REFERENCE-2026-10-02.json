@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENCLAW-API-LIST-UPSTREAM-REFERENCE-2026-10-02",
+  "source_id": "FA3-SOURCE-OPENCLAW-API-LIST-001",
+  "repository": "cporter202/openclaw-api-list",
+  "observed_at": "2026-10-02",
+  "default_branch": "main",
+  "observed_default_branch_head": "3afa19dd12f3cdc6bc2e297e9b6945059ada0cae",
+  "observed_head_committed_at": "2026-03-01T05:08:53Z",
+  "immutable_reference_commit": "3afa19dd12f3cdc6bc2e297e9b6945059ada0cae",
+  "reference_kind": "PINNED_COMMIT",
+  "license_status": "NO_REPOSITORY_LICENSE_DETECTED",
+  "classification": [
+    "SECONDARY_AGENT_ORIENTED_UNTRUSTED_DISCOVERY_SOURCE",
+    "APIFY_ACTOR_AND_MCP_DISCOVERY_LEAD_SOURCE",
+    "SKILL_WEBHOOK_MCP_CATALOG_SOURCE"
+  ],
+  "observed_catalog_surfaces": [
+    "OPENCLAW_RECOMMENDED.md",
+    "mcp-servers-apis-131",
+    "integrations-apis-890",
+    "automation-apis-4825",
+    "ai-apis-1208",
+    "agents-apis-697"
+  ],
+  "local_ingestion_policy": "DISCOVERY_METADATA_ONLY_UNTIL_LICENSE_AND_TERMS_ADMITTED",
+  "source_signals": {
+    "affiliate_parameter_observed": true,
+    "observed_affiliate_key": "fpr",
+    "apify_actor_and_mcp_links_prominent": true,
+    "upstream_direct_mcp_language_present": true,
+    "upstream_direct_mcp_language_is_admission": false,
+    "upstream_skill_install_language_is_admission": false
+  },
+  "apify_reconciliation": {
+    "parent_donor_id": "FA3-DONOR-APIFY-ORG-001",
+    "child_source_assessment_id": "FA3-APIFY-ECOSYSTEM-DONOR-ASSESSMENT-2026-10-02",
+    "apify_catalog_url_is_not_child_repository_identity": true,
+    "actor_identity_is_separate_from_apify_organization_identity": true,
+    "actor_listing_does_not_create_provider_or_mcp_admission": true
+  },
+  "fa3_disposition": {
+    "accepted_with_restrictions": true,
+    "discovery_source": true,
+    "runtime_provider": false,
+    "canonical_root": false,
+    "architectural_authority": false,
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "canonical_capability_count": 175,
+    "catalog_listing_is_authorization": false,
+    "catalog_entry_may_auto_register_mcp": false,
+    "affiliate_parameter_is_identity": false,
+    "upstream_ranking_is_canonical_ranking": false,
+    "floating_main_allowed_as_promotion_evidence": false
+  },
+  "distribution_class": "REFERENCE_ONLY",
+  "release_bundle_status": "EXCLUDED",
+  "product_bundle_allowed": false,
+  "runtime_dependency": false,
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false,
+    "classification_basis": "PINNED_UNTRUSTED_DISCOVERY_METADATA_ONLY_NO_UPSTREAM_PAYLOAD_BUNDLED"
+  }
+}

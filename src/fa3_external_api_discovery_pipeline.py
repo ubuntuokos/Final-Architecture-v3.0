@@ -9,7 +9,14 @@ import re
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from fa3_api_mega_list_adapter import SOURCE_ID, SOURCE_REPOSITORY, parse_api_mega_list_markdown
+from fa3_api_mega_list_adapter import (
+    OPENCLAW_SOURCE_ID,
+    OPENCLAW_SOURCE_REPOSITORY,
+    SOURCE_ID,
+    SOURCE_REPOSITORY,
+    SUPPORTED_CATALOG_SOURCES,
+    parse_external_catalog_markdown,
+)
 from fa3_external_discovery_store import build_candidate_store, validate_candidate_store, volume_action
 
 SNAPSHOT_SCHEMA = "fa3.external-api-discovery.snapshot.v1"
@@ -17,6 +24,47 @@ INGEST_RECEIPT_SCHEMA = "fa3.external-api-discovery.ingest-receipt.v1"
 DRIFT_SCHEMA = "fa3.external-api-discovery.drift-report.v1"
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+
+SOURCE_SURFACES = {
+    SOURCE_ID: {"recursive_names": {"README.md"}, "root_names": set()},
+    OPENCLAW_SOURCE_ID: {
+        "recursive_names": {"README.md"},
+        "root_names": {"OPENCLAW_RECOMMENDED.md"},
+    },
+}
+
+
+def _source_repository(source_id: str, source_repository: str | None = None) -> str:
+    expected = SUPPORTED_CATALOG_SOURCES.get(source_id)
+    if expected is None:
+        raise ValueError(f"unsupported external discovery source: {source_id}")
+    if source_repository is not None and source_repository != expected:
+        raise ValueError("external discovery source id/repository mismatch")
+    return expected
+
+
+def _snapshot_files(snapshot_dir: Path, source_id: str) -> list[Path]:
+    config = SOURCE_SURFACES.get(source_id)
+    if config is None:
+        raise ValueError(f"unsupported external discovery source: {source_id}")
+    paths: set[Path] = set()
+    for name in config["recursive_names"]:
+        paths.update(path for path in snapshot_dir.rglob(name) if path.is_file())
+    for name in config["root_names"]:
+        path = snapshot_dir / name
+        if path.is_file():
+            paths.add(path)
+    return sorted(paths)
+
+
+def _surface_allowed(source_id: str, rel: str) -> bool:
+    config = SOURCE_SURFACES.get(source_id)
+    if config is None:
+        return False
+    path = PurePosixPath(rel)
+    if path.name in config["recursive_names"]:
+        return True
+    return len(path.parts) == 1 and path.name in config["root_names"]
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -35,14 +83,19 @@ def _safe_relpath(value: str) -> str:
     return path.as_posix()
 
 
-def create_snapshot_manifest(snapshot_dir: Path, *, source_commit: str) -> dict[str, Any]:
+def create_snapshot_manifest(
+    snapshot_dir: Path,
+    *,
+    source_commit: str,
+    source_id: str = SOURCE_ID,
+    source_repository: str | None = None,
+) -> dict[str, Any]:
     snapshot_dir = Path(snapshot_dir).resolve()
     if not SHA40.fullmatch(source_commit):
         raise ValueError("immutable 40-character source commit required")
+    source_repository = _source_repository(source_id, source_repository)
     files: list[dict[str, Any]] = []
-    for path in sorted(snapshot_dir.rglob("README.md")):
-        if not path.is_file():
-            continue
+    for path in _snapshot_files(snapshot_dir, source_id):
         rel = path.relative_to(snapshot_dir).as_posix()
         data = path.read_bytes()
         files.append(
@@ -54,11 +107,11 @@ def create_snapshot_manifest(snapshot_dir: Path, *, source_commit: str) -> dict[
             }
         )
     if not files:
-        raise ValueError("snapshot requires at least one README.md surface")
+        raise ValueError("snapshot requires at least one supported catalog surface")
     manifest = {
         "schema": SNAPSHOT_SCHEMA,
-        "source_id": SOURCE_ID,
-        "source_repository": SOURCE_REPOSITORY,
+        "source_id": source_id,
+        "source_repository": source_repository,
         "source_commit": source_commit,
         "immutable": True,
         "network_fetch_performed": False,
@@ -72,7 +125,11 @@ def validate_snapshot_manifest(snapshot_dir: Path, manifest: dict[str, Any]) -> 
     findings: list[dict[str, Any]] = []
     if manifest.get("schema") != SNAPSHOT_SCHEMA:
         findings.append({"code": "EXTDISC-SNAPSHOT-SCHEMA", "message": "invalid snapshot schema"})
-    if manifest.get("source_id") != SOURCE_ID or manifest.get("source_repository") != SOURCE_REPOSITORY:
+    source_id = str(manifest.get("source_id") or "")
+    source_repository = str(manifest.get("source_repository") or "")
+    try:
+        _source_repository(source_id, source_repository)
+    except ValueError:
         findings.append({"code": "EXTDISC-SNAPSHOT-SOURCE", "message": "unexpected source identity"})
     if not SHA40.fullmatch(str(manifest.get("source_commit", ""))):
         findings.append({"code": "EXTDISC-SNAPSHOT-COMMIT", "message": "immutable source commit required"})
@@ -97,7 +154,7 @@ def validate_snapshot_manifest(snapshot_dir: Path, manifest: dict[str, Any]) -> 
             findings.append({"code": "EXTDISC-SNAPSHOT-DUPLICATE", "message": f"duplicate snapshot path: {rel}"})
             continue
         seen.add(rel)
-        if not rel.endswith("README.md"):
+        if not _surface_allowed(source_id, rel):
             findings.append({"code": "EXTDISC-SNAPSHOT-SURFACE", "message": f"unsupported snapshot surface: {rel}"})
             continue
         if not SHA256.fullmatch(str(row.get("sha256", ""))):
@@ -134,11 +191,18 @@ def ingest_snapshot(snapshot_dir: Path) -> tuple[dict[str, Any], dict[str, Any]]
     for row in manifest["files"]:
         rel = _safe_relpath(row["path"])
         text = (snapshot_dir / rel).read_text(encoding="utf-8")
-        observations.extend(parse_api_mega_list_markdown(text, source_path=rel))
+        observations.extend(
+            parse_external_catalog_markdown(
+                text,
+                source_path=rel,
+                source_id=manifest["source_id"],
+                source_repository=manifest["source_repository"],
+            )
+        )
 
     source_snapshot = {
-        "source_id": SOURCE_ID,
-        "source_repository": SOURCE_REPOSITORY,
+        "source_id": manifest["source_id"],
+        "source_repository": manifest["source_repository"],
         "source_commit": manifest["source_commit"],
         "manifest_digest": manifest["manifest_digest"],
         "file_count": len(manifest["files"]),
@@ -220,6 +284,8 @@ def main() -> int:
     p_snapshot = sub.add_parser("snapshot")
     p_snapshot.add_argument("--snapshot-dir", required=True)
     p_snapshot.add_argument("--source-commit", required=True)
+    p_snapshot.add_argument("--source-id", default=SOURCE_ID, choices=sorted(SUPPORTED_CATALOG_SOURCES))
+    p_snapshot.add_argument("--source-repository")
     p_snapshot.add_argument("--output")
 
     p_ingest = sub.add_parser("ingest")
@@ -243,7 +309,12 @@ def main() -> int:
 
     if args.command == "snapshot":
         snapshot_dir = Path(args.snapshot_dir)
-        manifest = create_snapshot_manifest(snapshot_dir, source_commit=args.source_commit)
+        manifest = create_snapshot_manifest(
+            snapshot_dir,
+            source_commit=args.source_commit,
+            source_id=args.source_id,
+            source_repository=args.source_repository,
+        )
         output = Path(args.output) if args.output else snapshot_dir / "manifest.json"
         _write_json(output, manifest)
         print(json.dumps(manifest, ensure_ascii=False, indent=2))

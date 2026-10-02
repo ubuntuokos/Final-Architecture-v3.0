@@ -10,6 +10,12 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 SOURCE_ID = "FA3-SOURCE-API-MEGA-LIST-001"
 SOURCE_REPOSITORY = "cporter202/API-mega-list"
+OPENCLAW_SOURCE_ID = "FA3-SOURCE-OPENCLAW-API-LIST-001"
+OPENCLAW_SOURCE_REPOSITORY = "cporter202/openclaw-api-list"
+SUPPORTED_CATALOG_SOURCES = {
+    SOURCE_ID: SOURCE_REPOSITORY,
+    OPENCLAW_SOURCE_ID: OPENCLAW_SOURCE_REPOSITORY,
+}
 
 TRACKING_KEYS = {
     "affiliate",
@@ -130,8 +136,16 @@ def _line_is_candidate_surface(line: str) -> bool:
     return stripped.startswith(("- ", "* ", "|"))
 
 
-def parse_api_mega_list_markdown(text: str, *, source_path: str) -> list[dict[str, Any]]:
+def parse_external_catalog_markdown(
+    text: str,
+    *,
+    source_path: str,
+    source_id: str = SOURCE_ID,
+    source_repository: str = SOURCE_REPOSITORY,
+) -> list[dict[str, Any]]:
     """Extract untrusted candidate listings without persisting raw URLs or descriptions."""
+    if SUPPORTED_CATALOG_SOURCES.get(source_id) != source_repository:
+        raise ValueError("unsupported or mismatched external catalog source identity")
     rows: list[dict[str, Any]] = []
     category = category_from_source_path(source_path)
     for line_number, line in enumerate(text.splitlines(), start=1):
@@ -150,7 +164,7 @@ def parse_api_mega_list_markdown(text: str, *, source_path: str) -> list[dict[st
             lower_line = line.casefold()
             sponsorship = any(token in lower_line for token in ("sponsor", "sponsored", "featured partner"))
             listing_digest = _sha256_text(
-                f"{SOURCE_ID}\\0{source_path}\\0{line_number}\\0{label}\\0{locator['canonical_locator']}"
+                f"{source_id}\\0{source_path}\\0{line_number}\\0{label}\\0{locator['canonical_locator']}"
             )
             terms = sorted(
                 {
@@ -162,8 +176,8 @@ def parse_api_mega_list_markdown(text: str, *, source_path: str) -> list[dict[st
             rows.append(
                 {
                     "schema": "fa3.external-api-discovery-candidate-observation.v1",
-                    "source_id": SOURCE_ID,
-                    "source_repository": SOURCE_REPOSITORY,
+                    "source_id": source_id,
+                    "source_repository": source_repository,
                     "source_path": source_path,
                     "source_line": line_number,
                     "source_category": category,
@@ -183,3 +197,13 @@ def parse_api_mega_list_markdown(text: str, *, source_path: str) -> list[dict[st
                 }
             )
     return rows
+
+
+def parse_api_mega_list_markdown(text: str, *, source_path: str) -> list[dict[str, Any]]:
+    """Backward-compatible API Mega List parser wrapper."""
+    return parse_external_catalog_markdown(
+        text,
+        source_path=source_path,
+        source_id=SOURCE_ID,
+        source_repository=SOURCE_REPOSITORY,
+    )

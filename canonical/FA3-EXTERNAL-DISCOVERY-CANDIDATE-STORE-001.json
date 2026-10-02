@@ -15,7 +15,8 @@
   "network_fetch_permitted": false,
   "input_requirement": "LOCAL_IMMUTABLE_PINNED_SNAPSHOT_ONLY",
   "source_ids": [
-    "FA3-SOURCE-API-MEGA-LIST-001"
+    "FA3-SOURCE-API-MEGA-LIST-001",
+    "FA3-SOURCE-OPENCLAW-API-LIST-001"
   ],
   "storage": {
     "default_state_root": "$XDG_STATE_HOME/fa3/external-discovery/candidates",
@@ -25,10 +26,10 @@
     "requires_upstream_uninstall": false
   },
   "capacity_policy": {
-    "growth_headroom_fraction": 0.30,
-    "open_next_volume_at_utilization": 0.90,
+    "growth_headroom_fraction": 0.3,
+    "open_next_volume_at_utilization": 0.9,
     "rebalance_at_utilization": 0.95,
-    "rebalance_target_utilization": 0.70,
+    "rebalance_target_utilization": 0.7,
     "new_records_prefer_active_continuation_volume": true
   },
   "identity_policy": {
@@ -36,7 +37,8 @@
     "sponsorship_is_not_ranking": true,
     "featured_status_is_not_admission": true,
     "secret_values_must_not_persist": true,
-    "provider_and_service_identity_are_separate_from_source_listing_identity": true
+    "provider_and_service_identity_are_separate_from_source_listing_identity": true,
+    "catalog_direct_connect_claim_is_not_admission": true
   },
   "capability_count": 175,
   "new_capabilities": 0,

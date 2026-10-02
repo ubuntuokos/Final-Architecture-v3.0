@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENCLAW-API-LIST-RECONCILIATION-2026-10-02",
+  "date": "2026-10-02",
+  "status": "CANONICAL_CLOSED",
+  "subject": "OpenClaw API List reconciliation with API Mega List and Apify discovery identities",
+  "decision": "MATERIALIZE_AS_SHARED_NON_AUTHORITATIVE_EXTERNAL_DISCOVERY_SOURCE",
+  "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+  "source_id": "FA3-SOURCE-OPENCLAW-API-LIST-001",
+  "related_source_ids": [
+    "FA3-SOURCE-API-MEGA-LIST-001"
+  ],
+  "candidate_store_policy_id": "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+  "apify_context": {
+    "parent_donor_id": "FA3-DONOR-APIFY-ORG-001",
+    "assessment_id": "FA3-APIFY-ECOSYSTEM-DONOR-ASSESSMENT-2026-10-02",
+    "child_repository_auto_admission": false,
+    "actor_auto_provider_admission": false
+  },
+  "reconciliation": {
+    "api_mega_list_role": "HIGH_BREADTH_DISCOVERY_BASELINE",
+    "openclaw_api_list_role": "AGENT_ORIENTED_CURATED_DISCOVERY_OVERLAY",
+    "apify_role": "ORGANIZATION_AND_ACTOR_IDENTITY_CONTEXT_NOT_AUTHORITY",
+    "common_identity": "SANITIZED_PROVIDER_SERVICE_LOCATOR",
+    "affiliate_or_tracking_parameters_are_identity": false,
+    "sponsorship_or_featured_status_is_ranking_authority": false,
+    "upstream_direct_mcp_language_is_admission": false
+  },
+  "rules": {
+    "source_snapshot_must_be_immutable": true,
+    "network_fetch_by_ingestion_core": false,
+    "license_and_terms_required_before_runtime_use": true,
+    "affiliate_and_tracking_parameters_are_identity_neutral": true,
+    "secret_values_are_never_persisted": true,
+    "candidate_store_is_non_authoritative": true,
+    "candidate_store_is_rebuildable": true,
+    "automatic_donor_creation": false,
+    "automatic_provider_admission": false,
+    "automatic_mcp_registration": false,
+    "automatic_activation": false
+  },
+  "current_host_impact": "NO_NEW_RUNTIME_OBLIGATION",
+  "current_host_obligation_delta": 0,
+  "runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "provider_count_policy": "DYNAMIC_UNCHANGED"
+}

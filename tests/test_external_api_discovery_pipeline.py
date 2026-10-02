@@ -7,7 +7,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_api_mega_list_adapter import parse_api_mega_list_markdown, sanitize_locator
+from fa3_api_mega_list_adapter import (
+    OPENCLAW_SOURCE_ID,
+    OPENCLAW_SOURCE_REPOSITORY,
+    parse_api_mega_list_markdown,
+    sanitize_locator,
+)
 from fa3_external_api_discovery_pipeline import (
     create_snapshot_manifest,
     drift_report,
@@ -85,6 +90,49 @@ class ExternalAPIDiscoveryPipelineTests(unittest.TestCase):
             self.assertFalse(transcript["automatic_mcp_registration"])
         finally:
             td.cleanup()
+
+    def test_openclaw_snapshot_uses_same_non_authoritative_pipeline(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            mcp = root / "mcp-servers-apis-131"
+            mcp.mkdir(parents=True)
+            (root / "OPENCLAW_RECOMMENDED.md").write_text(
+                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6) | maps |\n",
+                encoding="utf-8",
+            )
+            (mcp / "README.md").write_text(
+                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6&utm_source=openclaw) | maps |\n",
+                encoding="utf-8",
+            )
+            manifest = create_snapshot_manifest(
+                root,
+                source_commit=COMMIT,
+                source_id=OPENCLAW_SOURCE_ID,
+                source_repository=OPENCLAW_SOURCE_REPOSITORY,
+            )
+            (root / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+            store, receipt = ingest_snapshot(root)
+            self.assertEqual("PASS", receipt["result"])
+            self.assertEqual(OPENCLAW_SOURCE_ID, receipt["source_snapshot"]["source_id"])
+            self.assertEqual(1, store["candidate_count"])
+            candidate = store["candidates"][0]
+            self.assertEqual("apify", candidate["provider_identity"])
+            self.assertEqual("https://apify.com/crawlerbros/google-maps-mcp", candidate["canonical_locator"])
+            self.assertTrue(candidate["affiliate_or_tracking_observed"])
+            self.assertFalse(candidate["automatic_provider_admission"])
+            self.assertFalse(candidate["automatic_mcp_registration"])
+
+    def test_source_id_repository_mismatch_fails_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "README.md").write_text("- [X](https://example.com/x)\n", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                create_snapshot_manifest(
+                    root,
+                    source_commit=COMMIT,
+                    source_id=OPENCLAW_SOURCE_ID,
+                    source_repository="cporter202/API-mega-list",
+                )
 
     def test_snapshot_hash_drift_fails_closed(self):
         td, root = self._snapshot()
