@@ -20,6 +20,8 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
             "src/fa3_external_discovery_store.py",
             "src/fa3_external_api_discovery_pipeline.py",
             "bin/fa3-external-api-discovery",
+            "src/fa3_external_discovery_reconciler.py",
+            "bin/fa3-external-discovery-reconcile",
         ):
             source = ROOT / rel
             target = root / rel
@@ -34,7 +36,7 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
     def test_baseline_gate_passes(self):
         r = d.gate(ROOT)
         self.assertEqual("PASS", r["result"], r)
-        self.assertEqual((17, 17), (r["regressions"]["passed"], r["regressions"]["total"]))
+        self.assertEqual((20, 20), (r["regressions"]["passed"], r["regressions"]["total"]))
         self.assertFalse(r["runtime_provider_required"])
         self.assertEqual(module_active_capability_count(__file__), r["capability_count"])
 
@@ -143,6 +145,21 @@ class ExternalAPIDiscoveryGateTests(unittest.TestCase):
             self.assertEqual("FAIL", r["result"], r)
             self.assertTrue(
                 any(x["code"] == "EXTDISC-REF-013" for x in r["reference"]["findings"])
+            )
+        finally:
+            td.cleanup()
+
+    def test_reconciliation_policy_promotion_escalation_fails_closed(self):
+        td, root = self._copy_root()
+        try:
+            p = root / "canonical/FA3-EXTERNAL-DISCOVERY-RECONCILIATION-001.json"
+            o = json.loads(p.read_text(encoding="utf-8"))
+            o["provider_policy"]["automatic_provider_registration"] = True
+            self._write(p, o)
+            r = d.gate(root)
+            self.assertEqual("FAIL", r["result"], r)
+            self.assertTrue(
+                any(x["code"] == "EXTDISC-REF-015" for x in r["reference"]["findings"])
             )
         finally:
             td.cleanup()
