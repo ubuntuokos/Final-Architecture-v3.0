@@ -19,6 +19,10 @@ DECISION_ID = "FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30"
 GATE_ID = "FA3-EXTERNAL-API-DISCOVERY-GATESET-001"
 STORE_POLICY_ID = "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001"
 INGESTION_DECISION_ID = "FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01"
+HANDOFF_DECISION_ID = "FA3-DEC-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-2026-10-02"
+HANDOFF_INTENT_ID = "FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-APPLICATION-INTENT-2026-10-02"
+HANDOFF_ASSESSMENT_ID = "FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-REUSE-ASSESSMENT-2026-10-02"
+LICENSE_RIGHTS_CONTRACT_ID = "FA3-LICENSE-RIGHTS-CONTRACTS-001"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 REGRESSION_CASE_COUNT = 17
 
@@ -196,6 +200,10 @@ def reference_check(root: Path):
         "policy": root / "canonical/enforcement-policy.json",
         "candidate_store_policy": root / "canonical/FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001.json",
         "ingestion_decision": root / "canonical/decisions/FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01.json",
+        "handoff_decision": root / "canonical/decisions/FA3-DEC-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-2026-10-02.json",
+        "handoff_intent": root / "canonical/intents/FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-APPLICATION-INTENT-2026-10-02.json",
+        "handoff_assessment": root / "canonical/assessments/FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-REUSE-ASSESSMENT-2026-10-02.json",
+        "license_rights_contract": root / "canonical/contracts/FA3-LICENSE-RIGHTS-CONTRACTS-001.json",
         "ingestion_adapter": root / "src/fa3_api_mega_list_adapter.py",
         "candidate_store": root / "src/fa3_external_discovery_store.py",
         "ingestion_pipeline": root / "src/fa3_external_api_discovery_pipeline.py",
@@ -216,6 +224,10 @@ def reference_check(root: Path):
     policy = loadj(required["policy"])
     candidate_store_policy = loadj(required["candidate_store_policy"])
     ingestion_decision = loadj(required["ingestion_decision"])
+    handoff_decision = loadj(required["handoff_decision"])
+    handoff_intent = loadj(required["handoff_intent"])
+    handoff_assessment = loadj(required["handoff_assessment"])
+    license_rights_contract = loadj(required["license_rights_contract"])
 
     if not (
         profile.get("id") == PROFILE_ID
@@ -244,6 +256,7 @@ def reference_check(root: Path):
         and {
             "ExternalDiscoverySnapshot",
             "ExternalCapabilityCandidate",
+            "ExternalDiscoveryAdmissionReviewPlan",
             "ExternalProviderAdmissionDecision",
             "ExternalDiscoveryCandidateStoreManifest",
             "ExternalDiscoveryIngestReceipt",
@@ -293,9 +306,67 @@ def reference_check(root: Path):
         and candidate_store_policy.get("capacity_policy", {}).get("open_next_volume_at_utilization") == 0.90
         and candidate_store_policy.get("capacity_policy", {}).get("rebalance_at_utilization") == 0.95
         and candidate_store_policy.get("capacity_policy", {}).get("rebalance_target_utilization") == 0.70
+        and candidate_store_policy.get("admission_handoff", {}).get("mode") == "DRAFT_REVIEW_PLAN_ONLY"
+        and candidate_store_policy.get("admission_handoff", {}).get("explicit_target_kind_required") is True
+        and candidate_store_policy.get("admission_handoff", {}).get("automatic_target_selection_from_catalog_hints") is False
+        and candidate_store_policy.get("admission_handoff", {}).get("network_fetch_permitted") is False
+        and candidate_store_policy.get("admission_handoff", {}).get("runtime_effect") is False
+        and candidate_store_policy.get("admission_handoff", {}).get("registry_mutation_permitted") is False
+        and candidate_store_policy.get("admission_handoff", {}).get("secret_resolution_permitted") is False
+        and candidate_store_policy.get("admission_handoff", {}).get("license_rights_contract_id") == LICENSE_RIGHTS_CONTRACT_ID
+        and candidate_store_policy.get("admission_handoff", {}).get("mcp_authority_id") == "FA3-AUTH-MCP-GATEWAY-001"
+        and candidate_store_policy.get("admission_handoff", {}).get("secret_authority_id") == "FA3-SECRET-BROKER-001"
+        and candidate_store_policy.get("admission_handoff", {}).get("resource_authority_id") == "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        and candidate_store_policy.get("admission_handoff", {}).get("apify_actor_identity_inherits_apify_org_donor_status") is False
+        and candidate_store_policy.get("admission_handoff", {}).get("current_host_pass_claimed") is False
         and candidate_store_policy.get("capability_count") == CAPABILITY_COUNT
     ):
         findings.append(finding("EXTDISC-REF-013", "External discovery candidate-store policy invariant mismatch"))
+
+    if not (
+        handoff_decision.get("id") == HANDOFF_DECISION_ID
+        and handoff_decision.get("status") == "CANONICAL_CLOSED"
+        and handoff_decision.get("profile_id") == PROFILE_ID
+        and handoff_decision.get("candidate_store_policy_id") == STORE_POLICY_ID
+        and handoff_decision.get("license_rights_contract_id") == LICENSE_RIGHTS_CONTRACT_ID
+        and handoff_decision.get("new_capabilities") == 0
+        and handoff_decision.get("new_architectural_authorities") == 0
+        and handoff_decision.get("capability_count_after") == CAPABILITY_COUNT
+        and handoff_decision.get("current_host_obligation_delta") == 0
+        and handoff_decision.get("runtime_promotion_claim") is False
+    ):
+        findings.append(finding("EXTDISC-REF-016", "External discovery admission handoff decision invariant mismatch"))
+
+    if not (
+        handoff_intent.get("id") == HANDOFF_INTENT_ID
+        and handoff_intent.get("project_type") == "MATERIAL_EXTENSION"
+        and handoff_intent.get("declared_new_capabilities") == []
+        and handoff_intent.get("proposed_authority_roles") == []
+    ):
+        findings.append(finding("EXTDISC-REF-017", "External discovery admission handoff ApplicationIntent invariant mismatch"))
+
+    if not (
+        handoff_assessment.get("id") == HANDOFF_ASSESSMENT_ID
+        and handoff_assessment.get("result") == "PASS"
+        and handoff_assessment.get("capability_count_after") == CAPABILITY_COUNT
+        and handoff_assessment.get("new_capabilities") == 0
+        and handoff_assessment.get("new_architectural_authorities") == 0
+        and handoff_assessment.get("shared_capability_placement", {}).get("disposition") == "SHARED"
+        and handoff_assessment.get("shared_capability_placement", {}).get("local_duplicate_created") is False
+        and handoff_assessment.get("donor_planning_snapshot", {}).get("published_main_commit") == "98835537ddadcf034cc75773774d9dfde3c8e7b0"
+        and handoff_assessment.get("donor_planning_snapshot", {}).get("donor_registry_blob_sha") == "c29638de9ac73f133a817cc239eba0d3837daac6"
+        and handoff_assessment.get("donor_planning_snapshot", {}).get("donor_registry_entry_count") == 1317
+    ):
+        findings.append(finding("EXTDISC-REF-018", "External discovery admission handoff ReuseAssessment invariant mismatch"))
+
+    if not (
+        license_rights_contract.get("id") == LICENSE_RIGHTS_CONTRACT_ID
+        and license_rights_contract.get("status") == "CANONICAL"
+        and license_rights_contract.get("capability_count") == CAPABILITY_COUNT
+        and "ProviderServiceTermsAttestation" in license_rights_contract.get("contracts", [])
+        and "RightsDecisionReceipt" in license_rights_contract.get("contracts", [])
+    ):
+        findings.append(finding("EXTDISC-REF-019", "License/Rights handoff binding invariant mismatch"))
 
     if not (
         ingestion_decision.get("id") == INGESTION_DECISION_ID

@@ -22,6 +22,26 @@ from fa3_external_discovery_store import build_candidate_store, validate_candida
 SNAPSHOT_SCHEMA = "fa3.external-api-discovery.snapshot.v1"
 INGEST_RECEIPT_SCHEMA = "fa3.external-api-discovery.ingest-receipt.v1"
 DRIFT_SCHEMA = "fa3.external-api-discovery.drift-report.v1"
+ADMISSION_REVIEW_PLAN_SCHEMA = "fa3.external-discovery.admission-review-plan.v1"
+ADMISSION_TARGET_KINDS = ("PROVIDER", "MCP", "SKILL", "WEBHOOK", "APIFY_ACTOR")
+ADMISSION_REVIEW_STAGES = (
+    "DISCOVER",
+    "NORMALIZE",
+    "DEDUPLICATE",
+    "PROVENANCE",
+    "LICENSE_TERMS",
+    "ENDPOINT_VERIFY",
+    "PROTOCOL_SCHEMA",
+    "SECURITY",
+    "SECRETS",
+    "EGRESS",
+    "CAPABILITY_MAP",
+    "POLICY",
+    "SANDBOX",
+    "CONFORMANCE",
+    "REGISTRY_ADMISSION",
+)
+_DISCOVERY_COMPLETE_STAGES = {"DISCOVER", "NORMALIZE", "DEDUPLICATE"}
 SHA40 = re.compile(r"^[0-9a-f]{40}$")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -279,6 +299,162 @@ def ingest_snapshots(snapshot_dirs: list[Path]) -> tuple[dict[str, Any], dict[st
     receipt["receipt_digest"] = _stable_digest({k: v for k, v in receipt.items() if k != "receipt_digest"})
     return store, receipt
 
+def _normalize_target_kind(value: str) -> str:
+    normalized = str(value or "").strip().upper().replace("-", "_")
+    if normalized not in ADMISSION_TARGET_KINDS:
+        raise ValueError(
+            "explicit admission review target kind required: "
+            + ", ".join(ADMISSION_TARGET_KINDS)
+        )
+    return normalized
+
+
+def build_admission_review_plan(
+    store: dict[str, Any],
+    *,
+    candidate_id: str,
+    target_kind: str,
+) -> dict[str, Any]:
+    findings = validate_candidate_store(store)
+    if findings:
+        raise ValueError(json.dumps(findings, ensure_ascii=False, sort_keys=True))
+
+    normalized_kind = _normalize_target_kind(target_kind)
+    matches = [
+        row
+        for row in store.get("candidates", [])
+        if isinstance(row, dict) and row.get("candidate_id") == candidate_id
+    ]
+    if len(matches) != 1:
+        raise ValueError("exactly one validated external discovery candidate is required")
+    candidate = matches[0]
+
+    stages = []
+    for stage in ADMISSION_REVIEW_STAGES:
+        completed_from_discovery = stage in _DISCOVERY_COMPLETE_STAGES
+        stages.append(
+            {
+                "stage": stage,
+                "status": "PASS_FROM_DERIVED_DISCOVERY" if completed_from_discovery else "PENDING_REVIEW",
+                "authorization_effect": False,
+            }
+        )
+
+    plan = {
+        "schema": ADMISSION_REVIEW_PLAN_SCHEMA,
+        "review_status": "DRAFT_REVIEW_REQUIRED",
+        "authority": False,
+        "runtime_effect": False,
+        "registry_mutation_permitted": False,
+        "network_probe_performed": False,
+        "secret_resolution_performed": False,
+        "current_host_pass_claimed": False,
+        "admission_ready": False,
+        "automatic_donor_creation": False,
+        "automatic_provider_admission": False,
+        "automatic_mcp_registration": False,
+        "automatic_activation": False,
+        "catalog_hints_authorize_target_kind": False,
+        "inherits_apify_org_donor_status": False,
+        "donor_usage_edge_created": False,
+        "requested_target_kind": normalized_kind,
+        "store_digest": store["store_digest"],
+        "candidate_id": candidate["candidate_id"],
+        "candidate_digest": candidate["candidate_digest"],
+        "candidate_summary": {
+            "provider_identity": candidate.get("provider_identity"),
+            "service_identity": candidate.get("service_identity"),
+            "canonical_locator": candidate.get("canonical_locator"),
+            "listing_names": list(candidate.get("listing_names", [])),
+            "listing_descriptions": list(candidate.get("listing_descriptions", [])),
+            "source_categories": list(candidate.get("source_categories", [])),
+            "mcp_hint_observed": bool(candidate.get("mcp_hint_observed")),
+            "skill_hint_observed": bool(candidate.get("skill_hint_observed")),
+            "webhook_hint_observed": bool(candidate.get("webhook_hint_observed")),
+            "apify_actor_identities": list(candidate.get("apify_actor_identities", [])),
+            "observations": list(candidate.get("observations", [])),
+        },
+        "source_snapshots": list(store.get("source_snapshots", [])),
+        "bindings": {
+            "external_discovery_profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+            "candidate_store_policy_id": "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+            "license_rights_contract_id": "FA3-LICENSE-RIGHTS-CONTRACTS-001",
+            "security_authority_id": "FA3-AUTH-SECURITY-GOV-001",
+            "secret_authority_id": "FA3-SECRET-BROKER-001",
+            "mcp_authority_id": "FA3-AUTH-MCP-GATEWAY-001",
+            "resource_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+            "registry_authority_id": "FA3-REGISTRY-001",
+            "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+            "network_egress_authority": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+        },
+        "required_review_outputs": [
+            "ExternalLicenseTermsAssessment",
+            "ExternalEndpointDescriptor",
+            "ExternalProtocolDescriptor",
+            "ExternalSecurityClassification",
+            "ExternalAuthRequirement",
+            "ExternalEgressAssessment",
+            "ExternalCapabilityMapping",
+            "ExternalSandboxProbeResult",
+            "ExternalProviderAdmissionDecision",
+        ],
+        "stages": stages,
+    }
+    plan["plan_digest"] = _stable_digest({k: v for k, v in plan.items() if k != "plan_digest"})
+    return plan
+
+
+def validate_admission_review_plan(plan: dict[str, Any]) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+    if plan.get("schema") != ADMISSION_REVIEW_PLAN_SCHEMA:
+        findings.append({"code": "EXTDISC-REVIEW-SCHEMA", "message": "invalid admission review plan schema"})
+    if plan.get("review_status") != "DRAFT_REVIEW_REQUIRED":
+        findings.append({"code": "EXTDISC-REVIEW-STATE", "message": "review plan must remain draft"})
+    for flag in (
+        "authority",
+        "runtime_effect",
+        "registry_mutation_permitted",
+        "network_probe_performed",
+        "secret_resolution_performed",
+        "current_host_pass_claimed",
+        "admission_ready",
+        "automatic_donor_creation",
+        "automatic_provider_admission",
+        "automatic_mcp_registration",
+        "automatic_activation",
+        "catalog_hints_authorize_target_kind",
+        "inherits_apify_org_donor_status",
+        "donor_usage_edge_created",
+    ):
+        if plan.get(flag) is not False:
+            findings.append({"code": "EXTDISC-REVIEW-AUTHORITY", "message": f"{flag} must be false"})
+    if plan.get("requested_target_kind") not in ADMISSION_TARGET_KINDS:
+        findings.append({"code": "EXTDISC-REVIEW-TARGET", "message": "unsupported admission review target kind"})
+    stages = plan.get("stages")
+    if not isinstance(stages, list) or [row.get("stage") for row in stages if isinstance(row, dict)] != list(ADMISSION_REVIEW_STAGES):
+        findings.append({"code": "EXTDISC-REVIEW-STAGES", "message": "admission review stage order drift"})
+    else:
+        for row in stages:
+            expected = "PASS_FROM_DERIVED_DISCOVERY" if row["stage"] in _DISCOVERY_COMPLETE_STAGES else "PENDING_REVIEW"
+            if row.get("status") != expected or row.get("authorization_effect") is not False:
+                findings.append({"code": "EXTDISC-REVIEW-STAGE-STATE", "message": f"invalid stage state: {row.get('stage')}"})
+    bindings = plan.get("bindings", {})
+    if not (
+        bindings.get("license_rights_contract_id") == "FA3-LICENSE-RIGHTS-CONTRACTS-001"
+        and bindings.get("mcp_authority_id") == "FA3-AUTH-MCP-GATEWAY-001"
+        and bindings.get("secret_authority_id") == "FA3-SECRET-BROKER-001"
+        and bindings.get("resource_authority_id") == "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        and bindings.get("registry_authority_id") == "FA3-REGISTRY-001"
+    ):
+        findings.append({"code": "EXTDISC-REVIEW-BINDINGS", "message": "canonical authority/rights bindings drift"})
+    if not str(plan.get("candidate_id") or "") or not str(plan.get("candidate_digest") or "") or not str(plan.get("store_digest") or ""):
+        findings.append({"code": "EXTDISC-REVIEW-BINDING", "message": "candidate/store digest binding missing"})
+    expected_digest = _stable_digest({k: v for k, v in plan.items() if k != "plan_digest"})
+    if plan.get("plan_digest") != expected_digest:
+        findings.append({"code": "EXTDISC-REVIEW-DIGEST", "message": "admission review plan digest drift"})
+    return findings
+
+
 def drift_report(previous: dict[str, Any], current: dict[str, Any]) -> dict[str, Any]:
     prev = {row["candidate_id"]: row for row in previous.get("candidates", []) if isinstance(row, dict) and row.get("candidate_id")}
     curr = {row["candidate_id"]: row for row in current.get("candidates", []) if isinstance(row, dict) and row.get("candidate_id")}
@@ -345,6 +521,12 @@ def main() -> int:
     p_reconcile.add_argument("--output")
     p_reconcile.add_argument("--receipt")
 
+    p_review = sub.add_parser("review-plan")
+    p_review.add_argument("--store", required=True)
+    p_review.add_argument("--candidate-id", required=True)
+    p_review.add_argument("--target-kind", required=True, choices=[value.lower().replace("_", "-") for value in ADMISSION_TARGET_KINDS])
+    p_review.add_argument("--output")
+
     p_check = sub.add_parser("check")
     p_check.add_argument("--store", required=True)
 
@@ -388,6 +570,23 @@ def main() -> int:
         _write_json(output, store)
         _write_json(receipt_path, receipt)
         print(json.dumps(receipt, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "review-plan":
+        store = _load_json(Path(args.store))
+        plan = build_admission_review_plan(
+            store,
+            candidate_id=args.candidate_id,
+            target_kind=args.target_kind,
+        )
+        findings = validate_admission_review_plan(plan)
+        if findings:
+            raise ValueError(json.dumps(findings, ensure_ascii=False, sort_keys=True))
+        output = Path(args.output) if args.output else default_state_root() / "review-plans" / (
+            f"{plan['candidate_id']}-{plan['requested_target_kind'].lower()}.json"
+        )
+        _write_json(output, plan)
+        print(json.dumps(plan, ensure_ascii=False, indent=2))
         return 0
 
     if args.command == "check":

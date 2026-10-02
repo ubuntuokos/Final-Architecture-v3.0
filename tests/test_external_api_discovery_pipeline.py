@@ -16,10 +16,13 @@ from fa3_api_mega_list_adapter import (
     sanitize_locator,
 )
 from fa3_external_api_discovery_pipeline import (
+    ADMISSION_REVIEW_STAGES,
+    build_admission_review_plan,
     create_snapshot_manifest,
     drift_report,
     ingest_snapshot,
     ingest_snapshots,
+    validate_admission_review_plan,
     validate_snapshot_manifest,
 )
 from fa3_external_discovery_store import validate_candidate_store, volume_action
@@ -208,6 +211,83 @@ class ExternalAPIDiscoveryPipelineTests(unittest.TestCase):
             )
             self.assertFalse(candidate["automatic_provider_admission"])
             self.assertFalse(candidate["automatic_mcp_registration"])
+
+    def test_candidate_review_plan_is_inert_and_stage_gated(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "OPENCLAW_RECOMMENDED.md").write_text(
+                "# MCP servers\n"
+                "| [Google Maps MCP](https://apify.com/crawlerbros/google-maps-mcp?fpr=p2hrc6) | Businesses and reviews | Assistant maps |\n",
+                encoding="utf-8",
+            )
+            manifest = create_snapshot_manifest(
+                root,
+                source_commit="c" * 40,
+                source_id=OPENCLAW_SOURCE_ID,
+                source_repository=OPENCLAW_SOURCE_REPOSITORY,
+            )
+            (root / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+            store, _ = ingest_snapshot(root)
+            candidate = store["candidates"][0]
+            plan = build_admission_review_plan(
+                store,
+                candidate_id=candidate["candidate_id"],
+                target_kind="mcp",
+            )
+            self.assertEqual([], validate_admission_review_plan(plan))
+            self.assertEqual("DRAFT_REVIEW_REQUIRED", plan["review_status"])
+            self.assertEqual("MCP", plan["requested_target_kind"])
+            self.assertFalse(plan["authority"])
+            self.assertFalse(plan["runtime_effect"])
+            self.assertFalse(plan["registry_mutation_permitted"])
+            self.assertFalse(plan["network_probe_performed"])
+            self.assertFalse(plan["secret_resolution_performed"])
+            self.assertFalse(plan["admission_ready"])
+            self.assertFalse(plan["automatic_provider_admission"])
+            self.assertFalse(plan["automatic_mcp_registration"])
+            self.assertFalse(plan["inherits_apify_org_donor_status"])
+            self.assertFalse(plan["donor_usage_edge_created"])
+            self.assertEqual(
+                ["DISCOVER", "NORMALIZE", "DEDUPLICATE"],
+                [row["stage"] for row in plan["stages"] if row["status"] == "PASS_FROM_DERIVED_DISCOVERY"],
+            )
+            self.assertEqual(
+                list(ADMISSION_REVIEW_STAGES[3:]),
+                [row["stage"] for row in plan["stages"] if row["status"] == "PENDING_REVIEW"],
+            )
+            self.assertTrue(plan["candidate_summary"]["mcp_hint_observed"])
+            self.assertEqual(
+                ["crawlerbros/google-maps-mcp"],
+                plan["candidate_summary"]["apify_actor_identities"],
+            )
+            self.assertEqual("FA3-AUTH-MCP-GATEWAY-001", plan["bindings"]["mcp_authority_id"])
+            self.assertEqual("FA3-SECRET-BROKER-001", plan["bindings"]["secret_authority_id"])
+            self.assertEqual("FA3-LICENSE-RIGHTS-CONTRACTS-001", plan["bindings"]["license_rights_contract_id"])
+
+    def test_candidate_review_plan_requires_explicit_supported_target(self):
+        td, root = self._snapshot()
+        try:
+            store, _ = ingest_snapshot(root)
+            candidate = store["candidates"][0]
+            with self.assertRaises(ValueError):
+                build_admission_review_plan(store, candidate_id=candidate["candidate_id"], target_kind="")
+            with self.assertRaises(ValueError):
+                build_admission_review_plan(store, candidate_id=candidate["candidate_id"], target_kind="AUTO_FROM_HINTS")
+            with self.assertRaises(ValueError):
+                build_admission_review_plan(store, candidate_id="EXTDISC-NOT-PRESENT", target_kind="provider")
+        finally:
+            td.cleanup()
+
+    def test_candidate_review_plan_rejects_tampered_store(self):
+        td, root = self._snapshot()
+        try:
+            store, _ = ingest_snapshot(root)
+            candidate_id = store["candidates"][0]["candidate_id"]
+            store["automatic_provider_admission"] = True
+            with self.assertRaises(ValueError):
+                build_admission_review_plan(store, candidate_id=candidate_id, target_kind="provider")
+        finally:
+            td.cleanup()
 
     def test_source_id_repository_mismatch_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
