@@ -86,7 +86,7 @@
     },
     {
       "id": "PAPERCLIP_RUNTIME_OR_CONTROL_PLANE",
-      "reason": "OWNER_APPROVED_FA3_NATIVE_FUNCTIONAL_ADOPTION_ONLY; SOURCE_NOT_IN_PUBLISHED_OWNER_MARKED_DONOR_REGISTRY"
+      "reason": "PAPERCLIP_IS_NOW_CANONICAL_ACCEPTED_REFERENCE_BUT_RUNTIME_OR_CONTROL_PLANE_ADOPTION_REMAINS_REJECTED; TEMPORAL_AND_EXISTING_FA3_AUTHORITIES_REMAIN_AUTHORITATIVE"
     },
     {
       "id": "CONDUCTOR_AS_GLOBAL_WORKFLOW_AUTHORITY",
@@ -160,16 +160,19 @@
   "new_architectural_authorities": 0,
   "published_main_registry": {
     "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
-    "entry_count": 1354,
-    "paperclip_present": false
+    "blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "entry_count": 1357,
+    "paperclip_present": true
   },
   "paperclip_analysis": {
     "source": "https://github.com/paperclipai/paperclip",
-    "inspected_head": "b54b2dc35c1f41d367ff4d94615ebfd38bbbdad0",
-    "canonical_planning_candidate": false,
+    "inspected_head": "144083fd481464f4a328f0d184a82263de63228d",
+    "canonical_reference_status": "ACCEPTED_REFERENCE",
+    "canonical_planning_candidate": true,
     "runtime_dependency": false,
-    "code_copy": false
+    "code_copy": false,
+    "usage_edge_created": false,
+    "disposition": "REFERENCE_REVIEWED_EXISTING_FA3_GOVERNANCE_PATTERNS_ALREADY_COVER_REQUIRED_FUNCTIONS_NO_NEW_ADOPTION"
   },
   "active_pr_reconciliation": [
     {
@@ -184,18 +187,18 @@
     }
   ],
   "donor_lifecycle_main_reconciliation": {
-    "main_sha": "44ebf7444485aeb29db1a4677e7d485fee83fae3",
-    "registry_entry_count": 1354,
-    "registry_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
+    "main_sha": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
+    "registry_entry_count": 1357,
+    "registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
     "reuse_input_scope": "LAST_VERIFIED_COMMITTED_MAIN_ONLY",
     "pending_pr_records_consumed": false
   },
   "donor_planning_snapshot": {
-    "published_main_commit": "44ebf7444485aeb29db1a4677e7d485fee83fae3",
+    "published_main_commit": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "donor_registry_blob_sha": "804786e96c66ef6c4397b1471e52a6594473bb20",
-    "donor_registry_sha256": "ba742cad268a22577bb9c0f0145bee1fb980cf909551f346d892760ec2193b8e",
-    "donor_registry_entry_count": 1354
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e",
+    "donor_registry_entry_count": 1357
   },
   "shared_capability_placement": {
     "reviewed": true,
@@ -256,16 +259,20 @@
     "authority_delta": 0
   },
   "latest_finalized_donor_reassessment": {
-    "published_main_commit": "44ebf7444485aeb29db1a4677e7d485fee83fae3",
+    "published_main_commit": "858498b1c3c81dffd65bb37c2266e53b3e973e06",
     "reviewed_donor_ids": [
       "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
       "FA3-DONOR-ANTIGRAVITY-TOOLS-TOPIC-001",
       "FA3-DONOR-ANTIGRAVITY-TOPIC-001",
       "FA3-DONOR-GOOGLE-ANTIGRAVITY-TOPIC-001",
-      "FA3-DONOR-GOOGLE-ANTIGRAVITY-ORG-001"
+      "FA3-DONOR-GOOGLE-ANTIGRAVITY-ORG-001",
+      "FA3-DONOR-NVIDIA-OPENSHELL-001",
+      "FA3-DONOR-PAPERCLIPAI-PAPERCLIP-001",
+      "FA3-DONOR-NVLABS-SANA-001",
+      "FA3-DONOR-NVLABS-ORG-001"
     ],
     "disposition": "NO_ADDITIONAL_MATERIAL_REUSE_REQUIRED",
-    "rationale": "Antigravity policy-hook, tool-dispatch, stateful-session, MCP and adapter patterns were reviewed after finalized donor admission. The PR-A task-group/guard policy plane already reuses Temporal durable lifecycle, UAF/Security/MCP effect boundaries, Blueprint provenance and existing orchestration governance, so no additional donor adoption is required.",
+    "rationale": "Paperclip is now a finalized canonical reference and its objective/delegation/review governance patterns are already covered by the materialized FA3 Task Group, Guard Chain, Blueprint, typed handoff and independent Evidence boundaries. The refreshed OpenShell reference remains an already-selected execution-boundary pattern source. NVlabs Sana/SoL-Refiner is media-generation/refinement focused and adds no material orchestration-policy requirement here. No new donor adoption, usage edge, runtime/provider admission, capability or authority is required.",
     "usage_edge_created": false,
     "code_copy": false,
     "dependency_added": false,
