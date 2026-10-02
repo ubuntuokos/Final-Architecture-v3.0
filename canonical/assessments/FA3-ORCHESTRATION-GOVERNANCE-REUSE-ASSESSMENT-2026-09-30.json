@@ -5,9 +5,10 @@
   "intent_id": "FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30",
   "intent_path": "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
   "covered_ids": [
-    "FA3-ORCHESTRATION-WORKFORCE-001"
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
   ],
-  "project_status": "MATERIALIZED_STATIC_AND_UNIT_VALIDATION_CURRENT_HOST_REQUALIFICATION_PENDING",
+  "project_status": "MATERIALIZED_STATIC_AND_UNIT_VALIDATION_PR_GATES_CURRENT_HOST_NON_PROMOTING",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -71,6 +72,10 @@
     {
       "id": "CONDUCTOR_AS_GLOBAL_WORKFLOW_AUTHORITY",
       "reason": "CONDUCTOR_IS_DELEGATED_BOUNDED_ADAPTIVE_GRAPH_SPECIALIST_ONLY"
+    },
+    {
+      "id": "AGENTIC_AI_STARTERS_DIRECT_ADOPTION",
+      "reason": "SOURCE_IS_ANALYSIS_ONLY_UNMARKED_REFERENCE; NO_CANONICAL_DONOR_REGISTRATION_CODE_IMPORT_DEPENDENCY_PROVIDER_MODEL_RUNTIME_OR_USAGE_EDGE"
     }
   ],
   "pattern_reuse": [
@@ -80,7 +85,11 @@
     "ATOMIC_EXECUTION_CLAIM",
     "VERSION_BOUND_APPROVAL",
     "BOUNDED_RECOVERY",
-    "LIVENESS_PROJECTION"
+    "LIVENESS_PROJECTION",
+    "ROLE_SCOPED_AGENT_APPLICATION_BLUEPRINT",
+    "STRUCTURED_HANDOFF",
+    "INDEPENDENT_REVIEW_BINDING",
+    "DETERMINISTIC_BLUEPRINT_COMPILATION"
   ],
   "existing_authority_bindings": {
     "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -127,8 +136,8 @@
   "new_architectural_authorities": 0,
   "published_main_registry": {
     "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
-    "entry_count": 1287,
+    "blob_sha": "07dc212b4a68bf4848e278d6eb590c70c2aae5a4",
+    "entry_count": 1340,
     "paperclip_present": false
   },
   "paperclip_analysis": {
@@ -151,11 +160,58 @@
     }
   ],
   "donor_lifecycle_main_reconciliation": {
-    "main_sha": "6b10c881616cd52bd2ccd4350103cd1964f5bd8d",
-    "merged_pr": 562,
-    "registry_entry_count": 1287,
-    "registry_blob_sha": "d28e46732a2068bff7fcc7091baa1f754012085d",
+    "main_sha": "9a9768a98e07b4961c460b2e6f3f2e00ad927c93",
+    "registry_entry_count": 1340,
+    "registry_blob_sha": "07dc212b4a68bf4848e278d6eb590c70c2aae5a4",
     "reuse_input_scope": "LAST_VERIFIED_COMMITTED_MAIN_ONLY",
     "pending_pr_records_consumed": false
-  }
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "9a9768a98e07b4961c460b2e6f3f2e00ad927c93",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "07dc212b4a68bf4848e278d6eb590c70c2aae5a4",
+    "donor_registry_sha256": "406fa7072b88dce22d423c39dcadce2ba5d60008a55469aa74ee257ed1264eb2",
+    "donor_registry_entry_count": 1340
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-ORCHESTRATION-WORKFORCE-001",
+      "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001"
+    ],
+    "rationale": "Blueprint compilation is a cross-application orchestration function and is therefore materialized once in the existing shared Orchestration Workforce layer rather than duplicated per application."
+  },
+  "blueprint_fabric_delta": {
+    "contract_id": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "compiler": "src/fa3_agent_application_blueprint.py",
+    "application_scope": "CROSS_APPLICATION_SHARED",
+    "task_group_binding_required": true,
+    "role_context_authority": false,
+    "temporal_sole_global_durable_lifecycle": true,
+    "conductor_task_local_only": true,
+    "uaf_execution_required": true,
+    "model_router_authority_preserved": true,
+    "hrb_authority_preserved": true,
+    "evidence_authority_preserved": true,
+    "runtime_admission_separate": true,
+    "current_host_promotion_claim": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  },
+  "analysis_only_references": [
+    {
+      "source": "https://github.com/cporter202/agentic-ai-starters",
+      "donor_registered": false,
+      "donor_adoption_authorized": false,
+      "code_copy": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "usage_edge_created": false,
+      "use": "PLANNER_WORKER_REVIEWER_STRUCTURED_HANDOFF_PATTERN_COMPARISON_ONLY"
+    }
+  ]
 }
