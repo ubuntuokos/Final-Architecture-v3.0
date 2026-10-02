@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CHANGE-HISTORY-INTELLIGENCE-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-02",
+  "subject_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "project_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-001",
+  "intent_id": "FA3-CHANGE-HISTORY-INTELLIGENCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CHANGE-HISTORY-INTELLIGENCE-APPLICATION-INTENT-001.json",
+  "donor_planning_snapshot": {
+    "published_main_commit": "d65215e75867d71605093ae8f46a0dfbd6c6f471",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "8571842573f6f0ccd9db520e76184167681f25e6",
+    "donor_registry_sha256": "dc9758edfb81e5857236d9dbea29fe533efe27cbafcb44f77ec0c8358114f7c1",
+    "donor_registry_entry_count": 1344,
+    "capability_baseline": 175
+  },
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-JOURNAL-001",
+      "use": "SINGLE_WORKSTATION_EVENT_AND_HISTORY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY_AND_CURRENTNESS"
+    },
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "CANONICAL_RECORD_AUTHORITY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "RIGHTS_AND_DISTRIBUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "OPTIONAL_AI_ADVISORY_ROUTING_ONLY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "DONOR_AND_INTERNAL_REUSE_GOVERNANCE"
+    }
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-SLSA-BUILD-PROVENANCE-001",
+      "use": "PROVENANCE_SUBJECT_BUILD_DEFINITION_RESOLVED_DEPENDENCY_AND_RUN_DETAILS_PATTERN",
+      "adopted": true,
+      "code_copy": false,
+      "runtime_dependency": false
+    },
+    {
+      "donor_id": "FA3-DONOR-IN-TOTO-SPECIFICATIONS-001",
+      "use": "TYPED_STATEMENT_SUBJECT_PREDICATE_AND_ATTESTATION_SEPARATION_PATTERN",
+      "adopted": true,
+      "code_copy": false,
+      "runtime_dependency": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENTELEMETRY-EVENT-CONVENTIONS-001",
+      "use": "STRUCTURED_EVENT_NAME_ATTRIBUTE_AND_CORRELATION_PATTERN",
+      "adopted": true,
+      "code_copy": false,
+      "runtime_dependency": false
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENLINEAGE-LINEAGE-FACET-001",
+      "use": "EXPLICIT_SOURCE_TARGET_LINEAGE_AND_NO_FALSE_CARTESIAN_EDGE_PATTERN",
+      "adopted": true,
+      "code_copy": false,
+      "runtime_dependency": false
+    }
+  ],
+  "donor_adoption_authorized": true,
+  "selected_existing_donor_ids": [
+    "FA3-DONOR-SLSA-BUILD-PROVENANCE-001",
+    "FA3-DONOR-IN-TOTO-SPECIFICATIONS-001",
+    "FA3-DONOR-OPENTELEMETRY-EVENT-CONVENTIONS-001",
+    "FA3-DONOR-OPENLINEAGE-LINEAGE-FACET-001"
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-CHANGE-HISTORY-INTELLIGENCE-001"
+    ],
+    "rationale": "Change provenance, impact, rollback and currentness analysis crosses applications and governance surfaces; a shared derived layer prevents local duplicate history authorities."
+  },
+  "gaps": [],
+  "implementation_readiness": "READY_FOR_FA3_NATIVE_MATERIALIZATION",
+  "static_materialization_authorized": true,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_runtime_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "result": "PASS",
+  "covered_ids": [
+    "FA3-CHANGE-HISTORY-INTELLIGENCE-001"
+  ]
+}
