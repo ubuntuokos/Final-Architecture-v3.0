@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.consumer-impact-reconciliation.v1",
+  "id": "FA3-APIFY-WEB-ACQUISITION-CONSUMER-IMPACT-2026-10-02",
+  "date": "2026-10-02",
+  "status": "REVIEWED",
+  "shared_first": true,
+  "subject": "FA3-SHARED-WEB-ACQUISITION-STATE-001",
+  "direct_consumer_mutation": false,
+  "consumers": [
+    {
+      "id": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "impact": "COMPATIBILITY_REFERENCE_ONLY",
+      "authority_change": false
+    },
+    {
+      "id": "FA3-WEB-AI-001",
+      "impact": "CHILD_PROFILE_RELATION_ONLY",
+      "authority_change": false
+    },
+    {
+      "id": "FA3-KNOWLEDGE-001",
+      "impact": "INGESTION_CAN_REUSE_STATE_CONTRACT_LATER",
+      "authority_change": false
+    },
+    {
+      "id": "FA3-MCP-GATEWAY-001",
+      "impact": "NO_CHANGE_MCP_REMAINS_ADMISSION_BOUNDARY",
+      "authority_change": false
+    },
+    {
+      "id": "FA3-SHARED-AGENT-WEB-INTERACTION-001",
+      "impact": "FUTURE_COMPATIBILITY_WHEN_PR_602_PUBLISHED",
+      "authority_change": false
+    }
+  ],
+  "open_pr_conflict_avoidance": {
+    "pr_602_files_modified": false,
+    "pr_599_files_modified": false,
+    "rationale": "Materialization uses a separate child profile/contract and does not overwrite open-PR-owned Web/Browser/Knowledge contracts."
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}
