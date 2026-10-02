@@ -1,6 +1,6 @@
 # FA3 Change-History specification donor intake — 2026-10-02
 
-**Authority:** owner-explicit `donornak` registration.  
+**Authority:** owner-explicit `donornak` registration.
 **Scope:** reference metadata only; no code, dependency, provider, model or runtime admission.
 
 This intake adds four exact specification pages to the existing `FA3-DONOR-REFERENCE-REGISTRY-001` as `ACCEPTED_REFERENCE` records:
@@ -42,9 +42,9 @@ The registry records reference-page license metadata as `UNKNOWN / UNVERIFIED_RE
 
 If these references are selected by the fresh CHIF Reuse Assessment after publication, each actual pattern use must receive an explicit canonical donor usage edge. Reference registration alone is not adoption.
 
-Parent published main: `9a9768a98e07b4961c460b2e6f3f2e00ad927c93`  
-Parent donor count: **1340**  
-Proposed donor count: **1344**  
-Capability baseline: **175**  
-Capability delta: **0**  
+Parent published main: `9a9768a98e07b4961c460b2e6f3f2e00ad927c93`
+Parent donor count: **1340**
+Proposed donor count: **1344**
+Capability baseline: **175**
+Capability delta: **0**
 Authority delta: **0**
