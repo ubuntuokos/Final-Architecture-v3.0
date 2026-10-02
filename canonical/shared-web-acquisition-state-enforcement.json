@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.enforcement.v1",
+  "id": "FA3-SHARED-WEB-ACQUISITION-STATE-ENFORCEMENT-001",
+  "status": "CANONICAL",
+  "gate_id": "FA3-SHARED-WEB-ACQUISITION-STATE-GATESET-001",
+  "gate": "src/fa3_shared_web_acquisition_state_gate.py",
+  "tests": [
+    "tests/test_shared_web_acquisition_state.py"
+  ],
+  "workflow": ".github/workflows/fa3-shared-web-acquisition-state.yml",
+  "fail_closed": true,
+  "runtime_promotion_claim": false
+}
