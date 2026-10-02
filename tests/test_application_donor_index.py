@@ -27,6 +27,8 @@ SOURCES = (
     "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
     "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
     "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-EXECUTION-SECURITY-001.json",
+    "canonical/contracts/FA3-SHARED-EXECUTION-SECURITY-CONTRACTS-001.json",
     "canonical/profiles/FA3-AI-MODULE-FACTORY-001.json",
     "canonical/contracts/FA3-AI-MODULE-FACTORY-CONTRACTS-001.json",
 )
@@ -45,7 +47,7 @@ class ApplicationDonorIndexTests(unittest.TestCase):
         self.assertEqual(
             report["validation"]["result"], "PASS", report["validation"]["findings"]
         )
-        self.assertGreaterEqual(report["counts"]["donor_usage_records"], 3)
+        self.assertGreaterEqual(report["counts"]["donor_usage_records"], 4)
         self.assertEqual(report["counts"]["verified_explicit_usage_expectations"], 3)
         pairs = {
             (edge["donor_id"], consumer["kind"], consumer["id"])
