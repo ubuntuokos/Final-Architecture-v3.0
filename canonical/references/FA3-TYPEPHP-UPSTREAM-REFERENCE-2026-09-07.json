@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-TYPEPHP-UPSTREAM-REFERENCE-2026-09-07",
+  "status": "PINNED_REFERENCE",
+  "provider_id": "FA3-PROVIDER-TYPEPHP-001",
+  "repository": "https://github.com/swoole/typephp",
+  "default_branch": "master",
+  "snapshot_commit": "72b7ce9bf43d5ae1d641539bedb38ae0e2977d45",
+  "snapshot_date": "2026-09-07",
+  "snapshot_commit_signature_verified": true,
+  "license": "GPL-3.0",
+  "documented_php_range": "8.4-8.5",
+  "documented_cpp_standard": "C++17",
+  "documented_outputs": ["native executable", "PHP extension", "shared library", "WASI component"],
+  "compatibility_disposition": "DEFINED_TESTABLE_SUBSET_WITH_DOCUMENTED_INCOMPATIBILITIES",
+  "fa3_disposition": {
+    "promotion_evidence": false,
+    "floating_master_allowed_as_promotion_evidence": false,
+    "runtime_activation_requires_separate_current_host_conformance": true,
+    "network_bootstrap_requires_explicit_fa3_egress_and_supply_chain_authorization": true
+  },
+  "source_documents": ["README.md", "docs/en/INCOMPATIBLE_PHP_FEATURES.md"]
+}
