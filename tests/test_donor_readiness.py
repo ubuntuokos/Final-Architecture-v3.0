@@ -320,6 +320,9 @@ class Tests(unittest.TestCase):
             self.assertIn("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION",
                           refilled["findings"])
 
+    def test_owner_approved_active_intake_limit_is_five(self):
+        self.assertEqual(MAX_ACTIVE_DONOR_INTAKES,5)
+
     def test_intake_workload_uses_canonical_mutation_stats_only(self):
         files=[
             {"filename":REGISTRY,"changes":7},
