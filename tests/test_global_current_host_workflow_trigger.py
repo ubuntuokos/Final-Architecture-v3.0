@@ -78,7 +78,8 @@ class GlobalCurrentHostWorkflowTriggerTests(unittest.TestCase):
 
     def test_real_execution_is_never_automatic_on_push_and_latest_generation_wins(self):
         text = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("cancel-in-progress: true", text)
+        self.assertIn("cancel-in-progress: ${{ github.event_name != 'pull_request' }}", text)
+        self.assertIn("fa3-global-current-host-regression-", text)
         self.assertIn("github.event_name == 'workflow_call'", text)
         self.assertNotIn("github.event_name == 'push' ||", text)
         self.assertIn("execution_subjects:", text)

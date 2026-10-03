@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from fa3_current_host_batch_planner import build_plan
+from fa3_current_host_batch_planner import TEST_KINDS, _selection_digest, build_plan
 
 
 def validate_selection(

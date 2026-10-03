@@ -21,10 +21,13 @@ class T(unittest.TestCase):
   self.assertIn('test "${#changed[@]}" -eq 1',x)
   self.assertIn('test "${changed[0]}" = "$projection"',x)
   self.assertIn("./bin/fa3-enforce release-projection",x)
- def test_shared_physical_lock(self):
+ def test_physical_lock_and_hosted_regression_are_separated(self):
+  global_text=(ROOT/".github/workflows/fa3-global-current-host-closure.yml").read_text()
+  self.assertIn("fa3-current-host-physical-{0}-{1}",global_text)
+  self.assertIn("fa3-global-current-host-regression-",global_text)
+  self.assertIn("cancel-in-progress: ${{ github.event_name != 'pull_request' }}",global_text)
   token="fa3-current-host-physical-${{ github.event.pull_request.head.ref || github.ref_name }}"
   for p in [
-   ".github/workflows/fa3-global-current-host-closure.yml",
    ".github/workflows/fa3-accelerator-guard-current-host.yml",
    ".github/workflows/fa3-decision-fabric-current-host.yml",
    ".github/workflows/fa3-khronos-current-host.yml",
