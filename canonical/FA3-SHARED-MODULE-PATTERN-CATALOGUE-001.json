@@ -297,6 +297,35 @@
         "dashboard",
         "evidence-view"
       ]
+    },
+    {
+      "id": "FA3-SHARED-VOICE-PLUGIN-PATTERN-001",
+      "name": "Shared Voice Plugin and Quick Video Voice pattern",
+      "consumer_application_ids": [
+        "fa3.voice-studio",
+        "fa3.quickclip",
+        "fa3.video-editor",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "voice-profile",
+        "dictation",
+        "tts",
+        "stt",
+        "voice-transform",
+        "fit-to-clip",
+        "quick-dub",
+        "quick-narration",
+        "editable-caption-alignment",
+        "music-ducking",
+        "take-versioning",
+        "voice-activity-overlay"
+      ],
+      "materialization_profile_id": "FA3-VOICE-001",
+      "materialization_contract_id": "FA3-VOICE-CONTRACTS-001",
+      "materialization_status": "GUI_HOST_CONTRACT_MATERIALIZED_RUNTIME_ADAPTER_GATED"
     }
   ],
   "analysis_only_sources": [

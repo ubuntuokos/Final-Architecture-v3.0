@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-VOICE-STUDIO-QUICKVIDEO-APPLICATION-INTENT-2026-10-03",
+  "project_id": "FA3-VOICE-001",
+  "title": "Shared Voice Studio and Quick Video Voice Plugin materialization",
+  "status": "APPROVED_FOR_IMPLEMENTATION",
+  "date": "2026-10-03",
+  "owner_approval_basis": "Explicit owner approval of the finalized Shared Voice / QuickClip GUI plan and instruction to complete it through closure.",
+  "target_capabilities": [
+    "CAP-037",
+    "CAP-011",
+    "CAP-055",
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "FULL_VOICE_STUDIO_GUI",
+    "SHARED_VOICE_PLUGIN_QUICK_STANDARD_ADVANCED",
+    "QUICKCLIP_QUICK_VOICE_AND_QUICK_DUB",
+    "VOICE_PROFILE_MANAGER_GUI",
+    "GLOBAL_VOICE_ACTIVITY_OVERLAY"
+  ],
+  "shared_capability": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "application_may_allocate_devices": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-VOICE-001",
+    "FA3-VOICE-CONTRACTS-001",
+    "FA3-PLATFORM-001",
+    "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-CAPTION-SUBTITLE-001"
+  ]
+}

@@ -76,7 +76,8 @@ ApplicationWindow {
         "create.narration-studio": 38,
         "agents.orchestration-monitor": 39,
         "create.ai-module-factory": 40,
-        "models.engines": 41
+        "models.engines": 41,
+        "create.voice-studio": 42
     })
 
     function routeIndex(routeId) {
@@ -163,6 +164,7 @@ ApplicationWindow {
         {title: "AI Module Factory", detail: "Jóváhagyott FA3 munkákból rights- és provenance-gated modultervek CAP-095 handoffal", category: "FUNCTION", routeId: "create.ai-module-factory"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
+        {title: "Voice Studio", detail: "Shared Voice I/O, profilok, rögzítés, transzformáció, történetek és gyorsvideó voice plugin", category: "FUNCTION", routeId: "create.voice-studio"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -1781,6 +1783,22 @@ ApplicationWindow {
                 EngineManagerPage {
                     engineController: fa3EngineSelector
                 }
+
+                VoiceStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.magenta
+                    green: window.green
+                    orange: window.orange
+                    onStageActionIntentRequested: function(actionId, target, rationale) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "SHARED_VOICE", actionId, target,
+                            rationale + " · DRAFT only; FA3-VOICE-001 / Model Router / HRB / UAF / Evidence gates remain mandatory.")
+                    }
+                }
             }
 
             Rectangle {
@@ -1804,6 +1822,21 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    VoiceActivityOverlay {
+        id: voiceActivityOverlay
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 24
+        anchors.bottomMargin: 52
+        z: 1000
+        active: false
+        activityState: "IDLE"
+        applicationName: "FA3 Voice"
+        privacyState: "LOCAL"
+        onStopRequested: operationNotice = "Voice stop intent staged; execution adapter remains authority-gated."
+        onMuteRequested: operationNotice = "Voice mute intent staged; execution adapter remains authority-gated."
     }
 
     Dialog {

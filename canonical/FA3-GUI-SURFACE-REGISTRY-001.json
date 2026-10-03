@@ -424,6 +424,22 @@
       "secret_authority": "FA3-AUTH-SECRETS-001",
       "authority": false,
       "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "create.voice-studio",
+      "title": "Voice Studio",
+      "group": "CREATE",
+      "projection": "SHARED_VOICE_STUDIO",
+      "profile_id": "FA3-VOICE-001",
+      "shared_plugin_id": "FA3-SHARED-VOICE-PLUGIN-001",
+      "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "mode": "PROVIDER_NEUTRAL_DRAFT_INTENT_UI",
+      "direct_provider_execution": false,
+      "provider_selection_authority": false,
+      "device_selection_authority": false,
+      "authority": false,
+      "runtime_promotion_claim": false
     }
   ],
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",

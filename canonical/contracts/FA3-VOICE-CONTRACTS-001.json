@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-VOICE-CONTRACTS-001",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "profile_id": "FA3-VOICE-001",
   "status": "CANONICAL",
   "provider_neutral": true,
@@ -324,6 +324,72 @@
         "speaker/content disentanglement claims require evidence and MUST NOT be inferred from provider marketing",
         "reuse across providers requires compatible rights and canonical provenance"
       ]
+    },
+    "shared_voice_plugin_host": {
+      "schema": "fa3.shared-voice-plugin-host.v1",
+      "projection_modes": [
+        "QUICK",
+        "STANDARD",
+        "ADVANCED"
+      ],
+      "required": [
+        "host_application_id",
+        "projection_mode",
+        "requested_action",
+        "voice_profile_ref",
+        "language",
+        "ai_features"
+      ],
+      "quick_actions": [
+        "voice.preview",
+        "voice.quickvideo.generate-insert",
+        "voice.quickdub.analyze",
+        "voice.quickdub.preview",
+        "voice.quickdub.build",
+        "voice.narration.stage",
+        "speech.capture"
+      ],
+      "fit_to_clip_options": [
+        "ADJUST_SPEECH_RATE",
+        "SUGGEST_SHORTER_SCRIPT",
+        "EXTEND_VIDEO",
+        "KEEP_ORIGINAL_TIMING"
+      ],
+      "text_rewrite_requires_preview_and_explicit_apply": true,
+      "generated_captions_editable": true,
+      "previous_take_preservation_supported": true,
+      "music_ducking_optional": true,
+      "direct_provider_execution": false,
+      "direct_device_selection": false,
+      "direct_network_endpoint_selection": false,
+      "model_router_required": true,
+      "hrb_required_for_accelerator": true,
+      "central_mcp_uaf_mediation_required_for_agent_actions": true
+    },
+    "voice_activity_status": {
+      "schema": "fa3.voice-activity-status.v1",
+      "state_enum": [
+        "LISTENING",
+        "RECORDING",
+        "TRANSCRIBING",
+        "REFINING",
+        "GENERATING",
+        "SPEAKING",
+        "PAUSED",
+        "BLOCKED",
+        "ERROR"
+      ],
+      "visible_when_active": true,
+      "hidden_agent_speech_forbidden": true,
+      "fields": [
+        "application_ref",
+        "agent_ref",
+        "voice_profile_ref",
+        "privacy_state",
+        "elapsed_time",
+        "stop_available",
+        "mute_available"
+      ]
     }
   },
   "security": {
@@ -333,7 +399,11 @@
     "silent_network_model_fetch_forbidden": true,
     "arbitrary_checkpoint_paths_forbidden": true,
     "cuda_requires_hrb_lease": true,
-    "provider_direct_application_venv_install_forbidden": true
+    "provider_direct_application_venv_install_forbidden": true,
+    "shared_voice_plugin_direct_provider_execution_forbidden": true,
+    "shared_voice_plugin_direct_device_selection_forbidden": true,
+    "hidden_agent_speech_forbidden": true,
+    "quick_video_text_rewrite_requires_explicit_apply": true
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
