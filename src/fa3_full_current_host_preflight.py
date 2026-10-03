@@ -19,6 +19,7 @@ from fa3_desktop_admission import (
     evaluate_desktop,
 )
 from fa3_hardware_discovery import discover_accelerator_devices
+from fa3_full_current_host_capability_producer import desktop_wayland_scoped_admission
 from fa3_hardware_portability_gate import evaluate as evaluate_hardware_portability
 from fa3_release_baseline import load_active_release_baseline
 
@@ -83,6 +84,14 @@ def merged_user_session_environment() -> dict[str, str]:
         if key in wanted and value and not merged.get(key):
             merged[key] = value
     return merged
+
+
+def desktop_preflight_admission(
+    report: dict[str, Any],
+    session_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    """Apply the same GUI/XDG scope used by the physical desktop proof producer."""
+    return desktop_wayland_scoped_admission(report, session_evidence)
 
 
 def required_primitives(root: Path) -> tuple[set[str], dict[str, dict[str, Any]]]:
@@ -251,13 +260,18 @@ def preflight(root: Path) -> dict[str, Any]:
             collect_runtime_probes(session_env),
             require_gui=True,
         )
+        scoped_admission = desktop_preflight_admission(
+            admission,
+            session.get("evidence", {}),
+        )
         desktop.update({
             "legacy_primitive_name": "desktop_wayland",
             "semantics": "GENERIC_QT6_DESKTOP_SESSION_WAYLAND_PREFERRED_X11_SUPPORTED",
             "admission": admission,
+            "scope_admission": scoped_admission,
             "session_discovery": session.get("evidence", {}),
         })
-        if admission.get("result") != "PASS":
+        if scoped_admission.get("result") != "PASS":
             findings.append("supported local Qt6/XDG desktop session unavailable to runner")
 
     if any(row.get("external_side_effects_allowed") is not False for row in recipes.values()):
