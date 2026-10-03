@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-PRODUCT-ENTITLEMENT-2026-10-03",
+  "date": "2026-10-03",
+  "status": "APPROVED",
+  "title": "Materialize FA3 Operating Levels, individual application entitlements and continuous Application Portfolio",
+  "explicit_user_approval": true,
+  "user_request_ref": "CHAT_2026-10-03_FINAL_PACKAGE_PLAN_APPROVED_AND_MATERIALIZE",
+  "approved_plan_path": "docs/FA3-PRODUCT-ENTITLEMENT-PLAN-2026-10-03.md",
+  "approved_plan_sha256": "09aef8504919c11829195373afa6a4fdd698110f5d2a0f4bcf1f73416809ecde",
+  "decision": [
+    "Operating Level and application entitlement are orthogonal.",
+    "Applications remain individually selectable through Enterprise unless explicitly non-entitleable.",
+    "Required technical dependencies are available to selected applications without granting unrelated user-facing applications.",
+    "Domain Packs are optional bundles and may not become technical dependencies.",
+    "Portfolio classification is retrospective, continuous and separate from provisioning lifecycle.",
+    "Product entitlement may restrict but never widen Security, License & Rights, Hardware, Model Router, HRB or Evidence decisions.",
+    "Capability baseline remains 175 and no new architectural authority is created."
+  ],
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}
