@@ -1,9 +1,9 @@
 # FA3 Application GUI Design Policy
 
-Status: **CANONICAL P0**  
-Policy: `FA3-APPLICATION-GUI-DESIGN-POLICY-001`  
-Gate set: `FA3-APPLICATION-GUI-DESIGN-GATESET-001`  
-Capability baseline: **175 unchanged**  
+Status: **CANONICAL P0**
+Policy: `FA3-APPLICATION-GUI-DESIGN-POLICY-001`
+Gate set: `FA3-APPLICATION-GUI-DESIGN-GATESET-001`
+Capability baseline: **175 unchanged**
 Scope: **RETROACTIVE / FORWARD-ENFORCED / CHANGE-SYNCHRONIZED / DESIGN-SYSTEM-LOCKED**
 
 ## Rule
