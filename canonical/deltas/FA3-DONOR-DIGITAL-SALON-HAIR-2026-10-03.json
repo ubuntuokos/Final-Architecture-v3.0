@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-DIGITAL-SALON-HAIR-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "parent_main": "9ee6b81c232c279542342c36553a64784ad66b4d",
+  "parent_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+  "parent_entry_count": 1421,
+  "submitted_url_count": 7,
+  "duplicate_submission_count": 0,
+  "canonical_alias_collapse_count": 0,
+  "unique_source_count": 7,
+  "new_source_count": 7,
+  "resulting_entry_count": 1428,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "requirements": [
+    "All seven owner-marked URLs are registered as exact source identities.",
+    "GitHub profile records and the arXiv root are discovery indexes only and do not recursively admit child repositories or articles.",
+    "Digital Salon project registration does not admit code, models, datasets, meshes, assets, services, providers or runtimes.",
+    "License & Rights, provenance, security, Software Coexistence and Hardware Safety remain independent fail-closed gates for material reuse.",
+    "CPU-only viability and existing Model Router/HRB authorities remain unchanged.",
+    "No donor usage edge is created by this reference intake.",
+    "Capability baseline remains 175 and no architectural authority is created."
+  ],
+  "sources": [
+    [
+      "https://github.com/digital-salon",
+      "FA3-DONOR-DIGITAL-SALON-PROFILE-001"
+    ],
+    [
+      "https://github.com/zhoushiwei",
+      "FA3-DONOR-ZHOUSHIWEI-PROFILE-001"
+    ],
+    [
+      "https://github.com/KeyuWu-CS",
+      "FA3-DONOR-KEYUWU-CS-PROFILE-001"
+    ],
+    [
+      "https://github.com/tigerwash",
+      "FA3-DONOR-TIGERWASH-PROFILE-001"
+    ],
+    [
+      "https://digital-salon.github.io/",
+      "FA3-DONOR-DIGITAL-SALON-PROJECT-001"
+    ],
+    [
+      "https://github.com/Jhonve",
+      "FA3-DONOR-JHONVE-PROFILE-001"
+    ],
+    [
+      "https://arxiv.org/",
+      "FA3-DONOR-ARXIV-RESEARCH-INDEX-001"
+    ]
+  ],
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5
+}
