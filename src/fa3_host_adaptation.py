@@ -58,6 +58,18 @@ def package_managers() -> dict[str, Any]:
     return {"available": available, "primary": available[0] if available else None, "authority": False}
 
 
+def application_distribution_runtimes() -> dict[str, Any]:
+    candidates = ("flatpak", "snap")
+    available = [name for name in candidates if shutil.which(name)]
+    return {
+        "available": available,
+        "authority": False,
+        "automatic_install": False,
+        "automatic_update": False,
+        "registry": "FA3-APPLICATION-INSTALLATION-REGISTRY-001",
+    }
+
+
 def capture_live_snapshot(root: Path) -> dict[str, Any]:
     session = discover_current_user_session_environment()
     env = session["environment"]
@@ -69,6 +81,7 @@ def capture_live_snapshot(root: Path) -> dict[str, Any]:
         "capability_count": CAPABILITY_COUNT,
         "os": os_release(),
         "package_managers": package_managers(),
+        "application_distribution_runtimes": application_distribution_runtimes(),
         "kernel_release": platform.release(),
         "cpu": discover_cpu_topology(),
         "accelerators": [device.as_dict() for device in devices],
