@@ -26,7 +26,11 @@
       "AppImage",
       "deb",
       "binary_archive",
-      "custom_provider"
+      "custom_provider",
+      "Flatpak",
+      "Snap",
+      "rpm",
+      "portable_binary"
     ],
     "MODEL": [
       "model_revision",
@@ -142,5 +146,12 @@
     "CPU_ONLY_HOST_IS_VALID"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "application_distribution_boundary": {
+    "registry": "FA3-APPLICATION-INSTALLATION-REGISTRY-001",
+    "discovery_is_update_authority": false,
+    "packaging_does_not_select_application": true,
+    "multiple_installation_instances_may_coexist": true,
+    "update_execution_remains_provider_specific": true
+  }
 }

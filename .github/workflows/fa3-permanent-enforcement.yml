@@ -46,12 +46,17 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Resolve live published main for donor planning snapshot
+      - name: Resolve live main and change merge-base for canonical enforcement
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          LIVE_MAIN="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          LIVE_MAIN="$(git rev-parse refs/remotes/origin/main)"
+          MERGE_BASE="$(git merge-base "$LIVE_MAIN" "$FA3_CHANGE_HEAD_SHA")"
           test -n "$LIVE_MAIN"
+          test -n "$MERGE_BASE"
           echo "FA3_PUBLISHED_MAIN_SHA=$LIVE_MAIN" >> "$GITHUB_ENV"
+          echo "FA3_CHANGE_BASE_SHA=$MERGE_BASE" >> "$GITHUB_ENV"
+          echo "Live main: $LIVE_MAIN; change merge-base: $MERGE_BASE"
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'

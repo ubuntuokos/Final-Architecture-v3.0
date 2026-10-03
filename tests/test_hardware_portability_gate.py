@@ -191,6 +191,20 @@ class HardwarePortabilityGateTests(unittest.TestCase):
                 audit=scan_repository(root)
                 self.assertEqual("FAIL",audit["result"],audit)
 
+    def test_generated_current_host_evidence_is_excluded_from_repository_hardcode_audit(self):
+        old_cpu = "E5-" + "26" + "96 v4"
+        old_gpu = "RTX " + "A" + "1000"
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            raw = root / ".fa3-current-host" / "global-closure" / "host" / "raw"
+            raw.mkdir(parents=True)
+            (raw / "lscpu.txt").write_text("Model name: " + old_cpu + "\n", encoding="utf-8")
+            (raw / "nvidia-summary.txt").write_text("GPU: " + old_gpu + "\n", encoding="utf-8")
+            audit = scan_repository(root)
+            self.assertEqual("PASS", audit["result"], audit)
+            self.assertEqual(0, audit["legacy_repository_reference_count"])
+            self.assertEqual(0, audit["blocking_hardcoded_production_assumptions"])
+
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); p=root/"canonical"/"references"; p.mkdir(parents=True)

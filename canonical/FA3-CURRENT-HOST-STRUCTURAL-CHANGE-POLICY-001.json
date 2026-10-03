@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.current-host-structural-change-policy.v1",
+  "id": "FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001",
+  "title": "Current Host mandatory structural co-development rule",
+  "status": "CANONICAL_DEVELOPMENT_POLICY",
+  "architecture_release": "2026-09-26/v3.1.0",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "rule": "EVERY_FA3_STRUCTURAL_BEHAVIOR_CHANGE_REQUIRES_CURRENT_HOST_IMPACT_ASSESSMENT_AND_WHEN_APPLICABLE_SAME_CHANGESET_RECONCILIATION",
+  "historical_evidence_immutable": true,
+  "historical_current_host_evidence_auto_inheritance": false,
+  "impact_record_prefix": "canonical/current-host-impact/",
+  "impact_record_schema": "fa3.current-host-structural-impact.v1",
+  "accepted_impact_statuses": [
+    "RECONCILED",
+    "NO_RUNTIME_IMPACT"
+  ],
+  "structural_path_prefixes": [
+    "canonical/",
+    "src/",
+    "bin/",
+    "libexec/",
+    ".github/workflows/"
+  ],
+  "excluded_path_prefixes": [
+    "canonical/current-host-impact/",
+    "canonical/references/",
+    "canonical/deltas/",
+    "docs/",
+    "tests/",
+    "evidence/reference/",
+    "evidence/receipts/",
+    "canonical/releases/"
+  ],
+  "excluded_exact_paths": [
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+  ],
+  "structural_tokens": [
+    "authority",
+    "orchestrat",
+    "conductor",
+    "coordination",
+    "runtime",
+    "provider",
+    "admission",
+    "resource",
+    "hrb",
+    "model_router",
+    "model-router",
+    "security",
+    "secret",
+    "identity",
+    "evidence",
+    "promotion",
+    "release",
+    "capability",
+    "gate",
+    "enforce",
+    "coexist",
+    "hardware",
+    "license",
+    "rights",
+    "uaf",
+    "mcp",
+    "agent_workload",
+    "agent-workload",
+    "workflow",
+    "policy",
+    "contract",
+    "decision"
+  ],
+  "current_host_markers": [
+    "current-host",
+    "current_host",
+    "fa3-current-host"
+  ],
+  "requirements": {
+    "structural_change_requires_impact_record": true,
+    "reconciled_requires_changed_current_host_companion": true,
+    "no_runtime_impact_requires_rationale": true,
+    "no_runtime_impact_may_skip_physical_requalification": true,
+    "reconciled_requires_explicit_physical_requalification_flag": true,
+    "historical_evidence_reuse_forbidden": true,
+    "current_host_only_change_requires_separate_impact_record": false,
+    "delta_request_must_be_digest_bound": true,
+    "delta_parent_effective_digest_required": true,
+    "delta_scope_underdeclaration_fails_closed": true
+  },
+  "delta_authority": "FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001",
+  "delta_policy": {
+    "admitted_full_base_required": true,
+    "scoped_requalification_allowed_after_base_admission": true,
+    "unchanged_base_evidence_must_remain_bound_to_immutable_base": true,
+    "evidence_relabeling_forbidden": true,
+    "fresh_positive_negative_rollback_required_for_each_affected_capability": true,
+    "cap175_mandatory_for_runtime_delta": true,
+    "global_or_proof_model_change_escalates_to_full_requalification": true,
+    "delta_admission_never_implies_global_promotion": true
+  }
+}

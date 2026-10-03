@@ -1,0 +1,62 @@
+name: FA3 Current Host Structural Impact
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-current-host-structural-impact-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  current-host-impact:
+    name: current-host-impact / fail-closed
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Structural impact gate unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_structural_impact_gate -v
+      - name: Enforce Current Host co-development rule
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          FA3_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ]; then
+            git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+            LIVE_MAIN="$(git rev-parse refs/remotes/origin/main)"
+            FA3_BASE_SHA="$(git merge-base "$LIVE_MAIN" "$FA3_HEAD_SHA")"
+            test -n "$LIVE_MAIN"
+            test -n "$FA3_BASE_SHA"
+            if [ -n "$EVENT_BASE_SHA" ] && [ "$EVENT_BASE_SHA" != "$LIVE_MAIN" ]; then
+              echo "Stale PR event base detected: $EVENT_BASE_SHA; live main: $LIVE_MAIN"
+            fi
+            echo "Current Host structural-impact merge-base: $FA3_BASE_SHA"
+          else
+            FA3_BASE_SHA="$EVENT_BEFORE"
+            test -n "$FA3_BASE_SHA"
+          fi
+          PYTHONPATH=src python src/fa3_current_host_structural_impact_gate.py \
+            --root . \
+            --base "$FA3_BASE_SHA" \
+            --head "$FA3_HEAD_SHA"
+      - name: Upload impact report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-current-host-structural-impact
+          if-no-files-found: error
+          path: reports/current-host-structural-impact-gate-report.json

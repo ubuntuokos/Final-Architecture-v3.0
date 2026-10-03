@@ -83,3 +83,14 @@ Actual donor use must be recorded in the existing `FA3-APPLICATION-DONOR-LINKS-0
 For every new or materially modified application, capability, module, profile, provider or shared component, the Reuse Assessment MUST contain a `donor_planning_snapshot` bound to the exact published-main commit and its canonical Donor Registry Git-blob SHA, SHA-256 and entry count. A stale or missing snapshot blocks implementation/finalization and requires reassessment against the new main; do not silently continue from an older green CI result.
 
 The same material Reuse Assessment MUST contain `shared_capability_placement`. If the function can serve multiple FA3 applications, use the shared layer first. A local duplicate is allowed only with explicit reviewed justification and retrospective consumer-impact review. Actual donor adoption requires a canonical usage edge; reference-only research must not create a false adoption edge.
+
+## Current Host structural co-development rule
+
+Every change that modifies FA3 structural behavior must assess and reconcile its Current Host impact in the same development changeset. The canonical policy is `canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json`.
+
+- Structural changes to architecture, authority boundaries, orchestration/conductor behavior, runtime/provider admission, resource handling, security, evidence/promotion, licensing/rights, hardware safety, Software Coexistence, UAF/MCP or related governance may not silently omit Current Host work.
+- A structurally affected change must add a `canonical/current-host-impact/*.json` record with schema `fa3.current-host-structural-impact.v1`.
+- Use `RECONCILED` when Current Host surfaces change; list the changed Current Host companion files and explicitly declare whether fresh physical requalification is required.
+- Use `NO_RUNTIME_IMPACT` only with a substantive rationale and `physical_requalification_required=false`.
+- Historical Current Host evidence is immutable and must never be inherited as proof for a structurally changed active release.
+- The fail-closed gate `src/fa3_current_host_structural_impact_gate.py` and workflow `.github/workflows/fa3-current-host-structural-impact.yml` enforce this rule.

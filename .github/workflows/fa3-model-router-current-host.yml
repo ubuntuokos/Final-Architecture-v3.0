@@ -34,7 +34,7 @@ on:
         type: string
 
 concurrency:
-  group: fa3-model-router-current-host-${{ github.ref }}
+  group: fa3-current-host-physical-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 
 permissions:

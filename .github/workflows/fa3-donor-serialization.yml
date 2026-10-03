@@ -30,15 +30,37 @@ jobs:
       - name: Classify metadata-only donor maintenance versus normal PR
         id: classify
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
+          if [ "$EVENT_NAME" = pull_request ]; then
+            git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          fi
           python3 - <<'PY'
           import os,subprocess,sys
           sys.path.insert(0,'src')
           from fa3_donor_readiness import is_donor_intake_pr
-          base=os.environ.get('BASE_SHA','')
-          names=(subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines() if base else [])
+          event=os.environ.get('EVENT_NAME','')
+          event_base=os.environ.get('EVENT_BASE_SHA','')
+          if event == 'pull_request':
+              live_main=subprocess.check_output(
+                  ['git','rev-parse','refs/remotes/origin/main'],text=True
+              ).strip()
+              base=subprocess.check_output(
+                  ['git','merge-base',live_main,'HEAD'],text=True
+              ).strip()
+              if len(live_main) != 40 or len(base) != 40:
+                  raise RuntimeError('LIVE_MAIN_OR_MERGE_BASE_UNRESOLVED')
+              if event_base and event_base != live_main:
+                  print('Stale PR event base detected:',event_base,'live main:',live_main)
+              names=subprocess.check_output(
+                  ['git','diff','--name-only',base,'HEAD'],text=True
+              ).splitlines()
+              print('Donor classification merge-base:',base,'live main:',live_main)
+          else:
+              base=''
+              names=[]
           metadata=('canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json',
                     'canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json',
                     'canonical/decisions/FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01.json',

@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-import argparse,hashlib,json,pwd,stat,subprocess
+import argparse,hashlib,json,pwd,stat,subprocess,sys
 from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"src"))
+from fa3_release_baseline import module_active_capability_count
+ACTIVE_CAPABILITY_COUNT=module_active_capability_count(__file__)
 def load(p): return json.loads(Path(p).read_text())
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def cmd(x): return subprocess.run(x,text=True,capture_output=True)
@@ -45,6 +48,6 @@ def main():
  e=load(ep) if ep.is_file() else {}; br=load(bp) if bp.is_file() else {}
  if e.get("status")!="PASS": fs.append("E2E")
  if br.get("status")!="PASS": fs.append("RESTORE")
- st="PASS" if not fs else "FAIL"; out={"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":"FA3-PROVIDER-STEP-CA-001","status":st,"evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS" if st=="PASS" else "CURRENT_HOST_EXECUTION_FAILED","synthetic":False,"completed_at":datetime.now(timezone.utc).isoformat(),"supply_chain":s,"root_ceremony":c,"activation":act,"runtime":rt,"e2e":e,"backup_restore":br,"secret_values_collected":False,"runtime_promotion_eligible":st=="PASS","global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143,"findings":fs}
+ st="PASS" if not fs else "FAIL"; out={"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":"FA3-PROVIDER-STEP-CA-001","status":st,"evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS" if st=="PASS" else "CURRENT_HOST_EXECUTION_FAILED","synthetic":False,"completed_at":datetime.now(timezone.utc).isoformat(),"supply_chain":s,"root_ceremony":c,"activation":act,"runtime":rt,"e2e":e,"backup_restore":br,"secret_values_collected":False,"runtime_promotion_eligible":st=="PASS","global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":ACTIVE_CAPABILITY_COUNT,"findings":fs}
  p=ROOT/"evidence/receipts/step-ca-current-host.json"; p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(out,indent=2)+"\n"); print(json.dumps(out,indent=2)); return 0 if st=="PASS" else 2
 if __name__=="__main__": raise SystemExit(main())

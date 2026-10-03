@@ -63,6 +63,9 @@ class SessionVaultTests(unittest.TestCase):
   self.assertEqual("src/fa3_session_vault_current_host_gate.py",x["reference_implementation"]["current_host_gate"])
   self.assertEqual("evidence/receipts/session-vault-current-host.json",x["current_host_receipt_path"])
   self.assertEqual("evidence/receipts/session-vault-current-host.json",x["current_host_receipt"])
+  self.assertEqual(load_active_release_baseline(ROOT).capability_count,x["capability_count"])
+  self.assertFalse(x["evidence_baseline_separation"]["prior_component_evidence_may_promote_active_global_175_525_closure"])
+  self.assertTrue(x["evidence_baseline_separation"]["active_global_current_host_requalification_required"])
  def test_runtime_is_not_falsely_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
   self.assertEqual("CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE",x["status"]); self.assertFalse(x["production_runtime_promoted"])

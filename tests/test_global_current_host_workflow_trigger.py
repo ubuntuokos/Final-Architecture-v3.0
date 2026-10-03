@@ -10,6 +10,8 @@ EXECUTION_SENSITIVE_PATHS = {
     "src/fa3_current_host_capability_qualification_constituent_orchestrator.py",
     "src/fa3_current_host_capability_test_orchestrator.py",
     "src/fa3_current_host_closure_assertion.py",
+    "src/fa3_current_host_requalification_plan.py",
+    "src/fa3_current_host_scoped_assertion.py",
     "src/fa3_mat001_foundation_current_host.py",
     "src/fa3_mat002_runtime_knowledge_current_host.py",
     "src/fa3_mat003_interaction_creative_current_host.py",
@@ -73,6 +75,17 @@ class GlobalCurrentHostWorkflowTriggerTests(unittest.TestCase):
             text,
         )
         self.assertNotIn("name: Assert fail-closed closure semantics", text)
+
+    def test_real_execution_is_never_automatic_on_push_and_latest_generation_wins(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("cancel-in-progress: ${{ github.event_name != 'pull_request' }}", text)
+        self.assertIn("fa3-global-current-host-regression-", text)
+        self.assertIn("if: ${{ inputs.execute_current_host }}", text)
+        self.assertIn("inputs.execute_current_host && format('fa3-current-host-physical-{0}-{1}'", text)
+        self.assertNotIn("github.event_name == 'workflow_call'", text)
+        self.assertNotIn("github.event_name == 'push' ||", text)
+        self.assertIn("execution_subjects:", text)
+        self.assertIn("SCOPED", text)
 
 
 if __name__ == "__main__":

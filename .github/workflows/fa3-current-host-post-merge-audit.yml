@@ -1,0 +1,141 @@
+name: FA3 Current Host Post-Merge Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/current-host-impact/**'
+      - 'canonical/FA3-CURRENT-HOST-BASE-STATE-001.json'
+      - 'src/fa3_current_host_*.py'
+      - '.github/workflows/fa3-current-host-*.yml'
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: fa3-current-host-post-merge-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: current-host-post-merge / plan
+    runs-on: ubuntu-latest
+    outputs:
+      execute: ${{ steps.plan.outputs.execute }}
+      mode: ${{ steps.plan.outputs.mode }}
+      batch_id: ${{ steps.plan.outputs.batch_id }}
+      subjects: ${{ steps.plan.outputs.subjects }}
+      source_sha: ${{ steps.source.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: source
+        shell: bash
+        env:
+          REQUESTED: ${{ inputs.source_sha || '' }}
+        run: |
+          set -euo pipefail
+          sha="$REQUESTED"
+          if [ -z "$sha" ]; then sha="$GITHUB_SHA"; fi
+          test "$(git cat-file -t "$sha")" = commit
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+      - id: plan
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          set -euo pipefail
+          parent_count="$(git cat-file -p "$SOURCE_SHA" | grep -c '^parent ')"
+          if [ "$parent_count" -lt 2 ] && [ "${{ github.event_name }}" = push ]; then
+            echo "Non-merge main push: no post-merge Current Host audit."
+            echo "execute=false" >> "$GITHUB_OUTPUT"
+            echo "mode=NONE" >> "$GITHUB_OUTPUT"
+            echo "batch_id=" >> "$GITHUB_OUTPUT"
+            echo "subjects=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          base="$(git rev-parse "$SOURCE_SHA^1")"
+          PYTHONPATH=src python src/fa3_current_host_structural_impact_gate.py --root . --base "$base" --head "$SOURCE_SHA"
+          chmod +x bin/fa3-enforce
+          ./bin/fa3-enforce release-projection
+          PYTHONPATH=src python src/fa3_current_host_requalification_plan.py             --root . --projection-valid --main-in-lineage
+          python3 - <<'PY'
+          import json,os
+          r=json.load(open("reports/current-host-requalification-plan.json"))
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+              f.write("execute="+("true" if r["execution_ready"] else "false")+"\n")
+              f.write("mode="+r["mode"]+"\n")
+              f.write("batch_id="+r["batch_id"]+"\n")
+              f.write("subjects="+",".join(r["affected_capability_ids"])+"\n")
+          PY
+
+  audit:
+    name: current-host-post-merge / physical
+    needs: plan
+    if: needs.plan.outputs.execute == 'true'
+    uses: ./.github/workflows/fa3-global-current-host-closure.yml
+    with:
+      execute_current_host: true
+      execution_batch_id: ${{ needs.plan.outputs.batch_id }}
+      execution_subjects: ${{ needs.plan.outputs.subjects }}
+      source_sha: ${{ needs.plan.outputs.source_sha }}
+
+  admit-full-base:
+    name: current-host-post-merge / admit-full-base
+    needs: [plan, audit]
+    if: needs.plan.outputs.mode == 'FULL' && needs.audit.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize protected-main admission update branch
+        env:
+          SOURCE_SHA: ${{ needs.plan.outputs.source_sha }}
+          CANDIDATE_JSON: ${{ needs.audit.outputs.base_candidate_json }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CANDIDATE_JSON"
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          git merge-base --is-ancestor "$SOURCE_SHA" refs/remotes/origin/main
+          printf '%s\n' "$CANDIDATE_JSON" > "$RUNNER_TEMP/base-candidate.json"
+          PYTHONPATH=src python src/fa3_current_host_base_admission.py --root . admit             --candidate "$RUNNER_TEMP/base-candidate.json"             --output canonical/FA3-CURRENT-HOST-BASE-STATE-001.json
+          python3 - <<'PY'
+          import json,os
+          row=json.load(open("canonical/FA3-CURRENT-HOST-BASE-STATE-001.json"))
+          assert row["status"]=="CURRENT_HOST_BASE_ADMITTED"
+          assert row["admission_source_commit"]==os.environ["SOURCE_SHA"]
+          assert row["capability_count"]==175 and row["obligation_count"]==525
+          assert row["acceptance_criteria_passed"]==19
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "fa3/current-host-base-admission-${SOURCE_SHA:0:12}"
+          git add canonical/FA3-CURRENT-HOST-BASE-STATE-001.json
+          git commit -m "FA3: admit physical Current Host 175/525 base"
+          git push --force-with-lease origin HEAD
+          url="$(gh pr list --repo "$GITHUB_REPOSITORY" --head "fa3/current-host-base-admission-${SOURCE_SHA:0:12}" --state open --json url --jq '.[0].url // empty')"
+          if [ -z "$url" ]; then
+            url="$(gh pr create --repo "$GITHUB_REPOSITORY" --base main               --head "fa3/current-host-base-admission-${SOURCE_SHA:0:12}"               --title "FA3: admit physical Current Host 175/525 base"               --body "Automated canonicalization of the successfully completed post-merge physical FULL-525 audit for exact merge SHA $SOURCE_SHA. No historical evidence is relabelled.")"
+          fi
+          gh pr merge "$url" --repo "$GITHUB_REPOSITORY" --auto --merge
+          echo "Base admission PR: $url"
