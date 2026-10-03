@@ -133,5 +133,14 @@
   "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED",
   "current_host_runtime_promotion_claim": false,
   "physical_current_host_pass_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Product entitlement and application-portfolio classification are metadata/policy governance. They do not require a direct Khronos SDK, runtime, graphics, media, compute or interchange dependency; existing engine/provider layers remain separate."
+    }
+  ]
 }
