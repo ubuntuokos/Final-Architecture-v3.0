@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8419c711f89d016cc48ee60387155a5614e9f3b2",
-    "pre_projection_root_tree_sha": "4301e7cd294b34922dbcb19e6fa131f510b4c291",
-    "pre_projection_canonical_tree_sha": "5a6ad70c3cb45f301949cca6207f7003e6016d5e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2837,
-    "total_post_baseline_commits": 2837,
-    "delta_file_count": 2914,
-    "delta_added_files": 2908,
+    "pre_projection_head_sha": "bd6824c825bddcac385850cf77975779ca891582",
+    "pre_projection_root_tree_sha": "6f13176128d98305e8f181465f5db5b1ea750ba5",
+    "pre_projection_canonical_tree_sha": "272c3e3214f075ac8420c1fa8d0d56c168229b0d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2823,
+    "total_post_baseline_commits": 2823,
+    "delta_file_count": 2921,
+    "delta_added_files": 2915,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1363,
+    "canonical_files_in_post_baseline_delta": 1367,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 342,
+    "source_files_in_post_baseline_delta": 369,
+    "test_files_in_post_baseline_delta": 343,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -327,6 +327,7 @@
       "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-MODULE-FACTORY-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-APPLICATION-GUI-DESIGN-RECORD-001.schema.json",
       "canonical/contracts/FA3-APPLICATION-INTENT-001.schema.json",
       "canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
@@ -942,7 +943,8 @@
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
     "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
-    "FA3-SHARED-HAIR-GROOM-GATESET-001"
+    "FA3-SHARED-HAIR-GROOM-GATESET-001",
+    "FA3-APPLICATION-GUI-DESIGN-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1068,7 +1070,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2904,
+  "manifest_entry_count": 2911,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1632,7 +1634,7 @@
     },
     {
       "path": ".github/workflows/fa3-reuse-discovery.yml",
-      "git_blob_sha": "4ca172d9a98e046b1d68421767bd1b9b44ddfa40",
+      "git_blob_sha": "07a86600a3e5e9d3ec67963b3952130354591a65",
       "baseline_delta_status": "added"
     },
     {
@@ -2877,7 +2879,7 @@
     },
     {
       "path": "canonical/FA3-APP-LIFECYCLE-001.json",
-      "git_blob_sha": "0c470ae372b71b8868c6ae38a741c45dd4f3f27e",
+      "git_blob_sha": "39b01096a5924e4bacbe8d00752ac48b2bbd2376",
       "baseline_delta_status": "added"
     },
     {
@@ -2887,7 +2889,17 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "a2ad72d4fbf53d718a596c344b1a7f90843a2735",
+      "git_blob_sha": "9086b478a7cf0cb91ad7294451aab279f20f43a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-APPLICATION-GUI-DESIGN-POLICY-001.json",
+      "git_blob_sha": "f04c7097fc68a43e64928414fec99db835ff6db8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-APPLICATION-GUI-RETROACTIVE-AUDIT-001.json",
+      "git_blob_sha": "e371dfd5708de2b77aed20255241a887d7f100be",
       "baseline_delta_status": "added"
     },
     {
@@ -3078,6 +3090,11 @@
     {
       "path": "canonical/FA3-GATE-AI-IMAGE-EDITING-001.json",
       "git_blob_sha": "c27f069d35aa030255e4adcd7ada7f61f95b515f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-APPLICATION-GUI-DESIGN-001.json",
+      "git_blob_sha": "628cb036e139686f212e51a0623ebb0b3dd7ae10",
       "baseline_delta_status": "added"
     },
     {
@@ -3432,7 +3449,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "a5927b62e9ad8ae2d2a97051a5bf2c0e1734c469",
+      "git_blob_sha": "e41e3dcf74a4d9e90f321e56c475bbca75229089",
       "baseline_delta_status": "added"
     },
     {
@@ -3602,7 +3619,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "ee56e113002a60d92625b938357155e29c4ad027",
+      "git_blob_sha": "8844d6f548498092dc738e122eb46852f99f8669",
       "baseline_delta_status": "added"
     },
     {
@@ -4983,6 +5000,11 @@
     {
       "path": "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
       "git_blob_sha": "38349067b8709eb989e9f9f63e541bb8cca8f887",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-APPLICATION-GUI-DESIGN-RECORD-001.schema.json",
+      "git_blob_sha": "aa5b1b3e98d9be0ef00196c44efebf0cd76d69f6",
       "baseline_delta_status": "added"
     },
     {
@@ -6882,7 +6904,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "ec6f5fa2585bebe85f13cd37869bf7c4c9a83dec",
+      "git_blob_sha": "4372b36212893607e3bd90ce14d19d9715771b3f",
       "baseline_delta_status": "modified"
     },
     {
@@ -9896,6 +9918,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-APPLICATION-GUI-DESIGN-POLICY-001.md",
+      "git_blob_sha": "1759724a4e88dae9ec29325330bb1c90198ba71a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-AUDACITY-MCP-001.md",
       "git_blob_sha": "4c6d28681f10dc5fba7d72a0191e018e4f836b2e",
       "baseline_delta_status": "added"
@@ -10042,7 +10069,7 @@
     },
     {
       "path": "docs/application-donor-inventory.md",
-      "git_blob_sha": "195b2b2de637e707aec5eeff3a0c93697ed824a6",
+      "git_blob_sha": "5b0296195a2fbe4527c7b95162cf7813e2cca9b6",
       "baseline_delta_status": "added"
     },
     {
@@ -12077,7 +12104,12 @@
     },
     {
       "path": "src/fa3_application_donor_index.py",
-      "git_blob_sha": "e48f980a52db24c3429dfaef935d239953105911",
+      "git_blob_sha": "44cc007a1ca95eea60d1bd39ba9ecd5a573f6bfa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_application_gui_design_gate.py",
+      "git_blob_sha": "476403cdcdd0893ea73bbce1674a35db99a35ab8",
       "baseline_delta_status": "added"
     },
     {
@@ -12537,7 +12569,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "bf98a918b1f93d899b38559af516a94773c6b0e3",
+      "git_blob_sha": "2f8abcab7f891e1308d00bc2b4efb398e5782caf",
       "baseline_delta_status": "modified"
     },
     {
@@ -13907,7 +13939,12 @@
     },
     {
       "path": "tests/test_application_donor_index.py",
-      "git_blob_sha": "bb7f5aab230831596f566b05985765cf4c236af7",
+      "git_blob_sha": "498c8b6f825994af13fcf271cca89a31dd993592",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_application_gui_design_policy.py",
+      "git_blob_sha": "5b9af2f568c907eef1585df8a97c0d84649fe296",
       "baseline_delta_status": "added"
     },
     {
