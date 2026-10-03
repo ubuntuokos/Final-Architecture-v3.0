@@ -297,6 +297,32 @@
         "dashboard",
         "evidence-view"
       ]
+    },
+    {
+      "id": "FA3-SHARED-VOICE-PLUGIN-PATTERN-001",
+      "name": "Shared Voice Plugin and Quick Video Voice pattern",
+      "consumer_application_ids": [
+        "fa3.voice-studio",
+        "fa3.quickclip",
+        "fa3.video-editor",
+        "fa3.story-screenplay",
+        "fa3.music-studio",
+        "fa3.character-studio"
+      ],
+      "pattern_scope": [
+        "voice-profile",
+        "dictation",
+        "tts",
+        "stt",
+        "voice-transform",
+        "fit-to-clip",
+        "quick-dub",
+        "quick-narration",
+        "editable-caption-alignment",
+        "music-ducking",
+        "take-versioning",
+        "voice-activity-overlay"
+      ]
     }
   ],
   "analysis_only_sources": [
@@ -679,6 +705,19 @@
       ],
       "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
       "current_host_impact": "NO_RUNTIME_IMPACT"
+    },
+    {
+      "id": "FA3-SHARED-VOICE-PLUGIN-001",
+      "profile_id": "FA3-VOICE-001",
+      "contract_id": "FA3-VOICE-CONTRACTS-001",
+      "pattern_references": [
+        "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
+        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
+        "FA3-SHARED-AI-COMPOSITION-PATTERN-001"
+      ],
+      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
+      "current_host_impact": "STRUCTURAL_GUI_REASSESSMENT_REQUIRED"
     }
   ]
 }
