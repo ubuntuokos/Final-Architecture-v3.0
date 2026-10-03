@@ -1,0 +1,343 @@
+{
+  "schema": "fa3.product-family-registry.v1",
+  "id": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+  "status": "CANONICAL_PRODUCT_FAMILY_TAXONOMY",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "platform_id": "FA3-PLATFORM-001",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "product_families": [
+    {
+      "family_id": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "name": "FA3 Creative / Media",
+      "primary_domains": [
+        "VIDEO",
+        "IMAGE",
+        "AUDIO",
+        "SPEECH",
+        "DIGITAL_HUMAN",
+        "ANIMATION"
+      ],
+      "enterprise_control_plane": false
+    },
+    {
+      "family_id": "FA3-FAMILY-STUDIO-FILM-001",
+      "name": "FA3 Studio / Film",
+      "primary_domains": [
+        "STORY",
+        "SCREENPLAY",
+        "SHOT_DESIGN",
+        "VIRTUAL_PRODUCTION",
+        "LOCATION_SET",
+        "RENDER",
+        "EDITING"
+      ],
+      "enterprise_control_plane": false
+    },
+    {
+      "family_id": "FA3-FAMILY-AI-WORKSTATION-001",
+      "name": "FA3 AI Workstation",
+      "primary_domains": [
+        "MODEL_MANAGEMENT",
+        "AGENT_ORCHESTRATION",
+        "RAG",
+        "KNOWLEDGE",
+        "LOCAL_PRIVATE_AI"
+      ],
+      "enterprise_control_plane": false
+    },
+    {
+      "family_id": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "name": "FA3 Business / Collaboration",
+      "primary_domains": [
+        "COMMUNICATION",
+        "OFFICE",
+        "MEETINGS",
+        "WORKFLOWS",
+        "PROJECT_FUNCTIONS"
+      ],
+      "enterprise_control_plane": false
+    },
+    {
+      "family_id": "FA3-FAMILY-ENTERPRISE-001",
+      "name": "FA3 Enterprise Platform",
+      "primary_domains": [
+        "DEPLOYMENT",
+        "GOVERNANCE",
+        "FLEET_LAN",
+        "AUDIT",
+        "RIGHTS",
+        "SECURITY",
+        "INTEGRATION"
+      ],
+      "enterprise_control_plane": true
+    }
+  ],
+  "placement_policy": {
+    "every_application_requires_exactly_one_primary_family": true,
+    "secondary_families_optional": true,
+    "primary_may_not_repeat_in_secondary": true,
+    "unknown_application": "FAIL_CLOSED_UNCLASSIFIED",
+    "orphaned_placement": "FAIL_CLOSED_ORPHANED",
+    "family_is_context_not_permission": true,
+    "family_is_not_execution_authority": true,
+    "existing_application_identity_preserved": true,
+    "retrospective_scope": [
+      "PLANNED",
+      "IN_PROGRESS",
+      "MATERIALIZED",
+      "CURATED_EXTERNAL",
+      "REFERENCE_ONLY"
+    ]
+  },
+  "application_placements": [
+    {
+      "application_id": "studio.comfyui",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.invokeai",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.kdenlive",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.bforartists",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.natron",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.gaffer",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.demucs",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.deepfilternet",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.mautic",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.twenty",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "studio.listmonk",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "placement_kind": "RETROACTIVE_CURATED_EXTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "placement_kind": "RETROACTIVE_INTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "placement_kind": "RETROACTIVE_INTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "placement_kind": "RETROACTIVE_INTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "placement_kind": "RETROACTIVE_INTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "placement_kind": "RETROACTIVE_INTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "fa3.ai-module-factory",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "placement_kind": "RETROACTIVE_INTERNAL",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "reference.krita",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [],
+      "placement_kind": "RETROACTIVE_REFERENCE",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    },
+    {
+      "application_id": "reference.ardour",
+      "platform_id": "FA3-PLATFORM-001",
+      "primary_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "placement_kind": "RETROACTIVE_REFERENCE",
+      "classification_status": "CLASSIFIED",
+      "authority": false,
+      "automatic_permission_grant": false,
+      "automatic_runtime_activation": false
+    }
+  ],
+  "current_host_impact": {
+    "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+    "runtime_promotion_claim": false,
+    "physical_pass_claim": false
+  }
+}

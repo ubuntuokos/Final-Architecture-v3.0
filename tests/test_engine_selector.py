@@ -128,6 +128,30 @@ class EngineSelectorTests(unittest.TestCase):
         self.assertIn("FA3-ENGINE-FA3-DIGITAL-HUMAN-NATIVE-001",ids)
         self.assertNotIn("FA3-ENGINE-MLT-001",ids)
 
+    def test_product_family_scope_is_explicit_context(self):
+        intent = selection_intent(
+            self.catalog,
+            engine_id="FA3-ENGINE-MLT-001",
+            scope="PRODUCT_FAMILY",
+            scope_target_id="FA3-FAMILY-CREATIVE-MEDIA-001",
+            required_capabilities=["CAP-121"],
+            valid_product_family_ids={"FA3-FAMILY-CREATIVE-MEDIA-001"},
+        )
+        self.assertEqual(intent["scope"], "PRODUCT_FAMILY")
+        self.assertEqual(intent["scope_target_id"], "FA3-FAMILY-CREATIVE-MEDIA-001")
+        self.assertFalse(intent["execution_requested"])
+        self.assertFalse(intent["silent_fallback"])
+
+        with self.assertRaises(EngineSelectionError):
+            selection_intent(
+                self.catalog,
+                engine_id="FA3-ENGINE-MLT-001",
+                scope="PRODUCT_FAMILY",
+                scope_target_id="FA3-FAMILY-NOT-REGISTERED-001",
+                required_capabilities=["CAP-121"],
+                valid_product_family_ids={"FA3-FAMILY-CREATIVE-MEDIA-001"},
+            )
+
     def test_non_global_scope_requires_target(self):
         with self.assertRaises(EngineSelectionError):
             selection_intent(
@@ -191,7 +215,7 @@ class EngineSelectorTests(unittest.TestCase):
         self.assertIn('setContextProperty("fa3EngineSelector"',main_cpp)
         self.assertIn("EngineSelectorService.cpp",cmake)
         self.assertIn("compatibilityReport",service)
-        self.assertIn("scopeTarget",qml)
+        self.assertIn("scopeTarget",qml)\n        self.assertIn("PRODUCT_FAMILY",qml)
         self.assertIn("compareIds.indexOf",qml)
 
     def test_static_compare_includes_compatibility_without_execution(self):
