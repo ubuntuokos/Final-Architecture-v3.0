@@ -1,11 +1,13 @@
 from __future__ import annotations
 import json,subprocess,sys,unittest
 from pathlib import Path
-from src.fa3_application_portfolio import validate,resolve
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from fa3_application_portfolio import validate,resolve
 class T(unittest.TestCase):
  @classmethod
  def setUpClass(c):
-  c.r=Path(__file__).resolve().parents[1];c.p=json.loads((c.r/"canonical/FA3-APPLICATION-PORTFOLIO-001.json").read_text());c.l=json.loads((c.r/"canonical/FA3-OPERATING-LEVEL-MODEL-001.json").read_text());c.e=json.loads((c.r/"canonical/FA3-ENTITLEMENT-POLICY-001.json").read_text());c.c=json.loads((c.r/"canonical/FA3-PRODUCT-CATALOG-001.json").read_text())
+  c.r=ROOT;c.p=json.loads((c.r/"canonical/FA3-APPLICATION-PORTFOLIO-001.json").read_text());c.l=json.loads((c.r/"canonical/FA3-OPERATING-LEVEL-MODEL-001.json").read_text());c.e=json.loads((c.r/"canonical/FA3-ENTITLEMENT-POLICY-001.json").read_text());c.c=json.loads((c.r/"canonical/FA3-PRODUCT-CATALOG-001.json").read_text())
  def test_validation(s):s.assertEqual(validate(s.r),[])
  def test_baseline(s):s.assertEqual(s.p["capability_count"],175);s.assertEqual(s.l["capability_count"],175)
  def test_story_render(s):
