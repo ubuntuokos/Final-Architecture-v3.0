@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-MLT-HEYGEN-APPLICATION-INTENT-2026-10-03",
+  "project_id": "FA3-MLT-EXTENDED-MEDIA-SERVICE-001",
+  "title": "MLT Extended Media Service and provider-neutral Digital Human integration",
+  "status": "APPROVED_FOR_IMPLEMENTATION",
+  "date": "2026-10-03",
+  "owner_approval_basis": "Explicit owner approval in active FA3 conversation: Jóváhagyom",
+  "target_capabilities": [
+    "CAP-043",
+    "CAP-113",
+    "CAP-121",
+    "CAP-126",
+    "CAP-159",
+    "CAP-160",
+    "CAP-163",
+    "CAP-164",
+    "CAP-167",
+    "CAP-168",
+    "CAP-171"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_HYPERFRAMES_RUNTIME_ADMISSION_NOT_MATERIALIZED",
+    "LIVE_HEYGEN_API_EXECUTION_NOT_MATERIALIZED",
+    "PHYSICAL_CURRENT_HOST_PROVIDER_E2E_REMAINS_PENDING"
+  ],
+  "shared_capability": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "automatic_display_gpu_enrollment": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-mlt-extended-media",
+    "service_prefix": "fa3-mlt-extended-media",
+    "config_root": "$XDG_CONFIG_HOME/fa3/mlt-extended-media",
+    "cache_root": "$XDG_CACHE_HOME/fa3/mlt-extended-media",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/mlt-extended-media",
+    "socket_namespace": "fa3/mlt-extended-media",
+    "data_root": "$XDG_DATA_HOME/fa3/mlt-extended-media",
+    "desktop_prefix": "org.fa3.media.mlt",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+    "FA3-VIDEO-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-LICENSE-RIGHTS-001"
+  ]
+}

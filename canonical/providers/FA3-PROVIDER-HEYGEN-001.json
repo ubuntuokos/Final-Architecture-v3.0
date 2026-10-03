@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-HEYGEN-001",
+  "name": "HeyGen",
+  "status": "STATIC_PROVIDER_PROJECTION_RUNTIME_NOT_ADMITTED",
+  "provider_role": "OPTIONAL_REMOTE_DIGITAL_HUMAN_VIDEO_LIPSYNC_DUBBING_TRANSLATION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REMOTE_CLOUD_PROVIDER",
+    "DIGITAL_HUMAN_PROVIDER",
+    "VIDEO_GENERATION_PROVIDER",
+    "LIP_SYNC_PROVIDER",
+    "DUBBING_PROVIDER",
+    "TRANSLATION_PROVIDER"
+  ],
+  "profiles": [
+    "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001"
+  ],
+  "contracts": [
+    "FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001"
+  ],
+  "capability_projection": [
+    "CAP-043",
+    "CAP-159",
+    "CAP-160",
+    "CAP-164",
+    "CAP-168"
+  ],
+  "execution_modes": [
+    "REMOTE",
+    "CLOUD"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 175,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "credential_boundary": "FA3-AUTH-SECRETS-001",
+  "network_boundary": "EXPLICIT_REMOTE_EXECUTION_ONLY",
+  "cost_boundary": "EXPLICIT_USER_APPROVAL_REQUIRED_BEFORE_BILLABLE_REMOTE_JOB",
+  "rights_boundary": "FA3-LICENSE-RIGHTS-001_FAIL_CLOSED_FOR_FACE_VOICE_LIKENESS_AVATAR_MOTION",
+  "interfaces": [
+    "API"
+  ],
+  "implementation": {
+    "reference_planner": "src/fa3_mlt_extended_media.py",
+    "live_network_adapter_materialized": false,
+    "api_calls_materialized": false
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "editorial_state": "FA3-KDENLIVE-EDITORIAL-001"
+  },
+  "runtime_admission": {
+    "production_admitted": false,
+    "current_host_runtime_promotion_claim": false,
+    "required_before_activation": [
+      "CURRENT_PROVIDER_TERMS_AND_API_REVIEW",
+      "LICENSE_RIGHTS_AND_CONSENT_CLEARANCE",
+      "SECURITY_AND_SECRET_BROKER_INTEGRATION",
+      "NETWORK_EGRESS_POLICY",
+      "SOFTWARE_COEXISTENCE_REVIEW",
+      "BILLABLE_JOB_APPROVAL_PATH",
+      "END_TO_END_PROVIDER_EVIDENCE"
+    ]
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "distribution_class": "REFERENCE_ONLY",
+  "product_bundle_allowed": false,
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false,
+    "classification_basis": "STATIC_REMOTE_PROVIDER_PROJECTION_RUNTIME_NOT_ADMITTED_NO_UPSTREAM_ARTIFACT_BUNDLED"
+  }
+}

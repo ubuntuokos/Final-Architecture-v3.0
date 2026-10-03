@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001",
+  "profile": "FA3-MLT-EXTENDED-MEDIA-SERVICE-001",
+  "provider_neutral": true,
+  "capability_count": 175,
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "contracts": [
+    "MLTExtendedServiceDescriptor",
+    "MLTServiceOperationRequest",
+    "MLTServiceOperationPlan",
+    "GeneratedMediaAssetRef",
+    "GeneratedMediaTimelineBinding",
+    "HyperFramesCompositionRef",
+    "TemporalMaskTrack",
+    "ObjectTrack",
+    "PoseTrack",
+    "ForegroundAlphaTrack",
+    "CameraMotionTrack",
+    "NeuralMediaRefinementRequest",
+    "CaptionTrackBinding",
+    "DubbingTrackBinding",
+    "LipSyncArtifactBinding",
+    "TranslationVariantBinding",
+    "ExternalRenderAssetBinding",
+    "MLTExtendedServiceReceipt"
+  ],
+  "operation_families": [
+    "motion_graphics.render",
+    "generated_media.attach",
+    "digital_human.attach",
+    "vision.track.attach",
+    "vision.mask.attach",
+    "neural_media.refine",
+    "caption.attach",
+    "dubbing.attach",
+    "lipsync.attach",
+    "translation.attach",
+    "color.transform.attach",
+    "external_render.attach"
+  ],
+  "adapter_forms": [
+    "NATIVE_MLT_SERVICE",
+    "ISOLATED_SIDECAR_WORKER",
+    "MATERIALIZED_ASSET_WITH_TYPED_METADATA"
+  ],
+  "requirements": {
+    "typed_versioned_service_descriptor": true,
+    "immutable_input_artifact_identity": true,
+    "derived_output_sha256_required": true,
+    "provider_and_model_identity_when_ai_generated": true,
+    "rights_and_policy_decision_required_for_person_identity_media": true,
+    "project_identity_precondition_required": true,
+    "direct_native_project_mutation": false,
+    "timeline_mutation_via_existing_command_contract": true,
+    "preview_and_final_artifacts_distinct": true,
+    "deterministic_render_when_provider_claims_determinism": true,
+    "network_disabled_by_default": true,
+    "raw_secret_storage_forbidden": true,
+    "provenance_required": true,
+    "rollback_receipt_required_for_mutation": true
+  },
+  "hyperframes_boundary": {
+    "donor_id": "FA3-DONOR-HYPERFRAMES-001",
+    "usage_edge": "FA3-USAGE-HYPERFRAMES-MLT-EXTENDED-MEDIA-001",
+    "source_copy": false,
+    "runtime_dependency": false,
+    "preview_mode": "SANDBOXED_SIDE_CAR_FRAME_OR_ASSET_PROJECTION",
+    "final_mode": "DETERMINISTIC_MATERIALIZED_ASSET_WHEN_RUNTIME_ADMITTED",
+    "editable_source_preserved": true
+  },
+  "authority": false
+}

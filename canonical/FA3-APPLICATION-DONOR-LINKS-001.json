@@ -955,6 +955,62 @@
         "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
       },
       "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
+    },
+    {
+      "id": "FA3-USAGE-HYPERFRAMES-MLT-EXTENDED-MEDIA-001",
+      "donor_id": "FA3-DONOR-HYPERFRAMES-001",
+      "donor_capability_key": "deterministic-web-to-video-editable-source-render-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-03",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-MLT-EXTENDED-MEDIA-SERVICE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-MLT-EXTENDED-MEDIA-SERVICE-001"
+        ],
+        "contract_ids": [
+          "FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.video-editor",
+          "relationship": "SHARED_MEDIA_SERVICE_CONSUMER"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.quickclip",
+          "relationship": "SHARED_MEDIA_SERVICE_CONSUMER"
+        }
+      ],
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Adds a shared MLT motion-graphics/generated-media adapter contract; physical runtime remains unpromoted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-MLT-HEYGEN-REUSE-ASSESSMENT-2026-10-03.json",
+          "canonical/decisions/FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03.json",
+          "canonical/contracts/FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001.json",
+          "docs/mlt-heygen-extended-media.md"
+        ],
+        "approval_ref": "FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03"
+      },
+      "approval_ref": "FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03"
     }
   ],
   "donor_usage_contract": {
