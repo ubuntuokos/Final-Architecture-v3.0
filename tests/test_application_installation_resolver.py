@@ -39,7 +39,7 @@ class ApplicationInstallationResolverTests(unittest.TestCase):
         self.assertIn("de.bforartists.Bforartists", bfa["flatpak_app_ids"])
         self.assertIn("org.blender.Blender", blender["flatpak_app_ids"])
         self.assertIn("blender", blender["snap_names"])
-        self.assertEqual(bfa["snap_names"], [])
+        self.assertIn("bforartists", bfa["snap_names"])
 
     def test_deb_package_owned_executable_can_be_discovered_outside_path(self):
         root = self._root()
