@@ -51,3 +51,9 @@ The submitted `https://github.com/Vanessi k` locator contained whitespace and is
 ## Relationship to Shared Hair & Groom Fabric
 
 The open Shared Hair & Groom Fabric work is separate from this registry intake. These newly registered references are not consumed by that pending branch unless a later, separately approved adoption/reconciliation explicitly creates usage edges.
+
+## Gate-driven reconciliation
+
+The first full PR gate pass correctly failed closed because the previous serialized donor-intake regression pinned the global registry to exactly 1405 entries and the unified release projection still described the pre-intake registry blob and release surface.
+
+This branch therefore makes the prior intake regression append-only safe while preserving its own delta result at 1405, and regenerates the existing unified release projection for the 1421-entry registry. This reconciliation adds no capability, architectural authority, provider/runtime admission or donor usage edge.
