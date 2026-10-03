@@ -256,7 +256,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ (github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch') && format('fa3-current-host-physical-{0}-{1}', github.ref_name, inputs.source_sha || github.sha) || format('fa3-global-current-host-regression-{0}', github.event.pull_request.number || github.ref_name) }}
+  group: ${{ inputs.execute_current_host && format('fa3-current-host-physical-{0}-{1}', github.ref_name, inputs.source_sha || github.sha) || format('fa3-global-current-host-regression-{0}', github.event.pull_request.number || github.ref_name) }}
   cancel-in-progress: ${{ github.event_name != 'pull_request' }}
 
 jobs:
@@ -651,7 +651,7 @@ jobs:
     outputs:
       base_release_digest: ${{ steps.base.outputs.base_release_digest }}
       base_candidate_json: ${{ steps.base.outputs.base_candidate_json }}
-    if: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.execute_current_host }}
+    if: ${{ inputs.execute_current_host }}
     needs: closure-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 360
