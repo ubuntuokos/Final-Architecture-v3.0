@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "motion.review",
+  "version": "1.0.0",
+  "description": "Create independent media review findings bound to an exact artifact digest.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "artifact",
+      "review_context"
+    ],
+    "properties": {
+      "artifact": {
+        "type": "object"
+      },
+      "review_context": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "findings": {
+        "type": "array"
+      }
+    },
+    "additionalProperties": true
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "none",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "engine-intent-then-policy-bounded-capability-match",
+    "engine_selection_fabric": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "silent_fallback": false
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": false
+  },
+  "independent_review_required": true
+}

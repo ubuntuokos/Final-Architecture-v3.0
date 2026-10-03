@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-RENDER-CONTRACTS-001",
+  "name": "Motion Render Contracts",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "MOTION-RENDER-001",
+      "name": "Truthful Determinism",
+      "requirement": "MUST",
+      "rule": "Deterministic providers MUST bind output to time/input/revision/seed/runtime identity; nondeterministic providers MUST NOT claim deterministic PASS."
+    },
+    {
+      "id": "MOTION-RENDER-002",
+      "name": "Seek Consistency",
+      "requirement": "MUST",
+      "rule": "Deterministic motion components MUST support order-independent seek verification within a declared tolerance."
+    },
+    {
+      "id": "MOTION-RENDER-003",
+      "name": "Engine Selector Boundary",
+      "requirement": "MUST",
+      "rule": "Concrete engine preference MUST flow through FA3 Engine Selection Fabric; execution remains behind existing provider/runtime admission."
+    },
+    {
+      "id": "MOTION-RENDER-004",
+      "name": "Resource Boundary",
+      "requirement": "MUST",
+      "rule": "CPU-only must remain viable and accelerator placement stays exclusively with HRB."
+    },
+    {
+      "id": "MOTION-RENDER-005",
+      "name": "No Silent Fallback",
+      "requirement": "MUST",
+      "rule": "A provider/engine failure MUST NOT silently substitute another engine without approved fallback intent."
+    },
+    {
+      "id": "MOTION-RENDER-006",
+      "name": "Render Evidence",
+      "requirement": "MUST",
+      "rule": "Rendered outputs MUST carry input, runtime, provider/engine intent and output digests."
+    }
+  ],
+  "deterministic_contract": "render(t, inputs, revision, seed)",
+  "engine_selection_fabric": "FA3-ENGINE-SELECTION-FABRIC-001"
+}

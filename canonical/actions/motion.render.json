@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "motion.render",
+  "version": "1.0.0",
+  "description": "Render an exact approved motion/timeline revision through an admitted engine/provider path.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "motion_plan",
+      "render_intent"
+    ],
+    "properties": {
+      "motion_plan": {
+        "type": "object"
+      },
+      "render_intent": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "artifact": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "retry_safe": false,
+    "long_running": true
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": true,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "engine-intent-then-policy-bounded-capability-match",
+    "engine_selection_fabric": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "silent_fallback": false
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "engine_selection_required": true
+}
