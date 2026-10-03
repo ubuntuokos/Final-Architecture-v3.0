@@ -170,6 +170,24 @@ def discover_candidates(root: Path, application_id: str) -> list[dict[str, Any]]
     display_name = str(spec.get("display_name") or application_id)
     rows: list[dict[str, Any]] = []
 
+    for env_name in spec.get("portable_env", []):
+        if not isinstance(env_name, str):
+            continue
+        raw = os.environ.get(env_name)
+        if not raw:
+            continue
+        path = Path(raw).expanduser()
+        if path.is_file() and os.access(path, os.X_OK):
+            packaging = "APPIMAGE" if path.name.lower().endswith(".appimage") else "PORTABLE"
+            rows.append(_candidate(
+                application_id=application_id,
+                display_name=display_name,
+                packaging=packaging,
+                launch_prefix=[str(path.resolve())],
+                identity=f"{packaging}:{path.resolve()}",
+                source=f"PORTABLE_ENV:{env_name}",
+            ))
+
     for env_name in spec.get("manual_env", []):
         if not isinstance(env_name, str):
             continue
@@ -178,13 +196,12 @@ def discover_candidates(root: Path, application_id: str) -> list[dict[str, Any]]
             continue
         path = Path(raw).expanduser()
         if path.is_file() and os.access(path, os.X_OK):
-            packaging = "APPIMAGE" if path.name.lower().endswith(".appimage") else "MANUAL"
             rows.append(_candidate(
                 application_id=application_id,
                 display_name=display_name,
-                packaging=packaging,
+                packaging="MANUAL",
                 launch_prefix=[str(path.resolve())],
-                identity=f"{packaging}:{path.resolve()}",
+                identity=f"MANUAL:{path.resolve()}",
                 source=f"ENV:{env_name}",
             ))
 
