@@ -13,6 +13,7 @@
   "secret_authority": "FA3-AUTH-SECRETS-001",
   "scopes": [
     "GLOBAL",
+    "PRODUCT_FAMILY",
     "APPLICATION",
     "WORKSPACE",
     "PROJECT",
@@ -331,5 +332,26 @@
       "BAKE_REQUIRED"
     ],
     "runtime_eligibility_separate": true
+  },
+  "scope_precedence": [
+    "GLOBAL",
+    "PRODUCT_FAMILY",
+    "APPLICATION",
+    "WORKSPACE",
+    "PROJECT",
+    "SEQUENCE",
+    "SCENE",
+    "TRACK",
+    "CLIP",
+    "NODE",
+    "TASK"
+  ],
+  "product_family_scope": {
+    "registry_id": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+    "target_id_must_be_registered_family": true,
+    "context_only": true,
+    "execution_authority": false,
+    "permission_grant": false,
+    "fallback_grant": false
   }
 }

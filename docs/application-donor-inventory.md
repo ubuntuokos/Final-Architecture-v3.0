@@ -15,6 +15,28 @@ An application does not automatically become a donor or an approved dependency.
 Its donor assessment starts at NOT_AUTOMATICALLY_ASSESSED; existing donor
 identity is linked only by exact normalized source key.
 
+## Platform and product-family placement
+
+The application inventory is also the canonical retroactive placement surface for
+the FA3 Platform taxonomy. It consumes
+`canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json` rather than creating a second
+application inventory.
+
+Every inventory application has exactly one primary product family and may have
+secondary families. Family membership is classification/policy context only: it
+does not grant permissions, provider/model admission, hardware placement or runtime
+activation.
+
+Existing applications were classified retroactively. A newly added curated,
+internal or reference application appears in the normal inventory immediately, but
+validation fails closed with `UNCLASSIFIED_APPLICATION_PRODUCT_FAMILY` until an
+explicit placement is added. Conversely, a placement whose application no longer
+exists fails with `ORPHANED_APPLICATION_PRODUCT_FAMILY_PLACEMENT`.
+
+The five families are Creative / Media, Studio / Film, AI Workstation,
+Business / Collaboration and Enterprise Platform. The active capability baseline
+remains 175; classification alone never creates a capability or authority.
+
 ## Cross-application relationships
 
 The relationship manifest identifies which application offers an artifact or

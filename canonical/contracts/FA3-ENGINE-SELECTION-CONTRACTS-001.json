@@ -35,6 +35,19 @@
         "AI provider/model execution delegates to Model Router",
         "resource placement delegates to HRB",
         "only READY or AVAILABLE_CONDITIONAL engines may produce selectable preference intents"
+      ],
+      "scope_vocabulary": [
+        "GLOBAL",
+        "PRODUCT_FAMILY",
+        "APPLICATION",
+        "WORKSPACE",
+        "PROJECT",
+        "SEQUENCE",
+        "SCENE",
+        "TRACK",
+        "CLIP",
+        "NODE",
+        "TASK"
       ]
     },
     "EnginePolicyProfile": {
@@ -88,7 +101,8 @@
     "USER_MAY_PRESERVE_UPSTREAM_BASE_ENGINE_ALONGSIDE_FA3_NATIVE_ENGINE",
     "CUSTOM_ENGINE_REGISTRATION_REQUIRES_NORMAL_ADMISSION",
     "NON_GLOBAL_SCOPE_REQUIRES_EXPLICIT_TARGET_ID",
-    "UNKNOWN_PROVIDER_ADMISSION_STATE_IS_NOT_SELECTABLE"
+    "UNKNOWN_PROVIDER_ADMISSION_STATE_IS_NOT_SELECTABLE",
+    "PRODUCT_FAMILY_SCOPE_IS_CONTEXT_NOT_AUTHORITY"
   ],
   "runtime_gate_requirements": [
     "Security",

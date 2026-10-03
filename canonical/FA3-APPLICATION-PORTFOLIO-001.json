@@ -6,6 +6,7 @@
   "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
+  "product_family_registry_ref": "FA3-PRODUCT-FAMILY-REGISTRY-001",
   "portfolio_states": [
     "FUTURE",
     "PLANNED",
@@ -29,12 +30,23 @@
     "REFERENCE_ONLY"
   ],
   "provisioning_lifecycle_ref": "FA3-APP-LIFECYCLE-001",
+  "external_catalog_binding": {
+    "catalog_id": "FA3-AI-STUDIO-APP-CATALOG-001",
+    "id_projection": "studio.<catalog-id>",
+    "all_curated_entries_must_be_registered": true,
+    "fa3_entitlement_does_not_grant_upstream_rights": true
+  },
+  "application_donor_inventory_binding": {
+    "registry_id": "FA3-APPLICATION-DONOR-LINKS-001",
+    "all_internal_application_declarations_must_be_registered": true
+  },
   "rules": {
     "portfolio_state_separate_from_provisioning_state": true,
     "filesystem_is_not_portfolio": true,
     "gui_surface_is_not_application": true,
     "continuous_reconciliation_required": true,
-    "retrospective_classification_required": true
+    "retrospective_classification_required": true,
+    "product_family_placement_required": true
   },
   "applications": [
     {
@@ -53,9 +65,13 @@
       ],
       "primary_domain": "PLATFORM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-ENTERPRISE-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -76,9 +92,15 @@
       ],
       "primary_domain": "PLATFORM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-ENTERPRISE-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -97,9 +119,15 @@
       ],
       "primary_domain": "AI_COMPUTE",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -119,9 +147,13 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -141,9 +173,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -164,9 +202,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -186,9 +230,13 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -208,9 +256,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -229,9 +283,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -250,9 +310,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -271,9 +337,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -292,9 +364,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -313,9 +391,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -333,9 +417,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -355,9 +445,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -377,9 +473,13 @@
       ],
       "primary_domain": "AUDIO_SPEECH_MUSIC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -399,9 +499,15 @@
       ],
       "primary_domain": "AUDIO_SPEECH_MUSIC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -420,9 +526,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -441,9 +553,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -461,9 +579,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -481,9 +605,15 @@
       ],
       "primary_domain": "STUDIO_FILM",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-BUSINESS-COLLABORATION-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -502,9 +632,15 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -523,9 +659,15 @@
       ],
       "primary_domain": "THREED_DCC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -544,9 +686,15 @@
       ],
       "primary_domain": "THREED_DCC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -565,9 +713,15 @@
       ],
       "primary_domain": "THREED_DCC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -586,9 +740,15 @@
       ],
       "primary_domain": "INTERACTIVE_GAME",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -608,9 +768,15 @@
       ],
       "primary_domain": "KNOWLEDGE_WRITING",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-BUSINESS-COLLABORATION-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -630,9 +796,13 @@
       ],
       "primary_domain": "KNOWLEDGE_WRITING",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -652,9 +822,15 @@
       ],
       "primary_domain": "KNOWLEDGE_WRITING",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -674,9 +850,13 @@
       ],
       "primary_domain": "PRODUCTIVITY",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -696,9 +876,13 @@
       ],
       "primary_domain": "COMMUNICATION_COLLABORATION",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -718,9 +902,13 @@
       ],
       "primary_domain": "COMMUNICATION_COLLABORATION",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
@@ -739,15 +927,19 @@
       ],
       "primary_domain": "COMMUNICATION_COLLABORATION",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
+      "upstream_rights_required": false,
+      "fa3_entitlement_does_not_grant_upstream_rights": false,
       "source_refs": [
         "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
       ]
     },
     {
-      "application_id": "external.comfyui",
+      "application_id": "studio.comfyui",
       "name": "ComfyUI",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -761,6 +953,10 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -771,7 +967,7 @@
       ]
     },
     {
-      "application_id": "external.invokeai",
+      "application_id": "studio.invokeai",
       "name": "InvokeAI",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -785,6 +981,10 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -795,7 +995,7 @@
       ]
     },
     {
-      "application_id": "external.kdenlive",
+      "application_id": "studio.kdenlive",
       "name": "Kdenlive",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -809,6 +1009,10 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -819,7 +1023,7 @@
       ]
     },
     {
-      "application_id": "external.bforartists",
+      "application_id": "studio.bforartists",
       "name": "Bforartists",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -832,6 +1036,10 @@
       ],
       "primary_domain": "THREED_DCC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -842,7 +1050,7 @@
       ]
     },
     {
-      "application_id": "external.natron",
+      "application_id": "studio.natron",
       "name": "Natron",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -855,6 +1063,10 @@
       ],
       "primary_domain": "CREATIVE_MEDIA",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -865,7 +1077,7 @@
       ]
     },
     {
-      "application_id": "external.gaffer",
+      "application_id": "studio.gaffer",
       "name": "Gaffer",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -878,6 +1090,10 @@
       ],
       "primary_domain": "THREED_DCC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -888,7 +1104,7 @@
       ]
     },
     {
-      "application_id": "external.demucs",
+      "application_id": "studio.demucs",
       "name": "Demucs",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -902,6 +1118,8 @@
       ],
       "primary_domain": "AUDIO_SPEECH_MUSIC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -912,7 +1130,7 @@
       ]
     },
     {
-      "application_id": "external.deepfilternet",
+      "application_id": "studio.deepfilternet",
       "name": "DeepFilterNet",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -926,6 +1144,8 @@
       ],
       "primary_domain": "AUDIO_SPEECH_MUSIC",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -936,7 +1156,7 @@
       ]
     },
     {
-      "application_id": "external.mautic",
+      "application_id": "studio.mautic",
       "name": "Mautic",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -947,6 +1167,10 @@
       ],
       "primary_domain": "BUSINESS",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -957,7 +1181,7 @@
       ]
     },
     {
-      "application_id": "external.twenty",
+      "application_id": "studio.twenty",
       "name": "Twenty",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -968,6 +1192,10 @@
       ],
       "primary_domain": "BUSINESS",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -978,7 +1206,7 @@
       ]
     },
     {
-      "application_id": "external.listmonk",
+      "application_id": "studio.listmonk",
       "name": "listmonk",
       "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
       "portfolio_state": "EXISTING",
@@ -989,6 +1217,10 @@
       ],
       "primary_domain": "BUSINESS",
       "secondary_domains": [],
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
       "individually_entitleable": true,
       "available_in_bundles": [],
       "required_platform_dependencies": [],
@@ -998,15 +1230,5 @@
         "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
       ]
     }
-  ],
-  "external_catalog_binding": {
-    "catalog_id": "FA3-AI-STUDIO-APP-CATALOG-001",
-    "id_projection": "external.<catalog-id>",
-    "all_curated_entries_must_be_registered": true,
-    "fa3_entitlement_does_not_grant_upstream_rights": true
-  },
-  "application_donor_inventory_binding": {
-    "registry_id": "FA3-APPLICATION-DONOR-LINKS-001",
-    "all_internal_application_declarations_must_be_registered": true
-  }
+  ]
 }

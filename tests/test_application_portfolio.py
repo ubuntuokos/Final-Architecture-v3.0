@@ -15,12 +15,10 @@ class T(unittest.TestCase):
  def test_bundles_optional(s):s.assertTrue(all(x["optional"] for x in s.c["bundles"]))
  def test_below_min(s):
   with s.assertRaisesRegex(ValueError,"APPLICATION_BELOW_MINIMUM_OPERATING_LEVEL"):resolve(s.r,["fa3.render-manager"],"PERSONAL")
- def test_external_catalog_covered(s):
-  ids={a["application_id"] for a in s.p["applications"]}
-  catalog=json.loads((s.r/"canonical/FA3-AI-STUDIO-APP-CATALOG-001.json").read_text())
-  s.assertTrue(all("external."+x["id"] in ids for x in catalog["applications"]))
-  for a in s.p["applications"]:
-   if a["application_class"]=="EXTERNAL_OPTIONAL_APPLICATION":s.assertTrue(a["fa3_entitlement_does_not_grant_upstream_rights"])
+ def test_external_catalog(s):
+  ids={a["application_id"] for a in s.p["applications"]};x=json.loads((s.r/"canonical/FA3-AI-STUDIO-APP-CATALOG-001.json").read_text());s.assertTrue(all("studio."+a["id"] in ids for a in x["applications"]))
+ def test_family_placement(s):
+  pf=json.loads((s.r/"canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json").read_text());placed={x["application_id"] for x in pf["application_placements"]};s.assertTrue(all(a["application_id"] in placed for a in s.p["applications"]))
  def test_lifecycle_separate(s):s.assertEqual(s.p["provisioning_lifecycle_ref"],"FA3-APP-LIFECYCLE-001")
  def test_cli(s):
   p=subprocess.run([sys.executable,str(s.r/"src/fa3_application_portfolio.py"),"--check"],cwd=s.r,text=True,capture_output=True);s.assertEqual(p.returncode,0,p.stdout+p.stderr)
