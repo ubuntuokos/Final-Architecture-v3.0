@@ -62,7 +62,7 @@
   "allOf": [
     {
       "if": {"properties": {"gui_classification": {"const": "HEADLESS_ONLY"}}},
-      "then": {"required": ["headless_justification"]}
+      "then": {"required": ["headless_justification"], "properties": {"headless_justification": {"type": "string", "minLength": 1}}}
     }
   ]
 }
