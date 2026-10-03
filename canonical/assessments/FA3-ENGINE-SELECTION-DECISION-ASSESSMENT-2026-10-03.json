@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-ENGINE-SELECTION-DECISION-ASSESSMENT-2026-10-03",
+  "covered_ids": [
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-ENGINE-SELECTION-CONTRACTS-001",
+    "FA3-ENGINE-REGISTRY-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The materialized selector performs deterministic capability, health and execution-mode filtering and records explicit user engine preference. Provider/model routing, hardware placement, credentials, security, license eligibility and runtime promotion remain with existing FA3 authorities. No semantic ranking or autonomous engine choice is delegated to Decision Fabric in this materialization.",
+  "decision_points": [],
+  "not_delegated": [
+    "engine eligibility",
+    "engine selection",
+    "provider or model routing",
+    "fallback authorization",
+    "host resource placement",
+    "credential access",
+    "license or security admission",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "FA3 Unified Engine Registry and Engine/Provider Selector",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "Current implementation is deterministic and user-directed. Any future advisory auto-ranking requires a new assessment and may only rank an already eligible candidate set."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

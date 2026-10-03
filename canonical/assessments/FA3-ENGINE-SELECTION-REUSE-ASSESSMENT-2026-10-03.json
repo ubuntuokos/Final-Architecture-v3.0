@@ -1,0 +1,145 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "intent_id": "FA3-ENGINE-SELECTION-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-ENGINE-SELECTION-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-ENGINE-SELECTION-CONTRACTS-001",
+    "FA3-ENGINE-REGISTRY-001"
+  ],
+  "project_status": "STATIC_MATERIALIZATION_APPROVED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT_ONLY"
+    },
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "EXISTING_VIDEO_ENGINE_AND_PROVIDER_INTERCHANGE"
+    },
+    {
+      "id": "FA3-KDENLIVE-EDITORIAL-001",
+      "use": "EXISTING_EDITORIAL_PROVIDER_AND_MLT_CONTROL_SURFACE"
+    },
+    {
+      "id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+      "use": "EXISTING_FFMPEG_AND_NEURAL_MEDIA_PROVIDER_SET"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_AI_PROVIDER_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_HOST_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "EXISTING_CREDENTIAL_STORAGE_AND_PROJECTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "EXISTING_LICENSE_AND_RIGHTS_GATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_PROVIDER_ROUTER",
+      "reason": "MODEL_ROUTER_ALREADY_OWNS_AI_PROVIDER_MODEL_ROUTING"
+    },
+    {
+      "id": "SECOND_RESOURCE_ROUTER",
+      "reason": "HRB_ALREADY_OWNS_DEVICE_AND_RESOURCE_PLACEMENT"
+    },
+    {
+      "id": "ENGINE_SELECTOR_AS_EXECUTION_AUTHORITY",
+      "reason": "SELECTOR_EMITS_USER_INTENT_ONLY"
+    },
+    {
+      "id": "FORCED_FA3_NATIVE_REPLACEMENT",
+      "reason": "OWNER_REQUIRES_PERMANENT_PARALLEL_USER_CHOICE"
+    },
+    {
+      "id": "SILENT_FALLBACK",
+      "reason": "OWNER_AND_EXISTING_FA3_POLICY_REQUIRE_EXPLICIT_RESELECTION_OR_APPROVED_POLICY"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001"
+  ],
+  "gaps": [
+    "PER_APPLICATION_GUI_INTEGRATION_AFTER_SHARED_PANEL",
+    "PHYSICAL_CURRENT_HOST_RUNTIME_EVIDENCE_FOR_EXECUTABLE_ENGINES_REMAINS_PROVIDER_SPECIFIC"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "selector_allocates_hardware": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "upstream_base_engines_preserved": true
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "0284f0ae4d2609b1e46557414481b1062ac0aafc",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_entry_count": 1357,
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e"
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-ENGINE-SELECTION-FABRIC-001",
+      "FA3-ENGINE-REGISTRY-001",
+      "FA3-ENGINE-SELECTION-CONTRACTS-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "ENGINE_INTERCHANGE_AND_ACCELERATOR_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

@@ -19,6 +19,8 @@ qt_add_executable(fa3-control-center
     src/DecisionFabricService.h
     src/ExternalLlmCatalogModel.cpp
     src/ExternalLlmCatalogModel.h
+    src/EngineSelectorService.cpp
+    src/EngineSelectorService.h
     src/Fa3RepositoryModel.cpp
     src/Fa3RepositoryModel.h
     src/JournalService.cpp
@@ -48,6 +50,9 @@ set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS We
 set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelsProvidersPage.qml)
 set_source_files_properties(qml/ProviderExplorerView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExplorerView.qml)
 set_source_files_properties(qml/ProviderExecutionView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExecutionView.qml)
+set_source_files_properties(qml/EngineManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS EngineManagerPage.qml)
+set(FA3_ENGINE_SELECTOR_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/engine-selector/qml/EngineSelectorPanel.qml")
+set_source_files_properties(${FA3_ENGINE_SELECTOR_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS EngineSelectorPanel.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SubtitleStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS SubtitleStudioPage.qml)
 set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS NarrationStudioPage.qml)
@@ -88,6 +93,8 @@ qt_add_qml_module(fa3-control-center
         qml/ModelsProvidersPage.qml
         qml/ProviderExplorerView.qml
         qml/ProviderExecutionView.qml
+        qml/EngineManagerPage.qml
+        ${FA3_ENGINE_SELECTOR_PANEL_QML}
         qml/AiStudioPage.qml
         qml/SubtitleStudioPage.qml
         qml/NarrationStudioPage.qml

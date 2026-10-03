@@ -2,6 +2,7 @@
 #include "ChatFileService.h"
 #include "DecisionFabricService.h"
 #include "ExternalLlmCatalogModel.h"
+#include "EngineSelectorService.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
 #include "ModelLibraryService.h"
@@ -60,6 +61,7 @@ int main(int argc, char *argv[])
     SessionVaultService sessionVault;
     DecisionFabricService decisionFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
+    EngineSelectorService engineSelector(repository.repoRoot());
     WorkloadModeStateService workloadMode;
 
     QQmlApplicationEngine engine;
@@ -76,6 +78,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3SessionVault", &sessionVault);
     engine.rootContext()->setContextProperty("fa3DecisionFabric", &decisionFabric);
     engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
+    engine.rootContext()->setContextProperty("fa3EngineSelector", &engineSelector);
     engine.rootContext()->setContextProperty("fa3WorkloadMode", &workloadMode);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 

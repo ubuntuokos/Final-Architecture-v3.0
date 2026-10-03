@@ -109,5 +109,32 @@
   "global_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 175
+  "capability_count_after": 175,
+  "donor_planning_snapshot": {
+    "published_main_commit": "b1d94ce0f85c83f2da05c53285c6ffbf01d86e63",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+    "donor_registry_sha256": "ef8e3d6fa787e3a3db04c895875dc22f1d0b9f7ad342fe7d981c39acfef3f99e",
+    "donor_registry_entry_count": 1357
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-TRUST-PKI-001",
+      "FA3-PROVIDER-STEP-CA-001",
+      "FA3-STEP-CA-CURRENT-HOST-001",
+      "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false
 }

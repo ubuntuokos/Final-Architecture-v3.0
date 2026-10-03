@@ -405,6 +405,25 @@
       "direct_model_router_mutation": false,
       "authority": false,
       "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "models.engines",
+      "title": "Engine & Provider Manager",
+      "group": "MODELS & DATA",
+      "projection": "ENGINE_REGISTRY_AND_USER_SELECTION",
+      "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "contract_id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+      "registry_id": "FA3-ENGINE-REGISTRY-001",
+      "mode": "READ_ONLY_CATALOG_WITH_NON_EXECUTING_SELECTION_INTENT",
+      "mutation": "NONE_REFERENCE_INTENT_ONLY",
+      "direct_provider_execution": false,
+      "direct_model_selection": false,
+      "direct_hardware_selection": false,
+      "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "secret_authority": "FA3-AUTH-SECRETS-001",
+      "authority": false,
+      "runtime_promotion_claim": false
     }
   ],
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",

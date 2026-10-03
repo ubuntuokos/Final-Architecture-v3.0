@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ENGINE-SELECTION-FABRIC-2026-10-03",
+  "date": "2026-10-03",
+  "status": "ACCEPTED_MATERIALIZED_STATIC",
+  "title": "Preserve upstream/base engines alongside FA3-native engines with extensive user-selectable routing intent",
+  "decision": "MATERIALIZE_SHARED_ENGINE_REGISTRY_AND_USER_SELECTION_SURFACE_WITHOUT_NEW_EXECUTION_AUTHORITY",
+  "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "contract_id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+  "registry_id": "FA3-ENGINE-REGISTRY-001",
+  "owner_approval_basis": "Explicit owner approval in active FA3 conversation: Készítsd el!",
+  "invariants": [
+    "BASE_AND_FA3_NATIVE_ENGINES_COEXIST_PERMANENTLY",
+    "MLT_IS_NOT_DEPRECATED_OR_FORCED_OUT",
+    "FA3_NATIVE_ENGINE_IS_AN_OPTION_NOT_A_MANDATE",
+    "USER_SELECTION_SUPPORTED_AT_GLOBAL_APPLICATION_WORKSPACE_PROJECT_SEQUENCE_SCENE_TRACK_CLIP_NODE_TASK_SCOPES",
+    "NO_SILENT_FALLBACK_OR_SEMANTIC_SUBSTITUTION",
+    "MODEL_ROUTER_REMAINS_AI_PROVIDER_MODEL_ROUTING_AUTHORITY",
+    "HRB_REMAINS_RESOURCE_AND_DEVICE_AUTHORITY",
+    "SECRET_BROKER_REMAINS_CREDENTIAL_BOUNDARY",
+    "REFERENCE_ONLY_OR_NOT_ADMITTED_ENGINE_MUST_NOT_BE_PRESENTED_AS_EXECUTION_READY",
+    "CUSTOM_ENGINES_REQUIRE_NORMAL_ADMISSION",
+    "PROJECT_FORMAT_REMAINS_ENGINE_INDEPENDENT",
+    "CAPABILITY_BASELINE_REMAINS_175"
+  ],
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "current_host_runtime_promotion_claim": false
+}
