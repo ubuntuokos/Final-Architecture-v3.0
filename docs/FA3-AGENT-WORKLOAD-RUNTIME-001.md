@@ -2,7 +2,7 @@
 
 Canonical profile: `FA3-AGENT-WORKLOAD-RUNTIME-001`
 
-This profile materializes AX-derived Task, Workspace, Runner and lifecycle patterns as FA3-native execution contracts. It creates **no new architectural authority** and **no new capability**; the active capability count remains **143**, with the projection bound to existing `CAP-028` Managed External Agent Runtime.
+This profile materializes AX-derived Task, Workspace, Runner and lifecycle patterns as FA3-native execution contracts. It creates **no new architectural authority** and **no new capability**; the active capability count remains **175**, with the projection bound to existing `CAP-028` Managed External Agent Runtime.
 
 ## Authority boundary
 
@@ -45,6 +45,14 @@ The provider now has a pinned-schema manifest compiler (`src/fa3_google_ax_provi
 At pinned commit `e6211f84a9e30dd309304167b8f1d51cbdaf8dab`, AX `Workspace.spec.git` supports a floating `branch` but no immutable commit field. Therefore a FA3 workspace containing an immutable Git source is **not** downgraded to a branch: provider compilation fails closed with `AX_V1ALPHA1_IMMUTABLE_GIT_COMMIT_UNREPRESENTABLE`. AX-native MCP/Skill registry discovery is likewise not used to bypass Central MCP Gateway or Skill Fabric.
 
 The custom-runner execution-plan compiler (`src/fa3_google_ax_custom_runner.py`) is now materialized. It preserves immutable Git semantics by performing HTTPS fetch-by-commit, detached checkout, and HEAD verification inside the runner plan; the Git host must be explicitly present in the default-deny network envelope. Skill and MCP workspace sources are not reinterpreted by the runner, so Skill Fabric and Central MCP Gateway remain the admission/mediation boundaries.\n\nThis is still **source/static materialization only**. No digest-pinned runner image has been built/evidenced, no cluster-apply adapter is admitted, and no scope-bound cluster E2E exists. Runtime activation therefore remains `PENDING_RUNNER_IMAGE_CLUSTER_APPLY_AND_CLUSTER_E2E`.
+
+## Task scope and closure policy
+
+Goal-bound workloads may carry the shared `fa3.goal-scope-binding.v1` produced by Goal Execution. The binding fixes the originating goal revision/digest and scope digest and references `FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03`.
+
+A goal-bound workload may be validated as a candidate without executing, but actual execution-plan compilation requires a matching ACTIVE `fa3.task-scope-control.v1`. Human-intervention or CLOSED controls fail closed. The same blocker is capped at three failed attempts; the third failure freezes execution and the fourth is forbidden. Out-of-scope discoveries are typed handoff drafts that require a new task ID and explicit user start; they never auto-run as children.
+
+Temporal remains the durable lifecycle owner for this state. The task-control envelope itself is not a second scheduler or authorization authority.
 
 ## Static closure versus runtime closure
 

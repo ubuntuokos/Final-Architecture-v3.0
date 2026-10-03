@@ -15,6 +15,7 @@ from typing import Any
 
 from fa3_agent_workload import validate_task as validate_workload_task
 from fa3_orchestration_workforce import route_task
+from fa3_task_scope_closure import POLICY_ID as TASK_SCOPE_POLICY_ID, goal_scope_binding
 
 GOAL_SCHEMA = "fa3.goal-contract.v1"
 PLAN_SCHEMA = "fa3.goal-plan.v1"
@@ -152,6 +153,8 @@ def prepare_goal(value: dict[str, Any]) -> dict[str, Any]:
         "authority": False,
         "execution_performed": False,
         "canonical_goal_owner": "USER",
+        "task_scope_policy_id": TASK_SCOPE_POLICY_ID,
+        "goal_scope_binding": goal_scope_binding(goal),
     }
 
 
@@ -234,6 +237,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             "network_envelope_ref": _required(step.get("network_envelope_ref"), "network_envelope_ref"),
             "model_intent": copy.deepcopy(model_intent),
             "authorized_ai_participants": list(policy["authorized_ai_participants"]),
+            "goal_scope_binding": goal_scope_binding(goal),
             "fanout_limits": copy.deepcopy(limit),
         }
         checked = validate_workload_task(workload)
@@ -255,6 +259,8 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
         "resource_authority": _HRB_AUTH,
         "model_route_authority": _ROUTER_AUTH,
         "uaf_required": True, "execution_performed": False,
+        "task_scope_policy_id": TASK_SCOPE_POLICY_ID,
+        "goal_scope_binding": goal_scope_binding(goal),
         "authority": False,
     }
 

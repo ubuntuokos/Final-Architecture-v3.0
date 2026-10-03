@@ -172,6 +172,11 @@ class GoalFoundationTests(unittest.TestCase):
                          "fa3.agent-workload-task.v1")
         self.assertEqual(plan["steps"][0]["runtime_admission"],
                          "PENDING_EXISTING_AUTHORITIES")
+        self.assertEqual(plan["task_scope_policy_id"],
+                         "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03")
+        self.assertEqual(plan["steps"][0]["workload_candidate"]["goal_scope_binding"]["goal_id"],
+                         "goal-fixture")
+        self.assertEqual(plan["steps"][0]["workload_candidate"]["goal_scope_binding"]["max_same_blocker_attempts"], 3)
 
     def test_preflight_missing_authority_fails(self):
         p = preflight()

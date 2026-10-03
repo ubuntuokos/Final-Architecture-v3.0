@@ -1,0 +1,53 @@
+{
+  "id": "FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+  "status": "APPROVED",
+  "decision_date": "2026-10-03",
+  "explicit_user_approval": true,
+  "scope": "GLOBAL_FA3_TASK_SCOPE_RETRY_HANDOFF_AND_CLOSURE_POLICY",
+  "rules": {
+    "one_conversation_or_task_session_one_explicit_task": true,
+    "task_scope_bound_to_goal_revision": true,
+    "automatic_scope_expansion": false,
+    "out_of_scope_work": "HANDOFF_DRAFT_REQUIRES_NEW_TASK_ID_AND_USER_START",
+    "max_same_blocker_attempts": 3,
+    "fourth_same_blocker_attempt": "FORBIDDEN",
+    "human_intervention_required_after_third_same_blocker_failure": true,
+    "human_intervention_freezes_execution": true,
+    "automatic_retry_after_human_block": false,
+    "automatic_replan_after_human_block": false,
+    "automatic_alternative_route_after_human_block": false,
+    "closed_or_verified_task_execution": "FORBIDDEN",
+    "automatic_followup_execution": false,
+    "user_closure_states": [
+      "DONE",
+      "NEW_TASK_DISCOVERED",
+      "HUMAN_INTERVENTION_REQUIRED"
+    ]
+  },
+  "authority_and_baseline": {
+    "durable_workflow_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution_authority": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_baseline": 175
+  },
+  "implementation": {
+    "shared_policy_module": "src/fa3_task_scope_closure.py",
+    "goal_contract": "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+    "goal_runtime": "src/fa3_goal_execution.py",
+    "closed_loop_contract": "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
+    "agent_workload_contract": "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
+    "agent_workload_runtime": "src/fa3_agent_workload.py",
+    "parent_gate": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001",
+    "enforcement_policy": "canonical/enforcement-policy.json"
+  },
+  "current_host": {
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_required_for_future_provider_or_host_runtime_delta": true,
+    "static_policy_materialization_does_not_claim_current_host_pass": true
+  }
+}

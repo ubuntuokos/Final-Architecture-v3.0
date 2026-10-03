@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
   "name": "Agent Workload Task, Workspace, Runner, Network and Checkpoint Contracts",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "status": "CANONICAL",
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "provider_neutral": true,
@@ -30,7 +30,9 @@
     "work_item_reference_optional": true,
     "physical_provider_pin_forbidden": true,
     "physical_accelerator_ordinal_forbidden": true,
-    "raw_secret_material_forbidden": true
+    "raw_secret_material_forbidden": true,
+    "goal_scope_binding_supported": true,
+    "goal_scope_binding_requires_active_task_control_at_execution_plan": true
   },
   "runner_spi": [
     "probe",
@@ -107,7 +109,15 @@
     "GOOGLE_AX_IMMUTABLE_GIT_SCHEMA_GAP_FAILS_CLOSED",
     "GOOGLE_AX_MODEL_RESOURCE_NOT_EMITTED",
     "GOOGLE_AX_NATIVE_MCP_AND_SKILL_DISCOVERY_NOT_USED_AS_FA3_AUTHORITIES",
-    "GOOGLE_AX_CUSTOM_RUNNER_MATERIALIZES_IMMUTABLE_GIT_WITHOUT_AUTHORITY_BYPASS"
+    "GOOGLE_AX_CUSTOM_RUNNER_MATERIALIZES_IMMUTABLE_GIT_WITHOUT_AUTHORITY_BYPASS",
+    "GOAL_BOUND_WORKLOAD_REQUIRES_SCOPE_BINDING",
+    "GOAL_BOUND_EXECUTION_PLAN_REQUIRES_ACTIVE_TASK_CONTROL",
+    "SAME_BLOCKER_MAX_THREE_ATTEMPTS",
+    "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN",
+    "OUT_OF_SCOPE_FOLLOWUP_REQUIRES_NEW_TASK_ID",
+    "HUMAN_INTERVENTION_FREEZES_EXECUTION",
+    "CLOSED_TASK_EXECUTION_FORBIDDEN",
+    "AUTOMATIC_FOLLOWUP_EXECUTION_FORBIDDEN"
   ],
   "failure_policy": {
     "malformed_task": "FAIL_CLOSED",
@@ -118,9 +128,24 @@
     "checkpoint_secret_detected": "FAIL_CLOSED",
     "checkpoint_incompatible": "FAIL_CLOSED",
     "network_destination_not_allowed": "FAIL_CLOSED",
-    "runner_failure": "REPORT_AND_EXISTING_ORCHESTRATION_RETRY_POLICY"
+    "runner_failure": "REPORT_AND_EXISTING_ORCHESTRATION_RETRY_POLICY",
+    "task_scope_binding_invalid": "FAIL_CLOSED",
+    "task_control_missing_for_goal_bound_workload": "FAIL_CLOSED",
+    "task_control_human_block_or_closed": "FAIL_CLOSED_NO_EXECUTION"
   },
   "runtime_semantics_contract": "FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "task_scope_closure_policy": {
+    "policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "goal_contract_id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+    "task_control_schema": "fa3.task-scope-control.v1",
+    "max_same_blocker_attempts": 3,
+    "automatic_scope_expansion": false,
+    "out_of_scope_followup_requires_new_task": true,
+    "automatic_followup_execution": false,
+    "human_intervention_freezes_execution": true,
+    "closed_task_execution": "FORBIDDEN",
+    "durable_state_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
+  }
 }

@@ -2162,5 +2162,23 @@
     "protected_action_refs_require_commit_sha": true,
     "capability_delta": 0,
     "authority_delta": 0
-  }
+  },
+  "task_scope_closure_policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+  "task_scope_closure_decision_id": "FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+  "task_scope_closure_parent_gateset_id": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001",
+  "task_scope_closure_capability_baseline": 175,
+  "task_scope_closure_mandatory_p0_rules": [
+    "ONE_TASK_SESSION_ONE_EXPLICIT_TASK",
+    "GOAL_SCOPE_BOUND_TO_IMMUTABLE_REVISION_AND_DIGEST",
+    "AUTOMATIC_SCOPE_EXPANSION_FORBIDDEN",
+    "OUT_OF_SCOPE_WORK_NEW_TASK_HANDOFF_ONLY",
+    "FOLLOWUP_AUTOSTART_FORBIDDEN",
+    "SAME_BLOCKER_MAX_THREE_ATTEMPTS",
+    "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN",
+    "HUMAN_INTERVENTION_FREEZES_EXECUTION",
+    "AUTO_RETRY_REPLAN_ROUTE_WIDENING_AFTER_HUMAN_BLOCK_FORBIDDEN",
+    "VERIFIED_OR_CLOSED_TASK_EXECUTION_FORBIDDEN",
+    "TEMPORAL_REMAINS_DURABLE_WORKFLOW_AUTHORITY",
+    "CAPABILITY_BASELINE_175_UNCHANGED"
+  ]
 }
