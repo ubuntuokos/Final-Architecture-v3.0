@@ -1,0 +1,143 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-INTERACTIVE-WORKSPACE-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-SHARED-INTERACTIVE-WORKSPACE-001",
+  "intent_id": "FA3-SHARED-INTERACTIVE-WORKSPACE-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-SHARED-INTERACTIVE-WORKSPACE-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-SHARED-INTERACTIVE-WORKSPACE-001",
+    "FA3-SHARED-INTERACTIVE-WORKSPACE-CONTRACTS-001",
+    "FA3-APPLICATION-DONOR-LINKS-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "result": "PASS",
+  "donor_review": "REVIEWED_MATCH",
+  "donor_planning_snapshot": {
+    "published_main_commit": "5d99e09b674877bcf4c057ec7af82e5d819ee616",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "6fcd9a7f5b3e3c5c54b1ae1b5227b37a9bb6a951",
+    "donor_registry_sha256": "7dfe58f105a0100948ae19f58925a9deba0b4036544b883b1b63740f3791c7ac",
+    "donor_registry_entry_count": 1422
+  },
+  "selected_existing_donor_ids": [
+    "FA3-DONOR-COMFYUI-001",
+    "FA3-DONOR-FIFTYONE-001",
+    "FA3-DONOR-CVAT-COMMUNITY-001",
+    "FA3-DONOR-KRITA-AI-DIFFUSION-001",
+    "FA3-DONOR-SELECTIVE-IMPORT-M-BAIN-WHISPERX-001",
+    "FA3-DONOR-SELECTIVE-IMPORT-BREAKTHROUGH-PYSCENEDETECT-001",
+    "FA3-DONOR-LANGCHAIN-AI-LANGGRAPH-001"
+  ],
+  "adopted_donors": [],
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+      "use": "PUBLISHED_FA3_NATIVE_DONOR_BACKED_PATTERN_LAYER"
+    },
+    {
+      "id": "FA3-SHARED-AI-INTERACTION-001",
+      "use": "AI_INTERACTION_AND_ROUTING_BOUNDARY"
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "use": "REFERENCE_AND_MEDIA_CONTEXT_NORMALIZATION"
+    },
+    {
+      "id": "FA3-SHARED-CONVERSATION-SESSION-001",
+      "use": "STATEFUL_CONVERSATION_SESSION_SEMANTICS"
+    },
+    {
+      "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+      "use": "TYPED_MUTATING_ACTION_MEDIATION"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-001",
+      "use": "SOLE_PROVIDER_NEUTRAL_MULTIMODAL_GENERATION_CONTEXT_IR"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_DISPATCH"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "MCP_TOOL_MEDIATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "HOST_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "CREDENTIAL_DELIVERY_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "RECEIPTS_AND_EVIDENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_PROMPT_IR",
+      "reason": "FA3_MMG_CONTEXT_IR_ALREADY_CANONICAL"
+    },
+    {
+      "id": "NEW_MODEL_ROUTER",
+      "reason": "EXISTING_MODEL_ROUTER_IS_EXCLUSIVE"
+    },
+    {
+      "id": "NEW_MCP_AUTHORITY",
+      "reason": "EXISTING_MCP_GATEWAY_AND_UAF_REMAIN_CANONICAL"
+    },
+    {
+      "id": "NEW_DURABLE_ORCHESTRATOR",
+      "reason": "TEMPORAL_REMAINS_SOLE_GLOBAL_DURABLE_LIFECYCLE_AUTHORITY"
+    },
+    {
+      "id": "ARBITRARY_GENERATED_CODE_EXECUTION",
+      "reason": "TYPED_ACTION_MEDIATION_REQUIRED"
+    },
+    {
+      "id": "PENDING_RENOISE_DONOR_BATCH_PR_657",
+      "reason": "UNMERGED_SOURCES_ARE_NOT_PLANNING_INPUT"
+    }
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-INTERACTIVE-WORKSPACE-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "The same context/action/generative/review/theme interaction semantics span current and future FA3 applications; only application-specific context and result-insert adapters remain local."
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_change": false
+  }
+}
