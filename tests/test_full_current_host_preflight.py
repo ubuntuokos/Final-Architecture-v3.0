@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from fa3_current_host_batch_planner import build_plan
-from fa3_full_current_host_preflight import required_primitives
+from fa3_full_current_host_preflight import desktop_preflight_admission, required_primitives
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -57,6 +57,35 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
             "knowledge_cache",
         ):
             self.assertIn(primitive, primitives)
+
+    def test_desktop_preflight_uses_gui_scope_not_secret_backend_as_proxy(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
+            "session": {"type": "wayland"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_NATIVE_KF6_ENHANCED",
+                "architectural_authority": False,
+            },
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": True,
+        }
+        scoped = desktop_preflight_admission(report, evidence)
+        self.assertEqual("PASS", scoped["result"], scoped)
+        self.assertEqual("FAIL", scoped["secret_backend_status"])
+        self.assertFalse(scoped["secret_backend_used_for_desktop_wayland_admission"])
 
     def test_all_recipes_are_fail_closed_nonpromoting(self):
         _, recipes = required_primitives(ROOT)
