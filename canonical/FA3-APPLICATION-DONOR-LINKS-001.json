@@ -1017,6 +1017,85 @@
         "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
       },
       "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
+    },
+    {
+      "id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
+      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+      "donor_capability_key": "provider-neutral-voice-transformation-pattern-set",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-03",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VOICE-001",
+        "relationship": "PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VOICE-001"
+        ],
+        "contract_ids": [
+          "FA3-VOICE-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.music-studio",
+          "relationship": "CONTEXT_ADAPTER_CONSUMER"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.character-studio",
+          "relationship": "CONTEXT_ADAPTER_CONSUMER"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.story-screenplay",
+          "relationship": "CONTEXT_ADAPTER_CONSUMER"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.video-editor",
+          "relationship": "CONTEXT_ADAPTER_CONSUMER"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.quickclip",
+          "relationship": "CONTEXT_ADAPTER_CONSUMER"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "create.narration-studio",
+          "relationship": "NON_AUTHORITATIVE_PATTERN_PROJECTION"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral voice contracts and shared GUI intent surface changed; no provider/runtime promotion or physical Current Host PASS is claimed."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "canonical/assessments/FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03.json",
+          "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json",
+          "docs/voice-transformation-reference-plan-2026-10-03.md"
+        ],
+        "approval_ref": "FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03"
+      },
+      "approval_ref": "FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03"
     }
   ],
   "donor_usage_contract": {
