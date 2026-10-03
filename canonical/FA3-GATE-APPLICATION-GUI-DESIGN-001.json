@@ -24,10 +24,18 @@
     "NON_FA3_VISUAL_STYLE",
     "DUPLICATE_SHARED_GUI_COMPONENT",
     "MANUAL_GUI_MISMATCH",
-    "RETROACTIVE_GUI_REVIEW_MISSING"
+    "RETROACTIVE_GUI_REVIEW_MISSING",
+    "APPLICATION_GUI_RECORD_MISSING_AT_FINALIZATION",
+    "APPLICATION_GUI_RECORD_UNRESOLVED_AT_FINALIZATION"
   ],
   "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "application_finalization_enforcement": {
+    "governed_design_record_required": true,
+    "owner_approved_exact_local_placement_required_for_gui_apps": true,
+    "unresolved_review_status_blocks_finalization": true,
+    "historical_approval_may_not_be_inferred": true
+  }
 }
