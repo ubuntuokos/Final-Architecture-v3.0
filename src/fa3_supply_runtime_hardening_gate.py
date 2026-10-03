@@ -8,7 +8,8 @@ from fa3_provider_runtime import validate_runtime_environment
 from fa3_upstream_patchset import evaluate_patchset
 from fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,CompositeLeaseIssuer,RESOURCE_ORDER
 from fa3_release_baseline import module_active_capability_count
-from fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring\nfrom fa3_universal_capability_access_gate import gate as universal_access_gate
+from fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring
+from fa3_universal_capability_access_gate import gate as universal_access_gate
 
 GATESET_ID="FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
 CAPABILITY_COUNT=module_active_capability_count(__file__)
