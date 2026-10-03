@@ -38,7 +38,8 @@ def _git(root: Path, *args: str, check: bool=True) -> subprocess.CompletedProces
 def _blob_sha(data: bytes) -> str:
     return hashlib.sha1(f"blob {len(data)}\0".encode("ascii")+data).hexdigest()
 
-def donor_registry_fingerprint_bytes(data: bytes) -> dict[str, Any]:
+def donor_registry_fingerprint(path: Path) -> dict[str, Any]:
+    data=path.read_bytes()
     obj=json.loads(data.decode("utf-8"))
     entries=obj.get("entries")
     if not isinstance(entries,list):
@@ -50,12 +51,14 @@ def donor_registry_fingerprint_bytes(data: bytes) -> dict[str, Any]:
         "donor_registry_sha256":hashlib.sha256(data).hexdigest(),
     }
 
-def donor_registry_fingerprint(path: Path) -> dict[str, Any]:
-    return donor_registry_fingerprint_bytes(path.read_bytes())
-
 def donor_snapshot_findings(root: Path, snapshot: dict[str, Any]) -> list[str]:
     findings=[]
+    registry_path=root/DONOR_REL
     try:
+        live=donor_registry_fingerprint(registry_path)
+        for key in ("donor_registry_id","donor_registry_blob_sha","donor_registry_entry_count","donor_registry_sha256"):
+            if snapshot.get(key)!=live.get(key):
+                findings.append(f"donor planning snapshot live mismatch:{key}")
         commit=str(snapshot.get("published_main_commit","")).strip()
         if not commit:
             findings.append("donor planning snapshot published main commit missing")
@@ -63,19 +66,12 @@ def donor_snapshot_findings(root: Path, snapshot: dict[str, Any]) -> list[str]:
         ancestor=_git(root,"merge-base","--is-ancestor",commit,"HEAD",check=False)
         if ancestor.returncode != 0:
             findings.append("donor planning snapshot commit is not an ancestor of HEAD")
-        show=subprocess.run(
-            ["git","-C",str(root),"show",f"{commit}:{DONOR_REL}"],
-            capture_output=True,check=False)
-        if show.returncode != 0:
-            findings.append("donor planning snapshot published-main registry unavailable")
-            return findings
-        published=donor_registry_fingerprint_bytes(show.stdout)
-        for key in ("donor_registry_id","donor_registry_blob_sha","donor_registry_entry_count","donor_registry_sha256"):
-            if snapshot.get(key)!=published.get(key):
-                findings.append(f"donor planning snapshot published-main mismatch:{key}")
         snap_blob=_git(root,"rev-parse",f"{commit}:{DONOR_REL}").stdout.strip()
+        head_blob=_git(root,"rev-parse",f"HEAD:{DONOR_REL}").stdout.strip()
         if snap_blob != snapshot.get("donor_registry_blob_sha"):
             findings.append("donor planning snapshot commit/blob mismatch")
+        if head_blob != snapshot.get("donor_registry_blob_sha"):
+            findings.append("donor planning snapshot is stale versus checked-out registry")
     except Exception as exc:
         findings.append(f"donor planning snapshot verification failed:{exc}")
     return findings
