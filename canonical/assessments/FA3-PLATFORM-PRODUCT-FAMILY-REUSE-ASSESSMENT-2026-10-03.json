@@ -67,9 +67,15 @@
   },
   "shared_capability_placement": {
     "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-PLATFORM-001",
+      "FA3-ENGINE-SELECTION-FABRIC-001"
+    ],
     "retrospective_consumer_impact_reviewed": true,
-    "disposition": "EXTEND_EXISTING_SHARED_APPLICATION_INVENTORY",
-    "local_duplicate_created": false
+    "local_duplicate_created": false,
+    "rationale": "The platform/product-family taxonomy is a single shared platform context for all applications, and PRODUCT_FAMILY selection extends the existing shared Engine Selection Fabric rather than duplicating application-local functional cores."
   },
   "pending_or_unmerged_donors_consumed": false,
   "capability_count_after": 175,
