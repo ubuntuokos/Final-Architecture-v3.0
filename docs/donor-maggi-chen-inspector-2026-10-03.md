@@ -50,10 +50,10 @@ Registration is not adoption. A later FA3-native use of Inspector-derived patter
 
 Any direct code/runtime use additionally requires the normal License & Rights/provenance, security, Software Coexistence, Hardware Safety, dependency and Current Host admission path.
 
-Parent published main: `3cff20ba446c06501b7195da86a7cdd2d3eb8a36`
-Parent registry blob: `4ac6c46935176c0e2027d771557cdec159e4c2bf`
-Parent donor count: **1421**
-Proposed donor count: **1422**
+Parent published main: `5d99e09b674877bcf4c057ec7af82e5d819ee616`
+Parent registry blob: `6fcd9a7f5b3e3c5c54b1ae1b5227b37a9bb6a951`
+Parent donor count: **1422**
+Proposed donor count: **1423**
 Capability baseline: **175**
 Capability delta: **0**
 Authority delta: **0**
