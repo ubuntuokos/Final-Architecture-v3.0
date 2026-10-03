@@ -10,7 +10,8 @@
     "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
+    "canonical/FA3-APPLICATION-PORTFOLIO-001.json"
   ],
   "policy": {
     "auto_register_all_curated_applications": true,
@@ -72,7 +73,10 @@
     "orphaned_product_family_placement_fail_closed": true,
     "product_family_is_context_not_authority": true,
     "product_family_membership_does_not_grant_permission": true,
-    "retroactive_platform_placement_required": true
+    "retroactive_platform_placement_required": true,
+    "application_portfolio_is_canonical_inventory_input": true,
+    "portfolio_state_is_not_provisioning_state": true,
+    "portfolio_reconciliation_required": true
   },
   "hardware_audit": {
     "vendor_neutral": true,

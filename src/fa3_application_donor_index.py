@@ -16,6 +16,7 @@ GUI = "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
 DONOR = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 PLATFORM = "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+PORTFOLIO = "canonical/FA3-APPLICATION-PORTFOLIO-001.json"
 AUTO = ("automatic_selection", "automatic_fetch", "automatic_install",
         "automatic_activation", "automatic_dependency", "automatic_code_import",
         "automatic_provider_admission", "automatic_model_selection")
@@ -211,7 +212,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "orphaned_product_family_placement_fail_closed": True,
         "product_family_is_context_not_authority": True,
         "product_family_membership_does_not_grant_permission": True,
-        "retroactive_platform_placement_required": True,
+        "retroactive_platform_placement_required": True,\n        "application_portfolio_is_canonical_inventory_input": True,\n        "portfolio_state_is_not_provisioning_state": True,\n        "portfolio_reconciliation_required": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
@@ -268,7 +269,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             "donor_assessment": "NOT_AUTOMATICALLY_ASSESSED",
         }
 
-    product_family_views = apply_product_family_placement(applications, platform, errors)
+    declared_count = len(applications) - curated_count\n    portfolio_added = 0\n    portfolio_registered = 0\n    if portfolio.get("id") != "FA3-APPLICATION-PORTFOLIO-001" or portfolio.get("authority") is not False:\n        errors.append({"code": "APPLICATION_PORTFOLIO_INVALID", "detail": PORTFOLIO})\n    for item in portfolio.get("applications", []):\n        aid = item.get("application_id")\n        if not isinstance(aid, str) or not aid:\n            errors.append({"code": "APPLICATION_PORTFOLIO_ID_INVALID", "detail": str(aid)})\n            continue\n        portfolio_registered += 1\n        if aid in applications:\n            applications[aid]["portfolio_state"] = item.get("portfolio_state")\n            applications[aid]["portfolio_source"] = PORTFOLIO\n            applications[aid]["minimum_operating_level"] = item.get("minimum_operating_level")\n            continue\n        applications[aid] = {\n            "application_id": aid, "name": item.get("name"),\n            "kind": item.get("application_class"),\n            "lifecycle": item.get("portfolio_state"),\n            "portfolio_state": item.get("portfolio_state"),\n            "minimum_operating_level": item.get("minimum_operating_level"),\n            "aliases": [item.get("name")] if item.get("name") else [],\n            "source_catalog": PORTFOLIO, "portfolio_source": PORTFOLIO,\n            "donor_assessment": "NOT_AUTOMATICALLY_ASSESSED",\n        }\n        portfolio_added += 1\n\n    product_family_views = apply_product_family_placement(applications, platform, errors)
 
     gui_surfaces = []
     seen_surfaces: set[str] = set()
@@ -807,7 +808,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
     return {
         "schema": "fa3.application-donor-index.v1", "derived": True,
         "authority": False, "runtime_promotion": False,
-        "source_catalogs": [APP, GUI, DONOR, LINKS, PLATFORM],
+        "source_catalogs": [APP, GUI, DONOR, LINKS, PLATFORM, PORTFOLIO],
         "hardware_audit": {
             "vendor_neutral": True, "cpu_only_viable": True,
             "accelerator_cardinality": "0..N", "global_accelerator_requirement": False,
