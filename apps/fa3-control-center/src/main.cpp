@@ -3,6 +3,7 @@
 #include "DecisionFabricService.h"
 #include "ExternalLlmCatalogModel.h"
 #include "EngineSelectorService.h"
+#include "ProductEntitlementService.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
 #include "ModelLibraryService.h"
@@ -62,6 +63,7 @@ int main(int argc, char *argv[])
     DecisionFabricService decisionFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
     EngineSelectorService engineSelector(repository.repoRoot());
+    ProductEntitlementService productEntitlements(repository.repoRoot());
     WorkloadModeStateService workloadMode;
 
     QQmlApplicationEngine engine;
@@ -79,6 +81,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3DecisionFabric", &decisionFabric);
     engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
     engine.rootContext()->setContextProperty("fa3EngineSelector", &engineSelector);
+    engine.rootContext()->setContextProperty("fa3ProductEntitlements", &productEntitlements);
     engine.rootContext()->setContextProperty("fa3WorkloadMode", &workloadMode);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 

@@ -59,3 +59,32 @@ path = [
 precedence = "override"
 SPDX-FileCopyrightText = "Contributors to FA3 — Final Architecture"
 SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [
+  "docs/FA3-PRODUCT-ENTITLEMENT-PLAN-2026-10-03.md",
+  "canonical/intents/FA3-PRODUCT-ENTITLEMENT-APPLICATION-INTENT-2026-10-03.json",
+  "canonical/assessments/FA3-PRODUCT-ENTITLEMENT-REUSE-ASSESSMENT-2026-10-03.json",
+  "canonical/decisions/FA3-DEC-PRODUCT-ENTITLEMENT-2026-10-03.json",
+  "canonical/FA3-APPLICATION-PORTFOLIO-001.json",
+  "canonical/FA3-OPERATING-LEVEL-MODEL-001.json",
+  "canonical/FA3-PRODUCT-CATALOG-001.json",
+  "canonical/FA3-DOMAIN-PACK-REGISTRY-001.json",
+  "canonical/FA3-ENTITLEMENT-POLICY-001.json",
+  "canonical/FA3-APPLICATION-DEPENDENCY-REGISTRY-001.json",
+  "canonical/schemas/FA3-APPLICATION-PORTFOLIO-SCHEMA-001.json",
+  "canonical/schemas/FA3-OPERATING-LEVEL-MODEL-SCHEMA-001.json",
+  "canonical/FA3-GATE-PRODUCT-ENTITLEMENT-001.json",
+  "src/fa3_product_entitlement.py",
+  "src/fa3_product_entitlement_gate.py",
+  "bin/fa3-product-entitlement",
+  "tests/test_product_entitlement.py",
+  ".github/workflows/fa3-product-entitlement.yml",
+  "docs/fa3-product-entitlement.md",
+  "apps/fa3-control-center/src/ProductEntitlementService.cpp",
+  "apps/fa3-control-center/src/ProductEntitlementService.h",
+  "apps/fa3-control-center/qml/ProductEntitlementsPage.qml"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "Contributors to FA3 — Final Architecture"
+SPDX-License-Identifier = "Apache-2.0"
