@@ -150,3 +150,16 @@ The Universal Capability Access rule applies retroactively to **every current do
 Unknown or unverified access rights fail closed for material adoption. Restricted material adoption requires a globally usable FA3-native or independently rights-cleared substitute, normal License & Rights/provenance review, Security, Software Coexistence, Hardware Safety and explicit usage-edge evidence.
 
 This is not permission to evade upstream restrictions. VPN, proxy, foreign-hosting, artifact-relocation or equivalent circumvention is forbidden. See [Universal Capability Access](universal-capability-access.md).
+
+### Stale-base intake identity
+
+The exclusive donor-intake slot is reserved by a pull request only when its
+canonical donor-registry or `canonical/deltas/FA3-DONOR-*` blob differs from
+the currently published `main` blob at the same path. GitHub may continue to
+list donor files in a long-lived pull request when those exact bytes were
+independently published to `main` after the pull request's merge base.
+
+Such byte-identical stale-base entries remain visible to donor maintenance
+reporting but do **not** constitute a second live intake. Missing, unreadable or
+different blob identity fails closed and continues to reserve/block the intake
+slot.
