@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.operating-level-model.v1",
+  "id": "FA3-OPERATING-LEVEL-MODEL-001",
+  "status": "CANONICAL_STATIC",
+  "authority": false,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "order": [
+    "MINIMAL",
+    "PERSONAL",
+    "PROFESSIONAL",
+    "STUDIO",
+    "BUSINESS",
+    "ENTERPRISE"
+  ],
+  "levels": {
+    "MINIMAL": {
+      "rank": 0,
+      "scope": "LOCAL_BASE_PLATFORM"
+    },
+    "PERSONAL": {
+      "rank": 1,
+      "scope": "PERSONAL_MULTI_APPLICATION"
+    },
+    "PROFESSIONAL": {
+      "rank": 2,
+      "scope": "PROFESSIONAL_WORKFLOW_AND_COMPUTE"
+    },
+    "STUDIO": {
+      "rank": 3,
+      "scope": "TEAM_LAN_DISTRIBUTED_EXECUTION"
+    },
+    "BUSINESS": {
+      "rank": 4,
+      "scope": "ORGANIZATION_GOVERNANCE"
+    },
+    "ENTERPRISE": {
+      "rank": 5,
+      "scope": "MULTI_SITE_FEDERATION_HA_COMPLIANCE"
+    }
+  },
+  "rules": {
+    "operating_level_does_not_grant_applications": true,
+    "required_level_is_maximum_of_application_and_operational_requirements": true,
+    "safety_rights_security_not_premium": true,
+    "capability_baseline_same_for_all_levels": true
+  }
+}

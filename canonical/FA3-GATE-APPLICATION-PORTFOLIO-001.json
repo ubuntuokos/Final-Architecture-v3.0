@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-APPLICATION-PORTFOLIO-001",
+  "name": "Application portfolio static conformance",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_application_portfolio.py",
+  "blocks_on": [
+    "UNKNOWN_APPLICATION",
+    "DUPLICATE_APPLICATION_ID",
+    "INVALID_PORTFOLIO_STATE",
+    "INVALID_APPLICATION_CLASS",
+    "INVALID_OPERATING_LEVEL",
+    "INVALID_DOMAIN",
+    "PRODUCT_FAMILY_PLACEMENT_MISSING",
+    "GUI_SURFACE_AS_APPLICATION",
+    "MISSING_DEPENDENCY",
+    "MISSING_DEPENDENCY_DECLARATION",
+    "DEPENDENCY_PROJECTION_DRIFT",
+    "BUNDLE_MEMBERSHIP_DRIFT",
+    "EXISTING_IMPLEMENTATION_MARKER_REQUIRED",
+    "IMPLEMENTATION_MARKER_MISSING",
+    "APPLICATION_DONOR_DECLARATION_MISSING",
+    "AUTHORITY_BYPASS"
+  ],
+  "runtime_promotion_claim": false
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.product-catalog.v1",
+  "id": "FA3-PRODUCT-CATALOG-001",
+  "status": "CANONICAL_STATIC",
+  "authority": false,
+  "individual_application_selection_default": true,
+  "bundles": [
+    {
+      "id": "FA3-BUNDLE-CREATIVE-MEDIA",
+      "domain": "CREATIVE_MEDIA",
+      "optional": true,
+      "applications": [
+        "fa3.photo-image-studio",
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.vector-studio",
+        "fa3.vfx-studio",
+        "fa3.subtitle-studio",
+        "fa3.digital-human-studio"
+      ]
+    },
+    {
+      "id": "FA3-BUNDLE-STUDIO-FILM",
+      "domain": "STUDIO_FILM",
+      "optional": true,
+      "applications": [
+        "fa3.story-screenplay",
+        "fa3.scene-shot-designer",
+        "fa3.world-environment-studio",
+        "fa3.character-studio",
+        "fa3.choreography-studio",
+        "fa3.production-studio",
+        "fa3.review-studio"
+      ]
+    },
+    {
+      "id": "FA3-BUNDLE-3D",
+      "domain": "THREED_DCC",
+      "optional": true,
+      "applications": [
+        "fa3.threed-dcc-studio",
+        "fa3.render-manager",
+        "fa3.spatial-reconstruction"
+      ]
+    },
+    {
+      "id": "FA3-BUNDLE-COLLABORATION",
+      "domain": "COMMUNICATION_COLLABORATION",
+      "optional": true,
+      "applications": [
+        "fa3.email-contact-manager",
+        "fa3.unified-messenger",
+        "fa3.meeting-manager"
+      ]
+    }
+  ],
+  "rules": {
+    "bundle_is_never_runtime_dependency": true,
+    "bundle_does_not_override_minimum_operating_level": true,
+    "bundle_does_not_bypass_rights_security_or_hardware": true
+  },
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false
+}

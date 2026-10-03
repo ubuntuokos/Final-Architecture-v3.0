@@ -21,6 +21,8 @@ qt_add_executable(fa3-control-center
     src/ExternalLlmCatalogModel.h
     src/EngineSelectorService.cpp
     src/EngineSelectorService.h
+    src/ProductEntitlementService.cpp
+    src/ProductEntitlementService.h
     src/Fa3RepositoryModel.cpp
     src/Fa3RepositoryModel.h
     src/JournalService.cpp
@@ -51,6 +53,7 @@ set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_A
 set_source_files_properties(qml/ProviderExplorerView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExplorerView.qml)
 set_source_files_properties(qml/ProviderExecutionView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExecutionView.qml)
 set_source_files_properties(qml/EngineManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS EngineManagerPage.qml)
+set_source_files_properties(qml/ProductEntitlementsPage.qml PROPERTIES QT_RESOURCE_ALIAS ProductEntitlementsPage.qml)
 set(FA3_ENGINE_SELECTOR_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/engine-selector/qml/EngineSelectorPanel.qml")
 set_source_files_properties(${FA3_ENGINE_SELECTOR_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS EngineSelectorPanel.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
@@ -94,6 +97,7 @@ qt_add_qml_module(fa3-control-center
         qml/ProviderExplorerView.qml
         qml/ProviderExecutionView.qml
         qml/EngineManagerPage.qml
+        qml/ProductEntitlementsPage.qml
         ${FA3_ENGINE_SELECTOR_PANEL_QML}
         qml/AiStudioPage.qml
         qml/SubtitleStudioPage.qml
@@ -156,6 +160,12 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-LIFECYCLE-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-REQUEST-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APPLICATION-PORTFOLIO-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-OPERATING-LEVEL-MODEL-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-PRODUCT-CATALOG-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-DOMAIN-PACK-REGISTRY-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-ENTITLEMENT-POLICY-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APPLICATION-DEPENDENCY-REGISTRY-001.json"
     DESTINATION share/fa3/canonical
 )
 
