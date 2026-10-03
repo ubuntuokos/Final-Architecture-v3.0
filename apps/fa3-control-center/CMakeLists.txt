@@ -58,6 +58,13 @@ set_source_files_properties(qml/SubtitleStudioPage.qml PROPERTIES QT_RESOURCE_AL
 set(FA3_VOICE_TRANSFORMATION_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/voice/qml/VoiceTransformationPanel.qml")
 set_source_files_properties(${FA3_VOICE_TRANSFORMATION_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS VoiceTransformationPanel.qml)
 set_source_files_properties(qml/NarrationStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS NarrationStudioPage.qml)
+set_source_files_properties(qml/VoiceStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS VoiceStudioPage.qml)
+set(FA3_VOICE_PLUGIN_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/voice/qml/VoicePluginPanel.qml")
+set_source_files_properties(${FA3_VOICE_PLUGIN_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS VoicePluginPanel.qml)
+set(FA3_VOICE_PROFILE_MANAGER_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/voice/qml/VoiceProfileManagerPanel.qml")
+set_source_files_properties(${FA3_VOICE_PROFILE_MANAGER_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS VoiceProfileManagerPanel.qml)
+set(FA3_VOICE_ACTIVITY_OVERLAY_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/voice/qml/VoiceActivityOverlay.qml")
+set_source_files_properties(${FA3_VOICE_ACTIVITY_OVERLAY_QML} PROPERTIES QT_RESOURCE_ALIAS VoiceActivityOverlay.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
@@ -100,7 +107,11 @@ qt_add_qml_module(fa3-control-center
         qml/AiStudioPage.qml
         qml/SubtitleStudioPage.qml
         qml/NarrationStudioPage.qml
+        qml/VoiceStudioPage.qml
         ${FA3_VOICE_TRANSFORMATION_PANEL_QML}
+        ${FA3_VOICE_PLUGIN_PANEL_QML}
+        ${FA3_VOICE_PROFILE_MANAGER_PANEL_QML}
+        ${FA3_VOICE_ACTIVITY_OVERLAY_QML}
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
