@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-SUPERCOOL-ORG-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "8a02b8ad41fcd10332f55ff1dbfda603dc30586d",
+  "parent_registry_blob_sha": "3ae4fcd74d8c6fe27402f4f4dcd1668e35b57fa4",
+  "parent_entry_count": 1424,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1425,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-supercool-org-2026-10-03.md",
+  "requirements": [
+    "Preserve the exact owner-marked Supercool GitHub organization URL as one canonical organization-level donor/reference identity.",
+    "Treat the organization as a discovery index only; child repositories and forks are not recursively admitted.",
+    "Track exact upstream provenance for any child repository before material reuse because the organization mixes Supercool-authored projects and external forks.",
+    "Future repository-level adoption requires independent donor eligibility plus license/rights, security, Software Coexistence, Hardware Safety, dependency/runtime and canonical usage-edge review.",
+    "Prefer FA3-native re-expression of reusable algorithms, workflow and UI patterns unless direct code reuse independently clears all admission gates.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/supercool",
+      "normalized_key": "github:supercool",
+      "donor_id": "FA3-DONOR-SUPERCOOL-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "SCHEDULED_JOBS",
+    "CONTENT_INGESTION_MAPPING",
+    "REMOTE_MEDIA_OEMBED",
+    "SEARCH_INDEX_SYNC",
+    "CACHE_LIFECYCLE",
+    "MEDIA_TRANSFORMS",
+    "SECURITY_ADMIN_UX",
+    "STRUCTURED_RELATIONS",
+    "FORM_WORKFLOWS",
+    "EXTERNAL_ENTITY_LINKING"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "child_service_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  },
+  "submitted_url_count": 1,
+  "new_source_count": 1,
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5
+}
