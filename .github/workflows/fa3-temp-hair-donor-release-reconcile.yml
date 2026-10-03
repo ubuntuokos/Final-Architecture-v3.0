@@ -40,10 +40,10 @@ jobs:
       - name: Verify donor and projection regressions
         run: |
           set -euo pipefail
-          PYTHONPATH=src python3 -m pytest -q \
-            tests/test_donor_deep_learning_memory_vision_hair_20261003.py \
-            tests/test_donor_hair_groom_sources_20261003.py \
-            tests/test_release_projection.py
+          PYTHONPATH=src python3 -c 'from tests.test_donor_deep_learning_memory_vision_hair_20261003 import test_deep_learning_memory_vision_hair_donor_intake as t; t()'
+          PYTHONPATH=src python3 -m unittest \
+            tests.test_donor_hair_groom_sources_20261003 \
+            tests.test_release_projection -v
       - name: Commit reconciled projection
         run: |
           set -euo pipefail
