@@ -64,6 +64,6 @@ The pre-existing CPU-only baseline and HRB authority remain unchanged. Optional 
 
 ## Baseline
 
-Capability count: **175**.  
-Capability delta: **0**.  
+Capability count: **175**.
+Capability delta: **0**.
 Architectural authority delta: **0**.
