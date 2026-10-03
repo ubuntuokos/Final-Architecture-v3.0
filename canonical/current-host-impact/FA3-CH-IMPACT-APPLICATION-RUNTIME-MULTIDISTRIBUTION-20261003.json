@@ -10,11 +10,20 @@
     "canonical/FA3-UPDATE-FABRIC-001.json",
     "canonical/profiles/FA3-HOST-ADAPTATION-001.json",
     "src/fa3_application_runtime_resolver.py",
-    "src/fa3_host_adaptation.py"
+    "src/fa3_host_adaptation.py",
+    "canonical/contracts/FA3-APPLICATION-RUNTIME-DISCOVERY-CONTRACTS-001.json",
+    "canonical/current-host-capability-qualification-constituent-producers.json",
+    ".github/workflows/fa3-host-adaptation.yml",
+    ".github/workflows/fa3-global-current-host-closure.yml",
+    "tests/test_application_runtime_resolver.py"
   ],
   "current_host_changes": [
     "src/fa3_full_current_host_preflight.py",
-    "src/fa3_mat004_media_authoring_verification_current_host.py"
+    "src/fa3_mat004_media_authoring_verification_current_host.py",
+    "canonical/current-host-capability-qualification-constituent-producers.json",
+    "tests/test_full_current_host_preflight.py",
+    "tests/test_mat004_media_authoring_verification_current_host.py",
+    "tests/test_global_current_host_workflow_trigger.py"
   ],
   "physical_requalification_required": true,
   "physical_requalification_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD",
