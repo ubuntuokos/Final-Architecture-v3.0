@@ -36,8 +36,7 @@ def test_deep_learning_memory_vision_hair_donor_intake():
     by_id = {row["donor_id"]: row for row in entries}
 
     assert registry["capability_count"] == 175
-    assert registry["backfill"]["entry_count"] == len(entries) == 1405
-    assert delta["parent_entry_count"] == 1384
+    # Later serialized donor intakes are append-only; this test owns only the\n    # #644 snapshot floor while the delta below remains fixed at 1405.\n    assert registry["backfill"]["entry_count"] == len(entries)\n    assert len(entries) >= 1405\n    assert delta["parent_entry_count"] == 1384
     assert delta["submitted_url_count"] == 23
     assert delta["unique_source_count"] == 21
     assert delta["resulting_entry_count"] == 1405
