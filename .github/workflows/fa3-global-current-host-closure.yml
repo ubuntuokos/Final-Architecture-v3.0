@@ -32,6 +32,9 @@ on:
       - 'src/fa3_current_host_batch_integrity.py'
       - 'src/fa3_current_host_requalification_plan.py'
       - 'src/fa3_current_host_scoped_assertion.py'
+      - 'src/fa3_current_host_base_admission.py'
+      - 'tests/test_current_host_base_admission.py'
+      - '.github/workflows/fa3-current-host-post-merge-audit.yml'
       - '.github/workflows/fa3-current-host-closure-controller.yml'
       - '.github/workflows/fa3-current-host-projection-adopt.yml'
       - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
@@ -130,6 +133,9 @@ on:
       - 'src/fa3_current_host_batch_integrity.py'
       - 'src/fa3_current_host_requalification_plan.py'
       - 'src/fa3_current_host_scoped_assertion.py'
+      - 'src/fa3_current_host_base_admission.py'
+      - 'tests/test_current_host_base_admission.py'
+      - '.github/workflows/fa3-current-host-post-merge-audit.yml'
       - '.github/workflows/fa3-current-host-closure-controller.yml'
       - '.github/workflows/fa3-current-host-projection-adopt.yml'
       - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
@@ -222,6 +228,13 @@ on:
         default: ''
         type: string
   workflow_call:
+    outputs:
+      base_release_digest:
+        description: 'Digest of a successfully proven FULL-525 physical base candidate'
+        value: ${{ jobs.current-host-closure.outputs.base_release_digest }}
+      base_candidate_json:
+        description: 'Compact FULL-525 physical base admission candidate'
+        value: ${{ jobs.current-host-closure.outputs.base_candidate_json }}
     inputs:
       execute_current_host:
         required: true
@@ -627,6 +640,7 @@ jobs:
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
             reports/current-host-scoped-requalification.json
+            reports/current-host-base-admission-candidate.json
             reports/runtime-gate-report.json
             reports/terax-gate-report.json
             acceptance/acceptance-report.json
@@ -634,6 +648,9 @@ jobs:
 
   current-host-closure:
     name: current-host-closure / real-execution
+    outputs:
+      base_release_digest: ${{ steps.base.outputs.base_release_digest }}
+      base_candidate_json: ${{ steps.base.outputs.base_candidate_json }}
     if: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.execute_current_host }}
     needs: closure-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
@@ -641,6 +658,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.source_sha || github.sha }}
           persist-credentials: false
           fetch-depth: 0
       - name: Bootstrap pinned Wasmtime when absent
@@ -841,6 +859,18 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_scoped_assertion.py --root . --subjects "$FA3_CURRENT_HOST_SUBJECTS"
+      - id: base
+        name: Materialize FULL-525 base admission candidate
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_sha="$(git rev-parse HEAD)"
+          PYTHONPATH=src python3 src/fa3_current_host_base_admission.py --root . candidate             --source-sha "$source_sha" --run-id "$GITHUB_RUN_ID"             --output reports/current-host-base-admission-candidate.json
+          digest="$(python3 -c 'import json;print(json.load(open("reports/current-host-base-admission-candidate.json"))["base_release_digest"])')"
+          compact="$(python3 -c 'import json;print(json.dumps(json.load(open("reports/current-host-base-admission-candidate.json")),separators=(",",":")))' )"
+          echo "base_release_digest=$digest" >> "$GITHUB_OUTPUT"
+          echo "base_candidate_json=$compact" >> "$GITHUB_OUTPUT"
       - name: Upload real current-host closure evidence
         if: always()
         uses: actions/upload-artifact@v4
