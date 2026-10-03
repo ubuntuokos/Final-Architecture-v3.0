@@ -247,22 +247,26 @@ class Tests(unittest.TestCase):
             if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
             raise AssertionError(s)
         self.assertEqual([p["number"] for p in pending_prs(get)],[8])
-    def test_pending_edit_allows_published_main_for_planning_preflight(self):
+    def test_non_intake_status_uses_published_main_without_open_pr_scan(self):
         t,root,p=fixture()
         with t:
+            calls=[]
             def get(s):
+                calls.append(s)
                 if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
-                if "pulls?state=open" in s:return [{"number":8,"title":"New editor",
-                                                     "head":{"sha":"a"*40}}]
-                if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
                 if "/contents/"+REGISTRY in s:return {"sha":git_blob_sha(p.read_bytes())}
+                if "pulls?state=open" in s or "/pulls/" in s:
+                    self.fail("non-intake status must not enumerate open PRs")
                 return []
             x=gate(root,"status",get=get)
             self.assertEqual(x["result"],"READY_FOR_SEPARATE_FA3_ADMISSION_GATES")
             self.assertEqual(x["registry_snapshot"],"PUBLISHED_MAIN_ONLY")
-            self.assertEqual(x["pending_prs"][0]["number"],8)
+            self.assertEqual(x["pending_prs"],[])
+            self.assertEqual(x["pending_intake_prs"],[])
+            self.assertEqual(x["pending_pr_scan"],"SKIPPED_NON_INTAKE_PHASE")
             self.assertNotIn("PENDING_DONOR_MAINTENANCE",x["findings"])
             self.assertFalse(x["planning_allowed"])
+            self.assertEqual(sum("/branches/main" in c for c in calls),2)
 
     def test_active_intakes_finalize_by_size_then_fifo(self):
         t,root,p=fixture()

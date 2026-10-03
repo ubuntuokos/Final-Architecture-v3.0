@@ -358,12 +358,17 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if not token and get is None:raise RuntimeError("LIVE_GITHUB_TOKEN_REQUIRED")
         getter=get if get is not None else lambda p:github_get(p,token)
         before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
-        result["pending_prs"]=pending_prs(getter)
-        result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
-        after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
-        if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
-        if result["findings"]:return result
         if phase=="intake":
+            # The rolling five-slot window is the only phase that needs a
+            # repository-wide open-PR/file scan. Non-intake phases consume the
+            # finalized published-main registry snapshot and deliberately ignore
+            # unmerged donor candidates, so repeating the full scan there only
+            # burns API quota without strengthening authority.
+            result["pending_prs"]=pending_prs(getter)
+            result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
+            after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+            if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
+            if result["findings"]:return result
             # Owner-approved rolling donor-intake window:
             # - at most five genuine canonical intake PRs are active;
             # - FIFO controls admission into a newly freed slot;
@@ -407,11 +412,18 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             return result
         # Pending intake is deliberately NOT a global planning lock:
         # unmerged donor entries are absent from the published main snapshot.
-        # A design must use and hash the exact committed main registry only.
-        # A locally coherent but stale branch must never authorize planning after
-        # a newer canonical main registry is published. Fetch the blob identity
-        # at the exact main SHA observed during the live pending-PR scan.
+        # Non-intake phases therefore do not enumerate open PRs; they bind only
+        # to the exact finalized main registry and re-read main after the blob
+        # fetch so publication movement still fails closed.
+        result["pending_prs"]=[]
+        result["pending_intake_prs"]=[]
+        result["pending_pr_scan"]="SKIPPED_NON_INTAKE_PHASE"
+        after=before
         remote=getter(f"/repos/{REPO}/contents/{REGISTRY}?ref={after}")
+        confirmed=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+        if after!=confirmed:
+            result["findings"].append("MAIN_MOVED_DURING_SCAN")
+            return result
         if (not isinstance(remote,dict) or not isinstance(remote.get("sha"),str)
                 or len(remote["sha"]) != 40):
             raise ValueError("CANONICAL_MAIN_REGISTRY_BLOB_UNAVAILABLE")
