@@ -15,7 +15,18 @@ jobs:
         with: {fetch-depth: 0, persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: python3 -m py_compile src/fa3_application_portfolio.py
+      - run: python3 -m py_compile src/fa3_application_portfolio.py src/fa3_product_entitlement_gate.py
       - run: PYTHONPATH=. python3 -m unittest tests.test_application_portfolio -v
       - run: python3 src/fa3_application_portfolio.py --check
+      - run: python3 src/fa3_product_entitlement_gate.py
       - run: python3 src/fa3_application_portfolio.py --apps fa3.story-screenplay fa3.render-manager
+      - run: python3 src/fa3_application_portfolio.py --apps fa3.story-screenplay --requirement LAN_DISTRIBUTED_EXECUTION
+      - name: Incremental portfolio reconciliation
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="$(git rev-parse HEAD^)"
+          fi
+          python3 src/fa3_application_portfolio.py --reconcile-from "$BASE"

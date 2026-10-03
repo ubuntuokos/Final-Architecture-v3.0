@@ -17,10 +17,41 @@
     "BUSINESS",
     "INTERACTIVE_GAME"
   ],
+  "packs": [
+    {
+      "pack_id": "FA3-DOMAIN-PACK-CREATIVE-MEDIA",
+      "bundle_id": "FA3-BUNDLE-CREATIVE-MEDIA",
+      "name": "Creative / Media",
+      "domain": "CREATIVE_MEDIA",
+      "optional": true
+    },
+    {
+      "pack_id": "FA3-DOMAIN-PACK-STUDIO-FILM",
+      "bundle_id": "FA3-BUNDLE-STUDIO-FILM",
+      "name": "Studio / Film",
+      "domain": "STUDIO_FILM",
+      "optional": true
+    },
+    {
+      "pack_id": "FA3-DOMAIN-PACK-3D",
+      "bundle_id": "FA3-BUNDLE-3D",
+      "name": "3D / DCC",
+      "domain": "THREED_DCC",
+      "optional": true
+    },
+    {
+      "pack_id": "FA3-DOMAIN-PACK-COLLABORATION",
+      "bundle_id": "FA3-BUNDLE-COLLABORATION",
+      "name": "Communication / Collaboration",
+      "domain": "COMMUNICATION_COLLABORATION",
+      "optional": true
+    }
+  ],
   "rules": {
     "domain_is_commercial_grouping_not_product_family_authority": true,
     "pack_is_optional_bundle": true,
-    "multi_domain_application_allowed": true
+    "multi_domain_application_allowed": true,
+    "pack_membership_source": "FA3-PRODUCT-CATALOG-001"
   },
   "capability_count": 175,
   "new_capability": false,

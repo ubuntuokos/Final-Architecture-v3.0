@@ -19,6 +19,14 @@
     "USER_PREFERENCE",
     "ENGINE_PROVIDER_SELECTION_INTENT"
   ],
+  "authority_boundaries": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "engine_selection": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
   "rules": {
     "deny_wins": true,
     "lower_scope_may_restrict_not_widen": true,
@@ -28,7 +36,12 @@
     "required_platform_dependencies_do_not_grant_other_apps": true,
     "product_family_is_context_not_permission": true,
     "silent_fallback": false,
-    "project_data_preservation_required": true
+    "project_data_preservation_required": true,
+    "runtime_dependency_is_not_user_facing_entitlement": true,
+    "external_optional_application_entitlement_does_not_grant_upstream_rights": true,
+    "optional_engine_provider_capacity_support_independent": true,
+    "entitlement_may_restrict_but_never_override_authority": true,
+    "restricted_donor_may_not_be_sole_required_dependency": true
   },
-  "resolve_operating_level": "MAX(APPLICATION_MINIMUMS,COLLABORATION_REQUIREMENT,DEPLOYMENT_REQUIREMENT,ORCHESTRATION_REQUIREMENT,GOVERNANCE_REQUIREMENT)"
+  "resolve_operating_level": "MAX(APPLICATION_MINIMUMS,OPERATIONAL_REQUIREMENTS,COLLABORATION_REQUIREMENT,DEPLOYMENT_REQUIREMENT,ORCHESTRATION_REQUIREMENT,GOVERNANCE_REQUIREMENT)"
 }

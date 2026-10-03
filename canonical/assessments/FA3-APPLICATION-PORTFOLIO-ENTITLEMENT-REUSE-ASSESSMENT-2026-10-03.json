@@ -18,7 +18,7 @@
   "selected_reuse": [
     {
       "id": "FA3-PRODUCT-FAMILY-REGISTRY-001",
-      "use": "EXISTING_CANONICAL_PRODUCT_FAMILY_TAXONOMY_AND_APPLICATION_PLACEMENT_AUTHORITY"
+      "use": "EXISTING_CANONICAL_PRODUCT_FAMILY_TAXONOMY_AND_APPLICATION_PLACEMENT_CLASSIFICATION"
     },
     {
       "id": "FA3-APP-LIFECYCLE-001",
@@ -110,7 +110,7 @@
   "capability_count_after": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION_EXACT_MAIN",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "mandatory_source_reviews": [
@@ -126,5 +126,29 @@
       "automatic_selection": false,
       "automatic_activation": false
     }
-  ]
+  ],
+  "live_preflight": {
+    "checked_at": "2026-10-03",
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "open_pull_request_count": 116,
+    "file_level_inventory_complete": true,
+    "effective_pending_donor_intake_pull_requests": [
+      651,
+      655,
+      657
+    ],
+    "pending_donor_intake_consumed": false,
+    "direct_product_model_overlap_pull_requests": [
+      643,
+      646
+    ],
+    "merged_taxonomy_reuse_pull_request": 642,
+    "overlap_disposition": {
+      "642": "REUSE_MERGED_PLATFORM_AND_PRODUCT_FAMILY_TAXONOMY_NO_DUPLICATION",
+      "643": "OLDER_BASE_OVERLAPPING_IMPLEMENTATION_NOT_USED_AS_CANONICAL_BRANCH",
+      "646": "EXACT_MAIN_IMPLEMENTATION_BRANCH"
+    }
+  },
+  "release_eligibility_claim": false,
+  "license_rights_retroactive_audit_closed": false
 }

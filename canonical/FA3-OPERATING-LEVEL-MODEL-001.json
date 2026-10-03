@@ -40,10 +40,21 @@
       "scope": "MULTI_SITE_FEDERATION_HA_COMPLIANCE"
     }
   },
+  "operational_requirements": {
+    "LOCAL_SINGLE_HOST": "MINIMAL",
+    "PERSONAL_MULTI_APPLICATION": "PERSONAL",
+    "PROFESSIONAL_WORKFLOW_AND_COMPUTE": "PROFESSIONAL",
+    "LAN_DISTRIBUTED_EXECUTION": "STUDIO",
+    "TEAM_DISTRIBUTED_EXECUTION": "STUDIO",
+    "ORGANIZATION_GOVERNANCE": "BUSINESS",
+    "MULTI_SITE_FEDERATION": "ENTERPRISE",
+    "HIGH_AVAILABILITY_COMPLIANCE": "ENTERPRISE"
+  },
   "rules": {
     "operating_level_does_not_grant_applications": true,
     "required_level_is_maximum_of_application_and_operational_requirements": true,
     "safety_rights_security_not_premium": true,
-    "capability_baseline_same_for_all_levels": true
+    "capability_baseline_same_for_all_levels": true,
+    "unknown_operational_requirement_fails_closed": true
   }
 }
