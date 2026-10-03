@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MEDIA-QUALITY-REVIEW-CONTRACTS-001",
+  "name": "Media Quality Review Contracts",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "MEDIA-QUALITY-REVIEW-001",
+      "name": "Profile Scoped Thresholds",
+      "requirement": "MUST",
+      "rule": "Quality thresholds MUST be delivery/profile scoped; no single commercial/audio pacing threshold is globally canonical."
+    },
+    {
+      "id": "MEDIA-QUALITY-REVIEW-002",
+      "name": "Independent Review",
+      "requirement": "MUST",
+      "rule": "A producer task MUST NOT be the sole independent reviewer or verifier for its own artifact."
+    },
+    {
+      "id": "MEDIA-QUALITY-REVIEW-003",
+      "name": "Finding Identity",
+      "requirement": "MUST",
+      "rule": "Every finding MUST bind exact artifact digest and temporal/frame range when applicable."
+    },
+    {
+      "id": "MEDIA-QUALITY-REVIEW-004",
+      "name": "Verification State",
+      "requirement": "MUST",
+      "rule": "Verification MUST distinguish FIXED, PARTIAL, STILL_PRESENT, REGRESSION and NOT_VERIFIABLE."
+    },
+    {
+      "id": "MEDIA-QUALITY-REVIEW-005",
+      "name": "No Synthetic PASS",
+      "requirement": "MUST",
+      "rule": "NOT_VERIFIABLE, missing evidence or advisory model opinion MUST NOT be converted into PASS."
+    },
+    {
+      "id": "MEDIA-QUALITY-REVIEW-006",
+      "name": "Evidence Chain",
+      "requirement": "MUST",
+      "rule": "Measurement, review, correction and verification receipts MUST preserve lineage."
+    }
+  ],
+  "quality_domains": [
+    "motion",
+    "temporal",
+    "audio",
+    "av_sync",
+    "layout",
+    "color",
+    "continuity",
+    "perceptual",
+    "determinism",
+    "delivery"
+  ]
+}

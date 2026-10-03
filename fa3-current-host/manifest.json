@@ -499,6 +499,16 @@
       "physical_current_host_pass_claimed": false,
       "global_promotion_claim": false,
       "current_host_impact": "FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001"
+    },
+    {
+      "name": "motion-video-quality-structural-alignment",
+      "collector": null,
+      "gate": "motion-video-quality",
+      "activation": "STRUCTURAL_ALIGNMENT_STATIC_AND_UNIT_VALIDATION_ONLY",
+      "collection_status": "STATIC_MATERIALIZED_PHYSICAL_RUNTIME_REQUALIFICATION_PENDING",
+      "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+      "physical_current_host_pass_claimed": false,
+      "global_promotion_claim": false
     }
   ],
   "global_gate_sequence": [
@@ -532,5 +542,17 @@
     "monitor_projection_authority": false,
     "monitor_surface": "agents.orchestration-monitor",
     "monitor_runtime_evidence_required": true
+  },
+  "motion_video_quality_alignment": {
+    "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+    "gate_id": "FA3-MOTION-VIDEO-QUALITY-GATESET-001",
+    "capability_count": 175,
+    "structural_change": true,
+    "static_materialization": true,
+    "physical_runtime_requalification_required": true,
+    "physical_current_host_pass_claimed": false,
+    "current_host_promotion_claim": false,
+    "engine_selection_fabric": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "temporal_remains_sole_global_durable_lifecycle_authority": true
   }
 }

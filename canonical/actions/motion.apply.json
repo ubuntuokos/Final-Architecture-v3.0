@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "motion.apply",
+  "version": "1.0.0",
+  "description": "Apply an approved typed motion edit proposal through the existing editorial command surface.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "motion_plan",
+      "revision_binding",
+      "approval"
+    ],
+    "properties": {
+      "motion_plan": {
+        "type": "object"
+      },
+      "revision_binding": {
+        "type": "object"
+      },
+      "approval": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "retry_safe": false,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "engine-intent-then-policy-bounded-capability-match",
+    "engine_selection_fabric": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "silent_fallback": false
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "revision_binding_required": true,
+  "rollback_reference_required": true,
+  "direct_native_project_mutation": false
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-PLAN-CONTRACTS-001",
+  "name": "Motion Plan Contracts",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "MOTION-PLAN-001",
+      "name": "Typed Plan",
+      "requirement": "MUST",
+      "rule": "Motion plans MUST be typed provider-neutral planning artifacts and MUST NOT become native project or timeline authority."
+    },
+    {
+      "id": "MOTION-PLAN-002",
+      "name": "Revision Binding",
+      "requirement": "MUST",
+      "rule": "Every plan MUST bind project_revision and timeline_revision; stale application MUST fail closed."
+    },
+    {
+      "id": "MOTION-PLAN-003",
+      "name": "Command Bus Only",
+      "requirement": "MUST",
+      "rule": "Mutating editorial application MUST project through the existing FA3 Video Editor Command Bus and approval path."
+    },
+    {
+      "id": "MOTION-PLAN-004",
+      "name": "Engine Intent Only",
+      "requirement": "MUST",
+      "rule": "A motion plan MAY express logical render needs but MUST NOT select or execute a physical engine/provider directly."
+    },
+    {
+      "id": "MOTION-PLAN-005",
+      "name": "Native Project Preservation",
+      "requirement": "MUST",
+      "rule": "Native editable projects and source media MUST remain authoritative and preserved."
+    },
+    {
+      "id": "MOTION-PLAN-006",
+      "name": "Digest Provenance",
+      "requirement": "MUST",
+      "rule": "Every plan MUST carry a canonical digest and source artifact provenance."
+    }
+  ],
+  "motion_plan_schema": {
+    "schema": "fa3.motion-plan.v1",
+    "required_fields": [
+      "motion_plan_id",
+      "revision",
+      "project_id",
+      "project_revision",
+      "timeline_revision",
+      "timebase",
+      "beats",
+      "actors",
+      "transitions",
+      "camera_constraints",
+      "motion_constraints",
+      "continuity_constraints",
+      "audio_cues",
+      "quality_profile",
+      "render_intent",
+      "source_artifact_refs",
+      "provenance",
+      "digest"
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-COMPONENT-LAB-CONTRACTS-001",
+  "name": "Motion Component Lab Contracts",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "MOTION-COMPONENT-LAB-001",
+      "name": "Isolation First",
+      "requirement": "MUST",
+      "rule": "Complex motion/VFX/3D/audio-transition components MUST be testable independently of the full composition."
+    },
+    {
+      "id": "MOTION-COMPONENT-LAB-002",
+      "name": "Component Evidence",
+      "requirement": "MUST",
+      "rule": "Component proof MUST include source revision, parameters, representative frames or motion proof, measurements and output digest."
+    },
+    {
+      "id": "MOTION-COMPONENT-LAB-003",
+      "name": "Composition Admission",
+      "requirement": "MUST",
+      "rule": "Only explicitly accepted component revisions MAY be automatically reused in a composition plan."
+    },
+    {
+      "id": "MOTION-COMPONENT-LAB-004",
+      "name": "Affected Descendants Only",
+      "requirement": "MUST",
+      "rule": "A component revision MUST invalidate only provably dependent descendants."
+    },
+    {
+      "id": "MOTION-COMPONENT-LAB-005",
+      "name": "No New Authority",
+      "requirement": "MUST",
+      "rule": "The Component Lab is a workspace projection and MUST NOT become a render, timeline, asset or evidence authority."
+    }
+  ],
+  "component_kinds": [
+    "transition",
+    "motion_graphic",
+    "title",
+    "ui_animation",
+    "camera_move",
+    "3d_object_motion",
+    "vfx_component",
+    "audio_transition"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-MOTION-VIDEO-QUALITY-DECISION-ASSESSMENT-2026-10-03",
+  "covered_ids": [
+    "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+    "FA3-MOTION-PLAN-CONTRACTS-001",
+    "FA3-MOTION-RENDER-CONTRACTS-001",
+    "FA3-MEDIA-QUALITY-REVIEW-CONTRACTS-001",
+    "FA3-MOTION-COMPONENT-LAB-CONTRACTS-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The materialized fabric uses deterministic contract validation, explicit user/editorial approvals and independent review/verification bindings. It does not introduce semantic candidate ranking, autonomous engine/provider choice, authority grants or Decision Fabric delegated selection.",
+  "decision_points": [],
+  "not_delegated": [
+    "timeline mutation authorization",
+    "engine or provider selection",
+    "model routing",
+    "fallback authorization",
+    "host resource placement",
+    "review independence",
+    "evidence acceptance",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "FA3 Shared Motion Video Quality Fabric",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "Any future advisory ranking of already eligible motion/render alternatives requires a new assessment and cannot expand the eligible set."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
