@@ -1,0 +1,64 @@
+name: FA3 Task Scope Closure Projection Reconcile
+
+# Owner-scope one-shot finalization for the approved task-scope/closure policy.
+# It regenerates only the existing canonical unified release projection and
+# never grants runtime, provider, capability or orchestration authority.
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/fa3-task-scope-closure-projection-reconcile.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  projection-reconcile:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == 'ubuntuokos/Final-Architecture-v3.0' &&
+      github.event.pull_request.head.ref == 'fa3/task-scope-closure-policy-20261003'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact immutable PR head with full history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Enforce explicit one-shot finalization
+        id: one_shot
+        run: |
+          if [ "$(git log -1 --format=%s)" = "ci(release): finalize task scope closure projection" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Require clean committed source snapshot
+        if: steps.one_shot.outputs.run == 'true'
+        run: test -z "$(git status --porcelain)"
+      - name: Regenerate governed unified release projection
+        if: steps.one_shot.outputs.run == 'true'
+        run: PYTHONPATH=src python3 scripts/fa3_reconcile_release_projection.py
+      - name: Fail closed if generator touched anything else
+        if: steps.one_shot.outputs.run == 'true'
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          expected='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          if changed != [expected]:
+              raise SystemExit('unexpected projection diff: '+repr(changed))
+          PY
+      - name: Commit generated projection without force
+        if: steps.one_shot.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "build(release): reconcile exact task-scope closure snapshot"
+          git push origin HEAD:refs/heads/fa3/task-scope-closure-policy-20261003
+      - name: Record generated identity
+        if: steps.one_shot.outputs.run == 'true'
+        run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}
