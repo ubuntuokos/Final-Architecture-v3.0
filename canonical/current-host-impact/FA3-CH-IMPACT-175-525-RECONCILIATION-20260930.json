@@ -18,7 +18,11 @@
     "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
     "canonical/step-ca-runtime-admission.json",
     "src/fa3_hardware_portability_gate.py",
-    "src/fa3_step_ca_gate.py"
+    "src/fa3_step_ca_gate.py",
+    "canonical/FA3-APPLICATION-INSTALLATION-REGISTRY-001.json",
+    "canonical/FA3-UPDATE-FABRIC-001.json",
+    "src/fa3_application_installation_resolver.py",
+    "src/fa3_host_adaptation.py"
   ],
   "current_host_changes": [
     "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json",
@@ -32,7 +36,9 @@
     "src/fa3_current_host_closure_assertion.py",
     "src/fa3_full_current_host_preflight.py",
     "src/fa3_model_artifact_security_current_host_gate.py",
-    "src/fa3_step_ca_current_host_gate.py"
+    "src/fa3_step_ca_current_host_gate.py",
+    "canonical/current-host-capability-qualification-constituent-producers.json",
+    "src/fa3_cap016_multi_distribution_dcc_current_host.py"
   ],
   "physical_requalification_required": true,
   "physical_requalification_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD",
@@ -40,7 +46,7 @@
   "historical_evidence_semantics": "143_429_EVIDENCE_RETAINED_AS_IMMUTABLE_HISTORICAL_PROOF_ONLY",
   "current_host_status": "PENDING_FRESH_EXACT_HEAD_PHYSICAL_EXECUTION",
   "global_promotion_claim": false,
-  "rationale": "Active runtime/conformance descriptors were reconciled from the historical 143-capability accounting surface to the fixed 175-capability release baseline. Step-CA was explicitly reopened to PENDING_FRESH_CURRENT_HOST_REQUALIFICATION because its exact-source Current Host collector/gate changed; its 2026-09-20 evidence remains historical only. Current Host batch planning, proof coverage, preflight, closure assertions, hardware portability handling and control-plane verification were updated in the same changeset. Fresh physical 175/525 exact-head requalification is required before active runtime closure can be claimed. Reuse Discovery governance was reconciled for the materially modified Step-CA provider through a dedicated ApplicationIntent and PASS ReuseAssessment; this static governance PASS does not satisfy or replace the required fresh exact-head physical Current Host requalification. The 2026-10-03 reconciliation now binds this physical requalification vehicle to current main at b69d2f4c8cff55ead8470d5118a41a5c9bde820d, including the merged FA3 Platform/product-family taxonomy from PR #642. Full 175/525 exact-head execution covers that merged structural state; structural_changes and current_host_changes remain limited to surfaces actually changed by PR #559.",
+  "rationale": "Active runtime/conformance descriptors were reconciled from the historical 143-capability accounting surface to the fixed 175-capability release baseline. Step-CA was explicitly reopened to PENDING_FRESH_CURRENT_HOST_REQUALIFICATION because its exact-source Current Host collector/gate changed; its 2026-09-20 evidence remains historical only. Current Host batch planning, proof coverage, preflight, closure assertions, hardware portability handling and control-plane verification were updated in the same changeset. Fresh physical 175/525 exact-head requalification is required before active runtime closure can be claimed. Reuse Discovery governance was reconciled for the materially modified Step-CA provider through a dedicated ApplicationIntent and PASS ReuseAssessment; this static governance PASS does not satisfy or replace the required fresh exact-head physical Current Host requalification. The 2026-10-03 reconciliation now binds this physical requalification vehicle to current main at b69d2f4c8cff55ead8470d5118a41a5c9bde820d, including the merged FA3 Platform/product-family taxonomy from PR #642. Full 175/525 exact-head execution covers that merged structural state; structural_changes and current_host_changes remain limited to surfaces actually changed by PR #559. The 2026-10-03 multi-distribution reconciliation removes PATH-only DCC assumptions by introducing a non-authoritative application installation registry/resolver for native/DEB/RPM, Flatpak, Snap, AppImage/portable and manual instances. CAP-016 qualification and global Current Host preflight now require health-checked registered DCC instances without silent cross-application fallback; Bforartists and Blender may coexist or be independently absent/unhealthy. The same shared model is seeded for GIMP, Krita and LibreOffice without adding capabilities or architectural authority. Fresh exact-head 175/525 physical execution remains mandatory; the failed run 37109414350 remains immutable FAIL evidence.",
   "governance_reconciliation_records": [
     "canonical/intents/FA3-STEP-CA-CURRENT-HOST-APPLICATION-INTENT-001.json",
     "canonical/assessments/FA3-STEP-CA-CURRENT-HOST-REUSE-ASSESSMENT-001.json"
@@ -86,5 +92,33 @@
     "semantics": "PR_DELTA_AND_PROVENANCE_BINDINGS_USE_LIVE_MAIN_MERGE_BASE_NOT_STALE_PULL_REQUEST_EVENT_BASE",
     "runtime_authority_delta": 0,
     "physical_scope_effect": "NONE_BEYOND_ALREADY_REQUIRED_FULL_175_525_EXACT_HEAD_REQUALIFICATION"
+  },
+  "multi_distribution_application_reconciliation": {
+    "status": "MATERIALIZED_PENDING_EXACT_HEAD_PHYSICAL_REQUALIFICATION",
+    "registry": "FA3-APPLICATION-INSTALLATION-REGISTRY-001",
+    "supported_packaging": [
+      "APPIMAGE",
+      "DEB",
+      "FLATPAK",
+      "MANUAL",
+      "NATIVE",
+      "PORTABLE",
+      "RPM",
+      "SNAP"
+    ],
+    "initial_application_profiles": [
+      "bforartists",
+      "blender",
+      "gimp",
+      "krita",
+      "libreoffice"
+    ],
+    "cap016_semantics": "AT_LEAST_ONE_HEALTHY_REGISTERED_DCC_INSTANCE_NO_SILENT_FALLBACK",
+    "preflight_and_cap016_share_registry": true,
+    "automatic_install": false,
+    "automatic_update": false,
+    "capability_baseline_after": 175,
+    "required_test_obligation_count_after": 525,
+    "historical_evidence_reused": false
   }
 }
