@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "572905b17ff4682c261a1fafa118c28cf4d595cd",
-    "pre_projection_root_tree_sha": "571c21b92ed36c53a7b6ff3858b9f9edbdbfc06b",
-    "pre_projection_canonical_tree_sha": "40e226a23a1d9d5f381440fb23ff32986f5382e7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2700,
-    "total_post_baseline_commits": 2700,
-    "delta_file_count": 2877,
-    "delta_added_files": 2871,
+    "pre_projection_head_sha": "b66ccb6d90bcd6e850e10ba495ead8e6ee77b53c",
+    "pre_projection_root_tree_sha": "f174a3ea43c729e88d917b146c04b3f222efda3b",
+    "pre_projection_canonical_tree_sha": "ae7c7d92855fe941485f83f06f3550933c82fc37",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2724,
+    "total_post_baseline_commits": 2724,
+    "delta_file_count": 2890,
+    "delta_added_files": 2884,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1344,
+    "canonical_files_in_post_baseline_delta": 1353,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 367,
-    "test_files_in_post_baseline_delta": 335,
-    "workflow_files_in_post_baseline_delta": 136,
+    "source_files_in_post_baseline_delta": 368,
+    "test_files_in_post_baseline_delta": 336,
+    "workflow_files_in_post_baseline_delta": 137,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -281,6 +281,7 @@
       "canonical/profiles/FA3-SESSION-VAULT-001.json",
       "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
       "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
+      "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
       "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
       "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
       "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
@@ -434,6 +435,7 @@
       "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
@@ -626,6 +628,7 @@
       "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
+      "canonical/decisions/FA3-DEC-SHARED-HAIR-GROOM-2026-10-03.json",
       "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
@@ -936,7 +939,8 @@
     "FA3-GATE-REGISTRY-GATESET-001",
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
-    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001"
+    "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
+    "FA3-SHARED-HAIR-GROOM-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1062,7 +1066,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2867,
+  "manifest_entry_count": 2880,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1647,6 +1651,11 @@
     {
       "path": ".github/workflows/fa3-session-vault-reference-gate.yml",
       "git_blob_sha": "71fee0668b124e4994afd835c532e77ae366daaa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-shared-hair-groom.yml",
+      "git_blob_sha": "55fc0a8776a3701b17b410b51d023d23001f77e5",
       "baseline_delta_status": "added"
     },
     {
@@ -2866,7 +2875,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "a46309ff2e52b95776991a3848486b21b096cf24",
+      "git_blob_sha": "27c93b6b63694129e13de8c4cdb0ecd3a6b844c6",
       "baseline_delta_status": "added"
     },
     {
@@ -3411,7 +3420,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "5d037026cc8554c4d797127c79509a4dc4abd6a4",
+      "git_blob_sha": "a5927b62e9ad8ae2d2a97051a5bf2c0e1734c469",
       "baseline_delta_status": "added"
     },
     {
@@ -3462,6 +3471,11 @@
     {
       "path": "canonical/FA3-GATE-SESSION-VAULT-CURRENT-HOST-001.json",
       "git_blob_sha": "ae04f696d7c0d75bec08bb829d98495b4653b77f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-SHARED-HAIR-GROOM-001.json",
+      "git_blob_sha": "3f8d6246eca452c7c0538572814d6e430f8269b4",
       "baseline_delta_status": "added"
     },
     {
@@ -3855,13 +3869,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-SHARED-HAIR-GROOM-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "3d58e6df61580456cc8987ff95f0e147fe25741e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SHARED-HAIR-GROOM-ENFORCEMENT-001.json",
+      "git_blob_sha": "6f2997ea956a7c5fb4c631f52cb4b707b93cbb75",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
-      "git_blob_sha": "25c7d59b5ccf890eb62d6bce92001246a2a3e45a",
+      "git_blob_sha": "9c26033dc9144c94b8fc74f8c3030e24726238a4",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-CURRENT-HOST-IMPACT-001.json",
-      "git_blob_sha": "a5dadd0d72ff3635062217606593d900cdaf1e11",
+      "git_blob_sha": "f93bb4bd0a81688c5042fe5389bb5932d57e5dc5",
       "baseline_delta_status": "added"
     },
     {
@@ -4670,6 +4694,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-SHARED-HAIR-GROOM-DECISION-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "3ccafed3f4d59db4e528f9663261061057783fdb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-HAIR-GROOM-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "f5e53f55100f263d146ae94bca616421d6fd23ba",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "103eca285748dacc58396d4bfc2cac3d25701548",
       "baseline_delta_status": "added"
@@ -5467,6 +5501,11 @@
     {
       "path": "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
       "git_blob_sha": "c49e9c8417c1d388b0113de161bb92524c9d97f5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
+      "git_blob_sha": "0fca1a305923464b79c8784d6bb066b6ab591ffe",
       "baseline_delta_status": "added"
     },
     {
@@ -6485,6 +6524,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SHARED-HAIR-GROOM-2026-10-03.json",
+      "git_blob_sha": "81de69a0f2b456ce2e57fb11f6b61e8b6ab1c9f8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
       "git_blob_sha": "bdca92d3f4a71e7abbdcb6237c28ab83adef2e1b",
       "baseline_delta_status": "added"
@@ -6781,7 +6825,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "8ce0a1aef8cceb74d74120476d7452882016f0c1",
+      "git_blob_sha": "32d54fdeb108062ecfa6053a62dee8b95e578c97",
       "baseline_delta_status": "modified"
     },
     {
@@ -7137,6 +7181,11 @@
     {
       "path": "canonical/intents/FA3-SHARED-AI-COMPOSITION-APPLICATION-INTENT-001.json",
       "git_blob_sha": "285882023ff960850093d9a47de76027c07cb24f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03.json",
+      "git_blob_sha": "6475a119ab67f324da69523af8de5111a756ece2",
       "baseline_delta_status": "added"
     },
     {
@@ -7967,6 +8016,11 @@
     {
       "path": "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
       "git_blob_sha": "f3cd52a5777fc06f407f2817f5567a27a030ca85",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
+      "git_blob_sha": "7593da4e903f18721c92e0330b6a1e1c5d7aecdf",
       "baseline_delta_status": "added"
     },
     {
@@ -9857,6 +9911,11 @@
     {
       "path": "docs/FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.md",
       "git_blob_sha": "68931811e8eede3c873241918f0ef553c5d8c519",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SHARED-HAIR-GROOM-001.md",
+      "git_blob_sha": "a6f2a600a72e8dd119fd6eafc48906520add0f51",
       "baseline_delta_status": "added"
     },
     {
@@ -12540,6 +12599,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_hair_groom_gate.py",
+      "git_blob_sha": "f82eaa77cafd4fd2b9be0f15acbeed39d67aba7e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hardware_discovery.py",
       "git_blob_sha": "9a7dfbe74553beed1ebe5b1c3aa8202c6b8cc52b",
       "baseline_delta_status": "added"
@@ -13406,7 +13470,7 @@
     },
     {
       "path": "src/fa3_shared_module_pattern_catalogue.py",
-      "git_blob_sha": "7574c2ffa9fbe7a1ac7243c7149967653304d1bb",
+      "git_blob_sha": "46bf5888aed430d6b594c8e3cd41821de9e8ebff",
       "baseline_delta_status": "added"
     },
     {
@@ -13751,7 +13815,7 @@
     },
     {
       "path": "tests/test_application_donor_index.py",
-      "git_blob_sha": "79c76e479f68b3e15fae96466ae51177fdee8014",
+      "git_blob_sha": "bb7f5aab230831596f566b05985765cf4c236af7",
       "baseline_delta_status": "added"
     },
     {
@@ -14412,6 +14476,11 @@
     {
       "path": "tests/test_gtcrn_provider_runtime.py",
       "git_blob_sha": "9fd184c990b585f4d54cefbc90bc20e18703a85d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hair_groom.py",
+      "git_blob_sha": "65d3c199b2aa4282b733107577787746d1c98b1e",
       "baseline_delta_status": "added"
     },
     {
@@ -15106,7 +15175,7 @@
     },
     {
       "path": "tests/test_shared_module_pattern_catalogue.py",
-      "git_blob_sha": "6e9c51e141338df847cfccd3cafadeb302b53f7d",
+      "git_blob_sha": "152ac8660867c58f71c49a35103df53513e88025",
       "baseline_delta_status": "added"
     },
     {
