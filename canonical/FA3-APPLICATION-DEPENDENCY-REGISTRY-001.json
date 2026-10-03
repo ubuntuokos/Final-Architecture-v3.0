@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.application-dependency-registry.v1",
+  "id": "FA3-APPLICATION-DEPENDENCY-REGISTRY-001",
+  "status": "CANONICAL_STATIC",
+  "authority": false,
+  "platform_components": [
+    "fa3.platform.security",
+    "fa3.platform.license-rights",
+    "fa3.platform.evidence",
+    "fa3.platform.model-router",
+    "fa3.platform.hrb",
+    "fa3.platform.engine-selector",
+    "fa3.platform.plugin-fabric",
+    "fa3.platform.project-core",
+    "fa3.platform.3d-core",
+    "fa3.platform.render-fabric",
+    "fa3.platform.color-management",
+    "fa3.platform.asset-core",
+    "fa3.platform.blender-bridge"
+  ],
+  "application_dependencies": {
+    "fa3.render-manager": [
+      "fa3.platform.3d-core",
+      "fa3.platform.render-fabric",
+      "fa3.platform.engine-selector",
+      "fa3.platform.hrb",
+      "fa3.platform.color-management",
+      "fa3.platform.asset-core",
+      "fa3.platform.blender-bridge"
+    ],
+    "fa3.story-screenplay": [
+      "fa3.platform.project-core"
+    ],
+    "fa3.video-editor": [
+      "fa3.platform.project-core",
+      "fa3.platform.engine-selector"
+    ],
+    "fa3.threed-dcc-studio": [
+      "fa3.platform.3d-core",
+      "fa3.platform.engine-selector",
+      "fa3.platform.hrb",
+      "fa3.platform.asset-core"
+    ]
+  },
+  "rules": {
+    "platform_dependency_never_grants_application_entitlement": true,
+    "dependencies_resolved_transitively": true,
+    "unknown_dependency_fails_closed": true
+  }
+}

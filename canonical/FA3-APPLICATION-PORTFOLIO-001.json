@@ -1,0 +1,750 @@
+{
+  "schema": "fa3.application-portfolio.v1",
+  "id": "FA3-APPLICATION-PORTFOLIO-001",
+  "status": "CANONICAL_STATIC_BOOTSTRAP",
+  "authority": false,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "portfolio_states": [
+    "FUTURE",
+    "PLANNED",
+    "IN_PROGRESS",
+    "EXISTING",
+    "RETIRED"
+  ],
+  "application_classes": [
+    "INTERNAL_APPLICATION",
+    "SYSTEM_APPLICATION",
+    "COMPANION_APPLICATION",
+    "EXTERNAL_OPTIONAL_APPLICATION"
+  ],
+  "non_application_classes": [
+    "SHARED_MODULE",
+    "PLATFORM_COMPONENT",
+    "ENGINE",
+    "PROVIDER",
+    "SERVICE",
+    "GUI_SURFACE",
+    "REFERENCE_ONLY"
+  ],
+  "provisioning_lifecycle_ref": "FA3-APP-LIFECYCLE-001",
+  "rules": {
+    "portfolio_state_separate_from_provisioning_state": true,
+    "filesystem_is_not_portfolio": true,
+    "gui_surface_is_not_application": true,
+    "continuous_reconciliation_required": true,
+    "retrospective_classification_required": true
+  },
+  "applications": [
+    {
+      "application_id": "fa3.control-center",
+      "name": "FA3 Control Center",
+      "application_class": "SYSTEM_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "PLATFORM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.workload-mode",
+      "name": "FA3 Workload Mode",
+      "application_class": "SYSTEM_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "PLATFORM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.ai-module-factory",
+      "name": "FA3 AI Module Factory",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "AI_COMPUTE",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.photo-image-studio",
+      "name": "Photo & Image Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "name": "FA3 Video Editor / Creative Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "name": "FA3 QuickClip",
+      "application_class": "COMPANION_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.vector-studio",
+      "name": "Vector Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "name": "Story / Screenplay Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.scene-shot-designer",
+      "name": "Scene / Shot Designer",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.world-environment-studio",
+      "name": "World & Environment Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "name": "Character Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.choreography-studio",
+      "name": "Choreography Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.vfx-studio",
+      "name": "VFX Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.production-studio",
+      "name": "Production Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "STUDIO",
+      "supported_operating_levels": [
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.subtitle-studio",
+      "name": "Subtitle Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.narration-studio",
+      "name": "Narration Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "AUDIO_SPEECH_MUSIC",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "name": "Music Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "AUDIO_SPEECH_MUSIC",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.digital-human-studio",
+      "name": "Digital Human Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.animation-motion-studio",
+      "name": "Animation / Character Motion Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.live-broadcast-studio",
+      "name": "Live / Broadcast Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "STUDIO",
+      "supported_operating_levels": [
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.review-studio",
+      "name": "Review / Approval Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "STUDIO",
+      "supported_operating_levels": [
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "STUDIO_FILM",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.credits-titles",
+      "name": "Credits / Titles",
+      "application_class": "COMPANION_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "CREATIVE_MEDIA",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.spatial-reconstruction",
+      "name": "Spatial / Reconstruction Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "THREED_DCC",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.render-manager",
+      "name": "Render Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "THREED_DCC",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.threed-dcc-studio",
+      "name": "3D / DCC Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "THREED_DCC",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.game-creation-studio",
+      "name": "Game Creation Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "INTERACTIVE_GAME",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.mind-map-studio",
+      "name": "Mind Map Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "KNOWLEDGE_WRITING",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.coach",
+      "name": "FA3 Coach",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "KNOWLEDGE_WRITING",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.humanizer",
+      "name": "FA3 Humanizer",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "KNOWLEDGE_WRITING",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.office",
+      "name": "FA3 Office",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "PRODUCTIVITY",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.email-contact-manager",
+      "name": "Email & Contact Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "COMMUNICATION_COLLABORATION",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.unified-messenger",
+      "name": "Unified Messenger",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "COMMUNICATION_COLLABORATION",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    },
+    {
+      "application_id": "fa3.meeting-manager",
+      "name": "Meeting Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "primary_domain": "COMMUNICATION_COLLABORATION",
+      "secondary_domains": [],
+      "individually_entitleable": true,
+      "available_in_bundles": [],
+      "required_platform_dependencies": [],
+      "source_refs": [
+        "docs/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-PLAN-2026-10-03.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.entitlement-policy.v1",
+  "id": "FA3-ENTITLEMENT-POLICY-001",
+  "status": "CANONICAL_FAIL_CLOSED_POLICY",
+  "authority": false,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "precedence": [
+    "SECURITY",
+    "LICENSE_RIGHTS",
+    "HARDWARE_RUNTIME_ADMISSION",
+    "PRODUCT_ENTITLEMENT",
+    "ORGANIZATION_POLICY",
+    "WORKSPACE_PROJECT_POLICY",
+    "APPLICATION_FAMILY_POLICY",
+    "WORKFLOW_TASK_POLICY",
+    "USER_PREFERENCE",
+    "ENGINE_PROVIDER_SELECTION_INTENT"
+  ],
+  "rules": {
+    "deny_wins": true,
+    "lower_scope_may_restrict_not_widen": true,
+    "higher_operating_level_does_not_grant_apps": true,
+    "individual_application_selection_supported_through_enterprise": true,
+    "required_platform_dependencies_included": true,
+    "required_platform_dependencies_do_not_grant_other_apps": true,
+    "silent_fallback": false,
+    "project_data_preservation_required": true
+  },
+  "resolve_operating_level": "MAX(APPLICATION_MINIMUMS,COLLABORATION_REQUIREMENT,DEPLOYMENT_REQUIREMENT,ORCHESTRATION_REQUIREMENT,GOVERNANCE_REQUIREMENT)"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-APPLICATION-PORTFOLIO-DRIFT-001",
+  "name": "Application portfolio reconciliation drift",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_application_portfolio.py",
+  "blocks_on": [
+    "KNOWN_CANONICAL_APPLICATION_MISSING",
+    "ACTIVE_IMPLEMENTATION_WITHOUT_PORTFOLIO_RECORD",
+    "PORTFOLIO_STATE_DRIFT"
+  ],
+  "runtime_promotion_claim": false
+}
