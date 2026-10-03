@@ -1059,7 +1059,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2862,
+  "manifest_entry_count": 2879,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1269,6 +1269,11 @@
     {
       "path": ".github/workflows/fa3-donor-serialization.yml",
       "git_blob_sha": "14a6d44ac124f1176384e42b51c3102bafe4ee1a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-engine-selection.yml",
+      "git_blob_sha": "dc5dbffbf6d7317813f40a22ba9a98e6515a73cc",
       "baseline_delta_status": "added"
     },
     {
@@ -1803,7 +1808,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "bd6d6562ad3e2e13993ba589724ebdf070f8ec89",
+      "git_blob_sha": "ab587ee2d28e8f88547da1de604bf32bdfca876d",
       "baseline_delta_status": "added"
     },
     {
@@ -1857,6 +1862,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/EngineManagerPage.qml",
+      "git_blob_sha": "0028394d26874ea8da99f3938846515cda620daf",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/qml/ExternalProvidersSetupPage.qml",
       "git_blob_sha": "c691dfc90aa99aae247ccf6673b5b7c6f4ec284e",
       "baseline_delta_status": "added"
@@ -1893,7 +1903,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "9765579de7f10eced7b7d37e130a3431b629533a",
+      "git_blob_sha": "a2453a049414638fba762660856dc5576e65008d",
       "baseline_delta_status": "added"
     },
     {
@@ -2017,6 +2027,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/EngineSelectorService.cpp",
+      "git_blob_sha": "1a1fc88433f3858da708cfc4f409514036ba1866",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/EngineSelectorService.h",
+      "git_blob_sha": "dd18550cbf1f6fdcc24d72b0d7d7e4b573b7c372",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/ExternalLlmCatalogModel.cpp",
       "git_blob_sha": "9f7a62b15f4137e494b6de1131be9c4a78a41a0f",
       "baseline_delta_status": "added"
@@ -2048,7 +2068,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "3e954c2b05a223053f734c47e8274ba7455d48b7",
+      "git_blob_sha": "8086a7795dccf35bccdc3253f0a54ace21135d02",
       "baseline_delta_status": "added"
     },
     {
@@ -2129,6 +2149,11 @@
     {
       "path": "apps/fa3-control-center/src/WorkloadModeStateService.h",
       "git_blob_sha": "0b175c27e89fa5317dd30ba8d90a209005f137b8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
+      "git_blob_sha": "8f9e5001b9efdd6fdb7d08e48724c30032eb5b83",
       "baseline_delta_status": "added"
     },
     {
@@ -3292,6 +3317,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-ENGINE-SELECTION-DECISION-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "283b318016d85acc77e2d5cdb9d70b1e59b300fe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "ec48d9a03f23fda9b97696a6ff7b7e0d96d2796d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-REUSE-ASSESSMENT-2026-10-02.json",
       "git_blob_sha": "3d94345d3f13806255037db9dd628bf14b8981f7",
       "baseline_delta_status": "added"
@@ -3493,7 +3528,7 @@
     },
     {
       "path": "canonical/assessments/FA3-STEP-CA-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
-      "git_blob_sha": "b8ed10a0391e9b19570d6d1ad99032921d284dbe",
+      "git_blob_sha": "59aced300d491cfa2b67c785db58964d96e51d1e",
       "baseline_delta_status": "added"
     },
     {
@@ -3904,6 +3939,11 @@
     {
       "path": "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
       "git_blob_sha": "b98154abf7f2094c774486cec9a659b188f1e69a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-ENGINE-SELECTION-CONTRACTS-001.json",
+      "git_blob_sha": "62fcf536d96f3bdad3cdef6362c87c08e5ec83d8",
       "baseline_delta_status": "added"
     },
     {
@@ -4772,6 +4812,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-ENGINE-SELECTION-FABRIC-2026-10-03.json",
+      "git_blob_sha": "6a79c82fc31a7ebd41e4c2d360fc2e980b590922",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "git_blob_sha": "362a473c12d3a4b3917f7c90781a975102fcae3b",
       "baseline_delta_status": "added"
@@ -5587,6 +5632,11 @@
       "baseline_delta_status": "modified"
     },
     {
+      "path": "canonical/engine-selection-enforcement.json",
+      "git_blob_sha": "53f14daa9a5d4169fcbf4b41727215e6f3de372f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/external-api-discovery-enforcement.json",
       "git_blob_sha": "b1c96edd3653459bdcf9fce681b59bcb38061c3e",
       "baseline_delta_status": "added"
@@ -5764,6 +5814,11 @@
     {
       "path": "canonical/FA3-ENFORCEMENT-RESULT-001.json",
       "git_blob_sha": "f7464ce0857e05acf16805711d381c49fd3efaec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-ENGINE-REGISTRY-001.json",
+      "git_blob_sha": "700561f7d1b9dd48ad00c65f3b22d6d6e5abe782",
       "baseline_delta_status": "added"
     },
     {
@@ -6358,7 +6413,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "3cfae2266e4513caec47420ff314ed5b0075ac24",
+      "git_blob_sha": "ee56e113002a60d92625b938357155e29c4ad027",
       "baseline_delta_status": "added"
     },
     {
@@ -6924,6 +6979,11 @@
     {
       "path": "canonical/intents/FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "277b5cd3488a13839978932cac08ba4ae5c7ac54",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-ENGINE-SELECTION-APPLICATION-INTENT-2026-10-03.json",
+      "git_blob_sha": "68e1ee0e0c194add7a8f383475c83d5e6ad01eb0",
       "baseline_delta_status": "added"
     },
     {
@@ -7599,6 +7659,11 @@
     {
       "path": "canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json",
       "git_blob_sha": "e2cdb72f163a363c306a37cb2ec0ef21e6fb5eec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-ENGINE-SELECTION-FABRIC-001.json",
+      "git_blob_sha": "3a0a29d96ce8219bf6c08a3bc7af86319d8117ae",
       "baseline_delta_status": "added"
     },
     {
@@ -10102,6 +10167,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/engine-selector.md",
+      "git_blob_sha": "20814cfb4927acfb435bfda0a93a6224c7efe0c9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/external-api-discovery-ingestion.md",
       "git_blob_sha": "099f3ca473d8ee92ebea11889bb8e927d4370da4",
       "baseline_delta_status": "added"
@@ -12362,6 +12432,16 @@
       "baseline_delta_status": "modified"
     },
     {
+      "path": "src/fa3_engine_selector_gate.py",
+      "git_blob_sha": "7f4021639ca573c88e697d85a436cf01313036d5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_engine_selector.py",
+      "git_blob_sha": "afd6b911b1f39694f1f9c4eb33a4de012218dff6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_evidence_validation.py",
       "git_blob_sha": "61f5c5440a1efa09d7e7d7b9107768fd46bf2a54",
       "baseline_delta_status": "added"
@@ -14234,6 +14314,11 @@
     {
       "path": "tests/test_donors_office_3d_animation.py",
       "git_blob_sha": "bf2e10d16f2ce24a0780ce16f9fe4bc2b619f764",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_engine_selector.py",
+      "git_blob_sha": "4047fdd8d2bff756f424e8b1a5260b6e596ccf03",
       "baseline_delta_status": "added"
     },
     {
