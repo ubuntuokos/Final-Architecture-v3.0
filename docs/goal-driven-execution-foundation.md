@@ -4,6 +4,12 @@ Status (2026-09-28): source-level and deterministic tests only. This is **not a 
 
 Parent research and donor plan: PR #476, goal-driven-agent-donor-curation-2026-09-28.md. This code reuses the existing 175-capability baseline, FA3 Coach, Orchestration Workforce, Agent Workload Runtime, Decision Fabric, Reuse Discovery, HRB, Model Router, UAF/MCP Gateway, Journal and canonical Evidence/Gate.
 
+## Task scope & closure binding — 2026-10-03
+
+The Goal Execution foundation now binds each validated goal and compiled goal-bound workload to the shared `FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03`. Scope is revision/digest locked; undeclared or explicit out-of-scope work cannot widen the current task and is emitted only as a new-task handoff draft. Same-blocker failures are capped at three, after which execution freezes for human intervention. VERIFIED/CLOSED tasks cannot execute again.
+
+The machine-enforced semantics and donor/current-host boundaries are documented in [FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.md](FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.md).
+
 ## Implemented scope
 
 - canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json: versioned user-owned goal, explicit scope, mandatory independently verifiable criteria, AUTO/APPROVAL/HYBRID modes and exact bounded Agent Workload limits.
