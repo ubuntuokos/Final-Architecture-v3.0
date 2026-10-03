@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.engine-selection-contracts.v1",
+  "id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "capability_count": 175,
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "types": {
+    "EngineDescriptor": {
+      "required": [
+        "engine_id",
+        "name",
+        "implementation_kind",
+        "engine_classes",
+        "capability_projection",
+        "execution_modes",
+        "status",
+        "architectural_authority"
+      ],
+      "authority": false
+    },
+    "EngineSelectionIntent": {
+      "required": [
+        "scope",
+        "engine_id",
+        "required_capabilities",
+        "fallback_policy",
+        "execution_requested"
+      ],
+      "constraints": [
+        "execution_requested MUST remain false in selector output",
+        "AI provider/model execution delegates to Model Router",
+        "resource placement delegates to HRB"
+      ]
+    },
+    "EnginePolicyProfile": {
+      "fallback_modes": [
+        "OFF",
+        "ASK",
+        "APPROVED_ONLY"
+      ],
+      "automatic_cross_provider_fallback": false,
+      "cloud_fallback_default": "OFF",
+      "user_approved_engine_allowlist_required_for_approved_only": true
+    },
+    "CompatibilityReport": {
+      "grades": [
+        "NATIVE",
+        "LOSSLESS",
+        "ADAPTED",
+        "BAKE_REQUIRED",
+        "PARTIAL",
+        "UNSUPPORTED"
+      ],
+      "silent_loss_forbidden": true
+    },
+    "EngineComparisonPlan": {
+      "same_input_required": true,
+      "benchmark_execution_requires_separate_user_action": true,
+      "paid_or_cloud_execution_requires_explicit_approval": true
+    }
+  },
+  "selection_rules": [
+    "NO_DEFAULT_ENGINE_MANDATE",
+    "NO_SILENT_FALLBACK",
+    "NO_SILENT_SEMANTIC_SUBSTITUTION",
+    "NO_SILENT_FORMAT_LOSS",
+    "NO_DIRECT_MODEL_OR_PROVIDER_ROUTING_AUTHORITY",
+    "NO_DIRECT_HARDWARE_PLACEMENT_AUTHORITY",
+    "NO_RAW_SECRET_STORAGE",
+    "REFERENCE_ONLY_OR_NOT_ADMITTED_ENGINES_MAY_BE_DISPLAYED_BUT_NOT_REPRESENTED_AS_EXECUTION_READY",
+    "PROJECT_REMAINS_FA3_CANONICAL_AND_ENGINE_INDEPENDENT",
+    "LOWER_SCOPE_EXPLICIT_SELECTION_MAY_OVERRIDE_HIGHER_SCOPE_PREFERENCE",
+    "USER_MAY_PRESERVE_UPSTREAM_BASE_ENGINE_ALONGSIDE_FA3_NATIVE_ENGINE",
+    "CUSTOM_ENGINE_REGISTRATION_REQUIRES_NORMAL_ADMISSION"
+  ],
+  "runtime_gate_requirements": [
+    "Security",
+    "License & Rights",
+    "Software Coexistence",
+    "Hardware Safety",
+    "Current Host evidence",
+    "provider-specific admission when applicable"
+  ]
+}

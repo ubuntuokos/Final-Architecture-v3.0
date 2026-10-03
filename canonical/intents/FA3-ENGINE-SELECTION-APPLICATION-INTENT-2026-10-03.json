@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-ENGINE-SELECTION-APPLICATION-INTENT-2026-10-03",
+  "project_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "title": "Unified Engine Registry and user-controlled multi-engine selection",
+  "status": "APPROVED_FOR_IMPLEMENTATION",
+  "date": "2026-10-03",
+  "owner_approval_basis": "Explicit owner approval in active FA3 conversation: Készítsd el!",
+  "target_capabilities": [
+    "CAP-043",
+    "CAP-121",
+    "CAP-126",
+    "CAP-159",
+    "CAP-160",
+    "CAP-161",
+    "CAP-162",
+    "CAP-163",
+    "CAP-164"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "SHARED_ENGINE_METADATA_PROJECTION",
+    "USER_ENGINE_PREFERENCE_AND_SCOPE_OVERRIDE_SURFACE",
+    "STATIC_COMPATIBILITY_AND_HEALTH_PRESENTATION"
+  ],
+  "shared_capability": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "selector_may_allocate_devices": false
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-engine-selector",
+    "service_prefix": "fa3-engine-selector",
+    "config_root": "$XDG_CONFIG_HOME/fa3/engine-selector",
+    "cache_root": "$XDG_CACHE_HOME/fa3/engine-selector",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/engine-selector",
+    "socket_namespace": "fa3/engine-selector",
+    "data_root": "$XDG_DATA_HOME/fa3/engine-selector",
+    "desktop_prefix": "org.fa3.engine.selector",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-VIDEO-001",
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001"
+  ]
+}
