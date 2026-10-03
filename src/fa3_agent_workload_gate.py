@@ -17,6 +17,18 @@ from fa3_google_ax_custom_runner import AxCustomRunnerError, compile_custom_runn
 from fa3_release_baseline import load_active_release_baseline
 from fa3_adk2_runtime_gate import gate as adk2_runtime_semantics_gate
 from fa3_uaf import ActionRegistry
+from fa3_task_scope_closure import (
+    CLOSED,
+    HUMAN_INTERVENTION_REQUIRED,
+    TaskScopeClosureError,
+    assert_execution_allowed,
+    blocker_fingerprint,
+    close_task_control,
+    goal_scope_binding,
+    record_blocker_failure,
+    register_followup_handoff,
+    start_task_control,
+)
 
 PROFILE_ID="FA3-AGENT-WORKLOAD-RUNTIME-001"
 CONTRACT_ID="FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001"
@@ -44,6 +56,11 @@ def finding(code: str, message: str, **kw: Any) -> dict[str, Any]:
 def expect_error(fn) -> bool:
     try: fn()
     except WorkloadContractError: return True
+    return False
+
+def expect_scope_error(fn) -> bool:
+    try: fn()
+    except TaskScopeClosureError: return True
     return False
 
 def expect_ax_error(fn) -> bool:
@@ -95,6 +112,27 @@ def regression_cases() -> dict[str, Any]:
     ax_git_ws=copy.deepcopy(ax_ws); ax_git_ws["sources"]=[{"kind":"GIT","repo":"https://example.invalid/repo.git","commit":"a"*40}]
     ax_debug=copy.deepcopy(ax_binding); ax_debug["debug"]=True
     ax_wild=copy.deepcopy(ax_net); ax_wild["egress"]=[{"host":"*","port":443}]
+    scope_goal={"goal_id":"t1","revision":1,"scope":{"in_scope":["runtime admission"],"out_of_scope":["new task"]}}
+    scope_binding=goal_scope_binding(scope_goal)
+    scoped_task=copy.deepcopy(task); scoped_task["goal_scope_binding"]=scope_binding
+    bad_scope_binding=copy.deepcopy(scope_binding); bad_scope_binding["max_same_blocker_attempts"]=4
+    bad_scoped_task=copy.deepcopy(scoped_task); bad_scoped_task["goal_scope_binding"]=bad_scope_binding
+    scope_control=start_task_control(scope_binding,task_id="t1",root_task_id="t1")
+    blocker=blocker_fingerprint("runtime-gate",["t1"])
+    blocker_1=record_blocker_failure(scope_control,blocker,"attempt 1")
+    blocker_2=record_blocker_failure(blocker_1,blocker,"attempt 2")
+    blocker_3=record_blocker_failure(blocker_2,blocker,"attempt 3",human_action="Operator must inspect and explicitly resolve the blocker.")
+    closed_scope_control=close_task_control(scope_control,"VERIFIED")
+    followup_control=register_followup_handoff(
+        scope_control,scope_binding,scope_goal["scope"],
+        scope_item="new task",
+        discovered_issue="A separate task was discovered.",
+        why_out_of_scope="It is explicitly outside the current task scope.",
+        current_state="Current task remains active.",
+        evidence_refs=[],
+        suggested_new_task_objective="Handle the separate task.",
+        suggested_new_conversation_start="Start a new FA3 task for the separate work.",
+    )
     cases=[
       ("VALID_TASK", not bool(validate_task(task) is None)),
       ("RAW_SECRET_REJECTED", expect_error(lambda: validate_task(bad_secret))),
@@ -125,6 +163,12 @@ def regression_cases() -> dict[str, Any]:
           model_intent={"capability":"coding"},
           fanout_limits={"max_children":2,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":300,"max_retries":1,"max_tool_calls":10,"max_model_requests":10},
        )["action_ref"]=="orchestration.execute"),
+      ("GOAL_SCOPE_BINDING_VALIDATED", validate_task(scoped_task)["goal_scope_binding"]["max_same_blocker_attempts"]==3),
+      ("GOAL_SCOPE_POLICY_TAMPER_REJECTED", expect_error(lambda:validate_task(bad_scoped_task))),
+      ("SAME_BLOCKER_THIRD_FAILURE_FREEZES", blocker_3["state"]==HUMAN_INTERVENTION_REQUIRED and blocker_3["execution_frozen"] is True and blocker_3["blocker_attempts"][blocker]==3),
+      ("FOURTH_SAME_BLOCKER_ATTEMPT_BLOCKED", expect_scope_error(lambda:record_blocker_failure(blocker_3,blocker,"attempt 4"))),
+      ("CLOSED_TASK_EXECUTION_BLOCKED", closed_scope_control["state"]==CLOSED and expect_scope_error(lambda:assert_execution_allowed(closed_scope_control))),
+      ("FOLLOWUP_HANDOFF_REQUIRES_NEW_TASK", followup_control["followup_handoffs"][0]["requires_new_task_id"] is True and followup_control["followup_handoffs"][0]["automatic_start"] is False),
     ]
     return {"result":"PASS" if all(ok for _,ok in cases) else "FAIL","cases":[{"id":cid,"pass":bool(ok)} for cid,ok in cases]}
 
@@ -168,16 +212,16 @@ def gate(root: Path) -> dict[str, Any]:
       (p.get("id")==PROFILE_ID and p.get("priority")=="P0" and p.get("requirement")=="MUST","AWR-010","profile identity/priority drift"),
       (p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==cap and p.get("capability_bindings")==["CAP-028"],"AWR-011","capability/authority baseline drift"),
       (p.get("authority_boundaries",{}).get("durable_workflow")=="TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY" and p.get("authority_boundaries",{}).get("host_resources")=="FA3-AUTH-HOST-RESOURCE-BROKER-001" and p.get("authority_boundaries",{}).get("model_routing")=="FA3-AUTH-MODEL-ROUTER-001" and p.get("authority_boundaries",{}).get("tool_mediation")=="FA3-AUTH-MCP-GATEWAY-001","AWR-012","authority boundary drift"),
-      (c.get("id")==CONTRACT_ID and c.get("capability_count")==cap and c.get("provider_neutral") is True and c.get("fail_closed") is True,"AWR-013","contract baseline drift"),
+      (c.get("id")==CONTRACT_ID and c.get("capability_count")==cap and c.get("provider_neutral") is True and c.get("fail_closed") is True and c.get("task_scope_closure_policy",{}).get("policy_id")=="FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03" and c.get("task_scope_closure_policy",{}).get("max_same_blocker_attempts")==3 and c.get("task_scope_closure_policy",{}).get("closed_task_execution")=="FORBIDDEN","AWR-013","contract baseline/task-scope drift"),
       (d.get("id")==DECISION_ID and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("current_host_runtime_promotion_claim") is False,"AWR-014","decision promotion/baseline drift"),
       (a.get("project_id")==ASSESSMENT_ID and a.get("assessment")=="RECOMMENDED" and a.get("project_radar_checked") is True and a.get("capability_delta")==0 and a.get("authority_delta")==0,"AWR-015","Decision Fabric assessment invalid"),
       (r.get("id")==REFERENCE_ID and r.get("commit")==AX_COMMIT and r.get("license")=="Apache-2.0" and r.get("observed_repository_facts",{}).get("api_version")=="ax.io/v1alpha1" and r.get("observed_repository_facts",{}).get("upstream_breaking_changes_warning") is True and r.get("observed_repository_facts",{}).get("workspace_git_immutable_commit_supported") is False and r.get("fa3_interpretation",{}).get("architectural_authority") is False,"AWR-016","Google AX immutable provenance or interpretation drift"),
       (reg.get("id")==REGISTRY_ID and reg.get("provider_self_admission") is False and len(reg.get("providers",[]))==3,"AWR-017","runner registry drift"),
       (native.get("runtime_activation_status")=="PENDING_CURRENT_HOST" and podman.get("runtime_activation_status")=="PENDING_CURRENT_HOST" and ax.get("runtime_activation_status")=="PENDING_RUNNER_IMAGE_CLUSTER_APPLY_AND_CLUSTER_E2E","AWR-018","provider runtime status improperly promoted"),
       (ax.get("activation_mode")=="OPTIONAL_DISABLED_BY_DEFAULT" and ax.get("translation",{}).get("canonical_ax_schema") is False and ax.get("translation",{}).get("ax_model_to_fa3_model_resource") is False and ax.get("translation",{}).get("fa3_agent_workspace_to_ax_workspace")=="PARTIAL_FAIL_CLOSED" and ax.get("runner_bridge",{}).get("manifest_compiler_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_source_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_materialized") is False and ax.get("runner_bridge",{}).get("runner_image_build_evidence") is False,"AWR-019","Google AX boundary drift"),
-      (enf.get("gateset_id")==GATESET_ID and enf.get("fail_closed") is True and "STATIC_REFERENCE_PASS_NOT_CURRENT_HOST_PROMOTION" in enf.get("mandatory_rules",[]),"AWR-020","enforcement rules incomplete"),
-      (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==21 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
-      (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID,"AWR-022","global enforcement policy binding missing"),
+      (enf.get("gateset_id")==GATESET_ID and enf.get("fail_closed") is True and "STATIC_REFERENCE_PASS_NOT_CURRENT_HOST_PROMOTION" in enf.get("mandatory_rules",[]) and "SAME_BLOCKER_MAX_THREE_ATTEMPTS" in enf.get("mandatory_rules",[]) and "CLOSED_TASK_EXECUTION_FORBIDDEN" in enf.get("mandatory_rules",[]),"AWR-020","enforcement rules incomplete"),
+      (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==27 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
+      (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID and pol.get("task_scope_closure_policy_id")=="FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03" and "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN" in pol.get("task_scope_closure_mandatory_p0_rules",[]),"AWR-022","global enforcement policy binding missing"),
       (ev.get("status")=="PASS" and ev.get("evidence_class")=="REFERENCE_STATIC_CONFORMANCE" and ev.get("current_host_runtime_promotion_claim") is False,"AWR-023","reference evidence semantics drift"),
       ("FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001" in orch.get("contracts",[]) and orch.get("authority_boundaries",{}).get("workload_execution")=="FA3-AGENT-WORKLOAD-RUNTIME-001_NON_AUTHORITY_TASK_LOCAL_EXECUTION_PROJECTION" and "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY" in orch.get("invariants",[]),"AWR-032","Orchestration Workforce workload-runtime binding drift"),
       (wm.get("agent_workload_projection",{}).get("profile_id")==PROFILE_ID and wm.get("agent_workload_projection",{}).get("work_item_identity_distinct") is True and wm.get("agent_workload_projection",{}).get("mutation_semantics")=="DRAFT_UAF_INTENT_ONLY" and wm.get("agent_workload_projection",{}).get("direct_runner_execution_from_gui") is False,"AWR-033","Work Management workload projection boundary drift"),
