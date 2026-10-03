@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.ui-binding.v1",
+  "id": "FA3-SCP-UI-BINDINGS-001",
+  "profile_id": "FA3-SCP-FABRIC-001",
+  "authority": false,
+  "shared_component": "apps/shared/scp/qml/SecureCommunicationSettings.qml",
+  "shared_backend": "apps/shared/scp/SCPSettingsService.cpp",
+  "standalone": {
+    "application_id": "fa3.scp-manager",
+    "path": "apps/fa3-scp-manager",
+    "mode": "ADMIN_PROJECTION"
+  },
+  "embeddings": [
+    {
+      "application_id": "fa3.control-center",
+      "route_id": "governance.secure-communications",
+      "mode": "ADMIN_PROJECTION",
+      "status": "BINDING_DECLARED_DIRECT_PATCH_PENDING_GUI_PR_RECONCILIATION"
+    },
+    {
+      "application_id": "*",
+      "mode": "CONTEXT_LIMITED_EMBEDDED",
+      "status": "RETROSPECTIVE_BINDING_REQUIRED"
+    }
+  ],
+  "duplication_policy": "SAME_SHARED_QML_AND_BACKEND_SOURCE_REQUIRED",
+  "direct_privileged_mutation": false,
+  "draft_changeset_only": true
+}

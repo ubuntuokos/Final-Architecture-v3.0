@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-SCP-FABRIC-001",
+  "title": "FA3 Secure Communication & Proxy Fabric",
+  "version": "1.0.0",
+  "status": "STATIC_MATERIALIZED_RUNTIME_PENDING",
+  "authority": false,
+  "new_capability": false,
+  "capability_count": 175,
+  "default_action": "DENY",
+  "fail_closed": true,
+  "silent_fallback": false,
+  "planes": [
+    "LOCAL_INTER_APP",
+    "SHARED_SERVICE",
+    "MULTI_HOST_MESH",
+    "EXTERNAL_EGRESS",
+    "EXTERNAL_INGRESS",
+    "AUTHORIZED_HIGH_BANDWIDTH_DATA"
+  ],
+  "existing_authorities": {
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secret_boundary": "FA3-SECRET-BROKER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "shared_settings": {
+    "component": "apps/shared/scp/qml/SecureCommunicationSettings.qml",
+    "backend": "apps/shared/scp/SCPSettingsService.cpp",
+    "standalone_application": "apps/fa3-scp-manager",
+    "control_center_embedding_required": true,
+    "local_duplicate_implementations_forbidden": true,
+    "context_sensitive": true
+  },
+  "runtime_adapter_classes": [
+    "L4_L7_PROXY",
+    "WORKLOAD_IDENTITY",
+    "POLICY_EVALUATOR",
+    "HOST_FIREWALL",
+    "HOST_MESH_ENCRYPTION",
+    "RUNTIME_SENSOR",
+    "RUNTIME_ENFORCER",
+    "IDS_IPS",
+    "ARTIFACT_SECURITY",
+    "TELEMETRY"
+  ],
+  "runtime_admission_separate": true,
+  "current_host_alignment_required": true,
+  "current_host_runtime_promotion_claim": false
+}
