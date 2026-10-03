@@ -42,9 +42,10 @@ class SharedVoiceStudioQuickVideoTests(unittest.TestCase):
         self.assertIn(app["lifecycle"], {"PLANNED", "MATERIALIZED"})
         target = next(x for x in self.shared["shared_module_targets"] if x["id"] == "FA3-SHARED-VOICE-PLUGIN-PATTERN-001")
         self.assertIn("fa3.quickclip", target["consumer_application_ids"])
-        comp = next(x for x in self.shared["materialized_shared_components"] if x["id"] == "FA3-SHARED-VOICE-PLUGIN-001")
-        self.assertEqual(comp["profile_id"], "FA3-VOICE-001")
-        self.assertEqual(comp["contract_id"], "FA3-VOICE-CONTRACTS-001")
+        self.assertEqual(target["materialization_profile_id"], "FA3-VOICE-001")
+        self.assertEqual(target["materialization_contract_id"], "FA3-VOICE-CONTRACTS-001")
+        self.assertEqual(target["materialization_status"], "GUI_HOST_CONTRACT_MATERIALIZED_RUNTIME_ADAPTER_GATED")
+        self.assertFalse(any(x["id"] == "FA3-SHARED-VOICE-PLUGIN-001" for x in self.shared["materialized_shared_components"]))
 
     def test_plugin_contract_and_hardware_boundary(self):
         c = self.contracts["contracts"]["shared_voice_plugin_host"]
