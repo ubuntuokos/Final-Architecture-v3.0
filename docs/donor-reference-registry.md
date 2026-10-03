@@ -141,4 +141,10 @@ Mandatory retrospective source extraction from previous PRs is abolished. PRs #2
 
 ## Usage graph and downstream impact
 
-The registry remains the only donor identity catalog. Actual use is declared in `FA3-APPLICATION-DONOR-LINKS-001` and reverse-resolved by the derived capability-consumer map. Only owner-`donornak` registered sources may appear as donor IDs in usage edges; analysis-only URLs cannot be inserted as pseudo-donors.
+The registry remains the only donor identity catalog. Actual use is declared in `FA3-APPLICATION-DONOR-LINKS-001` and reverse-resolved by the derived capability-consumer map. Only owner-`donornak` registered sources may appear as donor IDs in usage edges; analysis-only URLs cannot be inserted as pseudo-donors.\n\n## Universal Capability Access (owner decision, 2026-10-03)
+
+The Universal Capability Access rule applies retroactively to **every current donor record** and prospectively to every future donor record. A geographically, territorially, noncommercially, service/account, cloud, platform or hardware restricted donor may remain discoverable as a reference, but it may not become the sole material implementation of an FA3 user-facing capability.
+
+Unknown or unverified access rights fail closed for material adoption. Restricted material adoption requires a globally usable FA3-native or independently rights-cleared substitute, normal License & Rights/provenance review, Security, Software Coexistence, Hardware Safety and explicit usage-edge evidence.
+
+This is not permission to evade upstream restrictions. VPN, proxy, foreign-hosting, artifact-relocation or equivalent circumvention is forbidden. See [Universal Capability Access](universal-capability-access.md).\n
