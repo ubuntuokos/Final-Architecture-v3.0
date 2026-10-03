@@ -174,8 +174,8 @@ def capability_refresh_status(registry: dict[str, Any], today: date | None = Non
 
 def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any]:
     root = root.resolve()
-    catalog, surfaces, registry, declaration, platform = (
-        load(root / rel) for rel in (APP, GUI, DONOR, LINKS, PLATFORM)
+    catalog, surfaces, registry, declaration, platform, portfolio = (
+        load(root / rel) for rel in (APP, GUI, DONOR, LINKS, PLATFORM, PORTFOLIO)
     )
     capability_count = load_active_release_baseline(root).capability_count
     errors: list[dict[str, str]] = []
@@ -212,7 +212,10 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "orphaned_product_family_placement_fail_closed": True,
         "product_family_is_context_not_authority": True,
         "product_family_membership_does_not_grant_permission": True,
-        "retroactive_platform_placement_required": True,\n        "application_portfolio_is_canonical_inventory_input": True,\n        "portfolio_state_is_not_provisioning_state": True,\n        "portfolio_reconciliation_required": True,
+        "retroactive_platform_placement_required": True,
+        "application_portfolio_is_canonical_inventory_input": True,
+        "portfolio_state_is_not_provisioning_state": True,
+        "portfolio_reconciliation_required": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
@@ -269,7 +272,35 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             "donor_assessment": "NOT_AUTOMATICALLY_ASSESSED",
         }
 
-    declared_count = len(applications) - curated_count\n    portfolio_added = 0\n    portfolio_registered = 0\n    if portfolio.get("id") != "FA3-APPLICATION-PORTFOLIO-001" or portfolio.get("authority") is not False:\n        errors.append({"code": "APPLICATION_PORTFOLIO_INVALID", "detail": PORTFOLIO})\n    for item in portfolio.get("applications", []):\n        aid = item.get("application_id")\n        if not isinstance(aid, str) or not aid:\n            errors.append({"code": "APPLICATION_PORTFOLIO_ID_INVALID", "detail": str(aid)})\n            continue\n        portfolio_registered += 1\n        if aid in applications:\n            applications[aid]["portfolio_state"] = item.get("portfolio_state")\n            applications[aid]["portfolio_source"] = PORTFOLIO\n            applications[aid]["minimum_operating_level"] = item.get("minimum_operating_level")\n            continue\n        applications[aid] = {\n            "application_id": aid, "name": item.get("name"),\n            "kind": item.get("application_class"),\n            "lifecycle": item.get("portfolio_state"),\n            "portfolio_state": item.get("portfolio_state"),\n            "minimum_operating_level": item.get("minimum_operating_level"),\n            "aliases": [item.get("name")] if item.get("name") else [],\n            "source_catalog": PORTFOLIO, "portfolio_source": PORTFOLIO,\n            "donor_assessment": "NOT_AUTOMATICALLY_ASSESSED",\n        }\n        portfolio_added += 1\n\n    product_family_views = apply_product_family_placement(applications, platform, errors)
+    declared_count = len(applications) - curated_count
+    portfolio_added = 0
+    portfolio_registered = 0
+    if portfolio.get("id") != "FA3-APPLICATION-PORTFOLIO-001" or portfolio.get("authority") is not False:
+        errors.append({"code": "APPLICATION_PORTFOLIO_INVALID", "detail": PORTFOLIO})
+    for item in portfolio.get("applications", []):
+        aid = item.get("application_id")
+        if not isinstance(aid, str) or not aid:
+            errors.append({"code": "APPLICATION_PORTFOLIO_ID_INVALID", "detail": str(aid)})
+            continue
+        portfolio_registered += 1
+        if aid in applications:
+            applications[aid]["portfolio_state"] = item.get("portfolio_state")
+            applications[aid]["portfolio_source"] = PORTFOLIO
+            applications[aid]["minimum_operating_level"] = item.get("minimum_operating_level")
+            continue
+        applications[aid] = {
+            "application_id": aid, "name": item.get("name"),
+            "kind": item.get("application_class"),
+            "lifecycle": item.get("portfolio_state"),
+            "portfolio_state": item.get("portfolio_state"),
+            "minimum_operating_level": item.get("minimum_operating_level"),
+            "aliases": [item.get("name")] if item.get("name") else [],
+            "source_catalog": PORTFOLIO, "portfolio_source": PORTFOLIO,
+            "donor_assessment": "NOT_AUTOMATICALLY_ASSESSED",
+        }
+        portfolio_added += 1
+
+    product_family_views = apply_product_family_placement(applications, platform, errors)
 
     gui_surfaces = []
     seen_surfaces: set[str] = set()
@@ -817,7 +848,9 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
         },
         "counts": {"curated_apps": curated_count,
-                   "declared_apps": len(applications) - curated_count,
+                   "declared_apps": declared_count,
+                   "portfolio_apps": portfolio_registered,
+                   "portfolio_added_apps": portfolio_added,
                    "total_apps": len(applications),
                    "classified_apps": sum(
                        1 for app in applications.values()
