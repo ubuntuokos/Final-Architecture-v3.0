@@ -89,7 +89,7 @@ def gate(root: Path) -> dict[str, Any]:
     snap=assess.get("donor_planning_snapshot",{})
     if assess.get("pending_or_unmerged_donors_consumed") is not False or assess.get("donor_usage_edges_created")!=0:
         findings.append(finding("HAIR-017","pending donor consumption or forged usage edge"))
-    if snap.get("published_main_commit")!="b69d2f4c8cff55ead8470d5118a41a5c9bde820d" or snap.get("donor_registry_blob_sha")!="9e0b70edc5bff6733389bc2dbec13d9d9b5fb94e" or snap.get("donor_registry_entry_count")!=1384:
+    if snap.get("published_main_commit")!="0a5641204c6f8caaf65e2e4bfc4af928b5579d54" or snap.get("donor_registry_blob_sha")!="ee3a274e842471a3362c343f1ffa2eee935f85f0" or snap.get("donor_registry_entry_count")!=1405:
         findings.append(finding("HAIR-018","donor planning snapshot drift"))
     if "FA3-DONOR-" in json.dumps(p,sort_keys=True) or "FA3-DONOR-" in json.dumps(c,sort_keys=True):
         findings.append(finding("HAIR-019","static Hair/Groom profile/contract may not forge donor adoption"))
