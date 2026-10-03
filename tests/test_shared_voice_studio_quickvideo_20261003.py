@@ -8,6 +8,7 @@ PROFILE = ROOT / "canonical/profiles/FA3-VOICE-001.json"
 CONTRACTS = ROOT / "canonical/contracts/FA3-VOICE-CONTRACTS-001.json"
 APPS = ROOT / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 SHARED = ROOT / "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json"
+PRODUCT_FAMILY = ROOT / "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
 DECISION = ROOT / "canonical/decisions/FA3-DEC-SHARED-VOICE-STUDIO-QUICKVIDEO-2026-10-03.json"
 INTENT = ROOT / "canonical/intents/FA3-SHARED-VOICE-STUDIO-QUICKVIDEO-APPLICATION-INTENT-2026-10-03.json"
 VOICE_STUDIO = ROOT / "apps/fa3-control-center/qml/VoiceStudioPage.qml"
@@ -24,6 +25,7 @@ class SharedVoiceStudioQuickVideoTests(unittest.TestCase):
         cls.contracts = json.loads(CONTRACTS.read_text(encoding="utf-8"))
         cls.apps = json.loads(APPS.read_text(encoding="utf-8"))
         cls.shared = json.loads(SHARED.read_text(encoding="utf-8"))
+        cls.product_family = json.loads(PRODUCT_FAMILY.read_text(encoding="utf-8"))
         cls.decision = json.loads(DECISION.read_text(encoding="utf-8"))
         cls.intent = json.loads(INTENT.read_text(encoding="utf-8"))
 
@@ -40,6 +42,9 @@ class SharedVoiceStudioQuickVideoTests(unittest.TestCase):
         app = next(x for x in self.apps["applications"] if x["application_id"] == "fa3.voice-studio")
         self.assertEqual(app["kind"], "INTERNAL_APPLICATION")
         self.assertIn(app["lifecycle"], {"PLANNED", "MATERIALIZED"})
+        placement = next(x for x in self.product_family["application_placements"] if x["application_id"] == "fa3.voice-studio")
+        self.assertEqual(placement["primary_family"], "FA3-FAMILY-CREATIVE-MEDIA-001")
+        self.assertIn("FA3-FAMILY-STUDIO-FILM-001", placement["secondary_families"])
         target = next(x for x in self.shared["shared_module_targets"] if x["id"] == "FA3-SHARED-VOICE-PLUGIN-PATTERN-001")
         self.assertIn("fa3.quickclip", target["consumer_application_ids"])
         self.assertEqual(target["materialization_profile_id"], "FA3-VOICE-001")
