@@ -334,6 +334,23 @@ class Tests(unittest.TestCase):
         self.assertEqual(donor_intake_workload(files),12)
         self.assertEqual(donor_intake_workload([{"filename":REGISTRY}]),1)
 
+    def test_pr_file_api_cap_fails_closed_before_workload_estimation(self):
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":77,"title":"Donor intake at file cap",
+                         "head":{"sha":"a"*40,"ref":"fa3/donor-77",
+                                 "repo":{"full_name":"ubuntuokos/Final-Architecture-v3.0"}}}]
+            if "/pulls/77/files?" in url:
+                page=int(url.rsplit("page=",1)[1])
+                if page<=30:
+                    start=(page-1)*100
+                    return [{"filename":REGISTRY if start+i==0 else f"docs/donor-{start+i}.md",
+                             "changes":1} for i in range(100)]
+                self.fail("PR file scan must fail closed at GitHub's 3000-file cap")
+            raise AssertionError(url)
+        with self.assertRaisesRegex(ValueError,"PR_FILE_LIST_AT_GITHUB_API_CAP:77"):
+            pending_prs(get)
+
     def test_stale_base_files_are_excluded_from_live_workload(self):
         stale_delta="canonical/deltas/FA3-DONOR-STALE.json"
         def get(url):
@@ -386,6 +403,7 @@ class Tests(unittest.TestCase):
         self.assertNotIn("fa3-permanent-enforcement.yml/dispatches",workflow)
         self.assertNotIn("actions: write",serialization)
         self.assertNotIn("checks: write",serialization)
+        self.assertIn("${{ github.workflow }}",serialization)
         self.assertNotIn("A second intake remains BLOCKED",guide)
 
     def test_intake_without_live_inventory_is_fail_closed(self):
