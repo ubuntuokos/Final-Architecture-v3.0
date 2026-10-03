@@ -199,16 +199,66 @@ def validate_task_control(
             raise TaskScopeClosureError("invalid blocker attempt ledger")
         if count >= MAX_SAME_BLOCKER_ATTEMPTS and state == ACTIVE:
             raise TaskScopeClosureError("three-attempt blocker cannot remain active")
-    if not isinstance(control.get("attempt_ledger"), list) or not isinstance(control.get("followup_handoffs"), list):
+    ledger = control.get("attempt_ledger")
+    followups = control.get("followup_handoffs")
+    if not isinstance(ledger, list) or not isinstance(followups, list):
         raise TaskScopeClosureError("task control ledgers must be lists")
+    derived_attempts: dict[str, int] = {}
+    for entry in ledger:
+        if not isinstance(entry, dict):
+            raise TaskScopeClosureError("attempt ledger entry must be an object")
+        fingerprint = str(entry.get("blocker_fingerprint", ""))
+        attempt = entry.get("attempt")
+        if not _HEX64.fullmatch(fingerprint):
+            raise TaskScopeClosureError("attempt ledger blocker fingerprint invalid")
+        if type(attempt) is not int or not (1 <= attempt <= MAX_SAME_BLOCKER_ATTEMPTS):
+            raise TaskScopeClosureError("attempt ledger sequence invalid")
+        if entry.get("result") != "FAIL":
+            raise TaskScopeClosureError("attempt ledger result must be FAIL")
+        _required(entry.get("summary"), "attempt ledger summary")
+        expected_attempt = derived_attempts.get(fingerprint, 0) + 1
+        if attempt != expected_attempt:
+            raise TaskScopeClosureError("attempt ledger sequence/count mismatch")
+        derived_attempts[fingerprint] = attempt
+    if attempts != derived_attempts:
+        raise TaskScopeClosureError("blocker_attempts must equal append-only attempt ledger")
     if control.get("durable_state_authority") != "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY":
         raise TaskScopeClosureError("task control durable authority drift")
+    terminal = control.get("internal_terminal_state")
+    if terminal is not None and terminal not in _INTERNAL_TERMINAL:
+        raise TaskScopeClosureError("internal terminal state invalid")
     if state == ACTIVE:
+        if terminal is not None:
+            raise TaskScopeClosureError("active task cannot carry an internal terminal state")
         if control.get("execution_frozen") is not False or control.get("user_closure_state") is not None:
             raise TaskScopeClosureError("active task cannot be frozen or closed")
+        if any(control.get(k) is not True for k in (
+            "automatic_retry_allowed", "automatic_replan_allowed", "alternative_route_allowed"
+        )):
+            raise TaskScopeClosureError("active task automatic controls drift")
+    elif state == HUMAN_INTERVENTION_REQUIRED:
+        if control.get("execution_frozen") is not True:
+            raise TaskScopeClosureError("human-intervention task must freeze execution")
+        if control.get("user_closure_state") != HUMAN_INTERVENTION_REQUIRED:
+            raise TaskScopeClosureError("human-intervention closure projection mismatch")
+        if terminal == "VERIFIED":
+            raise TaskScopeClosureError("verified task cannot remain human-intervention state")
+        _required(control.get("human_action_required"), "human_action_required")
+        if any(control.get(k) is not False for k in (
+            "automatic_retry_allowed", "automatic_replan_allowed", "alternative_route_allowed"
+        )):
+            raise TaskScopeClosureError("human-intervention task cannot auto-continue")
     else:
         if control.get("execution_frozen") is not True:
-            raise TaskScopeClosureError("non-active task must freeze execution")
+            raise TaskScopeClosureError("closed task must freeze execution")
+        if terminal != "VERIFIED":
+            raise TaskScopeClosureError("closed task must carry VERIFIED internal terminal state")
+        if control.get("user_closure_state") not in {DONE, NEW_TASK_DISCOVERED}:
+            raise TaskScopeClosureError("closed task user closure projection invalid")
+        if any(control.get(k) is not False for k in (
+            "automatic_retry_allowed", "automatic_replan_allowed", "alternative_route_allowed"
+        )):
+            raise TaskScopeClosureError("closed task cannot auto-continue")
     return copy.deepcopy(control)
 
 
@@ -279,7 +329,11 @@ def record_blocker_failure(
         "summary": note,
     }
     if attempt == MAX_SAME_BLOCKER_ATTEMPTS:
-        action = _required(human_action, "human_action")
+        action = (
+            human_action.strip()
+            if isinstance(human_action, str) and human_action.strip()
+            else "Review the blocker evidence and explicitly decide whether and how to continue."
+        )
         result["state"] = HUMAN_INTERVENTION_REQUIRED
         result["execution_frozen"] = True
         result["user_closure_state"] = HUMAN_INTERVENTION_REQUIRED
@@ -306,6 +360,8 @@ def register_followup_handoff(
 ) -> dict[str, Any]:
     checked = assert_execution_allowed(control)
     bound = validate_goal_scope_binding(binding, expected_root_task_id=checked["root_task_id"])
+    if scope_digest(scope) != bound["scope_digest"]:
+        raise TaskScopeClosureError("supplied scope does not match immutable bound scope digest")
     classification = classify_scope_item(scope, scope_item)
     if classification["classification"] != "OUT_OF_SCOPE_FOLLOWUP":
         raise TaskScopeClosureError("in-scope work cannot be converted into a follow-up handoff")
