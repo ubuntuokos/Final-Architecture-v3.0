@@ -116,6 +116,19 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             self.assertTrue(gui["fa3_design_system_required"])
             self.assertTrue(gui["approval_fabrication_forbidden"])
 
+    def test_gui_governance_policy_drift_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / SOURCES[3]
+            links = json.loads(path.read_text())
+            links["policy"]["fa3_design_system_compliance_required"] = False
+            path.write_text(json.dumps(links))
+            findings = {
+                row["code"] for row in build_index(root)["validation"]["findings"]
+            }
+            self.assertIn("APPLICATION_GUI_POLICY_INVALID", findings)
+
     def test_new_curated_application_automatically_registered(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
