@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import copy
+import json
 import unittest
+from pathlib import Path
 
 from fa3_agent_workload import WorkloadContractError, compile_execution_plan
 
@@ -89,13 +91,17 @@ class TaskScopeClosureTests(unittest.TestCase):
         with self.assertRaises(TaskScopeClosureError):
             assert_execution_allowed(control)
 
-    def test_third_failure_requires_explicit_human_action(self):
+    def test_third_failure_freezes_even_without_human_action_text(self):
         _, control = self.control()
         fp = blocker_fingerprint("HUMAN_BLOCKER", [])
         control = record_blocker_failure(control, fp, "one")
         control = record_blocker_failure(control, fp, "two")
+        control = record_blocker_failure(control, fp, "three")
+        self.assertEqual(control["state"], HUMAN_INTERVENTION_REQUIRED)
+        self.assertTrue(control["execution_frozen"])
+        self.assertTrue(control["human_action_required"])
         with self.assertRaises(TaskScopeClosureError):
-            record_blocker_failure(control, fp, "three")
+            assert_execution_allowed(control)
 
     def test_followup_is_draft_only_and_requires_new_task(self):
         binding, control = self.control()
@@ -155,6 +161,53 @@ class TaskScopeClosureTests(unittest.TestCase):
         with self.assertRaises(TaskScopeClosureError):
             validate_task_control(control)
 
+    def test_attempt_counter_must_match_append_only_ledger(self):
+        _, control = self.control()
+        fp = blocker_fingerprint("LEDGER", [])
+        control = record_blocker_failure(control, fp, "one")
+        tampered = copy.deepcopy(control)
+        tampered["blocker_attempts"] = {}
+        with self.assertRaises(TaskScopeClosureError):
+            validate_task_control(tampered)
+        tampered = copy.deepcopy(control)
+        tampered["attempt_ledger"][0]["attempt"] = 2
+        with self.assertRaises(TaskScopeClosureError):
+            validate_task_control(tampered)
+
+    def test_active_control_cannot_carry_terminal_state(self):
+        _, control = self.control()
+        control["internal_terminal_state"] = "VERIFIED"
+        with self.assertRaises(TaskScopeClosureError):
+            validate_task_control(control)
+        with self.assertRaises(TaskScopeClosureError):
+            assert_execution_allowed(control)
+
+    def test_followup_scope_must_match_bound_scope_digest(self):
+        binding, control = self.control()
+        forged_scope = {
+            "in_scope": ["different task"],
+            "out_of_scope": ["implement task-scope policy"],
+        }
+        with self.assertRaises(TaskScopeClosureError):
+            register_followup_handoff(
+                control, binding, forged_scope,
+                scope_item="implement task-scope policy",
+                discovered_issue="Forged classification.",
+                why_out_of_scope="Caller supplied unrelated scope.",
+                current_state="Active.",
+                evidence_refs=[],
+                suggested_new_task_objective="Should never be created.",
+                suggested_new_conversation_start="Should never be created.",
+            )
+
+    def test_canonical_schemas_include_emitted_scope_fields(self):
+        root = Path(__file__).resolve().parents[1]
+        task_schema = json.loads((root / "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json").read_text())
+        plan_schema = json.loads((root / "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json").read_text())
+        self.assertIn("goal_scope_binding", task_schema["properties"])
+        self.assertIn("task_scope_policy_id", plan_schema["properties"])
+        self.assertIn("task_scope_control_required", plan_schema["properties"])
+
     def test_goal_bound_execution_plan_requires_active_control(self):
         binding, control = self.control()
         task = {
@@ -197,6 +250,12 @@ class TaskScopeClosureTests(unittest.TestCase):
         with self.assertRaises(WorkloadContractError):
             compile_execution_plan(
                 task, graph, model, task_spec_digest="sha256:task", max_transfer_hops=1
+            )
+        stripped = copy.deepcopy(task)
+        del stripped["goal_scope_binding"]
+        with self.assertRaises(WorkloadContractError):
+            compile_execution_plan(
+                stripped, graph, model, task_spec_digest="sha256:task", max_transfer_hops=1
             )
         plan = compile_execution_plan(
             task, graph, model, task_spec_digest="sha256:task", max_transfer_hops=1,
