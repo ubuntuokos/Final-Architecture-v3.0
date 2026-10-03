@@ -1,7 +1,8 @@
 #include "AppCatalogService.h"
 #include "ChatFileService.h"
 #include "DecisionFabricService.h"
-#include "ExternalLlmCatalogModel.h"\n#include "EngineSelectorService.h"
+#include "ExternalLlmCatalogModel.h"
+#include "EngineSelectorService.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
 #include "ModelLibraryService.h"
@@ -60,6 +61,7 @@ int main(int argc, char *argv[])
     SessionVaultService sessionVault;
     DecisionFabricService decisionFabric;
     ExternalLlmCatalogModel externalLlmCatalog;
+    EngineSelectorService engineSelector(repository.repoRoot());
     WorkloadModeStateService workloadMode;
 
     QQmlApplicationEngine engine;

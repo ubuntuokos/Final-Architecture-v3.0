@@ -140,7 +140,7 @@ Item {
                         Button {
                             text: "Set preference"
                             enabled: !!controller && !!root.selectedEngine.engine_id
-                            onClicked: controller.prepareSelection(
+                            onClicked: root.lastOutput = controller.prepareSelection(
                                 root.selectedEngine.engine_id,
                                 root.selectionScope,
                                 fallbackBox.currentText)
@@ -151,11 +151,30 @@ Item {
                             onClicked: root.lastOutput = controller.prepareComparison()
                         }
                     }
-                    Item { Layout.fillHeight: true }
+                    Frame {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        ScrollView {
+                            anchors.fill: parent
+                            TextArea {
+                                readOnly: true
+                                wrapMode: TextEdit.Wrap
+                                text: JSON.stringify(root.lastOutput, null, 2)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    Component.onCompleted: refresh()
+    Connections {
+        target: controller
+        function onCatalogChanged() { root.refresh() }
+    }
+
+    Component.onCompleted: {
+        if (controller) controller.refresh()
+        refresh()
+    }
 }
