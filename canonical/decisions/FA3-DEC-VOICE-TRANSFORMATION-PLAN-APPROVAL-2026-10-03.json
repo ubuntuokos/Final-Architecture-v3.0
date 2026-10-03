@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VOICE-TRANSFORMATION-PLAN-APPROVAL-2026-10-03",
+  "date": "2026-10-03",
+  "status": "APPROVED",
+  "explicit_user_approval": true,
+  "user_request_ref": "conversation-2026-10-03-owner-request-complete-through-final-closure",
+  "subject": "Approve and finalize the provider-neutral FA3 Voice transformation reference plan",
+  "decision": "APPROVE_FINAL_PLAN_STATIC_CLOSURE_WITH_SOURCE_SPECIFIC_RUNTIME_ADMISSION_SEPARATE",
+  "approved_plan_id": "FA3-VOICE-TRANSFORMATION-PLAN-2026-10-03",
+  "approved_plan_path": "canonical/plans/FA3-VOICE-TRANSFORMATION-PLAN-2026-10-03.json",
+  "approved_plan_blob_sha": "b44fbacdbb7e938ed7b85c973d629963d3081179",
+  "approved_plan_sha256": "f0563524e58f37af56d82e0261bdf50ca7e21758d30b396a61e026b3564a4dcb",
+  "intent_id": "FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03",
+  "reuse_assessment_id": "FA3-VOICE-TRANSFORMATION-REUSE-ASSESSMENT-2026-10-03",
+  "donor_reference_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+  "published_main_planning_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "existing_voice_profile_preserved": "FA3-VOICE-001",
+    "model_router_authority_preserved": true,
+    "host_resource_broker_authority_preserved": true,
+    "license_rights_authority_preserved": true,
+    "evidence_authority_preserved": true,
+    "child_donor_auto_admission": false,
+    "provider_model_runtime_admission_from_this_decision": false,
+    "current_host_runtime_promotion_claim": false
+  },
+  "closure_scope": {
+    "donor_discovery_intake": "COMPLETE_ON_MAIN_PR_658",
+    "reuse_assessment": "COMPLETE",
+    "plan_finalization": "APPROVED",
+    "provider_specific_execution": "SEPARATE_FUTURE_ADMISSION_REQUIRING_EXPLICIT_CHILD_DONORNAK_AND_ALL_EXISTING_GATES"
+  }
+}

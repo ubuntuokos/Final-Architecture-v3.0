@@ -1,0 +1,169 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-VOICE-TRANSFORMATION-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-VOICE-001",
+  "intent_id": "FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-VOICE-001",
+    "FA3-VOICE-CONTRACTS-001"
+  ],
+  "project_status": "PLAN_FINALIZATION_APPROVED_RUNTIME_PROVIDER_ADMISSION_SEPARATE",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-VOICE-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_VOICE_IDENTITY_CONSENT_AND_SYNTHESIS_FABRIC"
+    },
+    {
+      "id": "FA3-VOICE-CONTRACTS-001",
+      "use": "EXISTING_TYPED_VOICE_CONTRACT_SET_TO_EXTEND"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_AI_PROVIDER_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_CPU_GPU_NPU_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "EXISTING_LICENSE_AND_RIGHTS_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "EXISTING_USER_ENGINE_PROVIDER_PREFERENCE_SURFACE"
+    },
+    {
+      "id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+      "use": "PUBLISHED_DISCOVERY_INDEX_FOR_FUNCTIONAL_DOMAIN_REVIEW_ONLY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_VOICE_AUTHORITY",
+      "reason": "FA3-VOICE-001_ALREADY_OWNS_PROVIDER_NEUTRAL_VOICE_BOUNDARY"
+    },
+    {
+      "id": "SECOND_MODEL_OR_PROVIDER_ROUTER",
+      "reason": "MODEL_ROUTER_REMAINS_EXCLUSIVE_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "VOICE_ENGINE_DIRECT_HARDWARE_SELECTION",
+      "reason": "HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "SILENT_PROVIDER_LANGUAGE_OR_DEVICE_FALLBACK",
+      "reason": "EXISTING_FA3_FAIL_CLOSED_POLICY"
+    },
+    {
+      "id": "CHILD_REPOSITORY_RECURSIVE_ADMISSION",
+      "reason": "DISCOVERY_INDEX_CHILDREN_REQUIRE_SEPARATE_EXPLICIT_OWNER_DONORNAK_AND_ADMISSION"
+    },
+    {
+      "id": "GIST_SOURCE_COPY",
+      "reason": "GIST_LICENSE_IS_UNKNOWN; CLEAN_FA3_NATIVE_FUNCTIONAL_PLANNING_ONLY"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001"
+  ],
+  "gaps": [
+    "VOICE_TRANSFORMATION_TYPED_CONTRACT_EXTENSION",
+    "REALTIME_VOICE_SESSION_TYPED_CONTRACT",
+    "SINGING_VOICE_TRANSFORMATION_TYPED_CONTRACT",
+    "SPEECH_REPRESENTATION_TYPED_CONTRACT",
+    "CONTEXT_SENSITIVE_SHARED_VOICE_UI",
+    "SOURCE_SPECIFIC_PROVIDER_ADAPTERS_AFTER_INDEPENDENT_DONOR_AND_ADMISSION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "display_gpu_automatic_ai_use": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "provider_runtimes_isolated": true
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+    "donor_registry_entry_count": 1423,
+    "donor_registry_sha256": "f20260dc85bf9bf78f6456a2f2fbce426991832412a82cb8c66e8c347819488f"
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-VOICE-001",
+      "FA3-VOICE-CONTRACTS-001"
+    ],
+    "consumer_application_ids": [
+      "fa3.video-editor",
+      "fa3.quickclip",
+      "fa3.story-screenplay",
+      "fa3.music-studio",
+      "fa3.character-studio",
+      "fa3.ai-module-factory"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "VOICE_TRANSFORMATION_INTERCHANGE_AND_ACCELERATOR_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "donor_review": "REVIEWED_MATCH",
+  "donor_review_detail": {
+    "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+    "source": "https://gist.github.com/0xdevalias/bb618bba1f0c9038e4bf740de884ac99",
+    "registry_status": "ACCEPTED_REFERENCE",
+    "usage_kind": "DISCOVERY_INDEX_PLANNING_ONLY",
+    "usage_edge_created": false,
+    "code_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "model_admission": false,
+    "architectural_authority": false
+  },
+  "adopted_donors": [],
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_APPROVED_PLAN_STATIC_CLOSURE_PROVIDER_RUNTIME_SEPARATE",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

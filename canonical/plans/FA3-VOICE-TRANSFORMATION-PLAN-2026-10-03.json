@@ -1,0 +1,198 @@
+{
+  "schema": "fa3.plan.v1",
+  "id": "FA3-VOICE-TRANSFORMATION-PLAN-2026-10-03",
+  "date": "2026-10-03",
+  "status": "FINAL_APPROVED_PLAN",
+  "subject": "FA3 Voice transformation, realtime voice, singing voice and speech representation extension",
+  "profile_id": "FA3-VOICE-001",
+  "contract_id": "FA3-VOICE-CONTRACTS-001",
+  "intent_id": "FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03",
+  "reuse_assessment_id": "FA3-VOICE-TRANSFORMATION-REUSE-ASSESSMENT-2026-10-03",
+  "donor_reference_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+  "governing_principle": "EXTEND_EXISTING_FA3_VOICE_FABRIC_NO_PARALLEL_AUTHORITY",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "scope": {
+    "included": [
+      "provider-neutral voice conversion intent and result contracts",
+      "realtime voice session contracts and latency evidence",
+      "singing voice conversion intent and quality dimensions",
+      "voice style, prosody, pitch and formant transformation intents",
+      "engine-independent speech representation contract",
+      "voice identity, consent, dataset/model/output-rights separation",
+      "Engine/Provider Selector voice-class projection",
+      "context-sensitive shared Voice UI contract",
+      "retroactive application adapter review",
+      "provider-specific Current Host qualification after independent admission"
+    ],
+    "excluded": [
+      "new voice architectural authority",
+      "automatic child donor registration",
+      "automatic provider/model/runtime admission",
+      "source copying from the unlicensed Gist",
+      "silent fallback",
+      "automatic display-GPU AI use",
+      "simulated Current Host PASS"
+    ]
+  },
+  "canonical_consumers": [
+    "fa3.video-editor",
+    "fa3.quickclip",
+    "fa3.story-screenplay",
+    "fa3.music-studio",
+    "fa3.character-studio",
+    "fa3.ai-module-factory"
+  ],
+  "planned_contract_objects": [
+    "VoiceTaskIntent",
+    "VoiceConversionRequest",
+    "VoiceConversionResult",
+    "RealtimeVoiceSessionRequest",
+    "RealtimeVoiceSessionReceipt",
+    "SingingVoiceConversionRequest",
+    "SingingVoiceConversionResult",
+    "SpeechRepresentationRequest",
+    "SpeechRepresentationArtifact",
+    "VoiceTransformationIntent",
+    "VoiceTargetIdentityRef",
+    "VoiceLatencyRequirement",
+    "VoicePitchIntent",
+    "VoiceFormantIntent",
+    "VoiceProsodyIntent",
+    "VoiceTransformationEvidence",
+    "VoiceDatasetRightsDescriptor",
+    "VoiceModelRightsDescriptor",
+    "VoiceOutputRightsDescriptor"
+  ],
+  "planned_modes": [
+    "SYNTHESIZE",
+    "CLONE_SYNTHESIZE",
+    "CONVERT",
+    "REALTIME_CONVERT",
+    "SINGING_CONVERT",
+    "STYLE_TRANSFER",
+    "REPRESENT",
+    "PREVIEW",
+    "RENDER"
+  ],
+  "rights_model": [
+    "CODE_LICENSE",
+    "RUNTIME_LICENSE",
+    "MODEL_LICENSE",
+    "VOICE_OR_DATASET_RIGHTS",
+    "OUTPUT_RIGHTS"
+  ],
+  "phases": [
+    {
+      "id": "V1",
+      "name": "Published donor discovery closure",
+      "status": "COMPLETE",
+      "deliverable": "Gist ACCEPTED_REFERENCE on main; child sources discovery-only"
+    },
+    {
+      "id": "V2",
+      "name": "Provider-neutral contract extension",
+      "status": "PLANNED",
+      "deliverable": "typed conversion/realtime/singing/representation contracts under FA3-VOICE-CONTRACTS-001"
+    },
+    {
+      "id": "V3",
+      "name": "Voice policy extension",
+      "status": "PLANNED",
+      "deliverable": "transformation-scoped consent and five-layer rights enforcement"
+    },
+    {
+      "id": "V4",
+      "name": "Engine Selector integration",
+      "status": "PLANNED",
+      "deliverable": "VOICE class filters and explicit fallback intent; no execution authority"
+    },
+    {
+      "id": "V5",
+      "name": "Shared Voice UI",
+      "status": "PLANNED",
+      "deliverable": "one context-sensitive shared panel with application adapters"
+    },
+    {
+      "id": "V6",
+      "name": "Source-specific provider admission",
+      "status": "BLOCKED_PENDING_EXPLICIT_CHILD_DONORNAK",
+      "deliverable": "independent provenance/license/security/coexistence/hardware/model/runtime review per child source"
+    },
+    {
+      "id": "V7",
+      "name": "Realtime voice fabric",
+      "status": "PLANNED_AFTER_PROVIDER_ADMISSION",
+      "deliverable": "capture-to-output low-latency pipeline with HRB lease and evidence"
+    },
+    {
+      "id": "V8",
+      "name": "Singing voice",
+      "status": "PLANNED_AFTER_PROVIDER_ADMISSION",
+      "deliverable": "Music Studio singing conversion adapter and quality gates"
+    },
+    {
+      "id": "V9",
+      "name": "Application rollout",
+      "status": "PLANNED_AFTER_SHARED_CORE",
+      "deliverable": "retroactive adapters for canonical consumers without local duplicate implementations"
+    },
+    {
+      "id": "V10",
+      "name": "Runtime closure",
+      "status": "PER_PROVIDER_CURRENT_HOST_REQUIRED",
+      "deliverable": "real CPU path plus separately evidenced accelerator paths; no simulated PASS"
+    }
+  ],
+  "quality_dimensions": [
+    "content_preservation",
+    "speaker_similarity",
+    "naturalness",
+    "artifact_level",
+    "pitch_preservation",
+    "timing_preservation",
+    "language_integrity",
+    "realtime_stability",
+    "latency",
+    "singing_pitch_accuracy",
+    "singing_vibrato",
+    "phoneme_intelligibility"
+  ],
+  "hard_invariants": {
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "license_rights_authority": "FA3-LICENSE-RIGHTS-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "cpu_only_path_required": true,
+    "silent_fallback_forbidden": true,
+    "display_gpu_auto_ai_forbidden": true,
+    "child_donor_auto_admission_forbidden": true,
+    "voice_consent_fail_closed": true,
+    "current_host_simulated_pass_forbidden": true,
+    "capability_loss_allowed": false
+  },
+  "child_source_policy": {
+    "explicit_owner_donornak_required": true,
+    "recursive_registration": false,
+    "provider_admission_from_discovery_index": false,
+    "examples_discovery_only": [
+      "OpenVoice",
+      "RVC",
+      "w-okada voice-changer",
+      "DDSP-SVC",
+      "QuickVC",
+      "ContentVec",
+      "AICoverGen",
+      "MMVC Trainer",
+      "so-vits-svc"
+    ]
+  },
+  "closure": {
+    "plan_finalization": "COMPLETE_WHEN_MERGED",
+    "runtime_materialization": "SEPARATE_SOURCE_SPECIFIC_WORK",
+    "capability_baseline_after": 175,
+    "new_architectural_authorities": 0,
+    "current_host_promotion_claim": false
+  }
+}

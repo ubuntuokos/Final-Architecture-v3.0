@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03",
+  "project_id": "FA3-VOICE-001",
+  "project_type": "SHARED_PROFILE_EXTENSION",
+  "goal": "Extend the existing provider-neutral FA3 Voice Fabric planning boundary for voice conversion, realtime voice conversion, singing voice conversion, style/prosody transformation and engine-independent speech representation without creating a second voice, routing, identity, consent, resource or evidence authority.",
+  "required_capabilities": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "voice-conversion",
+    "realtime-voice-conversion",
+    "singing-voice-conversion",
+    "voice-style-prosody",
+    "speech-representation",
+    "voice-identity-consent",
+    "multi-engine-voice-routing"
+  ],
+  "task_classes": [
+    "voice-transform",
+    "realtime-voice",
+    "singing-voice",
+    "speech-representation"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "TEXT",
+    "AUDIO",
+    "LIVE_AUDIO",
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "AUDIO",
+    "LIVE_AUDIO",
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "VOICE_TRANSFORMATION_TYPED_CONTRACT_EXTENSION",
+    "REALTIME_VOICE_SESSION_TYPED_CONTRACT",
+    "SINGING_VOICE_TRANSFORMATION_TYPED_CONTRACT",
+    "SPEECH_REPRESENTATION_TYPED_CONTRACT",
+    "CONTEXT_SENSITIVE_SHARED_VOICE_UI",
+    "SOURCE_SPECIFIC_PROVIDER_ADAPTERS_AFTER_INDEPENDENT_DONOR_AND_ADMISSION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-voice",
+    "service_prefix": "fa3-voice",
+    "config_root": "$XDG_CONFIG_HOME/fa3/voice",
+    "cache_root": "$XDG_CACHE_HOME/fa3/voice",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/voice",
+    "socket_namespace": "fa3/voice",
+    "data_root": "$XDG_DATA_HOME/fa3/voice",
+    "desktop_prefix": "org.fa3.voice",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-VOICE-001",
+    "FA3-VOICE-CONTRACTS-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}
