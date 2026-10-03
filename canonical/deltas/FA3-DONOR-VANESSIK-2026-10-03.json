@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-VANESSIK-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "parent_main": "e5fb23319d57844b6c8b018e06e8f8281d8dc269",
+  "parent_registry_blob_sha": "637efbe7aa85079f42f32b597ef19b9b9c239002",
+  "parent_entry_count": 1420,
+  "submitted_url_count": 1,
+  "unique_source_count": 1,
+  "new_source_count": 1,
+  "resulting_entry_count": 1421,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "resolves_prior_unresolved_submission": {
+    "delta_id": "FA3-DONOR-HAIR-GROOM-SOURCES-2026-10-03",
+    "submitted": "https://github.com/Vanessi k",
+    "corrected_candidate": "https://github.com/Vanessik",
+    "resolution": "NEW_EXPLICIT_OWNER_APPROVAL_AS_SEPARATE_INTAKE"
+  },
+  "requirements": [
+    "The corrected Vanessik URL is explicitly approved by the owner as a separate donor intake.",
+    "The profile is a discovery/reference source only and does not recursively admit child repositories.",
+    "Registration does not copy or admit code, models, weights, datasets, providers or runtimes.",
+    "License & Rights, provenance, Security, Software Coexistence and Hardware Safety remain fail-closed prerequisites for any later material reuse.",
+    "No donor usage edge is created by this intake.",
+    "Capability baseline remains 175 and no architectural authority is created."
+  ],
+  "sources": [
+    [
+      "https://github.com/Vanessik",
+      "FA3-DONOR-VANESSIK-001"
+    ]
+  ],
+  "serialization_scope": "EXCLUSIVE_DONOR_MAINTENANCE",
+  "serialization_order": "OLDEST_OPEN_INTAKE_FIRST"
+}
