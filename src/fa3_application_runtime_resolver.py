@@ -398,23 +398,15 @@ def qualification_candidate_for_group(root: Path, group_id: str) -> dict[str, An
     group = group_spec(root, group_id)
     result = discover_group(root, group_id, probe=True)
     healthy = list(result.get("healthy_candidates", []))
-    requested = os.environ.get(str(group.get("selection_env", ""))) if group.get("selection_env") else None
-    if requested:
-        matches = [row for row in healthy if row.get("application_id") == requested]
-        if not matches:
-            return None
-        selected = matches[0]
-        reason = "EXPLICIT_CURRENT_HOST_QUALIFICATION_SELECTION"
-    else:
-        preference = [str(x) for x in group.get("qualification_preference", [])]
-        selected = None
-        for app_id in preference:
-            selected = next((row for row in healthy if row.get("application_id") == app_id), None)
-            if selected is not None:
-                break
-        if selected is None and healthy:
-            selected = healthy[0]
-        reason = "QUALIFICATION_PROBE_ONLY_NOT_USER_RUNTIME_SELECTION"
+    preference = [str(x) for x in group.get("qualification_preference", [])]
+    selected = None
+    for app_id in preference:
+        selected = next((row for row in healthy if row.get("application_id") == app_id), None)
+        if selected is not None:
+            break
+    if selected is None and healthy:
+        selected = healthy[0]
+    reason = "QUALIFICATION_PROBE_ONLY_NOT_USER_RUNTIME_SELECTION"
     if selected is None:
         return None
     row = dict(selected)
