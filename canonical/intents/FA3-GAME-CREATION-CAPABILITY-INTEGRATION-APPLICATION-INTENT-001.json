@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-GAME-CREATION-CAPABILITY-INTEGRATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-GAME-CREATION-CAPABILITY-INTEGRATION-001",
+  "project_type": "SHARED_CAPABILITY_PROGRAM",
+  "goal": "Maximize reusable game-creation/editor capabilities inside existing FA3 shared fabrics while keeping FA3-native authority, native projects, CPU-only viability and optional accelerators.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "asset-processing",
+    "creative-object-composition",
+    "scene-graph",
+    "prefab-variants",
+    "visual-workflow-graph",
+    "live-preview",
+    "incremental-rebuild",
+    "transactional-history",
+    "validation-diagnostics",
+    "spatial-authoring",
+    "procedural-authoring",
+    "narrative-state",
+    "extension-codec-lifecycle",
+    "animation-authoring"
+  ],
+  "execution_classes": [
+    "STATIC_SOURCE_REVIEW_AND_ARCHITECTURE_DECISION"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "target_shared_components": [
+    "FA3-SHARED-ASSET-PROCESSING-FABRIC",
+    "FA3-CREATIVE-OBJECT-SCENE-FABRIC",
+    "FA3-SMART-ASSET-PREFAB-VARIANT-FABRIC",
+    "FA3-UNIVERSAL-WORKFLOW-GRAPH-FABRIC",
+    "FA3-LIVE-PREVIEW-INCREMENTAL-REBUILD-FABRIC",
+    "FA3-TRANSACTIONAL-CREATIVE-HISTORY",
+    "FA3-VALIDATION-CREATIVE-DIAGNOSTICS-FABRIC",
+    "FA3-SPATIAL-PROCEDURAL-AUTHORING-FABRIC",
+    "FA3-EXTENSION-CODEC-AUTHORING-TOOLKIT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "FAIL_CLOSED",
+    "NO_SILENT_FALLBACK",
+    "LICENSE_RIGHTS_CLEARANCE_BEFORE_CODE_REUSE",
+    "SECRET_BROKER_ONLY",
+    "HRB_RESOURCE_AUTHORITY",
+    "MODEL_ROUTER_MODEL_PROVIDER_AUTHORITY",
+    "HARDWARE_SAFETY_ENVELOPE",
+    "SOFTWARE_COEXISTENCE",
+    "AI_DISABLE_POLICY"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+    "FA3-APPLICATION-DONOR-LINKS-001"
+  ],
+  "gui_requirements": [
+    "QT6_QML_FIRST",
+    "REUSE_EXISTING_CONTEXT_AWARE_SURFACES",
+    "NO_UPSTREAM_EDITOR_AS_FA3_AUTHORITY"
+  ],
+  "skill_triggers": []
+}

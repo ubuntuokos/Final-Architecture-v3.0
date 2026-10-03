@@ -1,0 +1,352 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-GAME-CREATION-CAPABILITY-INTEGRATION-REUSE-ASSESSMENT-001",
+  "status": "REVIEWED_MATCH",
+  "date": "2026-10-01",
+  "subject_id": "FA3-GAME-CREATION-CAPABILITY-INTEGRATION-001",
+  "project_id": "FA3-GAME-CREATION-CAPABILITY-INTEGRATION-001",
+  "intent_id": "FA3-GAME-CREATION-CAPABILITY-INTEGRATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-GAME-CREATION-CAPABILITY-INTEGRATION-APPLICATION-INTENT-001.json",
+  "published_main_commit": "7c320638f021fd2783975d13e42af993dfae40e0",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "existing_registered_references": [
+    {
+      "source": "https://github.com/RodZill4/material-maker",
+      "donor_id": "FA3-DONOR-MATERIAL-MAKER-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/godotengine/godot",
+      "status": "EXISTING_GODOT_CURATION_PRESENT_NO_NEW_ID_INFERRED"
+    }
+  ],
+  "donor_intake_state": {
+    "new_source_registration_authorized": false,
+    "reason": "Literal user-authored donornak marker is absent for the newly researched URLs and PR #581 currently owns the serialized donor-intake slot.",
+    "active_intake_pr": 581,
+    "active_intake_head": "6819f373feb07494e5dc0a6ab134d559b00b42cb",
+    "no_competing_registry_mutation": true
+  },
+  "analysis_source_locks": [
+    {
+      "name": "Godot Engine",
+      "source": "https://github.com/godotengine/godot",
+      "revision": "084a2caa05119b625a99b6b51d44b459a26362de",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE.txt",
+      "reuse_route": "A+B",
+      "registry_status": "EXISTING_FA3_GODOT_CURATION_PRESENT",
+      "selected_use": "scene/resource model; import pipeline; extension lifecycle; editor/runtime separation",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "O3DE",
+      "source": "https://github.com/o3de/o3de",
+      "revision": "28872cbb42b4a140f92bf42d75850065135267ff",
+      "observed_license": "Apache-2.0 OR MIT; third-party components separate",
+      "license_evidence": "LICENSE.txt",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "asset processor; dependency graph; source/product pipeline; prefab; graph architecture",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Bevy",
+      "source": "https://github.com/bevyengine/bevy",
+      "revision": "52c3ec0d5ecec0cdf6f4d2fdfd0895267d64740f",
+      "observed_license": "MIT OR Apache-2.0",
+      "license_evidence": "LICENSE-MIT + LICENSE-APACHE",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "ECS composition; scheduling; reflection/data-driven object model",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Fyrox",
+      "source": "https://github.com/FyroxEngine/Fyrox",
+      "revision": "a445c62352682747be85f17e2cda8331a544ad44",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE.md",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "scene composition; editor/engine separation",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Defold",
+      "source": "https://github.com/defold/defold",
+      "revision": "5b389dfdaf28ce76f0f828d29b6b7819cb12dcce",
+      "observed_license": "Defold License 1.0; commercialisation restriction for Game Engine Product",
+      "license_evidence": "LICENSE.txt",
+      "reuse_route": "B+C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "hot reload; live/remote preview; profiler; message/event patterns",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Stride",
+      "source": "https://github.com/stride3d/stride",
+      "revision": "a7fa31ced680c7d4a919f1fe233051cf508f6060",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE.md",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "prefab; nested prefab; overrides; content model",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "GDevelop",
+      "source": "https://github.com/4ian/GDevelop",
+      "revision": "2ff7e45b40f52fbb2f90968e2cf1a91b248e8fcc",
+      "observed_license": "MIT for core/engine/new IDE/extensions; name/logo reserved",
+      "license_evidence": "LICENSE.md",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "event/behavior/action/condition model; extension architecture",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "GDevelop Extensions",
+      "source": "https://github.com/GDevelopApp/GDevelop-extensions",
+      "revision": "a256a405e053ce3dbf75a0da723eba9cc7d7d1b3",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "reviewed reusable behavior/extension catalogue",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "LDtk",
+      "source": "https://github.com/deepnight/ldtk",
+      "revision": "6d69bd1d6be92f01ac30778f6a934f0da8448b16",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "typed world/entity schema; references; rules; auto-layers",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Tiled",
+      "source": "https://github.com/mapeditor/tiled",
+      "revision": "221be2066c4b0ed4bbefbcdfe25d0ad952fc51bd",
+      "observed_license": "Mixed: editor/plugins GPL; libtiled BSD-2-Clause; other components BSD-2/3-Clause",
+      "license_evidence": "COPYING",
+      "reuse_route": "A(partial)+B+C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "layer/object/template/property model; direct reuse restricted to independently cleared components such as libtiled",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "TrenchBroom",
+      "source": "https://github.com/TrenchBroom/TrenchBroom",
+      "revision": "90de03cd28af86658403758ed28e8ca156d34422",
+      "observed_license": "GPL-3.0",
+      "license_evidence": "LICENSE.txt",
+      "reuse_route": "B+C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "issue browser; quick fix; entity links; large-scene editing",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Material Maker",
+      "source": "https://github.com/RodZill4/material-maker",
+      "revision": "04a932dbc0063f7067a514f4219d283e1b3363b2",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE.md",
+      "reuse_route": "A+B",
+      "registry_status": "ACCEPTED_REFERENCE:FA3-DONOR-MATERIAL-MAKER-001",
+      "selected_use": "procedural node graph; material/texture authoring",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Godot Orchestrator",
+      "source": "https://github.com/CraterCrash/godot-orchestrator",
+      "revision": "e1fdcaac6f80ff68d1419868eedf85eae4bd2a1a",
+      "observed_license": "Apache-2.0",
+      "license_evidence": "LICENSE",
+      "reuse_route": "A(partial)+B+C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "visual scripting node/pin/signal semantics; direct reuse only if Godot dependency is isolated",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Ink",
+      "source": "https://github.com/inkle/ink",
+      "revision": "35c63e52f1d36060930dc7ed3cfba38ea224b528",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE.txt",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "branching narrative compiler/runtime separation; JSON runtime representation",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Inky",
+      "source": "https://github.com/inkle/inky",
+      "revision": "3d46aa92bf1572797f35d338bf75e37bb047f2e3",
+      "observed_license": "MIT declared in README/package; bundled third-party files require scan",
+      "license_evidence": "README.md + app/package.json",
+      "reuse_route": "A(partial)+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "live compile/preview; state-aware authoring UX",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Yarn Spinner",
+      "source": "https://github.com/YarnSpinnerTool/YarnSpinner",
+      "revision": "dd8d9b4f7b752364e3dce94961c00924e13f5d72",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE.md",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "dialogue state; commands; storylets; content selection",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Ren'Py",
+      "source": "https://github.com/renpy/renpy",
+      "revision": "e46bb291c86c87de1c3d853a632507381db7df64",
+      "observed_license": "Core contributions MIT; distribution contains multiple MIT/LGPL/other third-party licenses",
+      "license_evidence": "README.rst + sphinx/source/license.rst",
+      "reuse_route": "A(partial)+B+C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "checkpoint/rollback; state restoration; narrative runtime semantics",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Go Flow",
+      "source": "https://github.com/goflowspace/goflow",
+      "revision": "7c387b2cda9dc9c469859c28ff6e09f8652c1adf",
+      "observed_license": "AGPL-3.0",
+      "license_evidence": "LICENSE",
+      "reuse_route": "C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "narrative/world knowledge graph pattern only by default",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Pixelorama",
+      "source": "https://github.com/Orama-Interactive/Pixelorama",
+      "revision": "07d9323a10fba1c6f8f2a8daae4e8ed45905c1fc",
+      "observed_license": "MIT",
+      "license_evidence": "LICENSE",
+      "reuse_route": "A+B",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "frame/cel/timeline; project metadata; batch/CLI export; extension UI",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Blockbench",
+      "source": "https://github.com/JannisX11/blockbench",
+      "revision": "e2ede0809ee6bc91f374ac7e00d34cffbdf86a14",
+      "observed_license": "GPL-3.0",
+      "license_evidence": "LICENSE.MD",
+      "reuse_route": "B+C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "codec/plugin lifecycle; lightweight model-texture-animation authoring",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    },
+    {
+      "name": "Crocotile 3D",
+      "source": "https://www.crocotile3d.com/",
+      "revision": null,
+      "observed_license": "Proprietary/commercial application; no reusable source license established",
+      "license_evidence": "public product documentation",
+      "reuse_route": "C",
+      "registry_status": "OWNER_DONOR_MARKER_REQUIRED",
+      "selected_use": "tile-to-3D workflow; nested prefab/UV animation concepts only",
+      "source_copy_authorized": false,
+      "runtime_dependency_authorized": false
+    }
+  ],
+  "route_legend": {
+    "A": "Potential direct source/component reuse after exact file/dependency License & Rights, security, coexistence and technical review.",
+    "B": "Algorithm/schema/workflow reuse behind FA3-native contracts.",
+    "C": "Clean FA3-native reimplementation of observable functional/architectural patterns; no source copying."
+  },
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001",
+      "use": "EXPAND_TO_ASSET_PROCESSING_DEPENDENCY_CACHE_HOT_RELOAD"
+    },
+    {
+      "id": "FA3-SHARED-WORKFLOW-GRAPH-PATTERN-001",
+      "use": "MATERIALIZE_UNIVERSAL_TYPED_GRAPH_CORE"
+    },
+    {
+      "id": "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
+      "use": "TRANSACTIONAL_HISTORY_CHECKPOINT_RESUME"
+    },
+    {
+      "id": "FA3-SHARED-CREATIVE-CANVAS-PATTERN-001",
+      "use": "AUTHORING_UI_PRIMITIVES"
+    },
+    {
+      "id": "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
+      "use": "ANIMATION_TIMELINE_TEMPORAL_REFERENCES"
+    },
+    {
+      "id": "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
+      "use": "CHECKPOINT_ASSET_AND_WORKFLOW_LINEAGE"
+    }
+  ],
+  "planned_shared_components": [
+    "FA3-SHARED-ASSET-PROCESSING-FABRIC",
+    "FA3-CREATIVE-OBJECT-SCENE-FABRIC",
+    "FA3-SMART-ASSET-PREFAB-VARIANT-FABRIC",
+    "FA3-UNIVERSAL-WORKFLOW-GRAPH-FABRIC",
+    "FA3-LIVE-PREVIEW-INCREMENTAL-REBUILD-FABRIC",
+    "FA3-TRANSACTIONAL-CREATIVE-HISTORY",
+    "FA3-VALIDATION-CREATIVE-DIAGNOSTICS-FABRIC",
+    "FA3-SPATIAL-PROCEDURAL-AUTHORING-FABRIC",
+    "FA3-EXTENSION-CODEC-AUTHORING-TOOLKIT"
+  ],
+  "adoption_authorized": false,
+  "runtime_admission_authorized": false,
+  "code_import_authorized": false,
+  "provider_or_model_admission_authorized": false,
+  "implementation_readiness": "WP0_SOURCE_RIGHTS_AND_ARCHITECTURE_LOCK_COMPLETE_WP1_REQUIRES_SEPARATE_APPROVAL",
+  "static_materialization_authorized": true,
+  "current_host_runtime_promotion_claim": false,
+  "result": "PASS_WITH_SERIALIZED_DONOR_INTAKE_DEFERRED",
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "hrb_authority_preserved": true
+  },
+  "coexistence": {
+    "result": "PASS_FOR_STATIC_WP0",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false,
+    "runtime_change": false
+  }
+}
