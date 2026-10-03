@@ -35,7 +35,7 @@ No silent fallback is allowed.
 
 Human-target conversion, realtime conversion and singing conversion require explicit purpose-scoped consent that is valid at execution time. Code, runtime, model, voice/dataset and output rights remain separate. Unknown rights fail closed.
 
-The Gist itself has no verified reusable source license in the donor record, so this materialization is clean-room functional re-expression only. No Gist code or child-project code is copied.
+The Gist itself has no verified reusable source license in the donor record. It therefore remains a discovery/provenance reference only: it is not a material donor adoption, and no Gist code, child-project code, runtime, model, provider, dataset or asset is copied or depended upon. The transformation contracts and enforcement are FA3-native extensions of the pre-existing FA3-VOICE-001 fabric.
 
 ## Shared GUI
 
@@ -43,13 +43,15 @@ The Gist itself has no verified reusable source license in the donor record, so 
 
 ## Consumer impact
 
-Canonical application consumers are limited to applications already present in the application inventory:
+Only Narration Studio receives a materialized GUI projection in this change. The following registered applications are **planned impact targets**, not implemented consumers yet:
 
 - `fa3.music-studio`
 - `fa3.character-studio`
 - `fa3.story-screenplay`
 - `fa3.video-editor`
 - `fa3.quickclip`
+
+Each becomes an implemented consumer only when its own adapter/workflow and required manual projection are materialized and verified.
 
 ## Hardware and Current Host
 
@@ -64,3 +66,7 @@ This structural materialization creates **no physical runtime PASS**. Any future
 - authority delta: **0**
 - child donor auto-admission: **false**
 - provider/model admission in this change: **none**
+
+## Explicit owner approval
+
+The owner explicitly marked the Gist `donornak`, approved the resulting plan with `Készítsd el`, and subsequently instructed `Készítsd el a teljes lezárásig. de ezt már írtam`. This approval authorizes completion of the FA3-native reference plan; it does **not** override License & Rights or Universal Capability Access gates and therefore does not convert the unknown-rights Gist into a material donor dependency.
