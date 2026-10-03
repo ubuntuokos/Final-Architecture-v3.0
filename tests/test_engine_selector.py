@@ -215,7 +215,8 @@ class EngineSelectorTests(unittest.TestCase):
         self.assertIn('setContextProperty("fa3EngineSelector"',main_cpp)
         self.assertIn("EngineSelectorService.cpp",cmake)
         self.assertIn("compatibilityReport",service)
-        self.assertIn("scopeTarget",qml)\n        self.assertIn("PRODUCT_FAMILY",qml)
+        self.assertIn("scopeTarget",qml)
+        self.assertIn("PRODUCT_FAMILY",qml)
         self.assertIn("compareIds.indexOf",qml)
 
     def test_static_compare_includes_compatibility_without_execution(self):
