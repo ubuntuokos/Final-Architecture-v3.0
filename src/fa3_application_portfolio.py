@@ -2,10 +2,10 @@
 from __future__ import annotations
 import argparse,json
 from pathlib import Path
-L="canonical/FA3-OPERATING-LEVEL-MODEL-001.json";P="canonical/FA3-APPLICATION-PORTFOLIO-001.json";D="canonical/FA3-DOMAIN-PACK-REGISTRY-001.json";R="canonical/FA3-APPLICATION-DEPENDENCY-REGISTRY-001.json";C="canonical/FA3-PRODUCT-CATALOG-001.json";E="canonical/FA3-ENTITLEMENT-POLICY-001.json"
+L="canonical/FA3-OPERATING-LEVEL-MODEL-001.json";P="canonical/FA3-APPLICATION-PORTFOLIO-001.json";D="canonical/FA3-DOMAIN-PACK-REGISTRY-001.json";R="canonical/FA3-APPLICATION-DEPENDENCY-REGISTRY-001.json";C="canonical/FA3-PRODUCT-CATALOG-001.json";E="canonical/FA3-ENTITLEMENT-POLICY-001.json";A="canonical/FA3-APPLICATION-DONOR-LINKS-001.json";X="canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
 def load(root,p): return json.loads((root/p).read_text(encoding="utf-8"))
 def validate(root):
-    lv,po,dm,dp,ca,ep=[load(root,x) for x in (L,P,D,R,C,E)]; f=[]; order=lv.get("order",[]); rank={x:i for i,x in enumerate(order)}
+    lv,po,dm,dp,ca,ep,ad,xc=[load(root,x) for x in (L,P,D,R,C,E,A,X)]; f=[]; order=lv.get("order",[]); rank={x:i for i,x in enumerate(order)}
     if order!=["MINIMAL","PERSONAL","PROFESSIONAL","STUDIO","BUSINESS","ENTERPRISE"]: f.append("OPERATING_LEVEL_ORDER_INVALID")
     if any(x.get("capability_count")!=175 for x in (lv,po,ep)): f.append("CAPABILITY_BASELINE_NOT_175")
     states=set(po.get("portfolio_states",[])); classes=set(po.get("application_classes",[])); domains=set(dm.get("domains",[])); ids=set()
@@ -29,6 +29,13 @@ def validate(root):
         if b.get("optional") is not True: f.append("BUNDLE_NOT_OPTIONAL:"+str(b.get("id")))
         for aid in b.get("applications",[]):
             if aid not in ids: f.append("BUNDLE_APPLICATION_UNKNOWN:"+aid)
+    for row in ad.get("applications",[]):
+        if row.get("kind")=="INTERNAL_APPLICATION" and row.get("application_id") not in ids: f.append("APPLICATION_DONOR_INTERNAL_MISSING:"+str(row.get("application_id")))
+    byid={a["application_id"]:a for a in po.get("applications",[])}
+    for row in xc.get("applications",[]):
+        eid="external."+str(row.get("id"))
+        if eid not in ids: f.append("CURATED_EXTERNAL_APPLICATION_MISSING:"+eid)
+        elif byid[eid].get("fa3_entitlement_does_not_grant_upstream_rights") is not True: f.append("EXTERNAL_UPSTREAM_RIGHTS_BOUNDARY_MISSING:"+eid)
     if not ep.get("rules",{}).get("higher_operating_level_does_not_grant_apps"): f.append("TIER_APP_LOCKIN_POLICY_MISSING")
     if not dp.get("rules",{}).get("platform_dependency_never_grants_application_entitlement"): f.append("DEPENDENCY_ENTITLEMENT_SEPARATION_MISSING")
     return sorted(set(f))
