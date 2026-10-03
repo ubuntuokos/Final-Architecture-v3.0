@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-APPLICATION-GUI-DESIGN-RECORD-001.schema.json",
+  "title": "FA3 Application GUI Design Record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "application_id",
+    "application_lifecycle_state",
+    "gui_classification",
+    "retroactive_policy_applies",
+    "continuous_gui_sync_required",
+    "fa3_design_system_required",
+    "fa3_gui_placement",
+    "application_navigation_model",
+    "functional_revision",
+    "gui_revision",
+    "function_to_gui_mapping",
+    "placement_status",
+    "design_system_compliance_status",
+    "materialization_status",
+    "verification_status",
+    "manual_projection_status"
+  ],
+  "properties": {
+    "application_id": {"type": "string", "minLength": 1},
+    "application_lifecycle_state": {"type": "string"},
+    "gui_classification": {"enum": ["GUI_REQUIRED", "GUI_POSSIBLE", "HEADLESS_ONLY"]},
+    "headless_justification": {"type": ["string", "null"]},
+    "retroactive_policy_applies": {"const": true},
+    "continuous_gui_sync_required": {"const": true},
+    "fa3_design_system_required": {"const": true},
+    "fa3_gui_placement": {"type": "object"},
+    "application_navigation_model": {"type": "object"},
+    "screen_map": {"type": ["object", "array"]},
+    "menu_structure": {"type": ["object", "array"]},
+    "toolbar_structure": {"type": ["object", "array"]},
+    "panel_structure": {"type": ["object", "array"]},
+    "settings_structure": {"type": ["object", "array"]},
+    "shared_gui_components": {"type": "array"},
+    "application_specific_components": {"type": "array"},
+    "workflow_entry_points": {"type": "array"},
+    "functional_revision": {"type": "string", "minLength": 1},
+    "gui_revision": {"type": "string", "minLength": 1},
+    "design_system_revision": {"type": ["string", "null"]},
+    "function_to_gui_mapping": {"type": "array"},
+    "proposed_menu_path": {"type": ["string", "null"]},
+    "approved_menu_path": {"type": ["string", "null"]},
+    "placement_status": {"enum": [
+      "GUI_PLACEMENT_UNASSESSED",
+      "GUI_PLACEMENT_PROPOSED",
+      "GUI_PLACEMENT_REVIEW_REQUIRED",
+      "GUI_PLACEMENT_OWNER_APPROVED",
+      "GUI_PLACEMENT_MATERIALIZED",
+      "GUI_PLACEMENT_VERIFIED"
+    ]},
+    "design_system_compliance_status": {"type": "string"},
+    "materialization_status": {"type": "string"},
+    "verification_status": {"type": "string"},
+    "manual_projection_status": {"type": "string"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"gui_classification": {"const": "HEADLESS_ONLY"}}},
+      "then": {"required": ["headless_justification"]}
+    }
+  ]
+}
