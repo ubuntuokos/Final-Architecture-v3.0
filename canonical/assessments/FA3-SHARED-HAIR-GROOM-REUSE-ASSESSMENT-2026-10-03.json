@@ -72,20 +72,16 @@
       "reason": "REQUIRED_SCOPE_COMPOSES_EXISTING_CAP_001_TO_CAP_175"
     },
     {
-      "id": "PENDING_PR_644_HAIR_SOURCES",
-      "reason": "PENDING_OR_UNMERGED_DONORS_ARE_INVISIBLE_TO_FINALIZED_PLANNING"
-    },
-    {
       "id": "PENDING_PR_587_591_597_640_643",
       "reason": "PENDING_IMPLEMENTATIONS_ARE_NOT_HARD_DEPENDENCIES"
     }
   ],
   "donor_planning_snapshot": {
-    "published_main_commit": "b69d2f4c8cff55ead8470d5118a41a5c9bde820d",
+    "published_main_commit": "0a5641204c6f8caaf65e2e4bfc4af928b5579d54",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "donor_registry_blob_sha": "9e0b70edc5bff6733389bc2dbec13d9d9b5fb94e",
-    "donor_registry_sha256": "e3f9b0068d475b4e3e33344590d49ccd48dc3b77cfa5561c0f10763cbe9fd8ad",
-    "donor_registry_entry_count": 1384
+    "donor_registry_blob_sha": "ee3a274e842471a3362c343f1ffa2eee935f85f0",
+    "donor_registry_sha256": "c1287b5a6222b72723a87fd527d50befc70fd387550b6afb844e46719eb1d39a",
+    "donor_registry_entry_count": 1405
   },
   "shared_capability_placement": {
     "reviewed": true,
@@ -105,5 +101,17 @@
   "new_architectural_authorities": 0,
   "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "published_reference_refresh": {
+    "source_pr": 644,
+    "status": "PUBLISHED_MAIN_REFERENCE_INPUT_ONLY",
+    "observed_hair_reference_ids": [
+      "FA3-DONOR-MESHCAPADE-DIFFLOCKS-001",
+      "FA3-DONOR-GITHUB-TOPIC-HAIR-SEGMENTATION-001",
+      "FA3-DONOR-FIGHTING-ZHANG-STRANDDESIGNER-001"
+    ],
+    "material_dependency_created": false,
+    "donor_usage_edge_created": false,
+    "architecture_restart_required": false
+  }
 }
