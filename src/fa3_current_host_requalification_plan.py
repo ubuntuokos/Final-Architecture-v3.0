@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Any
 
 POLICY_PATH=Path("canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json")
+DELTA_AUTHORITY_PATH=Path("canonical/FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001.json")
+BASE_STATE_PATH=Path("canonical/FA3-CURRENT-HOST-BASE-STATE-001.json")
 MANIFEST_PATH=Path("fa3-current-host/manifest.json")
 CAP_RE=re.compile(r"^CAP-\d{3}$")
 GLOBAL_PROOF_SURFACES={
@@ -35,6 +37,18 @@ def cap_key(v:str):
     except Exception:return (10**9,v)
 
 def infer_full_base_admitted(root:Path)->bool:
+    base_path=root/BASE_STATE_PATH
+    if base_path.is_file():
+        base=load(base_path)
+        return (
+            base.get("schema")=="fa3.current-host-base-state.v1"
+            and base.get("status")=="CURRENT_HOST_BASE_ADMITTED"
+            and base.get("capability_count")==175
+            and base.get("obligation_count")==525
+            and isinstance(base.get("base_release_digest"),str)
+            and len(base["base_release_digest"])==64
+            and base.get("effective_host_digest")==base.get("base_release_digest")
+        )
     active=load(root/MANIFEST_PATH).get("active_closure",{})
     return active.get("status") in {"ADMITTED_FULL_BASE","FULL_175_525_EXACT_HEAD_PASS_POST_MERGE_AUDITED"}
 
@@ -51,7 +65,7 @@ def affected(records:list[dict[str,Any]])->list[str]:
 
 def build_requalification_plan(root:Path, structural_report:dict[str,Any], *, projection_valid:bool,
                                main_in_lineage:bool, full_base_admitted:bool|None=None)->dict[str,Any]:
-    root=root.resolve(); policy=load(root/POLICY_PATH); findings=[]
+    root=root.resolve(); policy=load(root/POLICY_PATH); delta_authority=load(root/DELTA_AUTHORITY_PATH); findings=[]
     if structural_report.get("result")!="PASS": findings.append("STRUCTURAL_IMPACT_GATE_NOT_PASS")
     records=[]
     for rel in structural_report.get("impact_records",[]):
@@ -76,7 +90,13 @@ def build_requalification_plan(root:Path, structural_report:dict[str,Any], *, pr
     elif not full_base_admitted: mode="FULL"
     elif not caps:
         findings.append("SCOPED_REQUALIFICATION_SCOPE_UNDECLARED"); mode="BLOCKED"
-    else: mode="SCOPED"
+    else:
+        mandatory={
+            x for x in delta_authority.get("mandatory_runtime_delta_capabilities",[])
+            if isinstance(x,str) and CAP_RE.fullmatch(x)
+        }
+        caps=sorted(set(caps)|mandatory,key=cap_key)
+        mode="SCOPED"
     ready=(not findings and mode in {"FULL","SCOPED"} and projection_valid and main_in_lineage)
     return {
       "schema":"fa3.current-host-requalification-plan.v1","policy_id":policy.get("id"),
@@ -90,7 +110,10 @@ def build_requalification_plan(root:Path, structural_report:dict[str,Any], *, pr
       "historical_evidence_reused":False,"unchanged_base_evidence_relabelled":False,
       "capability_baseline":policy.get("capability_count"),
       "full_obligation_count":int(policy.get("capability_count",0))*3,
-      "delta_policy":policy.get("delta_policy",{}),"findings":findings,
+      "delta_policy":policy.get("delta_policy",{}),
+      "delta_authority_id":delta_authority.get("id"),
+      "mandatory_runtime_delta_capabilities":delta_authority.get("mandatory_runtime_delta_capabilities",[]),
+      "findings":findings,
     }
 
 def main()->int:
