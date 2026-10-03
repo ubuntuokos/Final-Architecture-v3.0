@@ -72,7 +72,12 @@
     "orphaned_product_family_placement_fail_closed": true,
     "product_family_is_context_not_authority": true,
     "product_family_membership_does_not_grant_permission": true,
-    "retroactive_platform_placement_required": true
+    "retroactive_platform_placement_required": true,
+    "application_portfolio_registry_id": "FA3-APPLICATION-PORTFOLIO-001",
+    "application_portfolio_path": "canonical/FA3-APPLICATION-PORTFOLIO-001.json",
+    "declared_application_lifecycle_is_portfolio_state": false,
+    "portfolio_state_authority": "FA3-APPLICATION-PORTFOLIO-001",
+    "all_internal_system_companion_applications_registered": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -86,60 +91,12 @@
   },
   "applications": [
     {
-      "application_id": "fa3.video-editor",
-      "name": "FA3 Video Editor",
+      "application_id": "fa3.3d-dcc-studio",
+      "name": "FA3 3D / DCC Studio",
       "kind": "INTERNAL_APPLICATION",
       "lifecycle": "PLANNED",
       "aliases": [
-        "Video Editor",
-        "Creative Studio",
-        "Hybrid Editorial",
-        "Video Studio"
-      ]
-    },
-    {
-      "application_id": "fa3.quickclip",
-      "name": "FA3 QuickClip",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "QuickClip",
-        "Short Video"
-      ]
-    },
-    {
-      "application_id": "fa3.story-screenplay",
-      "name": "FA3 Story/Screenplay",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "Story/Screenplay",
-        "Film Planning",
-        "Story",
-        "Screenplay"
-      ]
-    },
-    {
-      "application_id": "fa3.music-studio",
-      "name": "FA3 Music Studio",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "Music Studio",
-        "Audio Fabric",
-        "Voice/Vocal"
-      ]
-    },
-    {
-      "application_id": "fa3.character-studio",
-      "name": "FA3 Character Studio",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "Character Studio",
-        "Performance",
-        "Choreography",
-        "Digital Actor"
+        "FA3 3D / DCC Studio"
       ]
     },
     {
@@ -155,13 +112,366 @@
       ]
     },
     {
-      "application_id": "reference.krita",
-      "name": "Krita",
-      "kind": "EXTERNAL_REFERENCE_APPLICATION",
-      "lifecycle": "REFERENCE_ONLY",
-      "source_ref": "project:krita",
+      "application_id": "fa3.animation-character-motion",
+      "name": "FA3 Animation & Character Motion",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
       "aliases": [
-        "Photo/Image Editor"
+        "FA3 Animation & Character Motion"
+      ]
+    },
+    {
+      "application_id": "fa3.audio-studio",
+      "name": "FA3 Audio Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Audio Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "name": "FA3 Character Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Character Studio",
+        "Performance",
+        "Choreography",
+        "Digital Actor"
+      ]
+    },
+    {
+      "application_id": "fa3.choreography-studio",
+      "name": "FA3 Choreography Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Choreography Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.coach",
+      "name": "FA3 Coach",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Coach"
+      ]
+    },
+    {
+      "application_id": "fa3.control-center",
+      "name": "FA3 Control Center",
+      "kind": "SYSTEM_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Control Center"
+      ]
+    },
+    {
+      "application_id": "fa3.conversation-meeting-work",
+      "name": "FA3 Conversation & Meeting → Work",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Conversation & Meeting → Work"
+      ]
+    },
+    {
+      "application_id": "fa3.credits-titles",
+      "name": "FA3 Credits & Titles",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Credits & Titles"
+      ]
+    },
+    {
+      "application_id": "fa3.diffusion-studio",
+      "name": "FA3 Diffusion Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Diffusion Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.digital-human-studio",
+      "name": "FA3 Digital Human Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Digital Human Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.email-contact-manager",
+      "name": "FA3 Email & Contact Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Email & Contact Manager"
+      ]
+    },
+    {
+      "application_id": "fa3.game-creation-studio",
+      "name": "FA3 Game Creation Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Game Creation Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.humanizer",
+      "name": "FA3 Humanizer",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Humanizer"
+      ]
+    },
+    {
+      "application_id": "fa3.idea-manager",
+      "name": "FA3 Idea Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Idea Manager"
+      ]
+    },
+    {
+      "application_id": "fa3.live-broadcast-studio",
+      "name": "FA3 Live / Broadcast Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Live / Broadcast Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.meeting-manager",
+      "name": "FA3 Meeting Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Meeting Manager"
+      ]
+    },
+    {
+      "application_id": "fa3.mind-map-studio",
+      "name": "FA3 Mind Map Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Mind Map Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "name": "FA3 Music Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Music Studio",
+        "Audio Fabric",
+        "Voice/Vocal"
+      ]
+    },
+    {
+      "application_id": "fa3.narration-studio",
+      "name": "FA3 Narration Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Narration Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.office",
+      "name": "FA3 Office",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Office"
+      ]
+    },
+    {
+      "application_id": "fa3.photo-image-studio",
+      "name": "FA3 Photo & Image Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Photo & Image Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.production-studio",
+      "name": "FA3 Production Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Production Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "name": "FA3 QuickClip",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "QuickClip",
+        "Short Video"
+      ]
+    },
+    {
+      "application_id": "fa3.remote-ai-hub",
+      "name": "FA3 Remote AI Hub",
+      "kind": "COMPANION_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Remote AI Hub"
+      ]
+    },
+    {
+      "application_id": "fa3.render-manager",
+      "name": "FA3 Render Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Render Manager"
+      ]
+    },
+    {
+      "application_id": "fa3.review-studio",
+      "name": "FA3 Review / Approval Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Review / Approval Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.scene-shot-designer",
+      "name": "FA3 Scene / Shot Designer",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Scene / Shot Designer"
+      ]
+    },
+    {
+      "application_id": "fa3.set-location-dressing",
+      "name": "FA3 Set / Location Dressing",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Set / Location Dressing"
+      ]
+    },
+    {
+      "application_id": "fa3.spatial-reconstruction",
+      "name": "FA3 Spatial / Reconstruction Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Spatial / Reconstruction Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "name": "FA3 Story/Screenplay",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Story/Screenplay",
+        "Film Planning",
+        "Story",
+        "Screenplay"
+      ]
+    },
+    {
+      "application_id": "fa3.subtitle-studio",
+      "name": "FA3 Subtitle Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Subtitle Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.task-inbox-queue",
+      "name": "FA3 Task Inbox / Queue",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Task Inbox / Queue"
+      ]
+    },
+    {
+      "application_id": "fa3.unified-messenger",
+      "name": "FA3 Unified Messenger",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Unified Messenger"
+      ]
+    },
+    {
+      "application_id": "fa3.vector-studio",
+      "name": "FA3 Vector Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Vector Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.vfx-studio",
+      "name": "FA3 VFX Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 VFX Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "name": "FA3 Video Editor",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "Video Editor",
+        "Creative Studio",
+        "Hybrid Editorial",
+        "Video Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.voice-speech-studio",
+      "name": "FA3 Voice & Speech Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Voice & Speech Studio"
+      ]
+    },
+    {
+      "application_id": "fa3.workload-mode",
+      "name": "FA3 Workload Mode",
+      "kind": "SYSTEM_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 Workload Mode"
+      ]
+    },
+    {
+      "application_id": "fa3.world-environment-studio",
+      "name": "FA3 World & Environment Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "FA3 World & Environment Studio"
       ]
     },
     {
@@ -173,6 +483,16 @@
       "aliases": [
         "Audio Fabric",
         "Music Studio"
+      ]
+    },
+    {
+      "application_id": "reference.krita",
+      "name": "Krita",
+      "kind": "EXTERNAL_REFERENCE_APPLICATION",
+      "lifecycle": "REFERENCE_ONLY",
+      "source_ref": "project:krita",
+      "aliases": [
+        "Photo/Image Editor"
       ]
     }
   ],

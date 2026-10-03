@@ -107,6 +107,7 @@ from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
 from fa3_modernization_integration_gate import gate as modernization_integration_gate
 from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
+from fa3_product_entitlement_gate import gate as product_entitlement_gate
 
 OK=0
 BLOCKED=2
@@ -179,6 +180,10 @@ def static_check(root:Path):
     gate_registry_ref=gate_registry_gate(root)
     if gate_registry_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-139","Canonical mandatory gate registry failed",gate_registry_gate=gate_registry_ref))
+
+    product_entitlement_ref=product_entitlement_gate(root)
+    if product_entitlement_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-160","Product Entitlement and Application Portfolio gate failed",product_entitlement_gate=product_entitlement_ref))
 
     permanent_gate_hardening_ref=permanent_gate_hardening_gate(root)
     if permanent_gate_hardening_ref["result"]!="PASS":
@@ -271,6 +276,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-002","Fail-closed/document-only promotion invariant disabled"))
     if "Linux Recovery/Rebuild Projection" not in pol.get("out_of_scope",[]):
         fs.append(finding("FA3-STATIC-003","Removed Linux Recovery/Rebuild Projection returned to scope"))
+    if "FA3-PRODUCT-ENTITLEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-161","Product Entitlement mandatory gate is not bound into global enforcement policy"))
     if "FA3-TERAX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-015","Terax mandatory reference gate is not bound into global enforcement policy"))
     if "FA3-KANEO-GATESET-001" not in pol.get("mandatory_reference_gates",[]):

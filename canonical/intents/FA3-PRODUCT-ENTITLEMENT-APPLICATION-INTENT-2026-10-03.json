@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-PRODUCT-ENTITLEMENT-APPLICATION-INTENT-2026-10-03",
+  "project_id": "FA3-PRODUCT-ENTITLEMENT-001",
+  "status": "OWNER_APPROVED_FOR_STATIC_MATERIALIZATION",
+  "goal": "Materialize shared product entitlement, operating-level and application-portfolio governance with individually selectable applications from Minimal through Enterprise.",
+  "affected_domains": [
+    "APPLICATION_PORTFOLIO",
+    "PRODUCT_ENTITLEMENT",
+    "PRODUCT_CATALOG",
+    "CONTROL_CENTER",
+    "GOVERNANCE"
+  ],
+  "capability_hints": [
+    "application inventory",
+    "policy routing",
+    "product selection",
+    "dependency resolution"
+  ],
+  "problem_hints": [
+    "avoid application bundle lock-in",
+    "continuous retrospective application classification",
+    "separate technical dependencies from user-facing entitlement"
+  ],
+  "target_hints": [
+    "FA3 Control Center",
+    "Application Fabric",
+    "Product Family Fabric",
+    "License & Rights Authority",
+    "Engine Selection Fabric"
+  ],
+  "declared_gaps": [],
+  "authority_requirements": [
+    "NO_NEW_EXECUTION_AUTHORITY",
+    "LICENSE_RIGHTS_AUTHORITY_UNCHANGED",
+    "SECURITY_AUTHORITY_UNCHANGED",
+    "MODEL_ROUTER_AUTHORITY_UNCHANGED",
+    "HRB_AUTHORITY_UNCHANGED",
+    "EVIDENCE_AUTHORITY_UNCHANGED"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "upstream_uninstall_required": false,
+    "host_global_mutation": false,
+    "silent_fallback": false
+  },
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001"
+  ]
+}

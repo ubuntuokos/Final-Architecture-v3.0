@@ -1,0 +1,1530 @@
+{
+  "schema": "fa3.application-portfolio.v1",
+  "id": "FA3-APPLICATION-PORTFOLIO-001",
+  "status": "CANONICAL_STATIC_PORTFOLIO",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "portfolio_states": [
+    "FUTURE",
+    "PLANNED",
+    "IN_PROGRESS",
+    "EXISTING",
+    "RETIRED"
+  ],
+  "application_classes": [
+    "INTERNAL_APPLICATION",
+    "SYSTEM_APPLICATION",
+    "COMPANION_APPLICATION",
+    "EXTERNAL_OPTIONAL_APPLICATION",
+    "REFERENCE_ONLY_APPLICATION"
+  ],
+  "excluded_entity_classes": [
+    "SHARED_MODULE",
+    "PLATFORM_COMPONENT",
+    "ENGINE",
+    "PROVIDER",
+    "SERVICE",
+    "GUI_SURFACE"
+  ],
+  "provisioning_lifecycle_ref": "FA3-APP-LIFECYCLE-001",
+  "provisioning_state_is_portfolio_state": false,
+  "product_family_registry_ref": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+  "product_family_registry_current_main_required": true,
+  "filesystem_policy": {
+    "scan_roots": [
+      "apps"
+    ],
+    "ignored_immediate_roots": [
+      "shared"
+    ],
+    "unknown_materialized_application_root": "FAIL_CLOSED",
+    "planned_record_with_materialized_root": "FAIL_CLOSED_REQUIRE_IN_PROGRESS_OR_EXISTING"
+  },
+  "applications": [
+    {
+      "application_id": "fa3.control-center",
+      "name": "FA3 Control Center",
+      "application_class": "SYSTEM_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": false,
+      "primary_product_family": "FA3-FAMILY-ENTERPRISE-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "MATERIALIZED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "apps/fa3-control-center"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [
+        "apps/fa3-control-center"
+      ]
+    },
+    {
+      "application_id": "fa3.workload-mode",
+      "name": "FA3 Workload Mode",
+      "application_class": "SYSTEM_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": false,
+      "primary_product_family": "FA3-FAMILY-ENTERPRISE-001",
+      "secondary_product_families": [],
+      "implementation_state": "MATERIALIZED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "apps/workload-mode"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [
+        "apps/workload-mode"
+      ]
+    },
+    {
+      "application_id": "fa3.ai-module-factory",
+      "name": "FA3 AI Module Factory",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "MATERIALIZED_IN_PROGRESS",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "apps/fa3-ai-module-factory",
+        "canonical/profiles/FA3-AI-MODULE-FACTORY-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [
+        "apps/fa3-ai-module-factory"
+      ]
+    },
+    {
+      "application_id": "fa3.remote-ai-hub",
+      "name": "FA3 Remote AI Hub",
+      "application_class": "COMPANION_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "SURFACE_AND_ACTIVE_WORK",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [
+        "PR#150"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "name": "FA3 QuickClip",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.photo-image-studio",
+      "name": "FA3 Photo & Image Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.vector-studio",
+      "name": "FA3 Vector Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "name": "FA3 Video Editor",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md",
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [
+        "PR#401",
+        "PR#613",
+        "PR#624",
+        "PR#638",
+        "PR#640"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.diffusion-studio",
+      "name": "FA3 Diffusion Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#75"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.subtitle-studio",
+      "name": "FA3 Subtitle Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "SURFACE_MATERIALIZED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md",
+        "apps/fa3-control-center/qml/SubtitleStudioPage.qml"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.narration-studio",
+      "name": "FA3 Narration Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "SURFACE_MATERIALIZED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md",
+        "apps/fa3-control-center/qml/NarrationStudioPage.qml"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "name": "FA3 Music Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.audio-studio",
+      "name": "FA3 Audio Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.voice-speech-studio",
+      "name": "FA3 Voice & Speech Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.digital-human-studio",
+      "name": "FA3 Digital Human Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001",
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "docs/engine-selector.md"
+      ],
+      "active_work_refs": [
+        "PR#638"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.animation-character-motion",
+      "name": "FA3 Animation & Character Motion",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.vfx-studio",
+      "name": "FA3 VFX Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.credits-titles",
+      "name": "FA3 Credits & Titles",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.idea-manager",
+      "name": "FA3 Idea Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "MINIMAL",
+      "supported_operating_levels": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "name": "FA3 Story / Screenplay Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md",
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [
+        "PR#413"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.mind-map-studio",
+      "name": "FA3 Mind Map Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-BUSINESS-COLLABORATION-001"
+      ],
+      "implementation_state": "DOCUMENTED_PLAN",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#552"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.coach",
+      "name": "FA3 Coach",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-BUSINESS-COLLABORATION-001"
+      ],
+      "implementation_state": "DOCUMENTED_ARCHITECTURE",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#506"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.humanizer",
+      "name": "FA3 Humanizer",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-AI-WORKSTATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#569"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.scene-shot-designer",
+      "name": "FA3 Scene / Shot Designer",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.world-environment-studio",
+      "name": "FA3 World & Environment Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "name": "FA3 Character Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md",
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.set-location-dressing",
+      "name": "FA3 Set / Location Dressing",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.choreography-studio",
+      "name": "FA3 Choreography Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.spatial-reconstruction",
+      "name": "FA3 Spatial / Reconstruction Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.3d-dcc-studio",
+      "name": "FA3 3D / DCC Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#587",
+        "PR#597"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.render-manager",
+      "name": "FA3 Render Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#587"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.game-creation-studio",
+      "name": "FA3 Game Creation Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#586",
+        "PR#591"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.production-studio",
+      "name": "FA3 Production Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "STUDIO",
+      "supported_operating_levels": [
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-BUSINESS-COLLABORATION-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.review-studio",
+      "name": "FA3 Review / Approval Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "STUDIO",
+      "supported_operating_levels": [
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-BUSINESS-COLLABORATION-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.live-broadcast-studio",
+      "name": "FA3 Live / Broadcast Studio",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "STUDIO",
+      "supported_operating_levels": [
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "README.md"
+      ],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.office",
+      "name": "FA3 Office",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#584"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.email-contact-manager",
+      "name": "FA3 Email & Contact Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "SHARED_FOUNDATION_IN_PROGRESS",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#565",
+        "PR#566"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.unified-messenger",
+      "name": "FA3 Unified Messenger",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "SHARED_FOUNDATION_IN_PROGRESS",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#565",
+        "PR#566"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.meeting-manager",
+      "name": "FA3 Meeting Manager",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#590"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.task-inbox-queue",
+      "name": "FA3 Task Inbox / Queue",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "PLANNED",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "PLANNED",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [],
+      "repository_roots": []
+    },
+    {
+      "application_id": "fa3.conversation-meeting-work",
+      "name": "FA3 Conversation & Meeting → Work",
+      "application_class": "INTERNAL_APPLICATION",
+      "portfolio_state": "IN_PROGRESS",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "ACTIVE_MATERIALIZATION",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [],
+      "active_work_refs": [
+        "PR#590"
+      ],
+      "repository_roots": []
+    },
+    {
+      "application_id": "studio.comfyui",
+      "name": "ComfyUI",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "comfyui",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.invokeai",
+      "name": "InvokeAI",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-AI-WORKSTATION-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "invokeai",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.kdenlive",
+      "name": "Kdenlive",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "kdenlive",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.bforartists",
+      "name": "Bforartists",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "bforartists",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.natron",
+      "name": "Natron",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "natron",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.gaffer",
+      "name": "Gaffer",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PROFESSIONAL",
+      "supported_operating_levels": [
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-STUDIO-FILM-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-CREATIVE-MEDIA-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "gaffer",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.demucs",
+      "name": "Demucs",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "demucs",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.deepfilternet",
+      "name": "DeepFilterNet",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "deepfilternet",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.mautic",
+      "name": "Mautic",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "BUSINESS",
+      "supported_operating_levels": [
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "mautic",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.twenty",
+      "name": "Twenty",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "BUSINESS",
+      "supported_operating_levels": [
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "twenty",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "studio.listmonk",
+      "name": "listmonk",
+      "application_class": "EXTERNAL_OPTIONAL_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "BUSINESS",
+      "supported_operating_levels": [
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": true,
+      "primary_product_family": "FA3-FAMILY-BUSINESS-COLLABORATION-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-ENTERPRISE-001"
+      ],
+      "implementation_state": "CURATED_EXTERNAL",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "source_catalog_id": "listmonk",
+      "external_rights_required": true,
+      "fa3_entitlement_relicenses_upstream": false
+    },
+    {
+      "application_id": "reference.krita",
+      "name": "Krita",
+      "application_class": "REFERENCE_ONLY_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": false,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [],
+      "implementation_state": "REFERENCE_ONLY",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "external_rights_required": true
+    },
+    {
+      "application_id": "reference.ardour",
+      "name": "Ardour",
+      "application_class": "REFERENCE_ONLY_APPLICATION",
+      "portfolio_state": "EXISTING",
+      "minimum_operating_level": "PERSONAL",
+      "supported_operating_levels": [
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ],
+      "individually_entitleable": false,
+      "primary_product_family": "FA3-FAMILY-CREATIVE-MEDIA-001",
+      "secondary_product_families": [
+        "FA3-FAMILY-STUDIO-FILM-001"
+      ],
+      "implementation_state": "REFERENCE_ONLY",
+      "evidence_state": "SEPARATE_GATED_EVIDENCE",
+      "release_state": "NOT_ASSERTED_BY_PORTFOLIO",
+      "source_refs": [
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      ],
+      "active_work_refs": [],
+      "repository_roots": [],
+      "external_rights_required": true
+    }
+  ],
+  "current_host_impact": {
+    "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+    "runtime_promotion_claim": false,
+    "physical_pass_claim": false
+  },
+  "application_inventory_binding": {
+    "registry_ref": "FA3-APPLICATION-DONOR-LINKS-001",
+    "all_internal_system_companion_applications_registered": true,
+    "donor_inventory_lifecycle_is_portfolio_state": false,
+    "portfolio_state_source": "FA3-APPLICATION-PORTFOLIO-001"
+  }
+}

@@ -1,0 +1,610 @@
+{
+  "schema": "fa3.application-dependency-registry.v1",
+  "id": "FA3-APPLICATION-DEPENDENCY-REGISTRY-001",
+  "status": "CANONICAL_PRODUCT_DEPENDENCIES",
+  "authority": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "rules": {
+    "technical_dependency_is_not_application_entitlement": true,
+    "dependency_may_not_point_to_user_facing_application": true,
+    "automatic_dependency_activation_remains_subject_to_higher_authorities": true
+  },
+  "platform_components": [
+    {
+      "component_id": "FA3-COMP-SECURITY-GOV",
+      "canonical_ref": "FA3-AUTH-SECURITY-GOV-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-LICENSE-RIGHTS",
+      "canonical_ref": "FA3-LICENSE-RIGHTS-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-EVIDENCE",
+      "canonical_ref": "FA3-AUTH-OBS-EVIDENCE-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-HRB",
+      "canonical_ref": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-MODEL-ROUTER",
+      "canonical_ref": "FA3-AUTH-MODEL-ROUTER-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-ENGINE-SELECTION",
+      "canonical_ref": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-SOFTWARE-COEXISTENCE",
+      "canonical_ref": "FA3-SOFTWARE-COEXISTENCE-001",
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-ASSET-CORE",
+      "canonical_ref": null,
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-COLOR-MANAGEMENT",
+      "canonical_ref": null,
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-3D-CORE",
+      "canonical_ref": null,
+      "user_facing_application": false,
+      "entitlement_required": false
+    },
+    {
+      "component_id": "FA3-COMP-RENDER-EXECUTION",
+      "canonical_ref": null,
+      "user_facing_application": false,
+      "entitlement_required": false
+    }
+  ],
+  "application_dependencies": [
+    {
+      "application_id": "fa3.control-center",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.workload-mode",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.ai-module-factory",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.remote-ai-hub",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.quickclip",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT"
+      ]
+    },
+    {
+      "application_id": "fa3.photo-image-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT"
+      ]
+    },
+    {
+      "application_id": "fa3.vector-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT"
+      ]
+    },
+    {
+      "application_id": "fa3.diffusion-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.subtitle-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.narration-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.music-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.audio-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.voice-speech-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.digital-human-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.animation-character-motion",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.vfx-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT"
+      ]
+    },
+    {
+      "application_id": "fa3.credits-titles",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.idea-manager",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.story-screenplay",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.mind-map-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.coach",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.humanizer",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-MODEL-ROUTER"
+      ]
+    },
+    {
+      "application_id": "fa3.scene-shot-designer",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.world-environment-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.character-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.set-location-dressing",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.choreography-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.spatial-reconstruction",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.3d-dcc-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.render-manager",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT",
+        "FA3-COMP-3D-CORE",
+        "FA3-COMP-RENDER-EXECUTION"
+      ]
+    },
+    {
+      "application_id": "fa3.game-creation-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE",
+        "FA3-COMP-ENGINE-SELECTION",
+        "FA3-COMP-HRB",
+        "FA3-COMP-ASSET-CORE",
+        "FA3-COMP-COLOR-MANAGEMENT",
+        "FA3-COMP-3D-CORE"
+      ]
+    },
+    {
+      "application_id": "fa3.production-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.review-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.live-broadcast-studio",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.office",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.email-contact-manager",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.unified-messenger",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.meeting-manager",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.task-inbox-queue",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "fa3.conversation-meeting-work",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.comfyui",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.invokeai",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.kdenlive",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.bforartists",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.natron",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.gaffer",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.demucs",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.deepfilternet",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.mautic",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.twenty",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    },
+    {
+      "application_id": "studio.listmonk",
+      "required_platform_dependencies": [
+        "FA3-COMP-SECURITY-GOV",
+        "FA3-COMP-LICENSE-RIGHTS",
+        "FA3-COMP-EVIDENCE",
+        "FA3-COMP-SOFTWARE-COEXISTENCE"
+      ]
+    }
+  ]
+}

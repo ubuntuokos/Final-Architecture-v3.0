@@ -1,0 +1,157 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-PRODUCT-ENTITLEMENT-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-PRODUCT-ENTITLEMENT-001",
+  "intent_id": "FA3-PRODUCT-ENTITLEMENT-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-PRODUCT-ENTITLEMENT-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-APPLICATION-PORTFOLIO-001",
+    "FA3-OPERATING-LEVEL-MODEL-001",
+    "FA3-PRODUCT-CATALOG-001",
+    "FA3-DOMAIN-PACK-REGISTRY-001",
+    "FA3-ENTITLEMENT-POLICY-001",
+    "FA3-APPLICATION-DEPENDENCY-REGISTRY-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "result": "PASS",
+  "donor_review": "REVIEWED_NO_MATCH",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT_ONLY"
+    },
+    {
+      "id": "FA3-APPLICATION-DONOR-LINKS-001",
+      "use": "EXISTING_APPLICATION_AND_RETROACTIVE_IMPACT_INPUT"
+    },
+    {
+      "id": "FA3-AI-STUDIO-APP-CATALOG-001",
+      "use": "EXISTING_CURATED_EXTERNAL_APPLICATION_INPUT"
+    },
+    {
+      "id": "FA3-APP-LIFECYCLE-001",
+      "use": "EXISTING_PROVISIONING_LIFECYCLE_KEPT_SEPARATE"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "EXISTING_NON_AUTHORITY_ENGINE_PREFERENCE_LAYER"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "EXISTING_RIGHTS_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_AI_PROVIDER_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_HOST_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-PLATFORM-001",
+      "use": "CANONICAL_PLATFORM_CONTEXT"
+    },
+    {
+      "id": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+      "use": "CANONICAL_PRODUCT_FAMILY_CLASSIFICATION_INPUT"
+    }
+  ],
+  "reviewed_donor_candidates": [
+    {
+      "id": "FA3-DONOR-AI-TOOLKIT-MANAGER-001",
+      "disposition": "NO_MATERIAL_ADOPTION",
+      "reason": "Packaging/training reference does not supply FA3 product-entitlement governance."
+    },
+    {
+      "id": "FA3-DONOR-STABILITY-MATRIX-001",
+      "disposition": "NO_MATERIAL_ADOPTION",
+      "reason": "Application packaging reference does not justify an entitlement authority or dependency."
+    },
+    {
+      "id": "FA3-DONOR-OPENSUSE-GITHUB-ORG-001",
+      "disposition": "NO_MATERIAL_ADOPTION",
+      "reason": "Discovery index only; not a product-entitlement implementation."
+    }
+  ],
+  "adopted_donors": [],
+  "rejected_candidates": [
+    {
+      "id": "BUNDLE_AS_TECHNICAL_DEPENDENCY",
+      "reason": "Bundles are optional commercial conveniences, never required execution dependencies."
+    },
+    {
+      "id": "HIGHER_TIER_AUTO_UNLOCKS_ALL_APPS",
+      "reason": "Operating Level and application entitlements are orthogonal."
+    },
+    {
+      "id": "ENTITLEMENT_AS_SECURITY_OR_RIGHTS_AUTHORITY",
+      "reason": "Existing higher authorities remain exclusive and fail closed."
+    },
+    {
+      "id": "SECOND_PROVISIONING_LIFECYCLE",
+      "reason": "FA3-APP-LIFECYCLE-001 remains canonical for installation state."
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "9ee6b81c232c279542342c36553a64784ad66b4d",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+    "donor_registry_sha256": "1f62f01fd1249590f3834c5547a9f209c19a33f044f21d3696d4a572b9e79a8e",
+    "donor_registry_entry_count": 1421
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-APPLICATION-PORTFOLIO-001",
+      "FA3-ENTITLEMENT-POLICY-001",
+      "FA3-OPERATING-LEVEL-MODEL-001"
+    ],
+    "consumer_scope": [
+      "EXISTING_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "PLANNED_APPLICATIONS",
+      "FUTURE_APPLICATIONS"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false
+  },
+  "active_work_compatibility": [
+    {
+      "main_commit": "9ee6b81c232c279542342c36553a64784ad66b4d",
+      "role": "PRODUCT_FAMILY_CANONICAL_INPUT",
+      "canonical_input": true
+    }
+  ],
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED",
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Product entitlement and application-portfolio classification are metadata/policy governance. They do not require a direct Khronos SDK, runtime, graphics, media, compute or interchange dependency; existing engine/provider layers remain separate."
+    }
+  ],
+  "portfolio_reconciliation": {
+    "application_portfolio_count": 54,
+    "application_donor_inventory_governed_app_sync": "REQUIRED",
+    "product_family_placement_sync": "REQUIRED",
+    "state_source": "FA3-APPLICATION-PORTFOLIO-001",
+    "application_donor_declared_lifecycle_is_portfolio_state": false
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.domain-pack-registry.v1",
+  "id": "FA3-DOMAIN-PACK-REGISTRY-001",
+  "status": "CANONICAL_OPTIONAL_BUNDLES",
+  "authority": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "rules": {
+    "technical_dependency": false,
+    "mandatory_for_contained_application": false,
+    "individual_selection_alternative_required": true,
+    "bundle_purchase_required_for_application": false,
+    "hidden_entitlement_grant_forbidden": true
+  },
+  "domain_packs": [
+    {
+      "pack_id": "FA3-PACK-CREATIVE-MEDIA-001",
+      "name": "Creative / Media Pack",
+      "applications": [
+        "fa3.quickclip",
+        "fa3.photo-image-studio",
+        "fa3.vector-studio",
+        "fa3.video-editor",
+        "fa3.diffusion-studio",
+        "fa3.subtitle-studio",
+        "fa3.narration-studio",
+        "fa3.music-studio",
+        "fa3.audio-studio",
+        "fa3.voice-speech-studio",
+        "fa3.digital-human-studio",
+        "fa3.animation-character-motion",
+        "fa3.vfx-studio",
+        "fa3.credits-titles"
+      ]
+    },
+    {
+      "pack_id": "FA3-PACK-STUDIO-FILM-001",
+      "name": "Studio / Film Pack",
+      "applications": [
+        "fa3.story-screenplay",
+        "fa3.scene-shot-designer",
+        "fa3.world-environment-studio",
+        "fa3.character-studio",
+        "fa3.set-location-dressing",
+        "fa3.choreography-studio",
+        "fa3.spatial-reconstruction",
+        "fa3.3d-dcc-studio",
+        "fa3.render-manager",
+        "fa3.production-studio",
+        "fa3.review-studio",
+        "fa3.live-broadcast-studio"
+      ]
+    },
+    {
+      "pack_id": "FA3-PACK-KNOWLEDGE-WRITING-001",
+      "name": "Knowledge / Writing Pack",
+      "applications": [
+        "fa3.idea-manager",
+        "fa3.story-screenplay",
+        "fa3.mind-map-studio",
+        "fa3.coach",
+        "fa3.humanizer"
+      ]
+    },
+    {
+      "pack_id": "FA3-PACK-BUSINESS-COLLABORATION-001",
+      "name": "Business / Collaboration Pack",
+      "applications": [
+        "fa3.office",
+        "fa3.email-contact-manager",
+        "fa3.unified-messenger",
+        "fa3.meeting-manager",
+        "fa3.task-inbox-queue",
+        "fa3.conversation-meeting-work"
+      ]
+    },
+    {
+      "pack_id": "FA3-PACK-AI-WORKSTATION-001",
+      "name": "AI Workstation Pack",
+      "applications": [
+        "fa3.ai-module-factory",
+        "fa3.remote-ai-hub",
+        "fa3.diffusion-studio"
+      ]
+    }
+  ]
+}

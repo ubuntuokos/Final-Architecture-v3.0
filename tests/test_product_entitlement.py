@@ -1,0 +1,91 @@
+# SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+import json, tempfile, unittest
+from copy import deepcopy
+from pathlib import Path
+import sys
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"src"))
+from fa3_product_entitlement import load, resolve, validate, _findings
+
+class ProductEntitlementTests(unittest.TestCase):
+    def test_repository_model_passes(self):
+        self.assertEqual(validate(ROOT),[])
+
+    def test_story_and_render_requires_professional_without_3d_app_unlock(self):
+        out=resolve(ROOT,["fa3.story-screenplay","fa3.render-manager"])
+        self.assertEqual(out["status"],"ENTITLEMENT_INTENT_READY")
+        self.assertEqual(out["minimum_required_operating_level"],"PROFESSIONAL")
+        self.assertIn("FA3-COMP-3D-CORE",out["required_platform_dependencies"])
+        self.assertEqual(out["selected_applications"],["fa3.story-screenplay","fa3.render-manager"])
+        self.assertNotIn("fa3.3d-dcc-studio",out["selected_applications"])
+        self.assertEqual(out["implicit_application_unlocks"],[])
+
+    def test_single_story_application_can_run_at_enterprise(self):
+        out=resolve(ROOT,["fa3.story-screenplay"],requested_level="ENTERPRISE")
+        self.assertEqual(out["status"],"ENTITLEMENT_INTENT_READY")
+        self.assertEqual(out["effective_operating_level"],"ENTERPRISE")
+        self.assertEqual(out["selected_applications"],["fa3.story-screenplay"])
+
+    def test_lan_feature_raises_level_to_studio(self):
+        out=resolve(ROOT,["fa3.story-screenplay"],features=["LAN_DISTRIBUTED_EXECUTION"])
+        self.assertEqual(out["minimum_required_operating_level"],"STUDIO")
+
+    def test_requested_level_below_minimum_fails_closed(self):
+        out=resolve(ROOT,["fa3.render-manager"],requested_level="PERSONAL")
+        self.assertEqual(out["status"],"REJECTED")
+        self.assertEqual(out["reason"],"REQUESTED_LEVEL_BELOW_MINIMUM")
+
+    def test_unknown_application_fails_closed(self):
+        out=resolve(ROOT,["fa3.unknown"])
+        self.assertEqual(out["status"],"REJECTED")
+
+    def test_pack_is_optional_and_individual_selection_remains_valid(self):
+        individual=resolve(ROOT,["fa3.photo-image-studio"])
+        bundled=resolve(ROOT,[],packs=["FA3-PACK-CREATIVE-MEDIA-001"])
+        self.assertEqual(individual["status"],"ENTITLEMENT_INTENT_READY")
+        self.assertFalse(individual["bundle_required"])
+        self.assertGreater(len(bundled["selected_applications"]),1)
+
+    def test_technical_component_cannot_be_user_facing(self):
+        model=load(ROOT)
+        mutated=deepcopy(model)
+        mutated["deps"]["platform_components"][0]["user_facing_application"]=True
+        findings=_findings(mutated,None)
+        self.assertTrue(any(x["code"]=="TECHNICAL_DEPENDENCY_MAY_NOT_BE_USER_FACING_APPLICATION" for x in findings))
+
+    def test_portfolio_state_is_separate_from_provisioning_states(self):
+        lifecycle=json.loads((ROOT/"canonical/FA3-APP-LIFECYCLE-001.json").read_text())
+        portfolio=load(ROOT)["portfolio"]
+        self.assertTrue(set(lifecycle["states"]).isdisjoint(set(portfolio["portfolio_states"])))
+        self.assertFalse(portfolio["provisioning_state_is_portfolio_state"])
+
+    def test_every_governed_application_is_in_shared_inventory_and_family_registry(self):
+        model=load(ROOT)
+        links=json.loads((ROOT/"canonical/FA3-APPLICATION-DONOR-LINKS-001.json").read_text())
+        families=json.loads((ROOT/"canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json").read_text())
+        declared={x["application_id"] for x in links["applications"]}
+        placed={x["application_id"] for x in families["application_placements"]}
+        governed={"INTERNAL_APPLICATION","SYSTEM_APPLICATION","COMPANION_APPLICATION"}
+        for app in model["portfolio"]["applications"]:
+            self.assertIn(app["application_id"],placed)
+            if app["application_class"] in governed and app["portfolio_state"]!="RETIRED":
+                self.assertIn(app["application_id"],declared)
+
+    def test_missing_family_placement_fails_closed(self):
+        model=load(ROOT); mutated=deepcopy(model)
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            (root/"canonical").mkdir()
+            for key,rel in __import__("fa3_product_entitlement").FILES.items():
+                (root/rel).parent.mkdir(parents=True,exist_ok=True)
+                (root/rel).write_text(json.dumps(mutated[key]))
+            family=json.loads((ROOT/"canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json").read_text())
+            family["application_placements"]=[x for x in family["application_placements"] if x["application_id"]!="fa3.story-screenplay"]
+            (root/"canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json").write_text(json.dumps(family))
+            links=json.loads((ROOT/"canonical/FA3-APPLICATION-DONOR-LINKS-001.json").read_text())
+            (root/"canonical/FA3-APPLICATION-DONOR-LINKS-001.json").write_text(json.dumps(links))
+            findings=_findings(mutated,root)
+            self.assertTrue(any(x["code"]=="PRODUCT_FAMILY_PLACEMENT_MISSING" for x in findings))
+
+if __name__=="__main__": unittest.main()

@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-PRODUCT-ENTITLEMENT-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001",
+  "entrypoint": "src/fa3_product_entitlement_gate.py::gate",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "tests": [
+    "tests/test_product_entitlement.py"
+  ],
+  "scope_gate_ids": [
+    "FA3-GATE-APPLICATION-PORTFOLIO-001",
+    "FA3-GATE-APPLICATION-PORTFOLIO-DRIFT-001",
+    "FA3-GATE-OPERATING-LEVEL-DEPENDENCY-001"
+  ],
+  "required_boundaries": [
+    "FA3-APPLICATION-PORTFOLIO-001",
+    "FA3-OPERATING-LEVEL-MODEL-001",
+    "FA3-ENTITLEMENT-POLICY-001",
+    "FA3-PRODUCT-FAMILY-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001"
+  ],
+  "current_host_runtime_promotion_claim": false
+}
