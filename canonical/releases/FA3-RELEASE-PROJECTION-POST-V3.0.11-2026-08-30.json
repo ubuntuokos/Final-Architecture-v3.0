@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8f83ca88e21ecd6381643bd301b7e32cd57324e9",
-    "pre_projection_root_tree_sha": "7907758efb1d46b63e7d2ff1b58d17d1c9c7646a",
-    "pre_projection_canonical_tree_sha": "845c4ad32d96bad5606963dc7e8e63fe5c5d78da",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2750,
-    "total_post_baseline_commits": 2750,
-    "delta_file_count": 2899,
-    "delta_added_files": 2893,
+    "pre_projection_head_sha": "2764089eda52901d56404042cdf6fea1e175efe7",
+    "pre_projection_root_tree_sha": "ff6ef371e187074df33abed2e1410119026d09c7",
+    "pre_projection_canonical_tree_sha": "ec47bef19c738617e7eda176fb8c23d217f56047",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2755,
+    "total_post_baseline_commits": 2755,
+    "delta_file_count": 2902,
+    "delta_added_files": 2896,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1356,
+    "canonical_files_in_post_baseline_delta": 1357,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 339,
+    "test_files_in_post_baseline_delta": 340,
     "workflow_files_in_post_baseline_delta": 137,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1066,7 +1066,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2889,
+  "manifest_entry_count": 2892,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2975,7 +2975,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+      "git_blob_sha": "90394cc8b60f5dfca29ed0dab3a25369c818cb8e",
       "baseline_delta_status": "added"
     },
     {
@@ -6734,6 +6734,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-DIGITAL-SALON-HAIR-2026-10-03.json",
+      "git_blob_sha": "ecfbf164e55f8fc9b523650ed52269ab75f6cbb1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-GGUF-COMFY-CODEC-2026-09-30.json",
       "git_blob_sha": "f5e9ac03b6371bda63c6a77e1c1e387b201e5324",
       "baseline_delta_status": "added"
@@ -10181,6 +10186,11 @@
     {
       "path": "docs/donor-deep-learning-memory-vision-hair-2026-10-03.md",
       "git_blob_sha": "c4eb46f7d64e328aee25315ca94bf31422a453a9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-digital-salon-hair-sources-2026-10-03.md",
+      "git_blob_sha": "031b926a8bac58635dfaacf5c5df615348ff6895",
       "baseline_delta_status": "added"
     },
     {
@@ -14244,6 +14254,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_digital_salon_hair_20261003.py",
+      "git_blob_sha": "23116188889d1b3d3f9c6c13a362c1a87182f09f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_directx_linux.py",
       "git_blob_sha": "9f44442ffa1c9d34b84e3e744ac7aa080cabd2f4",
       "baseline_delta_status": "added"
@@ -17231,7 +17246,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1421,
+    "donor_registry_entry_count": 1428,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
