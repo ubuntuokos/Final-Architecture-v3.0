@@ -223,7 +223,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
         item = next((entry for entry in registry.get("records", []) if entry.get("subject_id") == capability_id), {})
         bound.append(DECISION_ID in item.get("source_decision_ids", []) and EVIDENCE_PATH in item.get("evidence_artifacts", []) and item.get("status") == "PENDING_CURRENT_HOST")
     reference_materialization = contract.get("reference_materialization", {})
-    check("VOICE-032", GATE_ID in policy.get("mandatory_reference_gates", []) and all(bound) and admission.get("new_capabilities") == 0 and reference_materialization.get("child_provider_admission") is False and reference_materialization.get("clean_room_functional_reference_only") is True, "mandatory gate, evidence bindings, reference-only child boundary and disabled-provider nonblocking invariant")
+    check("VOICE-032", GATE_ID in policy.get("mandatory_reference_gates", []) and all(bound) and admission.get("new_capabilities") == 0 and reference_materialization.get("child_provider_admission") is False and reference_materialization.get("material_adoption") is False and reference_materialization.get("reference_role") == "DISCOVERY_AND_PROVENANCE_ONLY", "mandatory gate, evidence bindings, reference-only child boundary and disabled-provider nonblocking invariant")
 
     passed = sum(item["result"] == "PASS" for item in checks)
     return {"schema": "fa3.voice-synthesis-gate-report.v1", "gate_id": GATE_ID, "profile_id": PROFILE_ID, "result": "PASS" if passed == len(checks) == 32 else "FAIL", "passed": passed, "total": len(checks), "cases": checks, "current_host_status": "PENDING_REAL_HOST_EXECUTION", "current_host_production_claim": False, "hungarian_quality_claim": False}
