@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 import os
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
 
-import fa3_application_runtime_resolver as resolver
-
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+import fa3_application_runtime_resolver as resolver
 
 
 class ApplicationRuntimeResolverTests(unittest.TestCase):
@@ -39,9 +40,9 @@ class ApplicationRuntimeResolverTests(unittest.TestCase):
             app = Path(td) / "Bforartists.AppImage"
             app.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
             app.chmod(0o755)
-            with mock.patch.dict(os.environ, {"FA3_BFORARTISTS_EXECUTABLE": str(app)}, clear=False):
+            with mock.patch.dict(os.environ, {"FA3_BFORARTISTS_PORTABLE_EXECUTABLE": str(app)}, clear=False):
                 rows = resolver.discover_candidates(ROOT, "BFORARTISTS")
-        match = next(row for row in rows if row["source"] == "ENV:FA3_BFORARTISTS_EXECUTABLE")
+        match = next(row for row in rows if row["source"] == "PORTABLE_ENV:FA3_BFORARTISTS_PORTABLE_EXECUTABLE")
         self.assertEqual("APPIMAGE", match["packaging"])
         self.assertFalse(match["selectable"])
         self.assertEqual("UNPROBED", match["health"])
