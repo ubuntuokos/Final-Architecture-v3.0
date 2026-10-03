@@ -149,6 +149,36 @@ def is_donor_intake_pr(pr,files):
             return True
     return False
 
+def effective_donor_intake_pr(pr,files,get,repo=REPO):
+    """Reserve the live intake slot only for donor bytes that differ from main.
+
+    GitHub's pull-request file list is relative to the PR's merge base. A long-
+    lived PR can therefore list donor files that were independently published
+    to main later. Those byte-identical stale-base files must not reserve the
+    single donor-intake slot. Missing/unreadable blob identity fails closed and
+    continues to count as a live donor mutation.
+    """
+    candidates=[]
+    for f in files:
+        name=f.get("filename") if isinstance(f,dict) else None
+        if not isinstance(name,str):
+            raise ValueError("UNREADABLE_PR_FILE")
+        if name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-"):
+            candidates.append((name,f.get("sha")))
+    if not candidates:
+        return False
+    for name,head_blob in candidates:
+        if not isinstance(head_blob,str) or len(head_blob)!=40:
+            return True
+        try:
+            main=get(f"/repos/{repo}/contents/{name}?ref=main")
+        except Exception:
+            return True
+        main_blob=main.get("sha") if isinstance(main,dict) else None
+        if not isinstance(main_blob,str) or len(main_blob)!=40 or main_blob!=head_blob:
+            return True
+    return False
+
 def is_donor_pr(pr,files):
     title=str(pr.get("title","")).lower()
     if "donor" in title: return True
@@ -183,7 +213,7 @@ def pending_prs(get,repo=REPO):
             if is_donor_pr(pr,files):
                 found.append({"number":n,"title":pr.get("title"),
                               "head_sha":pr.get("head",{}).get("sha"),
-                              "intake":is_donor_intake_pr(pr,files)})
+                              "intake":effective_donor_intake_pr(pr,files,get,repo)})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
