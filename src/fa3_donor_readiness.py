@@ -17,6 +17,7 @@ FLAGS = ("authority","automatic_selection","automatic_fetch","automatic_install"
          "automatic_activation","automatic_dependency","automatic_code_import",
          "automatic_provider_admission","automatic_model_selection")
 STATES = {"CANDIDATE","ANALYZED","ACCEPTED_REFERENCE","SUPERSEDED"}
+MAX_ACTIVE_DONOR_INTAKES = 5
 DONOR_FILES = {REGISTRY, REJECTION_AUDIT, LIFECYCLE_DECISION,
                "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
                "docs/donor-reference-registry.md",
@@ -179,6 +180,29 @@ def effective_donor_intake_pr(pr,files,get,repo=REPO):
             return True
     return False
 
+def intake_workload_units(files):
+    """Return a deterministic relative workload estimate for intake ordering.
+
+    GitHub's changed-file payload normally provides `changes`. When it does not,
+    additions+deletions are used, with a final one-unit-per-file fallback.
+    This is a scheduling metric only; it grants no donor admission authority.
+    """
+    total=0
+    for f in files:
+        if not isinstance(f,dict):
+            raise ValueError("UNREADABLE_PR_FILE")
+        changes=f.get("changes")
+        if isinstance(changes,int) and changes>=0:
+            total += max(1,changes)
+            continue
+        additions=f.get("additions")
+        deletions=f.get("deletions")
+        if isinstance(additions,int) and additions>=0 and isinstance(deletions,int) and deletions>=0:
+            total += max(1,additions+deletions)
+        else:
+            total += 1
+    return total
+
 def is_donor_pr(pr,files):
     title=str(pr.get("title","")).lower()
     if "donor" in title: return True
@@ -211,9 +235,11 @@ def pending_prs(get,repo=REPO):
                     pr.get("head",{}).get("sha")==EXEMPT_HISTORICAL_HEADS[n]):
                 continue
             if is_donor_pr(pr,files):
+                intake=effective_donor_intake_pr(pr,files,get,repo)
                 found.append({"number":n,"title":pr.get("title"),
                               "head_sha":pr.get("head",{}).get("sha"),
-                              "intake":effective_donor_intake_pr(pr,files,get,repo)})
+                              "intake":intake,
+                              "workload_units":intake_workload_units(files) if intake else 0})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
@@ -319,23 +345,47 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
-        if phase=="intake":
-            # Only an actual canonical registry or intake-delta mutation
-            # owns the cross-conversation slot. A governance-only donor PR
-            # must not block the first genuine intake.
-            # GitHub Actions concurrency serializes admission evaluations.
+        if phase in ("intake","intake-finalize"):
+            # Rolling intake window: at most five genuine canonical donor
+            # mutations are active. Queue admission is FIFO by PR number.
+            # Finalization priority is smallest estimated workload first,
+            # with FIFO/PR number as deterministic tie-break.
             pending=result["pending_intake_prs"]
-            if pending:
-                first=pending[0]
-                if pr_number is None or first["number"] != pr_number:
-                    result["findings"].append("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION")
-                    result["active_donor_pr"]=first["number"]
+            queue=sorted(pending,key=lambda p:p["number"])
+            active=queue[:MAX_ACTIVE_DONOR_INTAKES]
+            waiting=queue[MAX_ACTIVE_DONOR_INTAKES:]
+            result["max_active_donor_intakes"]=MAX_ACTIVE_DONOR_INTAKES
+            result["active_donor_prs"]=[p["number"] for p in active]
+            result["waiting_donor_prs"]=[p["number"] for p in waiting]
+            finalization_order=sorted(active,key=lambda p:(p.get("workload_units",0),p["number"]))
+            result["finalization_order"]=[p["number"] for p in finalization_order]
+            result["next_finalization_pr"]=(finalization_order[0]["number"] if finalization_order else None)
+
+            if pr_number is None:
+                if len(active)>=MAX_ACTIVE_DONOR_INTAKES:
+                    result["findings"].append("DONOR_INTAKE_CAPACITY_FULL_WAIT_FOR_SLOT")
                     return result
-            elif pr_number is not None:
+                result["result"]="DONOR_INTAKE_SLOT_AVAILABLE"
+                return result
+
+            current=next((p for p in queue if p["number"]==pr_number),None)
+            if current is None:
                 result["findings"].append("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR")
                 return result
-            result["result"]="EXCLUSIVE_DONOR_INTAKE_READY"
+            if current not in active:
+                result["findings"].append("DONOR_INTAKE_CAPACITY_FULL_WAIT_FOR_SLOT")
+                return result
+
             result["active_donor_pr"]=pr_number
+            result["intake_slot"]=result["active_donor_prs"].index(pr_number)+1
+            if phase=="intake-finalize":
+                if result["next_finalization_pr"] != pr_number:
+                    result["findings"].append("DONOR_INTAKE_WAIT_FOR_SMALLER_ACTIVE_FINALIZATION")
+                    return result
+                result["result"]="DONOR_INTAKE_FINALIZATION_READY"
+                return result
+
+            result["result"]="DONOR_INTAKE_ACTIVE_READY"
             return result
         # Pending intake is deliberately NOT a global planning lock:
         # unmerged donor entries are absent from the published main snapshot.
@@ -373,7 +423,7 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
-    p.add_argument("--phase",choices=("maintenance","intake","status","entry","finalize"),default="status")
+    p.add_argument("--phase",choices=("maintenance","intake","intake-finalize","status","entry","finalize"),default="status")
     p.add_argument("--assessment")
     p.add_argument("--plan")
     p.add_argument("--approval")
@@ -383,6 +433,8 @@ def main():
            a.assessment,a.plan,a.approval,a.pr)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
-                                 "EXCLUSIVE_DONOR_INTAKE_READY",
+                                 "DONOR_INTAKE_SLOT_AVAILABLE",
+                                 "DONOR_INTAKE_ACTIVE_READY",
+                                 "DONOR_INTAKE_FINALIZATION_READY",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2
 if __name__=="__main__":raise SystemExit(main())
