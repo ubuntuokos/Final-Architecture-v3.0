@@ -63,6 +63,28 @@ class ApplicationInstallationResolverTests(unittest.TestCase):
         self.assertEqual(healthy[0]["packaging"], "DEB")
         self.assertEqual(healthy[0]["locator"], str(fake))
 
+    def test_package_owned_path_is_not_duplicated_as_native(self):
+        root = self._root()
+        exe = root / "usr/bin/krita"
+        exe.parent.mkdir(parents=True)
+        exe.write_text("#!/bin/sh\\nexit 0\\n", encoding="utf-8")
+        exe.chmod(0o755)
+
+        def runner(argv, timeout):
+            if argv[:2] == ["dpkg-query", "-L"]:
+                return subprocess.CompletedProcess(argv, 0, stdout=str(exe) + "\\n", stderr="")
+            if argv[0] == str(exe):
+                return subprocess.CompletedProcess(argv, 0, stdout="Krita 5\\n", stderr="")
+            return subprocess.CompletedProcess(argv, 1, stdout="", stderr="")
+
+        mapping = {"krita": str(exe), "dpkg-query": "/usr/bin/dpkg-query",
+                   "rpm": None, "flatpak": None, "snap": None}
+        with patch("fa3_application_installation_resolver.shutil.which", side_effect=lambda name: mapping.get(name)):
+            rows = discover_registered_application(root, "krita", runner=runner)
+        matching = [row for row in rows if row["command_prefix"] == [str(exe)]]
+        self.assertEqual(len(matching), 1)
+        self.assertEqual(matching[0]["packaging"], "DEB")
+
     def test_broken_blender_does_not_hide_healthy_bforartists(self):
         root = self._root()
         bfa = root / "bforartists"
