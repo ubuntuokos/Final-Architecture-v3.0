@@ -21,6 +21,12 @@ class Mat004MediaAuthoringVerificationCurrentHostTests(unittest.TestCase):
             ("CAP-016", "CAP-017", "CAP-018", "CAP-019", "CAP-020"),
         )
 
+    def test_cap016_uses_shared_runtime_resolver(self):
+        source = (ROOT / "src/fa3_mat004_media_authoring_verification_current_host.py").read_text(encoding="utf-8")
+        self.assertIn("dcc_qualification_candidate", source)
+        self.assertNotIn("def _find_dcc", source)
+        self.assertIn("dcc_packaging", source)
+
     def test_media_job_is_fail_closed(self):
         good = {
             "execution_scope": "CURRENT_HOST",
